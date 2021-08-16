@@ -1,5 +1,6 @@
 package com.prgrms.devkdtorder;
 
+import java.util.List;
 import java.util.UUID;
 
 public class VoucherService {
@@ -14,6 +15,15 @@ public class VoucherService {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException("cCan not find a voucher for " + voucherId));
+    }
+
+    public UUID saveVoucher(Voucher voucher){
+        voucherRepository.save(voucher);
+        return voucher.getVoucherId();
+    }
+
+    public List<Voucher> getAllVouchers(){
+        return voucherRepository.findAll();
     }
 
     public void useVoucher(Voucher voucher) {
