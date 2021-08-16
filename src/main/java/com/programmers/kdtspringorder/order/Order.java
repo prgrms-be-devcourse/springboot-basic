@@ -1,6 +1,6 @@
 package com.programmers.kdtspringorder.order;
 
-import com.programmers.kdtspringorder.voucher.Voucher;
+import com.programmers.kdtspringorder.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;

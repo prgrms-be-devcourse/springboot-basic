@@ -1,4 +1,4 @@
-package com.programmers.kdtspringorder.voucher;
+package com.programmers.kdtspringorder.voucher.domain;
 
 import java.util.UUID;
 
@@ -18,5 +18,11 @@ public class FixedAmountVoucher implements Voucher{
 
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
+    }
+
+    @Override
+    public String toString() {
+        return "voucherId=" + voucherId +
+                ", discountAmount=" + amount;
     }
 }

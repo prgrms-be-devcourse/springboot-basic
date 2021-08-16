@@ -1,11 +1,10 @@
-package com.programmers.kdtspringorder.voucher;
+package com.programmers.kdtspringorder.voucher.domain;
 
+import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class FixedAmountVoucherTest {
 

@@ -1,4 +1,4 @@
-package com.programmers.kdtspringorder.voucher;
+package com.programmers.kdtspringorder.voucher.domain;
 
 import java.util.UUID;
 

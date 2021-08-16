@@ -2,8 +2,8 @@ package com.programmers.kdtspringorder;
 
 import com.programmers.kdtspringorder.order.Order;
 import com.programmers.kdtspringorder.order.OrderItem;
-import com.programmers.kdtspringorder.voucher.PercentDiscountVoucher;
-import com.programmers.kdtspringorder.voucher.Voucher;
+import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
+import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

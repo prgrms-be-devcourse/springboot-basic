@@ -1,6 +1,6 @@
-package com.programmers.kdtspringorder;
+package com.programmers.kdtspringorder.voucher.domain;
 
-import com.programmers.kdtspringorder.voucher.PercentDiscountVoucher;
+import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

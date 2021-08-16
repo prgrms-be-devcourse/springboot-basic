@@ -1,14 +1,21 @@
 package com.programmers.kdtspringorder.voucher;
 
+import com.programmers.kdtspringorder.voucher.domain.Voucher;
+import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
+import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
+
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.UUID;
 
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final VoucherFactory voucherFactory;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;
+        this.voucherFactory = voucherFactory;
     }
 
     public Voucher getVoucher(UUID voucherId) {
@@ -19,5 +26,16 @@ public class VoucherService {
 
     public void useVoucher(Voucher voucher) {
 
+    }
+
+    public Voucher createVoucher(int voucherType) {
+        // 타입에 맞춰서 구상 바우처 생성
+        Voucher voucher = voucherFactory.createVoucher(voucherType);
+        voucherRepository.save(voucher);
+        return voucher;
+    }
+
+    public List<Voucher> findAll(){
+        return voucherRepository.findAll();
     }
 }

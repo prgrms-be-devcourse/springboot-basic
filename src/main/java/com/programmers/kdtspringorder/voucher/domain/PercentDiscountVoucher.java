@@ -1,4 +1,4 @@
-package com.programmers.kdtspringorder.voucher;
+package com.programmers.kdtspringorder.voucher.domain;
 
 import java.util.UUID;
 
@@ -22,4 +22,9 @@ public class PercentDiscountVoucher implements Voucher{
         return beforeDiscount - beforeDiscount * percent / 100;
     }
 
+    @Override
+    public String toString() {
+        return "voucherId=" + voucherId +
+                ", discountPercent=" + percent;
+    }
 }
