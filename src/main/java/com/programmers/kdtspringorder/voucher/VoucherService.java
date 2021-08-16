@@ -3,17 +3,20 @@ package com.programmers.kdtspringorder.voucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
 import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
     private final VoucherFactory voucherFactory;
 
-    public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;
         this.voucherFactory = voucherFactory;
     }

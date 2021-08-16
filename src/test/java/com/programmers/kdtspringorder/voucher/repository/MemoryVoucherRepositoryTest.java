@@ -3,7 +3,6 @@ package com.programmers.kdtspringorder.voucher.repository;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,9 +12,9 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
-class VoucherMemoryRepositoryTest {
+class MemoryVoucherRepositoryTest {
 
-    private final VoucherRepository voucherRepository = new VoucherMemoryRepository();
+    private final VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
     @BeforeEach
     public void beforeEach(){
