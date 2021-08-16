@@ -1,6 +1,6 @@
 package org.prgrms.kdt.domain.order;
 
-import org.prgrms.kdt.ValueObject.OrderItem;
+import org.prgrms.kdt.vo.OrderItem;
 import org.prgrms.kdt.domain.voucher.Voucher;
 
 import java.util.List;

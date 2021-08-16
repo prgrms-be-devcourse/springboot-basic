@@ -1,4 +1,4 @@
-package org.prgrms.kdt.ValueObject;
+package org.prgrms.kdt.vo;
 
 import java.util.UUID;
 

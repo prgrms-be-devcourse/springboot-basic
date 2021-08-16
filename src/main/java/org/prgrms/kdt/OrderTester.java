@@ -1,6 +1,6 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.ValueObject.OrderItem;
+import org.prgrms.kdt.vo.OrderItem;
 import org.prgrms.kdt.config.AppConfiguration;
 import org.prgrms.kdt.service.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

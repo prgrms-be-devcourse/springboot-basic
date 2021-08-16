@@ -1,6 +1,6 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.ValueObject.OrderItem;
+import org.prgrms.kdt.vo.OrderItem;
 import org.prgrms.kdt.domain.order.Order;
 import org.prgrms.kdt.repository.OrderRepository;
 
