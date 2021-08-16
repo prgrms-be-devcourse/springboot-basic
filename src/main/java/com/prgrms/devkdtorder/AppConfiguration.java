@@ -22,12 +22,7 @@ public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new MemVoucherRepository();
     }
 
     @Bean
