@@ -6,7 +6,7 @@ import java.util.Arrays;
 public enum CommandType {
     CREATE,
     LIST,
-    QUIT;
+    EXIT;
 
 
     public static boolean anyMatch(final String command){

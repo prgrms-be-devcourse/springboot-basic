@@ -24,13 +24,13 @@ public class CommandLineApplication implements Runnable {
         while (true) {
             output.printAppStart();
             String command = input.getCommand();
-            if (!validateCommand(command)){
+            if (!validateCommand(command.toUpperCase())){
                 output.printCommandError();
                 continue;
             }
 
             CommandType ct = CommandType.valueOf(command.toUpperCase());
-            if (ct.equals(CommandType.QUIT)){
+            if (ct.equals(CommandType.EXIT)){
                 break;
             }
 
@@ -66,13 +66,11 @@ public class CommandLineApplication implements Runnable {
 
         String type = input.getVoucherType();
         VoucherType voucherType = VoucherType.valueOf(type.toUpperCase());
-
-        String id = input.getVoucherId();
-        UUID uuid = UUID.fromString(id);
         long value = input.getVoucherValue();
 
-        Voucher voucher = VoucherFactory.create(voucherType, uuid, value);
+        Voucher voucher = VoucherFactory.create(voucherType, value);
         voucherService.saveVoucher(voucher);
+        return "";
     }
 
     private void showVouchers() {
