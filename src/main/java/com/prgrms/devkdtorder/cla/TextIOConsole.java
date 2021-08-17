@@ -18,7 +18,7 @@ public class TextIOConsole implements Input, Output {
     @Override
     public String getVoucherType() {
         return textIO.newStringInputReader()
-                .read("Voucher Type :");
+                .read("Voucher 타입을 선택해주세요 (숫자or이름) :");
     }
 
     @Override

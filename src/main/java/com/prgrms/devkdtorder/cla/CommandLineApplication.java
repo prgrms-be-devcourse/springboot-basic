@@ -3,6 +3,7 @@ package com.prgrms.devkdtorder.cla;
 import com.prgrms.devkdtorder.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,7 @@ public class CommandLineApplication implements Runnable {
         String result = "";
         switch (cmdType) {
             case CREATE:
-                createVoucher();
+                result = createVoucher();
                 break;
             case LIST:
                 showVouchers();
@@ -65,10 +66,13 @@ public class CommandLineApplication implements Runnable {
         output.print(list);
 
         String type = input.getVoucherType();
-        VoucherType voucherType = VoucherType.valueOf(type.toUpperCase());
+        Optional<VoucherType> voucherType = VoucherType.findByNameOrNo(type);
+        if (voucherType.isEmpty()){
+            return "올바르지 않은 바우처 입니다.";
+        }
         long value = input.getVoucherValue();
 
-        Voucher voucher = VoucherFactory.create(voucherType, value);
+        Voucher voucher = VoucherFactory.create(voucherType.get(), value);
         voucherService.saveVoucher(voucher);
         return "";
     }
