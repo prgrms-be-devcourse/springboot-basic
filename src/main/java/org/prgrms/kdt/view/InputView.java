@@ -1,10 +1,15 @@
 package org.prgrms.kdt.view;
 
+import org.prgrms.kdt.exception.InvalidArgumentException;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
-
     private final static Scanner scanner = new Scanner(System.in);
+    private final static int INPUT_SIZE = 2;
+    private final static String SPLIT_CODE = " ";
 
     public static void initMessage() {
         System.out.println("=== Voucher Program ===");
@@ -27,5 +32,13 @@ public class InputView {
 
     public static void closeScanner() {
         scanner.close();
+    }
+
+    public static List<String> typeAndValue(String userInputMessage) {
+        List<String> typeAndValue = Arrays.asList(userInputMessage.split(SPLIT_CODE));
+        if (typeAndValue.size() != INPUT_SIZE) {
+            throw new InvalidArgumentException(InvalidArgumentException.ErrorMessage.NOT_CORRECT_INPUT_MESSAGE);
+        }
+        return typeAndValue;
     }
 }
