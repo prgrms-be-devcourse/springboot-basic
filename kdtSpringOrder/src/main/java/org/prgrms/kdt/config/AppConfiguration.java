@@ -1,5 +1,7 @@
 package org.prgrms.kdt.config;
 
+import org.prgrms.kdt.controller.InputController;
+import org.prgrms.kdt.helper.MessageHelper;
 import org.prgrms.kdt.repository.OrderRepository;
 import org.prgrms.kdt.repository.VoucherRepository;
 import org.prgrms.kdt.domain.order.Order;
@@ -46,6 +48,16 @@ public class AppConfiguration {
     @Bean
     public OrderService orderService(VoucherService voucherService, OrderRepository orderRepository) {
         return new OrderService(voucherService, orderRepository);
+    }
+
+    @Bean
+    public InputController inputController() {
+        return new InputController();
+    }
+
+    @Bean
+    public MessageHelper messageHelper() {
+        return new MessageHelper();
     }
 
 }
