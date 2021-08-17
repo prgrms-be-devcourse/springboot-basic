@@ -1,6 +1,6 @@
 package com.programmers.kdtspringorder;
 
-import com.programmers.kdtspringorder.io.Console;
+import com.programmers.kdtspringorder.io.console.Console;
 import com.programmers.kdtspringorder.io.Input;
 import com.programmers.kdtspringorder.io.Output;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;

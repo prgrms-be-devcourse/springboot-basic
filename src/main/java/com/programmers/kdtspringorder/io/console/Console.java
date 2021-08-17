@@ -1,10 +1,12 @@
-package com.programmers.kdtspringorder.io;
+package com.programmers.kdtspringorder.io.console;
 
+import com.programmers.kdtspringorder.io.Input;
+import com.programmers.kdtspringorder.io.Output;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 
 import java.util.Scanner;
 
-public class Console implements Input, Output{
+public class Console implements Input, Output {
     private Scanner scanner;
 
     public Console(){
