@@ -1,7 +1,9 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.voucher.ui.VoucherController;
+
 public class CommandLineApplication {
     public static void main(String[] args) {
-        // 어플리케이션 실행
+        new VoucherController().play();
     }
 }

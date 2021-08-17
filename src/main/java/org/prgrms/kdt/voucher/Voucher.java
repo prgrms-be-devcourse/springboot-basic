@@ -3,7 +3,9 @@ package org.prgrms.kdt.voucher;
 import java.util.UUID;
 
 public interface Voucher {
-    UUID getVoucher();
+    UUID voucherId();
 
     long discount(long beforeDiscount);
+
+    String toString();
 }

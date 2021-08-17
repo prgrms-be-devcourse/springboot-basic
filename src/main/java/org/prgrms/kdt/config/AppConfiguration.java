@@ -1,9 +1,9 @@
 package org.prgrms.kdt.config;
 
-import org.prgrms.kdt.order.OrderRepository;
-import org.prgrms.kdt.order.OrderService;
-import org.prgrms.kdt.voucher.VoucherRepository;
-import org.prgrms.kdt.voucher.VoucherService;
+import org.prgrms.kdt.order.repository.OrderRepository;
+import org.prgrms.kdt.order.application.OrderService;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.application.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,8 +25,8 @@ public class AppConfiguration {
     }
 
     @Bean
-    public VoucherService voucherService(VoucherRepository voucherRepository) {
-        return new VoucherService(voucherRepository);
+    public VoucherService voucherService(VoucherRepository voucherRepository, OrderRepository orderRepository) {
+        return new VoucherService(voucherRepository, orderRepository);
     }
 
     @Bean

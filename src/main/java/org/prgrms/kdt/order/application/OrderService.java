@@ -1,10 +1,10 @@
-package org.prgrms.kdt.order;
+package org.prgrms.kdt.order.application;
 
 import org.prgrms.kdt.order.Order;
-import org.prgrms.kdt.order.OrderRepository;
+import org.prgrms.kdt.order.repository.OrderRepository;
 import org.prgrms.kdt.order.OrderItem;
 import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.VoucherService;
+import org.prgrms.kdt.voucher.application.VoucherService;
 
 import java.util.List;
 import java.util.UUID;
