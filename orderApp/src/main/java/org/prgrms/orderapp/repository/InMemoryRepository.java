@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CLVoucherRepository implements VoucherRepository {
+public class InMemoryRepository implements VoucherRepository {
     private List<Voucher> vouchers;
 
-    public CLVoucherRepository() {
+    public InMemoryRepository() {
         this.vouchers = new ArrayList<>();
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        for(Voucher v:vouchers) {
-            if (v.getVoucherId().equals(voucherId))
-                return Optional.of(v);
+        for(Voucher voucher:vouchers) {
+            if (voucher.getVoucherId().equals(voucherId))
+                return Optional.of(voucher);
         }
         return Optional.empty();
     }

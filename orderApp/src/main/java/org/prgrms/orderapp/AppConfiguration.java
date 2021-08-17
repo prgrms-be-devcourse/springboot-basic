@@ -1,6 +1,6 @@
 package org.prgrms.orderapp;
 
-import org.prgrms.orderapp.repository.CLVoucherRepository;
+import org.prgrms.orderapp.repository.InMemoryRepository;
 import org.prgrms.orderapp.repository.OrderRepository;
 import org.prgrms.orderapp.repository.VoucherRepository;
 import org.prgrms.orderapp.service.OrderService;
@@ -8,21 +8,17 @@ import org.prgrms.orderapp.service.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Optional;
-import java.util.UUID;
-
 @Configuration
 public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository() {
-        return new CLVoucherRepository();
+        return new InMemoryRepository();
     }
 
     @Bean
     public OrderRepository orderRepository() {
-        return order -> {
-        };
+        return order -> {};
     }
 
     @Bean
