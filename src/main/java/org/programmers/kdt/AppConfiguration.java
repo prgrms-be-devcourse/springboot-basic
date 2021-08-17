@@ -1,22 +1,20 @@
 package org.programmers.kdt;
 
+import org.programmers.kdt.order.Order;
+import org.programmers.kdt.order.OrderRepository;
+import org.programmers.kdt.order.OrderSerivce;
+import org.programmers.kdt.voucher.MemoryVoucherRepository;
+import org.programmers.kdt.voucher.VoucherRepository;
+import org.programmers.kdt.voucher.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @Configuration
 public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new MemoryVoucherRepository();
     }
 
     @Bean
