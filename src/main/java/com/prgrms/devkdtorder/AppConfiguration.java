@@ -1,5 +1,8 @@
 package com.prgrms.devkdtorder;
 
+import com.prgrms.devkdtorder.cla.CommandLineApplication;
+import com.prgrms.devkdtorder.cla.Input;
+import com.prgrms.devkdtorder.cla.TextIOConsole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,6 +36,17 @@ public class AppConfiguration {
 
             }
         };
+    }
+
+    @Bean
+    public CommandLineApplication commandLineApplication(){
+
+        return new CommandLineApplication(textIOConsole(), textIOConsole(), voucherService());
+    }
+
+    @Bean
+    public TextIOConsole textIOConsole(){
+        return new TextIOConsole();
     }
 
 }
