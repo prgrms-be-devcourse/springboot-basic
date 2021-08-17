@@ -5,6 +5,7 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher{
     private final UUID voucherId;
     private final long amount;
+    private final String type = "Fixed";
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
