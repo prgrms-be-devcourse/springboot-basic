@@ -6,6 +6,7 @@ import com.programmers.kdtspringorder.order.OrderProperties;
 import com.programmers.kdtspringorder.order.OrderService;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
+import com.programmers.kdtspringorder.voucher.repository.MemoryVoucherRepository;
 import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -54,10 +55,12 @@ public class OrderTester {
         String collect = bufferedReader.lines().collect(Collectors.joining("\n"));
         System.out.println(collect);
 
-        System.out.println(resource2.getClass().getCanonicalName());
-        File file = resource2.getFile();
-        List<String> strings = Files.readAllLines(file.toPath());
-        System.out.println(strings.stream().reduce("",(a,b)->a+"\n" + b));
+//        System.out.println(resource2.getClass().getCanonicalName());
+//        File file = resource2.getFile();
+//        List<String> strings = Files.readAllLines(file.toPath());
+//        List<String> strings2 = Files.readAllLines(file.toPath());
+//        System.out.println(strings.stream().reduce("",(a,b)->a+"\n" + b));
+//        System.out.println(strings2.stream().reduce("",(a,b)->a+"\n" + b));
 
 //        VoucherRepository voucherRepository = BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getBeanFactory(), VoucherRepository.class, "memory");
 //        OrderService orderService = applicationContext.getBean(OrderService.class);
