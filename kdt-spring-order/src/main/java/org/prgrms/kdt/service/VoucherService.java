@@ -7,6 +7,7 @@ import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.repository.VoucherRepository;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,5 +46,9 @@ public class VoucherService {
 
     public void addVoucher(Optional<Voucher> voucher){
         voucherRepository.insert(voucher);
+    }
+
+    public List<Voucher> getAllVouchers(){
+        return voucherRepository.getAllVouchers();
     }
 }

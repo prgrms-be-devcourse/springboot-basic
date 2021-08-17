@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface VoucherRepository {
     Optional<Voucher> findId(UUID voucherId);
     void insert(Optional<Voucher> voucher);
+    List<Voucher> getAllVouchers();
 }

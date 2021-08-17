@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.voucher;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -19,5 +20,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount){
         return beforeDiscount - amount;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("[FixedAmountVoucher - 할인 금액 : {0}]", amount);
     }
 }

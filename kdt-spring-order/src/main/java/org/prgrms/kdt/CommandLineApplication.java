@@ -90,6 +90,13 @@ public class CommandLineApplication {
     }
 
     private void executeListCommand(){
+        List<Voucher> vouchers = voucherService.getAllVouchers();
+
+        System.out.println(MessageFormat.format("[총 {0}개의 바우처가 있습니다.]", vouchers.size()));
+
+        for(Voucher voucher : vouchers){
+            System.out.println(voucher);
+        }
     }
 
     public static void main(String[] args) throws IOException {

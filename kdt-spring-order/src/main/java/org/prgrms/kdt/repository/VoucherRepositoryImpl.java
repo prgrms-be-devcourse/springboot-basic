@@ -31,4 +31,9 @@ public class VoucherRepositoryImpl implements VoucherRepository{
             voucherList.add(voucher.get());
         }
     }
+
+    @Override
+    public List<Voucher> getAllVouchers() {
+        return voucherList;
+    }
 }

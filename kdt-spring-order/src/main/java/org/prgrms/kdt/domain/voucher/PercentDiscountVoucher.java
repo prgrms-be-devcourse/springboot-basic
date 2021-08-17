@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.voucher;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -19,5 +20,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent/100);
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("[PercentDiscountVoucher - 할인률 : {0}]", percent);
     }
 }
