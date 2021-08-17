@@ -30,4 +30,20 @@ public class Console implements Output {
     public CommandType inputCommand() {
         return CommandType.valueOf(scanner.nextLine().toUpperCase());
     }
+
+    public String inputVoucher() {
+        printVoucherChoice();
+        return scanner.nextLine();
+    }
+
+    private void printVoucherChoice() {
+        System.out.println("생성하고 싶은 바우처를 선택하고 할인양 또는 할인율을 입력해주세요. (쉼표 ',' 를 사용하여 구분해주세요)");
+        System.out.println("1. Fixed Amount Voucher");
+        System.out.println("2. PercentDiscount Voucher");
+        System.out.println("ex) 입력 예시 1, 1000 또는 2, 20");
+    }
+
+    public void successCreate() {
+        System.out.println("성공적으로 등록되었습니다. 다음 명령을 입력해주세요.");
+    }
 }
