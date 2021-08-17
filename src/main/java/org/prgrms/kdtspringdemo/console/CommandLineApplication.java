@@ -12,10 +12,12 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class CommandLineApplication {
+    static VoucherService voucherService;
+    static VoucherRepository voucherRepository;
     public static void main(String[] args) {
         var application = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        var voucherService = application.getBean(VoucherService.class);
-        var voucherRepository = application.getBean(VoucherRepository.class);
+        voucherService = application.getBean(VoucherService.class);
+        voucherRepository = application.getBean(VoucherRepository.class);
 
         String startMessage = """
                 === Voucher Program ===
@@ -32,22 +34,32 @@ public class CommandLineApplication {
             String[] splitList = commandLine.split(" ");
             command = splitList[0];
             if (command.equals("create")) {
-                Assert.isTrue(splitList.length == 3, "This command did not receive the required arguments.");
-                String voucherName = splitList[1];
-                if (voucherName.equals("F")) {
-                    Voucher voucher = voucherService.createFixedAmountVoucher(UUID.randomUUID(), Long.parseLong(splitList[2]));
-                    System.out.println("This is create : " + voucher);
-                } else if (voucherName.equals("P")) {
-                    Voucher voucher = voucherService.createPercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(splitList[2]));
-                    System.out.println("This is create : " + voucher);
-                } else {
-                    System.out.println("None Voucher!!! : " + voucherName);
-                }
+                createVoucher(splitList);
             } else if (command.equals("list")) {
-                System.out.println("This is all list");
-                List<Voucher> allVoucher = voucherRepository.findAll();
-                allVoucher.forEach(System.out::println);
+                readAllVoucher();
             }
         }
+    }
+
+    public static void createVoucher(String[] splitList)
+    {
+        Assert.isTrue(splitList.length == 3, "This command did not receive the required arguments.");
+        String voucherName = splitList[1];
+        if (voucherName.equals("F")) {
+            Voucher voucher = voucherService.createFixedAmountVoucher(UUID.randomUUID(), Long.parseLong(splitList[2]));
+            System.out.println("This is create : " + voucher);
+        } else if (voucherName.equals("P")) {
+            Voucher voucher = voucherService.createPercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(splitList[2]));
+            System.out.println("This is create : " + voucher);
+        } else {
+            System.out.println("None Voucher!!! : " + voucherName);
+        }
+    }
+
+    public static void readAllVoucher()
+    {
+        System.out.println("This is all list");
+        List<Voucher> allVoucher = voucherRepository.findAll();
+        allVoucher.forEach(System.out::println);
     }
 }
