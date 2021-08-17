@@ -9,7 +9,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private List<Voucher> vouchers = new ArrayList<>();
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        Optional<Voucher> voucher = vouchers.stream()
+                .filter(v -> v.getVoucherId() == voucherId)
+                .findFirst();
+        return voucher;
     }
 
     @Override

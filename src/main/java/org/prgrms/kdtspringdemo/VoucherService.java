@@ -17,6 +17,7 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
+    // 이번 요구사항에 포함되지 않았습니다.
     public void useVourcher(Voucher voucher) {
     }
 
