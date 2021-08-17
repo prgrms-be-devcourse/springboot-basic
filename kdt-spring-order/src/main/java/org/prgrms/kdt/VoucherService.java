@@ -32,7 +32,7 @@ public class VoucherService {
 
     public void createPercentVoucher(String percent) {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, Long.parseLong(percent));
+        Voucher voucher = new PercentDiscountVoucher(voucherId, Long.parseLong(percent));
         voucherRepository.insert(voucher);
     }
 }

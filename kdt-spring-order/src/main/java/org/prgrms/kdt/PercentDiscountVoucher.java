@@ -22,4 +22,13 @@ public class PercentDiscountVoucher implements Voucher{
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
+
+    @Override
+    public String showInfo(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Voucher Id : " + voucherId + " ");
+        sb.append("Amount : " + percent + " ");
+        sb.append("Type : " + type);
+        return sb.toString();
+    }
 }

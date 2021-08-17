@@ -15,9 +15,10 @@ public class CommandLineApplication {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input;
 
-        manual.startProgram();
+
         while (true){
-            input = reader.readLine().toLowerCase();
+            manual.startProgram();
+            input = reader.readLine().toLowerCase().replace(" ", "");
 
             if (input.equals("exit")){
                 manual.exit();
@@ -32,18 +33,26 @@ public class CommandLineApplication {
                 }
                 else if(input.equals("2")) {
                     manual.inputPercent();
-                    voucherService.createPercentVoucher(reader.readLine());
+                    input = reader.readLine();
+                    if (Integer.parseInt(input) <= 100)
+                        voucherService.createPercentVoucher(input);
+                    else
+                        System.out.println(input + " is wrong");
                 }
                 else
                     System.out.println(input + "is wrong command");
             }
             else if (input.equals("list")){
-                voucherService.getVoucherList().stream().forEach(s -> System.out.println(s.toString()));
+                if(voucherService.getVoucherList().isEmpty())
+                    System.out.println("Voucher list is empty");
+                else
+                    voucherService.getVoucherList().stream().forEach(s -> System.out.println(s.showInfo()));
             }
             else{
-                System.out.println(input + "is wrong command");
+                System.out.println(input + " is wrong command");
             }
 
+            System.out.println();
         }
     }
 }
