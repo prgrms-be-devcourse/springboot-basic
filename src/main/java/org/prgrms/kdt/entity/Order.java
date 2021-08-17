@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.entity;
 
 import java.util.List;
 import java.util.Optional;

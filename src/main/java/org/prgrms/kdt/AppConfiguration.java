@@ -1,5 +1,9 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.repository.OrderRepository;
+import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.service.OrderService;
+import org.prgrms.kdt.service.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,21 +14,12 @@ public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return voucherId -> Optional.empty();
     }
 
     @Bean
     public OrderRepository orderRepository() {
-        return new OrderRepository() {
-            @Override
-            public void insert(Order order) {
-
-            }
+        return order -> {
         };
     }
 
