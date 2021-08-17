@@ -17,12 +17,12 @@ class MemoryVoucherRepositoryTest {
     private final VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
     @BeforeEach
-    public void beforeEach(){
+    public void beforeEach() {
 
     }
 
     @Test
-    public void findById() throws Exception{
+    public void findById() throws Exception {
         //given
         UUID voucherId = UUID.randomUUID();
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 10L);
@@ -38,7 +38,7 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    public void findAll() throws Exception{
+    public void findAll() throws Exception {
         //given
         UUID voucherId1 = UUID.randomUUID();
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId1, 10L);
@@ -52,22 +52,22 @@ class MemoryVoucherRepositoryTest {
         voucherRepository.save(percentDiscountVoucher);
 
         //when
-        List<Voucher> all = voucherRepository.findAll();
+        List<Voucher> actual = voucherRepository.findAll();
 
         //then
-        assertThat(all).contains(fixedAmountVoucher, fixedAmountVoucher1,percentDiscountVoucher);
+        assertThat(actual).contains(fixedAmountVoucher, fixedAmountVoucher1, percentDiscountVoucher);
     }
 
     @Test
-    public void save() throws Exception{
+    public void save() throws Exception {
         //given
         UUID voucherId = UUID.randomUUID();
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 10L);
 
         //when
-        Voucher save = voucherRepository.save(fixedAmountVoucher);
+        Voucher actual = voucherRepository.save(fixedAmountVoucher);
 
         //then
-        assertThat(save).isEqualTo(fixedAmountVoucher);
+        assertThat(actual).isEqualTo(fixedAmountVoucher);
     }
 }

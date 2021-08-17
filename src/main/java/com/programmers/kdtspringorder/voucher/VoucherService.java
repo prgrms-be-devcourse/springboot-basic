@@ -3,6 +3,7 @@ package com.programmers.kdtspringorder.voucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
 import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +32,8 @@ public class VoucherService {
 
     }
 
-    public Voucher createVoucher(int voucherType) {
-        // 타입에 맞춰서 구상 바우처 생성
-        Voucher voucher = voucherFactory.createVoucher(voucherType);
+    public Voucher createVoucher(String voucherType) {
+        Voucher voucher = voucherFactory.createVoucher(VoucherType.valueOf(Strings.toRootUpperCase(voucherType)));
         voucherRepository.save(voucher);
         return voucher;
     }

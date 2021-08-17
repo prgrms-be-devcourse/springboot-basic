@@ -4,7 +4,7 @@ import com.programmers.kdtspringorder.voucher.domain.Voucher;
 
 import java.util.Scanner;
 
-public class Console {
+public class Console implements Input, Output{
     private Scanner scanner;
 
     public Console(){
