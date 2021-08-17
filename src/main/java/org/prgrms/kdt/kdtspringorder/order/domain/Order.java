@@ -1,4 +1,7 @@
-package org.prgrms.kdt.kdtspringorder;
+package org.prgrms.kdt.kdtspringorder.order.domain;
+
+import org.prgrms.kdt.kdtspringorder.common.enums.OrderStatus;
+import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;

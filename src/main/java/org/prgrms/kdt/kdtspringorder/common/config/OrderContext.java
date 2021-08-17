@@ -1,4 +1,11 @@
-package org.prgrms.kdt.kdtspringorder;
+package org.prgrms.kdt.kdtspringorder.common.config;
+
+import org.prgrms.kdt.kdtspringorder.order.domain.Order;
+import org.prgrms.kdt.kdtspringorder.order.repository.OrderRepositiry;
+import org.prgrms.kdt.kdtspringorder.order.service.OrderService;
+import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
+import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 
 import java.util.Optional;
 import java.util.UUID;

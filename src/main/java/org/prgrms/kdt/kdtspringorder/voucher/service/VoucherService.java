@@ -1,4 +1,7 @@
-package org.prgrms.kdt.kdtspringorder;
+package org.prgrms.kdt.kdtspringorder.voucher.service;
+
+import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
+import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
 
 import java.text.MessageFormat;
 import java.util.UUID;

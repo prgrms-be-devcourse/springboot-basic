@@ -1,6 +1,11 @@
 package org.prgrms.kdt.kdtspringorder;
 
 import org.junit.jupiter.api.Test;
+import org.prgrms.kdt.kdtspringorder.common.config.AppConfiguration;
+import org.prgrms.kdt.kdtspringorder.common.config.OrderContext;
+import org.prgrms.kdt.kdtspringorder.order.domain.Order;
+import org.prgrms.kdt.kdtspringorder.order.domain.OrderItem;
+import org.prgrms.kdt.kdtspringorder.order.service.OrderService;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;

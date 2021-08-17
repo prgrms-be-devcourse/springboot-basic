@@ -1,4 +1,4 @@
-package org.prgrms.kdt.kdtspringorder;
+package org.prgrms.kdt.kdtspringorder.voucher.domain;
 
 import java.util.UUID;
 

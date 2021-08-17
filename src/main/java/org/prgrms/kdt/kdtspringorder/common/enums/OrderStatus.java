@@ -1,4 +1,4 @@
-package org.prgrms.kdt.kdtspringorder;
+package org.prgrms.kdt.kdtspringorder.common.enums;
 
 public enum OrderStatus {
     PATMENT_REQUIRED,
