@@ -2,6 +2,8 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.config.MissionConfiguration;
 import org.prgrms.kdt.io.Console;
+import org.prgrms.kdt.io.command.Command;
+import org.prgrms.kdt.io.command.Exit;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class CommandLineApplication implements Runnable {
 
     private final Console console;
+    private Command command;
 
     public CommandLineApplication(Console console) {
         this.console = console;
@@ -21,6 +24,14 @@ public class CommandLineApplication implements Runnable {
     public void run() {
         VoucherService voucherService = getVoucherService(getApplicationContext());
         console.guide();
+
+        while (true) {
+            switch (console.inputCommand()) {
+                case EXIT -> command = new Exit();
+            }
+
+            command.execute();
+        }
     }
 
     private AnnotationConfigApplicationContext getApplicationContext() {

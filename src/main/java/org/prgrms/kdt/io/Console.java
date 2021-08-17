@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 import java.util.stream.Collectors;
+import org.prgrms.kdt.io.command.CommandType;
 
 /**
  * Created by yhh1056
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 public class Console implements Output {
 
     private final static String GUIDE = "Voucher_Program_Guide";
+    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void guide() {
@@ -22,5 +25,9 @@ public class Console implements Output {
             System.err.println("존재하지 않는 파일입니다.");
             System.exit(0);
         }
+    }
+
+    public CommandType inputCommand() {
+        return CommandType.valueOf(scanner.nextLine().toUpperCase());
     }
 }
