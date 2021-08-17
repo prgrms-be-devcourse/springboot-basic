@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringdemo;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.UUID;
 
 public class VoucherService {
@@ -17,5 +18,17 @@ public class VoucherService {
     }
 
     public void useVourcher(Voucher voucher) {
+    }
+
+    public Voucher createFixedAmountVoucher(UUID randomUUID, long amount) {
+        var voucher = new FixedAmountVoucher(randomUUID, amount);
+        voucherRepository.insert(voucher);
+        return voucher;
+    }
+
+    public Voucher createPercentDiscountVoucher(UUID randomUUID, long percent) {
+        var voucher = new PercentDiscountVoucher(randomUUID, percent);
+        voucherRepository.insert(voucher);
+        return voucher;
     }
 }

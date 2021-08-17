@@ -3,6 +3,8 @@ package org.prgrms.kdtspringdemo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,12 +12,7 @@ import java.util.UUID;
 public class AppConfiguration {
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new MemoryVoucherRepository();
     }
 
     @Bean
