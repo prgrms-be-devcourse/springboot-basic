@@ -1,4 +1,4 @@
-package org.programmers.kdt;
+package org.programmers.kdt.order;
 
 public enum OrderStatus {
     ACCEPTED,

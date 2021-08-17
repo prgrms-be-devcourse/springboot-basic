@@ -1,4 +1,4 @@
-package org.programmers.kdt;
+package org.programmers.kdt.voucher;
 
 import java.util.UUID;
 
@@ -19,5 +19,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return (long)(beforeDiscount * (percent / 100.0d));
+    }
+
+    @Override
+    public String toString() {
+        return "<< Percent Discount Voucher >>\nID : " + this.voucherId + "\nDiscount : " + this.percent + "%";
     }
 }

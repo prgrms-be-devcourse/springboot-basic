@@ -1,4 +1,6 @@
-package org.programmers.kdt;
+package org.programmers.kdt.order;
+
+import org.programmers.kdt.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

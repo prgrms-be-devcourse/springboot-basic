@@ -1,4 +1,4 @@
-package org.programmers.kdt;
+package org.programmers.kdt.voucher;
 
 import java.util.UUID;
 

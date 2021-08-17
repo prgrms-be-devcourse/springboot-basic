@@ -1,4 +1,4 @@
-package org.programmers.kdt;
+package org.programmers.kdt.voucher;
 
 import java.text.MessageFormat;
 import java.util.UUID;
@@ -17,5 +17,9 @@ public class VoucherService {
     }
 
     public void useVoucher(Voucher voucher) {
+    }
+
+    public void addVoucher(Voucher voucher) {
+        this.voucherRepository.addVoucher(voucher);
     }
 }

@@ -1,5 +1,7 @@
 package org.programmers.kdt;
 
+import org.programmers.kdt.order.OrderItem;
+import org.programmers.kdt.order.OrderSerivce;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
