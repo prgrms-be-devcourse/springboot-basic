@@ -5,9 +5,9 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.prgrms.kdt.voucher.repository.MemoryRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,11 +15,12 @@ import static org.prgrms.kdt.voucher.VoucherType.*;
 
 public class VoucherService {
 
+    private final MemoryRepository temporaryRepository;
     private final VoucherRepository voucherRepository;
     private final OrderRepository orderRepository;
-    private final List<Voucher> vouchers = new ArrayList<>();
 
-    public VoucherService(VoucherRepository voucherRepository, OrderRepository orderRepository) {
+    public VoucherService(MemoryRepository temporaryRepository, VoucherRepository voucherRepository, OrderRepository orderRepository) {
+        this.temporaryRepository = temporaryRepository;
         this.voucherRepository = voucherRepository;
         this.orderRepository = orderRepository;
     }
@@ -30,12 +31,11 @@ public class VoucherService {
     }
 
     public Voucher addVoucher(Voucher voucher) {
-        vouchers.add(voucher);
-        return voucher;
+        return temporaryRepository.addVoucher(voucher);
     }
 
     public List<Voucher> allVoucher() {
-        return vouchers;
+        return temporaryRepository.findByAllVouchers();
     }
 
     public void useVoucher(Voucher voucher) {
