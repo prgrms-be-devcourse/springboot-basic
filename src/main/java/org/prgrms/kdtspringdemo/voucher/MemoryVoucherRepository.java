@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.voucher;
 
 import org.springframework.stereotype.Repository;
 

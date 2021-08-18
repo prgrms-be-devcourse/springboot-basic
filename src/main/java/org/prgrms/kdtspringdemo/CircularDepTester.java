@@ -18,7 +18,7 @@ class B {
         this.a = a;
     }
 }
-//@Configuration
+@Configuration
 class CircularConfig {
     @Bean
     public A a(B b) {

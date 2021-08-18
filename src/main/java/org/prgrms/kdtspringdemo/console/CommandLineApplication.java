@@ -1,9 +1,9 @@
 package org.prgrms.kdtspringdemo.console;
 
 import org.prgrms.kdtspringdemo.AppConfiguration;
-import org.prgrms.kdtspringdemo.Voucher;
-import org.prgrms.kdtspringdemo.VoucherRepository;
-import org.prgrms.kdtspringdemo.VoucherService;
+import org.prgrms.kdtspringdemo.voucher.Voucher;
+import org.prgrms.kdtspringdemo.voucher.VoucherRepository;
+import org.prgrms.kdtspringdemo.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 

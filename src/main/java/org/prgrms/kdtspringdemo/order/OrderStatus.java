@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.order;
 
 public enum OrderStatus {
     ACCEPTED,

@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.voucher;
 
 import java.util.List;
 import java.util.Optional;

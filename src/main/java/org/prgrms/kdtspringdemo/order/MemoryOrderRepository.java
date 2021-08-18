@@ -1,5 +1,7 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.order;
 
+import org.prgrms.kdtspringdemo.order.Order;
+import org.prgrms.kdtspringdemo.order.OrderRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

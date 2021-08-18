@@ -1,5 +1,6 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.order;
 
+import org.prgrms.kdtspringdemo.voucher.VoucherService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
