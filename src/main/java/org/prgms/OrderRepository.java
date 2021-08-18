@@ -1,5 +1,5 @@
 package org.prgms;
 
 public interface OrderRepository {
-    public void insert(Order order);
+    public Order insert(Order order);
 }
