@@ -5,6 +5,7 @@ import org.prgrms.kdt.kdtspringorder.order.repository.OrderRepositiry;
 import org.prgrms.kdt.kdtspringorder.order.service.OrderService;
 import org.prgrms.kdt.kdtspringorder.voucher.application.VoucherCommandLine;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
+import org.prgrms.kdt.kdtspringorder.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 import org.springframework.context.annotation.Bean;
@@ -22,13 +23,7 @@ public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository() {
-        return
-        new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new MemoryVoucherRepository();
     }
 
     @Bean
