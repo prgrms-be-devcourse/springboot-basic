@@ -28,7 +28,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
-    public Map<UUID, Voucher> findByAllVouchers() {
+    @Override
+    public Map<UUID, Voucher> findByAllVoucher() {
         return storage;
     }
 

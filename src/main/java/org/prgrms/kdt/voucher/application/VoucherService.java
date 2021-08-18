@@ -6,6 +6,7 @@ import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -16,11 +17,9 @@ import static org.prgrms.kdt.voucher.VoucherType.*;
 @Service
 public class VoucherService {
 
-    private final MemoryVoucherRepository memoryVoucherRepository;
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(MemoryVoucherRepository memoryVoucherRepository, VoucherRepository voucherRepository) {
-        this.memoryVoucherRepository = memoryVoucherRepository;
+    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -30,11 +29,11 @@ public class VoucherService {
     }
 
     public Voucher insert(Voucher voucher) {
-        return memoryVoucherRepository.insert(voucher);
+        return voucherRepository.insert(voucher);
     }
 
     public Map<UUID, Voucher> allVoucher() {
-        return memoryVoucherRepository.findByAllVouchers();
+        return voucherRepository.findByAllVoucher();
     }
 
     public VoucherType choiceVoucher(String type) {
