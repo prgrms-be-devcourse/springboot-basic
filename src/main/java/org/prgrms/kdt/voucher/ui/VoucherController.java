@@ -17,9 +17,8 @@ public class VoucherController {
     private final int VALUE_INDEX = 1;
     private final VoucherService voucherService;
 
-    public VoucherController() {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        this.voucherService = applicationContext.getBean(VoucherService.class);
+    public VoucherController(VoucherService voucherService) {
+        this.voucherService = voucherService;
     }
 
     public void play() {

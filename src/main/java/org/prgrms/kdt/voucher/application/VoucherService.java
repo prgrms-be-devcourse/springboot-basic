@@ -5,24 +5,24 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
-import org.prgrms.kdt.voucher.repository.MemoryRepository;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.prgrms.kdt.voucher.VoucherType.*;
 
+@Service
 public class VoucherService {
 
-    private final MemoryRepository temporaryRepository;
+    private final MemoryVoucherRepository temporaryRepository;
     private final VoucherRepository voucherRepository;
-    private final OrderRepository orderRepository;
 
-    public VoucherService(MemoryRepository temporaryRepository, VoucherRepository voucherRepository, OrderRepository orderRepository) {
+    public VoucherService(MemoryVoucherRepository temporaryRepository, VoucherRepository voucherRepository) {
         this.temporaryRepository = temporaryRepository;
         this.voucherRepository = voucherRepository;
-        this.orderRepository = orderRepository;
     }
 
     public Voucher getVoucher(UUID voucherId) {
