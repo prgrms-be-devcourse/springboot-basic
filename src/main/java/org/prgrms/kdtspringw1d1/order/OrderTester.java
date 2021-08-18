@@ -1,5 +1,6 @@
-package org.prgrms.kdtspringw1d1;
+package org.prgrms.kdtspringw1d1.order;
 
+import org.prgrms.kdtspringw1d1.config.AppConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 

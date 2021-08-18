@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringw1d1;
+package org.prgrms.kdtspringw1d1.voucher;
 
 import java.util.UUID;
 

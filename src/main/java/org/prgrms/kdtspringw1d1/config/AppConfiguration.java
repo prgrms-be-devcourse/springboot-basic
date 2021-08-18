@@ -1,5 +1,12 @@
-package org.prgrms.kdtspringw1d1;
+package org.prgrms.kdtspringw1d1.config;
 
+import org.prgrms.kdtspringw1d1.order.Order;
+import org.prgrms.kdtspringw1d1.order.OrderRepository;
+import org.prgrms.kdtspringw1d1.order.OrderService;
+import org.prgrms.kdtspringw1d1.voucher.FixedAmountVoucher;
+import org.prgrms.kdtspringw1d1.voucher.Voucher;
+import org.prgrms.kdtspringw1d1.voucher.VoucherRepository;
+import org.prgrms.kdtspringw1d1.voucher.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
