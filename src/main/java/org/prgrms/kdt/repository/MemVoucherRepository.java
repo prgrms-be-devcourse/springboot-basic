@@ -1,6 +1,6 @@
 package org.prgrms.kdt.repository;
 
-import org.prgrms.kdt.entity.Voucher;
+import org.prgrms.kdt.domain.Voucher;
 
 import java.util.*;
 

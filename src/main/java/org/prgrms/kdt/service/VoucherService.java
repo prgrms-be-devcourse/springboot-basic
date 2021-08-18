@@ -1,6 +1,6 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.entity.*;
+import org.prgrms.kdt.domain.*;
 import org.prgrms.kdt.repository.*;
 
 import java.util.*;

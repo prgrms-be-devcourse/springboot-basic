@@ -1,7 +1,5 @@
 package org.prgrms.kdt.core;
 
-import org.prgrms.kdt.entity.Voucher;
-
 import java.util.Scanner;
 
 public class Console implements Input, Output {

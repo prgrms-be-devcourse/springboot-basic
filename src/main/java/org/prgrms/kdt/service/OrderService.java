@@ -1,9 +1,9 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.entity.Order;
-import org.prgrms.kdt.entity.OrderItem;
+import org.prgrms.kdt.domain.Order;
+import org.prgrms.kdt.domain.OrderItem;
 import org.prgrms.kdt.repository.OrderRepository;
-import org.prgrms.kdt.entity.Voucher;
+import org.prgrms.kdt.domain.Voucher;
 
 import java.util.*;
 
