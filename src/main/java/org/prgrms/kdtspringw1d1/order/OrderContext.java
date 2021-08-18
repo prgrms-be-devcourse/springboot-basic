@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringw1d1.order;
 
 import org.prgrms.kdtspringw1d1.voucher.Voucher;
+import org.prgrms.kdtspringw1d1.voucher.VoucherMemoryRepository;
 import org.prgrms.kdtspringw1d1.voucher.VoucherRepository;
 import org.prgrms.kdtspringw1d1.voucher.VoucherService;
 
@@ -10,12 +11,7 @@ import java.util.UUID;
 public class OrderContext {
 
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new VoucherMemoryRepository();
     }
 
     public OrderRepository orderRepository() {

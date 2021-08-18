@@ -3,10 +3,7 @@ package org.prgrms.kdtspringw1d1.config;
 import org.prgrms.kdtspringw1d1.order.Order;
 import org.prgrms.kdtspringw1d1.order.OrderRepository;
 import org.prgrms.kdtspringw1d1.order.OrderService;
-import org.prgrms.kdtspringw1d1.voucher.FixedAmountVoucher;
-import org.prgrms.kdtspringw1d1.voucher.Voucher;
-import org.prgrms.kdtspringw1d1.voucher.VoucherRepository;
-import org.prgrms.kdtspringw1d1.voucher.VoucherService;
+import org.prgrms.kdtspringw1d1.voucher.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,12 +15,7 @@ public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.of(new FixedAmountVoucher(voucherId, 10));
-            }
-        };
+        return new VoucherMemoryRepository();
     }
 
     @Bean
