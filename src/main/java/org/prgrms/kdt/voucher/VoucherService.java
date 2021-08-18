@@ -2,11 +2,13 @@ package org.prgrms.kdt.voucher;
 
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by yhh1056
  * Date: 2021/08/17 Time: 7:52 오후
  */
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
