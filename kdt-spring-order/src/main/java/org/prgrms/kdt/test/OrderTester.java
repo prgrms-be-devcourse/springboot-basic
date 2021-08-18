@@ -1,5 +1,10 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.test;
 
+import org.prgrms.kdt.AppConfiguration;
+import org.prgrms.kdt.FixedAmountVoucher;
+import org.prgrms.kdt.OrderItem;
+import org.prgrms.kdt.OrderService;
+import org.prgrms.kdt.repository.VoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
@@ -12,6 +17,11 @@ public class OrderTester {
     public static void main(String[] args) {
         var customerId = UUID.randomUUID();
         var applicationContext =  new AnnotationConfigApplicationContext(AppConfiguration.class);
+
+        var voucherRepository = applicationContext.getBean(VoucherRepository.class);
+        var voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
+
+
         //var orderContext = new AppConfiguration();
         var orderService = applicationContext.getBean(OrderService.class);
 

@@ -3,6 +3,8 @@ package org.prgrms.kdt;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.*;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class CommandLineApplication {
@@ -18,6 +20,8 @@ public class CommandLineApplication {
 
         while(true){
             String command = "";
+            bw.write("명령어를 입력해주세요. \n");
+            bw.flush();
             command = br.readLine();
 
             if(!command.equals("exit")&&!command.equals("create")&&!command.equals("list")){
@@ -34,11 +38,29 @@ public class CommandLineApplication {
             }
 
             else if(command.equals("create")){
+                bw.write("Voucher 타입 번호를 입력하세요.\n 1:FixedAmount    2:PrecentDiscount\n");
+                bw.flush();
+                command = br.readLine();
+                if(!command.equals("1")&&!command.equals("2")){
+                    continue;
+                }
+                else if(command.equals("1")) {
+                    voucherService.createVoucher("fix");
 
+                }
+                else if(command.equals("2")) {
+                    voucherService.createVoucher("per");
+                }
             }
 
-            else {
+            else if(command.equals("list")) {
 
+                Map<UUID,Voucher> voucherList = voucherService.getVouchers();
+                for(UUID uuid : voucherList.keySet()){
+                    Voucher voc = voucherList.get(uuid);
+                    bw.write("VoucherId : "+voc.getVoucherId().toString()+"\n");
+                    bw.flush();
+                }
             }
 
         }
