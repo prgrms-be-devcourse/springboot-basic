@@ -14,7 +14,9 @@ public class VoucherService {
     private VoucherFactory voucherFactory;
 
     @Autowired
-    public VoucherService(@Qualifier("Memory") VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("File") VoucherRepository voucherRepository) {
+        // @Qualifier("Memory") for Homework W3D2
+        // @Qualifier("File") for Homework W3D3
         this.voucherRepository = voucherRepository;
     }
 
