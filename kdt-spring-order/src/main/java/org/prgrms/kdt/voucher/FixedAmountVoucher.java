@@ -1,7 +1,5 @@
 package org.prgrms.kdt.voucher;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher{
