@@ -32,6 +32,8 @@ public class CommandLineApplication {
                     Optional<List<Voucher>> voucherList = voucherService.listVoucher();
                     voucherList.ifPresentOrElse(output::listVoucher, output::voucherListError);
                     break;
+                case "exit":
+                    System.exit(0);
                 default:
                     output.inputError();
             }
