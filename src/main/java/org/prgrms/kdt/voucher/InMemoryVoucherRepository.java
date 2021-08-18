@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -21,5 +22,10 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.of(vouchers.get(voucherId));
+    }
+
+    @Override
+    public Map<UUID, Voucher> findAll() {
+        return Collections.unmodifiableMap(vouchers);
     }
 }

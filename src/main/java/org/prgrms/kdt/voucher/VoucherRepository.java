@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,4 +13,7 @@ public interface VoucherRepository {
     void save(Voucher voucher);
 
     Optional<Voucher> findById(UUID voucherId);
+
+    Map<UUID, Voucher> findAll();
+
 }

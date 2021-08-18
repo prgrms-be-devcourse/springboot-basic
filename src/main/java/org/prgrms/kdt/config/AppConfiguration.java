@@ -1,5 +1,6 @@
 package org.prgrms.kdt.config;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
@@ -33,6 +34,15 @@ public class AppConfiguration {
             @Override
             public Optional<Voucher> findById(UUID voucherId) {
                 return Optional.of(new FixedAmountVoucher(voucherId, 10));
+            }
+
+            @Override
+            public Map<UUID, Voucher> findAll() {
+                /**
+                 * 메소드가 추가되어 오버라이드
+                 * 미션코드에 영향을 주지 않는다.
+                 */
+                return null;
             }
         };
     }

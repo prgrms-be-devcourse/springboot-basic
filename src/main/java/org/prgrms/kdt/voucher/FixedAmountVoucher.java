@@ -23,4 +23,12 @@ public class FixedAmountVoucher implements Voucher {
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }
+
+    @Override
+    public String toString() {
+        return new StringBuilder().append("FixedAmountVoucher {")
+                .append("voucherId = ").append(voucherId)
+                .append(", amount = ").append(amount)
+                .append('}').toString();
+    }
 }

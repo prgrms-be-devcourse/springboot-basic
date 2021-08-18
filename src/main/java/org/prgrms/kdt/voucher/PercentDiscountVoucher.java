@@ -22,4 +22,11 @@ public class PercentDiscountVoucher implements Voucher {
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
+
+    public String toString() {
+        return new StringBuilder().append("PercentDiscountVoucher {")
+                .append("voucherId = ").append(voucherId)
+                .append(", percent = ").append(percent)
+                .append('}').toString();
+    }
 }

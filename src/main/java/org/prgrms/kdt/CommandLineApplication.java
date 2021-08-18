@@ -35,6 +35,7 @@ public class CommandLineApplication implements Runnable {
             switch (console.inputCommand()) {
                 case EXIT -> command = new Exit();
                 case CREATE -> inputVoucher();
+                case LIST -> console.vouchers(voucherService.getAllVoucher());
             }
 
             command.execute();

@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -25,6 +26,10 @@ public class VoucherService {
 
     public void createVoucher(Voucher voucher) {
         voucherRepository.save(voucher);
+    }
+
+    public Map<UUID, Voucher> getAllVoucher() {
+        return voucherRepository.findAll();
     }
 }
 

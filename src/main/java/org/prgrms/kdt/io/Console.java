@@ -4,9 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.prgrms.kdt.io.command.CommandType;
+import org.prgrms.kdt.voucher.Voucher;
 
 /**
  * Created by yhh1056
@@ -45,5 +48,10 @@ public class Console implements Output {
 
     public void successCreate() {
         System.out.println("성공적으로 등록되었습니다. 다음 명령을 입력해주세요.");
+    }
+
+    public void vouchers(Map<UUID, Voucher> vouchers) {
+        vouchers.values()
+                .forEach(System.out::println);
     }
 }
