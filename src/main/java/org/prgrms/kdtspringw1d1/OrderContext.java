@@ -20,6 +20,11 @@ public class OrderContext {
             public void save(Order order) {
 
             }
+
+            @Override
+            public void insert(Order order) {
+
+            }
         };
     }
 

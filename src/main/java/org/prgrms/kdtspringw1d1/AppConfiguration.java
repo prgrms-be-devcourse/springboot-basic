@@ -25,6 +25,11 @@ public class AppConfiguration {
             @Override
             public void save(Order order) {
             }
+
+            @Override
+            public void insert(Order order) {
+
+            }
         };
     }
 
