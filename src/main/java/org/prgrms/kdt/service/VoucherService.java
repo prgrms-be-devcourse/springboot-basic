@@ -1,9 +1,10 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.entity.Voucher;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.entity.*;
+import org.prgrms.kdt.repository.*;
 
-import java.util.UUID;
+import java.util.*;
+
 
 public class VoucherService {
     private final VoucherRepository voucherRepository;
@@ -18,7 +19,15 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException("Can not find a voucher %s".formatted(voucherId)));
     }
 
-    public void useVoucher(Voucher voucher) {
+    public void createVoucher(String type, long value) {
+        if(type.equals("fixed")) {
+            voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value));
+        } else if(type.equals("percentage")) {
+            voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value));
+        }
+    }
 
+    public void useVoucher(Voucher voucher) {
+        throw new UnsupportedOperationException();
     }
 }

@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.core;
 
 import org.prgrms.kdt.core.*;
 
@@ -13,6 +13,11 @@ public class Console implements Input, Output {
         return scanner.nextLine();
     }
 
+    @Override
+    public String input(String input) {
+        System.out.println(input);
+        return scanner.nextLine();
+    }
 
     @Override
     public void printMessage(String message) {
@@ -22,7 +27,6 @@ public class Console implements Input, Output {
     @Override
     public void inputError(String input) {
         System.out.println("command not found: " + input);
-        System.out.println("try to 'help'");
     }
 
 }
