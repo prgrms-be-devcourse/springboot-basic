@@ -12,5 +12,6 @@ public class CommandLineApplication {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         var voucherService = applicationContext.getBean(VoucherService.class);
         new VoucherProgram(voucherService, new Console()).run();
+        applicationContext.close();
     }
 }

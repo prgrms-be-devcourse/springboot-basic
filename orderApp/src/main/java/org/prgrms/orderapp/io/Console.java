@@ -1,6 +1,6 @@
 package org.prgrms.orderapp.io;
 
-import org.prgrms.orderapp.Voucher;
+import org.prgrms.orderapp.model.Voucher;
 
 import java.text.MessageFormat;
 import java.util.List;
