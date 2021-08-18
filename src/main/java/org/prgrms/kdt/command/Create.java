@@ -1,4 +1,4 @@
-package org.prgrms.kdt.io.command;
+package org.prgrms.kdt.command;
 
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherService;

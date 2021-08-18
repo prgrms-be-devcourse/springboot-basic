@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import org.prgrms.kdt.io.command.CommandType;
+import org.prgrms.kdt.command.CommandType;
 import org.prgrms.kdt.voucher.Voucher;
 
 /**

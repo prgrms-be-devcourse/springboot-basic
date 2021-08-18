@@ -1,4 +1,4 @@
-package org.prgrms.kdt.io.command;
+package org.prgrms.kdt.command;
 
 /**
  * Created by yhh1056

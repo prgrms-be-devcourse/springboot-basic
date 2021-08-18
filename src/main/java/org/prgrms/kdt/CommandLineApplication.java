@@ -2,9 +2,9 @@ package org.prgrms.kdt;
 
 import java.util.UUID;
 import org.prgrms.kdt.io.Console;
-import org.prgrms.kdt.io.command.Command;
-import org.prgrms.kdt.io.command.Create;
-import org.prgrms.kdt.io.command.Exit;
+import org.prgrms.kdt.command.Command;
+import org.prgrms.kdt.command.Create;
+import org.prgrms.kdt.command.Exit;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.VoucherService;
