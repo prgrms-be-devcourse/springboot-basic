@@ -1,5 +1,6 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.order;
 
+import org.prgrms.kdt.AppConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
