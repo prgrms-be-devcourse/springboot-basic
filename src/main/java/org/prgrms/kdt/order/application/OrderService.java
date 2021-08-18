@@ -20,8 +20,7 @@ public class OrderService {
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
         Order order = new Order(UUID.randomUUID(), customerId, orderItems);
-        orderRepository.insert(order);
-        return order;
+        return orderRepository.insert(order);
     }
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
