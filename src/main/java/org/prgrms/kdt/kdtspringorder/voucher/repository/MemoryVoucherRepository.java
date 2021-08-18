@@ -2,11 +2,12 @@ package org.prgrms.kdt.kdtspringorder.voucher.repository;
 
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class MemoryVoucherRepository implements VoucherRepository{
+
+    private Map<UUID,Voucher> voucherMap = new HashMap<>();
+
     @Override
     public List<Voucher> findAll() {
         return null;
@@ -19,6 +20,7 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public void insert(Voucher voucher) {
-
+        this.voucherMap.put(voucher.getVoucherId(), voucher);
     }
+
 }

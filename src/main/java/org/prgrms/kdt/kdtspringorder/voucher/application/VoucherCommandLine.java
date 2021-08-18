@@ -1,6 +1,7 @@
 package org.prgrms.kdt.kdtspringorder.voucher.application;
 
 import org.prgrms.kdt.kdtspringorder.common.enums.Command;
+import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 
 import java.text.MessageFormat;
@@ -53,6 +54,15 @@ public class VoucherCommandLine {
      * Create 명령어 실행 로직
      */
     public void executeCreateCmd() {
+
+        // 생성할 Voucher Type을 입력 받는다.
+        String voucherNum = this.input(REQUEST_SELECT_VOUCHER_TYPE_MSG);
+        VoucherType selectedVoucherType = VoucherType.findVoucher(voucherNum);
+
+        // 할인 금액 or 퍼센티지를 입력받는다.
+        String discount =  this.input(MessageFormat.format(REQUEST_INPUT_DISCOUNT_MSG, selectedVoucherType.getUnit()));
+
+        this.voucherService.createVoucher(selectedVoucherType, Long.valueOf(discount));
 
     }
 

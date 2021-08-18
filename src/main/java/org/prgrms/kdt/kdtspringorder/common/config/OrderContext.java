@@ -7,6 +7,7 @@ import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,8 +21,18 @@ public class OrderContext {
         return
         new VoucherRepository() {
             @Override
+            public List<Voucher> findAll() {
+                return null;
+            }
+
+            @Override
             public Optional<Voucher> findById(UUID voucherId) {
                 return Optional.empty();
+            }
+
+            @Override
+            public void insert(Voucher voucher) {
+
             }
         };
     }

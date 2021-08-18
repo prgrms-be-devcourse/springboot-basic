@@ -1,5 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.voucher.service;
 
+import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
@@ -30,7 +31,22 @@ public class VoucherService {
         return null;
     }
 
-    public void createVoucher() {
+    /**
+     * 새 Voucher를 생성하여 등록합니다.
+     * @param type 생성할 Voucher 유형
+     * @param discount 할인 받을 정도 ( 금액 or % )
+     */
+    public void createVoucher(VoucherType type, long discount) {
+
+        Voucher createdVoucher;
+
+        if(type == VoucherType.FIX) {
+            createdVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
+        } else {
+            createdVoucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
+        }
+
+        this.voucherRepository.insert(createdVoucher);
 
     }
 
