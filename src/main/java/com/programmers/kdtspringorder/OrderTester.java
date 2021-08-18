@@ -8,7 +8,10 @@ import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.repository.MemoryVoucherRepository;
 import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.Resource;
@@ -29,8 +32,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class OrderTester {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);
+
     public static void main(String[] args) throws IOException {
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var applicationContext2 = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
 //        ConfigurableEnvironment environment = applicationContext.getEnvironment();
 //        String version = environment.getProperty("kdt.version");
@@ -43,17 +51,31 @@ public class OrderTester {
 //        System.out.println(MessageFormat.format("supportVendorList = {0}", suportsVenderList));
 //        System.out.println(MessageFormat.format("description = {0}", description));
 
-//        OrderProperties orderProperties = applicationContext.getBean(OrderProperties.class);
+        OrderProperties orderProperties = applicationContext.getBean(OrderProperties.class);
+        OrderProperties orderProperties1 = applicationContext.getBean(OrderProperties.class);
+        OrderProperties orderProperties2 = applicationContext2.getBean(OrderProperties.class);
+
+        System.out.println(orderProperties == orderProperties1);
+        System.out.println(orderProperties2 == orderProperties);
+
+
+        logger.info("version -> {}", orderProperties.getVersion());
+        logger.info("minimumOrderAmount -> {}", orderProperties.getMinimumOrderAmount());
+        logger.info("supportVendors -> {}", orderProperties.getSupportVendors());
+        logger.info("description -> {}", orderProperties.getDescription());
+
+
+
 //        System.out.println("orderProperties.getSupportVendors() = " + orderProperties.getSupportVendors());
 
-        Resource resource = applicationContext.getResource("application.yaml");
-        Resource resource2 = applicationContext.getResource("file:sample.txt");
-        Resource resource3 = applicationContext.getResource("https://stackoverflow.com/");
-        ReadableByteChannel readableByteChannel = Channels.newChannel(resource3.getURL().openStream());
-
-        BufferedReader bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
-        String collect = bufferedReader.lines().collect(Collectors.joining("\n"));
-        System.out.println(collect);
+//        Resource resource = applicationContext.getResource("application.yaml");
+//        Resource resource2 = applicationContext.getResource("file:sample.txt");
+//        Resource resource3 = applicationContext.getResource("https://stackoverflow.com/");
+//        ReadableByteChannel readableByteChannel = Channels.newChannel(resource3.getURL().openStream());
+//
+//        BufferedReader bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
+//        String collect = bufferedReader.lines().collect(Collectors.joining("\n"));
+//        System.out.println(collect);
 
 //        System.out.println(resource2.getClass().getCanonicalName());
 //        File file = resource2.getFile();
