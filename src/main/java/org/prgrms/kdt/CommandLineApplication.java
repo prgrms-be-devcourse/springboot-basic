@@ -1,7 +1,6 @@
 package org.prgrms.kdt;
 
 import java.util.UUID;
-import org.prgrms.kdt.config.MissionConfiguration;
 import org.prgrms.kdt.io.Console;
 import org.prgrms.kdt.io.command.Command;
 import org.prgrms.kdt.io.command.Create;
@@ -10,7 +9,6 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * Created by yhh1056
@@ -22,8 +20,8 @@ public class CommandLineApplication implements Runnable {
     private final Console console;
     private Command command;
 
-    public CommandLineApplication(Console console) {
-        voucherService = getVoucherService(getApplicationContext());
+    public CommandLineApplication(Console console, VoucherService voucherService) {
+        this.voucherService = voucherService;
         this.console = console;
     }
 
@@ -60,11 +58,4 @@ public class CommandLineApplication implements Runnable {
         console.successCreate();
     }
 
-    private AnnotationConfigApplicationContext getApplicationContext() {
-        return new AnnotationConfigApplicationContext(MissionConfiguration.class);
-    }
-
-    private VoucherService getVoucherService(AnnotationConfigApplicationContext applicationContext) {
-        return applicationContext.getBean(VoucherService.class);
-    }
 }
