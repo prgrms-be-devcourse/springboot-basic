@@ -1,13 +1,29 @@
 package org.prgrms.kdt;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.prgrms.kdt.exception.InvalidIOMessageException;
+import org.prgrms.kdt.io.Console;
+import org.prgrms.kdt.voucher.VoucherService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@SpringBootApplication
 public class KdtApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(KdtApplication.class, args);
-	}
+    public static void main(String[] args) {
+        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+
+        var voucherService = applicationContext.getBean(VoucherService.class);
+        var console = new Console();
+
+        var startMessage = "=== Voucher Program ===\n" +
+                "Type exit to exit the program.\n" +
+                "Type create to create a new voucher.\n" +
+                "Type list to list all vouchers.\n";
+
+        try {
+            new CommandLineApplication(console, console, voucherService).
+                    run(startMessage);
+        } catch (InvalidIOMessageException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
 }

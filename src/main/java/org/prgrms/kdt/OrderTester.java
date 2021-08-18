@@ -9,6 +9,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * 실습 파일 입니다. 미션2와 관계 없습니다.
+ */
 public class OrderTester {
     public static void main(String[] args) {
         // Java 기반의 설정(AppConfiguration class)을 이용할 경우 ApplicationContext의

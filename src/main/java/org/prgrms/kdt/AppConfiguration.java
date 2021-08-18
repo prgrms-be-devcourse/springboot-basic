@@ -3,14 +3,11 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.order.Order;
 import org.prgrms.kdt.order.OrderRepository;
 import org.prgrms.kdt.order.OrderService;
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.VoucherRepository;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * AppConfiguration은 VoucherService, OrderService, OrderRepo, VoucherRepo 객체의 생성에 대한 책임을 갖는다.
@@ -21,17 +18,11 @@ import java.util.UUID;
 @Configuration
 public class AppConfiguration {
     /**
-     * AppConfiguration는 일반클래스가 아니라 bean객체를 정의한 Configuration Metadata이고
-     * 이를 의미하기 위해 @Bean 사용
+     * MemoryVoucherRepository를 Bean으로 등록
      */
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new MemoryVoucherRepository();
     }
 
     @Bean
@@ -39,14 +30,11 @@ public class AppConfiguration {
         return new OrderRepository() {
             @Override
             public void insert(Order order) {
-                // TODO: 영속성 추가
+                // TODO: OrderRepository 추가
             }
         };
     }
 
-    /**
-     * IoC컨테이너는 실제로 (익명)객체를 전달함으로써 객체들 간의 의존관계를 형성시킨다.
-     */
     @Bean
     public VoucherService voucherService(VoucherRepository voucherRepository) {
         return new VoucherService(voucherRepository);
