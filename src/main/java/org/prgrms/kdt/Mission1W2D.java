@@ -17,12 +17,11 @@ public class Mission1W2D {
         new CommandLineApplication(new Console(), voucherService).run();
     }
 
+    private static AnnotationConfigApplicationContext getApplicationContext() {
+        return new AnnotationConfigApplicationContext(MissionConfiguration.class);
+    }
 
     private static VoucherService getVoucherService(AnnotationConfigApplicationContext applicationContext) {
         return applicationContext.getBean(VoucherService.class);
-    }
-
-    private static AnnotationConfigApplicationContext getApplicationContext() {
-        return new AnnotationConfigApplicationContext(MissionConfiguration.class);
     }
 }
