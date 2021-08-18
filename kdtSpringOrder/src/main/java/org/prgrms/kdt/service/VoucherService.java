@@ -6,11 +6,13 @@ import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.dto.VoucherType;
 import org.prgrms.kdt.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
