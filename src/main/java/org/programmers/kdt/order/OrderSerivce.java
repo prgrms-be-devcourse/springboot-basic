@@ -1,10 +1,12 @@
 package org.programmers.kdt.order;
 
 import org.programmers.kdt.voucher.VoucherService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderSerivce {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
