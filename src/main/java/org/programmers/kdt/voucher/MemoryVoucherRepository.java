@@ -1,10 +1,10 @@
 package org.programmers.kdt.voucher;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Component
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> repository = new HashMap<>();
 
@@ -14,16 +14,20 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void addVoucher(Voucher voucher) {
+    public void save(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         this.repository.put(voucherId, voucher);
     }
 
     @Override
-    public void listAllVouchers() {
+    public List<Voucher> findAll() {
+        List<Voucher> list = new ArrayList<>();
+
         Set<UUID> keys = this.repository.keySet();
         for (UUID key : keys) {
-            System.out.println(this.repository.get(key));
+            list.add(this.repository.get(key));
         }
+
+        return list;
     }
 }
