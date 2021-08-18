@@ -1,7 +1,5 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.order.Order;
-import org.prgrms.kdt.order.repository.OrderRepository;
 import org.prgrms.kdt.voucher.Voucher;
 
 import java.util.ArrayList;
@@ -9,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class MemoryRepository implements VoucherRepository, OrderRepository {
+public class MemoryRepository implements VoucherRepository {
 
     private final List<Voucher> vouchers = new ArrayList<>();
 
@@ -25,10 +23,5 @@ public class MemoryRepository implements VoucherRepository, OrderRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
-    }
-
-    @Override
-    public void insert(Order order) {
-
     }
 }
