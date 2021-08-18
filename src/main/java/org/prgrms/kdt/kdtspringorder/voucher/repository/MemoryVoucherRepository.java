@@ -3,6 +3,7 @@ package org.prgrms.kdt.kdtspringorder.voucher.repository;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MemoryVoucherRepository implements VoucherRepository{
 
@@ -10,7 +11,8 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        return voucherMap.values().stream()
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

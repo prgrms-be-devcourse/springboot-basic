@@ -27,8 +27,12 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
     }
 
+    /**
+     * 모든 Voucher 목록을 조회합니다.
+     * @return 조회한 Voucher 목록을 반환합니다.
+     */
     public List<Voucher> getVoucherList() {
-        return null;
+        return this.voucherRepository.findAll();
     }
 
     /**
