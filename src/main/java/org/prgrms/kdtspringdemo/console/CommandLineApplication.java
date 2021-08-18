@@ -7,7 +7,7 @@ import org.prgrms.kdtspringdemo.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
-import java.util.List;
+import java.util.stream.Stream;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -59,7 +59,7 @@ public class CommandLineApplication {
     public static void readAllVoucher()
     {
         System.out.println("This is all list");
-        List<Voucher> allVoucher = voucherRepository.findAll();
+        Stream<Voucher> allVoucher = voucherRepository.findAll();
         allVoucher.forEach(System.out::println);
     }
 }

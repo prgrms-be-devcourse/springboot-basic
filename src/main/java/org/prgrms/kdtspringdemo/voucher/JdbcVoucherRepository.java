@@ -5,12 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 @Repository
 @Qualifier("jdbc")
 public class JdbcVoucherRepository implements VoucherRepository {
-    private  final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-    private List<Voucher> vouchers = new ArrayList<>();
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
@@ -18,13 +19,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-//        this.vouchers.add(voucher);
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return vouchers;
+    public Stream<Voucher> findAll() {
+        return storage.values().stream();
     }
 }
