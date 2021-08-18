@@ -1,7 +1,5 @@
 package org.prgrms.kdt;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -54,19 +52,16 @@ public class CommandLineApplication {
             }
 
             else if(command.equals("list")) {
-
                 Map<UUID,Voucher> voucherList = voucherService.getVouchers();
                 for(UUID uuid : voucherList.keySet()){
                     Voucher voc = voucherList.get(uuid);
-                    bw.write("VoucherId : "+voc.getVoucherId().toString()+"\n");
+                    bw.write(voc.toString()+"\n");
                     bw.flush();
+//                    bw.write("VoucherId : "+voc.getVoucherId().toString()+"\n");
+//                    bw.flush();
                 }
             }
-
         }
-
-
-
     }
 
     private static void init(){
@@ -82,5 +77,4 @@ public class CommandLineApplication {
                 "Type list to list all vouchers\n");
         bw.flush();
     }
-
 }

@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
     Voucher insert(Voucher voucher);
-     Map<UUID,Voucher> returnAll();
+    Map<UUID,Voucher> returnAll();
 }

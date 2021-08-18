@@ -15,7 +15,7 @@ import java.util.UUID;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(MemoryVoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

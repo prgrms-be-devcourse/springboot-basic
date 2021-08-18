@@ -24,6 +24,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.put(voucher.getVoucherId(),voucher);
         return voucher;
     }
+
     @Override
     public  Map<UUID,Voucher> returnAll() {
         return storage;
