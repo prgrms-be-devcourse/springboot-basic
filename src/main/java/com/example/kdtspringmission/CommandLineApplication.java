@@ -5,7 +5,11 @@ import java.util.Scanner;
 public class CommandLineApplication {
 
     private Scanner scanner = new Scanner(System.in);
-    private VoucherRepository voucherRepository = new MemoryVoucherRepository();
+    private final VoucherRepository voucherRepository;
+
+    public CommandLineApplication(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }
 
     public void run() {
         while (true) {
