@@ -3,6 +3,8 @@ package org.prgrms.kdt.engine.voucher;
 import org.prgrms.kdt.engine.voucher.Voucher;
 import org.prgrms.kdt.engine.voucher.VoucherRepository;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class VoucherService {
@@ -31,5 +33,9 @@ public class VoucherService {
         var voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
         voucherRepository.insertVoucher(voucher);
         return voucher;
+    }
+
+    public Optional<List<Voucher>> listVoucher() {
+        return voucherRepository.getAll();
     }
 }

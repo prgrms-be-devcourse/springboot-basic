@@ -9,5 +9,6 @@ public interface Output {
     void help();
     void inputError();
     void createVoucher(Voucher voucher);
-    void listVoucher(Optional<List<Voucher>> voucherList);
+    void listVoucher(List<Voucher> voucherList);
+    void voucherListError();
 }

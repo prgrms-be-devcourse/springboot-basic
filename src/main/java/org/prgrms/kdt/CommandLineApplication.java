@@ -28,6 +28,10 @@ public class CommandLineApplication {
                     Optional<Voucher> voucher = createVoucher(type);
                     voucher.ifPresentOrElse(output::createVoucher, output::inputError);
                     break;
+                case "list":
+                    Optional<List<Voucher>> voucherList = voucherService.listVoucher();
+                    voucherList.ifPresentOrElse(output::listVoucher, output::voucherListError);
+                    break;
                 default:
                     output.inputError();
             }

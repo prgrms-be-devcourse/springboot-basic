@@ -31,6 +31,12 @@ public class AppConfiguration {
             public void insertVoucher(Voucher voucher) {
                 voucherData.add(voucher);
             }
+
+            @Override
+            public Optional<List<Voucher>> getAll() {
+                if (voucherData.size() == 0) return Optional.empty();
+                return Optional.of(voucherData);
+            }
         };
     }
 

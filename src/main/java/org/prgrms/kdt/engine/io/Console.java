@@ -34,14 +34,13 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void listVoucher(Optional<List<Voucher>> voucherList) {
-        if (voucherList.isEmpty()) {
-            System.out.println("No Vouchers Found");
-            return;
-        }
-
-        List<Voucher> vouchers = voucherList.get();
-        for (Voucher voucher : vouchers)
+    public void listVoucher(List<Voucher> voucherList) {
+        for (Voucher voucher : voucherList)
             System.out.println(voucher);
+    }
+
+    @Override
+    public void voucherListError() {
+        System.out.println("No Vouchers Found");
     }
 }
