@@ -1,22 +1,24 @@
 package org.programmers.kdt.voucher;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Qualifier("Memory")
 public class MemoryVoucherRepository implements VoucherRepository {
-    private Map<UUID, Voucher> repository = new HashMap<>();
+    private final Map<UUID, Voucher> repository = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.of(repository.get(voucherId));
+        return Optional.ofNullable(repository.get(voucherId));
     }
 
     @Override
-    public void save(Voucher voucher) {
-        UUID voucherId = voucher.getVoucherId();
-        this.repository.put(voucherId, voucher);
+    public Voucher save(Voucher voucher) {
+        return this.repository.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
