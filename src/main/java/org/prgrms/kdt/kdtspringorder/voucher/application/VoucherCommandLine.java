@@ -1,5 +1,8 @@
 package org.prgrms.kdt.kdtspringorder.voucher.application;
 
+import org.prgrms.kdt.kdtspringorder.common.enums.Command;
+
+import java.text.MessageFormat;
 import java.util.Scanner;
 
 /**
@@ -11,12 +14,45 @@ public class VoucherCommandLine {
     private final String REQUEST_INP_COMMAND_MSG = "명령어를 입력해 주세요. : ";
     private final String REQUEST_SELECT_VOUCHER_TYPE_MSG = "Voucher 유형을 골라주세요.(1) FixedAmountVoucher (2) PercentDiscountVoucher";
     private final String REQUEST_INPUT_DISCOUNT_MSG = "할인 {0}을 입력해주세요.";
-    private final String INCORRECT_COMMAND_MSG = "잘못된 명령어 입니다.";
+    private final String INCORRECT_COMMAND_MSG = "잘못된 명령어 입니다. ( create, list, exit )";
     private final String EXIT_COMMAND_MSG = "앱을 종료합니다.";
 
     private final Scanner scanner = new Scanner(System.in);
 
     public void start() {
+
+        while ((true)) {
+
+            // 명령어 입력
+            String cmdStr = this.input(REQUEST_INP_COMMAND_MSG).toUpperCase();
+
+            // 명령어에 따른 로직 분기
+            if(cmdStr.equals(Command.EXIT.name())) {
+                this.showExitMsg();
+                break;
+            } else if(cmdStr.equals(Command.CREATE.name())) {
+                executeCreateCmd();
+            } else if(cmdStr.equals(Command.LIST.name())) {
+                executeListCmd();
+            } else {
+                this.showIncorrectCmdMsg();
+            }
+
+        }
+
+    }
+
+    /**
+     * Create 명령어 실행 로직
+     */
+    public void executeCreateCmd() {
+
+    }
+
+    /**
+     * List 명령어 실행 로직
+     */
+    public void executeListCmd() {
 
     }
 
