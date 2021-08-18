@@ -11,11 +11,15 @@ public class CommandLineApplication {
     public static void main(String[] args) {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         var voucherService = applicationContext.getBean(VoucherService.class);
+        var prompt = """
+                === Voucher Program ===
+                Type exit to exit the program.
+                Type create to create a new voucher.
+                Type list to list all vouchers.""";
 
-        start();
         String inputStr;
         while (true) {
-            inputStr = input.input().toUpperCase();
+            inputStr = input.input(prompt).toUpperCase();
             switch (inputStr) {
                 case "EXIT" -> {
                     exit();
@@ -30,28 +34,27 @@ public class CommandLineApplication {
     }
 
     private static void listVoucher(VoucherService voucherService) {
+
+        var vouchers = voucherService.listVoucher();
+        if(vouchers.isEmpty()) {
+            output.printMessage("No Voucher Data");
+        } else {
+            output.printMessage("=== Voucher List ===");
+            vouchers.forEach(v-> output.printMessage(v.toString()));
+        }
     }
 
     private static void createVoucher(VoucherService voucherService) {
         String type = input.input(
-            "Creating a new voucher. Which type do you want? (fixed or percent) : "
-        ).toUpperCase();
-        if (type.contains("fixed") || type.contains("percent")) {
-            long value = Long.parseLong(input.input("How much discount? (digits only) : "));
+            "Creating a new voucher. Choose a voucher type (fixed or percent): "
+        );
+        if (type.equals("fixed") || type.equals("percent")) {
+            var value = Long.parseLong(input.input("How much discount?: "));
             voucherService.createVoucher(type, value);
+            output.printMessage("create success!");
         } else {
             output.inputError(type);
         }
-    }
-
-
-    private static void start() {
-        var prompt = """
-                === Voucher Program ===
-                Type exit to exit the program.
-                Type create to create a new voucher.
-                Type list to list all vouchers.""";
-        output.printMessage(prompt);
     }
 
     private static void exit() {

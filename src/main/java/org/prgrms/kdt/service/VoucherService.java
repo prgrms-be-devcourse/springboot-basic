@@ -19,10 +19,14 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException("Can not find a voucher %s".formatted(voucherId)));
     }
 
+    public Collection<Voucher> listVoucher() {
+        return voucherRepository.findAllVoucher();
+    }
+
     public void createVoucher(String type, long value) {
         if(type.equals("fixed")) {
             voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value));
-        } else if(type.equals("percentage")) {
+        } else if(type.equals("percent")) {
             voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value));
         }
     }
@@ -30,4 +34,6 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
         throw new UnsupportedOperationException();
     }
+
+
 }

@@ -1,6 +1,6 @@
 package org.prgrms.kdt.core;
 
-import org.prgrms.kdt.core.*;
+import org.prgrms.kdt.entity.Voucher;
 
 import java.util.Scanner;
 
@@ -22,6 +22,11 @@ public class Console implements Input, Output {
     @Override
     public void printMessage(String message) {
         System.out.println(message);
+    }
+
+    @Override
+    public void displayVoucher(Voucher v) {
+        System.out.println();
     }
 
     @Override
