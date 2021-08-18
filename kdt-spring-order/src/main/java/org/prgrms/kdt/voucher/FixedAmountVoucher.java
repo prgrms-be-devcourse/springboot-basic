@@ -1,7 +1,10 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.voucher;
+
+import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+@Repository
 public class FixedAmountVoucher implements Voucher{
     private final UUID voucherId;
     private final long amount;
@@ -13,7 +16,7 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public UUID getVoucher() {
+    public UUID getVoucherId() {
         return null;
     }
 

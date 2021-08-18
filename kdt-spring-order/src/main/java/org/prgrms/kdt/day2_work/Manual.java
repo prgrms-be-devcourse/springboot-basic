@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.day2_work;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
