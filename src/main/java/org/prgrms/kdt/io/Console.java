@@ -31,7 +31,11 @@ public class Console implements Output {
     }
 
     public CommandType inputCommand() {
-        return CommandType.valueOf(scanner.nextLine().toUpperCase());
+        try {
+            return CommandType.valueOf(scanner.nextLine().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return CommandType.ERROR;
+        }
     }
 
     public String inputVoucher() {
@@ -53,5 +57,9 @@ public class Console implements Output {
     public void vouchers(Map<UUID, Voucher> vouchers) {
         vouchers.values()
                 .forEach(System.out::println);
+    }
+
+    public void commandError() {
+        System.out.println("지원하지 않는 명령어입니다. 다시 입력해주세요.");
     }
 }

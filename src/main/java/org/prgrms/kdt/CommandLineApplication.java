@@ -36,9 +36,12 @@ public class CommandLineApplication implements Runnable {
                 case EXIT -> command = new Exit();
                 case CREATE -> inputVoucher();
                 case LIST -> console.vouchers(voucherService.getAllVoucher());
+                case ERROR -> console.commandError();
             }
 
-            command.execute();
+            if (command != null) {
+                command.execute();
+            }
         }
     }
 

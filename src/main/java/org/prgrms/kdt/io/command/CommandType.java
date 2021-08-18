@@ -6,5 +6,5 @@ package org.prgrms.kdt.io.command;
  */
 public enum CommandType {
 
-    EXIT, CREATE, LIST
+    EXIT, CREATE, LIST, ERROR
 }
