@@ -3,6 +3,7 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.exception.InvalidIOMessageException;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
+import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
 
@@ -23,53 +24,65 @@ public class CommandLineApplication {
     }
 
     public void run(String startMessage) throws InvalidIOMessageException {
-        String input;
+        String command;
 
         while (true) {
             outputStream.write(startMessage);
-            input = inputStream.readLine();
+            command = inputStream.readLine();
 
-            if (input.equals("create"))
-                createVoucher();
-            else if (input.equals("list"))
-                listAllVouchers();
-            else if (input.equals("exit"))
+            if ("create".equals(command)) {
+                var voucher = createVoucher();
+                if (voucher == null) {
+                    outputStream.write("Voucher Creation Fail\n");
+                    continue;
+                }
+                outputStream.write("Voucher Creation Success\n\n");
+            }
+            else if ("list".equals(command)){
+                if(listAllVouchers() == false){
+                    outputStream.write("There are not any vouchers\n\n");
+                    continue;
+                }
+            }
+            else if ("exit".equals(command))
                 break;
         }
     }
 
-    private void listAllVouchers() throws InvalidIOMessageException {
+    private boolean listAllVouchers() throws InvalidIOMessageException {
         var vouchers = voucherService.getAllVouchers();
 
         if (vouchers.size() == 0) {
-            outputStream.write("There are not any vouchers\n\n");
-            return;
+            return false;
         }
 
         for (var voucher : vouchers) {
             outputStream.write(voucher.toString());
         }
         outputStream.write("\n");
+
+        return true;
     }
 
-    private void createVoucher() throws InvalidIOMessageException {
+    private Voucher createVoucher() throws InvalidIOMessageException {
         printVoucherList();
         int number = Integer.parseInt(inputStream.readLine()); //printVoucherList에서 보여준 바우처 번호를 입력받도록 함.
         var voucherType = voucherMap.getOrDefault(number, null); // 입력받은 바우처 번호에 대한 바우처 타입을가져옴
 
         if (voucherType == null) {
-            outputStream.write("Invalid Voucher!\n");
-            return;
+            return null;
         }
 
         outputStream.write("Please input new Voucher's value: ");
         long size = Long.parseLong(inputStream.readLine());
+        // TODO: 값 범위에 대한 입력 제한.
 
-        if (voucherService.save(voucherType, size) == null) {
-            outputStream.write("Voucher Creation Fail\n");
-            return;
+        Voucher newVoucher = null;
+        if ((newVoucher = voucherService.save(voucherType, size)) == null) {
+            return null;
         }
-        outputStream.write("Voucher Creation Success\n\n");
+
+        return newVoucher;
     }
 
     private void printVoucherList() throws InvalidIOMessageException {
