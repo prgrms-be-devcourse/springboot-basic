@@ -7,7 +7,6 @@ import org.prgrms.kdt.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Scanner;
@@ -78,6 +77,7 @@ public class CommandLineApplication {
 
             if((discountPercent < 0) || (discountPercent > 100)){
                 System.out.println("유효하지 않은 할인률입니다. 0~100 사이의 값을 입력하세요.");
+                return;
             }
 
             voucherService.addVoucher(
@@ -99,7 +99,7 @@ public class CommandLineApplication {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         CommandLineApplication commandLineApplication = new CommandLineApplication();
         commandLineApplication.start();
     }

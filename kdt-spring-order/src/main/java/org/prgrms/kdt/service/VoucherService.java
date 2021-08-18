@@ -8,7 +8,6 @@ import org.prgrms.kdt.repository.VoucherRepository;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class VoucherService {
@@ -27,24 +26,17 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
     }
 
-    public Optional<Voucher> createVoucher(VoucherType voucherType, UUID voucherId, long discount){
-        Optional<Voucher> voucher;
-
+    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount){
         if(voucherType == VoucherType.FIXED_AMOUNT){
-            voucher = Optional.of(new FixedAmountVoucher(voucherId, discount));
+            return new FixedAmountVoucher(voucherId, discount);
         }
-        else if(voucherType == VoucherType.PERCENT_DISCOUNT)
+        else //voucherType == VoucherType.PERCENT_DISCOUNT
         {
-            voucher = Optional.of(new PercentDiscountVoucher(voucherId, discount));
+            return new PercentDiscountVoucher(voucherId, discount);
         }
-        else{
-            voucher = Optional.empty();
-        }
-
-        return voucher;
     }
 
-    public void addVoucher(Optional<Voucher> voucher){
+    public void addVoucher(Voucher voucher){
         voucherRepository.insert(voucher);
     }
 

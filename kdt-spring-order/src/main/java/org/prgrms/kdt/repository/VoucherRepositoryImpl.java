@@ -26,10 +26,8 @@ public class VoucherRepositoryImpl implements VoucherRepository{
     }
 
     @Override
-    public void insert(Optional<Voucher> voucher) {
-        if(voucher.isPresent()){
-            voucherList.add(voucher.get());
-        }
+    public void insert(Voucher voucher) {
+        voucherList.add(voucher);
     }
 
     @Override
