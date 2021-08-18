@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class PercentDiscountVoucherFactory extends VoucherFactory {
     @Override
-    public Voucher createVoucher(long discount) {
-        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
+    public Voucher createVoucher(UUID voucherId, long discount) {
+        Voucher voucher = new PercentDiscountVoucher(voucherId, discount);
         return voucher;
     }
 }
