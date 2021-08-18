@@ -1,114 +1,72 @@
 package org.programmers.kdt;
 
+import org.programmers.kdt.io.Input;
+import org.programmers.kdt.io.Output;
 import org.programmers.kdt.utils.MyUtils;
 import org.programmers.kdt.voucher.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.Scanner;
+import java.util.List;
 import java.util.UUID;
 
-public class CommandLineApplication {
-    public static void main(String[] args) {
+public class CommandLineApplication implements Runnable {
+    private Input input;
+    private Output output;
+
+    private final String welcomeMessage
+            = "\n=== Voucher Program ===\nType create to create a voucher.\nType list to list all vouchers.\nType exit to exit the program.";
+    VoucherFactory voucherFactory;
+
+    public CommandLineApplication(Input input, Output output) {
+        this.input = input;
+        this.output = output;
+    }
+
+    @Override
+    public void run() {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        printWelcome();
-        Scanner sc = new Scanner(System.in);
-        boolean actionDone = false;
+        VoucherService voucherService = applicationContext.getBean(VoucherService.class);
 
-        String command = sc.next();
-        while (!command.equals("exit")) {
-            if (actionDone) {
-                printWelcome();
-                command = sc.next();
-                actionDone = false;
+        do {
+            String command = input.input(this.welcomeMessage);
+
+            if (command.equalsIgnoreCase("create")) {
+                // CREATE voucher
+                command = input.input("Choose your voucher type(FixedAmountVoucher = fixed, PercentDiscountVoucher = percent)");
+
+                if (command.equalsIgnoreCase("fixed")) {
+                    // Q1. Factory 구상체 지정을 이렇게 해 주는게 과연 맞는가?
+                    voucherService.setVoucherRepository(new FixedAmountVoucherFactory());
+                } else if (command.equalsIgnoreCase("percent")) {
+                    // Q1. Factory 구상체 지정을 이렇게 해 주는게 과연 맞는가?
+                    voucherService.setVoucherRepository(new PercentDiscountVoucherFactory());
+                } else {
+                    output.inputError("Invalid Input. You can create [fixed/percent] discount voucher");
+                    continue;
+                }
+
+                command = input.input("How much of a discount do you want to give?");
+                while (!MyUtils.isDigits(command)) {
+                    output.inputError("Invalid Input. Only digits are allowed");
+                    command = input.input("How much of a discount do you want to give?");
+                }
+
+                Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), Long.parseLong(command));
+                output.printSuccessAddVoucher(voucher);
+
+            } else if (command.equalsIgnoreCase("list")) {
+                // LIST vouchers
+                output.printAllVouchersInfo(voucherService.getAllVoucher());
+
+            } else if (command.equalsIgnoreCase("exit")) {
+                // EXIT program
+                output.sayGoodBye();
+                break;
+
+            } else {
+                // It is currently invalid input
+                output.inputError("Invalid Input.");
             }
-
-            switch (command) {
-                case "create":
-                    while (!actionDone) {
-                        System.out.print("Choose your voucher type(FixedAmountVoucher = fixed, PercentDiscountVoucher = percent) : ");
-                        command = sc.next();
-
-                        switch (command.toLowerCase()) {
-                            case "fixed":
-                                System.out.print("How much of a discount do you want to give? ");
-                                command = sc.next();
-                                while (!MyUtils.isDigits(command)) {
-                                    System.out.println("Invalid Input. Only digits are allowed");
-                                    System.out.print("How much of a discount do you want to give? ");
-                                    command = sc.next();
-                                }
-                                Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(command));
-                                VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-                                voucherService.addVoucher(voucher);
-                                actionDone = true;
-                                printSuccessAddVoucher(voucher);
-                                break;
-
-                            case "percent":
-                                System.out.print("How much percent of a discount do you want to give? ");
-                                command = sc.next();
-                                while (!MyUtils.isDigits(command)) {
-                                    System.out.println("Invalid Input. Only digits are allowed");
-                                    System.out.print("How much percent of a discount do you want to give? ");
-                                    command = sc.next();
-                                }
-
-                                if (Integer.parseInt(command) < 0 || Integer.parseInt(command) > 100) {
-                                    System.out.println("Invalid Input. Valid Range : [0, 100]");
-                                    break;
-                                }
-
-                                voucher = new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(command));
-                                voucherService = applicationContext.getBean(VoucherService.class);
-                                voucherService.addVoucher(voucher);
-                                printSuccessAddVoucher(voucher);
-                                actionDone = true;
-                                break;
-
-                            case "exit":
-                                System.out.println("Terminating...");
-                                return;
-
-                            default:
-                                System.out.println("Invalid input. You can use \"fixed\" or \"percent\"");
-                        }
-                    }
-                    break;
-
-                case "list":
-                    System.out.println();
-                    System.out.println("Print all voucher info...");
-                    VoucherRepository voucherRepository = applicationContext.getBean(VoucherRepository.class);
-                    voucherRepository.listAllVouchers();
-                    actionDone = true;
-                    break;
-
-                case "exit":
-                    System.out.println("Terminating...");
-                    return;
-
-                default:
-                    System.out.println("Invalid Input. Please enter right input(create, list, exit).");
-                    System.out.print(">>> ");
-                    command = sc.next();
-            }
-        }
-
-        System.out.println("Terminating...");
-    }
-
-    private static void printWelcome() {
-        System.out.println();
-        System.out.println("=== Voucher Program ===");
-        System.out.println("Type exit to exit the program.");
-        System.out.println("Type create to create a voucher.");
-        System.out.println("Type list to list all vouchers.");
-        System.out.print(">>> ");
-    }
-
-    private static void printSuccessAddVoucher(Voucher voucher) {
-        System.out.println();
-        System.out.println("** Your new voucher has been added **");
-        System.out.println(voucher);
+        } while (true);
     }
 }
