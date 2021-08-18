@@ -7,7 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="test" />
+        <module name="kdt-order-test" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="kdt-order-test" target="1.5" />
+      <module name="test" target="16" />
+    </bytecodeTargetLevel>
   </component>
 </project>
