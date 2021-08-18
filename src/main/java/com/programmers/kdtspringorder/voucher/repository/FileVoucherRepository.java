@@ -7,38 +7,39 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 @Qualifier("file")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final BufferedReader reader;
+    private final File file;
     private final BufferedWriter writer;
 
     public FileVoucherRepository() throws IOException {
-        File file = new File("voucher.txt");
+        file = new File("voucher.txt");
         if (!file.exists()) {
             file.createNewFile();
         }
 
         writer = new BufferedWriter(new FileWriter(file, true));
-        reader = new BufferedReader(new FileReader(file));
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        String line;
         try {
-            while ((line = reader.readLine()) != null) {
-                String[] s = line.split(" ");
-                if (s[1].equals(voucherId.toString())) {
-                    return Optional.of(createConcreteVoucher(s));
-                }
-            }
+            List<String> strings = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+            return strings.stream()
+                    .map(str -> str.split(" "))
+                    .filter(arr -> arr[1].equals(voucherId.toString()))
+                    .map(this::createConcreteVoucher)
+                    .findFirst();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,17 +48,16 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String line;
-        List<Voucher> list = new ArrayList<>();
         try {
-            while ((line = reader.readLine()) != null) {
-                String[] voucherText = line.split(" ");
-                list.add(createConcreteVoucher(voucherText));
-            }
+            List<String> strings = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+            return strings.stream()
+                    .map(str -> str.split(" "))
+                    .map(this::createConcreteVoucher)
+                    .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return list;
+        return new ArrayList<>();
     }
 
     private Voucher createConcreteVoucher(String[] voucherText) {
