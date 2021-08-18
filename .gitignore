@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Test Files
+src/main/java/org/programmers/kdt/OrderTester.java
