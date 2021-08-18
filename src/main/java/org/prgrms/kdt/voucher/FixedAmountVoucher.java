@@ -12,6 +12,13 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public void validate(UUID voucherId, long amount) {
+        if (voucherId == null) {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
     public UUID getVoucherId() {
         return voucherId;
     }

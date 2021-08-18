@@ -10,6 +10,7 @@ import org.prgrms.kdt.voucher.application.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -23,7 +24,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void play() {
+    public void play() throws IOException {
         while (true) {
             InputView.initMessage();
             String choiceMenu = InputView.input();
@@ -37,7 +38,7 @@ public class VoucherController {
     }
 
 
-    private void executeMenu(CommandStatus status) {
+    private void executeMenu(CommandStatus status) throws IOException {
         if (status == CommandStatus.EXIT) {
             exitCommandOrder();
             return;
@@ -59,7 +60,7 @@ public class VoucherController {
         OutputView.exit();
     }
 
-    private void createVoucherOrder() {
+    private void createVoucherOrder() throws IOException {
         InputView.explainCreateVoucher();
         List<String> typeAndValue = InputView.typeAndValue(InputView.input());
         VoucherType type = voucherService.choiceVoucher(typeAndValue.get(TYPE_INDEX));

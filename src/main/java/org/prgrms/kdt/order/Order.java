@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class Order {
+    private final long DEFAULT_TOTAL_AMOUNT = 0L;
     private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
@@ -34,7 +35,7 @@ public class Order {
     public long totalAmount() {
         long beforeDiscount = orderItems.stream()
                 .map(v -> v.getProductPrice() * v.quantity)
-                .reduce(0L, Long::sum);
+                .reduce(DEFAULT_TOTAL_AMOUNT, Long::sum);
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
 
