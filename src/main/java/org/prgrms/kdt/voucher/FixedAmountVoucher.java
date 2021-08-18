@@ -1,8 +1,11 @@
 package org.prgrms.kdt.voucher;
 
+import lombok.ToString;
+
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+@ToString
+public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 

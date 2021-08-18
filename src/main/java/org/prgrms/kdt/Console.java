@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 
 public class Console implements Input, Output {
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    
+
     @Override
     public String input(String prompt) throws IOException {
         System.out.println(prompt);
@@ -24,9 +24,10 @@ public class Console implements Input, Output {
 
     @Override
     public void help() {
-        System.out.println("\"=== Voucher Program ===\\n\" +\n" +
-                "                \"Type exit to exit the program.\\n\" +\n" +
-                "                \"Type create to create a new voucher.\\n\" +\n" +
-                "                \"Type list to list all vouchers.\"");
+        System.out.println("""
+                === Voucher Program ===
+                Type exit to exit the program.
+                Type create to create a new voucher.
+                Type list to list all vouchers.""");
     }
 }

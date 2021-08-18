@@ -1,7 +1,10 @@
 package org.prgrms.kdt.voucher;
 
+import lombok.ToString;
+
 import java.util.UUID;
 
+@ToString
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;

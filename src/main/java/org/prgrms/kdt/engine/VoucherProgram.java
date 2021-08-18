@@ -5,11 +5,15 @@ import lombok.SneakyThrows;
 import org.prgrms.kdt.Command;
 import org.prgrms.kdt.engine.io.Input;
 import org.prgrms.kdt.engine.io.Output;
+import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.VoucherService;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
 public class VoucherProgram implements Runnable {
+    private VoucherService voucherService;
     private Input input;
     private Output output;
 
@@ -30,9 +34,37 @@ public class VoucherProgram implements Runnable {
             }
             else if (inputCommand.equals(Optional.of(Command.CREATE))) {
                 // create voucher
+                int voucherType = Integer.parseInt(
+                        input.input("""
+                                원하는 종류의 voucher 번호를 입력하세요.
+                                1. FixedAmountVoucher
+                                2. PercentDiscountVoucher""")
+                );
+
+                int discount = Integer.parseInt(
+                        input.input("원하는 할인금액 또는 할인율을 입력해주세요.")
+                );
+
+                if (discount > 0) {
+                    if (voucherType == 1) {
+                        // FixedAmountVoucher
+                        voucherService.createFixedAmountVoucher(discount);
+                    } else if (voucherType == 2) {
+                        // PercentDiscountVoucher
+                        voucherService.createPercentDiscountVoucher(discount);
+                    } else {
+                        output.inputError();
+                    }
+                } else {
+                    output.inputError();
+                }
             }
             else if ((inputCommand.equals(Optional.of(Command.LIST)))) {
                 // list voucher
+                List<Voucher> voucherList = voucherService.getVoucherList();
+                for (Voucher voucher: voucherList) {
+                    System.out.println(voucher);
+                }
             }
         }
 
