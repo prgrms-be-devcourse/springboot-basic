@@ -1,4 +1,4 @@
-package org.prgrms.orderapp;
+package org.prgrms.orderapp.model;
 
 import java.util.List;
 import java.util.Optional;

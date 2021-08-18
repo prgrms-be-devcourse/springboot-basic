@@ -1,8 +1,7 @@
 package org.prgrms.orderapp.service;
 
-import org.prgrms.orderapp.Order;
-import org.prgrms.orderapp.OrderItem;
-import org.prgrms.orderapp.Voucher;
+import org.prgrms.orderapp.model.Order;
+import org.prgrms.orderapp.model.OrderItem;
 import org.prgrms.orderapp.repository.OrderRepository;
 
 import java.util.List;
