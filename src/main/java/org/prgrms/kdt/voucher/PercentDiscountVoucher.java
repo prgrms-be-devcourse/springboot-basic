@@ -12,7 +12,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public UUID voucherId() {
+    public UUID getVoucherId() {
         return voucherId;
     }
 

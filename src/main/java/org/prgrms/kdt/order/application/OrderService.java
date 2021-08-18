@@ -24,12 +24,5 @@ public class OrderService {
         Order order = new Order(UUID.randomUUID(), customerId, orderItems);
         return orderRepository.insert(order);
     }
-
-    public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
-        Voucher voucher = voucherService.getVoucher(voucherId);
-        Order order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
-        orderRepository.insert(order);
-        voucherService.useVoucher(voucher);
-        return order;
-    }
+    
 }

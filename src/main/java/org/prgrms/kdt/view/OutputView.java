@@ -2,7 +2,8 @@ package org.prgrms.kdt.view;
 
 import org.prgrms.kdt.voucher.Voucher;
 
-import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class OutputView {
 
@@ -11,11 +12,9 @@ public class OutputView {
         System.exit(0);
     }
 
-    public static void showVouchers(List<Voucher> vouchers) {
+    public static void showVouchers(Map<UUID, Voucher> vouchers) {
         System.out.println("Show Vouchers");
-        vouchers.stream()
-                .map(Voucher::toString)
-                .forEach(System.out::println);
+        vouchers.forEach((uuid, voucher) -> System.out.println(voucher.toString()));
     }
 
 }

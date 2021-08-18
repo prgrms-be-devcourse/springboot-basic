@@ -6,10 +6,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
@@ -17,19 +15,21 @@ import java.util.UUID;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final List<Voucher> vouchers = new ArrayList<>();
-
-    public Voucher addVoucher(Voucher voucher) {
-        vouchers.add(voucher);
-        return voucher;
-    }
-
-    public List<Voucher> findByAllVouchers() {
-        return vouchers;
-    }
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        return Optional.ofNullable(storage.get(voucherId));
     }
+
+    @Override
+    public Voucher insert(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    public Map<UUID, Voucher> findByAllVouchers() {
+        return storage;
+    }
+
 }

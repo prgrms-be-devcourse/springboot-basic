@@ -8,9 +8,11 @@ import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.application.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+@Controller
 public class VoucherController {
 
     private final int TYPE_INDEX = 0;
@@ -62,7 +64,7 @@ public class VoucherController {
         List<String> typeAndValue = InputView.typeAndValue(InputView.input());
         VoucherType type = voucherService.choiceVoucher(typeAndValue.get(TYPE_INDEX));
         Voucher voucher = voucherService.createVoucher(type, typeAndValue.get(VALUE_INDEX));
-        voucherService.addVoucher(voucher);
+        voucherService.insert(voucher);
     }
 
     private void showAllVoucherOrder() {
