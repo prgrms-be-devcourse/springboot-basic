@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.voucher;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     @Override
-    public UUID getVoucher() {
+    public UUID getVoucherId() {
         return null;
     }
 

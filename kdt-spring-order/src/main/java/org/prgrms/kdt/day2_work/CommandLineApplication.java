@@ -1,5 +1,7 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.day2_work;
 
+import org.prgrms.kdt.AppConfiguration;
+import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.BufferedReader;
