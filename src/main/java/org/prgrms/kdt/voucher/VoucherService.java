@@ -17,17 +17,10 @@ public class VoucherService {
     }
 
     public Voucher save(VoucherType voucherType, long size) {
-        Voucher newVoucher;
+        Voucher newVoucher = Voucher.voucherFactory(voucherType, size);
 
-        switch (voucherType) {
-            case FIXED_AMOUNT:
-                newVoucher = new FixedAmountVoucher(UUID.randomUUID(), size);
-                break;
-            case PERSENT_DISCOUNT:
-                newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), size);
-                break;
-            default:
-                return null;
+        if(newVoucher == null){
+            return null;
         }
         voucherRepository.save(newVoucher);
 
