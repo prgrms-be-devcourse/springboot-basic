@@ -1,5 +1,11 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.order.Order;
+import org.prgrms.kdt.order.OrderRepository;
+import org.prgrms.kdt.order.OrderService;
+import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.VoucherRepository;
+import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
