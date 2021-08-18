@@ -1,11 +1,12 @@
 package org.prgrms.kdt.config;
 
 import org.prgrms.kdt.controller.InputController;
+import org.prgrms.kdt.controller.OutputController;
 import org.prgrms.kdt.helper.MessageHelper;
 import org.prgrms.kdt.repository.OrderRepository;
 import org.prgrms.kdt.repository.VoucherRepository;
 import org.prgrms.kdt.domain.order.Order;
-import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.repository.VoucherRepositoryImpl;
 import org.prgrms.kdt.service.OrderService;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.context.annotation.Bean;
@@ -21,14 +22,7 @@ public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository() {
-        //VoucherRepository Interface, 구현 객체없이 Override.
-        //Q. 구현객체 없이 Override 하는 경우가 많나? (인라인 방식을 많이 사용하나?)
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new VoucherRepositoryImpl();
     }
 
     @Bean
@@ -53,6 +47,11 @@ public class AppConfiguration {
     @Bean
     public InputController inputController() {
         return new InputController();
+    }
+
+    @Bean
+    public OutputController outputController() {
+        return new OutputController();
     }
 
     @Bean

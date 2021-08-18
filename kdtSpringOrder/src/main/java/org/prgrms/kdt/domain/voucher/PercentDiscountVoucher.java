@@ -22,4 +22,12 @@ public class PercentDiscountVoucher implements Voucher {
         return beforeDiscount * (percent / 100);
     }
 
+    @Override
+    public String toString() {
+        return "Percent Discount Voucher [ " +
+                "voucherId = " + voucherId +
+                ", percent = " + percent +
+                " ]";
+    }
+
 }
