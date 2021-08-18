@@ -25,13 +25,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void displayVoucher(Voucher v) {
-        System.out.println();
-    }
-
-    @Override
     public void inputError(String input) {
-        System.out.println("command not found: " + input);
+        System.out.println("invalid: " + input);
     }
 
 }

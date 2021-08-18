@@ -2,13 +2,10 @@ package org.prgrms.kdt.repository;
 
 import org.prgrms.kdt.entity.Voucher;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class MemVoucherRepository implements VoucherRepository {
-    private static final HashMap<UUID, Voucher> vouchers = new HashMap<>();
+    private static final Map<UUID, Voucher> vouchers = new HashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

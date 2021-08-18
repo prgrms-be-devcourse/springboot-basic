@@ -23,10 +23,10 @@ public class VoucherService {
         return voucherRepository.findAllVoucher();
     }
 
-    public void createVoucher(String type, long value) {
-        if(type.equals("fixed")) {
+    public void createVoucher(VoucherType type, long value) {
+        if (type == VoucherType.FIXED_AMOUNT) {
             voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value));
-        } else if(type.equals("percent")) {
+        } else if (type == VoucherType.PERCENT) {
             voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value));
         }
     }
