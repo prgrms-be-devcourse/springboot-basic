@@ -19,8 +19,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getVoucherList() {
-        return null;
+    public Map<UUID, Voucher>getVoucherList() {
+        return storage;
     }
 
     @Override

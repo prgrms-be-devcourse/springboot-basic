@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-@Repository
 public class FixedAmountVoucher implements Voucher{
     private final UUID voucherId;
     private final long amount;
@@ -17,7 +16,17 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public UUID getVoucherId() {
-        return null;
+        return voucherId;
+    }
+
+    @Override
+    public long getVoucherAmount() {
+        return amount;
+    }
+
+    @Override
+    public String getVoucherType() {
+        return type;
     }
 
     public long discount(long beforeDiscount){

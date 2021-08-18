@@ -1,12 +1,15 @@
 package org.prgrms.kdt.day2_work;
 
 import org.prgrms.kdt.AppConfiguration;
+import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.UUID;
 
 public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
@@ -47,8 +50,13 @@ public class CommandLineApplication {
             else if (input.equals("list")){
                 if(voucherService.getVoucherList().isEmpty())
                     System.out.println("Voucher list is empty");
-                else
-                    voucherService.getVoucherList().stream().forEach(s -> System.out.println(s.showInfo()));
+                else{
+                    Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
+                    for (UUID id : voucherList.keySet())
+                    {
+                        System.out.println(voucherList.get(id).showInfo());
+                    }
+                }
             }
             else{
                 System.out.println(input + " is wrong command");
@@ -56,5 +64,7 @@ public class CommandLineApplication {
 
             System.out.println();
         }
+
+        annotationContext.close();
     }
 }

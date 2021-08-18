@@ -15,7 +15,17 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public UUID getVoucherId() {
-        return null;
+        return voucherId;
+    }
+
+    @Override
+    public long getVoucherAmount() {
+        return percent;
+    }
+
+    @Override
+    public String getVoucherType() {
+        return type;
     }
 
     @Override

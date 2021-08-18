@@ -3,7 +3,7 @@ package org.prgrms.kdt.voucher;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -23,7 +23,7 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
     }
 
-    public List<Voucher> getVoucherList() {
+    public Map<UUID, Voucher> getVoucherList() {
         return voucherRepository.getVoucherList();
     }
 
