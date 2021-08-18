@@ -1,9 +1,12 @@
 package org.prgrms.kdt.kdtspringorder.voucher.service;
 
+import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.UUID;
 
 public class VoucherService {
@@ -22,4 +25,13 @@ public class VoucherService {
 
     public void useVoucher(Voucher voucher) {
     }
+
+    public List<Voucher> getVoucherList() {
+        return null;
+    }
+
+    public void createVoucher() {
+
+    }
+
 }

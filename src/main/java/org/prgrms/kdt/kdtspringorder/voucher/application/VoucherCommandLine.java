@@ -1,6 +1,7 @@
 package org.prgrms.kdt.kdtspringorder.voucher.application;
 
 import org.prgrms.kdt.kdtspringorder.common.enums.Command;
+import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 
 import java.text.MessageFormat;
 import java.util.Scanner;
@@ -18,6 +19,12 @@ public class VoucherCommandLine {
     private final String EXIT_COMMAND_MSG = "앱을 종료합니다.";
 
     private final Scanner scanner = new Scanner(System.in);
+
+    private VoucherService voucherService;
+
+    public VoucherCommandLine(VoucherService voucherService) {
+        this.voucherService = voucherService;
+    }
 
     public void start() {
 

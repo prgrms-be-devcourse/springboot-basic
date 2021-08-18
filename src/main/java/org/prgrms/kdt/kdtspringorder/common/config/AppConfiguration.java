@@ -53,7 +53,7 @@ public class AppConfiguration {
 
     @Bean
     public VoucherCommandLine voucherCommandLine() {
-        return new VoucherCommandLine();
+        return new VoucherCommandLine(voucherService());
     }
 
 
