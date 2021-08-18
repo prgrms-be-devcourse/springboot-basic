@@ -13,10 +13,17 @@ public class Order {
     private final Optional<Voucher> voucher;
     private OrderStatus orderStatus;
 
-    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Optional<Voucher> voucher) {
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
-        this.voucher = voucher;
+        this.voucher = Optional.of(voucher);
+    }
+
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.orderItems = orderItems;
+        this.voucher = Optional.empty();
     }
 }
