@@ -39,14 +39,17 @@ public class VoucherController {
     private void executeMenu(CommandStatus status) {
         if (status == CommandStatus.EXIT) {
             exitCommandOrder();
+            return;
         }
 
         if (status == CommandStatus.CREATE) {
             createVoucherOrder();
+            return;
         }
 
         if (status == CommandStatus.ALL) {
             showAllVoucherOrder();
+            return;
         }
     }
 
