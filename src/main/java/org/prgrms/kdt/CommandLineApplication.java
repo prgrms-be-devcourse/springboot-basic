@@ -30,16 +30,16 @@ public class CommandLineApplication implements Runnable {
         console.guide();
 
         while (true) {
-            switch (console.inputCommand()) {
-                case EXIT -> command = new Exit();
-                case CREATE -> inputVoucher();
-                case LIST -> console.vouchers(voucherService.getAllVoucher());
-                case ERROR -> console.commandError();
-            }
+            runConsoleApp();
+        }
+    }
 
-            if (command != null) {
-                command.execute();
-            }
+    private void runConsoleApp() {
+        switch (console.inputCommand()) {
+            case EXIT -> new Exit().execute();
+            case CREATE -> inputVoucher();
+            case LIST -> console.vouchers(voucherService.getAllVoucher());
+            case ERROR -> console.commandError();
         }
     }
 
@@ -48,6 +48,10 @@ public class CommandLineApplication implements Runnable {
         String voucherNumber = split[0].trim();
         Long rate = Long.parseLong(split[1].trim());
 
+        insertVoucher(voucherNumber, rate);
+    }
+
+    private void insertVoucher(String voucherNumber, Long rate) {
         VoucherType voucherType = VoucherType.findByNumber(voucherNumber);
         switch (voucherType) {
             case FIX -> command = new Create(new FixedAmountVoucher(UUID.randomUUID(), rate), voucherService);
