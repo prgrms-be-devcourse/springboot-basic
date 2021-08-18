@@ -1,6 +1,7 @@
 package org.prgrms.kdt.io.command;
 
 import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.VoucherService;
 
 /**
  * Created by yhh1056
@@ -9,13 +10,15 @@ import org.prgrms.kdt.voucher.Voucher;
 public class Create implements Command {
 
     private Voucher voucher;
+    private final VoucherService voucherService;
 
-    public Create(Voucher voucher) {
+    public Create(Voucher voucher, VoucherService voucherService) {
         this.voucher = voucher;
+        this.voucherService = voucherService;
     }
 
     @Override
     public void execute() {
-        //todo : 바우처 저장
+        voucherService.createVoucher(voucher);
     }
 }

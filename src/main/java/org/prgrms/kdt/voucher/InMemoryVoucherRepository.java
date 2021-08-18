@@ -1,5 +1,7 @@
 package org.prgrms.kdt.voucher;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,8 +11,15 @@ import java.util.UUID;
  */
 public class InMemoryVoucherRepository implements VoucherRepository {
 
+    private final Map<UUID, Voucher> vouchers = new HashMap<>();
+
+    @Override
+    public void save(Voucher voucher) {
+        vouchers.put(voucher.getVoucherId(), voucher);
+    }
+
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        return Optional.of(vouchers.get(voucherId));
     }
 }

@@ -18,16 +18,17 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class CommandLineApplication implements Runnable {
 
+    private final VoucherService voucherService;
     private final Console console;
     private Command command;
 
     public CommandLineApplication(Console console) {
+        voucherService = getVoucherService(getApplicationContext());
         this.console = console;
     }
 
     @Override
     public void run() {
-        VoucherService voucherService = getVoucherService(getApplicationContext());
         console.guide();
 
         while (true) {
@@ -47,10 +48,11 @@ public class CommandLineApplication implements Runnable {
 
         VoucherType voucherType = VoucherType.findByNumber(voucherNumber);
         switch (voucherType) {
-            case FIX -> command = new Create(new FixedAmountVoucher(UUID.randomUUID(), rate));
-            case PERCENT -> command = new Create(new PercentDiscountVoucher(UUID.randomUUID(), rate));
+            case FIX -> command = new Create(new FixedAmountVoucher(UUID.randomUUID(), rate), voucherService);
+            case PERCENT -> command = new Create(new PercentDiscountVoucher(UUID.randomUUID(), rate), voucherService);
         }
 
+        command.execute();
         console.successCreate();
     }
 

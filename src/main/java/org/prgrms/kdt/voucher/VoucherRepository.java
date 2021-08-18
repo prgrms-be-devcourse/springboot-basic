@@ -8,5 +8,8 @@ import java.util.UUID;
  * Date: 2021/08/17 Time: 9:09 오후
  */
 public interface VoucherRepository {
+
+    void save(Voucher voucher);
+
     Optional<Voucher> findById(UUID voucherId);
 }

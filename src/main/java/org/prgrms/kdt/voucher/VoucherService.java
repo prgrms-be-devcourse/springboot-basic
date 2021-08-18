@@ -22,5 +22,9 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
 
     }
+
+    public void createVoucher(Voucher voucher) {
+        voucherRepository.save(voucher);
+    }
 }
 

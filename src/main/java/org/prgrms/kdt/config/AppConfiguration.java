@@ -23,6 +23,14 @@ public class AppConfiguration {
     public VoucherRepository voucherRepository() {
         return new VoucherRepository() {
             @Override
+            public void save(Voucher voucher) {
+                /**
+                 * 메소드가 추가되어 오버라이드
+                 * 미션코드에 영향을 주지 않는다.
+                 */
+            }
+
+            @Override
             public Optional<Voucher> findById(UUID voucherId) {
                 return Optional.of(new FixedAmountVoucher(voucherId, 10));
             }
