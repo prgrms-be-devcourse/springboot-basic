@@ -1,5 +1,6 @@
 package org.prgms;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher{
@@ -14,12 +15,17 @@ public class PercentDiscountVoucher implements Voucher{
 
 
     @Override
-    public UUID getVoucherID() {
+    public UUID getVoucherId() {
         return voucherId;
     }
 
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount *(percent /100);
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("[PercentDiscountVoucher] voucherId : {0}, percent : {1}", voucherId, percent) ;
     }
 }

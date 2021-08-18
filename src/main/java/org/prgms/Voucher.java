@@ -3,6 +3,6 @@ package org.prgms;
 import java.util.UUID;
 
 public interface Voucher {
-    UUID getVoucherID();
+    UUID getVoucherId();
     long discount(long beforeDiscount);
 }

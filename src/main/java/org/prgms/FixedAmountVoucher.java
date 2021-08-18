@@ -1,5 +1,6 @@
 package org.prgms;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements  Voucher{
@@ -12,9 +13,15 @@ public class FixedAmountVoucher implements  Voucher{
     }
 
     @Override
-    public UUID getVoucherID() {
+    public UUID getVoucherId() {
         return voucherId;
     }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("[FixedAmountVoucher] voucherId : {0}, amount : {1}", voucherId, amount) ;
+    }
+
 
     public long discount(long beforeDiscount){
         return beforeDiscount - amount;
