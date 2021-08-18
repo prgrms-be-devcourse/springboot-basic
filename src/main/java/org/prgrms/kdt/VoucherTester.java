@@ -22,7 +22,7 @@ public class VoucherTester {
 
 
 
-        var voucherId = UUID.randomUUID();
+
 
 
         //Assert.isTrue(order.totalAmount() == 100L, MessageFormat.format("totalAmount({0}) is not 90L", order.totalAmount()));
@@ -36,12 +36,14 @@ public class VoucherTester {
                 if (type_v == 1) {
                     System.out.println("할인율을 설정해 주세요.");
                     int percent = scanner.nextInt();
+                    var voucherId = UUID.randomUUID();
                     VoucherRequest voucherRequest = new VoucherRequest(voucherId, percent);
                     voucherService.createVoucher(voucherId, TypeStatus.Percent, voucherRequest);
 
                 } else {
                     System.out.println("할인가격을 설정해 주세요.");
                     int amount = scanner.nextInt();
+                    var voucherId = UUID.randomUUID();
                     VoucherRequest voucherRequest = new VoucherRequest(voucherId, amount);
                     voucherService.createVoucher(voucherId, TypeStatus.Fixed, voucherRequest);
 
@@ -51,7 +53,7 @@ public class VoucherTester {
             } else if (cmd.equals("list")) {
                 System.out.println("바우처 목록");
                 voucherService.findAll()
-                        .forEach(voucher -> System.out.println(voucher.getVoucherId() + " " + voucher.getdiscount()));
+                        .forEach(System.out::println);
 
 
             } else if (cmd.equals("exit")) {

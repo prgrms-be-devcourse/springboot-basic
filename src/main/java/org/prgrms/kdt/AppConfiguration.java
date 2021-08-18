@@ -17,8 +17,10 @@ import java.util.*;
 //의존 관계를 맺는 클래스
 public class AppConfiguration {
     private final Map<UUID,Voucher> db=new HashMap<>();
+
     @Bean
     public VoucherRepository voucherRepository() {
+
         return new VoucherRepository() {
             @Override
             public Optional<Voucher> findById(UUID voucherId) {
@@ -34,6 +36,7 @@ public class AppConfiguration {
             public List<Voucher> findAllById() {
                return new ArrayList<>(db.values());
             }
+
         };
 
 
