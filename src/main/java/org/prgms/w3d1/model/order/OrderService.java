@@ -2,10 +2,12 @@ package org.prgms.w3d1.model.order;
 
 import org.prgms.w3d1.model.voucher.VoucherService;
 import org.prgms.w3d1.repository.OrderRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;

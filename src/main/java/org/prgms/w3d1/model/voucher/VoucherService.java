@@ -1,10 +1,12 @@
 package org.prgms.w3d1.model.voucher;
 
 import org.prgms.w3d1.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherFactory voucherFactory = new VoucherFactory();
