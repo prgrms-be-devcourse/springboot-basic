@@ -27,7 +27,6 @@ public class CommandLineApplication {
             for (Command cmd : Command.values()) {
                 nameIndex.put(cmd.getValue(), cmd);
             }
-            System.out.println(nameIndex);
         }
 
         private final String value;
@@ -71,7 +70,6 @@ public class CommandLineApplication {
                 default -> output.inputError(inputStr);
             }
         }
-
     }
 
     private static void listVoucher(VoucherService voucherService) {
