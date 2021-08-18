@@ -1,28 +1,27 @@
 package org.prgrms.kdt.voucher.application;
 
-import org.prgrms.kdt.order.repository.OrderRepository;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
-import org.prgrms.kdt.voucher.repository.MemoryRepository;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.prgrms.kdt.voucher.VoucherType.*;
 
+@Service
 public class VoucherService {
 
-    private final MemoryRepository temporaryRepository;
+    private final MemoryVoucherRepository memoryVoucherRepository;
     private final VoucherRepository voucherRepository;
-    private final OrderRepository orderRepository;
 
-    public VoucherService(MemoryRepository temporaryRepository, VoucherRepository voucherRepository, OrderRepository orderRepository) {
-        this.temporaryRepository = temporaryRepository;
+    public VoucherService(MemoryVoucherRepository memoryVoucherRepository, VoucherRepository voucherRepository) {
+        this.memoryVoucherRepository = memoryVoucherRepository;
         this.voucherRepository = voucherRepository;
-        this.orderRepository = orderRepository;
     }
 
     public Voucher getVoucher(UUID voucherId) {
@@ -30,15 +29,12 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException("Can not find a voucher for" + voucherId));
     }
 
-    public Voucher addVoucher(Voucher voucher) {
-        return temporaryRepository.addVoucher(voucher);
+    public Voucher insert(Voucher voucher) {
+        return memoryVoucherRepository.insert(voucher);
     }
 
-    public List<Voucher> allVoucher() {
-        return temporaryRepository.findByAllVouchers();
-    }
-
-    public void useVoucher(Voucher voucher) {
+    public Map<UUID, Voucher> allVoucher() {
+        return memoryVoucherRepository.findByAllVouchers();
     }
 
     public VoucherType choiceVoucher(String type) {

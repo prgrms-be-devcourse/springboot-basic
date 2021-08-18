@@ -27,6 +27,10 @@ public class Order {
         this.voucher = Optional.of(voucher);
     }
 
+    public UUID getOrderId() {
+        return orderId;
+    }
+
     public long totalAmount() {
         long beforeDiscount = orderItems.stream()
                 .map(v -> v.getProductPrice() * v.quantity)
