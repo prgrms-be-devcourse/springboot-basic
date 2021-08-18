@@ -20,4 +20,16 @@ public class VoucherService {
 
     public void userVoucher(Voucher voucher) {
     }
+
+    public Voucher createFixedVoucher(long amount) {
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
+        voucherRepository.insertVoucher(voucher);
+        return voucher;
+    }
+
+    public Voucher createPercentVoucher(long percent) {
+        var voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+        voucherRepository.insertVoucher(voucher);
+        return voucher;
+    }
 }

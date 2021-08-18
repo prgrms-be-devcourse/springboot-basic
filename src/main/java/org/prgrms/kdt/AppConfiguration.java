@@ -9,6 +9,8 @@ import org.prgrms.kdt.engine.voucher.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,9 +20,16 @@ public class AppConfiguration {
     @Bean
     public VoucherRepository voucherRepository() {
         return new VoucherRepository() {
+            private List<Voucher> voucherData = new ArrayList<>();
+
             @Override
             public Optional<Voucher> findById(UUID voucherId) {
                 return Optional.empty();
+            }
+
+            @Override
+            public void insertVoucher(Voucher voucher) {
+                voucherData.add(voucher);
             }
         };
     }
