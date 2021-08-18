@@ -1,5 +1,6 @@
 package org.programmers.kdt;
 
+import org.programmers.kdt.io.Console;
 import org.programmers.kdt.order.Order;
 import org.programmers.kdt.order.OrderRepository;
 import org.programmers.kdt.order.OrderSerivce;
@@ -35,5 +36,10 @@ public class AppConfiguration {
     @Bean
     public OrderSerivce orderSerivce(VoucherService voucherService, OrderRepository orderRepository) {
         return new OrderSerivce(voucherService, orderRepository);
+    }
+
+    @Bean
+    public Console console() {
+        return new Console();
     }
 }
