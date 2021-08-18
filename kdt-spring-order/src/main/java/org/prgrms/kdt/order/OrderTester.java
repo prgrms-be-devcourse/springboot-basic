@@ -1,6 +1,6 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.order;
 
-import org.springframework.context.ApplicationContext;
+import org.prgrms.kdt.config.AppConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
@@ -19,6 +19,7 @@ public class OrderTester {
 
         // 사용자 ID 생성
         var customerId = UUID.randomUUID();
+
         // App-context에 등록
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         var orderService = applicationContext.getBean(OrderService.class);

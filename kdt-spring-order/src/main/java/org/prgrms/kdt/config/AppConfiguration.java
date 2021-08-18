@@ -1,24 +1,22 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.config;
 
+import org.prgrms.kdt.order.Order;
+import org.prgrms.kdt.order.OrderRepository;
+import org.prgrms.kdt.order.OrderService;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Optional;
-import java.util.UUID;
-
-// 서비스 간 의존관계 맺기를 담당
+// 서비스 간 의존관계 및 객체 생성 해줌
 
 @Configuration
 public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository(){
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new MemoryVoucherRepository();
     }
 
     @Bean
@@ -26,7 +24,6 @@ public class AppConfiguration {
         return new OrderRepository() {
             @Override
             public void insert(Order order) {
-
             }
         };
     }
