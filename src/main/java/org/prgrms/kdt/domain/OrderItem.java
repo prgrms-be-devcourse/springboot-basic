@@ -12,4 +12,12 @@ public class OrderItem {
         this.productPrice = productPrice;
         this.quantity = quantity;
     }
+
+    public long getProductPrice() {
+        return productPrice;
+    }
+
+    public long getQuantity() {
+        return quantity;
+    }
 }
