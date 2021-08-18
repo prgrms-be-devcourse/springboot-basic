@@ -1,37 +1,17 @@
 package org.prgrms.kdtspringdemo;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+@Component
 
 @Configuration
+@ComponentScan
 public class AppConfiguration {
-    @Bean
-    public VoucherRepository voucherRepository() {
-        return new MemoryVoucherRepository();
-    }
-
-    @Bean
-    public OrderRepository orderRepository() {
-        return new OrderRepository() {
-            @Override
-            public void insert(Order order) {
-                super.insert(order);
-            }
-        };
-    }
-
-    @Bean
-    public VoucherService voucherService() {
-        return new VoucherService(voucherRepository());
-    }
-
-    @Bean
-    public OrderService orderService() {
-        return new OrderService(voucherService(), orderRepository());
-    }
 }
