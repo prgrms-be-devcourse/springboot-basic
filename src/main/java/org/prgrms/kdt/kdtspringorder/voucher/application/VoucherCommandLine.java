@@ -17,6 +17,7 @@ public class VoucherCommandLine {
     private final String REQUEST_SELECT_VOUCHER_TYPE_MSG = "Voucher 유형을 골라주세요.(1) FixedAmountVoucher (2) PercentDiscountVoucher";
     private final String REQUEST_INPUT_DISCOUNT_MSG = "할인 {0}을 입력해주세요.";
     private final String INCORRECT_COMMAND_MSG = "잘못된 명령어 입니다. ( create, list, exit )";
+    private final String INCORRECT_NUM_MSG = "잘못된 번호 입니다.";
     private final String EXIT_COMMAND_MSG = "앱을 종료합니다.";
 
     private final Scanner scanner = new Scanner(System.in);
@@ -55,14 +56,21 @@ public class VoucherCommandLine {
      */
     public void executeCreateCmd() {
 
-        // 생성할 Voucher Type을 입력 받는다.
-        String voucherNum = this.input(REQUEST_SELECT_VOUCHER_TYPE_MSG);
-        VoucherType selectedVoucherType = VoucherType.findVoucher(voucherNum);
+        try {
 
-        // 할인 금액 or 퍼센티지를 입력받는다.
-        String discount =  this.input(MessageFormat.format(REQUEST_INPUT_DISCOUNT_MSG, selectedVoucherType.getUnit()));
+            // 생성할 Voucher Type을 입력 받는다.
+            String voucherNum = this.input(REQUEST_SELECT_VOUCHER_TYPE_MSG);
+            VoucherType selectedVoucherType = VoucherType.findVoucher(voucherNum);
 
-        this.voucherService.createVoucher(selectedVoucherType, Long.valueOf(discount));
+            // 할인 금액 or 퍼센티지를 입력받는다.
+            String discount =  this.input(MessageFormat.format(REQUEST_INPUT_DISCOUNT_MSG, selectedVoucherType.getUnit()));
+
+            this.voucherService.createVoucher(selectedVoucherType, Long.valueOf(discount));
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(INCORRECT_NUM_MSG);
+        }
+
 
     }
 
