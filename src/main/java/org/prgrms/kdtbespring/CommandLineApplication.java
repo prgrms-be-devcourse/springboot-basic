@@ -24,9 +24,11 @@ public class CommandLineApplication {
         ApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         VoucherService voucherService = annotationConfigApplicationContext.getBean(VoucherService.class);
 
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
         while (true) {
             System.out.println(sb);
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
             String Command = br.readLine();
             Command = Command.toLowerCase();
             if (Command.equals("exit")) {
@@ -36,7 +38,7 @@ public class CommandLineApplication {
                 System.out.println("생성할 바우처를 선택하세요.");
                 System.out.println("1. FixedAmountVoucher, 2. PercentDiscountVoucher");
                 String select = br.readLine();
-
+                    // FixedAmountVoucher 생성
                 if (select.equals("1")) {
                     Optional<Voucher> voucher = voucherService.create(VoucherType.FixedAmountVoucher);
                     if (voucher.isPresent()) {
@@ -44,6 +46,7 @@ public class CommandLineApplication {
                     } else {
                         System.out.println("생성 실패");
                     }
+                    // PercentDiscountVoucher 생성
                 } else if (select.equals("2")) {
                     Optional<Voucher> voucher = voucherService.create(VoucherType.PercentDiscountVoucher);
                     if (voucher.isPresent()) {
@@ -57,10 +60,8 @@ public class CommandLineApplication {
 
             } else if (Command.equals("list")) {
                 List<Voucher> list = voucherService.list();
-                for (int i = 0; i < list.size(); i++) {
-                    Voucher voucher = list.get(i);
-                    System.out.println(i + 1 + "번 바우처 : " + voucher);
-                }
+                System.out.println("=== Voucher List ===");
+                list.forEach(System.out::println);
             } else {
                 System.out.println("exit, list, create 중에서 입력히세요");
             }

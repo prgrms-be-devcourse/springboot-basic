@@ -12,7 +12,6 @@ import java.util.UUID;
 @Service
 public class VoucherService {
 
-    private final List<Voucher> vouchers = new ArrayList<>();
     private VoucherRepository voucherRepository;
 
 
@@ -37,14 +36,14 @@ public class VoucherService {
         if (voucherType.equals(VoucherType.FixedAmountVoucher) ){
             // 임의로 지정 10원 할인
             long amount = 10L;
-            FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, amount);
-            vouchers.add(fixedAmountVoucher);
+            Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, amount);
+            voucherRepository.insert(fixedAmountVoucher);
             return Optional.of(fixedAmountVoucher);
         }else if (voucherType.equals(VoucherType.PercentDiscountVoucher)){
             // 임의로 지정 10%
             long percent = 10L;
-            PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, percent);
-            vouchers.add(percentDiscountVoucher);
+            Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, percent);
+            voucherRepository.insert(percentDiscountVoucher);
             return Optional.of(percentDiscountVoucher);
         }
         return Optional.empty();
@@ -52,6 +51,7 @@ public class VoucherService {
 
     // 리스트 반환
     public List<Voucher> list(){
+        List<Voucher> vouchers = voucherRepository.findAll();
         return vouchers;
     }
 

@@ -3,6 +3,7 @@ package org.prgrms.kdtbespring.voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,6 +20,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         Optional<Voucher> voucher = Optional.ofNullable(storage.get(voucherId));
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return null;
     }
 
     @Override

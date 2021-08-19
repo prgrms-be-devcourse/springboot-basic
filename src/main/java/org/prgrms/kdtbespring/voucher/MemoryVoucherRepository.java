@@ -7,10 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 
 /**
@@ -28,6 +27,12 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     public Optional<Voucher> findById(UUID voucherId) {
         Optional<Voucher> voucher = Optional.ofNullable(storage.get(voucherId));
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        ArrayList<Voucher> vouchers = new ArrayList<>(storage.values());
+        return vouchers;
     }
 
     @Override
