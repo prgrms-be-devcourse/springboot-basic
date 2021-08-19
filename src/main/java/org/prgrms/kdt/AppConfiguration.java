@@ -3,6 +3,7 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.order.domain.Order;
 import org.prgrms.kdt.order.service.OrderService;
 import org.prgrms.kdt.order.repository.OrderRepository;
+import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
@@ -56,16 +57,23 @@ public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-
-            @Override
-            public List<Voucher> find() {
-                return new ArrayList<>();
-            }
-        };
+        return new VoucherMemoryRepository();
+//        return new VoucherRepository() {
+//
+//            @Override
+//            public Optional<Voucher> findById(UUID voucherId) {
+//                return Optional.empty();
+//            }
+//
+//            @Override
+//            public List<Voucher> find() {
+//                return new ArrayList<>();
+//            }
+//
+//            @Override
+//            public void create(Voucher voucher) {
+//
+//            }
+//        };
     }
 }
