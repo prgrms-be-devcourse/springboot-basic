@@ -1,7 +1,8 @@
 package org.prgrms.kdt;
+import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import java.io.*;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -52,7 +53,7 @@ public class CommandLineApplication {
             }
 
             else if(command.equals("list")) {
-                Map<UUID,Voucher> voucherList = voucherService.getVouchers();
+                Map<UUID, Voucher> voucherList = voucherService.getVouchers();
                 for(UUID uuid : voucherList.keySet()){
                     Voucher voc = voucherList.get(uuid);
                     bw.write(voc.toString()+"\n");

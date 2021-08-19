@@ -1,21 +1,29 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 
 @Service
 public class VoucherService {
+
+    //@Autowired
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    //setter를 통해서 의존관계 주입이 가능하기도 함
+//    @Autowired
+//    public void setVoucherRepository(VoucherRepository voucherRepository) {
+//        this.voucherRepository = voucherRepository;
+//    }
+
+// 생성자를 통해서 의존관계가 형성되도록 하는게 좋음 -> 초기화시에 필요한 모든 의존관계가 형성되기 때문에 안전, 잘못된 패턴을 찾을 수 있게 도와줌, 테스트를 쉽게 해줌, 불변성을 확보
+    @Autowired // 생성자를 통해서 의존성을 주입하게 될때 자동으로 주입될 Bean이 여러개 일때 Bean주입을 설정해 주어야함.
+    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

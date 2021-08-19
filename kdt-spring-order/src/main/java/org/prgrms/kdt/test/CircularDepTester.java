@@ -20,7 +20,7 @@ class B{
 }
 
 // Bean을 등록
-//@Configuration
+@Configuration
 class CircularConfig {
     @Bean
     public A a(B b) {

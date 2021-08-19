@@ -1,21 +1,25 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.repository.OrderRepository;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.MemoryVoucherRepository;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Optional;
-import java.util.UUID;
+import org.springframework.context.annotation.FilterType;
 
 @Configuration
-@ComponentScan //패키지 기준으로
+//@ComponentScan(basePackages = {"org.prgrms.kdt.order","org.prgrms.kdt.voucher"}) // 베이스 패키지 설정 , 베이스 패키지만 스캔
+//@ComponentScan(basePackageClasses = {Order.class, Voucher.class}) // 클래스가 속한 패키지를 지명할 수 있음
+@ComponentScan(basePackages = {"org.prgrms.kdt.order","org.prgrms.kdt.voucher","org.prgrms.kdt.configuration"})
+//        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = MemoryVoucherRepository.class)}) // 반대로 제거 가능
 public class AppConfiguration {
+// 설정 클래스를 용도에 맞게 분류를 해서 사용함 org.prgrms.kdt.configuration
 
-
-
-
+    //D3 실습
+//    @Bean(initMethod = "init")
+//    public BeanOne beanOne() {
+//        return new BeanOne();
+//    }
 
 //    @Bean
 //    public VoucherRepository voucherRepository(){
@@ -66,4 +70,15 @@ public class AppConfiguration {
 //    public OrderService orderService(VoucherService voucherService,OrderRepository orderRepository ){
 //        return new OrderService(voucherService,orderRepository);
 //    }
+}
+
+class BeanOne implements InitializingBean {
+    public void init(){
+        System.out.println("[BeanOne] init called!");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("[BeanOne] afterPropertiesSet called!");
+    }
 }
