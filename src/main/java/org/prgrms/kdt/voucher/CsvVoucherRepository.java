@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import com.opencsv.exceptions.CsvValidationException;
 import org.prgrms.kdt.engine.OpenCsv;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,11 @@ public class CsvVoucherRepository implements VoucherRepository {
     OpenCsv csvWriter = new OpenCsv();
 
     public void save(String filePath) throws IOException {
-        csvWriter.saveToFile(storage, filePath);
+        csvWriter.saveFile(storage, filePath);
+    }
+
+    public Optional<Map<UUID, Voucher>> load(String filePath) {
+        return csvWriter.loadFile(filePath);
     }
 
     @Override

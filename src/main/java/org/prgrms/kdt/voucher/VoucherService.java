@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import com.opencsv.exceptions.CsvValidationException;
 import org.prgrms.kdt.order.Order;
 import org.prgrms.kdt.order.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import java.util.UUID;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
-
     private final CsvVoucherRepository csvVoucherRepository;
 
     public VoucherService(@Qualifier("csv") VoucherRepository voucherRepository, CsvVoucherRepository csvVoucherRepository) {
@@ -47,6 +47,15 @@ public class VoucherService {
 
     public void saveVoucher(String filePath) throws IOException {
         csvVoucherRepository.save(filePath);
+    }
+
+    public void loadVoucher(String filePath) {
+        var voucherList = csvVoucherRepository.load(filePath);
+        if (voucherList.isPresent()) {
+            for (Voucher voucher: voucherList.get().values()) {
+                voucherRepository.insert(voucher);
+            }
+        }
     }
 
     public void useVoucher(Voucher voucher) {
