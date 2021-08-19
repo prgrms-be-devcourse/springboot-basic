@@ -24,19 +24,19 @@ public class CommandLineApplication implements Runnable {
 
         while (true) {
             output.printAppStart();
-            String command = input.getCommand();
-            if (!validateCommand(command.toUpperCase())){
+            String command = input.getCommand().toUpperCase();
+            if (!validateCommand(command)){
                 output.printCommandError();
                 continue;
             }
 
-            CommandType ct = CommandType.valueOf(command.toUpperCase());
-            if (ct.equals(CommandType.EXIT)){
+            CommandType commandType = CommandType.valueOf(command);
+            if (commandType.equals(CommandType.EXIT)){
                 break;
             }
 
 
-            String result = executeCommand(ct);
+            String result = executeCommand(commandType);
             if (!result.isEmpty()){
                 output.print(result);
                 continue;
@@ -48,9 +48,9 @@ public class CommandLineApplication implements Runnable {
 
     }
 
-    private String executeCommand(CommandType cmdType) {
+    private String executeCommand(CommandType commandType) {
         String result = "";
-        switch (cmdType) {
+        switch (commandType) {
             case CREATE:
                 result = createVoucher();
                 break;
