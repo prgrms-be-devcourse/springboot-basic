@@ -1,9 +1,12 @@
 package org.prgrms.kdt.devcourse.order;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class MemoryOrderRepository implements OrderRepository{
     private Map<UUID,Order> storage = new ConcurrentHashMap<>();
 
