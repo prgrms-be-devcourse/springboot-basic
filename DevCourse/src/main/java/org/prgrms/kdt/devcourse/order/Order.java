@@ -37,4 +37,15 @@ public class Order {
         return beforeDiscount;
     }
 
+    public UUID getOrderId() {
+        return orderId;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
 }

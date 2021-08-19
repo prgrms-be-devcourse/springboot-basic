@@ -1,27 +1,25 @@
 package org.prgrms.kdt.devcourse.voucher;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import org.springframework.stereotype.Repository;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryVoucherRepository implements VoucherRepository {
-    private List<Voucher> voucherList = new ArrayList<>();
+    private Map<UUID,Voucher> voucherList = new ConcurrentHashMap<>();
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return voucherList.stream()
-                .filter(v -> v.getVoucherId() == voucherId)
-                .findFirst();
+        return Optional.ofNullable(voucherList.get(voucherId));
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
-        voucherList.add(voucher);
+    public Voucher insert(Voucher voucher) {
+        voucherList.put(voucher.getVoucherId(),voucher);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        return voucherList;
+        return voucherList.values().stream().toList();
     }
 }
