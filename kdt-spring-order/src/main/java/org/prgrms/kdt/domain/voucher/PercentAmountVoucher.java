@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.voucher;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
@@ -18,15 +19,17 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
+    public long getValue() {
+        return percent;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
 
     @Override
     public String toString() {
-        return "PercentAmountVoucher{" +
-                "voucherId=" + voucherId +
-                ", percent=" + percent +
-                '}';
+        return MessageFormat.format("id={0} type={1} value={2}", voucherId, 1, percent);
     }
 }

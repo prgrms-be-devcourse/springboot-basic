@@ -1,11 +1,12 @@
-package org.prgrms.kdt.io;
+package org.prgrms.kdt;
 
-import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.io.Input;
+import org.prgrms.kdt.io.OutPut;
+import org.prgrms.kdt.io.Validator;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.service.dto.RequestCreatVoucherDto;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,11 +16,11 @@ public class Console {
     public static final int EXIT = 0;
 
     private final Input input;
-    private final Output output;
+    private final OutPut output;
     private final VoucherService voucherService;
     private final Validator validator;
 
-    public Console(Input input, Output output, VoucherService voucherService, Validator validator) {
+    public Console(Input input, OutPut output, VoucherService voucherService, Validator validator) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;

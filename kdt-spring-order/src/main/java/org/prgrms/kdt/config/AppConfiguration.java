@@ -1,23 +1,26 @@
 package org.prgrms.kdt.config;
 
 import org.prgrms.kdt.KdtApplication;
-import org.prgrms.kdt.domain.order.Order;
-import org.prgrms.kdt.domain.voucher.Voucher;
-import org.prgrms.kdt.repository.MemoryOrderRepository;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.repository.OrderRepository;
-import org.prgrms.kdt.repository.VoucherRepository;
-import org.prgrms.kdt.service.OrderService;
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.io.FileIo;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.io.IOException;
 
 @Configuration
 @ComponentScan(basePackageClasses = {KdtApplication.class})
+@PropertySource(value = "application.yml", factory = YamlPropertiesFactory.class)
+@EnableConfigurationProperties
 public class AppConfiguration {
 
+    private static final String PATH = "db.txt";
+
+    @Bean
+    public FileIo fileIo() throws IOException {
+        return FileIo.createFileIo(PATH);
+    }
 }
+
