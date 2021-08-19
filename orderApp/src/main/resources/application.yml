@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: prod
+data:
+  voucher-storage:
+    prefix: data
+    name: storage.tmp
+  customer-blacklist:
+    prefix: data
+    name: customer_blacklist.csv

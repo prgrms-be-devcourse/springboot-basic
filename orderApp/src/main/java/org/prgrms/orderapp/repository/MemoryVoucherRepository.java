@@ -1,6 +1,7 @@
 package org.prgrms.orderapp.repository;
 
 import org.prgrms.orderapp.model.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,7 +11,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class InMemoryRepository implements VoucherRepository {
+@Profile("dev")
+public class MemoryVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
