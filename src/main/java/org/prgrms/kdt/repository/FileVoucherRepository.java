@@ -20,7 +20,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> storage;
 
     @PostConstruct
-    public void loadStorage() {
+    public void loadFile() {
         try {
             var file = new File(FILEPATH);
             if (file.createNewFile()) {
@@ -40,7 +40,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @PreDestroy
-    public void writeStorage() {
+    public void writeFile() {
         try {
             var fos = new FileOutputStream(FILEPATH);
             var bos = new BufferedOutputStream(fos);
