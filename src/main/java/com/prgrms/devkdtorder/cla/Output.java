@@ -11,4 +11,6 @@ public interface Output {
     void print(String prompt);
 
     void print(List<String> list);
+
+    void printVoucherInputError();
 }

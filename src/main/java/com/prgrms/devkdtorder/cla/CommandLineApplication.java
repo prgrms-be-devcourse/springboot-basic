@@ -36,11 +36,8 @@ public class CommandLineApplication implements Runnable {
             }
 
 
-            String result = executeCommand(commandType);
-            if (!result.isEmpty()){
-                output.print(result);
-                continue;
-            }
+            boolean result = executeCommand(commandType);
+
 
         }
 
@@ -48,8 +45,8 @@ public class CommandLineApplication implements Runnable {
 
     }
 
-    private String executeCommand(CommandType commandType) {
-        String result = "";
+    private boolean executeCommand(CommandType commandType) {
+        boolean result = false;
         switch (commandType) {
             case CREATE:
                 result = createVoucher();
@@ -61,20 +58,21 @@ public class CommandLineApplication implements Runnable {
         return result;
     }
 
-    private String createVoucher(){
+    private boolean createVoucher(){
         List<String> list = VoucherType.voucherTypeNames();
         output.print(list);
 
         String type = input.getVoucherType();
         Optional<VoucherType> voucherType = VoucherType.findByNameOrNo(type);
         if (voucherType.isEmpty()){
-            return "올바르지 않은 바우처 입니다.";
+            output.printVoucherInputError();
+            return false;
         }
         long value = input.getVoucherValue();
 
         Voucher voucher = VoucherFactory.create(voucherType.get(), value);
         voucherService.saveVoucher(voucher);
-        return "";
+        return true;
     }
 
     private void showVouchers() {

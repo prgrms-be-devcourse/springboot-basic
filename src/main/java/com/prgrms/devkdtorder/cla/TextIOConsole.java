@@ -61,4 +61,10 @@ public class TextIOConsole implements Input, Output {
         }
         textIO.getTextTerminal().println(sb.toString());
     }
+
+    @Override
+    public void printVoucherInputError() {
+        String message = "잘못된 Voucher 입력입니다.";
+        textIO.getTextTerminal().println(message);
+    }
 }
