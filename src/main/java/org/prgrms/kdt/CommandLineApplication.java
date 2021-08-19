@@ -11,6 +11,7 @@ import org.prgrms.kdt.strategy.Voucher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.prgrms.kdt.exception.Message.WRONG_COMMAND_MESSAGE;
@@ -37,10 +38,10 @@ public class CommandLineApplication {
                 processCreateCommand(voucherService);
             } else if (command.equalsIgnoreCase("list")) {
                 inputView.newLine();
-                processListCommand();
+                processListCommand(voucherService);
             } else {
-                System.out.println(WRONG_COMMAND_MESSAGE);
                 inputView.newLine();
+                System.out.println(WRONG_COMMAND_MESSAGE);
             }
             inputView.newLine();
         }
@@ -52,8 +53,11 @@ public class CommandLineApplication {
         outputView.printVoucher(voucher);
     }
 
-    private static void processListCommand() {
-
+    private static void processListCommand(VoucherService voucherService) {
+        List<Voucher> vouchers = voucherService.list();
+        for (Voucher voucher : vouchers) {
+            outputView.printVoucher(voucher);
+        }
     }
 
 }
