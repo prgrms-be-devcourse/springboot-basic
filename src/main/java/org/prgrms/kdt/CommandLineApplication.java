@@ -1,8 +1,8 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.core.*;
-import org.prgrms.kdt.domain.Voucher;
-import org.prgrms.kdt.domain.VoucherType;
+import org.prgrms.kdt.model.Voucher;
+import org.prgrms.kdt.model.VoucherType;
 import org.prgrms.kdt.service.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

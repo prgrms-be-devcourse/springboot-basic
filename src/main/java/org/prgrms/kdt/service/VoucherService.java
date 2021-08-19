@@ -1,6 +1,6 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.domain.*;
+import org.prgrms.kdt.model.*;
 import org.prgrms.kdt.repository.*;
 import org.springframework.stereotype.Service;
 

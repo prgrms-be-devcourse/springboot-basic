@@ -1,7 +1,7 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.domain.Order;
-import org.prgrms.kdt.domain.OrderItem;
+import org.prgrms.kdt.model.Order;
+import org.prgrms.kdt.model.OrderItem;
 import org.prgrms.kdt.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 

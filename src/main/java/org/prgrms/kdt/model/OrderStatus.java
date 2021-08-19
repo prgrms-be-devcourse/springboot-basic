@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain;
+package org.prgrms.kdt.model;
 
 public enum OrderStatus {
     ACCEPTED,

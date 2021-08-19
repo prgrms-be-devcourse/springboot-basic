@@ -1,7 +1,7 @@
 package org.prgrms.kdt.repository;
 
 
-import org.prgrms.kdt.domain.Voucher;
+import org.prgrms.kdt.model.Voucher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
