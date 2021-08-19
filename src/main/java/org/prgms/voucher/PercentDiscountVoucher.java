@@ -1,4 +1,4 @@
-package org.prgms;
+package org.prgms.voucher;
 
 import java.text.MessageFormat;
 import java.util.UUID;

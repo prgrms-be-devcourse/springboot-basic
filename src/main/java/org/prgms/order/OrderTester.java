@@ -1,8 +1,10 @@
-package org.prgms;
+package org.prgms.order;
 
+import org.prgms.AppConfiguration;
+import org.prgms.voucher.FixedAmountVoucher;
+import org.prgms.voucher.VoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
-
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -10,8 +12,6 @@ import java.util.UUID;
 
 public class OrderTester {
     public static void main(String[] args) {
-
-
         var customerId = UUID.randomUUID();
 
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);

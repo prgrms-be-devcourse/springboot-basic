@@ -1,4 +1,6 @@
-package org.prgms;
+package org.prgms.io;
+
+import org.prgms.voucher.VoucherType;
 
 public class Io {
 

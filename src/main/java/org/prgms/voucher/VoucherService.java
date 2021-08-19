@@ -1,4 +1,4 @@
-package org.prgms;
+package org.prgms.voucher;
 
 import org.springframework.stereotype.Service;
 
@@ -7,7 +7,8 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private final VoucherRepository voucherRepository;
+
+    private final VoucherRepository voucherRepository; // final 생성자 주입을 통해 불변성 확보
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;

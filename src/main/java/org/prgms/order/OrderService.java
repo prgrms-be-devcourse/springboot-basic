@@ -1,5 +1,6 @@
-package org.prgms;
+package org.prgms.order;
 
+import org.prgms.voucher.VoucherService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

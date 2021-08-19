@@ -1,6 +1,9 @@
 package org.prgms;
 
 
+import org.prgms.io.Io;
+import org.prgms.voucher.Voucher;
+import org.prgms.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
@@ -35,13 +38,12 @@ public class CommandLineApplication {
                     break;
 
                 case "list":
+                    io.list();
                     List<Voucher> getVouchers = voucherService.getVouchers();
                     getVouchers.forEach(System.out::println);
                     break;
 
-
             }
-
 
         }
     }

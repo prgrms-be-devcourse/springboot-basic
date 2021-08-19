@@ -1,4 +1,4 @@
-package org.prgms;
+package org.prgms.order;
 
 import java.util.UUID;
 

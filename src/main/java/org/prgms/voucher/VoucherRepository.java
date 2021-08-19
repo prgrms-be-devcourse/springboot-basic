@@ -1,4 +1,4 @@
-package org.prgms;
+package org.prgms.voucher;
 
 import java.util.List;
 import java.util.Optional;
