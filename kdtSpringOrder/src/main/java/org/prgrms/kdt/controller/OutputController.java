@@ -2,9 +2,11 @@ package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.service.VoucherService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class OutputController {
 
     public void showVoucherList(VoucherService voucherService) {

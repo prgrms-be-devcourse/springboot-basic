@@ -13,19 +13,4 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 public class AppConfiguration {
 
-    @Bean
-    public InputController inputController() {
-        return new InputController();
-    }
-
-    @Bean
-    public OutputController outputController() {
-        return new OutputController();
-    }
-
-    @Bean
-    public MessageHelper messageHelper() {
-        return new MessageHelper();
-    }
-
 }

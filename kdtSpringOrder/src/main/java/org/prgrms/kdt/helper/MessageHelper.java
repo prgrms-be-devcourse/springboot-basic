@@ -1,5 +1,8 @@
 package org.prgrms.kdt.helper;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class MessageHelper {
 
     public void showVoucherProgramGuideMessage() {
