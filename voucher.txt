@@ -5,3 +5,4 @@ PercentDiscountVoucher d5986fe6-230d-47e8-acbc-c26a8437f779 10
 PercentDiscountVoucher 6cfb8e82-68a7-48b6-b6db-fc88f2a63c62 10
 PercentDiscountVoucher fdcab29f-982e-4e2e-8a5b-e26e5fe6c48f 10
 FixedAmountVoucher 927e9e1d-10f0-495a-bd6b-619c3c359ede 2000
+FixedAmountVoucher 7ded0dd5-1039-46bf-a38c-15553f6a82d1 2000

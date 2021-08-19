@@ -33,7 +33,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(String voucherType) {
-        Voucher voucher = voucherFactory.createVoucher(VoucherType.valueOf(Strings.toRootUpperCase(voucherType)));
+        Voucher voucher = voucherFactory.createVoucher(VoucherType.valueOf(voucherType.toUpperCase()));
         voucherRepository.save(voucher);
         return voucher;
     }
