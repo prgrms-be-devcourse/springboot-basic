@@ -6,6 +6,7 @@ import org.prgrms.kdt.model.VoucherType;
 import org.prgrms.kdt.service.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -102,12 +103,7 @@ public class CommandLineApplication {
         var value = Long.parseLong(inputStr);
         var voucherType = getVoucherType(cmd);
         var createdVoucher = voucherService.createVoucher(voucherType, value);
-
-        if (createdVoucher.isEmpty()) {
-            output.printMessage("Creation fail");
-            return false;
-        }
-        output.printMessage("Creation Success: " + createdVoucher);
+        output.printMessage(MessageFormat.format("Created Voucher: {0}", createdVoucher));
         return true;
     }
 

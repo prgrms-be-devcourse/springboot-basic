@@ -25,13 +25,11 @@ public class VoucherService {
         return voucherRepository.findAllVoucher();
     }
 
-    public Optional<Voucher> createVoucher(VoucherType type, long value) {
-        if (type == VoucherType.FIXED_AMOUNT) {
-            return Optional.ofNullable(voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value)));
-        } else if (type == VoucherType.PERCENT) {
-            return Optional.ofNullable(voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value)));
-        }
-        return Optional.empty();
+    public Voucher createVoucher(VoucherType type, long value) {
+        return switch (type) {
+            case FIXED_AMOUNT -> voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value));
+            case PERCENT -> voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value));
+        };
     }
 
 //    TODO
