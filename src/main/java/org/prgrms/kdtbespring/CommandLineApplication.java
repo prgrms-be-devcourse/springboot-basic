@@ -4,6 +4,7 @@ import org.prgrms.kdtbespring.config.AppConfiguration;
 import org.prgrms.kdtbespring.entity.Voucher;
 import org.prgrms.kdtbespring.service.VoucherService;
 import org.prgrms.kdtbespring.vo.VoucherType;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.BufferedReader;
@@ -20,7 +21,7 @@ public class CommandLineApplication {
         sb.append("Type \"create\" to create a new voucher." + "\n");
         sb.append("Type \"list\" to list all voucher.");
 
-        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        ApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         VoucherService voucherService = annotationConfigApplicationContext.getBean(VoucherService.class);
 
         while (true) {
