@@ -1,5 +1,6 @@
 package org.prgrms.kdt.file;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,6 +22,14 @@ public class FileUtil {
             writer.append(contents).append(NEW_LINE);
         } catch (IOException ioException) {
             ioException.printStackTrace();
+        }
+    }
+
+    public static void read(String filename) {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(filename))) {
+            reader.lines().forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

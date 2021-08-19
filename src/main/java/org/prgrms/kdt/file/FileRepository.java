@@ -11,4 +11,6 @@ public interface FileRepository<E> {
 
     void saveFile(E e);
 
+    void readFile();
+
 }

@@ -36,12 +36,18 @@ public class FileVoucherRepository implements VoucherRepository, FileRepository<
 
     @Override
     public Map<UUID, Voucher> findAll() {
+        readFile();
         return Collections.emptyMap();
     }
 
     @Override
     public void saveFile(Voucher voucher) {
         FileUtil.write(voucher.toString(), FILE_NAME);
+    }
+
+    @Override
+    public void readFile() {
+        FileUtil.read(FILE_NAME);
     }
 
 }
