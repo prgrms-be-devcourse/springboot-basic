@@ -2,6 +2,7 @@ package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.order.Order;
 import org.prgms.w3d1.repository.OrderRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

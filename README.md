@@ -26,3 +26,12 @@ Type list to list all vouchers
 - 피드백 중점사항
   - 예외처리가 정말 미숙합니다. 이 점 지적해주시면 감사하겠습니다.
   - InputStream, OutputStream을 올바르게 썻는지 지적해주시면 감사하겠습니다.
+
+### 21_08_19
+- 구현 사항
+  - application.properties 파일을 이용하여 2개의 저장소가 다른 설정으로 동작하도록 했습니다.
+    - active=dev 의 경우, MemoryVoucherRepo
+    - active=prod 의 경우, FileVoucherRepo
+  - blacklist 를 쓰고 읽을 수 있게 구현했습니다.
+- 아직 못다한 것
+  - Yaml 에 대해서 처음 배워 스프링에 Yaml 등록방식이 어색해 아직 공부중입니다.

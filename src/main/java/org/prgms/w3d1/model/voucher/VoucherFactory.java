@@ -1,5 +1,7 @@
 package org.prgms.w3d1.model.voucher;
 
+import org.springframework.stereotype.Component;
+
 import java.util.UUID;
 
 public class VoucherFactory {

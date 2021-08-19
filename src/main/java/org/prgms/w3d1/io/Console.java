@@ -23,6 +23,8 @@ public class Console implements Input, Output {
         System.out.println("Type exit to exit the program.");
         System.out.println("Type create to create a new voucher.");
         System.out.println("Type list to list all vouchers.");
+        System.out.println("Type blacklist to move blacklist menu.");
+
     }
 
     @Override
@@ -45,4 +47,17 @@ public class Console implements Input, Output {
         System.out.println("type discount percent");
     }
 
+    @Override
+    public void printBlackListMenu() {
+        System.out.println("=== Blacklist Menu ===");
+        System.out.println("Type exit to exit the program.");
+        System.out.println("Type create to create a new Blacklist.");
+        System.out.println("Type list to list all Blacklists.");
+
+    }
+
+    @Override
+    public void printBlackListCreateMenu() {
+        System.out.println("=== input name ===");
+    }
 }

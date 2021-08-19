@@ -1,12 +1,14 @@
 package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.voucher.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Profile("dev")
 @Repository
-public class VoucherRepositoryImpl implements VoucherRepository {
+public class MemoryVoucherRepository implements VoucherRepository {
 
     private final HashMap<UUID, Voucher> voucherHashMap = new HashMap<>();
 

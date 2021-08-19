@@ -6,4 +6,6 @@ public interface Output {
     void printCreateMenu();
     void printFixedMenu();
     void printPercentMenu();
+    void printBlackListMenu();
+    void printBlackListCreateMenu();
 }
