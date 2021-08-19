@@ -5,11 +5,13 @@ import org.prgrms.kdt.domain.voucher.PercentAmountVoucher;
 import org.prgrms.kdt.repository.VoucherRepository;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.service.dto.RequestCreatVoucherDto;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
@@ -20,9 +22,9 @@ public class VoucherService {
     public UUID save(RequestCreatVoucherDto dto) {
         UUID voucherId = UUID.randomUUID();
         if (dto.getType() == 0) { // fixed
-            voucherRepository.save(new FixedAmountVoucher(voucherId, dto.getAmount()));
+            voucherRepository.insert(new FixedAmountVoucher(voucherId, dto.getAmount()));
         } else { // percent
-            voucherRepository.save(new PercentAmountVoucher(voucherId, dto.getAmount()));
+            voucherRepository.insert(new PercentAmountVoucher(voucherId, dto.getAmount()));
         }
 
         return voucherId;
@@ -36,7 +38,7 @@ public class VoucherService {
     }
 
     public List<Voucher> vouchers() {
-        return voucherRepository.findVouchers();
+        return voucherRepository.findAll();
     }
 
     public void useVoucher(Voucher voucher) {

@@ -4,10 +4,13 @@ import org.prgrms.kdt.repository.OrderRepository;
 import org.prgrms.kdt.domain.order.Order;
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderService {
 
     private final VoucherService voucherService;
