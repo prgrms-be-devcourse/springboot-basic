@@ -28,4 +28,13 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         return new ArrayList<>(db.values());
     }
 
+    @Override
+    public void loadVouchers() {
+
+    }
+
+    @Override
+    public void saveVouchers() {
+
+    }
 }

@@ -1,6 +1,8 @@
 package com.programmers.voucher.entity.voucher;
 
-public class Voucher {
+import java.io.Serializable;
+
+public class Voucher implements Serializable {
 
     private long id;
     private String name;
@@ -37,7 +39,7 @@ public class Voucher {
     }
 
     public enum type {
-        FIXED, PERCENT
+        FIXED, PERCENT, NA
     }
 
     @Override
