@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.List;
 
 public interface VoucherRepository {
-    void loadVouchers() throws IOException;
-    void saveVouchers() throws IOException;
+    void loadVouchers();
+    void persistVouchers();
 
     Voucher save(String name, Voucher.type type);
 

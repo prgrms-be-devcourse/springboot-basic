@@ -34,7 +34,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void saveVouchers() {
+    public void persistVouchers() {
 
     }
 }

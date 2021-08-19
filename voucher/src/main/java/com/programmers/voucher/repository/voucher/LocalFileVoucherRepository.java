@@ -1,7 +1,6 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.entity.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -9,9 +8,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -36,46 +32,44 @@ public class LocalFileVoucherRepository implements VoucherRepository {
         if(!Files.exists(file)) {
             Files.createFile(file);
         }
-
-        loadVouchers();
     }
 
     @Override
-    public void saveVouchers() throws IOException {
-        OutputStream writer = Files.newOutputStream(file);
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(writer);
-        db.values().forEach(voucher -> {
-            try {
-                objectOutputStream.writeObject(voucher);
-            } catch (IOException e) {
-                System.err.printf("Could not save voucher [ id: %d, name: %s, type: %s ]%n",
-                        voucher.getId(), voucher.getName(), voucher.getType().name());
-            }
-        });
-        objectOutputStream.flush();
-        objectOutputStream.close();
-    }
-
-    @Override
-    public void loadVouchers() throws IOException {
-        InputStream reader = Files.newInputStream(file);// https://www.baeldung.com/reading-file-in-java
-        if(reader.available() < 1) return;
-
-        ObjectInputStream objectInputStream = new ObjectInputStream(reader);
-        long maxNum = -1;
-        while(objectInputStream.available() > 0) {
-            Voucher voucher;
-            try {
-                voucher = (Voucher) objectInputStream.readObject();
-            } catch (ClassNotFoundException ex) {
-                voucher = new Voucher(-1, "N/A", Voucher.type.NA);
-            }
-            db.put(voucher.getId(), voucher);
-            maxNum = Math.max(maxNum, voucher.getId());
+    public void persistVouchers() {
+        try {
+            OutputStream writer = Files.newOutputStream(file);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(writer);
+            objectOutputStream.writeObject(new ArrayList<>(db.values()));
+            objectOutputStream.flush();
+            objectOutputStream.close();
+        } catch (IOException ex) {
+            System.err.println("IOException occur on persisting local file voucher repository.");
+            System.exit(1);
         }
-        objectInputStream.close();
+    }
 
-        sequencer = new AtomicLong(maxNum+1);
+    @Override
+    public void loadVouchers() {
+        try {
+            InputStream reader = Files.newInputStream(file);// https://www.baeldung.com/reading-file-in-java
+            if (reader.available() < 1) return;
+
+            ObjectInputStream objectInputStream = new ObjectInputStream(reader);
+            List<Voucher> vouchers = (List<Voucher>) objectInputStream.readObject();
+            vouchers.forEach(voucher -> db.put(voucher.getId(), voucher));
+            objectInputStream.close();
+
+            Optional<Long> max = vouchers.stream().map(Voucher::getId).max(Long::compareTo);
+            long maxNum = max.isPresent() ? max.get() : 0;
+            sequencer = new AtomicLong(maxNum + 1);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.err.println("IOException occur on initializing local file voucher repository.");
+            System.exit(1);
+        } catch (ClassNotFoundException ex) {
+            System.err.println("ClassNotFoundException occur on initializing local file voucher repository.");
+            System.exit(1);
+        }
     }
 
     @Override

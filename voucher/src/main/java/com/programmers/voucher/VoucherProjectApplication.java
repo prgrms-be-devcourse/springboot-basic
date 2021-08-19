@@ -3,11 +3,8 @@ package com.programmers.voucher;
 import com.programmers.voucher.config.ServiceConfiguration;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.voucher.VoucherService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +16,7 @@ public class VoucherProjectApplication {
 		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
 
 		VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+		voucherService.openStorage();
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		while(true) {
@@ -29,6 +27,7 @@ public class VoucherProjectApplication {
 			String command = br.readLine();
 			switch (command) {
 				case "exit":
+					voucherService.closeStorage();
 					System.exit(0);
 					break;
 
