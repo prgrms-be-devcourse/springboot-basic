@@ -1,11 +1,15 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.UUID;
 
 public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
@@ -27,7 +31,8 @@ public class CommandLineApplication {
                 input = Integer.parseInt(br.readLine());
                 String message = input == 1 ? "FixedAmountVoucher 생성" : "PercentDiscountVoucher 생성";
                 System.out.println(message);
-                voucherService.create(input);
+                Voucher voucher = input == 1 ? new FixedAmountVoucher(UUID.randomUUID(), 1L) : new PercentDiscountVoucher(UUID.randomUUID(), 1L);
+                voucherService.create(voucher);
             } else if (command.equals("list")) {
                 System.out.println("바우처 조회");
                 voucherService.list().forEach(System.out::println);

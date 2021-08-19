@@ -1,12 +1,14 @@
-package org.prgrms.kdt.service;
+package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.domain.Voucher;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
@@ -24,8 +26,8 @@ public class VoucherService {
 
     }
 
-    public void create(int type) {
-        voucherRepository.create(type);
+    public void create(Voucher voucher) {
+        voucherRepository.create(voucher);
     }
 
     public List<Voucher> list() {
