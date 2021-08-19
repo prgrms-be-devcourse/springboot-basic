@@ -23,9 +23,9 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "PercentDiscountVoucher{" +
+        return "PercentDiscountVoucher { " +
                 "voucherId=" + voucherId +
                 ", percent=" + percent +
-                '}';
+                " }";
     }
 }

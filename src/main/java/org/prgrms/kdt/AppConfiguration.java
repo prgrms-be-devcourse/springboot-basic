@@ -1,5 +1,7 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.command.CommandLineApplication;
+import org.prgrms.kdt.command.io.Console;
 import org.prgrms.kdt.order.domain.Order;
 import org.prgrms.kdt.order.service.OrderService;
 import org.prgrms.kdt.order.repository.OrderRepository;
@@ -7,6 +9,7 @@ import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -58,22 +61,34 @@ public class AppConfiguration {
     @Bean
     public VoucherRepository voucherRepository() {
         return new VoucherMemoryRepository();
-//        return new VoucherRepository() {
-//
-//            @Override
-//            public Optional<Voucher> findById(UUID voucherId) {
-//                return Optional.empty();
-//            }
-//
-//            @Override
-//            public List<Voucher> find() {
-//                return new ArrayList<>();
-//            }
-//
-//            @Override
-//            public void create(Voucher voucher) {
-//
-//            }
-//        };
+        /** 나중 강의를 위해에 남겨둠
+        return new VoucherRepository() {
+
+            @Override
+            public Optional<Voucher> findById(UUID voucherId) {
+                return Optional.empty();
+            }
+
+            @Override
+            public List<Voucher> find() {
+                return new ArrayList<>();
+            }
+
+            @Override
+            public void create(Voucher voucher) {
+
+            }
+        };
+         */
+    }
+
+    @Bean
+    public Console console() {
+        return new Console();
+    }
+
+    @Bean
+    public CommandLineApplication commandLineApplication(Console console, ApplicationContext applicationContext) {
+        return new CommandLineApplication(console, applicationContext);
     }
 }

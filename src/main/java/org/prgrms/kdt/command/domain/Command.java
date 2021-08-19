@@ -1,4 +1,4 @@
-package org.prgrms.kdt.command;
+package org.prgrms.kdt.command.domain;
 
 import org.prgrms.kdt.command.io.Input;
 import org.prgrms.kdt.command.io.Output;

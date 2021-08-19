@@ -9,9 +9,8 @@ public class CommandAppTest {
     public static void main(String[] args) {
 
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        Console console = new Console();
 
-        new CommandLineApplication(console, applicationContext).run();
+        applicationContext.getBean(CommandLineApplication.class).run();
     }
 }
 
