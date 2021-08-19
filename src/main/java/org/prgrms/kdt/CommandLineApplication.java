@@ -63,28 +63,28 @@ public class CommandLineApplication {
                     return;
                 }
                 case CREATE -> {
-                    if (createVoucher(voucherService)) {
-                        output.printMessage("create success!");
+                    while (true) {
+                        if(create(voucherService)) break;
                     }
                 }
-                case LIST -> listVoucher(voucherService);
+                case LIST -> list(voucherService);
                 default -> output.inputError(inputStr);
             }
         }
 
     }
 
-    private static void listVoucher(VoucherService voucherService) {
+    private static void list(VoucherService voucherService) {
         var vouchers = voucherService.listVoucher();
-        if (vouchers.isEmpty()) {
-            output.printMessage("No Voucher Data");
-        } else {
+        if (!vouchers.isEmpty()) {
             output.printMessage("=== Voucher List ===");
             vouchers.forEach(v -> output.printMessage(v.toString()));
+        } else {
+            output.printMessage("No Voucher Data");
         }
     }
 
-    private static boolean createVoucher(VoucherService voucherService) {
+    private static boolean create(VoucherService voucherService) {
         String inputStr = input.input(
                 "Creating a new voucher. Choose a voucher type (fixed or percent): "
         );
@@ -103,14 +103,12 @@ public class CommandLineApplication {
         var voucherType = getVoucherType(cmd);
         var createdVoucher = voucherService.createVoucher(voucherType, value);
 
-        if(createdVoucher.isPresent()) {
-            output.printMessage("Creation Success: " + createdVoucher);
-            return true;
-        } else {
+        if (createdVoucher.isEmpty()) {
             output.printMessage("Creation fail");
             return false;
         }
-
+        output.printMessage("Creation Success: " + createdVoucher);
+        return true;
     }
 
     private static VoucherType getVoucherType(Command command) {
@@ -119,8 +117,8 @@ public class CommandLineApplication {
         } else if (command == Command.PERCENT) {
             return VoucherType.PERCENT;
         } else throw new RuntimeException("no match voucher type");
-
     }
+
 
     private static boolean isDigit(String input) {
         return Pattern.matches("^[0-9]*$", input);
