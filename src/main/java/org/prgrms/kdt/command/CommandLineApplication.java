@@ -25,7 +25,7 @@ public class CommandLineApplication implements Runnable {
         this.input = console;
         this.output = console;
         this.applicationContext = applicationContext;
-        voucherService = applicationContext.getBean(VoucherService.class);
+        voucherService = this.applicationContext.getBean(VoucherService.class);
     }
 
     @Override
@@ -34,44 +34,11 @@ public class CommandLineApplication implements Runnable {
         while (excute()) ; // 실행
     }
 
-    // TODO: Refactoring Command Pattern
+
     private boolean excute() {
-        String inputString = input.inputString(INPUT_PROMPT);
-        switch (inputString) {
-            case "create":
-                output.inputVoucherType();
-                String inputVoucherType = input.inputString(INPUT_PROMPT);
-                Optional<VoucherType> parsedType = parseVoucherType(inputVoucherType);
+        String inputCommandType = input.inputString(INPUT_PROMPT);
+        // Optional<CommandType> commandType = parseCommandType(inputCommandType);
 
-                if (parsedType.isEmpty()) break; // 다른 Type 입력
-                long value = Long.parseLong(input.inputString(INPUT_PROMPT)); // TODO: 예외 처리,,, how to 잘?
-
-                output.inputVoucherValue(parsedType.get());
-                voucherService.createVoucher(
-                        parsedType.get(),
-                        UUID.randomUUID(),
-                        value);
-                break;
-            case "list":
-                List<Voucher> vouchers = voucherService.getAllVoucher();
-                output.voucherList(vouchers);
-                break;
-            case "exit":
-                output.exit();
-                return false;
-            default:
-
-                break;
-        }
-        return true;
+        return CommandType.findCommand(inputCommandType).excute(input, output, voucherService);
     }
-
-    private Optional<VoucherType> parseVoucherType(String inputVoucherType) {
-        return switch (inputVoucherType) {
-            case "PERCENT" -> Optional.of(VoucherType.PERCENTAGE);
-            case "FIXED" -> Optional.of(VoucherType.FIXED);
-            default -> Optional.empty();
-        };
-    }
-
 }

@@ -23,9 +23,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(VoucherType type, UUID voucherId, long policyValue /* TODO: RENAME argument name */) {
+    public void createVoucher(VoucherType type, UUID voucherId, long policyValue) {
         Voucher voucher = VoucherFactory.createVoucher(type, voucherId, policyValue);
-        // TODO: Null 처리는 어떻게..?
         voucherRepository.create(voucher);
     }
 
