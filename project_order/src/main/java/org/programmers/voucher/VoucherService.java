@@ -1,10 +1,13 @@
 package org.programmers.voucher;
 
+import org.springframework.stereotype.Service;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;

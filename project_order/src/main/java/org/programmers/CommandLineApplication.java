@@ -39,7 +39,7 @@ public class CommandLineApplication {
             } else if (inputString.equals("list")) {
                 var voucherRepository = applicationContext.getBean(VoucherRepository.class);
 
-                voucherRepository.getVoucherList();
+                System.out.println(voucherRepository.getAllVouchers().toString());
             } else if (inputString.equals("exit")) {
                 break;
             }
