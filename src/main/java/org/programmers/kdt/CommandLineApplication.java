@@ -6,7 +6,6 @@ import org.programmers.kdt.utils.MyUtils;
 import org.programmers.kdt.voucher.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.List;
 import java.util.UUID;
 
 public class CommandLineApplication implements Runnable {
@@ -29,15 +28,15 @@ public class CommandLineApplication implements Runnable {
 
         do {
             String command = input.input(this.welcomeMessage);
-
-            if (command.equalsIgnoreCase("create")) {
+            // TODO: "create", "list" 처럼 문자열을 직접 사용하지 않고, 상수 또는 ENUM 등을 사용하는 방식으로 바꿔보기
+            if ("create".equalsIgnoreCase(command)) {
                 // CREATE voucher
                 command = input.input("Choose your voucher type(FixedAmountVoucher = fixed, PercentDiscountVoucher = percent)");
 
-                if (command.equalsIgnoreCase("fixed")) {
+                if ("fixed".equalsIgnoreCase(command)) {
                     // Q1. Factory 구상체 지정을 이렇게 해 주는게 과연 맞는가?
                     voucherService.setVoucherRepository(new FixedAmountVoucherFactory());
-                } else if (command.equalsIgnoreCase("percent")) {
+                } else if ("percent".equalsIgnoreCase(command)) {
                     // Q1. Factory 구상체 지정을 이렇게 해 주는게 과연 맞는가?
                     voucherService.setVoucherRepository(new PercentDiscountVoucherFactory());
                 } else {
