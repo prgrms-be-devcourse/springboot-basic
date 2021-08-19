@@ -1,6 +1,6 @@
 package org.prgrms.kdt.io;
 
-public class Output {
+public class OutPut {
 
     public void printLine(String s) {
         System.out.println(s);
