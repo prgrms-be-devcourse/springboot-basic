@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,7 +17,10 @@ public class FileVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
 
+
+
         return Optional.empty();
+
     }
 
     @Override
@@ -38,6 +42,30 @@ public class FileVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        List<Voucher> filedVoucherList = new ArrayList<>();
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(csvFile));
+            String line;
+            while ((line = bufferedReader.readLine())!=null){
+                String [] dataArr = line.split(",");
+
+                UUID dataUUID = UUID.fromString(dataArr[0]);
+
+                    long dataVoucherAmount = Long.parseLong(dataArr[1]);
+                    VoucherType dataVoucherType = VoucherType.valueOf(dataArr[2]);
+
+                    if(dataVoucherType == VoucherType.FIXED_AMOUNT)
+                        filedVoucherList.add(new FixedAmountVoucher(dataUUID, dataVoucherAmount));
+                    else if(dataVoucherType == VoucherType.PERCENTAGE)
+                        filedVoucherList.add(new FixedAmountVoucher(dataUUID, dataVoucherAmount));
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return filedVoucherList;
     }
 }
