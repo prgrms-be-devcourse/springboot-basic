@@ -1,6 +1,12 @@
-package org.prms.kdtordertest;
+package org.prms.service;
+
+import org.prms.domain.FixedAmountVoucher;
+import org.prms.domain.PercentDiscountVoucher;
+import org.prms.domain.Voucher;
+import org.prms.repository.VoucherRepository;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class VoucherService {
@@ -19,6 +25,22 @@ public class VoucherService {
 
     }
 
+    public void createVoucher(String voucherType,Long val) {
+        if (voucherType.equals("fixed")) {
+            voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(),val));
+        }
+        else {
+            voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),val));
+        }
+    }
+
+    public ArrayList<Voucher> getVoucherList() {
+        return voucherRepository.getList();
+    }
+
+
+
+    //To do
     public void useVoucher(Voucher voucher) {
 
     }

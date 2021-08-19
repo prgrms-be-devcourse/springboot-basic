@@ -1,8 +1,14 @@
-package org.prms.kdtordertest;
+package org.prms.service;
 
+import org.prms.controller.Order;
+import org.prms.repository.MemoryRepository;
+import org.prms.repository.OrderRepository;
+import org.prms.domain.Voucher;
+import org.prms.repository.VoucherRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,15 +17,20 @@ import java.util.UUID;
 @Configuration
 public class AppConfiguration {
 
+    // Command 과제
+//    public outPutService()
+
 
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+//        return new VoucherRepository() {
+//            @Override
+//            public Optional<Voucher> findById(UUID voucherId) {
+//                return Optional.empty();
+//            }
+//        };
+
+        return new MemoryRepository();
     }
     @Bean
     public OrderRepository orderRepository() {

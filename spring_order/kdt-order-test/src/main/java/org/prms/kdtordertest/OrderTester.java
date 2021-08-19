@@ -1,9 +1,11 @@
 package org.prms.kdtordertest;
 
+import org.prms.domain.OrderItem;
+import org.prms.service.AppConfiguration;
+import org.prms.service.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
-import javax.security.auth.login.AppConfigurationEntry;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.UUID;

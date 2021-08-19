@@ -1,4 +1,4 @@
-package org.prms.kdtordertest;
+package org.prms.domain;
 
 import java.util.UUID;
 

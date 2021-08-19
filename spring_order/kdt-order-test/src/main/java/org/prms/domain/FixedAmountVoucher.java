@@ -1,4 +1,4 @@
-package org.prms.kdtordertest;
+package org.prms.domain;
 
 import java.util.UUID;
 
@@ -23,4 +23,11 @@ public class FixedAmountVoucher implements Voucher {
 
     }
 
+    @Override
+    public String toString() {
+        return "FixedAmountVoucher{" +
+                "voucherId=" + voucherId +
+                ", amount=" + amount +
+                '}';
+    }
 }

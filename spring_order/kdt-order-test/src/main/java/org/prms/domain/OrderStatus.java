@@ -1,4 +1,4 @@
-package org.prms.kdtordertest;
+package org.prms.domain;
 
 public enum OrderStatus {
     ACCEPTED,
@@ -9,7 +9,5 @@ public enum OrderStatus {
     SHIPPED,
     SETTLED,
     CANCELLED
-
-
 
 }
