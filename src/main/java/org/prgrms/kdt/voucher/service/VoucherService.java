@@ -4,6 +4,7 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.prgrms.kdt.voucher.factory.VoucherFactory;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 
 import java.text.MessageFormat;
@@ -22,16 +23,10 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    // TODO: Refactoring Factory Pattern
     public void createVoucher(VoucherType type, UUID voucherId, long policyValue /* TODO: RENAME argument name */) {
-        if (type.equals(VoucherType.PERCENTAGE)) {
-            voucherRepository.create(new PercentDiscountVoucher(voucherId, policyValue));
-        } else if (type.equals(VoucherType.FIXED)) {
-            voucherRepository.create(new FixedAmountVoucher(voucherId, policyValue));
-        } else {
-            // TODO: Exception
-            System.out.println("Exception 처리하세요 제발");
-        }
+        Voucher voucher = VoucherFactory.createVoucher(type, voucherId, policyValue);
+        // TODO: Null 처리는 어떻게..?
+        voucherRepository.create(voucher);
     }
 
     public Voucher getVoucher(UUID voucherId) {

@@ -41,25 +41,16 @@ public class CommandLineApplication implements Runnable {
             case "create":
                 output.inputVoucherType();
                 String inputVoucherType = input.inputString(INPUT_PROMPT);
-                // TODO: Refactoring to Factory Pattern
-                switch (inputVoucherType) { // 와 세상에 ㅋㅋㅋ
-                    case "PERCENT":
-                        output.inputVoucherAmount(VoucherType.PERCENTAGE);
-                        voucherService.createVoucher(
-                                VoucherType.PERCENTAGE,
-                                UUID.randomUUID(),
-                                Long.parseLong(input.inputString(INPUT_PROMPT)));
-                        break;
-                    case "FIXED":
-                        output.inputVoucherAmount(VoucherType.FIXED);
-                        voucherService.createVoucher(
-                                VoucherType.PERCENTAGE,
-                                UUID.randomUUID(),
-                                Long.parseLong(input.inputString(INPUT_PROMPT)));
-                        break;
-                    default:
-                        break;
-                }
+                Optional<VoucherType> parsedType = parseVoucherType(inputVoucherType);
+
+                if (parsedType.isEmpty()) break; // 다른 Type 입력
+                long value = Long.parseLong(input.inputString(INPUT_PROMPT)); // TODO: 예외 처리,,, how to 잘?
+
+                output.inputVoucherValue(parsedType.get());
+                voucherService.createVoucher(
+                        parsedType.get(),
+                        UUID.randomUUID(),
+                        value);
                 break;
             case "list":
                 List<Voucher> vouchers = voucherService.getAllVoucher();
@@ -75,11 +66,10 @@ public class CommandLineApplication implements Runnable {
         return true;
     }
 
-    public Optional<CommandType> parseInputString(String command) {
-        return switch (command) {
-            case "create" -> Optional.of(CommandType.CREATE);
-            case "list" -> Optional.of(CommandType.LIST);
-            case "exit" -> Optional.of(CommandType.EXIT);
+    private Optional<VoucherType> parseVoucherType(String inputVoucherType) {
+        return switch (inputVoucherType) {
+            case "PERCENT" -> Optional.of(VoucherType.PERCENTAGE);
+            case "FIXED" -> Optional.of(VoucherType.FIXED);
             default -> Optional.empty();
         };
     }

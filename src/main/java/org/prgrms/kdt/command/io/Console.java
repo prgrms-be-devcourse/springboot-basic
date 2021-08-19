@@ -31,19 +31,17 @@ public class Console implements Input, Output {
     @Override
     public void voucherList(List<Voucher> vouchers) {
         System.out.println("Print All Voucher List.");
-        vouchers.stream().forEach((voucher) -> System.out.println(
-                MessageFormat.format("voucherId: {0}", voucher.toString() ))
-        );
+        vouchers.forEach((voucher) -> System.out.println(voucher.toString()));
     }
 
     @Override
     public void inputVoucherType() {
-        System.out.print("Input Voucher Type(PERCENT/FIXED) : ");
+        System.out.println("Input Voucher Type(PERCENT/FIXED) : ");
     }
 
     @Override
-    public void inputVoucherAmount(VoucherType type) {
-        System.out.print(MessageFormat.format("Input discount {0} : ", type.toString()));
+    public void inputVoucherValue(VoucherType type) {
+        System.out.println(MessageFormat.format("Input discount {0} : ", type.toString()));
     }
 
     @Override

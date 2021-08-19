@@ -14,5 +14,5 @@ public interface Output {
 
     void inputVoucherType();
 
-    void inputVoucherAmount(VoucherType type);
+    void inputVoucherValue(VoucherType type);
 }
