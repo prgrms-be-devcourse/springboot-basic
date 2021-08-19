@@ -1,14 +1,14 @@
-package org.prgrms.kdtbespring.service;
+package org.prgrms.kdtbespring.order;
 
-import org.prgrms.kdtbespring.entity.Order;
-import org.prgrms.kdtbespring.vo.OrderItem;
-import org.prgrms.kdtbespring.entity.Voucher;
-import org.prgrms.kdtbespring.repository.OrderRepository;
+import org.prgrms.kdtbespring.voucher.Voucher;
+import org.prgrms.kdtbespring.voucher.VoucherService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 // 오더 서비스는 바우처와 오더에 대해서 기록하고 조회할 수 있는 레포지토리에 대해서 의존성을 가짐
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
@@ -22,8 +22,7 @@ public class OrderService {
     public Order createOrder(UUID customerId, List<OrderItem> orderItems){
         Order order = new Order(UUID.randomUUID(), customerId, orderItems);
         // 오더에 대한 저장
-        orderRepository.insert(order);
-        return order;
+        return orderRepository.insert(order);
     }
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId){

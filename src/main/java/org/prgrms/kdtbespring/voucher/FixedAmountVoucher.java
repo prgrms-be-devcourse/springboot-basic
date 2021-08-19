@@ -1,6 +1,4 @@
-package org.prgrms.kdtbespring.service;
-
-import org.prgrms.kdtbespring.entity.Voucher;
+package org.prgrms.kdtbespring.voucher;
 
 import java.util.UUID;
 

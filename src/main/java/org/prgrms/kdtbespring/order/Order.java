@@ -1,13 +1,13 @@
-package org.prgrms.kdtbespring.entity;
+package org.prgrms.kdtbespring.order;
 
-import org.prgrms.kdtbespring.vo.OrderItem;
-import org.prgrms.kdtbespring.vo.OrderStatus;
+import org.prgrms.kdtbespring.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public class Order {
+
     private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
@@ -34,6 +34,9 @@ public class Order {
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
 
+    public UUID getOrderId() {
+        return orderId;
+    }
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }

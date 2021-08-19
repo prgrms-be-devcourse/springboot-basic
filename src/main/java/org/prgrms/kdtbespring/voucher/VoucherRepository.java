@@ -1,6 +1,4 @@
-package org.prgrms.kdtbespring.repository;
-
-import org.prgrms.kdtbespring.entity.Voucher;
+package org.prgrms.kdtbespring.voucher;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -10,4 +8,6 @@ import java.util.UUID;
 // 그리고 구현체에 맞는 관계를 OrderContext에 가져가게 한다.
 public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
+
+    Voucher insert(Voucher voucher);
 }

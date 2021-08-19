@@ -1,53 +1,43 @@
 package org.prgrms.kdtbespring.config;
 
-import org.prgrms.kdtbespring.entity.Order;
-import org.prgrms.kdtbespring.entity.Voucher;
-import org.prgrms.kdtbespring.repository.OrderRepository;
-import org.prgrms.kdtbespring.repository.VoucherRepository;
-import org.prgrms.kdtbespring.service.OrderService;
-import org.prgrms.kdtbespring.service.VoucherService;
+import org.prgrms.kdtbespring.IgnoreComponentScan;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * VoucherService, VoucherRepository
  * OrserService, OrderRepository
  * 에 대한 생성에 대한 책임을 갖게 됨.
  * 그리고 각각의 의존 관계를 맺는것을 담당하게 됨.
+ *
+ * @Configuration의 Bean이 붙은 메서드는 내부적으로 호출되어 리턴타입의 객체가 ApplicationContext(IoC컨테이너가 관리하게 된다.)
  */
 @Configuration
+@ComponentScan(
+        // basePackageClasses = {Order.class, OrderRepository.class, OrderService.class}
+        basePackages = "org.prgrms.kdtbespring",
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION,classes = IgnoreComponentScan.class)}
+)
 public class AppConfiguration {
 
-    @Bean
-    public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+    @Bean(initMethod = "init")
+    public BeanOne beanOne(){
+        return new BeanOne();
     }
 
-    @Bean
-    public OrderRepository orderRepository() {
-        return new OrderRepository() {
-            @Override
-            public void insert(Order order) {
+}
+class BeanOne implements InitializingBean {
 
-            }
-        };
+    private void init() {
+        System.out.println("[BeanOne] init Method called!");
     }
 
-    @Bean
-    public VoucherService voucherService(VoucherRepository voucherRepository) {
-        return new VoucherService(voucherRepository);
-    }
-
-    @Bean
-    public OrderService orderService(VoucherService voucherService, OrderRepository orderRepository) {
-        return new OrderService(voucherService, orderRepository);
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("[BeanOne] afterPropertiesSet called!");
     }
 }

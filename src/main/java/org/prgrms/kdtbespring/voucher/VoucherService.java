@@ -1,8 +1,7 @@
-package org.prgrms.kdtbespring.service;
+package org.prgrms.kdtbespring.voucher;
 
-import org.prgrms.kdtbespring.vo.VoucherType;
-import org.prgrms.kdtbespring.entity.Voucher;
-import org.prgrms.kdtbespring.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -10,14 +9,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
 
     private final List<Voucher> vouchers = new ArrayList<>();
-    private final VoucherRepository voucherRepository;
+    private VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+
+    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
+
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
@@ -29,6 +31,7 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
     }
 
+    // Voucher 타입 생성
     public Optional<Voucher> create(VoucherType voucherType){
         UUID voucherId = UUID.randomUUID();
         if (voucherType.equals(VoucherType.FixedAmountVoucher) ){
@@ -47,7 +50,13 @@ public class VoucherService {
         return Optional.empty();
     }
 
+    // 리스트 반환
     public List<Voucher> list(){
         return vouchers;
     }
+
+    /*public void setVoucherRepository(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }*/
+
 }

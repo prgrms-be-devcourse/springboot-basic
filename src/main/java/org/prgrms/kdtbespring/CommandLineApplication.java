@@ -1,9 +1,9 @@
 package org.prgrms.kdtbespring;
 
 import org.prgrms.kdtbespring.config.AppConfiguration;
-import org.prgrms.kdtbespring.entity.Voucher;
-import org.prgrms.kdtbespring.service.VoucherService;
-import org.prgrms.kdtbespring.vo.VoucherType;
+import org.prgrms.kdtbespring.voucher.Voucher;
+import org.prgrms.kdtbespring.voucher.VoucherService;
+import org.prgrms.kdtbespring.voucher.VoucherType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
