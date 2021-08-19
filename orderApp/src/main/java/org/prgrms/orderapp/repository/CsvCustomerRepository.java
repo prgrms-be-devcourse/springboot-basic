@@ -31,10 +31,13 @@ public class CsvCustomerRepository implements CustomerRepository {
         var lines = loadCSV(path);
         List<Customer> blacklistedCustomers = new ArrayList<>();
         for (String line:lines) {
-            var customer = createFromString(line);
-            customer.setBlacklisted(true);
-            save(customer);
-            blacklistedCustomers.add(customer);
+            var c = createFromString(line);
+            if (c.isPresent()) {
+                var customer = c.get();
+                customer.setBlacklisted(true);
+                save(customer);
+                blacklistedCustomers.add(customer);
+            }
         }
         return blacklistedCustomers;
     }
@@ -43,16 +46,16 @@ public class CsvCustomerRepository implements CustomerRepository {
         blacklist.put(customer.getCustomerId(), customer);
     }
 
-    public Customer createFromString(String s) {
+    public Optional<Customer> createFromString(String s) {
         try {
             String[] args = splitCSV(s);
             UUID customerId = UUID.fromString(args[0]);
             String name = removeSideQuotes(args[1]);
             String address = removeSideQuotes(args[2]);
             int age = Integer.parseInt(args[3]);
-            return new Customer(customerId, name, address, age);
+            return Optional.of(new Customer(customerId, name, address, age));
         } catch (Exception e) {
-            return null;
+            return Optional.empty();
         }
     }
 }

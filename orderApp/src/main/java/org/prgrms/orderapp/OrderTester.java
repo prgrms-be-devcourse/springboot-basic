@@ -19,7 +19,7 @@ public class OrderTester {
         System.out.println(customer3);
         var csvCustomerRepository = applicationContext.getBean(CsvCustomerRepository.class);
         var c1 = csvCustomerRepository.createFromString(customer1.toString());
-        Assert.isTrue(customer1.equals(c1), "c1 and customer1 is not equal");
+        Assert.isTrue(customer1.equals(c1.get()), "c1 and customer1 is not equal");
 
         csvCustomerRepository.getBlacklist().forEach(System.out::println);
     }
