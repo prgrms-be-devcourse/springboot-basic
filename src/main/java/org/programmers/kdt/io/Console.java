@@ -14,7 +14,7 @@ public class Console implements Input, Output {
     public String input(String prompt) {
         System.out.println(prompt);
         System.out.print(">>> ");
-        return sc.nextLine();
+        return sc.nextLine().trim();
     }
 
     @Override
