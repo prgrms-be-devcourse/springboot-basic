@@ -100,12 +100,8 @@ public class CommandLineApplication {
         }
 
         var value = Long.parseLong(inputStr);
-        Optional<Voucher> createdVoucher = Optional.empty();
-        if (cmd == Command.FIXED) {
-            createdVoucher = voucherService.createVoucher(VoucherType.FIXED_AMOUNT, value);
-        } else if (cmd == Command.PERCENT) {
-            createdVoucher = voucherService.createVoucher(VoucherType.PERCENT, value);
-        }
+        var voucherType = getVoucherType(cmd);
+        var createdVoucher = voucherService.createVoucher(voucherType, value);
 
         if(createdVoucher.isPresent()) {
             output.printMessage("Creation Success: " + createdVoucher);
@@ -114,6 +110,15 @@ public class CommandLineApplication {
             output.printMessage("Creation fail");
             return false;
         }
+
+    }
+
+    private static VoucherType getVoucherType(Command command) {
+        if (command == Command.FIXED) {
+            return VoucherType.FIXED_AMOUNT;
+        } else if (command == Command.PERCENT) {
+            return VoucherType.PERCENT;
+        } else throw new RuntimeException("no match voucher type");
 
     }
 
