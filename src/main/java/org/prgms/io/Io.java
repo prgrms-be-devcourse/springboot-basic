@@ -1,7 +1,9 @@
 package org.prgms.io;
 
 import org.prgms.voucher.VoucherType;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Io {
 
     public void help() {
