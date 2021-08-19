@@ -1,7 +1,6 @@
 package org.programmers.kdt.io;
 
 import org.programmers.kdt.voucher.Voucher;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
