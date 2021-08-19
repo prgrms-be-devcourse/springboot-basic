@@ -2,10 +2,12 @@ package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.domain.*;
 import org.prgrms.kdt.repository.*;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
@@ -23,14 +25,16 @@ public class VoucherService {
         return voucherRepository.findAllVoucher();
     }
 
-    public void createVoucher(VoucherType type, long value) {
+    public Optional<Voucher> createVoucher(VoucherType type, long value) {
         if (type == VoucherType.FIXED_AMOUNT) {
-            voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value));
+            return Optional.ofNullable(voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value)));
         } else if (type == VoucherType.PERCENT) {
-            voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value));
+            return Optional.ofNullable(voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value)));
         }
+        return Optional.empty();
     }
 
+//    TODO
     public void useVoucher(Voucher voucher) {
         throw new UnsupportedOperationException();
     }

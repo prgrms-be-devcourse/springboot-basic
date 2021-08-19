@@ -1,8 +1,9 @@
 package org.prgrms.kdt.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long percent;
 
@@ -11,8 +12,13 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
     }
 
+    @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    public long getPercent() {
+        return percent;
     }
 
     public long discount(long beforeDiscount) {

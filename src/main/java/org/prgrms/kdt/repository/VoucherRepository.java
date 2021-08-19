@@ -8,7 +8,7 @@ import java.util.*;
 public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
 
-    void insert(Voucher voucher);
+    Voucher insert(Voucher voucher);
 
     Collection<Voucher> findAllVoucher();
 }

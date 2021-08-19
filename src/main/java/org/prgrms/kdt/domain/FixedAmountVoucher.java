@@ -1,8 +1,9 @@
 package org.prgrms.kdt.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long amount;
 
@@ -14,6 +15,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    public long getAmount() {
+        return amount;
     }
 
     public long discount(long beforeDiscount) {

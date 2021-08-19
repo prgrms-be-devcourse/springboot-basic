@@ -1,28 +1,29 @@
 package org.prgrms.kdt.repository;
 
 import org.prgrms.kdt.domain.Voucher;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class MemVoucherRepository implements VoucherRepository {
-    private static final Map<UUID, Voucher> vouchers = new HashMap<>();
+    private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        if (vouchers.containsKey(voucherId)) {
-            return Optional.of(vouchers.get(voucherId));
-        }
-        return Optional.empty();
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
     public Collection<Voucher> findAllVoucher() {
-        return vouchers.values();
+        return storage.values();
     }
 
     @Override
-    public void insert(Voucher voucher) {
-        vouchers.put(voucher.getVoucherId(), voucher);
+    public Voucher insert(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
 }

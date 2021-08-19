@@ -1,6 +1,7 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.core.*;
+import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.domain.VoucherType;
 import org.prgrms.kdt.service.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -20,8 +21,7 @@ public class CommandLineApplication {
         PERCENT("percent"),
         INVALID("invalid");
 
-        private static final Map<String, Command> nameIndex =
-                new HashMap(Command.values().length);
+        private static final Map<String, Command> nameIndex = new HashMap<>(Command.values().length);
 
         static {
             for (Command cmd : Command.values()) {
@@ -59,6 +59,7 @@ public class CommandLineApplication {
             switch (Command.lookup(inputStr)) {
                 case EXIT -> {
                     exit();
+                    applicationContext.close();
                     return;
                 }
                 case CREATE -> {
@@ -70,10 +71,10 @@ public class CommandLineApplication {
                 default -> output.inputError(inputStr);
             }
         }
+
     }
 
     private static void listVoucher(VoucherService voucherService) {
-
         var vouchers = voucherService.listVoucher();
         if (vouchers.isEmpty()) {
             output.printMessage("No Voucher Data");
@@ -99,12 +100,21 @@ public class CommandLineApplication {
         }
 
         var value = Long.parseLong(inputStr);
+        Optional<Voucher> createdVoucher = Optional.empty();
         if (cmd == Command.FIXED) {
-            voucherService.createVoucher(VoucherType.FIXED_AMOUNT, value);
+            createdVoucher = voucherService.createVoucher(VoucherType.FIXED_AMOUNT, value);
         } else if (cmd == Command.PERCENT) {
-            voucherService.createVoucher(VoucherType.PERCENT, value);
+            createdVoucher = voucherService.createVoucher(VoucherType.PERCENT, value);
         }
-        return true;
+
+        if(createdVoucher.isPresent()) {
+            output.printMessage("Creation Success: " + createdVoucher);
+            return true;
+        } else {
+            output.printMessage("Creation fail");
+            return false;
+        }
+
     }
 
     private static boolean isDigit(String input) {
