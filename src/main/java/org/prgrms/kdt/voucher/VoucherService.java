@@ -2,14 +2,19 @@ package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.order.Order;
 import org.prgrms.kdt.order.OrderItem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
+
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -31,8 +36,9 @@ public class VoucherService {
         return voucher;
     }
 
+
     public List<Voucher> getVoucherList() {
-        return voucherRepository.voucherList;
+        return null;
     }
 
     public void useVoucher(Voucher voucher) {

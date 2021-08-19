@@ -6,8 +6,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
-    List<Voucher> voucherList = new ArrayList<>();
-
     Optional<Voucher> findById(UUID voucherId);
-    void insert(Voucher voucher);
+    Voucher insert(Voucher voucher);
 }
