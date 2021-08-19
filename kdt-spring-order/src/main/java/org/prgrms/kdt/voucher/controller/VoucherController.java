@@ -11,6 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class VoucherController {
     VoucherService voucherService;
@@ -22,9 +23,10 @@ public class VoucherController {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         this.voucherService = applicationContext.getBean(VoucherService.class);
         // 저장된 voucher list 불러오기
-
+        voucherService.loadVoucherList();
         // 초기 문구 출력
         console.printInitText();
+
     }
 
     public void run() {
@@ -39,8 +41,8 @@ public class VoucherController {
                     try{
                         // 문자열 -> enum 타입으로 변환
                         VoucherType voucherType = VoucherType.valueOf(inputType);
-                        long value = Long.parseLong(console.inputCommand("할인가격or할인률을 입력하세요 : "));
-                        voucherService.createVoucher(voucherType, value);
+                        long value = Long.parseLong(console.inputCommand("할인가격or할인율을 입력하세요 : "));
+                        voucherService.createVoucher(UUID.randomUUID(), voucherType, value);
                         console.printSuccess();
                     }catch(Exception e){
                         console.printCommandError(inputType);
@@ -52,7 +54,7 @@ public class VoucherController {
                 }
                 // 프로그램 종료
                 case "exit" -> {
-
+                    voucherService.saveVoucherList();
                     console.printExitText();
                     return;
                 }
