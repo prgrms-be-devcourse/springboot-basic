@@ -7,16 +7,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-@SpringBootApplication
 public class VoucherProjectApplication {
 
 	public static void main(String[] args) throws IOException {
-//		SpringApplication.run(VoucherProjectApplication.class, args);
 		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
 
 		VoucherService voucherService = applicationContext.getBean(VoucherService.class);
