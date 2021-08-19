@@ -31,7 +31,17 @@ public class VoucherService {
     }
 
     public Voucher create(String voucherType) {
-        return voucherMachine.createVoucher(VoucherType.valueOf(voucherType));
+        Voucher voucher = voucherMachine.createVoucher(VoucherType.valueOf(voucherType));
+        save(voucher);
+        return voucher;
+    }
+
+    private void save(Voucher voucher) {
+        voucherRepository.insert(voucher);
+    }
+
+    public List<Voucher> list() {
+        return voucherRepository.findAll();
     }
 
 }
