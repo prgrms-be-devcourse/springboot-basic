@@ -1,10 +1,9 @@
 package org.prgrms.kdt.voucher.io;
 
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class Console implements Input, Output{
     Scanner scanner = new Scanner(System.in);
@@ -36,9 +35,15 @@ public class Console implements Input, Output{
 
     @Override
     public void printVoucherList(List<Voucher> voucherList) {
-        for(Voucher temp : voucherList){
-            System.out.println(temp.toString());
+        System.out.println("-----------------------------------------------------------------------");
+        for(Voucher voucher : voucherList){
+            System.out.println(
+                    "ID : " + voucher.getVoucherId() + " | " +
+                    "value : " + voucher.getVoucherValue() + " | " +
+                    "type : " + voucher.getVoucherType()
+            );
         }
+        System.out.println("-----------------------------------------------------------------------");
     }
 
     // 커맨드 입력받기

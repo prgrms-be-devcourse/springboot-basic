@@ -1,6 +1,4 @@
-package org.prgrms.kdt.voucher;
-
-import org.prgrms.kdt.voucher.Voucher;
+package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
@@ -13,9 +11,21 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
     }
 
+    // -------------------------------------- ( 작성한 부분 ) --------------------------------------
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public long getVoucherValue() {
+        return percent;
+    }
+
+    @Override
+    public Enum<VoucherType> getVoucherType() {
+        return VoucherType.percent;
     }
 
     @Override
@@ -23,8 +33,4 @@ public class PercentDiscountVoucher implements Voucher {
         return beforeDiscount * (percent / 100);
     }
 
-    @Override
-    public String toString(){
-        return "voucherID : " + voucherId + " | percent : " + percent;
-    }
 }
