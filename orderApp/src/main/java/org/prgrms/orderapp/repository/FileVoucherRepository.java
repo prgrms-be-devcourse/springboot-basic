@@ -16,8 +16,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.prgrms.orderapp.Utils.loadByteFile;
-import static org.prgrms.orderapp.Utils.saveObject;
+import static org.prgrms.orderapp.io.IOUtils.loadByteFile;
+import static org.prgrms.orderapp.io.IOUtils.saveObject;
 
 @Repository
 @Primary
@@ -34,6 +34,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @PostConstruct
     public void loadStorage() {
+        System.out.println("Profile prod is set. FileVoucherRepository is created.");
         String path = MessageFormat.format("{0}/{1}/{2}", System.getProperty("user.dir"), prefix, filename);
         storage = loadByteFile(path).map(o -> (ConcurrentHashMap<UUID, Voucher>) o).orElseGet(ConcurrentHashMap::new);
     }

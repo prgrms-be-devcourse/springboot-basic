@@ -1,4 +1,4 @@
-package org.prgrms.orderapp.config;
+package org.prgrms.orderapp;
 
 
 import org.prgrms.orderapp.config.YamlPropertiesFactory;
