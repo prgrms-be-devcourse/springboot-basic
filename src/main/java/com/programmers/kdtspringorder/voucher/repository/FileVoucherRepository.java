@@ -3,6 +3,8 @@ package com.programmers.kdtspringorder.voucher.repository;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final File file;
     private final BufferedWriter writer;
+    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     public FileVoucherRepository() throws IOException {
         file = new File("voucher.txt");
@@ -38,10 +41,10 @@ public class FileVoucherRepository implements VoucherRepository {
             return strings.stream()
                     .map(str -> str.split(" "))
                     .filter(arr -> arr[1].equals(voucherId.toString()))
-                    .map(this::createConcreteVoucher)
+                    .map(this::convertStringToVoucher)
                     .findFirst();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("message : {0}", e);
         }
         return Optional.empty();
     }
@@ -52,15 +55,15 @@ public class FileVoucherRepository implements VoucherRepository {
             List<String> strings = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
             return strings.stream()
                     .map(str -> str.split(" "))
-                    .map(this::createConcreteVoucher)
+                    .map(this::convertStringToVoucher)
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("message : {0}", e);
         }
         return new ArrayList<>();
     }
 
-    private Voucher createConcreteVoucher(String[] voucherText) {
+    private Voucher convertStringToVoucher(String[] voucherText) {
         if ("FixedAmountVoucher".equals(voucherText[0])) {
             return new FixedAmountVoucher(UUID.fromString(voucherText[1]), Long.parseLong(voucherText[2]));
         } else {
@@ -71,11 +74,12 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         try {
+            writer.close();
             writer.write(voucher.getClass().getSimpleName() + " " + voucher.getVoucherId().toString() + " " + voucher.getValue());
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+           logger.error("message : {0}", e);
         }
         return voucher;
     }

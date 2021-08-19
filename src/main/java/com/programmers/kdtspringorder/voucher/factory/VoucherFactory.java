@@ -4,6 +4,8 @@ import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -11,11 +13,17 @@ import java.util.UUID;
 @Component
 public class VoucherFactory {
 
-    public Voucher createVoucher(VoucherType voucherType){
+    private final Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
+
+    public Voucher createVoucher(VoucherType voucherType) {
         if (voucherType == VoucherType.FIXED) {
-            return new FixedAmountVoucher(UUID.randomUUID(), 2000L);
+            FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2000L);
+            logger.info("CREATE " + fixedAmountVoucher.getClass().getSimpleName() + " " + fixedAmountVoucher.getVoucherId());
+            return fixedAmountVoucher;
         } else {
-            return new PercentDiscountVoucher(UUID.randomUUID(), 10L);
+            PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
+            logger.info("CREATE " + percentDiscountVoucher.getClass().getSimpleName() + " " + percentDiscountVoucher.getVoucherId());
+            return percentDiscountVoucher;
         }
     }
 }
