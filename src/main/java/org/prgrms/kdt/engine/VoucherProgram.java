@@ -24,12 +24,14 @@ public class VoucherProgram implements Runnable {
         while (true) {
             String inputString = input.input("명령어를 입력하세요.");
             Optional<Command> inputCommand = parse(inputString);
+
             if (inputCommand.isEmpty()) {
                 output.inputError();
                 continue;
             }
 
             if (inputCommand.equals(Optional.of(Command.EXIT))) {
+                voucherService.saveVoucher("./voucher.csv");
                 break;
             }
             else if (inputCommand.equals(Optional.of(Command.CREATE))) {

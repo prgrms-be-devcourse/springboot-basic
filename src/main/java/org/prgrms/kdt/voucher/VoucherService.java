@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -15,8 +16,11 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
+    private final CsvVoucherRepository csvVoucherRepository;
+
+    public VoucherService(@Qualifier("csv") VoucherRepository voucherRepository, CsvVoucherRepository csvVoucherRepository) {
         this.voucherRepository = voucherRepository;
+        this.csvVoucherRepository = csvVoucherRepository;
     }
 
     public Voucher getVoucher(UUID voucherId) {
@@ -39,6 +43,10 @@ public class VoucherService {
 
     public Map<UUID, Voucher> getVoucherList() {
         return voucherRepository.getStorage();
+    }
+
+    public void saveVoucher(String filePath) throws IOException {
+        csvVoucherRepository.save(filePath);
     }
 
     public void useVoucher(Voucher voucher) {

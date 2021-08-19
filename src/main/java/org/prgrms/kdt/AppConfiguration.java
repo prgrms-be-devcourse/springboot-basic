@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"org.prgrms.kdt.voucher",
         "org.prgrms.kdt.order",
         "org.prgrms.kdt.configuration"})
-
 public class AppConfiguration {
     // 의존 관계 형성
 
@@ -25,7 +24,7 @@ class BeanOne implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         System.out.println("[BeanOne] afterPropertiesSet called!");
     }
 }
