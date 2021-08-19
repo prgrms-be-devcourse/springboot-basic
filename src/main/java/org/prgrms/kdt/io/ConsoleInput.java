@@ -24,7 +24,7 @@ public class ConsoleInput implements Input {
 
     @Override
     public String inputCommand() {
-        return scanner.nextLine();
+        return scanner.next();
     }
 
     @Override
