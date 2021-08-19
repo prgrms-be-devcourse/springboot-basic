@@ -24,6 +24,6 @@ public class CommandLineApplication {
 
         Console console = new Console(input, output, voucherService, validator);
 
-        while (console.run() != 1);
+        while (console.run() != Console.EXIT);
     }
 }

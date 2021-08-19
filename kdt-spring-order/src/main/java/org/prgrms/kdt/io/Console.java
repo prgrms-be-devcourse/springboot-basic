@@ -11,6 +11,9 @@ import java.util.UUID;
 
 public class Console {
 
+    public static final int CONTINUE = 1;
+    public static final int EXIT = 0;
+
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
@@ -28,16 +31,16 @@ public class Console {
         String cmd = input.readLine().trim().toLowerCase();
         if (validator.isInValidCommand(cmd)) {
             System.out.println("Invalid command, Try again");
-            return 0;
+            return CONTINUE;
         }
 
         if (cmd.equals(Validator.EXIT)) {
             System.out.println("Bye");
-            return 1;
+            return EXIT;
         }
 
         execute(cmd);
-        return 0;
+        return CONTINUE;
     }
 
     private void execute(String cmd) throws IOException {
