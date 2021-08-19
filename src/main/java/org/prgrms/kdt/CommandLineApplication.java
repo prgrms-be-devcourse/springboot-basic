@@ -28,9 +28,9 @@ public class CommandLineApplication {
 
         while (true) {
             outputStream.write(startMessage);
-            command = inputStream.readLine();
+            command = inputStream.readLine().toUpperCase();
 
-            if ("create".equals(command)) {
+            if (Commands.CREATE.toString().equals(command)) {
                 var voucher = createVoucher();
                 if (voucher == null) {
                     outputStream.write("Voucher Creation Fail\n");
@@ -38,13 +38,13 @@ public class CommandLineApplication {
                 }
                 outputStream.write("Voucher Creation Success\n\n");
             }
-            else if ("list".equals(command)){
-                if(listAllVouchers() == false){
+            else if (Commands.LIST.toString().equals(command)) {
+                if (listAllVouchers() == false) {
                     outputStream.write("There are not any vouchers\n\n");
                     continue;
                 }
             }
-            else if ("exit".equals(command))
+            else if (Commands.EXIT.toString().equals(command))
                 break;
         }
     }
