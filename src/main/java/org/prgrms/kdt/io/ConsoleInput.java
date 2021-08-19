@@ -7,7 +7,9 @@ public class ConsoleInput implements Input {
     private static final String EXIT_HELP_MESSAGE = "Type to exit to exit the program.";
     private static final String CREATE_HELP_MESSAGE = "Type to create to create a new voucher.";
     private static final String LIST_HELP_MESSAGE = "Type list to list all vouchers.";
-    private static final String VOUCHER_TYPE_MESSAGE = "Choose voucher type: FIXED_AMOUNT(1000원), PERCENT_DISCOUNT(10%)";
+    private static final String VOUCHER_TYPE_MESSAGE = "Choose voucher type number: 1. fixed amount(1000원), 2. percent discount(10%)";
+    private static final String FIXED_TYPE = "FIXED_AMOUNT";
+    private static final String PERCENT_TYPE = "PERCENT_DISCOUNT";
     private static final Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -26,7 +28,21 @@ public class ConsoleInput implements Input {
     @Override
     public String inputVoucherType() {
         System.out.println(VOUCHER_TYPE_MESSAGE);
-        return scanner.nextLine();
+        try {
+            int typeNumber = scanner.nextInt();
+            switch (typeNumber) {
+                case 1:
+                    return FIXED_TYPE;
+                case 2:
+                    return PERCENT_TYPE;
+                default:
+                    System.out.println("Wrong select. Choose type number 1 or 2");
+                    return inputVoucherType();
+            }
+        } catch (IllegalArgumentException ie) {
+            System.out.println("Wrong select. Choose type number 1 or 2");
+            return inputVoucherType();
+        }
     }
 
     @Override
