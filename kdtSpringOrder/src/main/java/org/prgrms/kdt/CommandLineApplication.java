@@ -1,11 +1,11 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.config.AppConfiguration;
-import org.prgrms.kdt.controller.CommandType;
+import org.prgrms.kdt.enums.CommandType;
 import org.prgrms.kdt.controller.InputController;
 import org.prgrms.kdt.controller.OutputController;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
-import org.prgrms.kdt.dto.VoucherType;
+import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.helper.MessageHelper;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

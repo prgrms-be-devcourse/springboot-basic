@@ -1,4 +1,4 @@
-package org.prgrms.kdt.dto;
+package org.prgrms.kdt.enums;
 
 public enum VoucherType {
     UNDEFINED("undefined"),

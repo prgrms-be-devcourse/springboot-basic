@@ -1,5 +1,7 @@
 package org.prgrms.kdt.dto;
 
+import org.prgrms.kdt.enums.VoucherType;
+
 public class VoucherSaveRequestDto {
 
     private VoucherType voucherType;

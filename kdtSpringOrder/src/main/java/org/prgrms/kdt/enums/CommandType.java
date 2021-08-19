@@ -1,6 +1,5 @@
-package org.prgrms.kdt.controller;
+package org.prgrms.kdt.enums;
 
-//이 클래스의 위치는 어디가 좋을까..
 public enum CommandType {
 
     UNDEFINED("undefined"),

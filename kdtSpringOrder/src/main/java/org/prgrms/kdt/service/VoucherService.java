@@ -4,7 +4,7 @@ import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
-import org.prgrms.kdt.dto.VoucherType;
+import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.repository.VoucherRepository;
 
 import java.text.MessageFormat;

@@ -1,6 +1,7 @@
 package org.prgrms.kdt.controller;
 
-import org.prgrms.kdt.dto.VoucherType;
+import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.enums.CommandType;
 
 import java.util.Scanner;
 
