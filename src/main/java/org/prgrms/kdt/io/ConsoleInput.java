@@ -2,6 +2,8 @@ package org.prgrms.kdt.io;
 
 import java.util.Scanner;
 
+import static org.prgrms.kdt.exception.Message.WRONG_TYPE_MESSAGE;
+
 public class ConsoleInput implements Input {
     private static final String TITLE_MESSAGE = "=== Voucher Program ===";
     private static final String EXIT_HELP_MESSAGE = "Type to exit to exit the program.";
@@ -36,11 +38,11 @@ public class ConsoleInput implements Input {
                 case 2:
                     return PERCENT_TYPE;
                 default:
-                    System.out.println("Wrong select. Choose type number 1 or 2");
+                    System.out.println(WRONG_TYPE_MESSAGE);
                     return inputVoucherType();
             }
         } catch (IllegalArgumentException ie) {
-            System.out.println("Wrong select. Choose type number 1 or 2");
+            System.out.println(WRONG_TYPE_MESSAGE);
             return inputVoucherType();
         }
     }
