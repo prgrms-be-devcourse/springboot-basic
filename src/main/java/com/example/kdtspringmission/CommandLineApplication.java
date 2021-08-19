@@ -27,14 +27,7 @@ public class CommandLineApplication {
 
             if (userInput.equals("create")) {
                 System.out.println("Which one? (1.FixedAmountVoucher, 2.RateAmountVoucher)");
-                String voucher = scanner.nextLine();
-                if (voucher.equals("1")) {
-                    voucherRepository.insert(VoucherFactory.create("FixedAmountVoucher"));
-                } else if (voucher.equals("2")) {
-                    voucherRepository.insert(VoucherFactory.create("RateAmountVoucher"));
-                } else {
-                    throw new IllegalArgumentException();
-                }
+                voucherRepository.insert(VoucherFactory.create(scanner.nextLine()));
             }
 
             if (userInput.equals("list")) {
