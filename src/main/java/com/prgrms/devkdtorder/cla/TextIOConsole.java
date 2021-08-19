@@ -2,10 +2,12 @@ package com.prgrms.devkdtorder.cla;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Component
 public class TextIOConsole implements Input, Output {
 
     private final TextIO textIO = TextIoFactory.getTextIO();

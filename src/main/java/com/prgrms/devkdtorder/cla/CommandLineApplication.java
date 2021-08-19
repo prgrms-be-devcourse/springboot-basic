@@ -1,12 +1,14 @@
 package com.prgrms.devkdtorder.cla;
 
 import com.prgrms.devkdtorder.*;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Component
 public class CommandLineApplication implements Runnable {
 
     private final Input input;

@@ -1,7 +1,10 @@
 package com.prgrms.devkdtorder;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.*;
 
+@Repository
 public class MemVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> map = new HashMap<>();
