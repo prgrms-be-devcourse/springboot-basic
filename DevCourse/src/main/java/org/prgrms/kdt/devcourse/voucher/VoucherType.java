@@ -1,4 +1,4 @@
-package org.prgrms.kdt.devcourse;
+package org.prgrms.kdt.devcourse.voucher;
 
 public enum VoucherType {
     FIXED_AMOUNT,

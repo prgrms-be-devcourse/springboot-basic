@@ -1,4 +1,6 @@
-package org.prgrms.kdt.devcourse;
+package org.prgrms.kdt.devcourse.order;
+
+import org.prgrms.kdt.devcourse.voucher.VoucherService;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,5 +1,8 @@
 package org.prgrms.kdt.devcourse;
 
+import org.prgrms.kdt.devcourse.voucher.Voucher;
+import org.prgrms.kdt.devcourse.voucher.VoucherService;
+import org.prgrms.kdt.devcourse.voucher.VoucherType;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Scanner;
@@ -15,8 +18,6 @@ public class CommandLineApplication {
 
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         var voucherService = applicationContext.getBean(VoucherService.class);
-
-
 
         var info = """
                 === Voucher Program ===

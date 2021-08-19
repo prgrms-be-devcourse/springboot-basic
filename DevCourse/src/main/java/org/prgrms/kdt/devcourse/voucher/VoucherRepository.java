@@ -1,4 +1,4 @@
-package org.prgrms.kdt.devcourse;
+package org.prgrms.kdt.devcourse.voucher;
 
 import java.util.List;
 import java.util.Optional;
