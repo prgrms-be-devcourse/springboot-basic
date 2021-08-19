@@ -1,16 +1,21 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.configure.Voucher;
-import org.prgrms.kdt.entity.Order;
-import org.prgrms.kdt.entity.OrderItem;
-import org.prgrms.kdt.entity.OrderStatus;
-import org.prgrms.kdt.repo.OrderRepository;
+import org.prgrms.kdt.domain.Order;
+import org.prgrms.kdt.domain.OrderItem;
+import org.prgrms.kdt.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderService {
+
+    @Autowired
     private final VoucherService voucherService;
+
+    @Autowired
     private final OrderRepository orderRepository;
 
     public OrderService(VoucherService voucherService, OrderRepository orderRepository) {
@@ -27,7 +32,7 @@ public class OrderService {
 
         var voucher = voucherService.getVoucher(voucherId);
         var order = new Order(UUID.randomUUID(),customerId,orderItems,voucher);
-        orderRepository.save(order);
+        orderRepository.insert(order);
         voucherService.useVoucher(voucher);
         return order;
     }

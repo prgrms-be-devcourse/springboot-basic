@@ -1,4 +1,4 @@
-package org.prgrms.kdt.configure;
+package org.prgrms.kdt.domain;
 
 import java.util.UUID;
 

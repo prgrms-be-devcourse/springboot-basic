@@ -1,17 +1,18 @@
-package org.prgrms.kdt.configure;
+package org.prgrms.kdt.domain;
 
 import lombok.ToString;
 
+import javax.persistence.Entity;
 import java.util.UUID;
 
 @ToString
-public class PercentDiscountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher{
     private final UUID voucherId;
-    private final long percent;
+    private final long discount;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public FixedAmountVoucher(UUID voucherId, long discount) {
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.discount = discount;
     }
 
     @Override
@@ -21,6 +22,6 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount - discount;
     }
 }

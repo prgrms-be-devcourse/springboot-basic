@@ -1,6 +1,6 @@
-package org.prgrms.kdt.repo;
+package org.prgrms.kdt.repository;
 
-import org.prgrms.kdt.configure.Voucher;
+import org.prgrms.kdt.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +12,7 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    void save(Voucher voucher);
+    void insert(Voucher voucher);
 
+    Voucher insert2(Voucher voucher);
 }

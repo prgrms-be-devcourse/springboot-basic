@@ -1,18 +1,21 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.configure.Voucher;
-import org.prgrms.kdt.repo.VoucherMemoryRepo;
+import org.prgrms.kdt.domain.Voucher;
+import org.prgrms.kdt.repository.MemoryVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class IoConsole implements Input, Output{
 
-    private Scanner sc = new Scanner(System.in);
+    private static Scanner sc = new Scanner(System.in);
 
-    @Autowired
-    private VoucherMemoryRepo voucherMemoryRepo;
+    //생성자 주입 == autowired와 같음
+//    public IoConsole(MemoryVoucherRepository memoryVoucherRepository) {
+//        this.memoryVoucherRepository = memoryVoucherRepository;
+//    }
 
     //IO console
     public static void init(){
@@ -20,6 +23,10 @@ public class IoConsole implements Input, Output{
         System.out.println("Type exit to exit the program.");
         System.out.println("Type create to create a new voucher.");
         System.out.println("Type list to list all vouchers.");
+    }
+
+    private void init_IoConsole(){
+
     }
 
     public void exit(){
@@ -44,12 +51,17 @@ public class IoConsole implements Input, Output{
     };
 
     @Override
-    public void outputList(){
-        List<Voucher> list = voucherMemoryRepo.findAll();
-
+    public void outputList(List<Voucher> list){
         list.stream().forEach(m -> System.out.println(m.toString()));
         System.out.println("생성한 Voucher는 총 : "+list.size()+"개 입니다.");
     }
+
+    @Override
+    public void outputList_file(List<String> list){
+        list.stream().forEach(System.out::println);
+        System.out.println("생성한 Voucher는 총 : "+list.size()+"개 입니다.");
+    }
+
 
     @Override
     public void message(String s) {

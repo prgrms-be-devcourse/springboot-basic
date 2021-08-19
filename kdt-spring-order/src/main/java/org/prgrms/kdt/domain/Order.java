@@ -1,8 +1,6 @@
-package org.prgrms.kdt.entity;
+package org.prgrms.kdt.domain;
 
 import lombok.Getter;
-import lombok.Setter;
-import org.prgrms.kdt.configure.Voucher;
 
 import java.util.List;
 import java.util.UUID;
