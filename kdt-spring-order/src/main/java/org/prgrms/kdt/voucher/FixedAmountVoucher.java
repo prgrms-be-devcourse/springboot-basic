@@ -31,6 +31,9 @@ public class FixedAmountVoucher implements Voucher{
         return voucherId;
     }
 
+    public long getAmount() {
+        return amount;
+    }
 
     // voucher가 주어진 금액에 대해서 discount를 하는 로직
     public long discount(long beforeDiscount){

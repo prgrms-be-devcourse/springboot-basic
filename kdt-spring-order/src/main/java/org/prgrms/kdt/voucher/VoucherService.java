@@ -23,8 +23,9 @@ public class VoucherService {
 
 // 생성자를 통해서 의존관계가 형성되도록 하는게 좋음 -> 초기화시에 필요한 모든 의존관계가 형성되기 때문에 안전, 잘못된 패턴을 찾을 수 있게 도와줌, 테스트를 쉽게 해줌, 불변성을 확보
     @Autowired // 생성자를 통해서 의존성을 주입하게 될때 자동으로 주입될 Bean이 여러개 일때 Bean주입을 설정해 주어야함.
-    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("csv") CsvVoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
+        //voucherRepository.roadCSV();
     }
 
     public Voucher getVoucher(UUID voucherId) {

@@ -4,6 +4,11 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher{
     private final UUID voucherId;
+
+    public long getPercent() {
+        return percent;
+    }
+
     private final long percent;
 
 

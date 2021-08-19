@@ -31,6 +31,7 @@ public class CommandLineApplication {
 
             else if(command.equals("exit")) {
                 bw.write("프로그램을 종료합니다");
+                applicationContext.close();
                 bw.flush();
                 bw.close();
                 return;
@@ -70,6 +71,8 @@ public class CommandLineApplication {
         voucherService = applicationContext.getBean(VoucherService.class);
         br = new BufferedReader(new InputStreamReader(System.in));
         bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+
     }
     private void printHome() throws IOException {
         bw.write("=== Voucher Program ===\n" +
