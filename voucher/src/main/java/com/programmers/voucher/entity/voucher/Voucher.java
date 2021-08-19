@@ -1,15 +1,13 @@
 package com.programmers.voucher.entity.voucher;
 
-public class Voucher {
+public abstract class Voucher {
 
     private long id;
     private String name;
-    private type type;
 
-    public Voucher(long id, String name, type type) {
+    public Voucher(long id, String name) {
         this.id = id;
         this.name = name;
-        this.type = type;
     }
 
     public long getId() {
@@ -28,20 +26,10 @@ public class Voucher {
         this.name = name;
     }
 
-    public Voucher.type getType() {
-        return type;
-    }
-
-    public void setType(Voucher.type type) {
-        this.type = type;
-    }
-
-    public enum type {
-        FIXED, PERCENT
-    }
+    public abstract int discount(int original);
 
     @Override
     public String toString() {
-        return String.format("[Voucher #%d] %s / %s", id, name, type.name());
+        return String.format("[Voucher #%d] %s", id, name);
     }
 }
