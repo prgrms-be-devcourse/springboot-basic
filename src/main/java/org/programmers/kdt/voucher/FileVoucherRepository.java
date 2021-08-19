@@ -25,7 +25,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 String[] data = line.split(" ");
                 UUID uuid = UUID.fromString(data[0]);
 
-                if (voucherId == uuid) {
+                if (voucherId.equals(uuid)) {
                     String className = data[1];
                     Long discount = Long.parseLong(data[2]);
 
