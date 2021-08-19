@@ -4,6 +4,7 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TextIOConsole implements Input, Output {
 
@@ -56,9 +57,10 @@ public class TextIOConsole implements Input, Output {
     @Override
     public void print(List<String> list) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            sb.append((i+1) + ". "+list.get(i)+"\n");
-        }
+        AtomicInteger i = new AtomicInteger(1);
+
+        list.forEach(l -> sb.append((i.getAndIncrement() + ". " + l + "\n")));
+
         textIO.getTextTerminal().println(sb.toString());
     }
 
