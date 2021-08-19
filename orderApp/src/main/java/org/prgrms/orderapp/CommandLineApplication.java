@@ -1,5 +1,6 @@
 package org.prgrms.orderapp;
 
+import org.prgrms.orderapp.config.AppConfiguration;
 import org.prgrms.orderapp.io.Console;
 import org.prgrms.orderapp.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

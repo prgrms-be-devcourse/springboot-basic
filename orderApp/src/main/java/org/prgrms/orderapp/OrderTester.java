@@ -1,5 +1,6 @@
 package org.prgrms.orderapp;
 
+import org.prgrms.orderapp.config.AppConfiguration;
 import org.prgrms.orderapp.model.OrderItem;
 import org.prgrms.orderapp.service.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
