@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -36,9 +37,8 @@ public class VoucherService {
         return voucher;
     }
 
-
-    public List<Voucher> getVoucherList() {
-        return null;
+    public Map<UUID, Voucher> getVoucherList() {
+        return voucherRepository.getStorage();
     }
 
     public void useVoucher(Voucher voucher) {

@@ -34,6 +34,7 @@ public class VoucherProgram implements Runnable {
             }
             else if (inputCommand.equals(Optional.of(Command.CREATE))) {
                 // create voucher
+                Optional<Voucher> voucher = Optional.empty();
                 int voucherType = Integer.parseInt(
                         input.input("""
                                 원하는 종류의 voucher 번호를 입력하세요.
@@ -48,22 +49,27 @@ public class VoucherProgram implements Runnable {
                 if (discount > 0) {
                     if (voucherType == 1) {
                         // FixedAmountVoucher
-                        voucherService.createFixedAmountVoucher(discount);
+                        voucher = Optional.ofNullable(voucherService.createFixedAmountVoucher(discount));
                     } else if (voucherType == 2) {
                         // PercentDiscountVoucher
-                        voucherService.createPercentDiscountVoucher(discount);
+                        voucher = Optional.ofNullable(voucherService.createPercentDiscountVoucher(discount));
                     } else {
                         output.inputError();
                     }
                 } else {
                     output.inputError();
                 }
+                System.out.println(voucher);
             }
             else if ((inputCommand.equals(Optional.of(Command.LIST)))) {
                 // list voucher
-                List<Voucher> voucherList = voucherService.getVoucherList();
-                for (Voucher voucher: voucherList) {
-                    System.out.println(voucher);
+                var voucherList = voucherService.getVoucherList();
+                if (voucherList.isEmpty()) {
+                    System.out.println("voucher가 없습니다.");
+                } else {
+                    for (Voucher voucher: voucherList.values()) {
+                        System.out.println(voucher);
+                    }
                 }
             }
         }

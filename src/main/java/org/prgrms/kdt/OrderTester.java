@@ -32,7 +32,7 @@ public class OrderTester {
 
         var orderService = applicationContext.getBean(OrderService.class);
         var order = orderService.createOrder(customerId,
-                new ArrayList<OrderItem>() {{
+                new ArrayList<>() {{
                     add(new OrderItem(UUID.randomUUID(), 100L, 1));
                 }}, voucher.getVoucherId());
 

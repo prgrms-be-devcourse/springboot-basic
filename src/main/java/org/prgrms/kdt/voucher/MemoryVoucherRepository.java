@@ -19,6 +19,11 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
+    public Map<UUID, Voucher> getStorage() {
+        return storage;
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
@@ -35,7 +40,7 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         System.out.println("afterPropertiesSet called!");
     }
 
@@ -45,7 +50,7 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         System.out.println("destroy called!");
     }
 }

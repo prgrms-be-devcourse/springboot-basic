@@ -6,18 +6,22 @@ import org.springframework.stereotype.Repository;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Qualifier("jdbc")
-public class JdbcVoucherRepository implements VoucherRepository {
+@Qualifier("csv")
+public class CsvVoucherRepository implements VoucherRepository {
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
     public Voucher insert(Voucher voucher) {
-        return null;
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
