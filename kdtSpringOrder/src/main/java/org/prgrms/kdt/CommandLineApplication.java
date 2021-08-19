@@ -1,6 +1,6 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.config.AppConfiguration;
+import org.prgrms.kdt.AppConfiguration;
 import org.prgrms.kdt.enums.CommandType;
 import org.prgrms.kdt.controller.InputController;
 import org.prgrms.kdt.controller.OutputController;

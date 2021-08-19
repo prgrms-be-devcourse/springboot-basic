@@ -3,6 +3,7 @@ package org.prgrms.kdt.service;
 import org.prgrms.kdt.domain.order.Order;
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.repository.OrderRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +12,8 @@ import java.util.UUID;
 //어떤 레포지토리를 사용할지 선택하지 않고 바우처서비스또한 직접생성하지 않음.
 //객체를 만드는 제어권을 OrderContext한테 넘김 => IoC
 //IoC가 일어나는 장소를 컨테이너라고 하고, OrderContext는 일종의 IoC라고 할 수 있다.
+
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
@@ -22,8 +25,7 @@ public class OrderService {
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
         var order = new Order(UUID.randomUUID(), customerId, orderItems);
-        orderRepository.insert(order);
-        return order;
+        return orderRepository.insert(order);
     }
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {

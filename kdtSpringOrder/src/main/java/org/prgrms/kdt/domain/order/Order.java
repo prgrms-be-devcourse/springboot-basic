@@ -39,6 +39,10 @@ public class Order {
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
 
+    public UUID getOrderId() {
+        return orderId;
+    }
+
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
