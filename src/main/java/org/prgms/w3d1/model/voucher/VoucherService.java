@@ -9,7 +9,6 @@ import java.util.UUID;
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    private final VoucherFactory voucherFactory = new VoucherFactory();
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -21,8 +20,8 @@ public class VoucherService {
                 .orElseThrow(()-> new RuntimeException("Can not find a voucher for " + voucherId));
     }
 
-    public void saveVoucher(VoucherType voucherType, long discountValue){
-        voucherRepository.save(voucherFactory.createVoucher(voucherType, discountValue));
+    public void saveVoucher(Voucher voucher){
+        voucherRepository.save(voucher);
     }
 
     public List<Voucher> findAll(){

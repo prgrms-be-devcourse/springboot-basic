@@ -3,6 +3,8 @@ package org.prgms.w3d1;
 import org.prgms.w3d1.io.Input;
 import org.prgms.w3d1.io.Output;
 import org.prgms.w3d1.model.blacklist.BlacklistService;
+import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
+import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
 import org.prgms.w3d1.model.voucher.VoucherService;
 import org.prgms.w3d1.model.voucher.VoucherType;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -40,10 +42,12 @@ public class CommandLineApplication implements Runnable{
                     command = sc.nextLine();
                     if (command.equals("1")) {
                         output.printFixedMenu();
-                        voucherService.saveVoucher(VoucherType.FIXED_AMOUNT_TYPE, sc.nextLong());
+                        long discount = sc.nextLong();
+                        voucherService.saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), discount));
                     } else if(command.equals("2")) {
                         output.printPercentMenu();
-                        voucherService.saveVoucher(VoucherType.PERCENT_DISCOUNT_TYPE, sc.nextLong());
+                        long discount = sc.nextLong();
+                        voucherService.saveVoucher(new PercentDiscountVoucher(UUID.randomUUID(), discount));
                     }else{
                         output.inputError();
                         continue;
