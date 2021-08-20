@@ -8,6 +8,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.util.Assert;
 
 import com.prgms.kdtspringorder.application.OrderService;
+import com.prgms.kdtspringorder.config.AppConfig;
 import com.prgms.kdtspringorder.domain.model.order.OrderItem;
 
 public class OrderTester {

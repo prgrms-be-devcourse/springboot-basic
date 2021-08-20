@@ -3,12 +3,15 @@ package com.prgms.kdtspringorder.application;
 import java.text.MessageFormat;
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
 import com.prgms.kdtspringorder.domain.model.voucher.FixedAmountVoucher;
 import com.prgms.kdtspringorder.domain.model.voucher.PercentDiscountVoucher;
 import com.prgms.kdtspringorder.domain.model.voucher.Voucher;
 import com.prgms.kdtspringorder.domain.model.voucher.VoucherRepository;
 import com.prgms.kdtspringorder.domain.model.voucher.VoucherType;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
