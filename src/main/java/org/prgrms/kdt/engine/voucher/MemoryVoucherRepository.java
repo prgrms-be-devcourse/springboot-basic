@@ -28,8 +28,10 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     }
 
     @Override
-    public Optional<List<Voucher>> getAll() {
-        return Optional.empty();
+    public Optional<Map<UUID, Voucher>> getAll() {
+        if (storage.isEmpty())
+            return Optional.empty();
+        return Optional.of(storage);
     }
 
     @Override

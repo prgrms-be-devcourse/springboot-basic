@@ -2,9 +2,7 @@ package org.prgrms.kdt.engine.io;
 
 import org.prgrms.kdt.engine.voucher.Voucher;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Console implements Input, Output {
     private final Scanner scanner = new Scanner(System.in);
@@ -34,8 +32,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void listVoucher(List<Voucher> voucherList) {
-        for (Voucher voucher : voucherList)
+    public void listVoucher(Map<UUID, Voucher> voucherList) {
+        for (Voucher voucher : voucherList.values())
             System.out.println(voucher);
     }
 

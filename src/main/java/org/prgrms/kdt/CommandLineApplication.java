@@ -9,7 +9,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public class CommandLineApplication {
     private static final Input input = new Console();
@@ -29,7 +31,7 @@ public class CommandLineApplication {
                     voucher.ifPresentOrElse(output::createVoucher, output::inputError);
                     break;
                 case "list":
-                    Optional<List<Voucher>> voucherList = voucherService.listVoucher();
+                    Optional<Map<UUID, Voucher>> voucherList = voucherService.listVoucher();
                     voucherList.ifPresentOrElse(output::listVoucher, output::voucherListError);
                     break;
                 case "exit":

@@ -20,7 +20,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<List<Voucher>> getAll() {
+    public Optional<Map<UUID, Voucher>> getAll() {
         return Optional.empty();
     }
 
