@@ -62,7 +62,7 @@ public class VoucherCommandLine {
 
             // 생성할 Voucher Type을 입력 받는다.
             String voucherNum = this.input(REQUEST_SELECT_VOUCHER_TYPE_MSG);
-            VoucherType selectedVoucherType = VoucherType.findVoucher(voucherNum);
+            VoucherType selectedVoucherType = VoucherType.findVoucherType(voucherNum);
 
             // 할인 금액 or 퍼센티지를 입력받는다.
             String discount =  this.input(MessageFormat.format(REQUEST_INPUT_DISCOUNT_MSG, selectedVoucherType.getUnit()));

@@ -43,7 +43,7 @@ public enum VoucherType {
      * @param num 콘솔에 입력한 번호
      * @return 찾은 VoucherType을 반환합니다.
      */
-    public static VoucherType findVoucher(String num) {
+    public static VoucherType findVoucherType(String num) {
         Optional<VoucherType> foundVoucher = Arrays.stream(values()).filter(v -> (v.getValue().equals(num))).findFirst();
         return foundVoucher.orElseThrow(() -> new IllegalArgumentException());
     }
