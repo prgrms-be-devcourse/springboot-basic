@@ -11,10 +11,6 @@ public class FixedAmountVoucher implements Voucher{
         this.amount = amount;
     }
 
-    public FixedAmountVoucher(long amount) {
-        this.amount = amount;
-    }
-
     @Override
     public UUID getVoucherId() {
         return null;
@@ -22,5 +18,20 @@ public class FixedAmountVoucher implements Voucher{
 
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FixedAmountVoucher that = (FixedAmountVoucher) o;
+
+        return amount == that.amount;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (amount ^ (amount >>> 32));
     }
 }
