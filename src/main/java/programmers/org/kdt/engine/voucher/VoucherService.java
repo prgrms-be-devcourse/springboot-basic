@@ -1,7 +1,6 @@
 package programmers.org.kdt.engine.voucher;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.UUID;
+import programmers.org.kdt.engine.voucher.repository.VoucherRepository;
 
 @Service
 public class VoucherService {
@@ -25,14 +25,12 @@ public class VoucherService {
         if (voucherStatus == VoucherStatus.FixedAmountVoucher) {
             var voucher = new FixedAmountVoucher(UUID.randomUUID(), value);
             if (voucher.conditionCheck()) {
-                voucherRepository.insert(voucher);
-                return Optional.of(voucher);
+                return voucherRepository.insert(voucher);
             }
         } else if (voucherStatus == VoucherStatus.PercentDiscountVoucher) {
             var voucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
             if (voucher.conditionCheck()) {
-                voucherRepository.insert(voucher);
-                return Optional.of(voucher);
+                return voucherRepository.insert(voucher);
             }
         }
         return Optional.empty();

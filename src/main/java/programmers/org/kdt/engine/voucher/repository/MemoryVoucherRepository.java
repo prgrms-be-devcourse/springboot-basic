@@ -1,19 +1,18 @@
-package programmers.org.kdt.engine.voucher;
+package programmers.org.kdt.engine.voucher.repository;
 
-import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import programmers.org.kdt.engine.voucher.Voucher;
 
-@Repository
+//@Repository
 public class MemoryVoucherRepository implements VoucherRepository, InitializingBean,
     DisposableBean {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();

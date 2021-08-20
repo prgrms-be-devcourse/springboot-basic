@@ -1,9 +1,10 @@
-package programmers.org.kdt.engine.voucher;
+package programmers.org.kdt.engine.voucher.repository;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import programmers.org.kdt.engine.voucher.Voucher;
 
 public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
