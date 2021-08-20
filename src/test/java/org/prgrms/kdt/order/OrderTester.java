@@ -31,5 +31,19 @@ public class OrderTester {
 
         Assert.isTrue(order.totalAmount() == 90L,
                 MessageFormat.format("totalAmount({0}) is not 90L", order.totalAmount()));
+
+        // ApplicationContext 소멸
+        /**
+         * Bean 생성 생명주기 콜백
+         * 1. @PostConstruct 가 적영된 메소드 호출
+         * 2. Bean이 InitializingBean 인터페이스 구현시 afterPropertiesSet 호출
+         * 3. @Bean Annotation의 initMethod에 설정한 메소드 호출
+         *
+         * Bean 소멸 생명주기 콜백
+         * 1. @PreDestroy 가 적용된 메소드 호출
+         * 2. Bean 이 DisposableBean 인터페이스 구현시 destroy 호출
+         * 3. @Bean 의 destroyMethod 에 설정한 메소드 호출
+         */
+        applicationContext.close(); // destory는 deprecated
     }
 }

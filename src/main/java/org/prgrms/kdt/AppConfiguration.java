@@ -3,6 +3,7 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.command.CommandLineApplication;
 import org.prgrms.kdt.command.io.Console;
 import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,5 +41,22 @@ public class AppConfiguration {
     @Bean
     public CommandLineApplication commandLineApplication(Console console, ApplicationContext applicationContext) {
         return new CommandLineApplication(console, applicationContext);
+    }
+
+    @Bean(initMethod = "init")
+    public BeanOne beanOne() {
+        return new BeanOne();
+    }
+}
+
+class BeanOne implements InitializingBean {
+
+    public void init() {
+        System.out.println("init called!!");
+    }
+
+    @Override //init method보다 afterPropertiesSet가 먼저 호출됨!
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("afterPropertiesSet called!!");
     }
 }
