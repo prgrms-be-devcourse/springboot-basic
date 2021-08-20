@@ -11,12 +11,14 @@ import java.util.UUID;
 public class CommandLineApplication {
     private final VoucherService voucherService;
     private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
+    
+    // 생성자를 통해 프로그램을 실행시킵니다.
     public CommandLineApplication(VoucherService voucherService) throws IOException {
         this.voucherService = voucherService;
         runApp();
     }
-
+    
+    // 내부 로직
     private void runApp() throws IOException {
         String command;
         while(true){
@@ -42,7 +44,8 @@ public class CommandLineApplication {
         }
 
     }
-
+    
+    // VoucherService의insertVoucher를 호출하는 메소드
     private void createVoucher(String command){
         if(command.equals("1")){
             voucherService.insertVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10000L));
@@ -51,9 +54,12 @@ public class CommandLineApplication {
         }
 
     }
+    // VoucherService를 통해 Voucher리스트를 문자열로 받아오는 메소드
     private void printVouchers(){
         System.out.println(voucherService.showVouchers());
     }
+    
+    // 아래의 메소드들은 출력용 메소드
     private void printInitMessage(){
         System.out.println("\n===== Voucher Program =====\n"
             + "Type exit to exit the program.\n"
