@@ -24,7 +24,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
   public static final int COL_UUID = 0;
   public static final int COL_VOUCHER_TYPE = 1;
-  private String filePath = "src/main/resources/tempRepo2.csv";
+  private String filePath = "src/main/resources/tempRepo.csv";
 
   @Override
   public Optional<Voucher> findById(UUID voucherId) {
