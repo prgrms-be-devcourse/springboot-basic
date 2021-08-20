@@ -67,7 +67,7 @@ public class VoucherCommandLine {
             // 할인 금액 or 퍼센티지를 입력받는다.
             String discount =  this.input(MessageFormat.format(REQUEST_INPUT_DISCOUNT_MSG, selectedVoucherType.getUnit()));
 
-            this.voucherService.createVoucher(selectedVoucherType, Long.valueOf(discount));
+            this.voucherService.register(selectedVoucherType, Long.valueOf(discount));
 
         } catch (IllegalArgumentException e) {
 
@@ -81,7 +81,7 @@ public class VoucherCommandLine {
      * List 명령어 실행 로직
      */
     public void executeListCmd() {
-        this.voucherService.getVoucherList().forEach(v -> {
+        this.voucherService.getVouchers().forEach(v -> {
             System.out.println(v.toString());
         });
     }

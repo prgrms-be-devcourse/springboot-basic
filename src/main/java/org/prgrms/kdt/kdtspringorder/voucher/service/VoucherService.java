@@ -24,14 +24,11 @@ public class VoucherService {
                 .orElseThrow( () -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public void useVoucher(Voucher voucher) {
-    }
-
     /**
      * 모든 Voucher 목록을 조회합니다.
      * @return 조회한 Voucher 목록을 반환합니다.
      */
-    public List<Voucher> getVoucherList() {
+    public List<Voucher> getVouchers() {
         return this.voucherRepository.findAll();
     }
 
@@ -40,15 +37,9 @@ public class VoucherService {
      * @param type 생성할 Voucher 유형
      * @param discount 할인 받을 정도 ( 금액 or % )
      */
-    public void createVoucher(VoucherType type, long discount) {
+    public void register(VoucherType type, long discount) {
 
-        Voucher createdVoucher;
-
-        if(type == VoucherType.FIX) {
-            createdVoucher = new FixedAmountVoucher(UUID.randomUUID(), discount);
-        } else {
-            createdVoucher = new PercentDiscountVoucher(UUID.randomUUID(), discount);
-        }
+        Voucher createdVoucher = type.createVoucher(discount);
 
         this.voucherRepository.insert(createdVoucher);
 
