@@ -1,5 +1,7 @@
 package org.prgrms.kdt.kdtspringorder.common.config;
 
+import org.prgrms.kdt.kdtspringorder.common.io.ConsoleOutput;
+import org.prgrms.kdt.kdtspringorder.common.io.ConsoleInput;
 import org.prgrms.kdt.kdtspringorder.order.domain.Order;
 import org.prgrms.kdt.kdtspringorder.order.repository.OrderRepository;
 import org.prgrms.kdt.kdtspringorder.order.service.OrderService;
@@ -44,7 +46,7 @@ public class AppConfiguration {
 
     @Bean
     public VoucherCommandLine voucherCommandLine() {
-        return new VoucherCommandLine(voucherService());
+        return new VoucherCommandLine(voucherService(), new ConsoleInput(), new ConsoleOutput());
     }
 
 
