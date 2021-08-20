@@ -9,7 +9,9 @@ import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MemoryVoucherRepository implements VoucherRepository{
   Map<UUID, Voucher> memoryDB = new HashMap<>();
 

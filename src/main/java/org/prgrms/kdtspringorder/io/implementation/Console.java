@@ -8,8 +8,9 @@ import org.prgrms.kdtspringorder.io.abstraction.Input;
 import org.prgrms.kdtspringorder.io.abstraction.Output;
 import org.prgrms.kdtspringorder.io.domain.Command;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class Console implements Input, Output{
 
   @Override

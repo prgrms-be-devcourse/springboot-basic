@@ -9,7 +9,9 @@ import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.io.exception.InvalidCommandException;
 import org.prgrms.kdtspringorder.voucher.service.VoucherService;
 import org.prgrms.kdtspringorder.voucher.validation.CommandValidator;
+import org.springframework.stereotype.Component;
 
+@Component
 public class App {
 
   private final Input input;
