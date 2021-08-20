@@ -2,17 +2,13 @@ package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-// 두개의 VoucherRepository가 등록되는데, VoucherService에서 생성자 주입을 통해서 Repository가 주입된다.
-// 그러면 2개의 인스턴스가 있으니까 VoucherRepository에 매칭되는게 2개니까 어떤 Bean이 자동으로 주입되는건지 선택해야합니다.
 @Repository
-// @Primary // 생성자 주입시 매칭되는게 여러개일 경우 얘가 우선시로 주입되어야해
-@Qualifier("memory")// 용도를 구별
-public class MemoryVoucherRepository implements VoucherRepository {
+@Qualifier("jdbc")
+public class JDBCVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new HashMap<>();
 
