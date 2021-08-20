@@ -1,12 +1,14 @@
 package org.prgrms.kdt;
 
 import java.util.UUID;
+import org.prgrms.kdt.command.ListCommand;
 import org.prgrms.kdt.io.Console;
 import org.prgrms.kdt.command.Command;
-import org.prgrms.kdt.command.Create;
-import org.prgrms.kdt.command.Exit;
+import org.prgrms.kdt.command.CreateCommand;
+import org.prgrms.kdt.command.ExitCommand;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.VoucherData;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
 
@@ -36,30 +38,36 @@ public class CommandLineApplication implements Runnable {
 
     private void runConsoleApp() {
         switch (console.inputCommand()) {
-            case EXIT -> new Exit().execute();
-            case CREATE -> inputVoucher();
-            case LIST -> console.vouchers(voucherService.getAllVoucher());
+            case CREATE -> command = newCreateCommand(inputVoucher());
+            case LIST -> command = new ListCommand(voucherService.getAllVoucher(), console);
+            case EXIT -> command = new ExitCommand();
             case ERROR -> console.commandError();
         }
+        command.execute();
     }
 
-    private void inputVoucher() {
+    private VoucherData inputVoucher() {
         String[] split = console.inputVoucher().split(",");
         String voucherNumber = split[0].trim();
         Long rate = Long.parseLong(split[1].trim());
-
-        insertVoucher(voucherNumber, rate);
+        return new VoucherData(voucherNumber, UUID.randomUUID(), rate);
     }
 
-    private void insertVoucher(String voucherNumber, Long rate) {
-        VoucherType voucherType = VoucherType.findByNumber(voucherNumber);
-        switch (voucherType) {
-            case FIX -> command = new Create(new FixedAmountVoucher(UUID.randomUUID(), rate), voucherService);
-            case PERCENT -> command = new Create(new PercentDiscountVoucher(UUID.randomUUID(), rate), voucherService);
+    private Command newCreateCommand(VoucherData voucherData) {
+        switch (VoucherType.findByNumber(voucherData.voucherNumber())) {
+            case FIX -> command = createFixedVoucher(voucherData);
+            case PERCENT -> command = createPercentVoucher(voucherData);
         }
-
-        command.execute();
         console.successCreate();
+        return command;
+    }
+
+    private CreateCommand createFixedVoucher(VoucherData voucherData) {
+        return new CreateCommand(new FixedAmountVoucher(UUID.randomUUID(), voucherData.rate()), voucherService);
+    }
+
+    private CreateCommand createPercentVoucher(VoucherData voucherData) {
+        return new CreateCommand(new PercentDiscountVoucher(UUID.randomUUID(), voucherData.rate()), voucherService);
     }
 
 }

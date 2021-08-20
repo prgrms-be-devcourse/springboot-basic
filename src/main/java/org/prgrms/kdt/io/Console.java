@@ -54,7 +54,7 @@ public class Console implements Output {
         System.out.println("성공적으로 등록되었습니다. 다음 명령을 입력해주세요.");
     }
 
-    public void vouchers(Map<UUID, Voucher> vouchers) {
+    public void printVouchers(Map<UUID, Voucher> vouchers) {
         vouchers.values()
                 .forEach(System.out::println);
     }
