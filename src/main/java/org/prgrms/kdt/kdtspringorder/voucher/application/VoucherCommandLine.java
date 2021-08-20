@@ -7,7 +7,6 @@ import org.prgrms.kdt.kdtspringorder.common.io.Output;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 
 import java.text.MessageFormat;
-import java.util.Scanner;
 
 /**
  * VoucherCommandLine의 메인 로직을 담당합니다.
@@ -28,6 +27,9 @@ public class VoucherCommandLine {
         this.outputConsole = outputConsole;
     }
 
+    /**
+     * Voucher Command Line 어플리케이션을 시작합니다.
+     */
     public void start() {
 
         outputConsole.showFirstMsg();
@@ -71,7 +73,7 @@ public class VoucherCommandLine {
 
         } catch (IllegalArgumentException e) {
 
-            outputConsole.showInccorectMsg();
+            outputConsole.showIncorrectNumMsg();
 
         }
 

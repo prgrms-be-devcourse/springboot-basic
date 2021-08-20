@@ -8,13 +8,18 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * 바우처 유형
+ */
 public enum VoucherType {
+
     FIX("1", "가격") {
         @Override
         public Voucher createVoucher(long discount) {
             return new FixedAmountVoucher(UUID.randomUUID(), discount);
         }
     },
+
     PERCENT("2", "퍼센티지") {
         @Override
         public Voucher createVoucher(long discount) {
@@ -22,8 +27,8 @@ public enum VoucherType {
         }
     };
 
-    private final String value;
-    private final String unit;
+    private final String value; // 바우처 번호 ( 콘솔에 입력하기 위한 번호 )
+    private final String unit; // 바우처 단위
 
     VoucherType(String value, String unit) {
         this.value = value;

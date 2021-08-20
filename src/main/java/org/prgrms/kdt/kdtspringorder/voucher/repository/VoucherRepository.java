@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * 바우처 데이터에 대한 CRUD를 담당합니다
+ */
 public interface VoucherRepository {
 
     /**

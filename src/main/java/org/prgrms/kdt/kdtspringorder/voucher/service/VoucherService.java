@@ -10,6 +10,9 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 요구사항에 따라 바우처 데이터를 가공하여 반환합니다.
+ */
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
@@ -18,6 +21,11 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    /**
+     * voucherId에 해당하는 바우처 1개를 조회합니다.
+     * @param voucherId
+     * @return 조회한 바우처를 반환합니다.
+     */
     public Voucher getVoucher(UUID voucherId) {
         return this.voucherRepository
                 .findById(voucherId)
