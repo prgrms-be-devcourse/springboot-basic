@@ -2,13 +2,12 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.command.CommandLineApplication;
 import org.prgrms.kdt.command.io.Console;
-import org.prgrms.kdt.order.OrderItem;
-import org.prgrms.kdt.order.domain.Order;
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 /**
  * OrderContext는 주문에 대한 전반적인 도메인 객체에 대한 생성을 책임지고 있음.
@@ -28,7 +27,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 // SteroType Bean이 자동으로 등록되게 할려면 Component Scan을 자동으로 한다고 알려줘야합니다.
 // basePackage를 설정해 줄 수 있습니다.
-@ComponentScan(basePackageClasses = {OrderItem.class, Voucher.class}) // 그러면 이 AppConfiguration이 있는 패키지 기준으로 하위 디렉토리까지 쭈욱 찾습니다.
+@ComponentScan(
+        basePackages = {"org.prgrms.kdt.order", "org.prgrms.kdt.voucher"},
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = MemoryVoucherRepository.class)})
 public class AppConfiguration {
 
     @Bean
