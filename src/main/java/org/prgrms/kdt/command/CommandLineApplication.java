@@ -5,7 +5,9 @@ import org.prgrms.kdt.command.io.Input;
 import org.prgrms.kdt.command.io.Output;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CommandLineApplication implements Runnable {
 
     private static final String INPUT_PROMPT = "> ";

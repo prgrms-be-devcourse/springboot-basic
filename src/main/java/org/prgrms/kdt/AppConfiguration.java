@@ -25,7 +25,12 @@ import org.springframework.context.annotation.FilterType;
  */
 
 @Configuration
-@ComponentScan(basePackages = {"org.prgrms.kdt.order", "org.prgrms.kdt.voucher", "org.prgrms.kdt.configuration"})
+@ComponentScan(basePackages = {
+        "org.prgrms.kdt.order",
+        "org.prgrms.kdt.voucher",
+        "org.prgrms.kdt.configuration",
+        "org.prgrms.kdt.command"
+})
 public class AppConfiguration {
     // 다양한 Bean 들이 특정용도(Kafka Template, Email Sender)에 맞게 그룹화돼서 definition이 configuration file로 작성되어야 될 때가 있어요.
     // 그럴때 configuration package를 만들어서 다 같이 관리하는게 편하다.
@@ -33,30 +38,4 @@ public class AppConfiguration {
     // spring boot 쓰면 @SpringBootApplication에 ComponentScan이 다 들어가 있습니다.
     // 그래서 별도로 Root가 되어지는 Configuration file을 잘 만들진 않습니다.
 
-    @Bean
-    public Console console() {
-        return new Console();
-    }
-
-    @Bean
-    public CommandLineApplication commandLineApplication(Console console, ApplicationContext applicationContext) {
-        return new CommandLineApplication(console, applicationContext);
-    }
-
-    @Bean(initMethod = "init")
-    public BeanOne beanOne() {
-        return new BeanOne();
-    }
-}
-
-class BeanOne implements InitializingBean {
-
-    public void init() {
-        System.out.println("init called!!");
-    }
-
-    @Override //init method보다 afterPropertiesSet가 먼저 호출됨!
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("afterPropertiesSet called!!");
-    }
 }

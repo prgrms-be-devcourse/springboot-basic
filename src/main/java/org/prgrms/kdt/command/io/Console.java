@@ -2,12 +2,14 @@ package org.prgrms.kdt.command.io;
 
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+@Service
 public class Console implements Input, Output {
     private final Scanner scanner;
 
