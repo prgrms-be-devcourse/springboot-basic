@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class VoucherProjectApplication {
 
 	public static void main(String[] args) throws IOException {
