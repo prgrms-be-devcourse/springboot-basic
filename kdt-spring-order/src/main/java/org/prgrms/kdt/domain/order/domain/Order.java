@@ -1,6 +1,6 @@
-package org.prgrms.kdt.domain.order;
+package org.prgrms.kdt.domain.order.domain;
 
-import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.domain.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;

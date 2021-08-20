@@ -1,6 +1,9 @@
-package org.prgrms.kdt.domain.order;
+package org.prgrms.kdt.domain.order.service;
 
-import org.prgrms.kdt.domain.voucher.VoucherService;
+import org.prgrms.kdt.domain.order.domain.Order;
+import org.prgrms.kdt.domain.order.domain.OrderItem;
+import org.prgrms.kdt.domain.order.repository.OrderRepository;
+import org.prgrms.kdt.domain.voucher.service.VoucherService;
 
 import java.util.List;
 import java.util.UUID;

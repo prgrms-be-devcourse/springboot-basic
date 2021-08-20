@@ -1,4 +1,7 @@
-package org.prgrms.kdt.domain.voucher;
+package org.prgrms.kdt.domain.voucher.service;
+
+import org.prgrms.kdt.domain.voucher.domain.Voucher;
+import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
 
 import java.util.UUID;
 

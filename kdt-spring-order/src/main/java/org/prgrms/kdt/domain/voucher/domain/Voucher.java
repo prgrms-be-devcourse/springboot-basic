@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain.voucher;
+package org.prgrms.kdt.domain.voucher.domain;
 
 import java.util.UUID;
 
