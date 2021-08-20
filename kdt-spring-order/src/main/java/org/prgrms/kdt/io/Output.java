@@ -8,6 +8,6 @@ public interface Output {
 
     void outputList(List<Voucher> voucherList);
 
-   void outputList_file(List<String> list);
+   void outputListFile(List<String> list);
 
 }

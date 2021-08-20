@@ -1,7 +1,6 @@
-package org.prgrms.kdt.fileIO;
+package org.prgrms.kdt.fileutil;
 
 import org.prgrms.kdt.domain.Voucher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;

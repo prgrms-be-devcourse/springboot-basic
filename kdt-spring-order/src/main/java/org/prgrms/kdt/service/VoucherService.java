@@ -1,10 +1,8 @@
 package org.prgrms.kdt.service;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.prgrms.kdt.domain.FixedAmountVoucher;
-import org.prgrms.kdt.domain.PercentDiscountVoucher;
-import org.prgrms.kdt.domain.Voucher;
+import org.prgrms.kdt.domain.*;
+import org.prgrms.kdt.factory.VoucherFactory;
 import org.prgrms.kdt.repository.MemoryVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +14,12 @@ import java.util.UUID;
 @Service
 public class VoucherService {
 
-//    @Autowired
-//    private final VoucherMemoryRepo voucherMemoryRepo;
 
     @Autowired
     private final MemoryVoucherRepository memoryVoucherRepository;
+
+    @Autowired
+    private final VoucherFactory voucherFactory;
 
     //의존성 주입에 있어서 (생성자 생성, 필드에 autowired, 하면 주입이 된다.)
 
@@ -37,16 +36,24 @@ public class VoucherService {
     public void useVoucher(Voucher voucher){
     }
 
-    public Voucher createVoucher(UUID voucherId, long discount, int voucherType){
-        System.out.println("discount 값 :"+discount);
-        System.out.println("voucher ID :"+voucherId);
-        System.out.println("type :"+voucherType);
-        if(voucherType == 1){
-            return memoryVoucherRepository.insert2(new FixedAmountVoucher(voucherId,discount));
-        }else{
-            return memoryVoucherRepository.insert2(new PercentDiscountVoucher(voucherId,discount));
-        }
+    //factory로 관리하게끔 수정
+    public Voucher createVoucher(VoucherType voucherType){
+        Voucher v = voucherFactory.getDiscounterVoucher(voucherType);
+        return v;
     }
+
+//    public Voucher createVoucher(UUID voucherId, long discount, int voucherType){
+////        return memoryVoucherRepository.insert2(new FixedAmountVoucher(voucherId,discount));
+//        Voucher voucher = null;
+//
+//        if(voucherType == 1){
+//            return memoryVoucherRepository.insert2(new FixedAmountVoucher(voucherId,discount));
+//        }else{
+//            return memoryVoucherRepository.insert2(new PercentDiscountVoucher(voucherId,discount));
+//        }
+//    }
+
+
 
     public List<Voucher> findAll() {
         return memoryVoucherRepository.findAll();

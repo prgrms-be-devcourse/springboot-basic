@@ -57,7 +57,7 @@ public class IoConsole implements Input, Output{
     }
 
     @Override
-    public void outputList_file(List<String> list){
+    public void outputListFile(List<String> list){
         list.stream().forEach(System.out::println);
         System.out.println("생성한 Voucher는 총 : "+list.size()+"개 입니다.");
     }
