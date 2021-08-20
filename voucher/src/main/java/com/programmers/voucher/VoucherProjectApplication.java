@@ -42,16 +42,16 @@ public class VoucherProjectApplication {
 					Voucher createdVoucher;
 					switch(voucherType) {
 						case "Fixed":
-							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED);
+							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED, 1000);
 							break;
 
 						case "Percent":
-							createdVoucher = voucherService.create(voucherName, Voucher.type.PERCENT);
+							createdVoucher = voucherService.create(voucherName, Voucher.type.PERCENT, 0.1);
 							break;
 
 						default:
 							System.out.println("Didn't select voucher type or invalid voucher type. Fallback to \"Fixed\" voucher type.");
-							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED);
+							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED, 1000);
 					}
 					System.out.println(createdVoucher.toString());
 					break;

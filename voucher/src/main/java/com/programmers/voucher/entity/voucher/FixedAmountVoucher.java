@@ -2,11 +2,30 @@ package com.programmers.voucher.entity.voucher;
 
 public class FixedAmountVoucher extends Voucher {
 
-    int amount;
+    private int amount;
 
     public FixedAmountVoucher(long id, String name, int amount) {
         super(id, name);
         this.amount = amount;
+    }
+
+    public FixedAmountVoucher(String name, int amount) {
+        super(name);
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+
+    @Override
+    public String toString() {
+        return String.format("[Voucher #%d] %s / %d / FIXED", super.id, super.name, amount);
     }
 
     @Override

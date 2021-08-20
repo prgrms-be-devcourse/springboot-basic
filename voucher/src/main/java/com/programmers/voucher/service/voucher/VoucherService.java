@@ -5,7 +5,7 @@ import com.programmers.voucher.entity.voucher.Voucher;
 import java.util.List;
 
 public interface VoucherService {
-    Voucher create(String name, Voucher.type type);
+    Voucher create(String name, Voucher.type type, double value);
 
     List<Voucher> listAll();
 }

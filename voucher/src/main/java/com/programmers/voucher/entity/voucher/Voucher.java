@@ -2,11 +2,15 @@ package com.programmers.voucher.entity.voucher;
 
 public abstract class Voucher {
 
-    private long id;
-    private String name;
+    protected long id;
+    protected String name;
 
     public Voucher(long id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public Voucher(String name) {
         this.name = name;
     }
 
@@ -31,5 +35,9 @@ public abstract class Voucher {
     @Override
     public String toString() {
         return String.format("[Voucher #%d] %s", id, name);
+    }
+
+    public enum type {
+        FIXED, PERCENT
     }
 }
