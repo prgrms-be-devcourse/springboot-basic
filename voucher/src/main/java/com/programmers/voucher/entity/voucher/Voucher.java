@@ -2,16 +2,18 @@ package com.programmers.voucher.entity.voucher;
 
 import java.io.Serializable;
 
-public class Voucher implements Serializable {
+public abstract class Voucher implements Serializable {
 
-    private long id;
-    private String name;
-    private type type;
+    protected long id;
+    protected String name;
 
-    public Voucher(long id, String name, type type) {
+    public Voucher(long id, String name) {
         this.id = id;
         this.name = name;
-        this.type = type;
+    }
+
+    public Voucher(String name) {
+        this.name = name;
     }
 
     public long getId() {
@@ -30,20 +32,14 @@ public class Voucher implements Serializable {
         this.name = name;
     }
 
-    public Voucher.type getType() {
-        return type;
-    }
+    public abstract int discount(int original);
 
-    public void setType(Voucher.type type) {
-        this.type = type;
+    @Override
+    public String toString() {
+        return String.format("[Voucher #%d] %s", id, name);
     }
 
     public enum type {
         FIXED, PERCENT, NA
-    }
-
-    @Override
-    public String toString() {
-        return String.format("[Voucher #%d] %s / %s", id, name, type.name());
     }
 }

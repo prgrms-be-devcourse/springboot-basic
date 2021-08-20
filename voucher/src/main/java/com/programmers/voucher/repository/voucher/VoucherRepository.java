@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface VoucherRepository {
     void loadVouchers();
+
     void persistVouchers();
 
-    Voucher save(String name, Voucher.type type);
+    Voucher save(Voucher voucher);
 
     List<Voucher> listAll();
 }

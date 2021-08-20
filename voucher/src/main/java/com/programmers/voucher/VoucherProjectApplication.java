@@ -19,11 +19,9 @@ public class VoucherProjectApplication {
 		voucherService.openStorage();
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		while(true) {
-			System.out.println("\n\n=== Voucher Program === \n" +
-					"Type exit to exit the program. \n" +
-					"Type create to create a new voucher. \n" +
-					"Type list to list all vouchers.");
+		while (true) {
+			System.out.println("\n\n=== Voucher Program === \n" + "Type exit to exit the program. \n"
+					+ "Type create to create a new voucher. \n" + "Type list to list all vouchers.");
 			String command = br.readLine();
 			switch (command) {
 				case "exit":
@@ -38,18 +36,19 @@ public class VoucherProjectApplication {
 					String voucherType = br.readLine();
 
 					Voucher createdVoucher;
-					switch(voucherType) {
+					switch (voucherType) {
 						case "Fixed":
-							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED);
+							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED, 1000);
 							break;
 
 						case "Percent":
-							createdVoucher = voucherService.create(voucherName, Voucher.type.PERCENT);
+							createdVoucher = voucherService.create(voucherName, Voucher.type.PERCENT, 0.1);
 							break;
 
 						default:
-							System.out.println("Didn't select voucher type or invalid voucher type. Fallback to \"Fixed\" voucher type.");
-							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED);
+							System.out.println(
+									"Didn't select voucher type or invalid voucher type. Fallback to \"Fixed\" voucher type.");
+							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED, 1000);
 					}
 					System.out.println(createdVoucher.toString());
 					break;

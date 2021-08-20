@@ -6,9 +6,10 @@ import java.util.List;
 
 public interface VoucherService {
     void openStorage();
+
     void closeStorage();
 
-    Voucher create(String name, Voucher.type type);
+    Voucher create(String name, Voucher.type type, double value);
 
     List<Voucher> listAll();
 }
