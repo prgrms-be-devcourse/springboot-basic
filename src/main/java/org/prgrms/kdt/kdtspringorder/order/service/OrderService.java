@@ -5,10 +5,12 @@ import org.prgrms.kdt.kdtspringorder.order.domain.OrderItem;
 import org.prgrms.kdt.kdtspringorder.order.repository.OrderRepository;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderService {
 
     private final VoucherService voucherService;

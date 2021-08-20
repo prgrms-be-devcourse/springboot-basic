@@ -5,12 +5,14 @@ import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.common.io.Input;
 import org.prgrms.kdt.kdtspringorder.common.io.Output;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 
 /**
  * VoucherCommandLine의 메인 로직을 담당합니다.
  */
+@Component
 public class VoucherCommandLine {
 
     private final String REQUEST_INP_COMMAND_MSG = "명령어를 입력해 주세요. : ";

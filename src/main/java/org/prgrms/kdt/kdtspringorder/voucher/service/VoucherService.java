@@ -5,6 +5,7 @@ import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.UUID;
 /**
  * 요구사항에 따라 바우처 데이터를 가공하여 반환합니다.
  */
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;

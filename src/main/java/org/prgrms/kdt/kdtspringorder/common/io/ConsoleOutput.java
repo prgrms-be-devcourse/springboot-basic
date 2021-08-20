@@ -1,8 +1,11 @@
 package org.prgrms.kdt.kdtspringorder.common.io;
 
+import org.springframework.stereotype.Component;
+
 /**
  * 콘솔 출력을 담당합니다.
  */
+@Component
 public class ConsoleOutput implements Output{
 
     private final String COMMAND_ANNOUNCE_MSG = "\n=== Voucher Program ===\nType exit to exit the program.\nType create to create a new voucher.\nType list to list all vouchers.\n";
