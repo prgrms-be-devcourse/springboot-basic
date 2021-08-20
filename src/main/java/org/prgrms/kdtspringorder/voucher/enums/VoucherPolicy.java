@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.function.Function;
 
 public enum VoucherPolicy {
-
   FIXED("fixed", (originalPrice) -> originalPrice - 10000),
   PERCENT("percent", (originalPrice) -> ((originalPrice * 100) - (originalPrice * 30)) / 100);
 
