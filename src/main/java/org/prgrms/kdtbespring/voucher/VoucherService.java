@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,8 +13,7 @@ public class VoucherService {
 
     private VoucherRepository voucherRepository;
 
-
-    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("file") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -31,15 +29,15 @@ public class VoucherService {
     }
 
     // Voucher 타입 생성
-    public Optional<Voucher> create(VoucherType voucherType){
+    public Optional<Voucher> create(VoucherType voucherType) {
         UUID voucherId = UUID.randomUUID();
-        if (voucherType.equals(VoucherType.FixedAmountVoucher) ){
+        if (voucherType == VoucherType.FixedAmountVoucher) {
             // 임의로 지정 10원 할인
             long amount = 10L;
             Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, amount);
             voucherRepository.insert(fixedAmountVoucher);
             return Optional.of(fixedAmountVoucher);
-        }else if (voucherType.equals(VoucherType.PercentDiscountVoucher)){
+        } else if (voucherType == VoucherType.PercentDiscountVoucher) {
             // 임의로 지정 10%
             long percent = 10L;
             Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, percent);
@@ -50,13 +48,8 @@ public class VoucherService {
     }
 
     // 리스트 반환
-    public List<Voucher> list(){
+    public List<Voucher> list() {
         List<Voucher> vouchers = voucherRepository.findAll();
         return vouchers;
     }
-
-    /*public void setVoucherRepository(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }*/
-
 }
