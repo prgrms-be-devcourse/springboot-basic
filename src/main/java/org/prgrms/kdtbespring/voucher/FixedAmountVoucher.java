@@ -19,6 +19,10 @@ public class FixedAmountVoucher implements Voucher {
                 '}';
     }
 
+    public long getAmount() {
+        return amount;
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
