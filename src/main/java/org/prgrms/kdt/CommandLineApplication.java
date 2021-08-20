@@ -1,7 +1,6 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.core.*;
-import org.prgrms.kdt.model.Voucher;
 import org.prgrms.kdt.model.VoucherType;
 import org.prgrms.kdt.service.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -60,7 +59,6 @@ public class CommandLineApplication {
             switch (Command.lookup(inputStr)) {
                 case EXIT -> {
                     exit();
-//                    applicationContext.close();
                     return;
                 }
                 case CREATE -> {
@@ -89,8 +87,8 @@ public class CommandLineApplication {
         String inputStr = input.input(
                 "Creating a new voucher. Choose a voucher type (fixed or percent): "
         );
-        var cmd = Command.lookup(inputStr);
-        if (cmd == Command.INVALID) {
+        var type = VoucherType.lookup(inputStr);
+        if (type == VoucherType.INVALID) {
             output.inputError(inputStr);
             return false;
         }
@@ -101,20 +99,10 @@ public class CommandLineApplication {
         }
 
         var value = Long.parseLong(inputStr);
-        var voucherType = getVoucherType(cmd);
-        var createdVoucher = voucherService.createVoucher(voucherType, value);
+        var createdVoucher = voucherService.createVoucher(type, value);
         output.printMessage(MessageFormat.format("Created Voucher: {0}", createdVoucher));
         return true;
     }
-
-    private static VoucherType getVoucherType(Command command) {
-        if (command == Command.FIXED) {
-            return VoucherType.FIXED_AMOUNT;
-        } else if (command == Command.PERCENT) {
-            return VoucherType.PERCENT;
-        } else throw new RuntimeException("no match voucher type");
-    }
-
 
     private static boolean isDigit(String input) {
         return Pattern.matches("^[0-9]*$", input);
