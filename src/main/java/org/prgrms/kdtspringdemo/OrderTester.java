@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringdemo;
 
 import org.prgrms.kdtspringdemo.order.OrderItem;
+import org.prgrms.kdtspringdemo.order.OrderProperties;
 import org.prgrms.kdtspringdemo.order.OrderService;
 import org.prgrms.kdtspringdemo.voucher.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.VoucherRepository;
@@ -18,13 +19,11 @@ public class OrderTester {
     public static void main(String[] args) {
         var application = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
-        var environment = application.getEnvironment();
-        var version = environment.getProperty("kdt.version");
-        var minimumOrderAmount = environment.getProperty("kdt.minimum-order-amount", Integer.class);
-        var supportVendors = environment.getProperty("kdt.support-vendors", List.class);
-        System.out.println(MessageFormat.format("version -> {0}", version));
-        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", minimumOrderAmount));
-        System.out.println(MessageFormat.format("supportVendors -> {0}", supportVendors));
+        var orderProperties = application.getBean(OrderProperties.class);
+        System.out.println(MessageFormat.format("version -> {0}", orderProperties.getVersion()));
+        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", orderProperties.getMinimumOrderAmount()));
+        System.out.println(MessageFormat.format("supportVendors -> {0}", orderProperties.getSupportVendors()));
+        System.out.println(MessageFormat.format("description -> {0}", orderProperties.getDescription()));
 
 
         var customerId = UUID.randomUUID();
