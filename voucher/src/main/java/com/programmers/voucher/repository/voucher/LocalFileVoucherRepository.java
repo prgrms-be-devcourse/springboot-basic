@@ -12,7 +12,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
-@Primary
 public class LocalFileVoucherRepository implements VoucherRepository {
 
     private final Path file;

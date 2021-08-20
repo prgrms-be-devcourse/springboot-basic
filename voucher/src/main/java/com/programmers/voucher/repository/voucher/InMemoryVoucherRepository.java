@@ -1,8 +1,8 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.entity.voucher.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-import com.programmers.voucher.entity.voucher.factory.VoucherFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
+@Profile("prod")
 public class InMemoryVoucherRepository implements VoucherRepository {
 
     AtomicLong sequencer = new AtomicLong(0);
