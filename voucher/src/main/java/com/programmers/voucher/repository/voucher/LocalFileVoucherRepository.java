@@ -73,9 +73,9 @@ public class LocalFileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(String name, Voucher.type type) {
+    public Voucher save(Voucher voucher) {
         long id = sequencer.getAndAdd(1);
-        Voucher voucher = new Voucher(id, name, type);
+        voucher.setId(id);
         db.put(id, voucher);
         return voucher;
     }

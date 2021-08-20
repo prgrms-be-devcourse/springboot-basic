@@ -22,6 +22,16 @@ public class BasicVoucherService implements VoucherService {
     }
 
     @Override
+    public void openStorage() {
+        voucherRepository.loadVouchers();
+    }
+
+    @Override
+    public void closeStorage() {
+        voucherRepository.persistVouchers();
+    }
+
+    @Override
     public Voucher create(String name, Voucher.type type, double value) {
         Voucher voucher;
         switch (type) {
