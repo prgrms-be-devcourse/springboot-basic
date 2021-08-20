@@ -3,19 +3,17 @@ package org.prgrms.kdtspringorder.voucher.repository.implementation;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
+import org.prgrms.kdtspringorder.voucher.exception.RepositoryException;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -26,7 +24,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
   public static final int COL_UUID = 0;
   public static final int COL_VOUCHER_TYPE = 1;
-  private String filePath = "src/main/resources/tempRepo.csv";
+  private String filePath = "src/main/resources/tempRepo2.csv";
 
   @Override
   public Optional<Voucher> findById(UUID voucherId) {
@@ -36,20 +34,16 @@ public class FileVoucherRepository implements VoucherRepository {
 
   @Override
   public List<Voucher> getVouchers() {
-    CSVReader csvReader = getCSVReader();
     List<String[]> rows;
 
     try {
+      CSVReader csvReader = getCSVReader();
       rows = csvReader.readAll();
-    } catch (IOException | CsvException e) {
-      throw new RuntimeException();
+      csvReader.close();
+    } catch (IOException | CsvException ioException) {
+      throw new RepositoryException(ioException);
     }
 
-    try {
-      csvReader.close();
-    } catch (IOException e) {
-      throw new RuntimeException();
-    }
     // 예외를 어떻게 처리 할지 모르겠어서 일단 프로그램이 터지도록 했습니다.
 
     return rows.stream().map(this::generateVoucherFrom).collect(Collectors.toList());
@@ -57,15 +51,15 @@ public class FileVoucherRepository implements VoucherRepository {
 
   @Override
   public Voucher saveVoucher(Voucher voucher) {
-    CSVWriter csvWriter = getCSVWriter();
     voucher.assignId(generateId());
     String[] newRow = generateRowFrom(voucher);
-    csvWriter.writeNext(newRow);
 
     try {
+      CSVWriter csvWriter = getCSVWriter();
+      csvWriter.writeNext(newRow);
       csvWriter.close();
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException ioException) {
+      throw new RepositoryException(ioException);
     }
 
     return voucher;
@@ -96,22 +90,12 @@ public class FileVoucherRepository implements VoucherRepository {
   }
 
 
-  private CSVWriter getCSVWriter() {
-    try {
+  private CSVWriter getCSVWriter() throws IOException{
       return new CSVWriter(new FileWriter(this.filePath, true));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-      // 예외를 어떻게 처리 할지 모르겠어서 일단 프로그램이 터지도록 했습니다.
-    }
   }
 
-  private CSVReader getCSVReader() {
-    try {
+  private CSVReader getCSVReader() throws IOException{
       return new CSVReader(new FileReader(this.filePath));
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
-      // 예외를 어떻게 처리 할지 모르겠어서 일단 프로그램이 터지도록 했습니다.
-    }
   }
 
 }

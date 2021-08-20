@@ -58,7 +58,8 @@ public class App {
           break;
 
         case LIST:
-          List<Voucher> vouchers = voucherService.getVouchers();
+          List<Voucher> vouchers;
+          vouchers = voucherService.getVouchers();
           output.print("=== 생성된 바우처 목록 ===");
           output.printVoucherList(vouchers);
           break;
