@@ -25,8 +25,8 @@ public class CommandLineApplication {
             String command = input.inputCommand("Command : ");
             switch (command) {
                 case "create" -> {
-                    String prompt = "'fixed' for fixed voucher, 'percent' for percent voucher : ";
-                    String type = input.inputCommand(prompt);
+                    output.showVoucherOptions();
+                    String type = input.inputCommand("");
                     Optional<Voucher> voucher = createVoucher(type);
                     voucher.ifPresentOrElse(output::createVoucher, output::inputError);
                 }

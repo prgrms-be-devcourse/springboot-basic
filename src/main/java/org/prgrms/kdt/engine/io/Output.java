@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public interface Output {
     void help();
+    void showVoucherOptions();
     void inputError();
     void createVoucher(Voucher voucher);
     void listVoucher(Map<UUID, Voucher> voucherList);

@@ -22,6 +22,11 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public void showVoucherOptions() {
+        System.out.print("'fixed' for fixed voucher, 'percent' for percent voucher : ");
+    }
+
+    @Override
     public void inputError() {
         System.out.println("Wrong Input");
     }
