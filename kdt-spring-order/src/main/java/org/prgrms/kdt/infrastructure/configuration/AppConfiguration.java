@@ -3,14 +3,11 @@ package org.prgrms.kdt.infrastructure.configuration;
 import org.prgrms.kdt.domain.order.domain.Order;
 import org.prgrms.kdt.domain.order.repository.OrderRepository;
 import org.prgrms.kdt.domain.order.service.OrderService;
-import org.prgrms.kdt.domain.voucher.domain.Voucher;
 import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.domain.voucher.service.VoucherService;
+import org.prgrms.kdt.infrastructure.voucher.VoucherMemoryRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /*
 * 레포지토리 생성에 대한 책임을 가지고 있음.
@@ -20,12 +17,7 @@ import java.util.UUID;
 public class AppConfiguration {
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new VoucherMemoryRepository();
     }
 
     @Bean
