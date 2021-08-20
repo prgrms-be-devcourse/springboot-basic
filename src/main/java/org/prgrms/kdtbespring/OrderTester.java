@@ -2,15 +2,12 @@ package org.prgrms.kdtbespring;
 
 import org.prgrms.kdtbespring.config.AppConfiguration;
 import org.prgrms.kdtbespring.order.Order;
+import org.prgrms.kdtbespring.order.OrderItem;
+import org.prgrms.kdtbespring.order.OrderService;
+import org.prgrms.kdtbespring.voucher.FixedAmountVoucher;
 import org.prgrms.kdtbespring.voucher.Voucher;
 import org.prgrms.kdtbespring.voucher.VoucherRepository;
-import org.prgrms.kdtbespring.voucher.FixedAmountVoucher;
-import org.prgrms.kdtbespring.order.OrderService;
-import org.prgrms.kdtbespring.order.OrderItem;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
