@@ -22,6 +22,11 @@ public class FixedAmountVoucher implements Voucher {
         return voucherId;
     }
 
+    @Override
+    public String saveCSV() {
+        return String.format("FixedAmountVoucher,%s,%s", voucherId, amount);
+    }
+
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }

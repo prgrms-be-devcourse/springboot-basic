@@ -23,6 +23,11 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public String saveCSV() {
+        return String.format("PercentDiscountVoucher,%s,%s", voucherId, percent);
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
