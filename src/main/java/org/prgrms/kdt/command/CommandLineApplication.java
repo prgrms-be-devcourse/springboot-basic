@@ -3,14 +3,8 @@ package org.prgrms.kdt.command;
 import org.prgrms.kdt.command.io.Console;
 import org.prgrms.kdt.command.io.Input;
 import org.prgrms.kdt.command.io.Output;
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public class CommandLineApplication implements Runnable {
 
@@ -37,8 +31,7 @@ public class CommandLineApplication implements Runnable {
 
     private boolean excute() {
         String inputCommandType = input.inputString(INPUT_PROMPT);
-        // Optional<CommandType> commandType = parseCommandType(inputCommandType);
 
-        return CommandType.findCommand(inputCommandType).excute(input, output, voucherService);
+        return CommandType.findCommand(inputCommandType).execute(input, output, voucherService);
     }
 }

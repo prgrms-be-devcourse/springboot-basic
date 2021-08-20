@@ -15,7 +15,7 @@ public enum VoucherType {
         this.inputString = inputString;
     }
 
-    public static VoucherType findVoucher(String inputString) {
+    public static VoucherType findVoucher(String inputString) { // TODO: Optional 을 쓰지마
         return Optional.ofNullable(voucherTypeMap.getOrDefault(inputString, null)).orElseThrow(IllegalArgumentException::new);
     }
 }
