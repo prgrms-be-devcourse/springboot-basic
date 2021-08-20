@@ -1,4 +1,4 @@
-package org.prgms.order.voucher;
+package org.prgms.order.voucher.model;
 
 import java.util.UUID;
 

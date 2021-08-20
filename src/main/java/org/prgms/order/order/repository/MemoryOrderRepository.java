@@ -1,7 +1,6 @@
-package org.prgms.order.order;
+package org.prgms.order.order.repository;
 
-import org.prgms.order.order.Order;
-import org.prgms.order.order.OrderRepository;
+import org.prgms.order.order.model.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

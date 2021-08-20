@@ -1,9 +1,9 @@
 package org.prgms.order;
 
-import org.prgms.order.order.OrderItem;
-import org.prgms.order.order.OrderService;
-import org.prgms.order.voucher.FixedAmountVoucher;
-import org.prgms.order.voucher.VoucherRepository;
+import org.prgms.order.order.model.OrderItem;
+import org.prgms.order.order.service.OrderService;
+import org.prgms.order.voucher.model.FixedAmountVoucher;
+import org.prgms.order.voucher.repository.VoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 

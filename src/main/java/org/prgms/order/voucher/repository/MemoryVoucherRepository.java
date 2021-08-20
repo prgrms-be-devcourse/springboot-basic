@@ -1,5 +1,7 @@
-package org.prgms.order.voucher;
+package org.prgms.order.voucher.repository;
 
+import org.prgms.order.voucher.model.Voucher;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Qualifier("Memory")
 public class MemoryVoucherRepository implements VoucherRepository{
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     @Override
