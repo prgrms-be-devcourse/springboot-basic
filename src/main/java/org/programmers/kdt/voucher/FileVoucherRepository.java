@@ -4,18 +4,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Qualifier("File")
 public class FileVoucherRepository implements VoucherRepository {
+    private final Map<UUID, Voucher> cache = new ConcurrentHashMap<>();
+    // TOOD: 적절한 데이터 저장 경로 설정 필요
     private final String path = "";
     private final String filename = "VoucherData.txt";
-    @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+
+    public FileVoucherRepository() {
         try {
             FileReader fileReader = new FileReader(path + filename);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -24,29 +24,29 @@ public class FileVoucherRepository implements VoucherRepository {
             while (null != (line = bufferedReader.readLine())) {
                 String[] data = line.split(" ");
                 UUID uuid = UUID.fromString(data[0]);
+                String className = data[1];
+                Long discount = Long.parseLong(data[2]);
 
-                if (voucherId.equals(uuid)) {
-                    String className = data[1];
-                    Long discount = Long.parseLong(data[2]);
-
-                    if (className.equals("FixedAmountVoucher")) {
-                        return Optional.of(new FixedAmountVoucher(uuid, discount));
-                    } else if (className.equals("PercentDiscountVoucher")) {
-                        return Optional.of(new PercentDiscountVoucher(uuid, discount));
-                    }
+                if ("FixedAmountVoucher".equals(className)) {
+                    cache.put(uuid, new FixedAmountVoucher(uuid, discount));
+                } else if ("PercentDiscountVoucher".equals(className)) {
+                    cache.put(uuid, new PercentDiscountVoucher(uuid, discount));
                 }
             }
+
             bufferedReader.close();
             fileReader.close();
         } catch (IOException e) {
             e. printStackTrace();
         }
-
-        return Optional.empty();
     }
 
     @Override
     public Voucher save(Voucher voucher) {
+        // save to cache
+        cache.put(voucher.getVoucherId(), voucher);
+
+        // save to file
         try {
             FileWriter fileWriter = new FileWriter(path + filename, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -68,34 +68,12 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(cache.get(voucherId));
+    }
+
+    @Override
     public List<Voucher> findAll() {
-        List<Voucher> voucherList = new ArrayList<>();
-
-        try {
-            FileReader fileReader = new FileReader(path + filename);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            String line = "";
-            while (null != (line = bufferedReader.readLine())) {
-                // TODO: Make voucher and add it to the list
-                String[] data = line.split(" ");
-                UUID uuid = UUID.fromString(data[0]);
-                String className = data[1];
-                Long discount = Long.parseLong(data[2]);
-
-                if (className.equals("FixedAmountVoucher")) {
-                    voucherList.add(new FixedAmountVoucher(uuid, discount));
-                } else if (className.equals("PercentDiscountVoucher")) {
-                    voucherList.add(new PercentDiscountVoucher(uuid, discount));
-                }
-            }
-
-            bufferedReader.close();
-            fileReader.close();
-        } catch (IOException e) {
-            e. printStackTrace();
-        }
-
-        return voucherList;
+        return new ArrayList<>(cache.values());
     }
 }
