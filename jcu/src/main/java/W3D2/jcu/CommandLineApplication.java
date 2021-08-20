@@ -12,7 +12,6 @@ public class CommandLineApplication {
     private final VoucherService voucherService;
     private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    // customer클래스가 따로 없고 한명의 고객만 이용하는 프로그램이라서 id를 필드로 저장했습니다.
     public CommandLineApplication(VoucherService voucherService) throws IOException {
         this.voucherService = voucherService;
         runApp();
