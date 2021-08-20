@@ -13,7 +13,8 @@ public class JcuApplication {
 
 	public static void main(String[] args) throws IOException {
 		ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfiguration.class);
-
+		
+		// Service만 주입
 		var voucherService = ac.getBean(VoucherService.class);
 		new CommandLineApplication(voucherService);
 	}
