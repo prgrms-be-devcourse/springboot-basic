@@ -2,7 +2,9 @@ package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -12,6 +14,7 @@ import java.util.*;
 @Repository
 // @Primary // 생성자 주입시 매칭되는게 여러개일 경우 얘가 우선시로 주입되어야해
 @Qualifier("memory")// 용도를 구별
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON) // value로 scope에 어떠한 스콥을 가질 수 있는지 설정 해야합니다. (prototype은 singleTon이 아닌 새로운 객체를 생성하여 보여준다.)
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new HashMap<>();
