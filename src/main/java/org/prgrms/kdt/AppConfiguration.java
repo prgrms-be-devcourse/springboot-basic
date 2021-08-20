@@ -23,13 +23,8 @@ import org.springframework.context.annotation.FilterType;
  * - Tombi의 스프링을 꼭 읽으세용 ㅋㅋ
  */
 
-// Spring에게 Configuration Metadata라고 알려줘야함.
 @Configuration
-// SteroType Bean이 자동으로 등록되게 할려면 Component Scan을 자동으로 한다고 알려줘야합니다.
-// basePackage를 설정해 줄 수 있습니다.
-@ComponentScan(
-        basePackages = {"org.prgrms.kdt.order", "org.prgrms.kdt.voucher"},
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = MemoryVoucherRepository.class)})
+@ComponentScan(basePackages = {"org.prgrms.kdt.order", "org.prgrms.kdt.voucher"})
 public class AppConfiguration {
 
     @Bean
