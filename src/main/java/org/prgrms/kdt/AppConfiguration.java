@@ -38,6 +38,7 @@ public class AppConfiguration {
     // 각각의 Componenet를 맺는 method를 만들어 봅시다.
 
     // Bean이라는 annotaion을 사용해서 bean을 정의합니다.
+    // voucherService 는 주입된 bean에서 부터 받아서 의존관계 형성이 이뤄집니다.
     @Bean
     public OrderService orderService(VoucherService voucherService, OrderRepository orderRepository) {
         return new OrderService(voucherService, orderRepository);
@@ -57,6 +58,7 @@ public class AppConfiguration {
             }
         };
     }
+
 
     @Bean
     public VoucherRepository voucherRepository() {
