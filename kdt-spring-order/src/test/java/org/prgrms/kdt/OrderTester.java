@@ -1,5 +1,8 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.domain.order.OrderItem;
+import org.prgrms.kdt.domain.order.OrderService;
+import org.prgrms.kdt.infrastructure.configuration.AppConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 

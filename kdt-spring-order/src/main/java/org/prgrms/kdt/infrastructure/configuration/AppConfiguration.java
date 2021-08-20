@@ -1,6 +1,11 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.infrastructure.configuration;
 
-import org.springframework.beans.factory.annotation.Configurable;
+import org.prgrms.kdt.domain.order.Order;
+import org.prgrms.kdt.domain.order.OrderRepository;
+import org.prgrms.kdt.domain.order.OrderService;
+import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.domain.voucher.VoucherRepository;
+import org.prgrms.kdt.domain.voucher.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
