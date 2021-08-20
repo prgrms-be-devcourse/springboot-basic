@@ -19,7 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 @Repository
-@Primary
 @Qualifier("file")
 public class FileVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();

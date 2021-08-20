@@ -4,6 +4,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 @Repository
+@Primary
 @Qualifier("memory")
 public class MemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
