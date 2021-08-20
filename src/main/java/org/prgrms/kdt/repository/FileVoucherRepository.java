@@ -28,10 +28,12 @@ public class FileVoucherRepository implements VoucherRepository {
             }
             else {
                 var fis = new FileInputStream(file);
-                var bis = new BufferedInputStream(fis);
-                var ois = new ObjectInputStream(bis);
-                storage = (ConcurrentHashMap<UUID, Voucher>) ois.readObject();
-                ois.close();
+                if(fis.available() > 0) {
+                    var bis = new BufferedInputStream(fis);
+                    var ois = new ObjectInputStream(bis);
+                    storage = (ConcurrentHashMap<UUID, Voucher>) ois.readObject();
+                    ois.close();
+                }
             }
 
         } catch (IOException | ClassNotFoundException e) {
