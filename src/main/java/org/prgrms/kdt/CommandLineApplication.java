@@ -24,20 +24,18 @@ public class CommandLineApplication {
         while (true) {
             String command = input.inputCommand("Command : ");
             switch (command) {
-                case "create":
+                case "create" -> {
                     String prompt = "'fixed' for fixed voucher, 'percent' for percent voucher : ";
                     String type = input.inputCommand(prompt);
                     Optional<Voucher> voucher = createVoucher(type);
                     voucher.ifPresentOrElse(output::createVoucher, output::inputError);
-                    break;
-                case "list":
+                }
+                case "list" -> {
                     Optional<Map<UUID, Voucher>> voucherList = voucherService.listVoucher();
                     voucherList.ifPresentOrElse(output::listVoucher, output::voucherListError);
-                    break;
-                case "exit":
-                    System.exit(0);
-                default:
-                    output.inputError();
+                }
+                case "exit" -> System.exit(0);
+                default -> output.inputError();
             }
         }
     }
