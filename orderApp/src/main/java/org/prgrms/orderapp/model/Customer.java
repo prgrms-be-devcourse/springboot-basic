@@ -47,7 +47,10 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return age == customer.age && Objects.equals(customerId, customer.customerId) && Objects.equals(name, customer.name) && Objects.equals(address, customer.address);
+        return age == customer.age
+                && Objects.equals(customerId, customer.customerId)
+                && Objects.equals(name, customer.name)
+                && Objects.equals(address, customer.address);
     }
 
     @Override

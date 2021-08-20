@@ -1,17 +1,15 @@
 package org.prgrms.orderapp.repository;
 
-import org.prgrms.orderapp.Utils;
 import org.prgrms.orderapp.model.Customer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Array;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.prgrms.orderapp.Utils.*;
+import static org.prgrms.orderapp.CsvParsingUtil.removeSideQuotes;
+import static org.prgrms.orderapp.CsvParsingUtil.splitCSV;
 import static org.prgrms.orderapp.io.IOUtils.loadCSV;
 
 @Repository

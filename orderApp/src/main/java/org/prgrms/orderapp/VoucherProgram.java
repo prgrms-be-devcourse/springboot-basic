@@ -7,8 +7,6 @@ import org.prgrms.orderapp.service.VoucherService;
 
 import java.util.Optional;
 
-import static org.prgrms.orderapp.Utils.parseLong;
-
 public class VoucherProgram implements Runnable {
 
     private final String CREATE = "create";
@@ -24,10 +22,12 @@ public class VoucherProgram implements Runnable {
 
     @Override
     public void run() {
-        String prompt = "=== Voucher Program ===\n" +
-                "Type exit to exit the program.\n" +
-                "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers.\n";
+        String prompt = """
+                === Voucher Program ===
+                Type exit to exit the program.
+                Type create to create a new voucher.
+                Type list to list all vouchers.
+                """;
         String input;
         while (true) {
             input = console.input(prompt);
@@ -47,12 +47,10 @@ public class VoucherProgram implements Runnable {
 
     private void createVoucher() {
         String type = console.input("Creating a new voucher. Which type do you want? (fixed or percent) : ");
-        if (!VoucherType.contains(type)) {
-            console.inputError(type);
-            return;
-        }
-        String value = console.input("How much discount? (digits only) : ");
-        Optional<Voucher> voucher = voucherService.createVoucher(type, parseLong(value));
+        String amount = console.input("How much discount? (digits only) : ");
+
+        Optional<Voucher> voucher = voucherService.createVoucher(type, amount);
+
         if (voucher.isPresent()) {
             voucherService.saveVoucher(voucher.get());
             console.printMessage("Successfully created a voucher");

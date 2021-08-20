@@ -33,28 +33,23 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public Optional<Voucher> createVoucher(String type, long value) {
-        if (!checkValidity(type, value))
-            return Optional.empty();
-        else if (type.equalsIgnoreCase(VoucherType.FIXED.name()))
-            return Optional.of(new FixedAmountVoucher(UUID.randomUUID(), value));
-        else if (type.equalsIgnoreCase(VoucherType.PERCENT.name()))
-            return Optional.of(new PercentDiscountVoucher(UUID.randomUUID(), value));
-        else
-            return Optional.empty();
+    public Optional<Voucher> createVoucher(String type, String value) {
+        //  Is it okay to assume type and value are valid.
+        if (VoucherType.isValid(type, value))  {
+            // TODO:: Use Strategy Pattern!
+            long amount = Long.parseLong(value);
+            if (type.equalsIgnoreCase(VoucherType.FIXED.name()))
+                return Optional.of(new FixedAmountVoucher(UUID.randomUUID(), amount));
+            else if (type.equalsIgnoreCase(VoucherType.PERCENT.name()))
+                return Optional.of(new PercentDiscountVoucher(UUID.randomUUID(), amount));
+        }
+        return Optional.empty();
+
+
     }
 
     public List<Voucher> getAllVoucher() {
         return voucherRepository.findAll();
     }
 
-    public boolean checkValidity(String type, long value) {
-        if (!VoucherType.contains(type) || value < 0) {
-            return false;
-        }
-        if (type.equalsIgnoreCase(VoucherType.PERCENT.name()) && value > 100) {
-            return false;
-        }
-        return true;
-    }
 }
