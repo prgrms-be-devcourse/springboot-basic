@@ -32,7 +32,7 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public String showInfo(){
+    public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Voucher Id : " + voucherId + " ");
         sb.append("Amount : " + amount + " ");

@@ -1,5 +1,9 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.service;
 
+import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -37,5 +41,13 @@ public class VoucherService {
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = new PercentDiscountVoucher(voucherId, Long.parseLong(percent));
         voucherRepository.insert(voucher);
+    }
+
+    public void createVoucher(VoucherType type, String amount) {
+        if (type == VoucherType.FIXED) {
+            createFixVoucher(amount);
+        } else {
+            createPercentVoucher(amount);
+        }
     }
 }

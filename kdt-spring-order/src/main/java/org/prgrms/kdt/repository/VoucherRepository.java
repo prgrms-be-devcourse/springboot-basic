@@ -1,4 +1,6 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.repository;
+
+import org.prgrms.kdt.voucher.Voucher;
 
 import java.util.Map;
 import java.util.Optional;

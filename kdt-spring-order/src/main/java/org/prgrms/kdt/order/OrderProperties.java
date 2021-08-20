@@ -1,19 +1,18 @@
 package org.prgrms.kdt.order;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 import java.text.MessageFormat;
 import java.util.List;
 
-@Component
+@Configuration
+@ConfigurationProperties(prefix = "kdt")
 public class OrderProperties implements InitializingBean {
 
-    @Value("v1.1.1")
     private String version;
 
-    @Value("${kdt.minimum-order-amount:0}")
     private int minimumOrderAmount;
 
     private List<String> supportVendors;
