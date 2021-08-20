@@ -8,6 +8,9 @@ public class OrderApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(OrderApplication.class, args);
+        Console console = new Console();
+
+        new CommandLineApplication(console, console).run();
     }
 
 }
