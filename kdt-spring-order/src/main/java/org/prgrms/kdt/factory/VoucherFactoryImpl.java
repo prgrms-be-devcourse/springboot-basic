@@ -9,7 +9,6 @@ import java.util.UUID;
 @Component
 public class VoucherFactoryImpl implements VoucherFactory{
 
-
     @Override
     public Voucher getDiscounterVoucher(VoucherType voucherType) {
         IoConsole ioConsole = new IoConsole();

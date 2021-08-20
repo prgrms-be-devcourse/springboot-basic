@@ -14,7 +14,9 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @ComponentScan(basePackages = {"org.prgrms.kdt.domain",
         "org.prgrms.kdt.repository",
-        "org.prgrms.kdt.service"
+        "org.prgrms.kdt.service",
+        "org.prgrms.kdt.factory",
+        "org.prgrms.kdt.fileutil"
       })
 @PropertySource(value="application.yaml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties

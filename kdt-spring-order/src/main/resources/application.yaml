@@ -11,3 +11,7 @@ kdt:
     line 1 hello world
     line 2 xxxx
     line 3
+
+file:
+  voucher-name: "voucher_file.txt"
+  customer-name: "customer_blacklist.csv"
