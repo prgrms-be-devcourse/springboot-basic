@@ -60,7 +60,7 @@ public class CommandLineApplication {
             switch (Command.lookup(inputStr)) {
                 case EXIT -> {
                     exit();
-                    applicationContext.close();
+//                    applicationContext.close();
                     return;
                 }
                 case CREATE -> {

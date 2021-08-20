@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,43 +15,35 @@ import java.util.concurrent.ConcurrentHashMap;
 @Primary
 public class FileVoucherRepository implements VoucherRepository {
 
-    private static final String FILEPATH = System.getProperty("user.dir") + "/voucher_data.txt";
+    private static final String FILEPATH = System.getProperty("user.dir") + "/voucher_data.ser";
     private Map<UUID, Voucher> storage;
 
     @PostConstruct
-    public void loadFile() {
-        try {
-            var file = new File(FILEPATH);
-            if (file.createNewFile()) {
-                storage = new ConcurrentHashMap<>();
-            }
-            else {
-                var fis = new FileInputStream(file);
-                if(fis.available() > 0) {
-                    var bis = new BufferedInputStream(fis);
-                    var ois = new ObjectInputStream(bis);
-                    storage = (ConcurrentHashMap<UUID, Voucher>) ois.readObject();
-                    ois.close();
-                }
-            }
+    public void loadFile() throws IOException, ClassNotFoundException {
 
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        var file = new File(FILEPATH);
+        if (file.createNewFile()) {
+            storage = new ConcurrentHashMap<>();
+            writeFile();
+        } else {
+            try (var fis = new FileInputStream(file);
+                 var bis = new BufferedInputStream(fis);
+                 var ois = new ObjectInputStream(bis);) {
+                storage = (ConcurrentHashMap<UUID, Voucher>) ois.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    @PreDestroy
-    public void writeFile() {
-        try {
-            var fos = new FileOutputStream(FILEPATH);
-            var bos = new BufferedOutputStream(fos);
-            var oos = new ObjectOutputStream(bos);
-
+    public void writeFile() throws IOException {
+        try (var fos = new FileOutputStream(FILEPATH);
+             var bos = new BufferedOutputStream(fos);
+             var oos = new ObjectOutputStream(bos);) {
             oos.writeObject(storage);
-            oos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            oos.writeObject(null);
         }
+
     }
 
 
@@ -64,6 +55,11 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
+        try {
+            writeFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return voucher;
     }
 
