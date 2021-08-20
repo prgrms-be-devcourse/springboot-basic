@@ -39,7 +39,6 @@ public class OrderService {
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
         var order = new Order(UUID.randomUUID(), customerId, orderItems);
-        orderRepository.insert(order);
-        return order;
+        return orderRepository.insert(order);
     }
 }

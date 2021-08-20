@@ -3,21 +3,13 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.command.CommandLineApplication;
 import org.prgrms.kdt.command.io.Console;
 import org.prgrms.kdt.order.domain.Order;
-import org.prgrms.kdt.order.service.OrderService;
 import org.prgrms.kdt.order.repository.OrderRepository;
 import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * OrderContext는 주문에 대한 전반적인 도메인 객체에 대한 생성을 책임지고 있음.
@@ -38,44 +30,6 @@ import java.util.UUID;
 // SteroType Bean이 자동으로 등록되게 할려면 Component Scan을 자동으로 한다고 알려줘야합니다.
 @ComponentScan // 그러면 이 AppConfiguration이 있는 패키지 기준으로 하위 디렉토리까지 쭈욱 찾습니다.
 public class AppConfiguration {
-    // 각각의 Componenet를 맺는 method를 만들어 봅시다.
-
-
-    // @Repository는 인터페이스가 아닌 구현체에 해줘야합니다.
-    @Bean
-    public OrderRepository orderRepository() {
-        return new OrderRepository() {
-            @Override
-            public void insert(Order order) {
-
-            }
-        };
-    }
-
-
-    @Bean
-    public VoucherRepository voucherRepository() {
-        return new VoucherMemoryRepository();
-        /** 나중 강의를 위해에 남겨둠
-        return new VoucherRepository() {
-
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-
-            @Override
-            public List<Voucher> find() {
-                return new ArrayList<>();
-            }
-
-            @Override
-            public void create(Voucher voucher) {
-
-            }
-        };
-         */
-    }
 
     @Bean
     public Console console() {

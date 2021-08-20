@@ -46,4 +46,8 @@ public class Order {
         this.voucher = Optional.of(voucher);
     }
 
+    public UUID getOrderId() {
+        return orderId;
+    }
+
 }

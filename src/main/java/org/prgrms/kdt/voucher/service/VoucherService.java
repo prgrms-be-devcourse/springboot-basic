@@ -1,7 +1,5 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.factory.VoucherFactory;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -27,7 +24,7 @@ public class VoucherService {
 
     public void createVoucher(VoucherType type, UUID voucherId, long policyValue) {
         Voucher voucher = VoucherFactory.createVoucher(type, voucherId, policyValue);
-        voucherRepository.create(voucher);
+        voucherRepository.insert(voucher);
     }
 
     public Voucher getVoucher(UUID voucherId) {

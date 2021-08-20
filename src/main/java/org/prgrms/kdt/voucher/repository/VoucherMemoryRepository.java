@@ -20,7 +20,8 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
-    public void create(Voucher voucher) { // TODO: Question. create 하면 반환값은 어떤걸하면 좋나요?
+    public Voucher insert(Voucher voucher) { // TODO: Question. create 하면 반환값은 어떤걸하면 좋나요?
         vouchers.put(voucher.getVoucherId(), voucher);
+        return vouchers.get(voucher.getVoucherId());
     }
 }
