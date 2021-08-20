@@ -84,10 +84,7 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
             if(new FileReader(jsonFileName).read() == -1) return jsonArray;
 
             FileReader fileReader = new FileReader(jsonFileName);
-            System.out.println(fileReader);
-            JSONArray jsonArray1 = (JSONArray)parser.parse(fileReader);
-            System.out.println(jsonArray1);
-            jsonArray = Optional.of(jsonArray1);
+            jsonArray = Optional.of((JSONArray)parser.parse(fileReader));
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -119,7 +116,8 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
             if (voucher != null) {
                 storage.put(voucher.getVoucherId(), voucher);
             } else {
-                System.out.println("ERROR : put json voucher to storage");
+                // TODO : change to logger
+                System.out.println("[JsonVoucherRepository] ERROR : put json voucher to storage");
             }
 
         }
@@ -132,9 +130,11 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
         //create json if not exist
         try {
             if(file.createNewFile()) {
-                System.out.println("Json file create");
+                // TODO : change to logger
+                System.out.println("[JsonVoucherRepository] Json file create");
             } else {
-                System.out.println("Json file already exist");
+                // TODO : change to logger
+                System.out.println("[JsonVoucherRepository] Json file already exist");
             }
         } catch (IOException e) {
             e.printStackTrace();
