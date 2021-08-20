@@ -11,5 +11,5 @@ public interface VoucherRepository {
 
     Map<UUID, Voucher> findAll();
 
-    Optional<Voucher> save(Voucher voucher);
+    boolean save(Voucher voucher);
 }
