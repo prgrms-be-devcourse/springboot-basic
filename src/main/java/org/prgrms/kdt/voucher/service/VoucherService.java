@@ -6,6 +6,7 @@ import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.factory.VoucherFactory;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.UUID;
 /**
  * 자신이 직접 어떠한 VoucherRepository 를 쓸지 선택하지 않고 VoucherService 또한 직접 생성하지 않음.
  */
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;

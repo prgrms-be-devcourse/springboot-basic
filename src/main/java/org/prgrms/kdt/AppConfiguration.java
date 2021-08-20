@@ -11,6 +11,7 @@ import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
@@ -34,21 +35,13 @@ import java.util.UUID;
 
 // Spring에게 Configuration Metadata라고 알려줘야함.
 @Configuration
+// SteroType Bean이 자동으로 등록되게 할려면 Component Scan을 자동으로 한다고 알려줘야합니다.
+@ComponentScan // 그러면 이 AppConfiguration이 있는 패키지 기준으로 하위 디렉토리까지 쭈욱 찾습니다.
 public class AppConfiguration {
     // 각각의 Componenet를 맺는 method를 만들어 봅시다.
 
-    // Bean이라는 annotaion을 사용해서 bean을 정의합니다.
-    // voucherService 는 주입된 bean에서 부터 받아서 의존관계 형성이 이뤄집니다.
-    @Bean
-    public OrderService orderService(VoucherService voucherService, OrderRepository orderRepository) {
-        return new OrderService(voucherService, orderRepository);
-    }
 
-    @Bean
-    public VoucherService voucherService(VoucherRepository voucherRepository) {
-        return new VoucherService(voucherRepository);
-    }
-
+    // @Repository는 인터페이스가 아닌 구현체에 해줘야합니다.
     @Bean
     public OrderRepository orderRepository() {
         return new OrderRepository() {
