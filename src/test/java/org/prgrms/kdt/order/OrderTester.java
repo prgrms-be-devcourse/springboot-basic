@@ -28,6 +28,6 @@ public class OrderTester {
         }}, voucher.getVoucherId());
 
         Assert.isTrue(order.totalAmount() == 90L,
-                MessageFormat.format("totalAmount({0}) is not 100L", order.totalAmount()));
+                MessageFormat.format("totalAmount({0}) is not 90L", order.totalAmount()));
     }
 }

@@ -2,10 +2,6 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.command.CommandLineApplication;
 import org.prgrms.kdt.command.io.Console;
-import org.prgrms.kdt.order.domain.Order;
-import org.prgrms.kdt.order.repository.OrderRepository;
-import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,7 +24,8 @@ import org.springframework.context.annotation.Configuration;
 // Spring에게 Configuration Metadata라고 알려줘야함.
 @Configuration
 // SteroType Bean이 자동으로 등록되게 할려면 Component Scan을 자동으로 한다고 알려줘야합니다.
-@ComponentScan // 그러면 이 AppConfiguration이 있는 패키지 기준으로 하위 디렉토리까지 쭈욱 찾습니다.
+// basePackage를 설정해 줄 수 있습니다.
+@ComponentScan(basePackages = {"org.prgrms.kdt.order", "org.prgrms.kdt.voucher"}) // 그러면 이 AppConfiguration이 있는 패키지 기준으로 하위 디렉토리까지 쭈욱 찾습니다.
 public class AppConfiguration {
 
     @Bean
