@@ -4,6 +4,7 @@ import org.prgrms.kdt.order.domain.Order;
 import org.prgrms.kdt.order.OrderItem;
 import org.prgrms.kdt.order.repository.OrderRepository;
 import org.prgrms.kdt.voucher.service.VoucherService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +17,8 @@ import java.util.UUID;
  * - OrderContext = IoC Container
  *
  */
+// SteropType Annotation인 Service를 달아주면 됩니다.
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
@@ -36,7 +39,6 @@ public class OrderService {
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
         var order = new Order(UUID.randomUUID(), customerId, orderItems);
-        orderRepository.insert(order);
-        return order;
+        return orderRepository.insert(order);
     }
 }

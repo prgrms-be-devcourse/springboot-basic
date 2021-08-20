@@ -2,21 +2,13 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.command.CommandLineApplication;
 import org.prgrms.kdt.command.io.Console;
-import org.prgrms.kdt.order.domain.Order;
-import org.prgrms.kdt.order.service.OrderService;
-import org.prgrms.kdt.order.repository.OrderRepository;
-import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.service.VoucherService;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import org.springframework.context.annotation.FilterType;
 
 /**
  * OrderContext는 주문에 대한 전반적인 도메인 객체에 대한 생성을 책임지고 있음.
@@ -32,55 +24,14 @@ import java.util.UUID;
  * - Tombi의 스프링을 꼭 읽으세용 ㅋㅋ
  */
 
-// Spring에게 Configuration Metadata라고 알려줘야함.
 @Configuration
+@ComponentScan(basePackages = {"org.prgrms.kdt.order", "org.prgrms.kdt.voucher", "org.prgrms.kdt.configuration"})
 public class AppConfiguration {
-    // 각각의 Componenet를 맺는 method를 만들어 봅시다.
-
-    // Bean이라는 annotaion을 사용해서 bean을 정의합니다.
-    @Bean
-    public OrderService orderService(VoucherService voucherService, OrderRepository orderRepository) {
-        return new OrderService(voucherService, orderRepository);
-    }
-
-    @Bean
-    public VoucherService voucherService(VoucherRepository voucherRepository) {
-        return new VoucherService(voucherRepository);
-    }
-
-    @Bean
-    public OrderRepository orderRepository() {
-        return new OrderRepository() {
-            @Override
-            public void insert(Order order) {
-
-            }
-        };
-    }
-
-    @Bean
-    public VoucherRepository voucherRepository() {
-        return new VoucherMemoryRepository();
-        /** 나중 강의를 위해에 남겨둠
-        return new VoucherRepository() {
-
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-
-            @Override
-            public List<Voucher> find() {
-                return new ArrayList<>();
-            }
-
-            @Override
-            public void create(Voucher voucher) {
-
-            }
-        };
-         */
-    }
+    // 다양한 Bean 들이 특정용도(Kafka Template, Email Sender)에 맞게 그룹화돼서 definition이 configuration file로 작성되어야 될 때가 있어요.
+    // 그럴때 configuration package를 만들어서 다 같이 관리하는게 편하다.
+    // 각 configuration 파일에 @Configuration annotation을 달아주고 하나의 root가 되는 configuration에 basePackage로 다 읽어올 수 있습니다.
+    // spring boot 쓰면 @SpringBootApplication에 ComponentScan이 다 들어가 있습니다.
+    // 그래서 별도로 Root가 되어지는 Configuration file을 잘 만들진 않습니다.
 
     @Bean
     public Console console() {
@@ -90,5 +41,22 @@ public class AppConfiguration {
     @Bean
     public CommandLineApplication commandLineApplication(Console console, ApplicationContext applicationContext) {
         return new CommandLineApplication(console, applicationContext);
+    }
+
+    @Bean(initMethod = "init")
+    public BeanOne beanOne() {
+        return new BeanOne();
+    }
+}
+
+class BeanOne implements InitializingBean {
+
+    public void init() {
+        System.out.println("init called!!");
+    }
+
+    @Override //init method보다 afterPropertiesSet가 먼저 호출됨!
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("afterPropertiesSet called!!");
     }
 }

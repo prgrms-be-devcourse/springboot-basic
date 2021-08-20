@@ -38,12 +38,8 @@ public class Order {
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public void applyVoucher(Voucher voucher) {
-        this.voucher = Optional.of(voucher);
+    public UUID getOrderId() {
+        return orderId;
     }
 
 }

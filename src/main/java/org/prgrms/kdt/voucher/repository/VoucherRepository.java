@@ -13,5 +13,5 @@ public interface VoucherRepository {
     // 없을 수도 있으니까 Optional<>
     Optional<Voucher> findById(UUID voucherId);
     List<Voucher> find();
-    void create(Voucher voucher);
+    Voucher insert(Voucher voucher);
 }
