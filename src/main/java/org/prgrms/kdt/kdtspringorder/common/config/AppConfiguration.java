@@ -1,18 +1,14 @@
 package org.prgrms.kdt.kdtspringorder.common.config;
 
 import org.prgrms.kdt.kdtspringorder.order.domain.Order;
-import org.prgrms.kdt.kdtspringorder.order.repository.OrderRepositiry;
+import org.prgrms.kdt.kdtspringorder.order.repository.OrderRepository;
 import org.prgrms.kdt.kdtspringorder.order.service.OrderService;
 import org.prgrms.kdt.kdtspringorder.voucher.application.VoucherCommandLine;
-import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * 각 Bean을 정의한 Configuration Meta Data
@@ -27,8 +23,8 @@ public class AppConfiguration {
     }
 
     @Bean
-    public OrderRepositiry orderRepositiry() {
-        return new OrderRepositiry() {
+    public OrderRepository orderRepositiry() {
+        return new OrderRepository() {
             @Override
             public void insert(Order order) {
 

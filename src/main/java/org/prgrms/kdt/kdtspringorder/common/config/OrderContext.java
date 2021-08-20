@@ -1,7 +1,7 @@
 package org.prgrms.kdt.kdtspringorder.common.config;
 
 import org.prgrms.kdt.kdtspringorder.order.domain.Order;
-import org.prgrms.kdt.kdtspringorder.order.repository.OrderRepositiry;
+import org.prgrms.kdt.kdtspringorder.order.repository.OrderRepository;
 import org.prgrms.kdt.kdtspringorder.order.service.OrderService;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
@@ -37,8 +37,8 @@ public class OrderContext {
         };
     }
 
-    public OrderRepositiry orderRepositiry() {
-        return new OrderRepositiry() {
+    public OrderRepository orderRepositiry() {
+        return new OrderRepository() {
             @Override
             public void insert(Order order) {
 
