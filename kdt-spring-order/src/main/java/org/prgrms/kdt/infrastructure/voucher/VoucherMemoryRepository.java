@@ -26,6 +26,6 @@ public class VoucherMemoryRepository implements VoucherRepository {
     public boolean save(Voucher voucher) {
         // 존재하지 않는 바우처일 경우(중복 바우처가 아닌 경우) 추가하고 empty Optional 반환
         voucher = VOUCHER_MAP.putIfAbsent(voucher.getVoucherId(), voucher);
-        return Optional.ofNullable(voucher).isEmpty(); // 바우처가 정상적으로 추가되었을 경우 true 반환
+        return voucher == null;  // 바우처가 정상적으로 추가되었을 경우 true 반환
     }
 }
