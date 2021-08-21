@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 @Qualifier("jdbc")
-@Profile("dev")
+@Profile("local")
 public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

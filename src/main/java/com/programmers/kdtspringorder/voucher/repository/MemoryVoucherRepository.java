@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Qualifier("memory")
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-@Profile({"local", "default"})
+@Profile({"dev", "default"})
 public class MemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
 
     private final Map<UUID, Voucher> store = new ConcurrentHashMap<>();
