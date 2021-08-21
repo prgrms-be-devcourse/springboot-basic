@@ -25,10 +25,10 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherType voucherType, long amount){
 
-        if(voucherType == VoucherType.FIXED_AMOUNT){
+        if(voucherType == VoucherType.FIXED){
             return  voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(),amount));
         }
-        else if(voucherType == VoucherType.PERCENTAGE){
+        else if(voucherType == VoucherType.PERCENT){
             return  voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),amount));
         }else{
             throw new RuntimeException("voucher type error");

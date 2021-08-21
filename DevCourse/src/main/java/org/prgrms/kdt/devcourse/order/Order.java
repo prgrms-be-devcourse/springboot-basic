@@ -24,7 +24,6 @@ public class Order {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
-        this.voucher = null;
     }
 
     public long totalAmount(){
@@ -32,8 +31,10 @@ public class Order {
                 .map(v-> v.getProductPrice() * v.getQuantity())
                 .reduce(0L,Long::sum);
 
-        if(voucher!=null)
+        if(voucher!=null){
             return voucher.discount(beforeDiscount);
+        }
+
         return beforeDiscount;
     }
 

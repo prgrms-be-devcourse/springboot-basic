@@ -49,13 +49,13 @@ public class CommandLineApplication {
     }
 
     public static void createVoucher(Console console, VoucherService voucherService){
-        String voucherInput = console.input("고정 값 바우처 발행은 1, 퍼센트 할인 바우처 발행은 2 입력");
-        if (voucherInput.equals("1")) {
-            voucherService.createVoucher(VoucherType.FIXED_AMOUNT, 10L);
-            console.printOut("고정 값 할인 바우처 생성");
-        } else if (voucherInput.equals("2")) {
-            voucherService.createVoucher(VoucherType.PERCENTAGE, 10L);
-            console.printOut("퍼센트 할인 바우처 생성");
+        String voucherInput = console.input("고정 값 바우처: FIXED, 퍼센트 할인 바우처: PERCENT 입력");
+
+        if (VoucherType.isExistType(voucherInput)) {
+            VoucherType type = VoucherType.valueOf(voucherInput);
+            voucherService.createVoucher(type, 10L);
+        }else{
+            console.inputError(voucherInput);
         }
     }
 

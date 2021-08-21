@@ -20,6 +20,9 @@ public class FileVoucherRepository implements VoucherRepository{
     @PostConstruct
     public void postConstruct() throws IOException {
 
+            if(!csvFile.exists())
+                return;
+
             BufferedReader bufferedReader = new BufferedReader(new FileReader(csvFile));
             String line;
             while ((line = bufferedReader.readLine())!=null){
@@ -29,13 +32,13 @@ public class FileVoucherRepository implements VoucherRepository{
                 long filedDataVoucherAmount = Long.parseLong(oneLineDataArr[1]);
                 VoucherType filedDataVoucherType = VoucherType.valueOf(oneLineDataArr[2]);
 
-                if(filedDataVoucherType == VoucherType.FIXED_AMOUNT)
+                if(filedDataVoucherType == VoucherType.FIXED)
                     voucherList.put(filedDataUUID, new FixedAmountVoucher(filedDataUUID, filedDataVoucherAmount));
-                else if(filedDataVoucherType == VoucherType.PERCENTAGE)
+                else if(filedDataVoucherType == VoucherType.PERCENT)
                     voucherList.put(filedDataUUID, new PercentDiscountVoucher(filedDataUUID, filedDataVoucherAmount));
 
             }
-        bufferedReader.close();
+            bufferedReader.close();
 
     }
 
