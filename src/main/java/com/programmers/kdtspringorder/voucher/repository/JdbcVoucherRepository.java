@@ -2,6 +2,7 @@ package com.programmers.kdtspringorder.voucher.repository;
 
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Repository
 @Qualifier("jdbc")
+@Profile("dev")
 public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

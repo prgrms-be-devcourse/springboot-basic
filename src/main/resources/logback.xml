@@ -20,8 +20,8 @@
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="CONSOLE" />
     </root>
-    <logger name="org.springframework" level="debug"/>
+    <logger name="org.springframework" level="info"/>
 </configuration>

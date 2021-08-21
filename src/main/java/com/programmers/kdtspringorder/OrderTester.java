@@ -6,6 +6,7 @@ import com.programmers.kdtspringorder.order.OrderProperties;
 import com.programmers.kdtspringorder.order.OrderService;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
+import com.programmers.kdtspringorder.voucher.repository.JdbcVoucherRepository;
 import com.programmers.kdtspringorder.voucher.repository.MemoryVoucherRepository;
 import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
@@ -37,26 +38,24 @@ public class OrderTester {
 
     public static void main(String[] args) throws IOException {
         AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        var applicationContext2 = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
 
-//        ConfigurableEnvironment environment = applicationContext.getEnvironment();
-//        String version = environment.getProperty("kdt.version");
-//        Integer minimumOrderAmount = environment.getProperty("kdt.minimum-order-amount", Integer.class);
-//        List suportsVenderList = environment.getProperty("kdt.support-vendors", List.class);
-//        String description = environment.getProperty("kdt.description");
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("dev");
+        applicationContext.refresh();
+
+        String version = environment.getProperty("kdt.version");
+        Integer minimumOrderAmount = environment.getProperty("kdt.minimum-order-amount", Integer.class);
+        List suportsVenderList = environment.getProperty("kdt.support-vendors", List.class);
+        String description = environment.getProperty("kdt.description");
 //
-//        System.out.println(MessageFormat.format("version = {0}", version));
-//        System.out.println(MessageFormat.format("minimumOrderAmount = {0}", minimumOrderAmount));
-//        System.out.println(MessageFormat.format("supportVendorList = {0}", suportsVenderList));
-//        System.out.println(MessageFormat.format("description = {0}", description));
-
         OrderProperties orderProperties = applicationContext.getBean(OrderProperties.class);
-        OrderProperties orderProperties1 = applicationContext.getBean(OrderProperties.class);
-        OrderProperties orderProperties2 = applicationContext2.getBean(OrderProperties.class);
 
-        System.out.println(orderProperties == orderProperties1);
-        System.out.println(orderProperties2 == orderProperties);
+        System.out.println(MessageFormat.format("version = {0}", orderProperties.getVersion()));
+        System.out.println(MessageFormat.format("minimumOrderAmount = {0}", orderProperties.getMinimumOrderAmount()));
+        System.out.println(MessageFormat.format("supportVendorList = {0}", orderProperties.getSupportVendors()));
+        System.out.println(MessageFormat.format("description = {0}", orderProperties.getDescription()));
 
 
         logger.info("version -> {}", orderProperties.getVersion());
@@ -85,20 +84,12 @@ public class OrderTester {
 //        System.out.println(strings2.stream().reduce("",(a,b)->a+"\n" + b));
 
 //        VoucherRepository voucherRepository = BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getBeanFactory(), VoucherRepository.class, "memory");
-//        OrderService orderService = applicationContext.getBean(OrderService.class);
-//
+        VoucherRepository voucherRepository = applicationContext.getBean(JdbcVoucherRepository.class);
+        OrderService orderService = applicationContext.getBean(OrderService.class);
 //        Voucher voucher = voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 10L));
 
-//        var customerId = UUID.randomUUID();
-//        var order = orderService.createOrder(customerId, new ArrayList<OrderItem>() {{
-//            add(new OrderItem(UUID.randomUUID(), 100L, 1));
-//        }}, voucher.getVoucherId());
-//
-//        ArrayList<OrderItem> orderItems = new ArrayList<>();
-
-
-//
-//        Assert.isTrue(order.totalAmount() == 90L, MessageFormat.format("totalAmount '{'0'}' is not 90L", order.totalAmount()));
+        System.out.println(MessageFormat.format("is Jdbc Repo -> {0}", voucherRepository instanceof JdbcVoucherRepository));
+        System.out.println(MessageFormat.format("is Jdbc Repo ->{0}", voucherRepository.getClass().getCanonicalName()));
 
         applicationContext.close();
     }
