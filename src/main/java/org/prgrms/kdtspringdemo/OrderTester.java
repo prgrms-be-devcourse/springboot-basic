@@ -21,7 +21,6 @@ public class OrderTester {
         environment.setActiveProfiles("local");
         application.refresh();
 
-
 //        var resource = application.getResource("classpath:application.yaml");
 //        var resource = application.getResource("file:test/sample.txt");
 //        System.out.println(MessageFormat.format("Resource >> {0}", resource.getClass().getCanonicalName()));

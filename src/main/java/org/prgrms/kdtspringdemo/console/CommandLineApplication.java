@@ -1,28 +1,20 @@
 package org.prgrms.kdtspringdemo.console;
 
-import org.prgrms.kdtspringdemo.AppConfiguration;
-import org.prgrms.kdtspringdemo.voucher.Voucher;
-import org.prgrms.kdtspringdemo.voucher.VoucherRepository;
-import org.prgrms.kdtspringdemo.voucher.VoucherService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.util.Assert;
+import org.prgrms.kdtspringdemo.voucher.VoucherUtils;
 
-import java.util.stream.Stream;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class CommandLineApplication {
-    static VoucherService voucherService;
     public static void main(String[] args) {
-        var application = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        voucherService = application.getBean(VoucherService.class);
+        var voucherUtils = new VoucherUtils();
 
-        String startMessage = """
-                === Voucher Program ===
+        String startMessage = "=== Voucher Program ===";
+        String helpMessage = """
                 Type exit to exit the program.
                 Type create to create a new voucher.
                 Type list to list all vouchers.""";
         System.out.println(startMessage);
+        System.out.println(helpMessage);
 
         Scanner scanner = new Scanner(System.in);
         String command = "";
@@ -32,25 +24,10 @@ public class CommandLineApplication {
             String[] splitList = commandLine.split(" ");
             command = splitList[0];
             if (command.equals("create")) {
-                createVoucher(splitList);
+                voucherUtils.createVoucher(splitList);
             } else if (command.equals("list")) {
-                voucherService.printAllVoucher();
+                voucherUtils.printAll();
             }
-        }
-    }
-
-    public static void createVoucher(String[] splitList)
-    {
-        Assert.isTrue(splitList.length == 3, "This command did not receive the required arguments.");
-        String voucherName = splitList[1];
-        if (voucherName.equals("F")) {
-            Voucher voucher = voucherService.createFixedAmountVoucher(UUID.randomUUID(), Long.parseLong(splitList[2]));
-            System.out.println("This is create : " + voucher);
-        } else if (voucherName.equals("P")) {
-            Voucher voucher = voucherService.createPercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(splitList[2]));
-            System.out.println("This is create : " + voucher);
-        } else {
-            System.out.println("None Voucher!!! : " + voucherName);
         }
     }
 }
