@@ -5,9 +5,9 @@ import org.prgrms.kdt.enums.VoucherType;
 public class VoucherSaveRequestDto {
 
     private VoucherType voucherType;
-    private int discount;
+    private long discount;
 
-    public VoucherSaveRequestDto(VoucherType voucherType, int discount) {
+    public VoucherSaveRequestDto(VoucherType voucherType, long discount) {
         this.voucherType = voucherType;
         this.discount = discount;
     }
@@ -16,7 +16,7 @@ public class VoucherSaveRequestDto {
         return voucherType;
     }
 
-    public int getDiscount() {
+    public long getDiscount() {
         return discount;
     }
 
