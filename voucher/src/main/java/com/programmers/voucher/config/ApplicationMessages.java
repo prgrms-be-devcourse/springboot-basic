@@ -3,21 +3,22 @@ package com.programmers.voucher.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@ConfigurationProperties("voucher")
+@PropertySource("application.properties")
 public class ApplicationMessages {
 
-    @Value("${message.intro:Intro message here}")
+    @Value("${voucher.message.intro:Intro message here}")
     private String introMessage;
 
-    @Value("${message.command.create.name:Require name message here}")
+    @Value("${voucher.message.command.create.name:Require name message here}")
     private String requireName;
 
-    @Value("${message.command.create.type:Require type message here}")
+    @Value("${voucher.message.command.create.type:Require type message here}")
     private String requireType;
 
-    @Value("${message.command.create.fallback:Fallback message here}")
+    @Value("${voucher.message.command.create.fallback:Fallback message here}")
     private String fallback;
 
     public String getIntroMessage() {

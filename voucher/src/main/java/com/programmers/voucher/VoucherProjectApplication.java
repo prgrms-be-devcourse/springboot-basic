@@ -3,6 +3,7 @@ package com.programmers.voucher;
 import com.programmers.voucher.config.ApplicationMessages;
 import com.programmers.voucher.config.ServiceConfiguration;
 import com.programmers.voucher.entity.voucher.Voucher;
+import com.programmers.voucher.service.customer.CustomerInitializer;
 import com.programmers.voucher.service.voucher.VoucherService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +20,13 @@ public class VoucherProjectApplication {
 		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
 		VoucherService voucherService = applicationContext.getBean(VoucherService.class);
 		voucherService.openStorage();
+
+		CustomerInitializer blacklist = applicationContext.getBean(CustomerInitializer.class);
+		blacklist.loadCustomers();
+
+		System.out.println("====== [ BLACKLIST ] ======");
+		blacklist.readCustomers().forEach(System.out::println);
+		System.out.println("===========================");
 
 		ApplicationMessages applicationMessages = applicationContext.getBean(ApplicationMessages.class);
 
