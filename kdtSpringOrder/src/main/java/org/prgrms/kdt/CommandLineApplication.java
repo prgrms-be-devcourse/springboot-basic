@@ -36,19 +36,15 @@ public class CommandLineApplication {
                 }
                 case CREATE -> {
                     runCreate(inputController, messageHelper, voucherService);
-                    break;
                 }
                 case LIST -> {
                     runList(outputController, voucherService);
-                    break;
                 }
                 case REPLAY -> {
                     runReplay(messageHelper);
-                    break;
                 }
                 default -> {
                     runRetry(messageHelper);
-                    break;
                 }
             }
         }
