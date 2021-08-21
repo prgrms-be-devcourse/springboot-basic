@@ -62,12 +62,11 @@ public class LocalFileVoucherRepository implements VoucherRepository {
             log.debug("Wrote voucher objects to file {}", file.toString());
             objectOutputStream.flush();
             objectOutputStream.close();
+            log.debug("Persisted vouchers to file {}", file.toString());
         } catch (IOException ex) {
             log.error("IOException occur on persisting local voucher file at {} - {}", file.toString(), ex.getLocalizedMessage());
             System.exit(1);
         }
-
-        log.info("Persisted vouchers to file {}", file.toString());
     }
 
     @Override
@@ -87,7 +86,7 @@ public class LocalFileVoucherRepository implements VoucherRepository {
             Optional<Long> max = vouchers.stream().map(Voucher::getId).max(Long::compareTo);
             long maxNum = max.isPresent() ? max.get() : 0;
             sequencer = new AtomicLong(maxNum + 1);
-            log.info("Sequencer initialized as {}", maxNum + 1);
+            log.debug("Sequencer initialized as {}", maxNum + 1);
         } catch (IOException ex) {
             log.error("IOException occur on initializing vouchers from local file {}", file.toString());
             System.exit(1);

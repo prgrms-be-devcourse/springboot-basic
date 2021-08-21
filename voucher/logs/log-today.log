@@ -1,0 +1,1 @@
+01:38:51.112 [main] ERROR c.p.v.r.v.LocalFileVoucherRepository - IOException occur on persisting local voucher file at storage\vouchers.db - storage\vouchers.db

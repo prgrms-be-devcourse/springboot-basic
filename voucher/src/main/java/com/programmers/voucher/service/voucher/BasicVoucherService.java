@@ -27,16 +27,12 @@ public class BasicVoucherService implements VoucherService {
 
     @Override
     public void openStorage() {
-        log.info("Initializing voucher repository...");
         voucherRepository.loadVouchers();
-        log.info("Initialized voucher repository.");
     }
 
     @Override
     public void closeStorage() {
-        log.info("Persisting voucher repository...");
         voucherRepository.persistVouchers();
-        log.info("Persisted voucher repository.");
     }
 
     @Override
@@ -55,7 +51,7 @@ public class BasicVoucherService implements VoucherService {
                 voucher = fixedAmountVoucherFactory.create(name, value);
         }
 
-        log.info("Created voucher {}", voucher.toString());
+        log.debug("Created voucher {}", voucher.toString());
         return voucherRepository.save(voucher);
     }
 

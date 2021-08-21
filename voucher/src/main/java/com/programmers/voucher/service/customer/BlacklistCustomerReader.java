@@ -26,16 +26,16 @@ public class BlacklistCustomerReader implements CustomerInitializer {
             @Value("${voucher.file.blacklist.location}") String directory,
             @Value("${voucher.file.blacklist.filename}") String filename
     ) {
-        log.info("Using directory {} as blacklist location.", directory);
-        log.info("Using filename {} as blacklist file.", filename);
+        log.info("Using directory '{}' as blacklist location.", directory);
+        log.info("Using filename '{}' as blacklist file.", filename);
 
         Path fileDirectory = Paths.get(directory);
         if(!Files.exists(fileDirectory)) {
             try {
                 Files.createDirectory(fileDirectory);
-                log.debug("Created blacklist directory {}", fileDirectory.toString());
+                log.debug("Created blacklist directory '{}'", fileDirectory.toString());
             } catch (IOException ex) {
-                log.error("Failed to create blacklist directory at {}", fileDirectory.toString());
+                log.error("Failed to create blacklist directory at '{}'", fileDirectory.toString());
                 System.exit(1);
             }
         }
@@ -44,9 +44,9 @@ public class BlacklistCustomerReader implements CustomerInitializer {
         if(!Files.exists(file)) {
             try {
                 Files.createFile(file);
-                log.debug("Created blacklist file {}", file.toString());
+                log.debug("Created blacklist file '{}'", file.toString());
             } catch (IOException ex) {
-                log.error("Failed to create blacklist file at {}", file.toString());
+                log.error("Failed to create blacklist file at '{}'", file.toString());
                 System.exit(1);
             }
         }
@@ -54,7 +54,7 @@ public class BlacklistCustomerReader implements CustomerInitializer {
 
     @Override
     public void loadCustomers() {
-        log.info("Loading blacklisted customers from file {}", file.toString());
+        log.debug("Loading blacklisted customers from file '{}'", file.toString());
 
         try {
             List<String> customers = Files.readAllLines(file);
@@ -73,7 +73,7 @@ public class BlacklistCustomerReader implements CustomerInitializer {
             log.error("Exception occur when loading customers from {} - {}", file.toString(), ex.getLocalizedMessage());
             list = new ArrayList<>(0);
         } finally {
-            log.info("Loaded blacklisted customers from file {}", file.toString());
+            log.debug("Loaded blacklisted customers from file {}", file.toString());
         }
     }
 
