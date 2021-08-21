@@ -52,11 +52,9 @@ public class FileVoucherRepository implements VoucherRepository{
         }
 
         try(FileWriter writer = new FileWriter(voucherFilePath.toFile(),true)){
-            String voucherInfo = String.format("%s,%s,%d", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount());
+            String voucherInfo = String.format("%s,%s,%d%n", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount(), "\n");
             writer.write(voucherInfo);
-            writer.write("\n");
             writer.flush();
-            writer.close();
         }catch (IOException e) {
             e.printStackTrace();
         }
