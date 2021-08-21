@@ -29,6 +29,7 @@ public class VoucherService {
         return switch (type) {
             case FIXED_AMOUNT -> voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value));
             case PERCENT -> voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value));
+            default -> throw new IllegalStateException("Unexpected value: " + type);
         };
     }
 
