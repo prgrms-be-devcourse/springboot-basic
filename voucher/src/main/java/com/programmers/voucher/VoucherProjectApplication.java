@@ -1,8 +1,10 @@
 package com.programmers.voucher;
 
+import com.programmers.voucher.config.ApplicationMessages;
 import com.programmers.voucher.config.ServiceConfiguration;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.voucher.VoucherService;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -10,18 +12,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+//@SpringBootApplication
 public class VoucherProjectApplication {
 
 	public static void main(String[] args) throws IOException {
 		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
-
 		VoucherService voucherService = applicationContext.getBean(VoucherService.class);
 		voucherService.openStorage();
 
+		ApplicationMessages applicationMessages = applicationContext.getBean(ApplicationMessages.class);
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
-			System.out.println("\n\n=== Voucher Program === \n" + "Type exit to exit the program. \n"
-					+ "Type create to create a new voucher. \n" + "Type list to list all vouchers.");
+			System.out.println(applicationMessages.getIntroMessage());
 			String command = br.readLine();
 			switch (command) {
 				case "exit":
@@ -30,9 +33,9 @@ public class VoucherProjectApplication {
 					break;
 
 				case "create":
-					System.out.println("Input voucher name: "); // print() blocked??
+					System.out.print(applicationMessages.getRequireName());
 					String voucherName = br.readLine();
-					System.out.println("Select voucher type(Fixed / Percent): (Fixed)");
+					System.out.print(applicationMessages.getRequireType());
 					String voucherType = br.readLine();
 
 					Voucher createdVoucher;
@@ -46,8 +49,7 @@ public class VoucherProjectApplication {
 							break;
 
 						default:
-							System.out.println(
-									"Didn't select voucher type or invalid voucher type. Fallback to \"Fixed\" voucher type.");
+							System.out.println(applicationMessages.getFallback());
 							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED, 1000);
 					}
 					System.out.println(createdVoucher.toString());

@@ -1,0 +1,18 @@
+voucher:
+  message:
+    intro: |-
+      === Voucher Program ===
+      Type exit to exit the program.
+      Type create to create a new voucher.
+      Type list to list all vouchers.
+
+    command:
+      create:
+        name: >
+          Input voucher name:
+
+        type: >
+          Select voucher type(Fixed / Percent): (Fixed)
+
+        fallback: >
+          Didn't select voucher type or invalid voucher type. Fallback to "Fixed" voucher type.
