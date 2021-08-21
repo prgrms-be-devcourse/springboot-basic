@@ -13,7 +13,10 @@ public class Console implements Input, Output {
 
     @Override
     public void printCommandList() {
-
+        String commandList = "\n\n======== 바우처 프로그램 ========\n\n" +
+                "원하는 명령어 번호를 입력해주세요.\n" +
+                CommandType.getListOfEnum();
+        System.out.println(commandList);
     }
 
     @Override
