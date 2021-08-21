@@ -35,8 +35,7 @@ public class FileVoucherRepository implements VoucherRepository{
                     storage.put(UUID.fromString(voucherInfo.get(0)), new PercentDiscountVoucher(UUID.fromString(voucherInfo.get(0)), Integer.parseInt(voucherInfo.get(2))));
                 }
             }
-
-        } catch (IOException e) {
+        } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
         }
     }
