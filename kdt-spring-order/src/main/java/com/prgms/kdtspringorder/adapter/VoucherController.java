@@ -11,14 +11,12 @@ import com.prgms.kdtspringorder.application.VoucherService;
 import com.prgms.kdtspringorder.config.AppConfig;
 import com.prgms.kdtspringorder.domain.model.voucher.Voucher;
 import com.prgms.kdtspringorder.domain.model.voucher.VoucherType;
+import com.prgms.kdtspringorder.ui.Command;
 import com.prgms.kdtspringorder.ui.Printer;
 import com.prgms.kdtspringorder.ui.Receiver;
 
 @Controller
 public class VoucherController {
-    private final String EXIT = "exit";
-    private final String CREATE = "create";
-    private final String LIST = "list";
     private final Receiver receiver = new Receiver();
     private final Printer printer = new Printer();
 
@@ -30,16 +28,21 @@ public class VoucherController {
         printer.printCommandList();
 
         while (true) {
-            String command = receiver.enterCommand();
-            if (command.equals(EXIT)) {
+            String command = receiver.enterCommand().toUpperCase();
+
+            if (command.equals(Command.EXIT.name())) {
                 break;
             }
-            if (command.equals(CREATE)) {
+            if (command.equals(Command.CREATE.name())) {
                 createVoucher(vouchers, voucherService);
                 continue;
             }
-            if (command.equals(LIST)) {
+            if (command.equals(Command.LIST.name())) {
                 printer.listVouchers(vouchers);
+                continue;
+            }
+            if (command.equals(Command.HELP.name())) {
+                printer.printCommandList();
             }
         }
     }

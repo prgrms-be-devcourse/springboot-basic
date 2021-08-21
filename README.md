@@ -27,7 +27,7 @@
 - [x] CommandLineApplication 내 기능 분리
 - [x] input, output 분리
 - [x] BufferedReader, BufferedWriter -> Scanner와 sout으로 변경 (가독성)
-- [ ] Command 종류를 enum으로 변환
+- [x] Command 종류를 enum으로 변환
 - [ ] input validation 처리
 - [ ] voucher type 입력에 전략 패턴 적용
 - [ ] try with resource로 구현해보기
