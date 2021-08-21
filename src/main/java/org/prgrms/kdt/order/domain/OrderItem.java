@@ -1,4 +1,4 @@
-package org.prgrms.kdt.order;
+package org.prgrms.kdt.order.domain;
 
 import java.util.UUID;
 
@@ -13,15 +13,15 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public UUID getProductId() {
+    public UUID productId() {
         return productId;
     }
 
-    public long getProductPrice() {
+    public long productPrice() {
         return productPrice;
     }
 
-    public long getQuantity() {
+    public long quantity() {
         return quantity;
     }
 }

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
@@ -11,19 +11,20 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        validate(voucherId, percent);
         this.voucherId = voucherId;
         this.percent = percent;
     }
 
     @Override
-    public void validate(UUID voucherId, long amount) {
-        if (voucherId == null || amount > MAX_RANGE || amount < MIN_RANGE) {
+    public void validate(UUID voucherId, long percent) {
+        if (voucherId == null || percent > MAX_RANGE || percent < MIN_RANGE) {
             throw new RuntimeException();
         }
     }
 
     @Override
-    public UUID getVoucherId() {
+    public UUID voucherId() {
         return voucherId;
     }
 

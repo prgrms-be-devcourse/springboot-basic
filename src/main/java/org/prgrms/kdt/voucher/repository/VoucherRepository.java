@@ -1,8 +1,7 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,5 +11,5 @@ public interface VoucherRepository {
 
     Map<UUID, Voucher> findByAllVoucher();
 
-    Voucher insert(Voucher voucher) throws IOException;
+    Voucher insert(Voucher voucher);
 }

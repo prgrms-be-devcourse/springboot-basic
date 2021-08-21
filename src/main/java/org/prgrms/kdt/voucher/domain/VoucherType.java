@@ -1,5 +1,6 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.domain;
 
+import org.prgrms.kdt.exception.ErrorMessage;
 import org.prgrms.kdt.exception.InvalidArgumentException;
 
 import java.util.Arrays;

@@ -2,8 +2,8 @@ package org.prgrms.kdt;
 
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.config.AppConfiguration;
-import org.prgrms.kdt.order.Order;
-import org.prgrms.kdt.order.OrderItem;
+import org.prgrms.kdt.order.domain.Order;
+import org.prgrms.kdt.order.domain.OrderItem;
 import org.prgrms.kdt.order.application.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

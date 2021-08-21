@@ -1,8 +1,8 @@
 package org.prgrms.kdt.order.application;
 
-import org.prgrms.kdt.order.Order;
+import org.prgrms.kdt.order.domain.Order;
 import org.prgrms.kdt.order.repository.OrderRepository;
-import org.prgrms.kdt.order.OrderItem;
+import org.prgrms.kdt.order.domain.OrderItem;
 import org.prgrms.kdt.voucher.application.VoucherService;
 import org.springframework.stereotype.Service;
 

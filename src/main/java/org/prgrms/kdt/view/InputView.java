@@ -1,5 +1,6 @@
 package org.prgrms.kdt.view;
 
+import org.prgrms.kdt.exception.ErrorMessage;
 import org.prgrms.kdt.exception.InvalidArgumentException;
 
 import java.util.Arrays;
@@ -37,7 +38,7 @@ public class InputView {
     public static List<String> typeAndValue(String userInputMessage) {
         List<String> typeAndValue = Arrays.asList(userInputMessage.split(SPLIT_CODE));
         if (typeAndValue.size() != INPUT_SIZE) {
-            throw new InvalidArgumentException(InvalidArgumentException.ErrorMessage.NOT_CORRECT_INPUT_MESSAGE);
+            throw new InvalidArgumentException(ErrorMessage.NOT_CORRECT_INPUT_MESSAGE);
         }
         return typeAndValue;
     }

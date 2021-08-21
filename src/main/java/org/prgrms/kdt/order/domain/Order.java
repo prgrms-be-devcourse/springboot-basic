@@ -1,6 +1,6 @@
-package org.prgrms.kdt.order;
+package org.prgrms.kdt.order.domain;
 
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +34,7 @@ public class Order {
 
     public long totalAmount() {
         long beforeDiscount = orderItems.stream()
-                .map(v -> v.getProductPrice() * v.quantity)
+                .map(v -> v.productPrice() * v.quantity)
                 .reduce(DEFAULT_TOTAL_AMOUNT, Long::sum);
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }

@@ -1,6 +1,6 @@
 package org.prgrms.kdt.view;
 
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.Map;
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package org.prgrms.kdt.order.repository;
 
-import org.prgrms.kdt.order.Order;
+import org.prgrms.kdt.order.domain.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
@@ -7,6 +7,7 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
+        validate(voucherId, amount); // TODO beforeAmount에 대한 값을 알게되면, amount에 대한 validate 로직을 재설계할 필요 존재
         this.voucherId = voucherId;
         this.amount = amount;
     }
@@ -19,7 +20,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getVoucherId() {
+    public UUID voucherId() {
         return voucherId;
     }
 

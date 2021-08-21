@@ -2,7 +2,7 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.config.AppConfiguration;
 import org.prgrms.kdt.voucher.application.VoucherService;
-import org.prgrms.kdt.voucher.ui.VoucherController;
+import org.prgrms.kdt.voucher.presentation.VoucherController;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;

@@ -1,12 +1,12 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.VoucherType;
+import org.prgrms.kdt.exception.ErrorMessage;
+import org.prgrms.kdt.exception.FileIOException;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
@@ -15,27 +15,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
 @Qualifier("file")
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class FileVoucherRepository implements VoucherRepository {
-    private final String path = "D:\\programmers\\w3\\2d\\w3-SpringBoot_Part_A\\src\\main\\resources\\VoucherRepository.txt";
-    private final String SPLIT_CODE = " ";
-    private final int TYPE_INDEX = 0;
-    private final int UUID_INDEX = 1;
-    private final int VALUE_INDEX = 2;
+    private final static String path = "D:\\programmers\\w3\\2d\\w3-SpringBoot_Part_A\\src\\main\\resources\\VoucherRepository.txt";
+    private final static String SPLIT_CODE = " ";
+    private final static int TYPE_INDEX = 0;
+    private final static int UUID_INDEX = 1;
+    private final static int VALUE_INDEX = 2;
     private final File file;
     private final Map<UUID, Voucher> storage;
 
 
-    public FileVoucherRepository() throws IOException {
+    public FileVoucherRepository() {
         this.storage = init();
         this.file = new File(path);
     }
@@ -46,17 +42,22 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) throws IOException {
+    public Voucher insert(Voucher voucher) {
         insertFile(voucher);
-        storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.voucherId(), voucher);
         return voucher;
     }
 
-    private void insertFile(Voucher voucher) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
-        bufferedWriter.write(voucher.toString());
-        bufferedWriter.newLine();
-        bufferedWriter.close();
+    private void insertFile(Voucher voucher) {
+        try {
+            FileWriter fileWriter = new FileWriter(file, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(voucher.toString());
+            bufferedWriter.newLine();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new FileIOException(ErrorMessage.ERROR_OCCURRED_INPUTTING_FILE, e);
+        }
     }
 
     @Override
@@ -64,9 +65,13 @@ public class FileVoucherRepository implements VoucherRepository {
         return storage;
     }
 
-    private Map<UUID, Voucher> init() throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get(path));
-
+    private Map<UUID, Voucher> init() {
+        List<String> lines;
+        try {
+            lines = Files.readAllLines(Paths.get(path));
+        } catch (IOException e) {
+            throw new FileIOException(ErrorMessage.ERROR_READING_FILE, e);
+        }
         Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
         for (String line : lines) {
             List<String> voucherData = List.of(line.split(SPLIT_CODE));
@@ -77,6 +82,11 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
+    /**
+     * TODO
+     * parseLong 때문에 FixedAmountVouncher에 데이터가 전달되지 못하고 Exception이 터져버립니다.
+     * 개인적인 생각으로는 String을 보내줘서 Voucher들이 String에 대한 validate를 진행할 수 있는게 맞지 않나 싶습니다..
+     */
     private Voucher newInstanceVoucher(VoucherType type, UUID uuid, String value) {
         if (type == VoucherType.FIXED) {
             return new FixedAmountVoucher(uuid, parseLong(value));

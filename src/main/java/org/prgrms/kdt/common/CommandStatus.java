@@ -1,5 +1,6 @@
 package org.prgrms.kdt.common;
 
+import org.prgrms.kdt.exception.ErrorMessage;
 import org.prgrms.kdt.exception.InvalidArgumentException;
 
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public enum CommandStatus {
         return Arrays.stream(CommandStatus.values())
                 .filter(c -> c.status.equals(inputType))
                 .findAny()
-                .orElseThrow(() -> new InvalidArgumentException(InvalidArgumentException.ErrorMessage.NOT_CORRECT_INPUT_MESSAGE));
+                .orElseThrow(() -> new InvalidArgumentException(ErrorMessage.NOT_CORRECT_INPUT_MESSAGE));
     }
 
 }

@@ -1,13 +1,11 @@
-package org.prgrms.kdt.voucher.ui;
+package org.prgrms.kdt.voucher.presentation;
 
 import org.prgrms.kdt.common.CommandStatus;
-import org.prgrms.kdt.config.AppConfiguration;
 import org.prgrms.kdt.view.InputView;
 import org.prgrms.kdt.view.OutputView;
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.VoucherType;
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.application.VoucherService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
@@ -24,7 +22,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void play() throws IOException {
+    public void play() {
         while (true) {
             InputView.initMessage();
             String choiceMenu = InputView.input();
@@ -38,7 +36,7 @@ public class VoucherController {
     }
 
 
-    private void executeMenu(CommandStatus status) throws IOException {
+    private void executeMenu(CommandStatus status) {
         if (status == CommandStatus.EXIT) {
             exitCommandOrder();
             return;
@@ -60,7 +58,7 @@ public class VoucherController {
         OutputView.exit();
     }
 
-    private void createVoucherOrder() throws IOException {
+    private void createVoucherOrder() {
         InputView.explainCreateVoucher();
         List<String> typeAndValue = InputView.typeAndValue(InputView.input());
         VoucherType type = voucherService.choiceVoucher(typeAndValue.get(TYPE_INDEX));

@@ -1,11 +1,11 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
 public interface Voucher {
-    void validate(UUID voucherId, long amount);
+    void validate(UUID voucherId, long value);
 
-    UUID getVoucherId();
+    UUID voucherId();
 
     long discount(long beforeDiscount);
 
