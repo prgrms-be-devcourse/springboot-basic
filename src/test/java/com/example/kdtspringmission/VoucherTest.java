@@ -2,6 +2,9 @@ package com.example.kdtspringmission;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
+import com.example.kdtspringmission.voucher.domain.RateAmountVoucher;
+import com.example.kdtspringmission.voucher.domain.Voucher;
 import org.junit.jupiter.api.Test;
 
 class VoucherTest {

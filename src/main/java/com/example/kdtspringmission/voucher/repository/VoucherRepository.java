@@ -1,5 +1,6 @@
-package com.example.kdtspringmission;
+package com.example.kdtspringmission.voucher.repository;
 
+import com.example.kdtspringmission.voucher.domain.Voucher;
 import java.util.List;
 
 public interface VoucherRepository {

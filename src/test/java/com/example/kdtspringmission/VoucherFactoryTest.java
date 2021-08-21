@@ -2,16 +2,19 @@ package com.example.kdtspringmission;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
+import com.example.kdtspringmission.voucher.domain.RateAmountVoucher;
+import com.example.kdtspringmission.voucher.domain.Voucher;
+import com.example.kdtspringmission.voucher.domain.VoucherFactory;
 import org.junit.jupiter.api.Test;
 
 class VoucherFactoryTest {
 
     @Test
     void testCreateVoucher() {
-        Voucher fixedAmountVoucher = VoucherFactory.create("FixedAmountVoucher");
-        Voucher rateAmountVoucher = VoucherFactory.create("RateAmountVoucher");
+        Voucher fixedAmountVoucher = VoucherFactory.create("1");
+        Voucher rateAmountVoucher = VoucherFactory.create("2");
 
         assertThat(fixedAmountVoucher).isInstanceOf(FixedAmountVoucher.class);
         assertThat(rateAmountVoucher).isInstanceOf(RateAmountVoucher.class);

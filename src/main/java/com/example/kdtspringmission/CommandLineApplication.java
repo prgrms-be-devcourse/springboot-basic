@@ -1,5 +1,7 @@
 package com.example.kdtspringmission;
 
+import com.example.kdtspringmission.voucher.domain.VoucherFactory;
+import com.example.kdtspringmission.voucher.repository.VoucherRepository;
 import java.util.Scanner;
 
 public class CommandLineApplication {
@@ -9,6 +11,11 @@ public class CommandLineApplication {
 
     public CommandLineApplication(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
+    }
+
+    public static void main(String[] args) {
+        AppConfig ac = new AppConfig();
+        new CommandLineApplication(ac.voucherRepository()).run();
     }
 
     public void run() {

@@ -1,8 +1,11 @@
 package com.example.kdtspringmission;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
+import com.example.kdtspringmission.voucher.domain.Voucher;
+import com.example.kdtspringmission.voucher.repository.MemoryVoucherRepository;
+import com.example.kdtspringmission.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.example.kdtspringmission;
+package com.example.kdtspringmission.voucher.domain;
 
 public class RateAmountVoucher implements Voucher {
 
