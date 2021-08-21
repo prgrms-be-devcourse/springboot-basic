@@ -10,6 +10,7 @@ import java.io.IOException;
 public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var voucherService = applicationContext.getBean(VoucherService.class);
 
         Console console = new Console();
 
@@ -18,8 +19,6 @@ public class CommandLineApplication {
 
             String inputString = console.input("> ");
             if (inputString.equals("create")) {
-                var voucherService = applicationContext.getBean(VoucherService.class);
-
                 console.printVoucherTypes();
 
                 String voucherType = console.input("> ");
@@ -37,9 +36,7 @@ public class CommandLineApplication {
                     voucherService.createPercentDiscountVoucher(percentage);
                 }
             } else if (inputString.equals("list")) {
-                var voucherRepository = applicationContext.getBean(VoucherRepository.class);
-
-                System.out.println(voucherRepository.getAllVouchers().toString());
+               System.out.println(voucherService.getVoucherRepository().getAllVouchers().toString());
             } else if (inputString.equals("exit")) {
                 break;
             }

@@ -16,6 +16,10 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    public VoucherRepository getVoucherRepository() {
+        return voucherRepository;
+    }
+
     public Voucher createFixedAmountVoucher(long amount) {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
         voucherRepository.insert(voucher);
