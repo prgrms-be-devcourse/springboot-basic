@@ -13,9 +13,9 @@ public class OutputController {
         List<Voucher> voucherList = voucherService.getAllVouchers();
         if(voucherList.isEmpty()) {
             System.out.println("등록된 바우처가 없습니다.");
-        } else {
-            voucherList.forEach(System.out::println);
+            return;
         }
+        voucherList.forEach(System.out::println);
     }
 
 }

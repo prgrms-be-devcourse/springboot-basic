@@ -1,5 +1,7 @@
 package org.prgrms.kdt.domain.voucher;
 
+import org.prgrms.kdt.enums.VoucherType;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -18,9 +20,17 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public long getDiscount(){
+        return percent;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
+
+    @Override
+    public VoucherType getVoucherType(){ return VoucherType.DISCOUNT; };
 
     @Override
     public String toString() {

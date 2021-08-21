@@ -6,6 +6,7 @@ import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -17,7 +18,7 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("fileVoucher") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

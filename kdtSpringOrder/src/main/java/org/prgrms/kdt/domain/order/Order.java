@@ -9,8 +9,6 @@ import java.util.UUID;
 //식별자를 가지고 있어야한다.
 public class Order {
 
-    //실무에서도 UUID를 많이쓸까?
-    //UUID 중복될 경우 어떻게 하지?
     private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;

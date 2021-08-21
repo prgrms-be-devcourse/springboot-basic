@@ -1,9 +1,5 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.controller.InputController;
-import org.prgrms.kdt.controller.OutputController;
-import org.prgrms.kdt.helper.MessageHelper;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
