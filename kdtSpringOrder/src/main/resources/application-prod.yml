@@ -1,4 +1,4 @@
 kdt:
   version: "v1.0"
   description: |-
-    profile : local
+    profile : prod

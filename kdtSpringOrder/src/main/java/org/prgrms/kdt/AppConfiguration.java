@@ -14,7 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 //@PropertySource("application.yml") -> Spring은 PropertySource는 yaml 지원안함. factory 직접구현해야함.(SpringBoot는 지원 함)
 @Configuration
 @ComponentScan
-@PropertySource(value = "application.yml", factory = YamlPropertiesFactory.class)
+@PropertySource(value = {"application.yml", "application-prod.yml"}, factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 public class AppConfiguration {
 
