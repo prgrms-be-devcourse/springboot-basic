@@ -13,6 +13,7 @@ public class VoucherCommandLineApplication {
 
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         applicationContext.getBean(VoucherCommandLine.class).start();
+        applicationContext.close();
 
     }
 
