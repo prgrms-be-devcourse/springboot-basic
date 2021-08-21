@@ -18,8 +18,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-@Repository
-@Qualifier("file")
+//@Repository
+//@Qualifier("file")
 public class FileVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final String FILE_NAME = "voucher.csv";
