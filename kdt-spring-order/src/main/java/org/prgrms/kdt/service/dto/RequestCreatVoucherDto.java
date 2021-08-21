@@ -1,16 +1,18 @@
 package org.prgrms.kdt.service.dto;
 
+import org.prgrms.kdt.domain.voucher.VoucherType;
+
 public class RequestCreatVoucherDto {
 
-    private int type;
+    private VoucherType type;
     private long amount;
 
-    public RequestCreatVoucherDto(int type, long amount) {
+    public RequestCreatVoucherDto(VoucherType type, long amount) {
         this.type = type;
         this.amount = amount;
     }
 
-    public int getType() {
+    public VoucherType getType() {
         return type;
     }
 

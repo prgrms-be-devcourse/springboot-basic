@@ -3,6 +3,7 @@ package org.prgrms.kdt.service;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.service.dto.RequestCreatVoucherDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ class VoucherServiceTest {
     public void save() throws Exception {
         // given
         init();
-        RequestCreatVoucherDto dto = new RequestCreatVoucherDto(0, 10);
+        RequestCreatVoucherDto dto = new RequestCreatVoucherDto(VoucherType.FIX, 10);
 
         // when
         voucherService.save(dto);
@@ -36,11 +37,11 @@ class VoucherServiceTest {
     public void saveMultipleVoucher() throws Exception {
         // given
         init();
-        RequestCreatVoucherDto dto1 = new RequestCreatVoucherDto(0, 10);
-        RequestCreatVoucherDto dto2 = new RequestCreatVoucherDto(0, 11);
-        RequestCreatVoucherDto dto3 = new RequestCreatVoucherDto(0, 12);
-        RequestCreatVoucherDto dto4 = new RequestCreatVoucherDto(0, 13);
-        RequestCreatVoucherDto dto5 = new RequestCreatVoucherDto(0, 14);
+        RequestCreatVoucherDto dto1 = new RequestCreatVoucherDto(VoucherType.FIX, 10);
+        RequestCreatVoucherDto dto2 = new RequestCreatVoucherDto(VoucherType.FIX, 11);
+        RequestCreatVoucherDto dto3 = new RequestCreatVoucherDto(VoucherType.FIX, 12);
+        RequestCreatVoucherDto dto4 = new RequestCreatVoucherDto(VoucherType.FIX, 13);
+        RequestCreatVoucherDto dto5 = new RequestCreatVoucherDto(VoucherType.FIX, 14);
 
         // when
         voucherService.save(dto1);

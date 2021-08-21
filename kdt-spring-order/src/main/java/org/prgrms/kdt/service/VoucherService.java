@@ -1,7 +1,7 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.domain.voucher.PercentAmountVoucher;
+import org.prgrms.kdt.Factory.VoucherFactory;
+import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.repository.VoucherRepository;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.service.dto.RequestCreatVoucherDto;
@@ -21,12 +21,7 @@ public class VoucherService {
 
     public UUID save(RequestCreatVoucherDto dto) {
         UUID voucherId = UUID.randomUUID();
-        if (dto.getType() == 0) { // fixed
-            voucherRepository.insert(new FixedAmountVoucher(voucherId, dto.getAmount()));
-        } else { // percent
-            voucherRepository.insert(new PercentAmountVoucher(voucherId, dto.getAmount()));
-        }
-
+        voucherRepository.insert(VoucherFactory.createVoucher(voucherId, dto.getType(), dto.getAmount()));
         return voucherId;
     }
 

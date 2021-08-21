@@ -8,13 +8,13 @@ public class FileIo {
 
     private static BufferedReader bufferedReader;
     private static BufferedWriter bufferedWriter;
-
+    private static File file;
     private FileIo() {
     }
 
     public static FileIo createFileIo(String path) throws IOException {
         FileIo fileIo = new FileIo();
-        File file = new File(path);
+        file = new File(path);
 
         if (!file.exists())
             file.createNewFile();
@@ -44,4 +44,14 @@ public class FileIo {
         bufferedWriter.write(s);
         bufferedWriter.flush();
     }
+
+
+    public void reset() {
+        try {
+            bufferedReader = new BufferedReader(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

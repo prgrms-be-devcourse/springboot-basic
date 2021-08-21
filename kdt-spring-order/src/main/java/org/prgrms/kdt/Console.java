@@ -1,5 +1,6 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.OutPut;
 import org.prgrms.kdt.io.Validator;
@@ -67,6 +68,10 @@ public class Console {
         if (validator.isInValidVoucherTypeAmount(line)) {
             return Optional.empty();
         }
-        return Optional.of(voucherService.save(new RequestCreatVoucherDto(Integer.parseInt(line[0]), Long.parseLong(line[1]))));
+        return Optional.of(voucherService.save(new RequestCreatVoucherDto(mapToVoucherType(line[0]), Long.parseLong(line[1]))));
+    }
+
+    private VoucherType mapToVoucherType(String s) {
+        return VoucherType.findType(Integer.parseInt(s));
     }
 }

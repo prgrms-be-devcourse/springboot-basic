@@ -10,25 +10,49 @@ public class Validator {
     }
 
     public boolean isInValidVoucherTypeAmount(String[] line) {
-        if (line.length != 2)
+        if (isEmpty(line))
             return true;
 
         for (String str : line) {
             for (int i = 0; i < str.length(); i++) {
-                if (!Character.isDigit(str.charAt(i)))
+                if (isNotDigit(str.charAt(i)))
                     return true;
             }
         }
 
-        int type = Integer.parseInt(line[0]);
-        long amount = Long.parseLong(line[1]);
+        int type = mapToInt(line[0]);
+        long value = mapToLong(line[1]);
 
-        if (type != 0 && type != 1)
+        if (isInvalidType(type))
             return true;
 
-        if (amount < 0)
+        if (isUnderZero(value))
             return true;
 
         return false;
+    }
+
+    private boolean isUnderZero(long value) {
+        return value < 0;
+    }
+
+    private boolean isInvalidType(int type) {
+        return type != 0 && type != 1;
+    }
+
+    private long mapToLong(String s) {
+        return Long.parseLong(s);
+    }
+
+    private int mapToInt(String s) {
+        return Integer.parseInt(s);
+    }
+
+    private boolean isNotDigit(char ch) {
+        return !Character.isDigit(ch);
+    }
+
+    private boolean isEmpty(String[] line) {
+        return line.length != 2;
     }
 }
