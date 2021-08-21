@@ -6,6 +6,7 @@ import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.Voucher;
 import com.example.kdtspringmission.voucher.repository.MemoryVoucherRepository;
 import com.example.kdtspringmission.voucher.repository.VoucherRepository;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +22,12 @@ class VoucherRepositoryTest {
     @Test
     void testFindById() {
         //given
-        Voucher voucher1 = new FixedAmountVoucher(100L);
-        Voucher voucher2 = new FixedAmountVoucher(200L);
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(),100L);
+        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(),200L);
 
         //when
-        Long voucher1Id = voucherRepository.insert(voucher1);
-        Long voucher2Id = voucherRepository.insert(voucher2);
+        UUID voucher1Id = voucherRepository.insert(voucher1);
+        UUID voucher2Id = voucherRepository.insert(voucher2);
         Voucher findVoucher = voucherRepository.findById(voucher1Id);
 
         //then
@@ -36,9 +37,9 @@ class VoucherRepositoryTest {
     @Test
     void testFindAll() {
         //given
-        Voucher voucher1 = new FixedAmountVoucher(100L);
-        Voucher voucher2 = new FixedAmountVoucher(200L);
-        Voucher voucher3 = new FixedAmountVoucher(200L);
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(),100L);
+        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(),200L);
+        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(),200L);
 
         //when
         voucherRepository.insert(voucher1);
