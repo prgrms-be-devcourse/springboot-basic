@@ -2,8 +2,6 @@ package W3D2.jcu;
 
 import W3D2.jcu.voucher.VoucherService;
 import java.io.IOException;
-import java.util.UUID;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -12,9 +10,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class JcuApplication {
 
 	public static void main(String[] args) throws IOException {
-		ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfiguration.class);
-		
-		// Service만 주입
+		ApplicationContext ac = new AnnotationConfigApplicationContext(JcuApplication.class);
 		var voucherService = ac.getBean(VoucherService.class);
 		new CommandLineApplication(voucherService);
 	}
