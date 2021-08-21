@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("application.properties")
+@ConfigurationProperties
+@PropertySource(value = "application.yml", factory = YamlPropertySourceFactory.class)
 public class ApplicationMessages {
 
     @Value("${voucher.message.intro:Intro message here}")

@@ -1,6 +1,7 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.entity.voucher.Voucher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +20,11 @@ public class LocalFileVoucherRepository implements VoucherRepository {
     AtomicLong sequencer = new AtomicLong(1);
     Map<Long, Voucher> db = new HashMap<>();
 
-    public LocalFileVoucherRepository() throws IOException {
-        String filename = "vouchers.db";
-
-        Path fileDirectory = Paths.get("storage");
+    public LocalFileVoucherRepository(
+            @Value("${voucher.file.voucher.location}") String directory,
+            @Value("${voucher.file.voucher.filename}") String filename
+    ) throws IOException {
+        Path fileDirectory = Paths.get(directory);
         if(!Files.exists(fileDirectory)) {
             Files.createDirectory(fileDirectory);
         }

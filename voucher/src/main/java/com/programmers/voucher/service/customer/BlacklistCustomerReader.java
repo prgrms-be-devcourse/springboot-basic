@@ -1,6 +1,7 @@
 package com.programmers.voucher.service.customer;
 
 import com.programmers.voucher.entity.customer.Customer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,10 +19,11 @@ public class BlacklistCustomerReader implements CustomerInitializer {
     private final Path file;
     List<Customer> list = new LinkedList<>();
 
-    public BlacklistCustomerReader() throws IOException {
-        String filename = "customer_blacklist.csv";
-
-        Path fileDirectory = Paths.get("consumer");
+    public BlacklistCustomerReader(
+            @Value("${voucher.file.blacklist.location}") String directory,
+            @Value("${voucher.file.blacklist.filename}") String filename
+    ) throws IOException {
+        Path fileDirectory = Paths.get(directory);
         if(!Files.exists(fileDirectory)) {
             Files.createDirectory(fileDirectory);
         }
