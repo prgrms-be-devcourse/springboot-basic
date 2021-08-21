@@ -1,6 +1,5 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.enums.CommandType;
 import org.prgrms.kdt.controller.InputController;
 import org.prgrms.kdt.controller.OutputController;
@@ -9,8 +8,6 @@ import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.helper.MessageHelper;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.UUID;
 
 public class CommandLineApplication {
 
