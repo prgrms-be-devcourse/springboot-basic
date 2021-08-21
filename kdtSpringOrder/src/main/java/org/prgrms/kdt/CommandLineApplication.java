@@ -1,5 +1,6 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.enums.CommandType;
 import org.prgrms.kdt.controller.InputController;
 import org.prgrms.kdt.controller.OutputController;
@@ -65,7 +66,7 @@ public class CommandLineApplication {
     }
 
     public static void runList(OutputController outputController, VoucherService voucherService) {
-        outputController.showVoucherList(voucherService);
+        outputController.showVoucherList(voucherService.getAllVouchers());
     }
 
     public static void runReplay(MessageHelper messageHelper) {

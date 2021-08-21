@@ -41,4 +41,5 @@ public class MessageHelper {
         System.out.println("중복된 바우처 입니다.");
     }
 
+    public void showVoucherListEmptyMessage() { System.out.println("등록된 바우처가 없습니다."); };
 }
