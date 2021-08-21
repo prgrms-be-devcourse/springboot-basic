@@ -7,3 +7,5 @@ FixedAmountVoucher(voucherId=16f8b693-f404-4733-8738-ba2ecd122e12, discount=3000
 PercentDiscountVoucher(voucherId=063c5907-ac93-40e9-b2c1-60933a54fd35, percent=30)
 FixedAmountVoucher(voucherId=4f141dd7-cbe3-4e9c-828e-f0f6955f76d9, discount=3)
 FixedAmountVoucher(voucherId=6f99a164-481c-4050-8378-cde2b4c21b4d, discount=30)
+FixedAmountVoucher(voucherId=cba9c541-41de-4ae2-9e3a-b7ec7cee7daf, discount=3000)
+FixedAmountVoucher(voucherId=c28afdee-3520-4cd9-aa81-602b0bebf3d8, discount=30004)

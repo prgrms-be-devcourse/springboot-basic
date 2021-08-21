@@ -16,7 +16,7 @@ import org.springframework.context.annotation.PropertySource;
         "org.prgrms.kdt.repository",
         "org.prgrms.kdt.service",
         "org.prgrms.kdt.factory",
-        "org.prgrms.kdt.fileutil"
+        "org.prgrms.kdt.fileutil",
       })
 @PropertySource(value="application.yaml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
