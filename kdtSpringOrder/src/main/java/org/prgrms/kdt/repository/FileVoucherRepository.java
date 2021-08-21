@@ -44,7 +44,7 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
 
     @Override
     public List<Voucher> findAll() {
-        System.out.println(MessageFormat.format("[Profile prod is set.] repositoryName is -> {0}", repositoryName));
+        System.out.println(MessageFormat.format("[Profile prod is set.] repositoryName is {0}", repositoryName));
         loadStorage();
         return new ArrayList<>(storage.values());
     }
@@ -90,6 +90,6 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println(MessageFormat.format("[Profile prod is set.] repositoryName is -> {0}", repositoryName));
+        System.out.println(MessageFormat.format("[Profile prod is set.] repositoryName is {0}", repositoryName));
     }
 }
