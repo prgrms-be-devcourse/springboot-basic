@@ -3,12 +3,16 @@ package com.programmers.voucher.service.voucher;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.entity.voucher.factory.VoucherFactory;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class BasicVoucherService implements VoucherService {
+
+    private static final Logger log = LoggerFactory.getLogger(BasicVoucherService.class);
 
     private final VoucherRepository voucherRepository;
     private final VoucherFactory fixedAmountVoucherFactory;
@@ -23,12 +27,16 @@ public class BasicVoucherService implements VoucherService {
 
     @Override
     public void openStorage() {
+        log.info("Initializing voucher repository...");
         voucherRepository.loadVouchers();
+        log.info("Initialized voucher repository.");
     }
 
     @Override
     public void closeStorage() {
+        log.info("Persisting voucher repository...");
         voucherRepository.persistVouchers();
+        log.info("Persisted voucher repository.");
     }
 
     @Override
@@ -47,6 +55,7 @@ public class BasicVoucherService implements VoucherService {
                 voucher = fixedAmountVoucherFactory.create(name, value);
         }
 
+        log.info("Created voucher {}", voucher.toString());
         return voucherRepository.save(voucher);
     }
 

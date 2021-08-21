@@ -1,6 +1,8 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.entity.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -14,14 +16,16 @@ import java.util.concurrent.atomic.AtomicLong;
 @Profile("prod")
 public class InMemoryVoucherRepository implements VoucherRepository {
 
-    AtomicLong sequencer = new AtomicLong(0);
-    Map<Long, Voucher> db = new HashMap<>();
+    private AtomicLong sequencer = new AtomicLong(0);
+    private Map<Long, Voucher> db = new HashMap<>();
+    private static final Logger log = LoggerFactory.getLogger(InMemoryVoucherRepository.class);
 
     @Override
     public Voucher save(Voucher voucher) {
         long id = sequencer.getAndAdd(1);
         voucher.setId(id);
         db.put(id, voucher);
+        log.debug("Saved voucher '{}' to database.", voucher);
         return voucher;
     }
 
