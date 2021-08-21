@@ -1,25 +1,26 @@
 package org.prgrms.orderApp.service;
 
-import org.prgrms.orderApp.ProcessingStatus;
+import org.prgrms.orderApp.CMDProgramForOrderApp.service.ProcessingStatus;
 import org.prgrms.orderApp.model.voucher.Voucher;
-import org.prgrms.orderApp.model.voucher.VoucherType;
 import org.prgrms.orderApp.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class VoucherService {
-    private final VoucherRepository voucherRepository;
-    private Map<String,Object> processingResultsMessages = new HashMap<String, Object>();
 
+@Service
+public class VoucherService {
+
+    @Autowired
+    private VoucherRepository voucherRepository;
+
+    private Map<String,Object> processingResultsMessages = new HashMap<String, Object>();
     private ProcessingStatus status;
     private UUID voucherId ;
-    public VoucherService(VoucherRepository voucherRepository) {
-
-        this.voucherRepository = voucherRepository;
-    }
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository

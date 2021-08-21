@@ -1,4 +1,4 @@
-package org.prgrms.orderApp.io;
+package org.prgrms.orderApp.CMDProgramForOrderApp.console;
 
 import org.prgrms.orderApp.model.voucher.Voucher;
 

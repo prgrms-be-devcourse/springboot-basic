@@ -1,5 +1,6 @@
 package org.prgrms.orderApp.model.voucher;
 
+
 public enum VoucherType {
     FIXEDAMOUNT(-1L),
     PERCENTDISCOUNT(100L) ;

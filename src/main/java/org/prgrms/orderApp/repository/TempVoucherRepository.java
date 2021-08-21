@@ -1,9 +1,11 @@
 package org.prgrms.orderApp.repository;
 
 import org.prgrms.orderApp.model.voucher.Voucher;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class TempVoucherRepository implements VoucherRepository{
     private List<Voucher> voucher_list= new ArrayList<>();
 

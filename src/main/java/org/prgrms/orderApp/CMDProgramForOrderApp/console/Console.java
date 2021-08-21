@@ -1,10 +1,12 @@
-package org.prgrms.orderApp.io;
+package org.prgrms.orderApp.CMDProgramForOrderApp.console;
 
 import org.prgrms.orderApp.model.voucher.Voucher;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class Console implements Input, Output{
     private final Scanner scanner = new Scanner(System.in);
 

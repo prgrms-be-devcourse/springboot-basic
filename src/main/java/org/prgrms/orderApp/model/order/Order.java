@@ -1,12 +1,14 @@
 package org.prgrms.orderApp.model.order;
 
+import org.prgrms.orderApp.model.OrderAppModel;
 import org.prgrms.orderApp.model.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Order {
+
+public class Order implements OrderAppModel {
     private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
@@ -32,4 +34,8 @@ public class Order {
                 .reduce(0L, Long::sum);
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
+    public UUID getOrderId(){
+        return this.orderId;
+    }
+
 }

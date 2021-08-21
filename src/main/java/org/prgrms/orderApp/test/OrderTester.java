@@ -1,6 +1,6 @@
 package org.prgrms.orderApp.test;
 
-import org.prgrms.orderApp.AppConfiguration;
+import org.prgrms.orderApp.config.AppConfiguration;
 import org.prgrms.orderApp.model.order.OrderItem;
 import org.prgrms.orderApp.model.voucher.FixedAmountVoucher;
 import org.prgrms.orderApp.service.OrderService;
