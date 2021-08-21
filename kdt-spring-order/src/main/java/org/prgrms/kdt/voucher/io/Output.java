@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.io;
 
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 import java.util.List;
 
 public interface Output {
