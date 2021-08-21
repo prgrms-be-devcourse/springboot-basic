@@ -17,7 +17,7 @@ import java.util.List;
 //@EnableConfigurationProperties을 AppConfiguration 에 설정해줘야한다.
 
 @Component
-@ConfigurationProperties(prefix = "kdt") //application.yml kdt 하위 키값
+@ConfigurationProperties(prefix = "data") //application.yml data 하위 키값
 public class OrderProperties implements InitializingBean { //for YAML
 
     private String version;
