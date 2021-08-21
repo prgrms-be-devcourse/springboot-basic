@@ -3,16 +3,14 @@ package org.prgrms.kdt.voucher.repository;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository{
 
-    List<Voucher> voucherList = new ArrayList<>();
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -21,11 +19,11 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public void insert(Voucher voucher) {
-        voucherList.add(voucher);
+        storage.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
     public List<Voucher> getVoucherList() {
-        return voucherList;
+        return new ArrayList<>(storage.values());
     }
 }

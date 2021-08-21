@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -34,8 +35,6 @@ public class VoucherService {
 
     public void useVoucher(Voucher voucher) {
     }
-
-
     // 사용자가 입력한 type에 맞는 voucher 생성
     public void createVoucher(UUID voucherId, VoucherType voucherType, long value){
         if(voucherType == VoucherType.fixed){
