@@ -6,6 +6,7 @@ import com.example.kdtspringmission.view.InputView;
 import com.example.kdtspringmission.view.OutputView;
 import com.example.kdtspringmission.voucher.repository.MemoryVoucherRepository;
 import com.example.kdtspringmission.voucher.repository.VoucherRepository;
+import com.example.kdtspringmission.voucher.service.VoucherService;
 
 public class AppConfig {
 
@@ -19,5 +20,9 @@ public class AppConfig {
 
     public OutputView outputView() {
         return new ConsoleOutputView();
+    }
+
+    public VoucherService voucherService() {
+        return new VoucherService(voucherRepository());
     }
 }
