@@ -25,22 +25,25 @@ public class CommandLineApplication {
 
     public void run() {
         while (true) {
-
             outputView.commandList();
-            String command = inputView.getCommand();
+            executeCommand(inputView.getCommand());
+        }
+    }
 
-            if (command.equals("exit")) {
-                break;
-            }
+    private void executeCommand(Command command) {
+        if (command == Command.EXIT) {
+            System.exit(0);
+            return;
+        }
 
-            if (command.equals("create")) {
-                outputView.creatableVoucherList();
-                voucherRepository.insert(VoucherFactory.create(inputView.nextLine()));
-            }
+        if (command == Command.CREATE) {
+            outputView.creatableVoucherList();
+            voucherRepository.insert(VoucherFactory.create(inputView.nextLine()));
+            return;
+        }
 
-            if (command.equals("list")) {
-                outputView.voucherList(voucherRepository.findAll());
-            }
+        if (command == Command.LIST) {
+            outputView.voucherList(voucherRepository.findAll());
         }
     }
 

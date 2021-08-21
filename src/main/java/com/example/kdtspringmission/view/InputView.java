@@ -1,8 +1,10 @@
 package com.example.kdtspringmission.view;
 
+import com.example.kdtspringmission.Command;
+
 public interface InputView {
 
-    String getCommand();
+    Command getCommand();
 
     String nextLine();
 }
