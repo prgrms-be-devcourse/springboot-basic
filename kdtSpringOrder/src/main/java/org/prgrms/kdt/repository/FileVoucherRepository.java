@@ -21,7 +21,25 @@ public class FileVoucherRepository implements VoucherRepository{
     private static final Path voucherFilePath = Paths.get(System.getProperty("user.dir") , "voucher", "voucher.csv");
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
-    public void loadStorage() {
+    @Override
+    public Voucher save(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+        saveStorage(voucher);
+        return voucher;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(storage.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        loadStorage();
+        return new ArrayList<>(storage.values());
+    }
+
+    private void loadStorage() {
         if(!Files.exists(voucherFilePath))
             return;
 
@@ -40,7 +58,7 @@ public class FileVoucherRepository implements VoucherRepository{
         }
     }
 
-    public void saveStorage(Voucher voucher) {
+    private void saveStorage(Voucher voucher) {
         if(!Files.exists(voucherFilePath)) {
             try {
                 Files.createDirectory(voucherFilePath.getParent());
@@ -57,24 +75,6 @@ public class FileVoucherRepository implements VoucherRepository{
         }catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Voucher save(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
-        saveStorage(voucher);
-        return voucher;
-    }
-
-    @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(storage.get(voucherId));
-    }
-
-    @Override
-    public List<Voucher> findAll() {
-        loadStorage();
-        return new ArrayList<>(storage.values());
     }
 
 }
