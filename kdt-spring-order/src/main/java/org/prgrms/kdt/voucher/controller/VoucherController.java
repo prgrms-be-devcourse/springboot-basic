@@ -15,18 +15,13 @@ import java.util.UUID;
 
 public class VoucherController {
     VoucherService voucherService;
+
     private final Console console = new Console();
 
-    // 생성자
-    public VoucherController() {
-        // app context에 bean 등록
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        this.voucherService = applicationContext.getBean(VoucherService.class);
-        // 저장된 voucher list 불러오기
-        voucherService.loadVoucherList();
+    public VoucherController(VoucherService voucherService) {
+        this.voucherService = voucherService;
         // 초기 문구 출력
         console.printInitText();
-
     }
 
     public void run() {
@@ -54,7 +49,6 @@ public class VoucherController {
                 }
                 // 프로그램 종료
                 case "exit" -> {
-                    voucherService.saveVoucherList();
                     console.printExitText();
                     return;
                 }
