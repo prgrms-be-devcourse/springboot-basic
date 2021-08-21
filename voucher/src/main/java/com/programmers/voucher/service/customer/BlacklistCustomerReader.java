@@ -67,7 +67,7 @@ public class BlacklistCustomerReader implements CustomerInitializer {
                             true))
                     .collect(Collectors.toList());
         } catch (IOException ex) {
-            log.error("IOException occur when reading file {} - {}", file.toString(), ex.getLocalizedMessage());
+            log.error("IOException occur when reading file {}", file.toString());
             list = new ArrayList<>(0);
         } catch (Exception ex) {
             log.error("Exception occur when loading customers from {} - {}", file.toString(), ex.getLocalizedMessage());

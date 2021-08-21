@@ -64,7 +64,7 @@ public class LocalFileVoucherRepository implements VoucherRepository {
             objectOutputStream.close();
             log.debug("Persisted vouchers to file {}", file.toString());
         } catch (IOException ex) {
-            log.error("IOException occur on persisting local voucher file at {} - {}", file.toString(), ex.getLocalizedMessage());
+            log.error("IOException occur on persisting local voucher file at {}", file.toString());
             System.exit(1);
         }
     }

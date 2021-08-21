@@ -33,3 +33,9 @@ voucher:
 
       filename:
         vouchers.db
+
+logging:
+  level:
+    org:
+      springframework:
+        INFO

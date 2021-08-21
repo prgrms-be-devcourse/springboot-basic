@@ -1,23 +1,22 @@
 package com.programmers.voucher;
 
 import com.programmers.voucher.config.ApplicationMessages;
-import com.programmers.voucher.config.ServiceConfiguration;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.customer.CustomerInitializer;
 import com.programmers.voucher.service.voucher.VoucherService;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-//@SpringBootApplication
+@SpringBootApplication
 public class VoucherProjectApplication {
 
 	public static void main(String[] args) throws IOException {
-		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
+		ConfigurableApplicationContext applicationContext = SpringApplication.run(VoucherProjectApplication.class);
 		VoucherService voucherService = applicationContext.getBean(VoucherService.class);
 		voucherService.openStorage();
 
@@ -60,7 +59,7 @@ public class VoucherProjectApplication {
 							System.out.println(applicationMessages.getFallback());
 							createdVoucher = voucherService.create(voucherName, Voucher.type.FIXED, 1000);
 					}
-					System.out.println(createdVoucher.toString());
+					System.out.printf("Created %s%n", createdVoucher.toString());
 					break;
 
 				case "list":
