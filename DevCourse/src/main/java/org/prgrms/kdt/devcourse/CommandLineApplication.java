@@ -1,5 +1,6 @@
 package org.prgrms.kdt.devcourse;
 
+import org.prgrms.kdt.devcourse.io.Console;
 import org.prgrms.kdt.devcourse.voucher.Voucher;
 import org.prgrms.kdt.devcourse.voucher.VoucherService;
 import org.prgrms.kdt.devcourse.voucher.VoucherType;
@@ -26,40 +27,40 @@ public class CommandLineApplication {
                 Type list to list all vouchers.
                 """;
 
-        Scanner scanner = new Scanner(System.in);
+        Console console = new Console();
         while (true){
-            System.out.println(info);
-            String cmd = scanner.nextLine();
+            String cmd = console.input(info);
             switch (cmd) {
                 case CMD_CREATE -> {
-                    System.out.println("고정 값 바우처 발행은 1, 퍼센트 할인 바우처 발행은 2 입력");
-                    String voucherInput = scanner.nextLine();
-                    if (voucherInput.equals("1")) {
-                        voucherService.createVoucher(VoucherType.FIXED_AMOUNT, 10L);
-                        System.out.println("고정 값 할인 바우처 생성!");
-                    } else if (voucherInput.equals("2")) {
-                        voucherService.createVoucher(VoucherType.PERCENTAGE, 10L);
-                        System.out.println("퍼센트 할인 바우처 생성!");
-                    }
+                    createVoucher(console,voucherService);
                 }
                 case CMD_LIST -> {
-                    var voucherList = voucherService.getAllVouchers();
-                    if (voucherList.isEmpty()) {
-                        System.out.println("등록된 바우처가 없습니다.");
-                    } else {
-                        for (Voucher voucher : voucherList) {
-                            System.out.println("바우처 " + voucher.getVoucherId());
-                        }
-                    }
+                    getVoucherList(console,voucherService);
                 }
                 case CMD_EXIT -> {
-                    System.out.println("프로그램을 종료합니다.");
+                    console.printOut("프로그램을 종료합니다.");
                     applicationContext.close();
                     System.exit(0);
                 }
-                default -> System.out.println("없는 명령어입니다.");
+                default -> console.inputError(cmd);
             }
         }
+
+    }
+
+    public static void createVoucher(Console console, VoucherService voucherService){
+        String voucherInput = console.input("고정 값 바우처 발행은 1, 퍼센트 할인 바우처 발행은 2 입력");
+        if (voucherInput.equals("1")) {
+            voucherService.createVoucher(VoucherType.FIXED_AMOUNT, 10L);
+            console.printOut("고정 값 할인 바우처 생성");
+        } else if (voucherInput.equals("2")) {
+            voucherService.createVoucher(VoucherType.PERCENTAGE, 10L);
+            console.printOut("퍼센트 할인 바우처 생성");
+        }
+    }
+
+    public static void getVoucherList(Console console, VoucherService voucherService){
+        console.printVoucherList(voucherService.getAllVouchers());
     }
 
 

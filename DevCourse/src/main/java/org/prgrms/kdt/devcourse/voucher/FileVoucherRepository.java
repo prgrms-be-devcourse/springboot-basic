@@ -35,7 +35,7 @@ public class FileVoucherRepository implements VoucherRepository{
                     voucherList.put(filedDataUUID, new PercentDiscountVoucher(filedDataUUID, filedDataVoucherAmount));
 
             }
-
+        bufferedReader.close();
 
     }
 
