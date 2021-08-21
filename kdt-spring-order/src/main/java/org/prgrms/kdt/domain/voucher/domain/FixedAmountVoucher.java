@@ -34,4 +34,12 @@ public class FixedAmountVoucher implements Voucher{
     public int hashCode() {
         return (int) (amount ^ (amount >>> 32));
     }
+
+    @Override
+    public String toString() {
+        return "FixedAmountVoucher{" +
+                "voucherId=" + voucherId +
+                ", amount=" + amount +
+                '}';
+    }
 }
