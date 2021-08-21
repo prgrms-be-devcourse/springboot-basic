@@ -12,11 +12,17 @@ public class InputView {
     private final static int INPUT_SIZE = 2;
     private final static String SPLIT_CODE = " ";
 
-    public static void initMessage() {
+    public static void initVoucherMessage() {
         System.out.println("=== Voucher Program ===");
         System.out.println("Type exit to exit the program. [exit]");
         System.out.println("Type create to create a new voucher. [create]");
         System.out.println("Type list to list all vouchers. [all]");
+    }
+
+    public static void initMemberMessage() {
+        System.out.println("==== Show Black List ====");
+        System.out.println("Type exit to exit the program. [exit]");
+        System.out.println("Type read_all to read the list. [read_all]");
     }
 
     public static String input() {
@@ -42,4 +48,5 @@ public class InputView {
         }
         return typeAndValue;
     }
+
 }

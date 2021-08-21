@@ -7,6 +7,7 @@ import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
-@Qualifier("file")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
     private final static String path = "D:\\programmers\\w3\\2d\\w3-SpringBoot_Part_A\\src\\main\\resources\\VoucherRepository.txt";
     private final static String SPLIT_CODE = " ";

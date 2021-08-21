@@ -1,0 +1,3 @@
+kdt:
+  member:
+    csv-file-path: "file:customer_blacklist.csv"

@@ -8,7 +8,6 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.application.VoucherService;
 import org.springframework.stereotype.Controller;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -24,7 +23,7 @@ public class VoucherController {
 
     public void play() {
         while (true) {
-            InputView.initMessage();
+            InputView.initVoucherMessage();
             String choiceMenu = InputView.input();
             CommandStatus status = choiceMenu(choiceMenu);
             executeMenu(status);

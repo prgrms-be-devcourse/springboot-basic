@@ -8,7 +8,8 @@ import java.util.Arrays;
 public enum CommandStatus {
     EXIT("exit"),
     CREATE("create"),
-    ALL("all");
+    ALL("all"),
+    READ_ALL("read_all");
 
     private final String status;
 
