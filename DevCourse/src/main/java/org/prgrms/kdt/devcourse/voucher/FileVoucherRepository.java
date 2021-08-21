@@ -3,69 +3,68 @@ package org.prgrms.kdt.devcourse.voucher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Primary
 public class FileVoucherRepository implements VoucherRepository{
+    private Map<UUID,Voucher> voucherList = new ConcurrentHashMap<>();
     private final String filePath = System.getProperty("user.dir")+"/voucher.csv";
-    private File csvFile = new File(filePath);
+    private final File csvFile = new File(filePath);
+
+
+    @PostConstruct
+    public void postConstruct() throws IOException {
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(csvFile));
+            String line;
+            while ((line = bufferedReader.readLine())!=null){
+                String [] oneLineDataArr = line.split(",");
+
+                UUID filedDataUUID = UUID.fromString(oneLineDataArr[0]);
+                long filedDataVoucherAmount = Long.parseLong(oneLineDataArr[1]);
+                VoucherType filedDataVoucherType = VoucherType.valueOf(oneLineDataArr[2]);
+
+                if(filedDataVoucherType == VoucherType.FIXED_AMOUNT)
+                    voucherList.put(filedDataUUID, new FixedAmountVoucher(filedDataUUID, filedDataVoucherAmount));
+                else if(filedDataVoucherType == VoucherType.PERCENTAGE)
+                    voucherList.put(filedDataUUID, new PercentDiscountVoucher(filedDataUUID, filedDataVoucherAmount));
+
+            }
+
+
+    }
+
+    @PreDestroy
+    public void preDestroy() throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(csvFile));
+        for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
+            Voucher voucher = entry.getValue();
+            String newData = voucher.getVoucherId() + "," + voucher.getVoucherAmount() + "," + voucher.getVoucherType();
+            bufferedWriter.write(newData);
+            bufferedWriter.newLine();
+        }
+        bufferedWriter.flush();
+        bufferedWriter.close();
+    }
+
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-
-
-
-        return Optional.empty();
-
+        return Optional.ofNullable(voucherList.get(voucherId));
     }
 
     @Override
     public Voucher insert(Voucher voucher) {
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(csvFile,true));
-
-            String newData = voucher.getVoucherId()+","+voucher.getVoucherAmount()+","+voucher.getVoucherType();
-            bufferedWriter.write(newData);
-            bufferedWriter.newLine();
-
-            bufferedWriter.flush();
-            bufferedWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        voucherList.put(voucher.getVoucherId(),voucher);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> filedVoucherList = new ArrayList<>();
-
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(csvFile));
-            String line;
-            while ((line = bufferedReader.readLine())!=null){
-                String [] dataArr = line.split(",");
-
-                UUID dataUUID = UUID.fromString(dataArr[0]);
-
-                    long dataVoucherAmount = Long.parseLong(dataArr[1]);
-                    VoucherType dataVoucherType = VoucherType.valueOf(dataArr[2]);
-
-                    if(dataVoucherType == VoucherType.FIXED_AMOUNT)
-                        filedVoucherList.add(new FixedAmountVoucher(dataUUID, dataVoucherAmount));
-                    else if(dataVoucherType == VoucherType.PERCENTAGE)
-                        filedVoucherList.add(new FixedAmountVoucher(dataUUID, dataVoucherAmount));
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        return filedVoucherList;
+        return voucherList.values().stream().toList();
     }
 }

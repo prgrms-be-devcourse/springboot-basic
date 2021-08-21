@@ -54,6 +54,7 @@ public class CommandLineApplication {
                 }
                 case CMD_EXIT -> {
                     System.out.println("프로그램을 종료합니다.");
+                    applicationContext.close();
                     System.exit(0);
                 }
                 default -> System.out.println("없는 명령어입니다.");
