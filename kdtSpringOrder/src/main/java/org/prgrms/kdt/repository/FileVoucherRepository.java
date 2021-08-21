@@ -4,7 +4,7 @@ import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.enums.VoucherType;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Qualifier("fileVoucher")
+@Profile("prod")
 public class FileVoucherRepository implements VoucherRepository{
 
     private static final Path voucherFilePath = Paths.get(System.getProperty("user.dir") , "voucher", "voucher.csv");
