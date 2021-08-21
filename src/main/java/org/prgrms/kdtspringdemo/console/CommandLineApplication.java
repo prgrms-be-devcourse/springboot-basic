@@ -13,11 +13,9 @@ import java.util.UUID;
 
 public class CommandLineApplication {
     static VoucherService voucherService;
-    static VoucherRepository voucherRepository;
     public static void main(String[] args) {
         var application = new AnnotationConfigApplicationContext(AppConfiguration.class);
         voucherService = application.getBean(VoucherService.class);
-        voucherRepository = application.getBean(VoucherRepository.class);
 
         String startMessage = """
                 === Voucher Program ===
@@ -36,7 +34,7 @@ public class CommandLineApplication {
             if (command.equals("create")) {
                 createVoucher(splitList);
             } else if (command.equals("list")) {
-                readAllVoucher();
+                voucherService.printAllVoucher();
             }
         }
     }
@@ -54,12 +52,5 @@ public class CommandLineApplication {
         } else {
             System.out.println("None Voucher!!! : " + voucherName);
         }
-    }
-
-    public static void readAllVoucher()
-    {
-        System.out.println("This is all list");
-        Stream<Voucher> allVoucher = voucherRepository.findAll();
-        allVoucher.forEach(System.out::println);
     }
 }

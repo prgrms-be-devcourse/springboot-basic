@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 public class VoucherService {
@@ -34,5 +35,10 @@ public class VoucherService {
         var voucher = new PercentDiscountVoucher(randomUUID, percent);
         voucherRepository.insert(voucher);
         return voucher;
+    }
+
+    public void printAllVoucher() {
+        Stream<Voucher> allVoucher = voucherRepository.findAll();
+        allVoucher.forEach(System.out::println);
     }
 }
