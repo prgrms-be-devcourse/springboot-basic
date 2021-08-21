@@ -12,6 +12,7 @@ import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  * 각 Bean을 정의한 Configuration Meta Data
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(
         basePackages = { "org.prgrms.kdt.kdtspringorder" }
 )
+@PropertySource(value = "application.properties")
 public class AppConfiguration {
 
 //    @Bean

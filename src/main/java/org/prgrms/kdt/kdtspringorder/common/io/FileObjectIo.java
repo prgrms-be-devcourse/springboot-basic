@@ -1,5 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.common.io;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -9,7 +10,8 @@ import java.util.List;
 @Component
 public class FileObjectIo implements FileIo{
 
-    private String FILE_PATH = "voucher_list.txt";
+    @Value(value = "${dev.file-io.file-path}")
+    private String FILE_PATH;
 
     @Override
     public void write(List<Object> oList){
@@ -17,7 +19,6 @@ public class FileObjectIo implements FileIo{
         FileOutputStream fileStream = null; // 파일에 쓰는 역할
         ObjectOutputStream os = null; // 파일에 쓰기전에 직렬화 하는 역할
         try {
-
             fileStream = new FileOutputStream(FILE_PATH);
             os = new ObjectOutputStream(fileStream);
 
