@@ -6,11 +6,11 @@ import org.prgrms.kdt.controller.OutputController;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.helper.MessageHelper;
+import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@SpringBootApplication
 public class CommandLineApplication {
 
     public static void main(String[] args) {
@@ -18,11 +18,10 @@ public class CommandLineApplication {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
         applicationContext.register(AppConfiguration.class);
         var environment = applicationContext.getEnvironment();
-        environment.setActiveProfiles("local");
+        environment.setActiveProfiles("prod");
         applicationContext.refresh();
 
         voucherProcess(applicationContext);
-
     }
 
     public static void voucherProcess(AnnotationConfigApplicationContext applicationContext) {
@@ -31,6 +30,7 @@ public class CommandLineApplication {
         OutputController outputController = applicationContext.getBean(OutputController.class);
         MessageHelper messageHelper = applicationContext.getBean(MessageHelper.class);
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+        CustomerService customerService = applicationContext.getBean(CustomerService.class);
 
         while(true){
             messageHelper.showVoucherProgramGuideMessage();
@@ -44,6 +44,9 @@ public class CommandLineApplication {
                 }
                 case LIST -> {
                     runList(outputController, voucherService);
+                }
+                case BLACKLIST -> {
+                    runBadCustomerList(outputController, customerService);
                 }
                 case REPLAY -> {
                     runReplay(messageHelper);
@@ -71,6 +74,10 @@ public class CommandLineApplication {
 
     public static void runList(OutputController outputController, VoucherService voucherService) {
         outputController.showVoucherList(voucherService.getAllVouchers());
+    }
+
+    public static void runBadCustomerList(OutputController outputController, CustomerService customerService) {
+        outputController.showBadCustomerList(customerService.getAllVouchers());
     }
 
     public static void runReplay(MessageHelper messageHelper) {

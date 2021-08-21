@@ -1,5 +1,6 @@
 package org.prgrms.kdt.controller;
 
+import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.helper.MessageHelper;
 import org.springframework.stereotype.Component;
@@ -18,5 +19,11 @@ public class OutputController {
         }
         voucherList.forEach(System.out::println);
     }
-
+    public void showBadCustomerList(List<Customer> customerList) {
+        if(customerList.isEmpty()) {
+            messageHelper.showBadCustomerListEmptyMessage();
+            return;
+        }
+        customerList.forEach(System.out::println);
+    }
 }
