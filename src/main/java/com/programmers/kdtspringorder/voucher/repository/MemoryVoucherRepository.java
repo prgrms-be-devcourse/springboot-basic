@@ -40,21 +40,21 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
 
     @PostConstruct
     public void postConstruct(){
-        System.out.println("MemoryVoucherRepository.postConstruct");
+//        System.out.println("MemoryVoucherRepository.postConstruct");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("MemoryVoucherRepository.afterPropertiesSet");
+//        System.out.println("MemoryVoucherRepository.afterPropertiesSet");
     }
 
     @PreDestroy
     public void preDestroy(){
-        System.out.println("MemoryVoucherRepository.preDestroy");
+//        System.out.println("MemoryVoucherRepository.preDestroy");
     }
 
     @Override
     public void destroy() throws Exception {
-        System.out.println("MemoryVoucherRepository.destroy");
+//        System.out.println("MemoryVoucherRepository.destroy");
     }
 }

@@ -4,29 +4,31 @@ import com.programmers.kdtspringorder.io.Input;
 import com.programmers.kdtspringorder.io.Output;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.VoucherService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-public class CommandLineApplication implements Runnable {
+@Component
+public class CommandLineApplication implements CommandLineRunner {
 
     private final Input input;
     private final Output output;
+    private final VoucherService voucherService;
 
-    public CommandLineApplication(Input input, Output output) {
+    public CommandLineApplication(Input input, Output output, VoucherService voucherService) {
         this.input = input;
         this.output = output;
+        this.voucherService = voucherService;
     }
 
-    public void run() {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        VoucherService service = context.getBean(VoucherService.class);
-
+    @Override
+    public void run(String... args) throws Exception {
         output.printMessage("=== Voucher Program ===");
-        manageVoucherProcess(service);
+        manageVoucherProcess();
     }
 
-    private void manageVoucherProcess(VoucherService service) {
+    private void manageVoucherProcess() {
         while (true) {
             printCommand();
 
@@ -41,12 +43,12 @@ public class CommandLineApplication implements Runnable {
                         output.printMessage("잘못 입력 하셨습니다");
                         break;
                     }
-                    Voucher voucher = createVoucher(service, type);
+                    Voucher voucher = createVoucher(type);
                     output.printMessage("쿠폰 생성에 성공하였습니다");
                     output.print(voucher);
                     break;
                 case "list":
-                    showList(service);
+                    showList();
                     break;
                 default:
                     output.printMessage("잘못 입력 하셨습니다. 입력 가능한 명령어는 exit, create, list 입니다.");
@@ -61,8 +63,8 @@ public class CommandLineApplication implements Runnable {
         output.printMessage("Type list to list all vouchers");
     }
 
-    private Voucher createVoucher(VoucherService service, String type) {
-        return service.createVoucher(type);
+    private Voucher createVoucher(String type) {
+        return voucherService.createVoucher(type);
     }
 
     private boolean isWrongType(String type) {
@@ -70,10 +72,11 @@ public class CommandLineApplication implements Runnable {
         return !("FIXED".equalsIgnoreCase(type) || "PERCENT".equalsIgnoreCase(type));
     }
 
-    private void showList(VoucherService service) {
-        List<Voucher> all = service.findAll();
+    private void showList() {
+        List<Voucher> all = voucherService.findAll();
         for (Voucher voucher : all) {
             output.print(voucher);
         }
     }
+
 }

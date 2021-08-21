@@ -15,12 +15,7 @@ import java.util.List;
 @SpringBootApplication
 public class KdtSpringOrderApplication {
 
-    private static final Logger logger = LoggerFactory.getLogger(KdtSpringOrderApplication.class);
-
     public static void main(String[] args) {
-        Console console = new Console();
-        new CommandLineApplication(console, console).run();
-
-
+        new SpringApplication(KdtSpringOrderApplication.class).run();
     }
 }
