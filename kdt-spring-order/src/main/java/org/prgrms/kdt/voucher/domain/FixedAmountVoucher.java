@@ -11,8 +11,6 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = amount;
     }
 
-    // -------------------------------------- ( 작성한 부분 ) --------------------------------------
-
     @Override
     public UUID getVoucherId() {
         return voucherId;

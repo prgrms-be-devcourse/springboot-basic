@@ -11,7 +11,6 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
     }
 
-    // -------------------------------------- ( 작성한 부분 ) --------------------------------------
 
     @Override
     public UUID getVoucherId() {
