@@ -1,11 +1,12 @@
 package org.prgrms.kdt.kdtspringorder.voucher.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * 고정 가격에 대한 할인 바우처
  */
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher, Serializable {
 
     private final UUID voucherId;
     private final long amount;

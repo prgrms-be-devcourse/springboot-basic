@@ -1,11 +1,12 @@
 package org.prgrms.kdt.kdtspringorder.voucher.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * 퍼센트 단위의 할인 바우처
  */
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher implements Voucher, Serializable {
 
     private final UUID voucherId;
     private final long percent;
@@ -32,5 +33,7 @@ public class PercentDiscountVoucher implements Voucher{
                 ", percent=" + percent +
                 '}';
     }
+
+
 
 }
