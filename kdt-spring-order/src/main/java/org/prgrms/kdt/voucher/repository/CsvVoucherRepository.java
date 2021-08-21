@@ -50,13 +50,11 @@ public class CsvVoucherRepository implements VoucherRepository{
                 // 모두 파싱해준다~
                 UUID voucherId = UUID.fromString(dummyArr[0]);
                 long voucherValue = Long.parseLong(dummyArr[1]);
-                VoucherType voucherType = VoucherType.valueOf(dummyArr[2]);
-                // 파싱결과를 생성 메소드에 넣기~
-                if(voucherType == VoucherType.fixed){
-                    insert(new FixedAmountVoucher(voucherId, voucherValue));
-                }
-                else if(voucherType == VoucherType.percent){
-                    insert(new PercentDiscountVoucher(voucherId, voucherValue));
+                VoucherType voucherType = VoucherType.convert(dummyArr[2]);
+                // 파싱결과로 바우처 생성하기
+                switch(voucherType){
+                    case FIXED -> insert(new FixedAmountVoucher(voucherId, voucherValue));
+                    case PERCENT -> insert(new PercentDiscountVoucher(voucherId, voucherValue));
                 }
             }
         }catch(Exception e){

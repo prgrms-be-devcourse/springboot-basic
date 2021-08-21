@@ -33,14 +33,16 @@ public class VoucherController {
                 case "create" -> {
                     // voucher 타입 선택
                     String inputType = console.inputCommand("바우처 종류를 고르세요(fixed/percent) : ");
-                    try{
-                        // 문자열 -> enum 타입으로 변환
-                        VoucherType voucherType = VoucherType.valueOf(inputType);
-                        long value = Long.parseLong(console.inputCommand("할인가격or할인율을 입력하세요 : "));
-                        voucherService.createVoucher(UUID.randomUUID(), voucherType, value);
-                        console.printSuccess();
-                    }catch(Exception e){
-                        console.printCommandError(inputType);
+                    VoucherType voucherType = VoucherType.convert(inputType);
+                    switch (voucherType){
+                        case FIXED, PERCENT -> {
+                            long value = Long.parseLong(console.inputCommand("할인가격or할인율을 입력하세요 : "));
+                            voucherService.createVoucher(UUID.randomUUID(), voucherType, value);
+                            console.printSuccess();
+                        }
+                        case UNDEFINED -> {
+                            console.printCommandError(inputType);
+                        }
                     }
                 }
                 // voucher 레포 리스트 출력

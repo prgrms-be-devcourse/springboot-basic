@@ -34,11 +34,9 @@ public class VoucherService {
     }
     // 사용자가 입력한 type에 맞는 voucher 생성
     public void createVoucher(UUID voucherId, VoucherType voucherType, long value){
-        if(voucherType == VoucherType.fixed){
-            voucherRepository.insert(new FixedAmountVoucher(voucherId, value));
-        }
-        else if(voucherType == VoucherType.percent){
-            voucherRepository.insert(new PercentDiscountVoucher(voucherId, value));
+        switch(voucherType){
+            case FIXED -> voucherRepository.insert(new FixedAmountVoucher(voucherId, value));
+            case PERCENT -> voucherRepository.insert(new PercentDiscountVoucher(voucherId, value));
         }
     }
 
