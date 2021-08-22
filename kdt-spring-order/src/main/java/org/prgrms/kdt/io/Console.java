@@ -1,5 +1,6 @@
-package org.prgrms.kdt.voucher.io;
+package org.prgrms.kdt.io;
 
+import org.prgrms.kdt.customer.domain.Customer;
 import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;
@@ -42,6 +43,15 @@ public class Console implements Input, Output{
                     "value : " + voucher.getVoucherValue() + " | " +
                     "type : " + voucher.getVoucherType()
             );
+        }
+        System.out.println("-----------------------------------------------------------------------");
+    }
+
+    @Override
+    public void printBlackList(List<Customer> customerList) {
+        System.out.println("---------------------------- 블랙리스트 명단 ----------------------------");
+        for(Customer customer : customerList){
+            System.out.println(customer.getName());
         }
         System.out.println("-----------------------------------------------------------------------");
     }

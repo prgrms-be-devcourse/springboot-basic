@@ -1,21 +1,13 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.config.AppConfiguration;
-import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.io.Console;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.io.Console;
 import org.prgrms.kdt.voucher.service.VoucherService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class VoucherController {
-    VoucherService voucherService;
-
+    private final VoucherService voucherService;
     private final Console console = new Console();
 
     public VoucherController(VoucherService voucherService) {
