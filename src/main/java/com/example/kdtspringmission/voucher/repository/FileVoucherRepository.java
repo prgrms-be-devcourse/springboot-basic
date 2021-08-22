@@ -5,58 +5,69 @@ import com.example.kdtspringmission.voucher.domain.RateAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.Voucher;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileVoucherRepository implements VoucherRepository{
 
-    private final String path = "src/main/resources/vouchers/";
-    private final File resources = new File(path);
+    private static final String AMOUNT_DELIM = "=";
+    private static final String VOUCHERS_PATH = "src/main/resources/vouchers/";
+    private static final File resources = new File(VOUCHERS_PATH);
     private final Pattern pattern = Pattern.compile("amount=(\\d*)|percent=(\\d*)");
 
 
 
     @Override
     public UUID insert(Voucher voucher) {
-        File file = new File(path + voucher.toString() + ".txt");
+        Path file = Paths.get(VOUCHERS_PATH + voucher.toString() + ".txt");
         try {
-            if (file.createNewFile()) { }
+            if (!Files.exists(file)) {
+                Files.createFile(file);
+            }
         } catch (IOException e) {
-            throw new IllegalStateException("File Not Created");
+            throw new IllegalStateException("File Creation Error");
         }
         return voucher.getId();
     }
 
     @Override
     public Voucher findById(UUID id) {
-        String[] fileNames = resources.list();
-        for (String fileName : fileNames) {
-            if (fileName.contains(id.toString())) {
-                Matcher matcher = pattern.matcher(fileName);
-                long amount = 0;
+        String fileName = Arrays.stream(Objects.requireNonNull(resources.list()))
+            .filter(filename -> filename.contains(id.toString()))
+            .findFirst()
+            .orElseThrow(IllegalArgumentException::new);
 
-                if (fileName.contains("Fix")) {
-                    if (matcher.find()) {
-                        String group = matcher.group();
-                        String[] split = group.split("=");
-                        amount = Long.parseLong(split[1]);
-                        return new FixedAmountVoucher(id, amount);
-                    }
-                }
-                if (fileName.contains("Rate")) {
-                    if (matcher.find()) {
-                        String group = matcher.group();
-                        System.out.println("group =" + group);
-                        String[] split = group.split("=");
-                        amount = Long.parseLong(split[1]);
-                        return new RateAmountVoucher(id, amount);
-                    }
-                }
+        return findVoucher(id, fileName);
+    }
+
+    private Voucher findVoucher(UUID id, String fileName) {
+        Matcher matcher = pattern.matcher(fileName);
+        if (fileName.contains("Fix")) {
+            if (matcher.find()) {
+                return new FixedAmountVoucher(id, getAmount(matcher));
+            }
+        }
+        if (fileName.contains("Rate")) {
+            if (matcher.find()) {
+                return new RateAmountVoucher(id, getAmount(matcher));
             }
         }
         return null;
+    }
+
+    private long getAmount(Matcher matcher) {
+        long amount;
+        String group = matcher.group();
+        String[] split = group.split(AMOUNT_DELIM);  // split = {amount, 500}
+        amount = Long.parseLong(split[1]);
+        return amount;
     }
 
     @Override
