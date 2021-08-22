@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public enum CommandType {
 
-    UNDEFINED("undefined"),
     EXIT("exit"),
     CREATE("create"),
     LIST("list");
@@ -19,7 +18,6 @@ public enum CommandType {
         return Arrays.stream(CommandType.values())
                 .filter(c -> c.command.equals(command))
                 .findAny()
-                .orElseThrow(RuntimeException::new);
-
+                .orElseThrow(() -> new RuntimeException("Not Correct Message"));
     }
 }

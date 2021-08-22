@@ -8,12 +8,12 @@ import java.util.UUID;
 public class OutputView {
 
     public static void exit() {
-        System.out.println("=== exit program ===");
+        System.out.println("=== Exit Program ===");
         System.exit(0);
     }
 
     public static void showVoucherList(Map<UUID, Voucher> vouchers) {
-        System.out.println("=== Show Vouchers ===");
+        System.out.println("=== Vouchers List ===");
         vouchers.forEach((uuid, voucher) -> System.out.println(voucher.toString()));
     }
 
