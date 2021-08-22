@@ -5,28 +5,29 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class VoucherMemoryRepository implements VoucherRepository{
+public class VoucherMemoryRepository implements VoucherRepository {
 
-    // 현재
+    // 메모리 저장소로 ArrayList 사용
     private ArrayList<Voucher> vouchers = new ArrayList<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        // ArrayList에서 stream 객체를 활용해 일치하는 객체 반환
+        return Optional.ofNullable(vouchers.stream().filter(v -> v.getVoucherId().equals(voucherId)).findAny().orElse(null));
     }
 
     @Override
-    public Optional<Voucher> createFixedAmountVoucher() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(),100);
+    public Voucher createFixedAmountVoucher() {
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
         vouchers.add(fixedAmountVoucher);
-        return Optional.of(fixedAmountVoucher);
+        return fixedAmountVoucher;
     }
 
     @Override
-    public Optional<Voucher> createPercentDiscountVoucher() {
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(),10);
+    public Voucher createPercentDiscountVoucher() {
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
         vouchers.add(percentDiscountVoucher);
-        return Optional.of(percentDiscountVoucher);
+        return percentDiscountVoucher;
     }
 
     @Override

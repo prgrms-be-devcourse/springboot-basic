@@ -1,10 +1,12 @@
 package org.prgrms.kdtspringw1d1.voucher;
 
 import org.prgrms.kdtspringw1d1.VoucherType;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
@@ -19,16 +21,12 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType type){
-        Voucher createdVoucher = null;
         if(type == VoucherType.Fixed){
-            createdVoucher = voucherRepository.createFixedAmountVoucher()
-                    .orElseThrow(()-> new RuntimeException("Can not create voucher"));
+            return voucherRepository.createFixedAmountVoucher();
         }
-        else if(type == VoucherType.Percent){
-            createdVoucher = voucherRepository.createPercentDiscountVoucher()
-                    .orElseThrow(()-> new RuntimeException("Can not create voucher"));
+        else{
+            return voucherRepository.createPercentDiscountVoucher();
         }
-        return createdVoucher;
     }
 
     public List<Voucher> getVoucherAll(){
