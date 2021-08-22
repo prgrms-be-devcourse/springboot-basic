@@ -25,10 +25,12 @@ public class FileVoucherRepository implements VoucherRepository{
     private static final File resources = new File(VOUCHERS_PATH);
     private static final Pattern amountPattern = Pattern.compile("amount=(\\d*)|percent=(\\d*)");
     private static final Pattern idPattern = Pattern.compile("id=(.*?),");
+    private static final String VOUCHER_TYPE_FIXED = "Fixed";
+    private static final String VOUCHER_TYPE_RATE = "Rate";
 
     @Override
     public UUID insert(Voucher voucher) {
-        Path file = Paths.get(VOUCHERS_PATH + voucher.toString() + ".txt");
+        Path file = Paths.get(VOUCHERS_PATH + voucher + ".txt");
         try {
             if (!Files.exists(file)) {
                 Files.createFile(file);
@@ -44,24 +46,24 @@ public class FileVoucherRepository implements VoucherRepository{
         String fileName = Arrays.stream(Objects.requireNonNull(resources.list()))
             .filter(filename -> filename.contains(id.toString()))
             .findFirst()
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new IllegalArgumentException("No Such File, id = " + id));
 
         return findVoucher(id, fileName);
     }
 
     private Voucher findVoucher(UUID id, String fileName) {
         Matcher matcher = amountPattern.matcher(fileName);
-        if (fileName.contains("Fix")) {
+        if (fileName.contains(VOUCHER_TYPE_FIXED)) {
             if (matcher.find()) {
                 return new FixedAmountVoucher(id, getAmount(matcher));
             }
         }
-        if (fileName.contains("Rate")) {
+        if (fileName.contains(VOUCHER_TYPE_RATE)) {
             if (matcher.find()) {
                 return new RateAmountVoucher(id, getAmount(matcher));
             }
         }
-        return null;
+        throw new IllegalArgumentException("No Such Voucher Type");
     }
 
     private long getAmount(Matcher matcher) {
@@ -75,7 +77,7 @@ public class FileVoucherRepository implements VoucherRepository{
     private UUID getId(Matcher matcher) {
         UUID id;
         String group = matcher.group();
-        String[] split = group.split(AMOUNT_DELIM);  // split = {amount, 500}
+        String[] split = group.split(AMOUNT_DELIM);  // split = {amount, a12ea-12qw-adw2}
         String uuid = String.join("", split[1].split(","));
         id = UUID.fromString(uuid);
         return id;
@@ -84,24 +86,19 @@ public class FileVoucherRepository implements VoucherRepository{
     @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
-        String[] fileNames = resources.list();
-        UUID id;
-        for (String fileName : fileNames) {
-            Matcher matcher = idPattern.matcher(fileName);
-            if (matcher.find()) {
-                id = getId(matcher);
-                vouchers.add(findById(id));
-            }
-        }
+
+        Arrays.stream(Objects.requireNonNull(resources.list()))
+            .map(idPattern::matcher)
+            .filter(Matcher::find)
+            .forEach(matcher -> vouchers.add(findById(getId(matcher))));
 
         return vouchers;
     }
 
     @Override
     public void clear() {
-        for (File file : resources.listFiles()) {
-            if (!file.isDirectory())
-                file.delete();
-        }
+        Arrays.stream(resources.listFiles())
+            .filter(file -> !file.isDirectory())
+            .forEach(File::delete);
     }
 }
