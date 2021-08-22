@@ -6,6 +6,7 @@ import org.prgrms.orderapp.model.VoucherType;
 import org.prgrms.orderapp.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -42,11 +43,14 @@ public class VoucherProgram implements Runnable {
                     logger.info("finished user command: 'create'");
                 }
                 case LIST -> {
+                    logger.error("testing error logging");
+                    logger.warn("testing warn logging");
                     logger.info("starts user command: 'list'");
                     console.vouchers(voucherService.getAllVoucher());
                     logger.info("finished user command: 'list'");
                 }
                 case EXIT -> {
+
                     logger.info("starts user command: 'exit'");
                     console.printMessage("Exiting the program.");
                     logger.info("finished user command: 'exit'");

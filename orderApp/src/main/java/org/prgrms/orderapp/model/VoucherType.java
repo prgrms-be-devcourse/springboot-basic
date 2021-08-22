@@ -1,5 +1,7 @@
 package org.prgrms.orderapp.model;
 
+import org.springframework.stereotype.Component;
+
 public enum VoucherType {
     FIXED {
         @Override
@@ -17,7 +19,7 @@ public enum VoucherType {
     public static boolean isValid(String voucherType, String amount) {
         try {
             long value = Long.parseLong(amount);
-            if (VoucherType.valueOf(voucherType).isValidAmount(value)) {
+            if (VoucherType.valueOf(voucherType.toUpperCase()).isValidAmount(value)) {
                 return true;
             }
         } catch (IllegalArgumentException e) {

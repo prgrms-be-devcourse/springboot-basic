@@ -1,5 +1,7 @@
 package org.prgrms.orderapp.model;
 
+import org.springframework.stereotype.Component;
+
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,13 +12,6 @@ public class Customer {
     private String address;
     private int age;
     private boolean blacklisted = false;
-
-    public Customer(String name, String address, int age) {
-        this.customerId = UUID.randomUUID();
-        this.name = name;
-        this.address = address;
-        this.age = age;
-    }
 
     public Customer(UUID customerId, String name, String address, int age) {
         this.customerId = customerId;
