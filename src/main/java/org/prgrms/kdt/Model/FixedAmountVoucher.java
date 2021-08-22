@@ -8,12 +8,12 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long amount;
-    private  final TypeStatus type;
+    private  final TypeStatus type=TypeStatus.Fixed;
 
-    public FixedAmountVoucher(UUID voucherId, long amount,TypeStatus type) {
+    public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
-        this.type=TypeStatus.Fixed;
+
     }
 
     @Override
@@ -21,13 +21,15 @@ public class FixedAmountVoucher implements Voucher {
         return voucherId;
     }
 
-
     @Override
-    public long getdiscount() {
-        return amount;
-    }
     public TypeStatus getType() {
         return type;
+    }
+
+
+    @Override
+    public long getVoucherdiscount() {
+        return amount;
     }
 
     public long discount(long beforeDiscount) {
@@ -35,11 +37,5 @@ public class FixedAmountVoucher implements Voucher {
     }
 
 
-    @Override
-    public String toString() {
-        return "FixedAmountVoucher{" +
-                "voucherId=" + voucherId +
-                ", amount=" + amount +
-                '}';
-    }
+
 }
