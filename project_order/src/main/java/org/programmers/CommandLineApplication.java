@@ -36,7 +36,7 @@ public class CommandLineApplication {
                     voucherService.createPercentDiscountVoucher(percentage);
                 }
             } else if (inputString.equals("list")) {
-               System.out.println(voucherService.getVoucherRepository().getAllVouchers().toString());
+               System.out.println(voucherService.getAllVouchers().toString());
             } else if (inputString.equals("exit")) {
                 break;
             }

@@ -1,0 +1,4 @@
+FixedAmountVoucher 047e05ba-e847-4475-9a81-b7038201e3fd 3
+PercentDiscountVoucher e31d1c4c-5af1-4c12-a3f5-d29bd8039c49 50
+FixedAmountVoucher 20f84ee4-07a5-41d9-9723-2f54bcfabf6a 10
+PercentDiscountVoucher a02820ef-c843-4229-9c24-7d6705ada0fe 5
