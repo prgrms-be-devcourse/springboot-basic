@@ -1,4 +1,4 @@
-package org.prgrms.orderApp.CMDProgramForOrderApp.util;
+package org.prgrms.orderApp.CMDApplication.util;
 
 public enum MonguDbFuntionType {
     CONNECT(1, "COLLECTION_CONNECT"),

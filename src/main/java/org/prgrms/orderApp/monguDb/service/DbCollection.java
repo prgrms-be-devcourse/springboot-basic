@@ -1,7 +1,5 @@
 package org.prgrms.orderApp.monguDb.service;
 
-import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -19,7 +17,7 @@ public class DbCollection {
 
 
     public Object getCollection(String collection) {
-        return new DbCommand(db+"/"+collection);
+        return new DbDocument(db+"/"+collection);
     }
 
     public String createdCollection(String collection) throws IOException {

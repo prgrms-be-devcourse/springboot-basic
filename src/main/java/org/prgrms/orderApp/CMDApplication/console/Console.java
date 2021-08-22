@@ -1,4 +1,4 @@
-package org.prgrms.orderApp.CMDProgramForOrderApp.console;
+package org.prgrms.orderApp.CMDApplication.console;
 
 import org.prgrms.orderApp.model.voucher.Voucher;
 import org.springframework.stereotype.Component;

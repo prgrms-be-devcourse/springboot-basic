@@ -2,18 +2,31 @@ package org.prgrms.orderApp.model.voucher;
 
 
 public enum VoucherType {
-    FIXEDAMOUNT(-1L),
-    PERCENTDISCOUNT(100L) ;
+    FIXEDAMOUNT(1, "FIXED", -1),
+    PERCENTAMOUNT(2, "PERCENT", 100);
 
-    private Long limitAmount;
+    private int menuNumber, limit;
+    private String menuName;
 
-
-    VoucherType(Long limitAmount) {
-        this.limitAmount = limitAmount;
+    VoucherType(int menuNumber, String menuName, int limit){
+        this.menuNumber = menuNumber;
+        this.menuName = menuName;
+        this.limit = limit;
     }
-
-    public Long getLimitAmount(){
-        return this.limitAmount;
+    public String getMenuName(){
+        return menuName;
+    }
+    public int getLimit(){
+        return limit;
+    }
+    public static String getMenuName(int menuNumber){
+        if (menuNumber == VoucherType.FIXEDAMOUNT.menuNumber){
+            return VoucherType.FIXEDAMOUNT.menuName;
+        }else if(menuNumber == VoucherType.PERCENTAMOUNT.menuNumber) {
+            return VoucherType.PERCENTAMOUNT.menuName;
+        }else{
+            return "";
+        }
     }
 
 }

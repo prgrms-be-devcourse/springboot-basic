@@ -1,8 +1,6 @@
 package org.prgrms.orderApp.test;
 
-import org.prgrms.orderApp.CMDProgramForOrderApp.util.CreateVoucherPageMenu;
 import org.prgrms.orderApp.model.voucher.VoucherType;
-import org.prgrms.orderApp.CMDProgramForOrderApp.console.Script;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;

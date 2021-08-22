@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"org.prgrms.orderApp.model",
         "org.prgrms.orderApp.repository",
         "org.prgrms.orderApp.service",
-        "org.prgrms.orderApp.CMDProgramForOrderApp",
+        "org.prgrms.orderApp.CMDApplication",
         "org.prgrms.orderApp.monguDb"})
 public class AppConfiguration {
 

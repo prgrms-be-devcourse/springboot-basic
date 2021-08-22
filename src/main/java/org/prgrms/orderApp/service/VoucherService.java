@@ -1,6 +1,6 @@
 package org.prgrms.orderApp.service;
 
-import org.prgrms.orderApp.CMDProgramForOrderApp.service.ProcessingStatus;
+import org.prgrms.orderApp.CMDApplication.util.ProcessingStatus;
 import org.prgrms.orderApp.model.voucher.Voucher;
 import org.prgrms.orderApp.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;

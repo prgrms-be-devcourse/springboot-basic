@@ -1,6 +1,5 @@
-package org.prgrms.orderApp.CMDProgramForOrderApp.util;
+package org.prgrms.orderApp.CMDApplication.util;
 
-import org.prgrms.orderApp.CMDProgramForOrderApp.console.Script;
 import org.springframework.stereotype.Component;
 
 @Component

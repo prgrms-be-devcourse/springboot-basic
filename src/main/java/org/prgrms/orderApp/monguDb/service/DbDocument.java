@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-public class DbCommand {
+public class DbDocument {
 
     private final String storagePath;
 
 
-    public DbCommand(String storagePath) {
+    public DbDocument(String storagePath) {
         this.storagePath = storagePath;
     }
 

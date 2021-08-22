@@ -1,7 +1,5 @@
 package org.prgrms.orderApp.test;
 
-import org.prgrms.orderApp.CMDProgramForOrderApp.service.CMDProgramService;
-import org.prgrms.orderApp.config.AppConfiguration;
 import org.prgrms.orderApp.config.MonguDbConfiguragtion;
 import org.prgrms.orderApp.monguDb.service.DbManagement;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

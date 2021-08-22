@@ -1,6 +1,4 @@
-package org.prgrms.orderApp.CMDProgramForOrderApp.util;
-
-import com.sun.tools.javac.Main;
+package org.prgrms.orderApp.CMDApplication.util;
 
 public enum MainMenuPage {
     CREATE_VOUCHER(1, "CREATE_VOUCHER"),
