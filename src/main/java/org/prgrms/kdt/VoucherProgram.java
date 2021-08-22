@@ -2,7 +2,6 @@ package org.prgrms.kdt;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.prgrms.kdt.Command;
 import org.prgrms.kdt.engine.io.Input;
 import org.prgrms.kdt.engine.io.Output;
 import org.prgrms.kdt.voucher.Voucher;
@@ -24,14 +23,14 @@ public class VoucherProgram implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
-        output.help();
+        System.out.println(output.HELP);
         voucherService.loadVoucher(filePath);
         while (true) {
-            String inputString = input.input("명령어를 입력하세요.");
+            String inputString = input.input(output.INPUT);
             Optional<Command> inputCommand = parse(inputString);
 
             if (inputCommand.isEmpty()) {
-                output.inputError();
+                output.printConsole(output.INPUT_ERROR);
                 continue;
             }
 
@@ -44,17 +43,14 @@ public class VoucherProgram implements Runnable {
                     // create voucher
                     Optional<Voucher> voucher = Optional.empty();
                     int voucherNum = Integer.parseInt(
-                            input.input("""
-                                    원하는 종류의 voucher 번호를 입력하세요.
-                                    1. FixedAmountVoucher
-                                    2. PercentDiscountVoucher""")
+                            input.input(output.INPUT_VOUCHER_NUM)
                     );
 
                     int discount = Integer.parseInt(
-                            input.input("원하는 할인금액 또는 할인율을 입력해주세요.")
+                            input.input(output.INPUT_DISCOUNT)
                     );
 
-                    if (isInValidInput(voucherNum, discount)) output.inputError();
+                    if (isInValidInput(voucherNum, discount)) output.printConsole(output.INPUT_ERROR);
 
                     if (voucherNum == VoucherType.FixedAmountVoucher.typeNum())
                         voucher = Optional.ofNullable(voucherService.createFixedAmountVoucher(discount));
@@ -62,9 +58,9 @@ public class VoucherProgram implements Runnable {
                         voucher = Optional.ofNullable(voucherService.createPercentDiscountVoucher(discount));
 
                     // print voucher created
-                    if (voucher.isEmpty()) System.out.println("voucher를 정상적으로 생성하지 못했습니다.");
+                    if (voucher.isEmpty()) output.printConsole(output.CREATE_VOUCHER_ERROR);
                     if (voucher.isPresent()) {
-                        System.out.println(MessageFormat.format(
+                        output.printConsole(MessageFormat.format(
                                 "{0} 타입의 voucher를 생성하였습니다.",
                                 voucher.get().getType())
                         );
@@ -73,10 +69,10 @@ public class VoucherProgram implements Runnable {
                 case LIST -> {
                     Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
                     if (voucherList.isEmpty()) {
-                        System.out.println("voucher가 없습니다.");
+                        output.printConsole(output.NO_VOUCHER);
                     } else {
                         for (var voucher : voucherList.values()) {
-                            System.out.println(voucher);
+                            output.printConsole(voucher.toString());
                         }
                     }
                 }
