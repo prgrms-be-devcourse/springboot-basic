@@ -18,8 +18,7 @@ public class CommandLineApplication {
     }
 
     public void run(String startMessage, Map<CommandTypes, Command> commandMap) throws InvalidIOMessageException {
-        String commandStr;
-        Command command;
+        String commandStr = "";
 
         while (true) {
             outputStream.write(startMessage);
@@ -28,10 +27,11 @@ public class CommandLineApplication {
             if (CommandTypes.EXIT.toString().equals(commandStr)) // EXIT 일 경우
                 break;
 
-            if ((command = commandMap.get(CommandTypes.valueOf(commandStr))) == null) {
-                outputStream.write("not found command\n");
-            } else {
-                command.doCommands();
+            try{
+                commandMap.get(CommandTypes.valueOf(commandStr)).doCommands();
+            }
+            catch (IllegalArgumentException e){
+                outputStream.write("command not found\n\n");
             }
         }
     }
