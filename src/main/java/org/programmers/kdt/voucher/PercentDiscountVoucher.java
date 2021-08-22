@@ -30,11 +30,6 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return (long)(beforeDiscount * (percent / 100.0d));
-    }
-
-    @Override
     public String toString() {
         return "<< Percent Discount Voucher >>\nID : " + this.voucherId + "\nDiscount : " + this.percent + "%";
     }
@@ -42,5 +37,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long getDiscount() {
         return this.percent;
+    }
+
+    @Override
+    public long fetchDiscountAmount(long beforeDiscount) {
+        return beforeDiscount * (percent / 100);
     }
 }
