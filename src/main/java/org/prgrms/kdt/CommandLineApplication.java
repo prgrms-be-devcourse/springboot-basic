@@ -1,5 +1,6 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.configuration.AppConfiguration;
 import org.prgrms.kdt.engine.io.Console;
 import org.prgrms.kdt.engine.io.Input;
 import org.prgrms.kdt.engine.io.Output;
@@ -8,7 +9,6 @@ import org.prgrms.kdt.engine.voucher.VoucherService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
