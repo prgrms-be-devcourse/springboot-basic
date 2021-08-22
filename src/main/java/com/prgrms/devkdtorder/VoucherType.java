@@ -7,8 +7,18 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public enum VoucherType {
-    FIXEDAMOUNT("1"),
-    PERCENTDISCOUNT("2");
+    FIXEDAMOUNT("1") {
+        @Override
+        public Voucher createVoucher(long value) {
+            return new FixedAmountVoucher(UUID.randomUUID(), value);
+        }
+    },
+    PERCENTDISCOUNT("2") {
+        @Override
+        public Voucher createVoucher(long value) {
+            return new PercentDiscountVoucher(UUID.randomUUID(), value);
+        }
+    };
 
     private final String no;
     VoucherType(final String no){
@@ -28,14 +38,5 @@ public enum VoucherType {
     }
 
 
-    public Voucher createVoucher(long value){
-        Voucher voucher = null;
-        switch (this) {
-            case FIXEDAMOUNT : voucher = new FixedAmountVoucher(UUID.randomUUID(), value);
-            break;
-            case PERCENTDISCOUNT : voucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
-            break;
-        }
-        return voucher;
-    }
+    public abstract Voucher createVoucher(long value);
 }
