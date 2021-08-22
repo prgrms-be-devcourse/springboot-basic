@@ -1,0 +1,54 @@
+<configuration>
+    <!-- log에 color 추가하기  -->
+    <conversionRule
+        conversionWord="clr"
+        converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+    <!-- pattern 에 대한 내용은 logger chapter6:Layouts 에 있다.  -->
+    <!-- conversion word를 참고하여 pattern 정의가 가능!   -->
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{HH:mm:ss.SSS}){cyan} %clr([%thread]){magenta} %clr(%-5level) %logger{36} - %msg%n" />
+    <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+
+    <!-- 일정 시간마다 기록   -->
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 파일 생성  -->
+        <file>logs/access.log</file> <!-- 현재(오늘의)날짜로 생성된다. -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 날짜가 바뀌면 기존에 있던 파일은 어제의 날짜로 파일이름이 자동으로 변경된다.     -->
+            <fileNamePattern>logs/access_%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--  logger안에  <appender-ref ref="STDOUT" /> 를 주게 되면 중첩으로 같은게 두번 출력된다 -> additivity="false"를 넣어 중첩을 방지한다
+ 웬만하면 쓰지 말자 -->
+    <logger name="org.prgrms.kdt" level="error">
+        <appender-ref ref="ROLLING_FILE" />
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+<!--        &lt;!&ndash; 파일 생성  &ndash;&gt;-->
+<!--        <file>logs/kdt_${bySecond}.log</file>-->
+<!--        <append>false</append>-->
+<!--        <encoder>-->
+<!--            <pattern>${LOG_PATTERN}</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+</configuration>

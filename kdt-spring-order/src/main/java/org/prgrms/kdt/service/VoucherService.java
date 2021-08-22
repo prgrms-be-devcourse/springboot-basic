@@ -5,13 +5,14 @@ import org.prgrms.kdt.domain.*;
 import org.prgrms.kdt.factory.VoucherFactory;
 import org.prgrms.kdt.repository.MemoryVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class VoucherService {
     @Autowired
     private final MemoryVoucherRepository memoryVoucherRepository;
@@ -59,3 +60,4 @@ public class VoucherService {
 
 
 }
+

@@ -25,9 +25,6 @@ public class IoConsole implements Input, Output{
         System.out.println("Type list to list all vouchers.");
     }
 
-    private void init_IoConsole(){
-
-    }
 
     public void exit(){
         System.out.println("bye bye~~");

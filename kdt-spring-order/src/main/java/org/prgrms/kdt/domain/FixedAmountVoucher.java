@@ -1,6 +1,7 @@
 package org.prgrms.kdt.domain;
 
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import java.util.UUID;

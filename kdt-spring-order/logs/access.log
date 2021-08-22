@@ -1,0 +1,53 @@
+03:01:46.637 [main] ERROR org.prgrms.kdt.KdtApplication - No enum constant org.prgrms.kdt.domain.InputType.CREERER
+03:01:56.081 [main] ERROR org.prgrms.kdt.KdtApplication - No enum constant org.prgrms.kdt.domain.InputType.EXIITI
+03:02:01.328 [main] ERROR org.prgrms.kdt.KdtApplication - No enum constant org.prgrms.kdt.domain.VoucherType.FIXDSSD
+03:03:06.719 [main] ERROR o.prgrms.kdt.CommandLineApplication - No enum constant org.prgrms.kdt.domain.InputType.LISTSLIT
+03:03:11.732 [main] ERROR o.prgrms.kdt.CommandLineApplication - No enum constant org.prgrms.kdt.domain.InputType.EXITDD
+03:06:51.831 [main] ERROR o.prgrms.kdt.CommandLineApplication - 잘못된 형식의 입력입니다! 다시 입력해주세요! 
+ 에러 MESSAGE -> No enum constant org.prgrms.kdt.domain.InputType.FSDAFDFDS
+03:08:27.114 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> No enum constant org.prgrms.kdt.domain.InputType.FDSAFDSF
+03:11:56.410 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> No enum constant org.prgrms.kdt.domain.InputType.ㅇㄴㅁㄹㅇㄴㅁㄹㄴㅁㅇ
+03:24:37.008 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> No enum constant org.prgrms.kdt.domain.InputType.FAFDSAFA
+03:24:56.670 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+03:25:11.112 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+16:47:34.403 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> No enum constant org.prgrms.kdt.domain.InputType.EXFDSF
+16:47:39.206 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> No enum constant org.prgrms.kdt.domain.VoucherType.FIXEDD
+17:26:27.450 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:26:37.044 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:27:19.308 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:27:21.333 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:27:23.094 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:27:28.003 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:27:40.279 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:27:50.101 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:29:19.583 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:29:24.323 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> null
+17:31:38.966 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> No enum constant org.prgrms.kdt.domain.VoucherType.FIDFDSFA
+17:40:44.613 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> No enum constant org.prgrms.kdt.domain.InputType.ㅣㅑㄴㅅ
+18:17:49.390 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> T/var/folders/sx/kgcd9zkx2bqc1ndngch_hjzm0000gn/T/voucher_file.txt (No such file or directory)
+18:18:06.915 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> T/var/folders/sx/kgcd9zkx2bqc1ndngch_hjzm0000gn/T/voucher_file.txt (No such file or directory)
+18:18:11.306 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> T/var/folders/sx/kgcd9zkx2bqc1ndngch_hjzm0000gn/T/voucher_file.txt (No such file or directory)
+18:20:01.665 [main] ERROR o.prgrms.kdt.CommandLineApplication - 
+ERROR MESSAGE -> /var/folders/sx/kgcd9zkx2bqc1ndngch_hjzm0000gn/T/voucher_file.txt (No such file or directory)

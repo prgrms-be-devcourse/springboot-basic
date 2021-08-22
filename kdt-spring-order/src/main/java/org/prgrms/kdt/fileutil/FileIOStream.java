@@ -1,15 +1,10 @@
 package org.prgrms.kdt.fileutil;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.prgrms.kdt.blacklist.Person;
 import org.prgrms.kdt.domain.Voucher;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -17,18 +12,17 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "file")
 public class FileIOStream implements InitializingBean {
 
- //   @Value("${file.voucher-name}")
     private static String voucherName;
 
-//    @Value("${file.customer-name}")
     private static String customerName;
 
     public void fileInputStream(Voucher v) throws IOException {
-        String fileName = voucherName;
+        File tempDir = new File(System.getProperty("java.io.tmpdir"));
+        String fileName = tempDir + File.separator +voucherName;
         BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,true));
         bw.write(v+"\r\n");
         bw.flush();
@@ -36,8 +30,10 @@ public class FileIOStream implements InitializingBean {
 
 
     public List<String> fileOutputStream() throws IOException {
+        File tempDir = new File(System.getProperty("java.io.tmpdir"));
         List<String> list = new ArrayList<>();
-        String fileName = voucherName;
+//        String fileName = voucherName;
+        String fileName = tempDir + File.separator +voucherName;
         BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
         String v = null;
         while ((v = fileReader.readLine()) != null){

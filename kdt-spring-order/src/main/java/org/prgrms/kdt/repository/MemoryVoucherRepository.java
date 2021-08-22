@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 //3일차 수업 내용에서 추가
 @Repository
-public class MemoryVoucherRepository implements VoucherRepository,InitializingBean, DisposableBean {
+public class MemoryVoucherRepository implements VoucherRepository { //,InitializingBean, DisposableBean
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
@@ -40,22 +40,22 @@ public class MemoryVoucherRepository implements VoucherRepository,InitializingBe
         return voucher;
     }
 
-    @PostConstruct
-    public void postConstruct(){
-        System.out.println("postConstruct called!!");
-    }
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("afterPropertiesSet called!!");
-    }
-
-    @PreDestroy
-    public void preDestroy(){
-        System.out.println("preDestroy called!!!");
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        System.out.println("destroy called!!!");
-    }
+//    @PostConstruct
+//    public void postConstruct(){
+//        System.out.println("postConstruct called!!");
+//    }
+//    @Override
+//    public void afterPropertiesSet() throws Exception {
+//        System.out.println("afterPropertiesSet called!!");
+//    }
+//
+//    @PreDestroy
+//    public void preDestroy(){
+//        System.out.println("preDestroy called!!!");
+//    }
+//
+//    @Override
+//    public void destroy() throws Exception {
+//        System.out.println("destroy called!!!");
+//    }
 }

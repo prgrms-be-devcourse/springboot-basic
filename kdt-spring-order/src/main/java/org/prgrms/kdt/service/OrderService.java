@@ -4,6 +4,8 @@ import org.prgrms.kdt.domain.Order;
 import org.prgrms.kdt.domain.OrderItem;
 import org.prgrms.kdt.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

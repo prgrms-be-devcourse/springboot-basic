@@ -6,6 +6,9 @@ import org.prgrms.kdt.configuration.AppConfiguration;
 import org.prgrms.kdt.domain.OrderProperties;
 import org.prgrms.kdt.repository.VoucherRepository;
 import org.prgrms.kdt.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -21,7 +24,14 @@ import java.util.UUID;
 
 //@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class OrderTester {
+
+    // private static final을 통해 다른 클래스에서 hi jacking 하는 것을 방지한다.
+    private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);
+
+
     public static void main(String[] args) throws IOException {
+
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
 
 //        var customerId = UUID.randomUUID();
 //        var orderItems = new ArrayList<OrderItem>(){{
@@ -58,17 +68,17 @@ public class OrderTester {
 //        var description = environment.getProperty("kdt.description", List.class);
 
         //properties 주입 받아 출력
-        var orderProperties = applicationContext.getBean(OrderProperties.class);
-        System.out.println(MessageFormat.format("version -> {0}",orderProperties.getVersion()));
-        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}",orderProperties.getMinimumOrderAmount()));
-        System.out.println(MessageFormat.format("supportVendors -> {0}",orderProperties.getSupportVendors()));
-        System.out.println(MessageFormat.format("description -> {0}",orderProperties.getDescription()));
+//        var orderProperties = applicationContext.getBean(OrderProperties.class);
+//        System.out.println(MessageFormat.format("version -> {0}",orderProperties.getVersion()));
+//        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}",orderProperties.getMinimumOrderAmount()));
+//        System.out.println(MessageFormat.format("supportVendors -> {0}",orderProperties.getSupportVendors()));
+//        System.out.println(MessageFormat.format("description -> {0}",orderProperties.getDescription()));
 
 
         //resource 이용하여 파일 읽기
-        var resource = applicationContext.getResource("file:voucher_file.txt");
-        var strings = Files.readAllLines(resource.getFile().toPath());
-        System.out.println(strings.stream().reduce("",(a,b)->a+"\n"+b));
+//        var resource = applicationContext.getResource("file:voucher_file.txt");
+//        var strings = Files.readAllLines(resource.getFile().toPath());
+//        System.out.println(strings.stream().reduce("",(a,b)->a+"\n"+b));
 
 
         var customerId = UUID.randomUUID();
@@ -82,7 +92,34 @@ public class OrderTester {
         Assert.isTrue(order.totalAmount() == 90L ,
                 MessageFormat.format("totalAmount({0}) is not 90L", order.totalAmount()));
 
+
+
+        //5일차
+        //logger 연습
+        // System.out.println 는 최대한 쓰지 말자 -> resource 부담이 크다
+        // 출력 할때 String + Stirng 보다 MessageFormat같은 형태를 써주고 placeHolder등을 써주자.
+        var orderProperties = applicationContext.getBean(OrderProperties.class);
+        logger.info("logger name -> {}",logger.getName()); // {}안에 값이 치환되서 출력된다.
+        logger.info("minimumOrderAmount -> {}",orderProperties.getMinimumOrderAmount());
+        logger.info("version -> {}",orderProperties.getVersion());
+        logger.info("supportVendors -> {}",orderProperties.getSupportVendors());
+        logger.info("description -> {}",orderProperties.getDescription());
+
+
+        //logback 연습 (springboot가 지원하는 형태)
+
+
+
+
+
+
+
         applicationContext.close();
+
+
+
+
+
 
     }
 }
