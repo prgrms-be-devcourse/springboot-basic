@@ -4,6 +4,7 @@ import com.prgrm.kdt.voucher.domain.Voucher;
 import com.prgrm.kdt.voucher.repository.VoucherRepository;
 
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.UUID;
 
 public class VoucherService {
@@ -20,5 +21,9 @@ public class VoucherService {
     }
 
     public void useVoucher(Voucher voucher) {
+    }
+
+    public Map<UUID, Voucher> findAllVoucher() {
+        return voucherRepository.findAll();
     }
 }

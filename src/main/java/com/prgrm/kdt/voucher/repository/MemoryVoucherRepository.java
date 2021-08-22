@@ -15,4 +15,14 @@ public class MemoryVoucherRepository implements VoucherRepository{
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
+
+    @Override
+    public Map<UUID, Voucher> findAll() {
+        return storage;
+    }
+
+    @Override
+    public void insert(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+    }
 }
