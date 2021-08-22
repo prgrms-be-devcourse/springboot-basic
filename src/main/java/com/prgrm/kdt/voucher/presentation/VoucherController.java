@@ -4,6 +4,11 @@ import com.prgrm.kdt.command.CommandType;
 import com.prgrm.kdt.view.InputView;
 import com.prgrm.kdt.view.OutputView;
 import com.prgrm.kdt.voucher.application.VoucherService;
+import com.prgrm.kdt.voucher.domain.Voucher;
+import com.prgrm.kdt.voucher.domain.VoucherType;
+
+import java.util.List;
+import java.util.Locale;
 
 public class VoucherController implements Runnable {
 
@@ -40,7 +45,6 @@ public class VoucherController implements Runnable {
 
         if (type == CommandType.LIST) {
             showAllVoucherOrder();
-            return;
         }
     }
 
@@ -49,6 +53,12 @@ public class VoucherController implements Runnable {
     }
 
     private void createVoucherOrder() {
+        InputView.createVoucherMessage();
+        VoucherType type = voucherService.selectVoucherType(InputView.input().toUpperCase(Locale.ROOT));
+        InputView.enterVoucherDiscountMessage();
+        Long value = Long.parseLong(InputView.input());
+        Voucher voucher = voucherService.createVoucher(type, value);
+        voucherService.insertVoucher(voucher);
     }
 
     private void exitCommandOrder() {

@@ -21,4 +21,13 @@ public class InputView {
         System.out.println("Type list to list all vouchers.");
     }
 
+    public static void createVoucherMessage() {
+        System.out.println("=== CREATE VOUCHER ===");
+        System.out.println("Type Fixed to create FixedAmountVoucher.");
+        System.out.println("Type Percent to create PercentAmountVoucher.");
+    }
+
+    public static void enterVoucherDiscountMessage() {
+        System.out.println("할인율(Percent) or 할인금액(Fixed)을 입력해주세요.");
+    }
 }
