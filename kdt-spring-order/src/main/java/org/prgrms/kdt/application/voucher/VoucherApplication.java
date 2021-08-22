@@ -33,8 +33,7 @@ public class VoucherApplication implements Runnable{
     }
 
     private void exitCommand() {
-        // 프로그램 종료 메시지 출력
-        System.out.println("종료");
+        output.printExit();
     }
 
     private void createCommand() {

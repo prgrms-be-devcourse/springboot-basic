@@ -6,4 +6,6 @@ public interface Output {
     void printCommandList(); // 명령어 목록
 
     void printInputCommandError(); // 잘못된 명령어 입력
+
+    void printExit(); // 프로그램 종료
 }

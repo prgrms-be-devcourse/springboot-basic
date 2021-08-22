@@ -36,4 +36,9 @@ public class Console implements Input, Output {
     public void printInputCommandError() {
         System.out.println("잘못된 입력입니다! 다시 입력해주세요~");
     }
+
+    @Override
+    public void printExit() {
+        System.out.println("\n======== 프로그램 종료 ========");
+    }
 }
