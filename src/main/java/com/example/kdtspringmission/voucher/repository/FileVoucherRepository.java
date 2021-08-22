@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +21,8 @@ public class FileVoucherRepository implements VoucherRepository{
     private static final String AMOUNT_DELIM = "=";
     private static final String VOUCHERS_PATH = "src/main/resources/vouchers/";
     private static final File resources = new File(VOUCHERS_PATH);
-    private final Pattern pattern = Pattern.compile("amount=(\\d*)|percent=(\\d*)");
+    private static final Pattern amountPattern = Pattern.compile("amount=(\\d*)|percent=(\\d*)");
+    private static final Pattern idPattern = Pattern.compile("id=(.*?),");
 
 
 
@@ -48,7 +50,7 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     private Voucher findVoucher(UUID id, String fileName) {
-        Matcher matcher = pattern.matcher(fileName);
+        Matcher matcher = amountPattern.matcher(fileName);
         if (fileName.contains("Fix")) {
             if (matcher.find()) {
                 return new FixedAmountVoucher(id, getAmount(matcher));
@@ -70,8 +72,36 @@ public class FileVoucherRepository implements VoucherRepository{
         return amount;
     }
 
+    private UUID getId(Matcher matcher) {
+        UUID id;
+        String group = matcher.group();
+        String[] split = group.split(AMOUNT_DELIM);  // split = {amount, 500}
+        String uuid = String.join("", split[1].split(","));
+        id = UUID.fromString(uuid);
+        return id;
+    }
+
     @Override
     public List<Voucher> findAll() {
-        return null;
+        List<Voucher> vouchers = new ArrayList<>();
+        String[] fileNames = resources.list();
+        UUID id;
+        for (String fileName : fileNames) {
+            Matcher matcher = idPattern.matcher(fileName);
+            if (matcher.find()) {
+                id = getId(matcher);
+                vouchers.add(findById(id));
+            }
+        }
+
+        return vouchers;
+    }
+
+    @Override
+    public void clear() {
+        for (File file : resources.listFiles()) {
+            if (!file.isDirectory())
+                file.delete();
+        }
     }
 }
