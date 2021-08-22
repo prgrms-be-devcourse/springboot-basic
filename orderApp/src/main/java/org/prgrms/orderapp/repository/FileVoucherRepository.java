@@ -1,7 +1,9 @@
 package org.prgrms.orderapp.repository;
 
 import org.prgrms.orderapp.model.Voucher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -14,45 +16,33 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.prgrms.orderapp.io.IOUtils.loadByteFile;
+import static org.prgrms.orderapp.io.IOUtils.saveObject;
+
 @Repository
 @Primary
+@Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
-    private static final String FILENAME = MessageFormat.format("{0}/storage.tmp", System.getProperty("user.dir"));
+
+    @Value("${data.voucher-storage.prefix}")
+    private String prefix;
+
+    @Value("${data.voucher-storage.name}")
+    private String filename;
+
     private Map<UUID, Voucher> storage;
 
     @PostConstruct
     public void loadStorage() {
-        try {
-            var file = new File(FILENAME);
-            if (file.createNewFile()) {
-                storage = new ConcurrentHashMap<>();
-            } else {
-                var fis = new FileInputStream(file);
-                var ois = new ObjectInputStream(fis);
-
-                storage = (ConcurrentHashMap<UUID, Voucher>) ois.readObject();
-
-                ois.close();
-                fis.close();
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Profile prod is set. FileVoucherRepository is created.");
+        String path = MessageFormat.format("{0}/{1}/{2}", System.getProperty("user.dir"), prefix, filename);
+        storage = loadByteFile(path).map(o -> (ConcurrentHashMap<UUID, Voucher>) o).orElseGet(ConcurrentHashMap::new);
     }
 
     @PreDestroy
     public void saveStorage() {
-        try {
-            var fos = new FileOutputStream(FILENAME);
-            var oos = new ObjectOutputStream(fos);
-
-            oos.writeObject(storage);
-
-            oos.close();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String path = MessageFormat.format("{0}/{1}/{2}", System.getProperty("user.dir"), prefix, filename);
+        saveObject(storage, path);
     }
 
     @Override

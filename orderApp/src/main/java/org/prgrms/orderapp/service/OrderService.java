@@ -3,10 +3,12 @@ package org.prgrms.orderapp.service;
 import org.prgrms.orderapp.model.Order;
 import org.prgrms.orderapp.model.OrderItem;
 import org.prgrms.orderapp.repository.OrderRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;

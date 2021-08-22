@@ -12,5 +12,4 @@ public class CommandLineApplication {
         new VoucherProgram(voucherService, new Console()).run();
         applicationContext.close();
     }
-
 }
