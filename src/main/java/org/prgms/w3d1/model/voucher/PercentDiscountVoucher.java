@@ -7,7 +7,11 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public static PercentDiscountVoucher of(UUID voucherId, long percent){
+        return new PercentDiscountVoucher(voucherId, percent);
+    }
+
+    private PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
         this.percent = percent;
     }

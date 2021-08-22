@@ -7,9 +7,13 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long amount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    private FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
+    }
+
+    public static FixedAmountVoucher of(UUID voucherId, long amount){
+        return new FixedAmountVoucher(voucherId, amount);
     }
 
     @Override

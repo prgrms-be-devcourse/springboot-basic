@@ -6,83 +6,114 @@ import org.prgms.w3d1.model.blacklist.BlacklistService;
 import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
 import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
 import org.prgms.w3d1.model.voucher.VoucherService;
-import org.prgms.w3d1.model.voucher.VoucherType;
+import org.prgms.w3d1.util.Command;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.Scanner;
 import java.util.UUID;
 
 
-public class CommandLineApplication implements Runnable{
+public class CommandLineApplication implements Runnable {
 
-    private Input input;
-    private Output output;
+    private final Input input;
+    private final Output output;
+    private final AnnotationConfigApplicationContext applicationContext;
 
-    public CommandLineApplication(Input input, Output output) {
+    public CommandLineApplication(Input input, Output output, AnnotationConfigApplicationContext applicationContext) {
         this.input = input;
         this.output = output;
+        this.applicationContext = applicationContext;
     }
 
     @Override
     public void run() {
-        Scanner sc = new Scanner(System.in);
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        var voucherService = applicationContext.getBean(VoucherService.class);
-        var blacklistService = applicationContext.getBean(BlacklistService.class);
+        while (true) {
+            selectService(input.input("=== Select Service ===.\n" +
+                    "1. VoucherService\n" +
+                    "2. BlacklistService\n"));
+        }
+    }
 
-        while (true){
-            output.printMenual();
-            String command = sc.nextLine();
-            switch (command) {
-                case "exit" -> {
-                    System.exit(0);
-                }
-                case "create" -> {
-                    output.printCreateMenu();
-                    command = sc.nextLine();
-                    if (command.equals("1")) {
-                        output.printFixedMenu();
-                        long discount = sc.nextLong();
-                        voucherService.saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), discount));
-                    } else if(command.equals("2")) {
-                        output.printPercentMenu();
-                        long discount = sc.nextLong();
-                        voucherService.saveVoucher(new PercentDiscountVoucher(UUID.randomUUID(), discount));
-                    }else{
-                        output.inputError();
-                        continue;
-                    }
-                    sc.nextLine();
-                }
-                case "list" -> {
-                    System.out.println(voucherService.findAll());
-                }
+    private void selectService(String input) {
+        switch (input){
+            case Command.VOUCHER_SERVICE -> startVoucherService();
+            case Command.BLACKLIST_SERVICE -> startBlackListService();
+            default -> output.inputError();
+        }
+    }
 
-                case "blacklist" -> {
-                    output.printBlackListMenu();
-                    command = sc.nextLine();
-                    switch (command){
-                        case "exit" -> {
-                            System.exit(0);
-                        }
-                        case "create" -> {
-                            output.printBlackListCreateMenu();
-                            String name = sc.nextLine();
-                            blacklistService.save(UUID.randomUUID(), name);
-                        }
-                        case "list" -> {
-                            System.out.println(blacklistService.findAll());
-                        }
+    private void startVoucherService() {
+        var VoucherService = applicationContext.getBean(VoucherService.class);
+        String command = input.input("""
+                        === Voucher Program ===
+                        Type exit to exit the program.
+                        Type create to create a new voucher.
+                        Type list to list all vouchers.
+                        """);
+        executeVoucherService(VoucherService, command);
+    }
 
-                        default -> {
-                            output.inputError();
-                        }
-                    }
-                }
-                default -> {
-                    output.inputError();
-                }
+    private void executeVoucherService(VoucherService voucherService, String input) {
+        switch (input) {
+            // Enum Type
+            case Command.EXIT -> {
+                applicationContext.close();
+                System.exit(0);
             }
+            case Command.CREATE -> executeCreateVoucher(voucherService);
+            case Command.LIST -> System.out.println(voucherService.findAll());
+            default -> output.inputError();
+        }
+    }
+
+    private void executeCreateVoucher(VoucherService voucherService) {
+        // 분기의 분기 -> 메서드를 만들자
+        // if -> switch변경, enum화
+        String command = input.input("""
+                === Create Voucher ===
+                1 : FixedAmountVoucher
+                2 : PercentDiscountVoucher
+                """);
+        switch (command) {
+            case Command.FIXED_AMOUNT_VOUCHER -> {
+                output.printFixedMenu();
+                long discount = Long.parseLong(input.input("Enter discount value : "));
+                // 스태틱 of 메서드로 구현
+                voucherService.saveVoucher(FixedAmountVoucher.of(UUID.randomUUID(), discount));
+                // Ctrl + Alt + L : 자동정렬
+            }
+            case Command.PERCENT_DISCOUNT_VOUCHER -> {
+                output.printPercentMenu();
+                long discount = Long.parseLong(input.input("Enter discount percent : "));
+                voucherService.saveVoucher(PercentDiscountVoucher.of(UUID.randomUUID(), discount));
+            }
+            default -> output.inputError();
+        }
+    }
+
+
+    private void startBlackListService() {
+        var blacklistService = applicationContext.getBean(BlacklistService.class);
+        String command = input.input("""
+                === Blacklist Menu ===
+                Type exit to exit the program.
+                Type create to create a new Blacklist.
+                Type list to list all Blacklists.
+                """);
+        switch (command) {
+            case Command.EXIT -> {
+                applicationContext.close();
+                System.exit(0);
+            }
+
+            case Command.CREATE -> {
+                output.printBlackListCreateMenu();
+                String name = input.input("");
+
+                blacklistService.save(UUID.randomUUID(), name);
+            }
+            case Command.LIST -> System.out.println(blacklistService.findAll());
+
+            default -> output.inputError();
         }
     }
 }

@@ -5,7 +5,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class App {
     public static void main(String[] args) {
+        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         Console console = new Console();
-        new CommandLineApplication(console, console).run();
+        new CommandLineApplication(console, console, applicationContext).run();
     }
 }

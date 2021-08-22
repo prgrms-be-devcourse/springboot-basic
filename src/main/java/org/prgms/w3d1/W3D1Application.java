@@ -1,5 +1,6 @@
 package org.prgms.w3d1;
 
+import org.prgms.w3d1.io.Console;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

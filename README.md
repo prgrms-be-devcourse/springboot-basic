@@ -35,3 +35,13 @@ Type list to list all vouchers
   - blacklist 를 쓰고 읽을 수 있게 구현했습니다.
 - 아직 못다한 것
   - Yaml 에 대해서 처음 배워 스프링에 Yaml 등록방식이 어색해 아직 공부중입니다.
+
+### 21_08_22
+- 피드백 구현사항
+  - CLI App 에서 무거운 분기부분을 여럿 메서드로 나누었습니다.
+  - File 저장 방식을 save 명령이 일어날때 마다 저장하는 것이 아닌, 메모리에 저장해놨다가 프로그램이 끝나면 파일에 저장되도록 변경됬습니다.
+  - FixedAmount, PercentDiscount Voucher 객체 생성을 of 메서드를 통해서 일어나게 바꾸었습니다.
+  - 분기의 조건을 enum을 이용하여 해보려했습니다.
+    - enum 타입으로 선언시, 문자열 비교가 잘 되지 않아, static final String 키워드를 이용하여 비교했습니다
+    - 예를들어 input이 "1"(String) 일 경우, 이를 enum Type과 비교하지 못하여 이렇게 바꾸었습니다. 이 점 지적해주시면 감사하겠습니다.
+  - 파일과 service를 잇는 Provider는 기존의 File저장소에서 어떤 메서드를 부분화 시켜야 할 지 모르겠어서 아직 하지 못했습니다.

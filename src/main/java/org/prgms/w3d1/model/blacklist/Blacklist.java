@@ -3,6 +3,7 @@ package org.prgms.w3d1.model.blacklist;
 import java.io.Serializable;
 import java.util.UUID;
 
+// model : Entity, vo, dto
 public class Blacklist implements Serializable {
     private final UUID blacklistId;
     private final String name;

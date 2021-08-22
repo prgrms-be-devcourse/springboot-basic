@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @PropertySource("application.properties")
 @Configuration
-@ComponentScan(basePackages = {"org.prgms.w3d1.model", "org.prgms.w3d1.repository"})
+@ComponentScan(basePackages = {"org.prgms.w3d1.model", "org.prgms.w3d1.repository", "org.prgms.w3d1.util"})
 public class AppConfiguration {
 
 }
