@@ -2,7 +2,9 @@ package com.example.kdtspringmission.view;
 
 import com.example.kdtspringmission.voucher.domain.Voucher;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleOutputView implements OutputView{
 
     @Override

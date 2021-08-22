@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static Map<UUID, Voucher> store = new HashMap<>();

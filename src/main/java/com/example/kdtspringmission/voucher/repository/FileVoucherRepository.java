@@ -15,6 +15,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 public class FileVoucherRepository implements VoucherRepository{
 
@@ -23,8 +25,6 @@ public class FileVoucherRepository implements VoucherRepository{
     private static final File resources = new File(VOUCHERS_PATH);
     private static final Pattern amountPattern = Pattern.compile("amount=(\\d*)|percent=(\\d*)");
     private static final Pattern idPattern = Pattern.compile("id=(.*?),");
-
-
 
     @Override
     public UUID insert(Voucher voucher) {

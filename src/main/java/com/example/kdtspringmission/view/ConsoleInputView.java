@@ -2,7 +2,9 @@ package com.example.kdtspringmission.view;
 
 import com.example.kdtspringmission.Command;
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleInputView implements InputView{
     private Scanner scanner = new Scanner(System.in);
 

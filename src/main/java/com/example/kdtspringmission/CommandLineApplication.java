@@ -4,6 +4,8 @@ import com.example.kdtspringmission.view.InputView;
 import com.example.kdtspringmission.view.OutputView;
 import com.example.kdtspringmission.voucher.repository.VoucherRepository;
 import com.example.kdtspringmission.voucher.service.VoucherService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class CommandLineApplication {
 
@@ -19,8 +21,11 @@ public class CommandLineApplication {
     }
 
     public static void main(String[] args) {
-        AppConfig ac = new AppConfig();
-        new CommandLineApplication(ac.inputView(), ac.outputView(), ac.voucherService()).run();
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        InputView inputView = ac.getBean("consoleInputView", InputView.class);
+        OutputView outputView = ac.getBean("consoleOutputView", OutputView.class);
+        VoucherService voucherService = ac.getBean("voucherService", VoucherService.class);
+        new CommandLineApplication(inputView, outputView, voucherService).run();
     }
 
     public void run() {

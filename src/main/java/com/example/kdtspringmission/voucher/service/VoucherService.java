@@ -7,7 +7,10 @@ import com.example.kdtspringmission.voucher.repository.VoucherRepository;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
