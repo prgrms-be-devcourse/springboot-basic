@@ -5,6 +5,8 @@ import com.prgrm.kdt.voucher.domain.PercentDiscountVoucher;
 import com.prgrm.kdt.voucher.domain.Voucher;
 import com.prgrm.kdt.voucher.domain.VoucherType;
 import com.prgrm.kdt.voucher.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -12,10 +14,11 @@ import java.util.UUID;
 
 import static com.prgrm.kdt.voucher.domain.VoucherType.*;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("fileVoucher") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -39,8 +42,8 @@ public class VoucherService {
         return new PercentDiscountVoucher(UUID.randomUUID(), value);
     }
 
-    public void insertVoucher(Voucher voucher) {
-        voucherRepository.insert(voucher);
+    public Voucher insertVoucher(Voucher voucher) {
+        return voucherRepository.insert(voucher);
     }
 
     public VoucherType selectVoucherType(String input) {
