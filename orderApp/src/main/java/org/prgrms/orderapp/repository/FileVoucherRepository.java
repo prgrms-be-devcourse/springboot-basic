@@ -33,7 +33,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @PostConstruct
     public void loadStorage() {
-        System.out.println("Profile prod is set. FileVoucherRepository is created.");
         String path = MessageFormat.format("{0}/{1}/{2}", System.getProperty("user.dir"), prefix, filename);
         storage = loadByteFile(path).map(o -> (ConcurrentHashMap<UUID, Voucher>) o).orElseGet(ConcurrentHashMap::new);
     }

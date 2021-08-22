@@ -7,7 +7,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Scanner;
 
-@Component
 public class Console implements Input, Output {
     private final Scanner scanner = new Scanner(System.in);
 

@@ -5,6 +5,8 @@ import org.prgrms.orderapp.model.PercentDiscountVoucher;
 import org.prgrms.orderapp.model.Voucher;
 import org.prgrms.orderapp.model.VoucherType;
 import org.prgrms.orderapp.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -14,6 +16,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
+    private final static Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -34,7 +37,7 @@ public class VoucherService {
     }
 
     public Optional<Voucher> createVoucher(String type, String value) {
-        //  Is it okay to assume type and value are valid.
+        logger.info("VoucherService.createVoucher() is called with args: {}, {}", type, value);
         if (VoucherType.isValid(type, value))  {
             // TODO:: Use Strategy Pattern!
             long amount = Long.parseLong(value);

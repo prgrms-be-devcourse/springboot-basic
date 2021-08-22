@@ -38,26 +38,28 @@ public class VoucherProgram implements Runnable {
             input = console.input(prompt);
             switch (input) {
                 case CREATE -> {
-                    logger.info("starts user command: 'create'");
+                    logger.info("Starts user command: 'create'");
                     createVoucher();
-                    logger.info("finished user command: 'create'");
+                    logger.info("Finished user command: 'create'");
                 }
                 case LIST -> {
-                    logger.error("testing error logging");
-                    logger.warn("testing warn logging");
-                    logger.info("starts user command: 'list'");
+                    logger.info("Starts user command: 'list'");
                     console.vouchers(voucherService.getAllVoucher());
-                    logger.info("finished user command: 'list'");
+                    logger.info("Finished user command: 'list'");
                 }
                 case EXIT -> {
-                    logger.info("starts user command: 'exit'");
+                    logger.info("Starts user command: 'exit'");
                     console.printMessage("Exiting the program.");
-                    logger.info("finished user command: 'exit'");
+                    logger.info("Finished user command: 'exit'");
                     return;
                 }
-                default -> console.inputError(input);
+                default -> {
+                    logger.warn("Undefined user command: %s".formatted(input));
+                    console.inputError(input);
+                }
             }
-            System.out.println("====================================");
+            console.printMessage("====================================");
+            logger.info("Command finished.");
             prompt = "Please type a command : ";
         }
     }
@@ -65,7 +67,7 @@ public class VoucherProgram implements Runnable {
     private void createVoucher() {
         String type = console.input("Creating a new voucher. Which type do you want? (fixed or percent) : ");
         String amount = console.input("How much discount? (digits only) : ");
-        logger.info("user input for createVoucher: {} {}", type, amount);
+        logger.info("User input for createVoucher: {} {}", type, amount);
         Optional<Voucher> voucher = voucherService.createVoucher(type, amount);
 
         if (voucher.isPresent()) {
