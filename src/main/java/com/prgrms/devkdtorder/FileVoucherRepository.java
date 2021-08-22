@@ -66,6 +66,6 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
         String type = wini.get(voucherId, OPTION_TYPE);
 
         Optional<VoucherType> voucherType = VoucherType.findByNameOrNo(type);
-        return voucherType.map(v -> VoucherFactory.create(v, value));
+        return voucherType.map(v -> v.createVoucher(value));
     }
 }

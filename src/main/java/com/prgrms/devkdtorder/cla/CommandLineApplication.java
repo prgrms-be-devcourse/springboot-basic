@@ -72,7 +72,7 @@ public class CommandLineApplication implements Runnable {
         }
         long value = input.getVoucherValue();
 
-        Voucher voucher = VoucherFactory.create(voucherType.get(), value);
+        Voucher voucher = voucherType.get().createVoucher(value);
         voucherService.saveVoucher(voucher);
         return true;
     }
