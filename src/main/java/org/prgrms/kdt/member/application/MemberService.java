@@ -21,7 +21,7 @@ public class MemberService {
         memberRepository.init(lines);
     }
 
-    public Map<UUID, Member> allVoucher() {
+    public Map<UUID, Member> allBlackList() {
         return memberRepository.findByAllBlackList();
     }
 

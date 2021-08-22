@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.IntStream;
 
 @Repository
-@Profile("memory")
+@Profile("dev")
 public class MemoryMemberRepository implements MemberRepository {
 
     private final Map<UUID, Member> storage;

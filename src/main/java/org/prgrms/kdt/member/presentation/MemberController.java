@@ -47,7 +47,7 @@ public class MemberController {
     }
 
     private void readAllBlackList() {
-        OutputView.showAllBlackList(memberService.allVoucher());
+        OutputView.showAllBlackList(memberService.allBlackList());
     }
 
     private void exitCommandOrder() {

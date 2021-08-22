@@ -1,0 +1,96 @@
+12:45:09.510 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 13416 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+12:45:09.512 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+12:45:09.512 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+12:45:40.116 [main] INFO  o.prgrms.kdt.CommandLineApplication - logger name => org.prgrms.kdt.CommandLineApplication
+12:45:40.127 [main] INFO  o.prgrms.kdt.CommandLineApplication - start system in => 2021-08-22 12:45:40
+12:45:40.308 [main] INFO  o.prgrms.kdt.CommandLineApplication - is applicationContext -> 
+12:45:40.411 [main] INFO  o.prgrms.kdt.CommandLineApplication - register AppConfiguration.class
+12:45:40.413 [main] INFO  o.prgrms.kdt.CommandLineApplication - set Environment StandardEnvironment {activeProfiles=[dev], defaultProfiles=[default], propertySources=[PropertiesPropertySource {name='systemProperties'}, SystemEnvironmentPropertySource {name='systemEnvironment'}]}
+12:45:40.900 [main] INFO  o.prgrms.kdt.CommandLineApplication - refresh application.refresh() method
+12:45:40.901 [main] INFO  o.prgrms.kdt.CommandLineApplication - new instance voucherService org.prgrms.kdt.voucher.application.VoucherService@3d3ba765
+12:46:32.528 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 14012 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+12:46:32.530 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+12:46:32.530 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+12:47:48.028 [main] INFO  o.prgrms.kdt.CommandLineApplication - logger name => org.prgrms.kdt.CommandLineApplication
+12:47:48.033 [main] INFO  o.prgrms.kdt.CommandLineApplication - start system in => 2021-08-22 12:47:48
+12:47:48.177 [main] INFO  o.prgrms.kdt.CommandLineApplication - is applicationContext -> 
+12:47:48.285 [main] INFO  o.prgrms.kdt.CommandLineApplication - register AppConfiguration.class
+12:47:48.287 [main] INFO  o.prgrms.kdt.CommandLineApplication - set Environment StandardEnvironment {activeProfiles=[dev], defaultProfiles=[default], propertySources=[PropertiesPropertySource {name='systemProperties'}, SystemEnvironmentPropertySource {name='systemEnvironment'}]}
+12:47:48.841 [main] INFO  o.prgrms.kdt.CommandLineApplication - refresh application.refresh() method
+12:47:48.843 [main] INFO  o.prgrms.kdt.CommandLineApplication - new instance voucherService org.prgrms.kdt.voucher.application.VoucherService@25bc0606
+12:48:30.094 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 18732 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+12:48:30.096 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+12:48:30.097 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+12:50:08.615 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 18320 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+12:50:08.618 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+12:50:08.618 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+12:51:47.308 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 11900 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+12:51:47.311 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+12:51:47.311 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+12:53:10.533 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 4680 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+12:53:10.535 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+12:53:10.536 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+12:54:05.570 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 9192 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+12:54:05.573 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+12:54:05.574 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+12:55:18.996 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 1912 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+12:55:18.999 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+12:55:18.999 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+12:55:39.621 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 15284 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+12:55:39.624 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+12:55:39.625 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+13:00:23.585 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 4580 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+13:00:23.588 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+13:00:23.589 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+13:00:28.913 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 2892 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+13:00:28.916 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+13:00:28.916 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+13:00:35.250 [main] INFO  o.prgrms.kdt.CommandLineApplication - logger name => org.prgrms.kdt.CommandLineApplication
+13:00:35.257 [main] INFO  o.prgrms.kdt.CommandLineApplication - start system in => 2021-08-22 13:00:35
+13:00:35.429 [main] INFO  o.prgrms.kdt.CommandLineApplication - is applicationContext -> 
+13:00:35.541 [main] INFO  o.prgrms.kdt.CommandLineApplication - register AppConfiguration.class
+13:00:35.542 [main] INFO  o.prgrms.kdt.CommandLineApplication - set Environment StandardEnvironment {activeProfiles=[dev], defaultProfiles=[default], propertySources=[PropertiesPropertySource {name='systemProperties'}, SystemEnvironmentPropertySource {name='systemEnvironment'}]}
+13:00:36.438 [main] INFO  o.prgrms.kdt.CommandLineApplication - refresh application.refresh() method
+13:00:36.440 [main] INFO  o.prgrms.kdt.CommandLineApplication - new instance voucherService org.prgrms.kdt.voucher.application.VoucherService@25bc0606
+13:00:42.832 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 12392 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+13:00:42.834 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+13:00:42.835 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: memory
+13:03:34.663 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 1156 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+13:03:34.667 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+13:03:34.667 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: dev
+13:03:35.413 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Started KdtSpringOrderApplication in 1.327 seconds (JVM running for 3.119)
+13:03:42.720 [main] INFO  o.prgrms.kdt.CommandLineApplication - logger name => org.prgrms.kdt.CommandLineApplication
+13:03:42.737 [main] INFO  o.prgrms.kdt.CommandLineApplication - start system in => 2021-08-22 13:03:42
+13:03:43.034 [main] INFO  o.prgrms.kdt.CommandLineApplication - is applicationContext -> 
+13:03:43.210 [main] INFO  o.prgrms.kdt.CommandLineApplication - register AppConfiguration.class
+13:03:43.212 [main] INFO  o.prgrms.kdt.CommandLineApplication - set Environment StandardEnvironment {activeProfiles=[dev], defaultProfiles=[default], propertySources=[PropertiesPropertySource {name='systemProperties'}, SystemEnvironmentPropertySource {name='systemEnvironment'}]}
+13:03:44.037 [main] INFO  o.prgrms.kdt.CommandLineApplication - refresh application.refresh() method
+13:03:44.042 [main] INFO  o.prgrms.kdt.CommandLineApplication - new instance voucherService org.prgrms.kdt.voucher.application.VoucherService@48a12036
+13:07:01.942 [main] INFO  o.prgrms.kdt.CommandLineApplication - logger name => org.prgrms.kdt.CommandLineApplication
+13:07:01.945 [main] INFO  o.prgrms.kdt.CommandLineApplication - start system in => 2021-08-22 13:07:01
+13:07:02.072 [main] INFO  o.prgrms.kdt.CommandLineApplication - is springApplication -> 
+13:07:02.140 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - logger name => org.prgrms.kdt.CommandLineApplication
+13:07:02.142 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - start system in => 2021-08-22 13:07:02
+13:07:02.154 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - is springApplication -> 
+13:07:02.661 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 18932 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+13:07:02.662 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+13:07:02.662 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: dev
+13:07:03.357 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Started KdtSpringOrderApplication in 1.2 seconds (JVM running for 2.538)
+13:07:03.361 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - springApplication run
+13:07:03.362 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - get Bean MemberProperties -> org.prgrms.kdt.member.domain.MemberProperties@4086bc38
+13:07:03.363 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - SUCCESS READ CSV [Ljava.lang.Object;@4f2bc945
+13:07:03.363 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - get Bean MemberService -> org.prgrms.kdt.member.application.MemberService@5f493b43
+13:07:22.321 [main] INFO  o.prgrms.kdt.CommandLineApplication - logger name => org.prgrms.kdt.CommandLineApplication
+13:07:22.324 [main] INFO  o.prgrms.kdt.CommandLineApplication - start system in => 2021-08-22 13:07:22
+13:07:22.418 [main] INFO  o.prgrms.kdt.CommandLineApplication - is springApplication -> 
+13:07:22.487 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - logger name => org.prgrms.kdt.CommandLineApplication
+13:07:22.489 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - start system in => 2021-08-22 13:07:22
+13:07:22.502 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - is springApplication -> 
+13:07:23.013 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Starting KdtSpringOrderApplication using Java 11.0.12 on DESKTOP-C182L95 with PID 6916 (D:\programmers\w3\2d\w3-SpringBoot_Part_A\target\classes started by wrjss in D:\programmers\w3\2d\w3-SpringBoot_Part_A)
+13:07:23.014 [restartedMain] DEBUG o.p.kdt.KdtSpringOrderApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+13:07:23.014 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - The following profiles are active: dev
+13:07:23.679 [restartedMain] INFO  o.p.kdt.KdtSpringOrderApplication - Started KdtSpringOrderApplication in 1.174 seconds (JVM running for 2.331)
+13:07:23.682 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - springApplication run
+13:07:23.683 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - get Bean MemberProperties -> org.prgrms.kdt.member.domain.MemberProperties@1fd035f
+13:07:23.684 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - SUCCESS READ CSV [email,name,phoneNumber, wrjs@naver.com,김동건,31829709, wrjs1@naver.com,김동순,31829708, wrjs2@naver.com,성민수,31829777, wrjs3@naver.com,이준표,31829772, wrjs4@naver.com,이승준,31829723, wrjs5@naver.com,이형준,31828777, wrjs6@naver.com,김승모,31821777, wrjs7@naver.com,강동잔,31828777, wrjs8@naver.com,이희찬,31829377]
+13:07:23.684 [restartedMain] INFO  o.prgrms.kdt.CommandLineApplication - get Bean MemberService -> org.prgrms.kdt.member.application.MemberService@4c40c95a
