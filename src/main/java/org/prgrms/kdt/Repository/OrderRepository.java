@@ -5,7 +5,7 @@ import org.prgrms.kdt.Model.Order;
 public interface OrderRepository {
 
 
-        void save(Order order);
+        Order save(Order order);
     }
 
 

@@ -42,4 +42,7 @@ public class Order {
         this.voucher = voucher;
     }
 
+    public UUID getOrderId() {
+        return orderId;
+    }
 }

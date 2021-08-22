@@ -3,10 +3,11 @@ package org.prgrms.kdt.Service;
 import org.prgrms.kdt.Model.Order;
 import org.prgrms.kdt.Model.OrderItem;
 import org.prgrms.kdt.Repository.OrderRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
@@ -19,7 +20,9 @@ public class OrderService {
 
    //order을 만들 수 있는 메소드
     public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
-        return new Order(UUID.randomUUID(), customerId, orderItems);
+
+        var order=new Order(UUID.randomUUID(), customerId, orderItems);
+        return orderRepository.save(order);
     }
 
    //바우처에서 가져옴
