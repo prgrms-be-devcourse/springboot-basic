@@ -3,15 +3,21 @@ package org.prms.service;
 import org.prms.controller.Order;
 import org.prms.domain.OrderItem;
 import org.prms.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+
+@Service
 public class OrderService {
 
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
 
+
+    @Autowired
     public OrderService(VoucherService voucherService, OrderRepository orderRepository) {
         this.voucherService = voucherService;
         this.orderRepository = orderRepository;

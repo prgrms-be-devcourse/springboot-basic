@@ -1,12 +1,14 @@
 package org.prms.repository;
 
 import org.prms.domain.Voucher;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class MemoryRepository implements VoucherRepository{
 
 //    ArrayList<Voucher> list=new ArrayList<>();

@@ -8,6 +8,7 @@ import org.prms.repository.VoucherRepository;
 import org.prms.service.OrderService;
 import org.prms.service.VoucherService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.UUID;
 // Bean을 정의할 도면이다라고 스프링에게 알려줘야 함. @Configuration
 // 각 메소드에 Bean 어노테이션 사용
 @Configuration
+@ComponentScan
 public class AppConfiguration {
 
     // Command 과제

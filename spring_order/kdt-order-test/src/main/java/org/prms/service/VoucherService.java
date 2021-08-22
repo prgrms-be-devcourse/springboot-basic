@@ -4,16 +4,19 @@ import org.prms.domain.FixedAmountVoucher;
 import org.prms.domain.PercentDiscountVoucher;
 import org.prms.domain.Voucher;
 import org.prms.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
-
+    @Autowired
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
@@ -23,7 +26,6 @@ public class VoucherService {
         return voucherRepository
                 .findById(voucherID)
                 .orElseThrow(()->new RuntimeException(MessageFormat.format("Can not find a Voucher for {0}",voucherID)));
-
     }
 
     public void createVoucher(String voucherType,Long val) {
