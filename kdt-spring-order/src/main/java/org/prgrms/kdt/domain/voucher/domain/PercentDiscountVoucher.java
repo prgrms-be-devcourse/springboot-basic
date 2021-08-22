@@ -13,27 +13,12 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public UUID getVoucherId() {
-        return null;
+        return voucherId;
     }
 
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100); // 여기 틀린 것 같음.
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
-
-        return percent == that.percent;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (percent ^ (percent >>> 32));
     }
 
     @Override

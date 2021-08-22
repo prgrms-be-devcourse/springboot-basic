@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class VoucherMemoryRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> VOUCHER_MAP = new HashMap<>();
+    private static final Map<UUID, Voucher> VOUCHER_MAP = new HashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

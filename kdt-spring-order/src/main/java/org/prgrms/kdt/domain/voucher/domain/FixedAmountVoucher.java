@@ -13,26 +13,11 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public UUID getVoucherId() {
-        return null;
+        return voucherId;
     }
 
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FixedAmountVoucher that = (FixedAmountVoucher) o;
-
-        return amount == that.amount;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (amount ^ (amount >>> 32));
     }
 
     @Override

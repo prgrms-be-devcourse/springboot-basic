@@ -2,10 +2,13 @@ package org.prgrms.kdt.application.voucher;
 
 import org.prgrms.kdt.application.voucher.io.Input;
 import org.prgrms.kdt.application.voucher.io.Output;
+import org.prgrms.kdt.application.voucher.type.CommandType;
+import org.prgrms.kdt.application.voucher.type.VoucherType;
 import org.prgrms.kdt.domain.voucher.domain.Voucher;
 import org.prgrms.kdt.domain.voucher.service.VoucherService;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public class VoucherApplication implements Runnable{
@@ -22,16 +25,22 @@ public class VoucherApplication implements Runnable{
     @Override
     public void run() {
         output.printProgramName();
+
         while(true) {
             output.printCommandList();
-            switch (input.inputCommand()) {
-                case EXIT -> {
-                    exitCommand();
-                    return;
+
+            Optional<CommandType> optionalCommandType = input.inputCommand();
+            if(optionalCommandType.isPresent()) {
+                switch (optionalCommandType.get()) {
+                    case EXIT -> {
+                        exitCommand();
+                        return;
+                    }
+                    case CREATE -> createCommand();
+                    case LIST -> listCommand();
                 }
-                case CREATE -> createCommand();
-                case LIST -> listCommand();
-                default -> output.printInputCommandError();
+            } else {
+                output.printInputError();
             }
         }
     }
@@ -41,19 +50,38 @@ public class VoucherApplication implements Runnable{
     }
 
     private void createCommand() {
-        // 바우처 종류 안내 메시지 출력
-        // 바우처 종류 입력
-        // 바우처 종류 입력 검증
-        // 바우처 금액 or 퍼센트 입력 안내 메시지
-        // 바우처 금액 or 퍼센트 입력 검증
-        // 바우처 생성 결과 출력
-        System.out.println("생성");
+        while(true) {
+            output.printVoucherTypeList();
+
+            Optional<VoucherType> optionalVoucherType = input.inputVoucherType();
+
+            if(optionalVoucherType.isPresent()) {
+                VoucherType voucherType = optionalVoucherType.get();
+
+                while(true) {
+                    Optional<Long> optionalLong = input.inputVoucherTypeValue(voucherType.getPrintString());
+
+                    if(optionalLong.isPresent()) {
+                        Optional<Voucher> optionalVoucher = voucherType.getVoucher(optionalLong.get());
+                        if(optionalVoucher.isPresent()) {
+                            Voucher voucher = optionalVoucher.get();
+                            output.printVoucherCreateResult(voucherService.saveVoucher(voucher));
+                            break;
+                        }
+                    }
+                    output.printInputError();
+                }
+                break;
+            }
+            output.printInputError();
+        }
     }
 
     private void listCommand() {
         Map<UUID, Voucher> voucherMap = voucherService.getAllVoucher();
         if(voucherMap.isEmpty())
             output.printNoneVoucherList();
-        output.printVoucherList(voucherMap.values());
+        else
+            output.printVoucherList(voucherMap.values());
     }
 }

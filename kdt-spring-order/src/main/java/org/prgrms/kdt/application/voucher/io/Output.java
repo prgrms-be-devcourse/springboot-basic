@@ -9,9 +9,13 @@ public interface Output {
 
     void printCommandList(); // 명령어 목록
 
-    void printInputCommandError(); // 잘못된 명령어 입력
+    void printInputError(); // 잘못된 명령어 입력
 
     void printExit(); // 프로그램 종료
+
+    void printVoucherTypeList(); // 바우처 종류 목록
+
+    void printVoucherCreateResult(boolean isCreated); // 바우처 생성 여부
 
     void printVoucherList(Collection<Voucher> vouchers); // 바우처 목록
 

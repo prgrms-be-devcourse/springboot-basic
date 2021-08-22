@@ -1,13 +1,13 @@
-package org.prgrms.kdt.application.voucher.command;
+package org.prgrms.kdt.application.voucher.type;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum CommandType {
-    ERROR,
     EXIT,
     CREATE,
     LIST;
@@ -19,14 +19,13 @@ public enum CommandType {
     private static final String LIST_OF_ENUM =
             ORDINAL_TO_ENUM.entrySet()
                     .stream()
-                    .filter(entry -> entry.getValue() != ERROR)
                     .map(entry -> entry.getKey() + ": " + entry.getValue())
                     .collect(Collectors.joining("\n"));
 
 
-    public static CommandType fromOrdinal(int ordinal) {
+    public static Optional<CommandType> fromOrdinal(int ordinal) {
         CommandType commandType = ORDINAL_TO_ENUM.get(ordinal);
-        return commandType != null ? commandType : ERROR;
+        return Optional.ofNullable(commandType);
     }
 
     public static String getListOfEnum() {

@@ -1,5 +1,6 @@
-package org.prgrms.kdt.application;
+package org.prgrms.kdt;
 
+import org.prgrms.kdt.application.Console;
 import org.prgrms.kdt.application.voucher.VoucherApplication;
 import org.prgrms.kdt.domain.voucher.service.VoucherService;
 import org.prgrms.kdt.infrastructure.configuration.AppConfiguration;
