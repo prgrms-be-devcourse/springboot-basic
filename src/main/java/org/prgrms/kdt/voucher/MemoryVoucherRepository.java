@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-//@Repository
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMap = new HashMap<>(); // voucher를 담을 메모리
 

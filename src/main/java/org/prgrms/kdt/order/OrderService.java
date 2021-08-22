@@ -1,10 +1,12 @@
 package org.prgrms.kdt.order;
 
 import org.prgrms.kdt.voucher.VoucherService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderService { // 바우처 서비스와 오더에 대한 레포지토리와 의존성을 갖을 것
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
