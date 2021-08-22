@@ -29,7 +29,7 @@ public class Order {
 
     public long totalAmount() {
         var beforeDiscount = orderItems.stream()
-                .map(v -> v.getProductPrice() * v.getQuantity())
+                .map(v -> v.calculateTotalAmount())
                 .reduce(0L, Long::sum);
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
