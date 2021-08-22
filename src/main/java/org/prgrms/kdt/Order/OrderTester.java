@@ -1,15 +1,15 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.Order;
 
-import org.prgrms.kdt.Model.FixedAmountVoucher;
-import org.prgrms.kdt.Model.OrderItem;
-import org.prgrms.kdt.Repository.VoucherRepository;
-import org.prgrms.kdt.Service.OrderService;
+import org.prgrms.kdt.AppConfiguration;
+import org.prgrms.kdt.Voucher.FixedAmountVoucher;
+import org.prgrms.kdt.Order.OrderItem;
+import org.prgrms.kdt.Voucher.VoucherRepository;
+import org.prgrms.kdt.Order.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.UUID;
 
 public class OrderTester {

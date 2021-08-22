@@ -1,6 +1,5 @@
-package org.prgrms.kdt.Repository;
+package org.prgrms.kdt.Voucher;
 
-import org.prgrms.kdt.Model.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;

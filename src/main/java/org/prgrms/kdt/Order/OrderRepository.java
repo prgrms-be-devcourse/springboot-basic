@@ -1,6 +1,6 @@
-package org.prgrms.kdt.Repository;
+package org.prgrms.kdt.Order;
 
-import org.prgrms.kdt.Model.Order;
+import org.prgrms.kdt.Order.Order;
 
 public interface OrderRepository {
 

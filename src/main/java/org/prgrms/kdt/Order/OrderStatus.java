@@ -1,4 +1,4 @@
-package org.prgrms.kdt.Model;
+package org.prgrms.kdt.Order;
 
 public enum OrderStatus {
 

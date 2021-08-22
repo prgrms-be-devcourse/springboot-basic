@@ -1,4 +1,6 @@
-package org.prgrms.kdt.Model;
+package org.prgrms.kdt.Order;
+
+import org.prgrms.kdt.Voucher.Voucher;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,11 +1,5 @@
-package org.prgrms.kdt.Service;
+package org.prgrms.kdt.Voucher;
 
-import org.prgrms.kdt.Model.FixedAmountVoucher;
-import org.prgrms.kdt.Model.PercentDiscountVoucher;
-import org.prgrms.kdt.Model.Voucher;
-import org.prgrms.kdt.Model.VoucherRequest;
-import org.prgrms.kdt.Repository.VoucherRepository;
-import org.prgrms.kdt.TypeStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
-package org.prgrms.kdt.Repository;
+package org.prgrms.kdt.Voucher;
 
-import org.prgrms.kdt.Model.Voucher;
-import org.prgrms.kdt.TypeStatus;
+import org.prgrms.kdt.Voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

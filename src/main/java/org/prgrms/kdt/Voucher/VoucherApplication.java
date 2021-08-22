@@ -1,12 +1,11 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.Voucher;
 
-import org.prgrms.kdt.Model.Voucher;
-import org.prgrms.kdt.Model.VoucherRequest;
-import org.prgrms.kdt.Service.VoucherService;
+import org.prgrms.kdt.AppConfiguration;
+import org.prgrms.kdt.Voucher.TypeStatus;
+import org.prgrms.kdt.Voucher.VoucherRequest;
+import org.prgrms.kdt.Voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 

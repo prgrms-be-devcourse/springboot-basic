@@ -1,6 +1,4 @@
-package org.prgrms.kdt.Model;
-
-import org.prgrms.kdt.TypeStatus;
+package org.prgrms.kdt.Voucher;
 
 import java.util.UUID;
 

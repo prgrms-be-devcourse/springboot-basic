@@ -1,13 +1,8 @@
-package org.prgrms.kdt.Repository;
+package org.prgrms.kdt.Voucher;
 
-import org.prgrms.kdt.Model.ManageFileVoucher;
-import org.prgrms.kdt.Model.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
