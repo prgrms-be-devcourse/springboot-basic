@@ -1,9 +1,13 @@
 package org.prgrms.kdt.dto;
 
 import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VoucherSaveRequestDto {
 
+    private final static Logger logger = LoggerFactory.getLogger(VoucherSaveRequestDto.class);
     private VoucherType voucherType;
     private long discount;
 

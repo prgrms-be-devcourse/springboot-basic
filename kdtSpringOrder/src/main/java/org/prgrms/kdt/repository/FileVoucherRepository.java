@@ -4,6 +4,8 @@ import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.enums.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
@@ -26,6 +28,8 @@ import static org.prgrms.kdt.utils.FileUtils.isExistFile;
 @Primary
 public class FileVoucherRepository implements VoucherRepository, InitializingBean {
 
+    private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+
     @Value("${data.storage.name}")
     private String repositoryName;
 
@@ -34,25 +38,36 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
 
     @Override
     public Voucher save(Voucher voucher) {
+        logger.info("Started Save(), id : {}, type : {}, discount : {}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount());
+
         storage.put(voucher.getVoucherId(), voucher);
         saveStorage(voucher);
+
+        logger.info("Finished Save()");
+
         return voucher;
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        logger.info("Started Save(), {}", voucherId.toString());
+
         return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
     public List<Voucher> findAll() {
-        System.out.println(MessageFormat.format("[Profile prod is set.] repositoryName is {0}", repositoryName));
+        logger.info("Started findAll()");
+
         loadStorage();
         return new ArrayList<>(storage.values());
     }
 
     private void loadStorage() {
+        logger.info("Started loadStorage()");
+
         if(!isExistFile(voucherFilePath)) {
+            logger.warn("voucherFilePath does not exist.");
             return;
         }
 
@@ -67,31 +82,38 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
                 }
             }
         } catch (NumberFormatException e) {
+            logger.error("NumberFormatException");
             e.printStackTrace();
         }
     }
 
     private void saveStorage(Voucher voucher) {
+        logger.info("Started saveStorage()");
+
         if(!Files.exists(voucherFilePath)) {
             try {
+                logger.info("createVoucherFilePath");
                 Files.createDirectory(voucherFilePath.getParent());
                 Files.createFile(voucherFilePath.toAbsolutePath());
             } catch (IOException e) {
+                logger.error("IOException");
                 e.printStackTrace();
             }
         }
 
         try(FileWriter writer = new FileWriter(voucherFilePath.toFile(),true)){
+            logger.info("Save Voucher Info , id : {}, type : {}, discount : {}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount());
             String voucherInfo = String.format("%s,%s,%d%n", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount(), "\n");
             writer.write(voucherInfo);
             writer.flush();
         }catch (IOException e) {
+            logger.error("IOException");
             e.printStackTrace();
         }
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println(MessageFormat.format("[Profile prod is set.] repositoryName is {0}", repositoryName));
+        logger.info("[Profile prod is set.] repositoryName is {}", repositoryName);
     }
 }
