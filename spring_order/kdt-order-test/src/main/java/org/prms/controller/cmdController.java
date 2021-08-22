@@ -1,7 +1,7 @@
 package org.prms.controller;
 
 import org.prms.io.Console;
-import org.prms.service.AppConfiguration;
+import org.prms.configure.AppConfiguration;
 import org.prms.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -11,9 +11,8 @@ public class cmdController implements Runnable{
     private Console console=new Console();
 
     // 생성자 주입을 통한 Bean 등록
-    public cmdController() {
-        var applicationContext=new AnnotationConfigApplicationContext(AppConfiguration.class);
-        this.voucherService = applicationContext.getBean(VoucherService.class);
+    public cmdController(VoucherService voucherService) {
+        this.voucherService=voucherService;
         console.cmdInit();
     }
 

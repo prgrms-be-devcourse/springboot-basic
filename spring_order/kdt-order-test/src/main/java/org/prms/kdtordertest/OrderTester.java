@@ -1,7 +1,7 @@
 package org.prms.kdtordertest;
 
 import org.prms.domain.OrderItem;
-import org.prms.service.AppConfiguration;
+import org.prms.configure.AppConfiguration;
 import org.prms.service.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;

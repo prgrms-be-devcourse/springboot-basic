@@ -1,10 +1,12 @@
-package org.prms.service;
+package org.prms.configure;
 
 import org.prms.controller.Order;
 import org.prms.repository.MemoryRepository;
 import org.prms.repository.OrderRepository;
 import org.prms.domain.Voucher;
 import org.prms.repository.VoucherRepository;
+import org.prms.service.OrderService;
+import org.prms.service.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
