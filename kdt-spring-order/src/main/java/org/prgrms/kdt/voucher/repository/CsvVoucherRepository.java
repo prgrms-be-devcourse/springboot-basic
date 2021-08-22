@@ -26,6 +26,9 @@ public class CsvVoucherRepository implements VoucherRepository{
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     File file;
 
+    @Value("${csv.voucher-repository.file-path}")
+    private String filePath;
+
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
@@ -45,7 +48,7 @@ public class CsvVoucherRepository implements VoucherRepository{
     @PostConstruct
     public void loadCsv() throws IOException {
         // base 경로는 resources 디렉토리임
-        ClassPathResource resource = new ClassPathResource("csv/voucher_list.csv");
+        ClassPathResource resource = new ClassPathResource(filePath);
         file = resource.getFile();
         try(BufferedReader br = new BufferedReader(new FileReader(file));){
             String row = "";
