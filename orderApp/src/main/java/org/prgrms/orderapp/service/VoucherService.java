@@ -44,8 +44,6 @@ public class VoucherService {
                 return Optional.of(new PercentDiscountVoucher(UUID.randomUUID(), amount));
         }
         return Optional.empty();
-
-
     }
 
     public List<Voucher> getAllVoucher() {
