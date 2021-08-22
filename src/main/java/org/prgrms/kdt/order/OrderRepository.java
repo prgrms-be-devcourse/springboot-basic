@@ -5,5 +5,5 @@ package org.prgrms.kdt.order;
  * Date: 2021/08/17 Time: 9:09 오후
  */
 public interface OrderRepository {
-    void save(Order order);
+    Order insert(Order order);
 }

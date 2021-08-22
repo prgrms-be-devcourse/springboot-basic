@@ -3,11 +3,13 @@ package org.prgrms.kdt.order;
 import java.util.List;
 import java.util.UUID;
 import org.prgrms.kdt.voucher.VoucherService;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by yhh1056
  * Date: 2021/08/17 Time: 7:51 오후
  */
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
@@ -27,7 +29,7 @@ public class OrderService {
         }
         var voucher = voucherService.getVoucher(voucherId);
         var order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
-        orderRepository.save(order);
+        orderRepository.insert(order);
         voucherService.useVoucher(voucher);
         return order;
     }

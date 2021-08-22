@@ -40,6 +40,10 @@ public class Order {
         return beforeDiscount;
     }
 
+    public UUID getOrderId() {
+        return orderId;
+    }
+
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }

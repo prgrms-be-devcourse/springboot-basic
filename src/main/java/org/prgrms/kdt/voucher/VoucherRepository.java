@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Created by yhh1056
@@ -10,7 +11,7 @@ import java.util.UUID;
  */
 public interface VoucherRepository {
 
-    void save(Voucher voucher);
+    Voucher insert(Voucher voucher);
 
     Optional<Voucher> findById(UUID voucherId);
 

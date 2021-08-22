@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher;
 
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -27,7 +28,7 @@ public class VoucherService {
     }
 
     public void createVoucher(Voucher voucher) {
-        voucherRepository.save(voucher);
+        voucherRepository.insert(voucher);
     }
 
     public Map<UUID, Voucher> getAllVoucher() {

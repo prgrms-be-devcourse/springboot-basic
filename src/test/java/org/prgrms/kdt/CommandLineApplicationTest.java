@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.config.MissionConfiguration;
+import org.prgrms.kdt.voucher.VoucherRepository;
+import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -16,8 +18,10 @@ class CommandLineApplicationTest {
     @Test
     @DisplayName("인메모리 바우처 레포지토리 빈 주입 확인 테스트")
     void is_existed_in_memory_voucher_repository_bean() {
-        String inMemoryVoucherRepository = "voucherRepository";
+        String inMemoryVoucherRepository = "inMemoryVoucherRepository";
         var context = new AnnotationConfigApplicationContext(MissionConfiguration.class);
+        var voucherRepository = BeanFactoryAnnotationUtils
+                .qualifiedBeanOfType(context.getBeanFactory(), VoucherRepository.class, "memory");
 
         assertTrue(context.containsBean(inMemoryVoucherRepository));
     }
