@@ -6,6 +6,7 @@
     <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <!--https://stackoverflow.com/questions/19689223/logback-how-to-log-only-errors-to-file-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
