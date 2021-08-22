@@ -1,4 +1,4 @@
-package com.prgms.kdtspringorder.adapter;
+package com.prgms.kdtspringorder.adapter.controller;
 
 import java.util.UUID;
 

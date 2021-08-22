@@ -1,6 +1,6 @@
 package com.prgms.kdtspringorder;
 
-import com.prgms.kdtspringorder.adapter.VoucherController;
+import com.prgms.kdtspringorder.adapter.controller.VoucherController;
 
 public class CommandLineApplication {
 
