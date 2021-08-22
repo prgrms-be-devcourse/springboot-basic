@@ -1,6 +1,8 @@
-package org.prgrms.kdt.order;
+package org.prgrms.kdt;
 
+import org.apache.logging.log4j.message.Message;
 import org.prgrms.kdt.AppConfiguration;
+import org.prgrms.kdt.order.OrderItem;
 import org.prgrms.kdt.order.service.OrderService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
@@ -10,6 +12,7 @@ import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class OrderTester {
@@ -18,11 +21,22 @@ public class OrderTester {
         // Spring Application Context를 만드는데 Java 기반껄 만들꺼야
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
+        // env 가져옵시다.
+        var environment = applicationContext.getEnvironment();
+        var version = environment.getProperty("kdt.version");
+        var minimumOrderAmount = environment.getProperty("kdt.minium-order-amount", Integer.class);
+        var supportVendeors = environment.getProperty("kdt.support-vendors", List.class);
+        System.out.println(MessageFormat.format("version -> {0}", version));
+        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", minimumOrderAmount));
+        System.out.println(MessageFormat.format("supportVendeors -> {0}", supportVendeors));
+
         var customerId = UUID.randomUUID();
 
         // bean에서 꺼내올대도 BeanFactoryAnnotationUtils에서 적합한 용도를 가진 Bean을 선택할 수 있습니다.
         var voucherRepository = BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getBeanFactory(), VoucherRepository.class, "memory");
         var voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
+        // System.out.println(MessageFormat.format("voucher -> {0}", voucherRepository.find()));
+
 
         var orderService = applicationContext.getBean(OrderService.class); // 대박 ㅋㅋ
         var order = orderService.createOrder(customerId, new ArrayList<OrderItem>() {{

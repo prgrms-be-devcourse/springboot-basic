@@ -1,5 +1,6 @@
 package org.prgrms.kdt.order.service;
 
+import org.prgrms.kdt.configuration.VersionProvider;
 import org.prgrms.kdt.order.domain.Order;
 import org.prgrms.kdt.order.OrderItem;
 import org.prgrms.kdt.order.repository.OrderRepository;
@@ -22,15 +23,18 @@ import java.util.UUID;
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
+    private final VersionProvider versionProvider;
 
-    public OrderService(VoucherService voucherService, OrderRepository orderRepository) {
+    public OrderService(VoucherService voucherService, OrderRepository orderRepository, VersionProvider versionProvider) {
         this.voucherService = voucherService;
         this.orderRepository = orderRepository;
+        this.versionProvider = versionProvider;
     }
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
+        versionProvider.getVersion() // immutable 보장가능
         var voucher = voucherService.getVoucher(voucherId);
-        var order = new Order(UUID.randomUUID(), customerId, orderItems);
+        var order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
         orderRepository.insert(order);
         voucherService.useVoucher(voucher);
 

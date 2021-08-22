@@ -1,14 +1,6 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.command.CommandLineApplication;
-import org.prgrms.kdt.command.io.Console;
-import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.*;
 
 /**
  * OrderContext는 주문에 대한 전반적인 도메인 객체에 대한 생성을 책임지고 있음.
@@ -24,6 +16,12 @@ import org.springframework.context.annotation.FilterType;
  * - Tombi의 스프링을 꼭 읽으세용 ㅋㅋ
  */
 
+/**
+ * Enviornment
+ * - Spring Application이 처한 상황 및 시공간을 등 환경을 말함.
+ * - 속성은 property 파일, jvm sys.pro, os env, spring.property, yaml
+ * -
+ */
 @Configuration
 @ComponentScan(basePackages = {
         "org.prgrms.kdt.order",
@@ -31,6 +29,7 @@ import org.springframework.context.annotation.FilterType;
         "org.prgrms.kdt.configuration",
         "org.prgrms.kdt.command"
 })
+@PropertySource("application.properties") // property를 적용
 public class AppConfiguration {
     // 다양한 Bean 들이 특정용도(Kafka Template, Email Sender)에 맞게 그룹화돼서 definition이 configuration file로 작성되어야 될 때가 있어요.
     // 그럴때 configuration package를 만들어서 다 같이 관리하는게 편하다.
