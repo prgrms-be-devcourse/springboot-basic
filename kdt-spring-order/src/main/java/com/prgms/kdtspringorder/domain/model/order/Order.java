@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.prgms.kdtspringorder.adapter.exception.InvalidDiscountException;
 import com.prgms.kdtspringorder.domain.model.voucher.Voucher;
+import com.prgms.kdtspringorder.ui.Printer;
 
 public class Order {
     private final UUID orderId;
@@ -34,11 +36,19 @@ public class Order {
             .map(item -> item.getProductPrice() * item.getQuantity())
             .reduce(0L, Long::sum);
 
+        long totalAmount = 0;
+
         if (voucher.isPresent()) {
-            return voucher.get().discount(beforeDiscountAmount);
+            try {
+                totalAmount = voucher.get().discount(beforeDiscountAmount);
+            } catch (InvalidDiscountException e) {
+                new Printer().printInvalidDiscount(e.getMessage());
+            }
         } else {
-            return beforeDiscountAmount;
+            totalAmount = beforeDiscountAmount;
         }
+
+        return totalAmount;
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {

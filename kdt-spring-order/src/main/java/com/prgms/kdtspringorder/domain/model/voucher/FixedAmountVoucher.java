@@ -1,6 +1,10 @@
 package com.prgms.kdtspringorder.domain.model.voucher;
 
+import java.text.MessageFormat;
 import java.util.UUID;
+
+import com.prgms.kdtspringorder.adapter.exception.InvalidDiscountException;
+import com.prgms.kdtspringorder.ui.message.ErrorMessage;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
@@ -14,7 +18,13 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscountAmount) {
-        return beforeDiscountAmount - discountAmount;
+        long discounted = beforeDiscountAmount - discountAmount;
+        if (discounted < 0) {
+            throw new InvalidDiscountException(
+                MessageFormat.format("{0}\n원가: {1}, 바우처 할인 금액: {2}", ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage(),
+                    beforeDiscountAmount, discountAmount));
+        }
+        return discounted;
     }
 
     @Override

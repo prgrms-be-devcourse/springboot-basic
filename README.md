@@ -17,18 +17,19 @@
 ### 예외 처리
 
 - input validation
-    - [ ] command
-    - [ ] voucher type
-    - [ ] voucher discount 금액
+  - [x] command
+  - [x] voucher type
+  - [x] voucher discount percent(PercentDiscountVoucher)
+  - [x] voucher discount amount(FixedAmountVoucher, Order::discount)
 
 ### 리팩토링
 
 - [x] .mvn gitignore 추가
-- [x] CommandLineApplication 내 기능 분리
-- [x] input, output 분리
-- [x] BufferedReader, BufferedWriter -> Scanner와 sout으로 변경 (가독성)
+- [x] CommandLineApplication 내 기능 분리 -> VoucherController
+  - [x] input(Receiver), output(Printer) 분리
+  - [x] BufferedReader, BufferedWriter -> Scanner와 sout으로 변경 (가독성)
 - [x] Command 종류를 enum으로 변환
-- [ ] input validation 처리
+- [x] input validation 처리(VoucherController)
 - [ ] voucher type 입력에 전략 패턴 적용
 - [ ] try with resource로 구현해보기
 

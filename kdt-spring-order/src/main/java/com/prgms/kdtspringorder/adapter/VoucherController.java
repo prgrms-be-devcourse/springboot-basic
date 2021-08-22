@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 
+import com.prgms.kdtspringorder.adapter.exception.InvalidDiscountException;
 import com.prgms.kdtspringorder.application.VoucherService;
 import com.prgms.kdtspringorder.config.AppConfig;
 import com.prgms.kdtspringorder.domain.model.voucher.Voucher;
@@ -43,16 +44,24 @@ public class VoucherController {
             }
             if (command.equals(Command.HELP.name())) {
                 printer.printCommandList();
+                continue;
             }
+
+            printer.printInvalidCommandMessage();
         }
     }
 
     private void createVoucher(List<Voucher> vouchers, VoucherService voucherService) {
-        VoucherType voucherType = VoucherType.valueOf(receiver.enterVoucherType().toUpperCase());
+        try {
+            VoucherType voucherType = VoucherType.valueOf(receiver.enterVoucherType().toUpperCase());
+            long discount = receiver.enterDiscountAmount();
 
-        long discount = receiver.enterDiscountAmount();
-
-        Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), voucherType, discount);
-        vouchers.add(voucher);
+            Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), voucherType, discount);
+            vouchers.add(voucher);
+        } catch (InvalidDiscountException e) {
+            printer.printInvalidDiscount(e.getMessage());   // 할인률이 100% 초과일 경우
+        } catch (IllegalArgumentException e) {
+            printer.printInvalidVoucherType(e.getMessage());    // 잘못된 voucher type을 입력했을 경우
+        }
     }
 }
