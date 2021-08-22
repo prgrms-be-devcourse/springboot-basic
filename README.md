@@ -39,14 +39,14 @@ ___
 ### 구현 사항
 
 - [x] ComponentScan을 통해 bean 등록한다.
-- [ ] file로 관리되는 Repository를 만든다.
-  - [ ] ApplicationContext 전후처리로 바우처 저장
+- [x] file로 관리되는 Repository를 만든다.
+  - ApplicationContext 전후처리로 바우처 저장
 
 ### 리팩토링
 
 - [x] voucher 저장소 controller -> repository
 - [ ] voucher 사용 후 -> 사용 전으로 되게 수정 (VoucherService, Voucher)
-- [ ] try with resource로 구현해보기
+- [x] try with resource로 구현해보기
 
 ---
 

@@ -46,6 +46,8 @@ public class VoucherController {
 
             printer.printInvalidCommandMessage();
         }
+
+        context.close();
     }
 
     private void createVoucher(VoucherService voucherService) {
