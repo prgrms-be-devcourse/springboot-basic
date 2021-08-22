@@ -7,6 +7,7 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -20,7 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
-@Qualifier("csv")
+@Profile("prod")
+//@Qualifier("csv")
 public class CsvVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();

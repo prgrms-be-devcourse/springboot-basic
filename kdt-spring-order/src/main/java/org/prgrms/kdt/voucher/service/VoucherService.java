@@ -20,7 +20,7 @@ public class VoucherService {
     // Repository는 Service에서 사용, 관리함
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(@Qualifier("csv") VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
