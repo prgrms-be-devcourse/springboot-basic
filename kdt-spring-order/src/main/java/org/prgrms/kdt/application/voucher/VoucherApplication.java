@@ -2,7 +2,11 @@ package org.prgrms.kdt.application.voucher;
 
 import org.prgrms.kdt.application.voucher.io.Input;
 import org.prgrms.kdt.application.voucher.io.Output;
+import org.prgrms.kdt.domain.voucher.domain.Voucher;
 import org.prgrms.kdt.domain.voucher.service.VoucherService;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class VoucherApplication implements Runnable{
     private VoucherService voucherService;
@@ -47,7 +51,9 @@ public class VoucherApplication implements Runnable{
     }
 
     private void listCommand() {
-        // 바우처 목록 출력 (없을 경우는?)
-        System.out.println("목록");
+        Map<UUID, Voucher> voucherMap = voucherService.getAllVoucher();
+        if(voucherMap.isEmpty())
+            output.printNoneVoucherList();
+        output.printVoucherList(voucherMap.values());
     }
 }

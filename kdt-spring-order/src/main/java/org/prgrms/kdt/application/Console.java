@@ -1,9 +1,11 @@
 package org.prgrms.kdt.application;
 
-import org.prgrms.kdt.application.voucher.command.CommandType;
 import org.prgrms.kdt.application.voucher.io.Input;
 import org.prgrms.kdt.application.voucher.io.Output;
+import org.prgrms.kdt.application.voucher.type.CommandType;
+import org.prgrms.kdt.domain.voucher.domain.Voucher;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 public class Console implements Input, Output {
@@ -34,11 +36,21 @@ public class Console implements Input, Output {
 
     @Override
     public void printInputCommandError() {
-        System.out.println("잘못된 입력입니다! 다시 입력해주세요~");
+        System.out.println("*** 잘못된 입력입니다 ***");
     }
 
     @Override
     public void printExit() {
         System.out.println("\n======== 프로그램 종료 ========");
+    }
+
+    @Override
+    public void printVoucherList(Collection<Voucher> vouchers) {
+        vouchers.forEach(System.out::println);
+    }
+
+    @Override
+    public void printNoneVoucherList() {
+        System.out.println("*** 바우처가 없습니다 ***");
     }
 }
