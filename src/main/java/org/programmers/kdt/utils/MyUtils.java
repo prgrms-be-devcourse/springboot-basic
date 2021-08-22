@@ -5,16 +5,8 @@ public class MyUtils {
         try {
             Long.parseLong(str);
             return true;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return false;
         }
-    }
-
-    public static boolean isBetweenZeroAndHundred(String str) {
-        int percentage = Integer.parseInt(str);
-        if (percentage < 0 || percentage > 100) {
-            return false;
-        }
-        return true;
     }
 }

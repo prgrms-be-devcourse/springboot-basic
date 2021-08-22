@@ -17,11 +17,7 @@ public class OrderItem {
         return productId;
     }
 
-    public long getProductPrice() {
-        return productPrice;
-    }
-
-    public long getQuantity() {
-        return quantity;
+    public long calcTotalPrice() {
+        return productPrice * quantity;
     }
 }
