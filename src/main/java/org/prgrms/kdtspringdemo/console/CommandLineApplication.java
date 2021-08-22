@@ -1,14 +1,10 @@
 package org.prgrms.kdtspringdemo.console;
 
-import org.prgrms.kdtspringdemo.voucher.VoucherUtils;
-
 import java.text.MessageFormat;
 import java.util.Scanner;
 
 public class CommandLineApplication {
     public static void main(String[] args) {
-        var voucherUtils = new VoucherUtils();
-
         String startMessage = "=== Voucher Program ===";
         String helpMessage = """
                 Type exit to exit the program.
@@ -28,6 +24,7 @@ public class CommandLineApplication {
         Scanner scanner = new Scanner(System.in);
         String command = "";
 
+        var commandUtils = new CommandOperator();
         while (true) {
             String commandLine = scanner.nextLine();
             String[] splitList = commandLine.split(" ");
@@ -35,9 +32,9 @@ public class CommandLineApplication {
             if (command.equals("create")) {
                 System.out.println(createInfoMessage);
                 String[] createCommand = scanner.nextLine().split(" ");
-                voucherUtils.createVoucher(createCommand);
+                commandUtils.createVoucher(createCommand);
             } else if (command.equals("list")) {
-                voucherUtils.printAll();
+                commandUtils.printAll();
             } else if (command.equals("exit")) {
                 break;
             } else {

@@ -1,15 +1,17 @@
-package org.prgrms.kdtspringdemo.voucher;
+package org.prgrms.kdtspringdemo.console;
 
 import org.prgrms.kdtspringdemo.AppConfiguration;
+import org.prgrms.kdtspringdemo.voucher.Voucher;
+import org.prgrms.kdtspringdemo.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.UUID;
 
-public class VoucherUtils {
+public class CommandOperator {
     private final VoucherService voucherService;
-    public VoucherUtils() {
+    public CommandOperator() {
         var application = new AnnotationConfigApplicationContext(AppConfiguration.class);
         voucherService = application.getBean(VoucherService.class);
     }
