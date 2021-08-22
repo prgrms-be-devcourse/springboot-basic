@@ -1,11 +1,13 @@
 package org.prgrms.kdt.Voucher;
 
 import org.prgrms.kdt.AppConfiguration;
+import org.prgrms.kdt.Customers.CustomersService;
 import org.prgrms.kdt.Voucher.TypeStatus;
 import org.prgrms.kdt.Voucher.VoucherRequest;
 import org.prgrms.kdt.Voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.text.MessageFormat;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -17,6 +19,7 @@ public class VoucherApplication {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
         var voucherService = applicationContext.getBean(VoucherService.class);
+        var customersService=applicationContext.getBean(CustomersService.class);
 
 
 
@@ -48,7 +51,11 @@ public class VoucherApplication {
                 }
                 case "list" -> {
                     System.out.println("바우처 목록");
-                    voucherService.findAll().forEach(voucher -> System.out.println(voucher.getVoucherId() + "," + voucher.getVoucherdiscount() + "," + voucher.getType()));
+                    voucherService.findAll().forEach(voucher -> System.out.println(MessageFormat.format("{0},{1},{2}",voucher.getVoucherId(),voucher.getType(),voucher.getVoucherdiscount())));
+                }
+                case  "blacklist"->{
+                    System.out.println("블랙리스트");
+                    customersService.findAll().forEach(customers -> System.out.println(MessageFormat.format("{0},{1},{2}",customers.getNum(),customers.getId(),customers.getName())));
                 }
                 case "exit" -> System.out.println("종료되었습니다");
                 default -> System.out.println("다시 입력해 주세요");
