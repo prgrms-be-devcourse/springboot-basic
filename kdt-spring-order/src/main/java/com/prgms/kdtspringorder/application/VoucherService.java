@@ -41,7 +41,7 @@ public class VoucherService {
         voucherRepository
             .findById(voucherId)
             .ifPresentOrElse(Voucher::useVoucher,
-                () -> System.out.println("Can not find a voucher for " + voucherId));
+                () -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
     public Map<UUID, Voucher> findAll() {

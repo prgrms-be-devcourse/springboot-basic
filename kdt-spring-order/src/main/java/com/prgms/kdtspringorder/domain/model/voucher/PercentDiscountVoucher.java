@@ -23,10 +23,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public void useVoucher() {
-        if (isUsed) {
-            throw new RuntimeException("이미 사용한 바우처입니다.");
-        }
-        isUsed = true;
+        isUsed = !isUsed;
     }
 
     @Override

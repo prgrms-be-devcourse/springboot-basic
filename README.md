@@ -45,7 +45,7 @@ ___
 ### 리팩토링
 
 - [x] voucher 저장소 controller -> repository
-- [ ] voucher 사용 후 -> 사용 전으로 되게 수정 (VoucherService, Voucher)
+- [x] voucher 사용 후 -> 사용 전으로 되게 수정 (VoucherService, Voucher)
 - [x] try with resource로 구현해보기
 
 ---
