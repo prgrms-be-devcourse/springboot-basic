@@ -1,9 +1,11 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.voucher;
 
-import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.Factory.VoucherFactory;
+import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.domain.voucher.VoucherType;
-import org.prgrms.kdt.io.FileIo;
+import org.prgrms.kdt.io.file.IO;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -12,14 +14,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Profile("default")
 @Repository
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
 
     private static final String SEPARATOR = " ";
-    private final FileIo fileIo;
+    private final IO io;
 
-    public FileVoucherRepository(FileIo fileIo) {
-        this.fileIo = fileIo;
+    public FileVoucherRepository(@Qualifier("txtFileIo") IO io) {
+        this.io = io;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class FileVoucherRepository implements VoucherRepository{
         Voucher voucher = null;
         try {
             String line;
-            while((line = fileIo.readLine()) != null) {
+            while((line = io.readLine()) != null) {
                 voucher = createVoucher(line);
 
                 if (voucherId.equals(voucher.getVoucherId())) {
@@ -38,7 +41,7 @@ public class FileVoucherRepository implements VoucherRepository{
             e.printStackTrace();
         }
 
-        fileIo.reset();
+        io.reset();
         return Optional.ofNullable(voucher);
     }
 
@@ -47,14 +50,14 @@ public class FileVoucherRepository implements VoucherRepository{
         List<Voucher> list = new ArrayList<>();
         try {
             String line;
-            while ((line = fileIo.readLine()) != null) {
+            while ((line = io.readLine()) != null) {
                 Voucher voucher = createVoucher(line);
                 list.add(voucher);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fileIo.reset();
+        io.reset();
         return list;
     }
 
@@ -69,7 +72,7 @@ public class FileVoucherRepository implements VoucherRepository{
     @Override
     public Voucher insert(Voucher voucher) {
         try {
-            fileIo.writeLine(voucher.toString()+"\n");
+            io.writeLine(voucher.toString()+"\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

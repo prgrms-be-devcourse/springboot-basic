@@ -23,6 +23,9 @@ public enum VoucherType {
                 .get();
 
     }
+    public static int totalTypes() {
+        return values().length;
+    }
 
     private static Predicate<VoucherType> isSameValue(int type) {
         return v -> v.getValue() == type;

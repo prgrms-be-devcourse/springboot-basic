@@ -1,12 +1,16 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MemoryVoucherRepository implements VoucherRepository{
+@Profile("dev")
+@Repository
+public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
 

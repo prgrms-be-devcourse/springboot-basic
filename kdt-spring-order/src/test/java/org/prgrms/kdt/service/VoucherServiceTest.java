@@ -4,11 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.domain.voucher.VoucherType;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
+import org.prgrms.kdt.repository.voucher.MemoryVoucherRepository;
 import org.prgrms.kdt.service.dto.RequestCreatVoucherDto;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
 
 class VoucherServiceTest {
 
