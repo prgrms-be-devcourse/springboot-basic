@@ -16,7 +16,13 @@ public class VoucherApplication {
     public static void main(String[] args) {
 
         //자바 기반의 메타데이터 설정은 어노테이션
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+        var environment=applicationContext.getEnvironment();
+        environment.setActiveProfiles("dev");
+        //BeanFactory 의 초기화가 이 부분에서 진행되고, Bean 이 등록되는 과정 등이 포함되어 있다.
+        //내가 이해한 바로는 프로파일을 설정해준후 빈을 등록하는 과정이 필요해서 사용하는 것 같다.
+        applicationContext.refresh();
 
         var voucherService = applicationContext.getBean(VoucherService.class);
         var customersService=applicationContext.getBean(CustomersService.class);
@@ -50,9 +56,11 @@ public class VoucherApplication {
                     System.out.println("바우처 저장이 완료 되었습니다");
                 }
                 case "list" -> {
-                    System.out.println("바우처 목록");
-                    voucherService.findAll().forEach(voucher -> System.out.println(MessageFormat.format("{0},{1},{2}",voucher.getVoucherId(),voucher.getType(),voucher.getVoucherdiscount())));
-                }
+                    if(voucherService.findAll().isEmpty()) System.out.println("저장된 바우처가 없습니다.");
+                    else {
+                        System.out.println("바우처 목록");
+                        voucherService.findAll().forEach(voucher -> System.out.println(MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getType(), voucher.getVoucherdiscount())));
+                    }}
                 case  "blacklist"->{
 
                     //질문
