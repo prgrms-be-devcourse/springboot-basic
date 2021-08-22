@@ -14,3 +14,6 @@ kdt:
     line 1 hello world
     line 2 xxxxx
     line 3
+
+spring:
+  profiles.active: dev

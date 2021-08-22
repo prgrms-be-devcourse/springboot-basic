@@ -6,7 +6,7 @@ import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.order.OrderProperties;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
