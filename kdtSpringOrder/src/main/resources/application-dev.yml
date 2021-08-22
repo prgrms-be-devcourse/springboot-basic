@@ -2,4 +2,4 @@ data:
   storage:
     name: memoryVoucherRepository
   description: |-
-    profile : default
+    profile : dev

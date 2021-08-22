@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("local")
+@Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository, InitializingBean {
 
     @Value("${data.storage.name}")
@@ -32,12 +32,12 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
 
     @Override
     public List<Voucher> findAll() {
-        System.out.println(MessageFormat.format("[Profile local is set.] repositoryName is {0}", repositoryName));
+        System.out.println(MessageFormat.format("[Profile dev is set.] repositoryName is {0}", repositoryName));
         return new ArrayList<>(storage.values());
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println(MessageFormat.format("[Profile local is set.] repositoryName is {0}", repositoryName));
+        System.out.println(MessageFormat.format("[Profile dev is set.] repositoryName is {0}", repositoryName));
     }
 }
