@@ -17,9 +17,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final String PATH = "voucher-list.csv";
     private final File file = new File(PATH);
 
-    private Map<UUID, Voucher> existingVoucherMap = new ConcurrentHashMap<>();
-    private Map<UUID, Voucher> newCreatedVoucherMap = new ConcurrentHashMap<>();
-
+    private Map<UUID, Voucher> voucherLoadingMap = new ConcurrentHashMap<>();
 
     @PostConstruct
     public void postConstruct() throws IOException {
@@ -38,7 +36,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
             var newVoucher = Voucher.voucherFactory(voucherType, size, voucherId);
             if(newVoucher.isPresent())
-                existingVoucherMap.put(voucherId, newVoucher.get());
+                voucherLoadingMap.put(voucherId, newVoucher.get());
         }
         br.close();
 
@@ -49,8 +47,8 @@ public class FileVoucherRepository implements VoucherRepository {
     public void preDestroy() throws IOException {
         var bw = new BufferedWriter(new FileWriter(file));
 
-        for(var newVoucher : newCreatedVoucherMap.values()){
-            bw.write(newVoucher.toString());
+        for(var voucher : voucherLoadingMap.values()){
+            bw.write(voucher.toString());
             bw.newLine();
         }
         bw.flush();
@@ -69,14 +67,13 @@ public class FileVoucherRepository implements VoucherRepository {
         if(voucher == null)
                 return false;
 
-        newCreatedVoucherMap.put(voucher.getVoucherId(), voucher);
+        voucherLoadingMap.put(voucher.getVoucherId(), voucher);
         return true;
     }
 
     @Override
     public List<Voucher> getAllVouchers() {
-        var voucherList = new ArrayList<>(existingVoucherMap.values());
-        voucherList.addAll(newCreatedVoucherMap.values());
+        var voucherList = new ArrayList<>(voucherLoadingMap.values());
 
         return voucherList;
     }
