@@ -1,10 +1,10 @@
 package org.prgrms.orderapp;
 
+import org.prgrms.orderapp.model.OrderItem;
 import org.prgrms.orderapp.service.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
-import java.sql.Array;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.UUID;

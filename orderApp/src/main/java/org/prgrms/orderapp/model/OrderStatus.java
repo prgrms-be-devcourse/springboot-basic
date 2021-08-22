@@ -1,4 +1,4 @@
-package org.prgrms.orderapp;
+package org.prgrms.orderapp.model;
 
 public enum OrderStatus {
     ACCEPTED,
@@ -8,5 +8,5 @@ public enum OrderStatus {
     READY_FOR_DELIVERY,
     SHIPPED,
     SETTLED,
-    CANCELLED
+    CANCELLED;
 }

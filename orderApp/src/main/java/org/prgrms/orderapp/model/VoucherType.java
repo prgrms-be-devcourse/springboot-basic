@@ -1,4 +1,4 @@
-package org.prgrms.orderapp;
+package org.prgrms.orderapp.model;
 
 public enum VoucherType {
     FIXED,

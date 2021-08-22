@@ -1,7 +1,6 @@
 package org.prgrms.orderapp.repository;
 
-import org.prgrms.orderapp.Order;
-import org.prgrms.orderapp.Voucher;
+import org.prgrms.orderapp.model.Voucher;
 
 import java.util.List;
 import java.util.Optional;
