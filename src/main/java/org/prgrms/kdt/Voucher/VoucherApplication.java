@@ -54,8 +54,13 @@ public class VoucherApplication {
                     voucherService.findAll().forEach(voucher -> System.out.println(MessageFormat.format("{0},{1},{2}",voucher.getVoucherId(),voucher.getType(),voucher.getVoucherdiscount())));
                 }
                 case  "blacklist"->{
-                    System.out.println("블랙리스트");
-                    customersService.findAll().forEach(customers -> System.out.println(MessageFormat.format("{0},{1},{2}",customers.getNum(),customers.getId(),customers.getName())));
+
+                    //질문
+                    if ( customersService.findAll().isEmpty()) System.out.println("블랙리스트가 없습니다");
+                    else{
+                        System.out.println("블랙리스트 목록");
+                        customersService.findAll().forEach(customers -> System.out.println(MessageFormat.format("{0}.{1} {2}",customers.getNum(),customers.getId(),customers.getName())));
+                    }
                 }
                 case "exit" -> System.out.println("종료되었습니다");
                 default -> System.out.println("다시 입력해 주세요");
