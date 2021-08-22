@@ -1,8 +1,6 @@
 package org.programmers;
 
-import org.programmers.order.OrderService;
-import org.programmers.voucher.VoucherRepository;
-import org.programmers.voucher.VoucherService;
+import org.programmers.voucher.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
@@ -13,6 +11,8 @@ public class CommandLineApplication {
         var voucherService = applicationContext.getBean(VoucherService.class);
 
         Console console = new Console();
+
+        var voucherFactory = new VoucherFactory();
 
         while (true) {
             console.printPrompt();
@@ -27,13 +27,13 @@ public class CommandLineApplication {
 
                     long amount = Long.parseLong(console.input("> "));
 
-                    voucherService.createFixedAmountVoucher(amount);
+                    voucherService.createVoucher("FixedAmountVoucher", amount);
                 } else if (voucherType.equals("p")) {
                     console.askPercentage();
 
                     long percentage = Long.parseLong(console.input("> "));
 
-                    voucherService.createPercentDiscountVoucher(percentage);
+                    voucherService.createVoucher("PercentDiscountVoucher", percentage);
                 }
             } else if (inputString.equals("list")) {
                System.out.println(voucherService.getAllVouchers().toString());

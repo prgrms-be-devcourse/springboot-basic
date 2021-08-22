@@ -11,19 +11,15 @@ import java.util.UUID;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final VoucherFactory voucherFactory;
 
-    public VoucherService(@Qualifier("fileVoucherRepository") VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("fileVoucherRepository") VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;
+        this.voucherFactory = voucherFactory;
     }
 
-    public Voucher createFixedAmountVoucher(long amount) {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
-        voucherRepository.insert(voucher);
-        return voucher;
-    }
-
-    public Voucher createPercentDiscountVoucher(long percent) {
-        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+    public Voucher createVoucher(String voucherType, long value) {
+        Voucher voucher = voucherFactory.getVoucherType(voucherType, UUID.randomUUID(), value);
         voucherRepository.insert(voucher);
         return voucher;
     }
