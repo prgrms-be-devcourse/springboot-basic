@@ -1,8 +1,10 @@
 package com.prgms.kdtspringorder.application;
 
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.prgms.kdtspringorder.domain.model.voucher.FixedAmountVoucher;
@@ -15,18 +17,21 @@ import com.prgms.kdtspringorder.domain.model.voucher.VoucherType;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("file") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(UUID voucherID, VoucherType type, long discount) {
+    public Voucher create(UUID voucherID, VoucherType type, long discount) {
+        Voucher voucher = null;
         if (type == VoucherType.FIXED) {
-            return new FixedAmountVoucher(voucherID, discount);
+            voucher = new FixedAmountVoucher(voucherID, discount);
+        } else if (type == VoucherType.PERCENT) {
+            voucher = new PercentDiscountVoucher(voucherID, discount);
         }
-        return new PercentDiscountVoucher(voucherID, discount);
+        return voucherRepository.save(voucher);
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher findById(UUID voucherId) {
         return voucherRepository
             .findById(voucherId)
             .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
@@ -37,5 +42,9 @@ public class VoucherService {
             .findById(voucherId)
             .ifPresentOrElse(Voucher::useVoucher,
                 () -> System.out.println("Can not find a voucher for " + voucherId));
+    }
+
+    public Map<UUID, Voucher> findAll() {
+        return voucherRepository.findAll();
     }
 }

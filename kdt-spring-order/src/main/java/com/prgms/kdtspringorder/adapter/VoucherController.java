@@ -1,7 +1,5 @@
 package com.prgms.kdtspringorder.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -22,7 +20,6 @@ public class VoucherController {
     private final Printer printer = new Printer();
 
     public void manageVouchers() {
-        List<Voucher> vouchers = new ArrayList<>();
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         VoucherService voucherService = context.getBean(VoucherService.class);
 
@@ -35,11 +32,11 @@ public class VoucherController {
                 break;
             }
             if (command.equals(Command.CREATE.name())) {
-                createVoucher(vouchers, voucherService);
+                createVoucher(voucherService);
                 continue;
             }
             if (command.equals(Command.LIST.name())) {
-                printer.listVouchers(vouchers);
+                listVouchers(voucherService);
                 continue;
             }
             if (command.equals(Command.HELP.name())) {
@@ -51,17 +48,20 @@ public class VoucherController {
         }
     }
 
-    private void createVoucher(List<Voucher> vouchers, VoucherService voucherService) {
+    private void createVoucher(VoucherService voucherService) {
         try {
             VoucherType voucherType = VoucherType.valueOf(receiver.enterVoucherType().toUpperCase());
             long discount = receiver.enterDiscountAmount();
 
-            Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), voucherType, discount);
-            vouchers.add(voucher);
+            Voucher voucher = voucherService.create(UUID.randomUUID(), voucherType, discount);
         } catch (InvalidDiscountException e) {
             printer.printInvalidDiscount(e.getMessage());   // 할인률이 100% 초과일 경우
         } catch (IllegalArgumentException e) {
             printer.printInvalidVoucherType(e.getMessage());    // 잘못된 voucher type을 입력했을 경우
         }
+    }
+
+    private void listVouchers(VoucherService voucherService) {
+        printer.printVoucherList(voucherService.findAll());
     }
 }
