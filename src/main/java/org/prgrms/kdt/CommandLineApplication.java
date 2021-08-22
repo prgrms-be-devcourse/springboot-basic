@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class CommandLineApplication {
+    static final String filePath = "./voucher.csv";
+
     public static void main(String[] args) {
 
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         var voucherService = applicationContext.getBean(VoucherService.class);
 
         Console console = new Console();
-
-        String filePath = "./voucher.csv";
 
         new VoucherProgram(voucherService, console, console, filePath).run();
     }
