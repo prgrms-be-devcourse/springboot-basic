@@ -32,8 +32,4 @@ public class VoucherService {
     public List<Voucher> getAllVouchers(){
         return voucherRepository.getAllVouchers();
     }
-
-    public void useVoucher(Voucher voucher) {
-        // TODO:
-    }
 }

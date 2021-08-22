@@ -27,7 +27,7 @@ public class OrderService { // 바우처 서비스와 오더에 대한 레포지
         var voucher = voucherService.getVoucher(voucherId);
         var order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
         orderRepository.insert(order);
-        voucherService.useVoucher(voucher);
+        //voucherService.useVoucher(voucher);
         return order;
     }
 }
