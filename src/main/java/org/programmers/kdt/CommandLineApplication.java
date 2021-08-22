@@ -2,19 +2,22 @@ package org.programmers.kdt;
 
 import org.programmers.kdt.io.Input;
 import org.programmers.kdt.io.Output;
+import org.programmers.kdt.usercommand.UserCommand;
 import org.programmers.kdt.utils.MyUtils;
 import org.programmers.kdt.voucher.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
 import java.util.UUID;
 
 public class CommandLineApplication implements Runnable {
-    private Input input;
-    private Output output;
+    private final Input input;
+    private final Output output;
 
     private final String welcomeMessage
             = "\n=== Voucher Program ===\nType create to create a voucher.\nType list to list all vouchers.\nType exit to exit the program.";
-    VoucherFactory voucherFactory;
+    private final String voucherTypeRequestMessage
+            = "Choose your voucher type(FixedAmountVoucher = fixed, PercentDiscountVoucher = percent)";
 
     public CommandLineApplication(Input input, Output output) {
         this.input = input;
@@ -26,46 +29,42 @@ public class CommandLineApplication implements Runnable {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
 
+        boolean termi = false;
         do {
-            String command = input.input(this.welcomeMessage);
-            // TODO: "create", "list" 처럼 문자열을 직접 사용하지 않고, 상수 또는 ENUM 등을 사용하는 방식으로 바꿔보기
-            if ("create".equalsIgnoreCase(command)) {
-                // CREATE voucher
-                command = input.input("Choose your voucher type(FixedAmountVoucher = fixed, PercentDiscountVoucher = percent)");
-
-                if ("fixed".equalsIgnoreCase(command)) {
-                    // Q1. Factory 구상체 지정을 이렇게 해 주는게 과연 맞는가?
-                    voucherService.setVoucherRepository(new FixedAmountVoucherFactory());
-                } else if ("percent".equalsIgnoreCase(command)) {
-                    // Q1. Factory 구상체 지정을 이렇게 해 주는게 과연 맞는가?
-                    voucherService.setVoucherRepository(new PercentDiscountVoucherFactory());
-                } else {
-                    output.inputError("Invalid Input. You can create [fixed/percent] discount voucher");
-                    continue;
-                }
-
-                command = input.input("How much of a discount do you want to give?");
-                while (!MyUtils.isDigits(command)) {
-                    output.inputError("Invalid Input. Only digits are allowed");
-                    command = input.input("How much of a discount do you want to give?");
-                }
-
-                Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), Long.parseLong(command));
-                output.printSuccessAddVoucher(voucher);
-
-            } else if (command.equalsIgnoreCase("list")) {
-                // LIST vouchers
-                output.printAllVouchersInfo(voucherService.getAllVoucher());
-
-            } else if (command.equalsIgnoreCase("exit")) {
-                // EXIT program
-                output.sayGoodBye();
-                break;
-
-            } else {
-                // It is currently invalid input
-                output.inputError("Invalid Input.");
+            UserCommand command;
+            try {
+                command = UserCommand.of(input.input(this.welcomeMessage));
+            } catch (RuntimeException e) {
+                output.inputError("Invalid Command. Valid Command : " + List.of(UserCommand.values()));
+                continue;
             }
-        } while (true);
+            // String command = input.input(this.welcomeMessage);
+            // TODO: "create", "list" 처럼 문자열을 직접 사용하지 않고, 상수 또는 ENUM 등을 사용하는 방식으로 바꿔보기
+            switch (command) {
+                case CREATE -> {
+                    VoucherType voucherType;
+                    try {
+                        voucherType = VoucherType.of(input.input(voucherTypeRequestMessage));
+                    } catch (RuntimeException e) {
+                        output.inputError("Invalid Input. You can create " + List.of(VoucherType.values()) + " discount voucher");
+                        continue;
+                    }
+
+                    String discount = input.input("How much of a discount do you want to give?");
+                    while (!MyUtils.isDigits(discount)) {
+                        output.inputError("Invalid Input. Only digits are allowed");
+                        discount = input.input("How much of a discount do you want to give?");
+                    }
+
+                    Voucher voucher = voucherService.createVoucher(voucherType, UUID.randomUUID(), Long.parseLong(discount));
+                    output.printSuccessAddVoucher(voucher);
+                }
+                case LIST -> output.printAllVouchersInfo(voucherService.getAllVoucher());
+                case EXIT -> {
+                    output.sayGoodBye();
+                    termi = true;
+                }
+            }
+        } while (!termi);
     }
 }

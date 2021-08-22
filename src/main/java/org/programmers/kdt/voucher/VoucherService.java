@@ -27,20 +27,22 @@ public class VoucherService {
     }
 
     public void useVoucher(Voucher voucher) {
+        // TODO: TO BE IMPLEMENTED...
     }
 
     public void addVoucher(Voucher voucher) {
         this.voucherRepository.save(voucher);
     }
 
-    public Voucher createVoucher(UUID voucherId, long discount) {
+    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount) {
+        // TODO: 팩토리 구상체 설정을 해 주는 가장 적절한 방법 생각 해 보기
+        switch (voucherType) {
+            case FIXED -> voucherFactory = new FixedAmountVoucherFactory();
+            case PERCENT -> voucherFactory = new PercentDiscountVoucherFactory();
+        }
         Voucher voucher = this.voucherFactory.createVoucher(voucherId, discount);
         this.addVoucher(voucher);
         return voucher;
-    }
-
-    public void setVoucherRepository(VoucherFactory voucherFactory) {
-        this.voucherFactory = voucherFactory;
     }
 
     public List<Voucher> getAllVoucher() {
