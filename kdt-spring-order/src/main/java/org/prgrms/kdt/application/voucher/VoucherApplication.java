@@ -17,6 +17,7 @@ public class VoucherApplication implements Runnable{
 
     @Override
     public void run() {
+        output.printProgramName();
         while(true) {
             output.printCommandList();
             switch (input.inputCommand()) {
@@ -33,6 +34,7 @@ public class VoucherApplication implements Runnable{
 
     private void exitCommand() {
         // 프로그램 종료 메시지 출력
+        System.out.println("종료");
     }
 
     private void createCommand() {
@@ -42,9 +44,11 @@ public class VoucherApplication implements Runnable{
         // 바우처 금액 or 퍼센트 입력 안내 메시지
         // 바우처 금액 or 퍼센트 입력 검증
         // 바우처 생성 결과 출력
+        System.out.println("생성");
     }
 
     private void listCommand() {
         // 바우처 목록 출력 (없을 경우는?)
+        System.out.println("목록");
     }
 }
