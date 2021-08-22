@@ -31,7 +31,6 @@
 - [x] Command 종류를 enum으로 변환
 - [x] input validation 처리(VoucherController)
 - [ ] voucher type 입력에 전략 패턴 적용
-- [ ] try with resource로 구현해보기
 
 ___
 
@@ -41,16 +40,20 @@ ___
 
 - [ ] ComponentScan을 통해 bean 등록한다.
 - [ ] file로 관리되는 Repository를 만든다.
-    - ApplicationContext 전후처리로 바우처 저장
-
-### 예외 처리
-
-- [ ] 
+  - [ ] ApplicationContext 전후처리로 바우처 저장
 
 ### 리팩토링
 
-- [ ] 
+- [ ] voucher 사용 후 -> 사용 전으로 되게 수정 (VoucherService, Voucher)
+- [ ] try with resource로 구현해보기
 
 ---
 
-## 3️⃣ D4 
+## 3️⃣ D4 - 고객 블랙 리스트 명단 작성
+
+### 구현 사항
+
+- [ ] customer_blacklist.csv를 만든다.
+  - read만
+- [ ] YAML 프로퍼티 생성, 설정해본다.
+- [ ] MemoryVoucherRepository를 개발 프로파일에서만 동작하게 한다.
