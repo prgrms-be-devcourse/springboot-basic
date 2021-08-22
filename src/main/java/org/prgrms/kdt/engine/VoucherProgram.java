@@ -52,6 +52,7 @@ public class VoucherProgram implements Runnable {
                 );
 
                 if (discount > 0) {
+                    // early return 참고
                     if (voucherType == 1) {
                         // FixedAmountVoucher
                         voucher = Optional.ofNullable(voucherService.createFixedAmountVoucher(discount));

@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher;
 import com.opencsv.exceptions.CsvValidationException;
 import org.prgrms.kdt.engine.OpenCsv;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Qualifier("csv")
+@Primary
 public class CsvVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     OpenCsv csvWriter = new OpenCsv();

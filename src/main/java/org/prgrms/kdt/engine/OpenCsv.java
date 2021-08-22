@@ -29,7 +29,7 @@ public class OpenCsv {
         csvWriter.writeNext(header);
         for (var entry: data.entrySet()) {
             csvWriter.writeNext(new String[]{
-                    entry.getValue().getType().name(),     // voucher type
+                    entry.getValue().getType().name(),              // voucher type
                     entry.getKey().toString(),                      // UUID
                     String.valueOf(entry.getValue().getDiscount())  // discount amount
             });

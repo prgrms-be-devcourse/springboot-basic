@@ -1,14 +1,10 @@
 package org.prgrms.kdt.voucher;
 
-import com.opencsv.exceptions.CsvValidationException;
-import org.prgrms.kdt.order.Order;
-import org.prgrms.kdt.order.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,10 +13,12 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
     private final CsvVoucherRepository csvVoucherRepository;
+    private final MemoryVoucherRepository memoryVoucherRepository;
 
-    public VoucherService(@Qualifier("csv") VoucherRepository voucherRepository, CsvVoucherRepository csvVoucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.csvVoucherRepository = csvVoucherRepository;
+        this.csvVoucherRepository = new CsvVoucherRepository();
+        this.memoryVoucherRepository = new MemoryVoucherRepository();
     }
 
     public Voucher getVoucher(UUID voucherId) {
