@@ -1,5 +1,6 @@
 package org.prgrms.kdt.Repository;
 
+import org.prgrms.kdt.Model.ManageFileVoucher;
 import org.prgrms.kdt.Model.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Repository
 @Qualifier("file")
 public class FileVoucherRepository implements VoucherRepository{
+    ManageFileVoucher file=new ManageFileVoucher();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -22,11 +24,12 @@ public class FileVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher save(Voucher voucher)  {
-       return null;
+        file.write(voucher);
+       return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        return file.ReadAll();
     }
 }

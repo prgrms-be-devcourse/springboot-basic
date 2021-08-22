@@ -6,6 +6,7 @@ import org.prgrms.kdt.Model.Voucher;
 import org.prgrms.kdt.Model.VoucherRequest;
 import org.prgrms.kdt.Repository.VoucherRepository;
 import org.prgrms.kdt.TypeStatus;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
 
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("file") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
