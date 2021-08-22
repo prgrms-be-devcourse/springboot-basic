@@ -1,5 +1,5 @@
 data:
   storage:
-    name: memoryVoucherRepository
+    name: fileVoucherRepository
   description: |-
     profile : default
