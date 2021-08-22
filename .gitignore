@@ -235,3 +235,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+voucher-list.csv

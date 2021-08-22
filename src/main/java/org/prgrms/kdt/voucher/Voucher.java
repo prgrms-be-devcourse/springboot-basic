@@ -26,4 +26,21 @@ public interface Voucher {
 
         return newVoucher;
     }
+
+    static Voucher voucherFactory(VoucherType voucherType, long size, UUID voucherId){
+        Voucher newVoucher = null;
+
+        switch(voucherType){
+            case FIXED_AMOUNT:
+                newVoucher = new FixedAmountVoucher(voucherId, size);
+                break;
+            case PERSENT_DISCOUNT:
+                newVoucher = new PercentDiscountVoucher(voucherId, size);
+                break;
+            default:
+                return null;
+        }
+
+        return newVoucher;
+    }
 }

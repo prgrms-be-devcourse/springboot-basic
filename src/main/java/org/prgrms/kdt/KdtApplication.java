@@ -24,6 +24,8 @@ public class KdtApplication {
         } catch (InvalidIOMessageException e) {
             System.err.println(e.getMessage());
         }
+
+        applicationContext.close(); //ApplicationContext을 반드시 소멸시켜야 @PreConstruct 등의 콜백이 호출됨
     }
 
 }

@@ -6,6 +6,7 @@ import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -37,14 +38,12 @@ public class CommandLineApplication {
                     continue;
                 }
                 outputStream.write("Voucher Creation Success\n\n");
-            }
-            else if (Commands.LIST.toString().equals(command)) {
+            } else if (Commands.LIST.toString().equals(command)) {
                 if (listAllVouchers() == false) {
                     outputStream.write("There are not any vouchers\n\n");
                     continue;
                 }
-            }
-            else if (Commands.EXIT.toString().equals(command))
+            } else if (Commands.EXIT.toString().equals(command))
                 break;
         }
     }
@@ -57,7 +56,7 @@ public class CommandLineApplication {
         }
 
         for (var voucher : vouchers) {
-            outputStream.write(voucher.toString());
+            outputStream.write(voucher.toString() + "\n");
         }
         outputStream.write("\n");
 
