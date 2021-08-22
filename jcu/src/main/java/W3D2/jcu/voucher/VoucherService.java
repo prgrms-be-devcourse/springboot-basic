@@ -1,5 +1,7 @@
 package W3D2.jcu.voucher;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.UUID;
@@ -29,6 +31,14 @@ public class VoucherService {
             sb.append("\n");
         }
         return sb;
+    }
+
+    public void loadStorage() throws IOException {
+        voucherRepository.readStorage();
+    }
+
+    public void saveStorage() throws FileNotFoundException {
+        voucherRepository.writeStorage();
     }
 
 }

@@ -14,16 +14,20 @@ public class CommandLineApplication {
 
     public CommandLineApplication(VoucherService voucherService) throws IOException {
         this.voucherService = voucherService;
+        voucherService.loadStorage();
         runApp();
     }
 
     private void runApp() throws IOException {
         String command;
-        while(true){
+        while(true) {
             printInitMessage();
             command = br.readLine();
 
-            if(command.equals("exit")) break;
+            if(command.equals("exit")) {
+                voucherService.saveStorage();
+                break;
+            }
             else if(command.equals("create")){
                 printCreateMessage();
                 command = br.readLine();
@@ -40,11 +44,12 @@ public class CommandLineApplication {
                 printErrorMessage();
             }
         }
-
+        br.close();
     }
 
     private void createVoucher(String command){
         if(command.equals("1")){
+            // enum 업데이트 전
             voucherService.insertVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10000L));
         } else {
             voucherService.insertVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10L));
