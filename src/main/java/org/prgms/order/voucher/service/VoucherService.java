@@ -1,12 +1,11 @@
 package org.prgms.order.voucher.service;
 
-import org.prgms.order.voucher.model.Voucher;
+import org.prgms.order.voucher.entity.Voucher;
 import org.prgms.order.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,5 +25,14 @@ public class VoucherService {
     }
 
     public void useVoucher(Voucher voucher) {
+    }
+
+
+    public Voucher insert(Voucher voucher) {
+        return voucherRepository.insert(voucher);
+    }
+
+    public List<Voucher> findAllVoucher() {
+        return voucherRepository.findAllVoucher();
     }
 }

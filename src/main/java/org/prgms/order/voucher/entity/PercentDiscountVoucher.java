@@ -1,4 +1,4 @@
-package org.prgms.order.voucher.model;
+package org.prgms.order.voucher.entity;
 
 import java.util.UUID;
 
@@ -22,8 +22,10 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String toString() {
+    public String getVoucherInfo() {
         return "PercentDiscountVoucher " +
-                ", Percent = " + percent+"%";
+                 ", Percent = " + percent+"%";
     }
+
+
 }

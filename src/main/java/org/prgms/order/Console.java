@@ -2,7 +2,7 @@ package org.prgms.order;
 
 import org.prgms.order.io.Input;
 import org.prgms.order.io.Output;
-import org.prgms.order.voucher.repository.VoucherRepository;
+import org.prgms.order.voucher.service.VoucherService;
 
 import java.util.Scanner;
 
@@ -31,9 +31,13 @@ import java.util.Scanner;
     }
 
     @Override
-    public void voucherList(VoucherRepository voucherRepository) {
+    public void voucherList(VoucherService voucherService) {
         System.out.println("\n=== Vouchers ===");
-        System.out.println(voucherRepository.toString());
+        System.out.println("         TYPE              AMOUNT");
+
+        voucherService.findAllVoucher().forEach((voucher) ->
+                System.out.println(voucher.getVoucherInfo())
+        );
     }
 
 

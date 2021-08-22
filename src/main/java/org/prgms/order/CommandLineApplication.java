@@ -2,10 +2,10 @@ package org.prgms.order;
 
 import org.prgms.order.io.Input;
 import org.prgms.order.io.Output;
-import org.prgms.order.voucher.model.FixedAmountVoucher;
-import org.prgms.order.voucher.model.PercentDiscountVoucher;
-import org.prgms.order.voucher.model.Voucher;
-import org.prgms.order.voucher.repository.VoucherRepository;
+import org.prgms.order.voucher.entity.FixedAmountVoucher;
+import org.prgms.order.voucher.entity.PercentDiscountVoucher;
+import org.prgms.order.voucher.entity.Voucher;
+import org.prgms.order.voucher.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.UUID;
@@ -15,20 +15,19 @@ public class CommandLineApplication implements Runnable{
     private Input input;
     private Output output;
 
-    private VoucherRepository voucherRepository;
+    private VoucherService voucherService;
     private Voucher voucher;
 
 
-    public CommandLineApplication(Console console, Console console1) {
-        input = console;
-        output = console;
+    public CommandLineApplication(Input input, Output output) {
+        this.input = input;
+        this.output = output;
     }
 
     @Override
     public void run() {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        voucherRepository = applicationContext.getBean(VoucherRepository.class);
-
+        voucherService = applicationContext.getBean(VoucherService.class);
 
         while(true){
             output.mainMenu();
@@ -36,7 +35,7 @@ public class CommandLineApplication implements Runnable{
 
             switch (inputString) {
                 case "create" -> createVoucher();
-                case "list" -> output.voucherList(voucherRepository);
+                case "list" -> printVoucherList();
                 case "exit" -> {
                     System.out.println("=== Exit Program ===\n");
                     return;
@@ -45,7 +44,11 @@ public class CommandLineApplication implements Runnable{
             }
         }
 
+    }
 
+
+    private void printVoucherList() {
+        output.voucherList(voucherService);
     }
 
     private void createVoucher() {
@@ -57,10 +60,10 @@ public class CommandLineApplication implements Runnable{
                 String inputAmount = input.input("insert discount amount :: ");
 
                 if(isDigit(inputAmount)) {
-                    voucher = voucherRepository.insert(
+                    voucher = voucherService.insert(
                             new FixedAmountVoucher(UUID.randomUUID(),
                             Long.parseLong(inputAmount)));
-                    System.out.println("SUCCESS >>> "+voucher.toString());
+                    System.out.println("SUCCESS >>> "+voucher.getVoucherInfo());
                 }else{
                     System.out.println("= Only numbers can be entered. PLEASE RETRY =");
                 }
@@ -72,8 +75,8 @@ public class CommandLineApplication implements Runnable{
                 if(isDigit(inputAmount)){
                     long percentAmount = Long.parseLong(inputAmount);
                     if(isPercent(percentAmount)){
-                        voucher = voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), percentAmount));
-                        System.out.println("SUCCESS >>> "+voucher.toString());
+                        voucher = voucherService.insert(new PercentDiscountVoucher(UUID.randomUUID(), percentAmount));
+                        System.out.println("SUCCESS >>> "+voucher.getVoucherInfo());
                     }else{
                         System.out.println("= Out of range. PLEASE RETRY =");
                     }
@@ -92,7 +95,7 @@ public class CommandLineApplication implements Runnable{
 
     private boolean isDigit(String input) {
         String pattern = "^[0-9]*$";
-        return Pattern.matches(pattern,input);
+        return Pattern.matches(pattern,input) && !input.isEmpty();
     }
 
 

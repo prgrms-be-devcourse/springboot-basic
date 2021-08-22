@@ -1,4 +1,4 @@
-package org.prgms.order.order.model;
+package org.prgms.order.order.entity;
 
 public enum OrderStatus {
     ACCEPTED,

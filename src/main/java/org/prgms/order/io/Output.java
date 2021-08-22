@@ -1,8 +1,6 @@
 package org.prgms.order.io;
 
-import org.prgms.order.voucher.repository.VoucherRepository;
-
-import java.util.Optional;
+import org.prgms.order.voucher.service.VoucherService;
 
 public interface Output {
 
@@ -10,6 +8,6 @@ public interface Output {
 
     void selectVoucher();
 
-    void voucherList(VoucherRepository voucherRepository);
+    void voucherList(VoucherService voucherService);
 
 }

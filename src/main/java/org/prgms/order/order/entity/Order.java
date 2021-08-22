@@ -1,6 +1,6 @@
-package org.prgms.order.order.model;
+package org.prgms.order.order.entity;
 
-import org.prgms.order.voucher.model.Voucher;
+import org.prgms.order.voucher.entity.Voucher;
 
 import java.util.List;
 import java.util.Optional;

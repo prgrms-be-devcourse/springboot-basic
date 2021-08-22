@@ -1,13 +1,10 @@
 package org.prgms.order.voucher.repository;
 
-import org.prgms.order.voucher.model.Voucher;
+import org.prgms.order.voucher.entity.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -26,15 +23,8 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public String toString() {
-        StringBuilder returnString = new StringBuilder( "         TYPE              AMOUNT\n");
-        Set<UUID> keySet = storage.keySet();
+    public List<Voucher> findAllVoucher() {
 
-        for(UUID uuid : keySet){
-            returnString.append(storage.get(uuid).toString()).append("\n");
-
-        }
-
-        return returnString.toString();
+        return new ArrayList<>(storage.values());
     }
 }

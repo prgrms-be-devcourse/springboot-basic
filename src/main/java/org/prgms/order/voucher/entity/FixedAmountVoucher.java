@@ -1,4 +1,4 @@
-package org.prgms.order.voucher.model;
+package org.prgms.order.voucher.entity;
 
 import java.util.UUID;
 
@@ -21,8 +21,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String toString() {
-        return "FixedAmountVoucher   " +
-                ",   Discount = " + amount;
+    public String getVoucherInfo() {
+        return "FixedAmountVoucher     " +
+                ", Discount = " + amount;
     }
 }
