@@ -3,7 +3,7 @@ package org.prgms.voucher;
 import java.text.MessageFormat;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements  Voucher{
+public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 

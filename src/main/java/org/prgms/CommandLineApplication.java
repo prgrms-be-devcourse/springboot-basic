@@ -1,9 +1,11 @@
 package org.prgms;
 
 
+import org.prgms.io.InputType;
 import org.prgms.io.Io;
 import org.prgms.voucher.Voucher;
 import org.prgms.voucher.VoucherService;
+import org.prgms.voucher.VoucherType;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
@@ -20,24 +22,24 @@ public class CommandLineApplication {
 
         io.help();
 
-        while(true){
+        while (true) {
 
-            String input = sc.next();
+            InputType input = InputType.valueOf(sc.next());
 
-            switch(input){
-                case "exit":
+            switch (input) {
+                case exit:
                     io.exit();
                     System.exit(0);
 
-                case "create":
+                case create:
                     io.create();
-                    String voucherType = sc.next();
+                    VoucherType voucherType = VoucherType.valueOf(sc.next());
                     System.out.println("Enter voucher amount : ");
                     int amount = sc.nextInt();
-                    voucherService.createVoucher(voucherType, UUID.randomUUID() , amount);
+                    voucherService.createVoucher(voucherType, UUID.randomUUID(), amount);
                     break;
 
-                case "list":
+                case list:
                     io.list();
                     List<Voucher> getVouchers = voucherService.getVouchers();
                     getVouchers.forEach(System.out::println);
