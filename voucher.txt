@@ -10,3 +10,4 @@ FixedAmountVoucher 401e0ecf-b704-4833-911c-26d1f2ecb354 2000
 PercentDiscountVoucher 9e554d4c-3213-428d-9115-e4931a7842c1 10
 FixedAmountVoucher 1c5e8f4f-4ffb-449f-bc96-71db7a15d930 2000
 FixedAmountVoucher 22c6d179-342f-4256-b36a-0acb1e8f2517 2000
+FixedAmountVoucher 4dec01f1-7fac-482a-a538-261633f07728 100

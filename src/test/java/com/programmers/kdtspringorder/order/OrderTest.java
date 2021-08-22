@@ -1,4 +1,4 @@
-package com.programmers.kdtspringorder;
+package com.programmers.kdtspringorder.order;
 
 import com.programmers.kdtspringorder.order.Order;
 import com.programmers.kdtspringorder.order.OrderItem;
