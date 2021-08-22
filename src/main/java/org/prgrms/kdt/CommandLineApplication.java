@@ -21,6 +21,8 @@ public class CommandLineApplication {
 
         Console console = new Console();
 
-        new VoucherProgram(voucherService, console, console).run();
+        String filePath = "./voucher.csv";
+
+        new VoucherProgram(voucherService, console, console, filePath).run();
     }
 }

@@ -13,9 +13,9 @@ public class Order {
     private Optional<Voucher> voucher;
     private OrderStatus orderStatus = OrderStatus.ACCEPTED;
 
-    public Order(UUID orderid, UUID customerid, List<OrderItem> orderItems) {
-        this.orderid = orderid;
-        this.customerid = customerid;
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems) {
+        this.orderid = orderId;
+        this.customerid = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.empty();
     }
@@ -35,5 +35,9 @@ public class Order {
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public UUID getOrderId() {
+        return orderid;
     }
 }
