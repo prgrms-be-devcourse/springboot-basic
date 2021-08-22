@@ -50,7 +50,6 @@ public class VoucherProgram implements Runnable {
                     logger.info("finished user command: 'list'");
                 }
                 case EXIT -> {
-
                     logger.info("starts user command: 'exit'");
                     console.printMessage("Exiting the program.");
                     logger.info("finished user command: 'exit'");
