@@ -3,23 +3,23 @@ package com.programmers.kdtspringorder.voucher.repository;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-class MemoryVoucherRepositoryTest {
+class FileVoucherRepositoryTest {
 
-    private final VoucherRepository voucherRepository = new MemoryVoucherRepository();
+    private final VoucherRepository voucherRepository;
 
-    @BeforeEach
-    public void beforeEach() {
-
+    FileVoucherRepositoryTest() throws IOException {
+        voucherRepository = new FileVoucherRepository();
     }
 
     @Test
@@ -40,7 +40,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("일치하는 id가 없으면 Optional.empty()가 돌아온다")
-    public void findByIdWihEmpty() throws Exception{
+    public void findByIdWihEmpty() throws Exception {
         // When
         Optional<Voucher> actual = voucherRepository.findById(UUID.randomUUID());
 
@@ -68,16 +68,6 @@ class MemoryVoucherRepositoryTest {
 
         //then
         assertThat(actual).contains(fixedAmountVoucher, fixedAmountVoucher1, percentDiscountVoucher);
-    }
-
-    @Test
-    @DisplayName("리스트에 아무것도 없으면 빈 리스트가 반환된다")
-    public void findAllWithEmpty() throws Exception{
-        // When
-        List<Voucher> actual = voucherRepository.findAll();
-
-        // Then
-        assertThat(actual).isEmpty();
     }
 
     @Test

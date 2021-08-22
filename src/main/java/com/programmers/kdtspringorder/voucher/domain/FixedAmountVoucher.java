@@ -39,4 +39,22 @@ public class FixedAmountVoucher implements Voucher {
         return "voucherId=" + voucherId +
                 ", discountAmount=" + amount;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FixedAmountVoucher that = (FixedAmountVoucher) o;
+
+        if (amount != that.amount) return false;
+        return voucherId.equals(that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = voucherId.hashCode();
+        result = 31 * result + (int) (amount ^ (amount >>> 32));
+        return result;
+    }
 }
