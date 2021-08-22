@@ -10,6 +10,7 @@ public class CommandLineApplication {
     public static void main(String[] args) {
         // app context에 bean 등록
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+
         VoucherController controller = new VoucherController(applicationContext.getBean(VoucherService.class));
         controller.run();
         applicationContext.close();

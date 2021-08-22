@@ -4,7 +4,12 @@ import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -19,10 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CsvVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-    // voucher 파일 저장 경로
-    private final String filePath = "C:/Users/NB1/Desktop/PROGRAM/GitWorkSpace/Programmers_Devcourse/w3-SpringBoot_Part_A/kdt-spring-order/";
-    private final String fileName = "voucher_list.csv";
-    File file = new File(filePath + fileName);
+    File file;
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -41,7 +43,10 @@ public class CsvVoucherRepository implements VoucherRepository{
 
     // Bean 생성시 파일 불러오기
     @PostConstruct
-    public void loadCsv() {
+    public void loadCsv() throws IOException {
+        // base 경로는 resources 디렉토리임
+        ClassPathResource resource = new ClassPathResource("csv/voucher_list.csv");
+        file = resource.getFile();
         try(BufferedReader br = new BufferedReader(new FileReader(file));){
             String row = "";
             br.readLine();
@@ -64,7 +69,7 @@ public class CsvVoucherRepository implements VoucherRepository{
 
     // Bean 파괴시 파일 저장
     @PreDestroy
-    public void saveCsv() {
+    public void saveCsv() throws IOException {
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(file));){
             // 컬럼명 먼저 써주고
             bw.write("ID,VALUE,TYPE");
