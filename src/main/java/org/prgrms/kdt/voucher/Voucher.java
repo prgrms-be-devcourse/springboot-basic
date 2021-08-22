@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface Voucher {
@@ -10,37 +11,23 @@ public interface Voucher {
     /**
      * voucherType에 맞는 Voucher 객체를 생성하는 팩토리 메소드.
      */
-    static Voucher voucherFactory(VoucherType voucherType, long size){
-        Voucher newVoucher = null;
+    static Optional<Voucher> voucherFactory(VoucherType voucherType, long size) {
+        Voucher newVoucher = switch (voucherType) {
+            case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), size);
+            case PERSENT_DISCOUNT -> new PercentDiscountVoucher(UUID.randomUUID(), size);
+            default -> null;
+        };
 
-        switch(voucherType){
-            case FIXED_AMOUNT:
-                newVoucher = new FixedAmountVoucher(UUID.randomUUID(), size);
-                break;
-            case PERSENT_DISCOUNT:
-                newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), size);
-                break;
-            default:
-                return null;
-        }
-
-        return newVoucher;
+        return Optional.of(newVoucher);
     }
 
-    static Voucher voucherFactory(VoucherType voucherType, long size, UUID voucherId){
-        Voucher newVoucher = null;
+    static Optional<Voucher> voucherFactory(VoucherType voucherType, long size, UUID voucherId) {
+        Voucher newVoucher = switch (voucherType) {
+            case FIXED_AMOUNT -> new FixedAmountVoucher(voucherId, size);
+            case PERSENT_DISCOUNT -> new PercentDiscountVoucher(voucherId, size);
+            default -> null;
+        };
 
-        switch(voucherType){
-            case FIXED_AMOUNT:
-                newVoucher = new FixedAmountVoucher(voucherId, size);
-                break;
-            case PERSENT_DISCOUNT:
-                newVoucher = new PercentDiscountVoucher(voucherId, size);
-                break;
-            default:
-                return null;
-        }
-
-        return newVoucher;
+        return Optional.of(newVoucher);
     }
 }

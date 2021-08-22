@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,13 +20,11 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException("can not find a voucher for {0}" + voucherId));
     }
 
-    public Voucher save(VoucherType voucherType, long size) {
-        Voucher newVoucher = Voucher.voucherFactory(voucherType, size);
+    public Optional<Voucher> save(VoucherType voucherType, long size){
+        var newVoucher = Voucher.voucherFactory(voucherType, size);
 
-        if(newVoucher == null){
-            return null;
-        }
-        voucherRepository.save(newVoucher);
+        if(newVoucher.isPresent())
+            voucherRepository.save(newVoucher.get());
 
         return newVoucher;
     }

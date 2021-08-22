@@ -76,7 +76,7 @@ public class CommandLineApplication {
         long size = Long.parseLong(inputStream.readLine());
         // TODO: 값 범위에 대한 입력 제한.
 
-        Voucher newVoucher = voucherService.save(voucherType, size);
+        Voucher newVoucher = voucherService.save(voucherType, size).get();
 
         return newVoucher;
     }

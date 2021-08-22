@@ -36,7 +36,9 @@ public class FileVoucherRepository implements VoucherRepository {
             var voucherId = UUID.fromString(st.nextToken());
             var size = Long.parseLong(st.nextToken());
 
-            existingVoucherMap.put(voucherId, Voucher.voucherFactory(voucherType, size, voucherId));
+            var newVoucher = Voucher.voucherFactory(voucherType, size, voucherId);
+            if(newVoucher.isPresent())
+                existingVoucherMap.put(voucherId, newVoucher.get());
         }
         br.close();
 
