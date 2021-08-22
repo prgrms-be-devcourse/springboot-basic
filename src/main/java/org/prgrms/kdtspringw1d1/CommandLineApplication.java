@@ -15,53 +15,59 @@ public class CommandLineApplication {
 
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    private static final String noticeText = "=== Voucher Program ===\n" +
-            "Type exit to exit the program.\n" +
-            "Type create to create a new voucher.\n" +
-            "Type list to list all vouchers.";
+    private static final StringBuffer noticeText = new StringBuffer();
 
     public static void main(String[] args) throws IOException {
 
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+
+        noticeText.append("=== Voucher Program ===\n")
+                .append("Type exit to exit the program.\n")
+                .append("Type create to create a new voucher.\n")
+                .append("Type list to list all vouchers.");
+
         String command;
         String voucherType;
 
-        System.out.println(noticeText);
+        System.out.println(noticeText.toString());
 
-        while(true){
+        while (true) {
             command = reader.readLine();
-            if(command.equals("exit")){
-                System.out.println("BYE.");
+            if (command.equals(CommandType.EXIT.getType())) {
+                System.out.println("BYE");
                 return;
-            }
-            else if(command.equals("create")){
+            } else if (command.equals(CommandType.CREATE.getType())) {
                 System.out.println("Type fixed or percent for the type of voucher you want to create.");
                 voucherType = reader.readLine();
-                while(!voucherType.equals("fixed") && !voucherType.equals("percent")){
+                while (!voucherType.equals(VoucherType.FIXED.getType()) && !voucherType.equals(VoucherType.PERCENT.getType())) {
                     System.out.println("Type either fixed or percent.");
                     voucherType = reader.readLine();
                 }
                 Voucher createdVoucher = null;
-                if(voucherType.equals("fixed")){
-                    createdVoucher = voucherService.createVoucher(VoucherType.Fixed);
+                if (voucherType.equals(VoucherType.FIXED.getType())) {
+                    printCreatedVoucher(voucherService.createVoucher(VoucherType.FIXED));
+                } else {
+                    printCreatedVoucher(voucherService.createVoucher(VoucherType.PERCENT));
                 }
-                else if(voucherType.equals("percent")){
-                    createdVoucher = voucherService.createVoucher(VoucherType.Percent);
-                }
-                System.out.println("Success creating Voucher : "+createdVoucher.getVoucherId());
 
-            }
-            else if(command.equals("list")){
+            } else if (command.equals(CommandType.LIST.getType())) {
                 List<Voucher> vouchers = voucherService.getVoucherAll();
-                for (int i = 0; i < vouchers.size(); i++) {
-                    System.out.println(i+1+" 번 Voucher : "+vouchers.get(i).getVoucherId());
-                };
+                printVouchers(vouchers);
             }
         }
 
     }
 
+    private static void printVouchers(List<Voucher> vouchers) {
+        for (int i = 0; i < vouchers.size(); i++) {
+            System.out.println(i + 1 + " 번 Voucher : " + vouchers.get(i).getVoucherId());
+        }
+    }
+
+    private static void printCreatedVoucher(Voucher voucher) {
+        System.out.println("Success creating Voucher : " + voucher.getVoucherId());
+    }
 
 }

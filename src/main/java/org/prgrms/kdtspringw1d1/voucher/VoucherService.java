@@ -21,7 +21,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType type){
-        if(type == VoucherType.Fixed){
+        if(type == VoucherType.FIXED){
             return voucherRepository.createFixedAmountVoucher();
         }
         else{

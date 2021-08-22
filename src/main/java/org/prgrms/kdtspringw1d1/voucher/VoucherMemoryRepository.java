@@ -8,7 +8,7 @@ import java.util.UUID;
 public class VoucherMemoryRepository implements VoucherRepository {
 
     // 메모리 저장소로 ArrayList 사용
-    private ArrayList<Voucher> vouchers = new ArrayList<>();
+    private List<Voucher> vouchers = new ArrayList<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
