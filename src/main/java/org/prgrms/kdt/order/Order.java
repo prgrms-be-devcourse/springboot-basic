@@ -38,7 +38,7 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public void applyVoucher(Voucher voucher) {
-        this.voucher = Optional.of(voucher);
+    public void applyVoucher(Optional<Voucher> voucher) {
+        this.voucher = voucher;
     }
 }
