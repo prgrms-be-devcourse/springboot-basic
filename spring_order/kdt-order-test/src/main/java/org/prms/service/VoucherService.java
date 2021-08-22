@@ -8,6 +8,7 @@ import org.prms.repository.VoucherRepository;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class VoucherService {
 
@@ -26,17 +27,24 @@ public class VoucherService {
     }
 
     public void createVoucher(String voucherType,Long val) {
+        UUID uuid=UUID.randomUUID();
         if (voucherType.equals("fixed")) {
-            voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(),val));
+
+            voucherRepository.insert(uuid,new FixedAmountVoucher(uuid,val));
         }
         else {
-            voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),val));
+            voucherRepository.insert(uuid,new PercentDiscountVoucher(uuid,val));
         }
     }
 
-    public ArrayList<Voucher> getVoucherList() {
+//    public ArrayList<Voucher> getVoucherList() {
+//        return voucherRepository.getList();
+//    }
+
+    public ConcurrentHashMap<UUID,Voucher> getVoucherList() {
         return voucherRepository.getList();
     }
+
 
 
 

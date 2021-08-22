@@ -4,6 +4,8 @@ import org.prms.domain.Voucher;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Console implements Input, Output{
 
@@ -44,12 +46,14 @@ public class Console implements Input, Output{
     }
 
     @Override
-    public void cmdList(ArrayList<Voucher> voucherArrayList) {
+    public void cmdList(ConcurrentHashMap<UUID,Voucher> voucherList) {
         System.out.println("Voucher List");
-        for (Voucher vo:voucherArrayList) {
-            System.out.println(vo.toString());
+        for (UUID vo:voucherList.keySet()) {
+            System.out.println(voucherList.get(vo));
         }
     }
+
+
 
     @Override
     public void cmdExit() {
