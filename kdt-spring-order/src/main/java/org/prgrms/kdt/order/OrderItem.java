@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.order;
 
 import java.util.UUID;
 //class 말고 record 키워드가 자바 14부터 추가됨

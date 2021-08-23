@@ -1,7 +1,6 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdtspringhw.voucher;
 
-import org.prgrms.kdt.voucher.repository.CsvVoucherRepository;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdtspringhw.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -10,15 +9,15 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.UUID;
 
-
-
 @Service
 public class VoucherService {
     //String RepositoryMode = environment.getProperty("kdt.version");
 
-    @Autowired
-    @Qualifier("memory") //프로파일시 없애야어
-    private VoucherRepository voucherRepository  ;
+    private final VoucherRepository voucherRepository  ;
+
+    public VoucherService(VoucherRepository voucherRepository){
+        this.voucherRepository = voucherRepository;
+    }
 
     // 오토 -> 빈의 찾아서 하나의 필드를 직접 주입한다.
     // 생성자 -> 직접 주입을 해준다.

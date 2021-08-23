@@ -1,6 +1,10 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.repository;
 
+import org.prgrms.kdt.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -19,11 +23,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Qualifier("csv") // 사용할때 해당 키워드를 이용해서 주입가능
-public class CsvVoucherRepository implements VoucherRepository{
+//@Profile("dev2")
+public class CsvVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-
-
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
@@ -39,7 +42,6 @@ public class CsvVoucherRepository implements VoucherRepository{
     public Map<UUID, Voucher> returnAll() {
         return storage;
     }
-
 
     public void roadCSV() {
         BufferedReader br = null;
@@ -108,6 +110,7 @@ public class CsvVoucherRepository implements VoucherRepository{
     public void postConstruct(){
         roadCSV();
     }
+
     @PreDestroy
     public void preDestory(){
         writeCSV();
