@@ -10,5 +10,6 @@ import org.springframework.context.annotation.PropertySource;
 //@ComponentScan(basePackageClasses = {Order.class, Voucher.class}) // 스캔 범위 지정
 //@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
+@PropertySource("application.properties")
 public class AppConfiguration {
 }
