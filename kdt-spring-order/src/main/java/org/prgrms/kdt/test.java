@@ -13,14 +13,14 @@ public class test {
     private static final Logger logger = LoggerFactory.getLogger(test.class);
 
     public static void main(String[] args) {
-        var annotationConfigApplicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        var environment = annotationConfigApplicationContext.getEnvironment();
-        //var version = environment.getProperty("kdt.version");
-        //System.out.println("version" + version);
-        environment.setActiveProfiles("dev");
-        annotationConfigApplicationContext.getResource("customer_blacklist.csv");
-        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
-        logger.info("logger name => {}", logger.getName());
-        var orderProperties = new OrderProperties();
+//        var annotationConfigApplicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+//        var environment = annotationConfigApplicationContext.getEnvironment();
+//        var version = environment.getProperty("kdt.version");
+//        System.out.println("version" + version);
+//        environment.setActiveProfiles("dev");
+//        annotationConfigApplicationContext.getResource("customer_blacklist.csv");
+//        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
+//        logger.info("logger name => {}", logger.getName());
+//        var orderProperties = new OrderProperties();
     }
 }

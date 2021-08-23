@@ -3,11 +3,13 @@ package org.prgrms.kdt.controller;
 import org.prgrms.kdt.day2_work.CommandLineInput;
 import org.prgrms.kdt.day2_work.CommandType;
 import org.prgrms.kdt.day2_work.Manual;
+import org.prgrms.kdt.day2_work.OutPutView;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.service.VoucherType;
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.stereotype.Controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
@@ -21,10 +23,10 @@ public class CommandLineController {
         this.voucherService = voucherService;
     }
 
-    public void startProgram() throws IOException {
+    public void startProgram(File blackList) throws IOException {
         while (true) {
             Manual.startProgram();
-            doCommand(chooseCommand());
+            doCommand(chooseCommand(), blackList);
         }
     }
 
@@ -32,7 +34,7 @@ public class CommandLineController {
         return CommandLineInput.inputCommand();
     }
 
-    public void doCommand(CommandType command) throws IOException {
+    public void doCommand(CommandType command, File blackList) throws IOException {
         if (command == CommandType.CREATE) {
             createCommand();
             return;
@@ -45,6 +47,13 @@ public class CommandLineController {
 
         if (command == CommandType.EXIT)
             exitCommand();
+
+        if (command == CommandType.BLACKLIST)
+            blackListCommand(blackList);
+    }
+
+    private void blackListCommand(File blackList) throws IOException {
+        OutPutView.showBlackList(blackList);
     }
 
     public void createCommand() throws IOException {

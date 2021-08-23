@@ -10,10 +10,16 @@ public class CommandLineInput {
 
     private final static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public static CommandType inputCommand() throws IOException {
-        String input;
-        input = reader.readLine().toUpperCase().replace(" ", "");
-        return CommandType.valueOf(input);
+    public static CommandType inputCommand() {
+        try {
+            String input;
+            input = reader.readLine().toUpperCase().replace(" ", "");
+            return CommandType.valueOf(input);
+        }catch (IOException e){
+            System.out.println("wrong command!");
+            return null;
+        }
+
     }
 
     public static VoucherType inputType() throws IOException{

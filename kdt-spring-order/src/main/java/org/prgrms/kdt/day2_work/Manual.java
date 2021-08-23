@@ -13,6 +13,7 @@ public class Manual {
         System.out.println("Type exit to exit the program.");
         System.out.println("Type create to create a new voucher.");
         System.out.println("Type list to list all vouchers.");
+        System.out.println("Type blacklist to show blacklist");
     }
 
     public static void exit(){

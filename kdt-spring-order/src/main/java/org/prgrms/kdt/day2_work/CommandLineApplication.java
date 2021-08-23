@@ -4,6 +4,7 @@ import org.prgrms.kdt.AppConfiguration;
 import org.prgrms.kdt.controller.CommandLineController;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.io.Resource;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +14,11 @@ public class CommandLineApplication {
         var appConfiguration = new AnnotationConfigApplicationContext();
         appConfiguration.register(AppConfiguration.class);
         var environment = appConfiguration.getEnvironment();
-        environment.setActiveProfiles("local");
+        environment.setActiveProfiles("dev");
+//        environment.setActiveProfiles("local");
         appConfiguration.refresh();
         File blackList = appConfiguration.getResource("customer_blacklist.csv").getFile();
         var voucherService = appConfiguration.getBean(VoucherService.class);
-        new CommandLineController(voucherService).startProgram();
-        System.out.println();
+        new CommandLineController(voucherService).startProgram(blackList);
     }
 }
