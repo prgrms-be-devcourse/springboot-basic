@@ -1,10 +1,7 @@
 package org.prgrms.kdt.engine.voucher;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,7 +10,8 @@ import java.util.UUID;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) { this.voucherRepository = voucherRepository; }
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository; }
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository

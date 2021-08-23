@@ -1,5 +1,5 @@
 kdt:
-  version: "v1.0.0-default"
+  version: "v1.0.0-production"
   minimum-order-amount: 1
   support-vendors:
   - a

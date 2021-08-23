@@ -10,22 +10,11 @@ import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "kdt")
-public class OrderProperties implements InitializingBean {
-
+public class OrderProperties {
     private String version;
     private String description;
     private List<String> supportVendors;
 
-    @Value("${PWD}")
-    private String PWD;
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println(version);
-        System.out.println(description);
-        System.out.println(supportVendors);
-        System.out.println(PWD);
-    }
 
     public String getVersion() {
         return version;
