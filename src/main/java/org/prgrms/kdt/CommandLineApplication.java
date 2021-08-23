@@ -1,12 +1,16 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.customer.CustomerService;
+import org.prgrms.kdt.voucher.VoucherProperties;
 import org.prgrms.kdt.voucher.VoucherService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.Resource;
 
-import java.io.IOException;
-import java.nio.file.Files;
+import java.text.MessageFormat;
+
 
 public class CommandLineApplication {
     static final String filePath = "./voucher.csv";
@@ -14,12 +18,18 @@ public class CommandLineApplication {
 
     public static void main(String[] args) {
 
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.getEnvironment().setActiveProfiles("dev");
+        applicationContext.register(AppConfiguration.class);
+        applicationContext.refresh();
+
+        var voucherProperties = applicationContext.getBean(VoucherProperties.class);
+        System.out.println(MessageFormat.format("Program version: {0}", voucherProperties.getVersion()));
+
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
         CustomerService customerService = applicationContext.getBean(CustomerService.class);
 
-        //Resource resource = applicationContext.getResource("file:" + blacklistFileName);
-        Resource resource = applicationContext.getResource("file:customer_blacklist.csv");
+        Resource resource = applicationContext.getResource("file:" + blacklistFileName);
 
         Console console = new Console();
         new VoucherProgram(voucherService, customerService, resource, console, filePath).run();

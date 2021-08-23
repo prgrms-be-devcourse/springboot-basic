@@ -1,9 +1,3 @@
-kdt:
+dev:
   version: "v1.0-dev"
-  minimum-order-amount: 0
-  support-vendors:
-    - dev-a
-    - dev-b
-  description : |-
-    dev
-    dev
+  file_path: "./voucher.csv"
