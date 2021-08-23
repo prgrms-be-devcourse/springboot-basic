@@ -18,10 +18,10 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"dev"})
+@Profile({"local"})
 public class CsvVoucherRepository implements VoucherRepository {
 
-    @Value("${dev.file_path}")
+    @Value("${local.file_path}")
     private String filePath;
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 

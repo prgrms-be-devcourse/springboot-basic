@@ -9,7 +9,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 @Configuration
-@ConfigurationProperties(prefix = "dev")
+@ConfigurationProperties(prefix = "local")
 public class VoucherProperties {
 
     private String version;

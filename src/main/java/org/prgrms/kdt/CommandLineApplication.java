@@ -18,7 +18,7 @@ public class CommandLineApplication {
     public static void main(String[] args) {
 
         var applicationContext = new AnnotationConfigApplicationContext();
-        applicationContext.getEnvironment().setActiveProfiles("dev");
+        applicationContext.getEnvironment().setActiveProfiles("local");
         applicationContext.register(AppConfiguration.class);
         applicationContext.refresh();
 
