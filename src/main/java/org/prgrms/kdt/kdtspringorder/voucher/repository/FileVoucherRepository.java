@@ -2,16 +2,15 @@ package org.prgrms.kdt.kdtspringorder.voucher.repository;
 
 import org.prgrms.kdt.kdtspringorder.common.io.FileIo;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.*;
-import java.util.stream.Collectors;
 
-@Primary
 @Repository
+@Profile({"local", "default"})
 public class FileVoucherRepository implements VoucherRepository {
 
     private final Map<UUID,Voucher> voucherMap = new HashMap<>();
