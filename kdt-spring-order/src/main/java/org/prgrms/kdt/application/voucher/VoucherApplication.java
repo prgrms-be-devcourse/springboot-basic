@@ -9,6 +9,7 @@ import org.prgrms.kdt.domain.voucher.service.VoucherService;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.UUID;
 
 public class VoucherApplication implements Runnable{
@@ -59,10 +60,10 @@ public class VoucherApplication implements Runnable{
                 VoucherType voucherType = optionalVoucherType.get();
 
                 while(true) {
-                    Optional<Long> optionalLong = input.inputVoucherTypeValue(voucherType.getPrintString());
+                    OptionalLong optionalLong = input.inputVoucherTypeValue(voucherType.getPrintString());
 
                     if(optionalLong.isPresent()) {
-                        Optional<Voucher> optionalVoucher = voucherType.getVoucher(optionalLong.get());
+                        Optional<Voucher> optionalVoucher = voucherType.getVoucher(optionalLong.getAsLong());
                         if(optionalVoucher.isPresent()) {
                             Voucher voucher = optionalVoucher.get();
                             output.printVoucherCreateResult(voucherService.saveVoucher(voucher));

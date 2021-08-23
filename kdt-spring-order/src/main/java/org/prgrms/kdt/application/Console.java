@@ -8,6 +8,7 @@ import org.prgrms.kdt.domain.voucher.domain.Voucher;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.Scanner;
 
 public class Console implements Input, Output {
@@ -35,14 +36,14 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public Optional<Long> inputVoucherTypeValue(String value) {
+    public OptionalLong inputVoucherTypeValue(String value) {
         System.out.print(value + " 입력 : ");
         String inputString = sc.nextLine();
-        Optional<Long> optionalLong;
+        OptionalLong optionalLong;
         try {
-            optionalLong = Optional.of(Long.parseLong(inputString.replaceAll(" ", "")));
+            optionalLong = OptionalLong.of(Long.parseLong(inputString.replaceAll(" ", "")));
         } catch (NumberFormatException exception) {
-            optionalLong = Optional.empty();
+            optionalLong = OptionalLong.empty();
         }
         return optionalLong;
     }
