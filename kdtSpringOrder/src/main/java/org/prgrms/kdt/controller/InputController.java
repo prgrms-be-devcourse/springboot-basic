@@ -2,9 +2,11 @@ package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.enums.CommandType;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
+@Component
 public class InputController {
 
     public static Scanner sc = new Scanner(System.in);

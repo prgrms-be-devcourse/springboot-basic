@@ -8,8 +8,6 @@ public class KdtApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KdtApplication.class, args);
-
-		System.out.println("Test");
 	}
 
 }

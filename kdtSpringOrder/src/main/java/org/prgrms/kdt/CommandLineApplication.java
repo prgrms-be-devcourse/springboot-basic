@@ -1,6 +1,5 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.config.AppConfiguration;
 import org.prgrms.kdt.enums.CommandType;
 import org.prgrms.kdt.controller.InputController;
 import org.prgrms.kdt.controller.OutputController;
@@ -9,8 +8,6 @@ import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.helper.MessageHelper;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.UUID;
 
 public class CommandLineApplication {
 
@@ -37,19 +34,15 @@ public class CommandLineApplication {
                 }
                 case CREATE -> {
                     runCreate(inputController, messageHelper, voucherService);
-                    break;
                 }
                 case LIST -> {
                     runList(outputController, voucherService);
-                    break;
                 }
                 case REPLAY -> {
                     runReplay(messageHelper);
-                    break;
                 }
                 default -> {
                     runRetry(messageHelper);
-                    break;
                 }
             }
         }
@@ -62,31 +55,15 @@ public class CommandLineApplication {
 
     public static void runCreate(InputController inputController, MessageHelper messageHelper, VoucherService voucherService) {
         messageHelper.showVoucherSelectionMessage();
-        VoucherType voucherType = inputController.getVoucherType();
-        if(voucherType == VoucherType.UNDEFINED) {
-            messageHelper.showRetryMessage();
-            return;
-        }
-
+        VoucherType type = inputController.getVoucherType();
         messageHelper.showEnterVoucherDiscount();
-        int rate = inputController.getDiscount();
-        if(rate < 0) {
-            messageHelper.showRetryMessage();
-            return;
-        }
-
-        VoucherSaveRequestDto saveRequestDto = new VoucherSaveRequestDto(voucherType, rate);
-        if(voucherService.isDuplicateVoucher(UUID.randomUUID())) {
-            messageHelper.showDuplicateVoucherMessage();
-            return;
-        }
-
-        voucherService.saveVoucher(saveRequestDto);
+        long discount = inputController.getDiscount();
+        voucherService.createVoucher(new VoucherSaveRequestDto(type, discount));
         messageHelper.showVoucherRegistrationSuccessMessage();
     }
 
     public static void runList(OutputController outputController, VoucherService voucherService) {
-        outputController.showVoucherList(voucherService);
+        outputController.showVoucherList(voucherService.getAllVouchers());
     }
 
     public static void runReplay(MessageHelper messageHelper) {
