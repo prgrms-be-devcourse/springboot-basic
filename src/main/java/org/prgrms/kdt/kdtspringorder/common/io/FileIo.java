@@ -3,7 +3,7 @@ package org.prgrms.kdt.kdtspringorder.common.io;
 import java.io.IOException;
 import java.util.List;
 
-public interface FileIo {
+public interface FileIo<E> {
 
     /**
      * 파일 쓰기
@@ -17,6 +17,6 @@ public interface FileIo {
      * @return 읽은 파일의 객체들을 리스트 형태로 반환합니다.
      * @throws IOException
      */
-    public List<Object> readAllLines();
+    public List<E> readAllLines();
 
 }
