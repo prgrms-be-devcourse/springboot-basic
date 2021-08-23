@@ -56,7 +56,7 @@ public class VoucherController implements Runnable {
         InputView.createVoucherMessage();
         VoucherType type = voucherService.selectVoucherType(InputView.input().toUpperCase(Locale.ROOT));
         InputView.enterVoucherDiscountMessage();
-        Long value = Long.parseLong(InputView.input());
+        long value = Long.parseLong(InputView.input());
         Voucher voucher = voucherService.createVoucher(type, value);
         voucherService.insertVoucher(voucher);
     }

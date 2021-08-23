@@ -35,7 +35,7 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher createVoucher(VoucherType type, Long value) {
+    public Voucher createVoucher(VoucherType type, long value) {
         if (type == FIXED) {
             return new FixedAmountVoucher(UUID.randomUUID(), value);
         }
@@ -43,7 +43,8 @@ public class VoucherService {
     }
 
     public Voucher insertVoucher(Voucher voucher) {
-        return voucherRepository.insert(voucher);
+        voucherRepository.insert(voucher);
+        return voucher;
     }
 
     public VoucherType selectVoucherType(String input) {

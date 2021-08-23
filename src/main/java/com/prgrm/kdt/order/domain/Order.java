@@ -32,7 +32,7 @@ public class Order {
     }
 
     public long totalAmount() {
-        Long beforeDiscount = orderItems.stream()
+        long beforeDiscount = orderItems.stream()
                 .map(v -> v.getProductPrice() * v.getQuantity())
                 .reduce(0L, Long::sum);
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
