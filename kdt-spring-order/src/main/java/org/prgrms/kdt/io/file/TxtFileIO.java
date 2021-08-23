@@ -1,21 +1,17 @@
 package org.prgrms.kdt.io.file;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
 
 public class TxtFileIO implements IO {
 
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
-    private File file;
-    public TxtFileIO(String path) throws IOException {
-        file = new File(path);
+    private final BufferedReader bufferedReader;
+    private final BufferedWriter bufferedWriter;
 
-        if (!file.exists())
-            file.createNewFile();
-
-        this.bufferedReader = new BufferedReader(new FileReader(file));
-        this.bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+    public TxtFileIO(BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+        this.bufferedReader = bufferedReader;
+        this.bufferedWriter = bufferedWriter;
     }
 
     @Override
@@ -25,14 +21,24 @@ public class TxtFileIO implements IO {
 
     @Override
     public void writeLine(String s) throws IOException {
-        bufferedWriter.write(s);
+        bufferedWriter.write(s + System.lineSeparator());
         bufferedWriter.flush();
     }
 
+    @Override
     public void reset() {
         try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
+            bufferedReader.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void mark() {
+        try {
+            bufferedReader.mark(100);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

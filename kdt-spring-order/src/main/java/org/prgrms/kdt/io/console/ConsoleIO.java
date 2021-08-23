@@ -8,12 +8,12 @@ import java.io.*;
 
 public class ConsoleIO implements IO {
 
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
+    private final BufferedReader bufferedReader;
+    private final BufferedWriter bufferedWriter;
 
-    public ConsoleIO() {
-        this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(System.out));
+    public ConsoleIO(BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+        this.bufferedReader = bufferedReader;
+        this.bufferedWriter = bufferedWriter;
     }
 
     @Override
@@ -23,13 +23,26 @@ public class ConsoleIO implements IO {
 
     @Override
     public void writeLine(String s) throws IOException {
-        bufferedWriter.write(s +"\n");
+        bufferedWriter.write(s + System.lineSeparator());
         bufferedWriter.flush();
     }
 
     @Override
     public void reset() {
-        bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            bufferedReader.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void mark() {
+        try {
+            bufferedReader.mark(100);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @PreDestroy

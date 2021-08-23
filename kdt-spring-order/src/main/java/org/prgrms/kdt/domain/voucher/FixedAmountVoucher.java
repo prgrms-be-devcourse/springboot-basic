@@ -6,11 +6,16 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher{
 
+    private static final long MAX_VOUCHER_VALUE = 1000000;
     private final UUID voucherId;
     private final long value;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        this.value = amount;
+    public FixedAmountVoucher(UUID voucherId, long value) {
+        if (value < 0) throw new IllegalArgumentException("Value should be positive");
+        if (value == 0) throw new IllegalArgumentException("Value should not be zero");
+        if (value == MAX_VOUCHER_VALUE)
+            throw new IllegalArgumentException("Value should be under " + MAX_VOUCHER_VALUE);
+        this.value = value;
         this.voucherId = voucherId;
     }
 
@@ -26,7 +31,8 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - value;
+        long discounted = beforeDiscount - value;
+        return discounted < 0 ? 0 : discounted;
     }
 
     @Override

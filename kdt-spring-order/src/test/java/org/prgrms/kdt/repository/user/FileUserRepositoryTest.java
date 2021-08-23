@@ -5,13 +5,16 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.domain.user.User;
 import org.prgrms.kdt.io.file.CsvFileIO;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FileUserRepositoryTest {
-    UserRepository userRepository = new FileUserRepository(new CsvFileIO("customer_blacklist.csv"));
+    UserRepository userRepository = new FileUserRepository(new CsvFileIO(new BufferedReader(new FileReader("customer_blacklist.csv"))));
 
     FileUserRepositoryTest() throws IOException {
     }

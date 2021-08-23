@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import java.io.IOException;
+import java.io.*;
 
 @Configuration
 @ComponentScan(basePackageClasses = {CommandLineApplication.class})
@@ -29,17 +29,17 @@ public class AppConfiguration {
 
     @Bean
     public IO txtFileIo() throws IOException {
-        return new TxtFileIO(TXT_PATH);
+        return new TxtFileIO(new BufferedReader(new FileReader(TXT_PATH)), new BufferedWriter(new FileWriter(TXT_PATH, true)));
     }
 
     @Bean
     public IO csvFileIo() throws IOException {
-        return new CsvFileIO(CSV_PATH);
+        return new CsvFileIO(new BufferedReader(new FileReader(CSV_PATH)));
     }
 
     @Bean
     public IO consoleIo() {
-        return new ConsoleIO();
+        return new ConsoleIO(new BufferedReader(new InputStreamReader(System.in)), new BufferedWriter(new OutputStreamWriter(System.out)));
     }
 
 }

@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Profile("default")
 @Repository
+@Profile("default")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final String SEPARATOR = " ";
@@ -27,14 +27,15 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        Voucher voucher = null;
+        io.mark();
         try {
             String line;
             while((line = io.readLine()) != null) {
-                voucher = createVoucher(line);
+                Voucher voucher = createVoucher(line);
 
                 if (voucherId.equals(voucher.getVoucherId())) {
-                    break;
+                    io.reset();
+                    return Optional.of(voucher);
                 }
             }
         } catch (IOException e) {
@@ -42,15 +43,16 @@ public class FileVoucherRepository implements VoucherRepository {
         }
 
         io.reset();
-        return Optional.ofNullable(voucher);
+        return Optional.empty();
     }
 
     @Override
     public List<Voucher> findAll() {
+        io.mark();
         List<Voucher> list = new ArrayList<>();
         try {
             String line;
-            while ((line = io.readLine()) != null) {
+            while (isNotEmpty((line = io.readLine()))) {
                 Voucher voucher = createVoucher(line);
                 list.add(voucher);
             }
@@ -60,6 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
         io.reset();
         return list;
     }
+
 
     private Voucher createVoucher(String line) {
         String[] splitLine = line.split(SEPARATOR);
@@ -72,23 +75,27 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         try {
-            io.writeLine(voucher.toString()+"\n");
+            io.writeLine(voucher.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return voucher;
     }
 
-    private UUID mapToUUID(String str) {
-        return UUID.fromString(str);
+    private UUID mapToUUID(String voucherId) {
+        return UUID.fromString(voucherId);
     }
 
-    private long mapToLong(String str) {
-        return Long.parseLong(str);
+    private long mapToLong(String voucherValue) {
+        return Long.parseLong(voucherValue);
     }
 
-    private VoucherType mapToVoucherType(String str) {
-        return VoucherType.valueOf(str);
+    private VoucherType mapToVoucherType(String voucherType) {
+        return VoucherType.valueOf(voucherType);
+    }
+
+    private boolean isNotEmpty(String input) {
+        return input != null && input.length() != 0;
     }
 
 }

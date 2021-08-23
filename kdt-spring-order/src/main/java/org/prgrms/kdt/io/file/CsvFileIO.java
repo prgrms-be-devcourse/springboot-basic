@@ -4,16 +4,10 @@ import java.io.*;
 
 public class CsvFileIO implements IO {
 
-    private BufferedReader bufferedReader;
-    private File file;
+    private final BufferedReader bufferedReader;
 
-    public CsvFileIO(String path) throws IOException {
-        this.file = new File(path);
-
-        if (!file.exists())
-            file.createNewFile();
-
-        bufferedReader = new BufferedReader(new FileReader(file));
+    public CsvFileIO(BufferedReader bufferedReader) {
+        this.bufferedReader = bufferedReader;
     }
 
     @Override
@@ -29,8 +23,17 @@ public class CsvFileIO implements IO {
     @Override
     public void reset() {
         try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
+            bufferedReader.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void mark() {
+        try {
+            bufferedReader.mark(100);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

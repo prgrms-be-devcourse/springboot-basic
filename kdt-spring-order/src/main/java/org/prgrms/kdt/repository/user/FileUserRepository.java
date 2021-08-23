@@ -24,44 +24,49 @@ public class FileUserRepository implements UserRepository{
 
     @Override
     public Optional<User> findById(UUID userId) {
-        User user = null;
+        io.mark();
         try {
             String line;
             while((line = io.readLine()) != null) {
-                user = createUser(line);
+                User user = createUser(line);
 
                 if (userId.equals(user.getId())) {
-                    break;
+                    io.reset();
+                    return Optional.of(user);
                 }
             }
 
         } catch (IOException e) {
                 e.printStackTrace();
         }
-        return Optional.ofNullable(user);
+        io.reset();
+        return Optional.empty();
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        User user = null;
+        io.mark();
         try {
             String line;
             while((line = io.readLine()) != null) {
-                user = createUser(line);
+                User user = createUser(line);
 
                 if (email.equals(user.getEmail())) {
-                    break;
+                    io.reset();
+                    return Optional.of(user);
                 }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return Optional.ofNullable(user);
+        io.reset();
+        return Optional.empty();
     }
 
     @Override
     public List<User> findAll() {
+        io.mark();
         List<User> list = new ArrayList<>();
         try {
             String line;
@@ -77,6 +82,7 @@ public class FileUserRepository implements UserRepository{
     }
 
     public List<User> findBlackListedUsers() {
+        io.mark();
         List<User> list = new ArrayList<>();
         try {
             String line;
