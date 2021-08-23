@@ -5,6 +5,7 @@ import com.prgrm.kdt.voucher.domain.PercentDiscountVoucher;
 import com.prgrm.kdt.voucher.domain.Voucher;
 import com.prgrm.kdt.voucher.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -17,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static com.prgrm.kdt.voucher.domain.VoucherType.*;
 
 @Repository
-@Qualifier("fileVoucher")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
     private final static String path = "src/main/resources/VoucherRepository.csv";
