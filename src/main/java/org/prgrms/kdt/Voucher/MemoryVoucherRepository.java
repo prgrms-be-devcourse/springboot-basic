@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("dev")
-@Qualifier("memory")
+//@Qualifier("memory")
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 
 public class MemoryVoucherRepository implements VoucherRepository{

@@ -1,0 +1,20 @@
+black-list:
+  path: "customer_blacklist.csv"
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+voucher-list:
+  path: "voucher.csv"
+
+
+
+
+
+
+
+
+
+

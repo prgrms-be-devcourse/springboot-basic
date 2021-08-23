@@ -1,5 +1,7 @@
 package org.prgrms.kdt.Customers;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -14,13 +16,16 @@ import java.util.List;
 
 @Repository
 public class BlackCustomersRepository  implements CustomersRepository{
-    private final Path Filepath = Paths.get(System.getProperty("user.dir") + "/customer_blacklist.csv");
 
+    @Value("${black-list.path}")
+    String Filename;
 
 
     @Override
     public List<Customers> findAll() {
         List<Customers> customers=new ArrayList<>();
+
+        Path Filepath = Paths.get(System.getProperty("user.dir") + "/"+Filename);
         try {
             var strings = Files.readAllLines(Filepath);
             for(String string:strings){
