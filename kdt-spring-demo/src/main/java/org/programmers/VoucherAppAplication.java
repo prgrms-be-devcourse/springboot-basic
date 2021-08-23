@@ -10,16 +10,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class VoucherAppAplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ConfigurableApplicationContext applicationContext = new SpringApplication(VoucherAppAplication.class).run();
 
         var voucherService = applicationContext.getBean(VoucherService.class);
         var customerService = applicationContext.getBean(CustomerService.class);
 
-        try {
-            new VoucherProgram(voucherService, new Console(), customerService).run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new VoucherProgram(voucherService, new Console(), customerService).run();
     }
 }
