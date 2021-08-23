@@ -15,7 +15,6 @@ public class MemoryOrderRepository implements OrderRepository {
 
     @Override
     public Order save(Order order) {
-        storage.put(order.getOrderId(), order);
-        return order;
+        return storage.put(order.getOrderId(), order);
     }
 }

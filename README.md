@@ -61,15 +61,15 @@ ___
 
 ### D3 리팩토링
 
-- [ ] Command 입력 받는 부분 if-else -> switch
+- [x] Command 입력 받는 부분 if-else -> switch
 - [ ] VoucherController 예외처리 로직 VoucherService로 이동
 - [x] .csv 파일 resources 관리
 - [ ] Message enum -> constant class
 - [ ] Bean에서 리소스 사용하기
-- [ ] 팀원 코드리뷰
-  - [ ] FileVoucherRepository: return 하나로
-  - [ ] Repository단에서 Optional을 반환
-  - [ ] command 입력 분기 CLApp으로 넘기기
+- [x] 팀원 코드리뷰
+  - [x] RepositoryImpl::save() return 한 줄로
+  - [x] Controller에서 ui 분리
+    - command 입력 분기 CLApp으로 넘기기
 
 ___
 
