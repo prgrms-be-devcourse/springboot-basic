@@ -1,6 +1,7 @@
 package com.prgms.kdtspringorder;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.prgms.kdtspringorder.adapter.controller.CustomerController;
 import com.prgms.kdtspringorder.adapter.controller.VoucherController;
@@ -18,7 +19,12 @@ public class CommandLineApplication {
     private static final Printer PRINTER = new Printer();
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfig.class);
+
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("dev");
+        applicationContext.refresh();
 
         CustomerController customerController = new CustomerController(
             applicationContext.getBean(CustomerService.class));

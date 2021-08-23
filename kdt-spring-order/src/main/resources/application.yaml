@@ -1,0 +1,5 @@
+kdt:
+  version: "default-v1.0"
+  path:
+    voucher-list: "/kdt-spring-order/src/main/resources/.csv/voucher_list.csv"
+    customer-blacklist: "/kdt-spring-order/src/main/resources/.csv/customer_blacklist.csv"

@@ -12,16 +12,20 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Repository;
 
+import com.prgms.kdtspringorder.config.PathProperties;
 import com.prgms.kdtspringorder.domain.model.customer.Customer;
 import com.prgms.kdtspringorder.domain.model.customer.CustomerRepository;
 
 @Repository
 public class FileBlackConsumerRepository implements CustomerRepository {
-    private static final String FILEPATH =
-        System.getProperty("user.dir") + "/kdt-spring-order/src/main/resources/.csv/customer_blacklist.csv";
-    private static final File FILE = new File(FILEPATH);
     private static final String COMMA = ",";
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
+    private final File file;
+
+    public FileBlackConsumerRepository(PathProperties pathProperties) {
+        String filepath = System.getProperty("user.dir") + pathProperties.getCustomerBlacklist();
+        file = new File(filepath);
+    }
 
     @Override
     public Map<UUID, Customer> findAll() {
@@ -30,10 +34,10 @@ public class FileBlackConsumerRepository implements CustomerRepository {
 
     @PostConstruct
     private void postConstruct() {
-        if (!FILE.exists()) {
+        if (!file.exists()) {
             return;
         }
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = "";
             while ((line = br.readLine()) != null) {
                 String[] voucherInfo = line.split(COMMA);

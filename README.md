@@ -56,7 +56,7 @@ ___
 
 - [x] customer_blacklist.csv를 만든다.
   - read만
-- [ ] YAML 프로퍼티 생성, 설정해본다.
+- [x] YAML 프로퍼티 생성, 설정해본다.
 - [x] MemoryVoucherRepository를 개발 프로파일에서만 동작하게 한다.
 
 ### D3 리팩토링
@@ -65,7 +65,6 @@ ___
 - [ ] VoucherController 예외처리 로직 VoucherService로 이동
 - [x] .csv 파일 resources 관리
 - [ ] Message enum -> constant class
-- [ ] Bean에서 리소스 사용하기
 - [x] 팀원 코드리뷰
   - [x] RepositoryImpl::save() return 한 줄로
   - [x] Controller에서 ui 분리

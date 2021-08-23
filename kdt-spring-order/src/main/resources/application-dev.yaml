@@ -1,0 +1,6 @@
+spring.config.activate.on-profile: dev
+kdt:
+  version: "dev-v1.2"
+  path:
+    voucher-list: "/kdt-spring-order/src/main/resources/.csv/voucher_list.csv"
+    customer-blacklist: "/kdt-spring-order/src/main/resources/.csv/customer_blacklist.csv"
