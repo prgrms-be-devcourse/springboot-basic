@@ -17,7 +17,7 @@ public class CommandLineApplication {
                 case CREATE -> {
                     console.printCreateTypes();
                     String[] createCommand = console.getCreateLine().split(" ");
-                    operator.createVoucher(createCommand);
+                    operator.create(createCommand);
                 }
                 case LIST -> {
                     operator.printAll();
