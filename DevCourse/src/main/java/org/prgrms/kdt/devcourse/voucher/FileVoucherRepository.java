@@ -39,7 +39,7 @@ public class FileVoucherRepository implements VoucherRepository{
                     voucherList.put(filedDataUUID, new FixedAmountVoucher(filedDataUUID, filedDataVoucherAmount));
                 else if(filedDataVoucherType == VoucherType.PERCENT)
                     voucherList.put(filedDataUUID, new PercentDiscountVoucher(filedDataUUID, filedDataVoucherAmount));
-            }catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e){
                 e.printStackTrace();
             }
 
