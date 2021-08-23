@@ -1,6 +1,7 @@
 package org.prgrms.kdt.devcourse.customer;
 
 import org.prgrms.kdt.devcourse.voucher.Voucher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository{
     private Map<UUID, Customer> BlackCustomers = new ConcurrentHashMap<>();
+    @Value("${file.customer.blacklist}")
+    private String filename;
 
     @Override
     public List<Customer> getBlackCustomers() {
@@ -25,7 +28,8 @@ public class CustomerRepositoryImpl implements CustomerRepository{
 
     public List<Customer> loadFileData() throws IOException {
 
-        final String filePath = System.getProperty("user.dir")+"/customer_blacklist.csv";
+
+        final String filePath = System.getProperty("user.dir")+"/"+filename;
         final File csvFile = new File(filePath);
 
 

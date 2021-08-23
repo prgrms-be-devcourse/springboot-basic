@@ -1,0 +1,5 @@
+file:
+  customer:
+    blacklist: customer_blacklist.csv
+  voucher:
+    voucher: voucher.csv
