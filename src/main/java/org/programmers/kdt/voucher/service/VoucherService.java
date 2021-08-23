@@ -6,7 +6,6 @@ import org.programmers.kdt.voucher.factory.PercentDiscountVoucherFactory;
 import org.programmers.kdt.voucher.factory.VoucherFactory;
 import org.programmers.kdt.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -19,9 +18,7 @@ public class VoucherService {
     private VoucherFactory voucherFactory;
 
     @Autowired
-    public VoucherService(@Qualifier("File") VoucherRepository voucherRepository) {
-        // @Qualifier("Memory") for Homework W3D2
-        // @Qualifier("File") for Homework W3D3
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

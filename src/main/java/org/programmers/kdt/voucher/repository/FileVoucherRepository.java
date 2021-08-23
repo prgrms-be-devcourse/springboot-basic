@@ -3,7 +3,7 @@ package org.programmers.kdt.voucher.repository;
 import org.programmers.kdt.voucher.FixedAmountVoucher;
 import org.programmers.kdt.voucher.PercentDiscountVoucher;
 import org.programmers.kdt.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Qualifier("File")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> cache = new ConcurrentHashMap<>();
     // TOOD: 적절한 데이터 저장 경로 설정 필요

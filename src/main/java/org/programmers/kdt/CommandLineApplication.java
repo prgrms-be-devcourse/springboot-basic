@@ -7,6 +7,7 @@ import org.programmers.kdt.utils.MyUtils;
 import org.programmers.kdt.voucher.*;
 import org.programmers.kdt.voucher.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,8 +28,15 @@ public class CommandLineApplication implements Runnable {
 
     @Override
     public void run() {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("local");
+        applicationContext.refresh();
+
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+
 
         boolean termi = false;
         do {
