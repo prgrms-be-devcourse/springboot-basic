@@ -31,7 +31,9 @@ public class OrderTester {
 
         // env 가져옵시다.
         var orderProperties = applicationContext.getBean(OrderProperties.class);
-//        var environment = applicationContext.getEnvironment();
+        var environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("local");
+        // applicationContext.refresh();
 //        var version = environment.getProperty("kdt.version");
 //        var minimumOrderAmount = environment.getProperty("kdt.minium-order-amount", Integer.class);
 //        var supportVendeors = environment.getProperty("kdt.support-vendors", List.class);
@@ -66,7 +68,7 @@ public class OrderTester {
         var customerId = UUID.randomUUID();
 
         // bean에서 꺼내올대도 BeanFactoryAnnotationUtils에서 적합한 용도를 가진 Bean을 선택할 수 있습니다.
-        var voucherRepository = BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getBeanFactory(), VoucherRepository.class, "memory");
+        var voucherRepository = applicationContext.getBean(VoucherRepository.class);
         var voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
         // System.out.println(MessageFormat.format("voucher -> {0}", voucherRepository.find()));
 

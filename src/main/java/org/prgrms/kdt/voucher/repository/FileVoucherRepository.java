@@ -5,6 +5,7 @@ import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * - VOUCHER_ID, VOUCHER_TYPE, POLICY_VALUE \n
  */
 @Repository
-@Qualifier("file")// 용도를 구별
+@Profile("file")// 용도를 구별
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class FileVoucherRepository implements VoucherRepository {
 
