@@ -54,7 +54,7 @@ ___
 
 ### 구현 사항
 
-- [ ] customer_blacklist.csv를 만든다.
+- [x] customer_blacklist.csv를 만든다.
   - read만
 - [ ] YAML 프로퍼티 생성, 설정해본다.
 - [x] MemoryVoucherRepository를 개발 프로파일에서만 동작하게 한다.
@@ -65,6 +65,11 @@ ___
 - [ ] VoucherController 예외처리 로직 VoucherService로 이동
 - [x] .csv 파일 resources 관리
 - [ ] Message enum -> constant class
+- [ ] Bean에서 리소스 사용하기
+- [ ] 팀원 코드리뷰
+  - [ ] FileVoucherRepository: return 하나로
+  - [ ] Repository단에서 Optional을 반환
+  - [ ] command 입력 분기 CLApp으로 넘기기
 
 ___
 
