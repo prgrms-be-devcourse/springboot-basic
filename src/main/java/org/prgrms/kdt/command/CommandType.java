@@ -19,6 +19,7 @@ public enum CommandType {
     EXIT("exit", StrategyExit::new),
     LIST("list", StrategyList::new);
 
+
     private final String inputCommand;
     private final Supplier<Command> supplier;
     private static Map<String, CommandType> commandMap = Arrays

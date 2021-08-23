@@ -31,8 +31,8 @@ public class OrderTester {
 
         // env 가져옵시다.
         var orderProperties = applicationContext.getBean(OrderProperties.class);
-        var environment = applicationContext.getEnvironment();
-        environment.setActiveProfiles("local");
+        // var environment = applicationContext.getEnvironment();
+        // environment.setActiveProfiles("local");
         // applicationContext.refresh();
 //        var version = environment.getProperty("kdt.version");
 //        var minimumOrderAmount = environment.getProperty("kdt.minium-order-amount", Integer.class);

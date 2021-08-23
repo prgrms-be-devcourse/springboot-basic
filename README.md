@@ -5,6 +5,7 @@
 - Run Application
 - [3W.2D] Misson : Command-Line Application 만들기
 - [3W.3D] Mission : Component Scan & File Repository
+- [3W.4D] Mission : Customer Blacklist 만들기
 
 ## Run Application
 
@@ -49,3 +50,19 @@ Component Scan & File Repository 구현
   PercentDiscountVoucher,bcbd0b69-243a-4c80-a6da-afa5662b010b,7
   FixedAmountVoucher,c9b4d499-00ef-488f-aa94-2456af66afe6,500
   ```
+
+## [3W.4D] Mission : Customer Blacklist 만들기
+
+고객 블랙 리스트 명단을 작성해 봅니다.
+
+### Keyword
+
+- `Environment Profile`, `Profile`, `YAML Profile`, `Resource`
+
+### Detail
+
+- [ ] 고객 블랙 리스트 명단을 작성해 봅니다.
+  - [ ] customer_blacklist.csv 파일을 만들고 스프링 애플리케이션에서 해당 파일을 읽을 수있고 블랙 리스트조회 할 수 있습니다. (추가할 필요는 없어요. 블랙리스트는 파일로만
+        관리된다고 가정할게요)
+- [ ] YAML 프라퍼티를 만들고 어떤 설정을 만들수 있을지 고민해보세요.
+- [ ] 바우처를 메모리에서 관리하는 레포지토리는 개발 프로파일에서만 동작하게 해보세요.

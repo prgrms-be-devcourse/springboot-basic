@@ -26,10 +26,11 @@ import org.springframework.context.annotation.*;
  */
 @Configuration
 @ComponentScan(basePackages = {
+        "org.prgrms.kdt.user",
         "org.prgrms.kdt.order",
         "org.prgrms.kdt.voucher",
         "org.prgrms.kdt.configuration",
-        "org.prgrms.kdt.command"
+        "org.prgrms.kdt.command",
 })
 // 기본적으로 spring boot는 yaml 을 지원하는데, @PropertySource는 yaml을 지원하지 않습니다 ㅠㅠ 그래서 factory로 만들어서 줍시다
 @PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class) // property를 적용
