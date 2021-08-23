@@ -7,13 +7,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
+import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class CommandLineApplication {
     private final VoucherService voucherService;
     private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public CommandLineApplication(VoucherService voucherService) throws IOException {
-        this.voucherService = voucherService;
+    // Quest : 생성자 예외처리
+    //  - @RequiredArgsConstructor로 생성자를 생략했는데 생성자에서의 예외처리는 어떻게 되는걸까?
+
+    @PostConstruct
+    public void postConstruct() throws IOException {
+        // Quest : 초기화
+        //  - 초기화시 가장 좋은 방법은 ?
+        //  - (postConstruct) or (initMethod) or (afterPropertiesSet) ?
         voucherService.loadStorage();
         runApp();
     }
@@ -24,6 +35,7 @@ public class CommandLineApplication {
             printInitMessage();
             command = br.readLine();
 
+            // Todo : enum
             if(command.equals("exit")) {
                 voucherService.saveStorage();
                 break;
@@ -49,7 +61,7 @@ public class CommandLineApplication {
 
     private void createVoucher(String command){
         if(command.equals("1")){
-            // enum 업데이트 전
+            // Todo : enum
             voucherService.insertVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10000L));
         } else {
             voucherService.insertVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10L));
@@ -74,5 +86,4 @@ public class CommandLineApplication {
         System.out.println("1.FixedAmountVoucher 2.PercentDiscountVoucher");
         System.out.print("\n>> ");
     }
-
 }

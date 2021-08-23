@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class PercentDiscountVoucher implements Voucher{
     private VoucherStatus voucherStatus = VoucherStatus.PERCENT;
     private final UUID voucherId;
-    private final long percent;
+    private final Long percent;
 
     @Override
-    public long discount(long beforeDiscount) {
+    public Long discount(Long beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
 

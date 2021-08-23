@@ -9,10 +9,10 @@ import lombok.RequiredArgsConstructor;
 public class FixedAmountVoucher implements Voucher {
     private VoucherStatus voucherStatus = VoucherStatus.FIXED;
     private final UUID voucherId;
-    private final long amount;
+    private final Long amount;
 
     @Override
-    public long discount(long beforeDiscount)  {
+    public Long discount(Long beforeDiscount)  {
         return beforeDiscount - amount;
     }
 

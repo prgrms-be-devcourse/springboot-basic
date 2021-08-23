@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -26,14 +24,17 @@ public class VoucherRepositoryImpl implements VoucherRepository{
             String input;
             while((input = br.readLine())!=null) {
                 st = new StringTokenizer(input);
-                // 질문 필드멤버가 추가되면....?
-                // 어떻게 설계하는것이 좋을까
+
+                // Quest : Class에 새로운 멤버 추가
+                //  - Voucher에 새로운 멤버가 추가된다면...? (type, id, amount, ...)
+                //  - 어떻게 설계하는 것이 좋을까?
+
                 String type = st.nextToken();
                 UUID id = UUID.fromString(st.nextToken());
-                Long value = Long.valueOf(st.nextToken());
+                Long amount = Long.parseLong(st.nextToken());
                 // enum 업데이트 전
-                if(type.equals("FIXED")) insert(new FixedAmountVoucher(id, value));
-                else insert(new PercentDiscountVoucher(id, value));
+                if(type.equals("FIXED")) insert(new FixedAmountVoucher(id, amount));
+                else insert(new PercentDiscountVoucher(id, amount));
             }
             br.close();
         } catch (FileNotFoundException e) {}
@@ -46,7 +47,7 @@ public class VoucherRepositoryImpl implements VoucherRepository{
 
         for (Voucher output : storage.values()) {
             StringBuilder sb = new StringBuilder();
-            // ID값까지 유지되어 저장되도록 했습니다.
+            // ID값까지 유지되어 저장되도록 함.
             sb.append(output.getInfo());
             pw.println(sb);
         }

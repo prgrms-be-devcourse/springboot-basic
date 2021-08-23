@@ -1,7 +1,7 @@
 package W3D2.jcu.voucher;
 
 public enum VoucherStatus {
-    // 미완
+    // Todo : 미완
 
     FIXED("FIXED"),
     PERCENT("PERCENT");
