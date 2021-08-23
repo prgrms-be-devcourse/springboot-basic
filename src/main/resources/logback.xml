@@ -16,12 +16,13 @@
         </encoder>
     </appender>
 
-    <logger name="com.programmers.kdtspringorder" level="error">
+    <logger name="com.programmers.kdtspringorder.voucher" level="error">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
     <root level="info">
         <appender-ref ref="CONSOLE" />
     </root>
-    <logger name="org.springframework" level="info"/>
+
+    <logger name="org.springframework" level="warn"/>
 </configuration>
