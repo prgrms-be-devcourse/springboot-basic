@@ -7,7 +7,6 @@ import com.prgrm.kdt.voucher.application.VoucherService;
 import com.prgrm.kdt.voucher.domain.Voucher;
 import com.prgrm.kdt.voucher.domain.VoucherType;
 
-import java.util.List;
 import java.util.Locale;
 
 public class VoucherController implements Runnable {
