@@ -32,5 +32,7 @@ public class CommandLineApplication {
 
         Console console = new Console();
         new VoucherProgram(voucherService, customerService, resource, console).run();
+
+        applicationContext.close();
     }
 }

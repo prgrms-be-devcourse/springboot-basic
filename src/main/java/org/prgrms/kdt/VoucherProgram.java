@@ -58,7 +58,10 @@ public class VoucherProgram implements Runnable {
                             input.input(output.INPUT_DISCOUNT)
                     );
 
-                    if (isInValidInput(voucherNum, discount)) output.printConsole(output.INPUT_ERROR);
+                    if (isInValidInput(voucherNum, discount)) {
+                        output.printConsole(output.INPUT_ERROR);
+                        continue;
+                    }
 
                     if (voucherNum == VoucherType.FixedAmountVoucher.typeNum())
                         voucher = Optional.ofNullable(voucherService.createFixedAmountVoucher(discount));
