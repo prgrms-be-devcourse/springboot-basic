@@ -2,19 +2,19 @@ package org.prgrms.kdt.voucher.service;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }
+    @Autowired
+    private VoucherRepository voucherRepository;
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
@@ -26,7 +26,7 @@ public class VoucherService {
 
     }
 
-    public void create(Voucher voucher) {
+    public void create(Voucher voucher) throws IOException {
         voucherRepository.create(voucher);
     }
 
