@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by yhh1056
@@ -33,4 +36,16 @@ public class FileUtil {
         }
     }
 
+    public static List<String> readCSV(String filename) {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(filename))) {
+            return reader.lines()
+                    .skip(1L)
+                    .map(line -> line.split(","))
+                    .flatMap(Arrays::stream)
+                    .toList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
 }
