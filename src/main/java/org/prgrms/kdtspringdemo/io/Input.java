@@ -1,5 +1,9 @@
 package org.prgrms.kdtspringdemo.io;
 
+import org.prgrms.kdtspringdemo.CommandType;
+
 public interface Input {
-    String getInputCommand();
+    CommandType getInputCommand();
+
+    String getCreateLine();
 }

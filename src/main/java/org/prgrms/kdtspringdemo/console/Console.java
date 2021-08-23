@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.console;
 
+import org.prgrms.kdtspringdemo.CommandType;
 import org.prgrms.kdtspringdemo.io.*;
 
 import java.text.MessageFormat;
@@ -46,7 +47,19 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public String getInputCommand() {
+    public CommandType getInputCommand() {;
+        String command = input.nextLine();
+        try {
+            return CommandType.valueOf(command.toUpperCase());
+        }
+        catch (IllegalArgumentException e) {
+            printCommandError(command);
+            return CommandType.ERROR;
+        }
+    }
+
+    @Override
+    public String getCreateLine() {
         return input.nextLine();
     }
 }

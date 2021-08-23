@@ -1,30 +1,30 @@
 package org.prgrms.kdtspringdemo.application;
 
+import org.prgrms.kdtspringdemo.CommandType;
 import org.prgrms.kdtspringdemo.console.Console;
 import org.prgrms.kdtspringdemo.console.VoucherOperator;
 
 public class CommandLineApplication {
     public static void main(String[] args) {
         var console = new Console();
-        var commandUtils = new VoucherOperator();
+        var operator = new VoucherOperator();
 
         console.printStartAppInfo();
 
-        String command = "";
         while (true) {
-            String commandLine = console.getInputCommand();
-            String[] splitList = commandLine.split(" ");
-            command = splitList[0];
-            if (command.equals("create")) {
-                console.printCreateTypes();
-                String[] createCommand = console.getInputCommand().split(" ");
-                commandUtils.createVoucher(createCommand);
-            } else if (command.equals("list")) {
-                commandUtils.printAll();
-            } else if (command.equals("exit")) {
-                break;
-            } else {
-                console.printCommandError(command);
+            CommandType command = console.getInputCommand();
+            switch (command) {
+                case CREATE -> {
+                    console.printCreateTypes();
+                    String[] createCommand = console.getCreateLine().split(" ");
+                    operator.createVoucher(createCommand);
+                }
+                case LIST -> {
+                    operator.printAll();
+                }
+                case EXIT -> {
+                    System.exit(0);
+                }
             }
         }
     }
