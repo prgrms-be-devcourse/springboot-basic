@@ -5,7 +5,7 @@
 
     <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.FileAppender">
         <!--https://stackoverflow.com/questions/19689223/logback-how-to-log-only-errors-to-file-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -18,9 +18,16 @@
         </encoder>
     </appender>
 
-    <root level="DEBUG">
-        <appender-ref ref="CONSOLE" />
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/access.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
         <appender-ref ref="FILE" />
+        <appender-ref ref="ERROR_FILE" />
     </root>
 
 </configuration>

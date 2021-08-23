@@ -36,30 +36,24 @@ public class VoucherProgram implements Runnable {
         String input;
         while (true) {
             input = console.input(prompt);
+            logger.info("User Input command: %s".formatted(input));
             switch (input) {
                 case CREATE -> {
-                    logger.info("Starts user command: 'create'");
                     createVoucher();
-                    logger.info("Finished user command: 'create'");
                 }
                 case LIST -> {
-                    logger.info("Starts user command: 'list'");
                     console.vouchers(voucherService.getAllVoucher());
-                    logger.info("Finished user command: 'list'");
                 }
                 case EXIT -> {
-                    logger.info("Starts user command: 'exit'");
                     console.printMessage("Exiting the program.");
-                    logger.info("Finished user command: 'exit'");
                     return;
                 }
                 default -> {
-                    logger.warn("Undefined user command: %s".formatted(input));
                     console.inputError(input);
                 }
             }
+            logger.info("Finished user command: %s".formatted(input));
             console.printMessage("====================================");
-            logger.info("Command finished.");
             prompt = "Please type a command : ";
         }
     }
