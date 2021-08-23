@@ -42,13 +42,12 @@ public class VoucherController {
         }
 
         if (status == CommandStatus.CREATE) {
-            createVoucherOrder();
+            createVoucher();
             return;
         }
 
         if (status == CommandStatus.ALL) {
-            showAllVoucherOrder();
-            return;
+            showVouchers();
         }
     }
 
@@ -57,15 +56,15 @@ public class VoucherController {
         OutputView.exit();
     }
 
-    private void createVoucherOrder() {
+    private void createVoucher() {
         InputView.explainCreateVoucher();
         List<String> typeAndValue = InputView.typeAndValue(InputView.input());
-        VoucherType type = voucherService.choiceVoucher(typeAndValue.get(TYPE_INDEX));
+        VoucherType type = VoucherType.findByVoucherType(typeAndValue.get(TYPE_INDEX));
         Voucher voucher = voucherService.createVoucher(type, typeAndValue.get(VALUE_INDEX));
         voucherService.insert(voucher);
     }
 
-    private void showAllVoucherOrder() {
+    private void showVouchers() {
         OutputView.showVouchers(voucherService.allVoucher());
     }
 

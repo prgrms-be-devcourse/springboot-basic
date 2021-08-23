@@ -1,21 +1,34 @@
 package org.prgrms.kdt.voucher.domain;
 
+import org.prgrms.kdt.exception.ErrorMessage;
+import org.prgrms.kdt.exception.InvalidArgumentException;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
+    private static final long MIN_VOUCHER_AMOUNT = 0;
+    private static final long MAX_VOUCHER_AMOUNT = 10000;
     private final UUID voucherId;
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
-        validate(voucherId, amount); // TODO beforeAmount에 대한 값을 알게되면, amount에 대한 validate 로직을 재설계할 필요 존재
+        validate(amount);
         this.voucherId = voucherId;
         this.amount = amount;
     }
 
     @Override
-    public void validate(UUID voucherId, long amount) {
-        if (voucherId == null) {
-            throw new RuntimeException();
+    public void validate(long amount) {
+        if (amount < MIN_VOUCHER_AMOUNT) {
+            throw new InvalidArgumentException(ErrorMessage.MORE_THAN_MIN_VOUCHER_AMOUNT);
+        }
+
+        if (amount == MIN_VOUCHER_AMOUNT) {
+            throw new InvalidArgumentException(ErrorMessage.NOT_BE_ZERO_VOUCHER_AMOUNT);
+        }
+
+        if (amount > MAX_VOUCHER_AMOUNT) {
+            throw new InvalidArgumentException(ErrorMessage.LESS_THAN_MAX_VOUCHER_AMOUNT);
         }
     }
 
@@ -26,7 +39,11 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        long discountAmount = beforeDiscount - amount;
+        if (discountAmount < 0) {
+            throw new InvalidArgumentException(ErrorMessage.NOT_CORRECT_INPUT_MESSAGE);
+        }
+        return discountAmount;
     }
 
     @Override
@@ -35,4 +52,5 @@ public class FixedAmountVoucher implements Voucher {
                 voucherId +
                 " " + amount;
     }
+
 }

@@ -5,9 +5,16 @@ public enum ErrorMessage {
     NOT_FOUND_VOUCHER_MESSAGE("Could Not Find Your Voucher"),
     ERROR_OCCURRED_INPUTTING_FILE("An error occurred while inputting a file"),
     ERROR_READING_FILE("There is a problem reading the file"),
-    NAME("이름 형식이 맞지 않습니다."),
-    EMAIL("이메일 형식이 맞지 않습니다."),
-    PHONE_NUMBER("전화번호 형식이 맞지 않습니다.");
+    NAME("The Name format is not correct."),
+    EMAIL("The Email format is not correct."),
+    PHONE_NUMBER("The PhoneNumber format is not correct."),
+    MORE_THAN_MIN_VOUCHER_AMOUNT("Amount should be more than your Input Data"),
+    NOT_BE_ZERO_VOUCHER_AMOUNT("Amount should not be Zero"),
+    LESS_THAN_MAX_VOUCHER_AMOUNT("Amount should be less than your Input Data"),
+    MORE_THAN_MIN_VOUCHER_PERCENT("Percent should be more than your Input Data"),
+    NOT_BE_ZERO_VOUCHER_PERCENT("Percent should not be Zero"),
+    LESS_THAN_MAX_VOUCHER_PERCENT("Percent should be less than your Input Data");
+
 
     ErrorMessage(String message) {
     }

@@ -36,10 +36,6 @@ public class VoucherService {
         return voucherRepository.findByAllVoucher();
     }
 
-    public VoucherType choiceVoucher(String type) {
-        return findByVoucherType(type);
-    }
-
     public Voucher createVoucher(VoucherType type, String value) {
         if (type == FIXED) {
             return new FixedAmountVoucher(UUID.randomUUID(), parseLong(value));
