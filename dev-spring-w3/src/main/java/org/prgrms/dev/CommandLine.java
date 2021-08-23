@@ -6,6 +6,7 @@ import org.prgrms.dev.io.Output;
 import org.prgrms.dev.voucher.domain.FixedAmountVoucher;
 import org.prgrms.dev.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.dev.voucher.domain.Voucher;
+import org.prgrms.dev.voucher.domain.VoucherType;
 import org.prgrms.dev.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 
@@ -32,23 +33,12 @@ public class CommandLine implements Runnable {
             if (command.equals("create")) {
                 output.voucherType();
                 String type = input.input("> ");
-                if (type.equals("f")) {
-                    String inputString = input.input("input amount > ");
-                    Long inputAmount = Long.valueOf(inputString);
-                    voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), inputAmount));
-                } else if (type.equals("p")) {
-                    String inputString = input.input("input percent > ");
-                    Long inputPercent = Long.valueOf(inputString);
-                    voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), inputPercent));
-                } else {
-                    output.inputError();
-                }
+                Long value = Long.valueOf(input.input("input value [fixed amount | percent discount] > "));
+                voucherService.createVoucher(type, value);
             } else if (command.equals("list")) {
                 System.out.println(voucherService.listVoucher().toString());
             } else if (command.equals("exit")) {
                 break;
-            } else {
-                output.inputError();
             }
         }
     }

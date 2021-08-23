@@ -1,6 +1,7 @@
 package org.prgrms.dev.voucher.service;
 
 import org.prgrms.dev.voucher.domain.Voucher;
+import org.prgrms.dev.voucher.domain.VoucherType;
 import org.prgrms.dev.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.dev.voucher.repository.VoucherRepository;
 
@@ -20,7 +21,8 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId));
     }
 
-    public Voucher createVoucher(Voucher voucher) {
+    public Voucher createVoucher(String type, Long value) {
+        Voucher voucher = VoucherType.getVoucherType(type, value);
         voucherRepository.create(voucher);
         return voucher;
     }
