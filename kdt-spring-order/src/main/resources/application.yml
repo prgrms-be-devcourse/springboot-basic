@@ -1,23 +1,14 @@
-logging:
-  level:
-    root: warn
-
 kdt:
-  version: "v1.0.0"
+  version: "v1.0.0-default"
   minimum-order-amount: 1
   support-vendors:
-    - a
-    - b
-    - c
-    - d
+    - defaulta
+    - defaultb
   description: |
-    line 1 hello world
-    line 2 xxxxx
-    line 3
-
-spring:
-  profiles.active: dev
+    line 1 hello world default
+    line 2 xxxxx default
+    line 3 default
 
 db_path:
- txt_path: "db.txt"
- csv_path: "customer_blacklist.csv"
+  txt_path: "db.txt"
+  csv_path: "customer_blacklist.csv"
