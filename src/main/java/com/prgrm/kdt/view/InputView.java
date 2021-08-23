@@ -30,4 +30,11 @@ public class InputView {
     public static void enterVoucherDiscountMessage() {
         System.out.println("할인율(Percent) or 할인금액(Fixed)을 입력해주세요.");
     }
+
+    public static void initCustomerMessage() {
+        System.out.println("=== Customer Program ===");
+        System.out.println("Type exit to exit the program.");
+        System.out.println("Type black to list blacklist customer.");
+        System.out.println("Type list to list all customer.");
+    }
 }
