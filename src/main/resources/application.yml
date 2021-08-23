@@ -10,3 +10,7 @@ kdt:
     line 1 hello world
     line 2 xxxx
     line 3
+
+spring:
+  profiles:
+    active: dev

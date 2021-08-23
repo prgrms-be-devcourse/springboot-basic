@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
  * Date: 2021/08/22 Time: 3:41 오후
  */
 @Qualifier("memory")
+@Profile("dev")
 @Repository
 public class InMemoryOrderRepository implements OrderRepository {
 

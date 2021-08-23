@@ -10,6 +10,8 @@ import javax.annotation.PreDestroy;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Qualifier("memory")
+@Profile("dev")
 public class InMemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
 
     private final Map<UUID, Voucher> vouchers = new HashMap<>();
