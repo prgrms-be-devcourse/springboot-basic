@@ -16,7 +16,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -90,15 +89,17 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     private void saveStorage(Voucher voucher) {
         logger.info("Started saveStorage()");
 
-        if(!Files.exists(voucherFilePath)) {
-            try {
-                logger.info("createVoucherFilePath");
-                Files.createDirectory(voucherFilePath.getParent());
-                Files.createFile(voucherFilePath.toAbsolutePath());
-            } catch (IOException e) {
-                logger.error("IOException");
-                e.printStackTrace();
-            }
+        if(Files.exists(voucherFilePath)) {
+            return;
+        }
+
+        try {
+            logger.info("createVoucherFilePath");
+            Files.createDirectory(voucherFilePath.getParent());
+            Files.createFile(voucherFilePath.toAbsolutePath());
+        } catch (IOException e) {
+            logger.error("IOException");
+            e.printStackTrace();
         }
 
         try(FileWriter writer = new FileWriter(voucherFilePath.toFile(),true)){
