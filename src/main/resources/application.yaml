@@ -1,0 +1,23 @@
+spring.config.activate.on-profile: local
+kdt:
+  version: "v1.0"
+  customer:
+    blacklist-file-path: "src/main/resources/customer_blacklist.csv"
+    order:
+      mininum-order-amount: 1
+    voucher:
+      voucher-file-path: "src/main/resources/VoucherRepository.csv"
+
+---
+
+spring.config.activate.on-profile: dev
+kdt:
+  version: "v1.0-dev"
+  customer:
+    blacklist-file-path: "src/main/resources/customer_blacklist.csv"
+  order:
+    mininum-order-amount: 1
+  voucher:
+    voucher-file-path:
+
+---
