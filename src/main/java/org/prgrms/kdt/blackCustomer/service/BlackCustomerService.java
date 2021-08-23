@@ -1,7 +1,7 @@
 package org.prgrms.kdt.blackCustomer.service;
 
 import org.prgrms.kdt.blackCustomer.domain.BlackCustomer;
-import org.prgrms.kdt.voucher.repository.FileBlackCustomerRepository;
+import org.prgrms.kdt.blackCustomer.repository.FileBlackCustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

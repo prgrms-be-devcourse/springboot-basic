@@ -2,13 +2,13 @@ package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
-@Qualifier("memory")
-//@Profile("local")
+@Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> memDatabase = new HashMap<>();

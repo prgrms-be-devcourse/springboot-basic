@@ -6,7 +6,9 @@ import org.prgrms.kdt.io.Command;
 import org.prgrms.kdt.io.IoInteraction;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Scanner;
 
@@ -15,8 +17,19 @@ public class CommandLineApplication {
     public static void main(String[] args) {
 
         // IoC컨테이너를 이용해서 바우처관리를 위해 필요한 서비스와 리포를 빈으로 등록
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        // IoIntercation클래스는 다른클래스와 의존관계는 갖지않긴 하지만 객체 생성은 context에서 하도록함
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+
+        var environment = applicationContext.getEnvironment();
+        // prod환경에서는 파일로 관리되도록 하였습니다.
+        environment.setActiveProfiles("prod");
+        applicationContext.refresh();
+
+        run(applicationContext);
+    }
+
+    public static void run(AnnotationConfigApplicationContext applicationContext) {
+
         var io = applicationContext.getBean(IoInteraction.class);
         var voucherService = applicationContext.getBean(VoucherService.class);
         var customerService = applicationContext.getBean(BlackCustomerService.class);
@@ -36,6 +49,7 @@ public class CommandLineApplication {
             switch (command) {
                 case EXIT:
                     io.exit();
+                    applicationContext.close();
                     System.exit(0);
 
                 case CREATE:

@@ -9,10 +9,8 @@ import java.util.UUID;
 @Service
 public class OrderService {
 
-
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
-
 
     public OrderService(VoucherService voucherService, OrderRepository orderRepository) {
         this.voucherService = voucherService;
@@ -30,12 +28,6 @@ public class OrderService {
         var voucher = voucherService.getVoucher(voucherId);
         var order = new Order(UUID.randomUUID(), customerId, orderItemList, voucher);
         orderRepository.insert(order);
-        // 이미 썼다는걸 저장
-        voucherService.userVoucher(voucher);
         return order;
-    }
-
-    public void saveOrder() {
-
     }
 }

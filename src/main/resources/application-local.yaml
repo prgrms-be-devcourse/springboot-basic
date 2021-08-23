@@ -1,0 +1,5 @@
+data:
+  storage:
+    name: memoryVoucherRepository
+  description: |-
+    profile : local

@@ -60,7 +60,6 @@ public class VoucherFileManager implements FileManager {
         try {
             File file = new File(filePath);
             FileWriter fileWriter = new FileWriter(file);
-            System.out.println("dddddddd");
             for (Voucher voucher : voucherMap.values()){
                 fileWriter.write(voucher.getVoucherId().toString());
                 fileWriter.write(',');

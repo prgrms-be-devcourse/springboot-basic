@@ -10,17 +10,16 @@ import java.text.MessageFormat;
 import java.util.List;
 
 @Component
-@ConfigurationProperties(prefix = "kdt")
+@ConfigurationProperties(prefix = "data") // application.yaml의 하위키값
 public class OrderProperties implements InitializingBean {
 
     private final static Logger logger = LoggerFactory.getLogger(OrderProperties.class);
+
     private String version;
-
+    private String description;
     private String minimunOrderAmount;
-
     private List<String> supportVendors;
 
-    private String description;
 
     @Override
     public void afterPropertiesSet() throws Exception {

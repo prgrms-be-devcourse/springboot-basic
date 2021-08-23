@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 // 빈을 정의한 configuration meta-data(설정클래스)
 @Configuration
 @ComponentScan
-@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
+@PropertySource(value = {"application-prod.yaml", "application-local.yaml"}, factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties // 알려줘야함
 public class AppConfiguration {
 

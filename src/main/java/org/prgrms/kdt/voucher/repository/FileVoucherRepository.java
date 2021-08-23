@@ -1,19 +1,27 @@
 package org.prgrms.kdt.voucher.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.prgrms.kdt.util.VoucherFileManager;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Repository
-@Qualifier("file")
-//@Profile("local")
-public class FileVoucherRepository implements VoucherRepository {
+@Profile("prod")
+public class FileVoucherRepository implements VoucherRepository, InitializingBean {
+
+    @Value("${data.storage.name")
+    private String repositoryName;
 
     private final VoucherFileManager voucherFileManager;
     private final ConcurrentHashMap<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
@@ -26,7 +34,6 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         voucherMap.put(voucher.getVoucherId(), voucher);
-        voucherFileManager.memoryToFile(FILE_PATH, voucherMap);
         return voucher;
     }
 
@@ -50,5 +57,10 @@ public class FileVoucherRepository implements VoucherRepository {
     @PreDestroy
     public void preDestroy() {
         voucherFileManager.memoryToFile(FILE_PATH, voucherMap);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info(MessageFormat.format("Profile prod set... {0} is used...",repositoryName));
     }
 }
