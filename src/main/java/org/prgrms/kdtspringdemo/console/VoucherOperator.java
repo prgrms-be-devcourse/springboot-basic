@@ -1,6 +1,6 @@
 package org.prgrms.kdtspringdemo.console;
 
-import org.prgrms.kdtspringdemo.AppConfiguration;
+import org.prgrms.kdtspringdemo.configuration.AppConfiguration;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

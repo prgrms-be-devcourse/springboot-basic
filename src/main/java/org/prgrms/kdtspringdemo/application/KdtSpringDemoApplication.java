@@ -1,12 +1,10 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.application;
 
 import org.prgrms.kdtspringdemo.order.OrderProperties;
 import org.prgrms.kdtspringdemo.voucher.JdbcVoucherRepository;
 import org.prgrms.kdtspringdemo.voucher.VoucherRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.text.MessageFormat;

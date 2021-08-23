@@ -1,6 +1,5 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.configuration;
 
-import org.prgrms.kdtspringdemo.configuration.YamlPropertiesFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

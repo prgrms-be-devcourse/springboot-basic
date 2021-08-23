@@ -1,4 +1,7 @@
-package org.prgrms.kdtspringdemo.console;
+package org.prgrms.kdtspringdemo.application;
+
+import org.prgrms.kdtspringdemo.console.Console;
+import org.prgrms.kdtspringdemo.console.VoucherOperator;
 
 public class CommandLineApplication {
     public static void main(String[] args) {

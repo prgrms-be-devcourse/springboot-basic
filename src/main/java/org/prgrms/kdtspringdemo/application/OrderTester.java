@@ -1,5 +1,6 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.application;
 
+import org.prgrms.kdtspringdemo.configuration.AppConfiguration;
 import org.prgrms.kdtspringdemo.order.OrderItem;
 import org.prgrms.kdtspringdemo.order.OrderService;
 import org.prgrms.kdtspringdemo.voucher.FixedAmountVoucher;
