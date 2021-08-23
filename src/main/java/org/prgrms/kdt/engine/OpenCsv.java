@@ -33,7 +33,6 @@ public class OpenCsv {
                         String.valueOf(entry.getValue().getDiscount())  // discount amount
                 });
             }
-            System.out.println(data);
         }
     }
 

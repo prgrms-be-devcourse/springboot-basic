@@ -1,29 +1,41 @@
 package org.prgrms.kdt;
 
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.engine.io.Input;
 import org.prgrms.kdt.engine.io.Output;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.springframework.core.io.Resource;
 
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-@AllArgsConstructor
 public class VoucherProgram implements Runnable {
     private VoucherService voucherService;
+    private CustomerService customerService;
+    private Resource resource;
     private Input input;
     private Output output;
     private String filePath;
 
+    public VoucherProgram(VoucherService voucherService, CustomerService customerService, Resource resource, Console console, String filePath) {
+        this.voucherService = voucherService;
+        this.customerService = customerService;
+        this.resource = resource;
+        this.input = console;
+        this.output = console;
+        this.filePath = filePath;
+    }
+
     @SneakyThrows
     @Override
     public void run() {
-        System.out.println(output.HELP);
+        output.printConsole(output.HELP);
         voucherService.loadVoucher(filePath);
         while (true) {
             String inputString = input.input(output.INPUT);
@@ -59,12 +71,10 @@ public class VoucherProgram implements Runnable {
 
                     // print voucher created
                     if (voucher.isEmpty()) output.printConsole(output.CREATE_VOUCHER_ERROR);
-                    if (voucher.isPresent()) {
-                        output.printConsole(MessageFormat.format(
-                                "{0} 타입의 voucher를 생성하였습니다.",
-                                voucher.get().getType())
-                        );
-                    }
+                    voucher.ifPresent(value -> output.printConsole(MessageFormat.format(
+                            "{0} 타입의 voucher를 생성하였습니다.",
+                            value.getType())
+                    ));
                 }
                 case LIST -> {
                     Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
@@ -73,6 +83,16 @@ public class VoucherProgram implements Runnable {
                     } else {
                         for (var voucher : voucherList.values()) {
                             output.printConsole(voucher.toString());
+                        }
+                    }
+                }
+                case BLACKLIST -> {
+                    Map<Integer, String> blackList = customerService.getBlackList(resource);
+                    if (blackList.isEmpty()) {
+                        output.printConsole(output.NO_BLACKLIST);
+                    } else {
+                        for (var customer : blackList.values()) {
+                            output.printConsole(customer);
                         }
                     }
                 }
@@ -94,6 +114,7 @@ public class VoucherProgram implements Runnable {
             case "exit" -> Optional.of(Command.EXIT);
             case "create" -> Optional.of(Command.CREATE);
             case "list" -> Optional.of(Command.LIST);
+            case "blacklist" -> Optional.of(Command.BLACKLIST);
             default -> Optional.empty();
         };
     }

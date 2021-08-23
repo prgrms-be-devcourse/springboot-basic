@@ -5,7 +5,8 @@ public interface Output {
             === Voucher Program ===
             Type exit to exit the program.
             Type create to create a new voucher.
-            Type list to list all vouchers.""";
+            Type list to list all vouchers.
+            Type blacklist to list all black consumers.""";
 
     String INPUT = "명령어를 입력하세요.";
 
@@ -21,6 +22,8 @@ public interface Output {
     String CREATE_VOUCHER_ERROR = "voucher를 정상적으로 생성하지 못했습니다.";
 
     String NO_VOUCHER = "voucher가 없습니다.";
+
+    String NO_BLACKLIST = "blacklist가 없습니다.";
 
     void printConsole(String output);
 }
