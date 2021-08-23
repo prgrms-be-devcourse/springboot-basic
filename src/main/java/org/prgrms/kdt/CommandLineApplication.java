@@ -13,7 +13,6 @@ import java.text.MessageFormat;
 
 
 public class CommandLineApplication {
-    static final String filePath = "./voucher.csv";
     static final String blacklistFileName = "customer_blacklist.csv";
 
     public static void main(String[] args) {
@@ -32,6 +31,6 @@ public class CommandLineApplication {
         Resource resource = applicationContext.getResource("file:" + blacklistFileName);
 
         Console console = new Console();
-        new VoucherProgram(voucherService, customerService, resource, console, filePath).run();
+        new VoucherProgram(voucherService, customerService, resource, console).run();
     }
 }

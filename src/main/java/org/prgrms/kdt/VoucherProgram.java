@@ -22,13 +22,12 @@ public class VoucherProgram implements Runnable {
     private Output output;
     private String filePath;
 
-    public VoucherProgram(VoucherService voucherService, CustomerService customerService, Resource resource, Console console, String filePath) {
+    public VoucherProgram(VoucherService voucherService, CustomerService customerService, Resource resource, Console console) {
         this.voucherService = voucherService;
         this.customerService = customerService;
         this.resource = resource;
         this.input = console;
         this.output = console;
-        this.filePath = filePath;
     }
 
     @SneakyThrows
@@ -99,11 +98,11 @@ public class VoucherProgram implements Runnable {
     }
 
     private boolean isInValidInput(int voucherNum, int discount) {
-        if (discount < 0) return false;
+        if (discount < 0) return true;
         if (voucherNum != VoucherType.FixedAmountVoucher.typeNum()
-                && voucherNum != VoucherType.PercentDiscountVoucher.typeNum()) return false;
-        if (voucherNum == VoucherType.PercentDiscountVoucher.typeNum() && discount > 100) return false;
-        return true;
+                && voucherNum != VoucherType.PercentDiscountVoucher.typeNum()) return true;
+        if (voucherNum == VoucherType.PercentDiscountVoucher.typeNum() && discount > 100) return true;
+        return false;
     }
 
     private Optional<Command> parse(String inputString) {
