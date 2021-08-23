@@ -6,9 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackageClasses = {Order.class, Voucher.class})
+@ComponentScan
 public class AppConfiguration {
-
-
 
 }

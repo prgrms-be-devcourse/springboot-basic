@@ -1,5 +1,6 @@
 package org.prgrms.kdt.devcourse;
 
+import org.prgrms.kdt.devcourse.customer.CustomerService;
 import org.prgrms.kdt.devcourse.io.Console;
 import org.prgrms.kdt.devcourse.voucher.Voucher;
 import org.prgrms.kdt.devcourse.voucher.VoucherService;
@@ -15,16 +16,18 @@ public class CommandLineApplication {
 
         final String CMD_CREATE = "create";
         final String CMD_LIST = "list";
+        final String CMD_BLACK_LIST = "black";
         final String CMD_EXIT = "exit";
 
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         var voucherService = applicationContext.getBean(VoucherService.class);
-
+        var customerService = applicationContext.getBean(CustomerService.class);
         var info = """
                 === Voucher Program ===
                 Type exit to exit the program.
                 Type create to create a new voucher.
                 Type list to list all vouchers.
+                Type black to list black customer.
                 """;
 
         Console console = new Console();
@@ -36,6 +39,9 @@ public class CommandLineApplication {
                 }
                 case CMD_LIST -> {
                     getVoucherList(console,voucherService);
+                }
+                case CMD_BLACK_LIST-> {
+                    getBlackCustomerList(console,customerService);
                 }
                 case CMD_EXIT -> {
                     console.printOut("프로그램을 종료합니다.");
@@ -61,6 +67,10 @@ public class CommandLineApplication {
 
     public static void getVoucherList(Console console, VoucherService voucherService){
         console.printVoucherList(voucherService.getAllVouchers());
+    }
+
+    public static void getBlackCustomerList(Console console, CustomerService customerService){
+        console.printCustomerList(customerService.getBlackCustomers());
     }
 
 
