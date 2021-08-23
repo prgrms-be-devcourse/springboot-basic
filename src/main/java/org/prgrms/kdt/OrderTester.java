@@ -3,6 +3,7 @@ package org.prgrms.kdt;
 import org.apache.logging.log4j.message.Message;
 import org.prgrms.kdt.AppConfiguration;
 import org.prgrms.kdt.order.OrderItem;
+import org.prgrms.kdt.order.property.OrderProperties;
 import org.prgrms.kdt.order.service.OrderService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
@@ -22,13 +23,17 @@ public class OrderTester {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
         // env 가져옵시다.
-        var environment = applicationContext.getEnvironment();
-        var version = environment.getProperty("kdt.version");
-        var minimumOrderAmount = environment.getProperty("kdt.minium-order-amount", Integer.class);
-        var supportVendeors = environment.getProperty("kdt.support-vendors", List.class);
-        System.out.println(MessageFormat.format("version -> {0}", version));
-        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", minimumOrderAmount));
-        System.out.println(MessageFormat.format("supportVendeors -> {0}", supportVendeors));
+        var orderProperties= applicationContext.getBean(OrderProperties.class);
+//        var environment = applicationContext.getEnvironment();
+//        var version = environment.getProperty("kdt.version");
+//        var minimumOrderAmount = environment.getProperty("kdt.minium-order-amount", Integer.class);
+//        var supportVendeors = environment.getProperty("kdt.support-vendors", List.class);
+//        var description = environment.getProperty("kdt.description");
+
+        System.out.println(MessageFormat.format("version -> {0}", orderProperties.getVersion()));
+        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", orderProperties.getMinimumOrderAmount()));
+        System.out.println(MessageFormat.format("supportVendeors -> {0}", orderProperties.getSupportVendors()));
+        System.out.println(MessageFormat.format("description -> {0}", orderProperties.getDescription()));
 
         var customerId = UUID.randomUUID();
 

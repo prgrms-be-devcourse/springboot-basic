@@ -1,5 +1,7 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.configuration.YamlPropertiesFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.*;
 
 /**
@@ -29,7 +31,9 @@ import org.springframework.context.annotation.*;
         "org.prgrms.kdt.configuration",
         "org.prgrms.kdt.command"
 })
-@PropertySource("application.properties") // property를 적용
+// 기본적으로 spring boot는 yaml 을 지원하는데, @PropertySource는 yaml을 지원하지 않습니다 ㅠㅠ 그래서 factory로 만들어서 줍시다
+@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class) // property를 적용
+@EnableConfigurationProperties // OrderProperties사용하
 public class AppConfiguration {
     // 다양한 Bean 들이 특정용도(Kafka Template, Email Sender)에 맞게 그룹화돼서 definition이 configuration file로 작성되어야 될 때가 있어요.
     // 그럴때 configuration package를 만들어서 다 같이 관리하는게 편하다.

@@ -2,6 +2,8 @@ package org.prgrms.kdt.order.property;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -14,30 +16,51 @@ import java.util.List;
  * 값이 잘 주입이 되었는지 확인하고 싶으면 OrderTest에 getBean으로 가져와서 확인할 수 있는데,
  * 요 안에서 확인할 수 있는 방법이 annotation을 이용합니다.-> InitializingBean을 사용하면 필드에 접근하여 확인해볼 수 있습니다.
  */
-@Component
+// yaml에서 배열형태로 된게 spring boot에서 인식이 안됩니다. 그래서 저희는 OrderProperties를 Component에서 ConfigurationProperty로 바꿀꺼에옹
+@Configuration
+@ConfigurationProperties(prefix = "kdt") // spring boot에서 나온 것. 그래서 Appconfigt에서 @EnableConfiguration 달아줘야함
 public class OrderProperties implements InitializingBean {
-    // @Value("v1.1.1")
-    // @Value("${kdt.version}") // 실질적으로 value를 properties에서 키를 주입하여 할당. 대신 없는 값을 주면 "${kdt.version}" 이게 고대로 들어감
-    @Value("${kdt.version2:v0.0.0}") // 그래서 위의 문제를 해결하기위해 값이 없다면 default 값을 넣어라는 것을 지정할(: <- 이걸로) 수 있음
-    // @Value("${JAVA_HOME}")// properties를 가져올때 시스템의 환경변수를 가져오는 방법임.
-    // 만약 key가 property 파일과 환경변수의 키가 같다면 (시스템) 환경 변수의 설정값들이 우선순위가 큼.
     private String version;
-
-    // @Value("0")
-    @Value("${kdt.minimumOrderAmount}")
     private int minimumOrderAmount;
-
-    // @Value("d, a, b")
-    @Value("${kdt.supportVendors}")
     private List<String> supportVendors;
-
-
-
+    private String description;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println(MessageFormat.format("[OrderProperties] version -> {0}", version ));
         System.out.println(MessageFormat.format("[OrderProperties] minimumOrderAmount -> {0}", minimumOrderAmount ));
         System.out.println(MessageFormat.format("[OrderProperties] supportVendors -> {0}", supportVendors ));
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public int getMinimumOrderAmount() {
+        return minimumOrderAmount;
+    }
+
+    public void setMinimumOrderAmount(int minimumOrderAmount) {
+        this.minimumOrderAmount = minimumOrderAmount;
+    }
+
+    public List<String> getSupportVendors() {
+        return supportVendors;
+    }
+
+    public void setSupportVendors(List<String> supportVendors) {
+        this.supportVendors = supportVendors;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

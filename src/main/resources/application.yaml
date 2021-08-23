@@ -1,0 +1,13 @@
+kdt:
+  version: "v1.0"
+  minium-order-amount: 1
+  support-vendors:
+    - a
+    - b
+    - c
+    - d
+  description: | # multi line '-'잇으면 줄바꿈 문자가 포함안됨.
+    line 1 hello world
+    line 2 xxx
+    line 3
+
