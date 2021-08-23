@@ -2,6 +2,7 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.controller.InputController;
 import org.prgrms.kdt.controller.OutputController;
+import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.CommandType;
 import org.prgrms.kdt.enums.VoucherType;
@@ -12,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import java.util.List;
 
 import static org.prgrms.kdt.helper.MessageHelper.*;
 
@@ -52,7 +55,7 @@ public class KdtApplication {
                     runCreate(inputController, voucherService);
                 }
                 case LIST -> {
-                    runList(outputController, voucherService);
+                    runList(outputController, voucherService.getAllVouchers());
                 }
                 case BLACKLIST -> {
                     runBadCustomerList(outputController, customerService);
@@ -85,9 +88,9 @@ public class KdtApplication {
         logger.info("Finished runCreate()");
     }
 
-    public static void runList(OutputController outputController, VoucherService voucherService) {
+    public static void runList(OutputController outputController, List<Voucher> voucherList) {
         logger.info("Starts runList()");
-        outputController.showVoucherList(voucherService.getAllVouchers());
+        outputController.showVoucherList(voucherList);
         logger.info("Finished runList()");
     }
 
