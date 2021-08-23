@@ -1,5 +1,6 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.command.VoucherCommandOperator;
 import org.prgrms.kdt.config.MissionConfiguration;
 import org.prgrms.kdt.io.Console;
 import org.prgrms.kdt.voucher.VoucherService;
@@ -12,9 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class MissionApp {
 
     public static void main(String[] args) {
-        VoucherService voucherService = getVoucherService(getApplicationContext());
-
-        new CommandLineApplication(new Console(), voucherService).run();
+        new CommandLineApplication(new Console(), voucherCommandOperator()).run();
     }
 
     private static AnnotationConfigApplicationContext getApplicationContext() {
@@ -23,5 +22,9 @@ public class MissionApp {
 
     private static VoucherService getVoucherService(AnnotationConfigApplicationContext applicationContext) {
         return applicationContext.getBean(VoucherService.class);
+    }
+
+    private static VoucherCommandOperator voucherCommandOperator() {
+        return new VoucherCommandOperator(getVoucherService(getApplicationContext()));
     }
 }

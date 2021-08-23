@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * Created by yhh1056
@@ -15,7 +16,15 @@ public enum VoucherType {
         this.number = number;
     }
 
-    public static VoucherType findByNumber(String number) {
+    public static Voucher convertCommandToVoucher(String number, Long discount) {
+        return switch (findByNumber(number)) {
+            case FIX -> new FixedAmountVoucher(UUID.randomUUID(), discount);
+            case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(), discount);
+        };
+
+    }
+
+    private static VoucherType findByNumber(String number) {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> voucherType.number.equals(number))
                 .findAny()

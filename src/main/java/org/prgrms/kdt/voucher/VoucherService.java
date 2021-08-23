@@ -27,8 +27,8 @@ public class VoucherService {
 
     }
 
-    public void createVoucher(Voucher voucher) {
-        voucherRepository.insert(voucher);
+    public Voucher createVoucher(Voucher voucher) {
+        return voucherRepository.insert(voucher);
     }
 
     public Map<UUID, Voucher> getAllVoucher() {
