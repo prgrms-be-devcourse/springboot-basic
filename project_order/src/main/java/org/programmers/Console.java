@@ -20,6 +20,7 @@ public class Console implements Input, Output {
         bw.write("Type exit to exit the program.\n");
         bw.write("Type create to create a new voucher.\n");
         bw.write("Type list to list all vouchers.\n");
+        bw.write("Type blacklist to list all customers on blacklist.\n");
         bw.flush();
     }
 

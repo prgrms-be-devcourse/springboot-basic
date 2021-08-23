@@ -1,5 +1,6 @@
 package org.programmers;
 
+import org.programmers.customer.CustomerService;
 import org.programmers.voucher.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -9,6 +10,7 @@ public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         var voucherService = applicationContext.getBean(VoucherService.class);
+        var customerService = applicationContext.getBean(CustomerService.class);
 
         Console console = new Console();
 
@@ -36,7 +38,9 @@ public class CommandLineApplication {
                     voucherService.createVoucher("PercentDiscountVoucher", percentage);
                 }
             } else if (inputString.equals("list")) {
-               System.out.println(voucherService.getAllVouchers().toString());
+                System.out.println(voucherService.getAllVouchers().toString());
+            } else if ("blacklist".equals(inputString)) {
+                System.out.println(customerService.getAllCustomersOnBlacklist().toString());
             } else if (inputString.equals("exit")) {
                 break;
             }
