@@ -1,4 +1,6 @@
-package org.programmers.kdt.customer;
+package org.programmers.kdt.customer.repository;
+
+import org.programmers.kdt.customer.Customer;
 
 import java.util.List;
 import java.util.Optional;

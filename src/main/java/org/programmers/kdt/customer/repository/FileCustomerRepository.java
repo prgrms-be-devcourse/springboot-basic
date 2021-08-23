@@ -1,6 +1,7 @@
-package org.programmers.kdt.customer;
+package org.programmers.kdt.customer.repository;
 
 import com.opencsv.CSVReader;
+import org.programmers.kdt.customer.Customer;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;

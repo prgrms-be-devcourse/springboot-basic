@@ -2,6 +2,7 @@ package org.programmers.kdt.customer;
 
 import org.junit.jupiter.api.*;
 import org.programmers.kdt.AppConfiguration;
+import org.programmers.kdt.customer.service.CustomerService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

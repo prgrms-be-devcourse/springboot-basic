@@ -1,4 +1,6 @@
-package org.programmers.kdt.voucher;
+package org.programmers.kdt.voucher.repository;
+
+import org.programmers.kdt.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

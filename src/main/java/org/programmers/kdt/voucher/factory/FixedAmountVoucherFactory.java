@@ -1,4 +1,7 @@
-package org.programmers.kdt.voucher;
+package org.programmers.kdt.voucher.factory;
+
+import org.programmers.kdt.voucher.FixedAmountVoucher;
+import org.programmers.kdt.voucher.Voucher;
 
 import java.util.UUID;
 

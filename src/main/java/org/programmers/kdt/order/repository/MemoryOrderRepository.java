@@ -1,5 +1,6 @@
-package org.programmers.kdt.order;
+package org.programmers.kdt.order.repository;
 
+import org.programmers.kdt.order.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

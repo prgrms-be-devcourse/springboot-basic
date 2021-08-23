@@ -1,5 +1,6 @@
-package org.programmers.kdt.voucher;
+package org.programmers.kdt.voucher.repository;
 
+import org.programmers.kdt.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 

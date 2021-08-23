@@ -1,5 +1,7 @@
-package org.programmers.kdt.customer;
+package org.programmers.kdt.customer.service;
 
+import org.programmers.kdt.customer.Customer;
+import org.programmers.kdt.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
