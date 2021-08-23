@@ -35,7 +35,6 @@ public class VoucherProgram implements Runnable {
     @Override
     public void run() {
         output.printConsole(output.HELP);
-        voucherService.loadVoucher(filePath);
         while (true) {
             String inputString = input.input(output.INPUT);
             Optional<Command> inputCommand = parse(inputString);
@@ -47,7 +46,6 @@ public class VoucherProgram implements Runnable {
 
             switch (inputCommand.get()) {
                 case EXIT -> {
-                    voucherService.saveVoucher(filePath);
                     return;
                 }
                 case CREATE -> {

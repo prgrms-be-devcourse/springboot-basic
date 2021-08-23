@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("dev")
+@Profile("jdbc")
 public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

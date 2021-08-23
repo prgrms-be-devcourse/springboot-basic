@@ -19,7 +19,6 @@ public class KdtApplication {
 		var springApplication = new SpringApplication(KdtApplication.class);
 		springApplication.setAdditionalProfiles("dev");
 		var applicationContext = springApplication.run(args);
-//		var applicationContext = SpringApplication.run(KdtApplication.class, args);
 
 		var orderProperties = applicationContext.getBean(OrderProperties.class);
 		System.out.println(MessageFormat.format("version -> {0}", orderProperties.getVersion()));
