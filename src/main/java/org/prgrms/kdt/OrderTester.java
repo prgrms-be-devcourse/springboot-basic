@@ -11,29 +11,57 @@ import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.nio.channels.Channels;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class OrderTester {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Spring Application Context를 만드는데 Java 기반껄 만들꺼야
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
         // env 가져옵시다.
-        var orderProperties= applicationContext.getBean(OrderProperties.class);
+        var orderProperties = applicationContext.getBean(OrderProperties.class);
 //        var environment = applicationContext.getEnvironment();
 //        var version = environment.getProperty("kdt.version");
 //        var minimumOrderAmount = environment.getProperty("kdt.minium-order-amount", Integer.class);
 //        var supportVendeors = environment.getProperty("kdt.support-vendors", List.class);
 //        var description = environment.getProperty("kdt.description");
 
-        System.out.println(MessageFormat.format("version -> {0}", orderProperties.getVersion()));
-        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", orderProperties.getMinimumOrderAmount()));
-        System.out.println(MessageFormat.format("supportVendeors -> {0}", orderProperties.getSupportVendors()));
-        System.out.println(MessageFormat.format("description -> {0}", orderProperties.getDescription()));
+//        System.out.println(MessageFormat.format("version -> {0}", orderProperties.getVersion()));
+//        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", orderProperties.getMinimumOrderAmount()));
+//        System.out.println(MessageFormat.format("supportVendeors -> {0}", orderProperties.getSupportVendors()));
+//        System.out.println(MessageFormat.format("description -> {0}", orderProperties.getDescription()));
+
+        // 리소스 가져오기
+        // 클레스 path에서 가져오기.
+        // 이런식으로 spring은 resource를 통해 classpath, file, http(s) 리소스등을 쉽게 가져올수 있는 interface를 제공해주며 이것들은 다 applicatinContext에서 가져옴.
+        // 이걸 통해 우리가 실제 리소스를 가져오기 위한 구현체를 알 필요 없이 Spring의 철학인 DI 에 의해 원하는 리소스가 알아서 인터페이스를 통해 일관된 방법을 제공해줌. 굳굳.
+        var resource = applicationContext.getResource("classpath:application.yaml"); // classPathContextResource
+        var resource2 = applicationContext.getResource("file:sample/sample.txt"); // working dir 기준
+        var resource3 = applicationContext.getResource("https://stackoverflow.com/"); // html file : UrlResource
+
+        System.out.println(MessageFormat.format("Resource -> {0}", resource.getClass().getCanonicalName()));
+        System.out.println(MessageFormat.format("Resource2 -> {0}", resource2.getClass().getCanonicalName()));
+
+        var strings = Files.readAllLines(resource.getFile().toPath());
+        System.out.println(strings.stream().reduce("", (a, b) -> a + "\n" + b));
+        var strings2 = Files.readAllLines(resource2.getFile().toPath());
+        System.out.println(strings2.stream().reduce("", (a, b) -> a + "\n" + b));
+
+        var readableByteChannel= Channels.newChannel(resource3.getURL().openStream()); // 실제 다운받게헤줘야함.
+        var bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
+        var contents = bufferedReader.lines().collect(Collectors.joining());
+        System.out.println(contents);
 
         var customerId = UUID.randomUUID();
 
