@@ -15,7 +15,7 @@ public class CommandLineInput {
             String input;
             input = reader.readLine().toUpperCase().replace(" ", "");
             return CommandType.valueOf(input);
-        }catch (IOException e){
+        }catch (Exception e){
             System.out.println("wrong command!");
             return null;
         }
