@@ -1,20 +1,18 @@
 package org.prgrms.kdt.dto;
 
-import org.prgrms.kdt.domain.voucher.Voucher;
-
-import java.util.UUID;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 
 public class VoucherRequestDto {
 
-    private int voucherType;
+    private VoucherType voucherType;
     // amount or percentage
     private long discount;
 
-    public int getVoucherType() {
+    public VoucherType getVoucherType() {
         return voucherType;
     }
 
-    public void setVoucherType(int voucherType) {
+    public void setVoucherType(VoucherType voucherType) {
         this.voucherType = voucherType;
     }
 
