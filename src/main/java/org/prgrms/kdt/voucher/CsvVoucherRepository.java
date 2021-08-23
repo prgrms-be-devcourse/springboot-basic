@@ -42,6 +42,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     @PreDestroy
     public void save() throws IOException {
         csvWriter.saveFile(storage, filePath);
+        // TODO: 얘도 log로 바꿔야 함
         System.out.println("save success");
     }
 

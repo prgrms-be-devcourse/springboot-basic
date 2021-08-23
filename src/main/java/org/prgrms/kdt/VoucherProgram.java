@@ -15,11 +15,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class VoucherProgram implements Runnable {
-    private VoucherService voucherService;
-    private CustomerService customerService;
-    private Resource resource;
-    private Input input;
-    private Output output;
+    private final VoucherService voucherService;
+    private final CustomerService customerService;
+    private final Resource resource;
+    private final Input input;
+    private final Output output;
     private String filePath;
 
     public VoucherProgram(VoucherService voucherService, CustomerService customerService, Resource resource, Console console) {

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 //        "org.prgrms.kdt.order",
         "org.prgrms.kdt.configuration"
 })
-@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
+@PropertySource(value = "application-dev.yaml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 public class AppConfiguration {
     // 의존 관계 형성
