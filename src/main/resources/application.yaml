@@ -1,5 +1,0 @@
-csv:
-  voucher-repository:
-    file-path : 'csv/voucher_list.csv'
-  customer-blacklist:
-    file-path : 'csv/customer_blacklist.csv'

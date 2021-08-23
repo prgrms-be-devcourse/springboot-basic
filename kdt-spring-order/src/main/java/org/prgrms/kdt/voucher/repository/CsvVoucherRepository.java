@@ -7,6 +7,7 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,10 +30,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CsvVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-    File file;
 
-    @Value("${csv.voucher-repository.file-path}")
+    @Value("${csv.file-path}")
     private String filePath;
+
+    @Value("${csv.voucher-repository.file-name}")
+    private String fileName;
+
+    private String basePath = System.getProperty("user.dir");;
+    private String absoluteFilePath;
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -49,10 +58,11 @@ public class CsvVoucherRepository implements VoucherRepository{
     // Bean 생성시 파일 불러오기
     @PostConstruct
     public void loadCsv() throws IOException {
-        // base 경로는 resources 디렉토리임
-        ClassPathResource resource = new ClassPathResource(filePath);
-        file = resource.getFile();
-        try(BufferedReader br = new BufferedReader(new FileReader(file));){
+        absoluteFilePath = basePath + filePath + fileName;
+
+        System.out.println(absoluteFilePath);
+
+        try(BufferedReader br = new BufferedReader(new FileReader(absoluteFilePath))){
             String row = "";
             br.readLine();
             while((row = br.readLine()) != null){
@@ -75,7 +85,7 @@ public class CsvVoucherRepository implements VoucherRepository{
     // Bean 파괴시 파일 저장
     @PreDestroy
     public void saveCsv() throws IOException {
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file));){
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(absoluteFilePath))){
             // 컬럼명 먼저 써주고
             bw.write("ID,VALUE,TYPE");
             // 리스트 순회해서 한줄씩 추가
