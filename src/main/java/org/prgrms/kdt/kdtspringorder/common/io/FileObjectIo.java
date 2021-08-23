@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class FileObjectIo implements FileIo<Object>{
 
-    @Value(value = "${dev.file-io.file-path}")
+    @Value(value = "${kdt.dev.file-io.file-path}")
     private String FILE_PATH;
 
     @Override

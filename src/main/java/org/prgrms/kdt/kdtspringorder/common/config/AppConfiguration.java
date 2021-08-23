@@ -1,15 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.common.config;
 
-import org.prgrms.kdt.kdtspringorder.common.io.ConsoleOutput;
-import org.prgrms.kdt.kdtspringorder.common.io.ConsoleInput;
-import org.prgrms.kdt.kdtspringorder.order.domain.Order;
-import org.prgrms.kdt.kdtspringorder.order.repository.OrderRepository;
-import org.prgrms.kdt.kdtspringorder.order.service.OrderService;
-import org.prgrms.kdt.kdtspringorder.voucher.application.VoucherCommandLine;
-import org.prgrms.kdt.kdtspringorder.voucher.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
-import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -22,7 +13,8 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan(
         basePackages = { "org.prgrms.kdt.kdtspringorder" }
 )
-@PropertySource(value = "application.properties")
+@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
+@EnableConfigurationProperties // @ConfigurationProperties를 사용하려면 이걸 써줘야함
 public class AppConfiguration {
 
 //    @Bean
