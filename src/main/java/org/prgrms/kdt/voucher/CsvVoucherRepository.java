@@ -2,6 +2,8 @@ package org.prgrms.kdt.voucher;
 
 import com.opencsv.exceptions.CsvValidationException;
 import org.prgrms.kdt.engine.OpenCsv;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -21,6 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile({"local"})
 public class CsvVoucherRepository implements VoucherRepository {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Value("${local.file_path}")
     private String filePath;
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
@@ -35,15 +39,13 @@ public class CsvVoucherRepository implements VoucherRepository {
                 insert(voucher);
             }
         }
-        // TODO: 로드 성공 log로 바꿔야 함
-        System.out.println("load success");
+        logger.info("load the voucher");
     }
 
     @PreDestroy
     public void save() throws IOException {
         csvWriter.saveFile(storage, filePath);
-        // TODO: 얘도 log로 바꿔야 함
-        System.out.println("save success");
+        logger.info("save the voucher");
     }
 
     @Override

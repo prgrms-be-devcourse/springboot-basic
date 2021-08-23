@@ -3,6 +3,8 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.voucher.VoucherProperties;
 import org.prgrms.kdt.voucher.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -22,15 +24,15 @@ public class CommandLineApplication {
         applicationContext.register(AppConfiguration.class);
         applicationContext.refresh();
 
+        Console console = new Console();
         var voucherProperties = applicationContext.getBean(VoucherProperties.class);
-        System.out.println(MessageFormat.format("Program version: {0}", voucherProperties.getVersion()));
+        console.logInfo(MessageFormat.format("Program version: {0}", voucherProperties.getVersion()));
 
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
         CustomerService customerService = applicationContext.getBean(CustomerService.class);
 
         Resource resource = applicationContext.getResource("file:" + blacklistFileName);
 
-        Console console = new Console();
         new VoucherProgram(voucherService, customerService, resource, console).run();
 
         applicationContext.close();

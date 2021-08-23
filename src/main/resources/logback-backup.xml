@@ -1,5 +1,4 @@
 <configuration>
-
     <conversionRule
             conversionWord="clr"
             converterClass="org.springframework.boot.logging.logback.ColorConverter" />
