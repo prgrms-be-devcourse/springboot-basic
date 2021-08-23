@@ -5,6 +5,8 @@ import org.programmers.kdt.voucher.factory.FixedAmountVoucherFactory;
 import org.programmers.kdt.voucher.factory.PercentDiscountVoucherFactory;
 import org.programmers.kdt.voucher.factory.VoucherFactory;
 import org.programmers.kdt.voucher.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.UUID;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
     private VoucherFactory voucherFactory;
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
     @Autowired
     public VoucherService(VoucherRepository voucherRepository) {
@@ -25,7 +28,10 @@ public class VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         return this.voucherRepository
                 .findById(voucherId)
-                .orElseThrow( () -> new RuntimeException(MessageFormat.format("Cannot find a voucher for {0}", voucherId)) );
+                .orElseThrow( () -> {
+                    logger.error("{} -> Fail : getVoucher for ID {}", this.getClass(), voucherId);
+                    return new RuntimeException(MessageFormat.format("Cannot find a voucher for {0}", voucherId));
+                } );
     }
 
     public void useVoucher(Voucher voucher) {
@@ -34,6 +40,7 @@ public class VoucherService {
 
     public void addVoucher(Voucher voucher) {
         this.voucherRepository.save(voucher);
+        logger.info("New Voucher has Been Added : {} {} {}", voucher.getClass(), voucher.getVoucherId(), voucher.getDiscount());
     }
 
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount) {

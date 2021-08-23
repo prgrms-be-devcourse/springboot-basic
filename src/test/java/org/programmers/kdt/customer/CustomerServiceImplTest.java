@@ -3,8 +3,8 @@ package org.programmers.kdt.customer;
 import org.junit.jupiter.api.*;
 import org.programmers.kdt.AppConfiguration;
 import org.programmers.kdt.customer.service.CustomerService;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,22 @@ import static org.assertj.core.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerServiceImplTest {
-    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-    CustomerService customerService = applicationContext.getBean(CustomerService.class);
+    AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+    CustomerService customerService;
 
     private List<Customer> customers;
     private List<Customer> blacklistCustomers;
 
     @BeforeAll
     void setupTestData() {
+        applicationContext.register(AppConfiguration.class);
+
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("dev");
+        applicationContext.refresh();
+
+        customerService = applicationContext.getBean(CustomerService.class);
+
         customers = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             UUID uuid = UUID.randomUUID();
