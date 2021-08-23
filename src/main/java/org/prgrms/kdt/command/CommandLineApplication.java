@@ -5,9 +5,10 @@ import org.prgrms.kdt.command.io.Input;
 import org.prgrms.kdt.command.io.Output;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class CommandLineApplication implements Runnable {
 
     private static final String INPUT_PROMPT = "> ";
@@ -33,7 +34,6 @@ public class CommandLineApplication implements Runnable {
 
     private boolean excute() {
         String inputCommandType = input.inputString(INPUT_PROMPT);
-
-        return CommandType.findCommand(inputCommandType).execute(input, output, voucherService);
+        return CommandType.findCommand(inputCommandType).execute();
     }
 }

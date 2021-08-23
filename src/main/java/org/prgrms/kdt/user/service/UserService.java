@@ -8,10 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Profile 안에 Property 가 이땅.
- *
- */
 @Service
 public class UserService {
     private final UserRepository userRepository;

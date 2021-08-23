@@ -21,18 +21,18 @@ public enum CommandType {
 
 
     private final String inputCommand;
-    private final Supplier<Command> supplier;
+    private final Command command;
     private static Map<String, CommandType> commandMap = Arrays
             .stream(CommandType.values())
             .collect(Collectors.toMap(o -> o.inputCommand, o -> o)); // TODO: Group By
 
-    CommandType(String inputCommand, Supplier<Command> supplier) {
+    CommandType(String inputCommand, Command command) {
         this.inputCommand = inputCommand;
-        this.supplier = supplier;
+        this.command = command;
     }
 
-    public boolean execute(Input input, Output output, VoucherService voucherService) {
-        return this.supplier.get().excute(input, output, voucherService);
+    public boolean execute() {
+        return command.excute();
     }
 
     public static CommandType findCommand(String inputCommandType) { // TODO: values()
