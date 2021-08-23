@@ -82,7 +82,7 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
                 }
             }
         } catch (NumberFormatException e) {
-            logger.error("NumberFormatException");
+            logger.error("Integer 자료형이 아닙니다.");
             e.printStackTrace();
         }
     }
