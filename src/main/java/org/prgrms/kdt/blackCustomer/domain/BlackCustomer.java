@@ -1,10 +1,7 @@
-package org.prgrms.kdt.BlackCustomer;
+package org.prgrms.kdt.blackCustomer.domain;
 
 import lombok.Builder;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
 
 public class BlackCustomer {

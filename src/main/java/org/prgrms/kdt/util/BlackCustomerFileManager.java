@@ -1,6 +1,6 @@
 package org.prgrms.kdt.util;
 
-import org.prgrms.kdt.BlackCustomer.BlackCustomer;
+import org.prgrms.kdt.blackCustomer.domain.BlackCustomer;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;

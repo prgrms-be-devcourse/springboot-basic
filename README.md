@@ -16,4 +16,11 @@
 - 생성자를 통한 의존성주입
 - circular depency문제
 - 컴포넌트 스캔
- 
+
+### 210823 _ 코드리뷰
+ 1. 명령어 enum클래스 생성
+ 2. commandApplication에 있던 출력문 모두 IoIntercation클래스로 이동
+ 3. 타입선택시 사용자로부터 입력받은 숫자로 비교해서 fixed, percent로 구분하지않고 enum에 getter 두고 매칭되는것으로 enum가져오기
+ 4. Consumer -> BlackConsumer
+ 5. valueobject삭제, 파일을 읽어 메모리에 로드할때 fixed와 percent의 분기방법 (파일에적힌 문자열과 비교하여 분기하지않고 enum으로 변환후에 타입으로 분기하도록 변경 ( voucherFileManager.fileToMemory 메소드 )
+ 6. FileManager를 상속받는 VoucherFileManager을 두고 해당 클래스에서 fileToMemory, MemoryToFile 메서드로 파일과 메모리이동을 담당 , @Component를 통해 빈으로 등록후 VoucherRepository에서 생성자주입을 통해 사용

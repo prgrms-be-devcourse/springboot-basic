@@ -1,7 +1,7 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.BlackCustomer.BlackCustomerService;
-import org.prgrms.kdt.dto.VoucherRequestDto;
+import org.prgrms.kdt.blackCustomer.service.BlackCustomerService;
+import org.prgrms.kdt.voucher.dto.VoucherRequestDto;
 import org.prgrms.kdt.io.Command;
 import org.prgrms.kdt.io.IoInteraction;
 import org.prgrms.kdt.voucher.service.VoucherService;

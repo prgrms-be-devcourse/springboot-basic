@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.BlackCustomer.BlackCustomer;
+import org.prgrms.kdt.blackCustomer.domain.BlackCustomer;
 import org.prgrms.kdt.util.BlackCustomerFileManager;
 import org.springframework.stereotype.Repository;
 

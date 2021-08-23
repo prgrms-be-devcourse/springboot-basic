@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.dto.VoucherRequestDto;
+import org.prgrms.kdt.voucher.dto.VoucherRequestDto;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;

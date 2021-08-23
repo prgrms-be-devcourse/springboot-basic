@@ -1,6 +1,6 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.BlackCustomer.BlackCustomer;
+import org.prgrms.kdt.blackCustomer.domain.BlackCustomer;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
