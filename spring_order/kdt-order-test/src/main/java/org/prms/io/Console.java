@@ -3,6 +3,7 @@ package org.prms.io;
 import org.prms.domain.Voucher;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,11 +46,15 @@ public class Console implements Input, Output{
         System.out.println(cmd +"가 실행되었습니다.");
     }
 
+
+
+
+//
     @Override
     public void cmdList(ConcurrentHashMap<UUID,Voucher> voucherList) {
         System.out.println("Voucher List");
-        for (UUID vo:voucherList.keySet()) {
-            System.out.println(voucherList.get(vo));
+        for (UUID id:voucherList.keySet()) {
+            System.out.println(voucherList.get(id).toString());
         }
     }
 
@@ -62,4 +67,11 @@ public class Console implements Input, Output{
         System.exit(0);
 
     }
+
+    @Override
+    public void cmdVoucherType(String cmd) {
+        System.out.println(cmd +" 선택");
+
+    }
+
 }

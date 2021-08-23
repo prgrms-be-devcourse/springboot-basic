@@ -5,19 +5,23 @@ import org.prms.domain.PercentDiscountVoucher;
 import org.prms.domain.Voucher;
 import org.prms.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
+@Primary
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
-    @Autowired
-    public VoucherService(VoucherRepository voucherRepository) {
+//    @Autowired
+    public VoucherService(@Qualifier("fileRepo") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -29,19 +33,17 @@ public class VoucherService {
     }
 
     public void createVoucher(String voucherType,Long val) {
-        UUID uuid=UUID.randomUUID();
-        if (voucherType.equals("fixed")) {
 
-            voucherRepository.insert(uuid,new FixedAmountVoucher(uuid,val));
+        var voucherId=UUID.randomUUID();
+
+        if (voucherType.equals("fixed")) {
+            voucherRepository.insert(new FixedAmountVoucher(voucherId,val));
         }
         else {
-            voucherRepository.insert(uuid,new PercentDiscountVoucher(uuid,val));
+//            voucherRepository.insert(uuid,new PercentDiscountVoucher(uuid,val));
+            voucherRepository.insert(new PercentDiscountVoucher(voucherId,val));
         }
     }
-
-//    public ArrayList<Voucher> getVoucherList() {
-//        return voucherRepository.getList();
-//    }
 
     public ConcurrentHashMap<UUID,Voucher> getVoucherList() {
         return voucherRepository.getList();
@@ -49,8 +51,7 @@ public class VoucherService {
 
 
 
-
-    //To do
+    //Todo
     public void useVoucher(Voucher voucher) {
 
     }

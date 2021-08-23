@@ -1,4 +1,4 @@
-package org.prms.controller;
+package org.prms.domain;
 
 import org.prms.domain.OrderItem;
 import org.prms.domain.OrderStatus;

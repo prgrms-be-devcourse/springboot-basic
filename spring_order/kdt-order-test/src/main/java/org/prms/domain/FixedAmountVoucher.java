@@ -6,6 +6,7 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long amount;
+    private final String type="FIXED";
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -21,6 +22,16 @@ public class FixedAmountVoucher implements Voucher {
     public long discount(long beforeDiscount) {
         return beforeDiscount-amount;
 
+    }
+
+    @Override
+    public long getAmount() {
+        return amount;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     @Override

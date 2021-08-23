@@ -1,6 +1,6 @@
 package org.prms.service;
 
-import org.prms.controller.Order;
+import org.prms.domain.Order;
 import org.prms.domain.OrderItem;
 import org.prms.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Service
+//@Service
 public class OrderService {
 
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
 
 
-    @Autowired
+//    @Autowired
     public OrderService(VoucherService voucherService, OrderRepository orderRepository) {
         this.voucherService = voucherService;
         this.orderRepository = orderRepository;
@@ -28,9 +28,8 @@ public class OrderService {
 
         var order= new Order(UUID.randomUUID(),customerId,orderItems);
         // order 정보 저장
-        orderRepository.insert(order);
 
-        return order;
+        return orderRepository.insert(order);
     }
 
 

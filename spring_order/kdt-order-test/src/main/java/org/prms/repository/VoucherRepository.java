@@ -13,10 +13,12 @@ public interface VoucherRepository {
     //Optional --> Null값 방지
     Optional<Voucher> findById(UUID voucherId);
 
-    void insert(UUID vocherId,Voucher voucher);
-//    void insert(Voucher voucher);
+//    void insert(UUID vocherId,Voucher voucher);
+    void insert(Voucher voucher);
 //    ArrayList<Voucher> getList();
     ConcurrentHashMap<UUID,Voucher> getList();
+
+
 
 
 }

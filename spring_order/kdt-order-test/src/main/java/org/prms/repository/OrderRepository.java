@@ -1,8 +1,8 @@
 package org.prms.repository;
 
-import org.prms.controller.Order;
+import org.prms.domain.Order;
 
 public interface OrderRepository {
 
-    public void insert(Order order);
+    public Order insert(Order order);
 }

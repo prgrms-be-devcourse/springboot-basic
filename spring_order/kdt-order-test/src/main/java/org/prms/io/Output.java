@@ -11,9 +11,9 @@ public interface Output {
     void cmdInit();
     void cmdError(String cmd);
     void cmdCorrect(String cmd);
-//    void cmdList(ArrayList<Voucher> voucherList);
     void cmdList(ConcurrentHashMap<UUID,Voucher> voucherList);
     void cmdExit();
+    void cmdVoucherType(String cmd);
 
 
 }

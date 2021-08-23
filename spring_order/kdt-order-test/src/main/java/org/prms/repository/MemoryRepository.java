@@ -1,6 +1,8 @@
 package org.prms.repository;
 
 import org.prms.domain.Voucher;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,38 +11,33 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+//@Primary
+@Qualifier("memoryRepo")
 public class MemoryRepository implements VoucherRepository{
 
 //    ArrayList<Voucher> list=new ArrayList<>();
 
-    ConcurrentHashMap<UUID,Voucher> list=new ConcurrentHashMap<>();
+    private ConcurrentHashMap<UUID,Voucher> map=new ConcurrentHashMap<>();
+
+
 
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        return Optional.ofNullable(map.get(voucherId));
     }
 
-//    @Override
-//    public void insert(Voucher voucher) {
-//        list.add(voucher);
-//    }
+
 
     @Override
-    public void insert(UUID voucherID,Voucher voucher) {
-        list.put(voucherID,voucher);
+    public void insert(Voucher voucher) {
+        map.put(voucher.getVoucherId(),voucher);
     }
 
-
-
-//    @Override
-//    public ArrayList<Voucher> getList() {
-//        return list;
-//    }
 
     @Override
     public ConcurrentHashMap<UUID, Voucher> getList() {
-        return list;
+        return map;
     }
 
 
