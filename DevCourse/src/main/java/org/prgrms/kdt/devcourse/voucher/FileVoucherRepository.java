@@ -1,6 +1,7 @@
 package org.prgrms.kdt.devcourse.voucher;
 
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Primary
+@Profile("default")
 public class FileVoucherRepository implements VoucherRepository{
     private Map<UUID,Voucher> voucherList = new ConcurrentHashMap<>();
     private final String filePath = System.getProperty("user.dir")+"/voucher.csv";

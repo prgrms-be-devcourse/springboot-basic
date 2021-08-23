@@ -3,3 +3,6 @@ file:
     blacklist: customer_blacklist.csv
   voucher:
     voucher: voucher.csv
+spring:
+  profiles:
+    active: dev
