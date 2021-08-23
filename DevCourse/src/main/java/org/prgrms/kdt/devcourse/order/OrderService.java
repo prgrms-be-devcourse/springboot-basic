@@ -1,8 +1,12 @@
-package org.prgrms.kdt.devcourse;
+package org.prgrms.kdt.devcourse.order;
+
+import org.prgrms.kdt.devcourse.voucher.VoucherService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
@@ -24,7 +28,7 @@ public class OrderService {
 
         var voucher = voucherService.getVoucher(voucherId);
         var order = new Order(UUID.randomUUID(),customerId,orderItems,voucher);
-        orderRepository.save(order);
+        orderRepository.insert(order);
         voucherService.useVoucher(voucher);
         return order;
     }

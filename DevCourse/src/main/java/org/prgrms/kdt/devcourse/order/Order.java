@@ -1,4 +1,6 @@
-package org.prgrms.kdt.devcourse;
+package org.prgrms.kdt.devcourse.order;
+
+import org.prgrms.kdt.devcourse.voucher.Voucher;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +24,6 @@ public class Order {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
-        this.voucher = null;
     }
 
     public long totalAmount(){
@@ -30,9 +31,22 @@ public class Order {
                 .map(v-> v.getProductPrice() * v.getQuantity())
                 .reduce(0L,Long::sum);
 
-        if(voucher!=null)
+        if(voucher!=null){
             return voucher.discount(beforeDiscount);
+        }
+
         return beforeDiscount;
     }
 
+    public UUID getOrderId() {
+        return orderId;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
 }
