@@ -11,10 +11,6 @@ public class JcuApplication {
 
 		// Todo : enum
 		// Todo : delete 커멘드 추가
-
-		// ApplicationContext ac = new AnnotationConfigApplicationContext(JcuApplication.class);
-		// var voucherService = ac.getBean(VoucherService.class);
-		// new CommandLineApplication(voucherService);
 	}
 
 }
