@@ -23,8 +23,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return voucherMap.values().stream()
-                .collect(Collectors.toCollection(ArrayList::new));
+        return new ArrayList<>(voucherMap.values());
     }
 
     @Override
@@ -58,8 +57,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @PreDestroy
     public void destroy() throws Exception {
 
-        ArrayList<Object> vouchers = voucherMap.values().stream()
-                .collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Object> vouchers = new ArrayList<>(voucherMap.values());
         this.fileIo.write(vouchers);
 
     }

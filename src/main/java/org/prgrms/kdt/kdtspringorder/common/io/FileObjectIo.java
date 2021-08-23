@@ -19,6 +19,7 @@ public class FileObjectIo implements FileIo{
         FileOutputStream fileStream = null; // 파일에 쓰는 역할
         ObjectOutputStream os = null; // 파일에 쓰기전에 직렬화 하는 역할
         try {
+
             fileStream = new FileOutputStream(FILE_PATH);
             os = new ObjectOutputStream(fileStream);
 
