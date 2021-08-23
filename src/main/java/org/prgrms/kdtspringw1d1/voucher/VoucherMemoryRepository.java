@@ -1,10 +1,14 @@
 package org.prgrms.kdtspringw1d1.voucher;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Repository
 public class VoucherMemoryRepository implements VoucherRepository {
 
     // 메모리 저장소로 ArrayList 사용
