@@ -1,5 +1,6 @@
 package org.prgrms.dev;
 
+import org.prgrms.dev.command.CommandType;
 import org.prgrms.dev.io.Console;
 import org.prgrms.dev.io.Input;
 import org.prgrms.dev.io.Output;
@@ -29,17 +30,9 @@ public class CommandLine implements Runnable {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
         while (true) {
             output.init();
-            String command = input.input("> ");
-            if (command.equals("create")) {
-                output.voucherType();
-                String type = input.input("> ");
-                Long value = Long.valueOf(input.input("input value [fixed amount | percent discount] > "));
-                voucherService.createVoucher(type, value);
-            } else if (command.equals("list")) {
-                System.out.println(voucherService.listVoucher().toString());
-            } else if (command.equals("exit")) {
-                break;
-            }
+            String inputCommandType = input.input("> ");
+            boolean flag = CommandType.execute(inputCommandType, input, output, voucherService);
+            if(!flag) break;
         }
     }
 }

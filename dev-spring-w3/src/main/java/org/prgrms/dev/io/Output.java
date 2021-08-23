@@ -1,11 +1,11 @@
 package org.prgrms.dev.io;
 
+import org.prgrms.dev.voucher.service.VoucherService;
+
 public interface Output {
     void init();
 
-    void voucherType();
+    void voucherSelectType();
 
-    void success();
-
-    void inputError();
+    void voucherList(VoucherService voucherService);
 }

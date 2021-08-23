@@ -23,9 +23,9 @@ public enum VoucherType {
 
     abstract Voucher create(long value);
 
-    public static Voucher getVoucherType(String type, long value){
+    public static Voucher getVoucherType(String inputType, long value){
         VoucherType voucherType = Arrays.stream(VoucherType.values())
-                .filter(voucher -> voucher.type.equals(type))
+                .filter(voucher -> voucher.type.equals(inputType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException());
         return voucherType.create(value);

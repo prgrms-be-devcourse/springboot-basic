@@ -1,5 +1,7 @@
 package org.prgrms.dev.io;
 
+import org.prgrms.dev.voucher.service.VoucherService;
+
 import java.util.Scanner;
 
 public class Console implements Input, Output {
@@ -14,25 +16,20 @@ public class Console implements Input, Output {
     @Override
     public void init() {
         System.out.println("=== Voucher Program ===\n" +
-                "Type exit to exit the program.\n" +
-                "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers.");
+                "Type [exit] to exit the program.\n" +
+                "Type [create] to create a new voucher.\n" +
+                "Type [list] to list all vouchers.");
     }
 
     @Override
-    public void voucherType() {
-        System.out.println("=== select Voucher Type ===\n" +
-                "fixed amount (f) \n" +
-                "percent discount (p) ");
+    public void voucherSelectType() {
+        System.out.print("=== Select Voucher Type ===\n" +
+                "fixed amount [f] | percent discount [p] ");
     }
 
     @Override
-    public void success() {
-        System.out.println("Voucher create success");
+    public void voucherList(VoucherService voucherService) {
+        System.out.println(voucherService.listVoucher().toString());
     }
 
-    @Override
-    public void inputError() {
-        System.out.println("Invalid input.");
-    }
 }
