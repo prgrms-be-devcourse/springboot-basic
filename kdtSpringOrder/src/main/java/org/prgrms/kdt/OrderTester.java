@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.UUID;
 
 @EnableAutoConfiguration
@@ -38,9 +39,9 @@ public class OrderTester {
         var customerId = UUID.randomUUID();
         var order = orderService.createOrder(customerId, new ArrayList<>(){{
             add(new OrderItem(UUID.randomUUID(), 100L, 1));
-        }}, voucher.getVoucherId());
+        }});
 
-        Assert.isTrue(order.totalAmount() == 90L, MessageFormat.format("totalAmount{0} is not 90L", order.totalAmount()));
+        Assert.isTrue(order.totalAmount() == 90L, MessageFormat.format("totalAmount{0} is not 100L", order.totalAmount()));
     }
 
 }

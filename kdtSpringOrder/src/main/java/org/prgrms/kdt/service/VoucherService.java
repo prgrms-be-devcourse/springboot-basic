@@ -42,10 +42,10 @@ public class VoucherService {
 
         if(voucherSaveRequestDto.getVoucherType() == VoucherType.FIXED) {
             logger.info("VoucherType is FixedAmountVoucher");
-            return Optional.of(voucherRepository.save(new FixedAmountVoucher(uuid, voucherSaveRequestDto.getDiscount())));
+            return voucherRepository.save(new FixedAmountVoucher(uuid, voucherSaveRequestDto.getDiscount()));
         } else {
             logger.info("VoucherType is PercentDiscountVoucher");
-            return Optional.of(voucherRepository.save(new PercentDiscountVoucher(uuid, voucherSaveRequestDto.getDiscount())));
+            return voucherRepository.save(new PercentDiscountVoucher(uuid, voucherSaveRequestDto.getDiscount()));
         }
     }
 

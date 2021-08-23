@@ -36,15 +36,12 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Optional<Voucher> save(Voucher voucher) {
         logger.info("Started Save(), id : {}, type : {}, discount : {}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount());
-
-        storage.put(voucher.getVoucherId(), voucher);
         saveStorage(voucher);
-
         logger.info("Finished Save()");
 
-        return voucher;
+        return Optional.ofNullable(storage.put(voucher.getVoucherId(), voucher));
     }
 
     @Override

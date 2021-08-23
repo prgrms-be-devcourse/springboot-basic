@@ -3,6 +3,7 @@ package org.prgrms.kdt.repository;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -20,9 +21,8 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public Voucher save(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
-        return voucher;
+    public Optional<Voucher> save(Voucher voucher) {
+        return Optional.ofNullable(storage.put(voucher.getVoucherId(), voucher));
     }
 
     @Override
