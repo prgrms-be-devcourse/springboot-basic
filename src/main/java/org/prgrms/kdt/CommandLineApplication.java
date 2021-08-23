@@ -16,8 +16,17 @@ import java.util.UUID;
 public class CommandLineApplication {
     private static final Input input = new Console();
     private static final Output output = new Console();
-    private static final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-    private static final VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+    private static final String profile = "prod";
+    private static final AnnotationConfigApplicationContext applicationContext;
+    private static final VoucherService voucherService;
+
+    static {
+        applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+        applicationContext.getEnvironment().setActiveProfiles(profile);
+        applicationContext.refresh();
+        voucherService = applicationContext.getBean(VoucherService.class);
+    }
 
     public static void main(String[] args) {
         output.help();
