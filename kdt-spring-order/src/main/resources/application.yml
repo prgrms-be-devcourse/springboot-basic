@@ -17,3 +17,7 @@ kdt:
 
 spring:
   profiles.active: dev
+
+db_path:
+ txt_path: "db.txt"
+ csv_path: "customer_blacklist.csv"

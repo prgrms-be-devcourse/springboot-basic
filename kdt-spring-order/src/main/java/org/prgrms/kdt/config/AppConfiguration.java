@@ -6,6 +6,7 @@ import org.prgrms.kdt.io.console.ConsoleIO;
 import org.prgrms.kdt.io.file.CsvFileIO;
 import org.prgrms.kdt.io.file.IO;
 import org.prgrms.kdt.io.file.TxtFileIO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,8 +21,11 @@ import java.io.IOException;
 @EnableConfigurationProperties
 public class AppConfiguration {
 
-    private static final String TXT_PATH = "db.txt";
-    private static final String CSV_PATH = "customer_blacklist.csv";
+    @Value("${db_path.txt_path}")
+    private String TXT_PATH;
+
+    @Value("${db_path.csv_path}")
+    private String CSV_PATH;
 
     @Bean
     public IO txtFileIo() throws IOException {
