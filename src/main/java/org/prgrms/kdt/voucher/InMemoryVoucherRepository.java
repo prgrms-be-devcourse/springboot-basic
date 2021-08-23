@@ -40,22 +40,22 @@ public class InMemoryVoucherRepository implements VoucherRepository, Initializin
 
     @PostConstruct
     public void postConstruct() {
-        System.out.println("postConstruct called!!");
+//        System.out.println("postConstruct called!!");
     }
 
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("afterPropertiesSet called!!");
+//        System.out.println("afterPropertiesSet called!!");
     }
 
     @PreDestroy
     public void preDestroy() {
-        System.out.println("preDestroy called!!");
+//        System.out.println("preDestroy called!!");
     }
 
     @Override
     public void destroy() throws Exception {
-        System.out.println("destroy called!!");
+//        System.out.println("destroy called!!");
     }
 }

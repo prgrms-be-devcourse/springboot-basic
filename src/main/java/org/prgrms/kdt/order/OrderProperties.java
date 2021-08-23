@@ -24,15 +24,15 @@ public class OrderProperties implements InitializingBean {
 
     private String description;
 
-    @Value("${JAVA_HOME}")
+    @Value("${java.home}")
     private String javaHome;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println(MessageFormat.format("version = {0}", version));
-        System.out.println(MessageFormat.format("minimumOrderAmount = {0}", minimumOrderAmount));
-        System.out.println(MessageFormat.format("supportVendors = {0}", supportVendors));
-        System.out.println(MessageFormat.format("javaHome = {0}", javaHome));
+//        System.out.println(MessageFormat.format("version = {0}", version));
+//        System.out.println(MessageFormat.format("minimumOrderAmount = {0}", minimumOrderAmount));
+//        System.out.println(MessageFormat.format("supportVendors = {0}", supportVendors));
+//        System.out.println(MessageFormat.format("javaHome = {0}", javaHome));
     }
 
     public String getVersion() {

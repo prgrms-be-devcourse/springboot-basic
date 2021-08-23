@@ -17,7 +17,11 @@ import org.prgrms.kdt.order.OrderService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
+import org.springframework.boot.ansi.AnsiOutput;
+import org.springframework.boot.ansi.AnsiOutput.Enabled;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
@@ -27,6 +31,8 @@ import org.springframework.util.Assert;
  */
 public class OrderTester {
 
+    private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);
+
     private final OrderService orderService;
 
     public OrderTester(OrderService orderService) {
@@ -35,6 +41,7 @@ public class OrderTester {
 
     // 수업 내용
     public static void main(String[] args) throws IOException {
+        AnsiOutput.setEnabled(Enabled.ALWAYS);
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
         // getEnvironment를 통해 프로퍼티를 확인하는 방법
@@ -62,18 +69,18 @@ public class OrderTester {
         var supportVendors = environment.getProperty("kdt.support-vendors", List.class);
         var description = environment.getProperty("kdt.description", List.class);
 
-        System.out.println(MessageFormat.format("version = {0}", version));
-        System.out.println(MessageFormat.format("minimumOrderAmount = {0}", minimumOrderAmount));
-        System.out.println(MessageFormat.format("supportVendors = {0}", supportVendors));
-        System.out.println(MessageFormat.format("description = {0}", description));
+        logger.info("version = {}", version);
+        logger.info("minimumOrderAmount = {}", minimumOrderAmount);
+        logger.info("supportVendors = {}", supportVendors);
+        logger.info("description = {}", description);
     }
 
     private static void printProperties(AnnotationConfigApplicationContext applicationContext) {
         var orderProperties = applicationContext.getBean(OrderProperties.class);
-        System.out.println(MessageFormat.format("version = {0}", orderProperties.getVersion()));
-        System.out.println(MessageFormat.format("minimumOrderAmount = {0}", orderProperties.getMinimumOrderAmount()));
-        System.out.println(MessageFormat.format("supportVendors = {0}", orderProperties.getSupportVendors()));
-        System.out.println(MessageFormat.format("description = {0}", orderProperties.getDescription()));
+        logger.info("version = {}", orderProperties.getVersion());
+        logger.info("minimumOrderAmount = {}", orderProperties.getMinimumOrderAmount());
+        logger.info("supportVendors = {}", orderProperties.getSupportVendors());
+        logger.info("description = {}", orderProperties.getDescription());
     }
 
     private static void printResource(AnnotationConfigApplicationContext applicationContext)
@@ -82,19 +89,19 @@ public class OrderTester {
         var resource2 = applicationContext.getResource("file:test/sample.txt");
         var resource3 = applicationContext.getResource("https://stackoverflow.com");
 
-        System.out.println(MessageFormat.format("resource -> {0}", resource.getClass().getCanonicalName()));
-        System.out.println(MessageFormat.format("resource -> {0}", resource2.getClass().getCanonicalName()));
-        System.out.println(MessageFormat.format("resource -> {0}", resource3.getClass().getCanonicalName()));
+        logger.info("resource -> {}", resource.getClass().getCanonicalName());
+        logger.info("resource -> {}", resource2.getClass().getCanonicalName());
+        logger.info("resource -> {}", resource3.getClass().getCanonicalName());
 
         var strings = Files.readAllLines(resource.getFile().toPath());
-        System.out.println(strings.stream().reduce("", (a, b) -> a + "\n" + b));
+        logger.info(strings.stream().reduce("", (a, b) -> a + "\n" + b));
 
         var textFile = Files.readAllLines(resource2.getFile().toPath());
-        System.out.println(textFile.stream().reduce("", (a, b) -> a + "\n" + b));
+        logger.info(textFile.stream().reduce("", (a, b) -> a + "\n" + b));
 
         var readableByteChannel = Channels.newChannel(resource3.getURL().openStream());
         var bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
-        System.out.println(bufferedReader.lines().collect(Collectors.joining("\n")));
+//        logger.info(bufferedReader.lines().collect(Collectors.joining("\n")));
     }
 
     private static VoucherRepository getVoucherRepository(
@@ -107,9 +114,9 @@ public class OrderTester {
                 .qualifiedBeanOfType(applicationContext.getBeanFactory(),
                         VoucherRepository.class, "memory");
 
-        System.out.println(MessageFormat.format("voucherRepository {0}", voucherRepository));
-        System.out.println(MessageFormat.format("voucherRepository2 {0}", voucherRepository2));
-        System.out.println(MessageFormat.format("voucherRepository == voucherRepository => {0}", voucherRepository == voucherRepository2));
+        logger.info("voucherRepository {}", voucherRepository);
+        logger.info("voucherRepository2 {}", voucherRepository2);
+        logger.info("voucherRepository == voucherRepository => {}", voucherRepository == voucherRepository2);
         return voucherRepository;
     }
 
@@ -122,6 +129,6 @@ public class OrderTester {
             add(new OrderItem(UUID.randomUUID(), 100, 1));
         }}, voucher.getVoucherId());
         Assert.isTrue(order.totalAmount() == 90L,
-                MessageFormat.format("totalAmount({0}) is not 90L", order.totalAmount()));
+                MessageFormat.format("totalAmount({}) is not 90L", order.totalAmount()));
     }
 }
