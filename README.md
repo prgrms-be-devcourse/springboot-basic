@@ -64,7 +64,7 @@ ___
 - [x] Command 입력 받는 부분 if-else -> switch
 - [ ] VoucherController 예외처리 로직 VoucherService로 이동
 - [x] .csv 파일 resources 관리
-- [ ] Message enum -> constant class
+- [x] Message enum -> constant class
 - [x] 팀원 코드리뷰
   - [x] RepositoryImpl::save() return 한 줄로
   - [x] Controller에서 ui 분리

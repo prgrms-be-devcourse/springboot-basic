@@ -38,7 +38,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private void validateDiscountPercent(long discountPercent) {
         if (discountPercent > 100) {
-            throw new InvalidDiscountException(ErrorMessage.INVALID_DISCOUNT_PERCENT.getMessage());
+            throw new InvalidDiscountException(ErrorMessage.INVALID_DISCOUNT_PERCENT);
         }
     }
 }
