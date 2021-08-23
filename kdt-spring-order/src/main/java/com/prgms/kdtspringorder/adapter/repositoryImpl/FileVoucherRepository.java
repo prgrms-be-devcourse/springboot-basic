@@ -26,7 +26,8 @@ import com.prgms.kdtspringorder.domain.model.voucher.VoucherType;
 @Qualifier("file")
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
-    private static final String FILEPATH = System.getProperty("user.dir") + "/voucher_list.csv";
+    private static final String FILEPATH =
+        System.getProperty("user.dir") + "/kdt-spring-order/src/main/resources/.csv/voucher_list.csv";
     private static final File FILE = new File(FILEPATH);
     private static final String COMMA = ",";
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
@@ -54,7 +55,6 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         // file 가져와서 storage에 넣기
         try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
-            // Files.newBufferedReader(Paths.get(FILEPATH))
             String line = "";
             while ((line = br.readLine()) != null) {
                 String[] voucherInfo = line.split(COMMA);

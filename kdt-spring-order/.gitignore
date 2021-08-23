@@ -31,4 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
 .mvn/
+/src/main/resources/.csv/

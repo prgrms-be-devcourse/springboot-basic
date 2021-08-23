@@ -42,7 +42,7 @@ ___
 - [x] file로 관리되는 Repository를 만든다.
   - ApplicationContext 전후처리로 바우처 저장
 
-### 리팩토링
+### D2 리팩토링
 
 - [x] voucher 저장소 controller -> repository
 - [x] voucher 사용 후 -> 사용 전으로 되게 수정 (VoucherService, Voucher)
@@ -57,7 +57,14 @@ ___
 - [ ] customer_blacklist.csv를 만든다.
   - read만
 - [ ] YAML 프로퍼티 생성, 설정해본다.
-- [ ] MemoryVoucherRepository를 개발 프로파일에서만 동작하게 한다.
+- [x] MemoryVoucherRepository를 개발 프로파일에서만 동작하게 한다.
+
+### D3 리팩토링
+
+- [ ] Command 입력 받는 부분 if-else -> switch
+- [ ] VoucherController 예외처리 로직 VoucherService로 이동
+- [x] .csv 파일 resources 관리
+- [ ] Message enum -> constant class
 
 ___
 
@@ -68,3 +75,7 @@ ___
 - [ ] 적절한 로그를 기록한다.
 - [ ] 로그백 설정을 해서 에러를 파일로 기록하게 한다.
 - [ ] SpringBoot Application으로 변경한다.
+
+### 리팩토링
+
+- [x] ApplicationContext 위치 VoucherController -> CommandLineApplication 이동
