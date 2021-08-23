@@ -39,7 +39,7 @@ public class ConsoleIO implements IO {
     @Override
     public void mark() {
         try {
-            bufferedReader.mark(100);
+            bufferedReader.mark(100000000);
         } catch (IOException e) {
             e.printStackTrace();
         }

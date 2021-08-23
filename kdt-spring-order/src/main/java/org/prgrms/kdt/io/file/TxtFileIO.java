@@ -37,7 +37,7 @@ public class TxtFileIO implements IO {
     @Override
     public void mark() {
         try {
-            bufferedReader.mark(100);
+            bufferedReader.mark(10000000);
         } catch (IOException e) {
             e.printStackTrace();
         }
