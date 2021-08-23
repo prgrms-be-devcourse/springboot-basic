@@ -23,6 +23,6 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "[Percent]" + voucherId + ", " + percent + "%";
+        return "Percent " + voucherId + " " + percent;
     }
 }
