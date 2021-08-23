@@ -16,6 +16,7 @@ public class VoucherFactory {
         return switch (type) {
             case FIX -> new FixedAmountVoucher(id, value);
             case PERCENT -> new PercentAmountVoucher(id, value);
+            default -> throw new IllegalArgumentException("Wrong Voucher Type");
         };
 
     }
