@@ -11,6 +11,7 @@ public class MessageHelper {
         System.out.println("exit");
         System.out.println("create");
         System.out.println("list");
+        System.out.println("blacklist");
         System.out.println("replay");
         System.out.println("=======================");
     }
@@ -42,4 +43,7 @@ public class MessageHelper {
     }
 
     public void showVoucherListEmptyMessage() { System.out.println("등록된 바우처가 없습니다."); };
+
+    public void showBadCustomerListEmptyMessage() { System.out.println("조회된 고객이 없습니다."); };
+
 }

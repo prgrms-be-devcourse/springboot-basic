@@ -6,6 +6,7 @@ public enum CommandType {
     EXIT("exit"),
     CREATE("create"),
     LIST("list"),
+    BLACKLIST("blacklist"),
     REPLAY("replay");
 
     CommandType(String command) {
