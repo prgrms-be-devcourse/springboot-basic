@@ -1,12 +1,27 @@
 package org.prgms.w3d1.util;
 
-public class Command {
-    public static final String EXIT = "exit";
-    public static final String CREATE = "create";
-    public static final String LIST = "list";
-    public static final String VOUCHER_SERVICE = "1";
-    public static final String BLACKLIST_SERVICE = "2";
-    public static final String FIXED_AMOUNT_VOUCHER = "1";
-    public static final String PERCENT_DISCOUNT_VOUCHER = "2";
+import java.util.Arrays;
+
+public enum Command {
+    EXIT("exit"),
+    CREATE("create"),
+    LIST("list"),
+    VOUCHER_SERVICE("1"),
+    BLACKLIST_SERVICE("2"),
+    FIXED_AMOUNT_VOUCHER("3"),
+    PERCENT_DISCOUNT_VOUCHER("4");
+
+    private final String command;
+
+    Command(String command){
+        this.command = command;
+    }
+
+    public static Command getCommand(String str) {
+        return Arrays.stream(values())
+                .filter(v -> v.command.equals(str))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("unknown value: " + str));
+    }
 }
 
