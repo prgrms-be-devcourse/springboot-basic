@@ -5,7 +5,6 @@ import org.prgrms.kdt.controller.OutputController;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.CommandType;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.helper.MessageHelper;
 import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.VoucherService;
 import org.slf4j.Logger;
@@ -13,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import static org.prgrms.kdt.helper.MessageHelper.*;
 
 @SpringBootApplication
 public class KdtApplication {
@@ -34,22 +35,21 @@ public class KdtApplication {
 
         InputController inputController = applicationContext.getBean(InputController.class);
         OutputController outputController = applicationContext.getBean(OutputController.class);
-        MessageHelper messageHelper = applicationContext.getBean(MessageHelper.class);
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
         CustomerService customerService = applicationContext.getBean(CustomerService.class);
 
         while(true){
-            messageHelper.showVoucherProgramGuideMessage();
+            showVoucherProgramGuideMessage();
             CommandType commandType = inputController.getCommandType();
 
             logger.info("CommandType is {}", commandType.toString());
 
             switch (commandType) {
                 case EXIT -> {
-                    runExit(messageHelper);
+                    runExit();
                 }
                 case CREATE -> {
-                    runCreate(inputController, messageHelper, voucherService);
+                    runCreate(inputController, voucherService);
                 }
                 case LIST -> {
                     runList(outputController, voucherService);
@@ -58,30 +58,30 @@ public class KdtApplication {
                     runBadCustomerList(outputController, customerService);
                 }
                 case REPLAY -> {
-                    runReplay(messageHelper);
+                    runReplay();
                 }
                 default -> {
-                    runRetry(messageHelper);
+                    runRetry();
                 }
             }
         }
     }
 
-    public static void runExit(MessageHelper messageHelper) {
+    public static void runExit() {
         logger.info("Starts runExit()");
-        messageHelper.showExitMessage();
+        showExitMessage();
         logger.info("Finished runExit()");
         System.exit(0);
     }
 
-    public static void runCreate(InputController inputController, MessageHelper messageHelper, VoucherService voucherService) {
+    public static void runCreate(InputController inputController, VoucherService voucherService) {
         logger.info("Starts runCreate()");
-        messageHelper.showVoucherSelectionMessage();
+        showVoucherSelectionMessage();
         VoucherType type = inputController.getVoucherType();
-        messageHelper.showEnterVoucherDiscount();
+        showEnterVoucherDiscount();
         long discount = inputController.getDiscount();
         voucherService.createVoucher(new VoucherSaveRequestDto(type, discount));
-        messageHelper.showVoucherRegistrationSuccessMessage();
+        showVoucherRegistrationSuccessMessage();
         logger.info("Finished runCreate()");
     }
 
@@ -97,15 +97,15 @@ public class KdtApplication {
         logger.info("Finished runBadCustomerList()");
     }
 
-    public static void runReplay(MessageHelper messageHelper) {
+    public static void runReplay() {
         logger.info("Starts runReplay()");
-        messageHelper.showVoucherProgramGuideMessage();
+        showVoucherProgramGuideMessage();
         logger.info("Finished runReplay()");
     }
 
-    public static void runRetry(MessageHelper messageHelper) {
+    public static void runRetry() {
         logger.info("Starts runRetry()");
-        messageHelper.showRetryMessage();
+        showRetryMessage();
         logger.info("Finished runRetry()");
     }
 

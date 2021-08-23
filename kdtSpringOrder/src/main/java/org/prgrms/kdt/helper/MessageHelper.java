@@ -1,11 +1,8 @@
 package org.prgrms.kdt.helper;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class MessageHelper {
 
-    public void showVoucherProgramGuideMessage() {
+    public static void showVoucherProgramGuideMessage() {
         System.out.println("=== Voucher Program ===");
         System.out.println("원하는 기능을 입력하세요.");
         System.out.println("exit");
@@ -16,34 +13,34 @@ public class MessageHelper {
         System.out.println("=======================");
     }
 
-    public void showExitMessage() {
+    public static void showExitMessage() {
         System.out.println("프로그램을 종료하겠습니다.");
     }
 
-    public void showRetryMessage() {
+    public static void showRetryMessage() {
         System.out.println("잘못입력하셨습니다. 다시 선택해주세요.");
     }
 
-    public void showVoucherSelectionMessage() {
+    public static void showVoucherSelectionMessage() {
         System.out.println("Voucher 종류를 입력해주세요.");
         System.out.println("fixed");
         System.out.println("discount");
     }
 
-    public void showVoucherRegistrationSuccessMessage() {
+    public static void showVoucherRegistrationSuccessMessage() {
         System.out.println("Voucher 등록이 완료되었습니다.");
     }
 
-    public void showEnterVoucherDiscount() {
+    public static void showEnterVoucherDiscount() {
         System.out.println("할인율을 입력해주세요.");
     }
 
-    public void showDuplicateVoucherMessage() {
+    public static void showDuplicateVoucherMessage() {
         System.out.println("중복된 바우처 입니다.");
     }
 
-    public void showVoucherListEmptyMessage() { System.out.println("등록된 바우처가 없습니다."); };
+    public static void showVoucherListEmptyMessage() { System.out.println("등록된 바우처가 없습니다."); };
 
-    public void showBadCustomerListEmptyMessage() { System.out.println("조회된 고객이 없습니다."); };
+    public static void showBadCustomerListEmptyMessage() { System.out.println("조회된 고객이 없습니다."); };
 
 }

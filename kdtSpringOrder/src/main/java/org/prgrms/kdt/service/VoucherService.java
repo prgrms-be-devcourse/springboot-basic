@@ -1,12 +1,10 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.KdtApplication;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.helper.MessageHelper;
 import org.prgrms.kdt.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +15,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.kdt.helper.MessageHelper.*;
+
 @Service
 public class VoucherService {
 
     private final static Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherRepository voucherRepository;
-    private final MessageHelper messageHelper = new MessageHelper();
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -67,20 +66,20 @@ public class VoucherService {
         logger.info("Starts checkValidity()");
         if(voucherSaveRequestDto.getVoucherType() == VoucherType.UNDEFINED) {
             logger.warn("Fail to create a voucher.");
-            messageHelper.showRetryMessage();
+            showRetryMessage();
             return false;
         }
 
-        messageHelper.showEnterVoucherDiscount();
+        showEnterVoucherDiscount();
         if(voucherSaveRequestDto.getDiscount() < 0) {
             logger.warn("Fail to create a voucher.");
-            messageHelper.showRetryMessage();
+            showRetryMessage();
             return false;
         }
 
         if(voucherRepository.findById(uuid).isPresent()) {
             logger.warn("Voucher is duplicated");
-            messageHelper.showDuplicateVoucherMessage();
+            showDuplicateVoucherMessage();
             return false;
         }
 
