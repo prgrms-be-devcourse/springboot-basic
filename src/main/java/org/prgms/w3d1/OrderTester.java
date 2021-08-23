@@ -1,5 +1,6 @@
 package org.prgms.w3d1;
 
+import org.prgms.w3d1.configuration.AppConfiguration;
 import org.prgms.w3d1.model.order.OrderItem;
 import org.prgms.w3d1.model.order.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -15,7 +16,7 @@ public class OrderTester {
         var orderService = applicationContext.getBean(OrderService.class);
 
         var customerId = UUID.randomUUID();
-        var order = orderService.createOrder(customerId, new ArrayList<OrderItem>(){{
+        var order = orderService.createOrder(customerId, new ArrayList<>(){{
             add(new OrderItem(UUID.randomUUID(), 100L, 1));
         }});
         Assert.isTrue(order.totalAmount() == 100L,

@@ -7,18 +7,18 @@ import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
 import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
 import org.prgms.w3d1.model.voucher.VoucherService;
 import org.prgms.w3d1.util.Command;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.UUID;
-
 
 public class CommandLineApplication implements Runnable {
 
     private final Input input;
     private final Output output;
-    private final AnnotationConfigApplicationContext applicationContext;
+    private final ConfigurableApplicationContext applicationContext;
 
-    public CommandLineApplication(Input input, Output output, AnnotationConfigApplicationContext applicationContext) {
+    public CommandLineApplication(Input input, Output output, ConfigurableApplicationContext applicationContext) {
         this.input = input;
         this.output = output;
         this.applicationContext = applicationContext;
@@ -75,8 +75,8 @@ public class CommandLineApplication implements Runnable {
         // if -> switch변경, enum화
         String str = input.input("""
                 === Create Voucher ===
-                1 : FixedAmountVoucher
-                2 : PercentDiscountVoucher
+                3 : FixedAmountVoucher
+                4 : PercentDiscountVoucher
                 """);
         Command command = Command.getCommand(str);
 
