@@ -2,11 +2,13 @@ package org.prgrms.kdt.engine;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
 import lombok.SneakyThrows;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.springframework.core.io.Resource;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -39,7 +41,6 @@ public class OpenCsv {
     @SneakyThrows
     public Optional<Map<UUID, Voucher>> loadFile(String filePath) {
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
-
             // pass header
             reader.readNext();
 
@@ -58,6 +59,25 @@ public class OpenCsv {
             }
             return Optional.of(data);
         } catch (FileNotFoundException e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Map<Integer, String>> loadBlackList(Resource resource) throws IOException {
+        try (CSVReader reader = new CSVReader(new FileReader(resource.getFile()))) {
+            Map<Integer, String> data = new ConcurrentHashMap<>();
+            // pass header
+            reader.readNext();
+
+            String[] nextLine;
+
+            while ((nextLine = reader.readNext()) != null) {
+                int customerId = Integer.parseInt(nextLine[0]);
+                String customerName = nextLine[1];
+                data.put(customerId, customerName);
+            }
+            return Optional.of(data);
+        } catch (FileNotFoundException | CsvValidationException e) {
             return Optional.empty();
         }
     }

@@ -9,7 +9,6 @@ import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.core.io.Resource;
 
-import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Optional;
@@ -87,11 +86,11 @@ public class VoucherProgram implements Runnable {
                     }
                 }
                 case BLACKLIST -> {
-                    Map<Integer, String> blackList = customerService.getBlackList(resource);
+                    Optional<Map<Integer, String>> blackList = customerService.loadBlackList(resource);
                     if (blackList.isEmpty()) {
                         output.printConsole(output.NO_BLACKLIST);
                     } else {
-                        for (var customer : blackList.values()) {
+                        for (var customer : blackList.get().values()) {
                             output.printConsole(customer);
                         }
                     }
