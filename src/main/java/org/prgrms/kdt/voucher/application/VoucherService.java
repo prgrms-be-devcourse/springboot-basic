@@ -23,7 +23,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher voucher(UUID voucherId) {
+    public Voucher findByVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND_VOUCHER_MESSAGE));
     }
@@ -32,7 +32,7 @@ public class VoucherService {
         return voucherRepository.insert(voucher);
     }
 
-    public Map<UUID, Voucher> allVoucher() {
+    public Map<UUID, Voucher> findByAllVoucher() {
         return voucherRepository.findByAllVoucher();
     }
 

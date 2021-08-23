@@ -3,12 +3,13 @@ package org.prgrms.kdt.voucher.domain;
 import org.prgrms.kdt.exception.ErrorMessage;
 import org.prgrms.kdt.exception.InvalidArgumentException;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private final static long MIN_VOUCHER_PERCENT = 0;
     private final static long MAX_VOUCHER_PERCENT = 100;
-    private final static int PERCENTAGE = 100;
+    private final static long PERCENTAGE = 100;
 
     private final UUID voucherId;
     private final long percent;
@@ -41,7 +42,11 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / PERCENTAGE);
+        long discountAmount = beforeDiscount * (percent / PERCENTAGE);
+        if (discountAmount < 0) {
+            throw new InvalidArgumentException(ErrorMessage.NOT_CORRECT_INPUT_MESSAGE);
+        }
+        return discountAmount;
     }
 
     @Override
@@ -50,5 +55,23 @@ public class PercentDiscountVoucher implements Voucher {
                 voucherId + " " +
                 percent;
     }
-    
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return percent == that.percent && Objects.equals(voucherId, that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, percent);
+    }
+
+    @Override
+    public long value() {
+        return percent;
+    }
 }

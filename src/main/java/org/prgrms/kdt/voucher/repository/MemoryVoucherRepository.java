@@ -33,4 +33,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return storage;
     }
 
+    @Override
+    public int size() {
+        return storage.size();
+    }
 }

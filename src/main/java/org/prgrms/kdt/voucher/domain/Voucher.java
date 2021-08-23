@@ -11,4 +11,9 @@ public interface Voucher {
 
     String toString();
 
+    boolean equals(Object o);
+
+    int hashCode();
+
+    long value();
 }

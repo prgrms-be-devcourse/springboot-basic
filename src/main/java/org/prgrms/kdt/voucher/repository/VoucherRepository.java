@@ -12,4 +12,6 @@ public interface VoucherRepository {
     Map<UUID, Voucher> findByAllVoucher();
 
     Voucher insert(Voucher voucher);
+
+    int size();
 }

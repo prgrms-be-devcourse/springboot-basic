@@ -48,6 +48,11 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
+    @Override
+    public int size() {
+        return storage.size();
+    }
+
     private void insertToFile(Voucher voucher) {
         try {
             FileWriter fileWriter = new FileWriter(file, true);
@@ -91,6 +96,7 @@ public class FileVoucherRepository implements VoucherRepository {
      * TODO
      * parseLong 때문에 FixedAmountVouncher에 데이터가 전달되지 못하고 Exception이 터져버립니다.
      * 개인적인 생각으로는 String을 보내줘서 Voucher들이 String에 대한 validate를 진행할 수 있는게 맞지 않나 싶습니다..
+     * init을 진행하다보니,,,VoucherService의 인스턴스 생성기와 같은 메서드를 공유하게 되었습니다...
      */
     private Voucher newVoucher(VoucherType type, UUID uuid, String value) {
         if (type == VoucherType.FIXED) {

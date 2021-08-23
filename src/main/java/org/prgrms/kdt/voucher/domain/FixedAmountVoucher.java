@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher.domain;
 import org.prgrms.kdt.exception.ErrorMessage;
 import org.prgrms.kdt.exception.InvalidArgumentException;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -53,4 +54,21 @@ public class FixedAmountVoucher implements Voucher {
                 " " + amount;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FixedAmountVoucher that = (FixedAmountVoucher) o;
+        return amount == that.amount && Objects.equals(voucherId, that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, amount);
+    }
+
+    @Override
+    public long value() {
+        return amount;
+    }
 }

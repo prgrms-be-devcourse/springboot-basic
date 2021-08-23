@@ -65,7 +65,7 @@ public class VoucherController {
     }
 
     private void showVouchers() {
-        OutputView.showVouchers(voucherService.allVoucher());
+        OutputView.showVouchers(voucherService.findByAllVoucher());
     }
 
 }
