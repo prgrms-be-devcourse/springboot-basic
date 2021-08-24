@@ -19,7 +19,7 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException("Cannot find the voucher for " + voucherId));
     }
 
-    public void userVoucher(Voucher voucher) {
+    public void useVoucher(Voucher voucher) {
     }
 
     public Voucher createFixedVoucher(long amount) {
