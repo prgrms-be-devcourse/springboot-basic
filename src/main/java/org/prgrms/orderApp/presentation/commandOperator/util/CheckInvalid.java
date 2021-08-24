@@ -9,7 +9,7 @@ public class CheckInvalid {
     public boolean checkInteger(String targetChecked){
         // true : 숫자로 이루어져 있지 않음 / false : 숫자로 이루어져 있음.
         boolean flag = true;
-        if(targetChecked.matches("[+-]?\\d*(\\.\\d+)?")){
+        if(targetChecked.matches("[+-]?\\d*(\\.\\d+)?") && targetChecked !=""){
             flag = false;
         }
         return flag;

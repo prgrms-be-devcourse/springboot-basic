@@ -32,7 +32,7 @@ public class MonguDbPage implements AllScriptForCMDApplication {
     }
 
 
-    public void dropCollection() throws IOException {
+    public void dropCollection() {
         console.print(divisionLine);
         collectionName = console.input(monguDbCollectionDrop_GuideMessage);
         console.infoMessage(mongoDbManageApplicationService.dropCollection(collectionName));

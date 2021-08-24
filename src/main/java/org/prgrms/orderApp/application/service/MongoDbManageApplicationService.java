@@ -12,10 +12,10 @@ public class MongoDbManageApplicationService {
     DbManagement dbManagement;
 
 
-    public String dropCollection(String collectionName) throws IOException {
-        return dbManagement.getConnection().DbConnection().createdCollection(collectionName);
-    }
-    public String createCollection(String collectionName){
+    public String dropCollection(String collectionName) {
         return dbManagement.getConnection().DbConnection().dropCollection(collectionName);
+    }
+    public String createCollection(String collectionName) throws IOException {
+        return dbManagement.getConnection().DbConnection().createdCollection(collectionName);
     }
 }
