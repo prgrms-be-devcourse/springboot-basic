@@ -1,6 +1,7 @@
 package org.programmers.customer;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -14,6 +15,9 @@ import java.util.UUID;
 @Repository
 public class FileCustomerRepository implements CustomerRepository{
 
+    @Value("${dev.file.blacklist}")
+    private String blackFile;
+
     private BufferedReader br;
 
     @Override
@@ -22,7 +26,7 @@ public class FileCustomerRepository implements CustomerRepository{
         String str;
 
         try {
-            br = Files.newBufferedReader(Path.of("customer_blacklist.csv"));
+            br = Files.newBufferedReader(Path.of(blackFile));
 
             while((str = br.readLine())!=null){
                 String[] customerInfo = str.split(" ");
