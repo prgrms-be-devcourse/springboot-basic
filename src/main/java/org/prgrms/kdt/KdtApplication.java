@@ -10,9 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 import java.text.MessageFormat;
 
 @SpringBootApplication
-@ComponentScan(
-		basePackages = {"org.prgrms.kdt.voucher", "org.prgrms.kdt.order"}
-)
 public class KdtApplication {
 
 	private static final Logger logger= LoggerFactory.getLogger(KdtApplication.class);

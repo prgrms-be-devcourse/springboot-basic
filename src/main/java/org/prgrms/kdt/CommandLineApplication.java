@@ -9,20 +9,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 
 import java.text.MessageFormat;
 
-
+@SpringBootApplication
 public class CommandLineApplication {
     static final String blacklistFileName = "customer_blacklist.csv";
 
     public static void main(String[] args) {
-
-        var applicationContext = new AnnotationConfigApplicationContext();
-        applicationContext.getEnvironment().setActiveProfiles("local");
-        applicationContext.register(AppConfiguration.class);
-        applicationContext.refresh();
+        var springApplication = new SpringApplication(KdtApplication.class);
+        springApplication.setAdditionalProfiles("local");
+        var applicationContext = springApplication.run(args);
 
         Console console = new Console();
         var voucherProperties = applicationContext.getBean(VoucherProperties.class);
