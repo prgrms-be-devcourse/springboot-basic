@@ -1,4 +1,4 @@
-package com.programmers.kdtspringorder.customer;
+package com.programmers.kdtspringorder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class JdbcCustomerRepository {
+/**
+ *  강의 실습파일입니다.
+ */
+public class JdbcCustomerRepositoryTester {
 
-    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepositoryTester.class);
     public final String SELECT_BY_NAME_SQL = "select * from customers WHERE name = ?";
     public final String SELECT_ALL_SQL = "select * from customers";
     public final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email) VALUES(UUID_TO_BIN(?), ?, ?)";
@@ -135,16 +138,16 @@ public class JdbcCustomerRepository {
     }
 
     public static void main(String[] args) {
-        final JdbcCustomerRepository jdbcCustomerRepository = new JdbcCustomerRepository();
+        final JdbcCustomerRepositoryTester jdbcCustomerRepositoryTester = new JdbcCustomerRepositoryTester();
 //        jdbcCustomerRepository.insertCustomer(UUID.randomUUID(), "new_user", "new-user@gmail.com");
 
-        final int i = jdbcCustomerRepository.deleteAllCustomers();
+        final int i = jdbcCustomerRepositoryTester.deleteAllCustomers();
         final UUID customer2 = UUID.randomUUID();
         logger.info("UUID : {}", customer2);
-        jdbcCustomerRepository.insertCustomer(customer2, "customer2", "customer2@gmail.com");
-        jdbcCustomerRepository.updateCustomerName(customer2, "cucucu");
+        jdbcCustomerRepositoryTester.insertCustomer(customer2, "customer2", "customer2@gmail.com");
+        jdbcCustomerRepositoryTester.updateCustomerName(customer2, "cucucu");
 
-        List<String> names = jdbcCustomerRepository.findAllName();
+        List<String> names = jdbcCustomerRepositoryTester.findAllName();
         names.forEach(v -> logger.info("Found name : {} ", v));
     }
 }
