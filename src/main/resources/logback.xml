@@ -8,12 +8,16 @@
             <fileNamePattern>logs/error-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level  --- [ %thread{10} ] %logger{35} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level  --- [ %thread{10} ] %logger{30} - %msg%n</pattern>
         </encoder>
     </appender>
 
     <logger name="org.prgrms.kdt" level="ERROR">
         <appender-ref ref="ROLLING_FILE" />
+    </logger>
+
+    <logger name="org.prgrms.kdt" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
     </logger>
 
     <root level="INFO">
