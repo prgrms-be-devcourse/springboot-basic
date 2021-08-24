@@ -7,9 +7,11 @@ import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan(basePackages = {"com.prgrms.devkdtorder"})
+@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
 public class AppConfiguration {
 
 
