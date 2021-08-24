@@ -6,9 +6,11 @@ import org.prgrms.kdt.engine.io.Input;
 import org.prgrms.kdt.engine.io.Output;
 import org.prgrms.kdt.engine.voucher.Voucher;
 import org.prgrms.kdt.engine.voucher.VoucherService;
+import org.prgrms.kdt.engine.voucher.VoucherType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,14 +18,14 @@ import java.util.UUID;
 public class CommandLineApplication {
     private static final Input input = new Console();
     private static final Output output = new Console();
-    private static final String profile = "prod";
+    private static final String PROFILE = "dev";
     private static final AnnotationConfigApplicationContext applicationContext;
     private static final VoucherService voucherService;
 
     static {
         applicationContext = new AnnotationConfigApplicationContext();
         applicationContext.register(AppConfiguration.class);
-        applicationContext.getEnvironment().setActiveProfiles(profile);
+        applicationContext.getEnvironment().setActiveProfiles(PROFILE);
         applicationContext.refresh();
         voucherService = applicationContext.getBean(VoucherService.class);
     }
@@ -35,8 +37,8 @@ public class CommandLineApplication {
             switch (command) {
                 case "create" :
                     output.showVoucherOptions();
-                    String type = input.inputCommand("");
-                    Optional<Voucher> voucher = createVoucher(type);
+                    String typeName = input.inputCommand("");
+                    Optional<Voucher> voucher = createVoucher(typeName);
                     voucher.ifPresentOrElse(output::createVoucher, output::inputError);
                     break;
 
@@ -55,15 +57,16 @@ public class CommandLineApplication {
         }
     }
 
-    static Optional<Voucher> createVoucher(String type) {
-        if (type.equals("fixed")) {
-            long amount = Long.parseLong(input.inputCommand("amount : "));
-            return Optional.of(voucherService.createFixedVoucher(amount));
+    private static Optional<Voucher> createVoucher(String typeName) {
+        VoucherType type;
+        long rate;
+
+        try {
+            type = VoucherType.valueOf(typeName.toUpperCase());
+            rate = Long.parseLong(input.inputCommand("rate : "));
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
         }
-        if (type.equals("percent")) {
-            long percent = Long.parseLong(input.inputCommand("percent : "));
-            return Optional.of(voucherService.createPercentVoucher(percent));
-        }
-        return Optional.empty();
+        return Optional.of(voucherService.createVoucher(type, rate));
     }
 }

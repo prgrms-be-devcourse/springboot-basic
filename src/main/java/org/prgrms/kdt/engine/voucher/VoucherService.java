@@ -22,14 +22,8 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
     }
 
-    public Voucher createFixedVoucher(long amount) {
-        var voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
-        voucherRepository.insert(voucher);
-        return voucher;
-    }
-
-    public Voucher createPercentVoucher(long percent) {
-        var voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+    public Voucher createVoucher(VoucherType type, long rate) {
+        var voucher = type.createVoucher(rate);
         voucherRepository.insert(voucher);
         return voucher;
     }
