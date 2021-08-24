@@ -1,19 +1,27 @@
 <configuration>
 
+<!-- 저런 value 형태를 다 기억 못하니까 http://logback.qos.ch/manual/layouts.html#conversionWord 참고하세오
+- logback이 제공하는 기본적인 패턴 레이아웃을 이용하면 logger에서 logging event를 만들어짐.
+- layout pattern은 logging event를 가지고 문자열롤 만들어주는데, 문자열을 변환할때, conversionWord를 가지고 logging Event가 문자열로 변환됨.
+-
+
+-->
+    <propert name="CONSOLE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%\n" />
     <!-- Kibana 에 등록할 수 도 있고, AsnycAppender 등등도 있습니다.  -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
             <!-- Property를 정의할 수 있습니다. -->
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+            <pattern>${CONSOlE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
 <!--    <logger name="org.prgrms.kdt" level="debug" additivity="false">-->
 <!--&lt;!&ndash;        이렇게 하면 Log 들이 두번씩 찍힘. 그래서 appendr-ref를 설정할때 조심해야함 &ndash;&gt;-->
 <!--        <appender-ref ref="STDOUT" />-->
-    <logger name="org.prgrms.kdt" level="debug" additivity="false"/>
+    <logger name="org.prgrms.kdt" level="info" />
 
     <root level="warn">
         <appender-ref ref="STDOUT" />
