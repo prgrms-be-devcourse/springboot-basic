@@ -1,0 +1,21 @@
+<configuration>
+
+    <!-- Kibana 에 등록할 수 도 있고, AsnycAppender 등등도 있습니다.  -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <!-- Property를 정의할 수 있습니다. -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+<!--    <logger name="org.prgrms.kdt" level="debug" additivity="false">-->
+<!--&lt;!&ndash;        이렇게 하면 Log 들이 두번씩 찍힘. 그래서 appendr-ref를 설정할때 조심해야함 &ndash;&gt;-->
+<!--        <appender-ref ref="STDOUT" />-->
+    <logger name="org.prgrms.kdt" level="debug" additivity="false"/>
+
+    <root level="warn">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
