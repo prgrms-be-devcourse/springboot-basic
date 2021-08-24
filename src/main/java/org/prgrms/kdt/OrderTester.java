@@ -6,7 +6,10 @@ import org.prgrms.kdt.engine.order.OrderProperties;
 import org.prgrms.kdt.engine.order.OrderService;
 import org.prgrms.kdt.engine.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.engine.voucher.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
@@ -21,19 +24,24 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class OrderTester {
+    private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);
+
     public static void main(String[] args) throws IOException {
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         var applicationContext = new AnnotationConfigApplicationContext();
         applicationContext.register(AppConfiguration.class);
         var environment = applicationContext.getEnvironment();
-        environment.setActiveProfiles("production");
+        environment.setActiveProfiles("prod");
         applicationContext.refresh();
 
         var voucherRepository = applicationContext.getBean(VoucherRepository.class);
         var voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
-        System.out.println(MessageFormat.format("repository -> {0}", voucherRepository.getClass()));;
+        logger.info("logger name => {}", logger.getName());
+        logger.info("repository -> {}", voucherRepository.getClass());
 
         var orderService = applicationContext.getBean(OrderService.class);
         var customerId = UUID.randomUUID();
+        var orderProperties = applicationContext.getBean(OrderProperties.class);
         var order = orderService.createOrder(customerId, new ArrayList<OrderItem>() {{
             add(new OrderItem(UUID.randomUUID(), 100L, 1));
         }}, voucher.getVoucherId());
@@ -44,7 +52,6 @@ public class OrderTester {
 //        var environment = applicationContext.getEnvironment();
 //        var version = environment.getProperty("version");
 //        System.out.println(version);
-//        var orderProperties = applicationContext.getBean(OrderProperties.class);
 //        System.out.println(orderProperties.getVersion());
 //        System.out.println(orderProperties.getSupportVendors());
 //        var resource2 = applicationContext.getResource("file:src/test/sample.txt");

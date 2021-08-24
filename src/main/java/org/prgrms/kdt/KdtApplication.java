@@ -1,6 +1,5 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.configuration.AppConfiguration;
 import org.prgrms.kdt.engine.order.OrderItem;
 import org.prgrms.kdt.engine.order.OrderProperties;
 import org.prgrms.kdt.engine.order.OrderService;
@@ -8,7 +7,6 @@ import org.prgrms.kdt.engine.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.engine.voucher.VoucherRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.text.MessageFormat;
@@ -22,7 +20,7 @@ import java.util.UUID;
 public class KdtApplication {
     public static void main(String[] args) {
         var springApplication = new SpringApplication(KdtApplication.class);
-        springApplication.setAdditionalProfiles("production");
+
         var applicationContext = springApplication.run(args);
 
         var voucherRepository = applicationContext.getBean(VoucherRepository.class);

@@ -9,7 +9,11 @@ import java.util.Arrays;
 
 public class BlackListTester {
     public static void main(String[] args) throws IOException {
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+        var environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("prod");
+        applicationContext.refresh();
         var blacklistResource = applicationContext.getResource("file:src/main/resources/customer_blacklist.csv");
         var blacklistFile = blacklistResource.getFile();
         var blacklist = Files.readAllLines(blacklistFile.toPath());

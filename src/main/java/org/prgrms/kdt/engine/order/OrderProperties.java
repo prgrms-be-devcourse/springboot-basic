@@ -1,5 +1,7 @@
 package org.prgrms.kdt.engine.order;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,7 +12,8 @@ import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "kdt")
-public class OrderProperties {
+public class OrderProperties implements InitializingBean {
+    private final Logger logger = LoggerFactory.getLogger(OrderProperties.class);
     private String version;
     private String description;
     private List<String> supportVendors;
@@ -38,5 +41,12 @@ public class OrderProperties {
 
     public void setSupportVendors(List<String> supportVendors) {
         this.supportVendors = supportVendors;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        logger.debug("OrderProperties version -> {}", version);
+        logger.debug("OrderProperties version -> {}", description);
+        logger.debug("OrderProperties version -> {}", supportVendors);
     }
 }

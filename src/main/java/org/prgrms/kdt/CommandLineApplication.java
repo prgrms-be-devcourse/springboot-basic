@@ -33,18 +33,24 @@ public class CommandLineApplication {
         while (true) {
             String command = input.inputCommand("Command : ");
             switch (command) {
-                case "create" -> {
+                case "create" :
                     output.showVoucherOptions();
                     String type = input.inputCommand("");
                     Optional<Voucher> voucher = createVoucher(type);
                     voucher.ifPresentOrElse(output::createVoucher, output::inputError);
-                }
-                case "list" -> {
+                    break;
+
+                case "list" :
                     Optional<Map<UUID, Voucher>> voucherList = voucherService.listVoucher();
                     voucherList.ifPresentOrElse(output::listVoucher, output::voucherListError);
-                }
-                case "exit" -> System.exit(0);
-                default -> output.inputError();
+                    break;
+
+                case "exit" :
+                    System.exit(0);
+                    break;
+
+                default :
+                    output.inputError();
             }
         }
     }

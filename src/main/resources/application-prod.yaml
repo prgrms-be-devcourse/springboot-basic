@@ -1,3 +1,7 @@
+logging:
+  level:
+    root: warn
+
 kdt:
   version: "v1.0.0-production"
   minimum-order-amount: 1
