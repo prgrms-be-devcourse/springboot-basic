@@ -1,9 +1,6 @@
 package org.prgrms.orderApp.presentation.commandOperator;
 
-import org.prgrms.orderApp.presentation.commandOperator.pages.MainPage;
-import org.prgrms.orderApp.presentation.commandOperator.pages.MonguDbPage;
-import org.prgrms.orderApp.presentation.commandOperator.pages.OrderPage;
-import org.prgrms.orderApp.presentation.commandOperator.pages.VoucherPage;
+import org.prgrms.orderApp.presentation.commandOperator.pages.*;
 import org.prgrms.orderApp.presentation.commandOperator.util.CheckInvalid;
 import org.prgrms.orderApp.presentation.commandOperator.util.MonguDbMainPage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +24,8 @@ public class VoucherCommandOperator implements CommandOperator{
     @Autowired
     private CheckInvalid checkInvalid;
 
+    @Autowired
+    private CustomerPage customerPage;
 
     public void CMDAppStart(){
         int exit_flag = -1;
@@ -64,6 +63,9 @@ public class VoucherCommandOperator implements CommandOperator{
                             default:
                                 mainPage.SelectedInvalidMenuNumber();
                         }
+                        break;
+                    case "CUSTOMER_BLACK_LIST":
+                            customerPage.showAllBlackList();
                         break;
                     case "EXIT":
                         if (mainPage.exit().equals("yes")) {

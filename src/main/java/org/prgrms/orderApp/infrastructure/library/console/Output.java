@@ -5,7 +5,7 @@ import org.prgrms.orderApp.domain.voucher.model.Voucher;
 import java.util.List;
 
 public interface Output {
-    void voucherList(List<Voucher> vouchers);
+    void showList(List<Object> listData);
 
     void infoMessage(String msg);
 

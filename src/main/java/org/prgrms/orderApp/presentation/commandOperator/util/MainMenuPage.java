@@ -6,7 +6,8 @@ public enum MainMenuPage {
     CREATE_ORDER(3,"CREATE_ORDER"),
     ALL_SHOW_ORDERS(4, "ORDER_LIST"),
     CREATE_COLLECTION(5, "CREATE_COLLECTION"),
-    EXIT(6,"EXIT");
+    CUSTOMER_BLACK_LIST(6, "CUSTOMER_BLACK_LIST"),
+    EXIT(7,"EXIT");
 
 
 
@@ -33,6 +34,8 @@ public enum MainMenuPage {
             return MainMenuPage.CREATE_ORDER.menuName;
         }else if(menuNumber == MainMenuPage.CREATE_COLLECTION.menuNumber){
             return MainMenuPage.CREATE_COLLECTION.menuName;
+        }else if(menuNumber == MainMenuPage.CUSTOMER_BLACK_LIST.menuNumber){
+            return MainMenuPage.CUSTOMER_BLACK_LIST.menuName;
         }else if(menuNumber == MainMenuPage.EXIT.menuNumber){
             return MainMenuPage.EXIT.menuName;
         }else {
