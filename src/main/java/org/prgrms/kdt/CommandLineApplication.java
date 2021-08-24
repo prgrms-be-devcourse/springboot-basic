@@ -7,7 +7,6 @@ import org.prgrms.kdt.engine.io.Output;
 import org.prgrms.kdt.engine.voucher.Voucher;
 import org.prgrms.kdt.engine.voucher.VoucherService;
 import org.prgrms.kdt.engine.voucher.VoucherType;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Locale;
@@ -34,25 +33,28 @@ public class CommandLineApplication {
         output.help();
         while (true) {
             String command = input.inputCommand("Command : ");
-            switch (command) {
-                case "create" :
+            if (!CommandType.has(command)) {
+                output.inputError();
+                continue;
+            }
+
+            CommandType commandType = CommandType.valueOf(command.toUpperCase());
+            switch (commandType) {
+                case CREATE:
                     output.showVoucherOptions();
                     String typeName = input.inputCommand("");
                     Optional<Voucher> voucher = createVoucher(typeName);
                     voucher.ifPresentOrElse(output::createVoucher, output::inputError);
                     break;
 
-                case "list" :
+                case LIST:
                     Optional<Map<UUID, Voucher>> voucherList = voucherService.listVoucher();
                     voucherList.ifPresentOrElse(output::listVoucher, output::voucherListError);
                     break;
 
-                case "exit" :
+                case EXIT:
                     System.exit(0);
                     break;
-
-                default :
-                    output.inputError();
             }
         }
     }
