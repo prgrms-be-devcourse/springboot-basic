@@ -3,12 +3,14 @@ package org.prgrms.kdt.file;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.springframework.core.io.Resource;
 
 /**
  * Created by yhh1056
@@ -36,8 +38,8 @@ public class FileUtil {
         }
     }
 
-    public static List<String> readCSV(String filename) {
-        try (BufferedReader reader = Files.newBufferedReader(Path.of(filename))) {
+    public static List<String> readCSV(Resource resource) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
             return reader.lines()
                     .skip(1L)
                     .map(line -> line.split(","))

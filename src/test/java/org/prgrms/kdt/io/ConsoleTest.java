@@ -22,17 +22,4 @@ class ConsoleTest {
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
-    @Test
-    @DisplayName("가이드 파일 읽기 테스트")
-    void readFile() {
-        Console console = new Console();
-        console.guide();
-
-        final String guide = "=== Voucher Program ===\n"
-                + "Type exit to exit the program.\n"
-                + "Type create to create a new voucher.\n"
-                + "Type list to list all vouchers.\n";
-
-        assertEquals(guide, outputStreamCaptor.toString());
-    }
 }

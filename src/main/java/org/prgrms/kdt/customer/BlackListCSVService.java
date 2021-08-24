@@ -1,9 +1,9 @@
 package org.prgrms.kdt.customer;
 
-import java.util.List;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import org.prgrms.kdt.file.FileUtil;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,13 +15,11 @@ public class BlackListCSVService {
 
     @PostConstruct
     public void initBlackList() {
-        List<String> blackList = FileUtil.readCSV("customer_blackList.csv");
-
-        System.out.println("=== Black List ===");
-        blackList.stream()
+        System.out.println("=== black list ===");
+        var list = FileUtil.readCSV(new ClassPathResource("customer_blackList.csv"));
+        list.stream()
                 .map(name -> new Customer(UUID.randomUUID(), name, CustomerType.BLACKLIST))
                 .forEach(System.out::println);
-        System.out.println();
     }
 
 }

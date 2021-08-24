@@ -20,8 +20,6 @@ class CommandLineApplicationTest {
     void is_existed_in_memory_voucher_repository_bean() {
         String inMemoryVoucherRepository = "inMemoryVoucherRepository";
         var context = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        var voucherRepository = BeanFactoryAnnotationUtils
-                .qualifiedBeanOfType(context.getBeanFactory(), VoucherRepository.class, "memory");
 
         assertTrue(context.containsBean(inMemoryVoucherRepository));
     }

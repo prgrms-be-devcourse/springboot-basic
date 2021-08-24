@@ -18,13 +18,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class Console implements Output, Input {
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
-    private static final String GUIDE = "Voucher_Program_Guide";
 
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void guide() {
-        FileUtil.read(GUIDE);
+        System.out.println("""
+                === Voucher Program ===
+                Type exit to exit the program.
+                Type create to create a new voucher.
+                Type list to list all vouchers.
+                """);
     }
 
     @Override
