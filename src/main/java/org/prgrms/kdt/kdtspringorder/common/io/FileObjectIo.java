@@ -1,9 +1,11 @@
 package org.prgrms.kdt.kdtspringorder.common.io;
 
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,14 @@ public class FileObjectIo implements FileIo<Object>{
 
     @Value(value = "${kdt.dev.file-io.file-path}")
     private String FILE_PATH;
+
+    @PostConstruct
+    public void postConstruct() throws IOException {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+    }
 
     @Override
     public void write(List<Object> oList){
@@ -49,8 +59,9 @@ public class FileObjectIo implements FileIo<Object>{
             fileStream = new FileInputStream(FILE_PATH);
             is = new ObjectInputStream(fileStream);
 
-            while (true) {
-                Object o = is.readObject();
+            Object o;
+
+            while ( (o = is.readObject()) != null ) {
                 oList.add(o);
             }
 
@@ -61,5 +72,7 @@ public class FileObjectIo implements FileIo<Object>{
         }
 
     }
+
+
 
 }
