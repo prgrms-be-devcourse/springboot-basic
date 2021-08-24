@@ -2,9 +2,12 @@ package org.prgrms.kdt.Voucher;
 
 import org.prgrms.kdt.AppConfiguration;
 import org.prgrms.kdt.Customers.CustomersService;
+import org.prgrms.kdt.KdtApplication;
 import org.prgrms.kdt.Voucher.TypeStatus;
 import org.prgrms.kdt.Voucher.VoucherRequest;
 import org.prgrms.kdt.Voucher.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.text.MessageFormat;
@@ -13,6 +16,8 @@ import java.util.UUID;
 
 public class VoucherApplication {
     TypeStatus type=TypeStatus.Fixed;
+    private static  final Logger logger= LoggerFactory.getLogger(VoucherApplication.class);
+
     public static void main(String[] args) {
 
         //자바 기반의 메타데이터 설정은 어노테이션
@@ -38,41 +43,52 @@ public class VoucherApplication {
                 case "create" -> {
                     System.out.println("만들기 원하는 바우처의 종류를 선택하세요 1. 할인율 2. 할인가격");
                     int type_v = scanner.nextInt();
+                    var voucherId = UUID.randomUUID();
+
                     if (type_v == 1) {
                         System.out.println("할인율을 설정해 주세요.");
                         int percent = scanner.nextInt();
-                        var voucherId = UUID.randomUUID();
+
                         VoucherRequest voucherRequest = new VoucherRequest(voucherId, percent);
                         voucherService.createVoucher(voucherId, TypeStatus.Percent, voucherRequest);
+                        logger.info("바우처 생성!! id:{},type:{},discount{}%",voucherId,TypeStatus.Percent,percent);
 
-                    } else {
+                    } else if(type_v == 2) {
                         System.out.println("할인가격을 설정해 주세요.");
                         int amount = scanner.nextInt();
-                        var voucherId = UUID.randomUUID();
                         VoucherRequest voucherRequest = new VoucherRequest(voucherId, amount);
                         voucherService.createVoucher(voucherId, TypeStatus.Fixed, voucherRequest);
+                        logger.info("바우처 생성!! id:{},type:{},discount{}%",voucherId,TypeStatus.Fixed,amount);
 
                     }
+
                     System.out.println("바우처 저장이 완료 되었습니다");
+
                 }
                 case "list" -> {
 
-                    if(voucherService.findAll().isEmpty()) System.out.println("저장된 바우처가 없습니다.");
+                    if(voucherService.findAll().isEmpty()) logger.warn("저장된 바우처가 없습니다.");
                     else {
                         System.out.println("바우처 목록");
+                        logger.info("바우처 목록 조회 성공.");
                         voucherService.findAll().forEach(voucher -> System.out.println(MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getType(), voucher.getVoucherdiscount())));
                     }}
                 case  "blacklist"->{
 
                     //질문
-                    if ( customersService.findAll().isEmpty()) System.out.println("블랙리스트가 없습니다");
+                    if ( customersService.findAll().isEmpty()){
+                        System.out.println("저장된 블랙리스트가 없습니다.");
+                    logger.warn("저장된 블랙리스트가 없습니다.");
+                }
                     else{
                         System.out.println("블랙리스트 목록");
+                        logger.info("블랙리스트 목록 조회 성공.");
                         customersService.findAll().forEach(customers -> System.out.println(MessageFormat.format("{0}.{1} {2}",customers.getNum(),customers.getId(),customers.getName())));
                     }
                 }
-                case "exit" -> System.out.println("종료되었습니다");
-                default -> System.out.println("다시 입력해 주세요");
+                case "exit" -> {System.out.println("다시 입력해 주세요"); logger.info("시스템종료");}
+                default -> {System.out.println("다시 입력해 주세요");
+                           logger.warn("잘못입력");}
             }
         }
     }
