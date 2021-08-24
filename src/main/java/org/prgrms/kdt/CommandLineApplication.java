@@ -9,15 +9,14 @@ import org.prgrms.kdt.engine.voucher.VoucherService;
 import org.prgrms.kdt.engine.voucher.VoucherType;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 public class CommandLineApplication {
+    private static final String PROFILE = "dev";
     private static final Input input = new Console();
     private static final Output output = new Console();
-    private static final String PROFILE = "dev";
     private static final AnnotationConfigApplicationContext applicationContext;
     private static final VoucherService voucherService;
 
@@ -34,7 +33,7 @@ public class CommandLineApplication {
         while (true) {
             String command = input.inputCommand("Command : ");
             if (!CommandType.has(command)) {
-                output.inputError();
+                output.illegalInputError();
                 continue;
             }
 
@@ -44,12 +43,12 @@ public class CommandLineApplication {
                     output.showVoucherOptions();
                     String typeName = input.inputCommand("");
                     Optional<Voucher> voucher = createVoucher(typeName);
-                    voucher.ifPresentOrElse(output::createVoucher, output::inputError);
+                    voucher.ifPresentOrElse(output::createVoucher, output::illegalInputError);
                     break;
 
                 case LIST:
                     Optional<Map<UUID, Voucher>> voucherList = voucherService.listVoucher();
-                    voucherList.ifPresentOrElse(output::listVoucher, output::voucherListError);
+                    voucherList.ifPresentOrElse(output::listVoucher, output::voucherListNotFoundError);
                     break;
 
                 case EXIT:

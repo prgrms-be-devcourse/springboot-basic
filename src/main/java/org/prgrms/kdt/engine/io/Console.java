@@ -27,7 +27,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void inputError() {
+    public void illegalInputError() {
         System.out.println("Wrong Input");
     }
 
@@ -43,7 +43,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void voucherListError() {
+    public void voucherListNotFoundError() {
         System.out.println("No Vouchers Found");
     }
 }
