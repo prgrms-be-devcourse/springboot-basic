@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Profile("dev")
+@Profile({"dev", "staging", "production"})
 public class JDBCVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new HashMap<>();

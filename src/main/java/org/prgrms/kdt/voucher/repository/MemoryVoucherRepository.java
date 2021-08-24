@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 // 그러면 2개의 인스턴스가 있으니까 VoucherRepository에 매칭되는게 2개니까 어떤 Bean이 자동으로 주입되는건지 선택해야합니다.
 @Repository
 // @Primary // 생성자 주입시 매칭되는게 여러개일 경우 얘가 우선시로 주입되어야해
-@Profile({"local", "default"})// 용도를 구별
+@Profile({"local", "test"})// 용도를 구별
 // @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON) // value로 scope에 어떠한 스콥을 가질 수 있는지 설정 해야합니다. (prototype은 singleTon이 아닌 새로운 객체를 생성하여 보여준다.)
 public class MemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
 
