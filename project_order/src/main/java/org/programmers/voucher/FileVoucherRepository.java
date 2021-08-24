@@ -1,6 +1,7 @@
 package org.programmers.voucher;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -10,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Qualifier("fileVoucherRepository")
+@Profile("default")
 public class FileVoucherRepository implements VoucherRepository {
 
     private final File file;

@@ -13,7 +13,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherFactory voucherFactory;
 
-    public VoucherService(@Qualifier("fileVoucherRepository") VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+    public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;
         this.voucherFactory = voucherFactory;
     }
