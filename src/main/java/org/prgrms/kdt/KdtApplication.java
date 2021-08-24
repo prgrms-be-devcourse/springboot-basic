@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 import java.text.MessageFormat;
 
-@SpringBootApplication
 public class KdtApplication {
 
 	private static final Logger logger= LoggerFactory.getLogger(KdtApplication.class);
@@ -24,6 +23,5 @@ public class KdtApplication {
 		System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", orderProperties.getMinimumOrderAmount()));
 		System.out.println(MessageFormat.format("supportVendors -> {0}", orderProperties.getSupportVendors()));
 		System.out.println(MessageFormat.format("description -> {0}", orderProperties.getDescription()));
-
 	}
 }

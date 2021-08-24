@@ -1,15 +1,12 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.configuration.VersionProvider;
 import org.prgrms.kdt.customer.CustomerService;
-import org.prgrms.kdt.voucher.VoucherProperties;
 import org.prgrms.kdt.voucher.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 
 import java.text.MessageFormat;
@@ -19,13 +16,16 @@ public class CommandLineApplication {
     static final String blacklistFileName = "customer_blacklist.csv";
 
     public static void main(String[] args) {
-        var springApplication = new SpringApplication(KdtApplication.class);
+        var springApplication = new SpringApplication(CommandLineApplication.class);
+
+        Console console = new Console();
+
         springApplication.setAdditionalProfiles("local");
         var applicationContext = springApplication.run(args);
 
-        Console console = new Console();
-        var voucherProperties = applicationContext.getBean(VoucherProperties.class);
-        console.logInfo(MessageFormat.format("Program version: {0}", voucherProperties.getVersion()));
+        var environment = applicationContext.getEnvironment();
+        var version = environment.getProperty("version");
+        console.logInfo(MessageFormat.format("Program version: {0}", version));
 
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
         CustomerService customerService = applicationContext.getBean(CustomerService.class);

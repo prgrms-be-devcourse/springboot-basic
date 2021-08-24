@@ -1,13 +1,12 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.configuration.AppConfiguration;
 import org.prgrms.kdt.order.OrderItem;
-import org.prgrms.kdt.order.OrderProperties;
 import org.prgrms.kdt.order.OrderService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;

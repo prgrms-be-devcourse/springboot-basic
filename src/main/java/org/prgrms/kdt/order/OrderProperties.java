@@ -13,9 +13,7 @@ import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "kdt")
-public class OrderProperties implements InitializingBean {
-
-    private final static Logger logger = LoggerFactory.getLogger(OrderProperties.class);
+public class OrderProperties {
 
     private String version;
     private int minimumOrderAmount;
@@ -52,10 +50,5 @@ public class OrderProperties implements InitializingBean {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-        System.out.println(MessageFormat.format("[OrderProperties] version{0}", version));
     }
 }
