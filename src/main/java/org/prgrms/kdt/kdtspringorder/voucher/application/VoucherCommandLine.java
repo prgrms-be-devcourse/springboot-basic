@@ -4,10 +4,14 @@ import org.prgrms.kdt.kdtspringorder.common.enums.Command;
 import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.common.io.Input;
 import org.prgrms.kdt.kdtspringorder.common.io.Output;
+import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
+import org.prgrms.kdt.kdtspringorder.custommer.service.BlackListCustomerService;
+import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * VoucherCommandLine의 메인 로직을 담당합니다.
@@ -20,11 +24,14 @@ public class VoucherCommandLine {
     private final String REQUEST_INPUT_DISCOUNT_MSG = "할인 {0}를 입력해주세요.";
 
     private VoucherService voucherService;
+    private BlackListCustomerService blackListCustomerService;
+
     private Input inputConsole;
     private Output outputConsole;
 
-    public VoucherCommandLine(VoucherService voucherService, Input inputConsole, Output outputConsole) {
+    public VoucherCommandLine(VoucherService voucherService, BlackListCustomerService blackListCustomerService, Input inputConsole, Output outputConsole) {
         this.voucherService = voucherService;
+        this.blackListCustomerService = blackListCustomerService;
         this.inputConsole = inputConsole;
         this.outputConsole = outputConsole;
     }
@@ -35,6 +42,9 @@ public class VoucherCommandLine {
     public void start() {
 
         outputConsole.showFirstMsg();
+
+        List<Customer> blackList = this.blackListCustomerService.getBlackList();
+        outputConsole.showObjectList("BLACKLIST", blackList);
 
         while ((true)) {
 
@@ -86,9 +96,8 @@ public class VoucherCommandLine {
      */
     public void executeListCmd() {
 
-        this.voucherService.getVouchers().forEach(v -> {
-            System.out.println(v.toString());
-        });
+        List<Voucher> vouchers = this.voucherService.getVouchers();
+        outputConsole.showObjectList("Voucher List", vouchers);
 
     }
 
