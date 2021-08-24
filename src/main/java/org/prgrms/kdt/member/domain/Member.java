@@ -5,6 +5,7 @@ import org.prgrms.kdt.exception.InvalidArgumentException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class Member {
     private final static String SPLIT_REGEX_CODE = ",";
@@ -13,11 +14,13 @@ public class Member {
     private final static int NAME_INDEX = 1;
     private final static int PHONE_NUMBER_INDEX = 2;
 
+    private final UUID uuid;
     private final Email email;
     private final Name name;
     private final PhoneNumber phoneNumber;
 
-    public Member(Email email, Name name, PhoneNumber phoneNumber) {
+    public Member(UUID uuid, Email email, Name name, PhoneNumber phoneNumber) {
+        this.uuid = uuid;
         this.email = email;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -28,7 +31,7 @@ public class Member {
         Email email = new Email(splitLine.get(EMAIL_INDEX));
         Name name = new Name(splitLine.get(NAME_INDEX));
         PhoneNumber phoneNumber = new PhoneNumber(splitLine.get(PHONE_NUMBER_INDEX));
-        return new Member(email, name, phoneNumber);
+        return new Member(UUID.randomUUID(), email, name, phoneNumber);
     }
 
     private static List<String> splitResources(String line) {
