@@ -1,0 +1,11 @@
+logging:
+  level:
+    root: warn
+
+---
+# jar 배포할때 dev or local 변경 배포 하기 위해 추가
+spring:
+  profiles:
+    default: local
+
+---
