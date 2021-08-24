@@ -1,14 +1,8 @@
 package com.prgms.kdtspringorder;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
-
 import com.prgms.kdtspringorder.adapter.controller.CustomerController;
 import com.prgms.kdtspringorder.adapter.controller.VoucherController;
 import com.prgms.kdtspringorder.adapter.exception.InvalidDiscountException;
-import com.prgms.kdtspringorder.application.CustomerService;
-import com.prgms.kdtspringorder.application.VoucherService;
-import com.prgms.kdtspringorder.config.AppConfig;
 import com.prgms.kdtspringorder.domain.model.voucher.VoucherType;
 import com.prgms.kdtspringorder.ui.Command;
 import com.prgms.kdtspringorder.ui.Printer;
@@ -17,30 +11,24 @@ import com.prgms.kdtspringorder.ui.Receiver;
 public class CommandLineApplication {
     private static final Receiver RECEIVER = new Receiver();
     private static final Printer PRINTER = new Printer();
+    private final CustomerController customerController;
+    private final VoucherController voucherController;
 
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
-        applicationContext.register(AppConfig.class);
-
-        ConfigurableEnvironment environment = applicationContext.getEnvironment();
-        environment.setActiveProfiles("dev");
-        applicationContext.refresh();
-
-        CustomerController customerController = new CustomerController(
-            applicationContext.getBean(CustomerService.class));
-        VoucherController voucherController = new VoucherController(applicationContext.getBean(VoucherService.class));
-
-        findCustomerBlacklist(customerController);
-        manageVouchers(voucherController);
-
-        applicationContext.close();
+    public CommandLineApplication(CustomerController customerController, VoucherController voucherController) {
+        this.customerController = customerController;
+        this.voucherController = voucherController;
     }
 
-    private static void findCustomerBlacklist(CustomerController customerController) {
+    public void run() {
+        findCustomerBlacklist();
+        manageVouchers();
+    }
+
+    private void findCustomerBlacklist() {
         PRINTER.printBlacklist(customerController.findAllBlacklist());
     }
 
-    private static void manageVouchers(VoucherController voucherController) {
+    private void manageVouchers() {
         PRINTER.printCommandList();
 
         while (true) {
@@ -58,7 +46,7 @@ public class CommandLineApplication {
 
             switch (command) {
                 case CREATE:
-                    createVoucher(voucherController);
+                    createVoucher();
                     break;
                 case LIST:
                     PRINTER.printVoucherList(voucherController.listVouchers());
@@ -72,7 +60,7 @@ public class CommandLineApplication {
         }
     }
 
-    private static void createVoucher(VoucherController voucherController) {
+    private void createVoucher() {
         try {
             VoucherType voucherType = VoucherType.valueOf(RECEIVER.enterVoucherType().toUpperCase());
             long discount = RECEIVER.enterDiscountAmount();

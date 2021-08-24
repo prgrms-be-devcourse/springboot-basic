@@ -78,7 +78,8 @@ ___
 
 - [ ] 적절한 로그를 기록한다.
 - [ ] 로그백 설정을 해서 에러를 파일로 기록하게 한다.
-- [ ] SpringBoot Application으로 변경한다.
+- [x] SpringBoot Application으로 변경한다.
+- [ ] 실행 가능한 jar 파일을 생성한다.
 
 ### 리팩토링
 
