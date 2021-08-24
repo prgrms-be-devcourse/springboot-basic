@@ -1,7 +1,10 @@
 package org.prgrms.kdt.user.repository;
 
 import org.prgrms.kdt.user.domain.BannedCustomer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
@@ -19,11 +22,13 @@ import java.util.stream.Collectors;
 @Repository
 public class FileUserRepository implements UserRepository {
 
-    private ResourceLoader resourceLoader;
+    @Autowired
+    ApplicationContext resourceLoader;
 
     @Override
     public List<BannedCustomer> getBlackListCSV() throws IOException {
-        var resource = resourceLoader.getResource("file:user/blacklist.csv");
+
+        Resource resource = resourceLoader.getResource("file:user/blacklist.csv");
 
         // TODO: Parser를 캡슐화하면?
         var items = Files.readAllLines(resource.getFile().toPath());

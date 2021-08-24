@@ -23,7 +23,8 @@ public class Console implements Input, Output {
         System.out.println("=== Voucher Program ===\n" +
                 "Type exit to exit the program.\n" +
                 "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers.");
+                "Type list to list all vouchers.\n" +
+                "Type blacklist to list all Banned Customer.");
     }
 
     @Override
