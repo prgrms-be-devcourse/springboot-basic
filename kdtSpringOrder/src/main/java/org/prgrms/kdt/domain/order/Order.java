@@ -45,4 +45,19 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    public Optional<Voucher> getVoucher() {
+        return voucher;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
 }
