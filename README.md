@@ -5,6 +5,7 @@
 - Run Application
 - [3W.2D] Misson : Command-Line Application 만들기
 - [3W.3D] Mission : Component Scan & File Repository
+- [3W.5D] Mission : Logging & Migration to Spring Boot Applicatoin from Origin Application
 
 ## Run Application
 
@@ -49,3 +50,13 @@ Component Scan & File Repository 구현
   PercentDiscountVoucher,bcbd0b69-243a-4c80-a6da-afa5662b010b,7
   FixedAmountVoucher,c9b4d499-00ef-488f-aa94-2456af66afe6,500
   ```
+
+## [3W.5D] Misson
+
+Logging & Migration to Spring Boot Applicatoin from Origin Application
+
+### Detail
+
+- [ ] 적절한 로그를 기록하고 로그백설정을해서 에러는 파일로 기록되야 합니다.
+- [ ] SpringBoot 애플리케이션으로 변경합니다. (SpringApplication 를 사용해주세요)
+- [ ] 실행가능한 jar 파일을 생성합니다.
