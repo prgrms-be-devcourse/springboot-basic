@@ -22,10 +22,10 @@
         </encoder>
     </appender>
 
-    <logger name="org.prgrms.kdt" level="debug">
+    <logger name="org.prgrms.kdt" level="info">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
-    <root level="warn">
+    <root level="debug">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
