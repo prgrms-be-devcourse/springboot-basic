@@ -16,7 +16,7 @@ import java.util.UUID;
 //@Qualifier("file")
 public class FileVoucherRepository implements VoucherRepository{
 
-    //bean 설정할때
+    //bean 설정할때 만들어줘서 경로를 private final하게 선언하게 되면 널값이 들어간다.
     @Value("${voucher-list.path}")
     String filePath;
 
