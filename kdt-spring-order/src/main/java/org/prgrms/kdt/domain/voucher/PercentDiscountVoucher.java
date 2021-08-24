@@ -8,8 +8,15 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        validate(voucherId, percent);
         this.voucherId = voucherId;
         this.percent = percent;
+    }
+
+    private void validate(UUID voucherId, long percent) {
+        if(percent < 0 || percent > 100){
+            throw new RuntimeException("유효하지 않은 할인율을 입력하였습니다. 0~100 사이의 값을 입력하세요.");
+        }
     }
 
     @Override
