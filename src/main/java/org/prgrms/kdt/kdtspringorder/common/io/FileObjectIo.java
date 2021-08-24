@@ -1,7 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.common.io;
 
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Qualifier("file-object-io")
 public class FileObjectIo implements FileIo<Object>{
 
     @Value(value = "${kdt.dev.file-io.file-path}")
