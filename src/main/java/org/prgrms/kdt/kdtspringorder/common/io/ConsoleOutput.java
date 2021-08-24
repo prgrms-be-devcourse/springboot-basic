@@ -2,6 +2,8 @@ package org.prgrms.kdt.kdtspringorder.common.io;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * 콘솔 출력을 담당합니다.
  */
@@ -31,6 +33,15 @@ public class ConsoleOutput implements Output{
     @Override
     public void showIncorrectNumMsg() {
         System.out.println(INCORRECT_NUM_MSG);
+    }
+
+    @Override
+    public void showObjectList(String title, List olist) {
+        System.out.println(String.format("====== [ %s ] ======", title));
+        olist.forEach(b -> {
+            System.out.println(b.toString());
+        });
+        System.out.println("===========================\n");
     }
 
 }
