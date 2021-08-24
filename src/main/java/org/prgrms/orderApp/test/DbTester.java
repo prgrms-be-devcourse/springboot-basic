@@ -1,7 +1,7 @@
 package org.prgrms.orderApp.test;
 
-import org.prgrms.orderApp.config.MonguDbConfiguragtion;
-import org.prgrms.orderApp.monguDb.service.DbManagement;
+import org.prgrms.orderApp.infrastructure.library.monguDb.config.MonguDbConfiguragtion;
+import org.prgrms.orderApp.infrastructure.library.monguDb.service.DbManagement;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;

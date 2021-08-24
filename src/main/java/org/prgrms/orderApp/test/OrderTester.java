@@ -1,20 +1,26 @@
 package org.prgrms.orderApp.test;
 
 import org.prgrms.orderApp.config.AppConfiguration;
-import org.prgrms.orderApp.model.order.OrderItem;
-import org.prgrms.orderApp.model.voucher.FixedAmountVoucher;
-import org.prgrms.orderApp.service.OrderService;
-import org.prgrms.orderApp.service.VoucherService;
+import org.prgrms.orderApp.domain.order.model.OrderItem;
+import org.prgrms.orderApp.domain.voucher.model.FixedAmountVoucher;
+import org.prgrms.orderApp.domain.order.service.OrderService;
+import org.prgrms.orderApp.domain.voucher.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class OrderTester {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var environment = applicationContext.getEnvironment();
+        var version =environment.getProperty("version");
+        var version1 =environment.getProperty("test_int",Integer.class);
+
+
         var customerId = UUID.randomUUID();
         var voucherId = UUID.randomUUID();
 
