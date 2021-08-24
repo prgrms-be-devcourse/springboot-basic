@@ -1,4 +1,4 @@
-package com.prgrms.devkdtorder;
+package com.prgrms.devkdtorder.order.domain;
 
 import java.util.UUID;
 

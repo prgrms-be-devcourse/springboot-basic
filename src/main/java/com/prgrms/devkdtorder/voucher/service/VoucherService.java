@@ -1,5 +1,7 @@
-package com.prgrms.devkdtorder;
+package com.prgrms.devkdtorder.voucher.service;
 
+import com.prgrms.devkdtorder.voucher.repository.VoucherRepository;
+import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

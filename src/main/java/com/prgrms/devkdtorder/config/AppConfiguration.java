@@ -1,17 +1,15 @@
-package com.prgrms.devkdtorder;
+package com.prgrms.devkdtorder.config;
 
 import com.prgrms.devkdtorder.cla.CommandLineApplication;
-import com.prgrms.devkdtorder.cla.Input;
-import com.prgrms.devkdtorder.cla.TextIOConsole;
+import com.prgrms.devkdtorder.order.domain.Order;
+import com.prgrms.devkdtorder.order.repository.OrderRepository;
+import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Optional;
-import java.util.UUID;
-
 @Configuration
-@ComponentScan
+@ComponentScan(basePackages = {"com.prgrms.devkdtorder"})
 public class AppConfiguration {
 
 

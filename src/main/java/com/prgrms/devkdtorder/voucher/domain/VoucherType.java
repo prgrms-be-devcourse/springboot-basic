@@ -1,4 +1,4 @@
-package com.prgrms.devkdtorder;
+package com.prgrms.devkdtorder.voucher.domain;
 
 import java.util.Arrays;
 import java.util.List;

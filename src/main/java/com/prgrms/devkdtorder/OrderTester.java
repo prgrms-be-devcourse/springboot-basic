@@ -1,11 +1,8 @@
 package com.prgrms.devkdtorder;
 
 import com.prgrms.devkdtorder.cla.CommandLineApplication;
+import com.prgrms.devkdtorder.config.AppConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.util.Assert;
-
-import java.util.ArrayList;
-import java.util.UUID;
 
 public class OrderTester {
     public static void main(String[] args) {

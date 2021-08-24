@@ -1,11 +1,12 @@
 package com.prgrms.devkdtorder.cla;
 
-import com.prgrms.devkdtorder.*;
+import com.prgrms.devkdtorder.voucher.domain.Voucher;
+import com.prgrms.devkdtorder.voucher.domain.VoucherType;
+import com.prgrms.devkdtorder.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component

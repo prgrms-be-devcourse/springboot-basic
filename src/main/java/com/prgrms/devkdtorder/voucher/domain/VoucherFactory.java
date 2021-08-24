@@ -1,4 +1,9 @@
-package com.prgrms.devkdtorder;
+package com.prgrms.devkdtorder.voucher.domain;
+
+import com.prgrms.devkdtorder.voucher.domain.FixedAmountVoucher;
+import com.prgrms.devkdtorder.voucher.domain.PercentDiscountVoucher;
+import com.prgrms.devkdtorder.voucher.domain.Voucher;
+import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 
 import java.util.UUID;
 
