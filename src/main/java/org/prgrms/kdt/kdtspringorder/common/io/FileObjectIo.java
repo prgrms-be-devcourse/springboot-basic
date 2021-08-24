@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Qualifier("file-object-io")
 public class FileObjectIo implements FileIo<Object>{
 
     @Value(value = "${kdt.dev.file-io.file-path}")

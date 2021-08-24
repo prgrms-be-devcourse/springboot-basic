@@ -2,6 +2,7 @@ package org.prgrms.kdt.kdtspringorder.voucher.repository;
 
 import org.prgrms.kdt.kdtspringorder.common.io.FileIo;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID,Voucher> voucherMap = new HashMap<>();
     private final FileIo fileIo;
 
-    public FileVoucherRepository(FileIo fileIo){
+    public FileVoucherRepository(@Qualifier("file-object-io") FileIo<Object> fileIo){
         this.fileIo = fileIo;
     }
 
