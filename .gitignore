@@ -154,6 +154,6 @@ buildNumber.properties
 .classpath
 
 # voucher file repository - W3D3 Mission
-voucher
+.voucher
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,maven,java
