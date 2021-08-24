@@ -1,12 +1,14 @@
 package org.prgrms.kdtspringdemo.order;
 
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Profile("dev")
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;

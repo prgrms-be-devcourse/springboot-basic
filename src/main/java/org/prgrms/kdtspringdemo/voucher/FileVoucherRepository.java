@@ -4,6 +4,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -19,8 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 @Repository
-@Primary
-@Qualifier("file")
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository, InitializingBean {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final String FILE_NAME = "voucher.csv";

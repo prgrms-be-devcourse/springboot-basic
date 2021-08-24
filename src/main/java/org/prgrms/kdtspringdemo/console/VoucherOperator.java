@@ -1,10 +1,8 @@
 package org.prgrms.kdtspringdemo.console;
 
 import org.prgrms.kdtspringdemo.VoucherType;
-import org.prgrms.kdtspringdemo.configuration.AppConfiguration;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.text.MessageFormat;
 import java.util.Optional;
@@ -12,9 +10,8 @@ import java.util.Optional;
 public class VoucherOperator implements CommandOperator {
     private final VoucherService voucherService;
 
-    public VoucherOperator() {
-        var application = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        voucherService = application.getBean(VoucherService.class);
+    public VoucherOperator(VoucherService voucherService) {
+        this.voucherService = voucherService;
     }
 
     @Override
