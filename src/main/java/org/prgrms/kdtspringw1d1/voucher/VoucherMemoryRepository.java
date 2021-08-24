@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringw1d1.voucher;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -36,6 +35,6 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return vouchers;
+        return Optional.ofNullable(vouchers).orElse(null);
     }
 }

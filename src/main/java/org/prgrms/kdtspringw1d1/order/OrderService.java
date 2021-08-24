@@ -3,6 +3,7 @@ package org.prgrms.kdtspringw1d1.order;
 import org.prgrms.kdtspringw1d1.voucher.VoucherService;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class OrderService {
         return order;
     }
 
-    public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) throws IOException, ClassNotFoundException {
         var voucher = voucherService.getVoucher(voucherId);
         var order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
         orderRepository.insert(order);

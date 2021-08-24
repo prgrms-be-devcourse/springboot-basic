@@ -1,8 +1,9 @@
 package org.prgrms.kdtspringw1d1.voucher;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long percent;
 

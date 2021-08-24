@@ -5,13 +5,14 @@ import org.prgrms.kdtspringw1d1.voucher.VoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class OrderTester {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         var orderService = applicationContext.getBean(OrderService.class);
 
