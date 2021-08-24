@@ -1,6 +1,7 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.order.property.OrderProperties;
+import org.prgrms.kdt.user.service.UserService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.repository.JDBCVoucherRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
+		"org.prgrms.kdt.user",
 		"org.prgrms.kdt.order",
 		"org.prgrms.kdt.voucher",
 		"org.prgrms.kdt.configuration",
@@ -27,6 +29,7 @@ public class KdtApplication {
 		var applicationContext = springApplication.run(args);
 
 		var orderProperties = applicationContext.getBean(OrderProperties.class);
+		var userService = applicationContext.getBean(UserService.class);
 
         System.out.println(MessageFormat.format("version -> {0}", orderProperties.getVersion()));
         System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", orderProperties.getMinimumOrderAmount()));

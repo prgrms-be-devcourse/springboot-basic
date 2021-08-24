@@ -1,5 +1,6 @@
 package org.prgrms.kdt.command.io;
 
+import org.prgrms.kdt.user.domain.BannedCustomer;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,8 @@ public class Console implements Input, Output {
         System.out.println("=== Voucher Program ===\n" +
                 "Type exit to exit the program.\n" +
                 "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers.");
+                "Type list to list all vouchers.\n" +
+                "Type blacklist to list all Banned Customer.");
     }
 
     @Override
@@ -34,6 +36,12 @@ public class Console implements Input, Output {
     public void voucherList(List<Voucher> vouchers) {
         System.out.println("Print All Voucher List.");
         vouchers.forEach((voucher) -> System.out.println(voucher.toString()));
+    }
+
+    @Override
+    public void blackList(List<BannedCustomer> blacklist) {
+        System.out.println("Print All Voucher List.");
+        blacklist.forEach((item) -> System.out.println(item.toString()));
     }
 
     @Override

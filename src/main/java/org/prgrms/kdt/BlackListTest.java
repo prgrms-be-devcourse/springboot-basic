@@ -9,10 +9,9 @@ import java.text.MessageFormat;
 
 public class BlackListTest {
     public static void main(String[] args) {
-
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
-        var userService = applicationContext.getBean(UserService.class);
-        userService.getBlackList().forEach(item -> System.out.println(item.toString()));
+        // var userService = applicationContext.getBean(UserService.class);
+        // userService.getBlackList().forEach(item -> System.out.println(item.toString()));
     }
 }
