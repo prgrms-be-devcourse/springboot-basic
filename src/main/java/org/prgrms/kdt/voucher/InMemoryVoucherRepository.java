@@ -19,9 +19,8 @@ import org.springframework.stereotype.Repository;
  * Date: 2021/08/18 Time: 1:31 오전
  */
 @Repository
-@Qualifier("memory")
 @Profile("dev")
-public class InMemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
+public class InMemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> vouchers = new HashMap<>();
 
@@ -41,24 +40,4 @@ public class InMemoryVoucherRepository implements VoucherRepository, Initializin
         return Collections.unmodifiableMap(vouchers);
     }
 
-    @PostConstruct
-    public void postConstruct() {
-//        System.out.println("postConstruct called!!");
-    }
-
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-//        System.out.println("afterPropertiesSet called!!");
-    }
-
-    @PreDestroy
-    public void preDestroy() {
-//        System.out.println("preDestroy called!!");
-    }
-
-    @Override
-    public void destroy() throws Exception {
-//        System.out.println("destroy called!!");
-    }
 }

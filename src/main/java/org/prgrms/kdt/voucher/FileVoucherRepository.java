@@ -13,6 +13,7 @@ import org.prgrms.kdt.file.FileRepository;
 import org.prgrms.kdt.file.FileUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Repository;
  * Date: 2021/08/18 Time: 11:56 오후
  */
 @Repository
-@Qualifier("file")
+@Profile("prod")
 public class FileVoucherRepository implements VoucherRepository, FileRepository<Voucher> {
 
     private static final String FILE_NAME = "voucher.text";

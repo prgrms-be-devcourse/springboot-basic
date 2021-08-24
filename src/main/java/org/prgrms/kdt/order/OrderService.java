@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
  * Date: 2021/08/17 Time: 7:51 오후
  */
 @Service
-@Profile("dev")
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
