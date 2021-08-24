@@ -24,7 +24,9 @@ public class Console implements Input, Output {
         System.out.println("""
                 Type exit to exit the program.
                 Type create to create a new voucher.
-                Type list to list all vouchers.""");
+                Type list to list all vouchers.
+                Type customers to list all customers
+                Type blacks to list all blacklist customers""");
     }
 
     @Override

@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @Repository
 @Primary
 @Qualifier("file")
-public class FileVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
+public class FileVoucherRepository implements VoucherRepository, InitializingBean {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final String FILE_NAME = "voucher.csv";
 
@@ -47,11 +47,6 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
         return storage.values().stream();
     }
 
-    @PostConstruct
-    public void postConstruct() {
-        System.out.println("[FileVoucherRepository]postConstruct called!");
-    }
-
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("[FileVoucherRepository]afterPropertiesSet called!");
@@ -75,15 +70,5 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
         } catch (IOException e) {
             System.out.println("Doesn't exist file.");
         }
-    }
-
-    @PreDestroy
-    public void preDestroy() {
-        System.out.println("[FileVoucherRepository]preDestroy called!");
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        System.out.println("[FileVoucherRepository]destroy called!");
     }
 }
