@@ -2,6 +2,8 @@ package org.prgrms.kdt.voucher;
 
 import java.util.Map;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class VoucherService {
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
+
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -28,6 +33,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(Voucher voucher) {
+        logger.info("{} 바우처가 생성되었습니다.", voucher);
         return voucherRepository.insert(voucher);
     }
 

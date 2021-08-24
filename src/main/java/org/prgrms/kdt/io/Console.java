@@ -7,6 +7,8 @@ import org.prgrms.kdt.command.CommandType;
 import org.prgrms.kdt.file.FileUtil;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,8 +17,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Console implements Output, Input {
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
+    private static final String GUIDE = "Voucher_Program_Guide";
 
-    private final static String GUIDE = "Voucher_Program_Guide";
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -29,6 +32,7 @@ public class Console implements Output, Input {
         try {
             return CommandType.valueOf(scanner.nextLine().toUpperCase());
         } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
             return CommandType.ERROR;
         }
     }
@@ -41,7 +45,7 @@ public class Console implements Output, Input {
             try {
                 return new VoucherData(scanner.nextLine());
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
             }
         }
 
