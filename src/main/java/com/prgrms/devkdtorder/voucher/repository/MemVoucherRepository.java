@@ -1,11 +1,13 @@
 package com.prgrms.devkdtorder.voucher.repository;
 
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
+@Profile("dev")
 public class MemVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> map = new HashMap<>();
