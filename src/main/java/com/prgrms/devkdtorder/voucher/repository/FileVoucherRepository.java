@@ -4,6 +4,7 @@ import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import org.ini4j.Wini;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,8 @@ import java.util.UUID;
 public class FileVoucherRepository implements VoucherRepository, InitializingBean {
 
     private Wini wini;
-    private final String voucherIniPath = System.getProperty("user.home") + "\\" + "voucher.ini";
+    @Value("${kdt.voucher.ini-path}")
+    private String voucherIniPath;
     private final String OPTION_TYPE = "type";
     private final String OPTION_VALUE = "value";
 
