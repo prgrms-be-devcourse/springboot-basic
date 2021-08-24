@@ -1,11 +1,17 @@
 <configuration>
-    <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+
+    <conversionRule
+            conversionWord="clr"
+            converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+    <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{HH:mm:ss.SSS}){cyan} [%thread] %clr(%-5level) %logger{36} - %msg%n" />
 <!--  FILE logger는 다르게 지정하고 싶다면 Property 를 추가하면 되겠죠?  -->
 
-    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"></timestamp>
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${LOG_PATTERN}</pattern>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
@@ -26,12 +32,12 @@
         </rollingPolicy>
 
         <encoder>
-            <pattern>${LOG_PATTERN}</pattern>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
     <logger name="org.prgrms.kdt" level="debug">
-        <appender-ref ref="ROLLING_FILE"></appender-ref>
+        <appender-ref ref="ROLLING_FILE" />
     </logger>
 
     <root level="warn">

@@ -7,6 +7,7 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
@@ -26,6 +27,7 @@ public class OrderTester {
 
     public static void main(String[] args) throws IOException {
         // Spring Application Context를 만드는데 Java 기반껄 만들꺼야
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);// Color 바꾸기
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
         // env 가져옵시다.
@@ -39,8 +41,8 @@ public class OrderTester {
 
 
         var orderProperties = applicationContext.getBean(OrderProperties.class);
-        logger.info("logger name => {}", logger.getName()); // logger도 치환이 됨
-        logger.info("version -> {}", orderProperties.getVersion());
+        logger.error("logger name => {}", logger.getName()); // logger도 치환이 됨
+        logger.warn("version -> {}", orderProperties.getVersion());
         logger.info("minimumOrderAmount -> {}", orderProperties.getMinimumOrderAmount());
         logger.info("supportVendeors -> {}", orderProperties.getSupportVendors());
         logger.info("description -> {}", orderProperties.getDescription());
