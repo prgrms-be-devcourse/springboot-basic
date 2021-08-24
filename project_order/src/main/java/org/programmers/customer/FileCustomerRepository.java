@@ -15,7 +15,7 @@ import java.util.UUID;
 @Repository
 public class FileCustomerRepository implements CustomerRepository{
 
-    @Value("${dev.file.blacklist}")
+    @Value("${prgms.file.blacklist}")
     private String blackFile;
 
     private BufferedReader br;
