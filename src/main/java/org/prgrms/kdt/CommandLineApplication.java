@@ -7,28 +7,28 @@ import org.prgrms.kdt.engine.io.Output;
 import org.prgrms.kdt.engine.voucher.Voucher;
 import org.prgrms.kdt.engine.voucher.VoucherService;
 import org.prgrms.kdt.engine.voucher.VoucherType;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@SpringBootApplication
+@ComponentScan(basePackages = {"org.prgrms.kdt.engine", "org.prgrms.kdt.configuration"})
 public class CommandLineApplication {
     private static final String PROFILE = "local";
     private static final Input input = new Console();
     private static final Output output = new Console();
-    private static final AnnotationConfigApplicationContext applicationContext;
-    private static final VoucherService voucherService;
-
-    static {
-        applicationContext = new AnnotationConfigApplicationContext();
-        applicationContext.register(AppConfiguration.class);
-        applicationContext.getEnvironment().setActiveProfiles(PROFILE);
-        applicationContext.refresh();
-        voucherService = applicationContext.getBean(VoucherService.class);
-    }
+    private static VoucherService voucherService;
 
     public static void main(String[] args) {
+        var springApplication = new SpringApplication(CommandLineApplication.class);
+        var applicationContext = springApplication.run(args);
+        voucherService = applicationContext.getBean(VoucherService.class);
+
         output.help();
         while (true) {
             String command = input.inputCommand("Command : ");
