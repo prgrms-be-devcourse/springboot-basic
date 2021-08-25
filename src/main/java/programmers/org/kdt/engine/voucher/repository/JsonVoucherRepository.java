@@ -14,6 +14,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -25,6 +27,7 @@ import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 @Repository
 @Profile("default")
 public class JsonVoucherRepository implements VoucherRepository, InitializingBean {
+    private final Logger logger = LoggerFactory.getLogger(JsonVoucherRepository.class);
     private Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     private final String jsonFileName = "Voucher.json";
@@ -44,7 +47,6 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
     @Override
     public Optional<Voucher> insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(),voucher);
-        System.out.println(voucher);
         return putDataToJson(voucher);
     }
 
@@ -75,6 +77,7 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
             e.printStackTrace();
             return Optional.empty();
         }
+        logger.debug("Store voucher to Json file successfully"+ voucher.toString());
         return Optional.of(voucher);
     }
 
@@ -83,13 +86,17 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
         Optional<JSONArray> jsonArray = Optional.empty();
         try {
             // if file empty
-            if(new FileReader(jsonFileName).read() == -1) return jsonArray;
+            if(new FileReader(jsonFileName).read() == -1) {
+                logger.info("Json file is empty");
+                return jsonArray;
+            }
 
             FileReader fileReader = new FileReader(jsonFileName);
             jsonArray = Optional.of((JSONArray)parser.parse(fileReader));
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+        logger.debug("Get Json data successfully");
         return jsonArray;
     }
 
@@ -118,8 +125,7 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
             if (voucher != null) {
                 storage.put(voucher.getVoucherId(), voucher);
             } else {
-                // TODO : change to logger
-                System.out.println("[JsonVoucherRepository] ERROR : put json voucher to storage");
+                logger.error("Put json voucher to storage");
             }
 
         }
@@ -138,12 +144,9 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
                 e.printStackTrace();
             }
             if(!ret) System.exit(-1);
-
-            // TODO : change to logger
-            System.out.println("[JsonVoucherRepository] Json file create");
+            logger.info("Json file create");
         } else {
-            // TODO : change to logger
-            System.out.println("[JsonVoucherRepository] Json file already exist");
+            logger.info("Json file already exist");
         }
 }
 }

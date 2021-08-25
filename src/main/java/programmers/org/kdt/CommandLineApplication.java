@@ -51,6 +51,7 @@ public class CommandLineApplication {
 
         // run
         var commandLine = new CommandLine(voucherService, console);
+        logger.info("Start of CommandLineApplication");
         commandLine.run();
 
         // close

@@ -3,6 +3,8 @@ package programmers.org.kdt.engine.voucher;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -15,6 +17,7 @@ import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
 @Service
 public class VoucherService {
+    private final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
     private final VoucherRepository voucherRepository;
 
@@ -36,11 +39,12 @@ public class VoucherService {
             case FixedAmountVoucher -> voucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
         }
 
-        if (voucher != null && voucher.conditionCheck()) {
-            return voucherRepository.insert(voucher);
+        if (voucher == null || !voucher.conditionCheck()) {
+            return Optional.empty();
         }
 
-        return Optional.empty();
+        logger.debug("Create Voucher success");
+        return voucherRepository.insert(voucher);
     }
 
     public Voucher getVoucher(UUID voucherId) {

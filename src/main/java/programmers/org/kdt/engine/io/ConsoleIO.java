@@ -13,6 +13,7 @@ public class ConsoleIO implements Input, Output {
     }
 
     public void help() {
+        print("");
         print("=== Voucher Program ===");
         print("Type **exit** to exit the program.");
         print("Type **create** to create a new voucher.");

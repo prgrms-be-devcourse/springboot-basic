@@ -35,6 +35,7 @@ public class CommandLine implements Runnable {
         console.print("=== show list all vouchers ===");
 
         // get list
+        if (entrySet.isEmpty()) console.print("List is empty");
         entrySet.forEach(entry -> {
                 Voucher voucher = entry.getValue();
                 String type = VoucherStatus.getValueType(voucher.getVoucherStatus());
@@ -58,6 +59,16 @@ public class CommandLine implements Runnable {
             console.error();
             return false;
         }
+
+        Voucher voucherData = voucher.get();
+        console.print(
+            MessageFormat.format(
+                "Create success. [UUID :{0} / Value : {1}{2}]",
+                voucherData.getVoucherId(),
+                voucherData.getValue(),
+                voucherData.getVoucherStatus().toValueType()
+            )
+        );
         return true;
     }
 
@@ -78,7 +89,10 @@ public class CommandLine implements Runnable {
                 }
             }
             case LIST -> showList(voucherService.getRepositoryEntry());
-            case EXIT -> ret = false;
+            case EXIT -> {
+                ret = false;
+                console.print("Input EXIT. Good Bye!");
+            }
             default -> console.error();
         }
         return ret;

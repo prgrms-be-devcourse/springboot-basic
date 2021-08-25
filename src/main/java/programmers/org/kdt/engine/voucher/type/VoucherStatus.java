@@ -1,9 +1,24 @@
 package programmers.org.kdt.engine.voucher.type;
 
 public enum VoucherStatus {
-    NULL,
-    FixedAmountVoucher,
-    PercentDiscountVoucher;
+    NULL{
+        @Override
+        public String toValueType(){
+            return VoucherDiscountType.NULL.toString();
+        }
+    },
+    FixedAmountVoucher{
+        @Override
+        public String toValueType(){
+            return VoucherDiscountType.DOLLAR.toString();
+        }
+    },
+    PercentDiscountVoucher{
+        @Override
+        public String toValueType(){
+            return VoucherDiscountType.PERCENT.toString();
+        }
+    };
 
     public static VoucherStatus fromString(String string) {
         if (string.equals("FixedAmountVoucher")) {
@@ -31,6 +46,8 @@ public enum VoucherStatus {
         }
         return ret;
     }
+
+    public abstract String toValueType();
 
 }
 

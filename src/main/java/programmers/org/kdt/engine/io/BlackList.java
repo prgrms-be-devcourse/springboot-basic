@@ -7,9 +7,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BlackList {
     private static final String fileName = "customer_blacklist.csv";
+    private static final Logger logger = LoggerFactory.getLogger(BlackList.class);
 
     private static List<List<String>> ReadCsv (String fileName) {
         //반환용 리스트
@@ -27,6 +30,7 @@ public class BlackList {
                 List<String> tmpList = new ArrayList<String>();
                 String[] array = line.replace("\uFEFF", "").split(",");
                 tmpList = Arrays.asList(array);
+                logger.info(tmpList.toString());
                 ret.add(tmpList);
             }
         } catch(IOException e){
