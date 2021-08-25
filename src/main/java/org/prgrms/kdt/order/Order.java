@@ -40,4 +40,20 @@ public class Order {
     public UUID getOrderId() {
         return orderid;
     }
+
+    public Optional<Voucher> getVoucher() {
+        return voucher;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public UUID getCustomerid() {
+        return customerid;
+    }
 }

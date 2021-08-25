@@ -39,4 +39,8 @@ public class VoucherService {
     public Map<UUID, Voucher> getVoucherList() {
         return voucherRepository.getStorage();
     }
+
+    public void useVoucher(Voucher voucher) {
+
+    }
 }
