@@ -2,13 +2,11 @@ package org.prgms.order;
 
 import org.prgms.order.io.Input;
 import org.prgms.order.io.Output;
-import org.prgms.order.voucher.entity.FixedAmountVoucher;
-import org.prgms.order.voucher.entity.PercentDiscountVoucher;
 import org.prgms.order.voucher.entity.Voucher;
+import org.prgms.order.voucher.entity.VoucherCreateStretage;
 import org.prgms.order.voucher.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class CommandLineApplication implements Runnable{
@@ -17,11 +15,13 @@ public class CommandLineApplication implements Runnable{
 
     private VoucherService voucherService;
     private Voucher voucher;
+    private VoucherCreateStretage voucherCreateStretage;
 
 
     public CommandLineApplication(Input input, Output output) {
         this.input = input;
         this.output = output;
+        voucherCreateStretage = new VoucherCreateStretage();
     }
 
     @Override
@@ -51,51 +51,37 @@ public class CommandLineApplication implements Runnable{
         output.voucherList(voucherService);
     }
 
+
     private void createVoucher() {
         output.selectVoucher();
+
+
+        //TODO output, input 분리
         String inputVoucherString = input.input(":: ");
-
-        switch (inputVoucherString) {
-            case "Fixed" -> {
-                String inputAmount = input.input("insert discount amount :: ");
-
-                if(isDigit(inputAmount)) {
-                    voucher = voucherService.insert(
-                            new FixedAmountVoucher(UUID.randomUUID(),
-                            Long.parseLong(inputAmount)));
-                    System.out.println("SUCCESS >>> "+voucher.getVoucherInfo());
-                }else{
-                    System.out.println("= Only numbers can be entered. PLEASE RETRY =");
-                }
-
-            }
-            case "Percent" -> {
-                String inputAmount = input.input("insert discount percent(1 ~ 100):: ");
-
-                if(isDigit(inputAmount)){
-                    long percentAmount = Long.parseLong(inputAmount);
-                    if(isPercent(percentAmount)){
-                        voucher = voucherService.insert(new PercentDiscountVoucher(UUID.randomUUID(), percentAmount));
-                        System.out.println("SUCCESS >>> "+voucher.getVoucherInfo());
-                    }else{
-                        System.out.println("= Out of range. PLEASE RETRY =");
-                    }
-                }else{
-                    System.out.println("= Only numbers can be entered. PLEASE RETRY =");
-                }
-
-            }
-            default -> System.out.println("= RETRY =");
+        if(isWrongType(inputVoucherString)){
+            System.out.println("=  Insert Correct Type. PLEASE RETRY =");
+            return;
         }
+        String inputAmount = input.input("Insert Discount Amount :: ");
+
+        if(isNotDigit(inputAmount)) {
+            System.out.println("=  Insert Correct Amount. PLEASE RETRY =");
+            return;
+        }
+
+
+        voucher = voucherService.insert(voucherCreateStretage.createVoucher(inputVoucherString,Long.parseLong(inputAmount)));
+        System.out.println("SUCCESS >>> "+voucher.getVoucherInfo());
     }
 
-    private boolean isPercent(Long percentAmount) {
-        return percentAmount <= 100 && percentAmount > 0;
+    private boolean isWrongType(String inputVoucherString) {
+        return !(inputVoucherString.contains("Fixed") || inputVoucherString.contains("Percent"));
     }
 
-    private boolean isDigit(String input) {
+
+    private boolean isNotDigit(String input) {
         String pattern = "^[0-9]*$";
-        return Pattern.matches(pattern,input) && !input.isEmpty();
+        return !(Pattern.matches(pattern,input) && !input.isEmpty());
     }
 
 

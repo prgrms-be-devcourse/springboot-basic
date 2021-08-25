@@ -8,7 +8,15 @@ public class PercentDiscountVoucher implements Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
-        this.percent = percent;
+        if(percent>=100){
+            this.percent = 100;
+
+        }else if(percent <=0){
+            this.percent =0;
+
+        }else {
+            this.percent= percent;
+        }
     }
 
     @Override
@@ -26,6 +34,5 @@ public class PercentDiscountVoucher implements Voucher {
         return "PercentDiscountVoucher " +
                  ", Percent = " + percent+"%";
     }
-
 
 }

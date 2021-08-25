@@ -1,6 +1,7 @@
 package org.prgms.order.voucher.entity;
 
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
@@ -25,4 +26,5 @@ public class FixedAmountVoucher implements Voucher {
         return "FixedAmountVoucher     " +
                 ", Discount = " + amount;
     }
+
 }
