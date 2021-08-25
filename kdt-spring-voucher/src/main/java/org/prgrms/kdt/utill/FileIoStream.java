@@ -13,9 +13,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Profile("dev")
 @Component
-@Profile("dev")
+@ConfigurationProperties(prefix = "kdt.file")
 public class FileIoStream implements InitializingBean {
 
     private static Logger logger = LoggerFactory.getLogger(FileIoStream.class);
@@ -27,6 +26,7 @@ public class FileIoStream implements InitializingBean {
     public void fileInputStream(Voucher v){
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
         String fileName = tempDir + File.separator +voucherName;
+        System.out.println(fileName);
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,true));
             bw.write(v+"\r\n");
@@ -40,6 +40,7 @@ public class FileIoStream implements InitializingBean {
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
         List<String> list = new ArrayList<>();
         String fileName = tempDir + File.separator +voucherName;
+        System.out.println(fileName);
         try {
             BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
             String v = null;
@@ -55,7 +56,6 @@ public class FileIoStream implements InitializingBean {
 
     //인자로 블랙리스트 정보들을 받아 파일을 생성한다.
     public void inputCsvFile(Customer customer,String CsvFileName){
-//        String fileName = customerName;
         String fileName = CsvFileName;
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,true));
