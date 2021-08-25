@@ -10,6 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.prgms.kdtspringorder.config.PathProperties;
@@ -18,6 +20,7 @@ import com.prgms.kdtspringorder.domain.model.customer.CustomerRepository;
 
 @Repository
 public class FileBlackConsumerRepository implements CustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(FileBlackConsumerRepository.class);
     private static final String COMMA = ",";
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
     private final File file;
@@ -48,6 +51,7 @@ public class FileBlackConsumerRepository implements CustomerRepository {
                 storage.put(id, new Customer(id, name, age));
             }
         } catch (IOException e) {
+            logger.error("customer blacklist 로드 실패");
             e.printStackTrace();
         }
     }

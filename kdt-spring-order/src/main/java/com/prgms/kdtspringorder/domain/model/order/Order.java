@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.prgms.kdtspringorder.adapter.exception.InvalidDiscountException;
 import com.prgms.kdtspringorder.domain.model.voucher.Voucher;
 import com.prgms.kdtspringorder.ui.Printer;
 
 public class Order {
+    private static final Logger logger = LoggerFactory.getLogger(Order.class);
     private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
@@ -42,6 +46,7 @@ public class Order {
             try {
                 totalAmount = voucher.get().discount(beforeDiscountAmount);
             } catch (InvalidDiscountException e) {
+                logger.error(e.getMessage());   // 물건값보다 할인가가 더 클 경우
                 new Printer().printInvalidDiscount(e.getMessage());
             }
         } else {

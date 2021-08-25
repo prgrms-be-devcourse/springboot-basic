@@ -14,6 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -29,6 +31,7 @@ import com.prgms.kdtspringorder.domain.model.voucher.VoucherType;
 @Primary
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String COMMA = ",";
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final File file;
@@ -73,6 +76,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 }
             }
         } catch (IOException e) {
+            logger.error("voucher list 로드 실패");
             e.printStackTrace();
         }
     }
@@ -95,6 +99,7 @@ public class FileVoucherRepository implements VoucherRepository {
             });
             bw.flush();
         } catch (IOException e) {
+            logger.error("voucher list 저장 실패");
             e.printStackTrace();
         }
     }

@@ -1,5 +1,8 @@
 package com.prgms.kdtspringorder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.prgms.kdtspringorder.adapter.controller.CustomerController;
 import com.prgms.kdtspringorder.adapter.controller.VoucherController;
 import com.prgms.kdtspringorder.adapter.exception.InvalidDiscountException;
@@ -9,6 +12,8 @@ import com.prgms.kdtspringorder.ui.Printer;
 import com.prgms.kdtspringorder.ui.Receiver;
 
 public class CommandLineApplication {
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+
     private static final Receiver RECEIVER = new Receiver();
     private static final Printer PRINTER = new Printer();
     private final CustomerController customerController;
@@ -36,6 +41,7 @@ public class CommandLineApplication {
             try {
                 command = Command.valueOf(RECEIVER.enterCommand().toUpperCase());
             } catch (IllegalArgumentException e) {
+                logger.error(e.getMessage());
                 PRINTER.printInvalidCommandMessage();
                 continue;
             }
@@ -66,8 +72,10 @@ public class CommandLineApplication {
             long discount = RECEIVER.enterDiscountAmount();
             voucherController.createVoucher(voucherType, discount);
         } catch (InvalidDiscountException e) {
+            logger.error(e.getMessage());
             PRINTER.printInvalidDiscount(e.getMessage());   // 할인률이 100% 초과일 경우
         } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
             PRINTER.printInvalidVoucherType(e.getMessage());    // 잘못된 voucher type을 입력했을 경우
         }
     }
