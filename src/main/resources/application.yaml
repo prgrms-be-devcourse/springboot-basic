@@ -1,3 +1,6 @@
 kdt:
   voucher:
     ini-path: ./voucher.ini
+  customer:
+    blacklist:
+      csv-path: ./customer_blacklist.csv
