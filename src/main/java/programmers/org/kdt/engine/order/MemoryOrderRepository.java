@@ -7,7 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class MemoryOrderRepositoryImpl implements OrderRepository {
+public class MemoryOrderRepository implements OrderRepository {
     private final Map<UUID, Order> storage = new ConcurrentHashMap<>();
 
     @Override

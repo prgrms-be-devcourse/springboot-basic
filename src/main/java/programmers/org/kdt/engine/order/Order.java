@@ -1,6 +1,6 @@
 package programmers.org.kdt.engine.order;
 
-import programmers.org.kdt.engine.voucher.Voucher;
+import programmers.org.kdt.engine.voucher.type.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,4 +42,15 @@ public class Order {
     public UUID getOrderId() {
         return orderId;
     }
+
+    public Optional<Voucher> getVoucher() {return voucher;}
+
+    public OrderStatus getOrderStatus() {return orderStatus;}
+
+    public List<OrderItem> getOrderItems() {return orderItems;}
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
 }
