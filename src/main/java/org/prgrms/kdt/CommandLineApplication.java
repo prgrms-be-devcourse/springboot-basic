@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class CommandLineApplication {
-    private static final String PROFILE = "dev";
+    private static final String PROFILE = "local";
     private static final Input input = new Console();
     private static final Output output = new Console();
     private static final AnnotationConfigApplicationContext applicationContext;
