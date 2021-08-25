@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import programmers.org.kdt.engine.voucher.type.Voucher;
 
 @Repository
-@Profile({"default", "test"})
+@Profile({"dev", "test"})
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 

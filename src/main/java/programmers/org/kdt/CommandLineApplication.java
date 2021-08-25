@@ -28,7 +28,7 @@ public class CommandLineApplication {
 
         // Spring Application
         var springApplication = new SpringApplication(CommandLineApplication.class);
-        springApplication.setAdditionalProfiles("default");
+        springApplication.setAdditionalProfiles("dev");
         var applicationContext = springApplication.run(args);
         var voucherProperties = applicationContext.getBean(VoucherProperties.class);
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import programmers.org.kdt.engine.voucher.type.Voucher;
 
 @Repository
-@Profile("dev")
+@Profile("local")
 public class JdbcVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
