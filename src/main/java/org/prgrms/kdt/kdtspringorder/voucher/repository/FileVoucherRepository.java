@@ -32,8 +32,9 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void insert(Voucher voucher) {
+    public UUID insert(Voucher voucher) {
         this.voucherMap.put(voucher.getVoucherId(), voucher);
+        return voucher.getVoucherId();
     }
 
     /**

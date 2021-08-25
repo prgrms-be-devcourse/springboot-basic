@@ -47,11 +47,11 @@ public class VoucherService {
      * @param type 생성할 Voucher 유형
      * @param discount 할인 받을 정도 ( 금액 or % )
      */
-    public void register(VoucherType type, long discount) {
+    public UUID saveVoucher(VoucherType type, long discount) {
 
         Voucher createdVoucher = type.createVoucher(discount);
 
-        this.voucherRepository.insert(createdVoucher);
+        return this.voucherRepository.insert(createdVoucher);
 
     }
 

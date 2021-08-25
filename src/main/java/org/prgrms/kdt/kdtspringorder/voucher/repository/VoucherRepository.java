@@ -28,6 +28,6 @@ public interface VoucherRepository {
      * 새 Voucher를 등록합니다
      * @param voucher
      */
-    public void insert(Voucher voucher);
+    public UUID insert(Voucher voucher);
 
 }

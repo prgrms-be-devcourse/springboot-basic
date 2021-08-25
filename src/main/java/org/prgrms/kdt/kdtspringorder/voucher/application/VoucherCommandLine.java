@@ -8,10 +8,13 @@ import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
 import org.prgrms.kdt.kdtspringorder.custommer.service.BlackListCustomerService;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * VoucherCommandLine의 메인 로직을 담당합니다.
@@ -81,7 +84,9 @@ public class VoucherCommandLine {
             // 할인 금액 or 퍼센티지를 입력받는다.
             String discount =  inputConsole.input(MessageFormat.format(REQUEST_INPUT_DISCOUNT_MSG, selectedVoucherType.getUnit()));
 
-            this.voucherService.register(selectedVoucherType, Long.valueOf(discount));
+            UUID savedVoucherId = this.voucherService.saveVoucher(selectedVoucherType, Long.valueOf(discount));
+
+            Voucher savedVoucher = this.voucherService.getVoucher(savedVoucherId);
 
         } catch (IllegalArgumentException e) {
 
