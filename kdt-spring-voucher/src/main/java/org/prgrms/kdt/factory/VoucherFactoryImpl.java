@@ -1,5 +1,6 @@
 package org.prgrms.kdt.factory;
 
+import org.apache.tomcat.util.buf.StringUtils;
 import org.prgrms.kdt.domain.FixedAmountVoucher;
 import org.prgrms.kdt.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.Voucher;
@@ -8,6 +9,7 @@ import org.prgrms.kdt.utill.IO.IoConsole;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Component
 public class VoucherFactoryImpl implements VoucherFactory {
@@ -20,13 +22,13 @@ public class VoucherFactoryImpl implements VoucherFactory {
         switch (voucherStatus) {
             case FIXED:
                 ioConsole.message("FixedAmountVoucher를 선택하셨습니다.");
-                String discount = ioConsole.inputText("할인하고자 하는 금액을 입력해 주세요");
+                String discount = isRealNum(ioConsole);
                 voucher = new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(discount));
                 ioConsole.message("Fixed 바우처 생성이 완료되었습니다.");
                 break;
             case PERCENT:
                 ioConsole.message("PercentAmountVoucher를 선택하셨습니다.");
-                String percent = ioConsole.inputText("할인하고자 하는 %를 입력해 주세요");
+                String percent = isRealNum(ioConsole);
                 voucher = new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(percent));
                 ioConsole.message("Percent 바우처 생성이 완료되었습니다.");
                 break;
@@ -36,5 +38,14 @@ public class VoucherFactoryImpl implements VoucherFactory {
         }
         return voucher;
     }
+
+    public String isRealNum(IoConsole ioConsole){
+        String s1 = ioConsole.inputText("할인하고자 하는 금액을 입력해 주세요");
+        boolean realNum = s1.chars().allMatch(Character::isDigit);
+        if(realNum == true) return s1;
+        ioConsole.message("숫자가 아닙니다! 다시 입력하세욧!!!");
+        return isRealNum(ioConsole);
+    }
+
 
 }
