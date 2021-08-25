@@ -10,5 +10,5 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
-    Collection<Voucher> findAllVoucher();
+    Map<UUID, Voucher> findAllVoucher();
 }

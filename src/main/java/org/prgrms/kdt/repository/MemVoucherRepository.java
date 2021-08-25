@@ -16,8 +16,8 @@ public class MemVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAllVoucher() {
-        return storage.values();
+    public Map<UUID, Voucher> findAllVoucher() {
+        return storage;
     }
 
     @Override

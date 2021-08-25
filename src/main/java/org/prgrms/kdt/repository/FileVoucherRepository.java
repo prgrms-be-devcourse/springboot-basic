@@ -43,7 +43,6 @@ public class FileVoucherRepository implements VoucherRepository {
             oos.writeObject(storage);
             oos.writeObject(null);
         }
-
     }
 
 
@@ -64,7 +63,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAllVoucher() {
-        return storage.values();
+    public Map<UUID, Voucher> findAllVoucher() {
+        return storage;
     }
 }

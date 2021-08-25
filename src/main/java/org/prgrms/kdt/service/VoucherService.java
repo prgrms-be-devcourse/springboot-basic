@@ -21,22 +21,18 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException("Can not find a voucher %s".formatted(voucherId)));
     }
 
-    public Collection<Voucher> listVoucher() {
+    public Map<UUID, Voucher> getAllVouchers() {
         return voucherRepository.findAllVoucher();
     }
 
-    public Voucher createVoucher(VoucherType type, long value) {
-        return switch (type) {
-            case FIXED_AMOUNT -> voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value));
-            case PERCENT -> voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value));
-            default -> throw new IllegalStateException("Unexpected value: " + type);
-        };
+    public Voucher createVoucher(Voucher voucher) {
+        return voucherRepository.insert(voucher);
     }
 
 //    TODO
-    public void useVoucher(Voucher voucher) {
-        throw new UnsupportedOperationException();
-    }
+//    public void useVoucher(Voucher voucher) {
+//        throw new UnsupportedOperationException();
+//    }
 
 
 }

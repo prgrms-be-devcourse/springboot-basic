@@ -3,31 +3,47 @@ package org.prgrms.kdt.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public enum VoucherType {
-    FIXED_AMOUNT("fixed"),
-    PERCENT("percent"),
-    INVALID("invalid");
+    FIXED_AMOUNT("fixed") {
+        @Override
+        public Voucher createVoucher(long value) {
+            return new FixedAmountVoucher(UUID.randomUUID(), value);
+        }
+    },
+    PERCENT("percent") {
+        @Override
+        public Voucher createVoucher(long value) {
+            return new PercentDiscountVoucher(UUID.randomUUID(), value);
+        }
+    };
 
-    private static final Map<String, VoucherType> nameIndex = new HashMap<>(VoucherType.values().length);
+    private static final Map<String, VoucherType> typeByName = new HashMap<>(VoucherType.values().length);
 
     static {
         for (VoucherType type : VoucherType.values()) {
-            nameIndex.put(type.getValue(), type);
+            typeByName.put(type.getName(), type);
         }
     }
 
-    private final String value;
+    private final String name;
 
-    VoucherType(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
+    VoucherType(String name) {
+        this.name = name;
     }
 
-    public static VoucherType lookup(String value) {
-        return nameIndex.getOrDefault(value, INVALID);
+    public String getName() {
+        return name;
     }
+
+    public abstract Voucher createVoucher(long value);
+
+    public static VoucherType lookup(String name) {
+        var ret = typeByName.get(name);
+        if(ret != null) {
+            return ret;
+        }
+        throw new IllegalArgumentException("No voucher type:" + name);
     }
+}

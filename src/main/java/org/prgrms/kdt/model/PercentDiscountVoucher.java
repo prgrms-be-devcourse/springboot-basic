@@ -1,5 +1,7 @@
 package org.prgrms.kdt.model;
 
+import org.prgrms.kdt.exception.InvalidDataException;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -8,8 +10,15 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        validatePercent(percent);
         this.voucherId = voucherId;
         this.percent = percent;
+    }
+
+    private void validatePercent(long percent) {
+        if(percent < 0 || percent > 100) {
+            throw new InvalidDataException("invalid percentage: " + percent);
+        }
     }
 
     @Override
