@@ -1,6 +1,9 @@
 package com.prgrms.w3springboot.io;
 
+import com.prgrms.w3springboot.voucher.Voucher;
+
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -36,12 +39,23 @@ public class Console implements Input, Output {
         System.out.print("How much discount do you want to get? > ");
     }
 
+    @Override
     public void printVoucher(UUID createdVoucherUuid) {
         System.out.println(MessageFormat.format("Voucher ID [{0}] is just created!", createdVoucherUuid));
     }
 
     @Override
+    public void printVoucherList(List<Voucher> voucherList) {
+        voucherList.forEach(v -> System.out.println(v));
+    }
+
+    @Override
     public void printExit() {
         System.out.println("Have a Nice Day! :)");
+    }
+
+    @Override
+    public void printInvalidMessage() {
+        System.out.println("Oooops! Please type valid command🙏🏻");
     }
 }

@@ -26,18 +26,20 @@ public class CommandLine implements Runnable {
                     console.printDiscountAmountChoice();
                     long discountAmount = Long.parseLong(console.input());
                     UUID createdVoucherId = voucherService.createVoucher(voucherType, discountAmount);
+                    if (createdVoucherId == null) {
+                        console.printInvalidMessage();
+                    }
                     console.printVoucher(createdVoucherId);
                     break;
                 case LIST:
-//                    voucherService.getVoucherList();
-//                    console.printVoucherList();
+                    console.printVoucherList(voucherService.listVoucher());
                     break;
                 case EXIT:
                     console.printExit();
                     flag = false;
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    console.printInvalidMessage();
             }
         }
     }

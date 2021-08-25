@@ -2,9 +2,7 @@ package com.prgrms.w3springboot.voucher.repository;
 
 import com.prgrms.w3springboot.voucher.Voucher;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -19,5 +17,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return new ArrayList<>(storage.values());
     }
 }

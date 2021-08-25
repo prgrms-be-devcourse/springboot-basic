@@ -5,6 +5,7 @@ import com.prgrms.w3springboot.voucher.VoucherFactory;
 import com.prgrms.w3springboot.voucher.repository.VoucherRepository;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.UUID;
 
 public class VoucherService {
@@ -23,8 +24,13 @@ public class VoucherService {
     public UUID createVoucher(String voucherType, long discountAmount) {
         // voucherType, discountAmount -> domain
         Voucher voucher = VoucherFactory.createVoucher(voucherType, discountAmount);
+        if (voucher == null) return null;
         Voucher insertedVoucher = voucherRepository.insert(voucher);
         return insertedVoucher.getVoucherId();
+    }
+
+    public List<Voucher> listVoucher() {
+        return voucherRepository.findAll();
     }
 
     // 나중에 구현

@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 public enum VoucherType {
     FIXED("fixed"),
-    PERCENT("percent");
+    PERCENT("percent"),
+    UNKNOWN("unknown");
 
     private String type;
 
@@ -16,7 +17,7 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(t -> t.isVoucherType(type))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Can't find this voucher type :("));
+                .orElse(UNKNOWN);
     }
 
     private boolean isVoucherType(final String type) {

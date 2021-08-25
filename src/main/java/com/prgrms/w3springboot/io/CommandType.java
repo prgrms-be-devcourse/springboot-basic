@@ -5,7 +5,8 @@ import java.util.Arrays;
 public enum CommandType {
     CREATE("create"),
     LIST("list"),
-    EXIT("exit");
+    EXIT("exit"),
+    UNKNOWN("unknown");
 
     private String command;
 
@@ -17,7 +18,7 @@ public enum CommandType {
         return Arrays.stream(CommandType.values())
                 .filter(c -> c.isCommandType(commandType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Can't find this command type :("));
+                .orElse(UNKNOWN);
     }
 
     private boolean isCommandType(final String commandType) {
