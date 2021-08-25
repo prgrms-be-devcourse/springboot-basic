@@ -1,4 +1,4 @@
-package programmers.org.kdt.engine.voucher;
+package programmers.org.kdt.engine.voucher.type;
 
 import java.util.UUID;
 
@@ -14,6 +14,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     //eunu fix
+    @Override
     public boolean conditionCheck() {
         return (this.percent >= 0 && this.percent <= 100);
     }

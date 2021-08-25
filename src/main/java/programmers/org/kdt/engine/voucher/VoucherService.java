@@ -3,36 +3,45 @@ package programmers.org.kdt.engine.voucher;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.UUID;
 import programmers.org.kdt.engine.voucher.repository.VoucherRepository;
+import programmers.org.kdt.engine.voucher.type.FixedAmountVoucher;
+import programmers.org.kdt.engine.voucher.type.PercentDiscountVoucher;
+import programmers.org.kdt.engine.voucher.type.Voucher;
+import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
 @Service
 public class VoucherService {
-    @Autowired
-    private VoucherRepository voucherRepository;
+//    @Autowired
+    private final VoucherRepository voucherRepository;
 
-    @Autowired
-    public void setVoucherRepository(VoucherRepository voucherRepository) {
+//    @Autowired
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
     // eunu fix
     public Optional<Voucher> createVoucher(VoucherStatus voucherStatus, long value) {
-        if (voucherStatus == VoucherStatus.FixedAmountVoucher) {
-            var voucher = new FixedAmountVoucher(UUID.randomUUID(), value);
-            if (voucher.conditionCheck()) {
-                return voucherRepository.insert(voucher);
-            }
-        } else if (voucherStatus == VoucherStatus.PercentDiscountVoucher) {
-            var voucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
-            if (voucher.conditionCheck()) {
-                return voucherRepository.insert(voucher);
-            }
+        VoucherStatus voucherStatusData = VoucherStatus.NULL;
+        Voucher voucher = null;
+        try {
+            voucherStatusData = VoucherStatus.valueOf(voucherStatus.name());
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
         }
+
+        switch (voucherStatusData) {
+            case PercentDiscountVoucher -> voucher = new FixedAmountVoucher(UUID.randomUUID(), value);
+            case FixedAmountVoucher -> voucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
+        }
+
+        if (voucher != null && voucher.conditionCheck()) {
+            return voucherRepository.insert(voucher);
+        }
+
         return Optional.empty();
     }
 

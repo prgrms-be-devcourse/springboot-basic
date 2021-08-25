@@ -15,13 +15,16 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-import programmers.org.kdt.engine.voucher.FixedAmountVoucher;
-import programmers.org.kdt.engine.voucher.PercentDiscountVoucher;
-import programmers.org.kdt.engine.voucher.Voucher;
-import programmers.org.kdt.engine.voucher.VoucherStatus;
+import programmers.org.kdt.engine.voucher.type.FixedAmountVoucher;
+import programmers.org.kdt.engine.voucher.type.PercentDiscountVoucher;
+import programmers.org.kdt.engine.voucher.type.Voucher;
+import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
 @Repository
+//@Qualifier("json")
+@Profile("local")
 public class JsonVoucherRepository implements VoucherRepository, InitializingBean {
     private Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
@@ -128,17 +131,21 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
         File file = new File(jsonFileName);
 
         //create json if not exist
-        try {
-            if(file.createNewFile()) {
-                // TODO : change to logger
-                System.out.println("[JsonVoucherRepository] Json file create");
-            } else {
-                // TODO : change to logger
-                System.out.println("[JsonVoucherRepository] Json file already exist");
+        if(!file.exists()) {
+            boolean ret = false;
+            try {
+                ret = file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            if(!ret) System.exit(-1);
+
+            // TODO : change to logger
+            System.out.println("[JsonVoucherRepository] Json file create");
+        } else {
+            // TODO : change to logger
+            System.out.println("[JsonVoucherRepository] Json file already exist");
         }
-    }
+}
 }
 

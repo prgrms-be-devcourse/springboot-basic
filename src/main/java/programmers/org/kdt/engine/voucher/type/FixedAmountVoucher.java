@@ -1,8 +1,9 @@
-package programmers.org.kdt.engine.voucher;
+package programmers.org.kdt.engine.voucher.type;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher {
+    private static final long MAX_VOUCHER_AMOUNT = 10000;
     private final long amount;
     private final UUID voucherId;
     private final VoucherStatus voucherStatus = VoucherStatus.FixedAmountVoucher;
@@ -10,11 +11,14 @@ public class FixedAmountVoucher implements Voucher{
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
+        if(!conditionCheck()) {
+            throw new IllegalArgumentException("Amount should be positive number");
+        }
     }
 
-    //eunu fix
+    @Override
     public boolean conditionCheck () {
-        return this.amount >= 0;
+        return (this.amount > 0 && this.amount <= MAX_VOUCHER_AMOUNT);
     }
 
     @Override
@@ -32,6 +36,7 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        var discounted = beforeDiscount - amount;
+        return (discounted <= 0) ? 0 : discounted;
     }
 }
