@@ -2,6 +2,8 @@ package com.prgrms.devkdtorder.customer.repository;
 
 import com.prgrms.devkdtorder.customer.domain.BlackCustomers;
 import com.prgrms.devkdtorder.customer.domain.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +17,8 @@ import java.util.stream.Stream;
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
 
+    private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
+
     @Value("${kdt.customer.blacklist.csv-path}")
     private String BLACK_LIST_PATH;
 
@@ -27,7 +31,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 List<Customer> customers = lines.map(Customer::new).collect(Collectors.toList());
                 return BlackCustomers.valueOf(customers);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.info("",e.fillInStackTrace());
             }
         }
         return BlackCustomers.empty();
