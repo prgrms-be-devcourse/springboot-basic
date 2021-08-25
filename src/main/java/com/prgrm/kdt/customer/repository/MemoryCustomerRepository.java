@@ -10,7 +10,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("dev")
+//@Profile({"dev","local"})
 public class MemoryCustomerRepository implements CustomerRepository{
 
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();

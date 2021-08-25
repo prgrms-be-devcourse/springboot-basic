@@ -5,7 +5,10 @@ import com.prgrm.kdt.customer.application.CustomerService;
 import com.prgrm.kdt.customer.domain.CustomerProperties;
 import com.prgrm.kdt.view.InputView;
 import com.prgrm.kdt.view.OutputView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class CustomerController implements Runnable{
 
     private final CustomerService customerService;

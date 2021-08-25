@@ -4,7 +4,6 @@ import com.prgrm.kdt.voucher.domain.FixedAmountVoucher;
 import com.prgrm.kdt.voucher.domain.PercentDiscountVoucher;
 import com.prgrm.kdt.voucher.domain.Voucher;
 import com.prgrm.kdt.voucher.domain.VoucherType;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

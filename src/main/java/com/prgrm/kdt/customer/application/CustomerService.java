@@ -1,11 +1,8 @@
 package com.prgrm.kdt.customer.application;
 
 import com.prgrm.kdt.customer.domain.Customer;
+import com.prgrm.kdt.customer.domain.CustomerProperties;
 import com.prgrm.kdt.customer.repository.CustomerRepository;
-import com.prgrm.kdt.voucher.domain.FixedAmountVoucher;
-import com.prgrm.kdt.voucher.domain.PercentDiscountVoucher;
-import com.prgrm.kdt.voucher.domain.Voucher;
-import com.prgrm.kdt.voucher.domain.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,13 +10,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.prgrm.kdt.voucher.domain.VoucherType.FIXED;
-import static com.prgrm.kdt.voucher.domain.VoucherType.PERCENT;
 
 @Service
 public class CustomerService {
@@ -41,6 +34,8 @@ public class CustomerService {
 
     public Map<UUID, Customer> readBlackListFile(String path) {
         Map<UUID, Customer> blackList = new ConcurrentHashMap<>();
+        CustomerProperties customerProperties = new CustomerProperties();
+        System.out.println(customerProperties.getBlackListFilePath());
         File file = new File(path);
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));

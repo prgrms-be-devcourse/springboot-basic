@@ -1,7 +1,6 @@
 package com.prgrm.kdt.voucher.repository;
 
 import com.prgrm.kdt.voucher.domain.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
