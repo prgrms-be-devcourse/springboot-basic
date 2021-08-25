@@ -26,7 +26,6 @@ public class FileIoStream implements InitializingBean {
     public void fileInputStream(Voucher v){
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
         String fileName = tempDir + File.separator +voucherName;
-        System.out.println(fileName);
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,true));
             bw.write(v+"\r\n");
@@ -40,7 +39,6 @@ public class FileIoStream implements InitializingBean {
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
         List<String> list = new ArrayList<>();
         String fileName = tempDir + File.separator +voucherName;
-        System.out.println(fileName);
         try {
             BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
             String v = null;
@@ -60,7 +58,6 @@ public class FileIoStream implements InitializingBean {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,true));
             String str = customer.toString();
-            // 이름, 전화번호, 사는곳
             bw.write( str+"\r\n");
             bw.flush();
         }catch (IOException io){
