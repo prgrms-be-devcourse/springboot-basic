@@ -2,6 +2,7 @@ package org.prgrms.kdt.kdtspringorder.voucher.service;
 
 import org.prgrms.kdt.kdtspringorder.VoucherCommandLineApplication;
 import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
+import org.prgrms.kdt.kdtspringorder.common.exception.VoucherNotFoundException;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
@@ -38,7 +39,7 @@ public class VoucherService {
         logger.info("[Param] voucherId = " + voucherId);
         return this.voucherRepository
                 .findById(voucherId)
-                .orElseThrow( () -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+                .orElseThrow( () -> new VoucherNotFoundException(voucherId));
     }
 
     /**
