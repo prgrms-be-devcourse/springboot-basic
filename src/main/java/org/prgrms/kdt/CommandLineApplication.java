@@ -7,6 +7,8 @@ import org.prgrms.kdt.engine.io.Output;
 import org.prgrms.kdt.engine.voucher.Voucher;
 import org.prgrms.kdt.engine.voucher.VoucherService;
 import org.prgrms.kdt.engine.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

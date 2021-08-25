@@ -1,11 +1,16 @@
 package org.prgrms.kdt.engine.io;
 
+import org.prgrms.kdt.CommandLineApplication;
 import org.prgrms.kdt.engine.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class Console implements Input, Output {
-    private final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
+
 
     @Override
     public String inputCommand(String prompt) {
@@ -28,6 +33,7 @@ public class Console implements Input, Output {
 
     @Override
     public void illegalInputError() {
+        logger.warn("illegalInputError");
         System.out.println("Wrong Input");
     }
 
@@ -44,6 +50,7 @@ public class Console implements Input, Output {
 
     @Override
     public void voucherListNotFoundError() {
+        logger.warn("voucherListNotFoundError");
         System.out.println("No Vouchers Found");
     }
 }
