@@ -15,15 +15,13 @@ import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
 @Service
 public class VoucherService {
-//    @Autowired
+
     private final VoucherRepository voucherRepository;
 
-//    @Autowired
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
-    // eunu fix
     public Optional<Voucher> createVoucher(VoucherStatus voucherStatus, long value) {
         VoucherStatus voucherStatusData = VoucherStatus.NULL;
         Voucher voucher = null;

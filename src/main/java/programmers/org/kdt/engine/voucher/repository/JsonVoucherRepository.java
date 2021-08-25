@@ -23,7 +23,6 @@ import programmers.org.kdt.engine.voucher.type.Voucher;
 import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
 @Repository
-//@Qualifier("json")
 @Profile("local")
 public class JsonVoucherRepository implements VoucherRepository, InitializingBean {
     private Map<UUID, Voucher> storage = new ConcurrentHashMap<>();

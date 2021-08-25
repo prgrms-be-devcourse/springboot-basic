@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import programmers.org.kdt.engine.voucher.type.Voucher;
 
 @Repository
-//@Qualifier("jdbc")
 @Profile("dev")
 public class JdbcVoucherRepository implements VoucherRepository{
 

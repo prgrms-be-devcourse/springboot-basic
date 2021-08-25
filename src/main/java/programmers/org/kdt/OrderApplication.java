@@ -14,7 +14,6 @@ import programmers.org.kdt.engine.order.OrderProperties;
 //@SpringBootApplication
 @ComponentScan(basePackages = {"programmers.org.kdt.engine", "programmers.org.kdt.configuration"})
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-//@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
 public class OrderApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);

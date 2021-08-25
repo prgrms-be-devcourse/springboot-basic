@@ -13,7 +13,6 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
     }
 
-    //eunu fix
     @Override
     public boolean conditionCheck() {
         return (this.percent >= 0 && this.percent <= 100);
