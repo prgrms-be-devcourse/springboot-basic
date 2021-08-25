@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+kdt:
+  version: "v1.2-local"
+  minimum-order-amount: 2
+  support-vendors:
+    - a
+    - b
+  description: |
+    line 1 hello world in local
+    line 2 local xxxx
+    line 3 loc

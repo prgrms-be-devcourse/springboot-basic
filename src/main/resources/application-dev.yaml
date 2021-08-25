@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+kdt:
+  version: "v1.1-dev"
+  minimum-order-amount: 5
+  support-vendors:
+    - dev-a
+    - dev-b
+    - dev-c
+    - dev-d
+  description: |
+    line 1 hello dev world
+    line 2 dev xxxx
+    line 3 dev gogo
