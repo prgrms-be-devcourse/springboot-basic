@@ -36,6 +36,19 @@ public class CommandLineApplication {
         var voucherService = applicationContext.getBean(VoucherService.class);
         logger.info("version -> {}", voucherProperties.getVersion());
 
+        // Get BlackList
+        try {
+            logger.info("blackListFile -> {}", voucherProperties.getBlackListFile());
+            var blackList = new BlackList().getBlackList(voucherProperties.getBlackListFile());
+
+            logger.info("blackList -> {}", blackList);
+        } catch (BeansException e) {
+            e.printStackTrace();
+            console.close();
+            applicationContext.close();
+            return;
+        }
+
         // run
         var commandLine = new CommandLine(voucherService, console);
         commandLine.run();
