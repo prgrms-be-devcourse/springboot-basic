@@ -1,10 +1,13 @@
 package org.prgrms.kdt.kdtspringorder.voucher.service;
 
+import org.prgrms.kdt.kdtspringorder.VoucherCommandLineApplication;
 import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -16,6 +19,8 @@ import java.util.UUID;
  */
 @Service
 public class VoucherService {
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
     private final VoucherRepository voucherRepository;
 
@@ -29,6 +34,8 @@ public class VoucherService {
      * @return 조회한 바우처를 반환합니다.
      */
     public Voucher getVoucher(UUID voucherId) {
+        logger.info("Access getVoucher()");
+        logger.info("[Param] voucherId = " + voucherId);
         return this.voucherRepository
                 .findById(voucherId)
                 .orElseThrow( () -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
@@ -39,6 +46,7 @@ public class VoucherService {
      * @return 조회한 Voucher 목록을 반환합니다.
      */
     public List<Voucher> getVouchers() {
+        logger.info("Access getVouchers()");
         return this.voucherRepository.findAll();
     }
 
@@ -49,8 +57,11 @@ public class VoucherService {
      */
     public UUID saveVoucher(VoucherType type, long discount) {
 
-        Voucher createdVoucher = type.createVoucher(discount);
+        logger.info("Access saveVoucher()");
+        logger.info("[Param] VoucherType = " + type);
+        logger.info("[Param] discount = " + discount);
 
+        Voucher createdVoucher = type.createVoucher(discount);
         return this.voucherRepository.insert(createdVoucher);
 
     }

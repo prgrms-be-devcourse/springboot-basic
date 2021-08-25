@@ -22,6 +22,8 @@ import java.util.UUID;
 @Component
 public class VoucherCommandLine {
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLine.class);
+
     private final String REQUEST_INP_COMMAND_MSG = "명령어를 입력해 주세요. : ";
     private final String REQUEST_SELECT_VOUCHER_TYPE_MSG = "Voucher 유형을 골라주세요.(1) FixedAmountVoucher (2) PercentDiscountVoucher";
     private final String REQUEST_INPUT_DISCOUNT_MSG = "할인 {0}를 입력해주세요.";
@@ -54,6 +56,8 @@ public class VoucherCommandLine {
             // 명령어 입력
             String cmdStr = inputConsole.input(REQUEST_INP_COMMAND_MSG).toUpperCase();
 
+            logger.info(MessageFormat.format("Command Input : {0}", cmdStr));
+
             // 명령어에 따른 로직 분기
             if(cmdStr.equals(Command.EXIT.name())) {
                 outputConsole.showExitMsg();
@@ -83,14 +87,16 @@ public class VoucherCommandLine {
 
             // 할인 금액 or 퍼센티지를 입력받는다.
             String discount =  inputConsole.input(MessageFormat.format(REQUEST_INPUT_DISCOUNT_MSG, selectedVoucherType.getUnit()));
-
             UUID savedVoucherId = this.voucherService.saveVoucher(selectedVoucherType, Long.valueOf(discount));
 
             Voucher savedVoucher = this.voucherService.getVoucher(savedVoucherId);
 
+            logger.info(MessageFormat.format("Success Create Voucher : {0}", savedVoucher.toString()));
+
         } catch (IllegalArgumentException e) {
 
             outputConsole.showIncorrectNumMsg();
+            logger.info("Fail Create Voucher : Incorrect Comand");
 
         }
 
