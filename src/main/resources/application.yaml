@@ -1,3 +1,16 @@
+---
+
+spring.config.activate.onprofile: dev
 black:
   version: "v1.0.0"
-  title: "블랙리스트 명단"
+  title: "dev 블랙리스트 명단"
+
+
+---
+
+spring.config.activate.onprofile: local
+black:
+  version: "v1.0.0"
+  title: "local 블랙리스트 명단"
+
+---
