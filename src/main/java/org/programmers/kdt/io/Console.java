@@ -1,8 +1,11 @@
 package org.programmers.kdt.io;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class Console implements Input, Output {
     private final Scanner sc = new Scanner(System.in);
 
@@ -30,7 +33,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printAllListInfo(List<Object> list) {
+    public void printAllListInfo(List list) {
         list.forEach(System.out::println);
     }
 }
