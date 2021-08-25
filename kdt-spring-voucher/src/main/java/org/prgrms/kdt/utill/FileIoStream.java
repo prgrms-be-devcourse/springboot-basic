@@ -5,23 +5,24 @@ import org.prgrms.kdt.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//@ConfigurationProperties(prefix = "file")
+//@Profile("dev")
 @Component
+@Profile("dev")
 public class FileIoStream implements InitializingBean {
-
-    //configureation 등록 하기!!
 
     private static Logger logger = LoggerFactory.getLogger(FileIoStream.class);
 
-    private static String voucherName = "voucher_file.txt";
+    private static String voucherName;
 
-    private static String customerName = "customer_blacklist.csv";
+    private static String customerName;
 
     public void fileInputStream(Voucher v){
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
@@ -53,8 +54,9 @@ public class FileIoStream implements InitializingBean {
     }
 
     //인자로 블랙리스트 정보들을 받아 파일을 생성한다.
-    public void inputCsvFile(Customer customer){
-        String fileName = customerName;
+    public void inputCsvFile(Customer customer,String CsvFileName){
+//        String fileName = customerName;
+        String fileName = CsvFileName;
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,true));
             String str = customer.toString();

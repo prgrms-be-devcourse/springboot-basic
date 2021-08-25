@@ -1,0 +1,6 @@
+kdt:
+  version: "dev property"
+  file:
+    voucher-name: "voucher_file.txt"
+    customer-name: "customer_blacklist.csv"
+

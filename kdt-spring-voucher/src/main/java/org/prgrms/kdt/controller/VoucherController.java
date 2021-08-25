@@ -42,7 +42,6 @@ public class VoucherController {
                     var type = InputStatus.valueOf(s.toUpperCase());
                     switch (type){
                         case CREATE:
-                            String s1 = ioConsole.inputText("생성하고자하는 Voucher를 입력해주세요 : Fixed, Percent");
                             var typeValue = getVoucherStatus(ioConsole);
                             Voucher createVoucher = voucherService.createVoucher(typeValue);
                             fileIOStream.fileInputStream(createVoucher);
