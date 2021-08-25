@@ -19,11 +19,41 @@ public class BadCustomerRepository implements CustomerRepository{
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
 
     @Override
+    public Customer insert(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public Customer update(Customer Customer) {
+        return null;
+    }
+
+    @Override
     public List<Customer> findAll() {
         if(storage.isEmpty()) {
             loadStorage();
         }
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByName(String name) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 
     private void loadStorage() {

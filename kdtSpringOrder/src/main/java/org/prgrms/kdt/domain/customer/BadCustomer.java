@@ -1,13 +1,16 @@
 package org.prgrms.kdt.domain.customer;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class BadCustomer implements Customer{
     private final UUID customerId;
-    private String name;
+    private final String name;
     private final int age;
-    private boolean isBlacklisted = false;
+    private String email;
+    private LocalDateTime lastLoginAt;
+    private LocalDateTime createdAt;
 
     public BadCustomer(UUID customerId, String name, int age) {
         this.customerId = UUID.randomUUID();
@@ -15,20 +18,29 @@ public class BadCustomer implements Customer{
         this.age = age;
     }
 
+    @Override
     public UUID getCustomerId() {
         return customerId;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public void getName(String name) {
-        this.name = name;
+    @Override
+    public String getEmail() {
+        return email;
     }
 
-    public void setBlacklisted(boolean blacklisted) {
-        this.isBlacklisted = blacklisted;
+    @Override
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override

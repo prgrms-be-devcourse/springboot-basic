@@ -130,17 +130,15 @@ public class JdbcCustomerRepository {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
+
     public static void main(String[] args) {
 
         JdbcCustomerRepository jdbcCustomerRepository =new JdbcCustomerRepository();
 
-        int count = jdbcCustomerRepository.deleteAllCustomer();
-        logger.info("deleted count -> {}", count);
-
         UUID customerId = UUID.randomUUID();
 
         logger.info("created customerId -> {}", customerId);
-        jdbcCustomerRepository.insertCustomer(customerId, "new-user", "new-user@gmail.com");
+        jdbcCustomerRepository.insertCustomer(customerId, "new-user2", "new-user2@gmail.com");
         jdbcCustomerRepository.findAllIds().forEach(v -> logger.info("Found customerId : {}", v));
     }
 }
