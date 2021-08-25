@@ -10,4 +10,5 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
+
 }
