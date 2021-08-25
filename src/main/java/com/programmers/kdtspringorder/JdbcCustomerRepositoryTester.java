@@ -149,5 +149,7 @@ public class JdbcCustomerRepositoryTester {
 
         List<String> names = jdbcCustomerRepositoryTester.findAllName();
         names.forEach(v -> logger.info("Found name : {} ", v));
+
+
     }
 }

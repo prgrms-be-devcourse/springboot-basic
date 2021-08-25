@@ -1,2 +1,4 @@
 FixedAmountVoucher f53d2fca-b845-4234-a05e-ae2c50534e6f 2000
 PercentDiscountVoucher a47d3a61-342f-4743-9604-f327fea9867a 10
+FixedAmountVoucher 6e159110-f919-4633-b652-9cbf7001cb8e 100
+FixedAmountVoucher 5f535ea7-1fc6-4fb9-b413-dca58071e7db 100
