@@ -9,7 +9,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("dev")
 public class MemoryOrderRepository implements OrderRepository {
 
     private final Map<UUID, Order> storage = new ConcurrentHashMap<>();

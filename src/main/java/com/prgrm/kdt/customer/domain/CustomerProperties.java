@@ -1,14 +1,16 @@
 package com.prgrm.kdt.customer.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.stereotype.Component;
-
-import java.text.MessageFormat;
 
 @Component
 //@ConfigurationProperties(prefix = "kdt")
 public class CustomerProperties implements InitializingBean {
+
     @Value("${kdt.customer.blacklist-file-path}")
     private String blackListFilePath;
 
@@ -18,6 +20,6 @@ public class CustomerProperties implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-//        System.out.println(MessageFormat.format("BlackList path => {0}",blackListFilePath));
+//        logger.debug("blackListFilePath => {}", blackListFilePath);
     }
 }

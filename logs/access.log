@@ -1,0 +1,33 @@
+04:39:24.675 [main] DEBUG c.p.k.c.domain.CustomerProperties - blackListFilePath => src/main/resources/customer_blacklist.csv
+04:40:06.641 [main] DEBUG c.p.k.c.domain.CustomerProperties - blackListFilePath => src/main/resources/customer_blacklist.csv
+04:40:06.679 [main] INFO  com.prgrm.kdt.OrderTester - version => v1.0-dev
+04:41:48.127 [main] DEBUG c.p.k.c.domain.CustomerProperties - blackListFilePath => src/main/resources/customer_blacklist.csv
+04:42:57.306 [main] DEBUG c.p.k.c.domain.CustomerProperties - blackListFilePath => src/main/resources/customer_blacklist.csv
+04:44:31.032 [main] DEBUG c.p.k.c.domain.CustomerProperties - blackListFilePath => src/main/resources/customer_blacklist.csv
+04:47:06.207 [main] DEBUG c.p.k.c.domain.CustomerProperties - blackListFilePath => src/main/resources/customer_blacklist.csv
+05:02:02.207 [main] INFO  com.prgrm.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on sueui-Macmini.local with PID 83433 (/Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A/target/classes started by clapkong in /Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A)
+05:02:02.208 [main] DEBUG com.prgrm.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+05:02:02.208 [main] INFO  com.prgrm.kdt.KdtApplication - The following profiles are active: dev
+05:02:02.728 [main] DEBUG c.p.k.c.domain.CustomerProperties - blackListFilePath => src/main/resources/customer_blacklist.csv
+05:02:02.828 [main] INFO  com.prgrm.kdt.KdtApplication - Started KdtApplication in 0.977 seconds (JVM running for 1.724)
+05:03:46.098 [main] INFO  com.prgrm.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on sueui-Macmini.local with PID 83559 (/Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A/target/classes started by clapkong in /Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A)
+05:03:46.099 [main] DEBUG com.prgrm.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+05:03:46.099 [main] INFO  com.prgrm.kdt.KdtApplication - The following profiles are active: dev
+05:03:46.616 [main] DEBUG c.p.k.c.domain.CustomerProperties - blackListFilePath => src/main/resources/customer_blacklist.csv
+05:03:46.731 [main] INFO  com.prgrm.kdt.KdtApplication - Started KdtApplication in 0.988 seconds (JVM running for 1.73)
+05:05:55.043 [main] INFO  com.prgrm.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on sueui-Macmini.local with PID 83715 (/Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A/target/classes started by clapkong in /Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A)
+05:05:55.044 [main] DEBUG com.prgrm.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+05:05:55.044 [main] INFO  com.prgrm.kdt.KdtApplication - The following profiles are active: dev
+05:05:55.653 [main] INFO  com.prgrm.kdt.KdtApplication - Started KdtApplication in 0.929 seconds (JVM running for 1.665)
+05:15:10.871 [main] INFO  com.prgrm.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on sueui-Macmini.local with PID 84496 (/Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A/target/classes started by clapkong in /Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A)
+05:15:10.873 [main] DEBUG com.prgrm.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+05:15:10.873 [main] INFO  com.prgrm.kdt.KdtApplication - The following profiles are active: dev
+05:15:11.434 [main] INFO  com.prgrm.kdt.KdtApplication - Started KdtApplication in 0.892 seconds (JVM running for 2.031)
+05:15:25.073 [main] INFO  com.prgrm.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on sueui-Macmini.local with PID 84517 (/Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A/target/classes started by clapkong in /Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A)
+05:15:25.074 [main] DEBUG com.prgrm.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+05:15:25.074 [main] INFO  com.prgrm.kdt.KdtApplication - The following profiles are active: dev
+05:15:25.759 [main] INFO  com.prgrm.kdt.KdtApplication - Started KdtApplication in 1.009 seconds (JVM running for 1.727)
+05:15:37.482 [main] INFO  com.prgrm.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on sueui-Macmini.local with PID 84536 (/Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A/target/classes started by clapkong in /Users/clapkong/Documents/GitHub/w3-SpringBoot_Part_A)
+05:15:37.483 [main] DEBUG com.prgrm.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+05:15:37.483 [main] INFO  com.prgrm.kdt.KdtApplication - The following profiles are active: dev
+05:15:38.100 [main] INFO  com.prgrm.kdt.KdtApplication - Started KdtApplication in 0.942 seconds (JVM running for 1.654)

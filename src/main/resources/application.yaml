@@ -1,3 +1,8 @@
+logging:
+  level:
+    root:
+
+---
 spring.config.activate.on-profile: local
 kdt:
   version: "v1.0"

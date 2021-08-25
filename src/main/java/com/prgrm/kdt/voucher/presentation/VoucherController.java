@@ -6,9 +6,11 @@ import com.prgrm.kdt.view.OutputView;
 import com.prgrm.kdt.voucher.application.VoucherService;
 import com.prgrm.kdt.voucher.domain.Voucher;
 import com.prgrm.kdt.voucher.domain.VoucherType;
+import org.springframework.stereotype.Controller;
 
 import java.util.Locale;
 
+@Controller
 public class VoucherController implements Runnable {
 
     private final VoucherService voucherService;
