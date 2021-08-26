@@ -85,4 +85,9 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         return voucher;
     }
+
+    @Override
+    public void delete(UUID voucherId) {
+
+    }
 }

@@ -2,6 +2,8 @@ package com.programmers.kdtspringorder.customer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
+@Primary
 public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
@@ -29,7 +32,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private final TransactionTemplate transactionTemplate;
 
-    private static RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         String customerName = resultSet.getString("name");
         String email = resultSet.getString("email");
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
@@ -66,7 +69,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                 paramMap);
 
         if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new RuntimeException("Nothing was updated");
         }
 
         return customer;

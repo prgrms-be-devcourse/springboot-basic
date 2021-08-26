@@ -38,6 +38,11 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
         return voucher;
     }
 
+    @Override
+    public void delete(UUID voucherId) {
+
+    }
+
     @PostConstruct
     public void postConstruct(){
 //        System.out.println("MemoryVoucherRepository.postConstruct");

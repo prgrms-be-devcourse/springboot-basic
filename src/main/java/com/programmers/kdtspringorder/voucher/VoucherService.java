@@ -17,7 +17,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherFactory voucherFactory;
 
-    public VoucherService(@Qualifier("file") VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+    public VoucherService(@Qualifier("jdbc") VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;
         this.voucherFactory = voucherFactory;
     }
