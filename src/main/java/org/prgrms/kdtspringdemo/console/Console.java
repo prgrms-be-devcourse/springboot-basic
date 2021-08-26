@@ -2,11 +2,15 @@ package org.prgrms.kdtspringdemo.console;
 
 import org.prgrms.kdtspringdemo.CommandType;
 import org.prgrms.kdtspringdemo.io.*;
+import org.prgrms.kdtspringdemo.order.OrderProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.Scanner;
 
 public class Console implements Input, Output {
+    private final static Logger logger = LoggerFactory.getLogger(Console.class);
     private Scanner input;
 
     public Console() {
@@ -55,6 +59,7 @@ public class Console implements Input, Output {
         try {
             return CommandType.valueOf(command.toUpperCase());
         } catch (IllegalArgumentException e) {
+            logger.error(MessageFormat.format("Invalid command type. Your input -> {0}", command));
             printCommandError(command);
             return CommandType.ERROR;
         }
