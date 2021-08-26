@@ -17,18 +17,10 @@ public class ConsoleApp {
                     String[] createCommand = console.getCreateLine().split(" ");
                     voucherOperator.create(createCommand);
                 }
-                case CUSTOMERS -> {
-                    customerOperator.printAll();
-                }
-                case BLACKS -> {
-                    customerOperator.printBlacklist();
-                }
-                case LIST -> {
-                    voucherOperator.printAll();
-                }
-                case EXIT -> {
-                    System.exit(0);
-                }
+                case CUSTOMERS -> customerOperator.printAll();
+                case BLACKS -> customerOperator.printBlacklist();
+                case LIST -> voucherOperator.printAll();
+                case EXIT -> System.exit(0);
             }
         }
     }

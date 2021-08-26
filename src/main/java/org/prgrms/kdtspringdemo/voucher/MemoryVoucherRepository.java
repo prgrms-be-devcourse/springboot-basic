@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 @Repository
 @Profile("local")
-public class MemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
+public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
@@ -34,25 +34,5 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     @Override
     public Stream<Voucher> findAll() {
         return storage.values().stream();
-    }
-
-    @PostConstruct
-    public void postConstruct() {
-        System.out.println("[MemoryVoucherRepository]postConstruct called!");
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("[MemoryVoucherRepository]afterPropertiesSet called!");
-    }
-
-    @PreDestroy
-    public void preDestroy() {
-        System.out.println("[MemoryVoucherRepository]preDestroy called!");
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        System.out.println("[MemoryVoucherRepository]destroy called!");
     }
 }

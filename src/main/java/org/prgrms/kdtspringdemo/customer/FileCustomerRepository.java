@@ -43,7 +43,6 @@ public class FileCustomerRepository implements CustomerRepository, InitializingB
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("[FileCustomerRepository]afterPropertiesSet called!");
         try (BufferedReader reader = Files.newBufferedReader(Path.of(FILE_NAME))) {
             reader.lines().forEach(line -> {
                 String[] dataArray = line.split(",");

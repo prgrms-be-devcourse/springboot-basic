@@ -49,7 +49,6 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("[FileVoucherRepository]afterPropertiesSet called!");
         try (BufferedReader reader = Files.newBufferedReader(Path.of(FILE_NAME))) {
             reader.lines().forEach(line -> {
                         String[] dataArray = line.split(",");

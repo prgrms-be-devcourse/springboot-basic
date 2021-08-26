@@ -1,0 +1,37 @@
+18:04:05.296 [main] INFO  o.p.k.a.KdtSpringDemoApplication - Starting KdtSpringDemoApplication using Java 16.0.2 on DESKTOP-8KCHBP3 with PID 3312 (C:\Users\Qup\Documents\GitHub\w3-SpringBoot\target\classes started by Qup in C:\Users\Qup\Documents\GitHub\w3-SpringBoot)
+18:04:05.298 [main] DEBUG o.p.k.a.KdtSpringDemoApplication - Running with Spring Boot v2.5.4, Spring v5.3.9
+18:04:05.298 [main] INFO  o.p.k.a.KdtSpringDemoApplication - The following profiles are active: dev
+18:04:05.823 [main] DEBUG o.p.k.order.OrderProperties - version -> v1.0
+18:04:05.823 [main] DEBUG o.p.k.order.OrderProperties - minimumOrderAmount -> 1
+18:04:05.823 [main] DEBUG o.p.k.order.OrderProperties - supportVendors -> [a, b, c, d]
+18:04:05.823 [main] DEBUG o.p.k.order.OrderProperties - description -> line 1 hello world
+line 2 xxxx
+line 3
+18:04:05.909 [main] INFO  o.p.k.a.KdtSpringDemoApplication - Started KdtSpringDemoApplication in 1.124 seconds (JVM running for 4.021)
+18:11:16.195 [main] INFO  o.p.k.a.KdtSpringDemoApplication - Starting KdtSpringDemoApplication using Java 16.0.2 on DESKTOP-8KCHBP3 with PID 22428 (C:\Users\Qup\Documents\GitHub\w3-SpringBoot\target\classes started by Qup in C:\Users\Qup\Documents\GitHub\w3-SpringBoot)
+18:11:16.198 [main] DEBUG o.p.k.a.KdtSpringDemoApplication - Running with Spring Boot v2.5.4, Spring v5.3.9
+18:11:16.199 [main] INFO  o.p.k.a.KdtSpringDemoApplication - The following profiles are active: dev
+18:11:16.768 [main] DEBUG o.p.k.order.OrderProperties - version -> v1.0
+18:11:16.768 [main] DEBUG o.p.k.order.OrderProperties - minimumOrderAmount -> 1
+18:11:16.769 [main] DEBUG o.p.k.order.OrderProperties - supportVendors -> [a, b, c, d]
+18:11:16.769 [main] DEBUG o.p.k.order.OrderProperties - description -> line 1 hello world
+line 2 xxxx
+line 3
+18:11:16.856 [main] INFO  o.p.k.a.KdtSpringDemoApplication - Started KdtSpringDemoApplication in 1.13 seconds (JVM running for 2.362)
+18:21:51.419 [main] INFO  o.p.k.a.KdtSpringDemoApplication - Starting KdtSpringDemoApplication using Java 16.0.2 on DESKTOP-8KCHBP3 with PID 20888 (C:\Users\Qup\Documents\GitHub\w3-SpringBoot\target\classes started by Qup in C:\Users\Qup\Documents\GitHub\w3-SpringBoot)
+18:21:51.422 [main] DEBUG o.p.k.a.KdtSpringDemoApplication - Running with Spring Boot v2.5.4, Spring v5.3.9
+18:21:51.422 [main] INFO  o.p.k.a.KdtSpringDemoApplication - The following profiles are active: dev
+18:21:52.015 [main] DEBUG o.p.k.order.OrderProperties - version -> v1.0
+18:21:52.015 [main] DEBUG o.p.k.order.OrderProperties - minimumOrderAmount -> 1
+18:21:52.015 [main] DEBUG o.p.k.order.OrderProperties - supportVendors -> [a, b, c, d]
+18:21:52.016 [main] DEBUG o.p.k.order.OrderProperties - description -> line 1 hello world
+line 2 xxxx
+line 3
+18:21:52.099 [main] INFO  o.p.k.a.KdtSpringDemoApplication - Started KdtSpringDemoApplication in 1.147 seconds (JVM running for 2.116)
+18:21:52.102 [main] WARN  o.p.k.a.KdtSpringDemoApplication - logger name -> org.prgrms.kdtspringdemo.KdtSpringDemoApplication
+18:21:52.103 [main] ERROR o.p.k.a.KdtSpringDemoApplication - version -> v1.0
+18:21:52.104 [main] ERROR o.p.k.a.KdtSpringDemoApplication - minimumOrderAmount -> 1
+18:21:52.104 [main] INFO  o.p.k.a.KdtSpringDemoApplication - supportVendors -> [a, b, c, d]
+18:21:52.104 [main] DEBUG o.p.k.a.KdtSpringDemoApplication - description -> line 1 hello world
+line 2 xxxx
+line 3
