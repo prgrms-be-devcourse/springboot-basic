@@ -25,11 +25,7 @@ public class MemoryVoucherRespository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAllVouchers() {
-        List<Voucher> voucherList = new ArrayList<>();
-
-        storage.forEach((key, value) -> voucherList.add(value));
-
-        return voucherList;
+        return new ArrayList<>(storage.values());
     }
 
 }
