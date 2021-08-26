@@ -15,6 +15,9 @@ public class ApplicationMessages {
     @Value("${voucher.message.command.create.type:Require type message here}")
     private String requireType;
 
+    @Value("${voucher.message.command.create.amount:Require amount message here}")
+    private String requireAmount;
+
     @Value("${voucher.message.command.create.fallback:Fallback message here}")
     private String fallback;
 
@@ -40,6 +43,14 @@ public class ApplicationMessages {
 
     public void setRequireType(String requireType) {
         this.requireType = requireType;
+    }
+
+    public String getRequireAmount() {
+        return requireAmount;
+    }
+
+    public void setRequireAmount(String requireAmount) {
+        this.requireAmount = requireAmount;
     }
 
     public String getFallback() {

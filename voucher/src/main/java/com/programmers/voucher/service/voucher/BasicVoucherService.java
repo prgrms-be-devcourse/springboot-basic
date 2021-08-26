@@ -1,7 +1,7 @@
 package com.programmers.voucher.service.voucher;
 
+import com.programmers.voucher.entity.voucher.DiscountPolicy;
 import com.programmers.voucher.entity.voucher.Voucher;
-import com.programmers.voucher.entity.voucher.factory.VoucherFactory;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +15,9 @@ public class BasicVoucherService implements VoucherService {
     private static final Logger log = LoggerFactory.getLogger(BasicVoucherService.class);
 
     private final VoucherRepository voucherRepository;
-    private final VoucherFactory fixedAmountVoucherFactory;
-    private final VoucherFactory percentDiscountVoucherFactory;
 
-    public BasicVoucherService(VoucherRepository voucherRepository, VoucherFactory fixedAmountVoucherFactory,
-            VoucherFactory percentDiscountVoucherFactory) {
+    public BasicVoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.fixedAmountVoucherFactory = fixedAmountVoucherFactory;
-        this.percentDiscountVoucherFactory = percentDiscountVoucherFactory;
     }
 
     @Override
@@ -36,23 +31,11 @@ public class BasicVoucherService implements VoucherService {
     }
 
     @Override
-    public Voucher create(String name, Voucher.type type, double value) {
-        Voucher voucher;
-        switch (type) {
-            case FIXED:
-                voucher = fixedAmountVoucherFactory.create(name, value);
-                break;
-
-            case PERCENT:
-                voucher = percentDiscountVoucherFactory.create(name, value);
-                break;
-
-            default:
-                voucher = fixedAmountVoucherFactory.create(name, value);
-        }
-
-        log.debug("Created voucher {}", voucher.toString());
-        return voucherRepository.save(voucher);
+    public Voucher create(String name, DiscountPolicy.Type type, int value) {
+        Voucher voucher = new Voucher(name, new DiscountPolicy(value, type));
+        voucher = voucherRepository.save(voucher);
+        log.debug("Persisted voucher {} to repository", voucher.toString());
+        return voucher;
     }
 
     @Override

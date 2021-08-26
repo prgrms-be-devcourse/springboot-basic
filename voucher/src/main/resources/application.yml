@@ -15,6 +15,8 @@ voucher:
         type: >-
           Select voucher type(Fixed / Percent): (Fixed)
 
+        amount: >-
+          Input discount value(ex: 1000 for Fixed, 52 for Rated):
 
         fallback: >-
           Didn't select voucher type or invalid voucher type. Fallback to "Fixed" voucher type.
@@ -33,6 +35,13 @@ voucher:
 
       filename:
         vouchers.db
+
+  db:
+    jdbc:
+      url:
+        jdbc:mysql://localhost:3306/voucher_app
+      username: vouchermanager
+      password: password
 
 logging:
   level:
