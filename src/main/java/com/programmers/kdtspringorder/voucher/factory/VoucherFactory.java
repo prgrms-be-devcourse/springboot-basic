@@ -29,11 +29,11 @@ public class VoucherFactory {
     public Voucher createVoucher(VoucherType voucherType, long value) {
         if (voucherType == VoucherType.FIXED) {
             FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), value);
-            logger.info("CREATE " + fixedAmountVoucher.getClass().getSimpleName() + " " + fixedAmountVoucher.getVoucherId());
+            logger.info("CREATE {} {}", fixedAmountVoucher.getClass().getSimpleName(), fixedAmountVoucher.getVoucherId());
             return fixedAmountVoucher;
         } else if (voucherType == VoucherType.PERCENT) {
             PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
-            logger.info("CREATE " + percentDiscountVoucher.getClass().getSimpleName() + " " + percentDiscountVoucher.getVoucherId());
+            logger.info("CREATE {} {} ", percentDiscountVoucher.getClass().getSimpleName(), percentDiscountVoucher.getVoucherId());
             return percentDiscountVoucher;
         }
 
