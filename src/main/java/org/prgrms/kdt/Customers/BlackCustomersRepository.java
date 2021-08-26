@@ -1,6 +1,9 @@
 package org.prgrms.kdt.Customers;
 
 import org.prgrms.kdt.Voucher.Voucher;
+import org.prgrms.kdt.Voucher.VoucherApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Repository;
@@ -23,7 +26,9 @@ public class BlackCustomersRepository  implements CustomersRepository{
 
     //Map에 담아 놓아 Thread-free
     private final Map<String, Customers> storage=new ConcurrentHashMap<>();
-//
+    private static  final Logger logger= LoggerFactory.getLogger(BlackCustomersRepository.class);
+
+
     public void load(){
         List<Customers> customers=new ArrayList<>();
 
@@ -42,6 +47,8 @@ public class BlackCustomersRepository  implements CustomersRepository{
 
         catch (IOException n){
             System.out.println("파일을 찾지 못하였습니다");
+            logger.warn("파일을 찾지 못했습니다");
+
             n.printStackTrace();
         }
 

@@ -58,7 +58,7 @@ public class VoucherApplication {
                         int amount = scanner.nextInt();
                         VoucherRequest voucherRequest = new VoucherRequest(voucherId, amount);
                         voucherService.createVoucher(voucherId, TypeStatus.Fixed, voucherRequest);
-                        logger.info("바우처 생성!! id:{},type:{},discount{}%",voucherId,TypeStatus.Fixed,amount);
+                        logger.info("바우처 생성!! id:{},type:{},discount{}",voucherId,TypeStatus.Fixed,amount);
 
                     }
 
@@ -70,25 +70,25 @@ public class VoucherApplication {
                     if(voucherService.findAll().isEmpty()) logger.warn("저장된 바우처가 없습니다.");
                     else {
                         System.out.println("바우처 목록");
-                        logger.info("바우처 목록 조회 성공.");
+                        logger.info("바우처 모든 목록 조회.");
                         voucherService.findAll().forEach(voucher -> System.out.println(MessageFormat.format("{0},{1},{2}", voucher.getVoucherId(), voucher.getType(), voucher.getVoucherdiscount())));
                     }}
                 case  "blacklist"->{
 
-                    //질문
+
                     if ( customersService.findAll().isEmpty()){
                         System.out.println("저장된 블랙리스트가 없습니다.");
                     logger.warn("저장된 블랙리스트가 없습니다.");
                 }
                     else{
                         System.out.println("블랙리스트 목록");
-                        logger.info("블랙리스트 목록 조회 성공.");
+                        logger.info("블랙리스트 모든 목록 조회.");
                         customersService.findAll().forEach(customers -> System.out.println(MessageFormat.format("{0}.{1} {2}",customers.getNum(),customers.getId(),customers.getName())));
                     }
                 }
                 case "exit" -> {System.out.println("다시 입력해 주세요"); logger.info("시스템종료");}
                 default -> {System.out.println("다시 입력해 주세요");
-                           logger.warn("잘못입력");}
+                           logger.warn("명령 잘못입력");}
             }
         }
     }
