@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Repository
-//@Profile("prod")
+@Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
 
     private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);

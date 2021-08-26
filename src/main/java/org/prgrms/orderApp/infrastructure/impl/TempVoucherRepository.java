@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-//@Repository
-//@Profile("dev")
+@Repository
+@Profile("dev")
 public class TempVoucherRepository implements VoucherRepository {
     private List<Voucher> voucher_list= new ArrayList<>();
 
