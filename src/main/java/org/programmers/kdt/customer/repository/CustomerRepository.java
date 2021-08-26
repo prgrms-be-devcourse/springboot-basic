@@ -9,6 +9,10 @@ import java.util.UUID;
 
 public interface CustomerRepository {
     Customer insert(Customer customer) throws IOException;
+    default Optional<Customer> deleteCustomer(Customer customer) {
+        return deleteCustomer(customer.getCustomerId());
+    }
+    Optional<Customer> deleteCustomer(UUID customerId);
 
     Optional<Customer> findById(UUID customerId);
     List<Customer> findByName(String name);

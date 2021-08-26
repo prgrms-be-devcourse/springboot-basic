@@ -74,6 +74,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Optional<Customer> removeCustomer(UUID customerId) {
+        return customerRepository.deleteCustomer(customerId);
+    }
+
+    @Override
     public Boolean isBlacklisted(Customer customer) {
         return customerRepository.findAllBlacklistCustomer().contains(customer);
     }

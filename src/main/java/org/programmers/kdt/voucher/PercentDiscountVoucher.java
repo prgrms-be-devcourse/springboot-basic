@@ -13,19 +13,9 @@ public class PercentDiscountVoucher implements Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
-        // TODO : 워닝 메세지를 로그로 출력하도록 변경
-        if (percent < MINIMUM_DISCOUNT_PERCENT) {
-            System.out.println(
-                    MessageFormat.format(
-                            "!! WARNING !!\nInvalid discount percentage : {0}\nAutomatically changed to {1}%",
-                            percent, MINIMUM_DISCOUNT_PERCENT));
-            percent = MINIMUM_DISCOUNT_PERCENT;
-        } else if (percent > MAXIMUM_DISCOUNT_PERCENT) {
-            System.out.println(
-                    MessageFormat.format(
-                            "!! WARNING !!\nInvalid discount percentage : {0}\nAutomatically changed to {1}%",
-                            percent, MAXIMUM_DISCOUNT_PERCENT));
-            percent = MAXIMUM_DISCOUNT_PERCENT;
+        if (percent < MINIMUM_DISCOUNT_PERCENT || percent > MAXIMUM_DISCOUNT_PERCENT) {
+            throw new RuntimeException(MessageFormat.format("Invalid Discount Percentage! Valid Range : [{0}, {1}]",
+                    MINIMUM_DISCOUNT_PERCENT, MAXIMUM_DISCOUNT_PERCENT));
         }
         this.percent = percent;
     }
@@ -39,6 +29,11 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long getDiscount() {
         return percent;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT;
     }
 
     @Override

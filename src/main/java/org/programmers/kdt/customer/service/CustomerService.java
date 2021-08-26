@@ -19,5 +19,11 @@ public interface CustomerService {
     List<Customer> findAll();
     List<Customer> findAllBlacklistCustomer();
 
+    default Optional<Customer> removeCustomer(Customer customer) {
+        return removeCustomer(customer.getCustomerId());
+    }
+
+    Optional<Customer> removeCustomer(UUID customerId);
+
     Boolean isBlacklisted(Customer customer);
 }

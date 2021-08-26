@@ -8,6 +8,7 @@ import org.programmers.kdt.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,31 +54,28 @@ public class FileVoucherRepository implements VoucherRepository  {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        if (null == cache.put(voucher.getVoucherId(), voucher)) {
-            try {
-                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
-
-                UUID voucherId = voucher.getVoucherId();
-                String[] voucherTypeInfo = voucher.getClass().toString().split("\\.");
-                VoucherType voucherType = VoucherType.of(voucherTypeInfo[voucherTypeInfo.length - 1]);
-                Long discount = voucher.getDiscount();
-
-                // uuid 중복검사는 cache에서 이루어짐
-                bufferedWriter.write(voucherId + " " + voucherType + " " + discount);
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
-
-                bufferedWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            }
-        }
+        cache.put(voucher.getVoucherId(), voucher);
         return voucher;
+    }
+
+    @Override
+    public Optional<Voucher> deleteVoucher(UUID voucherId) {
+        return Optional.ofNullable(cache.remove(voucherId));
     }
 
     @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(cache.values());
+    }
+
+    @PreDestroy
+    private void updateData() throws IOException {
+        // FIXME : 매번 처음부터 다시 써야 하는데, 제거된 부분만 찾아서 없애는 방법을 찾아보자.
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, false));
+        for (Voucher voucher : cache.values()) {
+            bufferedWriter.write(voucher.getVoucherId() + " " + voucher.getVoucherType() + " " + voucher.getDiscount());
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+        }
     }
 }

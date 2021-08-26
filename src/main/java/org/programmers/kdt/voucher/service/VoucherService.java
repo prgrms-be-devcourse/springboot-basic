@@ -10,7 +10,11 @@ import java.util.UUID;
 public interface VoucherService {
     Optional<Voucher> getVoucher(UUID voucherId);
     void useVoucher(Voucher voucher);
-    void deleteVoucher(UUID voucherId);
     Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount);
+    default Optional<Voucher> removeVoucher(Voucher voucher) {
+        return removeVoucher(voucher.getVoucherId());
+    }
+
+    Optional<Voucher> removeVoucher(UUID voucherid);
     List<Voucher> getAllVouchers();
 }

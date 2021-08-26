@@ -25,6 +25,11 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED;
+    }
+
+    @Override
     public long getDiscountAmount(long beforeDiscount) {
         return Math.min(amount, beforeDiscount);
     }

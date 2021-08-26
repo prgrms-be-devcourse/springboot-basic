@@ -65,7 +65,13 @@ public class CommandLineApplication implements Runnable {
                         discount = input.input("How much of a discount do you want to give?");
                     }
 
-                    Voucher voucher = voucherService.createVoucher(voucherType, UUID.randomUUID(), Long.parseLong(discount));
+                    Voucher voucher;
+                    try {
+                        voucher = voucherService.createVoucher(voucherType, UUID.randomUUID(), Long.parseLong(discount));
+                    } catch (RuntimeException e) {
+                        output.inputError(e.getMessage());
+                        continue;
+                    }
                     output.printSuccessMessage(voucher);
                 }
                 case LIST -> output.printAllListInfo(voucherService.getAllVouchers());

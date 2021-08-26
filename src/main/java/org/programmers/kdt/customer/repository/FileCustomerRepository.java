@@ -64,10 +64,8 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer insert(Customer customer) throws IOException {
-        if (null == cache4Customers.put(customer.getCustomerId(), customer)) {
-            recordCustomerData(customer, customersCSV);
-        }
+    public Customer insert(Customer customer) {
+        cache4Customers.put(customer.getCustomerId(), customer);
         return customer;
     }
 
@@ -95,10 +93,8 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer registerToBlacklist(Customer customer) throws IOException {
-        if (null != cache4Blacklist.put(customer.getCustomerId(), customer)) {
-            recordCustomerData(customer, blacklistCSV);
-        }
+    public Customer registerToBlacklist(Customer customer) {
+        cache4Blacklist.put(customer.getCustomerId(), customer);
         return customer;
     }
 
@@ -107,23 +103,16 @@ public class FileCustomerRepository implements CustomerRepository {
         return new ArrayList<>(cache4Blacklist.values());
     }
 
-    private void recordCustomerData(Customer customer, File customersCSV) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(customersCSV, true));
-
-        bufferedWriter.write(MessageFormat.format("{0},{1},{2},{3},{4}",
-                customer.getCustomerId(), customer.getName(), customer.getEmail(),
-                customer.getLastLoginAt(), customer.getCreatedAt()));
-        bufferedWriter.newLine();
-        bufferedWriter.close();
+    @Override
+    public Optional<Customer> deleteCustomer(UUID customerId) {
+        cache4Blacklist.remove(customerId);
+        return Optional.ofNullable(cache4Customers.remove(customerId));
     }
 
-    public Optional<Customer> deleteCustomer(Customer customer) {
-        cache4Blacklist.remove(customer.getCustomerId());
-        return Optional.ofNullable(cache4Customers.remove(customer.getCustomerId()));
-    }
 
     @PreDestroy
     private void updateData() throws IOException {
+        // FIXME : 매번 처음부터 다시 써야 하는데, 제거된 부분만 찾아서 없애는 방법을 찾아보자.
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(customersCSV, false));
         for (Customer customer : cache4Customers.values()) {
             bufferedWriter.write(MessageFormat.format("{0},{1},{2},{3},{4}",

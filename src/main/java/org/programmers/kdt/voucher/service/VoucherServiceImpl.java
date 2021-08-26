@@ -39,11 +39,6 @@ public class VoucherServiceImpl implements VoucherService {
         // TODO : To be implemented later...
     }
 
-    @Override
-    public void deleteVoucher(UUID voucherId) {
-        // TODO : To be implemented later...
-    }
-
     private void addVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
         logger.info("New Voucher has been successfully added to repository : {} {} {}",
@@ -57,9 +52,20 @@ public class VoucherServiceImpl implements VoucherService {
             case FIXED -> voucherFactory = new FixedAmountVoucherFactory();
             case PERCENT -> voucherFactory = new PercentDiscountVoucherFactory();
         }
-        Voucher voucher = voucherFactory.createVoucher(voucherId, discount);
+        Voucher voucher;
+        try {
+            voucher = voucherFactory.createVoucher(voucherId, discount);
+        } catch (RuntimeException e) {
+            logger.error("Failed to created a voucher : {}", e.getMessage());
+            throw e;
+        }
         addVoucher(voucher);
         return voucher;
+    }
+
+    @Override
+    public Optional<Voucher> removeVoucher(UUID voucherid) {
+        return voucherRepository.deleteVoucher(voucherid);
     }
 
     @Override
