@@ -1,22 +1,29 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.io.console.Command;
 import org.prgrms.kdt.io.console.Validator;
 import org.prgrms.kdt.io.file.IO;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.service.dto.RequestCreatVoucherDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.prgrms.kdt.io.console.Command.*;
 
 @Component
 public class Console {
 
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
     private final IO io;
     private final VoucherService voucherService;
     private final Validator validator = new Validator();
@@ -30,30 +37,34 @@ public class Console {
     public Command run() throws IOException {
         printInitMenu();
         String cmd = io.readLine().trim().toUpperCase();
-        if (validator.isInValidCommand(cmd)) {
+        
+        if (Command.isInvalidCommand(cmd)) {
+            logger.warn(MessageFormat.format("Invalid command at {0}: cmd = {1}", this.getClass().getSimpleName(), cmd));
             io.writeLine("Invalid command, Try again");
             return Command.CONTINUE;
         }
-
-        if (Command.valueOf(cmd) == Command.EXIT){
-            io.writeLine("Bye");
-            return Command.EXIT;
-        }
-
-        execute(cmd);
-        return Command.CONTINUE;
+        Command command = Command.valueOf(cmd);
+        execute(command);
+        return command;
     }
 
-    private void execute(String cmd) throws IOException {
-        if (Command.valueOf(cmd) == Command.CREATE) {
-            printCreateMenu();
-            if (createVoucher().isPresent()) {
-                io.writeLine("Successfully create voucher");
-                return;
+    private void execute(Command command) throws IOException {
+        switch (command) {
+            case EXIT -> {
+                io.writeLine("Bye");
             }
-            io.writeLine("Invalid input, Try again");
-        } else {
-            printVouchers();
+            case CREATE -> {
+                printCreateMenu();
+                if (createVoucher().isPresent()) {
+                    io.writeLine("Successfully create voucher");
+                    return;
+                }
+                logger.warn(MessageFormat.format("Invalid input at {0}: command = {1}", this.getClass().getSimpleName(), command));
+                io.writeLine("Invalid input, Try again");
+            }
+            case LIST -> {
+                printVouchers();
+            }
         }
     }
 
@@ -61,10 +72,10 @@ public class Console {
         io.writeLine("=== Create Voucher ==");
         io.writeLine("Enter the type of voucher");
         io.writeLine("Enter the amount of discount");
-        io.writeLine("FixedAmountVoucher: 0, PercentAmountVoucher: 1");
+        io.writeLine("Fixed discount voucher: 0, Percent discount voucher: 1");
         io.writeLine("Please separate the type and amount with a space");
         io.writeLine("Example: 0 10");
-        io.writeLine("type: FixedAmountVoucher, amount: 10");
+        io.writeLine("type: Fixed discount voucher, amount: 10");
         io.writeLine("=====================");
     }
 
@@ -81,6 +92,7 @@ public class Console {
                     try {
                         io.writeLine(v.toString());
                     } catch (IOException e) {
+                        logger.error(MessageFormat.format("Exception at {0}: {1}", this.getClass().getSimpleName(), e.getMessage()));
                         e.printStackTrace();
                     }
                 });
@@ -89,30 +101,34 @@ public class Console {
     private Optional<UUID> createVoucher() throws IOException {
         String[] line = io.readLine().trim().split(" ");
 
-        if (validator.isNotDigitArray(line))
+        if (validator.isNotDigit(line))
             return Optional.empty();
 
-        int type = convertStrVoucherTypeToInt(line[0]);
-        long value = convertStrVoucherValueToLong(line[1]);
+        int type = mapToInt(line[0]);
+        long value = mapToLong(line[1]);
 
-        if (validator.isInValidType(type))
+        if (VoucherType.isInvalidType(type)) {
+            logger.warn(MessageFormat.format("Invalid input at {0}: type = {1}", this.getClass().getSimpleName(), type));
             return Optional.empty();
+        }
 
-        if (validator.isInvalidValue(value))
+        if (VoucherType.isInvalidValueForType(value, mapToVoucherType(type))) {
+            logger.warn(MessageFormat.format("Invalid value at {0}: value={1}, type={2}", this.getClass().getSimpleName(), type, value));
             return Optional.empty();
+        }
 
-        return Optional.of(voucherService.save(new RequestCreatVoucherDto(convertIntToVoucherType(type), value)));
+        return Optional.of(voucherService.save(new RequestCreatVoucherDto(mapToVoucherType(type), value)));
     }
 
-    private VoucherType convertIntToVoucherType(int type) {
+    private VoucherType mapToVoucherType(int type) {
         return VoucherType.findType(type);
     }
 
-    private long convertStrVoucherValueToLong(String value) {
+    private long mapToLong(String value) {
         return Long.parseLong(value);
     }
 
-    private int convertStrVoucherTypeToInt(String type) {
+    private int mapToInt(String type) {
         return Integer.parseInt(type);
     }
 

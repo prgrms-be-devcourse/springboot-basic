@@ -1,7 +1,7 @@
 package org.prgrms.kdt.customer;
 
+import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -9,17 +9,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
+import static com.wix.mysql.ScriptResolver.classPathScript;
+import static com.wix.mysql.distribution.Version.v8_0_11;
+import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static com.wix.mysql.config.Charset.UTF8;
 
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -40,8 +45,8 @@ class CustomerJdbcRepositoryTest {
                     .password("admin")
                     .type(HikariDataSource.class)
                     .build();
-//            dataSource.setMaximumPoolSize(1000);
-//            dataSource.setMinimumIdle(100);
+            dataSource.setMaximumPoolSize(1000);
+            dataSource.setMinimumIdle(100);
             return dataSource;
         }
 
@@ -61,11 +66,9 @@ class CustomerJdbcRepositoryTest {
 
     @BeforeAll
     void setup() {
-        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user125553@gmail.com", LocalDateTime.now());
         customerRepository.deleteAll();
+        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user125553@gmail.com", LocalDateTime.now());
     }
-
-
 
     @Test
     @Order(1)

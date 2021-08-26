@@ -6,13 +6,19 @@ import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
 
+    private static final long MAX_VOUCHER_VALUE = 100;
     private final UUID voucherId;
     private final long value;
 
-    public PercentAmountVoucher(UUID voucherId, long percent) {
+    public PercentAmountVoucher(UUID voucherId, long percent) throws IllegalArgumentException{
+        if (isUnderZero(percent)) throw new IllegalArgumentException("Percent should be positive");
+        if (isZero(percent)) throw new IllegalArgumentException("Percent should not be zero");
+        if (isOverMaxValue(percent)) throw  new IllegalArgumentException("Percent should be less than " + MAX_VOUCHER_VALUE);
         this.voucherId = voucherId;
         this.value = percent;
     }
+
+
 
     @Override
     public UUID getVoucherId() {
@@ -29,6 +35,7 @@ public class PercentAmountVoucher implements Voucher {
         return beforeDiscount * (value / 100);
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,6 +51,19 @@ public class PercentAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("{0} {1} {2}", voucherId, VoucherType.PERCENT, value);
+        return String.format("%s %s %s", voucherId, VoucherType.PERCENT, value);
     }
+
+    private boolean isOverMaxValue(long percent) {
+        return percent > MAX_VOUCHER_VALUE;
+    }
+
+    private boolean isZero(long percent) {
+        return percent == 0;
+    }
+
+    private boolean isUnderZero(long percent) {
+        return percent < 0;
+    }
+
 }

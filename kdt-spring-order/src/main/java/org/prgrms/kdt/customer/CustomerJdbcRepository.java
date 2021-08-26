@@ -3,6 +3,7 @@ package org.prgrms.kdt.customer;
 import org.prgrms.kdt.JdbcCustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,6 +25,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final DataSource dataSource;
+
     private static RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         String customerName = resultSet.getString("name");
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));

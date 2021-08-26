@@ -4,11 +4,14 @@ import org.prgrms.kdt.Factory.VoucherFactory;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.io.file.IO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +21,7 @@ import java.util.UUID;
 @Profile("default")
 public class FileVoucherRepository implements VoucherRepository {
 
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String SEPARATOR = " ";
     private final IO io;
 
@@ -38,7 +42,8 @@ public class FileVoucherRepository implements VoucherRepository {
                     return Optional.of(voucher);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
+            logger.error(MessageFormat.format("Exception at {0}: {1}", this.getClass().getSimpleName(), e.getMessage()));
             e.printStackTrace();
         }
 
@@ -56,7 +61,8 @@ public class FileVoucherRepository implements VoucherRepository {
                 Voucher voucher = createVoucher(line);
                 list.add(voucher);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
+            logger.error(MessageFormat.format("Exception at {0}: {1}", this.getClass().getSimpleName(), e.getMessage()));
             e.printStackTrace();
         }
         io.reset();
@@ -76,7 +82,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         try {
             io.writeLine(voucher.toString());
+            logger.info(MessageFormat.format("Create at {0}: ", this.getClass().getSimpleName(), voucher.toString()));
         } catch (IOException e) {
+            logger.error(MessageFormat.format("Exception at {0}: {1}", this.getClass().getSimpleName(), e.getMessage()));
             e.printStackTrace();
         }
         return voucher;

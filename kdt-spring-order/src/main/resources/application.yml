@@ -12,3 +12,10 @@ kdt:
 db_path:
   txt_path: "db.txt"
   csv_path: "customer_blacklist.csv"
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_mgmt?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver

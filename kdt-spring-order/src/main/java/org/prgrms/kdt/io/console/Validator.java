@@ -5,34 +5,23 @@ import org.prgrms.kdt.domain.voucher.VoucherType;
 import java.util.Arrays;
 
 public class Validator {
-    public boolean isInValidCommand(String line) {
-        return Arrays.stream(Command.values())
-                .filter(c -> c != Command.CONTINUE)
-                .filter(c -> c.getValue().equals(line))
-                .findFirst()
-                .isEmpty();
-    }
 
-    public boolean isInvalidValue(long voucherValue) {
-        return voucherValue < 0;
-    }
-
-    public boolean isInValidType(int voucherType) {
-        int limit = VoucherType.totalTypes();
-        return voucherType < 0 || voucherType >= limit;
-    }
-
-    public boolean isNotDigitArray(String[] strArray) {
+    public boolean isNotDigit(String[] strArray) {
         if (isEmpty(strArray))
             return true;
 
         for (String str : strArray) {
-            for (int i = 0; i < str.length(); i++) {
-                if (isNotDigit(str.charAt(i)))
-                    return true;
-            }
+            if (isNotDigit(str)) return true;
         }
 
+        return false;
+    }
+
+    private boolean isNotDigit(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            if (isNotDigit(str.charAt(i)))
+                return true;
+        }
         return false;
     }
 
@@ -43,5 +32,4 @@ public class Validator {
     private boolean isEmpty(String[] line) {
         return line.length != 2;
     }
-
 }
