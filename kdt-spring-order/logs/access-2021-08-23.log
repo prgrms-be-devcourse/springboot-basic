@@ -1,0 +1,105 @@
+[33m17:41:25.629[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 19956 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:41:25.633[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:41:25.634[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+[33m17:41:26.287[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-dev
+[33m17:41:26.289[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:41:26.289[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [deva, devb, devc, devd]
+[33m17:41:26.289[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:41:26.424[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.253 seconds (JVM running for 2.167)
+[33m17:41:59.545[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 30572 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:41:59.547[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:41:59.548[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+[33m17:42:00.075[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-dev
+[33m17:42:00.077[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:42:00.077[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [deva, devb, devc, devd]
+[33m17:42:00.077[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:42:00.193[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.133 seconds (JVM running for 2.028)
+[33m17:42:13.514[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 30324 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:42:13.520[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:42:13.520[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - The following profiles are active: local
+[33m17:42:14.320[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0
+[33m17:42:14.322[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:42:14.322[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [a, b, c, d]
+[33m17:42:14.322[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:42:14.432[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.711 seconds (JVM running for 2.999)
+[33m17:43:27.214[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 30244 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:43:27.217[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:43:27.217[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - The following profiles are active: production
+[33m17:43:27.752[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-dev
+[33m17:43:27.753[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:43:27.753[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [deva, devb, devc, devd]
+[33m17:43:27.753[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:43:27.855[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.105 seconds (JVM running for 2.081)
+[33m17:46:02.469[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 8540 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:46:02.475[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:46:02.475[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+[33m17:46:03.267[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-dev
+[33m17:46:03.269[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:46:03.269[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [deva, devb, devc, devd]
+[33m17:46:03.270[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:46:26.087[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 28856 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:46:26.094[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:46:26.095[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+[33m17:46:27.089[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> null
+[33m17:46:27.090[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> null
+[33m17:46:27.091[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> null
+[33m17:46:27.091[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:47:34.435[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 21312 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:47:34.439[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:47:34.439[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+[33m17:47:35.025[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-default
+[33m17:47:35.027[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:47:35.027[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [defaulta, defaultb]
+[33m17:47:35.027[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:48:37.384[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 20644 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:48:37.386[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:48:37.387[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+[33m17:48:37.941[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-default
+[33m17:48:37.943[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:48:37.943[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [defaulta, defaultb]
+[33m17:48:37.943[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:50:06.126[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 26324 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:50:06.130[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:50:06.130[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+[33m17:50:06.977[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-default
+[33m17:50:06.979[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:50:06.979[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [defaulta, defaultb]
+[33m17:50:06.979[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:50:07.138[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.529 seconds (JVM running for 2.608)
+[33m17:50:26.864[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 10328 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:50:26.867[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:50:26.867[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+[33m17:50:27.392[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-default
+[33m17:50:27.393[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:50:27.393[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [defaulta, defaultb]
+[33m17:50:27.393[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:50:27.491[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.071 seconds (JVM running for 2.02)
+[33m17:51:43.119[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 30120 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m17:51:43.121[0;39m [main] [32mDEBUG[0;39m org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m17:51:43.121[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+[33m17:51:43.657[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-dev
+[33m17:51:43.658[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m17:51:43.658[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [deva, devb, devc, devd]
+[33m17:51:43.659[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m17:51:43.755[0;39m [main] [32mINFO [0;39m org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.051 seconds (JVM running for 2.047)
+[33m20:04:08.382[0;39m [main] [32mINFO [0;39m o.prgrms.kdt.CommandLineApplication - Starting CommandLineApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 28316 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m20:04:08.387[0;39m [main] [32mDEBUG[0;39m o.prgrms.kdt.CommandLineApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m20:04:08.388[0;39m [main] [32mINFO [0;39m o.prgrms.kdt.CommandLineApplication - The following profiles are active: default
+[33m20:04:09.250[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-default
+[33m20:04:09.251[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m20:04:09.251[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [defaulta, defaultb]
+[33m20:04:09.251[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m20:04:09.335[0;39m [main] [32mINFO [0;39m o.prgrms.kdt.CommandLineApplication - Started CommandLineApplication in 1.658 seconds (JVM running for 3.299)
+[33m20:05:10.333[0;39m [main] [32mINFO [0;39m o.prgrms.kdt.CommandLineApplication - Starting CommandLineApplication using Java 16.0.1 on DESKTOP-1981VJ2 with PID 25484 (C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order\target\classes started by dau47 in C:\workspace\dev-course\w3-SpringBoot_Part_A\kdt-spring-order)
+[33m20:05:10.338[0;39m [main] [32mDEBUG[0;39m o.prgrms.kdt.CommandLineApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+[33m20:05:10.339[0;39m [main] [32mINFO [0;39m o.prgrms.kdt.CommandLineApplication - The following profiles are active: default
+[33m20:05:11.445[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] version -> v1.0.0-default
+[33m20:05:11.446[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] minimumOrderAmount -> 1
+[33m20:05:11.447[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] supportVendors -> [defaulta, defaultb]
+[33m20:05:11.447[0;39m [main] [32mDEBUG[0;39m o.p.kdt.domain.order.OrderProperties - [OrderProperties] javaHome -> C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot
+[33m20:05:11.549[0;39m [main] [32mINFO [0;39m o.prgrms.kdt.CommandLineApplication - Started CommandLineApplication in 2.012 seconds (JVM running for 3.824)
+[33m21:44:02.242[0;39m [main] [31mERROR[0;39m o.p.k.r.v.FileVoucherRepository - Exception at FileVoucherRepository: For input string: "1,000"
+[33m21:44:54.057[0;39m [main] [31mERROR[0;39m o.p.k.r.v.FileVoucherRepository - Exception at FileVoucherRepository: For input string: "1,000"
+[33m21:46:05.059[0;39m [main] [31mERROR[0;39m o.p.k.r.v.FileVoucherRepository - Exception at FileVoucherRepository: For input string: "1,000"
+[33m21:47:45.935[0;39m [main] [31mERROR[0;39m o.p.k.r.v.FileVoucherRepository - Exception at FileVoucherRepository: Stream closed
+[33m21:47:54.259[0;39m [main] [31mERROR[0;39m o.p.k.r.v.FileVoucherRepository - Exception at FileVoucherRepository: Cannot invoke "String.replaceAll(String, String)" because the return value of "java.io.BufferedReader.readLine()" is null
