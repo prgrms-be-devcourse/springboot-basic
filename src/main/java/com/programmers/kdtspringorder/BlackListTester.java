@@ -3,7 +3,7 @@ package com.programmers.kdtspringorder;
 import com.programmers.kdtspringorder.user.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class BlackListTest {
+public class BlackListTester {
 
     public static void main(String[] args) {
 

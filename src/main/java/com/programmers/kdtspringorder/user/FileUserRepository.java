@@ -33,7 +33,7 @@ public class FileUserRepository implements UserRepository {
             return bufferedReader.lines()
                     .map(str -> str.split(","))
                     .filter(arr -> arr[1].equals(userId))
-                    .map(arr -> new User(Long.parseLong(arr[0]), arr[1], arr[2]))
+                    .map(arr -> getUser(arr))
                     .findFirst();
 
         } catch (IOException e) {
@@ -49,7 +49,7 @@ public class FileUserRepository implements UserRepository {
             List<String> strings = Files.readAllLines(blacklist.toPath(), StandardCharsets.UTF_8);
             return strings.stream()
                     .map(str -> str.split(","))
-                    .map(arr -> new User(Long.parseLong(arr[0]), arr[1], arr[2]))
+                    .map(arr -> getUser(arr))
                     .collect(Collectors.toList());
 
         } catch (IOException e) {
@@ -57,5 +57,9 @@ public class FileUserRepository implements UserRepository {
         }
 
         return new ArrayList<>();
+    }
+
+    private User getUser(String[] arr) {
+        return new User(arr[0], arr[1]);
     }
 }
