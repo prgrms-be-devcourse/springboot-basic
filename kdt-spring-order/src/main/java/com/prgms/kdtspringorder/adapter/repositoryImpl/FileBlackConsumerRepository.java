@@ -1,7 +1,6 @@
 package com.prgms.kdtspringorder.adapter.repositoryImpl;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
@@ -23,11 +22,10 @@ public class FileBlackConsumerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileBlackConsumerRepository.class);
     private static final String COMMA = ",";
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
-    private final File file;
+    public final String filepath;
 
     public FileBlackConsumerRepository(PathProperties pathProperties) {
-        String filepath = System.getProperty("user.dir") + pathProperties.getCustomerBlacklist();
-        file = new File(filepath);
+        filepath = System.getProperty("user.dir") + pathProperties.getCustomerBlacklist();
     }
 
     @Override
@@ -37,10 +35,7 @@ public class FileBlackConsumerRepository implements CustomerRepository {
 
     @PostConstruct
     private void postConstruct() {
-        if (!file.exists()) {
-            return;
-        }
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             String line = "";
             while ((line = br.readLine()) != null) {
                 String[] voucherInfo = line.split(COMMA);

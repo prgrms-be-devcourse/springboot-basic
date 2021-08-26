@@ -2,7 +2,6 @@ package com.prgms.kdtspringorder.adapter.repositoryImpl;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,18 +26,17 @@ import com.prgms.kdtspringorder.domain.model.voucher.Voucher;
 import com.prgms.kdtspringorder.domain.model.voucher.VoucherRepository;
 import com.prgms.kdtspringorder.domain.model.voucher.VoucherType;
 
-@Profile("dev")
+@Profile({"dev", "default"})
 @Primary
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String COMMA = ",";
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-    private final File file;
+    private final String filepath;
 
     public FileVoucherRepository(PathProperties pathProperties) {
-        String filepath = System.getProperty("user.dir") + pathProperties.getVoucherList();
-        file = new File(filepath);
+        filepath = System.getProperty("user.dir") + pathProperties.getVoucherList();
     }
 
     @Override
@@ -58,10 +56,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @PostConstruct
     private void postConstruct() {
-        if (!file.exists()) {
-            return;
-        }
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             String line = "";
             while ((line = br.readLine()) != null) {
                 String[] voucherInfo = line.split(COMMA);
@@ -84,7 +79,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @PreDestroy
     private void preDestroy() {
         // storage를 file에 넣기
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filepath))) {
             storage.forEach((id, voucher) -> {
                 VoucherType type = VoucherType.FIXED;
                 if (voucher.getClass().getSimpleName().equals("PercentDiscountVoucher")) {

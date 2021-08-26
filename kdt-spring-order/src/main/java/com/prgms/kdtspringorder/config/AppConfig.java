@@ -7,7 +7,8 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan(basePackages = {"com.prgms.kdtspringorder"})
-@PropertySource(value = "application-dev.yaml", factory = YamlPropertiesFactory.class)
+@PropertySource(value = {"application.yaml", "application-dev.yaml",
+    "application-local.yaml"}, factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 public class AppConfig {
 }
