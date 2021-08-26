@@ -29,43 +29,22 @@ public class OrderProperties implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-//        logger.debug("version = {}", version);
-//        logger.debug("minimumOrderAmount = {}", minimumOrderAmount);
-//        logger.debug("supportVendors = {}", supportVendors);
-//        logger.debug("description = {}", description);
-//        logger.debug("javaHome = {}", javaHome);
     }
 
     public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
     public int getMinimumOrderAmount() {
         return minimumOrderAmount;
-    }
-
-    public void setMinimumOrderAmount(int minimumOrderAmount) {
-        this.minimumOrderAmount = minimumOrderAmount;
     }
 
     public List<String> getSupportVendors() {
         return supportVendors;
     }
 
-    public void setSupportVendors(List<String> supportVendors) {
-        this.supportVendors = supportVendors;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getJavaHome() {
