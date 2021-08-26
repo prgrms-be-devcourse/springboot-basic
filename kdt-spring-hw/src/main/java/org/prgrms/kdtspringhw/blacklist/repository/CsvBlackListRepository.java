@@ -1,25 +1,31 @@
 package org.prgrms.kdtspringhw.blacklist.repository;
 
 import org.prgrms.kdtspringhw.blacklist.BlackList;
-import org.prgrms.kdtspringhw.configuration.AppConfiguration;
+import org.prgrms.kdtspringhw.blacklist.BlackListService;
+import org.prgrms.kdtspringhw.utils.BlackListReader;
+import org.prgrms.kdtspringhw.utils.BlackListWriter;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("dev")
 public class CsvBlackListRepository implements BlackListRepository{
 
-
+    private BlackListReader blackListReader ;
     private Map<UUID,BlackList> storage = new ConcurrentHashMap<>();
 
-    public void setStorage(Map<UUID, BlackList> storage) {
-        this.storage = storage;
+    public CsvBlackListRepository() throws IOException {
+        blackListReader = new BlackListReader("csv/customer_blacklist.csv");
     }
 
     @Override
@@ -37,4 +43,10 @@ public class CsvBlackListRepository implements BlackListRepository{
     public Map<UUID, BlackList> returnAll() {
         return storage;
     }
+
+    @PostConstruct
+    public void postConstruct() throws IOException {
+        storage = blackListReader.readCsv();
+    }
+
 }

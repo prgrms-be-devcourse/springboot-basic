@@ -1,9 +1,9 @@
 package org.prgrms.kdt.order;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -13,6 +13,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "kdt")//kdt하위에 있는 것들이 알아서 바인딩됨 , springboot
 //큰 프로젝트에서 그룹화시켜서 사용한다. 작은프로젝트에선 value로도 충분함!
 public class OrderProperties implements InitializingBean {
+
+    private final static Logger logger = LoggerFactory.getLogger(OrderProperties.class);
 
     //@Value("v1.1.1") // 생성자를 쓰지않고도 version에 값이 주입이 된다.
     private String version;
@@ -35,10 +37,10 @@ public class OrderProperties implements InitializingBean {
     private String description;
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println(MessageFormat.format("[OrderProperties] Version -> {0}", version));
-        System.out.println(MessageFormat.format("[OrderProperties] minimumOrderAmount -> {0}", minimumOrderAmount));
-        System.out.println(MessageFormat.format("[OrderProperties] supportVendors -> {0}", supportVendors));
-        System.out.println(MessageFormat.format("[OrderProperties] description -> {0}", description));
+        logger.debug("[OrderProperties] Version -> {}", version);
+        logger.debug("[OrderProperties] minimumOrderAmount -> {}", minimumOrderAmount);
+        logger.debug("[OrderProperties] supportVendors -> {}", supportVendors);
+        logger.debug("[OrderProperties] description -> {}", description);
     }
 
 

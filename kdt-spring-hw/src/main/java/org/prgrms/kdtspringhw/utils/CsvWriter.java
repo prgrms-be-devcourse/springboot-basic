@@ -9,6 +9,6 @@ import java.util.UUID;
 
 
 
-public interface CsvWriter {
-    void writeCsv(Resource resource, Map<UUID, BlackList> map) throws IOException;//제네릭 어떻게 쓰나용
+public interface CsvWriter <T> {
+    void writeCsv(Map<UUID, T> map) throws IOException;
 }

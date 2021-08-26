@@ -6,7 +6,10 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.order.OrderItem;
 import org.prgrms.kdt.order.OrderService;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.Resource;
@@ -26,6 +29,24 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class OrderTester {
+
+    // 5. 로깅 처리 : 로그 시스템 기록
+    // sout은 sunchronized 기능때문에 성능 저하를 일으킨다. -> 프로그램 운영시에 절대 사용하지 않는다.
+    // java.utill.loggin -> 성능 구려서 안씀
+    // Logback -> 자주쓰임
+    // SLF4J(Simple Logging Facade for java) :
+    // logger는 클래스 단위로 만든다.
+
+    //org.prgrms.kdt.OrderTester
+    //-> 패키지 단위로 로그 레벨 제어할 수 있음.
+    private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);
+    // log는 한번만 만들면 되니까~ p s f
+
+    // logging 설정 -> logback을 이용 하여 설정
+    // logback-test.xml 을 먼저 찾고 asdasdlogback.xml 을 찾고 없으면 기본 설정을 따름 (BasicConfiguration)
+    // 기본적으로 src/test/resources 에 만들어서 사용 ->test
+
+
     public static void main(String[] args) throws IOException {
         //Spring applicationContext는 객체 생성과 소멸을 관리함 ( 라이프 사이클)
 
@@ -40,25 +61,21 @@ public class OrderTester {
         // 생성
         var applicationContext =  new AnnotationConfigApplicationContext(AppConfiguration.class);
 
-        //리소스
-        Resource resource = applicationContext.getResource("application.yaml");//프로젝트 실행시 working디렉토리 기준으로 가져옴
-        Resource resource3 = applicationContext.getResource("classpath:application.yaml");//프로젝트 실행시 working디렉토리 기준으로 가져옴
-        Resource resource2 = applicationContext.getResource("file:sample.txt");//프로젝트 실행시 working디렉토리 기준으로 가져옴
-        Resource resource4 = applicationContext.getResource("https://stackoverflow.com/");//
 
-        System.out.println(MessageFormat.format("Resource -> {0}", resource4.getClass().getCanonicalName()));
-        //var file = resource4.getFile();//예외 처리 해야함
+        //logging convertion
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
+
+        // 로깅 예제
+        var orderProperties = applicationContext.getBean(OrderProperties.class);
+        logger.error("logger name => {}", logger.getName()); // messageformat 타입이랑 짬뽕됨
+        logger.warn("version -> {}", orderProperties.getVersion());
+        logger.debug("minimumOrderAmount -> {}", orderProperties.getMinimumOrderAmount());
+        logger.debug("supportVendors -> {}", orderProperties.getSupportVendors());
+        logger.debug("description -> {}", orderProperties.getDescription());
 
 
-        //List<String> strings = Files.readAllLines(file.toPath()); //라인마다 리스트에 넣어
-        //System.out.println(strings.stream().reduce("",(a,b)->a+"\n"+b));
 
 
-        ReadableByteChannel readableByteChannel = Channels.newChannel(resource4.getURL().openStream());
-        BufferedReader bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
-        Stream<String> lines = bufferedReader.lines();
-        String collect = lines.collect(Collectors.joining("\n"));
-        System.out.println(collect);
 
 
 //        var orderProperties = applicationContext.getBean(OrderProperties.class);
@@ -122,6 +139,34 @@ public class OrderTester {
 
         //제어의 역전, 라이브러리와 다르게 프레임워크에서
         //우리는 기능을 만들고 프레임워크가 이것을 실행하게 만든다.
+
+
+        //4. 리소스
+//        Resource resource = applicationContext.getResource("application.yaml");//프로젝트 실행시 working디렉토리 기준으로 가져옴
+//        Resource resource3 = applicationContext.getResource("classpath:application.yaml");//프로젝트 실행시 working디렉토리 기준으로 가져옴
+//        Resource resource2 = applicationContext.getResource("file:sample.txt");//프로젝트 실행시 working디렉토리 기준으로 가져옴
+//        Resource resource4 = applicationContext.getResource("https://stackoverflow.com/");//
+//
+//        System.out.println(MessageFormat.format("Resource -> {0}", resource4.getClass().getCanonicalName()));
+//        //var file = resource4.getFile();//예외 처리 해야함
+//
+//
+//        //List<String> strings = Files.readAllLines(file.toPath()); //라인마다 리스트에 넣어
+//        //System.out.println(strings.stream().reduce("",(a,b)->a+"\n"+b));
+//
+//
+//        ReadableByteChannel readableByteChannel = Channels.newChannel(resource4.getURL().openStream());
+//        BufferedReader bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
+//        Stream<String> lines = bufferedReader.lines();
+//        String collect = lines.collect(Collectors.joining("\n"));
+//        System.out.println(collect);
+
+
+
+
+
+
+
 
         //확인
         Assert.isTrue(order.totalAmount()==90L, MessageFormat.format("totalAmount{0} is not 90L", order.totalAmount()));

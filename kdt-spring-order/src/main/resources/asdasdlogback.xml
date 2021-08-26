@@ -1,0 +1,63 @@
+<!-- 기본적으로 복붙해서 상황에 맞게 사용한다. -->
+<configuration>
+<!-- 6. conversion
+   (스프링부트) 로그메시지 색상등을 변경할 수 있음
+   spring 소스에서 색상 변환 허용하는 구문을 추가해야함
+   AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
+
+-->
+    <conversionRule
+            conversionWord="clr"
+            converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+
+
+    <!-- http://logback.qos.ch/manual/layouts.html -->
+    <property name="LOG_PATTERN" value ="%clr(%d{HH:mm:ss.SSS}){red} [%thread] %-5level %logger{36} - %msg%n" />
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!--파일로 남기기 -->
+<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>logs/kdt_${bySecond}.log</file>-->
+<!--        &lt;!&ndash; <append>false</append> 오버라이드(덮어씌우기) &ndash;&gt;-->
+<!--        <encoder>-->
+<!--            <pattern>${LOG_PATTERN}</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+    <!--일단위로 자르는 롤링파일 어팬더로 파일로 남기기
+    파일의 크기에 따라서 롤링 할수도 있고 옵션은 다양함.
+    -->
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/access.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNmaePattern>logs/access-%d{yyy-MM--dd}.log</fileNmaePattern>
+            <!--
+            가장 최근(오늘)에는 default값 access.log에 저장되고
+            그 이전 날짜의 로그파일부터는 해당포멧에 저장됨!
+            -->
+        </rollingPolicy>
+        <!-- <append>false</append> 오버라이드(덮어씌우기) -->
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="org.prgrms.kdt" level="debug">
+            <appender-ref ref="ROLLING_FILE"/>
+    </logger>
+
+
+    <root level="warn">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
+

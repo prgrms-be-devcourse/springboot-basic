@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_PATTERN" value ="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+<!--    <appender name="ROLLING_FILE" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>logs/access.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNmaePattern>logs/access-%d{yyy-MM&#45;&#45;dd}.log</fileNmaePattern>-->
+<!--            &lt;!&ndash;-->
+<!--            가장 최근(오늘)에는 default값 access.log에 저장되고-->
+<!--            그 이전 날짜의 로그파일부터는 해당포멧에 저장됨!-->
+<!--            &ndash;&gt;-->
+<!--        </rollingPolicy>-->
+<!--        &lt;!&ndash; <append>false</append> 오버라이드(덮어씌우기) &ndash;&gt;-->
+<!--        <encoder>-->
+<!--            <pattern>${LOG_PATTERN}</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+
+        <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+            <file>logs/kdt.log</file>
+<!--            <append>false</append>-->
+            <encoder>
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+    <logger name="org.prgrms.kdtspringhw" level="debug">
+        <appender-ref ref="FILE"/>
+    </logger>
+</configuration>

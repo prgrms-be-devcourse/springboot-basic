@@ -1,10 +1,10 @@
-package org.prgrms.kdtspringhw.voucher;
+package org.prgrms.kdtspringhw.voucher.voucherObj;
 
 
 import java.util.UUID;
 
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 

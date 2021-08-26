@@ -1,4 +1,6 @@
-
+#logging:
+#  level:
+#    root: warn
 # 파일을 나눠서 해도 된다.
 servers:
   - dev.bar.com

@@ -1,0 +1,13 @@
+#logging:
+#  level:
+#    root: warn
+# 파일을 나눠서 해도 된다.
+
+kdt:
+  version: "v1.0-local"
+  minimum-order-amount: 0
+  support-vendors:
+    - a
+
+  description: |-
+    line 1

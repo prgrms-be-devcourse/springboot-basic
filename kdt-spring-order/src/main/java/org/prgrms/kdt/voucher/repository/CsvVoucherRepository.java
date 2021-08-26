@@ -72,17 +72,17 @@ public class CsvVoucherRepository implements VoucherRepository {
 
     public void writeCSV(){
         BufferedWriter bw = null;
-        System.out.println("혹시여기?");
+        //System.out.println("혹시여기?");
         try{
             bw = Files.newBufferedWriter(Paths.get("/Users/minkyujeon/Desktop/PJ/programers/spring/w3-SpringBoot_Part_A/kdt-spring-order/repository/voucer.csv"), Charset.forName("UTF-8"));
 
-            System.out.println("여기인것인가");
+            //System.out.println("여기인것인가");
             for(UUID uuid : storage.keySet()){
                 Voucher voc;
                 voc = storage.get(uuid);
-                System.out.println("저장시작하는구문");
+                //System.out.println("저장시작하는구문");
                 if (voc instanceof FixedAmountVoucher) {
-                    System.out.println("저장~");
+                    //System.out.println("저장~");
                     bw.write("fix,"+voc.getVoucherId()+","+((FixedAmountVoucher) voc).getAmount());
                     bw.newLine();
                 }

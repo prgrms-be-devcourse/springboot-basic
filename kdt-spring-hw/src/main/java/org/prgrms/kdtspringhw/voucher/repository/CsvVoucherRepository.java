@@ -1,10 +1,9 @@
 package org.prgrms.kdtspringhw.voucher.repository;
 
 
-import org.prgrms.kdtspringhw.voucher.FixedAmountVoucher;
-import org.prgrms.kdtspringhw.voucher.PercentDiscountVoucher;
-import org.prgrms.kdtspringhw.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.prgrms.kdtspringhw.voucher.voucherObj.FixedAmountVoucher;
+import org.prgrms.kdtspringhw.voucher.voucherObj.PercentDiscountVoucher;
+import org.prgrms.kdtspringhw.voucher.voucherObj.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +21,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("local")
+@Profile("dev")
 public class CsvVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
@@ -106,8 +105,5 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @PreDestroy
-    public void preDestory(){
-        writeCSV();
-        //System.out.println("preDestory called!");
-    }
+    public void preDestory() { writeCSV(); }
 }

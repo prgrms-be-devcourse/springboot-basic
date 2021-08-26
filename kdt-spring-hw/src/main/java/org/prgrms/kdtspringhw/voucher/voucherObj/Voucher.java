@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringhw.voucher;
+package org.prgrms.kdtspringhw.voucher.voucherObj;
 
 import java.util.UUID;
 

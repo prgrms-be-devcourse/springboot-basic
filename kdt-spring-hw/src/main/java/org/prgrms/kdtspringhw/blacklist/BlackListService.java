@@ -16,16 +16,10 @@ import java.util.UUID;
 @Service
 public class BlackListService {
     @Autowired
-    private BlackListRepository blackListRepository;
-    @Autowired
-    private BlackListReader blackListReader;
-    @Autowired
-    private BlackListWriter blackListwriter;
+    private final BlackListRepository blackListRepository;
 
-    public BlackListService(BlackListRepository blackListRepository, BlackListReader blackListReader, BlackListWriter blackListwriter) {
+    public BlackListService(BlackListRepository blackListRepository) {
         this.blackListRepository = blackListRepository;
-        this.blackListReader = blackListReader;
-        this.blackListwriter = blackListwriter;
     }
 
     public BlackList getBlacklist(UUID blackListId){
@@ -34,25 +28,7 @@ public class BlackListService {
                 .orElseThrow(()->new RuntimeException(MessageFormat.format("Can not find a BlackList for {0}", blackListId)));
     }
 
-    public void createBlackList(UUID blackListId){
-        blackListRepository.insert(new BlackList(blackListId));
-    }
-
     public Map<UUID,BlackList> getBlackLists(){return blackListRepository.returnAll();}
-
-    public void road(Resource resource) throws IOException {
-        if(blackListRepository instanceof CsvBlackListRepository) {
-            Map<UUID,BlackList> map = blackListReader.readCsv(resource);
-            for (UUID uuid : map.keySet()) {
-                blackListRepository.insert(map.get(uuid));
-            }
-        }
-    }
-    public void save(Resource resource, Map<UUID,BlackList> map) throws IOException {
-        if (blackListRepository instanceof CsvBlackListRepository) {
-            blackListwriter.writeCsv(resource,blackListRepository.returnAll());
-        }
-    }
 
 }
 

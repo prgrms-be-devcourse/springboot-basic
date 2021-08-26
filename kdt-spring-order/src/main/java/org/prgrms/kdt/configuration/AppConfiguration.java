@@ -10,8 +10,8 @@ import org.springframework.context.annotation.*;
 @ComponentScan(basePackages = {"org.prgrms.kdt.*"})//,"org.prgrms.kdt.voucher","org.prgrms.kdt.configuration"})
 //        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = MemoryVoucherRepository.class)}) // 반대로 제거 가능
 //@PropertySource("application.properties")
-@PropertySource(value = "application.yaml",factory = YamlPropertiesFactory.class) //스프링 프레임워크는 지원하지 않아서 팩토리를 구현해야함, 부트는 지원함
-@EnableConfigurationProperties // springboot의 해당기능을 사용하기 위해서
+//@PropertySource(value = "application.yaml",factory = YamlPropertiesFactory.class) //스프링 프레임워크는 지원하지 않아서 팩토리를 구현해야함, 부트는 지원함
+//@EnableConfigurationProperties // springboot의 해당기능을 사용하기 위해서
 public class AppConfiguration {
 // 설정 클래스를 용도에 맞게 분류를 해서 사용함 org.prgrms.kdt.configuration
 
