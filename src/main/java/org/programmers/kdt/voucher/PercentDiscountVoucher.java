@@ -17,13 +17,13 @@ public class PercentDiscountVoucher implements Voucher {
         if (percent < MINIMUM_DISCOUNT_PERCENT) {
             System.out.println(
                     MessageFormat.format(
-                            "!! WARNING !!\nInvalid discount percentage : {0}\n Automatically changed to {1}%",
+                            "!! WARNING !!\nInvalid discount percentage : {0}\nAutomatically changed to {1}%",
                             percent, MINIMUM_DISCOUNT_PERCENT));
             percent = MINIMUM_DISCOUNT_PERCENT;
         } else if (percent > MAXIMUM_DISCOUNT_PERCENT) {
             System.out.println(
                     MessageFormat.format(
-                            "!! WARNING !!\nInvalid discount percentage : {0}\n Automatically changed to {1}%",
+                            "!! WARNING !!\nInvalid discount percentage : {0}\nAutomatically changed to {1}%",
                             percent, MAXIMUM_DISCOUNT_PERCENT));
             percent = MAXIMUM_DISCOUNT_PERCENT;
         }

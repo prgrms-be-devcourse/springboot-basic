@@ -3,6 +3,7 @@ package org.programmers.kdt.customer.repository;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.programmers.kdt.customer.Customer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PreDestroy;
@@ -13,6 +14,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Profile("dev")
 public class FileCustomerRepository implements CustomerRepository {
     // FIXME : 데이터 양이 많아지면 메모리 관련 문제 발생 가능 -> FileVoucherRepository와 같은 문제
     Map<UUID, Customer> cache4Customers = new ConcurrentHashMap<>();
@@ -112,6 +114,32 @@ public class FileCustomerRepository implements CustomerRepository {
                 customer.getCustomerId(), customer.getName(), customer.getEmail(),
                 customer.getLastLoginAt(), customer.getCreatedAt()));
         bufferedWriter.newLine();
+        bufferedWriter.close();
+    }
+
+    public Optional<Customer> deleteCustomer(Customer customer) {
+        cache4Blacklist.remove(customer.getCustomerId());
+        return Optional.ofNullable(cache4Customers.remove(customer.getCustomerId()));
+    }
+
+    @PreDestroy
+    private void updateData() throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(customersCSV, false));
+        for (Customer customer : cache4Customers.values()) {
+            bufferedWriter.write(MessageFormat.format("{0},{1},{2},{3},{4}",
+                    customer.getCustomerId(), customer.getName(), customer.getEmail(),
+                    customer.getLastLoginAt(), customer.getCreatedAt()));
+            bufferedWriter.newLine();
+        }
+        bufferedWriter.close();
+
+        bufferedWriter = new BufferedWriter(new FileWriter(blacklistCSV, false));
+        for (Customer customer : cache4Blacklist.values()) {
+            bufferedWriter.write(MessageFormat.format("{0},{1},{2},{3},{4}",
+                    customer.getCustomerId(), customer.getName(), customer.getEmail(),
+                    customer.getLastLoginAt(), customer.getCreatedAt()));
+            bufferedWriter.newLine();
+        }
         bufferedWriter.close();
     }
 }

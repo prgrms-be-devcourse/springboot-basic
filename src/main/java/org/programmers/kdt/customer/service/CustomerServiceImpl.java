@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer signUp(UUID customerId, String name, String email) throws IOException {
         Customer customer = new Customer(customerId, name, email, LocalDateTime.now(), LocalDateTime.now());
-        return customerRepository.insert(customer);
+        try {
+            customerRepository.insert(customer);
+            logger.info("New Customer has been successfully added to customer list");
+        } catch (IOException e) {
+            logger.error("Customer SignUp Failed\n{}", e.getMessage());
+        }
+        return customer;
     }
 
     @Override
@@ -45,8 +52,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer registerToBlacklist(Customer customer) throws IOException {
-        return customerRepository.registerToBlacklist(customer);
+    public Customer addToBlacklist(Customer customer) {
+        try {
+            Customer newBlacklistedCustomer = customerRepository.registerToBlacklist(customer);
+            logger.info("Customer({}) has been added into blacklist", customer.getCustomerId());
+            return newBlacklistedCustomer;
+        } catch (IOException e) {
+            logger.error("Failed to add Customer({}) into blacklist.\n{}", customer.getCustomerId(), e.getMessage());
+            throw new RuntimeException(MessageFormat.format("Failed to add a Customer({0}) to blacklist", customer.getCustomerId()));
+        }
     }
 
     @Override

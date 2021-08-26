@@ -7,6 +7,7 @@ import org.programmers.kdt.utils.DigitUtils;
 import org.programmers.kdt.voucher.Voucher;
 import org.programmers.kdt.voucher.VoucherType;
 import org.programmers.kdt.voucher.service.VoucherService;
+import org.programmers.kdt.voucher.service.VoucherServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;

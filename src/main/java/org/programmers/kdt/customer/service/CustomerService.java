@@ -14,7 +14,7 @@ public interface CustomerService {
     List<Customer> findCustomersByName(String name);
     Optional<Customer> findCustomerByEmail(String email);
 
-    Customer registerToBlacklist(Customer customer) throws IOException;
+    Customer addToBlacklist(Customer customer) throws IOException;
 
     List<Customer> findAll();
     List<Customer> findAllBlacklistCustomer();

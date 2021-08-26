@@ -16,7 +16,9 @@ public class Customer {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
+        // TODO : DB에서 login 을 위한 접근이 발생할 때 마다 갱신되도록 수정하기
         this.lastLoginAt = lastLoginAt;
+        // TODO : DB에 insert 된 후 DB에서 받아오도록 수정
         this.createdAt = createdAt;
     }
 
