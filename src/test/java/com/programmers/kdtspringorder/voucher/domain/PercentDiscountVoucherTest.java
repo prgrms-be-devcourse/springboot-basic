@@ -4,6 +4,8 @@ import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.UUID;
 
@@ -30,11 +32,18 @@ class PercentDiscountVoucherTest {
         assertThat(discount3).isEqualTo(50L);
     }
 
+    @ParameterizedTest(name = "{index} {displayName} percent = {0}")
+    @ValueSource(ints = {-10, -1, 51, 100})
+    @DisplayName("할인율은 0 초과 50 이하입니다.")
+    public void parameterizedDiscountRateTest(Integer percent) {
+        assertThatIllegalArgumentException().isThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), percent));
+    }
+
     @Test
     @DisplayName("할인율은 0초과 50 이하 입니다.")
     public void discountRateTest() throws Exception {
-        assertThatIllegalArgumentException().isThrownBy( () ->  new PercentDiscountVoucher(UUID.randomUUID(), -1));
-        assertThatIllegalArgumentException().isThrownBy( () ->  new PercentDiscountVoucher(UUID.randomUUID(), 0));
-        assertThatIllegalArgumentException().isThrownBy( () ->  new PercentDiscountVoucher(UUID.randomUUID(), 51));
+        assertThatIllegalArgumentException().isThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), -1));
+        assertThatIllegalArgumentException().isThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), 0));
+        assertThatIllegalArgumentException().isThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), 51));
     }
 }
