@@ -1,11 +1,14 @@
-package org.prgrms.orderApp.infrastructure;
+package org.prgrms.orderApp.infrastructure.impl;
 
 import org.prgrms.orderApp.domain.voucher.model.Voucher;
 import org.prgrms.orderApp.domain.voucher.repository.VoucherRepository;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 //@Repository
+//@Profile("dev")
 public class TempVoucherRepository implements VoucherRepository {
     private List<Voucher> voucher_list= new ArrayList<>();
 

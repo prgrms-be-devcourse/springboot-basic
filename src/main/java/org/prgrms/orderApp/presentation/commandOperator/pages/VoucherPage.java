@@ -118,7 +118,7 @@ public class VoucherPage implements AllScriptForCMDApplication {
       if (voucherList.isEmpty()) {
          console.infoMessage(emptyData);
       } else {
-         console.showList(Collections.singletonList(voucherList));
+         console.showList(voucherList);
       }
       console.print(divisionBlank);
    }

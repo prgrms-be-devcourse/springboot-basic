@@ -1,7 +1,7 @@
 package org.prgrms.orderApp.test;
 
 import org.json.simple.parser.ParseException;
-import org.prgrms.orderApp.config.AppConfiguration;
+import org.prgrms.orderApp.config.component.AppConfiguration;
 import org.prgrms.orderApp.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.orderApp.domain.voucher.repository.VoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

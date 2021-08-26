@@ -2,7 +2,7 @@ package org.prgrms.orderApp.test;
 
 
 import org.prgrms.orderApp.presentation.commandOperator.pages.MainPage;
-import org.prgrms.orderApp.config.AppConfiguration;
+import org.prgrms.orderApp.config.component.AppConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 

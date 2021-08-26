@@ -1,4 +1,4 @@
-package org.prgrms.orderApp.infrastructure;
+package org.prgrms.orderApp.infrastructure.impl;
 
 import org.prgrms.orderApp.domain.order.model.Order;
 import org.prgrms.orderApp.domain.order.repository.OrderRepository;
@@ -15,7 +15,6 @@ public class TempOrderRepository implements OrderRepository {
 
     @Override
     public Map<UUID, Order> selectAll() {
-
         return storage;
     }
 

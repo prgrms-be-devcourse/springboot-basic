@@ -24,7 +24,7 @@ public class CustomerPage implements AllScriptForCMDApplication {
         if (blackList.isEmpty()){
             console.infoMessage(emptyData);
         } else {
-            console.showList(Collections.singletonList(blackList));
+            console.showList(blackList);
         }
 
     }

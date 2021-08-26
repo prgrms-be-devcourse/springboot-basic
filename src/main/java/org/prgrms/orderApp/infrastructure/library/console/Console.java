@@ -19,7 +19,7 @@ public class Console implements Input, Output{
 
     // console 패키지는 독립적으로 사용되어야 함으로 아래의 voucherList 함수는 수정 필요함.
     @Override
-    public void showList(List<Object> listData) {
+    public void showList(List listData) {
         listData.forEach(System.out::println);
     }
 

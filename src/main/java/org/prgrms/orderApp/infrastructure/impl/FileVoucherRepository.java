@@ -1,21 +1,29 @@
-package org.prgrms.orderApp.infrastructure;
+package org.prgrms.orderApp.infrastructure.impl;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.prgrms.orderApp.OrderAppApplication;
 import org.prgrms.orderApp.domain.voucher.repository.VoucherRepository;
 import org.prgrms.orderApp.infrastructure.library.monguDb.service.DbManagement;
 import org.prgrms.orderApp.infrastructure.library.monguDb.util.DbWriter;
 import org.prgrms.orderApp.domain.voucher.model.Voucher;
 import org.prgrms.orderApp.domain.voucher.model.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.*;
 
 @Repository
+//@Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
+
+    private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+
     @Autowired
     DbManagement dbManagement;
 
@@ -45,7 +53,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try{
             dbWriter = Optional.ofNullable(dbManagement.getConnection().DbConnection().getCollection("vouchers").insertOne(inputData));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(String.valueOf(e));
         } finally {
             if(dbWriter.isPresent()){
                 dbWriter.get().close();

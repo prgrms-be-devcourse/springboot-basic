@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.prgrms.orderApp.infrastructure.library.monguDb.util.DbWriter;
+import org.springframework.util.ResourceUtils;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class DbDocument {
     }
 
     public JSONArray find() throws IOException, ParseException {
-        return (JSONArray) new JSONParser().parse(new FileReader(storagePath+ ".json"));
+
+        //return (JSONArray) new JSONParser().parse(new FileReader(storagePath+ ".json"));
+        return (JSONArray) new JSONParser().parse(new FileReader(ResourceUtils.getFile(storagePath+ ".json").getAbsolutePath()));
     }
 }

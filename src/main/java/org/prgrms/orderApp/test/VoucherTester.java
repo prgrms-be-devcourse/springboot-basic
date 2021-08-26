@@ -1,6 +1,6 @@
 package org.prgrms.orderApp.test;
 
-import org.prgrms.orderApp.config.AppConfiguration;
+import org.prgrms.orderApp.config.component.AppConfiguration;
 import org.prgrms.orderApp.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.orderApp.domain.voucher.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

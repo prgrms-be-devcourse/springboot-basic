@@ -4,6 +4,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.prgrms.orderApp.OrderAppApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.ResourceUtils;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,6 +15,8 @@ import java.io.IOException;
 
 
 public class DbWriter {
+    private final static Logger logger = LoggerFactory.getLogger(DbWriter.class);
+
     private final FileWriter fileWriter;
     private FileReader fileReader;
     private JSONArray dataBeforeInsert;
@@ -18,13 +24,14 @@ public class DbWriter {
 
     public DbWriter(String storagePath, JSONObject contents) throws IOException, ParseException {
 
-        filePath = storagePath+ ".json";
+        filePath = ResourceUtils.getFile(storagePath+ ".json").getAbsolutePath();
+
         fileReader = new FileReader(filePath);
 
         try{
             dataBeforeInsert = (JSONArray) new JSONParser().parse(fileReader);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally {
             fileReader.close();
         }
