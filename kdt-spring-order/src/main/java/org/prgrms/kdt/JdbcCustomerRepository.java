@@ -16,11 +16,9 @@ public class JdbcCustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private static final String SELECT_BY_NAME_SQL = "SELECT * FROM customers WHERE name = ?";
     private static final String SELECT_ALL_SQL = "SELECT * FROM customers";
-    private static final String INSERT_SQL = "INSERT INTO customers (customerId, name, email) VALUES (UUID_TO_BIN(?), ?, ?)";
+    private static final String INSERT_SQL = "INSERT INTO customers (customer_id, name, email) VALUES (UUID_TO_BIN(?), ?, ?)";
     private static final String DELETE_ALL_SQL = "DELETE FROM customers";
-    private static final String UPDATE_BY_ID_SQL = "UPDATE customers SET name = ? WHERE customerId = ?";
-
-
+    private static final String UPDATE_BY_ID_SQL = "UPDATE customers SET name = ? WHERE customer_id = ?";
 
     public List<String> findNames(String name) {
 
@@ -33,7 +31,7 @@ public class JdbcCustomerRepository {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     String customerName = resultSet.getString("name");
-                    UUID customerId = UUID.nameUUIDFromBytes(resultSet.getBytes("customerId"));
+                    UUID customerId = UUID.nameUUIDFromBytes(resultSet.getBytes("customer_id"));
                     LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
                     logger.info("customerId -> {}, customer name -> {}, createdAt -> {}", customerId, customerName, createdAt);
                     names.add(customerName);
@@ -54,7 +52,7 @@ public class JdbcCustomerRepository {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     String customerName = resultSet.getString("name");
-                    UUID customerId = UUID.nameUUIDFromBytes(resultSet.getBytes("customerId"));
+                    UUID customerId = UUID.nameUUIDFromBytes(resultSet.getBytes("customer_id"));
                     LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
                     names.add(customerName);
                 }
@@ -74,7 +72,7 @@ public class JdbcCustomerRepository {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     String customerName = resultSet.getString("name");
-                    UUID customerId = toUUID(resultSet.getBytes("customerId"));
+                    UUID customerId = toUUID(resultSet.getBytes("customer_id"));
                     LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
                     uuids.add(customerId);
                 }
