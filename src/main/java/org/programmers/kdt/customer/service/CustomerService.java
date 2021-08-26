@@ -2,19 +2,18 @@ package org.programmers.kdt.customer.service;
 
 import org.programmers.kdt.customer.Customer;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerService {
-    Customer signUp(UUID customerId, String name, String email) throws IOException;
+    Customer signUp(UUID customerId, String name, String email);
 
     Optional<Customer> findCustomerById(UUID customerId);
     List<Customer> findCustomersByName(String name);
     Optional<Customer> findCustomerByEmail(String email);
 
-    Customer addToBlacklist(Customer customer) throws IOException;
+    Customer addToBlacklist(Customer customer);
 
     List<Customer> findAll();
     List<Customer> findAllBlacklistCustomer();

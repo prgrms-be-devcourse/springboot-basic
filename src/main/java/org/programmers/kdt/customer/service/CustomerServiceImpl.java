@@ -5,6 +5,7 @@ import org.programmers.kdt.customer.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,13 +26,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer signUp(UUID customerId, String name, String email) throws IOException {
-        Customer customer = new Customer(customerId, name, email, LocalDateTime.now(), LocalDateTime.now());
+    public Customer signUp(UUID customerId, String name, String email) {
+        LocalDateTime now = LocalDateTime.now();
+        Customer customer = new Customer(customerId, name, email, now, now);
         try {
             customerRepository.insert(customer);
             logger.info("New Customer has been successfully added to customer list");
         } catch (IOException e) {
             logger.error("Customer SignUp Failed\n{}", e.getMessage());
+            throw new RuntimeException(MessageFormat.format("Failed to SignUp : {}", customer));
         }
         return customer;
     }
