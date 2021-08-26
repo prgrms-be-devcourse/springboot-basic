@@ -1,5 +1,7 @@
 package org.prgrms.kdt.domain.voucher;
 
+import org.prgrms.kdt.exception.VoucherPercentRangeException;
+
 import java.text.MessageFormat;
 import java.util.UUID;
 
@@ -15,7 +17,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private void validate(UUID voucherId, long percent) {
         if(percent < 0 || percent > 100){
-            throw new RuntimeException("유효하지 않은 할인율을 입력하였습니다. 0~100 사이의 값을 입력하세요.");
+            throw new VoucherPercentRangeException("유효하지 않은 할인율을 입력하였습니다. 0~100 사이의 값을 입력하세요.");
         }
     }
 

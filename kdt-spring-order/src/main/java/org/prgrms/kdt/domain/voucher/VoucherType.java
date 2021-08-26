@@ -1,5 +1,7 @@
 package org.prgrms.kdt.domain.voucher;
 
+import org.prgrms.kdt.exception.InvalidVoucherTypeException;
+
 import java.util.Arrays;
 
 public enum VoucherType {
@@ -16,6 +18,6 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(type -> type.voucherType.equals(voucherType))
                 .findAny()
-                .orElseThrow(()->new RuntimeException("유효하지 않은 바우처 유형 입니다."));
+                .orElseThrow(()->new InvalidVoucherTypeException("유효하지 않은 바우처 유형 입니다."));
     }
 }
