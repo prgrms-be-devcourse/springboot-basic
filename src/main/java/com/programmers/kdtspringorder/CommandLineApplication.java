@@ -45,7 +45,6 @@ public class CommandLineApplication implements CommandLineRunner {
                     }
                     Voucher voucher = createVoucher(type);
                     output.printMessage("쿠폰 생성에 성공하였습니다");
-                    output.print(voucher);
                     break;
                 case "list":
                     showList();
@@ -73,10 +72,10 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void showList() {
-        List<Voucher> all = voucherService.findAll();
-        for (Voucher voucher : all) {
-            output.print(voucher);
-        }
+        voucherService.findAll()
+                .forEach(voucher -> {
+                    output.printMessage(voucher.toString());
+                });
     }
 
 }

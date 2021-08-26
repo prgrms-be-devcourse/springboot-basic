@@ -19,10 +19,6 @@ public class Console implements Input, Output {
         System.out.println(message);
     }
 
-    public void print(Voucher voucher) {
-        System.out.println(voucher);
-    }
-
     public String inputText(){
         return scanner.nextLine();
     }
