@@ -18,12 +18,12 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(UUID customerId , List<OrderItem> orderItems) {
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
         var order = new Order(UUID.randomUUID(), customerId, orderItems);
         return orderRepository.insert(order);
     }
 
-    public Order createOrder(UUID customerId , List<OrderItem> orderItems, UUID voucherId) {
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
         var voucher = voucherService.getVoucher(voucherId);
         var order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
         orderRepository.insert(order);

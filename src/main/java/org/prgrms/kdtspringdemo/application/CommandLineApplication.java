@@ -1,22 +1,22 @@
 package org.prgrms.kdtspringdemo.application;
 
-import org.prgrms.kdtspringdemo.application.ConsoleApp;
-import org.prgrms.kdtspringdemo.configuration.AppConfiguration;
 import org.prgrms.kdtspringdemo.console.Console;
 import org.prgrms.kdtspringdemo.console.CustomerOperator;
 import org.prgrms.kdtspringdemo.console.VoucherOperator;
-import org.prgrms.kdtspringdemo.voucher.VoucherRepository;
-import org.prgrms.kdtspringdemo.voucher.VoucherService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Configuration;
 
-public class CommandLineApplication{
-    public static void main(String[] args) {
-        var application = new AnnotationConfigApplicationContext();
-        application.register(AppConfiguration.class);
-        application.refresh();
-        VoucherService voucherService = application.getBean(VoucherService.class);
+@Configuration
+public class CommandLineApplication implements ApplicationRunner {
+    private final VoucherOperator voucherOperator;
 
-        System.out.println("#####" + application.getBean(VoucherRepository.class).getClass().getCanonicalName());
-        new ConsoleApp(new Console(), new VoucherOperator(voucherService), new CustomerOperator());
+    public CommandLineApplication(VoucherOperator voucherOperator) {
+        this.voucherOperator = voucherOperator;
+    }
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        new ConsoleApp(new Console(), voucherOperator, new CustomerOperator());
     }
 }

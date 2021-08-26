@@ -49,12 +49,12 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public CommandType getInputCommand() {;
+    public CommandType getInputCommand() {
+        ;
         String command = input.nextLine();
         try {
             return CommandType.valueOf(command.toUpperCase());
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             printCommandError(command);
             return CommandType.ERROR;
         }

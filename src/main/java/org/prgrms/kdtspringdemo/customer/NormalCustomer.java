@@ -6,6 +6,7 @@ import java.util.UUID;
 public class NormalCustomer implements Customer {
     private UUID uuid;
     private String name;
+
     public NormalCustomer(UUID customerId, String name) {
         this.uuid = customerId;
         this.name = name;

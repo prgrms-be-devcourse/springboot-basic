@@ -12,6 +12,7 @@ public enum VoucherType {
     FIXED_AMOUNT("F"), PERCENT_DISCOUNT("P");
 
     private final String inputCommand;
+
     VoucherType(String p) {
         this.inputCommand = p;
     }
@@ -34,9 +35,11 @@ public enum VoucherType {
         Optional<Voucher> voucher = Optional.empty();
 
         switch (findByCommand(inputCommand)) {
-            case FIXED_AMOUNT-> voucher = Optional.of(new FixedAmountVoucher(UUID.randomUUID(), value));
+            case FIXED_AMOUNT -> voucher = Optional.of(new FixedAmountVoucher(UUID.randomUUID(), value));
             case PERCENT_DISCOUNT -> voucher = Optional.of(new PercentDiscountVoucher(UUID.randomUUID(), value));
         }
         return voucher;
-    };
+    }
+
+    ;
 };

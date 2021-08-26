@@ -3,10 +3,12 @@ package org.prgrms.kdtspringdemo.console;
 import org.prgrms.kdtspringdemo.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Optional;
 
+@Component
 public class VoucherOperator implements CommandOperator {
     private final VoucherService voucherService;
 

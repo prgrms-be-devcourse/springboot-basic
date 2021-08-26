@@ -9,7 +9,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("[FixedAmountVoucher] voucherId : {0}, amount : {1}", voucherId, amount) ;
+        return MessageFormat.format("[FixedAmountVoucher] voucherId : {0}, amount : {1}", voucherId, amount);
     }
 
     public FixedAmountVoucher(UUID voucherId, long amount) {

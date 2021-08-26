@@ -1,14 +1,9 @@
 package org.prgrms.kdtspringdemo.voucher;
 
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -51,21 +46,21 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     public void afterPropertiesSet() throws Exception {
         try (BufferedReader reader = Files.newBufferedReader(Path.of(FILE_NAME))) {
             reader.lines().forEach(line -> {
-                        String[] dataArray = line.split(",");
-                        String voucherType = dataArray[0];
-                        String uuid = dataArray[1];
-                        String data = dataArray[2];
+                String[] dataArray = line.split(",");
+                String voucherType = dataArray[0];
+                String uuid = dataArray[1];
+                String data = dataArray[2];
 
-                        if (voucherType.equals("FixedAmountVoucher")) {
-                            var voucher = new FixedAmountVoucher(UUID.fromString(uuid), Long.parseLong(data));
-                            storage.put(voucher.getVoucherId(), voucher);
-                        } else if (voucherType.equals("PercentDiscountVoucher")) {
-                            var voucher = new PercentDiscountVoucher(UUID.fromString(uuid), Long.parseLong(data));
-                            storage.put(voucher.getVoucherId(), voucher);
-                        } else {
-                            System.out.println("None VoucherType!!! : " + voucherType);
-                        }
-                    });
+                if (voucherType.equals("FixedAmountVoucher")) {
+                    var voucher = new FixedAmountVoucher(UUID.fromString(uuid), Long.parseLong(data));
+                    storage.put(voucher.getVoucherId(), voucher);
+                } else if (voucherType.equals("PercentDiscountVoucher")) {
+                    var voucher = new PercentDiscountVoucher(UUID.fromString(uuid), Long.parseLong(data));
+                    storage.put(voucher.getVoucherId(), voucher);
+                } else {
+                    System.out.println("None VoucherType!!! : " + voucherType);
+                }
+            });
         } catch (IOException e) {
             System.out.println("Doesn't exist file.");
         }
