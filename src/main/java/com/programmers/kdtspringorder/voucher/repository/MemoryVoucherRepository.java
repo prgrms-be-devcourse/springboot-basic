@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Qualifier("memory")
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 @Profile({"dev", "default"})
-public class MemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
+public class MemoryVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> store = new ConcurrentHashMap<>();
 
@@ -41,25 +41,5 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     @Override
     public void delete(UUID voucherId) {
 
-    }
-
-    @PostConstruct
-    public void postConstruct(){
-//        System.out.println("MemoryVoucherRepository.postConstruct");
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-//        System.out.println("MemoryVoucherRepository.afterPropertiesSet");
-    }
-
-    @PreDestroy
-    public void preDestroy(){
-//        System.out.println("MemoryVoucherRepository.preDestroy");
-    }
-
-    @Override
-    public void destroy() throws Exception {
-//        System.out.println("MemoryVoucherRepository.destroy");
     }
 }
