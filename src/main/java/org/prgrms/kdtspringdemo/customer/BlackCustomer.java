@@ -24,6 +24,6 @@ public class BlackCustomer implements Customer {
 
     @Override
     public String toString() {
-        return MessageFormat.format("id : {0}, name : {1}", uuid, name);
+        return MessageFormat.format("id : {0}, name : {1}, {2}", uuid, name, this.getClass().getSimpleName());
     }
 }
