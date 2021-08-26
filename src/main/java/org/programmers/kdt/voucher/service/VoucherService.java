@@ -9,6 +9,7 @@ import org.programmers.kdt.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Profile("dev")
 public class VoucherService {
     private final VoucherRepository voucherRepository;
     private VoucherFactory voucherFactory;
