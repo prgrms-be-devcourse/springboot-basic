@@ -18,23 +18,7 @@ public class VoucherApplication {
     TypeStatus type=TypeStatus.Fixed;
     private static  final Logger logger= LoggerFactory.getLogger(VoucherApplication.class);
 
-    public static void main(String[] args) {
-
-        //자바 기반의 메타데이터 설정은 어노테이션
-        var applicationContext = new AnnotationConfigApplicationContext();
-        applicationContext.register(AppConfiguration.class);
-        var environment=applicationContext.getEnvironment();
-        environment.setActiveProfiles("prod");
-//        //BeanFactory 의 초기화가 이 부분에서 진행되고, Bean 이 등록되는 과정 등이 포함되어 있다.
-//        //내가 이해한 바로는 프로파일을 설정해준후 빈을 등록하는 과정이 필요해서 사용하는 것 같다.
-        applicationContext.refresh();
-
-        var voucherService = applicationContext.getBean(VoucherService.class);
-        var customersService=applicationContext.getBean(CustomersService.class);
-
-
-
-
+    public void run(VoucherService voucherService,CustomersService customersService){
         while (true) {
             System.out.println("=== Voucher Program ===");
             Scanner scanner = new Scanner(System.in);
@@ -78,8 +62,8 @@ public class VoucherApplication {
 
                     if ( customersService.findAll().isEmpty()){
                         System.out.println("저장된 블랙리스트가 없습니다.");
-                    logger.warn("저장된 블랙리스트가 없습니다.");
-                }
+                        logger.warn("저장된 블랙리스트가 없습니다.");
+                    }
                     else{
                         System.out.println("블랙리스트 목록");
                         logger.info("블랙리스트 모든 목록 조회.");
@@ -88,9 +72,28 @@ public class VoucherApplication {
                 }
                 case "exit" -> {System.out.println("다시 입력해 주세요"); logger.info("시스템종료");}
                 default -> {System.out.println("다시 입력해 주세요");
-                           logger.warn("명령 잘못입력");}
+                    logger.warn("명령 잘못입력");}
             }
         }
+
+
+    }
+
+    public static void main(String[] args) {
+
+        //자바 기반의 메타데이터 설정은 어노테이션
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+        var environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("prod");
+//        //BeanFactory 의 초기화가 이 부분에서 진행되고, Bean 이 등록되는 과정 등이 포함되어 있다.
+//        //내가 이해한 바로는 프로파일을 설정해준후 빈을 등록하는 과정이 필요해서 사용하는 것 같다.
+        applicationContext.refresh();
+
+        var voucherService = applicationContext.getBean(VoucherService.class);
+        var customersService = applicationContext.getBean(CustomersService.class);
+
+
     }
 
 
