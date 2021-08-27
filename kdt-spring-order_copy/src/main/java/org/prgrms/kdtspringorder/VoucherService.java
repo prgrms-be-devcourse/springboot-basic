@@ -1,7 +1,6 @@
 package org.prgrms.kdtspringorder;
 
 import org.springframework.stereotype.Service;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +24,15 @@ public class VoucherService {
 
     }
 
-    public Optional<Voucher> createVoucher(VoucherType voucherType) {
+    public Voucher createVoucher(VoucherType voucherType) {
         UUID voucherId = UUID.randomUUID();
-        Optional<Voucher> voucher;
         if (voucherType.equals(VoucherType.FixedAmountVoucher)) {
-            voucher = Optional.of(new FixedAmountVoucher(voucherId, 1000));
-        } else if (voucherType.equals(VoucherType.PercentDiscountVoucher)) {
-            voucher = Optional.of(new FixedAmountVoucher(voucherId, 10));
-        } else {
-            voucher = Optional.empty();
+            return new FixedAmountVoucher(voucherId, 1000);
+        } else  {
+            return new FixedAmountVoucher(voucherId, 10);
         }
-        return voucher;
     }
-    public void addVoucher(Optional<Voucher> voucher){
+    public void addVoucher(Voucher voucher){
         voucherRepository.insert(voucher);
     }
 

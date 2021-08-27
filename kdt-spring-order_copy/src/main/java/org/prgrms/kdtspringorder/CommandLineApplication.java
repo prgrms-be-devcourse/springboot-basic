@@ -30,11 +30,11 @@ public class CommandLineApplication {
                 System.out.println("1. FixedAmountVoucher, 2. PercentDiscountVoucher");
                 String select = br.readLine();
                 if (select.equals("1")) {
-                    Optional<Voucher> voucher = voucherService.createVoucher(VoucherType.FixedAmountVoucher);
+                    Voucher voucher = voucherService.createVoucher(VoucherType.FixedAmountVoucher);
                     voucherService.addVoucher(voucher);
                     System.out.println("생성이 완료 되었습니다.");
                 } else if (select.equals("2")) {
-                    Optional<Voucher> voucher = voucherService.createVoucher(VoucherType.PercentDiscountVoucher);
+                    Voucher voucher = voucherService.createVoucher(VoucherType.PercentDiscountVoucher);
                     voucherService.addVoucher(voucher);
                     System.out.println("생성이 완료 되었습니다.");
                 } else {
