@@ -27,8 +27,8 @@ public class FileVoucherRepository implements VoucherRepository {
             writeFile();
         } else {
             try (var fis = new FileInputStream(file);
-                 var bis = new BufferedInputStream(fis);
-                 var ois = new ObjectInputStream(bis);) {
+                var bis = new BufferedInputStream(fis);
+                var ois = new ObjectInputStream(bis);) {
                 storage = (ConcurrentHashMap<UUID, Voucher>) ois.readObject();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -38,8 +38,8 @@ public class FileVoucherRepository implements VoucherRepository {
 
     public void writeFile() throws IOException {
         try (var fos = new FileOutputStream(FILEPATH);
-             var bos = new BufferedOutputStream(fos);
-             var oos = new ObjectOutputStream(bos);) {
+            var bos = new BufferedOutputStream(fos);
+            var oos = new ObjectOutputStream(bos);) {
             oos.writeObject(storage);
             oos.writeObject(null);
         }

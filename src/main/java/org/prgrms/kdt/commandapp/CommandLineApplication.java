@@ -2,12 +2,13 @@ package org.prgrms.kdt.commandapp;
 
 
 import org.prgrms.kdt.model.VoucherDTO;
-import org.springframework.util.StringUtils;
+import org.springframework.stereotype.Component;
 
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+@Component
 public class CommandLineApplication implements Runnable {
+
     private final Input input;
     private final Output output;
     private final CommandOperator operator;
@@ -41,10 +42,10 @@ public class CommandLineApplication implements Runnable {
 
     private void help() {
         var prompt = """
-                === Voucher Program ===
-                Type exit to exit the program.
-                Type create to create a new voucher.
-                Type list to list all vouchers.""";
+            === Voucher Program ===
+            Type exit to exit the program.
+            Type create to create a new voucher.
+            Type list to list all vouchers.""";
         output.printMessage(prompt);
     }
 

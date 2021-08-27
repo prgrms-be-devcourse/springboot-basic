@@ -19,7 +19,8 @@ public enum VoucherType {
         }
     };
 
-    private static final Map<String, VoucherType> typeByName = new HashMap<>(VoucherType.values().length);
+    private static final Map<String, VoucherType> typeByName = new HashMap<>(
+        VoucherType.values().length);
 
     static {
         for (VoucherType type : VoucherType.values()) {
@@ -41,7 +42,7 @@ public enum VoucherType {
 
     public static VoucherType lookup(String name) {
         var ret = typeByName.get(name);
-        if(ret != null) {
+        if (ret != null) {
             return ret;
         }
         throw new IllegalArgumentException("No voucher type:" + name);

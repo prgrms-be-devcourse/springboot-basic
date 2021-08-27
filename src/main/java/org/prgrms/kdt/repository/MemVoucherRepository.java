@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemVoucherRepository implements VoucherRepository {
+
     private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher, Serializable {
+
     private final UUID voucherId;
     private final long amount;
 
@@ -29,7 +30,7 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     }
 
     private void validateAmount(long amount) {
-        if(amount < 0) {
+        if (amount < 0) {
             throw new InvalidDataException("invalid amount: " + amount);
         }
     }
@@ -37,8 +38,8 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
-                "voucherId=" + voucherId +
-                ", amount=" + amount +
-                '}';
+            "voucherId=" + voucherId +
+            ", amount=" + amount +
+            '}';
     }
 }

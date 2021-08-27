@@ -18,7 +18,7 @@ public class OrderTester {
             add(new OrderItem(UUID.randomUUID(), 100, 1));
         }});
         Assert.isTrue(order.totalAmount() == 100L,
-                MessageFormat.format("totalAmount({0}) is not 100L", order.totalAmount()));
+            MessageFormat.format("totalAmount({0}) is not 100L", order.totalAmount()));
     }
 
 }

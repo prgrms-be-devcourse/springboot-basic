@@ -3,6 +3,7 @@ package org.prgrms.kdt.model;
 import java.util.UUID;
 
 public class OrderItem {
+
     public final UUID productId;
     public final long productPrice;
     public final long quantity;

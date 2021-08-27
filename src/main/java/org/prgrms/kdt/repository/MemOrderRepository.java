@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemOrderRepository implements OrderRepository {
+
     private final Map<UUID, Order> storage = new ConcurrentHashMap<>();
 
     @Override

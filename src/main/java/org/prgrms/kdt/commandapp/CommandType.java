@@ -10,7 +10,8 @@ public enum CommandType {
     EXIT("exit"),
     INVALID("invalid");
 
-    private static final Map<String, CommandType> typeByName = new HashMap<>(CommandType.values().length);
+    private static final Map<String, CommandType> typeByName = new HashMap<>(
+        CommandType.values().length);
 
     static {
         for (CommandType type : CommandType.values()) {

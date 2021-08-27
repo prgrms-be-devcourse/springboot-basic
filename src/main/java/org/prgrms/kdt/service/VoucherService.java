@@ -9,6 +9,7 @@ import java.util.*;
 
 @Service
 public class VoucherService {
+
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -17,8 +18,9 @@ public class VoucherService {
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
-                .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException("Can not find a voucher %s".formatted(voucherId)));
+            .findById(voucherId)
+            .orElseThrow(
+                () -> new RuntimeException("Can not find a voucher %s".formatted(voucherId)));
     }
 
     public Map<UUID, Voucher> getAllVouchers() {

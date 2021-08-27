@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher, Serializable {
+
     private final UUID voucherId;
     private final long percent;
 
@@ -16,7 +17,7 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     }
 
     private void validatePercent(long percent) {
-        if(percent < 0 || percent > 100) {
+        if (percent < 0 || percent > 100) {
             throw new InvalidDataException("invalid percentage: " + percent);
         }
     }
@@ -37,8 +38,8 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
-                "voucherId=" + voucherId +
-                ", percent=" + percent +
-                '}';
+            "voucherId=" + voucherId +
+            ", percent=" + percent +
+            '}';
     }
 }

@@ -2,7 +2,10 @@ package org.prgrms.kdt.commandapp;
 
 import java.util.Scanner;
 import java.util.function.Predicate;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class Console implements Input, Output {
 
     private final Scanner scanner = new Scanner(System.in);
@@ -16,7 +19,7 @@ public class Console implements Input, Output {
     public String input(String msg, Predicate<String> p) {
         System.out.println(msg);
         var input = input();
-        while(!p.test(input)) {
+        while (!p.test(input)) {
             printError(input);
             input = input();
         }
@@ -32,7 +35,6 @@ public class Console implements Input, Output {
     public void printError(String input) {
         System.out.println("invalid command: " + input);
     }
-
 
 
 }
