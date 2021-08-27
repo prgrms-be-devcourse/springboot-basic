@@ -2,29 +2,70 @@ package org.prgrms.kdt.order;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 import java.text.MessageFormat;
 import java.util.List;
 
-@Component
+@Configuration
+@ConfigurationProperties(prefix = "kdt") //yaml파일 속성 그룹화
 public class OrderProperties implements InitializingBean {
 
-    @Value("${kdt.version:v0.0.0}")
     private String version;
 
-    @Value("${kdt.minimum-order-amount")
     private int minimumOrderAmount;
 
-    @Value("${kdt.support-vendors")
     private List<String> supportVendors;
 
-    @Value("${JAVE_HOME}")
+    private String description;
+
+    @Value("${JAVA_HOME}")
     private String javaHome;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println(MessageFormat.format("[OrderProperties] version minimumOrderAmount supportVendors -> {0}",
                 version + " " + minimumOrderAmount + " " + supportVendors));
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public int getMinimumOrderAmount() {
+        return minimumOrderAmount;
+    }
+
+    public void setMinimumOrderAmount(int minimumOrderAmount) {
+        this.minimumOrderAmount = minimumOrderAmount;
+    }
+
+    public List<String> getSupportVendors() {
+        return supportVendors;
+    }
+
+    public void setSupportVendors(List<String> supportVendors) {
+        this.supportVendors = supportVendors;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getJavaHome() {
+        return javaHome;
+    }
+
+    public void setJavaHome(String javaHome) {
+        this.javaHome = javaHome;
     }
 }
