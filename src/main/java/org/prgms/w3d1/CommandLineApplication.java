@@ -7,6 +7,7 @@ import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
 import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
 import org.prgms.w3d1.model.voucher.VoucherService;
 import org.prgms.w3d1.util.Command;
+import org.prgms.w3d1.util.VoucherCommand;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -75,10 +76,10 @@ public class CommandLineApplication implements Runnable {
         // if -> switch변경, enum화
         String str = input.input("""
                 === Create Voucher ===
-                3 : FixedAmountVoucher
-                4 : PercentDiscountVoucher
+                1 : FixedAmountVoucher
+                2 : PercentDiscountVoucher
                 """);
-        Command command = Command.getCommand(str);
+        VoucherCommand command = VoucherCommand.getCommand(str);
 
         switch (command) {
             case FIXED_AMOUNT_VOUCHER -> {

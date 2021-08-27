@@ -2,6 +2,7 @@ package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.blacklist.Blacklist;
 import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.util.FileConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class FileBlacklistRepository implements BlacklistRepository {
+public class FileBlacklistRepository implements BlacklistRepository, FileConnector<Blacklist> {
 
     private static final Logger logger = LoggerFactory.getLogger(FileBlacklistRepository.class);
 
@@ -24,12 +25,12 @@ public class FileBlacklistRepository implements BlacklistRepository {
 
     @PostConstruct
     private void postConstruct() {
-        fileConnect(PATH);
+        storage = fileConnect(PATH);
     }
 
     @PreDestroy
     private void preDestory(){
-        fileInsert(PATH);
+        fileInsert(PATH, storage);
     }
 
     @Override
@@ -47,28 +48,4 @@ public class FileBlacklistRepository implements BlacklistRepository {
         return new ArrayList<>(storage.values());
     }
 
-    private void fileConnect(String path) {
-        try {
-            FileInputStream fis = new FileInputStream(path);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            storage = (ConcurrentHashMap<UUID, Blacklist>) ois.readObject();
-            fis.close();
-            ois.close();
-        } catch (IOException | ClassNotFoundException e) {
-            storage = new ConcurrentHashMap<>();
-            logger.error(MessageFormat.format("Error on FileBlacklistRepositoy : {0}", e.getClass().getCanonicalName()));
-        }
-    }
-
-    private void fileInsert(String path) {
-        try {
-            FileOutputStream fos = new FileOutputStream(path);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(storage);
-            fos.close();
-            oos.close();
-        } catch (IOException e) {
-            logger.error(MessageFormat.format("Error on FileBlacklistRepositoy : {0}", e.getClass().getCanonicalName()));
-        }
-    }
 }
