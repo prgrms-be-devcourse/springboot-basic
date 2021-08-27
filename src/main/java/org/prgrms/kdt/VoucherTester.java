@@ -1,92 +1,109 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.Config.AppConfiguration;
-import org.prgrms.kdt.Service.VoucherService;
+import org.prgrms.kdt.config.AppConfiguration;
+import org.prgrms.kdt.customer.CustomerRepository;
+import org.prgrms.kdt.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.VoucherRepository;
 import org.prgrms.kdt.IO.Input;
 import org.prgrms.kdt.IO.Output;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class VoucherTester implements Runnable{
+import java.util.Optional;
+import java.util.UUID;
 
-    private final String commandGuide = "사용 가능한 명령은 3가지 입니다. 한번에 하나의 명령만 가능합니다.\n바우처 생성하기 : create\nvoucher 리스트 보기 : list\n종료하기 : exit 를 입력하세요.";
+public class VoucherTester {
+
+    private final String commandGuide = "사용 가능한 명령은 4가지 입니다. 한번에 하나의 명령만 가능합니다. 대소문자는 구분하지 않습니다.\n바우처 생성하기 : create\nvoucher 리스트 보기 : list\nblackcustomer 리스트 보기 : black\n종료하기 : exit 를 입력하세요.";
     private final String voucherGuide = "fixed형 voucher를 생성하려면 f를, percent형 voucher를 생성하려면 p를 입력하세요.";
     private final String voucherInfoGuide = "fixed amount 또는 percent discount를 입력하세요.";
-    private final String create = "create";
-    private final String list = "list";
-    private final String exit = "exit";
-
+    private final String voucherCreateSuccess = "바우처 생성 성공";
+    private final String inputErrorMsg = "입력 형식이 잘못되었습니다. 처음부터 입력해 주세요.";
+    private final String exitMsg = "바우처 관리 프로그램을 종료합니다.";
+    private final String endLine = "======================================================================";
     private boolean exitProgram = false;
 
-
-    // exception은 input이 잘못된 경우만 고려함.
-    // SingleTon 객체로 해야될 것들이 있을까?
-    @Override
     public void run() {
         Input input = new Console();
         Output output = new Console();
 
-        //applicationContext interface의 구현체 생성
-        //AppConfiguration.class : metadata , bean의 description이 기술되어있음
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        var voucherService = applicationContext.getBean(VoucherService.class);
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+        var environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("local");
+        applicationContext.refresh();
 
-        while (!exitProgram){
-            try {
-                String command = parseCommand(input.input(commandGuide));
+        var voucherRepository = applicationContext.getBean(VoucherRepository.class);
+        var customerRepository = applicationContext.getBean(CustomerRepository.class);
 
-                switch (command) {
-                    case exit:
-                        output.exit();
-                        exitProgram = true;
-                        break;
-                    case create:
-                        char voucherType = parseVoucherType(input.input(voucherGuide));
-                        long voucherInfo = parseInfo(input.input(voucherInfoGuide));
-
-                        voucherService.createVoucher(voucherType, voucherInfo);
-                        output.voucherCreateSuccess();
-                        break;
-                    case list:
-                        voucherService.showAllVoucherList();
-                        break;
-                }
-            } catch (InputException inputException){
-                //System.out.println(inputException.getMessage());
-                output.inputError(inputException.getMessage());
-
+        while (!exitProgram) {
+            Optional<CommandType> commandType = CommandType.matchCommandType(input.input(commandGuide));
+            if (commandType.isEmpty()) {
+                output.print(inputErrorMsg);
+                continue;
             }
+            switch (commandType.get()) {
+                case EXIT:
+                    output.print(exitMsg);
+                    exitProgram = true;
+                    break;
+
+                case CREATE:
+                    Optional<VoucherType> voucherType = VoucherType.matchVoucherType(input.input(voucherGuide));
+                    int discountInfo = Integer.parseInt(input.input(voucherInfoGuide));
+
+                    if (!isValidVoucherInfo(voucherType, discountInfo)) {
+                        output.print(inputErrorMsg);
+                        break;
+                    }
+
+                    insertVoucherRepository(voucherType.get(), discountInfo, voucherRepository);
+                    output.print(voucherCreateSuccess);
+                    break;
+
+                case LIST:
+                    output.print("바우처는 총 " + voucherRepository.numVouchers() + "개 입니다.");
+                    output.print(voucherRepository.getList());
+                    break;
+
+                case BLACK:
+                    output.print(customerRepository.getList());
+                    break;
+
+                default:
+                    output.print(inputErrorMsg);
+                    break;
+            }
+            output.print(endLine);
         }
+        applicationContext.close();
     }
 
-    private char parseVoucherType (String input) throws InputException{
-        switch (input){
-            case "f":
-                return 'f';
-            case "p":
-                return 'p';
-            default:
-                throw new InputException();
-        }
-    }
-
-
-    private String parseCommand (String inputString) throws InputException{
-        switch(inputString) {
-            case create:
-            case list:
-            case exit:
+    private boolean isValidVoucherInfo(Optional<VoucherType> voucherType, int discountInfo) {
+        if (voucherType.isEmpty()) return false;
+        switch (voucherType.get()) {
+            case FIXED:
+                if (discountInfo < 0) return false;
                 break;
-            default: throw new InputException();
+            case PERCENT:
+                if (discountInfo < 1 || discountInfo > 100) return false;
+                break;
         }
-        return inputString;
+        return true;
     }
 
-
-    private int parseInfo(String inputString) throws InputException{
-        if(inputString.chars().allMatch(i-> i>47 && i<58)) return Integer.parseInt(inputString);
-        throw new InputException();
-        //inputString.chars().filter(i-> i>48 && i<59);
+    private void insertVoucherRepository(VoucherType voucherType, long voucherInfo, VoucherRepository voucherRepository) {
+        Voucher voucher = null;
+        switch (voucherType) {
+            case FIXED:
+                voucher = new FixedAmountVoucher(UUID.randomUUID(), voucherInfo);
+                break;
+            case PERCENT:
+                voucher = new PercentDiscountVoucher(UUID.randomUUID(), voucherInfo);
+                break;
+        }
+        if (voucher != null) voucherRepository.insert(voucher);
     }
-
-
 }
+
