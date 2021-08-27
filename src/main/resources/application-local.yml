@@ -2,6 +2,4 @@ kdt:
   version: v1.0.0-local
   description: |-
     local profile
-  file:
-    black-list:
-      path: customer_blakcklist.csv
+

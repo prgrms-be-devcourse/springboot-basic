@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("local")
-public class MemVoucherRepository implements VoucherRepository, InitializingBean {
+public class MemVoucherRepository implements VoucherRepository {
 
     private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
@@ -28,10 +28,5 @@ public class MemVoucherRepository implements VoucherRepository, InitializingBean
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("VoucherRepository:" + this.getClass().getCanonicalName());
     }
 }

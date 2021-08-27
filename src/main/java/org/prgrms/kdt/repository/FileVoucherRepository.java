@@ -3,7 +3,6 @@ package org.prgrms.kdt.repository;
 
 import org.prgrms.kdt.model.Voucher;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile({"dev", "prod"})
-public class FileVoucherRepository implements FileRepository, VoucherRepository, InitializingBean {
+public class FileVoucherRepository implements FileRepository, VoucherRepository {
 
     private static final String FILEPATH = System.getProperty("user.dir") + "/voucher_data.ser";
     private Map<UUID, Voucher> storage;
@@ -70,8 +69,4 @@ public class FileVoucherRepository implements FileRepository, VoucherRepository,
         return storage;
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("VoucherRepository:" + this.getClass().getCanonicalName());
-    }
 }

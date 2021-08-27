@@ -1,13 +1,18 @@
 package org.prgrms.kdt.command;
 
 
+import java.text.MessageFormat;
 import org.prgrms.kdt.model.VoucherDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
 
 @Component
 public class CommandLineApplication implements Runnable {
+
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     private final Input input;
     private final Output output;
@@ -34,7 +39,10 @@ public class CommandLineApplication implements Runnable {
                     exit();
                     isExit = true;
                 }
-                default -> output.printError(inputStr);
+                default -> {
+                    logger.warn(MessageFormat.format("invalid user command input: {0}", inputStr));
+                    output.printError(inputStr);
+                }
             }
         }
 
@@ -61,7 +69,7 @@ public class CommandLineApplication implements Runnable {
         var value = input.input(msg, Pattern.compile("^[0-9]*$").asPredicate());
 
         var createdVoucher = operator.create(new VoucherDTO(type, Long.parseLong(value)));
-        output.printMessage("created: " + createdVoucher);
+        logger.info(MessageFormat.format("user create voucher: {0}", createdVoucher));
     }
 
     private void list() {

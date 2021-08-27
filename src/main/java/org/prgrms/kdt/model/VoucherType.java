@@ -1,9 +1,13 @@
 package org.prgrms.kdt.model;
 
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.prgrms.kdt.command.VoucherCommandOperator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum VoucherType {
     FIXED_AMOUNT("fixed") {
@@ -19,6 +23,7 @@ public enum VoucherType {
         }
     };
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
     private static final Map<String, VoucherType> typeByName = new HashMap<>(
         VoucherType.values().length);
 
@@ -45,6 +50,7 @@ public enum VoucherType {
         if (ret != null) {
             return ret;
         }
+        logger.error(MessageFormat.format("No voucher type:{0}", name));
         throw new IllegalArgumentException("No voucher type:" + name);
     }
 }

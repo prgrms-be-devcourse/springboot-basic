@@ -1,0 +1,29 @@
+17:36:22.011 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12501 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+17:36:22.013 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+17:36:22.013 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+17:36:22.656 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.009 seconds (JVM running for 7.123)
+17:37:13.734 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12514 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+17:37:13.735 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+17:37:13.736 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+17:37:14.301 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.889 seconds (JVM running for 6.642)
+17:37:28.387 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12520 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+17:37:28.388 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+17:37:28.388 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+17:37:28.910 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.831 seconds (JVM running for 6.487)
+17:41:14.340 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12624 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+17:41:14.341 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+17:41:14.342 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+17:41:14.874 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.85 seconds (JVM running for 6.671)
+17:41:28.303 [main] INFO  o.p.k.command.CommandLineApplication - user input: list
+17:43:08.529 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12637 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+17:43:08.530 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+17:43:09.093 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.881 seconds (JVM running for 6.764)
+17:43:44.213 [main] INFO  o.p.k.command.CommandLineApplication - user input: create
+18:01:48.941 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12839 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+18:01:48.943 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+18:01:49.533 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.95 seconds (JVM running for 6.976)
+18:02:11.084 [main] INFO  o.p.k.command.VoucherCommandOperator - input voucher data: VoucherDTO[name=fixed, value=10]
+18:02:11.101 [main] INFO  o.p.k.command.CommandLineApplication - user create voucher: FixedAmountVoucher{voucherId=6b078b1e-75ea-487c-8d98-2f4eae10360b, amount=10}
+18:02:57.375 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12873 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+18:02:57.377 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+18:02:57.932 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.88 seconds (JVM running for 6.618)
