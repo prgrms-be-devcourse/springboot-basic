@@ -1,4 +1,4 @@
-package org.prgrms.kdt.commandapp;
+package org.prgrms.kdt.command;
 
 
 import org.prgrms.kdt.model.Voucher;

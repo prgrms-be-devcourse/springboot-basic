@@ -2,7 +2,9 @@ package org.prgrms.kdt.repository;
 
 
 import org.prgrms.kdt.model.Voucher;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -12,15 +14,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
-@Primary
-public class FileVoucherRepository implements VoucherRepository {
+@Profile({"dev", "prod"})
+public class FileVoucherRepository implements FileRepository, VoucherRepository, InitializingBean {
 
     private static final String FILEPATH = System.getProperty("user.dir") + "/voucher_data.ser";
     private Map<UUID, Voucher> storage;
 
+    @Override
     @PostConstruct
-    public void loadFile() throws IOException, ClassNotFoundException {
-
+    public void loadFile() throws ClassNotFoundException, IOException {
         var file = new File(FILEPATH);
         if (file.createNewFile()) {
             storage = new ConcurrentHashMap<>();
@@ -36,6 +38,7 @@ public class FileVoucherRepository implements VoucherRepository {
         }
     }
 
+    @Override
     public void writeFile() throws IOException {
         try (var fos = new FileOutputStream(FILEPATH);
             var bos = new BufferedOutputStream(fos);
@@ -65,5 +68,10 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Map<UUID, Voucher> findAllVoucher() {
         return storage;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("VoucherRepository:" + this.getClass().getCanonicalName());
     }
 }

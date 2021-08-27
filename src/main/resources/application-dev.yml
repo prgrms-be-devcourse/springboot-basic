@@ -1,0 +1,7 @@
+kdt:
+  version: v1.0.0-dev
+  description: |-
+    dev profile
+  file:
+    black-list:
+      path: customer_blakcklist.csv

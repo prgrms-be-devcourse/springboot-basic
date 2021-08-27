@@ -1,13 +1,16 @@
 package org.prgrms.kdt.repository;
 
 import org.prgrms.kdt.model.Voucher;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class MemVoucherRepository implements VoucherRepository {
+@Profile("local")
+public class MemVoucherRepository implements VoucherRepository, InitializingBean {
 
     private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
@@ -27,4 +30,8 @@ public class MemVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("VoucherRepository:" + this.getClass().getCanonicalName());
+    }
 }
