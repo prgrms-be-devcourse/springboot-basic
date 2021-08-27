@@ -23,8 +23,8 @@ public class Console implements Input, Output {
         System.out.println(msg);
         var input = input();
         while (!p.test(input)) {
-            printError(input);
             logger.warn(input);
+            printError(input);
             input = input();
         }
         return input;

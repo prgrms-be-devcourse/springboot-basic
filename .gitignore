@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-voucher_data.ser
+src/voucher_data.ser
 
 ### STS ###
 .apt_generated

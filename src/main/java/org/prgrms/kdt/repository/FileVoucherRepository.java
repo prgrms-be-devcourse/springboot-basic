@@ -2,8 +2,9 @@ package org.prgrms.kdt.repository;
 
 
 import org.prgrms.kdt.model.Voucher;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -16,13 +17,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile({"dev", "prod"})
 public class FileVoucherRepository implements FileRepository, VoucherRepository {
 
-    private static final String FILEPATH = System.getProperty("user.dir") + "/voucher_data.ser";
+    @Value("${kdt.file.voucher-storage.path}")
+    private String path;
     private Map<UUID, Voucher> storage;
 
     @Override
     @PostConstruct
     public void loadFile() throws ClassNotFoundException, IOException {
-        var file = new File(FILEPATH);
+        var file = new File(path);
         if (file.createNewFile()) {
             storage = new ConcurrentHashMap<>();
             writeFile();
@@ -39,7 +41,7 @@ public class FileVoucherRepository implements FileRepository, VoucherRepository 
 
     @Override
     public void writeFile() throws IOException {
-        try (var fos = new FileOutputStream(FILEPATH);
+        try (var fos = new FileOutputStream(path);
             var bos = new BufferedOutputStream(fos);
             var oos = new ObjectOutputStream(bos);) {
             oos.writeObject(storage);

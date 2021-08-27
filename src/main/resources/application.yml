@@ -1,0 +1,7 @@
+kdt:
+  version: v1.0.0
+  description: |-
+    defualt profile
+  file:
+    black-list:
+      path: data/customer_blacklist.csv

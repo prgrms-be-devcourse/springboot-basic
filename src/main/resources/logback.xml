@@ -36,7 +36,7 @@
     <appender-ref ref="ROLLING_FILE"/>
   </logger>
 
-  <root level="info">
+  <root level="warn">
     <appender-ref ref="STDOUT"/>
   </root>
 </configuration>

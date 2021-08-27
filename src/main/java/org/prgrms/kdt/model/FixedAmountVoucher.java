@@ -1,5 +1,6 @@
 package org.prgrms.kdt.model;
 
+import java.text.MessageFormat;
 import org.prgrms.kdt.exception.InvalidDataException;
 
 import java.io.Serializable;
@@ -31,7 +32,12 @@ public class FixedAmountVoucher implements Voucher, Serializable {
 
     private void validateAmount(long amount) {
         if (amount < 0) {
-            throw new InvalidDataException("invalid amount: " + amount);
+            throw new InvalidDataException(
+                MessageFormat.format("amount should be positive: {0}", amount));
+        }
+        if (amount == 0) {
+            throw new InvalidDataException(
+                MessageFormat.format("amount should not be zero: {0}", amount));
         }
     }
 

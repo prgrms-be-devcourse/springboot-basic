@@ -24,8 +24,8 @@ public enum VoucherType {
     };
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
-    private static final Map<String, VoucherType> typeByName = new HashMap<>(
-        VoucherType.values().length);
+    private static final Map<String, VoucherType> typeByName =
+        new HashMap<>(VoucherType.values().length);
 
     static {
         for (VoucherType type : VoucherType.values()) {
@@ -50,7 +50,8 @@ public enum VoucherType {
         if (ret != null) {
             return ret;
         }
-        logger.error(MessageFormat.format("No voucher type:{0}", name));
-        throw new IllegalArgumentException("No voucher type:" + name);
+        var msg = MessageFormat.format("No voucher type:{0}", name);
+        logger.error(msg);
+        throw new IllegalArgumentException(msg);
     }
 }

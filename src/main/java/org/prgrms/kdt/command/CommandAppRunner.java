@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommandAppRunner implements ApplicationRunner {
 
-    private CommandLineApplication commandLineApplication;
+    private final CommandLineApplication commandLineApplication;
 
     public CommandAppRunner(CommandLineApplication commandLineApplication) {
         this.commandLineApplication = commandLineApplication;
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         commandLineApplication.run();
     }
 }
