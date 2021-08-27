@@ -1,6 +1,5 @@
-package org.prgrms.kdt.VO;
+package org.prgrms.kdt.order;
 
-// Value Object
 public enum OrderStatus {
     ACCEPTED,
     PAYMENT_REQUIRED,
