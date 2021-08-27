@@ -1,5 +1,6 @@
 package org.prgrms.kdt.service;
 
+import java.text.MessageFormat;
 import java.util.Map;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
@@ -21,7 +22,15 @@ public class CustomerService {
     @PostConstruct
     private void loadAllBlackListCustomer() {
         blacklists = customerRepository.findAllBlackListCustomer();
-        System.out.println("blacklists: " + blacklists);
+        printBlackLists(blacklists);
+
+    }
+
+    private void printBlackLists(Map<UUID, Customer> blacklists) {
+        System.out.println("==== black list customers ====");
+        blacklists.forEach((key, value) -> System.out.println(
+            MessageFormat.format("{0}({1})", value.getName(), key)));
+        System.out.println("==============================");
     }
 
 }
