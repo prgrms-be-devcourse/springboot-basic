@@ -3,10 +3,12 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.IO.Input;
 import org.prgrms.kdt.IO.Output;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Console implements Input, Output {
     private final Scanner scanner = new Scanner(System.in);
+
     @Override
     public String input(String guide) {
         System.out.println(guide);
@@ -14,24 +16,17 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void voucherCreateSuccess() {
-        System.out.println("voucher 생성 성공");
+    public void print(String str) {
+        System.out.println(str);
     }
 
     @Override
-    public void voucherCreateFail() {
-        System.out.println("voucher 생성 실패");
+    public void print(List<?> list) {
+        if (list.isEmpty()) {
+            System.out.println("내용이 없습니다.");
+            return;
+        }
+        list.stream().forEach(System.out::println);
     }
-
-    @Override
-    public void exit() {
-        System.out.println("프로그램을 종료합니다.");
-    }
-
-    @Override
-    public void inputError(String message) {
-        System.out.println(message);
-    }
-
 
 }
