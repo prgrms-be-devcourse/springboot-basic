@@ -1,9 +1,8 @@
 package org.prgrms.kdt.IO;
 
-public interface Output {
-    void voucherCreateSuccess();
-    void voucherCreateFail();
-    void exit();
+import java.util.List;
 
-    void inputError(String message);
+public interface Output {
+    void print(String str);
+    void print(List<?> str);
 }
