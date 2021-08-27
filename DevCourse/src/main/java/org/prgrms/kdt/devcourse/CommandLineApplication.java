@@ -6,24 +6,30 @@ import org.prgrms.kdt.devcourse.io.Console;
 import org.prgrms.kdt.devcourse.voucher.Voucher;
 import org.prgrms.kdt.devcourse.voucher.VoucherService;
 import org.prgrms.kdt.devcourse.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class CommandLineApplication {
+public class CommandLineApplication implements Runnable{
+    private static final Logger commandLineApplicationLogger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private VoucherService voucherService;
+    private CustomerService customerService;
 
+    public CommandLineApplication(VoucherService voucherService, CustomerService customerService) {
+        this.voucherService = voucherService;
+        this.customerService = customerService;
+    }
 
-    public static void main(String[] args) {
-
+    @Override
+    public void run() {
         final String CMD_CREATE = "create";
         final String CMD_LIST = "list";
         final String CMD_BLACK_LIST = "black";
         final String CMD_EXIT = "exit";
 
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        var voucherService = applicationContext.getBean(VoucherService.class);
-        var customerService = applicationContext.getBean(CustomerService.class);
         var info = """
                 === Voucher Program ===
                 Type exit to exit the program.
@@ -47,14 +53,14 @@ public class CommandLineApplication {
                 }
                 case CMD_EXIT -> {
                     console.printOut("프로그램을 종료합니다.");
-                    applicationContext.close();
-                    System.exit(0);
+                    return;
                 }
                 default -> console.inputError(cmd);
             }
         }
-
     }
+
+
 
     public static void createVoucher(Console console, VoucherService voucherService){
         String voucherInput = console.input("고정 값 바우처: FIXED, 퍼센트 할인 바우처: PERCENT 입력");
@@ -92,6 +98,7 @@ public class CommandLineApplication {
             if(voucherType==VoucherType.PERCENT && amount>100)
                 return false;
         }catch (NumberFormatException numberFormatException){
+            commandLineApplicationLogger.info("unvalidated value (voucherType: {}, user input: {})",voucherType,inputAmount);
             return false;
         }
         return true;

@@ -2,6 +2,8 @@ package org.prgrms.kdt.devcourse.customer;
 
 import org.prgrms.kdt.devcourse.io.FileLoader;
 import org.prgrms.kdt.devcourse.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
@@ -16,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository{
-
+    private static final Logger customerRepositoryImplLogger = LoggerFactory.getLogger(CustomerRepositoryImpl.class);
     @Value("${file.customer.blacklist}")
     private String blacklistFileName;
 
@@ -32,7 +34,7 @@ public class CustomerRepositoryImpl implements CustomerRepository{
                 String blackCustomerName = oneLineDataArr[1];
                 BlackCustomers.put(blackCustomerUUID,new Customer(blackCustomerUUID,blackCustomerName,true));
             }catch (IllegalArgumentException e){
-                e.printStackTrace();
+                customerRepositoryImplLogger.info("readBlackListFile - IllegalArgument(error input : {})", line);
             }
 
         }
