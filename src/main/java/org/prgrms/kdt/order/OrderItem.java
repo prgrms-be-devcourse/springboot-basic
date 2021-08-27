@@ -1,8 +1,7 @@
-package org.prgrms.kdt.VO;
+package org.prgrms.kdt.order;
 
 import java.util.UUID;
 
-// Value Object
 public class OrderItem {
     public final UUID productId;
     public final long productPrice;
