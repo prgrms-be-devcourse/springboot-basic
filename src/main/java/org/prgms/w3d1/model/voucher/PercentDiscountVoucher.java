@@ -22,6 +22,11 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     }
 
     @Override
+    public long getVoucherValue() {
+        return percent;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
