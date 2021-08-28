@@ -1,7 +1,7 @@
 package org.prgrms.dev.order.domain;
 
 public enum OrderStatus {
-    ACCECPTED,
+    ACCEPTED,
     PAYMENT_REQUIRED,
     PAYMENT_CONFIRMED,
     PAYMENT_REJECTED,

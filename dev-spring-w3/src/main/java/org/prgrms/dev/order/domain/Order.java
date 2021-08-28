@@ -2,7 +2,6 @@ package org.prgrms.dev.order.domain;
 
 import org.prgrms.dev.voucher.domain.Voucher;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,13 +14,14 @@ public class Order {
     // 느슨한 결합도로 바꾸고 싶다? → 런타임 의존성을 갖도록 → interface !!!
     // private FixedAmountVoucher fixedAmountVoucher;
     private final Optional<Voucher> voucher;
-    private final OrderStatus orderStatus = OrderStatus.ACCECPTED;
+    private final OrderStatus orderStatus;
 
     public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.empty();
+        this.orderStatus = OrderStatus.ACCEPTED;
     }
 
     public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
@@ -29,6 +29,7 @@ public class Order {
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.of(voucher);
+        this.orderStatus = OrderStatus.ACCEPTED;
     }
 
     public long totalAmount() {

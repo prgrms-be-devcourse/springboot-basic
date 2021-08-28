@@ -6,5 +6,5 @@ import org.prgrms.dev.voucher.service.VoucherService;
 
 @FunctionalInterface
 public interface Command {
-    boolean execute(Input input, Output output, VoucherService voucherService) ;
+    boolean execute(Input input, Output output, VoucherService voucherService);
 }

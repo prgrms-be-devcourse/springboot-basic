@@ -28,7 +28,6 @@ public class CommandLine implements Runnable {
     public boolean execute(VoucherService voucherService){
         output.init();
         String inputCommandType = input.input("> ");
-        System.out.println(inputCommandType);
         return CommandType.execute(inputCommandType, input, output, voucherService);
     }
 }

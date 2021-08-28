@@ -14,7 +14,7 @@ public class OutputConsole implements Output {
     @Override
     public void voucherSelectType() {
         System.out.print("=== Select Voucher Type ===\n" +
-                "fixed amount [f] | percent discount [p]");
+                "fixed amount [f] | percent discount [p] ");
     }
 
     @Override
