@@ -1,0 +1,2 @@
+16:53:54.241 [main] INFO  o.p.kdt.LoggingInvocationHandler - add executed
+16:53:54.249 [main] INFO  org.prgrms.kdt.JdkProxyTest - Add -> 3
