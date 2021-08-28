@@ -10,7 +10,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
 
-    protected PercentDiscountVoucher(UUID voucherId, long percent) {
+    public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -21,5 +21,12 @@ public class PercentDiscountVoucher implements Voucher {
 
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
+    }
+
+    public String toString() {
+        return new StringBuilder().append("PercentDiscountVoucher {")
+                .append("voucherId = ").append(voucherId)
+                .append(", percent = ").append(percent)
+                .append('}').toString();
     }
 }
