@@ -4,6 +4,7 @@ import org.prgrms.dev.order.repository.OrderRepository;
 import org.prgrms.dev.order.domain.Order;
 import org.prgrms.dev.order.domain.OrderItem;
 import org.prgrms.dev.voucher.service.VoucherService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.UUID;
  *  - OrderService는 'Voucher Service'와
  *      'Order에 대한 정보를 기록하고 조회할 수 있는 repository'에 대하여 의존성을 갖는다.
  */
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;
