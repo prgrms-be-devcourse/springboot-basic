@@ -8,9 +8,9 @@ import java.util.Arrays;
 import java.util.function.Supplier;
 
 public enum CommandType {
-    CREATE("create", () -> new CreateCommand()),
-    LIST("list", () -> new ListCommand()),
-    EXIT("exit", () -> new ExitCommand());
+    CREATE("create", CreateCommand::new),
+    LIST("list", ListCommand::new),
+    EXIT("exit", ExitCommand::new);
 
     private final String command;
     private final Supplier<Command> supplier;
@@ -22,7 +22,7 @@ public enum CommandType {
 
     public static boolean execute(String inputCommandType, Input input, Output output, VoucherService voucherService) {
         CommandType commandType = Arrays.stream(CommandType.values())
-                .filter(cmd -> cmd.command.equals(inputCommandType.toString()))
+                .filter(cmd -> cmd.command.equals(inputCommandType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid input..."));
         return commandType.supplier.get().execute(input, output, voucherService);

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class VoucherService {
-    private VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -16,6 +16,7 @@ public class VoucherService {
 
     /**
      * voucherId 에 해당하는 바우처 조회
+     *
      * @param voucherId
      * @return 조회한 바우처 반환
      */
@@ -27,6 +28,7 @@ public class VoucherService {
 
     /**
      * type 에 따른 Voucher 생성
+     *
      * @param type
      * @param value
      * @return 생성된 바우처 반환

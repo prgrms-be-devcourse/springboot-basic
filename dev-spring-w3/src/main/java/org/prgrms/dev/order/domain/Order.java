@@ -8,6 +8,8 @@ import java.util.UUID;
 
 // Entity Class
 public class Order {
+    private static final long INITIAL_VALUE = 0L;
+
     private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
@@ -33,12 +35,13 @@ public class Order {
     }
 
     public long totalAmount() {
-        // 주무한 목록을 순회하면서 아이템의 가격과 개수를 곱한 총합
+        // 주문한 목록을 순회하면서 아이템의 가격과 개수를 곱한 총합
         var beforeDiscount = orderItems.stream()
                 .map(v -> v.getProductPrice() * v.getQuantity())
-                .reduce(0L, Long::sum);
+                .reduce(INITIAL_VALUE, Long::sum);
 
-        return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
+        return voucher.map(value -> value.discount(beforeDiscount))
+                .orElse(beforeDiscount);
     }
 
 }

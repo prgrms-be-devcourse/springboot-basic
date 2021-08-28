@@ -5,7 +5,6 @@ import org.prgrms.dev.order.domain.Order;
 import org.prgrms.dev.order.domain.OrderItem;
 import org.prgrms.dev.voucher.service.VoucherService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +22,7 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(UUID customerId, ArrayList<OrderItem> orderItems) {
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
         var order = new Order(UUID.randomUUID(), customerId, orderItems);
         orderRepository.create(order);
         return order;
