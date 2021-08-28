@@ -6,11 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("prod")
@@ -42,5 +40,15 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public void persistVouchers() {
 
+    }
+
+    @Override
+    public Optional<Voucher> findById(long id) {
+        return Optional.ofNullable(db.get(id));
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomer(long customerId) {
+        return db.values().stream().filter(voucher -> voucher.getCustomerId() == customerId).collect(Collectors.toList());
     }
 }

@@ -6,6 +6,11 @@ voucher:
       Type exit to exit the program.
       Type create to create a new voucher.
       Type list to list all vouchers.
+      Type blacklist to list all blacklisted customers.
+      Type intro to get intro this message.
+      Type user to generate random user.
+      Type users to list all users.
+      Type test to test discount for all vouchers.
 
     command:
       create:
@@ -17,6 +22,9 @@ voucher:
 
         amount: >-
           Input discount value(ex: 1000 for Fixed, 52 for Rated):
+
+        customerId: >-
+          Input voucher owning customer's id:
 
         fallback: >-
           Didn't select voucher type or invalid voucher type. Fallback to "Fixed" voucher type.
@@ -43,8 +51,11 @@ voucher:
       username: vouchermanager
       password: password
 
-logging:
-  level:
-    org:
-      springframework:
-        INFO
+
+spring:
+  datasource:
+    url:
+      jdbc:mysql://localhost:3306/voucher_app
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: vouchermanager
+    password: password

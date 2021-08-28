@@ -4,8 +4,6 @@ import com.programmers.voucher.entity.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -14,9 +12,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Repository
-@Primary
 public class LocalFileVoucherRepository implements VoucherRepository {
 
     private final Path file;
@@ -112,5 +110,15 @@ public class LocalFileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> listAll() {
         return new ArrayList<>(db.values());
+    }
+
+    @Override
+    public Optional<Voucher> findById(long id) {
+        return Optional.ofNullable(db.get(id));
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomer(long customerId) {
+        return db.values().stream().filter(voucher -> voucher.getCustomerId() == customerId).collect(Collectors.toList());
     }
 }

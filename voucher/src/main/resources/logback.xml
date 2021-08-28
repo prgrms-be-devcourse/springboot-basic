@@ -18,7 +18,7 @@
     </appender>
 
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
 
@@ -27,7 +27,7 @@
     </logger>
 
 
-<!--    <logger name="com.programmers.voucher.service.customer.BlacklistCustomerReader" level="debug" additivity="false">-->
+<!--    <logger name="com.programmers.voucher.service.customer.BlacklistCustomerService" level="debug" additivity="false">-->
 <!--        <appender-ref ref="STDOUT"/>-->
 <!--    </logger>-->
 </configuration>

@@ -18,6 +18,9 @@ public class ApplicationMessages {
     @Value("${voucher.message.command.create.amount:Require amount message here}")
     private String requireAmount;
 
+    @Value("${voucher.message.command.create.customerId:Require customer id here}")
+    private String requireCustomerId;
+
     @Value("${voucher.message.command.create.fallback:Fallback message here}")
     private String fallback;
 
@@ -25,39 +28,23 @@ public class ApplicationMessages {
         return introMessage;
     }
 
-    public void setIntroMessage(String introMessage) {
-        this.introMessage = introMessage;
-    }
-
     public String getRequireName() {
         return requireName;
-    }
-
-    public void setRequireName(String requireName) {
-        this.requireName = requireName;
     }
 
     public String getRequireType() {
         return requireType;
     }
 
-    public void setRequireType(String requireType) {
-        this.requireType = requireType;
-    }
-
     public String getRequireAmount() {
         return requireAmount;
     }
 
-    public void setRequireAmount(String requireAmount) {
-        this.requireAmount = requireAmount;
+    public String getRequireCustomerId() {
+        return requireCustomerId;
     }
 
     public String getFallback() {
         return fallback;
-    }
-
-    public void setFallback(String fallback) {
-        this.fallback = fallback;
     }
 }

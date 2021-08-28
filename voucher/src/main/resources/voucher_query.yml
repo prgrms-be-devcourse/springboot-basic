@@ -1,0 +1,36 @@
+voucher:
+  create: >
+    INSERT INTO
+      vouchers(
+        name,
+        type,
+        value,
+        customer_id)
+    VALUES (
+        ?, ?, ?, ?)
+
+  select:
+    all: >
+      SELECT
+        *
+      FROM
+        vouchers
+    byId:
+      SELECT
+        *
+      FROM
+        vouchers
+      WHERE
+        voucher_id=?
+    byCustomer:
+      SELECT
+        *
+      FROM
+        vouchers v
+      JOIN
+        customers c
+      ON
+        v.customer_id=c.customer_id
+      WHERE
+        c.customer_id=?
+

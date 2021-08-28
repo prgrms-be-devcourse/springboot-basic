@@ -1,16 +1,30 @@
 package com.programmers.voucher.entity.customer;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer {
+
     private long id;
     private String username;
     private String alias;
     private boolean blacklisted;
+    private LocalDate createdAt;
+    private List<Long> vouchers = new ArrayList<>();
 
-    public Customer(long id, String username, String alias, boolean blacklisted) {
+    public Customer(long id, String username, String alias, boolean blacklisted, LocalDate createdAt) {
         this.id = id;
         this.username = username;
         this.alias = alias;
         this.blacklisted = blacklisted;
+        this.createdAt = createdAt;
+    }
+
+    public Customer(String username, String alias) {
+        this.username = username;
+        this.alias = alias;
+        this.blacklisted = false;
     }
 
     public long getId() {
@@ -43,6 +57,14 @@ public class Customer {
 
     public void setBlacklisted(boolean blacklisted) {
         this.blacklisted = blacklisted;
+    }
+
+    public List<Long> getVouchers() {
+        return vouchers;
+    }
+
+    public void setVouchers(List<Long> vouchers) {
+        this.vouchers = vouchers;
     }
 
     @Override

@@ -1,0 +1,35 @@
+customer:
+  create: >
+    INSERT INTO
+      customers(
+        username,
+        alias,
+        blacklisted)
+    VALUES (
+        ?, ?, ?)
+
+  select:
+    all: >
+      SELECT
+        *
+      FROM
+        customers
+    byId:
+      SELECT
+        *
+      FROM
+        customers
+      WHERE
+        customer_id=?
+    byVoucher:
+      SELECT
+        *
+      FROM
+        customers c
+      JOIN
+        vouchers v
+      ON
+        c.customer_id=v.customer_id
+      WHERE
+        v.voucher_id=?
+

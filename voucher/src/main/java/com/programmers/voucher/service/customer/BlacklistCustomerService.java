@@ -10,19 +10,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class BlacklistCustomerReader implements CustomerInitializer {
+public class BlacklistCustomerService implements CustomerService {
 
     private final Path file;
     private List<Customer> list = new LinkedList<>();
-    private static final Logger log = LoggerFactory.getLogger(BlacklistCustomerReader.class);
+    private static final Logger log = LoggerFactory.getLogger(BlacklistCustomerService.class);
 
-    public BlacklistCustomerReader(
+    public BlacklistCustomerService(
             @Value("${voucher.file.blacklist.location}") String directory,
             @Value("${voucher.file.blacklist.filename}") String filename
     ) {
@@ -53,18 +55,22 @@ public class BlacklistCustomerReader implements CustomerInitializer {
     }
 
     @Override
-    public void loadCustomers() {
+    public void openStorage() {
         log.debug("Loading blacklisted customers from file '{}'", file.toString());
 
         try {
             List<String> customers = Files.readAllLines(file);
             list = customers.stream()
                     .map(customerString -> customerString.split(","))
-                    .map(customerElement -> new Customer(
-                            Long.parseLong(customerElement[0]),
-                            customerElement[1],
-                            customerElement[2],
-                            true))
+                    .map(customerElement -> {
+                        String[] yyyymmdd = customerElement[3].split("-");
+                        return new Customer(
+                                Long.parseLong(customerElement[0]),
+                                customerElement[1],
+                                customerElement[2],
+                                true,
+                                LocalDate.of(Integer.parseInt(yyyymmdd[0]), Integer.parseInt(yyyymmdd[1]), Integer.parseInt(yyyymmdd[2])));
+                    })
                     .collect(Collectors.toList());
         } catch (IOException ex) {
             log.error("IOException occur when reading file {}", file.toString());
@@ -78,7 +84,22 @@ public class BlacklistCustomerReader implements CustomerInitializer {
     }
 
     @Override
-    public List<Customer> readCustomers() {
+    public void closeStorage() {
+
+    }
+
+    @Override
+    public List<Customer> listAll() {
         return list;
+    }
+
+    @Override
+    public Optional<Customer> findById(long id) {
+        return list.stream().filter(c -> c.getId() == id).findAny();
+    }
+
+    @Override
+    public Customer create(String username, String alias) {
+        throw new UnsupportedOperationException("Creating blacklisted user not allowed from appication.");
     }
 }
