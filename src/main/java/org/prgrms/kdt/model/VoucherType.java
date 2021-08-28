@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public enum VoucherType {
+    // TODO 람다를 이용해서 구현하기
     FIXED_AMOUNT("fixed") {
         @Override
         public Voucher createVoucher(long value) {

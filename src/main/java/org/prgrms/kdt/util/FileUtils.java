@@ -7,7 +7,7 @@ import org.springframework.core.io.Resource;
 
 public class FileUtils {
 
-    private static final String csvSplitRegex = ",";
+    private static final String COMMA_SPLIT = ",";
 
     private FileUtils() {
         throw new IllegalStateException("Utility class");
@@ -16,7 +16,7 @@ public class FileUtils {
     public static List<String[]> readCSV(Resource resource) {
         try (var br = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
             return br.lines().skip(1L)
-                .map(line -> line.split(csvSplitRegex))
+                .map(line -> line.split(COMMA_SPLIT))
                 .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
