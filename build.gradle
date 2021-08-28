@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.5.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+//    id 'jacoco'
 }
 
 group = 'org.prgms'
@@ -19,5 +20,48 @@ dependencies {
 }
 
 test {
+//    jacoco {
+//        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+//    }
+
     useJUnitPlatform()
+
+//    finalizedBy 'jacocoTestReport'
 }
+
+//jacoco {
+//    // JaCoCo 버전
+//    toolVersion = '0.8.5'
+//
+////  테스트결과 리포트를 저장할 경로 변경
+////  default는 "$/jacoco"
+////  reportsDir = file("$buildDir/customJacocoReportDir")
+//}
+//
+//jacocoTestReport {
+//    reports {
+//        html.enabled true
+//        xml.enabled false
+//        csv.enabled false
+//    }
+//
+//    finalizedBy 'jacocoTestCoverageVerification'
+//}
+//
+//jacocoTestCoverageVerification {
+//    violationRules {
+//        rule {
+//            enabled = false
+//            element = 'CLASS'
+//            // includes = []
+//
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.10
+//            }
+//
+//            excludes = []
+//        }
+//    }
+//}
