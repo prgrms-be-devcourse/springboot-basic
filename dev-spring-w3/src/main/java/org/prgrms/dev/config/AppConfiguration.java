@@ -1,6 +1,7 @@
 package org.prgrms.dev.config;
 
 import org.prgrms.dev.order.domain.Order;
+import org.prgrms.dev.order.repository.MemoryOrderRepository;
 import org.prgrms.dev.order.repository.OrderRepository;
 import org.prgrms.dev.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.dev.voucher.repository.VoucherRepository;
@@ -33,12 +34,7 @@ public class AppConfiguration {
 
     @Bean
     public OrderRepository orderRepository() {
-        return new OrderRepository() {
-            @Override
-            public Order create(Order order) {
-                return null;
-            }
-        };
+        return new MemoryOrderRepository();
     }
 
     @Bean

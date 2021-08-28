@@ -33,12 +33,30 @@ public class Order {
     }
 
     public long totalAmount() {
-        // 주무한 목록을 순회하면서 아이템의 가격과 개수를 곱한 총합
         var beforeDiscount = orderItems.stream()
                 .map(v -> v.getProductPrice() * v.getQuantity())
                 .reduce(0L, Long::sum);
-
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
+    }
+
+    public UUID getOrderId() {
+        return orderId;
+    }
+
+    public Optional<Voucher> getVoucher() {
+        return voucher;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
     }
 
 }
