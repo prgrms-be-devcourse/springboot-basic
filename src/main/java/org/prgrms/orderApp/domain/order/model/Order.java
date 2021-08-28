@@ -37,4 +37,16 @@ public class Order implements OrderAppModel {
         return this.orderId;
     }
 
+    public Optional<Voucher> getVoucher(){
+        return voucher;
+    }
+    public OrderStatus getOrderStatus(){
+        return orderStatus;
+    }
+    public List<OrderItem> gerOrderItems(){
+        return orderItems;
+    }
+    public UUID getCustomerId(){
+        return customerId;
+    }
 }

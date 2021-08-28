@@ -1,6 +1,7 @@
 package org.prgrms.orderApp.domain.voucher.service;
 
 import org.json.simple.parser.ParseException;
+import org.prgrms.orderApp.infrastructure.impl.TempVoucherRepository;
 import org.prgrms.orderApp.presentation.commandOperator.util.ProcessingStatus;
 import org.prgrms.orderApp.domain.voucher.model.Voucher;
 import org.prgrms.orderApp.domain.voucher.repository.VoucherRepository;
@@ -17,12 +18,16 @@ import java.util.UUID;
 @Service
 public class VoucherService {
 
-    @Autowired
+    //@Autowired
     private VoucherRepository voucherRepository;
 
     private Map<String,Object> processingResultsMessages = new HashMap<String, Object>();
     private ProcessingStatus status;
     private UUID voucherId ;
+
+    public VoucherService(TempVoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
