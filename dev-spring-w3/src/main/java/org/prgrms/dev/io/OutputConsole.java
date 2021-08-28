@@ -2,17 +2,7 @@ package org.prgrms.dev.io;
 
 import org.prgrms.dev.voucher.service.VoucherService;
 
-import java.util.Scanner;
-
-public class Console implements Input, Output {
-    private final Scanner scanner = new Scanner(System.in);
-
-    @Override
-    public String input(String prompt) {
-        System.out.print(prompt);
-        return scanner.nextLine();
-    }
-
+public class OutputConsole implements Output {
     @Override
     public void init() {
         System.out.println("=== Voucher Program ===\n" +
@@ -24,7 +14,7 @@ public class Console implements Input, Output {
     @Override
     public void voucherSelectType() {
         System.out.print("=== Select Voucher Type ===\n" +
-                "fixed amount [f] | percent discount [p] ");
+                "fixed amount [f] | percent discount [p]");
     }
 
     @Override

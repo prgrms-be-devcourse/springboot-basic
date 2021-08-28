@@ -2,26 +2,25 @@ package org.prgrms.dev.voucher.domain;
 
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.function.Function;
 
 public enum VoucherType {
-    FIXED("f"){
-        public Voucher create(long value){
-            return new FixedAmountVoucher(UUID.randomUUID(), value);
-        }
-    },
-    PERCENT("p"){
-        public Voucher create(long value){
-            return new PercentDiscountVoucher(UUID.randomUUID(), value);
-        }
-    };
+    FIXED("f", v-> new FixedAmountVoucher(UUID.randomUUID(), v)),
+    PERCENT("p", v-> new PercentDiscountVoucher(UUID.randomUUID(), v));
 
     private String type;
 
-    VoucherType(String type) {
+    private Function<Long, Voucher> voucherMaker;
+
+    VoucherType(String type, Function<Long, Voucher> voucherMaker)
+    {
         this.type = type;
+        this.voucherMaker = voucherMaker;
     }
 
-    abstract Voucher create(long value);
+    public Voucher create(Long value){
+        return this.voucherMaker.apply(value);
+    }
 
     public static Voucher getVoucherType(String inputType, long value){
         VoucherType voucherType = Arrays.stream(VoucherType.values())

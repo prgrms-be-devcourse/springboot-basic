@@ -6,21 +6,21 @@ import java.util.*;
 
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private static Map<UUID, Voucher> store = new HashMap<>();
+    private static final Map<UUID, Voucher> STORE = new HashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(store.get(voucherId));
+        return Optional.ofNullable(STORE.get(voucherId));
     }
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(store.values());
+        return new ArrayList<>(STORE.values());
     }
 
     @Override
     public Voucher create(Voucher voucher) {
-        store.put(voucher.getVoucherId(), voucher);
+        STORE.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 

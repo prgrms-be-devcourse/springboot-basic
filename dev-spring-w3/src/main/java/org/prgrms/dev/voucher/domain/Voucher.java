@@ -6,5 +6,4 @@ public interface Voucher {
     UUID getVoucherId(); // 바우처 아이디를 가져오는 행위
 
     long discount(long beforeDiscount);
-
 }

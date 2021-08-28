@@ -14,10 +14,10 @@ public class Order {
     private final List<OrderItem> orderItems;
     // 느슨한 결합도로 바꾸고 싶다? → 런타임 의존성을 갖도록 → interface !!!
     // private FixedAmountVoucher fixedAmountVoucher;
-    private Optional<Voucher> voucher;
-    private OrderStatus orderStatus = OrderStatus.ACCECPTED;
+    private final Optional<Voucher> voucher;
+    private final OrderStatus orderStatus = OrderStatus.ACCECPTED;
 
-    public Order(UUID orderId, UUID customerId, ArrayList<OrderItem> orderItems) {
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
@@ -29,7 +29,6 @@ public class Order {
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.of(voucher);
-
     }
 
     public long totalAmount() {

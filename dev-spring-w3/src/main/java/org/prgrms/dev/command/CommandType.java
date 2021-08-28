@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 public enum CommandType {
     CREATE("create", () -> new CreateCommand()),
     LIST("list", () -> new ListCommand()),
-    EXIT("exit", ExitCommand::new);
+    EXIT("exit", () -> new ExitCommand());
 
     private final String command;
     private final Supplier<Command> supplier;
@@ -22,9 +22,9 @@ public enum CommandType {
 
     public static boolean execute(String inputCommandType, Input input, Output output, VoucherService voucherService) {
         CommandType commandType = Arrays.stream(CommandType.values())
-                .filter(cmd -> cmd.command.equals(inputCommandType))
+                .filter(cmd -> cmd.command.equals(inputCommandType.toString()))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException());
+                .orElseThrow(() -> new IllegalArgumentException("Invalid input..."));
         return commandType.supplier.get().execute(input, output, voucherService);
     }
 }
