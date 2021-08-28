@@ -6,7 +6,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
@@ -41,11 +43,16 @@ public class CommandLineApplication {
                     System.out.println("다시입력하세요");
                 }
             } else if (Com.equals("list")) {
-                    List<Voucher> list = voucherService.getAllVouchers();
-                    for (int i = 0; i < list.size(); i++) {
-                        Voucher voucher = list.get(i);
-                        System.out.println(i +1 + "번 바우처 : " + voucher);
-                    }
+                Map<UUID, Voucher> list = voucherService.getAllVouchers();
+                int i =1;
+                for(Map.Entry<UUID,Voucher> entry :
+                        list.entrySet()){
+                    System.out.println("["+i+"]" + entry.getValue());
+                    i++;
+                }
+//                    for (int i = 0; i < list.size(); i++) {
+//                        Voucher voucher = list.get(i);
+//                        System.out.println(i +1 + "번 바우처 : " + voucher);//                   }
                 } else {
                     System.out.println("exit, list, create 중에서 입력히세요");
                 }
