@@ -33,7 +33,7 @@ class CustomerTest {
     }
 
     @Test
-    @DisplayName("String에서 Customer를 만들 수 있다.")
+    @DisplayName("String으로 Customer를 만들 수 있다.")
     void testCreateFromString() {
         String customerString = "fbb2ae1c-864f-41e1-a30a-d80beccb25ca,\"John Doe\",\"Seoul, South Korea\",25";
         Customer customer = new Customer(

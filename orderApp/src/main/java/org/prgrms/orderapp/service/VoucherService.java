@@ -32,8 +32,8 @@ public class VoucherService {
 
     }
 
-    public void saveVoucher(Voucher voucher) {
-        voucherRepository.save(voucher);
+    public Voucher saveVoucher(Voucher voucher) {
+        return voucherRepository.save(voucher);
     }
 
     public Optional<Voucher> createVoucher(String type, String value) {

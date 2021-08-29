@@ -32,4 +32,9 @@ public class FixedAmountVoucher implements Voucher, Serializable {
                 ", amount=" + amount +
                 '}';
     }
+
+    @Override
+    public long getAmount() {
+        return this.amount;
+    }
 }
