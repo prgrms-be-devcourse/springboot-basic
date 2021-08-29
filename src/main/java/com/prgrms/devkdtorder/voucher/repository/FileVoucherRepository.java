@@ -32,7 +32,7 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         long value = voucher.getValue();
         wini.put(voucherId.toString(), OPTION_VALUE, value);
@@ -40,6 +40,7 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
         try {
             wini.store();
         } catch (IOException ignored) {}
+        return  voucher;
     }
 
     @Override
