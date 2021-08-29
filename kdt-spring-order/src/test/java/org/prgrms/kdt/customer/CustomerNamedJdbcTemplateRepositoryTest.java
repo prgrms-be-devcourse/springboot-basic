@@ -7,10 +7,14 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
@@ -51,6 +55,16 @@ class CustomerNamedJdbcTemplateRepositoryTest {
         @Bean
         public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
             return new NamedParameterJdbcTemplate(dataSource());
+        }
+
+        @Bean
+        public PlatformTransactionManager platformTransactionManager() {
+            return new DataSourceTransactionManager(dataSource());
+        }
+
+        @Bean
+        public TransactionTemplate transactionTemplate() {
+            return new TransactionTemplate(platformTransactionManager());
         }
     }
 
@@ -152,6 +166,29 @@ class CustomerNamedJdbcTemplateRepositoryTest {
                 .containsExactly(newCustomer.getCustomerId(), newCustomer.getName(), newCustomer.getEmail());
 
     }
+
+    @Test
+    @DisplayName("트랜잭션 테스트")
+    public void testTransaction() throws Exception {
+//        Optional<Customer> customer = customerRepository.findById(newCustomer.getCustomerId());
+//        assertThat(customer).isPresent();
+//        Customer one = new Customer(UUID.randomUUID(), "a", "a@gmail.com", LocalDateTime.now());
+//        Customer insertedOne = customerRepository.insert(one);
+//        try {
+//            customerRepository.testTransaction(new Customer(insertedOne.getCustomerId(), "b", customer.get().getEmail(), one.getCreatedAt()));
+//        } catch (DataAccessException e) {
+//
+//        }
+//
+//        Optional<Customer> maybeNewOne = customerRepository.findById(insertedOne.getCustomerId());
+//        assertThat(maybeNewOne).isPresent();
+//        assertThat(maybeNewOne.get())
+//                .extracting(Customer::getCustomerId, Customer::getName, Customer::getEmail)
+//                .containsExactly(one.getCustomerId(), one.getName(), one.getEmail());
+
+    }
+
+
 
 
 }

@@ -1,5 +1,6 @@
 package org.prgrms.kdt.repository.voucher;
 
+import org.prgrms.kdt.aop.TrackTime;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Primary;
@@ -29,6 +30,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    @TrackTime
     public Voucher insert(Voucher voucher) {
         voucherMap.put(voucher.getVoucherId(), voucher);
         return voucher;
