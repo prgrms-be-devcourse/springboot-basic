@@ -8,4 +8,10 @@ public interface Output {
     void voucherSelectType();
 
     void voucherList(VoucherService voucherService);
+
+    void invalidNumberInput();
+
+    void invalidCommandTypeInput();
+
+    void invalidVoucherTypeInput();
 }

@@ -5,28 +5,28 @@ import java.util.UUID;
 import java.util.function.Function;
 
 public enum VoucherType {
-    FIXED("f", v-> new FixedAmountVoucher(UUID.randomUUID(), v)),
-    PERCENT("p", v-> new PercentDiscountVoucher(UUID.randomUUID(), v));
+    FIXED("fixed", value -> new FixedAmountVoucher(UUID.randomUUID(), value)),
+    PERCENT("percent", value -> new PercentDiscountVoucher(UUID.randomUUID(), value));
 
-    private String type;
+    private final String type;
 
-    private Function<Long, Voucher> voucherMaker;
+    private final Function<Long, Voucher> voucherMaker;
 
-    VoucherType(String type, Function<Long, Voucher> voucherMaker)
-    {
+    VoucherType(String type, Function<Long, Voucher> voucherMaker) {
         this.type = type;
         this.voucherMaker = voucherMaker;
     }
 
-    public Voucher create(Long value){
+    public Voucher create(Long value) {
         return this.voucherMaker.apply(value);
     }
 
-    public static Voucher getVoucherType(String inputType, long value){
+    public static Voucher getVoucherType(String inputType, long value) {
         VoucherType voucherType = Arrays.stream(VoucherType.values())
                 .filter(voucher -> voucher.type.equals(inputType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException());
+                .orElseThrow(() -> new IllegalArgumentException("Invalid input..."));
+
         return voucherType.create(value);
     }
 }

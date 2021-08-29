@@ -22,12 +22,20 @@ public class CommandLine implements Runnable {
     @Override
     public void run() {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-        while (execute(voucherService));
+        while (execute(voucherService)) ;
     }
 
-    public boolean execute(VoucherService voucherService){
-        output.init();
-        String inputCommandType = input.input("> ");
-        return CommandType.execute(inputCommandType, input, output, voucherService);
+    private boolean execute(VoucherService voucherService) {
+        boolean flag = true;
+
+        try {
+            output.init();
+            String inputCommandType = input.inputCommandType("> ");
+            flag = CommandType.execute(inputCommandType, input, output, voucherService);
+        } catch (IllegalArgumentException e) {
+            output.invalidCommandTypeInput();
+        }
+
+        return flag;
     }
 }
