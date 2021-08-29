@@ -60,8 +60,6 @@ public class CsvVoucherRepository implements VoucherRepository{
     public void loadCsv() throws IOException {
         absoluteFilePath = basePath + filePath + fileName;
 
-        System.out.println(absoluteFilePath);
-
         try(BufferedReader br = new BufferedReader(new FileReader(absoluteFilePath))){
             String row = "";
             br.readLine();
