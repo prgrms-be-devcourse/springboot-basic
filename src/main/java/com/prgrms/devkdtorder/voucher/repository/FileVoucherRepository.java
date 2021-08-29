@@ -55,6 +55,11 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     }
 
     @Override
+    public void deleteAll() {
+        wini.clear();
+    }
+
+    @Override
     public void afterPropertiesSet() throws Exception {
         File ini = new File(voucherIniPath);
         if (!ini.exists()) {

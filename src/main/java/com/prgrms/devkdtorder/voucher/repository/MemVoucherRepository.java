@@ -30,4 +30,9 @@ public class MemVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return new ArrayList<>(map.values());
     }
+
+    @Override
+    public void deleteAll() {
+        map.clear();
+    }
 }
