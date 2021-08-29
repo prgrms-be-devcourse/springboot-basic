@@ -3,20 +3,16 @@ package org.prgrms.kdt.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
-import org.mockito.Mockito;
 import org.prgrms.kdt.domain.order.Order;
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.order.OrderStatus;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.repository.MemoryOrderRepository;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.repository.OrderRepository;
+import org.prgrms.kdt.repository.voucher.MemoryVoucherRepository;
+import org.prgrms.kdt.repository.order.OrderRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;

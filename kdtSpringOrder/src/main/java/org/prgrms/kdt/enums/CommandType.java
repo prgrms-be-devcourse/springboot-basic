@@ -1,10 +1,8 @@
 package org.prgrms.kdt.enums;
 
-import org.prgrms.kdt.repository.FileVoucherRepository;
+import org.prgrms.kdt.repository.voucher.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.text.MessageFormat;
 
 public enum CommandType {
 

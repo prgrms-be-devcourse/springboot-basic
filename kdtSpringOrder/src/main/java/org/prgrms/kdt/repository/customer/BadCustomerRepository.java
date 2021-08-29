@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.customer;
 
 import org.prgrms.kdt.domain.customer.BadCustomer;
 import org.prgrms.kdt.domain.customer.Customer;
@@ -13,7 +13,7 @@ import static org.prgrms.kdt.utils.FileUtils.getReadAllLines;
 import static org.prgrms.kdt.utils.FileUtils.isExistFile;
 
 @Repository
-public class BadCustomerRepository implements CustomerRepository{
+public class BadCustomerRepository implements CustomerRepository {
 
     private static final Path badCustomerFilePath = Paths.get(System.getProperty("user.dir") , "customer", "badCustomerList.csv");
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();

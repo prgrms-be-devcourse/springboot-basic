@@ -2,7 +2,7 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,6 @@ import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
 
 @EnableAutoConfiguration

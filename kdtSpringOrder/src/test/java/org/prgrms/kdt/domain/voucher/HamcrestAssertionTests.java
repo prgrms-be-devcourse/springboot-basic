@@ -33,8 +33,8 @@ public class HamcrestAssertionTests {
         List<Integer> prices = List.of(1, 2, 3);
         assertThat(prices, hasSize(3)); //리스트 사이즈가 3인지
         assertThat(prices, everyItem(greaterThan(0))); //모든 아이템이 0보다 큰지
-        assertThat(prices, containsInAnyOrder(3,4,2)); //순서 일치 x
-        assertThat(prices, contains(3,4,2)); //순서 일치 o
+        assertThat(prices, containsInAnyOrder(3,2,1)); //순서 일치 x
+        assertThat(prices, contains(1,2,3)); //순서 일치 o
         assertThat(prices, hasItem(2)); //2가 있는지
         assertThat(prices, hasItem(greaterThanOrEqualTo(2)));
 

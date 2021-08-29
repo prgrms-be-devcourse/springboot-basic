@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.customer;
 
 import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.domain.customer.RegularCustomer;
@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -19,8 +18,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
-//@Primary
-public class RegularCustomerNamedRepository implements CustomerRepository{
+@Primary
+public class RegularCustomerNamedRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(RegularCustomerNamedRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;

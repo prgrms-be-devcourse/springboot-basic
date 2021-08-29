@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.customer;
 
 import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.domain.customer.RegularCustomer;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Repository
 @Primary
-public class RegularCustomerRepository implements CustomerRepository{
+public class RegularCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(RegularCustomerRepository.class);
     private final DataSource dataSource;

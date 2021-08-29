@@ -5,7 +5,7 @@ import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

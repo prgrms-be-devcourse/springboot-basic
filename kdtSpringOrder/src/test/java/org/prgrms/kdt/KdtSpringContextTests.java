@@ -6,7 +6,7 @@ import org.prgrms.kdt.domain.order.Order;
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.order.OrderStatus;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

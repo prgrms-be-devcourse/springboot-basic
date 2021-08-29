@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.repository.customer;
 
 import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.domain.customer.RegularCustomer;
