@@ -6,6 +6,7 @@ import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.exception.ExceptionMessage;
 import org.prgrms.kdt.exception.VoucherNotFoundException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
     private final String filePath = "voucher.txt";

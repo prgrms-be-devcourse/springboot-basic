@@ -1,0 +1,5 @@
+customer :
+    blacklist :
+      directory : ""
+      filename : "customer_blacklist"
+      extension : ".csv"
