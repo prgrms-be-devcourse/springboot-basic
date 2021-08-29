@@ -10,22 +10,24 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.prgrms.orderapp.CsvParsingUtil.removeSideQuotes;
-import static org.prgrms.orderapp.CsvParsingUtil.splitCSV;
 import static org.prgrms.orderapp.io.IOUtils.loadCSV;
+import static org.prgrms.orderapp.model.Customer.createFromString;
 
 @Repository
-public class CsvCustomerRepository implements CustomerRepository {
+public class BlacklistCustomerRepository implements CustomerRepository {
 
-    private final static Logger logger = LoggerFactory.getLogger(CsvCustomerRepository.class);
+    private final static Logger logger = LoggerFactory.getLogger(BlacklistCustomerRepository.class);
 
-    @Value("${data.customer-blacklist.prefix}")
     private String prefix;
 
-    @Value("${data.customer-blacklist.name}")
     private String filename;
 
     private final Map<UUID, Customer> blacklist = new ConcurrentHashMap<>();
+
+    public BlacklistCustomerRepository(@Value("${data.customer-blacklist.prefix}") String prefix, @Value("${data.customer-blacklist.name}") String filename) {
+        this.prefix = prefix;
+        this.filename = filename;
+    }
 
     @Override
     public List<Customer> getBlacklist() {
@@ -46,20 +48,13 @@ public class CsvCustomerRepository implements CustomerRepository {
         return blacklistedCustomers;
     }
 
-    private void save(Customer customer) {
+    public Customer save(Customer customer) {
         blacklist.put(customer.getCustomerId(), customer);
+        return customer;
     }
 
-    public Optional<Customer> createFromString(String s) {
-        try {
-            String[] args = splitCSV(s);
-            UUID customerId = UUID.fromString(args[0]);
-            String name = removeSideQuotes(args[1]);
-            String address = removeSideQuotes(args[2]);
-            int age = Integer.parseInt(args[3]);
-            return Optional.of(new Customer(customerId, name, address, age));
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+    @Override
+    public int size() {
+        return blacklist.size();
     }
 }

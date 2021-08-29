@@ -9,14 +9,3 @@ data:
 spring:
   profiles:
     active: prod
-
----
-spring:
-  config:
-    activate:
-      on-profile: test
-
-data:
-  voucher-storage:
-    prefix: data
-    name: storage-test.tmp

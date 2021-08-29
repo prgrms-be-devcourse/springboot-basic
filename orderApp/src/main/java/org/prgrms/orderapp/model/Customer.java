@@ -4,7 +4,11 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
+
+import static org.prgrms.orderapp.CsvParsingUtil.removeSideQuotes;
+import static org.prgrms.orderapp.CsvParsingUtil.splitCSV;
 
 public class Customer {
     private final UUID customerId;
@@ -30,6 +34,19 @@ public class Customer {
 
     public boolean isBlacklisted() {
         return blacklisted;
+    }
+
+    public static Optional<Customer> createFromString(String s) {
+        try {
+            String[] args = splitCSV(s);
+            UUID customerId = UUID.fromString(args[0]);
+            String name = removeSideQuotes(args[1]);
+            String address = removeSideQuotes(args[2]);
+            int age = Integer.parseInt(args[3]);
+            return Optional.of(new Customer(customerId, name, address, age));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
