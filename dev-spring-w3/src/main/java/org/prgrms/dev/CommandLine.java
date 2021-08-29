@@ -9,6 +9,8 @@ import org.prgrms.dev.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 
 public class CommandLine implements Runnable {
+    private static final String CURSOR = "> ";
+
     private final Input input;
     private final Output output;
     private final ApplicationContext applicationContext;
@@ -22,7 +24,7 @@ public class CommandLine implements Runnable {
     @Override
     public void run() {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-        while (execute(voucherService)) ;
+        while (execute(voucherService));
     }
 
     private boolean execute(VoucherService voucherService) {
@@ -30,7 +32,7 @@ public class CommandLine implements Runnable {
 
         try {
             output.init();
-            String inputCommandType = input.inputCommandType("> ");
+            String inputCommandType = input.inputCommandType(CURSOR);
             flag = CommandType.execute(inputCommandType, input, output, voucherService);
         } catch (IllegalArgumentException e) {
             output.invalidCommandTypeInput();

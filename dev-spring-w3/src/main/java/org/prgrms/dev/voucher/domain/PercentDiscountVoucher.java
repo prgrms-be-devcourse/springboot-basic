@@ -3,6 +3,8 @@ package org.prgrms.dev.voucher.domain;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
+    private static final long PERCENTAGE = 100;
+
     private final UUID voucherId;
     private final long percent;
 
@@ -18,7 +20,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (percent / PERCENTAGE);
     }
 
     @Override

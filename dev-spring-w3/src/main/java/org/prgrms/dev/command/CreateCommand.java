@@ -7,12 +7,13 @@ import org.prgrms.dev.voucher.service.VoucherService;
 import java.util.InputMismatchException;
 
 public class CreateCommand implements Command {
+    private static final String CURSOR = "> ";
 
     @Override
     public boolean execute(Input input, Output output, VoucherService voucherService) {
         try {
             output.voucherSelectType();
-            String voucherType = input.inputVoucherType("> ");
+            String voucherType = input.inputVoucherType(CURSOR);
             Long value = Long.valueOf(input.inputValue("input value [fixed amount | percent discount] > "));
             voucherService.createVoucher(voucherType, value);
         } catch (NumberFormatException e) {
