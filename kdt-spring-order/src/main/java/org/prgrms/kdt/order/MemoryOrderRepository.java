@@ -1,6 +1,5 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.order;
 
-import org.prgrms.kdt.order.Order;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

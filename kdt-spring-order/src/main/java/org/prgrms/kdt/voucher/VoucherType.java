@@ -1,4 +1,4 @@
-package org.prgrms.kdt.service;
+package org.prgrms.kdt.voucher;
 
 public enum VoucherType {
     FIXED,

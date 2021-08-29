@@ -2,9 +2,7 @@ package org.prgrms.kdt.day2_work;
 
 import org.prgrms.kdt.AppConfiguration;
 import org.prgrms.kdt.controller.CommandLineController;
-import org.prgrms.kdt.service.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.File;

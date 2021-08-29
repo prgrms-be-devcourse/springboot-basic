@@ -36,7 +36,7 @@ class FixedAmountVoucherTest {
     }
 
     @Test
-    @DisplayName("할이된 금액만큼 할인을 해야한다.")
+    @DisplayName("할인된 금액만큼 할인을 해야한다.")
     void testMinusDiscountedAmount() {
         var sut = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         assertEquals(0, sut.discount(900));
@@ -45,10 +45,11 @@ class FixedAmountVoucherTest {
     @Test
     @DisplayName("유효한 할인 금액으로만 생성 할 수 있다.")
     void testVoucherCreation() {
-//        assertAll("FixedAmountVoucher creation",
-//                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 0)),
-//                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -100)),
-//                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 10000)));
+        assertAll("FixedAmountVoucher creation",
+                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 0)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -100)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 100000))
+        );
     }
 
     @Test

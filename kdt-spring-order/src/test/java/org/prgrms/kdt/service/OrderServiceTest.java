@@ -3,17 +3,14 @@ package org.prgrms.kdt.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
-import org.prgrms.kdt.order.Order;
-import org.prgrms.kdt.order.OrderItem;
-import org.prgrms.kdt.order.OrderStatus;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.repository.OrderRepository;
+import org.prgrms.kdt.order.*;
+import org.prgrms.kdt.voucher.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.VoucherService;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;

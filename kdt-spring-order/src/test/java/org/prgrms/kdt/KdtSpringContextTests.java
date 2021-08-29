@@ -2,29 +2,20 @@ package org.prgrms.kdt;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.prgrms.kdt.order.Order;
 import org.prgrms.kdt.order.OrderItem;
 import org.prgrms.kdt.order.OrderStatus;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.repository.VoucherRepository;
-import org.prgrms.kdt.service.OrderService;
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.voucher.VoucherRepository;
+import org.prgrms.kdt.order.OrderService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,7 +28,7 @@ public class KdtSpringContextTests {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"org.prgrms.kdt.voucher", "org.prgrms.kdt.order", "org.prgrms.kdt.repository", "org.prgrms.kdt.service"}
+            basePackages = {"org.prgrms.kdt.voucher", "org.prgrms.kdt.order"}
     )
     static class Config{
     }

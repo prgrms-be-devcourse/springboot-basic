@@ -1,9 +1,5 @@
-package org.prgrms.kdt.service;
+package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.repository.VoucherRepository;
-import org.prgrms.kdt.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;

@@ -2,8 +2,8 @@ package org.prgrms.kdt.aop;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.repository.VoucherRepository;
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.voucher.VoucherRepository;
+import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

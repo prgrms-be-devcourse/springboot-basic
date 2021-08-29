@@ -4,8 +4,8 @@ import org.prgrms.kdt.day2_work.CommandLineInput;
 import org.prgrms.kdt.day2_work.CommandType;
 import org.prgrms.kdt.day2_work.Manual;
 import org.prgrms.kdt.day2_work.OutPutView;
-import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.service.VoucherType;
+import org.prgrms.kdt.voucher.VoucherService;
+import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.stereotype.Controller;
 

@@ -1,6 +1,6 @@
 package org.prgrms.kdt.day2_work;
 
-import org.prgrms.kdt.service.VoucherType;
+import org.prgrms.kdt.voucher.VoucherType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
