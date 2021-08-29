@@ -16,16 +16,6 @@ public class VoucherFactory {
 
     private final Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
 
-    public Voucher createVoucher(VoucherType voucherType) {
-        if (voucherType == VoucherType.FIXED) {
-            return createVoucher(voucherType, 2000L);
-        } else if (voucherType == VoucherType.PERCENT) {
-            return createVoucher(voucherType, 10L);
-        }
-
-        return null;
-    }
-
     public Voucher createVoucher(VoucherType voucherType, long value) {
         if (voucherType == VoucherType.FIXED) {
             FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), value);

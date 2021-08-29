@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Qualifier("jdbc")
@@ -67,6 +68,43 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void delete(UUID voucherId) {
         jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findAllWithoutCustomerId() {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id IS NULL",
+                Collections.emptyMap(),
+                voucherRowMapper);
+    }
+
+    @Override
+    public void allocateVoucher(UUID voucherId, UUID customerId) {
+        Map<String, Object> paramMap = new ConcurrentHashMap<>() {{
+            put("voucherId", voucherId.toString().getBytes());
+            put("customerId", customerId.toString().getBytes());
+        }};
+        int update = jdbcTemplate.update("UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                paramMap);
+
+        if (update != 1) {
+            throw new RuntimeException("Nothing was allocated");
+        }
+    }
+
+    @Override
+    public void deallocateVoucher(UUID voucherId) {
+        int update = jdbcTemplate.update("UPDATE vouchers SET customer_id = NULL WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+        if (update != 1) {
+            throw new RuntimeException("Nothing was deallocated");
+        }
     }
 
 

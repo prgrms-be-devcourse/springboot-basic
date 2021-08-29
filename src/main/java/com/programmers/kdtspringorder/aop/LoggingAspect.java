@@ -19,9 +19,9 @@ public class LoggingAspect {
 
     @Around("com.programmers.kdtspringorder.aop.CommonPointcut.repositoryMethodPointcut()")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
-        logger.info("Before method called. {}", joinPoint.getSignature().toString());
+//        logger.info("Before method called. {}", joinPoint.getSignature().toString());
         var result = joinPoint.proceed();
-        logger.info("After method called. with result => {}", result);
+//        logger.info("After method called. with result => {}", result);
         return result;
     }
 
@@ -30,7 +30,7 @@ public class LoggingAspect {
         long start = System.nanoTime();
         var result = joinPoint.proceed();
         long end = System.nanoTime();
-        logger.info("After method called time taken {} ", end - start);
+//        logger.info("After method called time taken {} ", end - start);
         return result;
     }
 }

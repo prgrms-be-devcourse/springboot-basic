@@ -1,5 +1,7 @@
 package com.programmers.kdtspringorder.customer;
 
+import com.programmers.kdtspringorder.voucher.domain.Voucher;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,4 +25,5 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
 
     void deleteAll();
+
 }

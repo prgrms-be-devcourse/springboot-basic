@@ -90,4 +90,24 @@ public class FileVoucherRepository implements VoucherRepository {
     public void delete(UUID voucherId) {
 
     }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findAllWithoutCustomerId() {
+        return null;
+    }
+
+    @Override
+    public void allocateVoucher(UUID voucherId, UUID customerId) {
+
+    }
+
+    @Override
+    public void deallocateVoucher(UUID voucherId) {
+
+    }
 }

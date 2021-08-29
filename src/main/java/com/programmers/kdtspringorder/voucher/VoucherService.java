@@ -22,7 +22,7 @@ public class VoucherService {
         this.voucherFactory = voucherFactory;
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher findByID(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
@@ -32,13 +32,29 @@ public class VoucherService {
 
     }
 
-    public Voucher createVoucher(String voucherType) {
-        Voucher voucher = voucherFactory.createVoucher(VoucherType.valueOf(voucherType.toUpperCase()));
+    public Voucher createVoucher(String voucherType, long value) {
+        Voucher voucher = voucherFactory.createVoucher(VoucherType.valueOf(voucherType.toUpperCase()), value);
         voucherRepository.save(voucher);
         return voucher;
     }
 
     public List<Voucher> findAll(){
         return voucherRepository.findAll();
+    }
+
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return voucherRepository.findByCustomerId(customerId);
+    }
+
+    public List<Voucher> findAllWithoutCustomerId() {
+        return voucherRepository.findAllWithoutCustomerId();
+    }
+
+    public void allocateVoucher(UUID voucherId, UUID customerId) {
+        voucherRepository.allocateVoucher(voucherId, customerId);
+    }
+
+    public void deallocateVoucher(UUID voucherId) {
+        voucherRepository.deallocateVoucher(voucherId);
     }
 }

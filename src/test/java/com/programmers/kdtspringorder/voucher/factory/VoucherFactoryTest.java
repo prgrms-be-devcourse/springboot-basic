@@ -20,8 +20,8 @@ class VoucherFactoryTest {
         VoucherFactory voucherFactory = new VoucherFactory();
 
         // When
-        Voucher voucher1 = voucherFactory.createVoucher(VoucherType.FIXED);
-        Voucher voucher2 = voucherFactory.createVoucher(VoucherType.PERCENT);
+        Voucher voucher1 = voucherFactory.createVoucher(VoucherType.FIXED, 1000L);
+        Voucher voucher2 = voucherFactory.createVoucher(VoucherType.PERCENT, 20L);
 
         // Then
         assertThat(voucher1).isInstanceOf(FixedAmountVoucher.class);

@@ -27,4 +27,6 @@ public interface Voucher {
     LocalDateTime getCreatedAt();
 
     LocalDateTime getExpirationDate();
+
+    UUID getCustomerId();
 }

@@ -81,6 +81,11 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    @Override
     public String toString() {
         return "voucherId=" + voucherId +
                 ", discountAmount=" + amount;

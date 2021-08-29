@@ -17,7 +17,7 @@ public class OrderService {
     }
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItemList, UUID voucherId) {
-        var voucher = voucherService.getVoucher(voucherId);
+        var voucher = voucherService.findByID(voucherId);
         Order order = new Order(UUID.randomUUID(), customerId, orderItemList, voucher);
         voucherService.useVoucher(voucher);
         orderRepository.insert(order);
