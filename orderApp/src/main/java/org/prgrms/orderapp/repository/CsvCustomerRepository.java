@@ -1,21 +1,23 @@
 package org.prgrms.orderapp.repository;
 
-import org.prgrms.orderapp.Utils;
 import org.prgrms.orderapp.model.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Array;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.prgrms.orderapp.Utils.*;
+import static org.prgrms.orderapp.CsvParsingUtil.removeSideQuotes;
+import static org.prgrms.orderapp.CsvParsingUtil.splitCSV;
 import static org.prgrms.orderapp.io.IOUtils.loadCSV;
 
 @Repository
 public class CsvCustomerRepository implements CustomerRepository {
+
+    private final static Logger logger = LoggerFactory.getLogger(CsvCustomerRepository.class);
 
     @Value("${data.customer-blacklist.prefix}")
     private String prefix;
@@ -27,6 +29,7 @@ public class CsvCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> getBlacklist() {
+        logger.info("CsvCustomerRepository.getBlacklist() is called.");
         String path = MessageFormat.format("{0}/{1}/{2}", System.getProperty("user.dir"), prefix, filename);
         var lines = loadCSV(path);
         List<Customer> blacklistedCustomers = new ArrayList<>();
@@ -39,6 +42,7 @@ public class CsvCustomerRepository implements CustomerRepository {
                 blacklistedCustomers.add(customer);
             }
         }
+        logger.info("CsvCustomerRepository.getBlacklist() is returning.");
         return blacklistedCustomers;
     }
 

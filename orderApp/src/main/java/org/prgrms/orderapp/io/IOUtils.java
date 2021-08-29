@@ -10,9 +10,8 @@ public class IOUtils {
     public static List<String> loadCSV(String path) {
         List<String> lines = new ArrayList<>();
         String line = "";
-        try {
-            var bufferedReader = new BufferedReader(new FileReader(path));
-            while ((line = bufferedReader.readLine()) != null) {
+        try (var br = new BufferedReader(new FileReader(path))) {
+            while ((line = br.readLine()) != null) {
                 lines.add(line);
             }
         } catch (IOException e) {
@@ -22,33 +21,22 @@ public class IOUtils {
     }
 
     public static Optional<Object> loadByteFile(String path) {
-        try {
-            var file = new File(path);
-            if (!file.createNewFile()) {
-                var fis = new FileInputStream(file);
-                var ois = new ObjectInputStream(fis);
-
-                var res = ois.readObject();
-
-                ois.close();
-                fis.close();
-                return Optional.of(res);
+        File file;
+        if (path != null && (file = new File(path)).exists()) {
+            try (var fis = new FileInputStream(file);
+                 var ois = new ObjectInputStream(fis)) {
+                return Optional.ofNullable(ois.readObject());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
         }
         return Optional.empty();
     }
 
     public static void saveObject(Object obj, String path) {
-        try {
-            var fos = new FileOutputStream(path);
-            var oos = new ObjectOutputStream(fos);
-
+        try (var fos = new FileOutputStream(path);
+             var oos = new ObjectOutputStream(fos)) {
             oos.writeObject(obj);
-
-            oos.close();
-            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

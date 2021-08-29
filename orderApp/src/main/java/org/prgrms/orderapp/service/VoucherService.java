@@ -5,6 +5,8 @@ import org.prgrms.orderapp.model.PercentDiscountVoucher;
 import org.prgrms.orderapp.model.Voucher;
 import org.prgrms.orderapp.model.VoucherType;
 import org.prgrms.orderapp.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -14,6 +16,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
+    private final static Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -33,28 +36,21 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public Optional<Voucher> createVoucher(String type, long value) {
-        if (!checkValidity(type, value))
-            return Optional.empty();
-        else if (type.equalsIgnoreCase(VoucherType.FIXED.name()))
-            return Optional.of(new FixedAmountVoucher(UUID.randomUUID(), value));
-        else if (type.equalsIgnoreCase(VoucherType.PERCENT.name()))
-            return Optional.of(new PercentDiscountVoucher(UUID.randomUUID(), value));
-        else
-            return Optional.empty();
+    public Optional<Voucher> createVoucher(String type, String value) {
+        logger.info("VoucherService.createVoucher() is called with args: {}, {}", type, value);
+        if (VoucherType.isValid(type, value))  {
+            // TODO:: Use Strategy Pattern!
+            long amount = Long.parseLong(value);
+            if (type.equalsIgnoreCase(VoucherType.FIXED.name()))
+                return Optional.of(new FixedAmountVoucher(UUID.randomUUID(), amount));
+            else if (type.equalsIgnoreCase(VoucherType.PERCENT.name()))
+                return Optional.of(new PercentDiscountVoucher(UUID.randomUUID(), amount));
+        }
+        return Optional.empty();
     }
 
     public List<Voucher> getAllVoucher() {
         return voucherRepository.findAll();
     }
 
-    public boolean checkValidity(String type, long value) {
-        if (!VoucherType.contains(type) || value < 0) {
-            return false;
-        }
-        if (type.equalsIgnoreCase(VoucherType.PERCENT.name()) && value > 100) {
-            return false;
-        }
-        return true;
-    }
 }

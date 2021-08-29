@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("dev")
-public class MemoryVoucherRepository implements VoucherRepository, InitializingBean {
+public class MemoryVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
@@ -31,8 +31,4 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
         return storage.values().stream().toList();
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("Profile dev is set. MemoryVoucherRepository is created.");
-    }
 }

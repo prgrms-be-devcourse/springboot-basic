@@ -1,6 +1,7 @@
 package org.prgrms.orderapp.io;
 
 import org.prgrms.orderapp.model.Voucher;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
