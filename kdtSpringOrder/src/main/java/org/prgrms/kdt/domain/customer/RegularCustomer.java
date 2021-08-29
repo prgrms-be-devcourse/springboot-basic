@@ -9,6 +9,7 @@ public class RegularCustomer implements Customer {
     private final UUID customerId;
     private String name;
     private final String email;
+    private Integer isBadCustomer;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
@@ -22,11 +23,12 @@ public class RegularCustomer implements Customer {
         this.lastLoginAt = LocalDateTime.now();
     }
 
-    public RegularCustomer(UUID customerId, String name, String email,  LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public RegularCustomer(UUID customerId, String name, String email, Integer isBadCustomer, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         validate(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
+        this.isBadCustomer = isBadCustomer;
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
     }
@@ -39,9 +41,22 @@ public class RegularCustomer implements Customer {
         this.createdAt = createdAt;
     }
 
+    public RegularCustomer(UUID customerId, String name, String email, Integer isBadCustomer, LocalDateTime createdAt) {
+        validate(name);
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.isBadCustomer = isBadCustomer;
+        this.createdAt = createdAt;
+    }
+
     public void changeName(String name) {
         validate(name);
         this.name = name;
+    }
+
+    public void changeBadCustomer(Integer isBadCustomer) {
+        this.isBadCustomer = isBadCustomer;
     }
 
     @Override
@@ -67,6 +82,11 @@ public class RegularCustomer implements Customer {
     @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public Integer getBadCustomer() {
+        return isBadCustomer;
     }
 
     @Override

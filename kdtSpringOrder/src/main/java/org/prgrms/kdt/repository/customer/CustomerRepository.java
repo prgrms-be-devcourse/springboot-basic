@@ -14,6 +14,8 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
+    List<Customer> findAllBadCustomer();
+
     Optional<Customer> findById(UUID customerId);
 
     Optional<Customer> findByName(String name);

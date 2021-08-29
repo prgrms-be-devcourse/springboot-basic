@@ -96,7 +96,7 @@ public class KdtApplication {
 
     public static void runBadCustomerList(OutputController outputController, CustomerService customerService) {
         logger.info("Starts runBadCustomerList()");
-        outputController.showBadCustomerList(customerService.getAllVouchers());
+        outputController.showBadCustomerList(customerService.getAllBadCustomer());
         logger.info("Finished runBadCustomerList()");
     }
 

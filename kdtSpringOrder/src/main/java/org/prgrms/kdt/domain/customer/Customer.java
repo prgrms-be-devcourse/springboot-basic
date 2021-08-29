@@ -15,6 +15,8 @@ public interface Customer {
 
     public LocalDateTime getCreatedAt();
 
+    public Integer getBadCustomer();
+
     String toString();
 
 }

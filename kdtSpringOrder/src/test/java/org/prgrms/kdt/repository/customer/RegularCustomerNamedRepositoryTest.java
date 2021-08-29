@@ -65,7 +65,7 @@ class RegularCustomerNamedRepositoryTest {
     }
 
     @Autowired
-    RegularCustomerNamedRepository regularCustomerNamedRepository;
+    RegularCustomerRepository regularCustomerRepository;
 
     @Autowired
     DataSource dataSource;
@@ -76,7 +76,7 @@ class RegularCustomerNamedRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        newCustomer = new RegularCustomer(UUID.randomUUID(), "test1-user", "test1-user@gmail.com", LocalDateTime.now());
+        newCustomer = new RegularCustomer(UUID.randomUUID(), "test1-user", "test1-user@gmail.com", 0,LocalDateTime.now());
         MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
@@ -103,8 +103,8 @@ class RegularCustomerNamedRepositoryTest {
     @Order(2)
     @DisplayName("고객을 추가할 수 있다.")
     public void testInsert() {
-        regularCustomerNamedRepository.insert(newCustomer);
-        Optional<Customer> retrievedCustomer = regularCustomerNamedRepository.findById(newCustomer.getCustomerId());
+        regularCustomerRepository.insert(newCustomer);
+        Optional<Customer> retrievedCustomer = regularCustomerRepository.findById(newCustomer.getCustomerId());
         assertThat(retrievedCustomer.isEmpty(), is(false));
         assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
     }
@@ -113,7 +113,7 @@ class RegularCustomerNamedRepositoryTest {
     @Order(3)
     @DisplayName("전체 고객을 조회할 수 있다.")
     public void testFindAll() {
-        List<Customer> customers = regularCustomerNamedRepository.findAll();
+        List<Customer> customers = regularCustomerRepository.findAll();
         assertThat(customers.isEmpty(), is(false));
     }
 
@@ -121,10 +121,10 @@ class RegularCustomerNamedRepositoryTest {
     @Order(4)
     @DisplayName("이름으로 고객을 조회할 수 있다.")
     public void testFindByName() {
-        Optional<Customer> customer = regularCustomerNamedRepository.findByName(newCustomer.getName());
+        Optional<Customer> customer = regularCustomerRepository.findByName(newCustomer.getName());
         assertThat(customer.isEmpty(), is(false));
 
-        Optional<Customer> unknownCustomer = regularCustomerNamedRepository.findByName("unknown-user");
+        Optional<Customer> unknownCustomer = regularCustomerRepository.findByName("unknown-user");
         assertThat(unknownCustomer.isEmpty(), is(true));
     }
 
@@ -132,25 +132,41 @@ class RegularCustomerNamedRepositoryTest {
     @Order(5)
     @DisplayName("메일로 고객을 조회할 수 있다.")
     public void testFindByEmail() {
-        Optional<Customer> customer = regularCustomerNamedRepository.findByEmail(newCustomer.getEmail());
+        Optional<Customer> customer = regularCustomerRepository.findByEmail(newCustomer.getEmail());
         assertThat(customer.isEmpty(), is(false));
 
-        Optional<Customer> unknownCustomer = regularCustomerNamedRepository.findByEmail("unknown-user@gmail.com");
+        Optional<Customer> unknownCustomer = regularCustomerRepository.findByEmail("unknown-user@gmail.com");
         assertThat(unknownCustomer.isEmpty(), is(true));
     }
 
     @Test
     @Order(6)
-    @DisplayName("고객을 수정할 수 있다.")
-    public void testUpdate() {
-        newCustomer.changeName("updated-user");
-        regularCustomerNamedRepository.update(newCustomer);
+    @DisplayName("고객이름을 수정할 수 있다.")
+    public void testNameUpdate() {
+        newCustomer.changeName("user-name");
+        regularCustomerRepository.update(newCustomer);
 
-        List<Customer> allCustomers = regularCustomerNamedRepository.findAll();
+        List<Customer> allCustomers = regularCustomerRepository.findAll();
         assertThat(allCustomers, hasSize(1));
         assertThat(allCustomers, everyItem(samePropertyValuesAs(newCustomer)));
 
-        Optional<Customer> retrievedCustomer = regularCustomerNamedRepository.findById(newCustomer.getCustomerId());
+        Optional<Customer> retrievedCustomer = regularCustomerRepository.findById(newCustomer.getCustomerId());
+        assertThat(retrievedCustomer.isEmpty(), is(false));
+        assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("BadCustomer로 등록할 수 있다.")
+    public void testBadCustomerUpdate() {
+        newCustomer.changeBadCustomer(1);
+        regularCustomerRepository.update(newCustomer);
+
+        List<Customer> allCustomers = regularCustomerRepository.findAll();
+        assertThat(allCustomers, hasSize(1));
+        assertThat(allCustomers, everyItem(samePropertyValuesAs(newCustomer)));
+
+        Optional<Customer> retrievedCustomer = regularCustomerRepository.findById(newCustomer.getCustomerId());
         assertThat(retrievedCustomer.isEmpty(), is(false));
         assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
     }
