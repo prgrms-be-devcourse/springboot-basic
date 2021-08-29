@@ -6,6 +6,8 @@ import java.util.UUID;
 
 public interface Voucher {
 
+    UUID getCustomerId();
+
     UUID getVoucherId();
 
     long getDiscount();

@@ -6,6 +6,7 @@ import org.prgrms.kdt.domain.order.Order;
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.order.OrderStatus;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ public class KdtSpringContextTests {
     @DisplayName("orderService를 사용해서 주문을 생성할 수 있다.")
     public void testOrderService() {
         //Given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.fromString("882452fe-3aed-4974-91bf-16074681060b"), UUID.randomUUID(), 100, VoucherType.FIXED);
         voucherRepository.save(fixedAmountVoucher);
 
         //When

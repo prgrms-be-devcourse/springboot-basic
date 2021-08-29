@@ -7,6 +7,7 @@ import org.prgrms.kdt.domain.order.Order;
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.order.OrderStatus;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.repository.voucher.MemoryVoucherRepository;
 import org.prgrms.kdt.repository.order.OrderRepository;
 
@@ -31,7 +32,7 @@ class OrderServiceTest {
     void createOrder() {
         //Given - 상황이주어졌을때
         MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.fromString("882452fe-3aed-4974-91bf-16074681060b"), UUID.randomUUID(), 100, VoucherType.FIXED);
         memoryVoucherRepository.save(fixedAmountVoucher);
 
         //오더 상태를 검증하기위해서 오더레포지토리가 필요한데,
@@ -55,7 +56,7 @@ class OrderServiceTest {
         //Given
         VoucherService voucherServiceMock = mock(VoucherService.class);
         OrderRepository orderRepositoryMock = mock(OrderRepository.class);
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.fromString("882452fe-3aed-4974-91bf-16074681060b"), UUID.randomUUID(), 100, VoucherType.FIXED);
         when(voucherServiceMock.getVoucher(fixedAmountVoucher.getVoucherId())).thenReturn(fixedAmountVoucher);
         OrderService sut = new OrderService(voucherServiceMock, orderRepositoryMock);
 

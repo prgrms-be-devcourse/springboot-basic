@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.prgrms.kdt.helper.MessageHelper.*;
 
@@ -79,11 +80,13 @@ public class KdtApplication {
 
     public static void runCreate(InputController inputController, VoucherService voucherService) {
         logger.info("Starts runCreate()");
+        showEnterCustomerIdMessage();
+        UUID customerId = inputController.getCustomerId();
         showVoucherSelectionMessage();
         VoucherType type = inputController.getVoucherType();
         showEnterVoucherDiscount();
         long discount = inputController.getDiscount();
-        voucherService.createVoucher(new VoucherSaveRequestDto(type, discount));
+        voucherService.createVoucher(new VoucherSaveRequestDto(customerId, type, discount));
         showVoucherRegistrationSuccessMessage();
         logger.info("Finished runCreate()");
     }

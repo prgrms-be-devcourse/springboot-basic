@@ -5,6 +5,7 @@ import org.prgrms.kdt.enums.CommandType;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 @Component
 public class InputController {
@@ -13,6 +14,10 @@ public class InputController {
 
     public CommandType getCommandType(){
         return CommandType.getCommandType(sc.next().toUpperCase());
+    }
+
+    public UUID getCustomerId() {
+        return UUID.fromString(sc.next());
     }
 
     public VoucherType getVoucherType() {

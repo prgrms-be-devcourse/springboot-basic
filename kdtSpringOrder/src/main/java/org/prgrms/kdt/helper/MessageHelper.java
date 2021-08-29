@@ -27,6 +27,8 @@ public class MessageHelper {
         System.out.println("discount");
     }
 
+    public static void showEnterCustomerIdMessage() { System.out.println("costomerId 를 입력해주세요."); }
+
     public static void showVoucherRegistrationSuccessMessage() {
         System.out.println("Voucher 등록이 완료되었습니다.");
     }

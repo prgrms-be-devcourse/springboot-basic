@@ -28,32 +28,6 @@ public class RegularCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(RegularCustomerRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Configuration
-    @ComponentScan(
-            basePackages = {"org.prgrms.kdt"}
-    )
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/order_mgmt")
-                    .username("root")
-                    .password("root1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-    }
-
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID customerId = toUUID(resultSet);
         String customerName = resultSet.getString("name");

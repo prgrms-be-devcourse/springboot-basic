@@ -24,7 +24,6 @@ import static org.prgrms.kdt.utils.FileUtils.isExistFile;
 
 @Repository
 @Profile({"prod", "default"})
-@Primary
 public class FileVoucherRepository implements VoucherRepository, InitializingBean {
 
     private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -71,10 +70,10 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
             List<String> lines = getReadAllLines(voucherFilePath);
             for (String line : lines) {
                 List<String> voucherInfo = Arrays.asList(line.split(","));
-                if (VoucherType.FIXED.toString().equals(voucherInfo.get(1))) {
-                    storage.put(UUID.fromString(voucherInfo.get(0)), new FixedAmountVoucher(UUID.fromString(voucherInfo.get(0)), Integer.parseInt(voucherInfo.get(2))));
+                if (VoucherType.FIXED.toString().equals(voucherInfo.get(2))) {
+                    storage.put(UUID.fromString(voucherInfo.get(1)), new FixedAmountVoucher(UUID.fromString(voucherInfo.get(0)), UUID.fromString(voucherInfo.get(1)), Integer.parseInt(voucherInfo.get(3)), VoucherType.FIXED));
                 } else {
-                    storage.put(UUID.fromString(voucherInfo.get(0)), new PercentDiscountVoucher(UUID.fromString(voucherInfo.get(0)), Integer.parseInt(voucherInfo.get(2))));
+                    storage.put(UUID.fromString(voucherInfo.get(1)), new PercentDiscountVoucher(UUID.fromString(voucherInfo.get(0)), UUID.fromString(voucherInfo.get(1)), Integer.parseInt(voucherInfo.get(3)), VoucherType.DISCOUNT));
                 }
             }
         } catch (NumberFormatException e) {
@@ -101,7 +100,7 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
 
         try(FileWriter writer = new FileWriter(voucherFilePath.toFile(),true)){
             logger.info("Save Voucher Info , id : {}, type : {}, discount : {}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount());
-            String voucherInfo = String.format("%s,%s,%d%n", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount(), "\n");
+            String voucherInfo = String.format("%s,%s,%s,%d%n", voucher.getCustomerId(), voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount(), "\n");
             writer.write(voucherInfo);
             writer.flush();
         }catch (IOException e) {
