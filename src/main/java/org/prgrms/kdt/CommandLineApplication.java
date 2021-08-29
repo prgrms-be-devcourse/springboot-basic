@@ -16,23 +16,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CommandLineApplication implements ApplicationRunner {
 
-    private final Console console;
     private final CommandCollection commandCollection;
 
-    public CommandLineApplication(Console console, CommandCollection commandCollection) {
-        this.console = console;
+    public CommandLineApplication(CommandCollection commandCollection) {
         this.commandCollection = commandCollection;
     }
 
     @Override
     public void run(ApplicationArguments args) {
+        Console console = new Console();
         console.guide();
 
         while (true) {
             Optional<CommandType> commandType = console.inputCommand();
             commandType
                     .map(command -> commandCollection.findByCommandType(command))
-                    .orElse(console -> console.commandError())
+                    .orElse(output -> output.commandError())
                     .operate(console);
         }
     }

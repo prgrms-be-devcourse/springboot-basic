@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * Created by yhh1056
  * Date: 2021/08/17 Time: 11:32 오후
  */
-@Component
+
 public class Console implements Output, Input {
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
 
