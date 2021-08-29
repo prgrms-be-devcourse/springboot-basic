@@ -9,17 +9,16 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FixedAmountVoucherTest {
-    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucherTest.class);
 
-    @BeforeAll
-    static void setup() {
-        logger.info("@BeforeAll - run once");
-    }
-
-    @BeforeEach
-    void init() {
-        logger.info("@BeforeEach - run before each test method");
-    }
+//    @BeforeAll
+//    static void setup() {
+//        logger.info("@BeforeAll - run once");
+//    }
+//
+//    @BeforeEach
+//    void init() {
+//        logger.info("@BeforeEach - run before each test method");
+//    }
 
     @Test
     @DisplayName("주어진 금액만큼 할인을 해야 한다.")

@@ -6,12 +6,20 @@ import java.util.UUID;
 
 @ToString
 public class PercentDiscountVoucher implements Voucher {
-    private final UUID voucherId;
-    private final long percent;
+    private static final long MAX_VOUCHER_DISCOUNT_RATE = 100;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    private final UUID voucherId;
+    private final int discountRate;
+
+    public PercentDiscountVoucher(UUID voucherId, int discountRate) {
+        if (discountRate < 0)
+            throw new IllegalArgumentException("Percent should be positive");
+        if (discountRate == 0)
+            throw new IllegalArgumentException("Percent should not be zero");
+        if (discountRate >= 100)
+            throw new IllegalArgumentException("Amount should be less than %d".formatted(MAX_VOUCHER_DISCOUNT_RATE));
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.discountRate = discountRate;
     }
 
     @Override
@@ -26,11 +34,11 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long getDiscount() {
-        return percent;
+        return discountRate;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return (int) (beforeDiscount * (discountRate / 100.0));
     }
 }
