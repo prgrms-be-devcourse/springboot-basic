@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.voucher;
 
+import org.prgrms.kdt.exception.ExceptionMessage;
 import org.prgrms.kdt.exception.VoucherPercentRangeException;
 
 import java.text.MessageFormat;
@@ -17,7 +18,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private void validate(UUID voucherId, long percent) {
         if(percent < 0 || percent > 100){
-            throw new VoucherPercentRangeException("유효하지 않은 할인율을 입력하였습니다. 0~100 사이의 값을 입력하세요.");
+            throw new VoucherPercentRangeException(ExceptionMessage.INVALID_VOUCHER_PERCENT_RANGE.getMessage());
         }
     }
 
@@ -33,6 +34,10 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("[PercentDiscountVoucher - 할인률 : {0}]", percent);
+        return MessageFormat.format("[PercentDiscountVoucher - 할인률 : {0}%]", percent);
+    }
+
+    public long getPercent() {
+        return percent;
     }
 }

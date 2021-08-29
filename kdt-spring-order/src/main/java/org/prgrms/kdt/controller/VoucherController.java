@@ -2,6 +2,8 @@ package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.domain.command.Command;
 import org.prgrms.kdt.domain.voucher.VoucherType;
+import org.prgrms.kdt.exception.ExceptionMessage;
+import org.prgrms.kdt.exception.FormatException;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.view.CommandLineView;
 import org.springframework.stereotype.Controller;
@@ -21,10 +23,15 @@ public class VoucherController {
         showCommandDescription();
 
         while (true) {
-            Command cmd = getCommand();
-            executeCommand(cmd);
-            if (isExitCommand(cmd)) {
-                break;
+            try{
+                Command cmd = getCommand();
+                executeCommand(cmd);
+                if (isExitCommand(cmd)) {
+                    break;
+                }
+            }
+            catch (Exception e){
+                commandLineView.showErrorMessage(e.getMessage());
             }
         }
     }
@@ -62,7 +69,7 @@ public class VoucherController {
             voucherService.addVoucher(voucherService.createVoucher(voucherType, UUID.randomUUID(), discount));
         }
         catch (NumberFormatException e){
-            throw new RuntimeException("[NumberFormatException] 숫자 형식으로 입력하세요.");
+            throw new FormatException(ExceptionMessage.NUMBER_FORMAT_EXCEPTION.getMessage());
         }
 
     }

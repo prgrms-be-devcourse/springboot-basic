@@ -45,6 +45,10 @@ public class CommandLineView {
         }
     }
 
+    public void showErrorMessage(String errorMessage){
+        console.showMessage("[Error]" + errorMessage);
+    }
+
     public void close(){
         console.showMessage(EXIT_MSG);
         console.close();
