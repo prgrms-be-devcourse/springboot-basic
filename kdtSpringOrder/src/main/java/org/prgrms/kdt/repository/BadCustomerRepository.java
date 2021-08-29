@@ -56,6 +56,11 @@ public class BadCustomerRepository implements CustomerRepository{
 
     }
 
+    @Override
+    public int count() {
+        return 0;
+    }
+
     private void loadStorage() {
         if(!isExistFile(badCustomerFilePath)) {
             return;

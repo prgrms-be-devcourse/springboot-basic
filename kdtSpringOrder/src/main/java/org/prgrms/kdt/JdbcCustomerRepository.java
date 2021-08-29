@@ -1,5 +1,7 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.domain.customer.Customer;
+import org.prgrms.kdt.domain.customer.RegularCustomer;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -131,14 +133,49 @@ public class JdbcCustomerRepository {
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
+    ////이름을 업데이트 한다 + 메일을 업데이트 한다
+    public void transactionTest(Customer customer){
+        String updateNameSql = "UPDATE customers SET name = ? WHERE customer_id = UUID_TO_BIN(?)";
+        String updateEmailSql = "UPDATE customers SET email = ? WHERE customer_id = UUID_TO_BIN(?)";
+
+        Connection connection = null;
+        try { connection = DriverManager.getConnection("jdbc:mysql://localhost/order_mgmt", "root", "root1234!");
+            connection.setAutoCommit(false);
+            try (PreparedStatement updateNameStatement = connection.prepareStatement(updateNameSql);
+                 PreparedStatement updateEmailStatement = connection.prepareStatement(updateEmailSql);) {
+
+                updateNameStatement.setString(1, customer.getName());
+                updateNameStatement.setBytes(2, customer.getCustomerId().toString().getBytes());
+                updateNameStatement.executeUpdate();
+
+                updateEmailStatement.setString(1, customer.getEmail());
+                updateEmailStatement.setBytes(2, customer.getCustomerId().toString().getBytes());
+                updateEmailStatement.executeUpdate();
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException exception) {
+            if(connection != null) {
+                try{
+                    connection.rollback();
+                    connection.close();
+                } catch (SQLException throwable) {
+                    logger.error("Got error while closing connection", throwable);
+                    throw new RuntimeException(exception);
+                }
+            }
+            logger.error("Got error while closing connection", exception);
+            throw new RuntimeException(exception);
+        }
+    }
+
     public static void main(String[] args) {
 
         JdbcCustomerRepository jdbcCustomerRepository =new JdbcCustomerRepository();
 
-        UUID customerId = UUID.randomUUID();
+        jdbcCustomerRepository.transactionTest(new RegularCustomer(UUID.fromString("882452fe-3aed-4974-91bf-16074681060b"), "user1", "user2@gmail.com", LocalDateTime.now()));
 
-        logger.info("created customerId -> {}", customerId);
-        jdbcCustomerRepository.insertCustomer(customerId, "new-user2", "new-user2@gmail.com");
-        jdbcCustomerRepository.findAllIds().forEach(v -> logger.info("Found customerId : {}", v));
+//        logger.info("created customerId -> {}", customerId);
+//        jdbcCustomerRepository.insertCustomer(UUID.randomUUID(), "user2", "user2@gmail.com");
+//        jdbcCustomerRepository.findAllIds().forEach(v -> logger.info("Found customerId : {}", v));
     }
 }
