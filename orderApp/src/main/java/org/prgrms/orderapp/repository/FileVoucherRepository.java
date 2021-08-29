@@ -57,10 +57,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        logger.info("storage size: {}", storage.size());
-        logger.info("vouchers: {}", storage.values());
         storage.put(voucher.getVoucherId(), voucher);
-        logger.info("storage size: {}", storage.size());
         return voucher;
     }
 
