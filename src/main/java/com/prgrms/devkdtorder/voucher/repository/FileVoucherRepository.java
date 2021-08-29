@@ -17,13 +17,19 @@ import java.util.UUID;
 
 @Repository
 @Profile("!dev")
-public class FileVoucherRepository implements VoucherRepository, InitializingBean {
+public class FileVoucherRepository implements VoucherRepository {
 
     private Wini wini;
-    @Value("${kdt.voucher.ini-path}")
-    private String voucherIniPath;
     private final String OPTION_TYPE = "type";
     private final String OPTION_VALUE = "value";
+
+    public FileVoucherRepository(@Value("${kdt.voucher.ini-path}") String voucherIniPath) throws IOException {
+        File ini = new File(voucherIniPath);
+        if (!ini.exists()) {
+            ini.createNewFile();
+        }
+        wini = new Wini(ini);
+    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -36,11 +42,12 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
         UUID voucherId = voucher.getVoucherId();
         long value = voucher.getValue();
         wini.put(voucherId.toString(), OPTION_VALUE, value);
-        wini.put(voucherId.toString(), OPTION_TYPE, voucher.getClass().getSimpleName().replace("Voucher",""));
+        wini.put(voucherId.toString(), OPTION_TYPE, voucher.getClass().getSimpleName().replace("Voucher", ""));
         try {
             wini.store();
-        } catch (IOException ignored) {}
-        return  voucher;
+        } catch (IOException ignored) {
+        }
+        return voucher;
     }
 
     @Override
@@ -57,22 +64,18 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     @Override
     public void deleteAll() {
         wini.clear();
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        File ini = new File(voucherIniPath);
-        if (!ini.exists()) {
-            ini.createNewFile();
+        try {
+            wini.store();
+        } catch (IOException ignored) {
         }
-        wini = new Wini(ini);
     }
 
-    private Optional<Voucher> getVoucherFromIni(String voucherId){
-        long value = wini.get(voucherId, OPTION_VALUE,long.class);
+
+    private Optional<Voucher> getVoucherFromIni(String voucherId) {
+        long value = wini.get(voucherId, OPTION_VALUE, long.class);
         String type = wini.get(voucherId, OPTION_TYPE);
 
         Optional<VoucherType> voucherType = VoucherType.findByNameOrNo(type);
-        return voucherType.map(v -> v.createVoucher(value));
+        return voucherType.map(v -> v.createVoucher(UUID.fromString(voucherId), value));
     }
 }

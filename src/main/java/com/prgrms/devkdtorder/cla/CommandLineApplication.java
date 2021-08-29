@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -73,7 +74,7 @@ public class CommandLineApplication implements Runnable {
         }
         long value = input.getVoucherValue();
 
-        Voucher voucher = voucherType.get().createVoucher(value);
+        Voucher voucher = voucherType.get().createVoucher(UUID.randomUUID(), value);
         voucherService.saveVoucher(voucher);
         return true;
     }

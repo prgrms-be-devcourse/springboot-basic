@@ -9,14 +9,14 @@ import java.util.stream.Collectors;
 public enum VoucherType {
     FIXEDAMOUNT("1") {
         @Override
-        public Voucher createVoucher(long value) {
-            return new FixedAmountVoucher(UUID.randomUUID(), value);
+        public Voucher createVoucher(UUID voucherId, long value) {
+            return new FixedAmountVoucher(voucherId, value);
         }
     },
     PERCENTDISCOUNT("2") {
         @Override
-        public Voucher createVoucher(long value) {
-            return new PercentDiscountVoucher(UUID.randomUUID(), value);
+        public Voucher createVoucher(UUID voucherId, long value) {
+            return new PercentDiscountVoucher(voucherId, value);
         }
     };
 
@@ -38,5 +38,5 @@ public enum VoucherType {
     }
 
 
-    public abstract Voucher createVoucher(long value);
+    public abstract Voucher createVoucher(UUID voucherId, long value);
 }
