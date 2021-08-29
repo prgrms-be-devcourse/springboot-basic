@@ -59,6 +59,14 @@ public class Customer {
         this.blacklisted = blacklisted;
     }
 
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public List<Long> getVouchers() {
         return vouchers;
     }

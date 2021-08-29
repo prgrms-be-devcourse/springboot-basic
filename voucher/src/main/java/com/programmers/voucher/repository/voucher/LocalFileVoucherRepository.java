@@ -34,9 +34,9 @@ public class LocalFileVoucherRepository implements VoucherRepository {
         if(!Files.exists(fileDirectory)) {
             try {
                 Files.createDirectory(fileDirectory);
-                log.debug("Created local voucher directory at {}", fileDirectory.toString());
+                log.debug("Created local voucher directory at {}", fileDirectory);
             } catch (IOException ex) {
-                log.error("Failed to create local voucher directory at {}", fileDirectory.toString());
+                log.error("Failed to create local voucher directory at {}", fileDirectory);
                 System.exit(1);
             }
         }
@@ -45,9 +45,9 @@ public class LocalFileVoucherRepository implements VoucherRepository {
         if(!Files.exists(file)) {
             try {
                 Files.createFile(file);
-                log.debug("Created local voucher file at {}", file.toString());
+                log.debug("Created local voucher file at {}", file);
             } catch (IOException ex) {
-                log.error("Failed to create local voucher file at {}", file.toString());
+                log.error("Failed to create local voucher file at {}", file);
                 System.exit(1);
             }
         }
@@ -59,21 +59,22 @@ public class LocalFileVoucherRepository implements VoucherRepository {
             OutputStream writer = Files.newOutputStream(file);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(writer);
             objectOutputStream.writeObject(new ArrayList<>(db.values()));
-            log.debug("Wrote voucher objects to file {}", file.toString());
+            log.debug("Wrote voucher objects to file {}", file);
             objectOutputStream.flush();
             objectOutputStream.close();
-            log.debug("Persisted vouchers to file {}", file.toString());
+            log.debug("Persisted vouchers to file {}", file);
         } catch (IOException ex) {
-            log.error("IOException occur on persisting local voucher file at {}", file.toString());
+            log.error("IOException occur on persisting local voucher file at {}", file);
             System.exit(1);
         }
     }
 
     @Override
     public void loadVouchers() {
-        try {
-            InputStream reader = Files.newInputStream(file);// https://www.baeldung.com/reading-file-in-java
-            log.debug("Opened InputStream from file {}", file.toString());
+        try (
+                InputStream reader = Files.newInputStream(file); // https://www.baeldung.com/reading-file-in-java
+                ){
+            log.debug("Opened InputStream from file {}", file);
             if (reader.available() < 1) return;
 
             ObjectInputStream objectInputStream = new ObjectInputStream(reader);
@@ -81,21 +82,21 @@ public class LocalFileVoucherRepository implements VoucherRepository {
             log.debug("Read voucher objects from bytes");
             vouchers.forEach(voucher -> db.put(voucher.getId(), voucher));
             objectInputStream.close();
-            log.debug("Read vouchers from file {}", file.toString());
+            log.debug("Read vouchers from file {}", file);
 
             Optional<Long> max = vouchers.stream().map(Voucher::getId).max(Long::compareTo);
             long maxNum = max.isPresent() ? max.get() : 0;
             sequencer = new AtomicLong(maxNum + 1);
             log.debug("Sequencer initialized as {}", maxNum + 1);
         } catch (IOException ex) {
-            log.error("IOException occur on initializing vouchers from local file {}", file.toString());
+            log.error("IOException occur on initializing vouchers from local file {}", file);
             System.exit(1);
         } catch (ClassNotFoundException ex) {
-            log.error("ClassNotFoundException occur on initializing vouchers from local file {}", file.toString());
+            log.error("ClassNotFoundException occur on initializing vouchers from local file {}", file);
             System.exit(1);
         }
 
-        log.info("Read vouchers from file {} completed.", file.toString());
+        log.info("Read vouchers from file {} completed.", file);
     }
 
     @Override

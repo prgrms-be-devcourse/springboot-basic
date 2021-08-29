@@ -35,7 +35,7 @@ public class BasicVoucherService implements VoucherService {
     public Voucher create(String name, DiscountPolicy.Type type, int value, long customerId) {
         Voucher voucher = new Voucher(name, new DiscountPolicy(value, type), customerId);
         voucher = jdbcVoucherRepository.save(voucher);
-        log.debug("Persisted voucher {} to repository", voucher.toString());
+        log.debug("Persisted voucher {} to repository", voucher);
         return voucher;
     }
 

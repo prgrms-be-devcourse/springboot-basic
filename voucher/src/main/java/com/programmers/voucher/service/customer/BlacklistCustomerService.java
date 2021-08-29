@@ -35,9 +35,9 @@ public class BlacklistCustomerService implements CustomerService {
         if(!Files.exists(fileDirectory)) {
             try {
                 Files.createDirectory(fileDirectory);
-                log.debug("Created blacklist directory '{}'", fileDirectory.toString());
+                log.debug("Created blacklist directory '{}'", fileDirectory);
             } catch (IOException ex) {
-                log.error("Failed to create blacklist directory at '{}'", fileDirectory.toString());
+                log.error("Failed to create blacklist directory at '{}'", fileDirectory);
                 System.exit(1);
             }
         }
@@ -46,9 +46,9 @@ public class BlacklistCustomerService implements CustomerService {
         if(!Files.exists(file)) {
             try {
                 Files.createFile(file);
-                log.debug("Created blacklist file '{}'", file.toString());
+                log.debug("Created blacklist file '{}'", file);
             } catch (IOException ex) {
-                log.error("Failed to create blacklist file at '{}'", file.toString());
+                log.error("Failed to create blacklist file at '{}'", file);
                 System.exit(1);
             }
         }
@@ -56,7 +56,7 @@ public class BlacklistCustomerService implements CustomerService {
 
     @Override
     public void openStorage() {
-        log.debug("Loading blacklisted customers from file '{}'", file.toString());
+        log.debug("Loading blacklisted customers from file '{}'", file);
 
         try {
             List<String> customers = Files.readAllLines(file);
@@ -73,19 +73,19 @@ public class BlacklistCustomerService implements CustomerService {
                     })
                     .collect(Collectors.toList());
         } catch (IOException ex) {
-            log.error("IOException occur when reading file {}", file.toString());
+            log.error("IOException occur when reading file {}", file);
             list = new ArrayList<>(0);
         } catch (Exception ex) {
-            log.error("Exception occur when loading customers from {} - {}", file.toString(), ex.getLocalizedMessage());
+            log.error("Exception occur when loading customers from {} - {}", file, ex.getLocalizedMessage());
             list = new ArrayList<>(0);
         } finally {
-            log.debug("Loaded blacklisted customers from file {}", file.toString());
+            log.debug("Loaded blacklisted customers from file {}", file);
         }
     }
 
     @Override
     public void closeStorage() {
-
+        throw new UnsupportedOperationException("Closing storage does not supported by blacklist customer service.");
     }
 
     @Override

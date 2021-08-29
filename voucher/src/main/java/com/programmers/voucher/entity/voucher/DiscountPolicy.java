@@ -1,25 +1,21 @@
 package com.programmers.voucher.entity.voucher;
 
 import java.io.Serializable;
-import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 
 public class DiscountPolicy implements Serializable {
 
     public enum Type {
-        FIXED((price, amount) -> {
-            return Math.max(price - amount, 0);
-        }),
-        PERCENTAGE((price, amount) -> {
-            return Math.min(price * (100 - amount) / 100, price);
-        });
+        FIXED((price, discount) -> Math.max(price - discount, 0)),
+        PERCENTAGE((price, discount) -> Math.min(price * (100 - discount) / 100, price));
 
-        private BiFunction<Integer, Integer, Integer> discountPolicy;
+        private BinaryOperator<Integer> discountPolicy;
 
-        Type(BiFunction<Integer, Integer, Integer> discountPolicy) {
+        Type(BinaryOperator<Integer> discountPolicy) {
             this.discountPolicy = discountPolicy;
         }
 
-        public BiFunction<Integer, Integer, Integer> getDiscountPolicy() {
+        public BinaryOperator<Integer> getDiscountPolicy() {
             return discountPolicy;
         }
 

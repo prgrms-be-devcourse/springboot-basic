@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 
 import java.io.*;
 import java.util.Random;
-import java.util.UUID;
 
 @SpringBootApplication
 public class VoucherProjectApplication {

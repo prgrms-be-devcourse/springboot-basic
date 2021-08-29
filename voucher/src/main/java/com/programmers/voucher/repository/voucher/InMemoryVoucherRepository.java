@@ -34,12 +34,12 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void loadVouchers() {
-
+        throw new UnsupportedOperationException("Loading vouchers does not supported by in-memory db.");
     }
 
     @Override
     public void persistVouchers() {
-
+        throw new UnsupportedOperationException("Persisting vouchers does not supported by in-memory db.");
     }
 
     @Override
