@@ -41,19 +41,48 @@ public class Console implements Output, Input {
         }
     }
 
+    /**
+     * 사용자로부터 쉼표를 구분으로 바우처 넘버와 할인양을 입력받는다.
+     *
+     * @return VoucherData
+     * @throws IllegalArgumentException
+     */
     @Override
     public VoucherData inputVoucher() {
         printVoucherChoice();
 
         while (true) {
             try {
-                return new VoucherData(scanner.nextLine());
+                String inputVoucher = scanner.nextLine();
+                validateSeparator(inputVoucher);
+
+                String[] split = inputVoucher.split(",");
+                String voucherNumber = split[0].trim();
+                long discount = validateNumeric(split[1].trim());
+
+                return new VoucherData(voucherNumber, discount);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 logger.error(e.getMessage());
             }
         }
 
+    }
+
+    private void validateSeparator(String inputVoucher) {
+        if (!inputVoucher.contains(",")) {
+            throw new IllegalArgumentException("쉼표로 구분해서 입력해주세요.");
+        }
+    }
+
+    private long validateNumeric(String numberString) {
+        long number;
+        try {
+            number = Long.parseLong(numberString);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자 형식으로 입력해주세요.");
+        }
+        return number;
     }
 
     @Override

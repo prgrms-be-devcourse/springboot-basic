@@ -9,13 +9,7 @@ public class VoucherData {
     private final String voucherNumber;
     private final long discount;
 
-    public VoucherData(String inputVoucher) {
-        validateSeparator(inputVoucher);
-
-        String[] split = inputVoucher.split(",");
-        String voucherNumber = split[0].trim();
-        long discount = validateNumeric(split[1].trim());
-
+    public VoucherData(String voucherNumber, long discount) {
         validateEmpty(voucherNumber);
         validateRange(discount);
         validatePercent(voucherNumber, discount);
@@ -24,24 +18,8 @@ public class VoucherData {
         this.discount = discount;
     }
 
-    private void validateSeparator(String inputVoucher) {
-        if (!inputVoucher.contains(",")) {
-            throw new IllegalArgumentException("쉼표로 구분해서 입력해주세요.");
-        }
-    }
-
-    public long validateNumeric(String numberString) {
-        long number;
-        try {
-            number = Long.parseLong(numberString);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자 형식으로 입력해주세요.");
-        }
-        return number;
-    }
-
     private void validateEmpty(String voucherNumber) {
-        if (voucherNumber.isEmpty()) {
+        if (voucherNumber.isBlank()) {
             throw new IllegalArgumentException("바우처를 선택해주세요.");
         }
     }
