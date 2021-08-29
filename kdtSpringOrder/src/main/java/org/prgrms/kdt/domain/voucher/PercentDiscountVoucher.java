@@ -2,6 +2,7 @@ package org.prgrms.kdt.domain.voucher;
 
 import org.prgrms.kdt.enums.VoucherType;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -41,10 +42,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "Percent Discount Voucher [ " +
-                "voucherId = " + voucherId +
-                ", percent = " + percent +
-                " ]";
+        return MessageFormat.format("Percent Discount Voucher [ customerId = {0}, voucherId = {1}, percent = {2} ]", customerId, voucherId, percent);
     }
 
 }

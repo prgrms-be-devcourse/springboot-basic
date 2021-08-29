@@ -33,9 +33,9 @@ public class DataBaseVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(DataBaseVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static final RowMapper<Voucher> customerRowMapper = (resultSet, i) -> {
-        UUID customerId = toUUID(resultSet);
-        UUID voucherId = toUUID(resultSet);
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+        UUID customerId = toUUID(resultSet, "customer_id");
+        UUID voucherId = toUUID(resultSet, "voucher_id");
         int discount = resultSet.getInt("discount");
         String voucherType = resultSet.getString("voucher_type");
         if(VoucherType.getVoucherType(voucherType) == VoucherType.FIXED) {
@@ -75,12 +75,12 @@ public class DataBaseVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
     }
 
-    static private UUID toUUID(ResultSet resultSet) throws SQLException {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(resultSet.getBytes("customer_id"));
-        UUID customerId = new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-        return customerId;
+    static private UUID toUUID(ResultSet resultSet, String columnLabel) throws SQLException {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(resultSet.getBytes(columnLabel));
+        UUID uuid = new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+        return uuid;
     }
 }

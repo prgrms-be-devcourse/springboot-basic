@@ -2,6 +2,7 @@ package org.prgrms.kdt.domain.voucher;
 
 import org.prgrms.kdt.enums.VoucherType;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -50,10 +51,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "Fixed Amount Voucher [ " +
-                "voucherId = " + voucherId +
-                ", amount = " + amount +
-                " ]";
+        return MessageFormat.format("Fixed Amount Voucher [ customerId = {0}, voucherId = {1}, amount = {2} ]", customerId, voucherId, amount);
     }
 
 }
