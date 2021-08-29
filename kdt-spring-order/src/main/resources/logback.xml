@@ -14,13 +14,13 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/kdt_${bySecond}.log</file>
-        <append>false</append>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
+<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>logs/kdt_${bySecond}.log</file>-->
+<!--        <append>false</append>-->
+<!--        <encoder>-->
+<!--            <pattern>${FILE_LOG_PATTERN}</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/access.log</file>
@@ -32,11 +32,8 @@
         </encoder>
     </appender>
 
-    <logger name = "org.prgrms.kdt" level="debug">
-        <appender-ref ref="FILE"/>
-    </logger>
-
     <root level="debug">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ROLLING_FILE"/>
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

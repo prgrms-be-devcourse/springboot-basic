@@ -19,6 +19,7 @@ public class Order {
         this.orderItems = orderItems;
         this.voucher = Optional.empty();
     }
+
     public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
         this.orderId = orderId;
         this.customerId = customerId;
@@ -26,7 +27,7 @@ public class Order {
         this.voucher = Optional.of(voucher);
     }
 
-    public long totalAmount(){
+    public long totalAmount() {
         var beforeDiscount = orderItems.stream()
                 .map(v -> v.getProductPrice() * v.getQuantity())
                 .reduce(0L, Long::sum);
@@ -37,7 +38,23 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public UUID getOrderId(){
+    public UUID getOrderId() {
         return orderId;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public Optional<Voucher> getVoucher() {
+        return voucher;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 }

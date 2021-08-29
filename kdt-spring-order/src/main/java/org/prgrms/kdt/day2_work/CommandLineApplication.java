@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class CommandLineApplication {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+   // private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     public static void main(String[] args) throws IOException {
         var appConfiguration = new AnnotationConfigApplicationContext();

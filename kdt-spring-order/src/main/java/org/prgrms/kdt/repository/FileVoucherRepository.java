@@ -57,8 +57,6 @@ public class FileVoucherRepository implements VoucherRepository {
                 }
                 input.close();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,8 +79,6 @@ public class FileVoucherRepository implements VoucherRepository {
             }
 
             output.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
