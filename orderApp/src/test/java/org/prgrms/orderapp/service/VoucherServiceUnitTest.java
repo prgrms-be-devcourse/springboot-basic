@@ -5,50 +5,27 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.orderapp.model.FixedAmountVoucher;
 import org.prgrms.orderapp.model.PercentDiscountVoucher;
 import org.prgrms.orderapp.model.Voucher;
-import org.prgrms.orderapp.repository.FileVoucherRepository;
-import org.prgrms.orderapp.repository.MemoryVoucherRepository;
 import org.prgrms.orderapp.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-@SpringJUnitConfig
-class VoucherServiceTest {
 
-    @Configuration
-    static class Config {
-        @Bean
-        public VoucherRepository voucherRepository() {
-            return new MemoryVoucherRepository();
-        }
+import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.mockito.Mockito.*;
 
-        @Bean
-        public VoucherService voucherService(VoucherRepository voucherRepository) {
-            return new VoucherService(voucherRepository);
-        }
-    }
-    @Autowired
-    VoucherRepository voucherRepository;
-
-    @Autowired
-    VoucherService voucherService;
+class VoucherServiceUnitTest {
 
     @Test
     @DisplayName("VoucherService는 FixedAmountVoucher 타입에 따라 Voucher를 생성할 수 있다.")
     void testCreateFixedAmountVoucher() {
+        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepository);
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
 
         Optional<Voucher> voucher = voucherService.createVoucher("fixed", "100");
@@ -61,6 +38,8 @@ class VoucherServiceTest {
     @Test
     @DisplayName("VoucherService는 PercentDiscountVoucher 타입에 따라 Voucher를 생성할 수 있다.")
     void testCreatePercentDiscountVoucher() {
+        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepository);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30);
 
         Optional<Voucher> voucher = voucherService.createVoucher("percent", "30");
@@ -73,6 +52,9 @@ class VoucherServiceTest {
     @Test
     @DisplayName("VoucherService는 올바르지 않은 입력에는 Optional.empty를 리턴한다.")
     void testInvalidVoucher() {
+        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepository);
+
         Optional<Voucher> voucher = voucherService.createVoucher("invalidType", "30");
         assertThat(voucher.isEmpty(), is(true));
 
@@ -87,8 +69,10 @@ class VoucherServiceTest {
     @DisplayName("VoucherService는 voucherId로 Voucher를 가져올 수 있다.")
     void testGetVoucher() {
         UUID id = UUID.randomUUID();
+        VoucherRepository voucherRepository = mock(VoucherRepository.class);
         FixedAmountVoucher voucher = new FixedAmountVoucher(id, 1000);
-        voucherRepository.save(voucher);
+        when(voucherRepository.findById(id)).thenReturn(Optional.ofNullable(voucher));
+        VoucherService voucherService = new VoucherService(voucherRepository);
 
         Voucher retrievedVoucher = voucherService.getVoucher(id);
 
@@ -99,6 +83,9 @@ class VoucherServiceTest {
     @DisplayName("VoucherService는 존재하지 않는 voucherId로 조회시 에러를 발생시킨다.")
     void testGetVoucherWithInvalidId() {
         UUID id = UUID.randomUUID();
+        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        when(voucherRepository.findById(id)).thenReturn(Optional.empty());
+        VoucherService voucherService = new VoucherService(voucherRepository);
 
         assertThrows(RuntimeException.class, ()-> voucherService.getVoucher(id));
     }
@@ -107,7 +94,9 @@ class VoucherServiceTest {
     @DisplayName("VoucherService는 바우처를 저장할 수 있습니다.")
     void testSaveVoucher() {
         FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
-        voucherRepository.save(voucher);
+        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        when(voucherRepository.save(voucher)).thenReturn(voucher);
+        VoucherService voucherService = new VoucherService(voucherRepository);
 
         Voucher retrievedVoucher = voucherService.saveVoucher(voucher);
 
@@ -122,7 +111,9 @@ class VoucherServiceTest {
                 new PercentDiscountVoucher(UUID.randomUUID(), 30),
                 new FixedAmountVoucher(UUID.randomUUID(), 400)
         );
-        vouchers.forEach(voucher -> voucherRepository.save(voucher));
+        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        when(voucherRepository.findAll()).thenReturn(vouchers);
+        VoucherService voucherService = new VoucherService(voucherRepository);
 
         List<Voucher> retrievedVouchers = voucherService.getAllVoucher();
 
