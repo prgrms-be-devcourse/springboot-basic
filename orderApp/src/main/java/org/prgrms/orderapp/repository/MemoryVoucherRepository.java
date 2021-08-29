@@ -22,8 +22,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
@@ -31,4 +32,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return storage.values().stream().toList();
     }
 
+    @Override
+    public int size() {
+        return storage.size();
+    }
 }

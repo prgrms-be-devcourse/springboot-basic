@@ -1,6 +1,8 @@
 package org.prgrms.orderapp.repository;
 
 import org.prgrms.orderapp.model.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
@@ -20,16 +22,21 @@ import static org.prgrms.orderapp.io.IOUtils.saveObject;
 
 @Repository
 @Primary
-@Profile("prod")
+@Profile({"prod", "test"})
 public class FileVoucherRepository implements VoucherRepository {
 
-    @Value("${data.voucher-storage.prefix}")
-    private String prefix;
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
-    @Value("${data.voucher-storage.name}")
-    private String filename;
+    String prefix;
+
+    String filename;
 
     private Map<UUID, Voucher> storage;
+
+    public FileVoucherRepository(@Value("${data.voucher-storage.prefix:data}") String prefix, @Value("${data.voucher-storage.name:storage.tmp}") String filename) {
+        this.prefix = prefix;
+        this.filename = filename;
+    }
 
     @PostConstruct
     public void loadStorage() {
@@ -49,12 +56,21 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
+        logger.info("storage size: {}", storage.size());
+        logger.info("vouchers: {}", storage.values());
         storage.put(voucher.getVoucherId(), voucher);
+        logger.info("storage size: {}", storage.size());
+        return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
         return storage.values().stream().toList();
+    }
+
+    @Override
+    public int size() {
+        return storage.size();
     }
 }
