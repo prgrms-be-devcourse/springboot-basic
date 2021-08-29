@@ -1,10 +1,7 @@
 package org.prgrms.kdt.voucher;
 
-import lombok.ToString;
-
 import java.util.UUID;
 
-@ToString
 public class FixedAmountVoucher implements Voucher {
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
@@ -40,5 +37,13 @@ public class FixedAmountVoucher implements Voucher {
     public long discount(long beforeDiscount) {
         var discountedAmount = beforeDiscount - amount;
         return (discountedAmount < 0) ? 0 : discountedAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "FixedAmountVoucher{" +
+                "voucherId=" + voucherId +
+                ", amount=" + amount +
+                '}';
     }
 }

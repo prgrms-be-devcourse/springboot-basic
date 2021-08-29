@@ -9,7 +9,6 @@ import java.nio.ByteBuffer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -134,7 +133,11 @@ public class JdbcCustomerRepository {
 
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/order_mgmt", "root", "root1234!")
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/order_mgmt",
+                    "root",
+                    "root1234!"
+            );
             connection.setAutoCommit(false);
             try (
                     var updateNameStatement = connection.prepareStatement(updateNameSql);
@@ -168,6 +171,7 @@ public class JdbcCustomerRepository {
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
+
     public static void main(String[] args) {
         var customerRepository = new JdbcCustomerRepository();
 

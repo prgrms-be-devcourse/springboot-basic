@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import org.prgrms.kdt.aop.TrackTime;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +16,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"dev"})
+@Profile({"local", "test"})
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
@@ -30,6 +31,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    @TrackTime
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;

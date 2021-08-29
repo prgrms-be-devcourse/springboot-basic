@@ -1,12 +1,9 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.configuration.VersionProvider;
-import org.prgrms.kdt.customer.CustomerService;
+import org.prgrms.kdt.customer.CustomerServiceImpl;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.Resource;
 
 import java.text.MessageFormat;
@@ -28,7 +25,7 @@ public class CommandLineApplication {
         console.logInfo(MessageFormat.format("Program version: {0}", version));
 
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-        CustomerService customerService = applicationContext.getBean(CustomerService.class);
+        CustomerServiceImpl customerService = applicationContext.getBean(CustomerServiceImpl.class);
 
         Resource resource = applicationContext.getResource("file:" + blacklistFileName);
 

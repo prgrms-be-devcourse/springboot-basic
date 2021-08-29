@@ -1,7 +1,7 @@
 package org.prgrms.kdt;
 
 import lombok.SneakyThrows;
-import org.prgrms.kdt.customer.CustomerService;
+import org.prgrms.kdt.customer.CustomerServiceImpl;
 import org.prgrms.kdt.engine.io.Input;
 import org.prgrms.kdt.engine.io.Output;
 import org.prgrms.kdt.voucher.Voucher;
@@ -16,12 +16,12 @@ import java.util.UUID;
 
 public class VoucherProgram implements Runnable {
     private final VoucherService voucherService;
-    private final CustomerService customerService;
+    private final CustomerServiceImpl customerService;
     private final Resource resource;
     private final Input input;
     private final Output output;
 
-    public VoucherProgram(VoucherService voucherService, CustomerService customerService, Resource resource, Console console) {
+    public VoucherProgram(VoucherService voucherService, CustomerServiceImpl customerService, Resource resource, Console console) {
         this.voucherService = voucherService;
         this.customerService = customerService;
         this.resource = resource;
