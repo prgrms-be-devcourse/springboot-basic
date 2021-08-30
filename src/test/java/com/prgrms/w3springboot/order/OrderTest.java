@@ -42,11 +42,9 @@ class OrderTest {
     void 주문생성_의존성주입() {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         var orderService = applicationContext.getBean(OrderService.class);
-        var customerId = UUID.randomUUID();
         var order = orderService.createOrder(UUID.randomUUID(), List.of(
                 new OrderItem(UUID.randomUUID(), 100L, 1))
         );
-
 
         Assert.isTrue(order.totalAmount() == 100L, MessageFormat.format("totalAmount is not {0}", order.totalAmount()));
     }
