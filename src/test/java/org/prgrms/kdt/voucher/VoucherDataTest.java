@@ -47,7 +47,7 @@ class VoucherDataTest {
     void createVoucherData_fail_not_number() {
         assertThatThrownBy(() -> new VoucherData("3", 100L))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당하는 번호를 입력해주세요");
+                .hasMessage("해당하는 번호를 입력해주세요.");
     }
 
     @Test

@@ -3,8 +3,10 @@ package org.prgrms.kdt.io;
 import java.util.Optional;
 import java.util.Scanner;
 import org.prgrms.kdt.command.CommandType;
+import org.prgrms.kdt.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * Created by yhh1056
@@ -18,12 +20,8 @@ public class Console implements Output, Input {
 
     @Override
     public void guide() {
-        System.out.println(new StringBuilder()
-                .append("=== Voucher Program ===\n")
-                .append("Type exit to exit the program.\n")
-                .append("Type create to create a new voucher.\n")
-                .append("Type list to list all vouchers.")
-                .toString());
+        var list = FileUtil.readText(new ClassPathResource("command_guide"));
+        list.forEach(this::printLine);
     }
 
     @Override

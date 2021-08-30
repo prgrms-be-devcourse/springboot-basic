@@ -3,7 +3,7 @@ package org.prgrms.kdt.customer;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
-import org.prgrms.kdt.file.FileUtil;
+import org.prgrms.kdt.util.FileUtil;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
