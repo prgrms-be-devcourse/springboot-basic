@@ -1,0 +1,5 @@
+prgms:
+  version: "v1.0"
+  definition: Voucher 관리 Command-Line Application
+  file:
+    blacklist: customer_blacklist.csv
