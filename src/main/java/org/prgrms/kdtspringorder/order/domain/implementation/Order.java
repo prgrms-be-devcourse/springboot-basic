@@ -30,9 +30,14 @@ public class Order {
   }
 
   public long totalAmount() {
-    long beforeDiscount = orderItems.stream().map(v -> v.getProductPrice() * v.getQuantity())
+    long beforeDiscount = orderItems
+        .stream()
+        .map(v -> v.getProductPrice() * v.getQuantity())
         .reduce(0L, Long::sum);
-    return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
+
+    return voucher
+        .map(value -> value.discount(beforeDiscount))
+        .orElse(beforeDiscount);
   }
 
   public void setOrderStatus(OrderStatus orderStatus) {

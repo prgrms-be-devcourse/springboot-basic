@@ -21,7 +21,7 @@ public enum CommandType {
   }
 
   public boolean hasOption(String option) {
-    int cnt = (int) Arrays.stream(this.options)
+    long cnt = Arrays.stream(this.options)
         .filter(possibleOption -> possibleOption.getOptionName().equals(option))
         .count();
     return cnt > 0;

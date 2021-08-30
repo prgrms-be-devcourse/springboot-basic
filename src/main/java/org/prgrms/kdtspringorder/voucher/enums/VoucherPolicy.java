@@ -26,7 +26,8 @@ public enum VoucherPolicy {
 
   public static VoucherPolicy of(String policy) {
     return Arrays.stream(VoucherPolicy.values())
-        .filter(voucherPolicy -> voucherPolicy.getPolicyType().equals(policy)).findFirst()
+        .filter(voucherPolicy -> voucherPolicy.getPolicyType().equals(policy))
+        .findFirst()
         .orElseThrow(
             () -> new IllegalArgumentException(policy + " : 해당 타입의 바우처는 존재하지 않습니다."));
   }

@@ -18,7 +18,7 @@ public class OrderService {
     }
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItemList){
-        Order order = new Order(UUID.randomUUID(),customerId, orderItemList);
+        Order order = new Order(UUID.randomUUID(), customerId, orderItemList);
         orderRepository.insert(order);
         return order;
     }

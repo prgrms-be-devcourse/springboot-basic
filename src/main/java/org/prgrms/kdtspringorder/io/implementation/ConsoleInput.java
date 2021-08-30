@@ -18,7 +18,10 @@ public class ConsoleInput implements Input {
     String command = tokens[0];
 
     // 그 다음부터는 모두 옵션을 입력 받는다고 가정함
-    List<String> options = Arrays.stream(tokens).skip(1).collect(Collectors.toList());
+    List<String> options = Arrays
+        .stream(tokens)
+        .skip(1)
+        .collect(Collectors.toList());
     return new Command(tokens[0], options);
   }
 }
