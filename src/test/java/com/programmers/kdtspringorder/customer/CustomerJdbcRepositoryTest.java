@@ -3,10 +3,12 @@ package com.programmers.kdtspringorder.customer;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,7 +37,7 @@ import static com.wix.mysql.config.Charset.UTF8;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerJdbcRepositoryTest {
 
-    @Configuration
+    @TestConfiguration
     @ComponentScan(
             basePackages = {"com.programmers.kdtspringorder"}
     )
@@ -67,12 +70,14 @@ class CustomerJdbcRepositoryTest {
     DataSource dataSource;
 
     Customer testUser;
+    Customer testUser2;
 
     EmbeddedMysql embeddedMysql;
 
     @BeforeAll
-    void setUp(){
-        testUser = new Customer(UUID.randomUUID(), "testUser", "test@naver.com", LocalDateTime.parse(LocalDateTime.now().toString().substring(0,26)));
+    void setUp() {
+        testUser = new Customer(UUID.randomUUID(), "testUser", "test@naver.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+        testUser2 = new Customer(UUID.randomUUID(), "testUser2", "test2@naver.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
 //        MysqldConfig mySqlConfig = aMysqldConfig(v8_0_11)
 //                .withCharset(UTF8)
 //                .withPort(2215)
@@ -95,11 +100,12 @@ class CustomerJdbcRepositoryTest {
 
     @Test
     @Order(1)
-    public void testHikariConnectionPool() throws Exception {
+    public void testHikariConnectionPool() {
 //        System.out.println(dataSource);
         assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
         customerJdbcRepository.deleteAll();
     }
+
     @Test
     @Order(2)
     @DisplayName("고객을 추가할 수 있다")
@@ -114,14 +120,15 @@ class CustomerJdbcRepositoryTest {
 
     @Test
     @DisplayName("DB에 있는 모든 리스트 조회")
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         final List<Customer> list = customerJdbcRepository.findAll();
         assertThat(list.isEmpty(), is(false));
+        Assertions.assertThat(list).containsExactly(testUser, testUser2);
     }
 
     @Test
     @DisplayName("이름으로 고객을 조회할 수 있다")
-    public void testFindByName() throws Exception {
+    public void testFindByName() {
         Optional<Customer> acutal = customerJdbcRepository.findByName(testUser.getName());
         assertThat(acutal.isEmpty(), is(false));
 
@@ -131,7 +138,7 @@ class CustomerJdbcRepositoryTest {
 
     @Test
     @DisplayName("이메일로 고객을 조회할 수 있다")
-    public void testFindByEmail() throws Exception {
+    public void testFindByEmail() {
         Optional<Customer> acutal = customerJdbcRepository.findByEmail(testUser.getEmail());
         assertThat(acutal.isEmpty(), is(false));
 
@@ -141,7 +148,7 @@ class CustomerJdbcRepositoryTest {
 
     @Test
     @DisplayName("고객을 수정할 수 있다.")
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         testUser.changeName("updated-user");
         customerJdbcRepository.update(testUser);
 

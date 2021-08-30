@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -39,20 +40,21 @@ public class LoggingAspectTest {
     @Autowired
     ApplicationContext context;
 
+    @Qualifier("jdbc")
     @Autowired
     VoucherRepository voucherRepository;
 
     @Test
-    @DisplayName("AOP Logging 테스트")
-    public void aopLoggingTest() throws Exception{
+    @DisplayName("repository의 method를 실행하면 before와 after에 로그를 남긴다")
+    public void aopLoggingTest() {
         // Given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L);
         voucherRepository.save(fixedAmountVoucher);
     }
 
     @Test
-    @DisplayName("AOP timeTrack 테스트")
-    public void aopTest() throws Exception{
+    @DisplayName("repository의 method를 실행하면 실행시간을 남긴다")
+    public void aopTest() {
         // Given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L);
         voucherRepository.save(fixedAmountVoucher);

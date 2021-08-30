@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,34 +34,32 @@ import static org.mockito.Mockito.*;
 @ActiveProfiles("test")
 public class KdtSpringContextTests {
 
-    @Configuration
-    static class Config{}
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
-    ApplicationContext context;
+    private OrderService orderService;
 
+    @Qualifier("jdbc")
     @Autowired
-    OrderService orderService;
-
-    @Autowired
-    VoucherRepository voucherRepository;
+    private VoucherRepository voucherRepository;
 
     @Test
     @DisplayName("applicationContext가 생성돼야한다.")
-    public void testApplicationContext() throws Exception{
+    public void testApplicationContext() {
         assertThat(context, notNullValue());
     }
 
     @Test
     @DisplayName("voucherRepository가 빈으로 등록되어 있어야 한다.")
-    public void testVoucherRepositoryCreation() throws Exception{
+    public void testVoucherRepositoryCreation() {
         VoucherService bean = context.getBean(VoucherService.class);
         assertThat(bean, notNullValue());
     }
 
     @Test
     @DisplayName("orderService를 사용해서 주문을 생성할 수 있다.")
-    public void testOrderService() throws Exception{
+    public void testOrderService() {
         // Given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L);
         voucherRepository.save(fixedAmountVoucher);

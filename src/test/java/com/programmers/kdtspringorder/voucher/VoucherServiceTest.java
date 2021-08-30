@@ -37,7 +37,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("없는 바우처 ID를 입력하면 RuntimeException을 던진다")
-    public void getVoucherWithRuntimeException() throws Exception {
+    public void getVoucherWithRuntimeException(){
         // Given
         VoucherRepository voucherRepository = mock(VoucherRepository.class);
         VoucherFactory voucherFactory = mock(VoucherFactory.class);
