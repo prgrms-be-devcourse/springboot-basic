@@ -15,14 +15,21 @@ public class StrategyCreate implements Command {
 
     @Override
     public boolean execute(Input input, Output output, VoucherService voucherService) {
-        output.printRequestVoucherType();
-        String inputVoucherType = input.inputString(INPUT_PROMPT);
-        Optional<VoucherType> voucherType = VoucherType.findVoucher(inputVoucherType);
+        Optional<VoucherType> voucherType;
 
-        if (voucherType.isEmpty()) { // TODO: Refactoring
-            output.printInputError();
-            return true;
+        while(true) {
+            output.printRequestVoucherType();
+
+            String inputVoucherType = input.inputString(INPUT_PROMPT);
+            voucherType = VoucherType.findVoucher(inputVoucherType);
+
+            if (voucherType.isEmpty()) { // TODO: Refactoring
+                output.printInputError();
+            } else {
+                break;
+            }
         }
+
 
         output.printRequestVoucherValue(voucherType.get());
         long value = Long.parseLong(input.inputString(INPUT_PROMPT)); // TODO: 예외 처리,,, how to 잘?
