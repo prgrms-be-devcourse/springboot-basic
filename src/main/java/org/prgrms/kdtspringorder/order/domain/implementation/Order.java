@@ -12,17 +12,17 @@ public class Order {
   private final UUID orderId;
   private final UUID customerId;
   private final List<OrderItem> orderItems;
-  private Optional<Voucher> voucher;
-  private OrderStatus orderStatus = OrderStatus.ACCEPTED;
+  private final Optional<Voucher> voucher;
+  private OrderStatus orderStatus;
 
-  public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems) {
+  public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, OrderStatus orderStatus) {
     this.orderId = orderId;
     this.customerId = customerId;
     this.orderItems = orderItems;
     this.voucher = Optional.empty();
   }
 
-  public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+  public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher, OrderStatus orderStatus) {
     this.orderId = orderId;
     this.customerId = customerId;
     this.orderItems = orderItems;
@@ -40,7 +40,7 @@ public class Order {
         .orElse(beforeDiscount);
   }
 
-  public void setOrderStatus(OrderStatus orderStatus) {
+  public void changeOrderStatus(OrderStatus orderStatus) {
     this.orderStatus = orderStatus;
   }
 }
