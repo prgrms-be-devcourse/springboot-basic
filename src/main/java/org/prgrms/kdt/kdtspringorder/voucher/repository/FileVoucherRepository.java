@@ -14,7 +14,7 @@ import javax.annotation.PreDestroy;
 import java.util.*;
 
 @Repository
-@Profile({"local", "default"})
+@Profile({"prod"})
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
