@@ -8,5 +8,4 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan
 @PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class )
 public class AppConfiguration {
-
 }

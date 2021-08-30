@@ -17,7 +17,6 @@ public class ProjectOrderApplication {
     private static final Logger logger = LoggerFactory.getLogger(ProjectOrderApplication.class);
 
     public static void main(String[] args) {
-
         var applicationContext = SpringApplication.run(ProjectOrderApplication.class, args);
         var voucherService = applicationContext.getBean(VoucherService.class);
         var customerService = applicationContext.getBean(CustomerService.class);
@@ -25,6 +24,6 @@ public class ProjectOrderApplication {
         new CommandLineApplication(voucherService, customerService).run();
 
         logger.error("logger name -> {}", logger.getName());
-
     }
+
 }

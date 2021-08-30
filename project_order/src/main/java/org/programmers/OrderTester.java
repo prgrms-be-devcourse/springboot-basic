@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class OrderTester {
+
     public static void main(String[] args) {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
@@ -22,4 +23,5 @@ public class OrderTester {
         Assert.isTrue(order.totalAmount() == 100L,
                 MessageFormat.format("totalAmount {0} is not 100L", order.totalAmount()));
     }
+
 }
