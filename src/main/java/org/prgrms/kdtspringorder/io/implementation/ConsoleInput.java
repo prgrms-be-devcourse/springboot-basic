@@ -8,9 +8,10 @@ import org.prgrms.kdtspringorder.io.abstraction.Input;
 import org.prgrms.kdtspringorder.io.domain.Command;
 
 public class ConsoleInput implements Input {
+  Scanner scanner = new Scanner(System.in);
+
   @Override
   public Command read() {
-    Scanner scanner = new Scanner(System.in);
     String commands = scanner.nextLine();
     String[] tokens = commands.split(" ");
 
