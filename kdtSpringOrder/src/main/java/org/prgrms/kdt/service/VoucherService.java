@@ -5,9 +5,9 @@ import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.helper.MessageHelper;
 import org.prgrms.kdt.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -15,57 +15,75 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.kdt.helper.MessageHelper.*;
+
 @Service
 public class VoucherService {
 
+    private final static Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherRepository voucherRepository;
-    private final MessageHelper messageHelper = new MessageHelper();
 
-    public VoucherService(@Qualifier("fileVoucher") VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
     public Optional<Voucher> createVoucher(VoucherSaveRequestDto voucherSaveRequestDto) {
+        logger.info("Starts createVoucher()");
+
         UUID uuid = UUID.randomUUID();
+
+        logger.info("uuid : {}", uuid.toString());
+        logger.info("User input : {}", voucherSaveRequestDto.getVoucherType());
+        logger.info("User input : {}", voucherSaveRequestDto.getDiscount());
+
         if(!checkValidity(voucherSaveRequestDto, uuid)) {
             return Optional.empty();
         }
 
         if(voucherSaveRequestDto.getVoucherType() == VoucherType.FIXED) {
-            return Optional.of(voucherRepository.save(new FixedAmountVoucher(uuid, voucherSaveRequestDto.getDiscount())));
+            logger.info("VoucherType is FixedAmountVoucher");
+            return voucherRepository.save(new FixedAmountVoucher(uuid, voucherSaveRequestDto.getDiscount()));
         } else {
-            return Optional.of(voucherRepository.save(new PercentDiscountVoucher(uuid, voucherSaveRequestDto.getDiscount())));
+            logger.info("VoucherType is PercentDiscountVoucher");
+            return voucherRepository.save(new PercentDiscountVoucher(uuid, voucherSaveRequestDto.getDiscount()));
         }
     }
 
     public Voucher getVoucher(UUID voucherId) {
+        logger.info("Starts getVoucher(), UUID : {}", voucherId.toString());
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(()-> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
     public List<Voucher> getAllVouchers() {
+        logger.info("Starts getAllVouchers()");
         return voucherRepository
                 .findAll();
     }
 
     private boolean checkValidity(VoucherSaveRequestDto voucherSaveRequestDto, UUID uuid) {
+        logger.info("Starts checkValidity()");
         if(voucherSaveRequestDto.getVoucherType() == VoucherType.UNDEFINED) {
-            messageHelper.showRetryMessage();
+            logger.warn("Fail to create a voucher.");
+            showRetryMessage();
             return false;
         }
 
-        messageHelper.showEnterVoucherDiscount();
+        showEnterVoucherDiscount();
         if(voucherSaveRequestDto.getDiscount() < 0) {
-            messageHelper.showRetryMessage();
+            logger.warn("Fail to create a voucher.");
+            showRetryMessage();
             return false;
         }
 
         if(voucherRepository.findById(uuid).isPresent()) {
-            messageHelper.showDuplicateVoucherMessage();
+            logger.warn("Voucher is duplicated");
+            showDuplicateVoucherMessage();
             return false;
         }
 
+        logger.info("Succeed to create a voucher.");
         return true;
     }
 }
