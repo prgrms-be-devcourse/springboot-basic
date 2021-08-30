@@ -1,6 +1,7 @@
 package com.programmers.kdtspringorder.voucher.repository;
 
 import com.programmers.kdtspringorder.aop.TrackTime;
+import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
@@ -66,18 +67,19 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Voucher convertStringToVoucher(String[] voucherText) {
-        if ("FixedAmountVoucher".equals(voucherText[0])) {
+        if (VoucherType.FIXED.toString().equals(voucherText[0])) {
             return new FixedAmountVoucher(UUID.fromString(voucherText[1]), Long.parseLong(voucherText[2]));
-        } else {
+        } else if(VoucherType.PERCENT.toString().equals(voucherText[0])){
             return new PercentDiscountVoucher(UUID.fromString(voucherText[1]), Long.parseLong(voucherText[2]));
         }
+        throw new RuntimeException("File -> VoucherType Error");
     }
 
     @Override
     @TrackTime
     public Voucher save(Voucher voucher) {
         try {
-            writer.write(voucher.getClass().getSimpleName() + " " + voucher.getVoucherId().toString() + " " + voucher.getValue());
+            writer.write(voucher.getType().toString() + " " + voucher.getVoucherId().toString() + " " + voucher.getValue());
             writer.newLine();
             writer.flush();
         } catch (IOException e) {

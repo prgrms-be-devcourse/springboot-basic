@@ -1,20 +1,14 @@
 package com.programmers.kdtspringorder.voucher.repository;
 
-import com.programmers.kdtspringorder.customer.Customer;
 import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,7 +29,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var expirationDate = resultSet.getTimestamp("expiration_date") != null ?
                 resultSet.getTimestamp("expiration_date").toLocalDateTime() : null;
-        return VoucherFactory.createVoucher(type, voucherId, customerId, value, used, createdAt, expirationDate);
+        return VoucherFactory.createVoucherFromDB(type, voucherId, customerId, value, used, createdAt, expirationDate);
     };
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {

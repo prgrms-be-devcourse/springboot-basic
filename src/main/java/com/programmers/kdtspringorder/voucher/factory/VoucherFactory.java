@@ -26,19 +26,16 @@ public class VoucherFactory {
             logger.info("CREATE {} {} ", percentDiscountVoucher.getClass().getSimpleName(), percentDiscountVoucher.getVoucherId());
             return percentDiscountVoucher;
         }
-
-        return null;
+        throw new RuntimeException("일치하는 voucherType이 없습니다.");
     }
 
-    public static Voucher createVoucher(VoucherType voucherType, UUID voucherId, UUID customerId, long value, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {
+    public static Voucher createVoucherFromDB(VoucherType voucherType, UUID voucherId, UUID customerId, long value, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {
         if (voucherType == VoucherType.FIXED) {
-            FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
-            return fixedAmountVoucher;
+            return new FixedAmountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
         } else if (voucherType == VoucherType.PERCENT) {
-            PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
-            return percentDiscountVoucher;
+            return new PercentDiscountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
         }
-        return null;
+        throw new RuntimeException("일치하는 voucherType이 없습니다.");
     }
 }
 
