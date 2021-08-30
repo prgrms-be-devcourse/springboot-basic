@@ -6,7 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public enum VoucherType {
-    PERCENTAGE("PERCENT"), FIXED("FIXED");
+    PERCENTAGE("PERCENT"),
+    FIXED("FIXED");
 
     private String inputString;
     private static Map<String, VoucherType> voucherTypeMap = Arrays.stream(VoucherType.values()).collect(Collectors.toMap(o -> o.inputString, o -> o));
@@ -15,7 +16,7 @@ public enum VoucherType {
         this.inputString = inputString;
     }
 
-    public static VoucherType findVoucher(String inputString) { // TODO: Optional 을 쓰지마
-        return Optional.ofNullable(voucherTypeMap.getOrDefault(inputString, null)).orElseThrow(IllegalArgumentException::new);
+    public static Optional<VoucherType> findVoucher(String inputString) { // TODO: Optional 을 쓰지마
+        return Optional.ofNullable(voucherTypeMap.getOrDefault(inputString, null));
     }
 }

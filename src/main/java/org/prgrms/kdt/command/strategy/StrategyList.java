@@ -10,9 +10,9 @@ import java.util.List;
 
 public class StrategyList implements Command {
     @Override
-    public boolean excute(Input input, Output output, VoucherService voucherService) {
+    public boolean execute(Input input, Output output, VoucherService voucherService) {
         List<Voucher> vouchers = voucherService.getAllVoucher();
-        output.voucherList(vouchers);
+        output.printVoucherList(vouchers);
         return true;
     }
 }

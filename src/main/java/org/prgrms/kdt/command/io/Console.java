@@ -16,7 +16,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void init() {
+    public void printOnStart() {
         System.out.println("=== Voucher Program ===\n" +
                 "Type exit to exit the program.\n" +
                 "Type create to create a new voucher.\n" +
@@ -24,24 +24,29 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void exit() {
+    public void printOnExit() {
         System.out.println("Exit Voucher Program.");
     }
 
     @Override
-    public void voucherList(List<Voucher> vouchers) {
+    public void printVoucherList(List<Voucher> vouchers) {
         System.out.println("Print All Voucher List.");
         vouchers.forEach((voucher) -> System.out.println(voucher.toString()));
     }
 
     @Override
-    public void inputVoucherType() {
+    public void printRequestVoucherType() {
         System.out.println("Input Voucher Type(PERCENT/FIXED) : ");
     }
 
     @Override
-    public void inputVoucherValue(VoucherType type) {
+    public void printRequestVoucherValue(VoucherType type) {
         System.out.println(MessageFormat.format("Input discount {0} : ", type.toString()));
+    }
+
+    @Override
+    public void printInputError() {
+        System.out.println("Invalid Input Error. Please type correct command.");
     }
 
     @Override

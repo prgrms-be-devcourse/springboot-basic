@@ -31,13 +31,13 @@ public enum CommandType {
     }
 
     public boolean execute(Input input, Output output, VoucherService voucherService) {
-        return this.supplier.get().excute(input, output, voucherService);
+        return this.supplier.get().execute(input, output, voucherService);
     }
 
-    public static CommandType findCommand(String inputCommandType) { // TODO: values()
+    public static Optional<CommandType> findCommand(String inputCommandType) { // TODO: values()
         // 1. if null throw // optional 의 비용이 큰 것 같음.
         return Optional // Optional 을 쓰는 이유x
-                .ofNullable(commandMap.getOrDefault(inputCommandType, null))
-                .orElseThrow(IllegalArgumentException::new);
+                .ofNullable(commandMap.getOrDefault(inputCommandType, null));
+                // .orElseThrow(IllegalArgumentException::new);
     }
 }

@@ -7,8 +7,8 @@ import org.prgrms.kdt.voucher.service.VoucherService;
 
 public class StrategyExit implements Command {
     @Override
-    public boolean excute(Input input, Output output, VoucherService voucherService) {
-        output.exit();
+    public boolean execute(Input input, Output output, VoucherService voucherService) {
+        output.printOnExit();
         return false;
     }
 }

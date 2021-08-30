@@ -5,7 +5,8 @@ import org.prgrms.kdt.voucher.Voucher;
 import java.util.*;
 
 public class VoucherMemoryRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> vouchers = new HashMap<>();
+    private static final Map<UUID, Voucher> vouchers = new HashMap<>();
+
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         Voucher item = vouchers.get(voucherId);

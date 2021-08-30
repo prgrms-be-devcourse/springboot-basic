@@ -6,6 +6,7 @@ import org.prgrms.kdt.command.io.Output;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class StrategyCreate implements Command {
@@ -13,16 +14,21 @@ public class StrategyCreate implements Command {
     private static final String INPUT_PROMPT = "> ";
 
     @Override
-    public boolean excute(Input input, Output output, VoucherService voucherService) {
-        output.inputVoucherType();
+    public boolean execute(Input input, Output output, VoucherService voucherService) {
+        output.printRequestVoucherType();
         String inputVoucherType = input.inputString(INPUT_PROMPT);
-        VoucherType voucherType = VoucherType.findVoucher(inputVoucherType);
+        Optional<VoucherType> voucherType = VoucherType.findVoucher(inputVoucherType);
 
-        output.inputVoucherValue(voucherType);
+        if (voucherType.isEmpty()) { // TODO: Refactoring
+            output.printInputError();
+            return true;
+        }
+
+        output.printRequestVoucherValue(voucherType.get());
         long value = Long.parseLong(input.inputString(INPUT_PROMPT)); // TODO: 예외 처리,,, how to 잘?
 
         voucherService.createVoucher(
-                voucherType,
+                voucherType.get(),
                 UUID.randomUUID(),
                 value);
         return true;

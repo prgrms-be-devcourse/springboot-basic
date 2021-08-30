@@ -6,13 +6,15 @@ import org.prgrms.kdt.voucher.VoucherType;
 import java.util.List;
 
 public interface Output {
-    void init();
+    void printOnStart();
 
-    void exit();
+    void printOnExit();
 
-    void voucherList(List<Voucher> vouchers);
+    void printVoucherList(List<Voucher> vouchers);
 
-    void inputVoucherType();
+    void printRequestVoucherType();
 
-    void inputVoucherValue(VoucherType type);
+    void printRequestVoucherValue(VoucherType type);
+
+    void printInputError();
 }
