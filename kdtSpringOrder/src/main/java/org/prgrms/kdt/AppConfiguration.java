@@ -24,23 +24,4 @@ import javax.sql.DataSource;
 @PropertySource(value = {"application.yml", "application-dev.yml", "application-prod.yml"}, factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 public class AppConfiguration {
-    @Bean
-    public DataSource dataSource() {
-        return DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost/order_mgmt")
-                .username("root")
-                .password("root1234!")
-                .type(HikariDataSource.class)
-                .build();
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
-
-    @Bean
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        return new NamedParameterJdbcTemplate(jdbcTemplate);
-    }
 }

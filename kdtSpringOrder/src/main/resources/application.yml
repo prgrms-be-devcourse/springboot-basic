@@ -1,3 +1,9 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/order_mgmt"
+    username: "root"
+    password: "root1234!"
 data:
   storage:
     name: fileVoucherRepository
