@@ -26,6 +26,7 @@ public enum VoucherType {
     }
 
     public static Optional<VoucherType> findByNameOrNo(final String value){
+        if (value == null) return Optional.empty();
         return Arrays.stream(VoucherType.values())
                 .filter(e -> e.name().equals(value.toUpperCase()) || e.no.equals(value))
                 .findAny();
