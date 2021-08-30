@@ -9,39 +9,13 @@ import org.prgrms.kdtspringorder.voucher.repository.implementation.MemoryVoucher
 import org.prgrms.kdtspringorder.voucher.service.VoucherService;
 import org.prgrms.kdtspringorder.io.validation.CommandValidator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @Configuration
-public class AppConfigurationClass {
-
-  @Bean
-  public App app(Input input, Output output, VoucherService voucherService,
-      CommandValidator commandValidator) {
-    return new App(input, output, voucherService, commandValidator);
-  }
-
-  @Bean
-  public CommandValidator commandValidator() {
-    return new CommandValidator();
-  }
-
-  @Bean
-  public Input input() {
-    return new ConsoleInput();
-  }
-
-  @Bean
-  public Output output() {
-    return new ConsoleOutput();
-  }
-
-  @Bean
-  public VoucherService voucherService(VoucherRepository voucherRepository) {
-    return new VoucherService(voucherRepository);
-  }
-
-  @Bean
-  public VoucherRepository voucherRepository() {
-    return new MemoryVoucherRepository();
-  }
-}
+@ComponentScan(
+    basePackages = {"org.prgrms.kdtspringorder.io", "org.prgrms.kdtspringorder.voucher"},
+    basePackageClasses = {App.class}
+)
+public class AppConfigurationClass {}

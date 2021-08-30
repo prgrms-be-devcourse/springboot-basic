@@ -6,7 +6,9 @@ import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
 
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoucherService {
 
   private final VoucherRepository voucherRepository;

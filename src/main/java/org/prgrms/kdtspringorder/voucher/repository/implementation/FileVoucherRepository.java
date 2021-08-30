@@ -3,7 +3,6 @@ package org.prgrms.kdtspringorder.voucher.repository.implementation;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,6 +17,7 @@ import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepositor
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+@Primary
 @Component
 public class FileVoucherRepository implements VoucherRepository {
 

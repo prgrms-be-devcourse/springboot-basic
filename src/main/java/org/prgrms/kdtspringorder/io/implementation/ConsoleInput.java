@@ -6,7 +6,9 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import org.prgrms.kdtspringorder.io.abstraction.Input;
 import org.prgrms.kdtspringorder.io.domain.Command;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleInput implements Input {
   Scanner scanner = new Scanner(System.in);
 

@@ -6,7 +6,9 @@ import java.util.function.Predicate;
 import org.prgrms.kdtspringorder.io.enums.implementation.CommandType;
 import org.prgrms.kdtspringorder.io.domain.Command;
 import org.prgrms.kdtspringorder.io.exception.InvalidCommandException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CommandValidator {
 
   public Command validate(Command inputCommand) throws InvalidCommandException {
