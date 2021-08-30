@@ -1,45 +1,48 @@
 package org.prgrms.kdtspringorder.io.enums;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 public enum CommandType {
-  CREATE("create", new String[]{"fixed","percent"}, true),
+  CREATE("create", new String[]{"fixed", "percent"}, true),
   LIST("list", new String[]{}, false),
   EXIT("exit", new String[]{}, false);
 
-  private final String TYPE;
+  private final String commandName;
   private final String[] options;
   private final boolean mustNeedOption;
 
-  CommandType(String type ,String[] options, boolean mustNeedOption) {
-    this.TYPE = type;
+  CommandType(String commandName, String[] options, boolean mustNeedOption) {
+    this.commandName = commandName;
     this.options = options;
     this.mustNeedOption = mustNeedOption;
   }
 
-  public boolean hasOption(String option){
+  public boolean hasOption(String option) {
     int cnt = (int) Arrays.stream(this.options)
         .filter(possibleOption -> possibleOption.equals(option)).count();
     return cnt > 0;
   }
 
-  public boolean mustNeedOption(){
+  public boolean mustNeedOption() {
     return mustNeedOption;
   }
 
-  public String getTypeName(){
-    return this.TYPE;
+  public String getTypeName() {
+    return this.commandName;
   }
 
-  public static CommandType of(String commandName){
+  public static CommandType of(String commandName) {
     return Arrays.stream(CommandType.values())
-        .filter(commandType -> commandName
-        .equals(commandType.TYPE))
+        .filter(commandType -> commandName.equals(commandType.commandName))
         .findFirst()
-        .orElseThrow(IllegalArgumentException::new);
+        .orElseThrow(() -> {
+          throw new IllegalArgumentException(
+              MessageFormat.format("{} : 해당 명령어는 지원하지 않는 명령어 입니다.", commandName));
+        });
   }
 
-  public String[] getOptions(){
+  public String[] getOptions() {
     return this.options;
   }
 }
