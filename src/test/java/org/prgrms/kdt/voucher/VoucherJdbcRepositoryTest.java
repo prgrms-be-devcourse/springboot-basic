@@ -61,6 +61,23 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
         assertThat(vouchers).filteredOn(v -> v.getVoucherType() == VoucherType.FIX);
     }
 
+    @Test
+    @DisplayName("바우처 이름 수정 테스트")
+    void updateNameByVoucher() {
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = givenPercentVoucher(voucherId);
+        voucherJdbcRepository.insert(voucher);
+
+        String changeName = "different name";
+        voucher.changeName(changeName);
+        voucherJdbcRepository.update(voucher);
+
+        Optional<Voucher> findVoucher = voucherJdbcRepository.findById(voucherId);
+
+        assertThat(findVoucher).isNotEmpty();
+        assertThat(findVoucher.get().getName()).isEqualTo(changeName);
+    }
+
     private Voucher givenFixedVoucher(UUID voucherId) {
         return new Voucher(voucherId, "test voucher", 50L, VoucherType.FIX, LocalDateTime.now());
     }

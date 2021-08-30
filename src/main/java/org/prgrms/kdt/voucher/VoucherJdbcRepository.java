@@ -56,6 +56,20 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        int update = jdbcTemplate.update(
+                "UPDATE vouchers SET name = ? WHERE voucher_id = UUID_TO_BIN(?)",
+                voucher.getName(),
+                voucher.getVoucherId().toString().getBytes());
+
+        if (update != 1) {
+            throw new RuntimeException("Nothing was inserted");
+        }
+
+        return voucher;
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate
@@ -78,6 +92,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
                         voucherRowMapper,
                         voucherType.name());
     }
+
+
 
     public int count() {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM vouchers", Integer.class);

@@ -50,4 +50,15 @@ public class Voucher {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    public void changeName(String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    private void validateName(String name) {
+        if (name.isBlank()) {
+            throw new IllegalArgumentException();
+        }
+    }
 }
