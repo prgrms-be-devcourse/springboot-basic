@@ -59,6 +59,11 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
     public Map<UUID, Voucher> getStorage() {
         return storage;
     }

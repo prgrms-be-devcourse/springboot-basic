@@ -1,5 +1,6 @@
 package org.prgrms.kdt.customer;
 
+import org.prgrms.kdt.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -28,7 +29,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var customerId = Utility.toUUID(resultSet.getBytes("customer_id"));
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
@@ -144,10 +145,5 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
-    }
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

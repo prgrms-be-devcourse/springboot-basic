@@ -22,8 +22,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
 
-    private final DataSource dataSource;
-
     private final JdbcTemplate jdbcTemplate;
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {

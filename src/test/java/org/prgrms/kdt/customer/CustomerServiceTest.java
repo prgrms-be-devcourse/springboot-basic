@@ -50,8 +50,6 @@ class CustomerServiceTest {
                     .password("root1234!")
                     .type(HikariDataSource.class)
                     .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
             return dataSource;
         }
 

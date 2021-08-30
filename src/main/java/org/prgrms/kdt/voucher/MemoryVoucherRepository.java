@@ -36,4 +36,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
+
+    @Override
+    public void deleteAll() {
+
+    }
 }

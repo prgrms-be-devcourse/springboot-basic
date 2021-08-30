@@ -47,19 +47,12 @@ class CustomerNamedJdbcRepositoryTest {
         @Bean
         public DataSource dataSource() {
             var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test-order_mgmt")
-                    .username("test")
-                    .password("test1234!")
+                    .url("jdbc:mysql://localhost/order_mgmt")
+                    .username("root")
+                    .password("root1234!")
                     .type(HikariDataSource.class)
                     .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
             return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
         }
 
         @Bean
@@ -87,25 +80,25 @@ class CustomerNamedJdbcRepositoryTest {
 
     EmbeddedMysql embeddedMysql;
 
-    @BeforeAll
-    void setup() {
-        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        var mysqlConfig = aMysqldConfig(v8_0_11)
-                .withCharset(UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-order_mgmt", classPathScript("schema.sql"))
-                .start();
-//        customerJdbcRepository.deleteAll();
-    }
-
-    @AfterAll
-    void cleanup() {
-        embeddedMysql.stop();
-    }
+//    @BeforeAll
+//    void setup() {
+//        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+//        var mysqlConfig = aMysqldConfig(v8_0_11)
+//                .withCharset(UTF8)
+//                .withPort(2215)
+//                .withUser("test", "test1234!")
+//                .withTimeZone("Asia/Seoul")
+//                .build();
+//        embeddedMysql = anEmbeddedMysql(mysqlConfig)
+//                .addSchema("test-order_mgmt", classPathScript("schema.sql"))
+//                .start();
+////        customerJdbcRepository.deleteAll();
+//    }
+//
+//    @AfterAll
+//    void cleanup() {
+//        embeddedMysql.stop();
+//    }
 
     @Test
     @Order(1)
