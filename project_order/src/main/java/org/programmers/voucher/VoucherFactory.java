@@ -7,12 +7,12 @@ import java.util.UUID;
 @Component
 public class VoucherFactory {
 
-    public Voucher getVoucherType(String voucherType, UUID voucherId, long value) {
-        if ("FixedAmountVoucher".equals(voucherType)) {
+    public Voucher getVoucherType(VoucherType voucherType, UUID voucherId, long value) {
+        if (VoucherType.FIXED == voucherType) {
             return new FixedAmountVoucher(voucherId, value);
-        } else {
+        } else if (VoucherType.PERCENT == voucherType) {
             return new PercentDiscountVoucher(voucherId, value);
-        }
+        } else throw new IllegalArgumentException();
     }
 
 }

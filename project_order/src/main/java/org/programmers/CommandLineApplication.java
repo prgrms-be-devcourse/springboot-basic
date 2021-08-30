@@ -37,13 +37,13 @@ public class CommandLineApplication implements Runnable {
 
                         long amount = Long.parseLong(console.input("> "));
 
-                        voucherService.createVoucher("FixedAmountVoucher", amount);
+                        voucherService.createVoucher(VoucherType.FIXED, amount);
                     } else if (voucherType.equals("p")) {
                         console.askPercentage();
 
                         long percentage = Long.parseLong(console.input("> "));
 
-                        voucherService.createVoucher("PercentDiscountVoucher", percentage);
+                        voucherService.createVoucher(VoucherType.PERCENT, percentage);
                     }
                 } else if (inputString.equals("list")) {
                     System.out.println(voucherService.getAllVouchers().toString());
