@@ -1,9 +1,5 @@
-package org.prgrms.kdt.controller;
+package org.prgrms.kdt.commadLineApp;
 
-import org.prgrms.kdt.day2_work.CommandLineInput;
-import org.prgrms.kdt.day2_work.CommandType;
-import org.prgrms.kdt.day2_work.Manual;
-import org.prgrms.kdt.day2_work.OutPutView;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.Voucher;
@@ -25,7 +21,7 @@ public class CommandLineController {
 
     public void startProgram(File blackList) throws IOException {
         while (true) {
-            Manual.startProgram();
+            InPutView.startProgram();
             doCommand(chooseCommand(), blackList);
         }
     }
@@ -57,24 +53,24 @@ public class CommandLineController {
     }
 
     public void createCommand() throws IOException {
-        Manual.chooseType();
+        InPutView.chooseType();
         VoucherType type = CommandLineInput.inputType();
         String amount =  CommandLineInput.inputAmount(type);
         voucherService.createVoucher(type, amount);
     }
 
     public void exitCommand() throws IOException {
-        Manual.exit();
+        InPutView.exit();
         CommandLineInput.closeReader();
         System.exit(0);
     }
 
     public void listCommand(){
         if(voucherService.getVoucherList().isEmpty())
-            Manual.listIsEmpty();
+            InPutView.listIsEmpty();
         else{
             Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
-            Manual.showList(voucherList);
+            InPutView.showList(voucherList);
         }
     }
 }

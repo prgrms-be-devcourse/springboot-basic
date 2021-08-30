@@ -1,4 +1,4 @@
-package org.prgrms.kdt.day2_work;
+package org.prgrms.kdt.commadLineApp;
 
 import org.prgrms.kdt.voucher.VoucherType;
 
@@ -33,10 +33,10 @@ public class CommandLineInput {
     public static String inputAmount(VoucherType type) throws IOException{
         String input;
         if(type == VoucherType.FIXED) {
-            Manual.inputFixAmount();
+            InPutView.inputFixAmount();
         }
         else
-            Manual.inputPercent();
+            InPutView.inputPercent();
         input = reader.readLine();
         return input;
     }

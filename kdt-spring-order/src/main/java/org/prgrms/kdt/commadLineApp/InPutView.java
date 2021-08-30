@@ -1,4 +1,4 @@
-package org.prgrms.kdt.day2_work;
+package org.prgrms.kdt.commadLineApp;
 
 
 import org.prgrms.kdt.voucher.Voucher;
@@ -6,7 +6,7 @@ import org.prgrms.kdt.voucher.Voucher;
 import java.util.Map;
 import java.util.UUID;
 
-public class Manual {
+public class InPutView {
 
     public static void startProgram(){
         System.out.println("=== Voucher Program ===");

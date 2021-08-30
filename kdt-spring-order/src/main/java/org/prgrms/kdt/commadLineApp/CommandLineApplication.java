@@ -1,7 +1,6 @@
-package org.prgrms.kdt.day2_work;
+package org.prgrms.kdt.commadLineApp;
 
 import org.prgrms.kdt.AppConfiguration;
-import org.prgrms.kdt.controller.CommandLineController;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

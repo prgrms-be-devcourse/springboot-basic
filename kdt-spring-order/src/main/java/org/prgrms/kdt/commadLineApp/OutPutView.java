@@ -1,4 +1,4 @@
-package org.prgrms.kdt.day2_work;
+package org.prgrms.kdt.commadLineApp;
 
 import java.io.File;
 import java.io.IOException;
