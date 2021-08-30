@@ -1,9 +1,14 @@
 package org.prgrms.kdt.voucher;
 
+import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,6 +27,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var discount = resultSet.getLong("discount");
+        var voucherType = resultSet.getString("voucher_type");
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return new Voucher(voucherId, discount, VoucherType.valueOf(voucherType), createdAt);
+    };
+
     @Override
     public Voucher insert(Voucher voucher) {
         int update = jdbcTemplate.update(
@@ -39,7 +52,27 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     }
 
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        try {
+            return Optional.ofNullable(jdbcTemplate
+                    .queryForObject(
+                            "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
+                            voucherRowMapper,
+                            voucherId.toString().getBytes()));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result ", e);
+            return Optional.empty();
+        }
+
+    }
+
     public int count() {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM vouchers", Integer.class);
+    }
+
+    static UUID toUUID(byte[] bytes) {
+        var byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }
