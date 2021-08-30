@@ -85,4 +85,11 @@ public class CustomerServiceImpl implements CustomerService {
     public Boolean isBlacklisted(Customer customer) {
         return customerRepository.findAllBlacklistCustomer().contains(customer);
     }
+
+    @Override
+    public String getPrintFormat(Customer customer) {
+        return MessageFormat
+                .format("<< Customer Information >>\nCustomer ID : {0}\nCustomer Name : {1}\nCustomer Email : {2}\nLast Login At : {3}\nSign Up At : {4}",
+                        customer.getCustomerId(), customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt());
+    }
 }

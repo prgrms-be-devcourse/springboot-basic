@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Unnecessary Remnant ###
+logs/
+*.txt
+*.csv

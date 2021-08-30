@@ -17,4 +17,6 @@ public interface VoucherService {
 
     Optional<Voucher> removeVoucher(UUID voucherid);
     List<Voucher> getAllVouchers();
+
+    String getPrintFormat(Voucher voucher);
 }

@@ -35,21 +35,15 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String toString() {
-        return MessageFormat.format("<< Fixed Amount Voucher >> \nID : {0}\nDiscount : ${1}", voucherId, amount);
-    }
-
-    @Override
     public boolean equals(Object o) {
-        if (null == o || o.getClass() != FixedAmountVoucher.class) {
-            return false;
-        }
-        FixedAmountVoucher voucher = (FixedAmountVoucher)o;
-        return voucherId.equals(voucher.getVoucherId());
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FixedAmountVoucher that = (FixedAmountVoucher) o;
+        return voucherId.equals(that.voucherId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(voucherId);
+        return Objects.hash(voucherId);
     }
 }

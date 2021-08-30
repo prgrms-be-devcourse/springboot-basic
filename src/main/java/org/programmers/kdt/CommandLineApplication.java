@@ -7,7 +7,6 @@ import org.programmers.kdt.utils.DigitUtils;
 import org.programmers.kdt.voucher.Voucher;
 import org.programmers.kdt.voucher.VoucherType;
 import org.programmers.kdt.voucher.service.VoucherService;
-import org.programmers.kdt.voucher.service.VoucherServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -72,9 +71,14 @@ public class CommandLineApplication implements Runnable {
                         output.inputError(e.getMessage());
                         continue;
                     }
-                    output.printSuccessMessage(voucher);
+                    output.printSuccessMessage(voucherService.getPrintFormat(voucher));
                 }
-                case LIST -> output.printAllListInfo(voucherService.getAllVouchers());
+                case LIST -> {
+                    List<Voucher> allVoucher = voucherService.getAllVouchers();
+                    for (Voucher voucher : allVoucher) {
+                        output.print(voucherService.getPrintFormat(voucher));
+                    }
+                }
                 case EXIT -> {
                     output.sayGoodBye();
                     termi = true;

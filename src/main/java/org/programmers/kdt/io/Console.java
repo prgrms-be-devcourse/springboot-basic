@@ -33,7 +33,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printAllListInfo(List list) {
-        list.forEach(System.out::println);
+    public void print(String message) {
+        System.out.println(message);
     }
+
 }

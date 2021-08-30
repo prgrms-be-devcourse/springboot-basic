@@ -25,4 +25,6 @@ public interface CustomerService {
     Optional<Customer> removeCustomer(UUID customerId);
 
     Boolean isBlacklisted(Customer customer);
+
+    String getPrintFormat(Customer customer);
 }

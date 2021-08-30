@@ -42,22 +42,15 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String toString() {
-        return MessageFormat.format("<< Percent Discount Voucher >> \nID : {0}\nDiscount : {1}%", voucherId, percent);
-    }
-
-    @Override
     public boolean equals(Object o) {
-        if (null == o || o.getClass() != PercentDiscountVoucher.class) {
-            return false;
-        }
-        PercentDiscountVoucher voucher = (PercentDiscountVoucher)o;
-        return voucherId.equals(voucher.getVoucherId());
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return voucherId.equals(that.voucherId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(voucherId);
+        return Objects.hash(voucherId);
     }
-
 }

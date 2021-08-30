@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -71,5 +72,12 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
+    }
+
+    @Override
+    public String getPrintFormat(Voucher voucher) {
+        return MessageFormat.format("<< {0} Discount Voucher >>\nID : {1}\nDiscount: {2}",
+                voucher.getVoucherType(), voucher.getVoucherId(),
+                voucher.getVoucherType() == VoucherType.FIXED ? "$" + voucher.getDiscount() : voucher.getDiscount() + "%");
     }
 }

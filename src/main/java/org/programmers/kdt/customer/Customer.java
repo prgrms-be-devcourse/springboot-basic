@@ -1,6 +1,5 @@
 package org.programmers.kdt.customer;
 
-import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -51,14 +50,15 @@ public class Customer {
     }
 
     @Override
-    public String toString() {
-        return MessageFormat
-                .format("<< Customer Information >>\nCustomer ID : {0}\nCustomer Name : {1}\nCustomer Email : {2}\nLast Login At : {3}\nSign Up At : {4}",
-                        customerId, name, email, lastLoginAt, createdAt);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return customerId.equals(customer.customerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(customerId);
+        return Objects.hash(customerId);
     }
 }

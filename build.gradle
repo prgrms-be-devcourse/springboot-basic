@@ -26,7 +26,6 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/com.opencsv/opencsv
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.4'
-
 }
 
 test {

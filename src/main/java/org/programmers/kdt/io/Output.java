@@ -6,5 +6,5 @@ public interface Output {
     void inputError(String errorMessage);
     void printSuccessMessage(Object obj);
     void sayGoodBye();
-    void printAllListInfo(List list);
+    void print(String message);
 }
