@@ -48,7 +48,7 @@ public class Console implements Input,Output {
             System.out.println("고객 정보가 없습니다.");
         }else{
             for (Customer customer : customers) {
-                System.out.println(MessageFormat.format("{0}(ID: {1})",customer.getCustomerName(),customer.getCustomerId()));
+                System.out.println(MessageFormat.format("{0}(ID: {1})",customer.getName(),customer.getCustomerId()));
             }
         }
     }

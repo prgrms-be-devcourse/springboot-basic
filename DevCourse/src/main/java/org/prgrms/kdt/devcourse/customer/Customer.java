@@ -12,15 +12,15 @@ public class Customer {
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         this.customerId = customerId;
-        this.name = name;
-        this.email = email;
+        this.name = validateName(name);
+        this.email = validateEmail(email);
         this.createdAt = createdAt;
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
-        this.name = name;
-        this.email = email;
+        this.name = validateName(name);
+        this.email = validateEmail(email);
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
     }
@@ -43,5 +43,22 @@ public class Customer {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public String validateName(String name) {
+        if(name.isBlank())
+            throw new IllegalArgumentException("name is should not be blank");
+        else
+            return name;
+    }
+    public String validateEmail(String email) {
+        if(email.isBlank())
+            throw new IllegalArgumentException("email is should not be blank");
+        else
+            return email;
+    }
+
+    public void changeName(String name) {
+        this.name = validateName(name);
     }
 }
