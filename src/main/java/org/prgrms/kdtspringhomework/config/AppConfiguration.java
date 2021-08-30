@@ -4,11 +4,13 @@ import org.prgrms.kdtspringhomework.order.domain.Order;
 import org.prgrms.kdtspringhomework.order.repository.OrderRepository;
 import org.prgrms.kdtspringhomework.order.service.OrderService;
 import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
+import org.prgrms.kdtspringhomework.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdtspringhomework.voucher.repository.VoucherRepository;
 import org.prgrms.kdtspringhomework.voucher.service.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,12 +19,7 @@ public class AppConfiguration {
 
     @Bean
     public VoucherRepository voucherRepository() {
-        return new VoucherRepository() {
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
-        };
+        return new MemoryVoucherRepository();
     }
 
     @Bean

@@ -21,4 +21,15 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
 
     }
+
+    public void addVoucher(Voucher voucher) {
+        voucherRepository.add(voucher);
+    }
+
+    public void printVouchers() {
+        for (Voucher voucher : voucherRepository.findAll()) {
+            String x = voucher.toString();
+            System.out.println(x);
+        }
+    }
 }
