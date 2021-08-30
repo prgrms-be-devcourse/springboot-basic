@@ -8,7 +8,7 @@ import org.prgrms.kdtspringorder.io.domain.Command;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.io.exception.InvalidCommandException;
 import org.prgrms.kdtspringorder.voucher.service.VoucherService;
-import org.prgrms.kdtspringorder.voucher.validation.CommandValidator;
+import org.prgrms.kdtspringorder.io.validation.CommandValidator;
 
 public class App {
 

@@ -18,7 +18,7 @@ public class Voucher {
   // 위와 같은 문제점 때문에 아래와 같이 설계하였습니다.
 
   public void assignId(final UUID id){
-    if(this.voucherId == null) {
+    if(this.voucherId != null) {
       throw new RuntimeException("이미 ID가 할당된 Voucher입니다.");
     }
     this.voucherId = id;
