@@ -13,16 +13,15 @@ import java.io.IOException;
 @Service
 public class MonguDbPage implements AllScriptForCMDApplication {
 
-    @Autowired
     private Console console;
-
-    @Autowired
     private MongoDbManageApplicationService mongoDbManageApplicationService;
-
-
 
     private String collectionName;
 
+    public MonguDbPage(Console console, MongoDbManageApplicationService mongoDbManageApplicationService){
+        this.console = console;
+        this.mongoDbManageApplicationService = mongoDbManageApplicationService;
+    }
     public void createCollection() throws IOException {
         console.print(divisionLine);
         collectionName = console.input(monguDbCollectionCreate_GuideMessage);

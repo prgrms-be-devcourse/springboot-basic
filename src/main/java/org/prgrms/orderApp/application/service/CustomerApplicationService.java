@@ -10,9 +10,11 @@ import java.util.List;
 
 @Service
 public class CustomerApplicationService {
-    @Autowired
-    CustomerService customerService;
 
+    private CustomerService customerService;
+    public CustomerApplicationService(CustomerService customerService){
+        this.customerService = customerService;
+    }
     public List<Customer> getAllBlackList(){
         return customerService.getAllBlackLIstCustomers();
     }

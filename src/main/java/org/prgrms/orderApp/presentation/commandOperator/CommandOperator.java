@@ -9,24 +9,28 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommandOperator {
 
-    @Autowired
     private MainPage mainPage;
 
-    @Autowired
     private MonguDbPage monguDbPage;
 
-    @Autowired
     private OrderPage orderPage;
 
-    @Autowired
     private VoucherPage voucherPage;
 
-    @Autowired
     private CheckInvalid checkInvalid;
 
-    @Autowired
     private CustomerPage customerPage;
 
+    public CommandOperator(MainPage mainPage, MonguDbPage monguDbPage, OrderPage orderPage,
+                           VoucherPage voucherPage, CustomerPage customerPage,CheckInvalid checkInvalid ){
+        this.mainPage = mainPage;
+        this.monguDbPage = monguDbPage;
+        this.orderPage = orderPage;
+        this.voucherPage = voucherPage;
+        this.customerPage = customerPage;
+        this.checkInvalid = checkInvalid;
+
+    }
     public void CMDAppStart(){
         int exit_flag = -1;
         String userSelectedMenu ;

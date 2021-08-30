@@ -12,12 +12,14 @@ import java.util.List;
 
 @Component
 public class CustomerPage implements AllScriptForCMDApplication {
-    @Autowired
-    Console console;
 
-    @Autowired
-    CustomerApplicationService customerApplicationService;
+    private Console console;
+    private CustomerApplicationService customerApplicationService;
 
+    public CustomerPage(Console console, CustomerApplicationService customerApplicationService){
+        this.console = console;
+        this.customerApplicationService = customerApplicationService;
+    }
     public void showAllBlackList(){
         console.infoMessage(showAllBlackList_GuideMessage);
         List<Customer> blackList = customerApplicationService.getAllBlackList();

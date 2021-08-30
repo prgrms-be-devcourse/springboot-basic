@@ -23,15 +23,15 @@ import java.util.UUID;
 @Service
 public class VoucherPage implements AllScriptForCMDApplication {
 
-   @Autowired
    private Console console;
-
-   @Autowired
    private VoucherApplicationService voucherApplicationService;
-
-   @Autowired
    private CheckInvalid checkInvalid;
 
+   public VoucherPage(Console console, VoucherApplicationService voucherApplicationService, CheckInvalid checkInvalid){
+      this.console = console;
+      this.voucherApplicationService = voucherApplicationService;
+      this.checkInvalid = checkInvalid;
+   }
    private Voucher voucher;
    private Map<String,Object> saveResult;
    private String errorMessage, userSelectedMenu;

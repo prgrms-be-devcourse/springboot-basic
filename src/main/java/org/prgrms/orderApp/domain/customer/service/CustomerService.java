@@ -13,9 +13,11 @@ import java.util.List;
 @Service
 public class CustomerService {
 
-    @Autowired
     CustomerRepository customerRepository;
 
+    public CustomerService(CustomerRepository customerRepository){
+        this.customerRepository = customerRepository;
+    }
     public List<Customer> getAllBlackLIstCustomers() {
         return customerRepository.findAll();
     }

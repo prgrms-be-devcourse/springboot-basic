@@ -10,14 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class MainPage implements AllScriptForCMDApplication {
 
-    @Autowired
     private Console console;
-
-    @Autowired
     private CheckInvalid checkInvalid;
 
     private String userSelected;
 
+    public MainPage(Console console, CheckInvalid checkInvalid){
+        this.console = console;
+        this.checkInvalid = checkInvalid;
+    }
     public void introduceApp(){
         console.print(divisionLineBolder);
         console.infoMessage(startMessage);

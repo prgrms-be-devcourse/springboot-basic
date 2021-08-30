@@ -18,11 +18,13 @@ import java.util.UUID;
 @Service
 public class VoucherApplicationService {
 
-    @Autowired
-    BasicCheckInvalid checkInvalid;
+    private BasicCheckInvalid checkInvalid;
+    private VoucherService voucherService;
 
-    @Autowired
-    VoucherService voucherService;
+    public VoucherApplicationService(BasicCheckInvalid basicCheckInvalid, VoucherService voucherService){
+        this.checkInvalid = basicCheckInvalid;
+        this.voucherService = voucherService;
+    }
 
     public boolean fixedAmountCheckInvalid(Long amountToCheck){
         return checkInvalid.checkInvalidAmount(0L, amountToCheck, VoucherType.FIXEDAMOUNT.getLimit());
