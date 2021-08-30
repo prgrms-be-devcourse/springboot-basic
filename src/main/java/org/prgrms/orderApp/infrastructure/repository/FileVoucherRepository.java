@@ -33,11 +33,10 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         List<Voucher> voucher_list= new ArrayList<>();
-        for(Voucher one_voucher:voucher_list) {
-            if (one_voucher.getVoucherId().equals(voucherId))
-                return Optional.of(one_voucher);
-        }
-        return Optional.empty();
+
+        return voucher_list.stream()
+                .filter(x ->x.getVoucherId().equals(voucherId))
+                .findFirst();
     }
 
     @Override
