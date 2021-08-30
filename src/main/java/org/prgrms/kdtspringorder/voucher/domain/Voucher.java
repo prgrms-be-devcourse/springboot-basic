@@ -4,7 +4,7 @@ import java.util.UUID;
 import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
 
 public class Voucher {
-  protected UUID voucherId;
+  private UUID voucherId;
   private final VoucherPolicy voucherPolicy;
 
   public Voucher(VoucherPolicy voucherPolicy) {
@@ -17,12 +17,11 @@ public class Voucher {
   // 생성자로 ID를 할당하는 방법밖에 없기 때문에 Repository에 저장될 때 ID를 만들어 주고자 하면 Voucer 객체를 Repository에서 생성 해야한다.
   // 위와 같은 문제점 때문에 아래와 같이 설계하였습니다.
 
-  public final boolean assignId(final UUID id){
+  public void assignId(final UUID id){
     if(this.voucherId == null) {
-      this.voucherId = id;
-      return true;
+      throw new RuntimeException("이미 ID가 할당된 Voucher입니다.");
     }
-    return false;
+    this.voucherId = id;
   }
 
   public UUID getId() {
