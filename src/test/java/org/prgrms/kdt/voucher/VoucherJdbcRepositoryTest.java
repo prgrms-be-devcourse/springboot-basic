@@ -25,7 +25,7 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
     @Test
     @DisplayName("바우처 저장 테스트")
     void insert() {
-        voucherJdbcRepository.insert(Voucher.of(1000L, VoucherType.FIX));
+        voucherJdbcRepository.insert(Voucher.of("치킨 할인 쿠폰", 1000L, VoucherType.FIX));
 
         int count = voucherJdbcRepository.count();
 
@@ -62,10 +62,10 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
     }
 
     private Voucher givenFixedVoucher(UUID voucherId) {
-        return new Voucher(voucherId, 50L, VoucherType.FIX, LocalDateTime.now());
+        return new Voucher(voucherId, "test voucher", 50L, VoucherType.FIX, LocalDateTime.now());
     }
 
     private Voucher givenPercentVoucher(UUID voucherId) {
-        return new Voucher(voucherId, 50L, VoucherType.PERCENT, LocalDateTime.now());
+        return new Voucher(voucherId, "test voucher", 50L, VoucherType.PERCENT, LocalDateTime.now());
     }
 }

@@ -17,11 +17,12 @@ class VoucherTest {
     @DisplayName("바우처 생성 테스트")
     void createVoucher() {
         UUID voucherId = UUID.randomUUID();
+        String name = "test voucher";
         Long discount = 50L;
         VoucherType voucherType = VoucherType.PERCENT;
         LocalDateTime createdAt = LocalDateTime.now();
 
-        Voucher voucher = new Voucher(voucherId, discount, voucherType, createdAt);
+        Voucher voucher = new Voucher(voucherId, name, discount, voucherType, createdAt);
 
         assertThat(voucher.getDiscount()).isEqualTo(50L);
         assertThat(voucher.getVoucherType()).isEqualTo(VoucherType.PERCENT);

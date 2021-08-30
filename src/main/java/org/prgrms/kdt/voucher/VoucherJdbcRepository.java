@@ -30,17 +30,19 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var name = resultSet.getString("name");
         var discount = resultSet.getLong("discount");
         var voucherType = resultSet.getString("voucher_type");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Voucher(voucherId, discount, VoucherType.valueOf(voucherType), createdAt);
+        return new Voucher(voucherId, name, discount, VoucherType.valueOf(voucherType), createdAt);
     };
 
     @Override
     public Voucher insert(Voucher voucher) {
         int update = jdbcTemplate.update(
-                "INSERT INTO vouchers(voucher_id, voucher_type, discount, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
+                "INSERT INTO vouchers(voucher_id, name, voucher_type, discount, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
                 voucher.getVoucherId().toString().getBytes(),
+                voucher.getName(),
                 voucher.getVoucherType().name(),
                 voucher.getDiscount(),
                 Timestamp.valueOf(voucher.getCreatedAt()));
