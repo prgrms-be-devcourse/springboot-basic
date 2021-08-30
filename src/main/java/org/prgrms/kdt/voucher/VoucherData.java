@@ -11,6 +11,7 @@ public class VoucherData {
 
     public VoucherData(String voucherNumber, long discount) {
         validateEmpty(voucherNumber);
+        validateNumber(voucherNumber);
         validateRange(discount);
         validatePercent(voucherNumber, discount);
 
@@ -21,6 +22,12 @@ public class VoucherData {
     private void validateEmpty(String voucherNumber) {
         if (voucherNumber.isBlank()) {
             throw new IllegalArgumentException("바우처를 선택해주세요.");
+        }
+    }
+
+    private void validateNumber(String voucherNumber) {
+        if (!voucherNumber.equals("1") && !voucherNumber.equals("2")) {
+            throw new IllegalArgumentException("해당하는 번호를 입력해주세요.");
         }
     }
 

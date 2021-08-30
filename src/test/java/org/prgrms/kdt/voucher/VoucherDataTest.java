@@ -43,6 +43,14 @@ class VoucherDataTest {
     }
 
     @Test
+    @DisplayName("해당 바우처 번호가 아닌경우 예외 테스트")
+    void createVoucherData_fail_not_number() {
+        assertThatThrownBy(() -> new VoucherData("3", 100L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당하는 번호를 입력해주세요");
+    }
+
+    @Test
     @DisplayName("할인 수치가 0보다 낮을 경우 예외 테스트")
     void createVoucherData_fail_to_zero() {
         assertThatThrownBy(() -> new VoucherData( FIX_VOUCHER,-1L))
