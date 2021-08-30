@@ -2,7 +2,8 @@ package org.prgrms.kdtspringorder;
 
 import org.prgrms.kdtspringorder.io.abstraction.Input;
 import org.prgrms.kdtspringorder.io.abstraction.Output;
-import org.prgrms.kdtspringorder.io.implementation.Console;
+import org.prgrms.kdtspringorder.io.implementation.ConsoleInput;
+import org.prgrms.kdtspringorder.io.implementation.ConsoleOutput;
 import org.prgrms.kdtspringorder.order.domain.implementation.Order;
 import org.prgrms.kdtspringorder.order.repository.abstraction.OrderRepository;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
@@ -27,18 +28,13 @@ public class AppConfigurationClass {
   }
 
   @Bean
-  Console console(){
-    return new Console();
+  Input input(){
+    return new ConsoleInput();
   }
 
   @Bean
-  Input input(Console console){
-    return console;
-  }
-
-  @Bean
-  Output output(Console console){
-    return console;
+  Output output(){
+    return new ConsoleOutput();
   }
 
   @Bean
