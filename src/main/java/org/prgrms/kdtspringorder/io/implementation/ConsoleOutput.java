@@ -11,7 +11,7 @@ import org.prgrms.kdtspringorder.io.domain.Command;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 
 
-public class ConsoleOutput implements Output{
+public class ConsoleOutput implements Output {
 
   @Override
   public void printVoucherList(List<Voucher> listToPrint) {
@@ -20,11 +20,14 @@ public class ConsoleOutput implements Output{
 
   @Override
   public void printVoucher(Voucher voucher) {
+    StringBuilder stringBuilder = new StringBuilder("");
+    stringBuilder
+        .append("------------------------------------------------------------")
+        .append("\nVoucher ID : ").append(voucher.getId())
+        .append("\nVoucher Type : ").append(voucher.getVoucherTypeInString())
+        .append("\n------------------------------------------------------------");
     System.out.println(
-        "------------------------------------------------------------"+
-        "\nVoucher ID : " + voucher.getId() +
-        "\nVoucher Type : " + voucher.getVoucherTypeInString() +
-        "\n------------------------------------------------------------"
+        stringBuilder.toString()
     );
   }
 

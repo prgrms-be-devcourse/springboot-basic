@@ -27,10 +27,14 @@ public class App {
 
   public void run() {
     while (true) {
-      output.print("=== Voucher Program ===\n"
-          + "Type exit to exit the program.\n"
-          + "Type create to create a new voucher.\n"
-          + "Type list to list all vouchers.");
+      String introMessage =
+          new StringBuilder("")
+              .append("=== Voucher Program ===\n")
+              .append("Type exit to exit the program.\n")
+              .append("Type create to create a new voucher.\n")
+              .append("Type list to list all vouchers.").toString();
+
+      output.print(introMessage);
 
       Command command = input.read();
 
