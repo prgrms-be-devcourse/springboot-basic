@@ -15,7 +15,8 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
   @Override
   public Optional<Voucher> findById(UUID voucherId) {
-    return Optional.empty();
+    if(!memoryDB.containsKey(voucherId)) return Optional.empty();
+    return Optional.of(memoryDB.get(voucherId));
   }
 
   @Override
