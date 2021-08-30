@@ -4,10 +4,12 @@ import org.prgrms.orderApp.presentation.commandOperator.pages.*;
 import org.prgrms.orderApp.presentation.commandOperator.util.CheckInvalid;
 import org.prgrms.orderApp.presentation.commandOperator.util.MonguDbMainPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommandOperator {
+public class CommandOperator implements ApplicationRunner {
 
     private MainPage mainPage;
 
@@ -90,4 +92,8 @@ public class CommandOperator {
         }
     }
 
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        CMDAppStart();
+    }
 }

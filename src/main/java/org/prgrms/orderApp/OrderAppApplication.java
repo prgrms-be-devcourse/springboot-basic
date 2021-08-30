@@ -11,12 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class OrderAppApplication {
 	private final static Logger logger = LoggerFactory.getLogger(OrderAppApplication.class);
 	public static void main(String[] args) {
-		var context = SpringApplication.run(OrderAppApplication.class, args);
-		CommandOperator commandOperator = context.getBean(CommandOperator.class);
-		// start app
-		commandOperator.CMDAppStart();
-
-
+		SpringApplication.run(OrderAppApplication.class, args);
+		
 	}
 
 }
