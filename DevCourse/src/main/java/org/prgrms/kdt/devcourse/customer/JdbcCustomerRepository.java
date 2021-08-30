@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,7 +14,7 @@ import java.util.*;
 public class JdbcCustomerRepository implements CustomerRepository{
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcCustomerRepository(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -28,7 +29,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     private RowMapper<Customer> customerRowMapper= ((resultSet, i) -> {
-        UUID customerId = UUID.nameUUIDFromBytes(resultSet.getBytes("customer_id"));
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String customerName = resultSet.getString("name");
         String customerEmail = resultSet.getString("email");
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
@@ -37,6 +38,10 @@ public class JdbcCustomerRepository implements CustomerRepository{
         return new Customer(customerId, customerName, customerEmail, lastLoginAt, createdAt);
     });
 
+    static UUID toUUID(byte[] bytes){
+        var byteBuffer= ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(),byteBuffer.getLong());
+    }
 
     @Override
     public Customer insert(Customer customer) {
@@ -67,7 +72,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where customerId = UUID_TO_BIN(:customerId)",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where customer_id = UUID_TO_BIN(:customerId)",
                     Collections.singletonMap("customerId",customerId.toString().getBytes()),
                     customerRowMapper));
         }catch (EmptyStackException emptyStackException){
