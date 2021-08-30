@@ -6,12 +6,15 @@ import org.prgrms.kdt.exception.ExceptionMessage;
 import org.prgrms.kdt.exception.FormatException;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.view.CommandLineView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
 @Controller
 public class VoucherController {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
     private final CommandLineView commandLineView = new CommandLineView();
 
@@ -31,6 +34,7 @@ public class VoucherController {
                 }
             }
             catch (Exception e){
+                logger.error(e.getMessage());
                 commandLineView.showErrorMessage(e.getMessage());
             }
         }
