@@ -1,9 +1,8 @@
-package org.prgrms.orderApp.infrastructure.impl;
+package org.prgrms.orderApp.infrastructure.repository;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.prgrms.orderApp.OrderAppApplication;
 import org.prgrms.orderApp.domain.voucher.repository.VoucherRepository;
 import org.prgrms.orderApp.infrastructure.library.monguDb.service.DbManagement;
 import org.prgrms.orderApp.infrastructure.library.monguDb.util.DbWriter;

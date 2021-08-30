@@ -1,0 +1,4 @@
+13:57:03.304 [main] INFO  o.p.orderApp.OrderAppApplication - Starting OrderAppApplication using Java 16 on loveui-MacBookPro.local with PID 84124 (/Users/love/Desktop/KDT/springboot_study/orderApp/target/classes started by love in /Users/love/Desktop/KDT/springboot_study/orderApp)
+13:57:03.305 [main] INFO  o.p.orderApp.OrderAppApplication - The following profiles are active: prod
+13:57:04.092 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: static org.prgrms.orderApp.presentation.commandOperator.CommandOperator org.prgrms.orderApp.OrderAppApplication.voucherCommandOperator
+13:57:04.484 [main] INFO  o.p.orderApp.OrderAppApplication - Started OrderAppApplication in 1.862 seconds (JVM running for 2.625)

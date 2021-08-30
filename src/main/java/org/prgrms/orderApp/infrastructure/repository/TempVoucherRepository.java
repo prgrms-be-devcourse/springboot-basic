@@ -1,4 +1,4 @@
-package org.prgrms.orderApp.infrastructure.impl;
+package org.prgrms.orderApp.infrastructure.repository;
 
 import org.prgrms.orderApp.domain.voucher.model.Voucher;
 import org.prgrms.orderApp.domain.voucher.repository.VoucherRepository;

@@ -1,10 +1,7 @@
-package org.prgrms.orderApp.infrastructure.impl;
+package org.prgrms.orderApp.infrastructure.repository;
 
-import org.json.simple.parser.ParseException;
-import org.prgrms.orderApp.OrderAppApplication;
 import org.prgrms.orderApp.domain.customer.model.Customer;
 import org.prgrms.orderApp.domain.customer.repository.CustomerRepository;
-import org.prgrms.orderApp.domain.voucher.model.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;

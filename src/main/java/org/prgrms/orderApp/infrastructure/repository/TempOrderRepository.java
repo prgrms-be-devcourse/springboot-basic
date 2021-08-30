@@ -1,4 +1,4 @@
-package org.prgrms.orderApp.infrastructure.impl;
+package org.prgrms.orderApp.infrastructure.repository;
 
 import org.prgrms.orderApp.domain.order.model.Order;
 import org.prgrms.orderApp.domain.order.repository.OrderRepository;
