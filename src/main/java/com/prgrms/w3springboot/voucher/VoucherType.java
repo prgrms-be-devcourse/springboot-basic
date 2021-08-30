@@ -4,23 +4,23 @@ import java.util.Arrays;
 
 public enum VoucherType {
     FIXED("fixed"),
-    PERCENT("percent"),
-    UNKNOWN("unknown");
+    PERCENT("percent");
 
-    private String type;
+    private final String type;
 
     VoucherType(String type) {
         this.type = type;
     }
 
     public static VoucherType of(final String type) {
-        return Arrays.stream(values())
-                .filter(t -> t.isVoucherType(type))
+        return Arrays.stream(VoucherType.values())
+                .filter(v -> v.isVoucherType(type))
                 .findFirst()
-                .orElse(UNKNOWN);
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     private boolean isVoucherType(final String type) {
         return this.type.equals(type);
     }
+
 }
