@@ -23,8 +23,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> deleteVoucher(UUID voucherId) {
-        return Optional.ofNullable(repository.remove(voucherId));
+    public void deleteVoucher(UUID voucherId) {
+        repository.remove(voucherId);
     }
 
     @Override

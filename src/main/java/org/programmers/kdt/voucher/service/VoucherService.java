@@ -11,11 +11,11 @@ public interface VoucherService {
     Optional<Voucher> getVoucher(UUID voucherId);
     void useVoucher(Voucher voucher);
     Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount);
-    default Optional<Voucher> removeVoucher(Voucher voucher) {
-        return removeVoucher(voucher.getVoucherId());
+    default void removeVoucher(Voucher voucher) {
+        removeVoucher(voucher.getVoucherId());
     }
 
-    Optional<Voucher> removeVoucher(UUID voucherid);
+    void removeVoucher(UUID voucherid);
     List<Voucher> getAllVouchers();
 
     String getPrintFormat(Voucher voucher);
