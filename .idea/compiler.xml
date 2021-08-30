@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="dev-kdt-maven" target="1.7" />
+      <module name="kdt-spring-gradle" target="1.8" />
+      <module name="kdt-spring-gradle.main" target="1.8" />
+      <module name="kdt-spring-gradle.test" target="1.8" />
+      <module name="org.prgrms.dev-kdt-gradle" target="1.8" />
+      <module name="org.prgrms.dev-kdt-gradle.main" target="1.8" />
+      <module name="org.prgrms.dev-kdt-gradle.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
