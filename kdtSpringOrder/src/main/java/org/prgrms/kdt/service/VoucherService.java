@@ -68,6 +68,10 @@ public class VoucherService {
                 .findByVoucherId(customerId);
     }
 
+    public void deleteVoucher(UUID customerId, UUID voucherId) {
+        voucherRepository.deleteVoucher(customerId, voucherId);
+    }
+
     private boolean checkValidity(VoucherSaveRequestDto voucherSaveRequestDto, UUID uuid) {
         logger.info("Starts checkValidity()");
         if(voucherSaveRequestDto.getVoucherType() == VoucherType.UNDEFINED) {

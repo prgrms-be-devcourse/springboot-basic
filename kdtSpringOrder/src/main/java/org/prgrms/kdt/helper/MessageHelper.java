@@ -10,6 +10,7 @@ public class MessageHelper {
         System.out.println("voucherlist");
         System.out.println("voucherlistbycustomerid");
         System.out.println("voucherbyvoucherid");
+        System.out.println("deletevoucher");
         System.out.println("blacklist");
         System.out.println("replay");
         System.out.println("=======================");
@@ -40,6 +41,8 @@ public class MessageHelper {
     public static void showEnterVoucherDiscount() {
         System.out.println("할인율을 입력해주세요.");
     }
+
+    public static void showEnterDeleteVoucherInfo() { System.out.println("고객의 아이디와 바우처 아이디를 입력해주세요."); }
 
     public static void showDuplicateVoucherMessage() {
         System.out.println("중복된 바우처 입니다.");

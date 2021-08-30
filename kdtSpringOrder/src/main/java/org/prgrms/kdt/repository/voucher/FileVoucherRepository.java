@@ -63,6 +63,10 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
         return new ArrayList<>(storage.values());
     }
 
+    @Override
+    public void deleteVoucher(UUID customerId, UUID voucherId) {
+    }
+
     private void loadStorage() {
         logger.info("Started loadStorage()");
 

@@ -12,6 +12,7 @@ public enum CommandType {
     ALLVOUCHERLIST("allvoucherlist"),
     VOUCHERLISTBYCUSTOMERID("voucherlistbycustomerid"),
     VOUCHERBYVOUCHERID("voucherbyvoucherid"),
+    DELETEVOUCHER("deletevoucher"),
     BLACKLIST("blacklist"),
     REPLAY("replay");
 

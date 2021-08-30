@@ -64,6 +64,9 @@ public class KdtApplication {
                 case VOUCHERBYVOUCHERID -> {
                     runVoucherByVoucherId(inputController, outputController, voucherService);
                 }
+                case DELETEVOUCHER -> {
+                    runDeleteVoucher(inputController, voucherService);
+                }
                 case BLACKLIST -> {
                     runBadCustomerList(outputController, customerService);
                 }
@@ -118,6 +121,15 @@ public class KdtApplication {
         outputController.showVoucherList(List.of(voucherService.getVoucher(voucherId)));
         logger.info("Finished runVoucherByVoucherId()");
 
+    }
+
+    public static void runDeleteVoucher(InputController inputController, VoucherService voucherService) {
+        logger.info("Starts runVoucherByVoucherId()");
+        showEnterDeleteVoucherInfo();
+        UUID customerId = inputController.getCustomerId();
+        UUID voucherId = inputController.getVoucherId();
+        voucherService.deleteVoucher(customerId, voucherId);
+        logger.info("Finished runVoucherByVoucherId()");
     }
 
     public static void runBadCustomerList(OutputController outputController, CustomerService customerService) {

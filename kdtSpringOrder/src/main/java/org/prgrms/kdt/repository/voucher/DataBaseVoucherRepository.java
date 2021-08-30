@@ -91,6 +91,14 @@ public class DataBaseVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
     }
 
+    @Override
+    public void deleteVoucher(UUID customerId, UUID voucherId) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("customerId", customerId.toString().getBytes());
+        paramMap.put("voucherId", voucherId.toString().getBytes());
+        jdbcTemplate.update("DELETE FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
+    }
+
     static private UUID toUUID(ResultSet resultSet, String columnLabel) throws SQLException {
         ByteBuffer byteBuffer = ByteBuffer.wrap(resultSet.getBytes(columnLabel));
         UUID uuid = new UUID(byteBuffer.getLong(), byteBuffer.getLong());

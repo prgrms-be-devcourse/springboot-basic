@@ -42,6 +42,10 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     }
 
     @Override
+    public void deleteVoucher(UUID customerId, UUID voucherId) {
+    }
+
+    @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println(MessageFormat.format("[Profile dev is set.] repositoryName is {0}", repositoryName));
     }
