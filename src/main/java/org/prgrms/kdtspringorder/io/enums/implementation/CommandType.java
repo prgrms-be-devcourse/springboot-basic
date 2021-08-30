@@ -1,18 +1,20 @@
-package org.prgrms.kdtspringorder.io.enums;
+package org.prgrms.kdtspringorder.io.enums.implementation;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Collections;
+import org.prgrms.kdtspringorder.io.enums.abstraction.Option;
 
 public enum CommandType {
-  CREATE("create", new String[]{"fixed", "percent"}, true),
-  LIST("list", new String[]{}, false),
-  EXIT("exit", new String[]{}, false);
+  CREATE("create", CreateOption.values(), true),
+  LIST("list", new Option[]{}, false),
+  EXIT("exit", new Option[]{}, false);
 
   private final String commandName;
-  private final String[] options;
+  private final Option[] options;
   private final boolean mustNeedOption;
 
-  CommandType(String commandName, String[] options, boolean mustNeedOption) {
+  CommandType(String commandName, Option[] options, boolean mustNeedOption) {
     this.commandName = commandName;
     this.options = options;
     this.mustNeedOption = mustNeedOption;
@@ -20,7 +22,8 @@ public enum CommandType {
 
   public boolean hasOption(String option) {
     int cnt = (int) Arrays.stream(this.options)
-        .filter(possibleOption -> possibleOption.equals(option)).count();
+        .filter(possibleOption -> possibleOption.getOptionName().equals(option))
+        .count();
     return cnt > 0;
   }
 
@@ -43,6 +46,8 @@ public enum CommandType {
   }
 
   public String[] getOptions() {
-    return this.options;
+    return Arrays.stream(this.options)
+        .map(Option::getOptionName)
+        .toArray(String[]::new);
   }
 }

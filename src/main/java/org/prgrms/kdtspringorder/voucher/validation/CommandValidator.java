@@ -2,7 +2,7 @@ package org.prgrms.kdtspringorder.voucher.validation;
 
 import java.util.Arrays;
 import java.util.List;
-import org.prgrms.kdtspringorder.io.enums.CommandType;
+import org.prgrms.kdtspringorder.io.enums.implementation.CommandType;
 import org.prgrms.kdtspringorder.io.domain.Command;
 import org.prgrms.kdtspringorder.io.exception.InvalidCommandException;
 

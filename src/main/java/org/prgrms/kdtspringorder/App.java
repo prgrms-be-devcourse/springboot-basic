@@ -1,7 +1,7 @@
 package org.prgrms.kdtspringorder;
 
 import java.util.List;
-import org.prgrms.kdtspringorder.io.enums.CommandType;
+import org.prgrms.kdtspringorder.io.enums.implementation.CommandType;
 import org.prgrms.kdtspringorder.io.abstraction.Input;
 import org.prgrms.kdtspringorder.io.abstraction.Output;
 import org.prgrms.kdtspringorder.io.domain.Command;
