@@ -34,7 +34,7 @@ public class CommandOperator {
         mainPage.introduceApp();
 
         try {
-            while (true) {
+            do {
                 Thread.sleep(500);
                 switch (mainPage.selectedMainMenu()) {
                     case "CREATE_VOUCHER":
@@ -76,10 +76,8 @@ public class CommandOperator {
                         mainPage.selectedInvalidMenu();
                         break;
                 }
-                if (exit_flag == 1) {
-                    break;
-                }
-            }
+            }while(exit_flag == -1);
+
         }catch(Exception e){
             mainPage.apologizeMessage();
             System.out.println(e);
