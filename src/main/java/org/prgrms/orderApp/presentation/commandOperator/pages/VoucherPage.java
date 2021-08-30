@@ -1,9 +1,13 @@
 package org.prgrms.orderApp.presentation.commandOperator.pages;
 
 import org.json.simple.parser.ParseException;
+import org.prgrms.orderApp.infrastructure.library.console.script.BasicScript;
+import org.prgrms.orderApp.infrastructure.library.console.script.ForUxScript;
+import org.prgrms.orderApp.presentation.commandOperator.script.ApplicationScript;
+import org.prgrms.orderApp.presentation.commandOperator.script.MonguDbScript;
+import org.prgrms.orderApp.presentation.commandOperator.script.WarnningAndErrorScript;
 import org.prgrms.orderApp.service.VoucherApplicationService;
 import org.prgrms.orderApp.infrastructure.library.console.Console;
-import org.prgrms.orderApp.presentation.commandOperator.script.AllScriptForCMDApplication;
 import org.prgrms.orderApp.presentation.commandOperator.util.CheckInvalid;
 import org.prgrms.orderApp.presentation.commandOperator.util.ProcessingStatus;
 import org.prgrms.orderApp.domain.voucher.model.Voucher;
@@ -15,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class VoucherPage implements AllScriptForCMDApplication {
+public class VoucherPage {
 
    private Console console;
    private VoucherApplicationService voucherApplicationService;
@@ -33,13 +37,13 @@ public class VoucherPage implements AllScriptForCMDApplication {
    String userinputAmount;
 
    public void createVoucher() throws IOException {
-      console.print(divisionBlank);
-      console.infoMessage(inputAmount_GuideMessage);
-      userinputAmount = console.input(inputAmount);
+      console.print(ForUxScript.DIVISION_BLANK);
+      console.infoMessage(ApplicationScript.INPUT_AMOUNT__GUIDE_MESSAGE);
+      userinputAmount = console.input(ApplicationScript.INPUT_AMOUNT);
       //System.out.println(userinputAmount);
 
       if (checkInvalid.checkInteger(userinputAmount)) {
-         console.errorMessage(invalidValue_MustWriteDownNumber);
+         console.errorMessage(WarnningAndErrorScript.INVALID_VALUE__MUST_WRITE_DOWN_NUMBER);
          return ;
       }
 
@@ -47,13 +51,13 @@ public class VoucherPage implements AllScriptForCMDApplication {
       Long inputAmount_longParse = Long.parseLong(userinputAmount);
 
       // voucher type 선택하기
-      console.infoMessage(guideMessage);
-      console.infoMessage(inputUserSelectedVoucherType_GuideMessage);
-      String userSelected = console.input(inputUserSelectedVoucherType);
+      console.infoMessage(BasicScript.GUIDE_MESSAGE);
+      console.infoMessage(ApplicationScript.INPUT_USER_SELECTED_VOUCHER_TYPE__GUIDE_MESSAGE);
+      String userSelected = console.input(ApplicationScript.INPUT_USER_SELECTED_VOUCHER_TYPE);
 
       // 메뉴 선택을 숫자로 했는지 확인
       if(checkInvalid.checkInteger(userSelected)){
-         console.errorMessage(invalidValue_MustWriteDownNumber);
+         console.errorMessage(WarnningAndErrorScript.INVALID_VALUE__MUST_WRITE_DOWN_NUMBER);
          return;
       }
 
@@ -70,7 +74,7 @@ public class VoucherPage implements AllScriptForCMDApplication {
                voucherTypeFlag = 1;
             }else{
                voucherTypeFlag = -1;
-               errorMessage = percent_LimitError;
+               errorMessage = WarnningAndErrorScript.PERCENT_LIMIT_ERROR;
             }
             break;
          case "PERCENT" :
@@ -80,12 +84,12 @@ public class VoucherPage implements AllScriptForCMDApplication {
                voucherTypeFlag = 1;
             }else{
                voucherTypeFlag = -1;
-               errorMessage = percent_LimitError;
+               errorMessage = WarnningAndErrorScript.PERCENT_LIMIT_ERROR;
             }
             break;
          default:
             voucherTypeFlag = -1;
-            errorMessage = selectedNumber_LimitError;
+            errorMessage = WarnningAndErrorScript.SELECTED_NUMBER_LIMIT_ERROR;
       }
 
       // 위의 유효성 검사 후, 저장단계 진행
@@ -93,28 +97,28 @@ public class VoucherPage implements AllScriptForCMDApplication {
       if (voucherTypeFlag==1){
          saveResult = voucherApplicationService.saveVoucher(voucher);
          if (saveResult.get("status").equals(ProcessingStatus.SUCCESS)) {
-            console.infoMessage(success_Amount_Save + saveResult.get("voucherId"));
+            console.infoMessage(ApplicationScript. SUCCESS_AMOUNT_SAVE + saveResult.get("voucherId"));
          } else {
-            console.errorMessage(voucherId_DuplicateError + saveResult.get("voucherId"));
+            console.errorMessage(WarnningAndErrorScript.VOUCHER_ID_DUPLICATE_ERROR + saveResult.get("voucherId"));
          }
       }else {
-         console.print(divisionLine);
+         console.print(ForUxScript.DIVISION_LINE);
          console.infoMessage(errorMessage);
-         console.print(divisionBlank);
+         console.print(ForUxScript.DIVISION_BLANK);
       }
 
 
    }
 
    public void showVouchers() throws IOException, ParseException {
-      console.infoMessage(showVoucherList_GuideMessage);
+      console.infoMessage(ApplicationScript.SHOW_VOUCHER_LIST__GUIDE_MESSAGE);
       List<Voucher> voucherList = voucherApplicationService.getAllVouchers();
       if (voucherList.isEmpty()) {
-         console.infoMessage(emptyData);
+         console.infoMessage(BasicScript.EMPTY_DATA);
       } else {
          console.showList(voucherList);
       }
-      console.print(divisionBlank);
+      console.print(ForUxScript.DIVISION_BLANK);
    }
 
 

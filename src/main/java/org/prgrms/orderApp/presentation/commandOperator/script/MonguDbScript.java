@@ -1,9 +1,9 @@
 package org.prgrms.orderApp.presentation.commandOperator.script;
 
 
-public interface MonguDbScript {
+public class MonguDbScript {
 
-    String monguDbMainMenu ="[1]collection create \n[2] collection drop";
-    String monguDbCollectionCreate_GuideMessage = "[To Create] collection : ";
-    String monguDbCollectionDrop_GuideMessage = "[To Drop] collection : ";
+    public static final String MONGUDB_MAIN_MENU ="[1]collection create \n[2] collection drop";
+    public static final String MONGUDB_COLLECTION_CREATE__GUIDE_MESSAGE = "[To Create] collection : ";
+    public static final String MONGUDB_COLLECTION_DROP__GUIDE_MESSAGE = "[To Drop] collection : ";
 }

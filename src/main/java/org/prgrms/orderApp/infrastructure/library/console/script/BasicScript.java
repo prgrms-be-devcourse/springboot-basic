@@ -1,8 +1,7 @@
 package org.prgrms.orderApp.infrastructure.library.console.script;
 
-public interface BasicScript {
-     String guideMessage = "Please Select The Number To Want To Do \n";
-     String inputUserSelectedMenuNumber = "Selected Menu(number) : ";
-
-     String emptyData ="No Result";
+public class BasicScript {
+     public static final String GUIDE_MESSAGE = "Please Select The Number To Want To Do \n";
+     public static final String INPUT_USER_SELECTED_MENU_NUMBER= "Selected Menu(number) : ";
+     public static final String EMPTY_DATA ="No Result";
 }

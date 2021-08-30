@@ -1,14 +1,17 @@
 package org.prgrms.orderApp.presentation.commandOperator.pages;
 
 import org.prgrms.orderApp.infrastructure.library.console.Console;
-import org.prgrms.orderApp.presentation.commandOperator.script.AllScriptForCMDApplication;
+import org.prgrms.orderApp.infrastructure.library.console.script.BasicScript;
+import org.prgrms.orderApp.infrastructure.library.console.script.ForUxScript;
+import org.prgrms.orderApp.presentation.commandOperator.script.ApplicationScript;
+import org.prgrms.orderApp.presentation.commandOperator.script.MonguDbScript;
+import org.prgrms.orderApp.presentation.commandOperator.script.WarnningAndErrorScript;
 import org.prgrms.orderApp.presentation.commandOperator.util.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class MainPage implements AllScriptForCMDApplication {
+public class MainPage {
 
     private Console console;
     private CheckInvalid checkInvalid;
@@ -20,41 +23,41 @@ public class MainPage implements AllScriptForCMDApplication {
         this.checkInvalid = checkInvalid;
     }
     public void introduceApp(){
-        console.print(divisionLineBolder);
-        console.infoMessage(startMessage);
-        console.print(divisionBlank);
+        console.print(ForUxScript.DIVISION_LINE_BOLDER);
+        console.infoMessage(ApplicationScript.START_MESSAGE);
+        console.print(ForUxScript.DIVISION_BLANK);
     }
 
     public String selectedMainMenu(){
-        console.infoMessage(guideMessage);
-        console.infoMessage(inputUserSelectedMenuNumber_GuideMessage);
-        userSelected = console.input(inputUserSelectedMenuNumber);
+        console.infoMessage(BasicScript.GUIDE_MESSAGE);
+        console.infoMessage(ApplicationScript.INPUT_USER_SELECTED_MENU_NUMBER__GUIDE_MESSAGE);
+        userSelected = console.input(BasicScript.INPUT_USER_SELECTED_MENU_NUMBER);
         //System.out.println(userSelected);
-        console.print(divisionBlank);
+        console.print(ForUxScript.DIVISION_BLANK);
 
         // 메뉴 선택을 숫자로 했는지 확인
         if(checkInvalid.checkInteger(userSelected)){
-            console.errorMessage(invalidValue_MustWriteDownNumber);
+            console.errorMessage(WarnningAndErrorScript.INVALID_VALUE__MUST_WRITE_DOWN_NUMBER);
             return "";
         }
         return MainMenuPage.getMenuName(Integer.parseInt(userSelected));
     }
 
     public void selectedInvalidMenu(){
-        console.print(divisionLine);
-        console.infoMessage(selectedNumber_LimitError);
-        console.print(divisionLine);
+        console.print(ForUxScript.DIVISION_LINE);
+        console.infoMessage(WarnningAndErrorScript.SELECTED_NUMBER_LIMIT_ERROR);
+        console.print(ForUxScript.DIVISION_LINE);
     }
 
     public void apologizeMessage(){
-        console.infoMessage(apologize);
+        console.infoMessage(WarnningAndErrorScript.APOLOGIZE);
     }
 
     public String exit() {
-        console.print(divisionLine);
-        console.infoMessage(exit_WarringMessage);
-        userSelected = console.input(messageBeforeExit);
-        console.print(divisionBlank);
+        console.print(ForUxScript.DIVISION_LINE);
+        console.infoMessage(WarnningAndErrorScript.EXIT_WARNING_MESSAGE);
+        userSelected = console.input(WarnningAndErrorScript.MESSAGE_BEFORE_EXIT);
+        console.print(ForUxScript.DIVISION_BLANK);
         return userSelected;
 
     }
@@ -62,10 +65,11 @@ public class MainPage implements AllScriptForCMDApplication {
     public void sayBye(){
         console.infoMessage("Bye");
     }
+
     public void SelectedInvalidMenuNumber(){
-        console.print(divisionLine);
-        console.errorMessage(selectedNumber_LimitError);
-        console.print(divisionBlank);
+        console.print(ForUxScript.DIVISION_LINE);
+        console.errorMessage(WarnningAndErrorScript.SELECTED_NUMBER_LIMIT_ERROR);
+        console.print(ForUxScript.DIVISION_BLANK);
     }
 
 
