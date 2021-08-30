@@ -5,10 +5,11 @@ import org.programmers.kdt.voucher.FixedAmountVoucher;
 import org.programmers.kdt.voucher.PercentDiscountVoucher;
 import org.programmers.kdt.voucher.Voucher;
 import org.programmers.kdt.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,6 +22,9 @@ public class FileVoucherRepository implements VoucherRepository  {
     // TODO : JSON 파일에 읽고 쓰도록 바꾸기
     // TODO : YAML 파일로부터 경로 및 파일명을 읽어들여 전달해주는 VoucherPropeties 클래스를 정의하고 이곳을 통해 path와 file을 받아오도록 수정하기
     private final File file = new File("VoucherData.txt");
+
+    // TODO : 각 class 별로 로거를 두지 않고 AOP 적용
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     public FileVoucherRepository() throws IOException {
         if (!file.exists()) {
@@ -54,7 +58,18 @@ public class FileVoucherRepository implements VoucherRepository  {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        cache.put(voucher.getVoucherId(), voucher);
+        try {
+            if (null == cache.put(voucher.getVoucherId(), voucher)) {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                bufferedWriter.write(voucher.getVoucherId() + " " + voucher.getVoucherType() + " " + voucher.getDiscount());
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+                bufferedWriter.close();
+            }
+        } catch (IOException e) {
+            logger.error("Inserting new voucher Fails -> {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
         return voucher;
     }
 
@@ -66,16 +81,5 @@ public class FileVoucherRepository implements VoucherRepository  {
     @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(cache.values());
-    }
-
-    @PreDestroy
-    private void updateData() throws IOException {
-        // FIXME : 매번 처음부터 다시 써야 하는데, 제거된 부분만 찾아서 없애는 방법을 찾아보자.
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, false));
-        for (Voucher voucher : cache.values()) {
-            bufferedWriter.write(voucher.getVoucherId() + " " + voucher.getVoucherType() + " " + voucher.getDiscount());
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-        }
     }
 }

@@ -3,10 +3,11 @@ package org.programmers.kdt.customer.repository;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.programmers.kdt.customer.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PreDestroy;
 import java.io.*;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -23,6 +24,9 @@ public class FileCustomerRepository implements CustomerRepository {
     // FIXME : YAML 파일로부터 경로 및 파일명을 읽어들여 전달해주는 CustomerPropeties 클래스를 정의하고 이곳을 통해 path와 file을 받아오도록 수정하기
     private final File blacklistCSV = new File("customer_blacklist.csv");
     private final File customersCSV = new File("customers.csv");
+
+    // TODO : 각 class마다 logger를 두지 않고 AOP 적용
+    private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
     public FileCustomerRepository() throws IOException, CsvValidationException {
         if (!blacklistCSV.exists()) {
@@ -65,7 +69,14 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        cache4Customers.put(customer.getCustomerId(), customer);
+        try {
+            if (null == cache4Customers.put(customer.getCustomerId(), customer)) {
+                updateFile(customersCSV, Map.of(customer.getCustomerId(), customer), true);
+            }
+        } catch (IOException e) {
+            logger.error("Inserting new customer Fails -> {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
         return customer;
     }
 
@@ -76,11 +87,14 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findByName(String name) {
-        return cache4Customers.values().stream().filter(customer -> name.equals(customer.getName())).toList();
+        return cache4Customers.values()
+                .stream()
+                .filter(customer -> name.equals(customer.getName()))
+                .toList();
     }
 
     @Override
-    public Optional<Customer> fineByEmail(String email) {
+    public Optional<Customer> findByEmail(String email) {
         return cache4Customers.values()
                 .stream()
                 .filter(customer -> email.equals(customer.getEmail()))
@@ -94,7 +108,14 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer registerToBlacklist(Customer customer) {
-        cache4Blacklist.put(customer.getCustomerId(), customer);
+        try {
+            if (null == cache4Blacklist.put(customer.getCustomerId(), customer)) {
+                updateFile(blacklistCSV, Map.of(customer.getCustomerId(), customer), true);
+            }
+        } catch (IOException e) {
+            logger.error("Registering a customer to blacklist Fails -> {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
         return customer;
     }
 
@@ -104,31 +125,29 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> deleteCustomer(UUID customerId) {
-        cache4Blacklist.remove(customerId);
-        return Optional.ofNullable(cache4Customers.remove(customerId));
+    public void deleteCustomer(UUID customerId) {
+        try {
+            if (null != cache4Blacklist.remove(customerId)) {
+                updateFile(blacklistCSV, cache4Blacklist, false);
+            }
+
+            if (null != cache4Customers.remove(customerId)) {
+                updateFile(customersCSV, cache4Customers, false);
+            }
+        } catch (IOException e) {
+            logger.error("Deleting a customer Fails -> {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
-
-    @PreDestroy
-    private void updateData() throws IOException {
-        // FIXME : 매번 처음부터 다시 써야 하는데, 제거된 부분만 찾아서 없애는 방법을 찾아보자.
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(customersCSV, false));
-        for (Customer customer : cache4Customers.values()) {
-            bufferedWriter.write(MessageFormat.format("{0},{1},{2},{3},{4}",
-                    customer.getCustomerId(), customer.getName(), customer.getEmail(),
-                    customer.getLastLoginAt(), customer.getCreatedAt()));
-            bufferedWriter.newLine();
-        }
-        bufferedWriter.close();
-
-        bufferedWriter = new BufferedWriter(new FileWriter(blacklistCSV, false));
+    private void updateFile(File blacklistCSV, Map<UUID, Customer> cache4Blacklist, boolean appendToFile) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(blacklistCSV, false));
         for (Customer customer : cache4Blacklist.values()) {
             bufferedWriter.write(MessageFormat.format("{0},{1},{2},{3},{4}",
                     customer.getCustomerId(), customer.getName(), customer.getEmail(),
                     customer.getLastLoginAt(), customer.getCreatedAt()));
             bufferedWriter.newLine();
+            bufferedWriter.close();
         }
-        bufferedWriter.close();
     }
 }
