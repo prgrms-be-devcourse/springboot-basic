@@ -18,7 +18,8 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfigurationClass {
 
   @Bean
-  public App app(Input input, Output output, VoucherService voucherService, CommandValidator commandValidator) {
+  public App app(Input input, Output output, VoucherService voucherService,
+      CommandValidator commandValidator) {
     return new App(input, output, voucherService, commandValidator);
   }
 
@@ -28,12 +29,12 @@ public class AppConfigurationClass {
   }
 
   @Bean
-  public Input input(){
+  public Input input() {
     return new ConsoleInput();
   }
 
   @Bean
-  public Output output(){
+  public Output output() {
     return new ConsoleOutput();
   }
 
@@ -45,20 +46,5 @@ public class AppConfigurationClass {
   @Bean
   public VoucherRepository voucherRepository() {
     return new MemoryVoucherRepository();
-  }
-
-  @Bean
-  public OrderService orderService(VoucherService voucherService, OrderRepository orderRepository) {
-    return new OrderService(voucherService, orderRepository);
-  }
-
-  @Bean
-  public OrderRepository orderRepository() {
-    return new OrderRepository() {
-      @Override
-      public void insert(Order order) {
-
-      }
-    };
   }
 }

@@ -9,11 +9,9 @@ import java.util.UUID;
 import org.prgrms.kdtspringorder.voucher.service.VoucherService;
 
 public class OrderService {
-    private final VoucherService voucherService;
     private final OrderRepository orderRepository;
 
-    public OrderService(VoucherService voucherService, OrderRepository orderRepository) {
-        this.voucherService = voucherService;
+    public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 

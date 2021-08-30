@@ -33,8 +33,4 @@ public class VoucherService {
     Voucher voucher = new Voucher(policy);
     return voucherRepository.saveVoucher(voucher);
   }
-
-  public void useVoucher(final Voucher voucher) {
-    throw new UnsupportedOperationException();
-  }
 }
