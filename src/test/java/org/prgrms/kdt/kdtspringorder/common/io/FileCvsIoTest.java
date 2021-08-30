@@ -5,9 +5,7 @@ import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class FileScvIoTest {
+class FileCvsIoTest {
 
     @Test
     void write() {
@@ -15,8 +13,8 @@ class FileScvIoTest {
 
     @Test
     void readAllLines() {
-        FileScvIo fileScvIo = new FileScvIo();
-        List<Customer> customers = fileScvIo.readAllLines();
+        FileCvsIo fileCvsIo = new FileCvsIo();
+        List<Customer> customers = fileCvsIo.readAllLines();
         customers.forEach(customer -> System.out.println(customer.toString()));
     }
 

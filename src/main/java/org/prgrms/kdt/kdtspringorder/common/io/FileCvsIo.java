@@ -11,9 +11,10 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
-@Qualifier("file-scv-io")
+@Qualifier("file-cvs-io")
 public class FileCvsIo implements FileIo<Customer>{
 
     private static final Logger logger = LoggerFactory.getLogger(FileCvsIo.class);
@@ -39,7 +40,7 @@ public class FileCvsIo implements FileIo<Customer>{
 
             String [] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                Customer blackCustomer = new Customer(nextLine[0], nextLine[1]);
+                Customer blackCustomer = new Customer(UUID.fromString(nextLine[0]), nextLine[1]);
                 blackCustomerList.add(blackCustomer);
             }
 

@@ -1,3 +1,4 @@
 kdt:
-  dev.file-io.file-path: "./voucher_list.txt"
-  dev.file-io.cvs-path: "./blacklist.cvs"
+  dev.file-io.file-path: ./voucher_list.txt
+  dev.file-io.cvs-path: ./blacklist.cvs
+

@@ -17,7 +17,7 @@ public class BlackListCustomerService {
 
     private final FileIo<Customer> fileIo;
 
-    public BlackListCustomerService(@Qualifier("file-scv-io") FileIo<Customer> fileIo) {
+    public BlackListCustomerService(@Qualifier("file-cvs-io") FileIo<Customer> fileIo) {
         this.fileIo = fileIo;
     }
 
