@@ -9,13 +9,13 @@ import java.util.UUID;
  */
 public class Voucher {
 
-    private UUID voucherId;
+    private final UUID voucherId;
 
-    private Long discount;
+    private final Long discount;
 
-    private VoucherType voucherType;
+    private final VoucherType voucherType;
 
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
     public Voucher(UUID voucherId, Long discount, VoucherType voucherType, LocalDateTime createdAt) {
         this.voucherId = voucherId;
