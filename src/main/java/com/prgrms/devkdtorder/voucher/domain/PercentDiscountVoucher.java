@@ -9,6 +9,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        validatePercent(percent);
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -25,7 +26,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent/100);
+        return (long) (beforeDiscount * (1 - percent/(double)100));
     }
 
     @Override
@@ -34,6 +35,12 @@ public class PercentDiscountVoucher implements Voucher {
                 "voucherId=" + voucherId +
                 ", percent=" + percent +
                 '}';
+    }
+
+    private void validatePercent(long percent) {
+        if (percent < 0) throw new IllegalArgumentException("Percent should be positive");
+        if (percent == 0) throw new IllegalArgumentException("Percent should not be zero");
+        if (percent > 100) throw new IllegalArgumentException("Percent should be less than 100");
     }
 }
 
