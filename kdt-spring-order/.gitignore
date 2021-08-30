@@ -51,3 +51,17 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# 강의 실습 파일
+!**/src/main/java/org/prgrms/kdt/aop
+!**/src/main/java/org/prgrms/kdt/customer
+!**/src/main/java/org/prgrms/kdt/domain/order
+!**/src/main/java/org/prgrms/kdt/repository/order
+!**/src/main/java/org/prgrms/kdt/servlet
+!**/src/main/java/org/prgrms/kdt/JdbcCustomerRepository.java
+!**/src/main/java/org/prgrms/kdt/JdkProxyTest.java
+!**/src/main/java/org/prgrms/kdt/KdtApplication.java
+!**/src/main/java/org/prgrms/kdt/OrderTester.java
+
+
+
