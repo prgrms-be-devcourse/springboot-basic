@@ -5,6 +5,7 @@ import org.prgrms.dev.io.Output;
 import org.prgrms.dev.voucher.service.VoucherService;
 
 import java.util.InputMismatchException;
+import java.util.UUID;
 
 public class CreateCommand implements Command {
     private static final String CURSOR = "> ";
@@ -15,10 +16,10 @@ public class CreateCommand implements Command {
             output.voucherSelectType();
             String voucherType = input.inputVoucherType(CURSOR);
             Long value = Long.valueOf(input.inputValue("input value [fixed amount | percent discount] > "));
-            voucherService.createVoucher(voucherType, value);
+            voucherService.createVoucher(voucherType, UUID.randomUUID(), value);
         } catch (NumberFormatException e) {
             output.invalidNumberInput();
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             output.invalidVoucherTypeInput();
         }
         return true;

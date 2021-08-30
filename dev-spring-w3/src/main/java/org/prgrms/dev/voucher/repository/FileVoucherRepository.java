@@ -1,11 +1,8 @@
 package org.prgrms.dev.voucher.repository;
 
-import org.prgrms.dev.voucher.domain.FixedAmountVoucher;
-import org.prgrms.dev.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.dev.voucher.domain.Voucher;
+import org.prgrms.dev.voucher.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -36,17 +33,10 @@ public class FileVoucherRepository implements VoucherRepository {
             String line = "";
             while ((line = bufferedReader.readLine()) != null) {
                 String[] voucherInfo = line.split(SPLIT_CODE);
-                if (voucherInfo[TYPE_INDEX].equals("fixed")) {
-                    UUID customerId = UUID.fromString(voucherInfo[UUID_INDEX]);
-                    long value = Long.valueOf(voucherInfo[VALUE_INDEX]);
-                    Voucher voucher = new FixedAmountVoucher(customerId, value);
-                    vouchers.put(customerId, voucher);
-                } else if (voucherInfo[TYPE_INDEX].equals("percent")) {
-                    UUID customerId = UUID.fromString(voucherInfo[UUID_INDEX]);
-                    long value = Long.valueOf(voucherInfo[VALUE_INDEX]);
-                    Voucher voucher = new PercentDiscountVoucher(customerId, value);
-                    vouchers.put(customerId, voucher);
-                }
+                UUID customerId = UUID.fromString(voucherInfo[UUID_INDEX]);
+                long value = Long.valueOf(voucherInfo[VALUE_INDEX]);
+                Voucher voucher = VoucherType.getVoucherType(voucherInfo[TYPE_INDEX], customerId, value);
+                vouchers.put(customerId, voucher);
             }
         } catch (IOException e) {
             e.printStackTrace();
