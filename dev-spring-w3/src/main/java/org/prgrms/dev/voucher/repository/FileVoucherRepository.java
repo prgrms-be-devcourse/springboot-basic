@@ -38,6 +38,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 Voucher voucher = VoucherType.getVoucherType(voucherInfo[TYPE_INDEX], customerId, value);
                 vouchers.put(customerId, voucher);
             }
+            bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
