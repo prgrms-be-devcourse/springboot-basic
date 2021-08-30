@@ -5,14 +5,9 @@ import com.prgrms.w3springboot.voucher.Voucher;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class Console implements Input, Output {
-    private final Scanner scanner;
-
-    public Console() {
-        this.scanner = new Scanner(System.in);
-    }
+    private static final Scanner scanner = new Scanner(System.in);
 
     @Override
     public String input() {
@@ -40,13 +35,19 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printVoucher(UUID createdVoucherUuid) {
-        System.out.println(MessageFormat.format("Voucher ID [{0}] is just created!", createdVoucherUuid));
+    public void printVoucher(Voucher voucher) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Voucher is just created!");
+        sb.append(System.lineSeparator());
+        sb.append(MessageFormat.format("Voucher info : {0}", voucher));
+        System.out.println(sb);
     }
 
     @Override
     public void printVoucherList(List<Voucher> voucherList) {
-        voucherList.forEach(v -> System.out.println(v));
+        for (var voucher : voucherList) {
+            System.out.println(voucher);
+        }
     }
 
     @Override
@@ -56,6 +57,6 @@ public class Console implements Input, Output {
 
     @Override
     public void printInvalidMessage() {
-        System.out.println("Oooops! Please type valid command🙏🏻");
+        System.out.println("Oooops! Please type valid input🙏🏻");
     }
 }
