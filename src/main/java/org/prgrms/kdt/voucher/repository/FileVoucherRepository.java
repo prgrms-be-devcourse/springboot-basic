@@ -5,6 +5,7 @@ import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PreDestroy;
@@ -16,6 +17,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Profile("production")
 @Primary
 public class FileVoucherRepository implements VoucherRepository {
 

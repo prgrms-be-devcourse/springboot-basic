@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.service;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
+    @Autowired
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }

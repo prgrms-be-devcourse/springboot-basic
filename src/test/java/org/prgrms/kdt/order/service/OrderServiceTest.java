@@ -64,10 +64,10 @@ class OrderServiceTest {
         //then
         assertThat(order.totalAmount(), is(100L));
         assertThat(order.getVoucher().isEmpty(), is(false));
-//        var inOrder = inOrder(voucherServiceMock);
-        verify(voucherServiceMock).getVoucher(fixedAmountVoucher.getVoucherId());//해당 메소드가 호출 되었는지를 검증
-        verify(orderRepositoryMock).insert(order);
-        verify(voucherServiceMock).useVoucher(fixedAmountVoucher);
+        var inOrder = inOrder(voucherServiceMock);
+        inOrder.verify(voucherServiceMock).getVoucher(fixedAmountVoucher.getVoucherId());//해당 메소드가 호출 되었는지를 검증
+        inOrder.verify(orderRepositoryMock).insert(order);
+        inOrder.verify(voucherServiceMock).useVoucher(fixedAmountVoucher);
 
 
     }
