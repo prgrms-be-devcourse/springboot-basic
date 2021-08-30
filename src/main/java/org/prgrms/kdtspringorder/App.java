@@ -47,11 +47,6 @@ public class App {
 
       CommandType commandType = CommandType.of(command.getCommandName());
 
-      if (commandType == CommandType.EXIT) {
-        output.print("EXIT!");
-        return;
-      }
-
       switch (commandType) {
         case CREATE:
           output.print("=== 생성된 바우처 ===");
@@ -64,6 +59,10 @@ public class App {
           output.print("=== 생성된 바우처 목록 ===");
           output.printVoucherList(vouchers);
           break;
+
+        case EXIT:
+          output.print("EXIT!");
+          return;
       }
     }
   }
