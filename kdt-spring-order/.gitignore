@@ -62,6 +62,6 @@ buildNumber.properties
 !**/src/main/java/org/prgrms/kdt/JdkProxyTest.java
 !**/src/main/java/org/prgrms/kdt/KdtApplication.java
 !**/src/main/java/org/prgrms/kdt/OrderTester.java
-
+logs
 
 

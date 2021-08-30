@@ -1,0 +1,18 @@
+spring.config.activate.on-profile: local
+
+logging:
+  level:
+    root: warn
+
+kdt:
+  version: "v1.0.0"
+  minimum-order-amount: 1
+  support-vendors:
+    - a
+    - b
+    - c
+    - d
+  description: |
+    line 1 hello world
+    line 2 xxxxx
+    line 3
