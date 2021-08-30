@@ -38,6 +38,5 @@ public class VoucherService {
         return voucherRepository.find();
     }
 
-    public void useVoucher(Voucher voucher) {
-    }
+    public void useVoucher(Voucher voucher) { } // TODO: 나중에 강의가 진행하면서 메서드가 완성되어 집니다.
 }
