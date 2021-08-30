@@ -27,23 +27,25 @@ public class VoucherService {
         return voucherRepository.getVoucherList();
     }
 
-    public void createFixVoucher(String amount) {
+    public Voucher createFixVoucher(String amount) {
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = new FixedAmountVoucher(voucherId, Long.parseLong(amount));
         voucherRepository.insert(voucher);
+        return voucher;
     }
 
-    public void createPercentVoucher(String percent) {
+    public Voucher createPercentVoucher(String percent) {
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = new PercentDiscountVoucher(voucherId, Long.parseLong(percent));
         voucherRepository.insert(voucher);
+        return voucher;
     }
 
-    public void createVoucher(VoucherType type, String amount) {
+    public Voucher createVoucher(VoucherType type, String amount) {
         if (type == VoucherType.FIXED) {
-            createFixVoucher(amount);
+            return createFixVoucher(amount);
         } else {
-            createPercentVoucher(amount);
+            return createPercentVoucher(amount);
         }
     }
 }
