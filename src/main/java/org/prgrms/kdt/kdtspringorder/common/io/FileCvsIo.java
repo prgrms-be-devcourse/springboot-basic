@@ -2,7 +2,6 @@ package org.prgrms.kdt.kdtspringorder.common.io;
 
 import com.opencsv.CSVReader;
 import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
-import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,9 +14,9 @@ import java.util.List;
 
 @Component
 @Qualifier("file-scv-io")
-public class FileScvIo implements FileIo<Customer>{
+public class FileCvsIo implements FileIo<Customer>{
 
-    private static final Logger logger = LoggerFactory.getLogger(FileScvIo.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileCvsIo.class);
 
     @Value(value = "${kdt.dev.file-io.cvs-path}")
     private String CVS_PATH;
