@@ -1,0 +1,21 @@
+kdt:
+  version: "v1.0.0-default"
+  minimum-order-amount: 1
+  support-vendors:
+    - defaulta
+    - defaultb
+  description: |
+    line 1 hello world default
+    line 2 xxxxx default
+    line 3 default
+
+db_path:
+  txt_path: "db.txt"
+  csv_path: "customer_blacklist.csv"
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_mgmt?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
