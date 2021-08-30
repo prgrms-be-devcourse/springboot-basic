@@ -31,6 +31,11 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     }
 
     @Override
+    public List<Voucher> findByVoucherId(UUID customerId) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         System.out.println(MessageFormat.format("[Profile dev is set.] repositoryName is {0}", repositoryName));
         return new ArrayList<>(storage.values());

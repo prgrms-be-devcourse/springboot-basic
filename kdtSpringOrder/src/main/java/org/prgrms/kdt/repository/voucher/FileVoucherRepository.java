@@ -51,6 +51,11 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     }
 
     @Override
+    public List<Voucher> findByVoucherId(UUID customerId) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         logger.info("Started findAll()");
 

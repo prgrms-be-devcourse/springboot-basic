@@ -19,11 +19,13 @@ public class OutputController {
         }
         voucherList.forEach(System.out::println);
     }
-    public void showBadCustomerList(List<Customer> customerList) {
-        if(customerList.isEmpty()) {
+
+    public void showCustomerVoucherList(List<Customer> customerVoucherList) {
+        if(customerVoucherList.isEmpty()) {
             showBadCustomerListEmptyMessage();
             return;
         }
-        customerList.forEach(System.out::println);
+        customerVoucherList.forEach(System.out::println);
     }
+
 }

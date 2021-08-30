@@ -16,9 +16,9 @@ public class InputController {
         return CommandType.getCommandType(sc.next().toUpperCase());
     }
 
-    public UUID getCustomerId() {
-        return UUID.fromString(sc.next());
-    }
+    public UUID getCustomerId() { return UUID.fromString(sc.next()); }
+
+    public UUID getVoucherId() { return UUID.fromString(sc.next()); }
 
     public VoucherType getVoucherType() {
         return VoucherType.getVoucherType(sc.next().toUpperCase());

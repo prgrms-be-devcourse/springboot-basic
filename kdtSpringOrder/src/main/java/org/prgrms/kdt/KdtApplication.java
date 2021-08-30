@@ -55,8 +55,14 @@ public class KdtApplication {
                 case CREATE -> {
                     runCreate(inputController, voucherService);
                 }
-                case LIST -> {
-                    runList(outputController, voucherService.getAllVouchers());
+                case ALLVOUCHERLIST -> {
+                    runAllVoucherList(outputController, voucherService.getAllVouchers());
+                }
+                case VOUCHERLISTBYCUSTOMERID -> {
+                    runVoucherListByCustomerId(inputController, outputController, voucherService);
+                }
+                case VOUCHERBYVOUCHERID -> {
+                    runVoucherByVoucherId(inputController, outputController, voucherService);
                 }
                 case BLACKLIST -> {
                     runBadCustomerList(outputController, customerService);
@@ -91,15 +97,32 @@ public class KdtApplication {
         logger.info("Finished runCreate()");
     }
 
-    public static void runList(OutputController outputController, List<Voucher> voucherList) {
-        logger.info("Starts runList()");
+    public static void runAllVoucherList(OutputController outputController, List<Voucher> voucherList) {
+        logger.info("Starts runAllVoucherList()");
         outputController.showVoucherList(voucherList);
-        logger.info("Finished runList()");
+        logger.info("Finished runAllVoucherList()");
+    }
+
+    public static void runVoucherListByCustomerId(InputController inputController, OutputController outputController, VoucherService voucherService) {
+        logger.info("Starts runVoucherListByCustomerId()");
+        showEnterCustomerIdMessage();
+        UUID customerId = inputController.getCustomerId();
+        outputController.showVoucherList(voucherService.getVouchersByCustomerId(customerId));
+        logger.info("Finished runVoucherListByCustomerId()");
+    }
+
+    public static void runVoucherByVoucherId(InputController inputController, OutputController outputController, VoucherService voucherService) {
+        logger.info("Starts runVoucherByVoucherId()");
+        showEnterVoucherIdMessgae();
+        UUID voucherId = inputController.getVoucherId();
+        outputController.showVoucherList(List.of(voucherService.getVoucher(voucherId)));
+        logger.info("Finished runVoucherByVoucherId()");
+
     }
 
     public static void runBadCustomerList(OutputController outputController, CustomerService customerService) {
         logger.info("Starts runBadCustomerList()");
-        outputController.showBadCustomerList(customerService.getAllBadCustomer());
+        outputController.showCustomerVoucherList(customerService.getAllBadCustomer());
         logger.info("Finished runBadCustomerList()");
     }
 

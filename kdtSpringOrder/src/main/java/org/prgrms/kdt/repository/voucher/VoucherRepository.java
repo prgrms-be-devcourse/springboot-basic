@@ -14,6 +14,8 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID voucherId);
 
+    List<Voucher> findByVoucherId(UUID customerId);
+
     List<Voucher> findAll();
 
 }

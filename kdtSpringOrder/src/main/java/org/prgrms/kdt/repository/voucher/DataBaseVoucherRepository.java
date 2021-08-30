@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -70,7 +71,19 @@ public class DataBaseVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        try{
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                    voucherRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Voucher> findByVoucherId(UUID customerId) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)", Collections.singletonMap("customerId", customerId.toString().getBytes()), voucherRowMapper);
     }
 
     @Override

@@ -53,13 +53,19 @@ public class VoucherService {
         logger.info("Starts getVoucher(), UUID : {}", voucherId.toString());
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(()-> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+               .orElseThrow(()-> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
     public List<Voucher> getAllVouchers() {
         logger.info("Starts getAllVouchers()");
         return voucherRepository
                 .findAll();
+    }
+
+    public List<Voucher> getVouchersByCustomerId(UUID customerId) {
+        logger.info("Starts getVouchersByCustomerId()");
+        return voucherRepository
+                .findByVoucherId(customerId);
     }
 
     private boolean checkValidity(VoucherSaveRequestDto voucherSaveRequestDto, UUID uuid) {

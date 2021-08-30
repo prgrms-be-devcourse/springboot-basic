@@ -9,7 +9,9 @@ public enum CommandType {
     UNDEFINED("undefined"),
     EXIT("exit"),
     CREATE("create"),
-    LIST("list"),
+    ALLVOUCHERLIST("allvoucherlist"),
+    VOUCHERLISTBYCUSTOMERID("voucherlistbycustomerid"),
+    VOUCHERBYVOUCHERID("voucherbyvoucherid"),
     BLACKLIST("blacklist"),
     REPLAY("replay");
 
