@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -65,6 +66,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
             return Optional.empty();
         }
 
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate
+                .query(
+                        "SELECT * FROM vouchers WHERE voucher_type = ?",
+                        voucherRowMapper,
+                        voucherType.name());
     }
 
     public int count() {

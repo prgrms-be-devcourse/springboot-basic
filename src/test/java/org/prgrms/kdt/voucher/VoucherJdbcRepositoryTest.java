@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +36,7 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
     @DisplayName("바우처 ID 조회 테스트")
     void findById() {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = givenVoucher(voucherId);
+        Voucher voucher = givenPercentVoucher(voucherId);
         voucherJdbcRepository.insert(voucher);
 
         Optional<Voucher> findVoucher = voucherJdbcRepository.findById(voucherId);
@@ -44,7 +45,27 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
         assertThat(findVoucher.get().getVoucherId()).isEqualTo(voucherId);
     }
 
-    private Voucher givenVoucher(UUID voucherId) {
+    @Test
+    @DisplayName("바우처 타입 조회 테스트")
+    void findByFixedVoucher() {
+        voucherJdbcRepository.insert(givenFixedVoucher(UUID.randomUUID()));
+        voucherJdbcRepository.insert(givenFixedVoucher(UUID.randomUUID()));
+        voucherJdbcRepository.insert(givenFixedVoucher(UUID.randomUUID()));
+
+        voucherJdbcRepository.insert(givenPercentVoucher(UUID.randomUUID()));
+        voucherJdbcRepository.insert(givenPercentVoucher(UUID.randomUUID()));
+
+        List<Voucher> vouchers = voucherJdbcRepository.findByVoucherType(VoucherType.FIX);
+
+        assertThat(vouchers.size()).isEqualTo(3);
+        assertThat(vouchers).filteredOn(v -> v.getVoucherType() == VoucherType.FIX);
+    }
+
+    private Voucher givenFixedVoucher(UUID voucherId) {
+        return new Voucher(voucherId, 50L, VoucherType.FIX, LocalDateTime.now());
+    }
+
+    private Voucher givenPercentVoucher(UUID voucherId) {
         return new Voucher(voucherId, 50L, VoucherType.PERCENT, LocalDateTime.now());
     }
 }
