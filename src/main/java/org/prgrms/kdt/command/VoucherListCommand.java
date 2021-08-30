@@ -20,7 +20,9 @@ public class VoucherListCommand implements CommandOperator {
 
     @Override
     public void operate(Console console) {
-        console.printVouchers(voucherService.getAllVoucher());
+        voucherService.getAllVoucher()
+                .values()
+                .forEach(value -> console.printLine(value.toString()));
         console.printNextCommand();
     }
 }

@@ -1,15 +1,10 @@
 package org.prgrms.kdt.io;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.UUID;
 import org.prgrms.kdt.command.CommandType;
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.VoucherData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by yhh1056
@@ -41,32 +36,22 @@ public class Console implements Output, Input {
         }
     }
 
-    /**
-     * 사용자로부터 쉼표를 구분으로 바우처 넘버와 할인양을 입력받는다.
-     *
-     * @return VoucherData
-     * @throws IllegalArgumentException
-     */
     @Override
-    public VoucherData inputVoucher() {
+    public String[] inputVoucher() {
         printVoucherChoice();
 
         while (true) {
             try {
                 String inputVoucher = scanner.nextLine();
                 validateSeparator(inputVoucher);
-
-                String[] split = inputVoucher.split(",");
-                String voucherNumber = split[0].trim();
-                long discount = validateNumeric(split[1].trim());
-
-                return new VoucherData(voucherNumber, discount);
+                var split = inputVoucher.split(",");
+                validateNumeric(split[1].trim());
+                return split;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 logger.error(e.getMessage());
             }
         }
-
     }
 
     private void validateSeparator(String inputVoucher) {
@@ -110,8 +95,8 @@ public class Console implements Output, Input {
     }
 
     @Override
-    public void printVouchers(Map<UUID, Voucher> vouchers) {
-        vouchers.values().forEach(System.out::println);
+    public void printLine(String line) {
+        System.out.println(line);
     }
 
     @Override

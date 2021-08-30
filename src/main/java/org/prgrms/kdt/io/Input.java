@@ -2,7 +2,6 @@ package org.prgrms.kdt.io;
 
 import java.util.Optional;
 import org.prgrms.kdt.command.CommandType;
-import org.prgrms.kdt.voucher.VoucherData;
 
 /**
  * Created by yhh1056
@@ -12,6 +11,6 @@ public interface Input {
 
     Optional<CommandType> inputCommand();
 
-    VoucherData inputVoucher();
+    String[] inputVoucher();
 
 }

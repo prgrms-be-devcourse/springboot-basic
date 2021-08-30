@@ -23,10 +23,14 @@ public class VoucherCreateCommand implements CommandOperator {
 
     @Override
     public void operate(Console console) {
-        VoucherData voucherData = console.inputVoucher();
+        VoucherData voucherData = createVoucher(console.inputVoucher());
         VoucherType voucherType = VoucherType.findByNumber(voucherData.getVoucherNumber());
         Voucher voucher = voucherType.create(voucherData);
         voucherService.createVoucher(voucher);
         console.successCreate();
+    }
+
+    private VoucherData createVoucher(String[] inputVoucher) {
+        return new VoucherData(inputVoucher[0].trim(), Long.parseLong(inputVoucher[1].trim()));
     }
 }
