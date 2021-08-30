@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_mgmt?useUnicode=true&serverTimezone=Asia/Seoul&useSSL=false
+    username: root
+    password: root1234!

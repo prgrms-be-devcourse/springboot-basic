@@ -1,0 +1,4 @@
+01:11:39.013 [main] ERROR org.prgrms.kdt.io.Console - No enum constant org.prgrms.kdt.command.CommandType.CREAET
+12:18:05.420 [main] ERROR org.prgrms.kdt.io.Console - 쉼표로 구분해서 입력해주세요.
+12:18:12.736 [main] ERROR org.prgrms.kdt.io.Console - 할인금액 또는 할인율은 0보다 작을 수 없습니다.
+12:18:29.272 [main] ERROR org.prgrms.kdt.io.Console - 숫자 형식으로 입력해주세요.
