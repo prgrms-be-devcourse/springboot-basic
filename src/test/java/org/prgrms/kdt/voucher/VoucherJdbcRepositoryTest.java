@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.common.BaseRepositoryTest;
@@ -16,11 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by yhh1056
  * Date: 2021/08/30 Time: 8:02 오후
  */
-
 class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
 
     @Autowired
     VoucherJdbcRepository voucherJdbcRepository;
+
+    @BeforeEach
+    void beforeEach() {
+        voucherJdbcRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("바우처 저장 테스트")
@@ -76,6 +81,33 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
 
         assertThat(findVoucher).isNotEmpty();
         assertThat(findVoucher.get().getName()).isEqualTo(changeName);
+    }
+
+    @Test
+    @DisplayName("바우처 삭제 테스트")
+    void deleteById() {
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = givenPercentVoucher(voucherId);
+        voucherJdbcRepository.insert(voucher);
+
+        voucherJdbcRepository.deleteById(voucherId);
+
+        assertThat(voucherJdbcRepository.count()).isEqualTo(0);
+        assertThat(voucherJdbcRepository.findById(voucherId)).isEmpty();
+    }
+
+
+    @Test
+    @DisplayName("바우처 전체 삭제 테스트")
+    void deleteAll() {
+        voucherJdbcRepository.insert(givenPercentVoucher(UUID.randomUUID()));
+        voucherJdbcRepository.insert(givenPercentVoucher(UUID.randomUUID()));
+        voucherJdbcRepository.insert(givenPercentVoucher(UUID.randomUUID()));
+        voucherJdbcRepository.insert(givenPercentVoucher(UUID.randomUUID()));
+
+        voucherJdbcRepository.deleteAll();
+
+        assertThat(voucherJdbcRepository.count()).isEqualTo(0);
     }
 
     private Voucher givenFixedVoucher(UUID voucherId) {

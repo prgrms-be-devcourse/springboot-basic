@@ -63,7 +63,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 voucher.getVoucherId().toString().getBytes());
 
         if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new RuntimeException("Nothing was updated");
         }
 
         return voucher;
@@ -93,7 +93,20 @@ public class VoucherJdbcRepository implements VoucherRepository {
                         voucherType.name());
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+        int update = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
+                voucherId.toString().getBytes());
 
+        if (update != 1) {
+            throw new RuntimeException("Nothing was delete");
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM vouchers");
+    }
 
     public int count() {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM vouchers", Integer.class);
