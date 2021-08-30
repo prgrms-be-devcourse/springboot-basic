@@ -7,10 +7,11 @@ import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class Console implements Input, Output {
     private final static Logger logger = LoggerFactory.getLogger(Console.class);
-    private Scanner input;
+    private final Scanner input;
 
     public Console() {
         this.input = new Scanner(System.in);
@@ -19,7 +20,6 @@ public class Console implements Input, Output {
     @Override
     public void printStartAppInfo() {
         System.out.println("=== Voucher Program ===");
-        printCommandList();
     }
 
     @Override
@@ -34,26 +34,34 @@ public class Console implements Input, Output {
 
     @Override
     public void printCommandError(String command) {
-        System.out.println(MessageFormat.format("[ERROR]Invalid command type \nYour input : {0}", command));
-        printCommandList();
-        System.out.println("=================");
+        String message = """
+                [ERROR]Invalid command type 
+                Your input : {0}
+                ===========""";
+        System.out.println(MessageFormat.format(message, command));
     }
 
     @Override
     public void printCreateTypes() {
-        System.out.println("""
-                input voucher info
+        System.out.print("""
                 <vouhcerType> <data>
                 voucherType
-                \tP : FixedAmountVoucher
-                \tF : PercentDiscountVoucher
+                \tP : PercentDiscountVoucher(1~100)
+                \tF : FixedAmountVoucher(1~100000)
                 data is long value
-                ex) P 10""");
+                ex) P 10
+                input voucher info:""");
+    }
+
+    @Override
+    public <T> void printStream(Stream<T> list) {
+        list.forEach(System.out::println);
     }
 
     @Override
     public CommandType getInputCommand() {
-        ;
+        printCommandList();
+        System.out.print("input command:");
         String command = input.nextLine();
         try {
             return CommandType.valueOf(command.toUpperCase());

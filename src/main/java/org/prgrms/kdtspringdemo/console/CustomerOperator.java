@@ -1,10 +1,13 @@
 package org.prgrms.kdtspringdemo.console;
 
 import org.prgrms.kdtspringdemo.configuration.AppConfiguration;
+import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class CustomerOperator implements CommandOperator {
+import java.util.stream.Stream;
+
+public class CustomerOperator implements CommandOperator<Customer> {
     private final CustomerService customerService;
 
     public CustomerOperator() {
@@ -13,16 +16,17 @@ public class CustomerOperator implements CommandOperator {
     }
 
     @Override
-    public void create(String[] splitList) {
+    public Customer create(String[] splitList) {
         //None
+        return null;
     }
 
     @Override
-    public void printAll() {
-        customerService.printAll();
+    public Stream<Customer> getAllitems() {
+        return customerService.getAllCustomers();
     }
 
-    public void printBlacklist() {
-        customerService.printBlacklist();
+    public Stream<Customer> getAllBlacklist() {
+        return customerService.getAllBlacklist();
     }
 }

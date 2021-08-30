@@ -1,25 +1,33 @@
 package org.prgrms.kdtspringdemo.application;
 
 import org.prgrms.kdtspringdemo.CommandType;
+import org.prgrms.kdtspringdemo.console.CommandOperator;
 import org.prgrms.kdtspringdemo.console.Console;
 import org.prgrms.kdtspringdemo.console.CustomerOperator;
-import org.prgrms.kdtspringdemo.console.VoucherOperator;
+import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.voucher.Voucher;
+
+import java.util.stream.Stream;
 
 public class ConsoleApp {
-    public ConsoleApp(Console console, VoucherOperator voucherOperator, CustomerOperator customerOperator) {
+    public ConsoleApp(Console console, CommandOperator<Voucher> operator, CustomerOperator customerOperator) {
         console.printStartAppInfo();
 
         while (true) {
             CommandType command = console.getInputCommand();
             switch (command) {
                 case CREATE -> {
-                    console.printCreateTypes();
-                    String[] createCommand = console.getCreateLine().split(" ");
-                    voucherOperator.create(createCommand);
+                    Voucher voucher = null;
+                    while (voucher == null)
+                    {
+                        console.printCreateTypes();
+                        String[] createCommand = console.getCreateLine().split(" ");
+                        voucher = operator.create(createCommand);
+                    }
                 }
-                case CUSTOMERS -> customerOperator.printAll();
-                case BLACKS -> customerOperator.printBlacklist();
-                case LIST -> voucherOperator.printAll();
+                case CUSTOMERS -> console.printStream(customerOperator.getAllitems());
+                case BLACKS -> console.printStream(customerOperator.getAllBlacklist());
+                case LIST -> console.printStream(operator.getAllitems());
                 case EXIT -> System.exit(0);
             }
         }

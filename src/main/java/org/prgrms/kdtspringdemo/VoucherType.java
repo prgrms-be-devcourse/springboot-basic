@@ -24,21 +24,25 @@ public enum VoucherType {
         return count != 0;
     }
 
-    private static VoucherType findByCommand(String command) {
-        return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> voucherType.inputCommand.equals(command))
-                .findAny()
-                .orElseThrow(IllegalArgumentException::new);
+    public static VoucherType findByCommand(String command) {
+        Optional<VoucherType> voucherType = Arrays.stream(VoucherType.values())
+                .filter(type -> type.inputCommand.equals(command))
+                .findFirst();
+        return voucherType.orElse(null);
     }
 
-    public static Optional<Voucher> getVoucher(String inputCommand, long value) {
-        Optional<Voucher> voucher = Optional.empty();
-
+    public static Voucher createVoucher(String inputCommand, long value) {
         switch (findByCommand(inputCommand)) {
-            case FIXED_AMOUNT -> voucher = Optional.of(new FixedAmountVoucher(UUID.randomUUID(), value));
-            case PERCENT_DISCOUNT -> voucher = Optional.of(new PercentDiscountVoucher(UUID.randomUUID(), value));
+            case FIXED_AMOUNT -> {
+                if (value > 0 && value <= 100000) return new FixedAmountVoucher(UUID.randomUUID(), value);
+                else return null;
+            }
+            case PERCENT_DISCOUNT ->  {
+                if (value > 0 && value <= 100) return new PercentDiscountVoucher(UUID.randomUUID(), value);
+                else return null;
+            }
         }
-        return voucher;
+        return null;
     }
 
     ;

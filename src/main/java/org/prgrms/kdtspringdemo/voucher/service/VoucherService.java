@@ -27,8 +27,7 @@ public class VoucherService {
         return voucher;
     }
 
-    public void printAllVoucher() {
-        Stream<Voucher> allVoucher = voucherRepository.findAll();
-        allVoucher.forEach(System.out::println);
+    public Stream<Voucher> getAllVouchers() {
+        return voucherRepository.findAll();
     }
 }

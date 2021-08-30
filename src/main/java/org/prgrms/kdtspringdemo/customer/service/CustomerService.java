@@ -14,13 +14,11 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public void printAll() {
-        Stream<Customer> allCustomer = customerRepository.findAll();
-        allCustomer.forEach(System.out::println);
+    public Stream<Customer> getAllBlacklist() {
+        return customerRepository.findBlacklist();
     }
 
-    public void printBlacklist() {
-        Stream<Customer> allCustomer = customerRepository.findBlacklist();
-        allCustomer.forEach(System.out::println);
+    public Stream<Customer> getAllCustomers() {
+        return customerRepository.findAll();
     }
 }

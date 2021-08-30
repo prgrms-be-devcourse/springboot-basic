@@ -1,7 +1,9 @@
 package org.prgrms.kdtspringdemo.console;
 
-public interface CommandOperator {
-    public void create(String[] splitList);
+import java.util.stream.Stream;
 
-    public void printAll();
+public interface CommandOperator<T> {
+    public T create(String[] splitList);
+
+    public Stream<T> getAllitems();
 }
