@@ -1,24 +1,18 @@
 package org.prgrms.orderApp.presentation.commandOperator.pages;
 
 import org.json.simple.parser.ParseException;
-import org.prgrms.orderApp.application.service.VoucherApplicationService;
+import org.prgrms.orderApp.service.VoucherApplicationService;
 import org.prgrms.orderApp.infrastructure.library.console.Console;
 import org.prgrms.orderApp.presentation.commandOperator.script.AllScriptForCMDApplication;
 import org.prgrms.orderApp.presentation.commandOperator.util.CheckInvalid;
 import org.prgrms.orderApp.presentation.commandOperator.util.ProcessingStatus;
-import org.prgrms.orderApp.domain.voucher.model.FixedAmountVoucher;
-import org.prgrms.orderApp.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.orderApp.domain.voucher.model.Voucher;
 import org.prgrms.orderApp.domain.voucher.model.VoucherType;
-import org.prgrms.orderApp.domain.voucher.service.VoucherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class VoucherPage implements AllScriptForCMDApplication {

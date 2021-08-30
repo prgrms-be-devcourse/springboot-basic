@@ -1,11 +1,8 @@
 package org.prgrms.orderApp.presentation.commandOperator.pages;
 
-import org.prgrms.orderApp.application.service.MongoDbManageApplicationService;
-import org.prgrms.orderApp.application.service.OrderApplicationService;
+import org.prgrms.orderApp.service.MongoDbManageApplicationService;
 import org.prgrms.orderApp.presentation.commandOperator.script.AllScriptForCMDApplication;
 import org.prgrms.orderApp.infrastructure.library.console.Console;
-import org.prgrms.orderApp.infrastructure.library.monguDb.service.DbManagement;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

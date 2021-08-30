@@ -1,4 +1,4 @@
-package org.prgrms.orderApp.application.util;
+package org.prgrms.orderApp.util;
 
 import org.springframework.stereotype.Component;
 

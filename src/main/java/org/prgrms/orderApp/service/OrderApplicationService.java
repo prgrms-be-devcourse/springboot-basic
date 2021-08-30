@@ -1,4 +1,4 @@
-package org.prgrms.orderApp.application.service;
+package org.prgrms.orderApp.service;
 
 import org.springframework.stereotype.Service;
 

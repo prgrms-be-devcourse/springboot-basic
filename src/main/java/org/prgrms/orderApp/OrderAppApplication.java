@@ -12,7 +12,7 @@ public class OrderAppApplication {
 	private final static Logger logger = LoggerFactory.getLogger(OrderAppApplication.class);
 	public static void main(String[] args) {
 		SpringApplication.run(OrderAppApplication.class, args);
-		
+
 	}
 
 }

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@ComponentScan(basePackages = {"org.prgrms.orderApp.application",
+@ComponentScan(basePackages = {"org.prgrms.orderApp.service",
         "org.prgrms.orderApp.domain",
         "org.prgrms.orderApp.infrastructure.repository",
        })

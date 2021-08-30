@@ -1,13 +1,12 @@
-package org.prgrms.orderApp.application.service;
+package org.prgrms.orderApp.service;
 
 import org.json.simple.parser.ParseException;
-import org.prgrms.orderApp.application.util.BasicCheckInvalid;
+import org.prgrms.orderApp.util.BasicCheckInvalid;
 import org.prgrms.orderApp.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.orderApp.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.orderApp.domain.voucher.model.Voucher;
 import org.prgrms.orderApp.domain.voucher.model.VoucherType;
 import org.prgrms.orderApp.domain.voucher.service.VoucherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
