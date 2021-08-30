@@ -23,17 +23,17 @@ public class AppConfigurationClass {
   }
 
   @Bean
-  CommandValidator commandValidator() {
+  public CommandValidator commandValidator() {
     return new CommandValidator();
   }
 
   @Bean
-  Input input(){
+  public Input input(){
     return new ConsoleInput();
   }
 
   @Bean
-  Output output(){
+  public Output output(){
     return new ConsoleOutput();
   }
 
