@@ -28,54 +28,79 @@ public class FileCustomerRepository implements CustomerRepository {
     // TODO : 각 class마다 logger를 두지 않고 AOP 적용
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
-    public FileCustomerRepository() throws IOException, CsvValidationException {
+    public FileCustomerRepository() {
         if (!blacklistCSV.exists()) {
-            blacklistCSV.createNewFile();
+            try {
+                blacklistCSV.createNewFile();
+            } catch (IOException e) {
+                logger.error("Cannot create csv file for blacklist -> {}", e.getMessage());
+                throw new RuntimeException(e);
+            }
         }
+
         if (!customersCSV.exists()) {
-            customersCSV.createNewFile();
+            try {
+                customersCSV.createNewFile();
+            } catch (IOException e) {
+                logger.error("Cannot create csv file for customers -> {}", e.getMessage());
+                throw new RuntimeException(e);
+            }
         }
 
         // read blacklist
-        FileReader blacklistReader = new FileReader(blacklistCSV);
-        CSVReader csvReader = new CSVReader(blacklistReader);
+        try {
+            FileReader blacklistReader = new FileReader(blacklistCSV);
+            CSVReader csvReader = new CSVReader(blacklistReader);
 
-        String[] records;
-        while (null != (records = csvReader.readNext())) {
-            UUID customerId = UUID.fromString(records[0]);
-            String name = records[1];
-            String email = records[2];
-            LocalDateTime lastLoginAt = LocalDateTime.parse(records[3]);
-            LocalDateTime createdAt = LocalDateTime.parse(records[4]);
+            String[] records;
+            while (null != (records = csvReader.readNext())) {
+                UUID customerId = UUID.fromString(records[0]);
+                String name = records[1];
+                String email = records[2];
+                LocalDateTime lastLoginAt = LocalDateTime.parse(records[3]);
+                LocalDateTime createdAt = LocalDateTime.parse(records[4]);
 
-            cache4Blacklist.put(customerId, new Customer(customerId, name, email, lastLoginAt, createdAt));
+                cache4Blacklist.put(customerId, new Customer(customerId, name, email, lastLoginAt, createdAt));
+            }
+        } catch (CsvValidationException e) {
+            logger.error("CSV file is damaged! -> {}", e.getMessage());
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            logger.error("Something went wrong during opening CSV file for blacklist -> {}", e.getMessage());
+            throw new RuntimeException(e);
         }
 
         // read customer list
-        FileReader customersReader = new FileReader(customersCSV);
-        csvReader = new CSVReader(customersReader);
+        try {
+            FileReader customersReader = new FileReader(customersCSV);
+            CSVReader csvReader = new CSVReader(customersReader);
 
-        while (null != (records = csvReader.readNext())) {
-            UUID customerId = UUID.fromString(records[0]);
-            String name = records[1];
-            String email = records[2];
-            LocalDateTime lastLoginAt = LocalDateTime.parse(records[3]);
-            LocalDateTime createdAt = LocalDateTime.parse(records[4]);
+            String[] records;
+            while (null != (records = csvReader.readNext())) {
+                UUID customerId = UUID.fromString(records[0]);
+                String name = records[1];
+                String email = records[2];
+                LocalDateTime lastLoginAt = LocalDateTime.parse(records[3]);
+                LocalDateTime createdAt = LocalDateTime.parse(records[4]);
 
-            cache4Customers.put(customerId, new Customer(customerId, name, email, lastLoginAt, createdAt));
+                cache4Customers.put(customerId, new Customer(customerId, name, email, lastLoginAt, createdAt));
+            }
+        } catch (FileNotFoundException e) {
+            logger.error("CSV file for customer list does not exist! -> {}", e.getMessage());
+            throw new RuntimeException(e);
+        } catch (CsvValidationException e) {
+            logger.error("CSV file is damaged! -> {}", e.getMessage());
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            logger.error("Something went wrong during opening CSV file for customers -> {}", e.getMessage());
+            throw new RuntimeException(e);
         }
-
     }
 
     @Override
     public Customer insert(Customer customer) {
-        try {
-            if (null == cache4Customers.put(customer.getCustomerId(), customer)) {
-                updateFile(customersCSV, Map.of(customer.getCustomerId(), customer), true);
-            }
-        } catch (IOException e) {
-            logger.error("Inserting new customer Fails -> {}", e.getMessage());
-            throw new RuntimeException(e);
+        if (null == cache4Customers.put(customer.getCustomerId(), customer)) {
+            updateFile(customersCSV, Map.of(customer.getCustomerId(), customer), true);
         }
         return customer;
     }
@@ -108,13 +133,8 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer registerToBlacklist(Customer customer) {
-        try {
-            if (null == cache4Blacklist.put(customer.getCustomerId(), customer)) {
-                updateFile(blacklistCSV, Map.of(customer.getCustomerId(), customer), true);
-            }
-        } catch (IOException e) {
-            logger.error("Registering a customer to blacklist Fails -> {}", e.getMessage());
-            throw new RuntimeException(e);
+        if (null == cache4Blacklist.put(customer.getCustomerId(), customer)) {
+            updateFile(blacklistCSV, Map.of(customer.getCustomerId(), customer), true);
         }
         return customer;
     }
@@ -126,28 +146,29 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteCustomer(UUID customerId) {
-        try {
-            if (null != cache4Blacklist.remove(customerId)) {
-                updateFile(blacklistCSV, cache4Blacklist, false);
-            }
+        // FIXME : 매번 전체 파일을 다시 써야 하므로 성능저하 발생. 해결 필요
+        if (null != cache4Blacklist.remove(customerId)) {
+            updateFile(blacklistCSV, cache4Blacklist, false);
+        }
 
-            if (null != cache4Customers.remove(customerId)) {
-                updateFile(customersCSV, cache4Customers, false);
-            }
-        } catch (IOException e) {
-            logger.error("Deleting a customer Fails -> {}", e.getMessage());
-            throw new RuntimeException(e);
+        if (null != cache4Customers.remove(customerId)) {
+            updateFile(customersCSV, cache4Customers, false);
         }
     }
 
-    private void updateFile(File blacklistCSV, Map<UUID, Customer> cache4Blacklist, boolean appendToFile) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(blacklistCSV, false));
-        for (Customer customer : cache4Blacklist.values()) {
-            bufferedWriter.write(MessageFormat.format("{0},{1},{2},{3},{4}",
-                    customer.getCustomerId(), customer.getName(), customer.getEmail(),
-                    customer.getLastLoginAt(), customer.getCreatedAt()));
-            bufferedWriter.newLine();
+    private void updateFile(File csvFile, Map<UUID, Customer> cache, boolean appendToFile) {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(csvFile, appendToFile));
+            for (Customer customer : cache.values()) {
+                bufferedWriter.write(MessageFormat.format("{0},{1},{2},{3},{4}",
+                        customer.getCustomerId(), customer.getName(), customer.getEmail(),
+                        customer.getLastLoginAt(), customer.getCreatedAt()));
+                bufferedWriter.newLine();
+            }
             bufferedWriter.close();
+        } catch (IOException e) {
+            logger.error("Updating CSV file Fails -> {}", e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }
