@@ -1,5 +1,7 @@
-package org.prgrms.kdtspringdemo.voucher;
+package org.prgrms.kdtspringdemo.voucher.service;
 
+import org.prgrms.kdtspringdemo.voucher.Voucher;
+import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;

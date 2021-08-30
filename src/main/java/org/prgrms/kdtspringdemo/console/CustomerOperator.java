@@ -1,7 +1,7 @@
 package org.prgrms.kdtspringdemo.console;
 
 import org.prgrms.kdtspringdemo.configuration.AppConfiguration;
-import org.prgrms.kdtspringdemo.customer.CustomerService;
+import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class CustomerOperator implements CommandOperator {

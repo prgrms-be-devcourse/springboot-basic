@@ -1,5 +1,8 @@
-package org.prgrms.kdtspringdemo.customer;
+package org.prgrms.kdtspringdemo.customer.repository;
 
+import org.prgrms.kdtspringdemo.customer.BlackCustomer;
+import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.customer.NormalCustomer;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;

@@ -1,5 +1,7 @@
-package org.prgrms.kdtspringdemo.customer;
+package org.prgrms.kdtspringdemo.customer.service;
 
+import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Stream;

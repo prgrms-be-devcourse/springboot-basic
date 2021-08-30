@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.console;
 
 import org.prgrms.kdtspringdemo.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
-import org.prgrms.kdtspringdemo.voucher.VoucherService;
+import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

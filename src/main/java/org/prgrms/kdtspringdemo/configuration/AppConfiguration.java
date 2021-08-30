@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan(basePackages = {
-        "org.prgrms.kdtspringdemo.order",
         "org.prgrms.kdtspringdemo.voucher",
         "org.prgrms.kdtspringdemo.customer",
         "org.prgrms.kdtspringdemo.configuration"

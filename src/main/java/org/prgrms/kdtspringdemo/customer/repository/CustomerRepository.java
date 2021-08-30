@@ -1,5 +1,6 @@
-package org.prgrms.kdtspringdemo.customer;
+package org.prgrms.kdtspringdemo.customer.repository;
 
+import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
 
 import java.util.Optional;

@@ -2,7 +2,6 @@ package org.prgrms.kdtspringdemo.console;
 
 import org.prgrms.kdtspringdemo.CommandType;
 import org.prgrms.kdtspringdemo.io.*;
-import org.prgrms.kdtspringdemo.order.OrderProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
