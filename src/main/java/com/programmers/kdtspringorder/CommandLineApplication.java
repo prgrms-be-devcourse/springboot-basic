@@ -4,7 +4,7 @@ import com.programmers.kdtspringorder.command.Command;
 import com.programmers.kdtspringorder.command.CreateCommandAction;
 import com.programmers.kdtspringorder.command.CustomerListCommandAction;
 import com.programmers.kdtspringorder.command.VoucherListCommandAction;
-import com.programmers.kdtspringorder.customer.CustomerServiceImpl;
+import com.programmers.kdtspringorder.customer.CustomerService;
 import com.programmers.kdtspringorder.io.Input;
 import com.programmers.kdtspringorder.io.Output;
 import com.programmers.kdtspringorder.voucher.VoucherService;
@@ -19,9 +19,9 @@ public class CommandLineApplication implements CommandLineRunner {
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
-    private final CustomerServiceImpl customerService;
+    private final CustomerService customerService;
 
-    public CommandLineApplication(Input input, Output output, VoucherService voucherService, CustomerServiceImpl customerService) {
+    public CommandLineApplication(Input input, Output output, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
