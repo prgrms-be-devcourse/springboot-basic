@@ -17,7 +17,7 @@ public enum VoucherType {
         this.voucherMaker = voucherMaker;
     }
 
-    public Voucher create(UUID voucherId, Long value) {
+    public Voucher create(UUID voucherId, long value) {
         return this.voucherMaker.apply(voucherId, value);
     }
 

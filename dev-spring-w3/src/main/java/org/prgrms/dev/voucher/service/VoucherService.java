@@ -36,7 +36,7 @@ public class VoucherService {
      * @param value
      * @return 생성된 바우처 반환
      */
-    public Voucher createVoucher(String type, UUID voucherId, Long value) {
+    public Voucher createVoucher(String type, UUID voucherId, long value) {
         Voucher voucher = VoucherType.getVoucherType(type, voucherId, value);
         voucherRepository.create(voucher);
         return voucher;

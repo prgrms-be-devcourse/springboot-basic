@@ -52,17 +52,5 @@ public class Order {
         return voucher;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
 }
 
