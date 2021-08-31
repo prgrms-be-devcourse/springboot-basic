@@ -52,7 +52,7 @@ public class OpenCsv {
                 if (nextLine[0].equals(VoucherType.FixedAmountVoucher.name())) {
                     data.put(uuid, new FixedAmountVoucher(uuid, Long.parseLong(nextLine[2])));
                 } else if (nextLine[0].equals(VoucherType.PercentDiscountVoucher.name())) {
-                    data.put(uuid, new PercentDiscountVoucher(uuid, Long.parseLong(nextLine[2])));
+                    data.put(uuid, new PercentDiscountVoucher(uuid, Integer.parseInt(nextLine[2])));
                 } else {
                     return Optional.empty();
                 }

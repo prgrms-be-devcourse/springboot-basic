@@ -34,8 +34,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     };
 
-    public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
+    public CustomerJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
