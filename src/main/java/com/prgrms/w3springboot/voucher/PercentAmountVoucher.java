@@ -3,6 +3,7 @@ package com.prgrms.w3springboot.voucher;
 import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
+    public static final int DENOMINATOR_FOR_PECENT = 100;
     private final UUID voucherId;
     private final long percent;
 
@@ -23,7 +24,7 @@ public class PercentAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (percent / DENOMINATOR_FOR_PECENT);
     }
 
     @Override

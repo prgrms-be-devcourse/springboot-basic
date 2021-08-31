@@ -16,7 +16,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(v -> v.isVoucherType(type))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 타입을 입력받았습니다."));
     }
 
     private boolean isVoucherType(final String type) {

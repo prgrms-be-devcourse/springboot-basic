@@ -24,9 +24,9 @@ public enum CommandType {
 
     public static CommandType of(final String commandType) {
         return Arrays.stream(CommandType.values())
-                .filter(c -> c.isCommandType(commandType))
+                .filter(command -> command.isCommandType(commandType))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 타입을 입력받았습니다."));
     }
 
     private boolean isCommandType(final String commandType) {

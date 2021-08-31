@@ -10,7 +10,7 @@ public class VoucherFactory {
             case PERCENT:
                 return new PercentAmountVoucher(UUID.randomUUID(), discountAmount);
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("잘못된 타입을 입력받았습니다.");
         }
     }
 }

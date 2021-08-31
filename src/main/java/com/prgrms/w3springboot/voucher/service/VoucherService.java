@@ -21,7 +21,7 @@ public class VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+                .orElseThrow(() -> new NullPointerException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
     public Voucher createVoucher(VoucherType voucherType, long discountAmount) {
