@@ -22,5 +22,4 @@ public class CustomerVoucherEntity {
         this.voucherId = voucherId;
         this.createdAt = createdAt;
     }
-
 }
