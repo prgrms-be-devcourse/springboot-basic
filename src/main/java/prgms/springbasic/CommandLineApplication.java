@@ -6,7 +6,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import prgms.springbasic.consol.Printer;
 import prgms.springbasic.repository.VoucherRepository;
 import prgms.springbasic.voucher.Voucher;
-import prgms.springbasic.voucher.VoucherServiceImpl;
+import prgms.springbasic.voucher.VoucherService;
 import prgms.springbasic.voucher.VoucherType;
 
 import java.io.BufferedReader;
@@ -18,8 +18,8 @@ import java.util.UUID;
 public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CommandLineAppConfig.class);
-        VoucherServiceImpl voucherService = applicationContext.getBean("voucherService", VoucherServiceImpl.class);
-        VoucherRepository voucherRepository = applicationContext.getBean("voucherRepository", VoucherRepository.class);
+        VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+        VoucherRepository voucherRepository = applicationContext.getBean(VoucherRepository.class);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Printer printer = new Printer();
