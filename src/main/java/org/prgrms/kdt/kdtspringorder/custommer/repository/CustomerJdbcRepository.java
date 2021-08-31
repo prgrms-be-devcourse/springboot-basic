@@ -25,7 +25,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private final String SELECT_BY_EMAIL_SQL = "select * from customers where email = :email";
     private final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, created_at) VALUES(UUID_TO_BIN(:customerId), :name, :email, :createdAt)";
     private final String UPDATE_SQL = "UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)";
-    private final String DELETE_SQL = "DELETE FROM customers";
+    private final String DELETE_ALL_SQL = "DELETE FROM customers";
+    private final String DELETE_SQL = "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId) ";
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
 
@@ -41,7 +42,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public int insert(Customer customer) {
+    public UUID insert(Customer customer) {
 
         final int update = jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
 
@@ -49,12 +50,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
             throw new RuntimeException("Nothing was inserted");
         }
 
-        return update;
+        return customer.getCustomerId();
 
     }
 
     @Override
-    public int update(Customer customer) {
+    public UUID update(Customer customer) {
         final HashMap<String, Object> paramMap = toParamMap(customer);
         final int update = jdbcTemplate.update(UPDATE_SQL, paramMap);
 
@@ -62,7 +63,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             throw new RuntimeException("Nothing was updated");
         }
 
-        return update;
+        return customer.getCustomerId();
     }
 
     private HashMap<String, Object> toParamMap(Customer customer) {
@@ -102,8 +103,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public int deleteAll() {
-        final int update = jdbcTemplate.update(DELETE_SQL, Map.of());
+        final int update = jdbcTemplate.update(DELETE_ALL_SQL, Map.of());
         return update;
+    }
+
+    @Override
+    public int delete(UUID customerId) {
+        return jdbcTemplate.update(DELETE_SQL, Map.of("customer_id", customerId));
     }
 
     /**

@@ -10,9 +10,9 @@ public interface CustomerRepository {
 
     int count();
 
-    int insert(Customer customer);
+    UUID insert(Customer customer);
 
-    int update(Customer customer);
+    UUID update(Customer customer);
 
     List<Customer> findAll();
 
@@ -23,5 +23,7 @@ public interface CustomerRepository {
     Optional<Customer> findByIEmail(String email);
 
     int deleteAll();
+
+    int delete(UUID customerId);
 
 }
