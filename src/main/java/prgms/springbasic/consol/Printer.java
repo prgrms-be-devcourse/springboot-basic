@@ -1,7 +1,8 @@
 package prgms.springbasic.consol;
 
+import prgms.springbasic.voucher.Voucher;
+
 import java.util.List;
-import java.util.UUID;
 
 public class Printer {
     public void printCommandList() {
@@ -33,11 +34,11 @@ public class Printer {
         printInputSign();
     }
 
-    public void printVoucherList(List<UUID> voucherList) {
+    public void printVoucherList(List<Voucher> voucherList) {
         System.out.println();
         System.out.println("------------< voucherList >--------------");
-        for (UUID voucherId : voucherList) {
-            System.out.println(voucherId);
+        for (Voucher voucher : voucherList) {
+            System.out.println(voucher.getVoucherId());
         }
         System.out.println("-----------------------------------------");
     }
