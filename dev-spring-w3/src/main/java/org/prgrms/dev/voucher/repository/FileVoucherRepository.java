@@ -19,12 +19,12 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final int VALUE_INDEX = 2;
 
     private final File file;
-    private final Map<UUID, Voucher> STORE;
+    private final Map<UUID, Voucher> store;
 
 
     public FileVoucherRepository() {
         this.file = new File(System.getProperty(USER_DIR), PATH);
-        this.STORE = init();
+        this.store = init();
     }
 
     private Map<UUID, Voucher> init() {
@@ -58,11 +58,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(STORE.get(voucherId));
+        return Optional.ofNullable(store.get(voucherId));
     }
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(STORE.values());
+        return new ArrayList<>(store.values());
     }
 }
