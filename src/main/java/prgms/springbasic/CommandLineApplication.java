@@ -6,7 +6,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import prgms.springbasic.consol.Printer;
 import prgms.springbasic.repository.VoucherRepository;
 import prgms.springbasic.voucher.Voucher;
-import prgms.springbasic.voucher.VoucherService;
+import prgms.springbasic.voucher.VoucherServiceImpl;
+import prgms.springbasic.voucher.VoucherType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.UUID;
 public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CommandLineAppConfig.class);
-        VoucherService voucherService = applicationContext.getBean("voucherService", VoucherService.class);
+        VoucherServiceImpl voucherService = applicationContext.getBean("voucherService", VoucherServiceImpl.class);
         VoucherRepository voucherRepository = applicationContext.getBean("voucherRepository", VoucherRepository.class);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -34,12 +35,12 @@ public class CommandLineApplication {
 
                 if (voucherNumber == 1) {
                     printer.printAmountInputInfo();
-                    int amount = Integer.parseInt(reader.readLine());
-                    newVoucher = voucherService.createFixedAmountVoucher(UUID.randomUUID(), amount);
+                    String amount = reader.readLine();
+                    newVoucher = voucherService.createVoucher(VoucherType.FIXEDAMOUNTVOUCHER, UUID.randomUUID(), amount);
                 } else if (voucherNumber == 2) {
                     printer.printPercentInputInfo();
-                    long percent = Long.parseLong(reader.readLine());
-                    newVoucher = voucherService.createPercentDiscountVoucher(UUID.randomUUID(), percent);
+                    String percent = reader.readLine();
+                    newVoucher = voucherService.createVoucher(VoucherType.PERCENTDISCOUNTVOUCHER, UUID.randomUUID(), percent);
                 }
 
                 voucherRepository.save(newVoucher);

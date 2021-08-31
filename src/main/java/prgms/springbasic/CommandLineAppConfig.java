@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import prgms.springbasic.repository.MemoryVoucherRepository;
 import prgms.springbasic.repository.VoucherRepository;
 import prgms.springbasic.voucher.VoucherService;
+import prgms.springbasic.voucher.VoucherServiceImpl;
 
 @Configuration
 public class CommandLineAppConfig {
@@ -16,6 +17,6 @@ public class CommandLineAppConfig {
 
     @Bean
     public VoucherService voucherService() {
-        return new VoucherService(voucherRepository());
+        return new VoucherServiceImpl(voucherRepository());
     }
 }
