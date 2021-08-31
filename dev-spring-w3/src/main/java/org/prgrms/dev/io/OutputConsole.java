@@ -1,5 +1,6 @@
 package org.prgrms.dev.io;
 
+import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.service.VoucherService;
 
 public class OutputConsole implements Output {
@@ -28,30 +29,24 @@ public class OutputConsole implements Output {
 
     @Override
     public void voucherList(VoucherService voucherService) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(voucherService.listVoucher().toString());
-        System.out.println(sb);
+        voucherService.listVoucher().stream()
+                .map(Voucher::toString)
+                .forEach(System.out::println);
     }
 
     @Override
     public void invalidNumberInput() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Invalid number input. Please re-enter.");
-        System.out.println(sb);
+        System.out.println("Invalid number input. Please re-enter.");
     }
 
     @Override
     public void invalidCommandTypeInput() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Invalid command type input. Please re-enter.");
-        System.out.println(sb);
+        System.out.println("Invalid command type input. Please re-enter.");
     }
 
     @Override
     public void invalidVoucherTypeInput() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Invalid voucher type input. Please re-enter.");
-        System.out.println(sb);
+        System.out.println("Invalid voucher type input. Please re-enter.");
     }
 
 }

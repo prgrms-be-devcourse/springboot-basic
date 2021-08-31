@@ -3,14 +3,17 @@ package org.prgrms.dev.voucher.service;
 import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.domain.VoucherType;
 import org.prgrms.dev.voucher.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("file") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -33,8 +36,8 @@ public class VoucherService {
      * @param value
      * @return 생성된 바우처 반환
      */
-    public Voucher createVoucher(String type, Long value) {
-        Voucher voucher = VoucherType.getVoucherType(type, value);
+    public Voucher createVoucher(String type, UUID voucherId, long value) {
+        Voucher voucher = VoucherType.getVoucherType(type, voucherId, value);
         voucherRepository.create(voucher);
         return voucher;
     }

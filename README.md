@@ -26,3 +26,12 @@ Type list to list all vouchers.
 
 ---
 
+<br/>
+
+## Mission 3  내용 
+
+- 컴포넌트 스캔을 통해서 빈이 등록되도록 한다.
+- 메모리 관리가 아닌 파일로 관리가 되는 Repository를 만들어 본다.
+
+---
+

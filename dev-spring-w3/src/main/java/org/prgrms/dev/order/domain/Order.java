@@ -44,5 +44,13 @@ public class Order {
                 .orElse(beforeDiscount);
     }
 
+    public UUID getOrderId() {
+        return orderId;
+    }
+
+    public Optional<Voucher> getVoucher() {
+        return voucher;
+    }
+
 }
 
