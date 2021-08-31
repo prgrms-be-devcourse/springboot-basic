@@ -26,6 +26,10 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/com.opencsv/opencsv
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.4'
+
+	// https://mvnrepository.com/artifact/org.mockito/mockito-core
+	testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.12.4'
+
 }
 
 test {
