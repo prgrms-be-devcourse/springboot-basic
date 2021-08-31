@@ -21,6 +21,7 @@ import java.util.Scanner;
         System.out.println("Type exit to exit the program.");
         System.out.println("Type create to create a new voucher.");
         System.out.println("Type list to list all vouchers.");
+        System.out.println("Type blackList to list all black consumers.");
     }
 
     @Override

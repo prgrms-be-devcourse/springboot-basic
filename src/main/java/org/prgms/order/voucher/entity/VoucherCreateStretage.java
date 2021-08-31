@@ -3,25 +3,26 @@ package org.prgms.order.voucher.entity;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class VoucherCreateStretage {
     enum Operator {
-        FIXEDAMOUNTVOUCHER("Fixed", (amount) -> new FixedAmountVoucher(UUID.randomUUID(),amount)),
-        PERCENTDISCOUNTVOUCHER("Percent", (amount) -> new PercentDiscountVoucher(UUID.randomUUID(),amount));
+        FIXEDAMOUNTVOUCHER("Fixed", FixedAmountVoucher::new),
+        PERCENTDISCOUNTVOUCHER("Percent", PercentDiscountVoucher::new);
 
 
 
         private String operator;
-        private Function<Long,Voucher> expression;
+        private BiFunction<UUID,Long,Voucher> expression;
 
-        Operator(String type, Function<Long,Voucher> expression){
+        Operator(String type, BiFunction<UUID, Long,Voucher> expression){
             this.operator = type;
             this.expression = expression;
         }
 
-        public Voucher create(Long amount){
-            return this.expression.apply(amount);
+        public Voucher create(UUID customerId, Long amount){
+            return this.expression.apply(customerId, amount);
         }
     }
 
@@ -33,7 +34,7 @@ public class VoucherCreateStretage {
             operators.put(value.operator,value);
     }
 
-    public Voucher createVoucher(String type, long amount){
-        return operators.get(type).create(amount);
+    public Voucher createVoucher(String type, UUID customerId, long amount){
+        return operators.get(type).create(customerId, amount);
     }
 }

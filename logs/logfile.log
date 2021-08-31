@@ -1,0 +1,15 @@
+01:25:49.594 [main] INFO  org.prgms.order.OrderApplication - Starting OrderApplication using Java 16.0.2 on DESKTOP-G5LM3TV with PID 12632 (C:\Github\working\w3-SpringBoot_Part_A\target\classes started by 123rk in C:\Github\working\w3-SpringBoot_Part_A)
+01:25:49.597 [main] INFO  org.prgms.order.OrderApplication - No active profile set, falling back to default profiles: default
+01:25:50.382 [main] INFO  org.prgms.order.OrderApplication - Started OrderApplication in 1.303 seconds (JVM running for 2.543)
+01:33:32.245 [main] INFO  org.prgms.order.OrderApplication - Starting OrderApplication using Java 16.0.2 on DESKTOP-G5LM3TV with PID 15896 (C:\Github\working\w3-SpringBoot_Part_A\target\classes started by 123rk in C:\Github\working\w3-SpringBoot_Part_A)
+01:33:32.249 [main] INFO  org.prgms.order.OrderApplication - No active profile set, falling back to default profiles: default
+01:33:32.960 [main] INFO  org.prgms.order.OrderApplication - Started OrderApplication in 1.19 seconds (JVM running for 2.317)
+01:46:41.116 [main] INFO  o.prgms.order.OrderApplicationTests - Starting OrderApplicationTests using Java 16.0.2 on DESKTOP-G5LM3TV with PID 19180 (started by 123rk in C:\Github\working\w3-SpringBoot_Part_A)
+01:46:41.121 [main] INFO  o.prgms.order.OrderApplicationTests - No active profile set, falling back to default profiles: default
+01:46:42.223 [main] INFO  o.prgms.order.OrderApplicationTests - Started OrderApplicationTests in 1.728 seconds (JVM running for 5.493)
+01:47:52.997 [main] INFO  o.prgms.order.OrderApplicationTests - Starting OrderApplicationTests using Java 16.0.2 on DESKTOP-G5LM3TV with PID 9564 (started by 123rk in C:\Github\working\w3-SpringBoot_Part_A)
+01:47:53.001 [main] INFO  o.prgms.order.OrderApplicationTests - No active profile set, falling back to default profiles: default
+01:47:54.011 [main] INFO  o.prgms.order.OrderApplicationTests - Started OrderApplicationTests in 1.61 seconds (JVM running for 3.72)
+01:49:01.820 [main] INFO  org.prgms.order.OrderApplication - Starting OrderApplication v0.0.1-SNAPSHOT using Java 16.0.2 on DESKTOP-G5LM3TV with PID 4200 (C:\Github\working\w3-SpringBoot_Part_A\target\order-0.0.1-SNAPSHOT.jar started by 123rk in C:\Github\working\w3-SpringBoot_Part_A)
+01:49:01.825 [main] INFO  org.prgms.order.OrderApplication - No active profile set, falling back to default profiles: default
+01:49:03.072 [main] INFO  org.prgms.order.OrderApplication - Started OrderApplication in 2.326 seconds (JVM running for 3.45)

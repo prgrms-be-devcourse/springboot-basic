@@ -5,6 +5,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
+    private final static String type = "Percent";
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
@@ -25,14 +26,24 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public long getAmount() {
+        return percent;
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
 
     @Override
     public String getVoucherInfo() {
-        return "PercentDiscountVoucher " +
-                 ", Percent = " + percent+"%";
+        return getType() +", VoucherId = " + getVoucherId()+
+                 ", Percent = " + getAmount()+"%";
     }
 
 }

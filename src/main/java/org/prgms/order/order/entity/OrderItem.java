@@ -2,7 +2,6 @@ package org.prgms.order.order.entity;
 
 import java.util.UUID;
 
-//record에 대해서 알아보기
 public class OrderItem {
     public final UUID productId;
     public final long productPrice;

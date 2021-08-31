@@ -1,0 +1,5 @@
+app:
+  version: 1.0.0
+  file:
+    blackList: "customer_blacklist.csv"
+    voucher: "voucher.txt"
