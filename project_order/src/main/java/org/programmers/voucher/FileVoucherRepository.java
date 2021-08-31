@@ -31,6 +31,28 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        String str;
+
+        try {
+            br = new BufferedReader(new FileReader(file));
+
+            while (true) {
+                if ((str = br.readLine()) == null) break;
+
+                String[] voucherInfo = str.split(" ");
+                if(voucherId.equals(UUID.fromString(voucherInfo[1]))){
+                    if ("FixedAmountVoucher".equals(voucherInfo[0]))
+                        return Optional.of(new FixedAmountVoucher(UUID.fromString(voucherInfo[1]), Long.parseLong(voucherInfo[2])));
+                    else if ("PercentDiscountVoucher".equals(voucherInfo[0]))
+                        return Optional.of(new PercentDiscountVoucher(UUID.fromString(voucherInfo[1]), Long.parseLong(voucherInfo[2])));
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         return Optional.empty();
     }
 
@@ -42,6 +64,7 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         return voucher;
     }
 
