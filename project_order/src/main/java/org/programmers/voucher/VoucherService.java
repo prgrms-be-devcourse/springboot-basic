@@ -18,8 +18,8 @@ public class VoucherService {
         this.voucherFactory = voucherFactory;
     }
 
-    public Voucher createVoucher(VoucherType voucherType, long value) {
-        Voucher voucher = voucherFactory.getVoucherType(voucherType, UUID.randomUUID(), value);
+    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long value) {
+        Voucher voucher = voucherFactory.getVoucherType(voucherType, voucherId, value);
         voucherRepository.insert(voucher);
         return voucher;
     }

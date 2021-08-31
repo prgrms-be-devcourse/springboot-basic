@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class CommandLineApplication implements Runnable {
 
@@ -37,13 +38,13 @@ public class CommandLineApplication implements Runnable {
 
                         long amount = Long.parseLong(console.input("> "));
 
-                        voucherService.createVoucher(VoucherType.FIXED, amount);
+                        voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), amount);
                     } else if (voucherType.equals("p")) {
                         console.askPercentage();
 
                         long percentage = Long.parseLong(console.input("> "));
 
-                        voucherService.createVoucher(VoucherType.PERCENT, percentage);
+                        voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), percentage);
                     }
                 } else if (inputString.equals("list")) {
                     System.out.println(voucherService.getAllVouchers().toString());
