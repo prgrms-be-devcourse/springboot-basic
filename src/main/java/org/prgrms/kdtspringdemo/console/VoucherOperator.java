@@ -21,7 +21,8 @@ public class VoucherOperator implements CommandOperator<Voucher> {
 
     @Override
     public Voucher create(String[] splitList) {
-        Voucher voucher = createVoucher(splitList);
+        if (!validationCheck(splitList)) return null;
+        Voucher voucher = VoucherType.createVoucher(splitList[0], Long.parseLong(splitList[1]));
         if (voucher != null) {
             voucherService.saveVoucher(voucher);
             System.out.println("This is create : " + voucher);
@@ -39,12 +40,13 @@ public class VoucherOperator implements CommandOperator<Voucher> {
         return voucherService.getAllVouchers();
     }
 
-    public Voucher createVoucher(String[] splitList) {
-        if (splitList.length != 2) return null;
-        if (VoucherType.findByCommand(splitList[0]) == null) return null;
-        if (!splitList[1].matches("^[0-9]*$")) return null;
-        if (!VoucherType.isInVoucherType(splitList[0])) return null;
+    public boolean validationCheck(String[] splitList) {
+        if (splitList.length != 2) return false;
+        if (VoucherType.findByCommand(splitList[0]) == null) return false;
+        if (!splitList[1].matches("^[0-9]*$")) return false;
+        if (!VoucherType.isInVoucherType(splitList[0])) return false;
 
-        return VoucherType.createVoucher(splitList[0], Long.parseLong(splitList[1]));
+        return true;
+//        return VoucherType.createVoucher(splitList[0], Long.parseLong(splitList[1]));
     }
 }
