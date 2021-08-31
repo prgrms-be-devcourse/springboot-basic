@@ -7,8 +7,7 @@ public class Console implements Input, Output {
 
     //사용자 입력값 받기
     @Override
-    public String input(String prompt) {
-        System.out.print(prompt);
+    public String input() {
         return sc.nextLine();
     }
 
@@ -19,6 +18,24 @@ public class Console implements Input, Output {
         System.out.println("Type exit to exit the program.");
         System.out.println("Type create to create a new voucher.");
         System.out.println("Type list to list all vouchers.");
+    }
+
+    //동작 입력 메시지
+    @Override
+    public void inputTypeMessage() {
+        System.out.print("Select 'create' or 'list' or 'exit': ");
+    }
+
+    //voucher 타입 메시지
+    @Override
+    public void voucherTypeMessage() {
+        System.out.print("Select 'fixed' or 'percent': ");
+    }
+
+    //금액 입력 메시지
+    @Override
+    public void inputAmountMessage() {
+        System.out.print("Input Amount: ");
     }
 
     //성공 시 출력 메시지
@@ -39,4 +56,5 @@ public class Console implements Input, Output {
     public void inputError() {
         System.out.println("You write invalid input.");
     }
+
 }
