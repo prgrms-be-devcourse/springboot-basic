@@ -2,28 +2,42 @@ package com.programmers.voucher.entity.voucher;
 
 import java.io.Serializable;
 import java.util.function.BinaryOperator;
+import java.util.function.UnaryOperator;
 
 public class DiscountPolicy implements Serializable {
 
     public enum Type {
-        FIXED((price, discount) -> Math.max(price - discount, 0)),
-        PERCENTAGE((price, discount) -> Math.min(price * (100 - discount) / 100, price));
+        FIXED(
+                (price, discount) -> Math.max(price - discount, 0),
+                input -> Math.max(input, 0)),
+        PERCENTAGE(
+                (price, discount) -> Math.min(price * (100 - discount) / 100, price),
+                input -> Math.min(Math.max(input, 0), 100)),
+        UNKNOWN(
+                (price, discount) -> {throw new UnsupportedOperationException("Unknown discount policy type.");},
+                input -> {throw new UnsupportedOperationException("Unknown discount policy type.");});
 
-        private BinaryOperator<Integer> discountPolicy;
+        BinaryOperator<Integer> operation;
+        UnaryOperator<Integer> constraint;
 
-        Type(BinaryOperator<Integer> discountPolicy) {
-            this.discountPolicy = discountPolicy;
+        public BinaryOperator<Integer> getOperation() {
+            return operation;
         }
 
-        public BinaryOperator<Integer> getDiscountPolicy() {
-            return discountPolicy;
+        public UnaryOperator<Integer> getConstraint() {
+            return constraint;
+        }
+
+        Type(BinaryOperator<Integer> operation, UnaryOperator<Integer> constraint) {
+            this.operation = operation;
+            this.constraint = constraint;
         }
 
         public static Type of(String input) {
             try {
                 return Type.valueOf(input.toUpperCase());
             } catch (IllegalArgumentException ex) {
-                return Type.FIXED;
+                return Type.UNKNOWN;
             }
         }
     }
@@ -37,7 +51,7 @@ public class DiscountPolicy implements Serializable {
     }
 
     public int discount(int price) {
-        return type.discountPolicy.apply(price, amount);
+        return type.operation.apply(price, amount);
     }
 
     public int getAmount() {
@@ -45,6 +59,7 @@ public class DiscountPolicy implements Serializable {
     }
 
     public void setAmount(int amount) {
+        amount = this.type.constraint.apply(amount);
         this.amount = amount;
     }
 

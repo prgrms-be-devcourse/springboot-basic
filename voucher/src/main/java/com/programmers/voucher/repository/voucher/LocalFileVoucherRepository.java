@@ -122,4 +122,17 @@ public class LocalFileVoucherRepository implements VoucherRepository {
     public List<Voucher> findAllByCustomer(long customerId) {
         return db.values().stream().filter(voucher -> voucher.getCustomerId() == customerId).collect(Collectors.toList());
     }
+
+    @Override
+    public void update(Voucher voucher) {
+        final Voucher updatingVoucher = db.get(voucher.getId());
+        updatingVoucher.setName(voucher.getName());
+        updatingVoucher.setDiscountPolicy(voucher.getDiscountPolicy());
+        updatingVoucher.setCustomerId(voucher.getCustomerId());
+    }
+
+    @Override
+    public void deleteById(long id) {
+        db.remove(id);
+    }
 }

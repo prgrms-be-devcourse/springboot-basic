@@ -48,4 +48,14 @@ public class BasicVoucherService implements VoucherService {
     public Optional<Voucher> findById(long id) {
         return jdbcVoucherRepository.findById(id);
     }
+
+    @Override
+    public void update(Voucher voucher) {
+        jdbcVoucherRepository.update(voucher);
+    }
+
+    @Override
+    public void delete(long voucherId) {
+        jdbcVoucherRepository.deleteById(voucherId);
+    }
 }

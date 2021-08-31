@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -72,13 +73,28 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(long id) {
         log.debug("Find voucher by id: {}", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(voucherQuery.getSelect().getById(), voucherRowMapper));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(voucherQuery.getSelect().getById(), voucherRowMapper, id));
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        jdbcTemplate.update(voucherQuery.getUpdate().getById(),
+                voucher.getName(),
+                voucher.getDiscountPolicy().getType().toString(),
+                voucher.getDiscountPolicy().getAmount(),
+                voucher.getCustomerId(),
+                voucher.getId());
+    }
+
+    @Override
+    public void deleteById(long id) {
+        jdbcTemplate.update(voucherQuery.getDelete().getById(), id);
     }
 
     @Override
     public List<Voucher> findAllByCustomer(long customerId) {
         log.debug("Find vouchers by customer(id: {})", customerId);
-        return jdbcTemplate.query(voucherQuery.getSelect().getByCustomer(), voucherRowMapper);
+        return jdbcTemplate.query(voucherQuery.getSelect().getByCustomer(), voucherRowMapper, customerId);
     }
 
     private static RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> new Voucher(

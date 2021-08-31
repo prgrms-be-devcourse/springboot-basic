@@ -4,12 +4,15 @@ voucher:
 
       === Voucher Program ===
       Type exit to exit the program.
-      Type create to create a new voucher.
-      Type list to list all vouchers.
+      Type create_voucher to create a new voucher.
+      Type list_voucher to list all vouchers.
+      Type read_voucher to read voucher.
+      Type update_voucher to update voucher.
+      Type delete_voucher to delete voucher.
       Type blacklist to list all blacklisted customers.
       Type intro to get intro this message.
-      Type user to generate random user.
-      Type users to list all users.
+      Type create_user to generate random user.
+      Type list_user to list all users.
       Type test to test discount for all vouchers.
 
     command:
@@ -28,6 +31,16 @@ voucher:
 
         fallback: >-
           Didn't select voucher type or invalid voucher type. Fallback to "Fixed" voucher type.
+
+      update:
+        voucherId: >-
+          Input voucher's id:
+
+        field: >-
+          Select voucher's updating field(NAME/TYPE/VALUE/CUSTOMER):
+
+        value: >-
+          Input updated value:
 
   file:
     blacklist:

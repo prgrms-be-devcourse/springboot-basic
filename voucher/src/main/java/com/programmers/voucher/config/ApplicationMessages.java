@@ -24,6 +24,15 @@ public class ApplicationMessages {
     @Value("${voucher.message.command.create.fallback:Fallback message here}")
     private String fallback;
 
+    @Value("${voucher.message.command.update.voucherId:Require voucher id here}")
+    private String requireVoucherId;
+
+    @Value("${voucher.message.command.update.field:Require update type here}")
+    private String requireUpdateField;
+
+    @Value("${voucher.message.command.update.value:Require update value here}")
+    private String requireUpdateValue;
+
     public String getIntroMessage() {
         return introMessage;
     }
@@ -46,5 +55,17 @@ public class ApplicationMessages {
 
     public String getFallback() {
         return fallback;
+    }
+
+    public String getRequireVoucherId() {
+        return requireVoucherId;
+    }
+
+    public String getRequireUpdateField() {
+        return requireUpdateField;
+    }
+
+    public String getRequireUpdateValue() {
+        return requireUpdateValue;
     }
 }

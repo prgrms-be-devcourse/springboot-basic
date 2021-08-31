@@ -13,6 +13,8 @@ import org.springframework.context.annotation.PropertySource;
 public class VoucherQuery {
     private String create;
     private Select select;
+    private Update update;
+    private Delete delete;
 
     public String getCreate() {
         return create;
@@ -28,6 +30,22 @@ public class VoucherQuery {
 
     public void setSelect(Select select) {
         this.select = select;
+    }
+
+    public Update getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(Update update) {
+        this.update = update;
+    }
+
+    public Delete getDelete() {
+        return delete;
+    }
+
+    public void setDelete(Delete delete) {
+        this.delete = delete;
     }
 
     public static class Select {
@@ -57,6 +75,30 @@ public class VoucherQuery {
 
         public void setByCustomer(String byCustomer) {
             this.byCustomer = byCustomer;
+        }
+    }
+
+    public static class Update {
+        private String byId;
+
+        public String getById() {
+            return byId;
+        }
+
+        public void setById(String byId) {
+            this.byId = byId;
+        }
+    }
+
+    public static class Delete {
+        private String byId;
+
+        public String getById() {
+            return byId;
+        }
+
+        public void setById(String byId) {
+            this.byId = byId;
         }
     }
 }

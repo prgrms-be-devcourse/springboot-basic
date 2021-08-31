@@ -1,6 +1,0 @@
-01:38:51.112 [main] ERROR c.p.v.r.v.LocalFileVoucherRepository - IOException occur on persisting local voucher file at storage\vouchers.db - storage\vouchers.db
-01:46:38.242 [main] ERROR c.p.v.r.v.LocalFileVoucherRepository - IOException occur on persisting local voucher file at storage\vouchers.db - storage\vouchers.db
-01:50:20.948 [main] ERROR c.p.v.r.v.LocalFileVoucherRepository - IOException occur on persisting local voucher file at storage\vouchers.db - storage\vouchers.db
-01:57:51.771 [main] ERROR c.p.v.r.v.LocalFileVoucherRepository - IOException occur on persisting local voucher file at storage\vouchers.db - storage\vouchers.db
-01:58:23.924 [main] ERROR c.p.v.r.v.LocalFileVoucherRepository - IOException occur on persisting local voucher file at storage\vouchers.db - storage\vouchers.db
-01:59:29.946 [main] ERROR c.p.v.r.v.LocalFileVoucherRepository - IOException occur on persisting local voucher file at storage\vouchers.db

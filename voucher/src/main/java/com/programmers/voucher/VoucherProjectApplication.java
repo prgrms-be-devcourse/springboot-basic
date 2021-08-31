@@ -3,6 +3,7 @@ package com.programmers.voucher;
 import com.programmers.voucher.config.ApplicationMessages;
 import com.programmers.voucher.entity.customer.Customer;
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.customer.CustomerService;
 import com.programmers.voucher.service.voucher.VoucherService;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import java.io.*;
+import java.util.Optional;
 import java.util.Random;
 
 @SpringBootApplication
@@ -26,7 +28,7 @@ public class VoucherProjectApplication {
 	private static final Logger log = LoggerFactory.getLogger(VoucherProjectApplication.class);
 
 	public enum Command {
-		CREATE("create", () -> {
+		CREATE_VOUCHER("create_voucher", () -> {
 			String voucherName = "DEFAULT_VOUCHER_NAME";
 			try {
 				System.out.print(applicationMessages.getRequireName());
@@ -47,7 +49,7 @@ public class VoucherProjectApplication {
 			int voucherAmount = 0;
 			try {
 				System.out.print(applicationMessages.getRequireAmount());
-				voucherAmount = Integer.parseInt(br.readLine());
+				voucherAmount = voucherType.getConstraint().apply(Integer.parseInt(br.readLine()));
 			} catch (IOException | NumberFormatException ex) {
 				log.error("IOException occur when input voucher amount. Fallback to 0...");
 			}
@@ -62,10 +64,54 @@ public class VoucherProjectApplication {
 
 			System.out.println(voucherService.create(voucherName, voucherType, voucherAmount, customerId));
 		}),
-		LIST("list", () -> {
+		LIST_VOUCHER("list_voucher", () -> {
 			System.out.println("======= [ VOUCHERS ] =======");
 			voucherService.listAll().forEach(System.out::println);
 			System.out.println("============================");
+		}),
+		READ_VOUCHER("read_voucher", () -> {
+			try {
+				System.out.print(applicationMessages.getRequireVoucherId());
+				long voucherId = Integer.parseInt(br.readLine());
+				final Optional<Voucher> byId = voucherService.findById(voucherId);
+				if(byId.isEmpty())
+					System.out.println("NO VOUCHER FOUND.");
+				else
+					System.out.println(byId.get());
+			} catch (IOException | NumberFormatException ex) {
+				log.error("IOException or NumberFormatException occur when input voucher id. {}...", ex.getMessage());
+			}
+		}),
+		UPDATE_VOUCHER("update_voucher", () -> {
+			try {
+				System.out.print(applicationMessages.getRequireVoucherId());
+				long voucherId = Integer.parseInt(br.readLine());
+				voucherService.findById(voucherId).ifPresentOrElse(
+						voucher -> {
+							try {
+								System.out.print(applicationMessages.getRequireUpdateField());
+								final Voucher.UpdatableField field = Voucher.UpdatableField.of(br.readLine());
+								System.out.print(applicationMessages.getRequireUpdateValue());
+								voucher.update(field, br.readLine());
+								voucherService.update(voucher);
+							} catch (IOException ex) {
+								log.error("IOException occur when input updating field.");
+							}
+						},
+						() -> System.out.println("NO VOUCHER FOUND.")
+				);
+			} catch (IOException | NumberFormatException ex) {
+				log.error("IOException or NumberFormatException occur when input voucher id. {}...", ex.getMessage());
+			}
+		}),
+		DELETE_VOUCHER("delete_voucher", () -> {
+			try {
+				System.out.print(applicationMessages.getRequireVoucherId());
+				long voucherId = Integer.parseInt(br.readLine());
+				voucherService.delete(voucherId);
+			} catch (IOException ex) {
+				log.error("IOException occur when input voucher id. {}...", ex.getMessage());
+			}
 		}),
 		BLACKLIST("blacklist", () -> {
 			System.out.println("====== [ BLACKLIST ] ======");
@@ -78,12 +124,12 @@ public class VoucherProjectApplication {
 		UNKNOWN("unknown", () -> {
 			// do nothing
 		}),
-		USER("user", () -> {
+		CREATE_USER("create_user", () -> {
 			int randomNumber = new Random().nextInt();
 			Customer customer = customerService.create("username" + randomNumber, "alias" + randomNumber);
 			System.out.println("Created user " + customer);
 		}),
-		USERS("users", () -> {
+		LIST_USER("list_user", () -> {
 			System.out.println("======== [ USERS ] ========");
 			customerService.listAll().forEach(System.out::println);
 			System.out.println("===========================");

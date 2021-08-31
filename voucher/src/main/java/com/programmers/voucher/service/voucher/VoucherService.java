@@ -13,4 +13,6 @@ public interface VoucherService {
     Voucher create(String name, DiscountPolicy.Type type, int value, long customerId);
     Optional<Voucher> findById(long id);
     List<Voucher> listAll();
+    void update(Voucher voucher);
+    void delete(long voucherId);
 }

@@ -15,14 +15,14 @@ voucher:
         *
       FROM
         vouchers
-    byId:
+    byId: >
       SELECT
         *
       FROM
         vouchers
       WHERE
         voucher_id=?
-    byCustomer:
+    byCustomer: >
       SELECT
         *
       FROM
@@ -34,3 +34,22 @@ voucher:
       WHERE
         c.customer_id=?
 
+  update:
+    byId: >
+      UPDATE
+        vouchers
+      SET
+        name=?,
+        type=?,
+        value=?,
+        customer_id=?
+      WHERE
+        voucher_id=?
+
+  delete:
+    byId: >
+      DELETE
+      FROM
+        vouchers
+      WHERE
+        voucher_id=?
