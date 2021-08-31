@@ -22,14 +22,12 @@ import static org.hamcrest.Matchers.hasSize;
 @DisplayName("VoucherRepository 단위 테스트")
 class VoucherRepositoryTest {
 
-    @Configuration
-    @ComponentScan(
-        basePackages = {"org.prgrms.kdt.kdtspringorder"}
-    )
-    static class Config { }
-
-    @Autowired
     private MemoryVoucherRepository voucherRepository;
+
+    @BeforeEach
+    void setUp(){
+        voucherRepository = new MemoryVoucherRepository();
+    }
 
     @Nested
     @DisplayName("findAll 메서드는")
