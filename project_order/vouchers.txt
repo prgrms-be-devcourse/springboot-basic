@@ -3,3 +3,9 @@ PercentDiscountVoucher e31d1c4c-5af1-4c12-a3f5-d29bd8039c49 50
 FixedAmountVoucher 20f84ee4-07a5-41d9-9723-2f54bcfabf6a 10
 PercentDiscountVoucher a02820ef-c843-4229-9c24-7d6705ada0fe 5
 FixedAmountVoucher f16bccad-24ff-448e-810f-e8e764bc4093 33
+FixedAmountVoucher 1c16b323-c902-4a29-8253-82c80120dc15 10
+PercentDiscountVoucher 06862c45-5407-4a64-b9b9-011453695f7f 10
+FixedAmountVoucher a02a8f3b-928b-4bec-9bd5-1a6e65d72960 10
+PercentDiscountVoucher 2c4ffc7b-91fc-445c-8b30-bc051bf1ea02 10
+FixedAmountVoucher c86c1a7a-32b7-4824-97d5-fda3d6496eb5 10
+FixedAmountVoucher f9902a65-9a55-420c-ae27-b3c7216f5785 10
