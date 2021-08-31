@@ -1,18 +1,21 @@
 package org.prgrms.kdt.utill;
 
-import org.prgrms.kdt.domain.Customer;
+import lombok.Getter;
+import lombok.Setter;
+import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Component
 @ConfigurationProperties(prefix = "kdt.file")
 public class FileIoStream implements InitializingBean {
@@ -53,7 +56,7 @@ public class FileIoStream implements InitializingBean {
     }
 
     //인자로 블랙리스트 정보들을 받아 파일을 생성한다.
-    public void inputCsvFile(Customer customer,String CsvFileName){
+    public void inputCsvFile(CustomerEntity customer, String CsvFileName){
         String fileName = CsvFileName;
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,true));
@@ -65,21 +68,21 @@ public class FileIoStream implements InitializingBean {
         }
     }
 
-    public String getVoucherName() {
-        return voucherName;
-    }
-
-    public void setVoucherName(String voucherName) {
-        this.voucherName = voucherName;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+//    public String getVoucherName() {
+//        return voucherName;
+//    }
+//
+//    public void setVoucherName(String voucherName) {
+//        this.voucherName = voucherName;
+//    }
+//
+//    public String getCustomerName() {
+//        return customerName;
+//    }
+//
+//    public void setCustomerName(String customerName) {
+//        this.customerName = customerName;
+//    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

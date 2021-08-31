@@ -1,7 +1,1 @@
-03:02:20.164 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요
-03:02:33.407 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
-03:03:14.877 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
-03:38:53.645 [main] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
-03:43:12.168 [main] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
-04:23:21.814 [main] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
-07:20:01.000 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
+00:29:49.700 [restartedMain] ERROR org.prgrms.kdt.utill.FileIoStream - 파일 출력 오류 발생 
