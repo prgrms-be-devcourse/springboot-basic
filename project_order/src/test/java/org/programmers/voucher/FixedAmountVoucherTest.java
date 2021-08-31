@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FixedAmountVoucherTest {
 
@@ -22,6 +23,20 @@ class FixedAmountVoucherTest {
 
         // then
         assertThat(discountedAmount, is(90L));
+    }
+
+    @Test
+    @DisplayName("유효한 할인 금액으로만 바우처를 생성할 수 있다")
+    void testVoucherCreation() {
+        // given
+
+        // when
+
+        // then
+        assertAll("FixedAmountVoucher",
+                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 0)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -100))
+        );
     }
 
 }

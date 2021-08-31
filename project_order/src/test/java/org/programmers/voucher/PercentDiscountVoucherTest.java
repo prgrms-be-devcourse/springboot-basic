@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PercentDiscountVoucherTest {
 
@@ -27,4 +28,20 @@ class PercentDiscountVoucherTest {
         log.info("percent -> {}", percentDiscountVoucher.getValue());
         assertThat(discountedAmount, is(80L));
     }
+
+    @Test
+    @DisplayName("유효한 할인율로만 바우처를 생성할 수 있다")
+    void testVoucherCreation() {
+        // given
+
+        // when
+
+        // then
+        assertAll("FixedAmountVoucher",
+                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 0)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), -100)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 150))
+        );
+    }
+
 }
