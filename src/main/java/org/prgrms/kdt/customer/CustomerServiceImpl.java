@@ -29,4 +29,9 @@ public class CustomerServiceImpl implements CustomerService {
     public void createCustomers(List<Customer> customers) {
         customers.forEach(customerRepository::insert);
     }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
+    }
 }
