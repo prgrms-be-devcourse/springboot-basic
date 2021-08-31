@@ -43,7 +43,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
-    private static RowMapper<CustomerEntity> customerEntityRowMapper = (resultSet, i) -> {
+    public static RowMapper<CustomerEntity> customerEntityRowMapper = (resultSet, i) -> {
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");

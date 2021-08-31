@@ -38,8 +38,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
         };
     }
 
-    private static RowMapper<VoucherEntity> voucherEntityRowMapper = (resultSet, i) -> {
-        var voucherId = toUUID(resultSet.getBytes("customer_id"));
+    public static RowMapper<VoucherEntity> voucherEntityRowMapper = (resultSet, i) -> {
+        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var voucherType = VoucherStatus.valueOf(resultSet.getString("voucher_type").toUpperCase());
         var discount = resultSet.getLong("discount");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
