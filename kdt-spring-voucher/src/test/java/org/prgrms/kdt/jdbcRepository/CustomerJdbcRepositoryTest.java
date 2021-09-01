@@ -4,6 +4,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.kdt.domain.CustomerEntity;
+import org.prgrms.kdt.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -66,7 +67,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Autowired
-    CustomerJdbcRepository customerJdbcRepository;
+    CustomerRepository customerRepository;
 
     @Autowired
     DataSource dataSource;
@@ -94,10 +95,10 @@ class CustomerJdbcRepositoryTest {
     @Order(1)
     @DisplayName("고객을 추가할 수 있다.")
     void insert() {
-        customerJdbcRepository.insert(testCustomer);
+        customerRepository.insert(testCustomer);
 
         System.out.println("customerID -> "+testCustomer.getCustomerId());
-        var retrievedCustomer = customerJdbcRepository.findById(testCustomer.getCustomerId());
+        var retrievedCustomer = customerRepository.findById(testCustomer.getCustomerId());
         System.out.println(retrievedCustomer.get());
         assertThat(retrievedCustomer.isEmpty(), is(false));
         assertThat(retrievedCustomer.get(), samePropertyValuesAs(testCustomer));
@@ -108,7 +109,7 @@ class CustomerJdbcRepositoryTest {
     @Order(2)
     @DisplayName("고객 아이디로 조회할 수 있다.")
     void findById() {
-        var findCustomer = customerJdbcRepository.findById(testCustomer.getCustomerId());
+        var findCustomer = customerRepository.findById(testCustomer.getCustomerId());
         assertThat(findCustomer.get(), samePropertyValuesAs(testCustomer));
     }
 
@@ -116,7 +117,7 @@ class CustomerJdbcRepositoryTest {
     @Order(3)
     @DisplayName("고객의 이메일로 조회할 수 있다.")
     void findByEmail() {
-        var findCustomer = customerJdbcRepository.findByEmail(testCustomer.getEmail());
+        var findCustomer = customerRepository.findByEmail(testCustomer.getEmail());
         assertThat(findCustomer.get(), samePropertyValuesAs(testCustomer));
     }
 
@@ -132,8 +133,8 @@ class CustomerJdbcRepositoryTest {
                 .email("change@naver.com")
                 .createdAt(testCustomer.getCreatedAt())
                 .build();
-        customerJdbcRepository.update(changeCustomer);
-        var retrivedCustomer = customerJdbcRepository.findById(changeCustomer.getCustomerId());
+        customerRepository.update(changeCustomer);
+        var retrivedCustomer = customerRepository.findById(changeCustomer.getCustomerId());
         assertThat(retrivedCustomer.isEmpty(),is(false));
         assertThat(retrivedCustomer.get(), samePropertyValuesAs(changeCustomer));
     }
@@ -142,8 +143,8 @@ class CustomerJdbcRepositoryTest {
     @Order(5)
     @DisplayName("저장된 고객 정보 일괄 삭제한다.")
     void deleteAll() {
-        customerJdbcRepository.deleteAll();
-        var customerList = customerJdbcRepository.findAll();
+        customerRepository.deleteAll();
+        var customerList = customerRepository.findAll();
         assertThat(customerList.isEmpty(), is(true));
         assertThat(customerList.size(), is(0));
     }
@@ -152,10 +153,10 @@ class CustomerJdbcRepositoryTest {
     @Order(6)
     @DisplayName("저장된 고객의 정보를 모두 가져온다.")
     void findAll() {
-        customerJdbcRepository.insert(testCustomer);
-        customerJdbcRepository.insert(testCustomer2);
+        customerRepository.insert(testCustomer);
+        customerRepository.insert(testCustomer2);
 
-        List<CustomerEntity> customerList = customerJdbcRepository.findAll();
+        List<CustomerEntity> customerList = customerRepository.findAll();
         assertThat(customerList.isEmpty(), is(false));
         assertThat(customerList.size(), is(2));
     }
@@ -164,8 +165,8 @@ class CustomerJdbcRepositoryTest {
     @Order(7)
     @DisplayName("특정 고객의 정보를 삭제한다.")
     void deleteById() {
-        customerJdbcRepository.deleteById(testCustomer.getCustomerId());
-        var deleteCustomer = customerJdbcRepository.findById(testCustomer.getCustomerId());
+        customerRepository.deleteById(testCustomer.getCustomerId());
+        var deleteCustomer = customerRepository.findById(testCustomer.getCustomerId());
         assertThat(deleteCustomer.isEmpty(), is(true));
     }
 }

@@ -7,6 +7,7 @@ import org.prgrms.kdt.domain.VoucherEntity;
 import org.prgrms.kdt.enumType.VoucherStatus;
 import org.prgrms.kdt.factory.VoucherFactory;
 import org.prgrms.kdt.jdbcRepository.VoucherJdbcRepository;
+import org.prgrms.kdt.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ import java.util.UUID;
 public class VoucherService {
 
     @Autowired
-    private final VoucherJdbcRepository voucherJdbcRepository;
+    private final VoucherRepository voucherRepository;
 
     @Autowired
     private VoucherFactory voucherFactory;
@@ -34,20 +35,20 @@ public class VoucherService {
                 .discount(v.discountCoupon())
                 .createdAt(LocalDateTime.now())
                 .build();
-        voucherJdbcRepository.insert(voucherEntity);
+        voucherRepository.insert(voucherEntity);
         return voucherEntity;
     }
 
     public List<VoucherEntity> findAll() {
-        return voucherJdbcRepository.findAll();
+        return voucherRepository.findAll();
     }
 
     public VoucherEntity getVoucherById(UUID voucherId) {
-        return voucherJdbcRepository.findById(voucherId).get();
+        return voucherRepository.findById(voucherId).get();
     }
 
     public void removeAll() {
-        voucherJdbcRepository.deleteAll();
+        voucherRepository.deleteAll();
     }
 
     //
