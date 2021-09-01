@@ -18,10 +18,6 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(String.format("Can not find a voucher for %s", voucherId)));
     }
 
-    public void useVoucher(Voucher voucher) {
-
-    }
-
     public void addVoucher(Voucher voucher) {
         voucherRepository.add(voucher);
     }
