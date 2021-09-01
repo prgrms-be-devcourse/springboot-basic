@@ -16,7 +16,7 @@
         <appender-ref ref="ROLLING_FILE" />
     </logger>
 
-    <logger name="org.prgrms.kdt" level="INFO" additivity="false">
+    <logger name="org.prgrms.kdt" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE" />
     </logger>
 
