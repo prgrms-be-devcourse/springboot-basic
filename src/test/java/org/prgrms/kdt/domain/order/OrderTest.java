@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain;
+package org.prgrms.kdt.domain.order;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.DisplayName;
