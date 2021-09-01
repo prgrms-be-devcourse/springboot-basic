@@ -10,6 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
@@ -40,8 +41,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     public static RowMapper<VoucherEntity> voucherEntityRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = Optional.of(resultSet.getString("voucher_type"));
-        var discount = Optional.of(resultSet.getLong("discount"));
+        var voucherType = resultSet.getString("voucher_type");
+        var discount = resultSet.getLong("discount");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new VoucherEntity(voucherId, voucherType, discount, createdAt);
     };
@@ -53,6 +54,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         if (update != 1) {
             throw new RuntimeException("Nothing was Inserted");
         }
+
         return voucherEntity;
     }
 

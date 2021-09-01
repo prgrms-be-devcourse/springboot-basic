@@ -6,6 +6,4 @@ import org.prgrms.kdt.enumType.VoucherStatus;
 public interface VoucherFactory {
 
     Voucher getDiscounterVoucher(int voucherStatus);
-
-
 }

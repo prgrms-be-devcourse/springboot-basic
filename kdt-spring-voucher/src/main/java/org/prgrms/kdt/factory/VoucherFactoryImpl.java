@@ -42,12 +42,12 @@ public class VoucherFactoryImpl implements VoucherFactory {
         return voucher;
     }
 
-    public String isDiscountNum(IoConsole ioConsole){
+    public String isDiscountNum(IoConsole ioConsole) {
         String s1 = ioConsole.inputText("할인하고자 하는 금액을 입력해 주세요");
         boolean realNum = s1.chars().allMatch(Character::isDigit);
-        if(realNum){
+        if (realNum) {
             long pNum = Long.parseLong(s1);
-            if(pNum < 1 || pNum > MAX_DISCOUNT_VALUE){
+            if (pNum < 1 || pNum > MAX_DISCOUNT_VALUE) {
                 ioConsole.message("1 ~ 1000000원 이하의 금액을 적어주세요");
                 return isDiscountNum(ioConsole);
             }
@@ -57,21 +57,20 @@ public class VoucherFactoryImpl implements VoucherFactory {
         return isDiscountNum(ioConsole);
     }
 
-    public String isPercentNum(IoConsole ioConsole){
+    public String isPercentNum(IoConsole ioConsole) {
         String s1 = ioConsole.inputText("할인하고자 하는 퍼센트(%)를 입력해 주세요");
         boolean realNum = s1.chars().allMatch(Character::isDigit);
-        if(realNum){
+        if (realNum) {
             long pNum = Long.parseLong(s1);
-            if(pNum < 0L || pNum > 100L){
-               ioConsole.message("1~100사이의 숫자를 입력해주세요!");
-               return isPercentNum(ioConsole);
+            if (pNum < 0L || pNum > 100L) {
+                ioConsole.message("1~100사이의 숫자를 입력해주세요!");
+                return isPercentNum(ioConsole);
             }
             return s1;
         }
         ioConsole.message("숫자가 아닙니다! 다시 입력하세욧!!!");
         return isPercentNum(ioConsole);
     }
-
 
 
 }

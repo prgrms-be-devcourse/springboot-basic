@@ -39,34 +39,33 @@ public class VoucherController {
             //init message 출력
             ioConsole.init();
             String s = ioConsole.input();
-                try{
-                    var type = InputStatus.valueOf(s.toUpperCase());
-                    switch (type){
-                        case CREATE:
-                            var typeValue = getVoucherStatus(ioConsole);
-                            voucherService.createVoucher(typeValue);
-                            break;
-                        case LIST:
-                            ioConsole.message("지금까지 생성한 바우처를 출력합니다.");
-                            var voucherList = voucherService.findAll();
-                            ioConsole.outputList(voucherList);
-                            break;
-                        case EXIT:
-                            ioConsole.exit();
-                            applicationContext.close();
-                            System.exit(0);
-                    }
-                }catch (Exception throwables){
-                    logger.error("입력 오류 발생 다시 입력하세요 ");
+            try {
+                var type = InputStatus.valueOf(s.toUpperCase());
+                switch (type) {
+                    case CREATE:
+                        var typeValue = getVoucherStatus(ioConsole);
+                        var voucherEntity = voucherService.createVoucher(typeValue);
+                        break;
+                    case LIST:
+                        ioConsole.message("지금까지 생성한 바우처를 출력합니다.");
+                        var voucherList = voucherService.findAll();
+                        ioConsole.outputList(voucherList);
+                        break;
+                    case EXIT:
+                        ioConsole.exit();
+                        applicationContext.close();
+                        System.exit(0);
                 }
+            } catch (Exception throwables) {
+                logger.error("입력 오류 발생 다시 입력하세요 ");
+            }
         }
-
     }
 
-    public int getVoucherStatus(IoConsole ioConsole){
+    public int getVoucherStatus(IoConsole ioConsole) {
         String s1 = ioConsole.inputText("생성하고자하는 Voucher를 입력해주세요 : [1] Fixed, [2] Percent");
         int type = Integer.parseInt(s1);
-        if(type != 1 && type != 2){
+        if (type != 1 && type != 2) {
             logger.error("잘못된 형식의 입력입니다. 다시 입력해 주새요!! ");
             return getVoucherStatus(ioConsole);
         }

@@ -29,24 +29,28 @@ public class VoucherService {
     @Autowired
     private VoucherFactory voucherFactory;
 
-    public VoucherEntity createVoucher(int voucherStatus){
+    public VoucherEntity createVoucher(int voucherStatus) {
         Voucher v = voucherFactory.getDiscounterVoucher(voucherStatus);
 
         var voucherEntity = VoucherEntity.builder()
                 .voucherId(v.getVoucherId())
-                .voucherType(Optional.of(v.getType()))
-                .discount(Optional.of(v.discountCoupon()))
+                .voucherType(v.getType())
+                .discount(v.discountCoupon())
                 .createdAt(LocalDateTime.now())
                 .build();
+
+        System.out.println(voucherEntity.toString());
+
         voucherJdbcRepository.insert(voucherEntity);
+
         return voucherEntity;
     }
 
-    public List<VoucherEntity> findAll(){
+    public List<VoucherEntity> findAll() {
         return voucherJdbcRepository.findAll();
     }
 
-    public VoucherEntity getVoucherById(UUID voucherId){
+    public VoucherEntity getVoucherById(UUID voucherId) {
         return voucherJdbcRepository.findById(voucherId).get();
     }
 
