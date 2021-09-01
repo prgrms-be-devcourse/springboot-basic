@@ -1,28 +1,38 @@
 package com.prgrms.devkdtorder.customer.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
 
     private final UUID customerId;
 
-    private final String name;
+    private String name;
 
-    private final CustomerType customerType;
+    private final String email;
 
-    public Customer(UUID customerId, String name, CustomerType customerType) {
+    private LocalDateTime lastLoginAt;
+
+    private final LocalDateTime createdAt;
+
+    private CustomerType customerType;
+
+    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt, CustomerType customerType) {
         this.customerId = customerId;
         this.name = name;
+        this.email = email;
+        this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
         this.customerType = customerType;
     }
 
-    public Customer(String csvLine) {
-        String[] split = csvLine.split(",");
-        this.customerId = UUID.fromString(split[0]);
-        this.name = split[1];
-        this.customerType = CustomerType.valueOf(split[2]);
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.customerType = CustomerType.WHITE;
     }
-
 
     public CustomerType getCustomerType() {
         return customerType;
@@ -33,6 +43,9 @@ public class Customer {
         return "Customer{" +
                 "customerId=" + customerId +
                 ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", lastLoginAt=" + lastLoginAt +
+                ", createdAt=" + createdAt +
                 ", customerType=" + customerType +
                 '}';
     }
