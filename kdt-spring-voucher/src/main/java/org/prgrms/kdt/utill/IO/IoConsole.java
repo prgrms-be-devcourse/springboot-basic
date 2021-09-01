@@ -1,6 +1,7 @@
 package org.prgrms.kdt.utill.IO;
 
 import org.prgrms.kdt.domain.Voucher;
+import org.prgrms.kdt.domain.VoucherEntity;
 
 import java.util.List;
 import java.util.Scanner;
@@ -41,7 +42,7 @@ public class IoConsole implements Input,Output{
     };
 
     @Override
-    public void outputList(List<Voucher> list){
+    public void outputList(List<VoucherEntity> list){
         list.stream().forEach(m -> System.out.println(m.toString()));
         System.out.println("생성한 Voucher는 총 : "+list.size()+"개 입니다.");
     }

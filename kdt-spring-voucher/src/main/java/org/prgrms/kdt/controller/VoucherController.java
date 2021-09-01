@@ -2,6 +2,7 @@ package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.CommandLineApplication;
 import org.prgrms.kdt.domain.Voucher;
+import org.prgrms.kdt.domain.VoucherEntity;
 import org.prgrms.kdt.enumType.InputStatus;
 import org.prgrms.kdt.enumType.VoucherStatus;
 import org.prgrms.kdt.service.VoucherService;
@@ -44,19 +45,11 @@ public class VoucherController {
                         case CREATE:
                             var typeValue = getVoucherStatus(ioConsole);
                             voucherService.createVoucher(typeValue);
-//                            fileIOStream.fileInputStream(voucher);
                             break;
                         case LIST:
                             ioConsole.message("지금까지 생성한 바우처를 출력합니다.");
-
-                            //바우처로 생성?
-
-//                            List<String> list = fileIOStream.fileOutputStream();
-//                            if(list.isEmpty()){
-//                                ioConsole.message("현재 저장된 바우처가 아무것도 없습니다...");
-//                                break;
-//                            }
-//                            ioConsole.outputListFile(list);
+                            var voucherList = voucherService.findAll();
+                            ioConsole.outputList(voucherList);
                             break;
                         case EXIT:
                             ioConsole.exit();

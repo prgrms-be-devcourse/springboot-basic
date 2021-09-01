@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -40,8 +42,13 @@ public class VoucherService {
         return voucherEntity;
     }
 
+    public List<VoucherEntity> findAll(){
+        return voucherJdbcRepository.findAll();
+    }
 
-
+    public VoucherEntity getVoucherById(UUID voucherId){
+        return voucherJdbcRepository.findById(voucherId).get();
+    }
 
     //
 //    public Voucher getVoucher(UUID voucherId) {
