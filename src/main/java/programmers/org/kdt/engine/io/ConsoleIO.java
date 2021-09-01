@@ -3,14 +3,12 @@ package programmers.org.kdt.engine.io;
 public class ConsoleIO implements Input, Output {
 
     @Override
-    public String input(String s) {
+    public String input(String message) {
         return null;
     }
 
     @Override
-    public void print(String message) {
-
-    }
+    public void print(String message) {}
 
     public void help() {
         print("");
@@ -20,7 +18,8 @@ public class ConsoleIO implements Input, Output {
         print("Type **list** to list all vouchers.");
     }
 
-    public void error() {
+    public void error(String message) {
+        print("[Error] : " + message);
         print("Please try again.");
     }
 
