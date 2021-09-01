@@ -10,6 +10,7 @@ public interface Output {
     void showVoucherOptions();
     void createVoucher(Voucher voucher);
     void listVoucher(Map<UUID, Voucher> voucherList);
+    void allocateCustomer(String[] uuids);
     void printIllegalInputError();
     void printVoucherListNotFoundError();
 }

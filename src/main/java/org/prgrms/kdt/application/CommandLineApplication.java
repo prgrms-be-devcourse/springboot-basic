@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.prgrms.kdt.engine", "org.prgrms.kdt.configuration"})
+@ComponentScan(basePackages = {"org.prgrms.kdt.engine"})
 public class CommandLineApplication {
     private static final String PROFILE = "local";
     private static final Input input = new Console();
@@ -47,6 +47,22 @@ public class CommandLineApplication {
                 case LIST:
                     Optional<Map<UUID, Voucher>> voucherList = voucherService.listVoucher();
                     voucherList.ifPresentOrElse(output::listVoucher, output::printVoucherListNotFoundError);
+                    break;
+
+                case ALLOCATE_CUSTOMER:
+                    var prompt = "comma separated UUID of voucher followed by UUID of customer : ";
+                    var uuids = input.inputCommand(prompt).split(",");
+                    voucherService.setVoucherCustomer(uuids);
+                    output.allocateCustomer(uuids);
+                    break;
+
+                case LIST_CUSTOMER_VOUCHERS:
+                    break;
+
+                case DELETE_CUSTOMER_VOUCHER:
+                    break;
+
+                case GET_VOUCHER_OWNER:
                     break;
 
                 case EXIT:

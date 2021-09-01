@@ -60,6 +60,12 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
+    @Override
+    public void setCustomerId(UUID voucherId, UUID customerId) {
+        var update = jdbcTemplate.update(VoucherSql.UPDATE_CUSTOMER_ID.getSql(), toParamMap(voucherId, customerId));
+        if (update != 1) throw new RuntimeException("Nothing was updated");
+    }
+
     public void deleteAll() {
         jdbcTemplate.update(VoucherSql.DELETE_ALL.getSql(), Collections.emptyMap());
     }
@@ -74,6 +80,13 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
         paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
         paramMap.put("rate", voucher.getVoucherRate());
         paramMap.put("type", voucher.getVoucherType().toString());
+        return paramMap;
+    }
+
+    private Map<String, Object> toParamMap(UUID voucherId, UUID customerId) {
+        var paramMap = new HashMap<String, Object>();
+        paramMap.put("voucherId", voucherId.toString().getBytes());
+        paramMap.put("customerId", customerId.toString().getBytes());
         return paramMap;
     }
 }

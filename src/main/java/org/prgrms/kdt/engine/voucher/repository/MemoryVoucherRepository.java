@@ -31,4 +31,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
+
+    @Override
+    public void setCustomerId(UUID voucherId, UUID customerId) {
+        // 미구현
+    }
 }
