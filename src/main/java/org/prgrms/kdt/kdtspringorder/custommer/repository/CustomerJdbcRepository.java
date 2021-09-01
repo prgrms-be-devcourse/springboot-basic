@@ -1,5 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.custommer.repository;
 
+import org.prgrms.kdt.kdtspringorder.common.exception.CustomerNotFoundException;
 import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         final int update = jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
 
         if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new CustomerNotFoundException(customer.getCustomerId());
         }
 
         return customer.getCustomerId();
@@ -60,7 +61,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         final int update = jdbcTemplate.update(UPDATE_SQL, paramMap);
 
         if (update != 1) {
-            throw new RuntimeException("Nothing was updated");
+            throw new CustomerNotFoundException(customer.getCustomerId());
         }
 
         return customer.getCustomerId();
@@ -109,7 +110,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public int delete(UUID customerId) {
-        return jdbcTemplate.update(DELETE_SQL, Map.of("customer_id", customerId));
+        final int update = jdbcTemplate.update(DELETE_SQL, Map.of("customer_id", customerId));
+
+        if (update != 1) {
+            throw new CustomerNotFoundException(customerId);
+        }
+
+        return update;
     }
 
     /**
