@@ -12,13 +12,24 @@ public enum VoucherType {
         public Voucher createVoucher(long amount) {
             return new FixedAmountVoucher(UUID.randomUUID(), amount);
         }
+
+        @Override
+        public Voucher createVoucher(UUID voucherId, long amount) {
+            return new FixedAmountVoucher(voucherId, amount);
+        }
     },
     PERCENT {
         @Override
         public Voucher createVoucher(long percent) {
             return new PercentDiscountVoucher(UUID.randomUUID(), percent);
         }
+
+        @Override
+        public Voucher createVoucher(UUID voucherId, long percent) {
+            return new PercentDiscountVoucher(voucherId, percent);
+        }
     };
 
     public abstract Voucher createVoucher(long rate);
+    public abstract Voucher createVoucher(UUID voucherId, long rate);
 }

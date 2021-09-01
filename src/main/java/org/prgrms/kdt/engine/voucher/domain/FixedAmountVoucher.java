@@ -1,5 +1,7 @@
 package org.prgrms.kdt.engine.voucher.domain;
 
+import org.prgrms.kdt.engine.voucher.VoucherType;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -15,15 +17,21 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public long discount(long beforeDiscount) {
+        var discountAmount = beforeDiscount - amount;
+        return (discountAmount < 0) ? 0 : discountAmount;
+    }
+
+    @Override
     public UUID getVoucherId() {
         return voucherId;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        var discountAmount = beforeDiscount - amount;
-        return (discountAmount < 0) ? 0 : discountAmount;
-    }
+    public long getVoucherRate() { return amount; }
+
+    @Override
+    public VoucherType getVoucherType() { return VoucherType.FIXED; }
 
     @Override
     public String toString() {
