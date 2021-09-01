@@ -3,6 +3,9 @@ package com.prgrms.w3springboot.voucher;
 import java.util.UUID;
 
 public class VoucherFactory {
+    private VoucherFactory() {
+    }
+
     public static Voucher createVoucher(VoucherType voucherType, long discountAmount) {
         switch (voucherType) {
             case FIXED:
