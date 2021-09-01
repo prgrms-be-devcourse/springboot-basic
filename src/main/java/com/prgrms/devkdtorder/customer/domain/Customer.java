@@ -34,6 +34,26 @@ public class Customer {
         this.customerType = CustomerType.WHITE;
     }
 
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public CustomerType getCustomerType() {
         return customerType;
     }

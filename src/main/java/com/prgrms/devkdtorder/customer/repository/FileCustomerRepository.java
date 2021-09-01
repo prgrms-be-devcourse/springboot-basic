@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,6 +26,46 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Value("${kdt.customer.blacklist.csv-path}")
     private String BLACK_LIST_PATH;
+
+    @Override
+    public Customer insert(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public Customer update(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public int count() {
+        return 0;
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByName(String name) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
 
     @Override
     public BlackCustomers findAllBlackCustomers() {
