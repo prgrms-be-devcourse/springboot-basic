@@ -13,20 +13,20 @@ import java.util.UUID;
 @Setter
 public class CustomerEntity {
     private final UUID customerId;
-    private Optional<String> name;
-    private final Optional<String> email;
+    private String name;
+    private final String email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
-    public CustomerEntity(UUID customerId, Optional<String> name, Optional<String> email, LocalDateTime createdAt) {
-        validateName(name.get());
+    public CustomerEntity(UUID customerId, String name, String email, LocalDateTime createdAt) {
+        validateName(name);
         this.name = name;
         this.customerId = customerId;
         this.email = email;
         this.createdAt = createdAt;
     }
 
-    public CustomerEntity(UUID customerId, Optional<String> name, Optional<String> email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public CustomerEntity(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -43,28 +43,9 @@ public class CustomerEntity {
 
     public void changeName(String name) {
         validateName(name);
-        this.name = Optional.of(name);
+        this.name = name;
     }
 
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    public Optional<String> getName() {
-        return name;
-    }
-
-    public Optional<String> getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 
 
 }

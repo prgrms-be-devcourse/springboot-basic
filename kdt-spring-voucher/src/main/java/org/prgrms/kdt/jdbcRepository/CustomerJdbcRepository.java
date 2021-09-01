@@ -45,8 +45,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     public static RowMapper<CustomerEntity> customerEntityRowMapper = (resultSet, i) -> {
         var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var customerName = Optional.ofNullable(resultSet.getString("name"));
-        var email = Optional.ofNullable(resultSet.getString("email"));
+        var customerName = resultSet.getString("name");
+        var email = resultSet.getString("email");
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new CustomerEntity(customerId, customerName, email, lastLoginAt, createdAt);
@@ -64,7 +64,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public CustomerEntity update(CustomerEntity customer) {
-        var update = jdbcTemplate.update("update customers set name = :name, emali = :email, last_login_at = :lastLoginAt where cutomer_id = UUID_TO_BIN(:customerId)",
+        var update = jdbcTemplate.update("update customers set name = :name, email = :email, last_login_at = :lastLoginAt where customer_id = UUID_TO_BIN(:customerId)",
                 toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Nothing was Updated");
@@ -85,13 +85,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public void deleteById(UUID customerId) {
         var customerIdMap = Collections.singletonMap("customerId", customerId.toString().getBytes());
-        jdbcTemplate.update("delete from customers where customer_id = :customerId", customerIdMap);
+        jdbcTemplate.update("delete from customers where customer_id = UUID_TO_BIN(:customerId)", customerIdMap);
     }
 
     @Override
     public Optional<CustomerEntity> findById(UUID customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where customer_id = :customerId",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where customer_id = UUID_TO_BIN(:customerId)",
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     customerEntityRowMapper));
         } catch (EmptyResultDataAccessException e) {
