@@ -92,3 +92,4 @@ Caused by: java.io.NotSerializableException: java.util.Optional
 	at java.base/java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:349)
 	at com.mysql.cj.AbstractQueryBindings.setSerializableObject(AbstractQueryBindings.java:1057)
 	... 53 common frames omitted
+19:36:39.324 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 

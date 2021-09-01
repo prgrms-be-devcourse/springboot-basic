@@ -34,7 +34,6 @@ public class VoucherService {
                 .discount(v.discountCoupon())
                 .createdAt(LocalDateTime.now())
                 .build();
-        System.out.println(voucherEntity.toString());
         voucherJdbcRepository.insert(voucherEntity);
         return voucherEntity;
     }
@@ -47,7 +46,7 @@ public class VoucherService {
         return voucherJdbcRepository.findById(voucherId).get();
     }
 
-    public void removeAll(){
+    public void removeAll() {
         voucherJdbcRepository.deleteAll();
     }
 
