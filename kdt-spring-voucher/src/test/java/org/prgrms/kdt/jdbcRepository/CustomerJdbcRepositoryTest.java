@@ -3,6 +3,7 @@ package org.prgrms.kdt.jdbcRepository;
 import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.configuration.AppConfig;
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +41,11 @@ class CustomerJdbcRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"org.prgrms.kdt.domain","org.prgrms.kdt.jdbcRepository"}
+            basePackages = {"org.prgrms.kdt.domain", "org.prgrms.kdt.jdbcRepository"}
     )
-    static class config{
+    static class config {
         @Bean
-        public DataSource dataSource(){
+        public DataSource dataSource() {
             var datasource = DataSourceBuilder.create()
                     .url("jdbc:mysql://localhost:2215/test-order-mgmt")
                     .username("test")
@@ -55,13 +56,14 @@ class CustomerJdbcRepositoryTest {
             datasource.setMinimumIdle(100);
             return datasource;
         }
+
         @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource){
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
         }
 
         @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate){
+        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
             return new NamedParameterJdbcTemplate(jdbcTemplate);
         }
     }
@@ -72,12 +74,12 @@ class CustomerJdbcRepositoryTest {
     @Autowired
     DataSource dataSource;
 
-    CustomerEntity testCustomer,testCustomer2;
+    CustomerEntity testCustomer, testCustomer2;
 
     EmbeddedMysql embeddedMysql;
 
     @BeforeAll
-    void setUp(){
+    void setUp() {
         testCustomer = new CustomerEntity(UUID.randomUUID(), "test-name", "test-user@naver.com", LocalDateTime.now());
         testCustomer2 = new CustomerEntity(UUID.randomUUID(), "test-name2", "test-user@naver.com2", LocalDateTime.now());
         var mysqldConfig = aMysqldConfig(v8_0_11)
@@ -97,7 +99,7 @@ class CustomerJdbcRepositoryTest {
     void insert() {
         customerRepository.insert(testCustomer);
 
-        System.out.println("customerID -> "+testCustomer.getCustomerId());
+        System.out.println("customerID -> " + testCustomer.getCustomerId());
         var retrievedCustomer = customerRepository.findById(testCustomer.getCustomerId());
         System.out.println(retrievedCustomer.get());
         assertThat(retrievedCustomer.isEmpty(), is(false));
@@ -135,7 +137,7 @@ class CustomerJdbcRepositoryTest {
                 .build();
         customerRepository.update(changeCustomer);
         var retrivedCustomer = customerRepository.findById(changeCustomer.getCustomerId());
-        assertThat(retrivedCustomer.isEmpty(),is(false));
+        assertThat(retrivedCustomer.isEmpty(), is(false));
         assertThat(retrivedCustomer.get(), samePropertyValuesAs(changeCustomer));
     }
 
