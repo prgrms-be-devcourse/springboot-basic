@@ -18,12 +18,17 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public long discountPrice(long price) {
+    public long discount(long price) {
         return price - amount;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    @Override
+    public boolean support(VoucherType type) {
+        return type.equals(VoucherType.FIX);
     }
 
     public long getAmount() {

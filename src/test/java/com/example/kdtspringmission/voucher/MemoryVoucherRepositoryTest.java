@@ -1,4 +1,4 @@
-package com.example.kdtspringmission;
+package com.example.kdtspringmission.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

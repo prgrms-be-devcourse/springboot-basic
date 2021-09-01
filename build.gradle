@@ -14,7 +14,18 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'javax.servlet:jstl:1.2'
+
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'
+
+    runtimeOnly 'com.h2database:h2:'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation group: 'com.wix', name: 'wix-embedded-mysql', version: '4.6.1'
+
 }
 
 test {

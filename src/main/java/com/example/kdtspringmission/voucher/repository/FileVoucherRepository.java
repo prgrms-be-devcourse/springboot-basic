@@ -15,18 +15,22 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+//@Repository
+//@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository{
 
     private static final String AMOUNT_DELIM = "=";
     private static final String VOUCHERS_PATH = "src/main/resources/vouchers/";
     private static final File resources = new File(VOUCHERS_PATH);
-    private static final Pattern amountPattern = Pattern.compile("amount=(\\d*)|percent=(\\d*)");
-    private static final Pattern idPattern = Pattern.compile("id=(.*?),");
     private static final String VOUCHER_TYPE_FIXED = "Fixed";
     private static final String VOUCHER_TYPE_RATE = "Rate";
+    private static final Pattern amountPattern = Pattern.compile("amount=(\\d*)|percent=(\\d*)");
+    private static final Pattern idPattern = Pattern.compile("id=(.*?),");
+    private static final Pattern typePattern = Pattern.compile("\\w+");
 
     @Override
     public UUID insert(Voucher voucher) {

@@ -18,13 +18,18 @@ public class RateAmountVoucher implements Voucher {
     }
 
     @Override
-    public long discountPrice(long price) {
+    public long discount(long price) {
         return (long) (price - (price * ((double)percent / 100)));
     }
 
     @Override
     public UUID getId() {
         return this.id;
+    }
+
+    @Override
+    public boolean support(VoucherType type) {
+        return type.equals(VoucherType.RATE);
     }
 
     public long getPercent() {

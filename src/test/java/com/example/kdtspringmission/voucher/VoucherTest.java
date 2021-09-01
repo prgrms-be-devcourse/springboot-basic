@@ -1,4 +1,4 @@
-package com.example.kdtspringmission;
+package com.example.kdtspringmission.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,8 +17,8 @@ class VoucherTest {
         Voucher voucherDiscount200 = new FixedAmountVoucher(UUID.randomUUID(), 200L);
 
         //when
-        long discount100 = voucherDiscount100.discountPrice(10000L);
-        long discount200 = voucherDiscount200.discountPrice(10000L);
+        long discount100 = voucherDiscount100.discount(10000L);
+        long discount200 = voucherDiscount200.discount(10000L);
 
         //then
         assertThat(discount100).isEqualTo(9900L);
@@ -33,8 +33,8 @@ class VoucherTest {
         Voucher voucherDiscount20 = new RateAmountVoucher(UUID.randomUUID(), 50L);
 
         //when
-        long discount10 = voucherDiscount10.discountPrice(10000L);
-        long discount20 = voucherDiscount20.discountPrice(10000L);
+        long discount10 = voucherDiscount10.discount(10000L);
+        long discount20 = voucherDiscount20.discount(10000L);
 
         //then
         assertThat(discount10).isEqualTo(9000L);

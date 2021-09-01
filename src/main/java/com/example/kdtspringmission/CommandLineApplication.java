@@ -6,7 +6,9 @@ import com.example.kdtspringmission.voucher.repository.VoucherRepository;
 import com.example.kdtspringmission.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class CommandLineApplication {
 
     private final InputView inputView;
@@ -20,16 +22,9 @@ public class CommandLineApplication {
         this.voucherService = voucherService;
     }
 
-    public static void main(String[] args) {
-        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-        InputView inputView = ac.getBean("consoleInputView", InputView.class);
-        OutputView outputView = ac.getBean("consoleOutputView", OutputView.class);
-        VoucherService voucherService = ac.getBean("voucherService", VoucherService.class);
-        new CommandLineApplication(inputView, outputView, voucherService).run();
-    }
-
     public void run() {
         while (true) {
+            System.out.println(voucherService.getVoucherRepository().getClass());
             outputView.commandList();
             executeCommand(inputView.getCommand());
         }
@@ -50,6 +45,7 @@ public class CommandLineApplication {
         if (command == Command.LIST) {
             outputView.voucherList(voucherService.findAll());
         }
+
     }
 
 }
