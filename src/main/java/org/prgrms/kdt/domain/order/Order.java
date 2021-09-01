@@ -33,4 +33,24 @@ public class Order {
                 .reduce(0L, Long::sum);
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
+
+    public UUID getOrderId() {
+        return orderId;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public Optional<Voucher> getVoucher() {
+        return voucher;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
 }
