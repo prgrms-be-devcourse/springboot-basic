@@ -41,4 +41,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Optional<Map<UUID, Voucher>> getCustomerVoucher(UUID customerId) {
         return Optional.empty();
     }
+
+    @Override
+    public void deleteCustomerVoucher(UUID customerId) {
+
+    }
 }

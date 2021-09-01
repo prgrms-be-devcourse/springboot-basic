@@ -12,4 +12,5 @@ public interface VoucherRepository {
     Voucher insert(Voucher voucher);
     void setCustomerId(UUID voucherId, UUID customerId);
     Optional<Map<UUID, Voucher>> getCustomerVoucher(UUID customerId);
+    void deleteCustomerVoucher(UUID customerId);
 }

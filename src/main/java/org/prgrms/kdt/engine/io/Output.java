@@ -11,6 +11,7 @@ public interface Output {
     void createVoucher(Voucher voucher);
     void listVoucher(Map<UUID, Voucher> voucherList);
     void allocateCustomer(String[] uuids);
+    void deleteCustomerVoucher(String customerUUID);
     void printIllegalInputError();
     void printVoucherListNotFoundError();
 }

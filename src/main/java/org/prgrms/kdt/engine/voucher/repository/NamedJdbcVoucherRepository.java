@@ -82,6 +82,14 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
         }
     }
 
+    @Override
+    public void deleteCustomerVoucher(UUID customerId) {
+        jdbcTemplate.update(
+            VoucherSql.DELETE_CUSTOMER_VOUCHER.getSql(),
+            Collections.singletonMap("customerId", customerId.toString().getBytes())
+        );
+    }
+
     public void deleteAll() {
         jdbcTemplate.update(VoucherSql.DELETE_ALL.getSql(), Collections.emptyMap());
     }

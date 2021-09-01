@@ -23,7 +23,6 @@ public class CommandLineApplication {
     private static final Output output = new Console();
     private static VoucherService voucherService;
     private static CustomerService customerService;
-    private static String prompt;
 
     public static void main(String[] args) {
         var springApplication = new SpringApplication(CommandLineApplication.class);
@@ -54,7 +53,7 @@ public class CommandLineApplication {
                     break;
 
                 case ALLOCATE_CUSTOMER:
-                    prompt = "comma separated UUID of voucher followed by UUID of customer : ";
+                    var prompt = "comma separated UUID of voucher followed by UUID of customer : ";
                     var uuids = input.inputCommand(prompt).split(",");
                     voucherService.setVoucherCustomer(uuids);
                     output.allocateCustomer(uuids);
@@ -68,6 +67,10 @@ public class CommandLineApplication {
                     break;
 
                 case DELETE_CUSTOMER_VOUCHER:
+                    prompt = "UUID of the customer : ";
+                    customerId = input.inputCommand(prompt);
+                    voucherService.deleteCustomerVoucher(customerId);
+                    output.deleteCustomerVoucher(customerId);
                     break;
 
                 case GET_VOUCHER_OWNER:

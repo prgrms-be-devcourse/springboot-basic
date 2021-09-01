@@ -25,7 +25,7 @@ public class Console implements Input, Output {
         System.out.println("Type 'list' to list all vouchers.");
         System.out.println("Type 'allocate customer' to allocate voucher to a customer.");
         System.out.println("Type 'list customer vouchers' to list all vouchers of the customer.");
-        System.out.println("Type 'delete customer voucher' to delete a voucher of the customer.");
+        System.out.println("Type 'delete customer voucher' to delete all vouchers of the customer.");
         System.out.println("Type 'get voucher owner' to show owner of the voucher");
         System.out.println("Type 'exit' to exit the program.");
     }
@@ -57,6 +57,12 @@ public class Console implements Input, Output {
         String voucherId = uuids[0];
         String customerId = uuids[1];
         System.out.println(MessageFormat.format("Voucher : {0} is allocated to Customer {1}", voucherId, customerId));
+    }
+
+    @Override
+    public void deleteCustomerVoucher(String customerUUID) {
+        UUID customerId = UUID.fromString(customerUUID);
+        System.out.println("Deleted All Vouchers of " + customerUUID);
     }
 
     @Override

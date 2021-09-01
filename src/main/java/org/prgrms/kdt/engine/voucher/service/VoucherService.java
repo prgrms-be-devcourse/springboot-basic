@@ -70,4 +70,9 @@ public class VoucherService {
         UUID customerId = UUID.fromString(customerUUID);
         return voucherRepository.getCustomerVoucher(customerId);
     }
+
+    public void deleteCustomerVoucher(String customerUUID) {
+        UUID customerId = UUID.fromString(customerUUID);
+        voucherRepository.deleteCustomerVoucher(customerId);
+    }
 }
