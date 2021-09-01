@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain;
+package org.prgrms.kdt.domain.voucher;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
