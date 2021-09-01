@@ -4,4 +4,5 @@ public enum InputStatus {
     EXIT,
     CREATE,
     LIST,
+    REMOVE,
 }

@@ -20,9 +20,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class VoucherService {
 
-//    @Autowired
-//    private final MemoryVoucherRepository memoryVoucherRepository;
-
     @Autowired
     private final VoucherJdbcRepository voucherJdbcRepository;
 
@@ -31,18 +28,14 @@ public class VoucherService {
 
     public VoucherEntity createVoucher(int voucherStatus) {
         Voucher v = voucherFactory.getDiscounterVoucher(voucherStatus);
-
         var voucherEntity = VoucherEntity.builder()
                 .voucherId(v.getVoucherId())
                 .voucherType(v.getType())
                 .discount(v.discountCoupon())
                 .createdAt(LocalDateTime.now())
                 .build();
-
         System.out.println(voucherEntity.toString());
-
         voucherJdbcRepository.insert(voucherEntity);
-
         return voucherEntity;
     }
 
@@ -52,6 +45,10 @@ public class VoucherService {
 
     public VoucherEntity getVoucherById(UUID voucherId) {
         return voucherJdbcRepository.findById(voucherId).get();
+    }
+
+    public void removeAll(){
+        voucherJdbcRepository.deleteAll();
     }
 
     //

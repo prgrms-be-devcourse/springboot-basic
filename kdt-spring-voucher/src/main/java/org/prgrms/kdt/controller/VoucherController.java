@@ -51,6 +51,10 @@ public class VoucherController {
                         var voucherList = voucherService.findAll();
                         ioConsole.outputList(voucherList);
                         break;
+                    case REMOVE:
+                        ioConsole.message("생성한 모든 바우처를 삭제합니다.");
+                        voucherService.removeAll();
+                        break;
                     case EXIT:
                         ioConsole.exit();
                         applicationContext.close();
