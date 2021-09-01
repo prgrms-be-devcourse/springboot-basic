@@ -45,8 +45,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     public static RowMapper<CustomerEntity> customerEntityRowMapper = (resultSet, i) -> {
         var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var customerName = resultSet.getString("name");
-        var email = resultSet.getString("email");
+        var customerName = Optional.ofNullable(resultSet.getString("name"));
+        var email = Optional.ofNullable(resultSet.getString("email"));
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new CustomerEntity(customerId, customerName, email, lastLoginAt, createdAt);

@@ -18,18 +18,18 @@ public class CustomerEntity {
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
-    public CustomerEntity(UUID customerId, String name, String email, LocalDateTime createdAt) {
-        validateName(name);
-        this.name = Optional.of(name);
+    public CustomerEntity(UUID customerId, Optional<String> name, Optional<String> email, LocalDateTime createdAt) {
+        validateName(name.get());
+        this.name = name;
         this.customerId = customerId;
-        this.email = Optional.ofNullable(email);
+        this.email = email;
         this.createdAt = createdAt;
     }
 
-    public CustomerEntity(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public CustomerEntity(UUID customerId, Optional<String> name, Optional<String> email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
-        this.name = Optional.ofNullable(name);
-        this.email = Optional.ofNullable(email);
+        this.name = name;
+        this.email = email;
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
     }
