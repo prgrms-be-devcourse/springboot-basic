@@ -1,11 +1,13 @@
 package com.prgrms.w3springboot.io;
 
 import com.prgrms.w3springboot.voucher.Voucher;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class Console implements Input, Output {
     private static final Scanner scanner = new Scanner(System.in);
 

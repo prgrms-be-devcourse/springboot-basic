@@ -1,7 +1,9 @@
 package com.prgrms.w3springboot.io;
 
 import com.prgrms.w3springboot.voucher.service.VoucherService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CommandLine implements Runnable {
     private final Console console;
     private final VoucherService voucherService;
