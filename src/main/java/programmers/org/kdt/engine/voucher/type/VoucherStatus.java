@@ -1,5 +1,7 @@
 package programmers.org.kdt.engine.voucher.type;
 
+import java.util.Locale;
+
 public enum VoucherStatus {
     NULL{
         @Override
@@ -7,13 +9,13 @@ public enum VoucherStatus {
             return VoucherDiscountType.NULL.toString();
         }
     },
-    FixedAmountVoucher{
+    FIXEDAMOUNTVOUCHER{
         @Override
         public String toValueType(){
             return VoucherDiscountType.DOLLAR.toString();
         }
     },
-    PercentDiscountVoucher{
+    PERCENTDISCOUNTVOUCHER {
         @Override
         public String toValueType(){
             return VoucherDiscountType.PERCENT.toString();
@@ -21,13 +23,14 @@ public enum VoucherStatus {
     };
 
     public static VoucherStatus fromString(String string) {
-        if (string.equals("FixedAmountVoucher")) {
-            return FixedAmountVoucher;
-        } else if (string.equals("PercentDiscountVoucher")){
-            return PercentDiscountVoucher;
-        } else {
-            return NULL;
+        VoucherStatus voucherStatus = NULL;
+        try {
+            voucherStatus = VoucherStatus.valueOf(string.toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
         }
+
+        return voucherStatus;
     }
 
     public static String getValueType(VoucherStatus inputStatus) {
@@ -40,8 +43,8 @@ public enum VoucherStatus {
         }
 
         switch (voucherStatus) {
-            case FixedAmountVoucher -> ret = VoucherDiscountType.DOLLAR.toString();
-            case PercentDiscountVoucher -> ret = VoucherDiscountType.PERCENT.toString();
+            case FIXEDAMOUNTVOUCHER -> ret = VoucherDiscountType.DOLLAR.toString();
+            case PERCENTDISCOUNTVOUCHER -> ret = VoucherDiscountType.PERCENT.toString();
             default -> ret = VoucherDiscountType.NULL.toString();
         }
         return ret;

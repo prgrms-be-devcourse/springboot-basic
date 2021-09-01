@@ -25,6 +25,7 @@ import programmers.org.kdt.engine.voucher.type.Voucher;
 import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
 @Repository
+//@Qualifier("json")
 @Profile("default")
 public class JsonVoucherRepository implements VoucherRepository, InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(JsonVoucherRepository.class);
@@ -55,6 +56,14 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
         updateStorage();
         return storage.entrySet();
     }
+
+    @Override
+    public void deleteAll() {
+        deleteJsonFile();
+        createJsonFile();
+        storage.clear();
+    }
+
 
     private Optional<Voucher> putDataToJson(Voucher voucher) {
         JSONArray jsonArray = this.getDataFromJson().orElse(null);
@@ -116,9 +125,9 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
                 String.valueOf(obj.get(voucherStatusKey))
             );
 
-            if (voucherStatus == VoucherStatus.FixedAmountVoucher) {
+            if (voucherStatus == VoucherStatus.FIXEDAMOUNTVOUCHER) {
                 voucher = new FixedAmountVoucher(id, value);
-            } else if (voucherStatus == VoucherStatus.PercentDiscountVoucher) {
+            } else if (voucherStatus == VoucherStatus.PERCENTDISCOUNTVOUCHER) {
                 voucher = new PercentDiscountVoucher(id, value);
             }
 
@@ -131,8 +140,7 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
         }
     }
 
-    @Override
-    public void afterPropertiesSet() {
+    private void createJsonFile() {
         File file = new File(jsonFileName);
 
         //create json if not exist
@@ -145,9 +153,22 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
             }
             if(!ret) System.exit(-1);
             logger.info("Json file create");
-        } else {
-            logger.info("Json file already exist");
+            return;
         }
-}
+        logger.info("Json file already exist");
+    }
+
+    private void deleteJsonFile() {
+        File file = new File(jsonFileName);
+        if (file.exists())
+            file.delete();
+        logger.info("Delete Json file success");
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        createJsonFile();
+    }
+
 }
 

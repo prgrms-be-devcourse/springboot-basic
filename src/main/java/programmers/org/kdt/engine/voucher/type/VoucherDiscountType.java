@@ -12,7 +12,8 @@ public enum VoucherDiscountType {
     DOLLAR{
         @Override
         public String toString() {return "$";}
-    },WON{
+    },
+    WON{
         @Override
         public String toString() {return "\\";}
     };

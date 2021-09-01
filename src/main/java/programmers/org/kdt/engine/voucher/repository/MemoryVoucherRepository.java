@@ -30,4 +30,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Set<Map.Entry<UUID, Voucher>> getAllEntry() {
         return storage.entrySet();
     }
+
+    @Override
+    public void deleteAll() {
+        storage.clear();
+    }
 }

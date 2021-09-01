@@ -1,19 +1,42 @@
 package programmers.org.kdt.engine.voucher.type;
 
 import java.util.UUID;
-import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
-public interface Voucher {
+public class Voucher {
+    private UUID voucherId;
+    private long value;
+    private VoucherStatus voucherstatus;
 
-    boolean conditionCheck();
+    public Voucher(UUID voucherId, Integer value, VoucherStatus voucherstatus) {
+        this.voucherId = voucherId;
+        this.value = value;
+        this.voucherstatus = voucherstatus;
+    }
 
-    UUID getVoucherId();
+    public Voucher() {
+    }
 
-    VoucherStatus getVoucherStatus();
+    public boolean conditionCheck() {
+        return (this.voucherstatus != VoucherStatus.NULL);
+    }
 
-    long getValue();
+    public UUID getVoucherId() {
+        return voucherId;
+    }
 
-    long discount(long beforeDiscount);
+    public VoucherStatus getVoucherStatus() {
+        return voucherstatus;
+    }
 
+    public long getValue() {
+        return value;
+    }
 
-};
+    public long discount(long beforeDiscount) {
+        return 0;
+    }
+
+    public void changeValue(long i) {
+        this.value = i;
+    }
+}

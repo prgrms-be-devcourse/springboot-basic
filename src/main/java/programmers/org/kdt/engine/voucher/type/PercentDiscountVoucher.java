@@ -2,20 +2,20 @@ package programmers.org.kdt.engine.voucher.type;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
 
     private final UUID voucherId;
-    private final long percent;
-    private final VoucherStatus voucherStatus = VoucherStatus.PercentDiscountVoucher;
+    private final long value;
+    private final VoucherStatus voucherStatus = VoucherStatus.PERCENTDISCOUNTVOUCHER;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.value = percent;
     }
 
     @Override
     public boolean conditionCheck() {
-        return (this.percent >= 0 && this.percent <= 100);
+        return (this.value >= 0 && this.value <= 100);
     }
 
     @Override
@@ -30,11 +30,10 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long getValue() {
-        return percent;
+        return value;
     }
 
-    @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (value / 100);
     }
 }

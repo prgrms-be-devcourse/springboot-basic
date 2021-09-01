@@ -12,4 +12,6 @@ public interface VoucherRepository {
     Optional<Voucher> insert(Voucher voucher);
 
     Set<Map.Entry<UUID, Voucher>> getAllEntry();
+
+    void deleteAll();
 }

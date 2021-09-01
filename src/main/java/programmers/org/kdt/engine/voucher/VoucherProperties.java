@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "kdt")
+@ConfigurationProperties(prefix = "kdt") // gettersetter 필요
 public class VoucherProperties implements InitializingBean {
 
   private String version;

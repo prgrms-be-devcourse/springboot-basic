@@ -35,8 +35,8 @@ public class VoucherService {
         }
 
         switch (voucherStatusData) {
-            case PercentDiscountVoucher -> voucher = new FixedAmountVoucher(UUID.randomUUID(), value);
-            case FixedAmountVoucher -> voucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
+            case PERCENTDISCOUNTVOUCHER -> voucher = new FixedAmountVoucher(UUID.randomUUID(), value);
+            case FIXEDAMOUNTVOUCHER -> voucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
         }
 
         if (voucher == null || !voucher.conditionCheck()) {

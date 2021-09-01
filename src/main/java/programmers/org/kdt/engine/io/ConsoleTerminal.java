@@ -1,7 +1,9 @@
 package programmers.org.kdt.engine.io;
 
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleTerminal extends ConsoleIO {
     private final Scanner scanner;
 

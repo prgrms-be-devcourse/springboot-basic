@@ -5,12 +5,14 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.stereotype.Component;
 import programmers.org.kdt.engine.customer.CustomerService;
 import programmers.org.kdt.engine.io.ConsoleIO;
 import programmers.org.kdt.engine.voucher.type.Voucher;
 import programmers.org.kdt.engine.voucher.VoucherService;
 import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
+//@Component
 public class CommandLine implements Runnable {
 
     private boolean runState = true;
