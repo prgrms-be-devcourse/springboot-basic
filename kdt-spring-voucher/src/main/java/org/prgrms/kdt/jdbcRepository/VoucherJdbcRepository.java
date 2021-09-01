@@ -40,7 +40,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     public static RowMapper<VoucherEntity> voucherEntityRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = VoucherStatus.valueOf(resultSet.getString("voucher_type").toUpperCase());
+        var voucherType = resultSet.getString("voucher_type");
         var discount = resultSet.getLong("discount");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new VoucherEntity(voucherId, voucherType, discount, createdAt);
