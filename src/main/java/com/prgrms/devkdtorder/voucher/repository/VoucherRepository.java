@@ -1,5 +1,6 @@
 package com.prgrms.devkdtorder.voucher.repository;
 
+import com.prgrms.devkdtorder.customer.domain.Customer;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID voucherId);
 
-    Voucher save(Voucher voucher);
+    Voucher insert(Voucher voucher);
 
     List<Voucher> findAll();
 

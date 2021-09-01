@@ -38,7 +38,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         long value = voucher.getValue();
         wini.put(voucherId.toString(), OPTION_VALUE, value);

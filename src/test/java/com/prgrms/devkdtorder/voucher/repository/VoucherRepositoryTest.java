@@ -36,7 +36,7 @@ class VoucherRepositoryTest {
             FixedAmountVoucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
 
             //when
-            Voucher savedVoucher = voucherRepository.save(newVoucher);
+            Voucher savedVoucher = voucherRepository.insert(newVoucher);
 
             //then
             assertThat(savedVoucher, is(samePropertyValuesAs(newVoucher)));
@@ -48,7 +48,7 @@ class VoucherRepositoryTest {
 
             //given
             FixedAmountVoucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-            voucherRepository.save(newVoucher);
+            voucherRepository.insert(newVoucher);
 
             //when
             Optional<Voucher> retrievedVoucher = voucherRepository.findById(newVoucher.getVoucherId());
@@ -65,8 +65,8 @@ class VoucherRepositoryTest {
             //given
             FixedAmountVoucher newVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
             FixedAmountVoucher newVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), 2000);
-            voucherRepository.save(newVoucher1);
-            voucherRepository.save(newVoucher2);
+            voucherRepository.insert(newVoucher1);
+            voucherRepository.insert(newVoucher2);
 
             //when
             List<Voucher> allVouchers = voucherRepository.findAll();
@@ -83,8 +83,8 @@ class VoucherRepositoryTest {
             //given
             FixedAmountVoucher newVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
             FixedAmountVoucher newVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), 2000);
-            voucherRepository.save(newVoucher1);
-            voucherRepository.save(newVoucher2);
+            voucherRepository.insert(newVoucher1);
+            voucherRepository.insert(newVoucher2);
             List<Voucher> beforeDeleteVouchers = voucherRepository.findAll();
             assertThat(beforeDeleteVouchers, hasSize(2));
 

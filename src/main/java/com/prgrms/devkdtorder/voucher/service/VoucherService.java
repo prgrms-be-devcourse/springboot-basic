@@ -23,7 +23,7 @@ public class VoucherService {
     }
 
     public UUID saveVoucher(Voucher voucher){
-        voucherRepository.save(voucher);
+        voucherRepository.insert(voucher);
         return voucher.getVoucherId();
     }
 

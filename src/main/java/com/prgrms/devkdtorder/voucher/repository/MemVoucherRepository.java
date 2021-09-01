@@ -18,7 +18,7 @@ public class MemVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         if (map.containsKey(voucher.getVoucherId())) {
             throw new RuntimeException("중복된 아이디의 바우처가 이미 존재합니다.");
         }
