@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("dev")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository  {
     // FIXME : 데이터 양이 많아지면 메모리를 너무 많이 차지하거나 오류가 발생할 수 있음.
     private final Map<UUID, Voucher> cache = new ConcurrentHashMap<>();

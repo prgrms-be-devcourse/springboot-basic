@@ -156,6 +156,15 @@ public class FileCustomerRepository implements CustomerRepository {
         }
     }
 
+    @Override
+    public void deleteAll() {
+        cache4Blacklist.clear();
+        updateFile(blacklistCSV, cache4Blacklist, false);
+
+        cache4Customers.clear();
+        updateFile(customersCSV, cache4Customers, false);
+    }
+
     private void updateFile(File csvFile, Map<UUID, Customer> cache, boolean appendToFile) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(csvFile, appendToFile));

@@ -21,4 +21,6 @@ public interface CustomerRepository {
 
     Customer registerToBlacklist(Customer customer);
     List<Customer> findAllBlacklistCustomer();
+
+    void deleteAll();
 }

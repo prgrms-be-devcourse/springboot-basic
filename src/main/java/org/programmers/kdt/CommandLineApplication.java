@@ -39,7 +39,7 @@ public class CommandLineApplication implements Runnable {
         applicationContext.register(AppConfiguration.class);
 
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
-        environment.setActiveProfiles("dev");
+        environment.setActiveProfiles("local");
         applicationContext.refresh();
 
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
