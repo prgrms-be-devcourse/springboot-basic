@@ -15,6 +15,10 @@ public class Name {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void validate(String name) {
         if (!Pattern.matches(PATTERN, name)) {
             throw new ValidationException(Message.WRONG_FORMAT_MESSAGE);

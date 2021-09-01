@@ -16,6 +16,10 @@ public class Email {
         this.email = email;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void validate(String email) {
         if (!Pattern.matches(PATTERN, email)) {
             throw new ValidationException(Message.WRONG_FORMAT_MESSAGE);
