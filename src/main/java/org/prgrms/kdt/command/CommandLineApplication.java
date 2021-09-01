@@ -26,8 +26,11 @@ public class CommandLineApplication implements Runnable {
 
     @Override
     public void run() {
-        output.printOnStart(); // command 설명
-        while (execute()) ; // 실행
+        while (true) {
+            output.printOnStart(); // command 설명
+            if (!execute())
+                break;
+        }
     }
 
 
