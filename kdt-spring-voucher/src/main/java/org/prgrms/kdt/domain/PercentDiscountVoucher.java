@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain;
 
+import lombok.Getter;
 import lombok.ToString;
 
 import java.util.UUID;
@@ -13,6 +14,16 @@ public class PercentDiscountVoucher implements Voucher{
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
         this.percent = percent;
+    }
+
+    @Override
+    public String getType() {
+        return "PERCENT";
+    }
+
+    @Override
+    public long discountCoupon() {
+        return percent;
     }
 
     @Override

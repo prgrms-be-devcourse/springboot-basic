@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 public class CustomerEntity {

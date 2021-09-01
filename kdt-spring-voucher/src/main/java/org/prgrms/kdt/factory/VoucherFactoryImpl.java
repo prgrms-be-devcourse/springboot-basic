@@ -18,21 +18,21 @@ public class VoucherFactoryImpl implements VoucherFactory {
 
 
     @Override
-    public Voucher getDiscounterVoucher(VoucherStatus voucherStatus) {
+    public Voucher getDiscounterVoucher(int voucherStatus) {
         IoConsole ioConsole = new IoConsole();
 
         Voucher voucher = null;
         switch (voucherStatus) {
-            case FIXED:
+            case 1:
                 ioConsole.message("FixedAmountVoucher를 선택하셨습니다.");
                 String discount = isDiscountNum(ioConsole);
-                voucher = new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(discount));
+                voucher = VoucherStatus.FIXED.createVoucher(Long.parseLong(discount));
                 ioConsole.message("Fixed 바우처 생성이 완료되었습니다.");
                 break;
-            case PERCENT:
+            case 2:
                 ioConsole.message("PercentAmountVoucher를 선택하셨습니다.");
                 String percent = isPercentNum(ioConsole);
-                voucher = new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(percent));
+                voucher = VoucherStatus.PERCENT.createVoucher(Long.parseLong(percent));
                 ioConsole.message("Percent 바우처 생성이 완료되었습니다.");
                 break;
             default:

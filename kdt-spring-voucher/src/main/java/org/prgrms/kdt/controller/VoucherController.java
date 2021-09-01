@@ -43,17 +43,20 @@ public class VoucherController {
                     switch (type){
                         case CREATE:
                             var typeValue = getVoucherStatus(ioConsole);
-                            Voucher createVoucher = voucherService.createVoucher(typeValue);
-                            fileIOStream.fileInputStream(createVoucher);
+                            voucherService.createVoucher(typeValue);
+//                            fileIOStream.fileInputStream(voucher);
                             break;
                         case LIST:
                             ioConsole.message("지금까지 생성한 바우처를 출력합니다.");
-                            List<String> list = fileIOStream.fileOutputStream();
-                            if(list.isEmpty()){
-                                ioConsole.message("현재 저장된 바우처가 아무것도 없습니다...");
-                                break;
-                            }
-                            ioConsole.outputListFile(list);
+
+                            //바우처로 생성?
+
+//                            List<String> list = fileIOStream.fileOutputStream();
+//                            if(list.isEmpty()){
+//                                ioConsole.message("현재 저장된 바우처가 아무것도 없습니다...");
+//                                break;
+//                            }
+//                            ioConsole.outputListFile(list);
                             break;
                         case EXIT:
                             ioConsole.exit();
@@ -67,15 +70,14 @@ public class VoucherController {
 
     }
 
-    public VoucherStatus getVoucherStatus(IoConsole ioConsole){
-        String s1 = ioConsole.inputText("생성하고자하는 Voucher를 입력해주세요 : Fixed, Percent");
-        try{
-            var typeValue = VoucherStatus.valueOf(s1.toUpperCase());
-            return typeValue;
-        }catch (Exception e){
+    public int getVoucherStatus(IoConsole ioConsole){
+        String s1 = ioConsole.inputText("생성하고자하는 Voucher를 입력해주세요 : [1] Fixed, [2] Percent");
+        int type = Integer.parseInt(s1);
+        if(type != 1 && type != 2){
             logger.error("잘못된 형식의 입력입니다. 다시 입력해 주새요!! ");
             return getVoucherStatus(ioConsole);
         }
+        return type;
     }
 
 }
