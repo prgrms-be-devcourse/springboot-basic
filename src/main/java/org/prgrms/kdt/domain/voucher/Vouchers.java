@@ -28,4 +28,14 @@ public class Vouchers implements VoucherRepository {
         voucherMap.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
+
+    @Override
+    public void deleteAll() {
+        voucherMap.clear();
+    }
+
+    @Override
+    public int count() {
+        return voucherMap.size();
+    }
 }
