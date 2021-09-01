@@ -19,6 +19,12 @@ public interface Output {
     //프로그램 종료시 출력 메시지
     void exit();
 
-    //오류시 출력 메시지
-    void inputError();
+    //커맨드 입력 오류
+    void commandInputError();
+
+    //타입 입력 오류
+    void typeInputError();
+
+    //금액 입력 오류
+    void amountInputError();
 }

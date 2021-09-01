@@ -47,14 +47,26 @@ public class Console implements Input, Output {
     //프로그램 종료 시 출력 메시지
     @Override
     public void exit() {
-        System.out.println("The program has ended.");
+        System.out.print("The program has ended.");
         System.exit(0);
     }
 
-    //오류 발생시 출력 메시지
+    //커맨드 입력 오류
     @Override
-    public void inputError() {
-        System.out.println("You write invalid input.");
+    public void commandInputError() {
+        System.out.println("Write valid command.");
+    }
+
+    //타입 입력 오류
+    @Override
+    public void typeInputError() {
+        System.out.println("Write valid type");
+    }
+
+    //금액 입력 오류
+    @Override
+    public void amountInputError() {
+        System.out.println("Write valid amount");
     }
 
 }
