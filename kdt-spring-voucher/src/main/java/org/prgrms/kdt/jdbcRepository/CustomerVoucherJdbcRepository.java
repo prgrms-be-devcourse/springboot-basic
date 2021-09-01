@@ -83,7 +83,7 @@ public class CustomerVoucherJdbcRepository implements CustomerVoucherRepository 
     @Override
     public List<VoucherEntity> findByCustomerId(UUID customerId) {
         try {
-            return (List<VoucherEntity>) jdbcTemplate.queryForObject("select v.voucher_id, v.voucher_type, v.discount, v.created_at from" +
+            return jdbcTemplate.query("select v.voucher_id, v.voucher_type, v.discount, v.created_at from" +
                             " customer_voucher as cv right outer join voucher as v on cv.customer_id = UUID_TO_BIN(:customerId)",
                     Collections.singletonMap("customerId", customerId.toString().getBytes()), voucherEntityRowMapper);
         } catch (EmptyResultDataAccessException e) {
@@ -95,8 +95,8 @@ public class CustomerVoucherJdbcRepository implements CustomerVoucherRepository 
     @Override
     public Optional<CustomerEntity> findByVoucherId(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select c.customer_id, c.name, c.email, c.created_at from" +
-                            " customer_voucher as cv right outer join customer as c on cv.voucher_id = UUID_TO_BIN(:voucherId)",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select c.customer_id, c.name, c.email, c.created_at, c.last_login_at from" +
+                            " customer_voucher as cv right outer join customers as c on cv.voucher_id = UUID_TO_BIN(:voucherId)",
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     customerEntityRowMapper));
         } catch (EmptyResultDataAccessException e) {
