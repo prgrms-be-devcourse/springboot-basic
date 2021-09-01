@@ -20,7 +20,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"local", "default"})
+@Profile({"local"})
 public class CsvVoucherRepository implements VoucherRepository {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

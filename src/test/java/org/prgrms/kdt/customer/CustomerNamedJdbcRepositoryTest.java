@@ -78,11 +78,11 @@ class CustomerNamedJdbcRepositoryTest {
 
     Customer newCustomer;
 
-    EmbeddedMysql embeddedMysql;
+//    EmbeddedMysql embeddedMysql;
 
-//    @BeforeAll
-//    void setup() {
-//        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+    @BeforeAll
+    void setup() {
+        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
 //        var mysqlConfig = aMysqldConfig(v8_0_11)
 //                .withCharset(UTF8)
 //                .withPort(2215)
@@ -92,17 +92,16 @@ class CustomerNamedJdbcRepositoryTest {
 //        embeddedMysql = anEmbeddedMysql(mysqlConfig)
 //                .addSchema("test-order_mgmt", classPathScript("schema.sql"))
 //                .start();
-////        customerJdbcRepository.deleteAll();
-//    }
+//        customerJdbcRepository.deleteAll();
+    }
 //
-//    @AfterAll
-//    void cleanup() {
-//        embeddedMysql.stop();
-//    }
+    @AfterAll
+    void cleanup() {
+        customerJdbcRepository.deleteAll();
+    }
 
     @Test
     @Order(1)
-    @Disabled
     public void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
     }

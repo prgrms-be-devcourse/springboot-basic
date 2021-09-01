@@ -28,6 +28,10 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    private final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, created_at) " +
+            "VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)";
+
+
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
@@ -56,8 +60,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
         var update = jdbcTemplate.update(
-                "INSERT INTO customers(customer_id, name, email, created_at) " +
-                        "VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
+                INSERT_SQL,
                 toParamMap(customer)
         );
         if (update != 1) {

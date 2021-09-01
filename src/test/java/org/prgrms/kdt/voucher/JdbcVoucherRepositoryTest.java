@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.customer.CustomerNamedJdbcRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
@@ -35,6 +40,7 @@ class JdbcVoucherRepositoryTest {
     @ComponentScan(
             basePackages = {"org.prgrms.kdt.voucher"}
     )
+
     static class Config {
         @Bean
         public DataSource dataSource() {
@@ -45,6 +51,11 @@ class JdbcVoucherRepositoryTest {
                     .type(HikariDataSource.class)
                     .build();
             return dataSource;
+        }
+
+        @Bean
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
         }
 
         @Bean
@@ -61,16 +72,21 @@ class JdbcVoucherRepositoryTest {
 
     Voucher newVoucher;
 
-    @BeforeEach
+    @BeforeAll
+    void setup() {
+        newVoucher = new FixedAmountVoucher(UUID.randomUUID(),100);
+    }
+
+    @AfterAll
     void delete() {
         jdbcVoucherRepository.deleteAll();
     }
+
 
     @Test
     @Order(1)
     @DisplayName("바우처를 추가할 수 있다.")
     public void testInsert() {
-
         try {
             jdbcVoucherRepository.insert(newVoucher);
         } catch (BadSqlGrammarException e) {

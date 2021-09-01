@@ -5,6 +5,7 @@ import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.customer.CustomerNamedJdbcRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,7 +16,8 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
-@Profile({"dev", "staging", "production"})
+@Primary
+@Profile({"dev", "staging", "production", "default"})
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
@@ -47,18 +49,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
-            put("voucher", voucher.getVoucherId().toString().getBytes());
-            put("voucherType", voucher.getType());
+            put("voucherId", voucher.getVoucherId().toString().getBytes());
+            put("voucherType", voucher.getType().name());
             put("discount", voucher.getDiscount());
         }};
     }
 
     @Override
     public Voucher insert(Voucher voucher) {
-        var update = jdbcTemplate.update(
-                INSERT_SQL,
-                toParamMap(voucher)
-        );
+        var update = jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
