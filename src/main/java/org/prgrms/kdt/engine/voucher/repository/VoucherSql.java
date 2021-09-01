@@ -5,7 +5,8 @@ public enum VoucherSql {
     SELECT_ALL("SELECT * FROM vouchers"),
     INSERT("INSERT INTO vouchers (voucher_id, rate, type) VALUE (UUID_TO_BIN(:voucherId), :rate, :type)"),
     DELETE_ALL("DELETE FROM vouchers"),
-    UPDATE_CUSTOMER_ID("UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)");
+    UPDATE_CUSTOMER_ID("UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)"),
+    SELECT_CUSTOMER_VOUCHERS("SELECT * FROM vouchers where customer_id = UUID_TO_BIN(:customerId)");
 
     private String sql;
 

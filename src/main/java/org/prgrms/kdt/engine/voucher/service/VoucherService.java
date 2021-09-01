@@ -65,4 +65,9 @@ public class VoucherService {
             throw new RuntimeException("Cannot find the customer for " + customerId);
         }
     }
+
+    public Optional<Map<UUID, Voucher>> listCustomerVoucher(String customerUUID) {
+        UUID customerId = UUID.fromString(customerUUID);
+        return voucherRepository.getCustomerVoucher(customerId);
+    }
 }

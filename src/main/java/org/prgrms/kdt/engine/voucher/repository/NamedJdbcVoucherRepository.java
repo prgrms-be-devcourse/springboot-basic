@@ -66,6 +66,22 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
         if (update != 1) throw new RuntimeException("Nothing was updated");
     }
 
+    @Override
+    public Optional<Map<UUID, Voucher>> getCustomerVoucher(UUID customerId) {
+        Map<UUID, Voucher> vouchers = new HashMap<>();
+        try {
+            var voucherList = jdbcTemplate.query(
+                VoucherSql.SELECT_CUSTOMER_VOUCHERS.getSql(),
+                Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                voucherRowMapper);
+            voucherList.forEach((voucher) -> vouchers.put(voucher.getVoucherId(), voucher));
+            return Optional.of(vouchers);
+        } catch (DataAccessException e) {
+            logger.error("Got Data Access Error", e);
+            return Optional.empty();
+        }
+    }
+
     public void deleteAll() {
         jdbcTemplate.update(VoucherSql.DELETE_ALL.getSql(), Collections.emptyMap());
     }

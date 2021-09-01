@@ -1,5 +1,6 @@
 package org.prgrms.kdt.application;
 
+import org.prgrms.kdt.engine.customer.service.CustomerService;
 import org.prgrms.kdt.engine.io.Console;
 import org.prgrms.kdt.engine.io.Input;
 import org.prgrms.kdt.engine.io.Output;
@@ -21,11 +22,14 @@ public class CommandLineApplication {
     private static final Input input = new Console();
     private static final Output output = new Console();
     private static VoucherService voucherService;
+    private static CustomerService customerService;
+    private static String prompt;
 
     public static void main(String[] args) {
         var springApplication = new SpringApplication(CommandLineApplication.class);
         var applicationContext = springApplication.run(args);
         voucherService = applicationContext.getBean(VoucherService.class);
+        customerService = applicationContext.getBean(CustomerService.class);
 
         output.help();
         while (true) {
@@ -50,13 +54,17 @@ public class CommandLineApplication {
                     break;
 
                 case ALLOCATE_CUSTOMER:
-                    var prompt = "comma separated UUID of voucher followed by UUID of customer : ";
+                    prompt = "comma separated UUID of voucher followed by UUID of customer : ";
                     var uuids = input.inputCommand(prompt).split(",");
                     voucherService.setVoucherCustomer(uuids);
                     output.allocateCustomer(uuids);
                     break;
 
                 case LIST_CUSTOMER_VOUCHERS:
+                    prompt = "UUID of the customer : ";
+                    var customerId = input.inputCommand(prompt);
+                    voucherList = voucherService.listCustomerVoucher(customerId);
+                    voucherList.ifPresentOrElse(output::listVoucher, output::printVoucherListNotFoundError);
                     break;
 
                 case DELETE_CUSTOMER_VOUCHER:

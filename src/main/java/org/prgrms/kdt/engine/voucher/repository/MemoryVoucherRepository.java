@@ -36,4 +36,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void setCustomerId(UUID voucherId, UUID customerId) {
         // 미구현
     }
+
+    @Override
+    public Optional<Map<UUID, Voucher>> getCustomerVoucher(UUID customerId) {
+        return Optional.empty();
+    }
 }
