@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher;
 
 import com.opencsv.exceptions.CsvValidationException;
+import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.engine.OpenCsv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,6 +51,11 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAll() {
+        return null;
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
@@ -56,6 +63,11 @@ public class CsvVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         return storage.put(voucher.getVoucherId(), voucher);
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
     }
 
     @Override

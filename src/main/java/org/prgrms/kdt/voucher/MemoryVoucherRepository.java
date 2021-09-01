@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.aop.TrackTime;
+import org.prgrms.kdt.customer.Customer;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAll() {
+        return null;
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
@@ -35,6 +41,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
     }
 
     @Override

@@ -27,6 +27,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, discount) " +
             "VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discount)";
     private final String SELECT_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String UPDATE_SQL = "UPDATE vouchers SET discount = :discount " +
+            "WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String DELETE_SQL = "DELETE FROM vouchers";
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
@@ -65,6 +67,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAll() {
+        return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(
@@ -77,6 +84,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
             logger.error("Got empty result", e);
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        var update = jdbcTemplate.update(UPDATE_SQL, toParamMap(voucher));
+        if (update != 1) {
+            throw new RuntimeException("Nothing was inserted");
+        }
+        return voucher;
     }
 
     @Override

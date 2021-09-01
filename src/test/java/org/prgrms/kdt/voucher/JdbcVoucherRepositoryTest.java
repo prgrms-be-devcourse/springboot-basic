@@ -26,8 +26,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.everyItem;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
@@ -92,6 +92,29 @@ class JdbcVoucherRepositoryTest {
         } catch (BadSqlGrammarException e) {
             logger.error("Got BadSqlGrammerException error code -> {}", e.getSQLException().getErrorCode(), e);
         }
+
+        var retrievedVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
+        assertThat(retrievedVoucher.isEmpty(), is(false));
+        assertThat(retrievedVoucher.get(), samePropertyValuesAs(newVoucher));
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("전체 바우처를 조회할 수 있다.")
+    public void testFindAll() throws InterruptedException {
+        var vouchers = jdbcVoucherRepository.findAll();
+        assertThat(vouchers.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("바우처를 수정할 수 있다.")
+    public void testUpdate() {
+        newVoucher.changeDiscount(200);
+        jdbcVoucherRepository.update(newVoucher);
+
+        var all = jdbcVoucherRepository.findAll();
+        assertThat(all, everyItem(samePropertyValuesAs(newVoucher)));
 
         var retrievedVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
         assertThat(retrievedVoucher.isEmpty(), is(false));

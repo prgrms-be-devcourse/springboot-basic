@@ -9,15 +9,9 @@ public class PercentDiscountVoucher implements Voucher {
     private static final long MAX_VOUCHER_DISCOUNT_RATE = 100;
 
     private final UUID voucherId;
-    private final int discountRate;
+    private int discountRate;
 
     public PercentDiscountVoucher(UUID voucherId, int discountRate) {
-        if (discountRate < 0)
-            throw new IllegalArgumentException("Percent should be positive");
-        if (discountRate == 0)
-            throw new IllegalArgumentException("Percent should not be zero");
-        if (discountRate >= 100)
-            throw new IllegalArgumentException("Amount should be less than %d".formatted(MAX_VOUCHER_DISCOUNT_RATE));
         this.voucherId = voucherId;
         this.discountRate = discountRate;
     }
@@ -40,5 +34,21 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return (int) (beforeDiscount * (discountRate / 100.0));
+    }
+
+    @Override
+    public void validateDiscount(long discount) {
+        if (discountRate < 0)
+            throw new IllegalArgumentException("Percent should be positive");
+        if (discountRate == 0)
+            throw new IllegalArgumentException("Percent should not be zero");
+        if (discountRate >= 100)
+            throw new IllegalArgumentException("Amount should be less than %d".formatted(MAX_VOUCHER_DISCOUNT_RATE));
+    }
+
+    @Override
+    public void changeDiscount(long discount) {
+        validateDiscount(discount);
+        this.discountRate = (int) discount;
     }
 }
