@@ -1,57 +1,51 @@
 package org.prgrms.orderApp.domain.voucher.model;
 
-
-import org.json.simple.JSONObject;
-
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
+
 
 public enum VoucherType {
-    FIXEDAMOUNT(1, "FIXED", 100000000, "org.prgrms.orderApp.domain.voucher.model.FixedAmountVoucher"),
-    PERCENTAMOUNT(2, "PERCENT", 100, "org.prgrms.orderApp.domain.voucher.model.PercentDiscountVoucher");
+    FIXED(1,  100000000, voucher -> new FixedAmountVoucher(voucher.getVouchcerId(), voucher.getAmount()), FixedAmountVoucher.class.getName()),
+    PERCENT(2,  100, voucher -> new PercentDiscountVoucher(voucher.getVouchcerId(), voucher.getAmount()), PercentDiscountVoucher.class.getName());
 
 
-    private int menuNumber;
-    private long limit;
-    private String menuName, entityClassName;
+    private final int menuNumber;
+    private final long limit;
+    private final Function<VoucherVo, Voucher> voucher;
+    private final String voucherClassName ;
 
-    VoucherType(int menuNumber, String menuName, long limit, String entityClassName) {
+    public Voucher getVoucher(UUID voucherId, long amonut){
+        return voucher.apply(new VoucherVo(voucherId, amonut));
+    }
+
+    VoucherType(int menuNumber, long limit, Function<VoucherVo, Voucher> voucher, String voucherClassName) {
         this.menuNumber = menuNumber;
-        this.menuName = menuName;
         this.limit = limit;
-        this.entityClassName = entityClassName;
+        this.voucher = voucher;
+        this.voucherClassName = voucherClassName;
+
     }
 
-    public String getMenuName() {
-        return menuName;
+
+    public boolean invalidAmount(long amountChecked){
+        return 0L < amountChecked && amountChecked < limit;
     }
 
-    public String getEntityClassName() {
-        return entityClassName;
+    public static String getMenuNameByMenuNumber(int menuNumber) {
+        var getVoucherType = Arrays.stream(VoucherType.values())
+                .filter(voucherType -> voucherType.menuNumber == menuNumber)
+                .findAny();
+        return getVoucherType.map(Enum::name).orElse("");
+
+    }
+    public static Optional<VoucherType> getVoucherTypeByVoucherClassName(String className){
+        return Arrays.stream(VoucherType.values())
+                .filter(voucherType -> voucherType.voucherClassName.equals(className))
+                .findAny();
     }
 
-    public long getLimit() {
-        return limit;
-    }
 
-    public static String getMenuName(int menuNumber) {
-        if (menuNumber == VoucherType.FIXEDAMOUNT.menuNumber) {
-            return VoucherType.FIXEDAMOUNT.menuName;
-        } else if (menuNumber == VoucherType.PERCENTAMOUNT.menuNumber) {
-            return VoucherType.PERCENTAMOUNT.menuName;
-        } else {
-            return "";
-        }
-    }
-
-    public static Voucher getEntityByEntityClassName(JSONObject oneDataFromMongu) {
-
-        if (VoucherType.PERCENTAMOUNT.entityClassName.equals(oneDataFromMongu.get("voucherType"))) {
-            return new PercentDiscountVoucher(UUID.fromString((String) oneDataFromMongu.get("voucherId")), (Long) oneDataFromMongu.get("voucherAmount"));
-        }
-        if (VoucherType.FIXEDAMOUNT.entityClassName.equals(oneDataFromMongu.get("voucherType"))) {
-            return new FixedAmountVoucher(UUID.fromString((String) oneDataFromMongu.get("voucherId")), (Long) oneDataFromMongu.get("voucherAmount"));
-        }
-        return null;
-    }
 
 }

@@ -4,14 +4,13 @@ import org.json.simple.parser.ParseException;
 import org.prgrms.orderApp.infrastructure.library.console.script.BasicScript;
 import org.prgrms.orderApp.infrastructure.library.console.script.ForUxScript;
 import org.prgrms.orderApp.presentation.commandOperator.script.ApplicationScript;
-import org.prgrms.orderApp.presentation.commandOperator.script.MonguDbScript;
 import org.prgrms.orderApp.presentation.commandOperator.script.WarnningAndErrorScript;
-import org.prgrms.orderApp.service.VoucherApplicationService;
 import org.prgrms.orderApp.infrastructure.library.console.Console;
 import org.prgrms.orderApp.presentation.commandOperator.util.CheckInvalid;
 import org.prgrms.orderApp.presentation.commandOperator.util.ProcessingStatus;
 import org.prgrms.orderApp.domain.voucher.model.Voucher;
 import org.prgrms.orderApp.domain.voucher.model.VoucherType;
+import org.prgrms.orderApp.service.VoucherApplicationService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -61,7 +60,7 @@ public class VoucherPage {
          return;
       }
 
-      userSelectedMenu = VoucherType.getMenuName(Integer.parseInt(userSelected));
+      userSelectedMenu = VoucherType.getMenuNameByMenuNumber(Integer.parseInt(userSelected));
 
       // 자동으로 voucherId 생성
       // repository에서 자동으로 생성할지 고민했지만, 우선 밖에서 주입하는 것으로 진행.

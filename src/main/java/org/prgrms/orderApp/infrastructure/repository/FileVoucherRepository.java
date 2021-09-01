@@ -69,7 +69,9 @@ public class FileVoucherRepository implements VoucherRepository {
         ArrayList voucher_list = new ArrayList();
         for(Object dataOne : findDataFromMonguDb){
             dataOneParse = (JSONObject) new JSONParser().parse(String.valueOf(dataOne));
-            voucher_list.add(VoucherType.getEntityByEntityClassName(dataOneParse));
+            voucher_list.add(VoucherType.getVoucherTypeByVoucherClassName((String)dataOneParse.get("voucherType"))
+                    .get().getVoucher(UUID.fromString((String)dataOneParse.get("voucherId")),
+                            (long) dataOneParse.get("voucherAmount")));
 
         }
         return voucher_list;

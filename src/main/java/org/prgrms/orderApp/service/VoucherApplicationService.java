@@ -1,7 +1,6 @@
 package org.prgrms.orderApp.service;
 
 import org.json.simple.parser.ParseException;
-import org.prgrms.orderApp.util.BasicCheckInvalid;
 import org.prgrms.orderApp.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.orderApp.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.orderApp.domain.voucher.model.Voucher;
@@ -17,20 +16,18 @@ import java.util.UUID;
 @Service
 public class VoucherApplicationService {
 
-    private BasicCheckInvalid checkInvalid;
     private VoucherService voucherService;
 
-    public VoucherApplicationService(BasicCheckInvalid basicCheckInvalid, VoucherService voucherService){
-        this.checkInvalid = basicCheckInvalid;
+    public VoucherApplicationService( VoucherService voucherService){
         this.voucherService = voucherService;
     }
 
     public boolean fixedAmountCheckInvalid(Long amountToCheck){
-        return checkInvalid.checkInvalidAmount(0L, amountToCheck, VoucherType.FIXEDAMOUNT.getLimit());
+        return VoucherType.FIXED.invalidAmount(amountToCheck);
     }
 
     public boolean percentAmountCheckInvalid(Long amountToCheck){
-        return checkInvalid.checkInvalidAmount(0L, amountToCheck, VoucherType.PERCENTAMOUNT.getLimit());
+        return VoucherType.PERCENT.invalidAmount(amountToCheck);
     }
 
     public PercentDiscountVoucher putPercentDiscountVoucher(Long amountToSave){
