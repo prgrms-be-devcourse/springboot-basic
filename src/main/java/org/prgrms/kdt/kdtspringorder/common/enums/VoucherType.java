@@ -4,6 +4,7 @@ import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,21 +14,31 @@ import java.util.UUID;
  */
 public enum VoucherType {
 
-    FIX("1", "가격") {
+    FIX("F", "가격") {
         @Override
         public Voucher createVoucher(long discount) {
             return new FixedAmountVoucher(UUID.randomUUID(), discount);
         }
+
+        @Override
+        public Voucher createVoucher(UUID voucherId, UUID customerId, long amount, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
+            return new FixedAmountVoucher(voucherId, customerId, this, amount, useYn, createdAt, usedAt);
+        }
     },
 
-    PERCENT("2", "퍼센티지") {
+    PERCENT("P", "퍼센티지") {
         @Override
         public Voucher createVoucher(long discount) {
             return new PercentDiscountVoucher(UUID.randomUUID(), discount);
         }
+
+        @Override
+        public Voucher createVoucher(UUID voucherId, UUID customerId, long percent, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
+            return new PercentDiscountVoucher(voucherId, customerId, this, percent, useYn, createdAt, usedAt);
+        }
     };
 
-    private final String value; // 바우처 번호 ( 콘솔에 입력하기 위한 번호 )
+    private final String value; // 바우처 타입 코드
     private final String unit; // 바우처 단위
 
     VoucherType(String value, String unit) {
@@ -45,11 +56,11 @@ public enum VoucherType {
 
     /**
      * 콘솔에 입력한 번호에 맞는 VoucherType을 찾습니다.
-     * @param num 콘솔에 입력한 번호
+     * @param voucherTypeFlag 바우처 타입을 나타내는 플래그
      * @return 찾은 VoucherType을 반환합니다.
      */
-    public static VoucherType findVoucherType(String num) {
-        Optional<VoucherType> foundVoucher = Arrays.stream(values()).filter(v -> (v.getValue().equals(num))).findFirst();
+    public static VoucherType findVoucherType(String voucherTypeFlag) {
+        Optional<VoucherType> foundVoucher = Arrays.stream(values()).filter(v -> (v.getValue().equals(voucherTypeFlag))).findFirst();
         return foundVoucher.orElseThrow(() -> new IllegalArgumentException());
     }
 
@@ -59,5 +70,7 @@ public enum VoucherType {
      * @return 생성한 바우처 인스턴스를 반환합니다.
      */
     public abstract Voucher createVoucher(long discount);
+
+    public abstract Voucher createVoucher(UUID voucherId, UUID customerId, long percent, String useYn, LocalDateTime createdAt, LocalDateTime usedAt);
 
 }

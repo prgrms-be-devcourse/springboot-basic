@@ -83,7 +83,9 @@ public class VoucherCommandLine {
 
             // 생성할 Voucher Type을 입력 받는다.
             String voucherNum = inputConsole.input(REQUEST_SELECT_VOUCHER_TYPE_MSG);
-            VoucherType selectedVoucherType = VoucherType.findVoucherType(voucherNum);
+            String voucherTypeFlag = convertInputVoucherNumToVoucherTypeFlag(voucherNum);
+
+            VoucherType selectedVoucherType = VoucherType.findVoucherType(voucherTypeFlag);
 
             // 할인 금액 or 퍼센티지를 입력받는다.
             String discount =  inputConsole.input(MessageFormat.format(REQUEST_INPUT_DISCOUNT_MSG, selectedVoucherType.getUnit()));
@@ -100,6 +102,18 @@ public class VoucherCommandLine {
 
         }
 
+    }
+
+    private String convertInputVoucherNumToVoucherTypeFlag(String voucherNum) {
+        String voucherTypeFlag = null;
+        switch (voucherNum) {
+            case "1":
+                voucherTypeFlag = "F";
+                break;
+            case "2":
+                voucherTypeFlag = "P";
+        }
+        return voucherTypeFlag;
     }
 
     /**
