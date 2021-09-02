@@ -6,8 +6,6 @@ import org.prgrms.kdt.command.io.Output;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 
-import java.util.Optional;
-
 public class CommandLineApplication implements Runnable {
 
     private static final String INPUT_PROMPT = "> ";
@@ -21,7 +19,7 @@ public class CommandLineApplication implements Runnable {
         this.input = console;
         this.output = console;
         this.applicationContext = applicationContext;
-        voucherService = this.applicationContext.getBean(VoucherService.class);
+        this.voucherService = this.applicationContext.getBean(VoucherService.class);
     }
 
     @Override
@@ -33,17 +31,11 @@ public class CommandLineApplication implements Runnable {
         }
     }
 
-
     private boolean execute() {
         String inputCommandType = input.inputString(INPUT_PROMPT);
 
-        Optional<CommandType> command = CommandType.findCommand(inputCommandType); //.execute(input, output, voucherService);
+        CommandType command = CommandType.findCommand(inputCommandType);
 
-        if (command.isEmpty()) { // TODO: Refactoring
-            output.printInputError();
-            return true;
-        }
-
-        return command.get().execute(input, output, voucherService);
+        return command.execute(input, output, voucherService);
     }
 }

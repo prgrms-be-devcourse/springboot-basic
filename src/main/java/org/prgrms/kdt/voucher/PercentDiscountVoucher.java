@@ -1,14 +1,18 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.voucher.Voucher;
-
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
+    private static final long MAX_VOUCHER_PERCENT = 10000;
+
     private final UUID voucherId;
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        if (percent < 0) throw new IllegalArgumentException("Percent should be positive");
+        if (percent == 0) throw new IllegalArgumentException("Percent should not be zero");
+        if (percent > MAX_VOUCHER_PERCENT)
+            throw new IllegalArgumentException(String.format("Percent should be less than %d", MAX_VOUCHER_PERCENT));
         this.voucherId = voucherId;
         this.percent = percent;
     }
