@@ -1,28 +1,23 @@
 package org.prgrms.kdt.domain.customer;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class Customer {
     private final UUID customerId;
     private final Name name;
     private final Email email;
-    private final LocalDateTime createdAt = LocalDateTime.now();
+    private final LocalDateTime createdAt;
     private LocalDateTime lastLoginAt;
-    private CustomerStatus customerStatus = CustomerStatus.WHITE;
+    private boolean blackStatus = false;
 
-    public Customer(UUID customerId, Name name, Email email) {
+    public Customer(UUID customerId, Name name, Email email, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.lastLoginAt = LocalDateTime.now();
-    }
-
-    public Customer(UUID customerId, String customerName, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
-        this.customerId = customerId;
-        this.name = new Name(customerName);
-        this.email = new Email(email);
-        this.lastLoginAt = LocalDateTime.now();
+        this.createdAt = createdAt;
+        this.lastLoginAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     }
 
     public UUID getCustomerId() {

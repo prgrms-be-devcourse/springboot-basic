@@ -32,7 +32,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
+        return new Customer(customerId, Name.valueOf(customerName), Email.valueOf(email), createdAt, lastLoginAt);
     };
 
     private final JdbcTemplate jdbcTemplate;
