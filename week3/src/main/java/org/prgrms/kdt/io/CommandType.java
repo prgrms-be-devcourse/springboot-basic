@@ -6,8 +6,7 @@ public enum CommandType {
     EXIT ("exit"),
     CREATE ("create"),
     LIST ("list"),
-    BLACK_LIST("blacklist"),
-    UNKNOWN("알수없음");
+    BLACK_LIST("blacklist");
 
     private final String command;
 
@@ -19,7 +18,7 @@ public enum CommandType {
         return Arrays.stream(values())
                 .filter(commandType -> commandType.command.equals(command))
                 .findAny()
-                .orElse(UNKNOWN);
+                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 값 입력: " + command));
     }
 
 }
