@@ -1,18 +1,27 @@
 package org.prgrms.kdt.kdtspringorder.voucher.domain;
 
+import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher extends Voucher {
 
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
-    private final UUID voucherId;
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
-        checkAmount(amount);
-        this.voucherId = voucherId;
+        super(voucherId);
+        super.voucherType = VoucherType.FIX;
         this.amount = amount;
+        checkAmount(amount);
+    }
+
+    public FixedAmountVoucher(UUID voucherId, UUID customerId, VoucherType voucherType, long amount, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
+        super(voucherId, customerId, voucherType, useYn, createdAt, usedAt);
+        this.amount = amount;
+        checkAmount(amount);
     }
 
     private void checkAmount(long amount) {
@@ -21,15 +30,12 @@ public class FixedAmountVoucher implements Voucher{
         if(amount > MAX_VOUCHER_AMOUNT) throw new IllegalArgumentException(String.format("Amount should be less than %d", MAX_VOUCHER_AMOUNT));
     }
 
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
 
     public long getAmount() {
         return amount;
     }
 
+    @Override
     public long discount(long beforeDiscount) {
         long discountedAmount = beforeDiscount - amount;
         return ( discountedAmount < 0 ) ? 0 : discountedAmount;
@@ -38,7 +44,7 @@ public class FixedAmountVoucher implements Voucher{
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
-            "voucherId=" + voucherId +
+            "voucherId=" + super.getVoucherId() +
             ", amount=" + amount +
             '}';
     }
