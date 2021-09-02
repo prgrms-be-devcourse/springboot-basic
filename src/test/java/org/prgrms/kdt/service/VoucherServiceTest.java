@@ -41,5 +41,15 @@ class VoucherServiceTest {
         public Voucher insert(Voucher voucher) {
             return null;
         }
+
+        @Override
+        public void deleteAll() {
+
+        }
+
+        @Override
+        public int count() {
+            return 0;
+        }
     }
 }
