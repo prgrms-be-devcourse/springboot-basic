@@ -2,8 +2,6 @@ package org.programmers.kdt.voucher.service;
 
 import org.programmers.kdt.voucher.Voucher;
 import org.programmers.kdt.voucher.VoucherType;
-import org.programmers.kdt.voucher.factory.FixedAmountVoucherFactory;
-import org.programmers.kdt.voucher.factory.PercentDiscountVoucherFactory;
 import org.programmers.kdt.voucher.factory.VoucherFactory;
 import org.programmers.kdt.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
@@ -23,9 +21,9 @@ public class VoucherServiceImpl implements VoucherService {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherServiceImpl.class);
 
-    @Autowired
-    public VoucherServiceImpl(VoucherRepository voucherRepository) {
+    public VoucherServiceImpl(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;
+        this.voucherFactory = voucherFactory;
     }
 
     @Override
@@ -46,14 +44,9 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount) {
-        // TODO : 팩토리 구현체를 설정하는 더 좋은 방법 찾기
-        switch (voucherType) {
-            case FIXED -> voucherFactory = new FixedAmountVoucherFactory();
-            case PERCENT -> voucherFactory = new PercentDiscountVoucherFactory();
-        }
         Voucher voucher;
         try {
-            voucher = voucherFactory.createVoucher(voucherId, discount);
+            voucher = voucherFactory.createVoucher(voucherType, voucherId, discount);
         } catch (RuntimeException e) {
             logger.error("Failed to created a voucher : {}", e.getMessage());
             throw e;

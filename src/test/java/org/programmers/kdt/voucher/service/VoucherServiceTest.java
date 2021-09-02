@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*;
 import org.programmers.kdt.voucher.FixedAmountVoucher;
 import org.programmers.kdt.voucher.Voucher;
 import org.programmers.kdt.voucher.VoucherType;
+import org.programmers.kdt.voucher.factory.VoucherFactory;
 import org.programmers.kdt.voucher.repository.FileVoucherRepository;
 import org.programmers.kdt.voucher.repository.VoucherRepository;
 
@@ -19,11 +20,13 @@ import static org.mockito.Mockito.*;
 class VoucherServiceTest {
     VoucherService voucherService;
     VoucherRepository voucherRepository;
+    VoucherFactory voucherFactory;
 
     @BeforeAll
     void setUp() {
         voucherRepository = mock(FileVoucherRepository.class);
-        voucherService = new VoucherServiceImpl(voucherRepository);
+        voucherFactory = new VoucherFactory();
+        voucherService = new VoucherServiceImpl(voucherRepository, voucherFactory);
     }
 
     @Test
