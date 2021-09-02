@@ -3,20 +3,15 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.command.CommandLineApplication;
 import org.prgrms.kdt.command.io.Console;
 import org.prgrms.kdt.order.domain.Order;
-import org.prgrms.kdt.order.service.OrderService;
 import org.prgrms.kdt.order.repository.OrderRepository;
+import org.prgrms.kdt.order.service.OrderService;
 import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
-import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * OrderContext는 주문에 대한 전반적인 도메인 객체에 대한 생성을 책임지고 있음.
@@ -62,22 +57,19 @@ public class AppConfiguration {
     public VoucherRepository voucherRepository() {
         return new VoucherMemoryRepository();
         /** 나중 강의를 위해에 남겨둠
-        return new VoucherRepository() {
+         return new VoucherRepository() {
 
-            @Override
-            public Optional<Voucher> findById(UUID voucherId) {
-                return Optional.empty();
-            }
+        @Override public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
+        }
 
-            @Override
-            public List<Voucher> find() {
-                return new ArrayList<>();
-            }
+        @Override public List<Voucher> find() {
+        return new ArrayList<>();
+        }
 
-            @Override
-            public void create(Voucher voucher) {
+        @Override public void create(Voucher voucher) {
 
-            }
+        }
         };
          */
     }

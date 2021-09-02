@@ -1,7 +1,6 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.command.CommandLineApplication;
-import org.prgrms.kdt.command.io.Console;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
