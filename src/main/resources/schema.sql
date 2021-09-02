@@ -10,11 +10,13 @@ CREATE TABLE customers (
 
 CREATE TABLE vouchers (
     voucher_id	BINARY(16) NOT NULL PRIMARY KEY,
-    customer_id	BINARY(16) NOT NULL,
+    customer_id	BINARY(16) NULL,
     voucher_type char(2) NOT NULL,
-    discount_percent bigint	NULL DEFAULT 0,
-    discount_amount	bigint NULL	DEFAULT 0,
+    -- discount_percent bigint	NULL DEFAULT 0,
+    -- discount_amount	bigint NULL	DEFAULT 0,
+    discount bigint NULL	DEFAULT 0,
     use_yn char(2) NOT NULL	DEFAULT 'N',
     created_at datetime	NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     used_at datetime NULL
 );
+
