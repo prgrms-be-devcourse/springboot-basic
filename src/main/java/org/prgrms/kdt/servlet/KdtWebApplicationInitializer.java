@@ -26,10 +26,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.resource.EncodedResourceResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
@@ -113,6 +110,13 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
                     new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME));
             var modules = Jackson2ObjectMapperBuilder.json().modules(javaTimeModule);
             converters.add(1, new MappingJackson2HttpMessageConverter(modules.build()));
+        }
+
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/api/**")
+                    .allowedMethods("GET", "POST")
+                    .allowedOrigins("*");
         }
     }
 
