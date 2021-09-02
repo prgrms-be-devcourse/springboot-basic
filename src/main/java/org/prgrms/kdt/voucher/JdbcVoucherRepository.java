@@ -14,19 +14,22 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Repository
 @Primary
-@Profile({"dev", "staging", "production", "default"})
+@Profile({"prod", "default"})
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    private final String SELECT_SQL = "SELECT * FROM vouchers";
     private final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, discount) " +
             "VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discount)";
-    private final String SELECT_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String SELECT_FROM_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String UPDATE_SQL = "UPDATE vouchers SET discount = :discount " +
             "WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String DELETE_SQL = "DELETE FROM vouchers";
@@ -68,7 +71,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
+        return jdbcTemplate.query(SELECT_SQL, voucherRowMapper);
     }
 
     @Override
@@ -76,7 +79,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            SELECT_SQL,
+                            SELECT_FROM_ID_SQL,
                             Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                             voucherRowMapper
                     ));
@@ -102,6 +105,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Map<UUID, Voucher> getStorage() {
-        return null;
+        return findAll().stream().collect(Collectors.toMap(Voucher::getVoucherId, Function.identity()));
     }
 }

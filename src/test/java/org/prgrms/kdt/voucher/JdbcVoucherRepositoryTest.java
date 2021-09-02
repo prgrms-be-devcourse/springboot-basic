@@ -77,16 +77,16 @@ class JdbcVoucherRepositoryTest {
         newVoucher = new FixedAmountVoucher(UUID.randomUUID(),100);
     }
 
-    @AfterAll
-    void delete() {
-        jdbcVoucherRepository.deleteAll();
-    }
+//    @AfterAll
+//    void delete() {
+//        jdbcVoucherRepository.deleteAll();
+//    }
 
 
     @Test
     @Order(1)
     @DisplayName("바우처를 추가할 수 있다.")
-    public void testInsert() {
+    public void insert() {
         try {
             jdbcVoucherRepository.insert(newVoucher);
         } catch (BadSqlGrammarException e) {
@@ -101,15 +101,22 @@ class JdbcVoucherRepositoryTest {
     @Test
     @Order(2)
     @DisplayName("전체 바우처를 조회할 수 있다.")
-    public void testFindAll() throws InterruptedException {
+    public void findAll() throws InterruptedException {
         var vouchers = jdbcVoucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
     }
 
     @Test
     @Order(3)
+    void getStorage() {
+        var vouchers = jdbcVoucherRepository.getStorage();
+        assertThat(vouchers.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(4)
     @DisplayName("바우처를 수정할 수 있다.")
-    public void testUpdate() {
+    public void update() {
         newVoucher.changeDiscount(200);
         jdbcVoucherRepository.update(newVoucher);
 
@@ -119,5 +126,13 @@ class JdbcVoucherRepositoryTest {
         var retrievedVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
         assertThat(retrievedVoucher.isEmpty(), is(false));
         assertThat(retrievedVoucher.get(), samePropertyValuesAs(newVoucher));
+    }
+
+    @Test
+    void findById() {
+    }
+
+    @Test
+    void deleteAll() {
     }
 }

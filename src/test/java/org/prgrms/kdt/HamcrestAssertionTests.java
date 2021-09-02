@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

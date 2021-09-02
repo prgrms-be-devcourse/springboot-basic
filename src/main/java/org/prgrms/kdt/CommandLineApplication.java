@@ -17,7 +17,7 @@ public class CommandLineApplication {
 
         Console console = new Console();
 
-        springApplication.setAdditionalProfiles("local");
+        springApplication.setAdditionalProfiles("prod");
         var applicationContext = springApplication.run(args);
 
         var environment = applicationContext.getEnvironment();
