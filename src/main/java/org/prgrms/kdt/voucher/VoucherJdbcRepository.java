@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.kdt.exception.IllegalRowUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -47,8 +48,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 voucher.getDiscount(),
                 Timestamp.valueOf(voucher.getCreatedAt()));
 
-        if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+        if (update < 1) {
+            throw new IllegalRowUpdateException("Nothing was inserted");
         }
 
     }
@@ -60,8 +61,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 voucher.getName(),
                 voucher.getVoucherId().toString().getBytes());
 
-        if (update != 1) {
-            throw new RuntimeException("Nothing was updated");
+        if (update < 1) {
+            throw new IllegalRowUpdateException("Nothing was updated");
         }
     }
 

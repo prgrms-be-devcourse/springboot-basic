@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.kdt.exception.IllegalRowUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -45,8 +46,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
                 customer.getEmail(),
                 Timestamp.valueOf(customer.getCreatedAt()));
 
-        if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+        if (update < 1) {
+            throw new IllegalRowUpdateException("Noting was inserted");
         }
     }
 
@@ -58,8 +59,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
                 customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
                 customer.getCustomerId().toString().getBytes());
 
-        if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+        if (update < 1) {
+            throw new IllegalRowUpdateException("Noting was inserted");
         }
     }
 
