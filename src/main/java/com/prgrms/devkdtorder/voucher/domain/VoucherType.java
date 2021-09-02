@@ -1,5 +1,6 @@
 package com.prgrms.devkdtorder.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -9,14 +10,24 @@ import java.util.stream.Collectors;
 public enum VoucherType {
     FIXEDAMOUNT("1") {
         @Override
+        public Voucher createVoucher(UUID voucherId, long value, String name, LocalDateTime createdAt) {
+            return new FixedAmountVoucher(voucherId, value, name, createdAt);
+        }
+
+        @Override
         public Voucher createVoucher(UUID voucherId, long value) {
-            return new FixedAmountVoucher(voucherId, value);
+            return createVoucher(voucherId, value, "", LocalDateTime.now());
         }
     },
     PERCENTDISCOUNT("2") {
         @Override
+        public Voucher createVoucher(UUID voucherId, long value, String name, LocalDateTime createdAt) {
+            return new PercentDiscountVoucher(voucherId, value, name, createdAt);
+        }
+
+        @Override
         public Voucher createVoucher(UUID voucherId, long value) {
-            return new PercentDiscountVoucher(voucherId, value);
+            return createVoucher(voucherId, value, "", LocalDateTime.now());
         }
     };
 
@@ -38,6 +49,8 @@ public enum VoucherType {
                 .collect(Collectors.toList());
     }
 
+
+    public abstract Voucher createVoucher(UUID voucherId, long value, String name, LocalDateTime createdAt);
 
     public abstract Voucher createVoucher(UUID voucherId, long value);
 }

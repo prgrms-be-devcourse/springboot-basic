@@ -1,39 +1,32 @@
 package com.prgrms.devkdtorder.voucher.domain;
 
-import com.prgrms.devkdtorder.voucher.domain.Voucher;
-
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
-    private final UUID voucherId;
-    private final long percent;
+public class PercentDiscountVoucher extends AbstractVoucher {
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public PercentDiscountVoucher(UUID voucherId, long percent, String name, LocalDateTime createdAt) {
+        super(voucherId, percent, name, createdAt);
         validatePercent(percent);
-        this.voucherId = voucherId;
-        this.percent = percent;
     }
 
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
-    public long getValue() {
-        return percent;
+    public PercentDiscountVoucher(UUID voucherId, long amount) {
+        this(voucherId, amount, "", LocalDateTime.now());
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return (long) (beforeDiscount * (1 - percent/(double)100));
+        return (long) (beforeDiscount * (1 - value/(double)100));
     }
 
     @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
                 "voucherId=" + voucherId +
-                ", percent=" + percent +
+                ", percent=" + value +
+                ", name='" + name + '\'' +
+                ", createdAt=" + createdAt +
                 '}';
     }
 
