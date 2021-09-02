@@ -25,11 +25,13 @@ public class VoucherFactory {
     }
 
     public Voucher createVoucher(VoucherType type, UUID voucherId, long policyValue) {
-        if (type.equals(VoucherType.PERCENTAGE)) {
-            return new PercentDiscountVoucher(voucherId, policyValue);
-        } else if (type.equals(VoucherType.FIXED)) {
-            return new FixedAmountVoucher(voucherId, policyValue);
+        switch (type) {
+            case PERCENTAGE:
+                return new PercentDiscountVoucher(voucherId, policyValue);
+            case FIXED:
+                return new FixedAmountVoucher(voucherId, policyValue);
+            default:
+                throw new IllegalArgumentException();
         }
-        return null;
     }
 }
