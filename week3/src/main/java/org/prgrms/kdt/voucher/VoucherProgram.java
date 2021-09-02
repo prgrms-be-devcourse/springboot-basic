@@ -19,6 +19,8 @@ public class VoucherProgram {
     private final UserInteraction userInteraction;
     private final BlackListrService blackListService;
 
+    private final Scanner sc = new Scanner(System.in);
+
     public VoucherProgram(
             BlackListrService blackListrService
             , VoucherService voucherService
@@ -31,26 +33,15 @@ public class VoucherProgram {
 
     public void runProgram() throws IOException {
 
-        Scanner sc = new Scanner(System.in);
         String input = null;
 
-        while (true) {
+        outer: while (true) {
             userInteraction.showInfoMessage();
-            input = sc.next();
+            input = userInteraction.getNext(sc);
 
             switch (CommandType.getCommandType(input)) {
                 case CREATE -> {
-                    userInteraction.showVoucherTypeSelectMessage();
-                    UUID uuid = UUID.randomUUID();
-                    String discountType = sc.next();
-                    userInteraction.showVoucherDiscountMessage();
-                    long amount = Long.parseLong(sc.next());
-
-                    switch (VoucherType.getVoucherType(discountType)) {
-                        case FIXED_AMOUNT_VOUCHER -> voucherService.create(new FixedAmountVoucher(uuid, amount));
-                        case PERCENT_DISCOUNT_VOUCHER -> voucherService.create(new PercentDiscountVoucher(uuid, amount));
-                        default -> userInteraction.showInvalidTypeMessage();
-                    }
+                    createVoucher();
                 }
                 case LIST -> {
                     userInteraction.showVoucherList(voucherService.list());
@@ -60,12 +51,31 @@ public class VoucherProgram {
                 }
                 case EXIT -> {
                     userInteraction.showExitProgramMessage();
-                    System.exit(0);
+                    break outer;
                 }
-                case UNKNOWN -> {
+                default -> {
                     userInteraction.showInvalidMessage();
                 }
             }
+        }
+    }
+
+    private void createVoucher() throws IOException {
+        userInteraction.showVoucherTypeSelectMessage();
+        UUID uuid = UUID.randomUUID();
+        String discountType = userInteraction.getNext(sc);
+
+        userInteraction.showVoucherDiscountMessage();
+        long amount = Long.parseLong(userInteraction.getNext(sc));
+
+        checkDiscountType(uuid, discountType, amount);
+    }
+
+    private void checkDiscountType(UUID uuid, String discountType, long amount) throws IOException {
+        switch (VoucherType.getVoucherType(discountType)) {
+            case FIXED_AMOUNT_VOUCHER -> voucherService.create(new FixedAmountVoucher(uuid, amount));
+            case PERCENT_DISCOUNT_VOUCHER -> voucherService.create(new PercentDiscountVoucher(uuid, amount));
+            default -> userInteraction.showInvalidTypeMessage();
         }
     }
 }
