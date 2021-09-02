@@ -3,7 +3,7 @@ package org.prgrms.kdt.voucher;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    private static final long MAX_VOUCHER_PERCENT = 10000;
+    private static final long MAX_VOUCHER_PERCENT = 100;
 
     private final UUID voucherId;
     private final long percent;
@@ -22,7 +22,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (percent / MAX_VOUCHER_PERCENT);
     }
 
     @Override
