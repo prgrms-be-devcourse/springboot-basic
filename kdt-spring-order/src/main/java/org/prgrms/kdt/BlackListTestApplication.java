@@ -1,7 +1,7 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.domain.customer.Customer;
-import org.prgrms.kdt.repository.CustomerRepository;
+import org.prgrms.kdt.repository.MemoryCustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +18,7 @@ public class BlackListTestApplication {
 
         ConfigurableApplicationContext applicationContext = springApplication.run();
 
-        CustomerRepository customerRepository = applicationContext.getBean(CustomerRepository.class);
+        MemoryCustomerRepository customerRepository = applicationContext.getBean(MemoryCustomerRepository.class);
 
         try {
             showBlackList(customerRepository.findBlackList());

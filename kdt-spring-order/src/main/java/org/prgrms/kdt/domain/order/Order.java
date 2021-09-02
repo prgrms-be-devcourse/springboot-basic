@@ -31,6 +31,18 @@ public class Order {
         return orderId;
     }
 
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public Optional<Voucher> getVoucher() {
+        return voucher;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
     public long totalAmount(){
         var beforeDiscount = orderItems
                                         .stream()
