@@ -27,6 +27,11 @@ public class MemVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(map.values());
     }

@@ -51,6 +51,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
         for (String voucherId : wini.keySet()) {
