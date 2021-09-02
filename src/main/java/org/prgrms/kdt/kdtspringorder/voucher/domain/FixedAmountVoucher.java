@@ -30,7 +30,6 @@ public class FixedAmountVoucher extends Voucher {
         if(amount > MAX_VOUCHER_AMOUNT) throw new IllegalArgumentException(String.format("Amount should be less than %d", MAX_VOUCHER_AMOUNT));
     }
 
-
     public long getAmount() {
         return amount;
     }

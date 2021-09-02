@@ -1,6 +1,8 @@
 package org.prgrms.kdt.kdtspringorder.custommer.repository;
 
 import org.prgrms.kdt.kdtspringorder.common.exception.CustomerNotFoundException;
+import org.prgrms.kdt.kdtspringorder.common.util.MapConverter;
+import org.prgrms.kdt.kdtspringorder.common.util.UuidUtil;
 import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,42 +46,22 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public UUID insert(Customer customer) {
-
-        final int update = jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
-
+        final int update = jdbcTemplate.update(INSERT_SQL, MapConverter.toParamMap(customer));
         if (update != 1) {
             throw new CustomerNotFoundException(customer.getCustomerId());
         }
-
         return customer.getCustomerId();
-
     }
 
     @Override
     public UUID update(Customer customer) {
-        final HashMap<String, Object> paramMap = toParamMap(customer);
-        final int update = jdbcTemplate.update(UPDATE_SQL, paramMap);
+        final int update = jdbcTemplate.update(UPDATE_SQL, MapConverter.toParamMap(customer));
 
         if (update != 1) {
             throw new CustomerNotFoundException(customer.getCustomerId());
         }
 
         return customer.getCustomerId();
-    }
-
-    private HashMap<String, Object> toParamMap(Customer customer) {
-        final String customerId = customer.getCustomerId().toString();
-        final String name = customer.getName();
-        final String email = customer.getEmail();
-        final Timestamp createdAt = Timestamp.valueOf(customer.getCreatedAt());
-        final Timestamp lastLoginAt = customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null;
-        final HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customerId);
-        paramMap.put("name", name);
-        paramMap.put("email", email);
-        paramMap.put("createdAt", createdAt);
-        paramMap.put("lastLoginAt", lastLoginAt);
-        return paramMap;
     }
 
     @Override
@@ -110,7 +92,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public int delete(UUID customerId) {
-        final int update = jdbcTemplate.update(DELETE_SQL, Map.of("customer_id", customerId));
+        final int update = jdbcTemplate.update(DELETE_SQL, Map.of("customerId", customerId));
 
         if (update != 1) {
             throw new CustomerNotFoundException(customerId);
@@ -119,18 +101,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return update;
     }
 
-    /**
-     * UUID 변환 메서드
-     * @param bytes UUID로 변환할 데이터 바이트
-     * @return
-     */
-    static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
     private static Customer customerRowMapper(ResultSet resultSet, int i) throws SQLException {
-        final UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        final UUID customerId = UuidUtil.toUUID(resultSet.getBytes("customer_id"));
         final String customerName = resultSet.getString("name");
         final String email = resultSet.getString("email");
         final LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
