@@ -23,6 +23,11 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
+    public String getVoucherType() {
+        return "percent";
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / DENOMINATOR_FOR_PECENT);
     }
