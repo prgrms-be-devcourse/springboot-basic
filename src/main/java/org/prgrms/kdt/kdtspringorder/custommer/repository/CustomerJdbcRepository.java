@@ -6,12 +6,11 @@ import org.prgrms.kdt.kdtspringorder.common.util.UuidUtil;
 import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -46,7 +45,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public UUID insert(Customer customer) {
-        final int update = jdbcTemplate.update(INSERT_SQL, MapConverter.toParamMap(customer));
+        final int update = jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
         if (update != 1) {
             throw new CustomerNotFoundException(customer.getCustomerId());
         }
@@ -55,7 +54,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public UUID update(Customer customer) {
-        final int update = jdbcTemplate.update(UPDATE_SQL, MapConverter.toParamMap(customer));
+        final int update = jdbcTemplate.update(UPDATE_SQL, toParamMap(customer));
 
         if (update != 1) {
             throw new CustomerNotFoundException(customer.getCustomerId());
@@ -71,17 +70,33 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL, Collections.singletonMap("customerId", customerId.toString()), CustomerJdbcRepository::customerRowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL, Collections.singletonMap("customerId", customerId.toString()), CustomerJdbcRepository::customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("empty result", e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Customer> findByName(String name) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_NAME_SQL, Collections.singletonMap("name", name), CustomerJdbcRepository::customerRowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_NAME_SQL, Collections.singletonMap("name", name), CustomerJdbcRepository::customerRowMapper));
+
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("empty result", e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Customer> findByIEmail(String email) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL_SQL, Collections.singletonMap("email", email), CustomerJdbcRepository::customerRowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL_SQL, Collections.singletonMap("email", email), CustomerJdbcRepository::customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("empty result", e);
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -92,13 +107,28 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public int delete(UUID customerId) {
-        final int update = jdbcTemplate.update(DELETE_SQL, Map.of("customerId", customerId));
+        final int update = jdbcTemplate.update(DELETE_SQL, Map.of("customerId", customerId.toString()));
 
         if (update != 1) {
             throw new CustomerNotFoundException(customerId);
         }
 
         return update;
+    }
+
+    private HashMap<String, Object> toParamMap(Customer customer) {
+        final String customerId = customer.getCustomerId().toString();
+        final String name = customer.getName();
+        final String email = customer.getEmail();
+        final Timestamp createdAt = Timestamp.valueOf(customer.getCreatedAt());
+        final Timestamp lastLoginAt = customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null;
+        final HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("customerId", customerId);
+        paramMap.put("name", name);
+        paramMap.put("email", email);
+        paramMap.put("createdAt", createdAt);
+        paramMap.put("lastLoginAt", lastLoginAt);
+        return paramMap;
     }
 
     private static Customer customerRowMapper(ResultSet resultSet, int i) throws SQLException {
