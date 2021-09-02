@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Console implements Input, Output {
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     @Override
     public void printOnStart() {
@@ -50,6 +50,6 @@ public class Console implements Input, Output {
     @Override
     public String inputString(final String inputPrompt) {
         System.out.print(inputPrompt);
-        return this.scanner.nextLine();
+        return this.SCANNER.nextLine();
     }
 }
