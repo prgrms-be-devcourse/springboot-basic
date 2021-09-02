@@ -1,0 +1,10 @@
+kdt:
+  dev.file-io.file-path: ./voucher_list.txt
+  dev.file-io.cvs-path: ./blacklist.cvs
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:2215/test-order-mgmt
+    username: root
+    password:
+
