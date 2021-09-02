@@ -15,6 +15,11 @@
     </appender>
 
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <file>logs/errorHistory.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/errorHistory-%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -24,12 +29,9 @@
         </encoder>
     </appender>
 
-    <logger name="org.programmers" level="error">
-        <appender-ref ref="ROLLING_FILE"/>
-    </logger>
-
     <root level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING_FILE"/>
     </root>
 
 </configuration>
