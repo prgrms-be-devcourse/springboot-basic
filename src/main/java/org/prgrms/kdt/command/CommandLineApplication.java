@@ -26,8 +26,7 @@ public class CommandLineApplication implements Runnable {
     public void run() {
         while (true) {
             output.printOnStart(); // command 설명
-            if (!execute())
-                break;
+            if (!execute()) break;
         }
     }
 

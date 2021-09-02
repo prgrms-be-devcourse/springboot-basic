@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 public class VoucherFactory {
 
-    private static VoucherFactory uniqueInstance = new VoucherFactory();
+    private static final VoucherFactory uniqueInstance = new VoucherFactory();
 
     private VoucherFactory() {
     }
