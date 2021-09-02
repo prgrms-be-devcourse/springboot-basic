@@ -11,6 +11,8 @@ import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -19,11 +21,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-@Profile("dev")
 @SpringJUnitConfig
 @DisplayName("VoucherService 단위 테스트")
 class VoucherServiceTest {
@@ -37,7 +39,7 @@ class VoucherServiceTest {
 
     @BeforeEach
     public void setUp() {
-        voucherService = new VoucherService(voucherRepository);
+        voucherService = new VoucherServiceImpl(voucherRepository);
     }
 
     @Nested
@@ -108,7 +110,7 @@ class VoucherServiceTest {
             @Test
             @DisplayName("VoucherNotFound Exception 을 던집니다.")
             void it_return_throw_voucher_not_found_exception() {
-                Assertions.assertThatThrownBy( () -> voucherService.getVoucher(invalidVoucherId))
+                assertThatThrownBy( () -> voucherService.getVoucher(invalidVoucherId))
                     .isInstanceOf(VoucherNotFoundException.class);
             }
 
@@ -161,6 +163,7 @@ class VoucherServiceTest {
 
                 createdVoucher = new FixedAmountVoucher(newVoucherId, newVoucherDiscount);
                 when(voucherRepository.insert(createdVoucher)).thenReturn(createdVoucher.getVoucherId());
+
             }
 
             @Test
