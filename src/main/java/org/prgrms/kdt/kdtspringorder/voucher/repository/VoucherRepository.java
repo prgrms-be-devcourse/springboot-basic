@@ -30,4 +30,8 @@ public interface VoucherRepository {
      */
     public UUID insert(Voucher voucher);
 
+    public UUID updateDiscount(Voucher voucher);
+
+    public int delete(UUID voucherId);
+
 }

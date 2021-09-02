@@ -47,6 +47,16 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucher.getVoucherId();
     }
 
+    @Override
+    public UUID updateDiscount(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public int delete(UUID voucherId) {
+        return 0;
+    }
+
     /**
      * 파일에서 데이터를 읽어와서 Map에 저장합니다.
      */

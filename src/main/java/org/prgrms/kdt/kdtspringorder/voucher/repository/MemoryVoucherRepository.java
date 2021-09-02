@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * 바우처 데이터에 대한 CRUD를 담당합니다. at Memory
  */
 @Repository
-@Profile({"dev", "default"})
+@Profile({"local"})
 public class MemoryVoucherRepository implements VoucherRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
@@ -40,6 +40,16 @@ public class MemoryVoucherRepository implements VoucherRepository{
         logger.info("[Param] voucher = " + voucher.toString());
         this.voucherMap.put(voucher.getVoucherId(), voucher);
         return voucher.getVoucherId();
+    }
+
+    @Override
+    public UUID updateDiscount(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public int delete(UUID voucherId) {
+        return 0;
     }
 
 }
