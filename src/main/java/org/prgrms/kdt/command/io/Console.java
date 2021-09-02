@@ -4,23 +4,21 @@ import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Console implements Input, Output {
-    private final Scanner scanner;
-
-    public Console() {
-        this.scanner = new Scanner(System.in);
-    }
+    private static final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void printOnStart() {
-        System.out.println("=== Voucher Program ===\n" +
-                "Type exit to exit the program.\n" +
-                "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers.");
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("\n=== Voucher Program ===\n");
+        stringBuffer.append("Type exit to exit the program.\n");
+        stringBuffer.append("Type create to create a new voucher.\n");
+        stringBuffer.append("Type list to list all vouchers.");
+
+        System.out.println(stringBuffer);
     }
 
     @Override
@@ -41,7 +39,7 @@ public class Console implements Input, Output {
 
     @Override
     public void printRequestVoucherValue(VoucherType type) {
-        System.out.println(MessageFormat.format("Input discount {0} : ", type.toString()));
+        System.out.println(MessageFormat.format("Input discount {0} : ", type));
     }
 
     @Override
