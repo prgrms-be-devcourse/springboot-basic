@@ -28,7 +28,7 @@ public class VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+                .orElseThrow(() -> new NullPointerException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
     public List<Voucher> getAllVoucher() {
@@ -36,5 +36,5 @@ public class VoucherService {
     }
 
     public void useVoucher(Voucher voucher) {
-    } // TODO: 나중에 강의가 진행하면서 메서드가 완성되어 집니다.
+    } // 다음 강의에서 사용
 }
