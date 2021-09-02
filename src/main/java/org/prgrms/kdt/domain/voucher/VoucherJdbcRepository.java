@@ -1,6 +1,7 @@
 package org.prgrms.kdt.domain.voucher;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgrms.kdt.utils.UUIDUtil;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,7 +25,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var voucherId = UUIDUtil.toUUID(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("amount");
         if (resultSet.getBoolean("fixed")) {
             return new FixedAmountVoucher(voucherId, amount);
@@ -36,11 +37,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     public VoucherJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     @Override

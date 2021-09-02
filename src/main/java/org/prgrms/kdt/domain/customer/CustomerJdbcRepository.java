@@ -1,6 +1,7 @@
 package org.prgrms.kdt.domain.customer;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgrms.kdt.utils.UUIDUtil;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -28,7 +29,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var customerId = UUIDUtil.toUUID(resultSet.getBytes("customer_id"));
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
@@ -39,11 +40,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     public CustomerJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     @Override
