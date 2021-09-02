@@ -1,7 +1,5 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.factory.VoucherFactory;
@@ -9,7 +7,6 @@ import org.prgrms.kdt.voucher.repository.VoucherRepository;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -24,7 +21,7 @@ public class VoucherService {
     }
 
     public void createVoucher(VoucherType type, UUID voucherId, long policyValue) {
-        Voucher voucher = VoucherFactory.createVoucher(type, voucherId, policyValue);
+        Voucher voucher = VoucherFactory.getInstance().createVoucher(type, voucherId, policyValue);
         voucherRepository.create(voucher);
     }
 
@@ -38,5 +35,6 @@ public class VoucherService {
         return voucherRepository.find();
     }
 
-    public void useVoucher(Voucher voucher) { } // TODO: 나중에 강의가 진행하면서 메서드가 완성되어 집니다.
+    public void useVoucher(Voucher voucher) {
+    } // TODO: 나중에 강의가 진행하면서 메서드가 완성되어 집니다.
 }
