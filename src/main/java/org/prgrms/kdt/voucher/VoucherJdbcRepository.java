@@ -38,7 +38,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     };
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public void insert(Voucher voucher) {
         int update = jdbcTemplate.update(
                 "INSERT INTO vouchers(voucher_id, name, voucher_type, discount, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
                 voucher.getVoucherId().toString().getBytes(),
@@ -51,12 +51,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
             throw new RuntimeException("Nothing was inserted");
         }
 
-        return voucher;
-
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
+    public void update(Voucher voucher) {
         int update = jdbcTemplate.update(
                 "UPDATE vouchers SET name = ? WHERE voucher_id = UUID_TO_BIN(?)",
                 voucher.getName(),
@@ -65,8 +63,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
         if (update != 1) {
             throw new RuntimeException("Nothing was updated");
         }
-
-        return voucher;
     }
 
     @Override

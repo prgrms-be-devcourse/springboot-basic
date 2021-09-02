@@ -38,7 +38,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     };
 
     @Override
-    public Customer insert(Customer customer) {
+    public void insert(Customer customer) {
         var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
                 customer.getName(),
@@ -48,11 +48,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
         }
-        return customer;
     }
 
     @Override
-    public Customer update(Customer customer) {
+    public void update(Customer customer) {
         var update = jdbcTemplate.update("UPDATE customers SET name = ?, email = ?, last_login_at =? WHERE customer_id = UUID_TO_BIN(?)",
                 customer.getName(),
                 customer.getEmail(),
@@ -62,7 +61,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
         }
-        return customer;
     }
 
     @Override
