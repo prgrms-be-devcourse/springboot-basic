@@ -22,8 +22,12 @@ public class CommandLineApplication implements Runnable {
     private final Output output;
 
     private final String requestCommandMeesage
-            = MessageFormat.format("\n=== Voucher Program ===\nType {0} to create a voucher.\nType {1} to list all voucher.\nType {2} to exit the program",
-            Command.CREATE, Command.LIST, Command.EXIT);
+            = MessageFormat.format("\n=== Voucher Program ===" +
+                    "\n[Type {0} to exit the program]" +
+                    "\nType {1} to create a voucher." +
+                    "\nType {2} to list all voucher." +
+                    "\nType {3} to enter customer managing page.",
+            Command.EXIT, Command.CREATE, Command.LIST, Command.CUSTOMER);
     private final String requestVoucherTypeMessage
             = MessageFormat.format("Choose voucher type : {0}", List.of(VoucherType.values()));
 
@@ -48,7 +52,7 @@ public class CommandLineApplication implements Runnable {
         while (!termi) {
             Command command;
 
-            command = getCommand();
+            command = Command.getCommand(requestCommandMeesage, Command.getVoucherApplicationCommand(), input, output);
             if (command == null) continue;
 
             switch (command) {
@@ -83,6 +87,10 @@ public class CommandLineApplication implements Runnable {
                     output.sayGoodBye();
                     termi = true;
                 }
+                case CUSTOMER -> {
+                    // Enter Customer-Voucher Managing Application
+                    new CustomerVoucherManagingApplication(applicationContext, input, output).run();
+                }
             }
         }
     }
@@ -96,16 +104,5 @@ public class CommandLineApplication implements Runnable {
             return null;
         }
         return voucherType;
-    }
-
-    private Command getCommand() {
-        Command command;
-        try {
-            command = Command.of(input.input(requestCommandMeesage));
-        } catch (RuntimeException e) {
-            output.inputError(MessageFormat.format("Invalid Command.\nValid Commands -> {0}", List.of(Command.values())));
-            return null;
-        }
-        return command;
     }
 }

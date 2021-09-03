@@ -16,6 +16,7 @@ public interface VoucherRepository {
     }
     void deleteVoucher(UUID voucherId);
     List<Voucher> findAll();
+    List<Voucher> findAllUnregisteredVouchers();
     Voucher addOwner(Customer customer, Voucher voucher);
     void removeOwner(Customer customer, UUID voucherId);
 

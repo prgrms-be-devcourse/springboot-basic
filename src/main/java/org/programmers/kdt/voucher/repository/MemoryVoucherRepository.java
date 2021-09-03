@@ -34,6 +34,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAllUnregisteredVouchers() {
+        // TODO: Implement
+        return null;
+    }
+
+    @Override
     public Voucher addOwner(Customer customer, Voucher voucher) {
         // TODO: Implement
         return null;

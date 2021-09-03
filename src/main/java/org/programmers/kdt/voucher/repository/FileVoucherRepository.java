@@ -110,6 +110,12 @@ public class FileVoucherRepository implements VoucherRepository  {
     }
 
     @Override
+    public List<Voucher> findAllUnregisteredVouchers() {
+        // TODO: Implement
+        return null;
+    }
+
+    @Override
     public Voucher addOwner(Customer customer, Voucher voucher) {
         // TODO: Implement
         return null;
@@ -122,7 +128,7 @@ public class FileVoucherRepository implements VoucherRepository  {
 
     @Override
     public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
-        // TODO: Imeplement
+        // TODO: Implement
         return Optional.empty();
     }
 

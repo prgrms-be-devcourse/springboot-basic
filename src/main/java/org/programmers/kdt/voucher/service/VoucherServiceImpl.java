@@ -67,6 +67,11 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public List<Voucher> getAllUnregisteredVouchers() {
+        return voucherRepository.findAllUnregisteredVouchers();
+    }
+
+    @Override
     public VoucherStatus getVoucherStatus(Voucher voucher) {
         return voucher.getStatus();
     }

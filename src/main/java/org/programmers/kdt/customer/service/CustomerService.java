@@ -9,6 +9,9 @@ import java.util.UUID;
 
 public interface CustomerService {
     // 회원 가입(등록)
+    default Customer signUp(String name, String email) {
+        return signUp(UUID.randomUUID(), name, email);
+    };
     Customer signUp(UUID customerId, String name, String email);
 
     // 회원 검색

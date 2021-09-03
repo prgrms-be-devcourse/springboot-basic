@@ -19,6 +19,7 @@ public interface VoucherService {
 
     void removeVoucher(UUID voucherid);
     List<Voucher> getAllVouchers();
+    List<Voucher> getAllUnregisteredVouchers();
 
     String getPrintFormat(Voucher voucher);
     VoucherStatus getVoucherStatus(Voucher voucher);
@@ -30,5 +31,8 @@ public interface VoucherService {
     void removeOwner(Customer customer, UUID voucherId);
 
     Optional<UUID> findCustomerIdHoldingVoucherOf(UUID voucherId);
+    default Optional<UUID> findCustomerIdHoldingVoucherOf(Voucher voucher) {
+        return findCustomerIdHoldingVoucherOf(voucher.getVoucherId());
+    }
     List<Voucher> getAllVouchersBelongsToCustomer(Customer customer);
 }

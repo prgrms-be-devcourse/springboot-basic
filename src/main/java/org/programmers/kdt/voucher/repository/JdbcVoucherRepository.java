@@ -65,9 +65,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
+	public List<Voucher> findAllUnregisteredVouchers() {
+		return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id IS null", voucherMapper);
+	}
+
+	@Override
 	public Voucher addOwner(Customer customer, Voucher voucher) {
 		if (voucher.getStatus().equals(VoucherStatus.VALID)) {
-			jdbcTemplate.update("UPDATE vouchers customer_id = :customer_id WHERE voucher_id = :voucher_id",
+			jdbcTemplate.update("UPDATE vouchers SET customer_id = UUID_TO_BIN(:customer_id) WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
 					voucherOwnerMap(customer, voucher.getVoucherId()));
 			return voucher;
 		}
@@ -78,34 +83,39 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public void removeOwner(Customer customer, UUID voucherId) {
-		jdbcTemplate.update("DELETE FROM vouchers WHERE customer_Id = :customer_id and voucher_id = :voucher_id",
+		jdbcTemplate.update("DELETE FROM vouchers WHERE customer_Id = UUID_TO_BIN(:customer_id) and voucher_id = UUID_TO_BIN(:voucher_id)",
 				voucherOwnerMap(customer, voucherId));
 	}
 
 	@Override
 	public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
-		return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = :voucher_id",
+		return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
 				Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
 				customerIdMapper));
 	}
 
 	@Override
 	public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-		return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id = :customer_id",
+		return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customer_id)",
+				Collections.singletonMap("customer_id", customerId.toString().getBytes()),
 				voucherMapper);
 	}
 
 	private Map<String, Object> voucherOwnerMap(Customer customer, UUID voucherId) {
 		return new HashMap<>() {
 			{
-				put("voucher_id", voucherId.toString().getBytes());
 				put("customer_id", customer.getCustomerId().toString().getBytes());
+				put("voucher_id", voucherId.toString().getBytes());
 			}
 		};
 	}
 
 	private final RowMapper<UUID> customerIdMapper = (resultSet, rowNum) -> {
-		return toUUID(resultSet.getBytes("customer_id"));
+		byte[] customerId = resultSet.getBytes("customer_id");
+		if (customerId == null) {
+			return null;
+		}
+		return toUUID(customerId);
 	};
 
 	private final RowMapper<Voucher> voucherMapper = (resultSet, rowNum) -> {
