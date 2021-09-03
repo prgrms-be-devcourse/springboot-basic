@@ -1,6 +1,5 @@
 package org.programmers.customer;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -8,12 +7,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class FileCustomerRepository implements CustomerRepository{
+public class FileCustomerRepository implements CustomerRepository {
 
     @Value("${prgms.file.blacklist}")
     private String blackFile;
@@ -28,9 +29,15 @@ public class FileCustomerRepository implements CustomerRepository{
         try {
             br = Files.newBufferedReader(Path.of(blackFile));
 
-            while((str = br.readLine())!=null){
+            while ((str = br.readLine()) != null) {
                 String[] customerInfo = str.split(" ");
-                customerList.add(new Customer(UUID.fromString(customerInfo[0]), customerInfo[1], Gender.valueOf(customerInfo[2])));
+                customerList.add(
+                        new Customer(UUID.fromString(customerInfo[0]),
+                                customerInfo[1],
+                                Gender.valueOf(customerInfo[2]),
+                                customerInfo[3],
+                                LocalDateTime.parse(customerInfo[4], DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                );
             }
         } catch (IOException e) {
             e.printStackTrace();
