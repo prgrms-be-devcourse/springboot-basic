@@ -1,5 +1,6 @@
 package com.example.kdtspringmission.view;
 
+import com.example.kdtspringmission.customer.domain.Customer;
 import com.example.kdtspringmission.voucher.domain.Voucher;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,9 @@ public class ConsoleOutputView implements OutputView{
         System.out.println("=== Voucher Program ===\n"
             + "Type 'exit' to exit the program\n"
             + "Type 'create' to create voucher\n"
-            + "Type 'list' to list vouchers");
+            + "Type 'list' to list vouchers\n"
+            + "Type 'blacklist' to list blacklist\n"
+            + "Type 'customers' to list customers");
     }
 
     @Override
@@ -23,5 +26,13 @@ public class ConsoleOutputView implements OutputView{
     @Override
     public void voucherList(List<Voucher> vouchers) {
         System.out.println(vouchers);
+    }
+
+    @Override
+    public void customerList(List<Customer> customers) {
+        System.out.println("===== Registered customers =====");
+        for (Customer customer : customers) {
+            System.out.println(customer);
+        }
     }
 }

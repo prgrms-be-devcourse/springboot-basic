@@ -81,4 +81,12 @@ public class Customer {
     public int hashCode() {
         return Objects.hash(customerId);
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+            "name='" + name + '\'' +
+            ", email='" + email + '\'' +
+            '}';
+    }
 }
