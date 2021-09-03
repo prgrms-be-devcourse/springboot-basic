@@ -1,11 +1,13 @@
 package org.prgrms.kdt.customer;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.hamcrest.core.Is.is;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.common.BaseRepositoryTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
 /**
  * Created by yhh1056
@@ -36,7 +39,7 @@ class CustomerJdbcRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
-    @DisplayName("고객을 추가할 수 있다.")
+    @DisplayName("고객 추가 테스트")
     void testInsert() {
         UUID customerId = UUID.randomUUID();
         var customer = givenCustomer(customerId);
@@ -49,7 +52,18 @@ class CustomerJdbcRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
-    @DisplayName("전체 고객을 조회할 수 있다.")
+    @DisplayName("중복된 이메일로 추가할 경우 예외 테스트")
+    void fail_testInsert() {
+        var customer = givenCustomer("tester");
+        var duplicateEmailCustomer = givenCustomer("tester");
+        customerJdbcRepository.insert(customer);
+
+        assertThatThrownBy(() -> customerJdbcRepository.insert(duplicateEmailCustomer))
+                .hasMessageContaining("Duplicate entry 'tester@email.com' for key 'unq_user_email'");
+    }
+
+    @Test
+    @DisplayName("전체 고객 조회 테스트")
     void testFindAll() {
         customerJdbcRepository.insert(givenCustomer("tester1"));
         customerJdbcRepository.insert(givenCustomer("tester2"));
@@ -61,20 +75,24 @@ class CustomerJdbcRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
-    @DisplayName("이름으로 고객을 조회할 수 있다.")
+    @DisplayName("고객 이름 조회 테스트")
     void testFindByName() {
         var customer = givenCustomer(UUID.randomUUID());
         customerJdbcRepository.insert(customer);
 
         var findCustomer = customerJdbcRepository.findByName(customer.getName());
         assertThat(findCustomer.isEmpty(), is(false));
+    }
 
+    @Test
+    @DisplayName("고객 이름 조회 실패")
+    void fail_testFindByName() {
         var unknown = customerJdbcRepository.findByName("unknown-user");
         assertThat(unknown.isEmpty(), is(true));
     }
 
     @Test
-    @DisplayName("이메일로 고객을 조회할 수 있다.")
+    @DisplayName("고객 이메일 조회 테스트")
     void testFindByEmail() {
         var customer = givenCustomer(UUID.randomUUID());
         customerJdbcRepository.insert(customer);
@@ -86,9 +104,15 @@ class CustomerJdbcRepositoryTest extends BaseRepositoryTest {
         assertThat(unknown.isEmpty(), is(true));
     }
 
+    @Test
+    @DisplayName("고객 이메일 조회 실패 테스트")
+    void fail_testFindByEmail() {
+        var unknown = customerJdbcRepository.findByEmail("unknown-user@email.com");
+        assertThat(unknown.isEmpty(), is(true));
+    }
 
     @Test
-    @DisplayName("고객을 수정할 수 있다.")
+    @DisplayName("고객 수정 테스트")
     void testUpdate() {
         var customer = givenCustomer(UUID.randomUUID());
         customerJdbcRepository.insert(customer);

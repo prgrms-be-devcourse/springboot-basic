@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,6 +52,14 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 ID 조회 실패 테스트")
+    void fail_findById() {
+        Optional<Voucher> findVoucher = voucherJdbcRepository.findById(UUID.randomUUID());
+
+        assertTrue(findVoucher.isEmpty());
+    }
+
+    @Test
     @DisplayName("바우처 타입 조회 테스트")
     void findByFixedVoucher() {
         voucherJdbcRepository.insert(givenFixedVoucher(UUID.randomUUID()));
@@ -64,6 +73,16 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
 
         assertThat(vouchers.size()).isEqualTo(3);
         assertThat(vouchers).filteredOn(v -> v.getVoucherType() == VoucherType.FIX);
+    }
+
+    @Test
+    @DisplayName("바우처 타입 조회 실패 테스트")
+    void fail_findByFixedVoucher() {
+        voucherJdbcRepository.insert(givenFixedVoucher(UUID.randomUUID()));
+
+        List<Voucher> vouchers = voucherJdbcRepository.findByVoucherType(VoucherType.PERCENT);
+
+        assertThat(vouchers).isEmpty();
     }
 
     @Test
@@ -84,6 +103,12 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 이름 수정 테스트")
+    void fail_updateNameByVoucher() {
+        //todo : 서비스에서 추가
+    }
+
+    @Test
     @DisplayName("바우처 삭제 테스트")
     void deleteById() {
         UUID voucherId = UUID.randomUUID();
@@ -96,6 +121,18 @@ class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
         assertThat(voucherJdbcRepository.findById(voucherId)).isEmpty();
     }
 
+    @Test
+    @DisplayName("바우처 삭제 실패 테스트")
+    void fail_deleteById() {
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = givenPercentVoucher(voucherId);
+        voucherJdbcRepository.insert(voucher);
+
+        voucherJdbcRepository.deleteById(UUID.randomUUID());
+
+        assertThat(voucherJdbcRepository.count()).isEqualTo(1);
+        assertThat(voucherJdbcRepository.findById(voucherId)).isNotEmpty();
+    }
 
     @Test
     @DisplayName("바우처 전체 삭제 테스트")
