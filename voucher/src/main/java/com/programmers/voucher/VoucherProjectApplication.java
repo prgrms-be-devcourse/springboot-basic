@@ -5,6 +5,7 @@ import com.programmers.voucher.entity.customer.Customer;
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.customer.CustomerService;
+import com.programmers.voucher.service.customer.CustomerVoucherService;
 import com.programmers.voucher.service.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import java.io.*;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -21,7 +23,7 @@ public class VoucherProjectApplication {
 
 	private static ApplicationContext applicationContext;
 	private static ApplicationMessages applicationMessages;
-	private static CustomerService customerService;
+	private static CustomerVoucherService customerVoucherService;
 	private static VoucherService voucherService;
 	private static CustomerService blacklistCustomerService;
 	private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -126,13 +128,40 @@ public class VoucherProjectApplication {
 		}),
 		CREATE_USER("create_user", () -> {
 			int randomNumber = new Random().nextInt();
-			Customer customer = customerService.create("username" + randomNumber, "alias" + randomNumber);
+			Customer customer = customerVoucherService.create("username" + randomNumber, "alias" + randomNumber);
 			System.out.println("Created user " + customer);
 		}),
 		LIST_USER("list_user", () -> {
 			System.out.println("======== [ USERS ] ========");
-			customerService.listAll().forEach(System.out::println);
+			customerVoucherService.listAll().forEach(System.out::println);
 			System.out.println("===========================");
+		}),
+		LIST_USER_VOUCHER("list_user_voucher", () -> {
+			try {
+				System.out.print(applicationMessages.getRequireCustomerId());
+				long id = Long.parseLong(br.readLine());
+				final List<Voucher> allByCustomer = customerVoucherService.findAllVoucherByCustomer(id);
+				System.out.println("==== [ VOUCHERS ] ====");
+				allByCustomer.forEach(System.out::println);
+				System.out.println("======================");
+
+			} catch (IOException ex) {
+				log.error("IOException occur when input customer id. {}...", ex.getMessage());
+			}
+		}),
+		READ_USER_BY_VOUCHER("read_user_by_voucher", () -> {
+			try {
+				System.out.print(applicationMessages.getRequireVoucherId());
+				long id = Long.parseLong(br.readLine());
+				customerVoucherService.findCustomerByVoucher(id).ifPresentOrElse(
+						System.out::println,
+						() -> {
+							System.out.println("NO CUSTOMER FOUND.");
+						}
+				);
+			} catch (IOException ex) {
+				log.error("IOException occur when input customer id. {}...", ex.getMessage());
+			}
 		}),
 		TEST("test", () -> {
 			voucherService.listAll().forEach(voucher -> {
@@ -169,8 +198,8 @@ public class VoucherProjectApplication {
 		voucherService = applicationContext.getBean(VoucherService.class);
 		voucherService.openStorage();
 
-		customerService = applicationContext.getBean("basicCustomerService", CustomerService.class);
-		customerService.openStorage();
+		customerVoucherService = applicationContext.getBean("basicCustomerService", CustomerVoucherService.class);
+		customerVoucherService.openStorage();
 
 		blacklistCustomerService = applicationContext.getBean("blacklistCustomerService", CustomerService.class);
 		blacklistCustomerService.openStorage();

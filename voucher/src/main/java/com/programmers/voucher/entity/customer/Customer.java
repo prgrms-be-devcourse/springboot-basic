@@ -77,6 +77,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return String.format("[ CUSTOMER #%d ] %s(%s) / %s", id, username, alias, blacklisted ? "blacked" : "clean");
+        return String.format("[ CUSTOMER #%d ] %s(%s) / %s / %s", id, username, alias, blacklisted ? "blacked" : "clean", createdAt);
     }
 }

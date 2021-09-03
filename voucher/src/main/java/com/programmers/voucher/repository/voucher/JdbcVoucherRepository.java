@@ -6,6 +6,7 @@ import com.programmers.voucher.repository.VoucherQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -73,7 +74,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(long id) {
         log.debug("Find voucher by id: {}", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(voucherQuery.getSelect().getById(), voucherRowMapper, id));
+        Voucher voucher;
+        try {
+            voucher = jdbcTemplate.queryForObject(voucherQuery.getSelect().getById(), voucherRowMapper, id);
+        } catch (EmptyResultDataAccessException ex) {
+            voucher = null;
+        } // based on https://stackoverflow.com/questions/18503607/best-practice-to-select-data-using-spring-jdbctemplate
+
+        return Optional.ofNullable(voucher);
     }
 
     @Override

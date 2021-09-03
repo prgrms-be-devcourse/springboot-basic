@@ -13,6 +13,8 @@ voucher:
       Type intro to get intro this message.
       Type create_user to generate random user.
       Type list_user to list all users.
+      Type list_user_voucher to get vouchers of user.
+      Type read_user_by_voucher to get user by voucher.
       Type test to test discount for all vouchers.
 
     command:

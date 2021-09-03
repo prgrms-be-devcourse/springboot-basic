@@ -4,6 +4,7 @@ import com.programmers.voucher.entity.customer.Customer;
 import com.programmers.voucher.repository.CustomerQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -62,7 +63,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByVoucher(long voucherId) {
         log.debug("Find customer by voucher: {}", voucherId);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(customerQuery.getSelect().getByVoucher(), customerRowMapper));
+        Customer customer;
+        try {
+            customer = jdbcTemplate.queryForObject(customerQuery.getSelect().getByVoucher(), customerRowMapper, voucherId);
+        } catch (EmptyResultDataAccessException ex) {
+            customer = null;
+        }
+
+        return Optional.ofNullable(customer);
     }
 
     @Override
