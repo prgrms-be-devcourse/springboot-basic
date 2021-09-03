@@ -9,9 +9,12 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 
+    private VoucherStatus status;
+
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
+        status = VoucherStatus.VALID;
     }
 
     @Override
@@ -32,6 +35,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long getDiscountAmount(long beforeDiscount) {
         return Math.min(amount, beforeDiscount);
+    }
+
+    @Override
+    public VoucherStatus getStatus() {
+        return status;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.programmers.kdt.voucher.service;
 
 import org.programmers.kdt.voucher.Voucher;
+import org.programmers.kdt.voucher.VoucherStatus;
 import org.programmers.kdt.voucher.VoucherType;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface VoucherService {
     List<Voucher> getAllVouchers();
 
     String getPrintFormat(Voucher voucher);
+    VoucherStatus getVoucherStatus(Voucher voucher);
 }

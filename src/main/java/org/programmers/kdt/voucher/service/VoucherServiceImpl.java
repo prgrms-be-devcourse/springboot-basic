@@ -1,6 +1,7 @@
 package org.programmers.kdt.voucher.service;
 
 import org.programmers.kdt.voucher.Voucher;
+import org.programmers.kdt.voucher.VoucherStatus;
 import org.programmers.kdt.voucher.VoucherType;
 import org.programmers.kdt.voucher.factory.VoucherFactory;
 import org.programmers.kdt.voucher.repository.VoucherRepository;
@@ -63,6 +64,11 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
+    }
+
+    @Override
+    public VoucherStatus getVoucherStatus(Voucher voucher) {
+        return voucher.getStatus();
     }
 
     @Override

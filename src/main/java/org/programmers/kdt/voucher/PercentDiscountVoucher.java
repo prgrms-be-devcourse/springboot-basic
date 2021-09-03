@@ -11,6 +11,8 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
 
+    private VoucherStatus status;
+
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
         if (percent < MINIMUM_DISCOUNT_PERCENT || percent > MAXIMUM_DISCOUNT_PERCENT) {
@@ -18,6 +20,7 @@ public class PercentDiscountVoucher implements Voucher {
                     MINIMUM_DISCOUNT_PERCENT, MAXIMUM_DISCOUNT_PERCENT));
         }
         this.percent = percent;
+        status = VoucherStatus.VALID;
     }
 
 
@@ -39,6 +42,11 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long getDiscountAmount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
+    }
+
+    @Override
+    public VoucherStatus getStatus() {
+        return status;
     }
 
     @Override

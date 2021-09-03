@@ -11,4 +11,6 @@ public interface Voucher {
         return beforeDiscount - getDiscountAmount(beforeDiscount);
     }
     long getDiscountAmount(long beforeDiscount);
+
+    VoucherStatus getStatus();
 }
