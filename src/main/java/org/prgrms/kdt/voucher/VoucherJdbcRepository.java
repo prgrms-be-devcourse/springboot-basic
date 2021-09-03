@@ -39,31 +39,22 @@ public class VoucherJdbcRepository implements VoucherRepository {
     };
 
     @Override
-    public void insert(Voucher voucher) {
-        int update = jdbcTemplate.update(
+    public int insert(Voucher voucher) {
+        return jdbcTemplate.update(
                 "INSERT INTO vouchers(voucher_id, name, voucher_type, discount, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getName(),
                 voucher.getVoucherType().name(),
                 voucher.getDiscount(),
                 Timestamp.valueOf(voucher.getCreatedAt()));
-
-        if (update < 1) {
-            throw new IllegalRowUpdateException("Nothing was inserted");
-        }
-
     }
 
     @Override
-    public void update(Voucher voucher) {
-        int update = jdbcTemplate.update(
+    public int update(Voucher voucher) {
+        return jdbcTemplate.update(
                 "UPDATE vouchers SET name = ? WHERE voucher_id = UUID_TO_BIN(?)",
                 voucher.getName(),
                 voucher.getVoucherId().toString().getBytes());
-
-        if (update < 1) {
-            throw new IllegalRowUpdateException("Nothing was updated");
-        }
     }
 
     @Override
