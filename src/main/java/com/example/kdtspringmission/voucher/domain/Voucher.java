@@ -1,5 +1,6 @@
 package com.example.kdtspringmission.voucher.domain;
 
+import com.example.kdtspringmission.customer.domain.Customer;
 import java.util.UUID;
 
 public interface Voucher {
@@ -8,4 +9,8 @@ public interface Voucher {
     UUID getId();
 
     boolean support(VoucherType type);
+
+    void setOwner(Customer customer);
+
+    Customer getOwner();
 }

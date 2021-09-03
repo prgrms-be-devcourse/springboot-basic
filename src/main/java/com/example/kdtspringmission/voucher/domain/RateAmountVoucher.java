@@ -1,16 +1,18 @@
 package com.example.kdtspringmission.voucher.domain;
 
+import com.example.kdtspringmission.customer.domain.Customer;
 import java.util.Objects;
 import java.util.UUID;
 
 public class RateAmountVoucher implements Voucher {
 
     private final UUID id;
-    private final long percent;
+    private final long discountAmount;
+    private Customer owner;
 
-    public RateAmountVoucher(UUID id, long percent) {
+    public RateAmountVoucher(UUID id, long discountAmount) {
         this.id = id;
-        this.percent = percent;
+        this.discountAmount = discountAmount;
     }
 
     public RateAmountVoucher(UUID id) {
@@ -19,7 +21,7 @@ public class RateAmountVoucher implements Voucher {
 
     @Override
     public long discount(long price) {
-        return (long) (price - (price * ((double)percent / 100)));
+        return (long) (price - (price * ((double) discountAmount / 100)));
     }
 
     @Override
@@ -32,15 +34,24 @@ public class RateAmountVoucher implements Voucher {
         return type.equals(VoucherType.RATE);
     }
 
-    public long getPercent() {
-        return percent;
+    @Override
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
+
+    public Customer getOwner() {
+        return owner;
+    }
+
+    public long getDiscountAmount() {
+        return discountAmount;
     }
 
     @Override
     public String toString() {
         return "RateAmountVoucher{" +
             "id=" + id +
-            ", percent=" + percent +
+            ", percent=" + discountAmount +
             '}';
     }
 

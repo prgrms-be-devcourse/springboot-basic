@@ -1,16 +1,18 @@
 package com.example.kdtspringmission.voucher.domain;
 
+import com.example.kdtspringmission.customer.domain.Customer;
 import java.util.Objects;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher{
 
     private final UUID id;
-    private final long amount;
+    private final long discountAmount;
+    private Customer owner;
 
-    public FixedAmountVoucher(UUID id, long amount) {
+    public FixedAmountVoucher(UUID id, long discountAmount) {
         this.id = id;
-        this.amount = amount;
+        this.discountAmount = discountAmount;
     }
 
     public FixedAmountVoucher(UUID id) {
@@ -19,7 +21,7 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public long discount(long price) {
-        return price - amount;
+        return price - discountAmount;
     }
 
     public UUID getId() {
@@ -31,15 +33,24 @@ public class FixedAmountVoucher implements Voucher{
         return type.equals(VoucherType.FIX);
     }
 
-    public long getAmount() {
-        return amount;
+    @Override
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
+
+    public Customer getOwner() {
+        return owner;
+    }
+
+    public long getDiscountAmount() {
+        return discountAmount;
     }
 
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
             "id=" + id +
-            ", amount=" + amount +
+            ", amount=" + discountAmount +
             '}';
     }
 

@@ -1,6 +1,9 @@
 package com.example.kdtspringmission.customer.domain;
 
+import com.example.kdtspringmission.voucher.domain.Voucher;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,6 +14,8 @@ public class Customer {
     private final String email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
+
+    private final List<Voucher> wallet = new ArrayList<>();
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt,
         LocalDateTime createdAt) {
@@ -43,6 +48,16 @@ public class Customer {
         if (name.isBlank()) {
             throw new RuntimeException("Name Should Not Be Blank");
         }
+    }
+
+    public Voucher addVoucher(Voucher voucher) {
+        voucher.setOwner(this);
+        wallet.add(voucher);
+        return voucher;
+    }
+
+    public List<Voucher> getWallet() {
+        return wallet;
     }
 
     public UUID getCustomerId() {
