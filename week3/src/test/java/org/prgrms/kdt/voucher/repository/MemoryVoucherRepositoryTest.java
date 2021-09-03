@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -27,7 +26,7 @@ class MemoryVoucherRepositoryTest {
     static VoucherRepository voucherRepository;
 
     @BeforeAll
-    static void setUp(){
+    static void setUp() {
         voucherRepository = new MemoryVoucherRepository();
         fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
     }
