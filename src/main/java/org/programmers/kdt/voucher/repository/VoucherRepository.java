@@ -1,5 +1,6 @@
 package org.programmers.kdt.voucher.repository;
 
+import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.voucher.Voucher;
 
 import java.util.List;
@@ -15,4 +16,9 @@ public interface VoucherRepository {
     }
     void deleteVoucher(UUID voucherId);
     List<Voucher> findAll();
+    Voucher addOwner(Customer customer, Voucher voucher);
+    void removeOwner(Customer customer, UUID voucherId);
+
+    Optional<UUID> findCustomerIdByVoucherId(UUID voucherId);
+    List<Voucher> findVouchersByCustomerId(UUID customerId);
 }

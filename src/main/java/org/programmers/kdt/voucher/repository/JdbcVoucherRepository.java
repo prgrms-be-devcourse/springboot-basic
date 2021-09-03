@@ -1,9 +1,7 @@
 package org.programmers.kdt.voucher.repository;
 
-import org.programmers.kdt.voucher.FixedAmountVoucher;
-import org.programmers.kdt.voucher.PercentDiscountVoucher;
-import org.programmers.kdt.voucher.Voucher;
-import org.programmers.kdt.voucher.VoucherType;
+import org.programmers.kdt.customer.Customer;
+import org.programmers.kdt.voucher.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -47,7 +45,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			return Optional.ofNullable(jdbcTemplate.queryForObject(
 					"SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
 					Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
-					rowMapper)
+					voucherMapper)
 			);
 		} catch (EmptyResultDataAccessException e) {
 			logger.error("No Such Voucher(ID: {}) Exists. -> {}", voucherId, e);
@@ -63,10 +61,54 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> findAll() {
-		return jdbcTemplate.query("SELECT * FROM vouchers", rowMapper);
+		return jdbcTemplate.query("SELECT * FROM vouchers", voucherMapper);
 	}
 
-	private final RowMapper<Voucher> rowMapper = (resultSet, rowNum) -> {
+	@Override
+	public Voucher addOwner(Customer customer, Voucher voucher) {
+		if (voucher.getStatus().equals(VoucherStatus.VALID)) {
+			jdbcTemplate.update("UPDATE vouchers customer_id = :customer_id WHERE voucher_id = :voucher_id",
+					voucherOwnerMap(customer, voucher.getVoucherId()));
+			return voucher;
+		}
+
+		logger.error("Registering invalid voucher : {}", voucher.getVoucherId());
+		throw new RuntimeException("Registering invalid voucher.");
+	}
+
+	@Override
+	public void removeOwner(Customer customer, UUID voucherId) {
+		jdbcTemplate.update("DELETE FROM vouchers WHERE customer_Id = :customer_id and voucher_id = :voucher_id",
+				voucherOwnerMap(customer, voucherId));
+	}
+
+	@Override
+	public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
+		return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = :voucher_id",
+				Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
+				customerIdMapper));
+	}
+
+	@Override
+	public List<Voucher> findVouchersByCustomerId(UUID customerId) {
+		return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id = :customer_id",
+				voucherMapper);
+	}
+
+	private Map<String, Object> voucherOwnerMap(Customer customer, UUID voucherId) {
+		return new HashMap<>() {
+			{
+				put("voucher_id", voucherId.toString().getBytes());
+				put("customer_id", customer.getCustomerId().toString().getBytes());
+			}
+		};
+	}
+
+	private final RowMapper<UUID> customerIdMapper = (resultSet, rowNum) -> {
+		return toUUID(resultSet.getBytes("customer_id"));
+	};
+
+	private final RowMapper<Voucher> voucherMapper = (resultSet, rowNum) -> {
 		UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
 		VoucherType type = VoucherType.of(resultSet.getString("type"));
 		long amount = resultSet.getLong("amount");

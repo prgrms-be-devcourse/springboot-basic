@@ -1,6 +1,7 @@
 package org.programmers.kdt.voucher.repository;
 
 
+import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.voucher.FixedAmountVoucher;
 import org.programmers.kdt.voucher.PercentDiscountVoucher;
 import org.programmers.kdt.voucher.Voucher;
@@ -106,5 +107,28 @@ public class FileVoucherRepository implements VoucherRepository  {
     @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(cache.values());
+    }
+
+    @Override
+    public Voucher addOwner(Customer customer, Voucher voucher) {
+        // TODO: Implement
+        return null;
+    }
+
+    @Override
+    public void removeOwner(Customer customer, UUID voucherId) {
+        // TODO: Implement
+    }
+
+    @Override
+    public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
+        // TODO: Imeplement
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
+        // TODO: Implement
+        return null;
     }
 }

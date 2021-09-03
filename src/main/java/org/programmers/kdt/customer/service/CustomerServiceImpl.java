@@ -2,6 +2,8 @@ package org.programmers.kdt.customer.service;
 
 import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.customer.repository.CustomerRepository;
+import org.programmers.kdt.voucher.Voucher;
+import org.programmers.kdt.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,13 @@ import java.util.UUID;
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
-
     @Autowired
+    private VoucherService voucherService;
+
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
+
 
     @Override
     public Customer signUp(UUID customerId, String name, String email) {
@@ -79,5 +83,30 @@ public class CustomerServiceImpl implements CustomerService {
         return MessageFormat
                 .format("<< Customer Information >>\nCustomer ID : {0}\nCustomer Name : {1}\nCustomer Email : {2}\nLast Login At : {3}\nSign Up At : {4}",
                         customer.getCustomerId(), customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt());
+    }
+
+    @Override
+    public boolean addVoucherToCustomer(Customer customer, Voucher voucher) {
+        return voucher.equals(voucherService.addOwner(customer, voucher));
+    }
+
+    @Override
+    public void removeVoucherFromCustomer(Customer customer, UUID voucherId) {
+        voucherService.removeOwner(customer, voucherId);
+    }
+
+    @Override
+    public Optional<Customer> findByVoucher(UUID voucherId) {
+        Optional<UUID> customerId = voucherService.findCustomerIdHoldingVoucherOf(voucherId);
+        if (customerId.isEmpty()) {
+            return Optional.empty();
+        }
+        return customerRepository.findById(customerId.get());
+
+    }
+
+    @Override
+    public List<Voucher> getAllVoucherOf(Customer customer) {
+        return voucherService.getAllVouchersBelongsToCustomer(customer);
     }
 }

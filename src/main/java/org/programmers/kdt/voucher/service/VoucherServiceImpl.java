@@ -1,5 +1,6 @@
 package org.programmers.kdt.voucher.service;
 
+import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.voucher.Voucher;
 import org.programmers.kdt.voucher.VoucherStatus;
 import org.programmers.kdt.voucher.VoucherType;
@@ -7,7 +8,6 @@ import org.programmers.kdt.voucher.factory.VoucherFactory;
 import org.programmers.kdt.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -69,6 +69,26 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public VoucherStatus getVoucherStatus(Voucher voucher) {
         return voucher.getStatus();
+    }
+
+    @Override
+    public Voucher addOwner(Customer customer, Voucher voucher) {
+        return voucherRepository.addOwner(customer, voucher);
+    }
+
+    @Override
+    public void removeOwner(Customer customer, UUID voucherId) {
+        voucherRepository.removeOwner(customer, voucherId);
+    }
+
+    @Override
+    public Optional<UUID> findCustomerIdHoldingVoucherOf(UUID voucherId) {
+        return voucherRepository.findCustomerIdByVoucherId(voucherId);
+    }
+
+    @Override
+    public List<Voucher> getAllVouchersBelongsToCustomer(Customer customer) {
+        return voucherRepository.findVouchersByCustomerId(customer.getCustomerId());
     }
 
     @Override

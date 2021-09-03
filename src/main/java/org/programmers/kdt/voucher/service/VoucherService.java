@@ -1,5 +1,6 @@
 package org.programmers.kdt.voucher.service;
 
+import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.voucher.Voucher;
 import org.programmers.kdt.voucher.VoucherStatus;
 import org.programmers.kdt.voucher.VoucherType;
@@ -21,4 +22,13 @@ public interface VoucherService {
 
     String getPrintFormat(Voucher voucher);
     VoucherStatus getVoucherStatus(Voucher voucher);
+
+    Voucher addOwner(Customer customer, Voucher voucher);
+    default void removeOwner(Customer customer, Voucher voucher) {
+        removeOwner(customer, voucher.getVoucherId());
+    }
+    void removeOwner(Customer customer, UUID voucherId);
+
+    Optional<UUID> findCustomerIdHoldingVoucherOf(UUID voucherId);
+    List<Voucher> getAllVouchersBelongsToCustomer(Customer customer);
 }
