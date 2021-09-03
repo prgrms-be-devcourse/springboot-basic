@@ -209,7 +209,11 @@ public class VoucherProjectApplication {
 
 		for(String input = ""; !"exit".equals(input); input = br.readLine()) {
 			Command command = Command.of(input);
-			command.behavior.run();
+			try {
+				command.behavior.run();
+			} catch (UnsupportedOperationException ex) {
+				System.out.println("UNSUPPORTED COMMAND");
+			}
 			Command.INTRO.behavior.run();
 		}
 

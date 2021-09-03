@@ -51,6 +51,8 @@ public class BasicVoucherService implements VoucherService {
 
     @Override
     public void update(Voucher voucher) {
+        final DiscountPolicy discountPolicy = voucher.getDiscountPolicy();
+        discountPolicy.setAmount(discountPolicy.getType().getConstraint().apply(discountPolicy.getAmount()));
         jdbcVoucherRepository.update(voucher);
     }
 
