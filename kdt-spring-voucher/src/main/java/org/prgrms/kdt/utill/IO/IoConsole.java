@@ -63,5 +63,4 @@ public class IoConsole implements Input, Output {
         System.out.println(s);
     }
 
-
 }
