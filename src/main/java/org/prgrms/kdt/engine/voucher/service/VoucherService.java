@@ -71,4 +71,8 @@ public class VoucherService {
     public void deleteCustomerVoucher(UUID customerId) {
         voucherRepository.deleteCustomerVoucher(customerId);
     }
+
+    public Optional<UUID> getVoucherOwner(UUID voucherId) {
+        return voucherRepository.findCustomerByVoucher(voucherId);
+    }
 }

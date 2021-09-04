@@ -64,6 +64,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     }
 
+    @Override
+    public Optional<UUID> findCustomerByVoucher(UUID voucherId) {
+        return Optional.empty();
+    }
+
     private Map.Entry<UUID, Voucher> deserializeVoucher(String filename) {
         String[] name = filename.split(DELIMITER);
         VoucherType type = VoucherType.valueOf(name[0]);

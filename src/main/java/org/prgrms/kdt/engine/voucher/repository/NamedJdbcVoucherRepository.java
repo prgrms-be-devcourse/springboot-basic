@@ -90,6 +90,19 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
         );
     }
 
+    @Override
+    public Optional<UUID> findCustomerByVoucher(UUID voucherId) {
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(
+                VoucherSql.SELECT_CUSTOMERID_BY_VOUCHERID.getSql(),
+                Collections.singletonMap("voucherId", voucherId),
+                UUID.class));
+        } catch (DataAccessException e) {
+            logger.error("Got Data Access Error", e);
+            return Optional.empty();
+        }
+    }
+
     public void deleteAll() {
         jdbcTemplate.update(VoucherSql.DELETE_ALL.getSql(), Collections.emptyMap());
     }

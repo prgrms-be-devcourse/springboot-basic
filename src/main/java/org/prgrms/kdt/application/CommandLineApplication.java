@@ -97,6 +97,17 @@ public class CommandLineApplication {
                 }
 
                 case GET_VOUCHER_OWNER: {
+                    var prompt = "UUID of the voucher : ";
+                    var id = input.inputCommand(prompt);
+
+                    if (invalidIdFormat(id)) {
+                        output.printIllegalInputError();
+                        break;
+                    }
+
+                    var voucherId = UUID.fromString(id);
+                    var customerId = voucherService.getVoucherOwner(voucherId);
+                    customerId.ifPresentOrElse(output::voucherOwner, output::printVoucherOwnerNotFoundError);
                     break;
                 }
 

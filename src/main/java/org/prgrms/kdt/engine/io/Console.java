@@ -62,4 +62,15 @@ public class Console implements Input, Output {
         logger.warn("voucherListNotFoundError");
         System.out.println("No Vouchers Found");
     }
+
+    @Override
+    public void printVoucherOwnerNotFoundError() {
+        logger.warn("voucherOwnerNotFoundError");
+        System.out.println("No Voucher Owner Found");
+    }
+
+    @Override
+    public void voucherOwner(UUID customerId) {
+        System.out.println("Owner of the voucher is " + customerId);
+    }
 }
