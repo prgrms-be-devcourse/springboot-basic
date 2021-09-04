@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static org.prgrms.kdt.jdbcRepository.CustomerJdbcRepository.toUUID;
 
 @Component
 public class EntityUtill {
@@ -21,7 +20,7 @@ public class EntityUtill {
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
-    private HashMap<String, Object> toParamMap(CustomerEntity customer) {
+    public static HashMap<String, Object> toCustomerParamMap(CustomerEntity customer) {
         return new HashMap<>() {
             {
                 put("customerId", customer.getCustomerId().toString().getBytes());
@@ -42,7 +41,7 @@ public class EntityUtill {
         return new CustomerEntity(customerId, customerName, email, lastLoginAt, createdAt);
     };
 
-    private HashMap<String, Object> toParamMap(CustomerVoucherEntity customerVoucherEntity) {
+    public static HashMap<String, Object> toParamMap(CustomerVoucherEntity customerVoucherEntity) {
         return new HashMap<>() {
             {
                 put("customerVoucherId", customerVoucherEntity.getCustomerVoucherId().toString().getBytes());
@@ -53,7 +52,7 @@ public class EntityUtill {
         };
     }
 
-    private static RowMapper<CustomerVoucherEntity> customerVoucherEntityRowMapper = (resultSet, i) -> {
+    public static RowMapper<CustomerVoucherEntity> customerVoucherEntityRowMapper = (resultSet, i) -> {
         var customerVoucherId = toUUID(resultSet.getBytes("customer_voucher_id"));
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
@@ -61,7 +60,7 @@ public class EntityUtill {
         return new CustomerVoucherEntity(customerVoucherId, customerId, voucherId, createdAt);
     };
 
-    private HashMap<String, Object> toParamMap(VoucherEntity voucherEntity) {
+    public static HashMap<String, Object> toVoucherParamMap(VoucherEntity voucherEntity) {
         return new HashMap<>() {
             {
                 put("voucherId", voucherEntity.getVoucherId().toString().getBytes());

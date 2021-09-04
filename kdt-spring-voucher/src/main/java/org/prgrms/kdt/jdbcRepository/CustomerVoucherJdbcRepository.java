@@ -15,9 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static org.prgrms.kdt.jdbcRepository.CustomerJdbcRepository.customerEntityRowMapper;
-import static org.prgrms.kdt.jdbcRepository.CustomerJdbcRepository.toUUID;
-import static org.prgrms.kdt.jdbcRepository.VoucherJdbcRepository.voucherEntityRowMapper;
+import static org.prgrms.kdt.utill.EntityUtill.*;
 
 @Repository
 public class CustomerVoucherJdbcRepository implements CustomerVoucherRepository {
@@ -38,26 +36,6 @@ public class CustomerVoucherJdbcRepository implements CustomerVoucherRepository 
     public CustomerVoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
-    private HashMap<String, Object> toParamMap(CustomerVoucherEntity customerVoucherEntity) {
-        return new HashMap<>() {
-            {
-                put("customerVoucherId", customerVoucherEntity.getCustomerVoucherId().toString().getBytes());
-                put("customerId", customerVoucherEntity.getCustomerId().toString().getBytes());
-                put("voucherId", customerVoucherEntity.getVoucherId().toString().getBytes());
-                put("createdAt", Timestamp.valueOf(customerVoucherEntity.getCreatedAt()));
-            }
-        };
-    }
-
-    private static RowMapper<CustomerVoucherEntity> customerVoucherEntityRowMapper = (resultSet, i) -> {
-        var customerVoucherId = toUUID(resultSet.getBytes("customer_voucher_id"));
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new CustomerVoucherEntity(customerVoucherId, customerId, voucherId, createdAt);
-    };
-
 
     @Override
     public CustomerVoucherEntity insert(CustomerVoucherEntity customerVoucherEntity) {

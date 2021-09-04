@@ -15,7 +15,8 @@ import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static org.prgrms.kdt.jdbcRepository.CustomerJdbcRepository.toUUID;
+import static org.prgrms.kdt.utill.EntityUtill.toVoucherParamMap;
+import static org.prgrms.kdt.utill.EntityUtill.voucherEntityRowMapper;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
@@ -35,29 +36,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private final String DELETE_BY_ID_SQL = "delete from voucher where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String UPDATE_BY_ID_SQL = "update voucher set voucher_type = :voucherType, discount= :discount  where voucher_id = UUID_TO_BIN(:voucherId)";
 
-    private HashMap<String, Object> toParamMap(VoucherEntity voucherEntity) {
-        return new HashMap<>() {
-            {
-                put("voucherId", voucherEntity.getVoucherId().toString().getBytes());
-                put("voucherType", voucherEntity.getVoucherType());
-                put("discount", voucherEntity.getDiscount());
-                put("createdAt", Timestamp.valueOf(voucherEntity.getCreatedAt()));
-            }
-        };
-    }
-
-    public static RowMapper<VoucherEntity> voucherEntityRowMapper = (resultSet, i) -> {
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = resultSet.getString("voucher_type");
-        var discount = resultSet.getLong("discount");
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new VoucherEntity(voucherId, voucherType, discount, createdAt);
-    };
-
     @Override
     public VoucherEntity insert(VoucherEntity voucherEntity) {
         var update = jdbcTemplate.update(INSERT_SQL,
-                toParamMap(voucherEntity));
+                toVoucherParamMap(voucherEntity));
         if (update != 1) {
             throw new RuntimeException("Nothing was Inserted");
         }
@@ -68,7 +50,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public VoucherEntity update(VoucherEntity voucherEntity) {
         var update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
-                toParamMap(voucherEntity));
+                toVoucherParamMap(voucherEntity));
         if (update != 1) {
             throw new RuntimeException("Nothing was Updated");
         }
