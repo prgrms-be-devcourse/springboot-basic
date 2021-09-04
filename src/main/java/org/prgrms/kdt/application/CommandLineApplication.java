@@ -1,6 +1,5 @@
 package org.prgrms.kdt.application;
 
-import org.prgrms.kdt.engine.customer.service.CustomerService;
 import org.prgrms.kdt.engine.io.Console;
 import org.prgrms.kdt.engine.io.Input;
 import org.prgrms.kdt.engine.io.Output;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -56,7 +54,7 @@ public class CommandLineApplication {
                     var prompt = "comma separated UUID of voucher followed by UUID of customer : ";
                     var ids = input.inputCommand(prompt).split(",");
 
-                    if (!isIdValid(ids)) {
+                    if (invalidIdFormat(ids)) {
                         output.printIllegalInputError();
                         break;
                     }
@@ -72,7 +70,7 @@ public class CommandLineApplication {
                     var prompt = "UUID of the customer : ";
                     var id = input.inputCommand(prompt);
 
-                    if (!isIdValid(id)) {
+                    if (invalidIdFormat(id)) {
                         output.printIllegalInputError();
                         break;
                     }
@@ -87,7 +85,7 @@ public class CommandLineApplication {
                     var prompt = "UUID of the customer : ";
                     var id = input.inputCommand(prompt);
 
-                    if (!isIdValid(id)) {
+                    if (invalidIdFormat(id)) {
                         output.printIllegalInputError();
                         break;
                     }
@@ -123,21 +121,21 @@ public class CommandLineApplication {
         return Optional.of(voucherService.createVoucher(type, rate));
     }
 
-    private static boolean isIdValid(String id) {
+    private static boolean invalidIdFormat(String id) {
         try {
             UUID.fromString(id);
         } catch (IllegalArgumentException e) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
-    private static boolean isIdValid(String[] ids) {
+    private static boolean invalidIdFormat(String[] ids) {
         try {
             Arrays.stream(ids).forEach(UUID::fromString);
         } catch (IllegalArgumentException e) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }
