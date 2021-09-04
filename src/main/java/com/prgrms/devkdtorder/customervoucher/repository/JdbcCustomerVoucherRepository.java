@@ -32,7 +32,15 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);
         var expiredAt = resultSet.getTimestamp("expired_at") != null ?
                 resultSet.getTimestamp("expired_at").toLocalDateTime() : null;
-        return new CustomerVoucher(customerVoucherId, customerId, voucherId, used, usedAt, createdAt, expiredAt);
+        return CustomerVoucher.builder()
+                .customerVoucherId(customerVoucherId)
+                .customerId(customerId)
+                .voucherId(voucherId)
+                .used(used)
+                .usedAt(usedAt)
+                .createdAt(createdAt)
+                .expiredAt(expiredAt)
+                .build();
     };
 
 

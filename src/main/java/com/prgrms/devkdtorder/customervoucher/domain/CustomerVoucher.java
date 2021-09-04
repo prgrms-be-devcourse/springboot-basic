@@ -1,5 +1,7 @@
 package com.prgrms.devkdtorder.customervoucher.domain;
 
+import lombok.Builder;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,14 +15,14 @@ public class CustomerVoucher {
     private LocalDateTime createdAt;
     private final LocalDateTime expiredAt;
 
-    public CustomerVoucher(UUID customerVoucherId, UUID customerId, UUID voucherId, LocalDateTime expiredAt) {
+    private CustomerVoucher(UUID customerVoucherId, UUID customerId, UUID voucherId, LocalDateTime expiredAt) {
         this.customerVoucherId = customerVoucherId;
         this.customerId = customerId;
         this.voucherId = voucherId;
         this.expiredAt = expiredAt;
     }
-
-    public CustomerVoucher(UUID customerVoucherId, UUID customerId, UUID voucherId, boolean used, LocalDateTime usedAt, LocalDateTime createdAt, LocalDateTime expiredAt) {
+    @Builder
+    private CustomerVoucher(UUID customerVoucherId, UUID customerId, UUID voucherId, boolean used, LocalDateTime usedAt, LocalDateTime createdAt, LocalDateTime expiredAt) {
         this(customerVoucherId, customerId, voucherId, expiredAt);
         this.used = used;
         this.usedAt = usedAt;
