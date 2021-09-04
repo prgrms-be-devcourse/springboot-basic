@@ -26,6 +26,15 @@ public class CustomerJdbcRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
+    private final String SELECT_BY_NAME_SQL = "select * from customers where name = :name";
+    private final String SELECT_BY_EMAIL_SQL = "select * from customers where email = :email";
+    private final String SELECT_ALL_SQL = "select * from customers";
+    private final String INSERT_SQL = "insert into customers(customer_id, name, email, created_at) values (UUID_TO_BIN(:customerId), :name, :email, :createdAt)";
+    private final String DELETE_ALL_SQL = "delete from customers";
+    private final String UPDATE_BY_ID_SQL = "update customers set name = :name, email = :email, last_login_at = :lastLoginAt where customer_id = UUID_TO_BIN(:customerId)";
+
+
     private HashMap<String, Object> toParamMap(CustomerEntity customer) {
         return new HashMap<>() {
             {
@@ -54,7 +63,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public CustomerEntity insert(CustomerEntity customer) {
-        var update = jdbcTemplate.update("insert into customers(customer_id, name, email, created_at) values (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
+        var update = jdbcTemplate.update(INSERT_SQL,
                 toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Nothing was Inserted");
@@ -64,7 +73,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public CustomerEntity update(CustomerEntity customer) {
-        var update = jdbcTemplate.update("update customers set name = :name, email = :email, last_login_at = :lastLoginAt where customer_id = UUID_TO_BIN(:customerId)",
+        var update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
                 toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Nothing was Updated");
@@ -74,12 +83,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public List<CustomerEntity> findAll() {
-        return jdbcTemplate.query("select * from customers", customerEntityRowMapper);
+        return jdbcTemplate.query(SELECT_ALL_SQL, customerEntityRowMapper);
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from customers", Collections.emptyMap());
+        jdbcTemplate.update(DELETE_ALL_SQL, Collections.emptyMap());
     }
 
     @Override
@@ -103,7 +112,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Optional<CustomerEntity> findByName(String name) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where name = :name",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_NAME_SQL,
                     Collections.singletonMap("name", name),
                     customerEntityRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -115,7 +124,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Optional<CustomerEntity> findByEmail(String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where email = :email",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL_SQL,
                     Collections.singletonMap("email", email),
                     customerEntityRowMapper));
         } catch (EmptyResultDataAccessException e) {
