@@ -3,6 +3,7 @@ package org.prgrms.kdt.utill;
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.domain.CustomerVoucherEntity;
 import org.prgrms.kdt.domain.VoucherEntity;
+import org.prgrms.kdt.enumType.VoucherStatus;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -64,7 +65,7 @@ public class EntityUtill {
         return new HashMap<>() {
             {
                 put("voucherId", voucherEntity.getVoucherId().toString().getBytes());
-                put("voucherType", voucherEntity.getVoucherType());
+                put("voucherType", String.valueOf(voucherEntity.getVoucherType()));
                 put("discount", voucherEntity.getDiscount());
                 put("createdAt", Timestamp.valueOf(voucherEntity.getCreatedAt()));
             }
@@ -76,7 +77,7 @@ public class EntityUtill {
         var voucherType = resultSet.getString("voucher_type");
         var discount = resultSet.getLong("discount");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new VoucherEntity(voucherId, voucherType, discount, createdAt);
+        return new VoucherEntity(voucherId, VoucherStatus.valueOf(voucherType), discount, createdAt);
     };
 
 

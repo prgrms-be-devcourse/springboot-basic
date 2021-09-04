@@ -17,11 +17,11 @@ import java.util.UUID;
 public class VoucherEntity {
 
     private UUID voucherId;
-    private String voucherType;
+    private Enum<VoucherStatus> voucherType;
     private Long discount;
     private final LocalDateTime createdAt;
 
-    public VoucherEntity(UUID voucherId, String voucherType, Long discount, LocalDateTime createdAt) {
+    public VoucherEntity(UUID voucherId, Enum<VoucherStatus> voucherType, Long discount, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.discount = discount;

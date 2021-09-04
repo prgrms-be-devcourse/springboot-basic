@@ -8,8 +8,6 @@ public interface Voucher {
 
     UUID getVoucherId();
 
-    String getType();
-
     long discountCoupon();
 
     long discount(long beforeDiscount);

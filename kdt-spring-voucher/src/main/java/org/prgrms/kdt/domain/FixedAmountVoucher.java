@@ -17,11 +17,6 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public String getType() {
-        return "FIXED";
-    }
-
-    @Override
     public long discountCoupon() {
         return discount;
     }

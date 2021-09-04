@@ -28,10 +28,11 @@ public class VoucherService {
     private VoucherFactory voucherFactory;
 
     public VoucherEntity createVoucher(int voucherStatus) {
-        Voucher v = voucherFactory.getDiscounterVoucher(voucherStatus);
+        var voucherType = voucherStatus == 1 ? VoucherStatus.FIXED : VoucherStatus.PERCENT;
+        var v = voucherFactory.getDiscounterVoucher(voucherType);
         var voucherEntity = VoucherEntity.builder()
                 .voucherId(v.getVoucherId())
-                .voucherType(v.getType())
+                .voucherType(voucherType)
                 .discount(v.discountCoupon())
                 .createdAt(LocalDateTime.now())
                 .build();

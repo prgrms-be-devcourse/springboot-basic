@@ -19,15 +19,15 @@ public class VoucherFactoryImpl implements VoucherFactory {
     private IoConsole ioConsole = new IoConsole();
 
     @Override
-    public Voucher getDiscounterVoucher(int voucherStatus) {
+    public Voucher getDiscounterVoucher(VoucherStatus voucherStatus) {
 
         Voucher voucher = null;
         switch (voucherStatus) {
-            case 1:
-                voucher = setVoucherType("FIXED");
+            case FIXED:
+                voucher = setVoucherType(VoucherStatus.FIXED);
                 break;
-            case 2:
-                voucher = setVoucherType("PERCENT");
+            case PERCENT:
+                voucher = setVoucherType(VoucherStatus.PERCENT);
                 break;
             default:
                 ioConsole.inputError();
@@ -36,10 +36,10 @@ public class VoucherFactoryImpl implements VoucherFactory {
         return voucher;
     }
 
-    public Voucher setVoucherType(String type){
+    public Voucher setVoucherType(VoucherStatus type){
         ioConsole.message(type+" AmountVoucher를 선택하셨습니다.");
-        var discount = type.equals("FIXED") ? Long.parseLong(isDiscountNum(ioConsole)) : Long.parseLong(isPercentNum(ioConsole));
-        var voucher = VoucherStatus.valueOf(type).createVoucher(discount);
+        var discount = type.equals(VoucherStatus.FIXED)? Long.parseLong(isDiscountNum(ioConsole)) : Long.parseLong(isPercentNum(ioConsole));
+        var voucher = type.createVoucher(discount);
         ioConsole.message(type+" Voucher 생성이 완료되었습니다.");
         return voucher;
     }

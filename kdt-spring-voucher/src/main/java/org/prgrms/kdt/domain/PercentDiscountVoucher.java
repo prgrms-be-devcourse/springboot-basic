@@ -17,11 +17,6 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     @Override
-    public String getType() {
-        return "PERCENT";
-    }
-
-    @Override
     public long discountCoupon() {
         return percent;
     }

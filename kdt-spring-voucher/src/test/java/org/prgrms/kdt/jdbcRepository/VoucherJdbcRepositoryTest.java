@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.domain.VoucherEntity;
+import org.prgrms.kdt.enumType.VoucherStatus;
 import org.prgrms.kdt.repository.CustomerRepository;
 import org.prgrms.kdt.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +82,8 @@ class VoucherJdbcRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        testVoucher = new VoucherEntity(UUID.randomUUID(), "FIXED", 3000L, LocalDateTime.now());
-        testVoucher2 = new VoucherEntity(UUID.randomUUID(), "PERCENT", 15L, LocalDateTime.now());
+        testVoucher = new VoucherEntity(UUID.randomUUID(), VoucherStatus.FIXED, 3000L, LocalDateTime.now());
+        testVoucher2 = new VoucherEntity(UUID.randomUUID(), VoucherStatus.PERCENT, 15L, LocalDateTime.now());
         var mysqldConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
@@ -152,7 +153,7 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("바우처를 수정할 수 있다.")
     void testUpdate() {
         voucherRepository.insert(testVoucher);
-        var changeVoucher = new VoucherEntity(testVoucher.getVoucherId(),"PERCENT",14L,testVoucher.getCreatedAt());
+        var changeVoucher = new VoucherEntity(testVoucher.getVoucherId(),VoucherStatus.PERCENT,14L,testVoucher.getCreatedAt());
 
         voucherRepository.update(changeVoucher);
         var retrivedChangeVoucher = voucherRepository.findById(changeVoucher.getVoucherId());

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.domain.CustomerVoucherEntity;
 import org.prgrms.kdt.domain.VoucherEntity;
+import org.prgrms.kdt.enumType.VoucherStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -87,8 +88,8 @@ class CustomerVoucherRepositoryTest {
     void setUp() {
         testCustomer = new CustomerEntity(UUID.randomUUID(), "test-name", "test-user@naver.com", LocalDateTime.now());
         testCustomer2 = new CustomerEntity(UUID.randomUUID(), "test-name2", "test-user@naver.com2", LocalDateTime.now());
-        testVoucher = new VoucherEntity(UUID.randomUUID(), "FIXED", 3000L, LocalDateTime.now());
-        testVoucher2 = new VoucherEntity(UUID.randomUUID(), "PERCENT", 15L, LocalDateTime.now());
+        testVoucher = new VoucherEntity(UUID.randomUUID(), VoucherStatus.FIXED, 3000L, LocalDateTime.now());
+        testVoucher2 = new VoucherEntity(UUID.randomUUID(), VoucherStatus.PERCENT, 15L, LocalDateTime.now());
         testCase = new CustomerVoucherEntity(UUID.randomUUID(), testCustomer.getCustomerId(),testVoucher.getVoucherId(),LocalDateTime.now());
         testCase2 = new CustomerVoucherEntity(UUID.randomUUID(), testCustomer2.getCustomerId(),testVoucher2.getVoucherId(),LocalDateTime.now());
         testCase3 = new CustomerVoucherEntity(UUID.randomUUID(), testCustomer.getCustomerId(),testVoucher2.getVoucherId(),LocalDateTime.now());
