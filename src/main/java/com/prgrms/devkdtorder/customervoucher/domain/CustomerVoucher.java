@@ -10,21 +10,21 @@ public class CustomerVoucher {
     private final UUID voucherId;
     private boolean used;
     private LocalDateTime usedAt;
-    private final LocalDateTime createdAt;
-    private LocalDateTime expiredAt;
+    private LocalDateTime createdAt;
+    private final LocalDateTime expiredAt;
 
-    public CustomerVoucher(UUID customerVoucherId, UUID customerId, UUID voucherId, LocalDateTime createdAt) {
+    public CustomerVoucher(UUID customerVoucherId, UUID customerId, UUID voucherId, LocalDateTime expiredAt) {
         this.customerVoucherId = customerVoucherId;
         this.customerId = customerId;
         this.voucherId = voucherId;
-        this.createdAt = createdAt;
+        this.expiredAt = expiredAt;
     }
 
     public CustomerVoucher(UUID customerVoucherId, UUID customerId, UUID voucherId, boolean used, LocalDateTime usedAt, LocalDateTime createdAt, LocalDateTime expiredAt) {
-        this(customerVoucherId, customerId, voucherId, createdAt);
+        this(customerVoucherId, customerId, voucherId, expiredAt);
         this.used = used;
         this.usedAt = usedAt;
-        this.expiredAt = expiredAt;
+        this.createdAt = createdAt;
     }
 
     public UUID getCustomerVoucherId() {
