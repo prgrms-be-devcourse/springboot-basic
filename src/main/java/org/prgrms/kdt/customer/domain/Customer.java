@@ -1,29 +1,61 @@
 package org.prgrms.kdt.customer.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
-    private UUID uuid;
-    private String name;
-    private boolean isBanned;
 
-    public Customer(String[] customerInfo) {
-        this.uuid = UUID.randomUUID();
-        this.name = customerInfo[0];
-        this.isBanned = Boolean.parseBoolean(customerInfo[1]);
+    private final UUID customerId;
+    private String name;
+    private final String email;
+    private LocalDateTime lastLoginAt;
+    private final LocalDateTime createdAt;
+
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+        validateName(name);
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.createdAt = createdAt;
+    }
+
+    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+        validateName(name);
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
+    }
+
+    public void changeName(String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    private void validateName(String name) {
+        if (name.isBlank()) {
+            throw new RuntimeException("Name should not be blank");
+        }
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
     }
 
     public String getName() {
         return name;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public String getEmail() {
+        return email;
     }
 
-    public boolean isBanned() { return isBanned; }
-    public String toString() { return "회원 번호 : " + this.getUuid() + " | " +
-            " 회원 이름 : " + this.getName() + " | " +
-            " 회원 분류 : " + (this.isBanned ? "black customer" : "customer");
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
