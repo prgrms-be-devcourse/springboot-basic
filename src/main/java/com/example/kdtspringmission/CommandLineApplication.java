@@ -54,14 +54,10 @@ public class CommandLineApplication {
 
         if (command == Command.ASSIGN_VOUCHER) {
             outputView.customerList(customerService.allCustomers());
-            System.out.println();
-            System.out.println("Type customer name: ");
-            String customerName = inputView.nextLine();
+            String customerName = inputView.getCustomerName();
 
             outputView.voucherList(voucherService.findAll());
-            System.out.println();
-            System.out.println("Type voucher ID: ");
-            UUID voucherId = UUID.fromString(inputView.nextLine());
+            UUID voucherId = inputView.getVoucherId();
 
             customerService.assignVoucher(customerName, voucherId);
         }

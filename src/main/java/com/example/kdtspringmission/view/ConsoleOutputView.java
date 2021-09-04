@@ -15,7 +15,8 @@ public class ConsoleOutputView implements OutputView{
             + "Type 'create' to create voucher\n"
             + "Type 'list' to list vouchers\n"
             + "Type 'blacklist' to list blacklist\n"
-            + "Type 'customers' to list customers");
+            + "Type 'customers' to list customers\n"
+            + "Type 'assign_voucher' to assign a voucher to a customer");
     }
 
     @Override
