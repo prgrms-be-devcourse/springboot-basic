@@ -2,7 +2,6 @@ package org.prgrms.kdt.voucher.service;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,8 +12,12 @@ import java.util.UUID;
 @Service
 public class VoucherService {
 
-    @Autowired
-    private VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
+
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }
+
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
