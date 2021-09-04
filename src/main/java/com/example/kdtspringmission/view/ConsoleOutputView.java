@@ -18,7 +18,8 @@ public class ConsoleOutputView implements OutputView{
             + "Type 'customers' to list customers\n"
             + "Type 'assign_voucher' to assign a voucher to a customer\n"
             + "Type 'list_by_owner' to list vouchers the customer has\n"
-            + "Type 'delete_voucher' to remove voucher from the customer's wallet");
+            + "Type 'delete_voucher' to remove voucher from the customer's wallet\n"
+            + "Type 'find_owner' to find a customer who own a particular voucher");
     }
 
     @Override

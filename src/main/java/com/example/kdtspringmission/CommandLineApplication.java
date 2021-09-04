@@ -83,6 +83,14 @@ public class CommandLineApplication {
             return;
         }
 
+        if (command == Command.FIND_OWNER) {
+            outputView.voucherList(voucherService.findAll());
+            UUID voucherId = inputView.getVoucherId();
+
+            System.out
+                .println(customerService.getCustomerOwn(voucherService.getVoucher(voucherId)));
+        }
+
     }
 
 }

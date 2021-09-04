@@ -41,6 +41,10 @@ public class CustomerService {
         voucherService.update(voucher);
     }
 
+    public Customer getCustomerOwn(Voucher voucher) {
+        return customerRepository.findById(voucher.getOwnerId()).orElseThrow(() -> new IllegalArgumentException("No matched ID"));
+    }
+
     public List<Voucher> getWallet(String customerName) {
         Customer customer = customerRepository.findByName(customerName).orElseThrow(() -> new IllegalArgumentException("No matched name"));
         return voucherService.findVouchersByOwnerId(customer.getCustomerId());
