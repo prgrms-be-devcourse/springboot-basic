@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.order;
 
 import java.util.UUID;
 
@@ -7,7 +7,7 @@ public class OrderItem {
   public final long productPrice;
   public final long quantity;
 
-  public OrderItem(UUID productId, long productPrice, int quantity) {
+  public OrderItem(UUID productId, long productPrice, long quantity) {
     this.productId = productId;
     this.productPrice = productPrice;
     this.quantity = quantity;

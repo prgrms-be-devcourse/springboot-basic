@@ -1,4 +1,7 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.voucher.service;
+
+import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
 
 import java.text.MessageFormat;
 import java.util.UUID;
