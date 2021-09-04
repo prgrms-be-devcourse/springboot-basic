@@ -25,6 +25,7 @@ public class Customer {
         this.username = username;
         this.alias = alias;
         this.blacklisted = false;
+        this.createdAt = LocalDate.now();
     }
 
     public long getId() {
@@ -78,5 +79,20 @@ public class Customer {
     @Override
     public String toString() {
         return String.format("[ CUSTOMER #%d ] %s(%s) / %s / %s", id, username, alias, blacklisted ? "blacked" : "clean", createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Customer)) return false;
+        Customer other = (Customer) obj;
+        return this.id == other.getId() &&
+                this.username.equals(other.getUsername()) &&
+                this.alias.equals(other.getAlias()) &&
+                this.createdAt.equals(other.getCreatedAt());
     }
 }
