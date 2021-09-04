@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,10 +21,14 @@ import java.util.UUID;
 public class CsvBlackListRepository implements CustomerRepository{
 
     private List<Customer> customerList = new ArrayList<>();
-    private File file;
 
-    @Value("${csv.customer-blacklist.file-path}")
+    @Value("${csv.file-path}")
     private String filePath;
+
+    @Value("${csv.customer-blacklist.file-name}")
+    private String fileName;
+
+    private String basePath = System.getProperty("user.dir");
 
     @Override
     public void insert(Customer customer) {
@@ -37,9 +42,8 @@ public class CsvBlackListRepository implements CustomerRepository{
 
     @PostConstruct
     public void loadCsv() throws IOException {
-        ClassPathResource resource = new ClassPathResource(filePath);
-        file = resource.getFile();
-        try(BufferedReader br = new BufferedReader(new FileReader(file));){
+        String absoluteFilePath = basePath + filePath + fileName;
+        try(BufferedReader br = new BufferedReader(new FileReader(absoluteFilePath));){
             String row = "";
             while((row = br.readLine()) != null){
                 insert(new Customer(row));

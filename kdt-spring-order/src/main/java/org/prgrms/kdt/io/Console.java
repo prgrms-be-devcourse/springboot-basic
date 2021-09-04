@@ -1,17 +1,24 @@
 package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.customer.domain.Customer;
+import org.prgrms.kdt.order.OrderTester;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class Console implements Input, Output{
     Scanner scanner = new Scanner(System.in);
+    // 로거 생성
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
 
     // 시스템 시작시 안내 문구
     @Override
     public void printInitText() {
+        logger.info("Voucher Application 실행");
         System.out.println("=== Voucher Program ===");
         System.out.println("Type exit to exit the program.");
         System.out.println("Type create to create a new voucher.");
@@ -20,22 +27,23 @@ public class Console implements Input, Output{
 
     @Override
     public void printExitText() {
-        System.out.println("프로그램을 종료합니다.");
+        logger.info("Voucher Application 종료");
     }
 
     // 커맨드 오류시 에러출력
     @Override
     public void printCommandError(String command) {
-        System.out.println(command + "는 올바르지 않는 명령어입니다.");
+        logger.error("올바르지 않은 명령어 입력 : {}", command);
     }
 
     @Override
     public void printSuccess() {
-        System.out.println("Voucher 생성이 완료되었습니다!");
+        logger.info("Voucher 생성 완료");
     }
 
     @Override
     public void printVoucherList(List<Voucher> voucherList) {
+        logger.info("Voucher 리스트 조회");
         System.out.println("-----------------------------------------------------------------------");
         for(Voucher voucher : voucherList){
             System.out.println(
@@ -56,13 +64,21 @@ public class Console implements Input, Output{
         System.out.println("-----------------------------------------------------------------------");
     }
 
-    // 커맨드 입력받기
     @Override
-    public String inputCommand(String prompt) {
-        System.out.print(prompt);
+    public String inputCommand() {
+        System.out.print("명령어를 입력하세요(create/list/exit) : ");
         return scanner.nextLine();
     }
 
+    @Override
+    public String inputVoucherType() {
+        System.out.print("바우처 종류를 고르세요(fixed/percent) : ");
+        return scanner.nextLine();
+    }
 
-
+    @Override
+    public Long inputVoucherValue() {
+        System.out.print("할인가격 or 할인율을 입력하세요 : ");
+        return Long.parseLong(scanner.nextLine());
+    }
 }

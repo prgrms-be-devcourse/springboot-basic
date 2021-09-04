@@ -1,5 +1,9 @@
+spring:
+  profiles:
+    active: prod
 csv:
+  file-path : /src/main/resources/csv/
   voucher-repository:
-    file-path : 'csv/voucher_list.csv'
+    file-name : voucher_list.csv
   customer-blacklist:
-    file-path : 'csv/customer_blacklist.csv'
+    file-name : customer_blacklist.csv

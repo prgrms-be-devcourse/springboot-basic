@@ -19,17 +19,17 @@ public class VoucherController {
     public void run() {
         // 프로그램 시작
         while (true) {
-            String command = console.inputCommand("명령어를 입력하세요(create/list/exit) : ");
+            String command = console.inputCommand();
             switch (command) {
                 // voucher 생성
                 case "create" -> {
                     // voucher 타입 선택
-                    String inputType = console.inputCommand("바우처 종류를 고르세요(fixed/percent) : ");
+                    String inputType = console.inputVoucherType();
                     VoucherType voucherType = VoucherType.convert(inputType);
                     switch (voucherType){
                         case FIXED, PERCENT -> {
-                            long value = Long.parseLong(console.inputCommand("할인가격or할인율을 입력하세요 : "));
-                            voucherService.createVoucher(UUID.randomUUID(), voucherType, value);
+                            long voucherValue = console.inputVoucherValue();
+                            voucherService.createVoucher(UUID.randomUUID(), voucherType, voucherValue);
                             console.printSuccess();
                         }
                         case UNDEFINED -> {
