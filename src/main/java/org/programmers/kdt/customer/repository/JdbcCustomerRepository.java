@@ -3,7 +3,6 @@ package org.programmers.kdt.customer.repository;
 import org.programmers.kdt.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -112,6 +111,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public List<Customer> findAllBlacklistCustomer() {
 		return jdbcTemplate.query(SQL_SELECT_ALL.formatted(customerBlacklistTable), rowMapper);
+	}
+
+	@Override
+	public Optional<Customer> findCustomerOnBlacklistById(UUID customerId) {
+		try {
+			return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_CUSTOMER_BY_ID.formatted(customerBlacklistTable),
+					Collections.singletonMap("customer_id", customerId.toString().getBytes()),
+					rowMapper));
+		} catch (EmptyResultDataAccessException e) {
+			logger.error("No Such Customer(ID: {0}) Exists on Blacklist. -> {}", customerId, e);
+			return Optional.empty();
+		}
 	}
 
 	private final RowMapper<Customer> rowMapper = (resultSet, rowNum) -> {

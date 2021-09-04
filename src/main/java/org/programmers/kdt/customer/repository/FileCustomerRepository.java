@@ -146,6 +146,12 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findCustomerOnBlacklistById(UUID customerId) {
+        // TODO: Implement
+        return Optional.empty();
+    }
+
+    @Override
     public void deleteCustomer(UUID customerId) {
         // FIXME : 매번 전체 파일을 다시 써야 하므로 성능저하 발생. 해결 필요
         if (null != cache4Blacklist.remove(customerId)) {

@@ -74,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean isOnBlacklist(Customer customer) {
-        return customerRepository.findAllBlacklistCustomer().contains(customer);
+        return customerRepository.findCustomerOnBlacklistById(customer).isPresent();
     }
 
     @Override

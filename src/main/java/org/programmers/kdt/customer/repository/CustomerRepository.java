@@ -21,6 +21,10 @@ public interface CustomerRepository {
 
     Customer registerToBlacklist(Customer customer);
     List<Customer> findAllBlacklistCustomer();
+    Optional<Customer> findCustomerOnBlacklistById(UUID customerId);
+    default Optional<Customer> findCustomerOnBlacklistById(Customer customer) {
+        return findCustomerOnBlacklistById(customer.getCustomerId());
+    }
 
     void deleteAll();
 }
