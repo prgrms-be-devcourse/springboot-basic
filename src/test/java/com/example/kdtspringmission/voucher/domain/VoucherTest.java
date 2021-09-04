@@ -19,12 +19,12 @@ public class VoucherTest {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID());
 
         // when
-        voucher.setOwner(customer);
+        voucher.setOwnerId(customer.getCustomerId());
 
         System.out.println("voucher = " + voucher.getClass().getSimpleName());
 
         // then
-        assertThat(voucher.getOwner()).isEqualTo(customer);
+        assertThat(voucher.getOwnerId()).isEqualTo(customer);
     }
 
 }

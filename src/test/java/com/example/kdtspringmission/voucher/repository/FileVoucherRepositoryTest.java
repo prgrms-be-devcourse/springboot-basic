@@ -1,14 +1,12 @@
-package com.example.kdtspringmission.voucher;
+package com.example.kdtspringmission.voucher.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.RateAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.Voucher;
-import com.example.kdtspringmission.voucher.repository.FileVoucherRepository;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FileVoucherRepositoryTest {
@@ -17,7 +15,7 @@ public class FileVoucherRepositoryTest {
 
     @AfterEach
     void afterEach() {
-        fileVoucherRepository.clear();
+        fileVoucherRepository.deleteAll();
     }
 
     @Test
@@ -35,7 +33,7 @@ public class FileVoucherRepositoryTest {
         FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 500L);
         fileVoucherRepository.insert(voucher);
         FixedAmountVoucher findVoucher = (FixedAmountVoucher) fileVoucherRepository.findById(voucher.getId());
-        assertThat(voucher.getAmount()).isEqualTo(findVoucher.getAmount());
+        assertThat(voucher.getDiscountAmount()).isEqualTo(findVoucher.getDiscountAmount());
     }
 
     @Test
@@ -43,7 +41,7 @@ public class FileVoucherRepositoryTest {
         RateAmountVoucher voucher = new RateAmountVoucher(UUID.randomUUID(), 20);
         fileVoucherRepository.insert(voucher);
         RateAmountVoucher findVoucher = (RateAmountVoucher) fileVoucherRepository.findById(voucher.getId());
-        assertThat(voucher.getPercent()).isEqualTo(findVoucher.getPercent());
+        assertThat(voucher.getDiscountAmount()).isEqualTo(findVoucher.getDiscountAmount());
     }
 
     @Test

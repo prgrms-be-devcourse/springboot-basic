@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 //@Profile({"local", "test"})
 public class MemoryVoucherRepository implements VoucherRepository {
 
@@ -28,12 +28,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(store.values());
     }
 
     @Override
-    public void clear() {
+    public void deleteAll() {
         store.clear();
     }
 }

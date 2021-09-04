@@ -55,6 +55,11 @@ public class FileVoucherRepository implements VoucherRepository{
         return findVoucher(id, fileName);
     }
 
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
     private Voucher findVoucher(UUID id, String fileName) {
         Matcher matcher = amountPattern.matcher(fileName);
         if (fileName.contains(VOUCHER_TYPE_FIXED)) {
@@ -100,7 +105,7 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public void clear() {
+    public void deleteAll() {
         Arrays.stream(resources.listFiles())
             .filter(file -> !file.isDirectory())
             .forEach(File::delete);

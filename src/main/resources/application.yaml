@@ -1,1 +1,5 @@
-logging.level.root: info
+spring:
+  datasource:
+    username: root
+    password: root1234!
+    url: jdbc:mysql://localhost:3306/order_mgmt

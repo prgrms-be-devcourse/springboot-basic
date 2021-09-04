@@ -3,7 +3,6 @@ package com.example.kdtspringmission.customer.repository;
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.*;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static com.wix.mysql.config.Charset.UTF8;
@@ -22,7 +21,6 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -99,7 +97,7 @@ class CustomerJdbcRepositoryTest {
             .build();
 
         embeddedMysql = anEmbeddedMysql(config)
-            .addSchema("test-order_mgmt", classPathScript("schema.sql"))
+            .addSchema("test-order_mgmt", classPathScript("sql/test-schema.sql"))
             .start();
     }
 

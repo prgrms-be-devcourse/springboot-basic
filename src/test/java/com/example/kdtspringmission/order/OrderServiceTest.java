@@ -8,6 +8,7 @@ import com.example.kdtspringmission.voucher.repository.MemoryVoucherRepository;
 import com.example.kdtspringmission.voucher.service.VoucherService;
 import java.util.List;
 import java.util.UUID;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
@@ -46,6 +47,7 @@ class OrderServiceTest {
 
     @Test
     @DisplayName("주문이 생성되어야 한다 - mock")
+    @Disabled
     void testCreateOrderByMock() {
         // given
         VoucherService voucherServiceMock = mock(VoucherService.class);

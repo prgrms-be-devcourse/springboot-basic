@@ -7,13 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class LoggingAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-    @Around("execution(public * com.example.kdtspringmission..*Repository.*())")
+//    @Around("execution(public * com.example.kdtspringmission..*Repository.*())")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         logger.info("before method call");
         Object result = joinPoint.proceed();

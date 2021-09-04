@@ -5,8 +5,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component
-@ConfigurationProperties(prefix = "kdt")
+//@Component
+//@ConfigurationProperties(prefix = "kdt")
 public class OrderProperty implements InitializingBean {
 
     private String version;

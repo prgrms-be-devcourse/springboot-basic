@@ -1,10 +1,9 @@
-package com.example.kdtspringmission.voucher;
+package com.example.kdtspringmission.voucher.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.Voucher;
-import com.example.kdtspringmission.voucher.repository.MemoryVoucherRepository;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ class MemoryVoucherRepositoryTest {
 
     @BeforeEach
     void beforeEach() {
-        voucherRepository.clear();
+        voucherRepository.deleteAll();
     }
 
 

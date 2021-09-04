@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.RateAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.Voucher;
-import com.example.kdtspringmission.voucher.domain.VoucherType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -29,21 +28,4 @@ public class VoucherFactoryTest {
         assertThat(group).isEqualTo("FixedAmountVoucher");
     }
 
-    @Test
-    void testSupport() {
-
-        RateAmountVoucher rateAmountVoucher = new RateAmountVoucher(UUID.randomUUID());
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID());
-        List<Voucher> vouchers = Arrays.asList(rateAmountVoucher,
-            fixedAmountVoucher);
-
-        VoucherType type = VoucherType.getType("FixedAmountVoucher");
-
-        Voucher supportVoucher = vouchers.stream()
-            .filter(voucher -> voucher.support(type))
-            .findFirst()
-            .orElseThrow(IllegalArgumentException::new);
-
-        assertThat(fixedAmountVoucher).isEqualTo(supportVoucher);
-    }
 }
