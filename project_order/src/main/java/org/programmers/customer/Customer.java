@@ -11,6 +11,7 @@ public class Customer {
     private final String email;
     private final LocalDateTime createdAt;
     private LocalDateTime lastLoginAt;
+    private CustomerType customerType;
 
     public Customer(UUID customerId, String name, Gender gender, String email, LocalDateTime createdAt) {
         validateName(name);
@@ -20,9 +21,10 @@ public class Customer {
         this.gender = gender;
         this.email = email;
         this.createdAt = createdAt;
+        this.customerType = CustomerType.GENERAL;
     }
 
-    public Customer(UUID customerId, String name, Gender gender, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
+    public Customer(UUID customerId, String name, Gender gender, String email, LocalDateTime createdAt, CustomerType customerType) {
         validateName(name);
 
         this.customerId = customerId;
@@ -30,7 +32,7 @@ public class Customer {
         this.gender = gender;
         this.email = email;
         this.createdAt = createdAt;
-        this.lastLoginAt = lastLoginAt;
+        this.customerType = customerType;
     }
 
     private void validateName(String name) {
@@ -39,7 +41,7 @@ public class Customer {
         }
     }
 
-    private void changeName(String name){
+    private void changeName(String name) {
         validateName(name);
 
         this.name = name;
@@ -49,14 +51,20 @@ public class Customer {
         this.lastLoginAt = LocalDateTime.now();
     }
 
+    public void changeCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
                 "customerId=" + customerId +
                 ", name='" + name + '\'' +
                 ", gender=" + gender +
+                ", email='" + email + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastLoginAt=" + lastLoginAt +
+                ", customerType=" + customerType +
                 '}';
     }
 
