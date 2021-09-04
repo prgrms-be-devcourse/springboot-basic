@@ -40,45 +40,52 @@ public class CommandLineApplication {
 
             CommandType commandType = CommandType.valueOf(command.toUpperCase());
             switch (commandType) {
-                case CREATE:
-                    String prompt = "'fixed' for fixed voucher, 'percent' for percent voucher : "
+                case CREATE: {
+                    String prompt = "'fixed' for fixed voucher, 'percent' for percent voucher : ";
                     String typeName = input.inputCommand(prompt);
                     Optional<Voucher> voucher = createVoucher(typeName);
                     voucher.ifPresentOrElse(output::createVoucher, output::printIllegalInputError);
                     break;
+                }
 
-                case LIST:
+                case LIST: {
                     Optional<Map<UUID, Voucher>> voucherList = voucherService.listVoucher();
                     voucherList.ifPresentOrElse(output::listVoucher, output::printVoucherListNotFoundError);
                     break;
+                }
 
-                case ALLOCATE_CUSTOMER:
+                case ALLOCATE_CUSTOMER: {
                     var prompt = "comma separated UUID of voucher followed by UUID of customer : ";
                     var uuids = input.inputCommand(prompt).split(",");
                     voucherService.setVoucherCustomer(uuids);
                     output.allocateCustomer(uuids);
                     break;
+                }
 
-                case LIST_CUSTOMER_VOUCHERS:
-                    prompt = "UUID of the customer : ";
+                case LIST_CUSTOMER_VOUCHERS: {
+                    var prompt = "UUID of the customer : ";
                     var customerId = input.inputCommand(prompt);
-                    voucherList = voucherService.listCustomerVoucher(customerId);
+                    var voucherList = voucherService.listCustomerVoucher(customerId);
                     voucherList.ifPresentOrElse(output::listVoucher, output::printVoucherListNotFoundError);
                     break;
+                }
 
-                case DELETE_CUSTOMER_VOUCHER:
-                    prompt = "UUID of the customer : ";
-                    customerId = input.inputCommand(prompt);
+                case DELETE_CUSTOMER_VOUCHER: {
+                    var prompt = "UUID of the customer : ";
+                    var customerId = input.inputCommand(prompt);
                     voucherService.deleteCustomerVoucher(customerId);
                     output.deleteCustomerVoucher(customerId);
                     break;
+                }
 
-                case GET_VOUCHER_OWNER:
+                case GET_VOUCHER_OWNER: {
                     break;
+                }
 
-                case EXIT:
+                case EXIT: {
                     System.exit(0);
                     break;
+                }
             }
         }
     }
