@@ -93,7 +93,28 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
     }
 
     @Override
+    public List<CustomerVoucher> findByCustomerId(UUID customerId) {
+        String sql = "SELECT * FROM customer_voucher WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))";
+        return jdbcTemplate.query(sql,
+                Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                customerVoucherRowMapper);
+    }
+
+    @Override
+    public List<CustomerVoucher> findByVoucherId(UUID voucherId) {
+        String sql = "SELECT * FROM customer_voucher WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
+        return jdbcTemplate.query(sql,
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                customerVoucherRowMapper);
+    }
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.getJdbcTemplate().update("DELETE FROM customer_voucher");
+    }
+
+    @Override
+    public void deleteById(UUID customerVoucherId) {
+        jdbcTemplate.getJdbcTemplate().update("DELETE FROM customer_voucher WHERE customer_voucher_id = UNHEX(REPLACE(:customerVoucherId, '-', ''))");
     }
 }
