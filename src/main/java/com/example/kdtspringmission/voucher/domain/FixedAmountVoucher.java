@@ -8,11 +8,17 @@ public class FixedAmountVoucher implements Voucher{
 
     private final UUID id;
     private final long discountAmount;
-    private Customer owner;
+    private UUID ownerId;
 
     public FixedAmountVoucher(UUID id, long discountAmount) {
         this.id = id;
         this.discountAmount = discountAmount;
+    }
+
+    public FixedAmountVoucher(UUID id, long discountAmount, UUID ownerId) {
+        this.id = id;
+        this.discountAmount = discountAmount;
+        this.ownerId = ownerId;
     }
 
     public FixedAmountVoucher(UUID id) {
@@ -29,28 +35,30 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public boolean support(VoucherType type) {
-        return type.equals(VoucherType.FIX);
+    public void setOwnerId(UUID ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public UUID getOwnerId() {
+        return ownerId;
     }
 
     @Override
-    public void setOwner(Customer owner) {
-        this.owner = owner;
-    }
-
-    public Customer getOwner() {
-        return owner;
-    }
-
     public long getDiscountAmount() {
         return discountAmount;
+    }
+
+    @Override
+    public String getTypeName() {
+        return this.getClass().getSimpleName();
     }
 
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
             "id=" + id +
-            ", amount=" + discountAmount +
+            ", discountAmount=" + discountAmount +
+            ", ownerId=" + ownerId +
             '}';
     }
 

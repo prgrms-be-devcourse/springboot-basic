@@ -51,7 +51,7 @@ public class Customer {
     }
 
     public Voucher addVoucher(Voucher voucher) {
-        voucher.setOwner(this);
+        voucher.setOwnerId(customerId);
         wallet.add(voucher);
         return voucher;
     }

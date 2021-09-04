@@ -1,5 +1,5 @@
 package com.example.kdtspringmission;
 
 public enum Command {
-    EXIT, CREATE, LIST, BLACKLIST, CUSTOMERS
+    EXIT, CREATE, LIST, BLACKLIST, CUSTOMERS, ASSIGN_VOUCHER;
 }

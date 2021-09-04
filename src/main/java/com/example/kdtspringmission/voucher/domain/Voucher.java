@@ -8,9 +8,11 @@ public interface Voucher {
 
     UUID getId();
 
-    boolean support(VoucherType type);
+    void setOwnerId(UUID customer);
 
-    void setOwner(Customer customer);
+    String getTypeName();
 
-    Customer getOwner();
+    long getDiscountAmount();
+
+    UUID getOwnerId();
 }

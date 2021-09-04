@@ -34,6 +34,10 @@ public class VoucherService {
         return voucherRepository.insert(this.create(type));
     }
 
+    public Voucher update(Voucher voucher) {
+        return voucherRepository.update(voucher);
+    }
+
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId);
     }

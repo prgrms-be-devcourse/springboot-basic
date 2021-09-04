@@ -4,6 +4,7 @@ import com.example.kdtspringmission.customer.service.CustomerService;
 import com.example.kdtspringmission.view.InputView;
 import com.example.kdtspringmission.view.OutputView;
 import com.example.kdtspringmission.voucher.service.VoucherService;
+import java.util.UUID;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -44,10 +45,25 @@ public class CommandLineApplication {
 
         if (command == Command.LIST) {
             outputView.voucherList(voucherService.findAll());
+            return;
         }
 
         if (command == Command.CUSTOMERS) {
             outputView.customerList(customerService.allCustomers());
+        }
+
+        if (command == Command.ASSIGN_VOUCHER) {
+            outputView.customerList(customerService.allCustomers());
+            System.out.println();
+            System.out.println("Type customer name: ");
+            String customerName = inputView.nextLine();
+
+            outputView.voucherList(voucherService.findAll());
+            System.out.println();
+            System.out.println("Type voucher ID: ");
+            UUID voucherId = UUID.fromString(inputView.nextLine());
+
+            customerService.assignVoucher(customerName, voucherId);
         }
 
     }
