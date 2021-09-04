@@ -19,17 +19,14 @@ import java.util.UUID;
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.prgrms.kdt.engine"})
 public class CommandLineApplication {
-    private static final String PROFILE = "local";
     private static final Input input = new Console();
     private static final Output output = new Console();
     private static VoucherService voucherService;
-    private static CustomerService customerService;
 
     public static void main(String[] args) {
         var springApplication = new SpringApplication(CommandLineApplication.class);
         var applicationContext = springApplication.run(args);
         voucherService = applicationContext.getBean(VoucherService.class);
-        customerService = applicationContext.getBean(CustomerService.class);
 
         output.help();
         while (true) {
