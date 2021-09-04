@@ -54,7 +54,7 @@ public class CustomerVoucherManagingApplication implements Runnable {
 		boolean termi = false;
 
 		while (!termi) {
-			Command command = Command.getCommand(requestCommandMessage, Command.getCustomerVoucherManagingApplicationCommand(),
+			Command command = Command.getCommandFromInput(requestCommandMessage, Command.getCustomerVoucherManagingApplicationCommand(),
 					input, output);
 			if (command == null) continue;
 

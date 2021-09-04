@@ -26,7 +26,6 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
-
     @Override
     public Customer signUp(UUID customerId, String name, String email) {
         LocalDateTime now = LocalDateTime.now();

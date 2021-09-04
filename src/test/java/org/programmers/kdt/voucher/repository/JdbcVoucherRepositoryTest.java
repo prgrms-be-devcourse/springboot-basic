@@ -1,11 +1,11 @@
 package org.programmers.kdt.voucher.repository;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.programmers.kdt.voucher.FixedAmountVoucher;
 import org.programmers.kdt.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -17,15 +17,17 @@ import static org.assertj.core.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ActiveProfiles("local")
-@SpringBootTest
 class JdbcVoucherRepositoryTest {
 	List<Voucher> list = new ArrayList<>();
 
-	@Autowired
-	VoucherRepository voucherRepository;
-	@Autowired
-	DataSource dataSource;
+	DataSource dataSource = DataSourceBuilder.create()
+			.url("jdbc:mysql://localhost:3306/order_mgmt")
+			.username("root")
+			.password("root1234!")
+			.type(HikariDataSource .class)
+			.build();
+	VoucherRepository voucherRepository = new JdbcVoucherRepository(new NamedParameterJdbcTemplate(dataSource), "test_vouchers");
+
 
 	@AfterAll
 	void cleanup() {
@@ -67,7 +69,6 @@ class JdbcVoucherRepositoryTest {
 	@DisplayName("전체 바우처 조회하기")
 	void findAll() {
 		List<Voucher> allVoucher = voucherRepository.findAll();
-		// TODO: 테스트용 테이블 분리하기 (Customer 쪽도 마찬가지)
 		assertThat(allVoucher).contains(list.get(0));
 		assertThat(allVoucher).contains(list.get(1));
 		assertThat(allVoucher).contains(list.get(2));

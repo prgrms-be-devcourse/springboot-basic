@@ -4,3 +4,11 @@ spring:
     url: jdbc:mysql://localhost:3306/order_mgmt
     username: root
     password: "root1234!"
+    table:
+      customers: "customers"
+      customers-blacklist: "customers_blacklist"
+      vouchers: "vouchers"
+  file:
+    customer-list: "customer.csv"
+    customer-blacklist: "customer_blacklist.csv"
+    voucher-list: "VoucherData.txt"

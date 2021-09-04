@@ -1,10 +1,9 @@
 package org.programmers.kdt.customer.repository;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.programmers.kdt.customer.Customer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
@@ -17,15 +16,16 @@ import static org.assertj.core.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ActiveProfiles("local")
-@SpringBootTest
 class JdbcCustomerRepositoryTest {
 	List<Customer> list = new ArrayList<>();
 
-	@Autowired
-	CustomerRepository customerRepository;
-	@Autowired
-	DataSource dataSource;
+	DataSource dataSource = DataSourceBuilder.create()
+			.url("jdbc:mysql://localhost:3306/order_mgmt")
+			.username("root")
+			.password("root1234!")
+			.type(HikariDataSource.class)
+			.build();
+	CustomerRepository customerRepository = new JdbcCustomerRepository(dataSource, "test_customers", "test_customers_blacklist");
 
 	@Test
 	@Order(1)

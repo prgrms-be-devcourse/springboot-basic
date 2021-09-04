@@ -17,7 +17,7 @@ class CustomerRepositoryTest {
 
 	List<Customer> list = new ArrayList<>();
 
-	CustomerRepository customerRepository = new FileCustomerRepository();
+	CustomerRepository customerRepository = new FileCustomerRepository("test_customer.csv", "test_customer_blacklist.csv");
 
 	@AfterAll
 	void tearDown() {
@@ -60,7 +60,7 @@ class CustomerRepositoryTest {
 		Customer customer2 = list.get(1);
 		assertThat(customerRepository.findByName(customer.getName())).contains(customer);
 		assertThat(customerRepository.findByName(customer.getName())).doesNotContain(customer2);
-		assertThat(customerRepository.findByName(customer.getName())).hasSizeGreaterThanOrEqualTo(1);
+		assertThat(customerRepository.findByName(customer.getName())).hasSize(1);
 	}
 
 	@Test
@@ -77,8 +77,7 @@ class CustomerRepositoryTest {
 	@Order(5)
 	@DisplayName("모든 회원 찾기")
 	void findAll() {
-		// TODO : 기존에 읽는 파일에 영향을 받고 있음. 테스트시에 기존 파일의 영향을 제거해야 함.
-		assertThat(customerRepository.findAll()).hasSizeGreaterThanOrEqualTo(3);
+		assertThat(customerRepository.findAll()).hasSize(3);
 	}
 
 	@Test

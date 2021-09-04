@@ -1,6 +1,7 @@
 package org.programmers.kdt.voucher.repository;
 
 
+import org.programmers.kdt.AppConfiguration;
 import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.voucher.FixedAmountVoucher;
 import org.programmers.kdt.voucher.PercentDiscountVoucher;
@@ -21,13 +22,13 @@ public class FileVoucherRepository implements VoucherRepository  {
     // FIXME : 데이터 양이 많아지면 메모리를 너무 많이 차지하거나 오류가 발생할 수 있음.
     private final Map<UUID, Voucher> cache = new ConcurrentHashMap<>();
     // TODO : JSON 파일에 읽고 쓰도록 바꾸기
-    // TODO : YAML 파일로부터 경로 및 파일명을 읽어들여 전달해주는 VoucherPropeties 클래스를 정의하고 이곳을 통해 path와 file을 받아오도록 수정하기
-    private final File file = new File("VoucherData.txt");
+    private final File file;
 
     // TODO : 각 class 별로 로거를 두지 않고 AOP 적용
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
-    public FileVoucherRepository() {
+    public FileVoucherRepository(String voucherDataFile) {
+         file = new File(voucherDataFile);
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -51,6 +52,7 @@ public class FileVoucherRepository implements VoucherRepository  {
                 switch (voucherType) {
                     case FIXED -> cache.put(uuid, new FixedAmountVoucher(uuid, discount));
                     case PERCENT -> cache.put(uuid, new PercentDiscountVoucher(uuid, discount));
+                    default -> throw new RuntimeException("Invalid Type of Voucher Detected! The Data File Is Damaged!");
                 }
             }
 

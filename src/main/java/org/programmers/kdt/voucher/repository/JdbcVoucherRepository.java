@@ -4,7 +4,6 @@ import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.voucher.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,22 +14,29 @@ import java.util.*;
 import static org.programmers.kdt.utils.UuidUtils.toUUID;
 
 @Repository
-@Profile("local")
 public class JdbcVoucherRepository implements VoucherRepository {
 	// TODO : AOP 적용
 	private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 	private final NamedParameterJdbcTemplate jdbcTemplate;
+	private final String voucherTable;
 
-	public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+	private static String SQL_INSERT_VOUCHER = "INSERT INTO %s(voucher_id, type, amount) VALUES (UUID_TO_BIN(:voucher_id), :type, :amount)";
+	private static String SQL_SELECT_VOUCHER_BY_ID = "SELECT * FROM %s WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+	private static String SQL_SELECT_VOUCHER_BY_OWNER = "SELECT * FROM %s WHERE customer_id = UUID_TO_BIN(:customer_id)";
+	private static String SQL_SELECT_VOUCHER_NO_OWNER = "SELECT * FROM %s WHERE customer_id IS null";
+	private static String SQL_SELECT_ALL = "SELECT * FROM %s";
+	private static String SQL_DELETE_VOCUHER_BY_ID = "DELETE FROM %s WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+	private static String SQL_DELETE_VOUCHER_BY_ID_AND_OWNER = "DELETE FROM %s WHERE customer_Id = UUID_TO_BIN(:customer_id) and voucher_id = UUID_TO_BIN(:voucher_id)";
+	private static String SQL_UPDATE_OWNER = "UPDATE %s SET customer_id = UUID_TO_BIN(:customer_id) WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+
+	public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate, String voucherTable) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.voucherTable = voucherTable;
 	}
 
 	@Override
 	public Voucher insert(Voucher voucher) {
-		int update = jdbcTemplate.update(
-				"INSERT INTO vouchers(voucher_id, type, amount) VALUES (UUID_TO_BIN(:voucher_id), :type, :amount)",
-				toParamMap(voucher)
-		);
+		int update = jdbcTemplate.update(SQL_INSERT_VOUCHER.formatted(voucherTable), toParamMap(voucher));
 
 		if (update != 1) {
 			logger.error("[FAILED] Insert a new voucher : Already Exists");
@@ -43,7 +49,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	public Optional<Voucher> findById(UUID voucherId) {
 		try {
 			return Optional.ofNullable(jdbcTemplate.queryForObject(
-					"SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
+					SQL_SELECT_VOUCHER_BY_ID.formatted(voucherTable),
 					Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
 					voucherMapper)
 			);
@@ -55,25 +61,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public void deleteVoucher(UUID voucherId) {
-		jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
+		jdbcTemplate.update(SQL_DELETE_VOCUHER_BY_ID.formatted(voucherTable),
 				Collections.singletonMap("voucher_id", voucherId.toString().getBytes()));
 	}
 
 	@Override
 	public List<Voucher> findAll() {
-		return jdbcTemplate.query("SELECT * FROM vouchers", voucherMapper);
+		return jdbcTemplate.query(SQL_SELECT_ALL.formatted(voucherTable), voucherMapper);
 	}
 
 	@Override
 	public List<Voucher> findAllUnregisteredVouchers() {
-		return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id IS null", voucherMapper);
+		return jdbcTemplate.query(SQL_SELECT_VOUCHER_NO_OWNER.formatted(voucherTable), voucherMapper);
 	}
 
 	@Override
 	public Voucher addOwner(Customer customer, Voucher voucher) {
 		if (voucher.getStatus().equals(VoucherStatus.VALID)) {
-			jdbcTemplate.update("UPDATE vouchers SET customer_id = UUID_TO_BIN(:customer_id) WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
-					voucherOwnerMap(customer, voucher.getVoucherId()));
+			jdbcTemplate.update(SQL_UPDATE_OWNER.formatted(voucherTable), voucherOwnerMap(customer, voucher.getVoucherId()));
 			return voucher;
 		}
 
@@ -83,20 +88,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public void removeOwner(Customer customer, UUID voucherId) {
-		jdbcTemplate.update("DELETE FROM vouchers WHERE customer_Id = UUID_TO_BIN(:customer_id) and voucher_id = UUID_TO_BIN(:voucher_id)",
-				voucherOwnerMap(customer, voucherId));
+		jdbcTemplate.update(SQL_DELETE_VOUCHER_BY_ID_AND_OWNER.formatted(voucherTable), voucherOwnerMap(customer, voucherId));
 	}
 
 	@Override
 	public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
-		return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
+		return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_VOUCHER_BY_ID.formatted(voucherTable),
 				Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
 				customerIdMapper));
 	}
 
 	@Override
 	public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-		return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customer_id)",
+		return jdbcTemplate.query(SQL_SELECT_VOUCHER_BY_OWNER.formatted(voucherTable),
 				Collections.singletonMap("customer_id", customerId.toString().getBytes()),
 				voucherMapper);
 	}

@@ -52,7 +52,7 @@ public class CommandLineApplication implements Runnable {
         while (!termi) {
             Command command;
 
-            command = Command.getCommand(requestCommandMeesage, Command.getVoucherApplicationCommand(), input, output);
+            command = Command.getCommandFromInput(requestCommandMeesage, Command.getVoucherApplicationCommand(), input, output);
             if (command == null) continue;
 
             switch (command) {

@@ -17,21 +17,30 @@ import java.util.*;
 import static org.programmers.kdt.utils.UuidUtils.toUUID;
 
 @Repository
-@Profile("local")
 public class JdbcCustomerRepository implements CustomerRepository {
 	// TODO : AOP 적용
 	private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 	private final NamedParameterJdbcTemplate jdbcTemplate;
+	private final String customerTable;
+	private final String customerBlacklistTable;
 
-	public JdbcCustomerRepository(DataSource dataSource) {
+	private static String SQL_INSERT_CUSTOMER = "INSERT INTO %s(customer_id, name, email, last_login_at, created_at) VALUES (UUID_TO_BIN(:customer_id), :name, :email, :last_login_at, :created_at)";
+	private static String SQL_DELETE_CUSTOMER_BY_ID = "DELETE FROM %s WHERE customer_id = UUID_TO_BIN(:customer_id)";
+	private static String SQL_DELETE_ALL = "DELETE FROM %s";
+	private static String SQL_SELECT_CUSTOMER_BY_ID = "SELECT * FROM %s WHERE customer_id = UUID_TO_BIN(:customer_id)";
+	private static String SQL_SELECT_CUSTOMER_BY_NAME = "SELECT * FROM %s WHERE name = :name";
+	private static String SQL_SELECT_CUSTOMER_BY_EMAIL = "SELECT * FROM %s WHERE email = :email";
+	private static String SQL_SELECT_ALL = "SELECT * FROM %s";
+
+	public JdbcCustomerRepository(DataSource dataSource, String customerTable, String customerBlacklistTable) {
 		jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		this.customerTable = customerTable;
+		this.customerBlacklistTable = customerBlacklistTable;
 	}
 
 	@Override
 	public Customer insert(Customer customer) {
-		int update = jdbcTemplate.update(
-				"INSERT INTO customers(customer_id, name, email, last_login_at, created_at) VALUES (UUID_TO_BIN(:customer_id), :name, :email, :last_login_at, :created_at)",
-				toParamMap(customer)
+		int update = jdbcTemplate.update(SQL_INSERT_CUSTOMER.formatted(customerTable), toParamMap(customer)
 		);
 
 		if (update != 1) {
@@ -43,20 +52,21 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public void deleteCustomer(UUID customerId) {
-		jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customer_id)", Collections.singletonMap("customer_id", customerId.toString().getBytes()));
-		jdbcTemplate.update("DELETE FROM customers_blacklist WHERE customer_id = UUID_TO_BIN(:customer_id)", Collections.singletonMap("customer_id", customerId.toString().getBytes()));
+		jdbcTemplate.update(SQL_DELETE_CUSTOMER_BY_ID.formatted(customerTable), Collections.singletonMap("customer_id", customerId.toString().getBytes()));
+		jdbcTemplate.update(SQL_DELETE_CUSTOMER_BY_ID.formatted(customerBlacklistTable), Collections.singletonMap("customer_id", customerId.toString().getBytes()));
 	}
 
 	@Override
 	public void deleteAll() {
-		jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+		jdbcTemplate.update(SQL_DELETE_ALL.formatted(customerTable), Collections.emptyMap());
+		jdbcTemplate.update(SQL_DELETE_ALL.formatted(customerBlacklistTable), Collections.emptyMap());
 	}
 
 	@Override
 	public Optional<Customer> findById(UUID customerId) {
 		try {
-			return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-					Collections.singletonMap("customerId", customerId.toString().getBytes()),
+			return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_CUSTOMER_BY_ID.formatted(customerTable),
+					Collections.singletonMap("customer_id", customerId.toString().getBytes()),
 					rowMapper));
 		} catch (EmptyResultDataAccessException e) {
 			logger.error("No Such Customer(ID: {0}) Exists. -> {}", customerId, e);
@@ -66,7 +76,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findByName(String name) {
-		return jdbcTemplate.query("SELECT * FROM customers WHERE name = :name",
+		return jdbcTemplate.query(SQL_SELECT_CUSTOMER_BY_NAME.formatted(customerTable),
 					Collections.singletonMap("name", name),
 					rowMapper);
 	}
@@ -74,7 +84,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public Optional<Customer> findByEmail(String email) {
 		try {
-			return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = :email",
+			return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_CUSTOMER_BY_EMAIL.formatted(customerTable),
 					Collections.singletonMap("email", email),
 					rowMapper));
 		} catch (EmptyResultDataAccessException e) {
@@ -85,15 +95,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAll() {
-		return jdbcTemplate.query("SELECT * FROM customers", rowMapper);
+		return jdbcTemplate.query(SQL_SELECT_ALL.formatted(customerTable), rowMapper);
 	}
 
 	@Override
 	public Customer registerToBlacklist(Customer customer) {
-		int update = jdbcTemplate.update(
-				"INSERT INTO customers_blacklist(customer_id, name, email, last_login_at, created_at) VALUES (UUID_TO_BIN(:customer_id), :name, :email, :last_login_at, :created_at)",
-				toParamMap(customer)
-		);
+		int update = jdbcTemplate.update(SQL_INSERT_CUSTOMER.formatted(customerBlacklistTable), toParamMap(customer));
 
 		if (update != 1) {
 			logger.error("[FAILED] Register a customer to blacklist : Already Exists");
@@ -104,7 +111,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAllBlacklistCustomer() {
-		return jdbcTemplate.query("SELECT * FROM customers_blacklist", rowMapper);
+		return jdbcTemplate.query(SQL_SELECT_ALL.formatted(customerBlacklistTable), rowMapper);
 	}
 
 	private final RowMapper<Customer> rowMapper = (resultSet, rowNum) -> {

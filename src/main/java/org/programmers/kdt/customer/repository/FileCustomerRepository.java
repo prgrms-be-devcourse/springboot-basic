@@ -21,14 +21,14 @@ public class FileCustomerRepository implements CustomerRepository {
     Map<UUID, Customer> cache4Customers = new ConcurrentHashMap<>();
     Map<UUID, Customer> cache4Blacklist = new ConcurrentHashMap<>();
 
-    // FIXME : YAML 파일로부터 경로 및 파일명을 읽어들여 전달해주는 CustomerPropeties 클래스를 정의하고 이곳을 통해 path와 file을 받아오도록 수정하기
-    private final File blacklistCSV = new File("customer_blacklist.csv");
-    private final File customersCSV = new File("customers.csv");
+    private final File blacklistCSV;
+    private final File customersCSV;
 
     // TODO : 각 class마다 logger를 두지 않고 AOP 적용
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
-    public FileCustomerRepository() {
+    public FileCustomerRepository(String customerList, String customerBlacklist) {
+        blacklistCSV = new File(customerBlacklist);
         if (!blacklistCSV.exists()) {
             try {
                 blacklistCSV.createNewFile();
@@ -38,6 +38,7 @@ public class FileCustomerRepository implements CustomerRepository {
             }
         }
 
+        customersCSV = new File(customerList);
         if (!customersCSV.exists()) {
             try {
                 customersCSV.createNewFile();

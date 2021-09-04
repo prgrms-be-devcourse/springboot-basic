@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class VoucherRepositoryTest {
 	List<Voucher> list = new ArrayList<>();
-	VoucherRepository voucherRepository = new FileVoucherRepository();
+	VoucherRepository voucherRepository = new FileVoucherRepository("TestVoucherData.txt");
 
 	@AfterAll
 	void tearDown() {
@@ -59,8 +59,7 @@ class VoucherRepositoryTest {
 		Voucher voucher2 = list.get(1);
 		Voucher voucher3 = list.get(2);
 
-		// TODO : 기존에 읽는 파일에 영향을 받고 있음. 테스트시에 기존 파일의 영향을 제거해야 함.
-		assertThat(voucherRepository.findAll()).hasSizeGreaterThanOrEqualTo(3);
+		assertThat(voucherRepository.findAll()).hasSize(3);
 		assertThat(voucherRepository.findAll()).contains(voucher);
 		assertThat(voucherRepository.findAll()).contains(voucher2);
 		assertThat(voucherRepository.findAll()).contains(voucher3);

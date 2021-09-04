@@ -142,7 +142,6 @@ class CustomerServiceTest {
 
         customerService.removeCustomer(customer.getCustomerId());
         verify(customerRepository, times(1)).deleteCustomer(customer.getCustomerId());
-
     }
 
 }
