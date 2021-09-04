@@ -53,11 +53,12 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Voucher voucher) {
+    public Voucher update(Voucher voucher) {
         final Voucher updatingVoucher = db.get(voucher.getId());
         updatingVoucher.setName(voucher.getName());
         updatingVoucher.setDiscountPolicy(voucher.getDiscountPolicy());
         updatingVoucher.setCustomerId(voucher.getCustomerId());
+        return updatingVoucher;
     }
 
     @Override

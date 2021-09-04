@@ -70,9 +70,10 @@ public class LocalFileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void loadVouchers() {
         try (
-                InputStream reader = Files.newInputStream(file); // https://www.baeldung.com/reading-file-in-java
+                InputStream reader = Files.newInputStream(file) // https://www.baeldung.com/reading-file-in-java
                 ){
             log.debug("Opened InputStream from file {}", file);
             if (reader.available() < 1) return;
@@ -125,11 +126,12 @@ public class LocalFileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Voucher voucher) {
+    public Voucher update(Voucher voucher) {
         final Voucher updatingVoucher = db.get(voucher.getId());
         updatingVoucher.setName(voucher.getName());
         updatingVoucher.setDiscountPolicy(voucher.getDiscountPolicy());
         updatingVoucher.setCustomerId(voucher.getCustomerId());
+        return updatingVoucher;
     }
 
     @Override

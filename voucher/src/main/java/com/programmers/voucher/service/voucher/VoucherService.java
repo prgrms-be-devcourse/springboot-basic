@@ -14,6 +14,6 @@ public interface VoucherService {
     Optional<Voucher> findById(long id);
     List<Voucher> listAll();
 
-    void update(Voucher voucher);
+    Voucher update(Voucher voucher);
     void delete(long voucherId);
 }

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -85,13 +84,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Voucher voucher) {
+    public Voucher update(Voucher voucher) {
         jdbcTemplate.update(voucherQuery.getUpdate().getById(),
                 voucher.getName(),
                 voucher.getDiscountPolicy().getType().toString(),
                 voucher.getDiscountPolicy().getAmount(),
                 voucher.getCustomerId(),
                 voucher.getId());
+        return voucher;
     }
 
     @Override

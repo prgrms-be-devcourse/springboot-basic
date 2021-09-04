@@ -143,4 +143,19 @@ public class Voucher implements Serializable {
         return String.format("[Voucher #%d] %s / %s %d / Owner Id: %d", id, name, discountPolicy.getType().toString(), discountPolicy.getAmount(), customerId);
     }
 
+    @Override
+    public int hashCode() {
+        return (int) this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Voucher)) return false;
+        Voucher other = (Voucher) obj;
+        return this.id == other.id &&
+                this.discountPolicy.equals(other.discountPolicy) &&
+                this.name.equals(other.name) &&
+                this.customerId == other.customerId &&
+                this.createdAt.equals(other.createdAt);
+    }
 }

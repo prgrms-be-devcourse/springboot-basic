@@ -1,6 +1,7 @@
 package com.programmers.voucher.entity.voucher;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
@@ -69,5 +70,18 @@ public class DiscountPolicy implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(amount, type);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof DiscountPolicy)) return false;
+        DiscountPolicy other = (DiscountPolicy) obj;
+        return this.amount == other.amount &&
+                this.type.equals(other.type);
     }
 }

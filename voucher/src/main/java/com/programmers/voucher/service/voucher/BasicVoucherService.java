@@ -34,6 +34,7 @@ public class BasicVoucherService implements VoucherService {
     @Override
     public Voucher create(String name, DiscountPolicy.Type type, int value, long customerId) {
         Voucher voucher = new Voucher(name, new DiscountPolicy(value, type), customerId);
+        applyDiscountPolicyConstraint(voucher);
         voucher = jdbcVoucherRepository.save(voucher);
         log.debug("Persisted voucher {} to repository", voucher);
         return voucher;
@@ -50,14 +51,19 @@ public class BasicVoucherService implements VoucherService {
     }
 
     @Override
-    public void update(Voucher voucher) {
-        final DiscountPolicy discountPolicy = voucher.getDiscountPolicy();
-        discountPolicy.setAmount(discountPolicy.getType().getConstraint().apply(discountPolicy.getAmount()));
+    public Voucher update(Voucher voucher) {
+        applyDiscountPolicyConstraint(voucher);
         jdbcVoucherRepository.update(voucher);
+        return voucher;
     }
 
     @Override
     public void delete(long voucherId) {
         jdbcVoucherRepository.deleteById(voucherId);
+    }
+
+    private void applyDiscountPolicyConstraint(Voucher voucher) {
+        final DiscountPolicy discountPolicy = voucher.getDiscountPolicy();
+        discountPolicy.setAmount(discountPolicy.getType().getConstraint().apply(discountPolicy.getAmount()));
     }
 }
