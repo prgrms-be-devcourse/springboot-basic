@@ -2,6 +2,8 @@ package org.prgrms.kdt.devcourse.io;
 
 import org.prgrms.kdt.devcourse.customer.Customer;
 import org.prgrms.kdt.devcourse.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.Scanner;
 
 public class Console implements Input,Output {
     Scanner scanner = new Scanner(System.in);
-
+    private static final Logger consoleLogger = LoggerFactory.getLogger(Console.class);
 
     @Override
     public String input(String string) {
@@ -20,6 +22,7 @@ public class Console implements Input,Output {
 
     @Override
     public void inputError(String errorInput) {
+        consoleLogger.info("user input error (input : {})",errorInput);
         System.out.println(MessageFormat.format("{0} 은 잘못된 입력입니다. 다시 입력해주세요.",errorInput));
     }
 

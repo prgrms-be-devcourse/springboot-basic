@@ -1,5 +1,7 @@
 package org.prgrms.kdt.devcourse.voucher;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.UUID;
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-
+    private static final Logger  voucherServiceLogger = LoggerFactory.getLogger(VoucherService.class);
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
@@ -16,7 +18,10 @@ public class VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(()-> new RuntimeException("Can not find a voucher %s".formatted(voucherId)));
+                .orElseThrow(()-> {
+                    voucherServiceLogger.info("Can't find voucher(voucherId : {})", voucherId);
+                    return new RuntimeException("Can not find a voucher %s".formatted(voucherId));
+                });
     }
 
     public void useVoucher(Voucher voucher) {
@@ -31,6 +36,7 @@ public class VoucherService {
         else if(voucherType == VoucherType.PERCENT){
             return  voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),amount));
         }else{
+            voucherServiceLogger.info("createVoucher(VoucherType : {}, amount:{} )",voucherType,amount);
             throw new RuntimeException("voucher type error");
         }
 

@@ -1,6 +1,8 @@
 package org.prgrms.kdt.devcourse.voucher;
 
 import org.prgrms.kdt.devcourse.io.FileLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
@@ -16,10 +18,10 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Primary
-@Profile("default")
+@Profile({"default"})
 public class FileVoucherRepository implements VoucherRepository{
     private Map<UUID,Voucher> voucherList = new ConcurrentHashMap<>();
+    private static final Logger FileVoucherRepositoryLogger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     @Value("${file.voucher.voucher}")
     private String voucherFileName;
@@ -40,7 +42,7 @@ public class FileVoucherRepository implements VoucherRepository{
                 else if(filedDataVoucherType == VoucherType.PERCENT)
                     voucherList.put(filedDataUUID, new PercentDiscountVoucher(filedDataUUID, filedDataVoucherAmount));
             } catch (IllegalArgumentException e){
-                e.printStackTrace();
+                FileVoucherRepositoryLogger.info("readVoucherFile - IllegalArgument(error input : {})", line);
             }
 
         }
@@ -48,20 +50,21 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @PreDestroy
-    public void preDestroy() throws IOException {
+    public void preDestroy()  {
         String filePath = System.getProperty("user.dir")+"/"+voucherFileName;
         File csvFile = new File(filePath);
 
-
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(csvFile));
-        for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
-            Voucher voucher = entry.getValue();
-            String newData = voucher.getVoucherId() + "," + voucher.getVoucherAmount() + "," + voucher.getVoucherType();
-            bufferedWriter.write(newData);
-            bufferedWriter.newLine();
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(csvFile))){
+            for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
+                Voucher voucher = entry.getValue();
+                String newData = voucher.getVoucherId() + "," + voucher.getVoucherAmount() + "," + voucher.getVoucherType();
+                bufferedWriter.write(newData);
+                bufferedWriter.newLine();
+            }
+        }catch (IOException ioException){
+            FileVoucherRepositoryLogger.warn("writeVoucherFile - IOException");
         }
-        bufferedWriter.flush();
-        bufferedWriter.close();
+
     }
 
     @Override
