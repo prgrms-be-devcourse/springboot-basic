@@ -23,7 +23,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public Enum<VoucherType> getVoucherType() {
-        return VoucherType.fixed;
+        return VoucherType.FIXED;
     }
 
     public long discount(long beforeDiscount){

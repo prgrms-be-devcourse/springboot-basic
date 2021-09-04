@@ -24,7 +24,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public Enum<VoucherType> getVoucherType() {
-        return VoucherType.percent;
+        return VoucherType.PERCENT;
     }
 
     @Override
