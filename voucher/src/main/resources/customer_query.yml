@@ -14,6 +14,8 @@ customer:
         *
       FROM
         customers
+      ORDER BY
+        customer_id
     byId:
       SELECT
         *
