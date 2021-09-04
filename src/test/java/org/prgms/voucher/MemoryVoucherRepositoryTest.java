@@ -8,13 +8,12 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-
+import static org.prgms.voucher.VoucherType.*;
 
 class MemoryVoucherRepositoryTest {
-    final Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
-    final Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+    final Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L, PERCENT_DISCOUNT);
+    final Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, FIXED_AMOUNT);
 
 
     MemoryVoucherRepository memoryVoucherRepository;

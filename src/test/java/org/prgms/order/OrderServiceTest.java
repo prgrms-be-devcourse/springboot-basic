@@ -2,8 +2,6 @@ package org.prgms.order;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.MemoryVoucherRepository;
 import org.prgms.voucher.VoucherService;
@@ -12,11 +10,9 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
-
+import static org.prgms.voucher.VoucherType.FIXED_AMOUNT;
 
 class OrderServiceTest {
 
@@ -33,7 +29,7 @@ class OrderServiceTest {
     void createOrder() {
         // Given
         var voucherRepository = new MemoryVoucherRepository();
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, FIXED_AMOUNT);
         voucherRepository.save(fixedAmountVoucher);
         var sut = new OrderService(new VoucherService(voucherRepository), new OrderRepositoryStub());
 
@@ -55,7 +51,7 @@ class OrderServiceTest {
         // Given
         var voucherServiceMock = mock(VoucherService.class);
         var orderRepositoryMock = mock(OrderRepository.class);
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, FIXED_AMOUNT);
         when(voucherServiceMock.getVoucher(fixedAmountVoucher.getVoucherId())).thenReturn(fixedAmountVoucher);
         var sut = new OrderService(voucherServiceMock,orderRepositoryMock);
 

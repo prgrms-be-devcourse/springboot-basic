@@ -25,12 +25,12 @@ public class VoucherService {
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long amount) {
         switch (voucherType) {
             case FIXED_AMOUNT:
-                var Fixedvoucher = new FixedAmountVoucher(voucherId, amount);
+                var Fixedvoucher = new FixedAmountVoucher(voucherId, amount, voucherType);
                 voucherRepository.save(Fixedvoucher);
                 return Fixedvoucher;
 
             case PERCENT_DISCOUNT:
-                var Percentvoucher = new PercentDiscountVoucher(voucherId, amount);
+                var Percentvoucher = new PercentDiscountVoucher(voucherId, amount, voucherType);
                 voucherRepository.save(Percentvoucher);
                 return Percentvoucher;
         }
