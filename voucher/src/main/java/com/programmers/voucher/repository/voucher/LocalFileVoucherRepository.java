@@ -76,6 +76,7 @@ public class LocalFileVoucherRepository implements VoucherRepository {
                 ){
             log.debug("Opened InputStream from file {}", file);
             if (reader.available() < 1) return;
+            db.clear();
 
             ObjectInputStream objectInputStream = new ObjectInputStream(reader);
             List<Voucher> vouchers = (List<Voucher>) objectInputStream.readObject();
