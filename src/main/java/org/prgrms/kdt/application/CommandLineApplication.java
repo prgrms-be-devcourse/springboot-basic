@@ -42,15 +42,15 @@ public class CommandLineApplication {
             CommandType commandType = CommandType.valueOf(command.toUpperCase());
             switch (commandType) {
                 case CREATE: {
-                    String prompt = "'fixed' for fixed voucher, 'percent' for percent voucher : ";
-                    String typeName = input.inputCommand(prompt);
-                    Optional<Voucher> voucher = createVoucher(typeName);
+                    var prompt = "'fixed' for fixed voucher, 'percent' for percent voucher : ";
+                    var typeName = input.inputCommand(prompt);
+                    var voucher = createVoucher(typeName);
                     voucher.ifPresentOrElse(output::createVoucher, output::printIllegalInputError);
                     break;
                 }
 
                 case LIST: {
-                    Optional<Map<UUID, Voucher>> voucherList = voucherService.listVoucher();
+                    var voucherList = voucherService.listVoucher();
                     voucherList.ifPresentOrElse(output::listVoucher, output::printVoucherListNotFoundError);
                     break;
                 }
