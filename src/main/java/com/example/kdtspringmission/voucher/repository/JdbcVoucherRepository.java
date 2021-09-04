@@ -6,7 +6,6 @@ import com.example.kdtspringmission.voucher.domain.Voucher;
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -46,11 +45,11 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public UUID insert(Voucher voucher) {
         int update = jdbcTemplate.update(
-            "insert into vouchers(voucher_id, voucher_type, discount_amount, customer_id) VALUES (uuid_to_bin(?), ?, ?, ?)",
+            "insert into vouchers(voucher_id, voucher_type, discount_amount, customer_id) VALUES (uuid_to_bin(?), ?, ?, uuid_to_bin(?))",
             voucher.getId().toString().getBytes(),
             voucher.getTypeName(),
             voucher.getDiscountAmount(),
-            voucher.getOwnerId()
+            voucher.getOwnerId() == null ? null : voucher.getOwnerId().toString().getBytes()
         );
 
         if (update != 1) {
@@ -72,7 +71,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         int update = jdbcTemplate.update(
             "update vouchers set discount_amount = ?, customer_id = uuid_to_bin(?)  where voucher_id = uuid_to_bin(?)",
             voucher.getDiscountAmount(),
-            voucher.getOwnerId().toString().getBytes(),
+            voucher.getOwnerId() == null ? null : voucher.getOwnerId().toString().getBytes(),
             voucher.getId().toString().getBytes()
         );
 
@@ -86,6 +85,14 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByOwnerId(UUID ownerId) {
+        return jdbcTemplate.query(
+            "select * from vouchers where customer_id = uuid_to_bin(?)",
+            voucherRowMapper, ownerId.toString().getBytes()
+        );
     }
 
     @Override

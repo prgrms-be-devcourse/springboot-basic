@@ -38,6 +38,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByOwnerId(UUID ownerId) {
+        return null;
+    }
+
+    @Override
     public void deleteAll() {
         store.clear();
     }

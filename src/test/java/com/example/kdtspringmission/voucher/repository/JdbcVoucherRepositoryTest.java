@@ -7,11 +7,16 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.kdtspringmission.customer.domain.Customer;
+import com.example.kdtspringmission.customer.repository.CustomerJdbcRepository;
 import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.Voucher;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterAll;
@@ -58,6 +63,9 @@ public class JdbcVoucherRepositoryTest {
 
     @Autowired
     JdbcVoucherRepository voucherRepository;
+
+    @Autowired
+    CustomerJdbcRepository customerRepository;
 
     @Autowired
     DataSource dataSource;
@@ -117,6 +125,32 @@ public class JdbcVoucherRepositoryTest {
 
         //then
         assertThat(findVoucher).isEqualTo(voucher);
+    }
+
+    @Test
+    @DisplayName("특정 고객이 소유한 바우처를 조회한다")
+    void testFindByOwnerId() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "tester", "tester@gmail.com",
+            LocalDateTime.now());
+        customerRepository.insert(customer);
+
+        List<Voucher> vouchers = new ArrayList<>() {{
+            add(new FixedAmountVoucher(UUID.randomUUID(), 100L, customer.getCustomerId()));
+            add(new FixedAmountVoucher(UUID.randomUUID(), 100L, customer.getCustomerId()));
+            add(new FixedAmountVoucher(UUID.randomUUID(), 100L, customer.getCustomerId()));
+        }};
+
+        for (Voucher voucher : vouchers) {
+            voucherRepository.insert(voucher);
+        }
+
+        // when
+        List<Voucher> findVouchers = voucherRepository.findByOwnerId(customer.getCustomerId());
+
+        // then
+        assertThat(findVouchers).hasSameElementsAs(vouchers);
+
     }
 
 }

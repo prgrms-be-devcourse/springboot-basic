@@ -32,4 +32,17 @@ public class CustomerService {
         customer.addVoucher(voucher);
         voucherService.update(voucher);
     }
+
+    public void deleteVoucher(String customerName, UUID voucherId) {
+        Customer customer = customerRepository.findByName(customerName).orElseThrow(() -> new IllegalArgumentException("No matched name"));
+        Voucher voucher = voucherService.getVoucher(voucherId);
+
+        customer.deleteVoucher(voucher);
+        voucherService.update(voucher);
+    }
+
+    public List<Voucher> getWallet(String customerName) {
+        Customer customer = customerRepository.findByName(customerName).orElseThrow(() -> new IllegalArgumentException("No matched name"));
+        return voucherService.findVouchersByOwnerId(customer.getCustomerId());
+    }
 }

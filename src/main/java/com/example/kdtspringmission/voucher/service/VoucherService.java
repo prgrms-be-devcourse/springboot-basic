@@ -38,6 +38,10 @@ public class VoucherService {
         return voucherRepository.update(voucher);
     }
 
+    public List<Voucher> findVouchersByOwnerId(UUID ownerId) {
+        return voucherRepository.findByOwnerId(ownerId);
+    }
+
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId);
     }

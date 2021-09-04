@@ -50,6 +50,7 @@ public class CommandLineApplication {
 
         if (command == Command.CUSTOMERS) {
             outputView.customerList(customerService.allCustomers());
+            return;
         }
 
         if (command == Command.ASSIGN_VOUCHER) {
@@ -60,6 +61,26 @@ public class CommandLineApplication {
             UUID voucherId = inputView.getVoucherId();
 
             customerService.assignVoucher(customerName, voucherId);
+            return;
+        }
+
+        if (command == Command.LIST_BY_OWNER) {
+            outputView.customerList(customerService.allCustomers());
+            String customerName = inputView.getCustomerName();
+
+            outputView.voucherList(customerService.getWallet(customerName));
+            return;
+        }
+
+        if (command == Command.DELETE_VOUCHER) {
+            outputView.customerList(customerService.allCustomers());
+            String customerName = inputView.getCustomerName();
+
+            outputView.voucherList(voucherService.findAll());
+            UUID voucherId = inputView.getVoucherId();
+
+            customerService.deleteVoucher(customerName, voucherId);
+            return;
         }
 
     }

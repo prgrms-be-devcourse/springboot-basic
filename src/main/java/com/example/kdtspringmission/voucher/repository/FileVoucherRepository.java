@@ -105,6 +105,11 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByOwnerId(UUID ownerId) {
+        return null;
+    }
+
+    @Override
     public void deleteAll() {
         Arrays.stream(resources.listFiles())
             .filter(file -> !file.isDirectory())

@@ -56,6 +56,12 @@ public class Customer {
         return voucher;
     }
 
+    public Voucher deleteVoucher(Voucher voucher) {
+        voucher.setOwnerId(null);
+        wallet.remove(voucher);
+        return voucher;
+    }
+
     public List<Voucher> getWallet() {
         return wallet;
     }
