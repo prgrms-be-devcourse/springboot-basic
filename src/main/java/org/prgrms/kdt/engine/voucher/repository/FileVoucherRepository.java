@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
-    private final static String DELIMINATOR = "&";
+    private final static String DELIMITER = "&";
     private final static String VOUCHERS_PATH = "src/main/resources/vouchers/";
     private final static Map<UUID, Voucher> tmpStorage = new ConcurrentHashMap<>();
 
@@ -65,7 +65,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Map.Entry<UUID, Voucher> deserializeVoucher(String filename) {
-        String[] name = filename.split(DELIMINATOR);
+        String[] name = filename.split(DELIMITER);
         VoucherType type = VoucherType.valueOf(name[0]);
         long rate = Long.parseLong(name[2]);
 
