@@ -28,7 +28,7 @@ public class Customer {
     }
 
 
-    public void Login() {
+    public void login() {
         this.lastLoginAt = LocalDateTime.now();
     }
 

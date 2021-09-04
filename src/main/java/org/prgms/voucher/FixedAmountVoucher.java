@@ -34,7 +34,8 @@ public class FixedAmountVoucher implements Voucher {
 
     public long discount(long beforeDiscount) {
         var discountedAmount = beforeDiscount - amount;
-        return (discountedAmount < 0) ? 0 : discountedAmount;
+        if (discountedAmount < 0) return 0;
+        return discountedAmount;
     }
 
     @Override
