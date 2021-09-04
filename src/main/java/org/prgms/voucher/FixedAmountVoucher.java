@@ -8,8 +8,10 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long amount;
+    private final VoucherType voucherType;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(UUID voucherId, long amount, VoucherType voucherType) {
+        this.voucherType = voucherType;
         if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
         if (amount == 0) throw new IllegalArgumentException("Amount should not be zero");
         if (amount > MAX_VOUCHER_AMOUNT)
@@ -17,6 +19,7 @@ public class FixedAmountVoucher implements Voucher {
         this.voucherId = voucherId;
         this.amount = amount;
     }
+
 
     @Override
     public UUID getVoucherId() {
@@ -33,4 +36,21 @@ public class FixedAmountVoucher implements Voucher {
         var discountedAmount = beforeDiscount - amount;
         return (discountedAmount < 0) ? 0 : discountedAmount;
     }
+
+    @Override
+    public long getAmount() {
+        return amount;
+    }
+
+    @Override
+    public long getPercent() {
+        return 0;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED_AMOUNT;
+    }
+
+
 }
