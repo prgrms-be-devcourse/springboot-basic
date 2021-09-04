@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface CustomerVoucherService extends CustomerService {
     Optional<Customer> findCustomerByVoucher(long voucherId);
     List<Voucher> findAllVoucherByCustomer(long customerId);
+    void deleteVoucherFromWallet(long customerId, long voucherId);
 }

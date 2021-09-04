@@ -36,6 +36,17 @@ public class BasicCustomerService implements CustomerVoucherService {
     }
 
     @Override
+    public void deleteVoucherFromWallet(long customerId, long voucherId) {
+        jdbcVoucherRepository.findById(voucherId).ifPresent(
+                voucher -> {
+                    if (voucher.getCustomerId() == customerId) {
+                        jdbcVoucherRepository.deleteById(voucherId);
+                    }
+                }
+        );
+    }
+
+    @Override
     public Customer create(String username, String alias) {
         Customer customer = new Customer(username, alias);
         customerRepository.save(customer);
