@@ -24,7 +24,7 @@ public class Customer {
         this.customerType = CustomerType.GENERAL;
     }
 
-    public Customer(UUID customerId, String name, Gender gender, String email, LocalDateTime createdAt, CustomerType customerType) {
+    public Customer(UUID customerId, String name, Gender gender, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt, CustomerType customerType) {
         validateName(name);
 
         this.customerId = customerId;
@@ -32,6 +32,7 @@ public class Customer {
         this.gender = gender;
         this.email = email;
         this.createdAt = createdAt;
+        this.lastLoginAt = lastLoginAt;
         this.customerType = customerType;
     }
 
@@ -54,6 +55,20 @@ public class Customer {
     public void changeCustomerType(CustomerType customerType) {
         this.customerType = customerType;
     }
+
+    public UUID getCustomerId() { return customerId; }
+
+    public String getName() { return name; }
+
+    public Gender getGender() { return gender; }
+
+    public String getEmail() { return email; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public LocalDateTime getLastLoginAt() { return lastLoginAt; }
+
+    public CustomerType getCustomerType() { return customerType; }
 
     @Override
     public String toString() {
