@@ -22,9 +22,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printSuccessMessage(Object obj) {
+    public void printSuccessMessage() {
         System.out.println("Your action has been successfully executed.");
-        System.out.println(obj);
     }
 
     @Override

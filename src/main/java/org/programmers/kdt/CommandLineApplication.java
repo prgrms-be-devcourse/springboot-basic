@@ -22,11 +22,15 @@ public class CommandLineApplication implements Runnable {
     private final Output output;
 
     private final String requestCommandMeesage
-            = MessageFormat.format("\n=== Voucher Program ===" +
-                    "\n[Type {0} to exit the program]" +
-                    "\nType {1} to create a voucher." +
-                    "\nType {2} to list all voucher." +
-                    "\nType {3} to enter customer managing page.",
+            = MessageFormat.format(
+                    """
+                    
+                    === Voucher Program ===
+                    [Type {0} to exit the program]
+                    Type {1} to create a voucher.
+                    Type {2} to list all voucher.
+                    Type {3} to enter customer managing page.
+                    """,
             Command.EXIT, Command.CREATE, Command.LIST, Command.CUSTOMER);
     private final String requestVoucherTypeMessage
             = MessageFormat.format("Choose voucher type : {0}", List.of(VoucherType.values()));
@@ -75,7 +79,8 @@ public class CommandLineApplication implements Runnable {
                         output.inputError(e.getMessage());
                         continue;
                     }
-                    output.printSuccessMessage(voucherService.getPrintFormat(voucher));
+                    output.printSuccessMessage();
+                    output.print(voucherService.getPrintFormat(voucher));
                 }
                 case LIST -> {
                     List<Voucher> allVoucher = voucherService.getAllVouchers();
@@ -89,7 +94,8 @@ public class CommandLineApplication implements Runnable {
                 }
                 case CUSTOMER -> {
                     // Enter Customer-Voucher Managing Application
-                    new CustomerVoucherManagingApplication(applicationContext, input, output).run();
+                    CustomerVoucherManagingApplication customerVoucherManagingApplication = applicationContext.getBean(CustomerVoucherManagingApplication.class);
+                    customerVoucherManagingApplication.run();
                 }
             }
         }

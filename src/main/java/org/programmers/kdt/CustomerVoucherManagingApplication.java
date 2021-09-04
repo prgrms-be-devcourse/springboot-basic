@@ -8,7 +8,6 @@ import org.programmers.kdt.io.Output;
 import org.programmers.kdt.utils.DigitUtils;
 import org.programmers.kdt.voucher.Voucher;
 import org.programmers.kdt.voucher.service.VoucherService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -18,248 +17,168 @@ import java.util.UUID;
 
 @Component
 public class CustomerVoucherManagingApplication implements Runnable {
-	// FIXME: 너무 중복이 많음 -> 계속 개선!!
-	private AnnotationConfigApplicationContext applicationContext;
 	private final Input input;
 	private final Output output;
+	private final VoucherService voucherService;
+	private final CustomerService customerService;
 
-	private final String requestCommandMessage = MessageFormat.format("\n=== Customer-Voucher Managing Program ===" +
-			"\n[Type {0} to exit this program]" +
-			"\nType {1} to list all customer." +
-			"\nType {2} to register a voucher to a customer" +
-			"\nType {3} to deregister a voucher from a customer" +
-			"\nType {4} to find customer who has a certain voucher" +
-			"\nType {5} to create a customer",
+	private final String requestCommandMessage = MessageFormat.format(
+            """
+     
+					=== Customer-Voucher Managing Program ===
+					[Type {0} to exit this program]
+					Type {1} to list all customer.
+					Type {2} to register a voucher to a customer
+					Type {3} to deregister a voucher from a customer
+					Type {4} to find customer who has a certain voucher
+					Type {5} to create a customer
+					""",
 			Command.EXIT, Command.LIST, Command.REGISTER, Command.DEREGISTER, Command.FIND_CUSTOMER_BY_VOUCHER, Command.CREATE
 			);
-	private final String requestCommandMeesage
-			= MessageFormat.format("\n=== Voucher Program ===" +
-					"\n[Type {0} to exit the program]" +
-					"\nType {1} to create a voucher." +
-					"\nType {2} to list all voucher." +
-					"\nType {3} to enter customer managing page.",
-			Command.EXIT, Command.CREATE, Command.LIST, Command.CUSTOMER);
 
-	public CustomerVoucherManagingApplication(AnnotationConfigApplicationContext applicationContext, Input input, Output output) {
-		this.applicationContext = applicationContext;
+	public CustomerVoucherManagingApplication(Input input, Output output, VoucherService voucherService, CustomerService customerService) {
 		this.input = input;
 		this.output = output;
+		this.voucherService = voucherService;
+		this.customerService = customerService;
+	}
+
+	private void printCustomres(List<Customer> customers) {
+		output.print("<< Available Customer List >>");
+		int size = customers.size();
+		for (int i = 0; i < size; i++) {
+			output.print(MessageFormat.format("({0}) ---------\n ({1})\n---------\n",
+					i, customerService.getPrintFormat(customers.get(i))));
+		}
+	}
+
+	private int getValidIndexOf(List<?> list, String message) {
+		int size = list.size();
+		String index =
+				input.input(MessageFormat.format(
+						"{0} [Range from {1} to {2}]",
+						message, 0, size - 1));
+
+		while (!DigitUtils.isDigits(index) ||
+				Integer.parseInt(index) < 0 ||
+				size <= Integer.parseInt(index)) {
+			output.inputError("Invalid range of customer number");
+			index =
+					input.input(MessageFormat.format(
+							"{0} [Range from {1} to {2}]",
+							message, 0, size - 1));
+		}
+
+		return Integer.parseInt(index);
+	}
+
+	private void printAllVoucherOfCustomer(Customer customer) {
+		List<Voucher> vouchers = customerService.getAllVoucherOf(customer);
+		int size = vouchers.size();
+		if(size == 0) {
+			output.print("This customer has no voucher yet.");
+		} else {
+			output.print("<< Voucher list of the customer >>");
+			for (int i = 0; i < size; i++) {
+				output.print(MessageFormat.format("({0}) ---------\n ({1})\n---------\n",
+						i, voucherService.getPrintFormat(vouchers.get(i))));
+			}
+		}
+	}
+
+	private void printVouchers(List<Voucher> vouchers) {
+		output.print("<< Available Voucher List >>");
+		int size = vouchers.size();
+		if (size == 0) {
+			output.print("There is no vouchers. Please create voucher first");
+		}
+
+		for (int i = 0; i < size; i++) {
+			output.print(MessageFormat.format("({0}) ---------\n ({1})\n---------\n",
+					i, voucherService.getPrintFormat(vouchers.get(i))));
+		}
 	}
 
 	@Override
 	public void run() {
-		VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-		CustomerService customerService = applicationContext.getBean(CustomerService.class);
-
 		boolean termi = false;
 
 		while (!termi) {
-			Command command = Command.getCommandFromInput(requestCommandMessage, Command.getCustomerVoucherManagingApplicationCommand(),
-					input, output);
+			Command command;
+			List<Customer> customers = customerService.findAll();
+			if (customers.size() == 0) {
+				output.print("No Customer has been created yet.");
+				output.print("Please create a customer first.");
+				output.print("Auto redirecting to customer creation page...");
+				command = Command.of("create");
+			} else {
+				command = Command.getCommandFromInput(requestCommandMessage,
+						Command.getCustomerVoucherManagingApplicationCommand(), input, output);
+			}
+
 			if (command == null) continue;
+
+			List<Voucher> unregisteredVouchers = voucherService.getAllUnregisteredVouchers();
+			List<Voucher> vouchers = voucherService.getAllVouchers();
 
 			switch (command) {
 				case LIST -> {
-					List<Customer> all = customerService.findAll();
-					int size = all.size();
-					if (size == 0) {
-						output.print("No Customer has been created yet.");
-						output.print("Back to Front Page...");
-						termi = true;
-						break;
-					}
+					// 1. show all customer.
+					printCustomres(customers);
+					int customerIndexInput = getValidIndexOf(customers, "Which customer is that you want to see the voucher wallet?");
+					Customer chosenCustomer = customers.get(customerIndexInput);
 
-					output.print("<< Current Active Customer List >>");
-					for (int i = 0; i < size; i++) {
-						output.print(MessageFormat.format("({0}) ---------\n ({1})\n---------\n",
-								i, customerService.getPrintFormat(all.get(i))));
-					}
-
-					String chosenCustomerIndex =
-							input.input(MessageFormat.format(
-									"Which customer is that you want to see the voucher wallet? [{0}, {1}]",
-									0, size - 1));
-
-					while (!DigitUtils.isDigits(chosenCustomerIndex) ||
-							Integer.parseInt(chosenCustomerIndex) < 0 ||
-							size <= Integer.parseInt(chosenCustomerIndex)) {
-						output.inputError("Invalid range of customer number");
-						chosenCustomerIndex =
-								input.input(MessageFormat.format(
-										"Which customer is that you want to see the voucher wallet? [{0}, {1}]",
-										0, size - 1));
-					}
-
-					Customer chosenCustomer = all.get(Integer.parseInt(chosenCustomerIndex));
-					List<Voucher> vouchers = customerService.getAllVoucherOf(chosenCustomer);
-
-					for (Voucher voucher : vouchers) {
-						output.print(voucherService.getPrintFormat(voucher));
-					}
+					// 2. show all voucher of the customer.
+					printAllVoucherOfCustomer(chosenCustomer);
 				}
 				case REGISTER -> {
-					// 1. show all unregistered vouchers
-					List<Voucher> allUnregisteredVoucher = voucherService.getAllUnregisteredVouchers();
-					output.print("<< Unregistered Vouchers >>");
-					int numberOfVouchers = allUnregisteredVoucher.size();
-					if (numberOfVouchers == 0) {
-						output.print("There is no vouchers. Please create voucher first");
-						termi = true;
-						break;
-					}
+					// 1. show all unregistered voucher.
+					printVouchers(unregisteredVouchers);
 
-					for (int i = 0; i < numberOfVouchers; i++) {
-						Voucher voucher = allUnregisteredVoucher.get(i);
-						output.print(MessageFormat.format("({0}) ---------\n ({1})\n---------\n",
-								i, voucherService.getPrintFormat(voucher)));
-					}
+					// 2. choose a voucher you want to register
+					int voucherIndexInput = getValidIndexOf(unregisteredVouchers, "Choose a voucher you want to register to.");
+					Voucher voucher = unregisteredVouchers.get(voucherIndexInput);
 
-					String voucherIndex = input.input(MessageFormat.format(
-							"Choose a voucher you want to register to. [{0}, {1}]", 0, numberOfVouchers - 1));
-					while (!DigitUtils.isDigits(voucherIndex) ||
-							Integer.parseInt(voucherIndex) < 0 ||
-							numberOfVouchers <= Integer.parseInt(voucherIndex)) {
-						output.inputError("Invalid range of customer number");
-						voucherIndex =
-								input.input(MessageFormat.format(
-										"Choose a voucher you want to register to. [{0}, {1}]", 0, numberOfVouchers - 1));
-					}
+					// 3. show all customers
+					printCustomres(customers);
 
-					Voucher voucher = allUnregisteredVoucher.get(Integer.parseInt(voucherIndex));
+					// 4. choose a customer you want to register a voucher to.
+					int customerIndexInput = getValidIndexOf(customers, "Choose a customer you want to register the voucher to.");
+					Customer chosenCustomer = customers.get(customerIndexInput);
 
-					// 2. show all customer
-					List<Customer> allCustomer = customerService.findAll();
-					int numberofCustomers = allCustomer.size();
-					if (numberofCustomers == 0) {
-						output.print("No Customer has been created yet.");
-						output.print("Please create a customer first");
-						output.print("Back to Front Page...");
-						termi = true;
-						break;
-					}
-
-					output.print("<< Current Active Customer List >>");
-					for (int i = 0; i < numberofCustomers; i++) {
-						output.print(MessageFormat.format("({0}) ---------\n ({1})\n---------\n",
-								i, customerService.getPrintFormat(allCustomer.get(i))));
-					}
-
-					String chosenCustomerIndex =
-							input.input(MessageFormat.format(
-									"Choose a customer you want to register the voucher to. [{0}, {1}]",
-									0, numberofCustomers - 1));
-
-					while (!DigitUtils.isDigits(chosenCustomerIndex) ||
-							Integer.parseInt(chosenCustomerIndex) < 0 ||
-							numberofCustomers <= Integer.parseInt(chosenCustomerIndex)) {
-						output.inputError("Invalid range of customer number");
-						chosenCustomerIndex =
-								input.input(MessageFormat.format(
-										"Choose a customer you want to register the voucher to. [{0}, {1}]",
-										0, numberOfVouchers - 1));
-					}
-
-					Customer customer = allCustomer.get(Integer.parseInt(chosenCustomerIndex));
-
-					// 3. register a voucher to a customer
-					customerService.addVoucherToCustomer(customer, voucher);
+					// 5. register a voucher to a customer
+					customerService.addVoucherToCustomer(chosenCustomer, voucher);
+					output.printSuccessMessage();
 				}
 				case DEREGISTER -> {
-					// FIXME: LIST와 많은 부분이 중복 -> 제거
-					List<Customer> all = customerService.findAll();
-					int numberOfCustomers = all.size();
-					if (numberOfCustomers == 0) {
-						output.print("No Customer has been created yet.");
-						output.print("Back to Front Page...");
-						termi = true;
-						break;
-					}
+					// 1. show all customer.
+					printCustomres(customers);
 
-					output.print("<< Current Active Customer List >>");
-					for (int i = 0; i < numberOfCustomers; i++) {
-						output.print(MessageFormat.format("({0}) ---------\n ({1})\n---------\n",
-								i, customerService.getPrintFormat(all.get(i))));
-					}
+					// 2. choose a customer that you want to remove a voucher from.
+					int customerIndexInput = getValidIndexOf(customers, "Which customer is that you want to see the voucher wallet?");
+					Customer chosenCustomer = customers.get(customerIndexInput);
 
-					String chosenCustomerIndex =
-							input.input(MessageFormat.format(
-									"Which customer is that you want to see the voucher wallet? [{0}, {1}]",
-									0, numberOfCustomers - 1));
+					// 3. show all voucher belongs to the customer
+					printAllVoucherOfCustomer(chosenCustomer);
 
-					while (!DigitUtils.isDigits(chosenCustomerIndex) ||
-							Integer.parseInt(chosenCustomerIndex) < 0 ||
-							numberOfCustomers <= Integer.parseInt(chosenCustomerIndex)) {
-						output.inputError("Invalid range of customer number");
-						chosenCustomerIndex =
-								input.input(MessageFormat.format(
-										"Which customer is that you want to see the voucher wallet? [{0}, {1}]",
-										0, numberOfCustomers - 1));
-					}
+					// 4. choose a voucher that you want to remove from the customer.
+					List<Voucher> ownedVouchers = voucherService.getAllVouchersBelongsToCustomer(chosenCustomer);
+					int voucherIndexInput = getValidIndexOf(ownedVouchers, "Choose a voucher you want to deregister from.");
+					Voucher chosenVoucher = ownedVouchers.get(voucherIndexInput);
 
-					Customer chosenCustomer = all.get(Integer.parseInt(chosenCustomerIndex));
-
-					List<Voucher> vouchers = customerService.getAllVoucherOf(chosenCustomer);
-					int numberOfVouchers = vouchers.size();
-					if(numberOfVouchers == 0) {
-						output.print("This customer has no voucher yet. Return to the front page");
-						termi = true;
-						break;
-					}
-
-					output.print("<< Voucher list of the chosen customer");
-					for (int i = 0; i < numberOfVouchers; i++) {
-						output.print(MessageFormat.format("({0}) ---------\n ({1})\n---------\n",
-								i, voucherService.getPrintFormat(vouchers.get(i))));
-					}
-
-					String chosenVoucherIndex =
-							input.input(MessageFormat.format(
-									"Choose a voucher you want to deregister from. [{0}, {1}]",
-									0, numberOfVouchers - 1));
-
-					while (!DigitUtils.isDigits(chosenVoucherIndex) ||
-							Integer.parseInt(chosenVoucherIndex) < 0 ||
-							numberOfVouchers <= Integer.parseInt(chosenVoucherIndex)) {
-						output.inputError("Invalid range of voucher number");
-						chosenVoucherIndex =
-								input.input(MessageFormat.format(
-										"Choose a voucher you want to deregister from. [{0}, {1}]",
-										0, numberOfVouchers - 1));
-					}
-					Voucher chosenVoucher = vouchers.get(Integer.parseInt(chosenVoucherIndex));
-
+					// 5. remove the voucher from the customer.
 					customerService.removeVoucherFromCustomer(chosenCustomer, chosenVoucher);
+					output.printSuccessMessage();
 				}
 				case FIND_CUSTOMER_BY_VOUCHER -> {
 					// 1. show all voucher
-					output.print("<< All Created Voucher List >>");
-					List<Voucher> vouchers = voucherService.getAllVouchers();
-					int numberOfVouchers = vouchers.size();
+					printVouchers(vouchers);
 
-					for (int i = 0; i < numberOfVouchers; i++) {
-						output.print(MessageFormat.format("({0}) ---------\n ({1})\n---------\n",
-								i, voucherService.getPrintFormat(vouchers.get(i))));
-					}
+					// 2. choose a voucher you want to find its owner.
+					int voucherIndexInput = getValidIndexOf(vouchers, "Choose a voucher you want to find its owner.");
+					Voucher chosenVoucher = vouchers.get(voucherIndexInput);
 
-					// 2. choose a voucher
-					String chosenVoucherIndex =
-							input.input(MessageFormat.format(
-									"Choose a voucher you want to find its owner. [{0}, {1}]",
-									0, numberOfVouchers - 1));
-
-					while (!DigitUtils.isDigits(chosenVoucherIndex) ||
-							Integer.parseInt(chosenVoucherIndex) < 0 ||
-							numberOfVouchers <= Integer.parseInt(chosenVoucherIndex)) {
-						output.inputError("Invalid range of voucher number");
-						chosenVoucherIndex =
-								input.input(MessageFormat.format(
-										"Choose a voucher you want to find its owner. [{0}, {1}]",
-										0, numberOfVouchers - 1));
-					}
-
-					Voucher chosenVoucher = vouchers.get(Integer.parseInt(chosenVoucherIndex));
-
-					// 3. show its owner
+					// 3. find the owner of the voucher
 					Optional<UUID> customerIdHoldingVoucher = voucherService.findCustomerIdHoldingVoucherOf(chosenVoucher);
 					if (customerIdHoldingVoucher.isEmpty()) {
 						output.print("The voucher is not registered to a customer yet");
@@ -275,16 +194,16 @@ public class CustomerVoucherManagingApplication implements Runnable {
 						break;
 					}
 
+					// 4. show the owner info.
 					Customer customer = customerHoldingVoucher.get();
 					output.print(MessageFormat.format("<< Voucher Owner Info >>\n{0}", customerService.getPrintFormat(customer)));
 				}
 				case CREATE -> {
-					// 1. create a customer
 					String name = input.input("Enter your name.");
 					String email = input.input("Enter your email.");
 
 					Customer customer = customerService.signUp(name, email);
-					output.print("Welcome! Your are now our member.");
+					output.print("Welcome! Your are now our member!");
 					output.print(customerService.getPrintFormat(customer));
 				}
 				case EXIT -> {
