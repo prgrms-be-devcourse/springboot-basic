@@ -124,7 +124,8 @@ class CustomerServiceTest {
     void isBlacklisted() {
         Customer customer = new Customer(UUID.randomUUID(), "Test", "Test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
         Customer customer2 = new Customer(UUID.randomUUID(), "Test2", "Test2@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        when(customerRepository.findAllBlacklistCustomer()).thenReturn(List.of(customer, customer2));
+        when(customerRepository.findCustomerOnBlacklistById(customer)).thenReturn(Optional.of(customer));
+        when(customerRepository.findCustomerOnBlacklistById(customer2)).thenReturn(Optional.of(customer2));
 
         assertThat(customerService.isOnBlacklist(customer)).isTrue();
         assertThat(customerService.isOnBlacklist(customer2)).isTrue();
