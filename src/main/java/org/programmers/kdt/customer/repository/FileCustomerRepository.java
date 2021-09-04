@@ -49,10 +49,10 @@ public class FileCustomerRepository implements CustomerRepository {
         }
 
         // read blacklist
-        try {
+        try (
             FileReader blacklistReader = new FileReader(blacklistCSV);
             CSVReader csvReader = new CSVReader(blacklistReader);
-
+        ) {
             String[] records;
             while (null != (records = csvReader.readNext())) {
                 UUID customerId = UUID.fromString(records[0]);
@@ -72,10 +72,10 @@ public class FileCustomerRepository implements CustomerRepository {
         }
 
         // read customer list
-        try {
+        try (
             FileReader customersReader = new FileReader(customersCSV);
             CSVReader csvReader = new CSVReader(customersReader);
-
+        ) {
             String[] records;
             while (null != (records = csvReader.readNext())) {
                 UUID customerId = UUID.fromString(records[0]);
@@ -173,15 +173,15 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     private void updateFile(File csvFile, Map<UUID, Customer> cache, boolean appendToFile) {
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(csvFile, appendToFile));
+        try (
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(csvFile, appendToFile))
+        ) {
             for (Customer customer : cache.values()) {
                 bufferedWriter.write(MessageFormat.format("{0},{1},{2},{3},{4}",
                         customer.getCustomerId(), customer.getName(), customer.getEmail(),
                         customer.getLastLoginAt(), customer.getCreatedAt()));
                 bufferedWriter.newLine();
             }
-            bufferedWriter.close();
         } catch (IOException e) {
             logger.error("Updating CSV file Fails -> {}", e.getMessage());
             throw new RuntimeException(e);

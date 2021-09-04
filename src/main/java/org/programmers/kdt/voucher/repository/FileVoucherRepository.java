@@ -1,7 +1,6 @@
 package org.programmers.kdt.voucher.repository;
 
 
-import org.programmers.kdt.AppConfiguration;
 import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.voucher.FixedAmountVoucher;
 import org.programmers.kdt.voucher.PercentDiscountVoucher;
@@ -38,10 +37,10 @@ public class FileVoucherRepository implements VoucherRepository  {
             }
         }
 
-        try {
+        try (
             FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
+            BufferedReader bufferedReader = new BufferedReader(fileReader)
+        ) {
             String line = "";
             while (null != (line = bufferedReader.readLine())) {
                 String[] data = line.split(" ");
@@ -55,9 +54,6 @@ public class FileVoucherRepository implements VoucherRepository  {
                     default -> throw new RuntimeException("Invalid Type of Voucher Detected! The Data File Is Damaged!");
                 }
             }
-
-            bufferedReader.close();
-            fileReader.close();
         } catch (IOException e) {
             logger.error("Something went wrong during reading voucher data file -> {}", e.getMessage());
             throw new RuntimeException(e);
@@ -71,17 +67,17 @@ public class FileVoucherRepository implements VoucherRepository  {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        try {
-            if (null == cache.put(voucher.getVoucherId(), voucher)) {
-                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+        if (null == cache.put(voucher.getVoucherId(), voucher)) {
+            try (
+                    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))
+            ) {
                 bufferedWriter.write(voucher.getVoucherId() + " " + voucher.getVoucherType() + " " + voucher.getDiscount());
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
-                bufferedWriter.close();
+            } catch (IOException e) {
+                logger.error("Inserting new voucher Fails -> {}", e.getMessage());
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            logger.error("Inserting new voucher Fails -> {}", e.getMessage());
-            throw new RuntimeException(e);
         }
         return voucher;
     }
@@ -90,15 +86,14 @@ public class FileVoucherRepository implements VoucherRepository  {
     public void deleteVoucher(UUID voucherId) {
         if (null != cache.remove(voucherId)) {
             // FIXME : 매번 파일 전체를 다시 써야 하므로 성능 저하 발생. 해결 필요
-            try {
-                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, false));
-
+            try (
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, false))
+            ) {
                 for (Voucher voucher : cache.values()) {
                     bufferedWriter.write(voucher.getVoucherId() + " " + voucher.getVoucherType() + " " + voucher.getDiscount());
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                 }
-                bufferedWriter.close();
             } catch (IOException e) {
                 logger.error("Deleting a voucher Fails -> {}", e.getMessage());
                 throw new RuntimeException(e);
