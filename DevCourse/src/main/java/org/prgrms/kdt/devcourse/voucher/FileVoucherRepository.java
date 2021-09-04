@@ -1,33 +1,36 @@
 package org.prgrms.kdt.devcourse.voucher;
 
+import org.prgrms.kdt.devcourse.io.FileLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Primary
+@Profile("default")
 public class FileVoucherRepository implements VoucherRepository{
     private Map<UUID,Voucher> voucherList = new ConcurrentHashMap<>();
-    private final String filePath = System.getProperty("user.dir")+"/voucher.csv";
-    private final File csvFile = new File(filePath);
 
+    @Value("${file.voucher.voucher}")
+    private String voucherFileName;
 
     @PostConstruct
-    public void postConstruct() throws IOException {
+    public void postConstruct() {
 
-            if(!csvFile.exists())
-                return;
-
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(csvFile));
-            String line;
-            while ((line = bufferedReader.readLine())!=null){
-                String [] oneLineDataArr = line.split(",");
-
+        List<String> fileLines = FileLoader.loadFile(voucherFileName);
+        for(String line : fileLines){
+            String [] oneLineDataArr = line.split(",");
+            try {
                 UUID filedDataUUID = UUID.fromString(oneLineDataArr[0]);
                 long filedDataVoucherAmount = Long.parseLong(oneLineDataArr[1]);
                 VoucherType filedDataVoucherType = VoucherType.valueOf(oneLineDataArr[2]);
@@ -36,14 +39,20 @@ public class FileVoucherRepository implements VoucherRepository{
                     voucherList.put(filedDataUUID, new FixedAmountVoucher(filedDataUUID, filedDataVoucherAmount));
                 else if(filedDataVoucherType == VoucherType.PERCENT)
                     voucherList.put(filedDataUUID, new PercentDiscountVoucher(filedDataUUID, filedDataVoucherAmount));
-
+            } catch (IllegalArgumentException e){
+                e.printStackTrace();
             }
-            bufferedReader.close();
+
+        }
 
     }
 
     @PreDestroy
     public void preDestroy() throws IOException {
+        String filePath = System.getProperty("user.dir")+"/"+voucherFileName;
+        File csvFile = new File(filePath);
+
+
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(csvFile));
         for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
             Voucher voucher = entry.getValue();

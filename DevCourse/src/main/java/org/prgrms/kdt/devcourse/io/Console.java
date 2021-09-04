@@ -1,5 +1,6 @@
 package org.prgrms.kdt.devcourse.io;
 
+import org.prgrms.kdt.devcourse.customer.Customer;
 import org.prgrms.kdt.devcourse.voucher.Voucher;
 
 import java.text.MessageFormat;
@@ -34,6 +35,17 @@ public class Console implements Input,Output {
         } else {
             for (Voucher voucher : vouchers) {
                 System.out.println("바우처 " + voucher.getVoucherId());
+            }
+        }
+    }
+
+    @Override
+    public void printCustomerList(List<Customer> customers) {
+        if(customers.isEmpty()){
+            System.out.println("고객 정보가 없습니다.");
+        }else{
+            for (Customer customer : customers) {
+                System.out.println(MessageFormat.format("{0}(ID: {1})",customer.getCustomerName(),customer.getCustomerId()));
             }
         }
     }
