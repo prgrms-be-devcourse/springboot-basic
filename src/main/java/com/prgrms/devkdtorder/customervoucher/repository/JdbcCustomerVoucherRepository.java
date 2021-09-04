@@ -29,7 +29,8 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
         var used = resultSet.getBoolean("used");
         var usedAt = resultSet.getTimestamp("used_at") != null ?
                 resultSet.getTimestamp("used_at").toLocalDateTime() : null;
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);
+        var createdAt = resultSet.getTimestamp("created_at") != null ?
+                resultSet.getTimestamp("created_at").toLocalDateTime() : null;
         var expiredAt = resultSet.getTimestamp("expired_at") != null ?
                 resultSet.getTimestamp("expired_at").toLocalDateTime() : null;
         return CustomerVoucher.builder()
@@ -46,19 +47,20 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 
     private Map<String, Object> toParamMap(CustomerVoucher customerVoucher) {
         return new HashMap<>() {{
-            put("customerVoucherId", customerVoucher.getCustomerId().toString().getBytes());
+            put("customerVoucherId", customerVoucher.getCustomerVoucherId().toString().getBytes());
             put("customerId", customerVoucher.getCustomerId().toString().getBytes());
-            put("voucherId", customerVoucher.getCustomerId().toString().getBytes());
+            put("voucherId", customerVoucher.getVoucherId().toString().getBytes());
             put("used", customerVoucher.isUsed());
             put("usedAt", customerVoucher.getUsedAt() != null ? Timestamp.valueOf(customerVoucher.getUsedAt()) : null);
             put("expiredAt", customerVoucher.getExpiredAt() != null ? Timestamp.valueOf(customerVoucher.getExpiredAt()) : null);
-            put("createdAt", Timestamp.valueOf(customerVoucher.getCreatedAt()));
+            put("createdAt", customerVoucher.getCreatedAt() != null ? Timestamp.valueOf(customerVoucher.getCreatedAt()) : null);
         }};
     }
 
     @Override
     public CustomerVoucher insert(CustomerVoucher customerVoucher) {
-        String sql = "INSERT INTO custome_voucher(customer_voucher_id, customer_id, voucher_id, created_at, expired_at)" +
+        logger.info("insert called..");
+        String sql = "INSERT INTO customer_voucher(customer_voucher_id, customer_id, voucher_id, created_at, expired_at)" +
                 " VALUES (UNHEX(REPLACE(:customerVoucherId, '-', '')), UNHEX(REPLACE(:customerId, '-', '')), UNHEX(REPLACE(:voucherId, '-', '')), :createdAt, :expiredAt)";
         int insert = jdbcTemplate.update(sql, toParamMap(customerVoucher));
         if (insert != 1) {
@@ -70,7 +72,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 
     @Override
     public CustomerVoucher update(CustomerVoucher customerVoucher) {
-        String sql = "UPDATE custome_voucher" +
+        String sql = "UPDATE customer_voucher" +
                 " SET used = :used, used_at = :usedAt, expired_at = :expiredAt" +
                 " WHERE customer_voucher_id = UNHEX(REPLACE(:customerVoucherId, '-', ''))";
         int update = jdbcTemplate.update(sql, toParamMap(customerVoucher));
