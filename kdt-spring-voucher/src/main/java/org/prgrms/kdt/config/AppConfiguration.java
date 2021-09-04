@@ -2,6 +2,7 @@ package org.prgrms.kdt.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.prgrms.kdt.controller.VoucherController;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
@@ -18,16 +19,9 @@ import javax.sql.DataSource;
 public class AppConfiguration {
 
     @Bean
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
-        var datasource = DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:3306/voucher_order_mgmt")
-                .username("root")
-                .password("root1234!")
-                .type(HikariDataSource.class) //쓸 구현체를 넣어준다 .
-                .build();
-        datasource.setMaximumPoolSize(100);
-        datasource.setMinimumIdle(100);
-        return datasource;
+        return DataSourceBuilder.create().build();
     }
 
     @Bean
@@ -39,6 +33,5 @@ public class AppConfiguration {
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
         return new NamedParameterJdbcTemplate(jdbcTemplate);
     }
-
-
+    
 }

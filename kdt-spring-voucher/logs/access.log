@@ -147,3 +147,6 @@ org.springframework.dao.EmptyResultDataAccessException: Incorrect result size: e
 04:37:07.919 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
 04:40:42.374 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
 04:41:56.214 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
+05:13:21.830 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
+05:13:30.577 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
+05:15:32.365 [restartedMain] ERROR o.p.kdt.controller.VoucherController - 입력 오류 발생 다시 입력하세요 
