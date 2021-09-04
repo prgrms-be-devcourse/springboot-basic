@@ -1,45 +1,54 @@
 package com.example.kdtspringmission;
 
-import java.util.Scanner;
+import com.example.kdtspringmission.view.InputView;
+import com.example.kdtspringmission.view.OutputView;
+import com.example.kdtspringmission.voucher.repository.VoucherRepository;
+import com.example.kdtspringmission.voucher.service.VoucherService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class CommandLineApplication {
 
-    private Scanner scanner = new Scanner(System.in);
-    private final VoucherRepository voucherRepository;
+    private final InputView inputView;
+    private final OutputView outputView;
+    private final VoucherService voucherService;
 
-    public CommandLineApplication(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
+    public CommandLineApplication(InputView inputView, OutputView outputView,
+        VoucherService voucherService) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        this.voucherService = voucherService;
+    }
+
+    public static void main(String[] args) {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        InputView inputView = ac.getBean("consoleInputView", InputView.class);
+        OutputView outputView = ac.getBean("consoleOutputView", OutputView.class);
+        VoucherService voucherService = ac.getBean("voucherService", VoucherService.class);
+        new CommandLineApplication(inputView, outputView, voucherService).run();
     }
 
     public void run() {
         while (true) {
+            outputView.commandList();
+            executeCommand(inputView.getCommand());
+        }
+    }
 
-            System.out.println("=== Voucher Program ===\n"
-                + "Type 'exit' to exit the program\n"
-                + "Type 'create' to create voucher\n"
-                + "Type 'list' to list vouchers");
+    private void executeCommand(Command command) {
+        if (command == Command.EXIT) {
+            System.exit(0);
+            return;
+        }
 
-            String userInput = scanner.nextLine();
+        if (command == Command.CREATE) {
+            outputView.creatableVoucherList();
+            voucherService.createAndPersist(inputView.nextLine());
+            return;
+        }
 
-            if (userInput.equals("exit")) {
-                break;
-            }
-
-            if (userInput.equals("create")) {
-                System.out.println("Which one? (1.FixedAmountVoucher, 2.RateAmountVoucher)");
-                String voucher = scanner.nextLine();
-                if (voucher.equals("1")) {
-                    voucherRepository.insert(VoucherFactory.create("FixedAmountVoucher"));
-                } else if (voucher.equals("2")) {
-                    voucherRepository.insert(VoucherFactory.create("RateAmountVoucher"));
-                } else {
-                    throw new IllegalArgumentException();
-                }
-            }
-
-            if (userInput.equals("list")) {
-                System.out.println(voucherRepository.findAll());
-            }
+        if (command == Command.LIST) {
+            outputView.voucherList(voucherService.findAll());
         }
     }
 
