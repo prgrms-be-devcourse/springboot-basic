@@ -9,8 +9,8 @@ public interface Output {
     void help();
     void createVoucher(Voucher voucher);
     void listVoucher(Map<UUID, Voucher> voucherList);
-    void allocateCustomer(String[] uuids);
-    void deleteCustomerVoucher(String customerUUID);
+    void allocateCustomer(UUID voucherId, UUID customerId);
+    void deleteCustomerVoucher(UUID customerId);
     void printIllegalInputError();
     void printVoucherListNotFoundError();
 }

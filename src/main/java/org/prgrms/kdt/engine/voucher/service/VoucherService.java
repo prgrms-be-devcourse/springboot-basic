@@ -42,9 +42,7 @@ public class VoucherService {
         return voucherRepository.getAll();
     }
 
-    public void setVoucherCustomer(String[] uuids) {
-        UUID voucherId = UUID.fromString(uuids[0]);
-        UUID customerId = UUID.fromString(uuids[1]);
+    public void setVoucherCustomer(UUID voucherId, UUID customerId) {
         validateVoucherId(voucherId);
         validateCustomerId(customerId);
         voucherRepository.setCustomerId(voucherId, customerId);
@@ -66,13 +64,11 @@ public class VoucherService {
         }
     }
 
-    public Optional<Map<UUID, Voucher>> listCustomerVoucher(String customerUUID) {
-        UUID customerId = UUID.fromString(customerUUID);
+    public Optional<Map<UUID, Voucher>> listCustomerVoucher(UUID customerId) {
         return voucherRepository.getCustomerVoucher(customerId);
     }
 
-    public void deleteCustomerVoucher(String customerUUID) {
-        UUID customerId = UUID.fromString(customerUUID);
+    public void deleteCustomerVoucher(UUID customerId) {
         voucherRepository.deleteCustomerVoucher(customerId);
     }
 }

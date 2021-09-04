@@ -48,16 +48,13 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void allocateCustomer(String[] uuids) {
-        String voucherId = uuids[0];
-        String customerId = uuids[1];
+    public void allocateCustomer(UUID voucherId, UUID customerId) {
         System.out.println(MessageFormat.format("Voucher : {0} is allocated to Customer {1}", voucherId, customerId));
     }
 
     @Override
-    public void deleteCustomerVoucher(String customerUUID) {
-        UUID customerId = UUID.fromString(customerUUID);
-        System.out.println("Deleted All Vouchers of " + customerUUID);
+    public void deleteCustomerVoucher(UUID customerId) {
+        System.out.println("Deleted All Vouchers of " + customerId);
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,15 +57,30 @@ public class CommandLineApplication {
 
                 case ALLOCATE_CUSTOMER: {
                     var prompt = "comma separated UUID of voucher followed by UUID of customer : ";
-                    var uuids = input.inputCommand(prompt).split(",");
-                    voucherService.setVoucherCustomer(uuids);
-                    output.allocateCustomer(uuids);
+                    var ids = input.inputCommand(prompt).split(",");
+
+                    if (!isIdValid(ids)) {
+                        output.printIllegalInputError();
+                        break;
+                    }
+
+                    var voucherId = UUID.fromString(ids[0]);
+                    var customerId = UUID.fromString(ids[1]);
+                    voucherService.setVoucherCustomer(voucherId, customerId);
+                    output.allocateCustomer(voucherId, customerId);
                     break;
                 }
 
                 case LIST_CUSTOMER_VOUCHERS: {
                     var prompt = "UUID of the customer : ";
-                    var customerId = input.inputCommand(prompt);
+                    var id = input.inputCommand(prompt);
+
+                    if (!isIdValid(id)) {
+                        output.printIllegalInputError();
+                        break;
+                    }
+
+                    var customerId = UUID.fromString(id);
                     var voucherList = voucherService.listCustomerVoucher(customerId);
                     voucherList.ifPresentOrElse(output::listVoucher, output::printVoucherListNotFoundError);
                     break;
@@ -72,7 +88,14 @@ public class CommandLineApplication {
 
                 case DELETE_CUSTOMER_VOUCHER: {
                     var prompt = "UUID of the customer : ";
-                    var customerId = input.inputCommand(prompt);
+                    var id = input.inputCommand(prompt);
+
+                    if (!isIdValid(id)) {
+                        output.printIllegalInputError();
+                        break;
+                    }
+
+                    var customerId = UUID.fromString(id);
                     voucherService.deleteCustomerVoucher(customerId);
                     output.deleteCustomerVoucher(customerId);
                     break;
@@ -101,5 +124,23 @@ public class CommandLineApplication {
             return Optional.empty();
         }
         return Optional.of(voucherService.createVoucher(type, rate));
+    }
+
+    private static boolean isIdValid(String id) {
+        try {
+            UUID.fromString(id);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean isIdValid(String[] ids) {
+        try {
+            Arrays.stream(ids).forEach(UUID::fromString);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 }
