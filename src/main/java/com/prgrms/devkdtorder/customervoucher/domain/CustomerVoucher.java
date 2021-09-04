@@ -21,6 +21,7 @@ public class CustomerVoucher {
         this.voucherId = voucherId;
         this.expiredAt = expiredAt;
     }
+
     @Builder
     private CustomerVoucher(UUID customerVoucherId, UUID customerId, UUID voucherId, boolean used, LocalDateTime usedAt, LocalDateTime createdAt, LocalDateTime expiredAt) {
         this(customerVoucherId, customerId, voucherId, expiredAt);
@@ -55,5 +56,18 @@ public class CustomerVoucher {
 
     public LocalDateTime getExpiredAt() {
         return expiredAt;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerVoucher{" +
+                "customerVoucherId=" + customerVoucherId +
+                ", customerId=" + customerId +
+                ", voucherId=" + voucherId +
+                ", used=" + used +
+                ", usedAt=" + usedAt +
+                ", createdAt=" + createdAt +
+                ", expiredAt=" + expiredAt +
+                '}';
     }
 }
