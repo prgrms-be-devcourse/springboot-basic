@@ -28,6 +28,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private final String SELECT_BY_ID_SQL = "select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String SELECT_ALL_SQL = "select * from voucher";
+    private final String INSERT_SQL = "insert into voucher(voucher_id, voucher_type, discount, created_at) values(UUID_TO_BIN(:voucherId), :voucherType, :discount, :createdAt)";
+    private final String DELETE_ALL_SQL = "delete from voucher";
+    private final String DELETE_BY_ID_SQL = "delete from voucher where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String UPDATE_BY_ID_SQL = "update voucher set voucher_type = :voucherType, discount= :discount  where voucher_id = UUID_TO_BIN(:voucherId)";
+
     private HashMap<String, Object> toParamMap(VoucherEntity voucherEntity) {
         return new HashMap<>() {
             {
@@ -49,7 +56,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public VoucherEntity insert(VoucherEntity voucherEntity) {
-        var update = jdbcTemplate.update("insert into voucher(voucher_id, voucher_type, discount, created_at) values(UUID_TO_BIN(:voucherId), :voucherType, :discount, :createdAt)",
+        var update = jdbcTemplate.update(INSERT_SQL,
                 toParamMap(voucherEntity));
         if (update != 1) {
             throw new RuntimeException("Nothing was Inserted");
@@ -60,7 +67,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public VoucherEntity update(VoucherEntity voucherEntity) {
-        var update = jdbcTemplate.update("update voucher set voucher_type = :voucherType, discount= :discount  where voucher_id = UUID_TO_BIN(:voucherId)",
+        var update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
                 toParamMap(voucherEntity));
         if (update != 1) {
             throw new RuntimeException("Nothing was Updated");
@@ -70,13 +77,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public List<VoucherEntity> findAll() {
-        return jdbcTemplate.query("select * from voucher", voucherEntityRowMapper);
+        return jdbcTemplate.query(SELECT_ALL_SQL, voucherEntityRowMapper);
     }
 
     @Override
     public Optional<VoucherEntity> findById(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL,
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherEntityRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -87,12 +94,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from voucher", Collections.emptyMap());
+        jdbcTemplate.update(DELETE_ALL_SQL, Collections.emptyMap());
     }
 
     @Override
     public void deleteById(UUID voucherId) {
         var voucherIdMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
-        jdbcTemplate.update("delete from voucher where voucher_id = UUID_TO_BIN(:voucherId)", voucherIdMap);
+        jdbcTemplate.update(DELETE_BY_ID_SQL, voucherIdMap);
     }
 }
