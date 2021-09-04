@@ -25,7 +25,7 @@ CREATE TABLE customer_voucher
     customer_id         BINARY(16)  NOT NULL,
     used                BIT(1)      NOT NULL DEFAULT 0,
     used_at             DATETIME(6),
-    created_at          DATETIME(6) NOT NULL DEFAULT NOW(6),
+    created_at          DATETIME(6) DEFAULT NOW(6),
     expired_at          DATETIME(6),
     CONSTRAINT fk_voucher_id
         FOREIGN KEY (voucher_id)
