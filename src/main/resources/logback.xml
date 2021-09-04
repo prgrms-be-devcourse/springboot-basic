@@ -34,11 +34,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.prgrms.kdt" level="warn">
+    <root level="info">
         <appender-ref ref="ROLLING_FILE"/>
-    </logger>
-
-    <root level="warn">
-        <appender-ref ref="STDOUT" />
     </root>
 </configuration>
