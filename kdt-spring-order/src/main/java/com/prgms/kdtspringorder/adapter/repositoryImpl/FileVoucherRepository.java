@@ -1,4 +1,4 @@
-package com.prgms.kdtspringorder.adapter;
+package com.prgms.kdtspringorder.adapter.repositoryImpl;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,22 +14,29 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import com.prgms.kdtspringorder.config.PathProperties;
 import com.prgms.kdtspringorder.domain.model.voucher.FixedAmountVoucher;
 import com.prgms.kdtspringorder.domain.model.voucher.PercentDiscountVoucher;
 import com.prgms.kdtspringorder.domain.model.voucher.Voucher;
 import com.prgms.kdtspringorder.domain.model.voucher.VoucherRepository;
 import com.prgms.kdtspringorder.domain.model.voucher.VoucherType;
 
-@Qualifier("file")
+@Profile("dev")
+@Primary
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
-    private static final String FILEPATH = System.getProperty("user.dir") + "/voucher_list.csv";
-    private static final File FILE = new File(FILEPATH);
     private static final String COMMA = ",";
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private final File file;
+
+    public FileVoucherRepository(PathProperties pathProperties) {
+        String filepath = System.getProperty("user.dir") + pathProperties.getVoucherList();
+        file = new File(filepath);
+    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -38,8 +45,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
-        return voucher;
+        return storage.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
@@ -49,12 +55,10 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @PostConstruct
     private void postConstruct() {
-        if (!FILE.exists()) {
+        if (!file.exists()) {
             return;
         }
-        // file 가져와서 storage에 넣기
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
-            // Files.newBufferedReader(Paths.get(FILEPATH))
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = "";
             while ((line = br.readLine()) != null) {
                 String[] voucherInfo = line.split(COMMA);
@@ -76,7 +80,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @PreDestroy
     private void preDestroy() {
         // storage를 file에 넣기
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             storage.forEach((id, voucher) -> {
                 VoucherType type = VoucherType.FIXED;
                 if (voucher.getClass().getSimpleName().equals("PercentDiscountVoucher")) {

@@ -21,7 +21,7 @@ public class FixedAmountVoucher implements Voucher {
         long discounted = beforeDiscountAmount - discountAmount;
         if (discounted < 0) {
             throw new InvalidDiscountException(
-                MessageFormat.format("{0}\n원가: {1}, 바우처 할인 금액: {2}", ErrorMessage.INVALID_DISCOUNT_AMOUNT.getMessage(),
+                MessageFormat.format("{0}\n원가: {1}, 바우처 할인 금액: {2}", ErrorMessage.INVALID_DISCOUNT_AMOUNT,
                     beforeDiscountAmount, discountAmount));
         }
         return discounted;

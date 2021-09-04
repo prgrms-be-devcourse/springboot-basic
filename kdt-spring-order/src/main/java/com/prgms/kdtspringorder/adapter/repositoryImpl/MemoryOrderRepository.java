@@ -1,4 +1,4 @@
-package com.prgms.kdtspringorder.adapter;
+package com.prgms.kdtspringorder.adapter.repositoryImpl;
 
 import java.util.Map;
 import java.util.UUID;
@@ -15,7 +15,6 @@ public class MemoryOrderRepository implements OrderRepository {
 
     @Override
     public Order save(Order order) {
-        storage.put(order.getOrderId(), order);
-        return order;
+        return storage.put(order.getOrderId(), order);
     }
 }
