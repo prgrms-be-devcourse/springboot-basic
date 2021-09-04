@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain;
+package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
@@ -15,6 +15,8 @@ public class FixedAmountVoucher implements Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
+
+    public long getAmount() { return amount;}
 
     @Override
     public long discount(long beforeDiscount) {

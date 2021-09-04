@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain;
+package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
@@ -14,6 +14,8 @@ public class PercentDiscountVoucher implements Voucher {
     public UUID getVoucherId() {
         return this.voucherId;
     }
+
+    public long getPercent() { return percent; }
 
     @Override
     public long discount(long beforeDiscount) {

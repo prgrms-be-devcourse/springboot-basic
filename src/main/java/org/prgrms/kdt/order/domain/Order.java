@@ -1,4 +1,6 @@
-package org.prgrms.kdt.domain;
+package org.prgrms.kdt.order.domain;
+
+import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +25,10 @@ public class Order {
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.of(voucher);
+    }
+
+    public UUID getOrderID() {
+        return orderID;
     }
 
     public long totalAmount() {

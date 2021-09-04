@@ -1,11 +1,11 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.order.repository;
 
-import org.prgrms.kdt.domain.Order;
+import org.prgrms.kdt.order.domain.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface OrderRepository {
-    void insert(Order order);
+    Order insert(Order order);
     List<Order> orders = new ArrayList<>();
 }
