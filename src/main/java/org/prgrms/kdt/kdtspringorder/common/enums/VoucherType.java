@@ -1,5 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.common.enums;
 
+import org.prgrms.kdt.kdtspringorder.voucher.domain.Discountable;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public enum VoucherType {
 
     FIX("F", "가격") {
+
         @Override
         public Voucher createVoucher(long discount) {
             return new FixedAmountVoucher(UUID.randomUUID(), discount);
@@ -24,9 +26,16 @@ public enum VoucherType {
         public Voucher createVoucher(UUID voucherId, UUID customerId, long amount, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
             return new FixedAmountVoucher(voucherId, customerId, this, amount, useYn, createdAt, usedAt);
         }
+
+        @Override
+        public Long getDiscountByVoucherType(Voucher voucher) {
+            return  ((FixedAmountVoucher) voucher).getAmount();
+        }
+
     },
 
     PERCENT("P", "퍼센티지") {
+
         @Override
         public Voucher createVoucher(long discount) {
             return new PercentDiscountVoucher(UUID.randomUUID(), discount);
@@ -36,6 +45,12 @@ public enum VoucherType {
         public Voucher createVoucher(UUID voucherId, UUID customerId, long percent, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
             return new PercentDiscountVoucher(voucherId, customerId, this, percent, useYn, createdAt, usedAt);
         }
+
+        @Override
+        public Long getDiscountByVoucherType(Voucher voucher) {
+            return  ((PercentDiscountVoucher) voucher).getPercent();
+        }
+
     };
 
     private final String value; // 바우처 타입 코드
@@ -72,5 +87,7 @@ public enum VoucherType {
     public abstract Voucher createVoucher(long discount);
 
     public abstract Voucher createVoucher(UUID voucherId, UUID customerId, long percent, String useYn, LocalDateTime createdAt, LocalDateTime usedAt);
+
+    public abstract Long getDiscountByVoucherType(Voucher voucher);
 
 }

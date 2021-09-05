@@ -4,6 +4,7 @@ import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.common.exception.VoucherNotFoundException;
 import org.prgrms.kdt.kdtspringorder.common.util.MapConverter;
 import org.prgrms.kdt.kdtspringorder.common.util.UuidUtil;
+import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -21,8 +23,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
     private final String SELECT_ALL_SQL = "select * from vouchers";
     private final String SELECT_BY_ID_SQL = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
-    private final String INSERT_SQL = "UPDATE vouchers SET discount = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)";
-//    private final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, customer_id, discount_percent, discount_amount) VALUES(UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId), :percent, :amount)";
+    private final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, customer_id, discount, voucher_type) VALUES(UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId), :discount, :voucherType)";
     private final String UPDATE_DISCOUNT_SQL = "UPDATE vouchers SET discount = :discount WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String DELETE_ALL_SQL = "DELETE FROM vouchers";
     private final String DELETE_SQL = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId) ";
@@ -45,13 +46,9 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
     @Override
     public UUID insert(Voucher voucher) {
-        final Map<String, Object> paramMap = MapConverter.toParamMap(voucher);
+        final Map<String, Object> paramMap = toParamMap(voucher);
 
-        String discountFieldName = voucher.getVoucherType().equals(VoucherType.FIX) ? "amount" : "percent";
-        paramMap.put("voucherType", voucher.getVoucherType().getValue());
-
-        final String dynamicInsertSql = MessageFormat.format(INSERT_SQL, discountFieldName);
-        final int update = jdbcTemplate.update(dynamicInsertSql, paramMap);
+        final int update = jdbcTemplate.update(INSERT_SQL, paramMap);
         if (update != 1) {
             throw new VoucherNotFoundException(voucher.getVoucherId());
         }
@@ -60,7 +57,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
     @Override
     public UUID updateDiscount(Voucher voucher) {
-        final Map<String, Object> paramMap = MapConverter.toParamMap(voucher);
+        final Map<String, Object> paramMap = toParamMap(voucher);
 
         String discountFieldName = voucher.getVoucherType().equals(VoucherType.FIX) ? "amount" : "percent";
         paramMap.put("voucherType", voucher.getVoucherType().getValue());
@@ -92,6 +89,28 @@ public class VoucherJdbcRepository implements VoucherRepository{
         final LocalDateTime createdAt = resultSet.getTimestamp("created_at") != null ? resultSet.getTimestamp("created_at").toLocalDateTime() : null;
 
         return VoucherType.findVoucherType(voucherType).createVoucher(voucherId, customerId, discount, useYn, createdAt, usedAt);
+    }
+
+    private HashMap<String, Object> toParamMap(Voucher voucher) {
+
+        String voucherId = voucher.getVoucherId().toString();
+        String customerId = voucher.getCustomerId() != null ? voucher.getCustomerId().toString() : null;
+        String voucherType = voucher.getVoucherType().getValue();
+        String useYn = voucher.getUseYn();
+        Long discount = voucher.getVoucherType().getDiscountByVoucherType(voucher);
+        Timestamp createdAt = voucher.getCreatedAt() != null ? Timestamp.valueOf(voucher.getCreatedAt()) : null;
+        Timestamp usedAt = voucher.getUsedAt() != null ? Timestamp.valueOf(voucher.getUsedAt()) : null;
+
+        final HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("voucherId", voucherId);
+        paramMap.put("customerId", customerId);
+        paramMap.put("voucherType", voucherType);
+        paramMap.put("useYn", useYn);
+        paramMap.put("discount", discount);
+        paramMap.put("createdAt", createdAt);
+        paramMap.put("usedAt", usedAt);
+
+        return paramMap;
     }
 
 }
