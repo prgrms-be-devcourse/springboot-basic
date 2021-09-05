@@ -16,3 +16,13 @@ CREATE TABLE vouchers
     discount       int(4) NOT NULL,
     created_at     datetime(6)    NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
 );
+
+CREATE TABLE wallets
+(
+    wallet_id BINARY(16) PRIMARY KEY,
+    customer_id       BINARY(16),
+    voucher_id        BINARY(16),
+    created_at        datetime(6)    NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
+    FOREIGN KEY (voucher_id) REFERENCES vouchers (voucher_id)
+);
