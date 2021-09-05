@@ -3,6 +3,7 @@ package org.programmers.customer.repository;
 import org.programmers.customer.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -68,15 +69,24 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-                Collections.singletonMap("customerId", customerId.toString().getBytes()), customerRowMapper));
+        try {
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                    Collections.singletonMap("customerId", customerId.toString().getBytes()), customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return Optional.empty();
+        }
 
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from customers WHERE email = :email", Collections.singletonMap("email", email), customerRowMapper));
-
+        try {
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from customers WHERE email = :email", Collections.singletonMap("email", email), customerRowMapper));
+        }catch (EmptyResultDataAccessException e){
+            logger.error("Got empty result", e);
+            return Optional.empty();
+        }
     }
 
     @Override

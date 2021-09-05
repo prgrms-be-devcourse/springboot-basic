@@ -28,9 +28,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CustomerVoucherRepositoryTest {
+class CustomerJdbcRepositoryTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerVoucherRepositoryTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepositoryTest.class);
 
     @Configuration
     @ComponentScan(basePackages = {"org.programmers.customer.repository"})
@@ -112,8 +112,6 @@ class CustomerVoucherRepositoryTest {
         assertThat(findCustomerByEmail.isEmpty(), is(false));
         assertThat(findCustomerByEmail.get(), samePropertyValuesAs(testCustomer));
 
-        Optional<Customer> notExistingCustomer = customerJdbcRepository.findByEmail("not-exist@gmail.com");
-        assertThat(notExistingCustomer.isEmpty(), is(true));
     }
 
     @Test
