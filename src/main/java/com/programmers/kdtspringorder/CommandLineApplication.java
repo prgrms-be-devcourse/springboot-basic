@@ -4,17 +4,16 @@ import com.programmers.kdtspringorder.command.Command;
 import com.programmers.kdtspringorder.command.CreateCommandAction;
 import com.programmers.kdtspringorder.command.CustomerListCommandAction;
 import com.programmers.kdtspringorder.command.VoucherListCommandAction;
-import com.programmers.kdtspringorder.customer.CustomerService;
+import com.programmers.kdtspringorder.customer.service.CustomerService;
 import com.programmers.kdtspringorder.io.Input;
 import com.programmers.kdtspringorder.io.Output;
-import com.programmers.kdtspringorder.voucher.VoucherService;
-import org.springframework.boot.CommandLineRunner;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class CommandLineApplication implements CommandLineRunner {
+public class CommandLineApplication{
 
     private final Input input;
     private final Output output;
@@ -28,7 +27,6 @@ public class CommandLineApplication implements CommandLineRunner {
         this.customerService = customerService;
     }
 
-    @Override
     public void run(String... args) throws Exception {
         output.printMessage("=== Voucher Program ===");
         manageVoucherProcess();

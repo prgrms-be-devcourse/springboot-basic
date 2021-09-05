@@ -1,10 +1,10 @@
 package com.programmers.kdtspringorder.command;
 
-import com.programmers.kdtspringorder.customer.Customer;
-import com.programmers.kdtspringorder.customer.CustomerService;
+import com.programmers.kdtspringorder.customer.model.Customer;
+import com.programmers.kdtspringorder.customer.service.CustomerService;
 import com.programmers.kdtspringorder.io.Input;
 import com.programmers.kdtspringorder.io.Output;
-import com.programmers.kdtspringorder.voucher.VoucherService;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 
 import java.text.MessageFormat;

@@ -1,7 +1,8 @@
 package com.programmers.kdtspringorder.customer;
 
+import com.programmers.kdtspringorder.customer.model.Customer;
+import com.programmers.kdtspringorder.customer.repository.CustomerJdbcRepository;
 import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +19,12 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.Charset.UTF8;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -90,7 +88,7 @@ class CustomerNamedJdbcRepositoryTest {
 
     @BeforeAll
     void setUp(){
-        testUser = new Customer(UUID.randomUUID(), "testUser", "test@naver.com", LocalDateTime.parse(LocalDateTime.now().toString().substring(0,26)));
+        testUser = new Customer(UUID.randomUUID(), "testUser", "test@naver.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
 
         // embedded mysql 설정인데 실행 안됨
 //        MysqldConfig mySqlConfig = aMysqldConfig(v8_0_11)

@@ -1,0 +1,32 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>KDT - New Voucher</title>
+</head>
+<body class="container-fluid">
+<h1>KDT Spring App</h1>
+<h2>New Voucher</h2>
+<form th:action th:object="${voucherCreateRequest}" method="post">
+    <!-- radio button -->
+    <div>
+        <div>Voucher Type</div>
+        <div th:each="type :${voucherTypes}">
+            <input type="radio" th:field="*{voucherType}" th:value="${type.name()}" class="form-check-input">
+            <label th:for="${#ids.prev('voucherType')}" th:text="${type.type}" class="form-check-label">
+                Voucher Type
+            </label>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Voucher Value</label>
+        <input type="text" name="value" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>

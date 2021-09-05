@@ -1,6 +1,6 @@
 package com.programmers.kdtspringorder.order;
 
-import com.programmers.kdtspringorder.voucher.VoucherService;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

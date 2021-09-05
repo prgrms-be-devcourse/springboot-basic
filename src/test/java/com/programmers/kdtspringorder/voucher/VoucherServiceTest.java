@@ -4,6 +4,7 @@ import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
 import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +38,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("없는 바우처 ID를 입력하면 RuntimeException을 던진다")
-    public void getVoucherWithRuntimeException(){
+    public void getVoucherWithRuntimeException() {
         // Given
         VoucherRepository voucherRepository = mock(VoucherRepository.class);
         VoucherFactory voucherFactory = mock(VoucherFactory.class);
@@ -66,7 +67,7 @@ class VoucherServiceTest {
         VoucherService voucherService = new VoucherService(voucherRepository, voucherFactory);
 
         // When
-        Voucher actual = voucherService.createVoucher("FIXED", 2000L);
+        Voucher actual = voucherService.createVoucher(VoucherType.FIXED, 2000L);
 
         // Then
         assertThat(actual).isEqualTo(fixedAmountVoucher);

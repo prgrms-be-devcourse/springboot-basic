@@ -2,7 +2,7 @@ package com.programmers.kdtspringorder.command;
 
 import com.programmers.kdtspringorder.io.Input;
 import com.programmers.kdtspringorder.io.Output;
-import com.programmers.kdtspringorder.voucher.VoucherService;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 
@@ -17,11 +17,11 @@ public record CreateCommandAction(Input input,
         if (isWrongType(type)) {
             output.printMessage("잘못 입력 하셨습니다");
         }
-        Voucher voucher = createVoucher(type, 20);
+        Voucher voucher = createVoucher(VoucherType.valueOf(type), 20);
         output.printMessage("쿠폰 생성에 성공하였습니다");
     }
 
-    private Voucher createVoucher(String type, long value) {
+    private Voucher createVoucher(VoucherType type, long value) {
         return voucherService.createVoucher(type, value);
     }
 
