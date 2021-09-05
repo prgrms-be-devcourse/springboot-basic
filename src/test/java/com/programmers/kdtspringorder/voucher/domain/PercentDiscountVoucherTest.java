@@ -1,7 +1,5 @@
 package com.programmers.kdtspringorder.voucher.domain;
 
-import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,7 +22,7 @@ class PercentDiscountVoucherTest {
         long discount = percentDiscountVoucher.discount(100L);
 
         //then
-        assertThat(discount).isEqualTo(100L - 100L * percentDiscountVoucher.getValue() / 100L);
+        assertThat(discount).isEqualTo(100L - 100L * percentDiscountVoucher.getDiscountValue() / 100L);
     }
 
 

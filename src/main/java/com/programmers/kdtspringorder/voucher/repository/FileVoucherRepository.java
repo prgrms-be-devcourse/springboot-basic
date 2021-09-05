@@ -8,7 +8,6 @@ import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -79,7 +78,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @TrackTime
     public Voucher save(Voucher voucher) {
         try {
-            writer.write(voucher.getType().toString() + " " + voucher.getVoucherId().toString() + " " + voucher.getValue());
+            writer.write(voucher.getType().toString() + " " + voucher.getVoucherId().toString() + " " + voucher.getDiscountValue());
             writer.newLine();
             writer.flush();
         } catch (IOException e) {

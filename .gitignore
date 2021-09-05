@@ -8,8 +8,12 @@
 
 compiler.xml
 misc.xml
+kdt-spring-order.iml
+schema.sql
+MANIFEST.MF
 
 # User-specific stuff
+.idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml

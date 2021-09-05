@@ -26,7 +26,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        long discountedAmount = beforeDiscount - getValue();
+        long discountedAmount = beforeDiscount - getDiscountValue();
         if (discountedAmount < 0) {
             throw new IllegalArgumentException("디스카운트된 금액은 마이너스가 될 수 없다");
         }

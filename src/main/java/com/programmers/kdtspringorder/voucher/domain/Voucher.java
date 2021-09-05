@@ -1,7 +1,6 @@
 package com.programmers.kdtspringorder.voucher.domain;
 
 import com.programmers.kdtspringorder.voucher.VoucherType;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -11,16 +10,16 @@ public abstract class Voucher {
 
     private final UUID voucherId;
     private UUID customerId;
-    private final long value;
+    private final long discountValue;
     private final VoucherType type;
     private boolean used;
     private LocalDateTime createdAt;
     private LocalDateTime expirationDate;
 
-    public Voucher(UUID voucherId, UUID customerId, long value, VoucherType type, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {
+    public Voucher(UUID voucherId, UUID customerId, long discountValue, VoucherType type, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {
         this.voucherId = voucherId;
         this.customerId = customerId;
-        this.value = value;
+        this.discountValue = discountValue;
         this.type = type;
         this.used = used;
         this.createdAt = createdAt;
@@ -45,8 +44,8 @@ public abstract class Voucher {
         used = true;
     }
 
-    public long getValue() {
-        return value;
+    public long getDiscountValue() {
+        return discountValue;
     }
 
     public VoucherType getType() {
