@@ -1,6 +1,6 @@
 package org.prgrms.kdt.customer.service;
 
-import org.prgrms.kdt.customer.domain.Customer;
+import org.prgrms.kdt.customer.model.Customer;
 import org.prgrms.kdt.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 

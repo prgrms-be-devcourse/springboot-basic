@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.io.Console;
 import org.prgrms.kdt.voucher.service.VoucherService;
 
@@ -28,12 +28,12 @@ public class VoucherController {
                     VoucherType voucherType = VoucherType.convert(inputType);
                     switch (voucherType){
                         case FIXED, PERCENT -> {
-                            long voucherValue = console.inputVoucherValue();
-                            voucherService.createVoucher(UUID.randomUUID(), voucherType, voucherValue);
-                            console.printSuccess();
-                        }
-                        case UNDEFINED -> {
-                            console.printCommandError(inputType);
+                                long voucherValue = console.inputVoucherValue();
+                                voucherService.createVoucher(UUID.randomUUID(), voucherType, voucherValue);
+                                console.printSuccess();
+                            }
+                            case UNDEFINED -> {
+                                console.printCommandError(inputType);
                         }
                     }
                 }

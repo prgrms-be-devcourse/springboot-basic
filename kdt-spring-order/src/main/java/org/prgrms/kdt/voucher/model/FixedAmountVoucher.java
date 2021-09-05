@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.domain;
+package org.prgrms.kdt.voucher.model;
 
 import java.util.UUID;
 
@@ -7,6 +7,7 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
+        if(amount < 0) throw new IllegalArgumentException("Amount가 음수면 안됨");
         this.voucherId = voucherId;
         this.amount = amount;
     }

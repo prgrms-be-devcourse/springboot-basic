@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.prgrms.kdt.voucher", "org.prgrms.kdt.customer"})
+//@ComponentScan(basePackages = {"org.prgrms.kdt.voucher", "org.prgrms.kdt.customer"})
 public class KdtApplication {
 
 	public static void main(String[] args) {

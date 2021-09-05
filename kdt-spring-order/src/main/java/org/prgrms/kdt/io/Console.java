@@ -1,9 +1,7 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.customer.domain.Customer;
-import org.prgrms.kdt.order.OrderTester;
-import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.customer.model.Customer;
+import org.prgrms.kdt.voucher.model.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

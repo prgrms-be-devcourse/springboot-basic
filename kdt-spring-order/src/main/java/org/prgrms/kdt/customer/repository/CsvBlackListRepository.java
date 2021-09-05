@@ -1,21 +1,12 @@
 package org.prgrms.kdt.customer.repository;
-import org.prgrms.kdt.customer.domain.Customer;
-import org.prgrms.kdt.customer.service.CustomerService;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.customer.model.Customer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.*;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 public class CsvBlackListRepository implements CustomerRepository{

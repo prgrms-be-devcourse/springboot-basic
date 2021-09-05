@@ -1,25 +1,16 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 

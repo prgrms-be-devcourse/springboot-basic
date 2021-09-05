@@ -1,4 +1,4 @@
-package org.prgrms.kdt.customer.domain;
+package org.prgrms.kdt.customer.model;
 
 public class Customer {
     private final String name;
