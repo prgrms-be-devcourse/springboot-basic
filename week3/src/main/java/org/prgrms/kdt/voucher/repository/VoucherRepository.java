@@ -12,5 +12,5 @@ public interface VoucherRepository {
 
     List<Voucher> findAll() throws IOException;
 
-    void insert(Voucher voucher) throws IOException;
+    int insert(Voucher voucher) throws IOException;
 }

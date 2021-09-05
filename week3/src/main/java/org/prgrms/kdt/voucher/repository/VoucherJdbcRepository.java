@@ -35,15 +35,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         return VoucherGenerator.createVoucher(voucherId, amount, voucherType);
     };
+
     @Override
-    public void insert(Voucher voucher) throws IOException {
+    public int insert(Voucher voucher) throws IOException {
         var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, voucher_type) values(UUID_TO_BIN(?), ? , ?)",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getAmount(),
                 voucher.getClass().getSimpleName());
-        if(update != 1){
-            throw new RuntimeException("Nothing was inserted");
-        }
+        return update;
     }
 
     @Override

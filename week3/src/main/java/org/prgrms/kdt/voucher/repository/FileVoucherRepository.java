@@ -38,8 +38,9 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void insert(Voucher voucher) {
+    public int insert(Voucher voucher) {
         memory.put(voucher.getVoucherId(), voucher);
+        return memory.size();
     }
 
     @PostConstruct
