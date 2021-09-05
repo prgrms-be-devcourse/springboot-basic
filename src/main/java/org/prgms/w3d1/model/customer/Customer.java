@@ -1,5 +1,8 @@
 package org.prgms.w3d1.model.customer;
 
+import org.prgms.w3d1.model.wallet.VoucherWallet;
+import org.prgms.w3d1.model.wallet.Wallet;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -10,6 +13,8 @@ public class Customer {
     private final String email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
+    // 지갑의 내용물은 가변적이다
+    private Wallet voucherWallet;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         validateName(name);
@@ -48,11 +53,18 @@ public class Customer {
         return createdAt;
     }
 
+    public Wallet getVoucherWallet() {
+        return voucherWallet;
+    }
+
+    public void setVoucherWallet(Wallet wallet) {
+        this.voucherWallet = wallet;
+    }
+
     public void changeName(String name){
         validateName(name);
         this.name = name;
     }
-
 
     @Override
     public String toString() {

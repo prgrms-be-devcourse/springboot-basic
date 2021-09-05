@@ -17,15 +17,15 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(UUID customerId, List<OrderItem> orderItems){
-        Order order =  new Order(UUID.randomUUID(), customerId, orderItems);
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
+        Order order = new Order(UUID.randomUUID(), customerId, orderItems);
         orderRepository.insert(order);
         return order;
     }
 
-    public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId){
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
         var voucher = voucherService.getVoucher(voucherId);
-        Order order =  new Order(UUID.randomUUID(), customerId, orderItems, voucher);
+        Order order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
         orderRepository.insert(order);
         voucherService.useVoucher(voucher);
         return order;

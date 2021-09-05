@@ -1,6 +1,7 @@
 package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.util.FileConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.io.*;
-import java.text.MessageFormat;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Profile("prod")
 @Repository
@@ -48,8 +46,30 @@ public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Vo
         storage.put(voucher.getVoucherId(), voucher);
     }
 
+    // 이 아래에서 부턴 DB에서 쓰는 영역
+
     @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public Optional<Voucher> findByCustomerId(UUID customerId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public VoucherWallet findVoucherWallet(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
+
     }
 }

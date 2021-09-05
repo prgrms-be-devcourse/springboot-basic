@@ -1,10 +1,9 @@
 package org.prgms.w3d1.model.customer;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
+import org.prgms.w3d1.repository.CustomerJdbcRepository;
+import org.prgms.w3d1.repository.DatabaseVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +20,6 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -29,10 +27,10 @@ class CustomerJdbcRepositoryTest {
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgms.w3d1.model.customer"})
-    static class config {
+    static class Config {
 
         @Bean
-        public DataSource dataSource(){
+        public DataSource dataSource() {
             return DataSourceBuilder.create().url("jdbc:mysql://localhost/my_order_mgmt")
                 .username("root")
                 .password("1111")
@@ -41,12 +39,17 @@ class CustomerJdbcRepositoryTest {
         }
 
         @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource){
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
         }
 
         @Bean
-        public CustomerJdbcRepository customerRepository(JdbcTemplate jdbcTemplate){
+        public DatabaseVoucherRepository databaseVoucherRepository(JdbcTemplate jdbcTemplate) {
+            return new DatabaseVoucherRepository(jdbcTemplate);
+        }
+
+        @Bean
+        public CustomerJdbcRepository customerRepository(JdbcTemplate jdbcTemplate) {
             return new CustomerJdbcRepository(jdbcTemplate);
         }
     }
@@ -58,6 +61,9 @@ class CustomerJdbcRepositoryTest {
     JdbcTemplate jdbcTemplate;
 
     @Autowired
+    DatabaseVoucherRepository databaseVoucherRepository;
+
+    @Autowired
     CustomerJdbcRepository customerJdbcRepository;
 
     Customer newCustomer;
@@ -66,6 +72,15 @@ class CustomerJdbcRepositoryTest {
     void setup() {
         newCustomer = new Customer(UUID.randomUUID(), "test-user",
             "test-user@gmail.com", LocalDateTime.now());
+    }
+
+    @BeforeEach
+    void methodSetup() {
+        customerJdbcRepository.insert(newCustomer);
+    }
+
+    @AfterEach
+    void methodCleanUp() {
         customerJdbcRepository.deleteAll();
     }
 
@@ -74,7 +89,7 @@ class CustomerJdbcRepositoryTest {
      */
     @Test
     @Order(0)
-    public void testHikariConnectionPool(){
+    public void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
     }
 
@@ -86,8 +101,6 @@ class CustomerJdbcRepositoryTest {
      */
     @Test
     void insert() {
-        customerJdbcRepository.insert(newCustomer);
-
         var testCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
 
         assertThat(testCustomer.isEmpty(), is(false));

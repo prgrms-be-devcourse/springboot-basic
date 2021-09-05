@@ -6,4 +6,6 @@ public interface Voucher {
     UUID getVoucherId();
     long getVoucherValue();
     long discount(long beforeDiscount);
+    UUID getCustomerId();
+    void setCustomerId(UUID customerId);
 }

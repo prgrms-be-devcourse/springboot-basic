@@ -1,4 +1,6 @@
-package org.prgms.w3d1.model.customer;
+package org.prgms.w3d1.repository;
+
+import org.prgms.w3d1.model.customer.Customer;
 
 import java.time.LocalDateTime;
 import java.util.List;
