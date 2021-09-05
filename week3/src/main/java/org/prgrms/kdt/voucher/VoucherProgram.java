@@ -33,9 +33,10 @@ public class VoucherProgram {
 
     public void runProgram() throws IOException {
 
-        String input = null;
+        String input;
 
-        outer: while (true) {
+        boolean flag = false;
+        while (true) {
             userInteraction.showInfoMessage();
             input = userInteraction.getNext(sc);
 
@@ -51,12 +52,13 @@ public class VoucherProgram {
                 }
                 case EXIT -> {
                     userInteraction.showExitProgramMessage();
-                    break outer;
+                    flag = true;
                 }
                 default -> {
                     userInteraction.showInvalidMessage();
                 }
             }
+            if(flag) break;
         }
     }
 
