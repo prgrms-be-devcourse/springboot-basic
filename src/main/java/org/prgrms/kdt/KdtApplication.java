@@ -21,7 +21,7 @@ public class KdtApplication {
 		var applicationContext = springApplication.run(args);
 
 		var orderProperties = applicationContext.getBean(OrderProperties.class);
-		System.out.println(MessageFormat.format("version -> {0}", orderProperties.getVersion()));
+		System.out.println("version -> " + orderProperties.getVersion() );
 		System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", orderProperties.getMinimumOrderAmount()));
 		System.out.println(MessageFormat.format("supportVendors -> {0}", orderProperties.getSupportVendors()));
 		System.out.println(MessageFormat.format("description -> {0}", orderProperties.getDescription()));
