@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.kdt.voucher.util.Util.toUUID;
+
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
 
@@ -35,10 +37,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return new Customer(customerId, customerName, email, lastLogin, createdAt);
     };
 
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 
     @Override
     public List<Customer> findAll() {

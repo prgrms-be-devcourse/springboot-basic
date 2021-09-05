@@ -11,10 +11,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.prgrms.kdt.voucher.util.Util.toUUID;
 
 @Repository
 @Primary
@@ -34,12 +35,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         return VoucherGenerator.createVoucher(voucherId, amount, voucherType);
     };
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
     @Override
     public void insert(Voucher voucher) throws IOException {
         var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, voucher_type) values(UUID_TO_BIN(?), ? , ?)",
