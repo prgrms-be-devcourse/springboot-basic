@@ -2,7 +2,6 @@ package org.prgrms.kdt.kdtspringorder.voucher.repository;
 
 import org.prgrms.kdt.kdtspringorder.common.io.FileIo;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
-import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,14 +14,14 @@ import java.util.*;
 
 @Repository
 @Profile({"prod"})
-public class FileVoucherRepository implements VoucherRepository {
+public class VoucherFileRepository implements VoucherRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherFileRepository.class);
 
     private final Map<UUID,Voucher> voucherMap = new HashMap<>();
     private final FileIo fileIo;
 
-    public FileVoucherRepository(@Qualifier("file-object-io") FileIo<Object> fileIo){
+    public VoucherFileRepository(@Qualifier("file-object-io") FileIo<Object> fileIo){
         this.fileIo = fileIo;
     }
 

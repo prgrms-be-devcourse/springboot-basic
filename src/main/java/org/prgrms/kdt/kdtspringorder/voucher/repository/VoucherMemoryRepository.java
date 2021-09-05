@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
  */
 @Repository
 @Profile({"local"})
-public class MemoryVoucherRepository implements VoucherRepository{
+public class VoucherMemoryRepository implements VoucherRepository{
 
-    private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherMemoryRepository.class);
 
     private Map<UUID,Voucher> voucherMap = new HashMap<>();
 
