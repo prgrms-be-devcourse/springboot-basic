@@ -3,16 +3,12 @@ package org.prgrms.kdt.customer.repository;
 import org.prgrms.kdt.customer.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,17 +17,12 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
+@Primary
 public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
 
-    private final DataSource datasource;
-
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    private final PlatformTransactionManager transactionManager;
-
-    private final TransactionTemplate transactionTemplate;
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
@@ -43,11 +34,15 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         return new Customer(customerId, customerName, customerEmail, lastLoginAt, createdAt);
     };
 
-    public CustomerNamedJdbcRepository(DataSource datasource, TransactionTemplate transactionTemplate, NamedParameterJdbcTemplate jdbcTemplate, PlatformTransactionManager transactionManager) {
-        this.datasource = datasource;
-        this.jdbcTemplate = jdbcTemplate;
-        this.transactionTemplate = transactionTemplate;
-        this.transactionManager = transactionManager;
+//    public CustomerNamedJdbcRepository(DataSource datasource, TransactionTemplate transactionTemplate, NamedParameterJdbcTemplate jdbcTemplate, PlatformTransactionManager transactionManager) {
+//        this.datasource = datasource;
+//        this.jdbcTemplate = jdbcTemplate;
+//        this.transactionTemplate = transactionTemplate;
+//        this.transactionManager = transactionManager;
+//    }
+
+    public CustomerNamedJdbcRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.jdbcTemplate = namedParameterJdbcTemplate;
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
@@ -122,17 +117,17 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         }
     }
 
-    public void testTransaction(Customer customer) {
-        var transaction = transactionManager.getTransaction(new DefaultTransactionDefinition());
-        try {
-            jdbcTemplate.update("UPDATE customers SET name = :name WHERE customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
-            jdbcTemplate.update("UPDATE customers SET email = :email WHERE customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
-            transactionManager.commit(transaction);
-        } catch (DataAccessException e) {
-            logger.error("Got error", e);
-            transactionManager.rollback(transaction);
-        }
-    }
+//    public void testTransaction(Customer customer) {
+//        var transaction = transactionManager.getTransaction(new DefaultTransactionDefinition());
+//        try {
+//            jdbcTemplate.update("UPDATE customers SET name = :name WHERE customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
+//            jdbcTemplate.update("UPDATE customers SET email = :email WHERE customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
+//            transactionManager.commit(transaction);
+//        } catch (DataAccessException e) {
+//            logger.error("Got error", e);
+//            transactionManager.rollback(transaction);
+//        }
+//    }
 
     @Override
     public void deleteAll() {

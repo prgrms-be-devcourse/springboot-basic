@@ -13,7 +13,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -159,26 +158,26 @@ class CustomerNamedJdbcRepositoryTest {
         assertThat(all, everyItem(samePropertyValuesAs(newCustomer)));
     }
 
-    @Test
-    @DisplayName("트랜잭션 테스트")
-    @Order(7)
-    public void testTransaction() {
-        var prevOne = customerJdbcRepository.findById(newCustomer.getCustomerId());
-        assertThat(prevOne.isEmpty(), is(false));
-        var newOne = new Customer(UUID.randomUUID(), "a", "a@gmail.com",
-                LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        var insertedNewOne = customerJdbcRepository.insert(newOne);
-        try {
-            customerJdbcRepository.testTransaction(new Customer(insertedNewOne.getCustomerId(),
-                    "b",
-                    prevOne.get().getEmail(),
-                    newOne.getCreatedAt()));
-        } catch (DataAccessException e) {
-            logger.error("Got error when testing transaction", e);
-        }
-
-        var maybeNewOne = customerJdbcRepository.findById(insertedNewOne.getCustomerId());
-        assertThat(maybeNewOne.isEmpty(), is(false));
-        assertThat(maybeNewOne.get(), samePropertyValuesAs(newOne));
-    }
+//    @Test
+//    @DisplayName("트랜잭션 테스트")
+//    @Order(7)
+//    public void testTransaction() {
+//        var prevOne = customerJdbcRepository.findById(newCustomer.getCustomerId());
+//        assertThat(prevOne.isEmpty(), is(false));
+//        var newOne = new Customer(UUID.randomUUID(), "a", "a@gmail.com",
+//                LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+//        var insertedNewOne = customerJdbcRepository.insert(newOne);
+//        try {
+//            customerJdbcRepository.testTransaction(new Customer(insertedNewOne.getCustomerId(),
+//                    "b",
+//                    prevOne.get().getEmail(),
+//                    newOne.getCreatedAt()));
+//        } catch (DataAccessException e) {
+//            logger.error("Got error when testing transaction", e);
+//        }
+//
+//        var maybeNewOne = customerJdbcRepository.findById(insertedNewOne.getCustomerId());
+//        assertThat(maybeNewOne.isEmpty(), is(false));
+//        assertThat(maybeNewOne.get(), samePropertyValuesAs(newOne));
+//    }
 }
