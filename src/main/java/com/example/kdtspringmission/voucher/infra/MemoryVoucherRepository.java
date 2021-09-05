@@ -1,13 +1,12 @@
-package com.example.kdtspringmission.voucher.repository;
+package com.example.kdtspringmission.voucher.infra;
 
 import com.example.kdtspringmission.voucher.domain.Voucher;
+import com.example.kdtspringmission.voucher.domain.VoucherRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
 //@Repository
 //@Profile({"local", "test"})

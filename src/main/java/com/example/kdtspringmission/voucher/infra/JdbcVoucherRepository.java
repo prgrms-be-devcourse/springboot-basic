@@ -1,8 +1,9 @@
-package com.example.kdtspringmission.voucher.repository;
+package com.example.kdtspringmission.voucher.infra;
 
 import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.RateAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.Voucher;
+import com.example.kdtspringmission.voucher.domain.VoucherRepository;
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JdbcVoucherRepository implements VoucherRepository{
+public class JdbcVoucherRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

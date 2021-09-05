@@ -1,4 +1,4 @@
-package com.example.kdtspringmission.customer.repository;
+package com.example.kdtspringmission.customer.domain;
 
 import com.example.kdtspringmission.customer.domain.Customer;
 import java.util.List;

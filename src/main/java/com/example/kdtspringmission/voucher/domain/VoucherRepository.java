@@ -1,4 +1,4 @@
-package com.example.kdtspringmission.voucher.repository;
+package com.example.kdtspringmission.voucher.domain;
 
 import com.example.kdtspringmission.voucher.domain.Voucher;
 import java.util.List;

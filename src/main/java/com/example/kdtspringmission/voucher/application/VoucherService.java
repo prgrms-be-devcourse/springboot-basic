@@ -1,13 +1,12 @@
-package com.example.kdtspringmission.voucher.service;
+package com.example.kdtspringmission.voucher.application;
 
 import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.RateAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.Voucher;
-import com.example.kdtspringmission.voucher.repository.VoucherRepository;
+import com.example.kdtspringmission.voucher.domain.VoucherRepository;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -11,8 +11,9 @@ public class KdtSpringMissionApplication {
         ConfigurableApplicationContext ac = SpringApplication
             .run(KdtSpringMissionApplication.class, args);
 
-        CommandLineApplication app = ac.getBean(CommandLineApplication.class);
+        FrontController app = ac.getBean(FrontController.class);
         app.run();
+
     }
 
 }

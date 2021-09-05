@@ -1,9 +1,9 @@
-package com.example.kdtspringmission.customer.service;
+package com.example.kdtspringmission.customer.application;
 
 import com.example.kdtspringmission.customer.domain.Customer;
-import com.example.kdtspringmission.customer.repository.CustomerRepository;
+import com.example.kdtspringmission.customer.domain.CustomerRepository;
 import com.example.kdtspringmission.voucher.domain.Voucher;
-import com.example.kdtspringmission.voucher.service.VoucherService;
+import com.example.kdtspringmission.voucher.application.VoucherService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;

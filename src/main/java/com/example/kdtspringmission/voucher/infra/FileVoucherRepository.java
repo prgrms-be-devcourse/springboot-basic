@@ -1,8 +1,9 @@
-package com.example.kdtspringmission.voucher.repository;
+package com.example.kdtspringmission.voucher.infra;
 
 import com.example.kdtspringmission.voucher.domain.FixedAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.RateAmountVoucher;
 import com.example.kdtspringmission.voucher.domain.Voucher;
+import com.example.kdtspringmission.voucher.domain.VoucherRepository;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,13 +16,10 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 //@Repository
 //@Profile("dev")
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
 
     private static final String AMOUNT_DELIM = "=";
     private static final String VOUCHERS_PATH = "src/main/resources/vouchers/";
