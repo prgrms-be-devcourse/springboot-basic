@@ -7,9 +7,8 @@ import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
 import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
 import org.prgms.w3d1.model.voucher.VoucherService;
 import org.prgms.w3d1.util.Command;
-import org.prgms.w3d1.util.VoucherCommand;
+import org.prgms.w3d1.model.voucher.VoucherCommand;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.UUID;
 

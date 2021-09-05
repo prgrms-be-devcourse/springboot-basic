@@ -22,6 +22,11 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     }
 
     @Override
+    public long getVoucherValue() {
+        return amount;
+    }
+
+    @Override
     public long discount(long beforeDiscount){
         return beforeDiscount - amount;
     }

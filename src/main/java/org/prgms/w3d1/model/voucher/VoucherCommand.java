@@ -1,4 +1,4 @@
-package org.prgms.w3d1.util;
+package org.prgms.w3d1.model.voucher;
 
 import java.util.Arrays;
 
