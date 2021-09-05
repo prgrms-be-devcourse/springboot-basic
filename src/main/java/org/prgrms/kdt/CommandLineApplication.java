@@ -1,7 +1,7 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.CreateVoucher;
+import org.prgrms.kdt.voucher.DiscountValidation;
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -10,18 +10,16 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class CommandLineApplication {
     public static void main(final String[] args) throws IOException, InterruptedException {
         final var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         final Scanner scanner = new Scanner(System.in);
 
-        String VoucherType = "";
-
         final List<Voucher> mylist = new ArrayList<Voucher>();
 
         boolean programRunning = true;
+        String VoucherType = "";
 
         do {
             System.out.println("=== Voucher Program ===");
@@ -49,38 +47,35 @@ public class CommandLineApplication {
 
                         switch (VoucherType) {
                             case "FixedAmountVoucher":
-                                System.out.println("할인 가격을 얼마로 설정하시겠습니까?");
-                                final String amount = scanner.nextLine();
-                                mylist.add(new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(amount)));
+                                CreateVoucher.howMuchDiscountMessage(VoucherType);
+                                long amount = 0;
 
-                                System.out.println(VoucherType + "가 생성되었습니다.");
+                                boolean discountAmountCheck1 = true;
+                                while (discountAmountCheck1) {
+                                    amount = Long.parseLong(scanner.nextLine());
+                                    discountAmountCheck1 = new DiscountValidation(amount).amountValidation();
+                                }
+
+                                mylist.add(new CreateVoucher(amount).createFixedAmountVoucher());
                                 createTypeRunning = false;
                                 break;
 
                             case "PercentDiscountVoucher":
-                                System.out.println("할인율을 몇 퍼센트로 설정하시겠습니까?");
-                                String discountAmount = null;
+                                CreateVoucher.howMuchDiscountMessage(VoucherType);
+                                float discountPercent = 0;
 
-                                boolean discountAmountCheck = true;
-                                while (discountAmountCheck) {
-                                    final String percent = scanner.nextLine();
-
-                                    if (Long.parseLong(percent) > 100 || Long.parseLong(percent) <= 0) {
-                                        System.out.println("할인율은 0 초과, 100 이하로 설정해주십시오.");
-                                    } else discountAmountCheck = false;
-
-                                    discountAmount = percent;
+                                boolean discountAmountCheck2 = true;
+                                while (discountAmountCheck2) {
+                                    discountPercent = Float.parseFloat(scanner.nextLine());
+                                    discountAmountCheck2 = new DiscountValidation(discountPercent).percentValidation();
                                 }
 
-                                mylist.add(new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(discountAmount)));
-                                System.out.println(VoucherType + "가 생성되었습니다.");
+                                mylist.add(new CreateVoucher(discountPercent).createPercentDiscountVoucher());
                                 createTypeRunning = false;
                                 break;
 
                             default:
-                                System.out.println("=== Input type error ===");
-                                System.out.println(VoucherType + " does not exist in Voucher Program.");
-                                System.out.println("'FixedAmountVoucher', 'PercentDiscountVoucher'");
+                                CreateVoucher.howMuchDiscountMessage(VoucherType);
                                 break;
                         }
                     } while (createTypeRunning);
