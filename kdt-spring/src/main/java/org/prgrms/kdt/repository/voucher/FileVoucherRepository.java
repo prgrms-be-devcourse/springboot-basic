@@ -31,6 +31,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> find(Voucher voucher) {
+        return Optional.empty();
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         io.mark();
         try {
@@ -109,16 +114,6 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
 
-    }
-
-    @Override
-    public int count() {
-        return 0;
-    }
-
-    @Override
-    public boolean exist(Voucher voucher) {
-        return false;
     }
 
     private UUID mapToUUID(String voucherId) {
