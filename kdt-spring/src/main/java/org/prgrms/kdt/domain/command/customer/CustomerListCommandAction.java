@@ -6,6 +6,7 @@ import org.prgrms.kdt.io.IO;
 import org.prgrms.kdt.service.CustomerService;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 public class CustomerListCommandAction implements CommandAction {
 
@@ -29,6 +30,6 @@ public class CustomerListCommandAction implements CommandAction {
     }
 
     private void printCustomer(Customer customer) throws IOException {
-        io.writeLine(String.format("Name: {%s} | Email: {%s} | Created: {%s}", customer.getName(), customer.getEmail(), customer.getCreatedAt()));
+        io.writeLine(MessageFormat.format("Name: {0} | Email: {1} | Created: {2}", customer.getName(), customer.getEmail(), customer.getCreatedAt()));
     }
 }
