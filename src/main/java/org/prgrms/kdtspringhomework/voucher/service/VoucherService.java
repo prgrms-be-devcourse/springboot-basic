@@ -28,4 +28,8 @@ public class VoucherService {
             System.out.println(x);
         }
     }
+
+    public void useVoucher(Voucher voucher) {
+        //강의사용 메소드
+    }
 }
