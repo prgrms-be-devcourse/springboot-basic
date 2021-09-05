@@ -3,6 +3,7 @@ package org.prgrms.kdt.kdtspringorder.voucher.service;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.common.exception.VoucherNotFoundException;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
@@ -141,7 +142,6 @@ class VoucherServiceTest {
         }
     }
 
-    // 아직 미완..
     @Nested
     @DisplayName("saveVoucher 메서드는")
     class Describe_saveVoucher {
@@ -162,7 +162,7 @@ class VoucherServiceTest {
                 newVoucherDiscount = 100;
 
                 createdVoucher = new FixedAmountVoucher(newVoucherId, newVoucherDiscount);
-                when(voucherRepository.insert(createdVoucher)).thenReturn(createdVoucher.getVoucherId());
+                when(voucherRepository.insert(Mockito.any(Voucher.class))).thenReturn(createdVoucher.getVoucherId());
 
             }
 
