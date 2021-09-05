@@ -1,15 +1,13 @@
 package org.prgrms.kdt.voucher.repository;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.ClassLevelTestConfig;
+import org.prgrms.kdt.JdbcTemplateConfig;
 import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
@@ -21,28 +19,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 @SpringJUnitConfig
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class VoucherJdbcRepositoryTest {
+class VoucherJdbcRepositoryTest extends ClassLevelTestConfig {
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgrms.kdt.voucher", "org.prgrms.kdt.blacklist", "org.prgrms.kdt.io"})
-    static class Config {
-        @Bean
-        public DataSource datasource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/order_mgmt")
-                    .username("root")
-                    .password("1234")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-    }
+    static class Config extends JdbcTemplateConfig {}
 
     @Autowired
     VoucherJdbcRepository voucherJdbcRepository;
@@ -50,15 +31,13 @@ class VoucherJdbcRepositoryTest {
     @Autowired
     DataSource dataSource;
 
-    FixedAmountVoucher fixedAmountVoucher;
+    FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);;
 
-    PercentDiscountVoucher percentDiscountVoucher;
+    PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);;
 
     @BeforeAll
     void setUp() {
         voucherJdbcRepository.deleteAll();
-        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
     }
 
     @Test
