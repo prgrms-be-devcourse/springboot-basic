@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher.util;
 
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "voucher")
+@Data
 public class VoucherProperties implements InitializingBean {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherProperties.class);
@@ -23,22 +25,4 @@ public class VoucherProperties implements InitializingBean {
         logger.debug("[VoucherProperties] version -> {}", version);
         logger.debug("[VoucherProperties] minimumOrderAmount -> {}", description);
     }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public List<String> getDescription() {
-        return description;
-    }
-
-    public void setDescription(List<String> description) {
-        this.description = description;
-    }
-
-
 }
