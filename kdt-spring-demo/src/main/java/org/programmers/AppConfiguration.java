@@ -6,7 +6,7 @@ import org.springframework.context.annotation.*;
 
 @Configuration
 @ComponentScan
-@PropertySource(value = "application-prod.yml", factory = YamlPropertiesFactory.class)
+@PropertySource(value = "classpath:application-prod.yml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 public class AppConfiguration {
 }

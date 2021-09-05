@@ -1,7 +1,9 @@
 package org.programmers.console;
 
+import org.programmers.customer.model.BlackListCustomer;
 import org.programmers.customer.model.Customer;
 import org.programmers.voucher.model.Voucher;
+import org.programmers.voucher.model.VoucherInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -16,12 +18,7 @@ public class Console implements Input, Output {
     private static final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public String initInput() {
-        return scanner.nextLine();
-    }
-
-    @Override
-    public String getVoucherType() {
+    public String getInput() {
         return scanner.nextLine();
     }
 
@@ -33,30 +30,17 @@ public class Console implements Input, Output {
 
     @Override
     public void initInfoOutput() {
-        System.out.println("=== Voucher Program ===");
+        System.out.println();
+        System.out.println("=== Program ===");
         System.out.println("Type exit to exit the program.");
-        System.out.println("Type create to create a new voucher.");
-        System.out.println("Type voucherlist to list all vouchers.");
-        System.out.println("Type blacklist to list all blacklist.");
-    }
-
-    @Override
-    public void createTypeInfoOutput() {
-        System.out.println("Which types of voucher do you want to create?");
-        System.out.println("Please type the number of option.");
-        System.out.println("Fixed / Percent");
+        System.out.println("Type customer to enter a customer mode.");
+        System.out.println("Type voucher to enter a voucher mode.");
     }
 
     @Override
     public void showInputError() {
         System.out.println("You typed wrong input.");
-        System.out.println("You should type exit or create or list.");
         System.out.println();
-    }
-
-    @Override
-    public void listInfoOutput() {
-        System.out.println("=== Voucher List ===");
     }
 
     @Override
@@ -65,31 +49,94 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void createNumberInfoOutput() {
-        System.out.println("Please type the number to be percent or amount.");
+    public void exitModeOutput() {
+        System.out.println("End of the Mode");
     }
 
     @Override
-    public void blackListInfoOutput() {
+    public void customerNameInfoOutput(String mode) {
+        System.out.println("Please type a name to " + mode + " the customer");
+    }
+
+    @Override
+    public void customerEmailInfoOutput(String mode) {
+        System.out.println("Please type a email to " + mode + " the customer");
+    }
+
+    @Override
+    public void voucherTypeInfoOutput(String mode) {
+        System.out.println("Please type a type to " + mode + " a voucher");
+    }
+
+    @Override
+    public void voucherNumberInfoOutput(String mode) {
+        System.out.println("Please type a number to " + mode + " a voucher");
+    }
+
+    @Override
+    public void customerInitInfoOutput() {
+        System.out.println("=== Customer Mode ===");
+        System.out.println("Type exit to exit the program.");
+        System.out.println("Type create to create a new customer.");
+        System.out.println("Type find to search a customer");
+        System.out.println("Type update to update a customer");
+        System.out.println("Type delete to delete a voucher");
+        System.out.println("Type customerlist to list all customers.");
+        System.out.println("Type blacklist to list all blacklist.");
+    }
+
+    @Override
+    public void voucherInitInfoOutput() {
+        System.out.println("=== Voucher Mode ===");
+        System.out.println("Type exit to exit the program.");
+        System.out.println("Type create to create a new voucher.");
+        System.out.println("Type find to find a voucher");
+        System.out.println("Type update to update a number of the voucher");
+        System.out.println("Type delete to delete a voucher");
+        System.out.println("Type voucherlist to list all vouchers.");
+    }
+
+    @Override
+    public void printBlackList(List<BlackListCustomer> blackListCustomerList) {
         System.out.println("=== BlackList === ");
-    }
-
-    @Override
-    public void printBlackList(List<Customer> customerList) {
-        for (Customer customer : customerList) {
-            System.out.println(
-                    "Customer ID : " + customer.getCustomerId() + " / " + "Name : " + customer.getName()
-            );
+        for (BlackListCustomer blackListCustomer : blackListCustomerList) {
+            System.out.println(blackListCustomer.toString());
         }
     }
 
     @Override
-    public void printVoucherList(List<Voucher> voucherList) {
+    public void printVoucherFileList(List<VoucherInterface> voucherList) {
+        System.out.println("=== Voucher List ===");
+        for (VoucherInterface voucher : voucherList) {
+            System.out.println(voucher.toString());
+        }
+    }
+
+    @Override
+    public void printVoucherDataBaseList(List<Voucher> voucherList) { //
+        System.out.println("=== Voucher List ===");
         for (Voucher voucher : voucherList) {
-            System.out.println(
-                    "Voucher ID : " + voucher.getVoucherId() + " / " + "VoucherType : " + voucher.getVoucherType() + " / " + "Amount or Percent : " + voucher.getVoucherValue()
-            );
+            System.out.println(voucher.toString());
         }
     }
 
+    @Override
+    public void printCustomerList(List<Customer> customerList) { //
+        System.out.println("=== Customer List ===");
+        for (Customer customer : customerList) {
+            System.out.println(customer.toString());
+        }
+    }
+
+    @Override
+    public void printCustomer(Customer customer) { //
+        System.out.println("=== Customer List ===");
+        System.out.println(customer.toString());
+    }
+
+    @Override
+    public void printFindVoucher(Voucher voucher) { //
+        System.out.println("=== Voucher List ===");
+        System.out.println(voucher.toString());
+    }
 }

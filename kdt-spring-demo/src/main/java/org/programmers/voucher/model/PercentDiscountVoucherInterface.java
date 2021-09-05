@@ -2,11 +2,11 @@ package org.programmers.voucher.model;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucherInterface implements VoucherInterface {
     private final UUID voucherId;
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public PercentDiscountVoucherInterface(UUID voucherId, long percent) {
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -29,13 +29,5 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public VoucherType getVoucherType() {
         return VoucherType.PERCENT;
-    }
-
-    @Override
-    public String toString() {
-        return "PercentDiscountVoucher{" +
-                "voucherId=" + voucherId +
-                ", percent=" + percent +
-                '}';
     }
 }

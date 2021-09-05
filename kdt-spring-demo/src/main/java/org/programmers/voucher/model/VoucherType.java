@@ -1,9 +1,10 @@
 package org.programmers.voucher.model;
 
+import java.util.Arrays;
+
 public enum VoucherType {
     FIXED("fixed"),
-    PERCENT("percent"),
-    INPUT_ERROR("");
+    PERCENT("percent");
 
     private String inputVoucherType;
 
@@ -12,12 +13,9 @@ public enum VoucherType {
     }
 
     public static VoucherType getInputType(String inputVoucherType) {
-        for (VoucherType voucherType : VoucherType.values()) {
-            if (voucherType.inputVoucherType.equals(inputVoucherType)) {
-                return voucherType;
-            }
-        }
-
-        return INPUT_ERROR;
+        return Arrays.stream(VoucherType.values())
+                .filter(voucherType -> voucherType.inputVoucherType.equals(inputVoucherType))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Wrong VoucherType"));
     }
 }

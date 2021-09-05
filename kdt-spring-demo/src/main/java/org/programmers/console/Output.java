@@ -1,27 +1,42 @@
 package org.programmers.console;
 
+import org.programmers.customer.model.BlackListCustomer;
 import org.programmers.customer.model.Customer;
 import org.programmers.voucher.model.Voucher;
+import org.programmers.voucher.model.VoucherInterface;
 
 import java.util.List;
 
 public interface Output {
     void initInfoOutput();
 
-    void createTypeInfoOutput();
-
     void showInputError();
-
-    void listInfoOutput();
 
     void exitOutput();
 
-    void createNumberInfoOutput();
+    void printBlackList(List<BlackListCustomer> blackListCustomerList);
 
-    void blackListInfoOutput();
+    void printVoucherDataBaseList(List<Voucher> voucherList);
 
-    void printBlackList(List<Customer> customerList);
+    void printCustomerList(List<Customer> customerList);
 
-    void printVoucherList(List<Voucher> voucherList);
+    void printCustomer(Customer customer);
 
+    void printFindVoucher(Voucher voucher);
+
+    void customerInitInfoOutput();
+
+    void voucherInitInfoOutput();
+
+    void exitModeOutput();
+
+    void voucherTypeInfoOutput(String mode);
+
+    void voucherNumberInfoOutput(String mode);
+
+    void customerNameInfoOutput(String mode);
+
+    void customerEmailInfoOutput(String mode);
+
+    void printVoucherFileList(List<VoucherInterface> voucherList);
 }
