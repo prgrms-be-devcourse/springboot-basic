@@ -12,7 +12,7 @@ public class PercentAmountVoucher implements Voucher {
     private final LocalDateTime createdAt;
     private final VoucherType voucherType = VoucherType.PERCENT;
 
-    public PercentAmountVoucher(UUID voucherId, long value, LocalDateTime createdAt) throws IllegalArgumentException{
+    public PercentAmountVoucher(UUID voucherId, long value, LocalDateTime createdAt){
         if (isUnderZero(value)) throw new IllegalArgumentException("Percent should be positive");
         if (isZero(value)) throw new IllegalArgumentException("Percent should not be zero");
         if (isOverMaxValue(value)) throw  new IllegalArgumentException("Percent should be less than " + getMaxValue());
@@ -52,7 +52,7 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
-    public Voucher changeValue(long value) {
+    public Voucher changeValue(long value) throws IllegalArgumentException {
         if (isUnderZero(value)) throw new IllegalArgumentException("Value should be positive");
         if (isZero(value)) throw new IllegalArgumentException("Value should not be zero");
         if (isOverMaxValue(value))

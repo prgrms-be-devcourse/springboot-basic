@@ -16,5 +16,6 @@ public interface Voucher {
 
     long discount(long beforeDiscount);
 
-    Voucher changeValue(long value);
+    Voucher
+    changeValue(long value);
 }

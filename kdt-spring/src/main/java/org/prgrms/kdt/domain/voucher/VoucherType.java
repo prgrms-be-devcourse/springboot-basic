@@ -18,11 +18,11 @@ public enum VoucherType {
     }
 
     public int getValue() {
-        return value;
+        return this.value;
     }
 
     public int getMaxValue() {
-        return maxValue;
+        return this.maxValue;
     }
 
     public static VoucherType findType(int value) {
