@@ -32,7 +32,7 @@
 <!--    </logger>-->
 
 <!--    콘솔 출력은 info 레벨까지 모두 한다-->
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="STDOUT" />
     </root>
 

@@ -16,8 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
-@Profile("prod")
-//@Qualifier("csv")
+@Profile("csv")
 public class CsvVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
