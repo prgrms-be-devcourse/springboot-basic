@@ -28,13 +28,8 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-//      mutable
-//      return new ArrayList<>(memory.values());
-
-//      immutable
-//      return Collections.unmodifiableList(memory.values().stream().toList());
-
-        return List.of(memory.values().toArray(new Voucher[]{}));
+//        return List.of(memory.values().toArray(new Voucher[]{}));
+        return Arrays.asList(memory.values().toArray(new Voucher[]{}));
     }
 
     @Override
