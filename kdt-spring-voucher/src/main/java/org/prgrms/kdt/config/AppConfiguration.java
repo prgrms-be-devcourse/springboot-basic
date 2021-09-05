@@ -33,5 +33,5 @@ public class AppConfiguration {
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
         return new NamedParameterJdbcTemplate(jdbcTemplate);
     }
-    
+
 }

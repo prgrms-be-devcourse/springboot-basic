@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -24,9 +26,9 @@ public class CustomerVoucherJdbcRepository implements CustomerVoucherRepository 
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String SELECT_BY_CUSTOMER_ID_SQL = "select v.voucher_id, v.voucher_type, v.discount, v.created_at from" +
-            " customer_voucher as cv right outer join voucher as v on cv.customer_id = UUID_TO_BIN(:customerId)";
+    private final String SELECT_BY_CUSTOMER_ID_SQL = "select voucher_id from customer_voucher where customer_id = UUID_TO_BIN(:customerId)";
     private final String SELECT_ALL_SQL = "select * from customer_voucher";
+    private final String SELECT_BY_ID = "select * from customer_voucher where customer_voucher_id = UUID_TO_BIN(:customerVoucherId)";
     private final String INSERT_SQL = "insert into customer_voucher(customer_voucher_id,customer_id, voucher_id, created_at) values(UUID_TO_BIN(:customerVoucherId),UUID_TO_BIN(:customerId),UUID_TO_BIN(:voucherId), :createdAt)";
     private final String DELETE_ALL_SQL = "delete from customer_voucher";
     private final String DELETE_BY_ID_SQL = "delete from customer_voucher where customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)";
@@ -66,14 +68,27 @@ public class CustomerVoucherJdbcRepository implements CustomerVoucherRepository 
     }
 
     @Override
-    public List<VoucherEntity> findByCustomerId(UUID customerId) {
+    public Optional<CustomerVoucherEntity> findById(UUID customerVoucherId) {
         try {
-            return jdbcTemplate.query(SELECT_BY_CUSTOMER_ID_SQL,
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()), voucherEntityRowMapper);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID, Collections.singletonMap("customerVoucherId",
+                            customerVoucherId.toString().getBytes()),
+                    customerVoucherEntityRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got Empty result", e);
-            return Collections.emptyList();
+            return Optional.empty();
         }
+    }
+
+    @Override
+    public List<UUID> findByCustomerId(UUID customerId) {
+            return jdbcTemplate.query(SELECT_BY_CUSTOMER_ID_SQL,
+                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                    new RowMapper<UUID>() {
+                        @Override
+                        public UUID mapRow(ResultSet resultSet, int i) throws SQLException {
+                            return toUUID(resultSet.getBytes("voucher_id"));
+                        }
+                    });
     }
 
     @Override

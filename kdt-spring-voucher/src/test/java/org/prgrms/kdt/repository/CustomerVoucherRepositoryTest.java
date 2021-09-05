@@ -18,9 +18,11 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
@@ -127,12 +129,12 @@ class CustomerVoucherRepositoryTest {
         customerVoucherRepository.insert(testCase2);
 
         var list = customerVoucherRepository.findAll();
-        assertThat(list.get(1).getCustomerVoucherId(), is(testCase.getCustomerVoucherId()));
-        assertThat(list.get(1).getCustomerId(), is(testCustomer.getCustomerId()));
-        assertThat(list.get(1).getVoucherId(), is(testVoucher.getVoucherId()));
-        assertThat(list.get(0).getCustomerVoucherId(), is(testCase2.getCustomerVoucherId()));
-        assertThat(list.get(0).getCustomerId(), is(testCustomer2.getCustomerId()));
-        assertThat(list.get(0).getVoucherId(), is(testVoucher2.getVoucherId()));
+        assertThat(list.get(0).getCustomerVoucherId(), is(testCase.getCustomerVoucherId()));
+        assertThat(list.get(0).getCustomerId(), is(testCustomer.getCustomerId()));
+        assertThat(list.get(0).getVoucherId(), is(testVoucher.getVoucherId()));
+        assertThat(list.get(1).getCustomerVoucherId(), is(testCase2.getCustomerVoucherId()));
+        assertThat(list.get(1).getCustomerId(), is(testCustomer2.getCustomerId()));
+        assertThat(list.get(1).getVoucherId(), is(testVoucher2.getVoucherId()));
     }
 
     @Test
@@ -159,7 +161,7 @@ class CustomerVoucherRepositoryTest {
         customerVoucherRepository.insert(testCase);
 
         customerVoucherRepository.deleteById(testCustomer.getCustomerId(),testVoucher.getVoucherId());
-        var findCase = customerVoucherRepository.findByVoucherId(testVoucher.getVoucherId());
+        var findCase = customerVoucherRepository.findById(testCase.getCustomerVoucherId());
         assertThat(findCase.isEmpty(), is(true));
     }
 
@@ -173,13 +175,11 @@ class CustomerVoucherRepositoryTest {
 
         voucherRepository.insert(testVoucher2);
         customerVoucherRepository.insert(testCase3);
-
-        List<VoucherEntity> voucherList = customerVoucherRepository.findByCustomerId(testCustomer.getCustomerId());
+        var voucherIdList = customerVoucherRepository.findByCustomerId(testCustomer.getCustomerId());
+        var voucherList = voucherIdList.stream()
+                .map(id -> voucherRepository.findById(id).get()).collect(Collectors.toList());
+        assertThat(voucherList.size(), is(2));
         assertThat(voucherList.isEmpty(), is(false));
-//        assertThat(voucherList.size(), is(2));
-        for(var d : voucherList){
-            System.out.println(d.toString());
-        }
     }
 
     @Test

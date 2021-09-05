@@ -18,7 +18,9 @@ public interface CustomerVoucherRepository {
 
     List<CustomerVoucherEntity> findAll();
 
-    List<VoucherEntity> findByCustomerId(UUID customerId);
+    Optional<CustomerVoucherEntity> findById(UUID customerVoucherId);
+
+    List<UUID> findByCustomerId(UUID customerId);
 
     Optional<CustomerEntity> findByVoucherId(UUID voucherId);
 }
