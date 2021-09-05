@@ -8,6 +8,7 @@ import org.prgrms.kdt.service.dto.RequestUpdateCustomerDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +24,9 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer insert(RequestCreateCustomerDto dto) {
-        return customerRepository.insert(dto.toEntity(UUID.randomUUID()));
+    public Customer insert(String name, String email) {
+        Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
+        return customerRepository.insert(customer);
     }
 
     public Customer findById(UUID customerId) {
@@ -37,9 +39,9 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer update(RequestUpdateCustomerDto dto) {
-        Customer customer = findById(dto.getCustomerId());
-        changeCustomerName(customer, dto.getName());
+    public Customer update(UUID customerId, String name) {
+        Customer customer = findById(customerId);
+        changeCustomerName(customer, name);
         customerRepository.update(customer);
         return customer;
     }
