@@ -41,7 +41,13 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL, Collections.singletonMap("voucherId", voucherId.toString()), VoucherJdbcRepository::voucherRowMapper));
+        return Optional.ofNullable(
+            jdbcTemplate.queryForObject(
+                SELECT_BY_ID_SQL,
+                Collections.singletonMap("voucherId", voucherId.toString()),
+                VoucherJdbcRepository::voucherRowMapper
+            )
+        );
     }
 
     @Override
@@ -81,12 +87,15 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
     private static Voucher voucherRowMapper(ResultSet resultSet, int i) throws SQLException {
         final UUID voucherId = UuidUtil.toUUID(resultSet.getBytes("voucher_id"));
-        final UUID customerId = resultSet.getBytes("customer_id") != null ? UuidUtil.toUUID(resultSet.getBytes("customer_id")) : null;
+        final UUID customerId = resultSet.getBytes("customer_id") != null
+            ? UuidUtil.toUUID(resultSet.getBytes("customer_id")) : null;
         final String useYn = resultSet.getString("use_yn");
         final String voucherType = resultSet.getString("voucher_type");
         Long discount = resultSet.getLong("discount");
-        final LocalDateTime usedAt = resultSet.getTimestamp("used_at") != null ? resultSet.getTimestamp("used_at").toLocalDateTime() : null;
-        final LocalDateTime createdAt = resultSet.getTimestamp("created_at") != null ? resultSet.getTimestamp("created_at").toLocalDateTime() : null;
+        final LocalDateTime usedAt = resultSet.getTimestamp("used_at") != null
+            ? resultSet.getTimestamp("used_at").toLocalDateTime() : null;
+        final LocalDateTime createdAt = resultSet.getTimestamp("created_at") != null
+            ? resultSet.getTimestamp("created_at").toLocalDateTime() : null;
 
         return VoucherType.findVoucherType(voucherType).createVoucher(voucherId, customerId, discount, useYn, createdAt, usedAt);
     }

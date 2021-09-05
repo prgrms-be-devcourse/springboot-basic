@@ -81,8 +81,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByName(String name) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_NAME_SQL, Collections.singletonMap("name", name), CustomerJdbcRepository::customerRowMapper));
-
+            return Optional.ofNullable(
+                jdbcTemplate.queryForObject(
+                    SELECT_BY_NAME_SQL,
+                    Collections.singletonMap("name", name),
+                    CustomerJdbcRepository::customerRowMapper
+                )
+            );
         } catch (EmptyResultDataAccessException e) {
             logger.error("empty result", e);
             return Optional.empty();
@@ -92,7 +97,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByIEmail(String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL_SQL, Collections.singletonMap("email", email), CustomerJdbcRepository::customerRowMapper));
+            return Optional.ofNullable(
+                jdbcTemplate.queryForObject(
+                    SELECT_BY_EMAIL_SQL,
+                    Collections.singletonMap("email", email),
+                    CustomerJdbcRepository::customerRowMapper
+                )
+            );
         } catch (EmptyResultDataAccessException e) {
             logger.error("empty result", e);
             return Optional.empty();
@@ -121,7 +132,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
         final String name = customer.getName();
         final String email = customer.getEmail();
         final Timestamp createdAt = Timestamp.valueOf(customer.getCreatedAt());
-        final Timestamp lastLoginAt = customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null;
+        final Timestamp lastLoginAt = customer.getLastLoginAt() != null
+            ? Timestamp.valueOf(customer.getLastLoginAt()) : null;
         final HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("customerId", customerId);
         paramMap.put("name", name);
@@ -135,8 +147,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
         final UUID customerId = UuidUtil.toUUID(resultSet.getBytes("customer_id"));
         final String customerName = resultSet.getString("name");
         final String email = resultSet.getString("email");
-        final LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        final LocalDateTime createdAt = resultSet.getTimestamp("created_at") != null ? resultSet.getTimestamp("created_at").toLocalDateTime() : null;
+        final LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null
+            ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        final LocalDateTime createdAt = resultSet.getTimestamp("created_at") != null
+            ? resultSet.getTimestamp("created_at").toLocalDateTime() : null;
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     }
 
