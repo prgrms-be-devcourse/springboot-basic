@@ -59,12 +59,6 @@ class VoucherJdbcRepositoryTest {
     }
 
     @Autowired
-    DataSource dataSource;
-
-    @Autowired
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    @Autowired
     VoucherJdbcRepository voucherJdbcRepository;
 
     Voucher voucher;
