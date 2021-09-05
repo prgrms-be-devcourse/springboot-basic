@@ -32,8 +32,8 @@ public class CustomerVoucherJdbcRepository implements CustomerVoucherRepository 
     private final String INSERT_SQL = "insert into customer_voucher(customer_voucher_id,customer_id, voucher_id, created_at) values(UUID_TO_BIN(:customerVoucherId),UUID_TO_BIN(:customerId),UUID_TO_BIN(:voucherId), :createdAt)";
     private final String DELETE_ALL_SQL = "delete from customer_voucher";
     private final String DELETE_BY_ID_SQL = "delete from customer_voucher where customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)";
-    private final String SELECT_BY_VOUCHER_ID_SQL = "select c.customer_id, c.name, c.email, c.created_at, c.last_login_at from" +
-            " customer_voucher as cv right outer join customers as c on cv.voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String SELECT_BY_VOUCHER_ID_SQL = "select c.customer_id, c.email, c.name, c.last_login_at, c.created_at from" +
+            " customer_voucher as cv right join customers as c on c.customer_id = cv.customer_id where cv.voucher_id = UUID_TO_BIN(:voucherId)";
 
     public CustomerVoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

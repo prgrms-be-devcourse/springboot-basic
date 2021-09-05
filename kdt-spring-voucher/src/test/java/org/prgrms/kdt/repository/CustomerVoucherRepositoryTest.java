@@ -80,7 +80,7 @@ class CustomerVoucherRepositoryTest {
 
     CustomerVoucherEntity testCase, testCase2, testCase3;
 
-    VoucherEntity testVoucher, testVoucher2;
+    VoucherEntity testVoucher, testVoucher2, testVoucher3;
 
     CustomerEntity testCustomer, testCustomer2;
 
@@ -92,9 +92,10 @@ class CustomerVoucherRepositoryTest {
         testCustomer2 = new CustomerEntity(UUID.randomUUID(), "test-name2", "test-user@naver.com2", LocalDateTime.now());
         testVoucher = new VoucherEntity(UUID.randomUUID(), VoucherStatus.FIXED, 3000L, LocalDateTime.now());
         testVoucher2 = new VoucherEntity(UUID.randomUUID(), VoucherStatus.PERCENT, 15L, LocalDateTime.now());
+        testVoucher3 = new VoucherEntity(UUID.randomUUID(), VoucherStatus.PERCENT, 23L, LocalDateTime.now());
         testCase = new CustomerVoucherEntity(UUID.randomUUID(), testCustomer.getCustomerId(),testVoucher.getVoucherId(),LocalDateTime.now());
         testCase2 = new CustomerVoucherEntity(UUID.randomUUID(), testCustomer2.getCustomerId(),testVoucher2.getVoucherId(),LocalDateTime.now());
-        testCase3 = new CustomerVoucherEntity(UUID.randomUUID(), testCustomer.getCustomerId(),testVoucher2.getVoucherId(),LocalDateTime.now());
+        testCase3 = new CustomerVoucherEntity(UUID.randomUUID(), testCustomer.getCustomerId(),testVoucher3.getVoucherId(),LocalDateTime.now());
         var mysqldConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
@@ -108,6 +109,7 @@ class CustomerVoucherRepositoryTest {
 
 
     @Test
+    @Order(1)
     @DisplayName("특정 고객에게 바우처를 할당해준다.")
     void testInsert() {
         customerRepository.insert(testCustomer);
@@ -119,11 +121,12 @@ class CustomerVoucherRepositoryTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("고객에게 할당된 바우쳐의 정보를 조회할 수 있다.")
     void testFindAll() {
-        customerRepository.insert(testCustomer);
-        voucherRepository.insert(testVoucher);
-        customerVoucherRepository.insert(testCase);
+//        customerRepository.insert(testCustomer);
+//        voucherRepository.insert(testVoucher);
+//        customerVoucherRepository.insert(testCase);
         customerRepository.insert(testCustomer2);
         voucherRepository.insert(testVoucher2);
         customerVoucherRepository.insert(testCase2);
@@ -138,14 +141,15 @@ class CustomerVoucherRepositoryTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("모든 고객에게 할당된 바우처를 전부 삭제한다.")
     void testDeleteAll() {
-        customerRepository.insert(testCustomer);
-        voucherRepository.insert(testVoucher);
-        customerVoucherRepository.insert(testCase);
-        customerRepository.insert(testCustomer2);
-        voucherRepository.insert(testVoucher2);
-        customerVoucherRepository.insert(testCase2);
+//        customerRepository.insert(testCustomer);
+//        voucherRepository.insert(testVoucher);
+//        customerVoucherRepository.insert(testCase);
+//        customerRepository.insert(testCustomer2);
+//        voucherRepository.insert(testVoucher2);
+//        customerVoucherRepository.insert(testCase2);
 
         customerVoucherRepository.deleteAll();
         var list = customerVoucherRepository.findAll();
@@ -154,10 +158,11 @@ class CustomerVoucherRepositoryTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("특정 고객에게 할당된 바우처를 삭제한다.")
     void testDeleteById() {
-        customerRepository.insert(testCustomer);
-        voucherRepository.insert(testVoucher);
+//        customerRepository.insert(testCustomer);
+//        voucherRepository.insert(testVoucher);
         customerVoucherRepository.insert(testCase);
 
         customerVoucherRepository.deleteById(testCustomer.getCustomerId(),testVoucher.getVoucherId());
@@ -166,29 +171,34 @@ class CustomerVoucherRepositoryTest {
     }
 
     @Test
+    @Order(5)
     @DisplayName("고객이 어떤 바우처를 보유하고 있는지 조회할 수 있다.")
     void testFindByCustomerId() {
         //testCustomer가 2개의 voucher를 가지고 있다.
-        customerRepository.insert(testCustomer);
-        voucherRepository.insert(testVoucher);
-        customerVoucherRepository.insert(testCase);
+//        customerRepository.insert(testCustomer);
+//        voucherRepository.insert(testVoucher);
+//        customerVoucherRepository.insert(testCase);
 
-        voucherRepository.insert(testVoucher2);
+//        voucherRepository.insert(testVoucher2);
+        customerVoucherRepository.insert(testCase);
+        voucherRepository.insert(testVoucher3);
         customerVoucherRepository.insert(testCase3);
         var voucherIdList = customerVoucherRepository.findByCustomerId(testCustomer.getCustomerId());
         var voucherList = voucherIdList.stream()
                 .map(id -> voucherRepository.findById(id).get()).collect(Collectors.toList());
-        assertThat(voucherList.size(), is(2));
+        assertThat(voucherList.size(), is(voucherIdList.size()));
         assertThat(voucherList.isEmpty(), is(false));
     }
 
     @Test
+    @Order(6)
     @DisplayName("특정 바우처를 보유한 고객을 조회할 수 있다.")
-    void findByVoucherId() {
-        customerRepository.insert(testCustomer);
-        voucherRepository.insert(testVoucher);
-        customerVoucherRepository.insert(testCase);
+    void testFindByVoucherId() {
+//        customerRepository.insert(testCustomer);
+//        voucherRepository.insert(testVoucher);
+//        customerVoucherRepository.insert(testCase);
 
+        var cv = customerVoucherRepository.findAll();
         Optional<CustomerEntity> customer = customerVoucherRepository.findByVoucherId(testVoucher.getVoucherId());
         assertThat(customer.get(), samePropertyValuesAs(testCustomer));
     }
