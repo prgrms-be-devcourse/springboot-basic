@@ -1,7 +1,8 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.voucher.CreateVoucher;
-import org.prgrms.kdt.voucher.DiscountValidation;
+import org.prgrms.kdt.voucher.HowMuchDiscount;
+import org.prgrms.kdt.voucher.Validation;
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -47,35 +48,23 @@ public class CommandLineApplication {
 
                         switch (VoucherType) {
                             case "FixedAmountVoucher":
-                                CreateVoucher.howMuchDiscountMessage(VoucherType);
-                                long amount = 0;
-
-                                boolean discountAmountCheck1 = true;
-                                while (discountAmountCheck1) {
-                                    amount = Long.parseLong(scanner.nextLine());
-                                    discountAmountCheck1 = new DiscountValidation(amount).amountValidation();
-                                }
-
-                                mylist.add(new CreateVoucher(amount).createFixedAmountVoucher());
+                                HowMuchDiscount.howMuchDiscountMessage(VoucherType); // 할인값을 입력해달라는 메세지
+                                mylist.add(new CreateVoucher(
+                                        Validation.fixedAmountDiscountValidation()) // 유효한 값인지 검사
+                                        .createFixedAmountVoucher()); // voucher 생성
                                 createTypeRunning = false;
                                 break;
 
                             case "PercentDiscountVoucher":
-                                CreateVoucher.howMuchDiscountMessage(VoucherType);
-                                float discountPercent = 0;
-
-                                boolean discountAmountCheck2 = true;
-                                while (discountAmountCheck2) {
-                                    discountPercent = Float.parseFloat(scanner.nextLine());
-                                    discountAmountCheck2 = new DiscountValidation(discountPercent).percentValidation();
-                                }
-
-                                mylist.add(new CreateVoucher(discountPercent).createPercentDiscountVoucher());
+                                HowMuchDiscount.howMuchDiscountMessage(VoucherType); // 할인값을 입력해달라는 메세지
+                                mylist.add(new CreateVoucher(
+                                        Validation.percentDiscountValidation()) // 유효한 값인지 검사
+                                        .createPercentDiscountVoucher()); // voucher 생성
                                 createTypeRunning = false;
                                 break;
 
                             default:
-                                CreateVoucher.howMuchDiscountMessage(VoucherType);
+                                HowMuchDiscount.howMuchDiscountMessage(VoucherType);
                                 break;
                         }
                     } while (createTypeRunning);
@@ -91,8 +80,7 @@ public class CommandLineApplication {
 
                 default:
                     System.out.println("=== Input type error ===");
-                    System.out.println(MessageFormat.format("{0} does not exist in Voucher Program.", commandInput));
-                    System.out.println("'exit', 'create', 'list'");
+                    System.out.println(MessageFormat.format("{0}은(는) 지원하지 않는 명령어입니다.", commandInput));
                     break;
             }
         } while (programRunning);
