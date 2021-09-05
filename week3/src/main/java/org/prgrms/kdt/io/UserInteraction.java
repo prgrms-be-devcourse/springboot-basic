@@ -4,6 +4,7 @@ import org.prgrms.kdt.blacklist.BlackUser;
 import org.prgrms.kdt.voucher.model.Voucher;
 
 import java.util.List;
+import java.util.Scanner;
 
 public interface UserInteraction {
 
@@ -23,4 +24,5 @@ public interface UserInteraction {
 
     void showBlackList(List<BlackUser> blackUserList);
 
+    String getNext(Scanner sc);
 }
