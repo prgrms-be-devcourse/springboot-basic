@@ -28,13 +28,13 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
+//      mutable
 //      return new ArrayList<>(memory.values());
-//      이부분을 List.of(memory.values())로 처리하니 에러가났습니다..;;
-//      List.of(Element e) 로 처리해야하는데 어떻게 변경을 해야할까요...?
-        // 위 List.of()안에 인자로 원소를하나하나 넣어야하는데 어떻게 처리를 해야할지 모르겠어요..
 
-        // java8 불변객체로 처리하는 방법은 아래방법이 있다고 해서 이러헥 대체해봅니다..!
-       return Collections.unmodifiableList(memory.values().stream().toList());
+//      immutable
+//      return Collections.unmodifiableList(memory.values().stream().toList());
+
+        return List.of(memory.values().toArray(new Voucher[]{}));
     }
 
     @Override
