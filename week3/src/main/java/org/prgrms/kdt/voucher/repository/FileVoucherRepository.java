@@ -46,7 +46,11 @@ public class FileVoucherRepository implements VoucherRepository {
     @PostConstruct
     void fileToMem() {
         VoucherFileReader voucherFileReader = new VoucherFileReader();
-        memory.putAll(voucherFileReader.readFile(PATH + FILENAME));
+        try {
+            memory.putAll(voucherFileReader.readFile(PATH + FILENAME));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @PreDestroy
