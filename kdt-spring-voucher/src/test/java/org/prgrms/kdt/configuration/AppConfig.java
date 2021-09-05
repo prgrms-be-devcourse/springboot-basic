@@ -1,7 +1,10 @@
 package org.prgrms.kdt.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.prgrms.kdt.repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
 
-@Configuration
+@TestConfiguration
 @ComponentScan(
         basePackages = {"org.prgrms.kdt.domain","org.prgrms.kdt.jdbcRepository",
                         "org.prgrms.kdt.repository"}
@@ -38,5 +41,6 @@ public class AppConfig {
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate){
         return new NamedParameterJdbcTemplate(jdbcTemplate);
     }
+
 
 }

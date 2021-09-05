@@ -3,6 +3,7 @@ package org.prgrms.kdt.repository;
 import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.configuration.AppConfig;
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.domain.CustomerVoucherEntity;
 import org.prgrms.kdt.domain.VoucherEntity;
@@ -12,6 +13,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -36,35 +38,8 @@ import static org.hamcrest.Matchers.*;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Import({AppConfig.class})
 class CustomerVoucherRepositoryTest {
-
-    @Configuration
-    @ComponentScan(
-            basePackages = {"org.prgrms.kdt.domain","org.prgrms.kdt.jdbcRepository","org.prgrms.kdt.repository"}
-    )
-    static class config{
-        @Bean
-        public DataSource dataSource(){
-            var datasource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test-order-mgmt")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class) //쓸 구현체를 넣어준다 .
-                    .build();
-            datasource.setMaximumPoolSize(100);
-            datasource.setMinimumIdle(100);
-            return datasource;
-        }
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource){
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate){
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-    }
 
     @Autowired
     CustomerVoucherRepository customerVoucherRepository;
