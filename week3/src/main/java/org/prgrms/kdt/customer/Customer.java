@@ -75,16 +75,4 @@ public class Customer {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Customer)) return false;
-        Customer customer = (Customer) o;
-        return Objects.equals(getCustomerId(), customer.getCustomerId()) && Objects.equals(getName(), customer.getName()) && Objects.equals(getEmail(), customer.getEmail()) && Objects.equals(getLastLoginAt(), customer.getLastLoginAt()) && Objects.equals(getCreatedAt(), customer.getCreatedAt());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getCustomerId(), getName(), getEmail(), getLastLoginAt(), getCreatedAt());
-    }
 }
