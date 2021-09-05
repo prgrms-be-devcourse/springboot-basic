@@ -20,4 +20,5 @@ public enum VoucherType {
     public String getType() {
         return type;
     }
+
 }

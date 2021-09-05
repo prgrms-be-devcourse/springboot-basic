@@ -2,6 +2,7 @@ package com.programmers.kdtspringorder.voucher.domain;
 
 import com.programmers.kdtspringorder.voucher.VoucherType;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -28,7 +29,7 @@ public class FixedAmountVoucher extends Voucher {
     public long discount(long beforeDiscount) {
         long discountedAmount = beforeDiscount - getDiscountValue();
         if (discountedAmount < 0) {
-            throw new IllegalArgumentException("디스카운트된 금액은 마이너스가 될 수 없다");
+            throw new IllegalArgumentException(MessageFormat.format("DiscountedAmount should be positive. current DiscountedAmount : {0}", discountedAmount));
         }
         return discountedAmount;
     }

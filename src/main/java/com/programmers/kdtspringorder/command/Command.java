@@ -19,11 +19,7 @@ public enum Command {
         this.message = message;
     }
 
-    public void setCommandAction(CommandAction commandAction) {
-        this.commandAction = commandAction;
-    }
-
-    public void execute() {
+    public void execute(CommandAction commandAction) {
         commandAction.act();
     }
 

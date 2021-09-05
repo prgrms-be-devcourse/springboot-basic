@@ -2,6 +2,7 @@ package com.programmers.kdtspringorder.voucher.domain;
 
 import com.programmers.kdtspringorder.voucher.VoucherType;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -33,6 +34,9 @@ public abstract class Voucher {
     public abstract long discount(long beforeDiscount);
 
     public void allocateVoucherToCustomer(UUID customerId) {
+        if (this.customerId != null) {
+            throw new RuntimeException(MessageFormat.format("This Voucher already allocated to a customer : {0}", this.customerId));
+        }
         this.customerId = customerId;
     }
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class CommandLineApplication{
+public class CommandLineApplication {
 
     private final Input input;
     private final Output output;
@@ -41,16 +41,13 @@ public class CommandLineApplication{
             switch (command) {
                 case EXIT -> System.exit(0);
                 case CREATE -> {
-                    command.setCommandAction(new CreateCommandAction(input, output, voucherService));
-                    command.execute();
+                    command.execute(new CreateCommandAction(input, output, voucherService));
                 }
                 case VOUCHERS -> {
-                    command.setCommandAction(new VoucherListCommandAction(input, output, voucherService, customerService));
-                    command.execute();
+                    command.execute(new VoucherListCommandAction(input, output, voucherService, customerService));
                 }
                 case CUSTOMERS -> {
-                    command.setCommandAction(new CustomerListCommandAction(input, output, voucherService, customerService));
-                    command.execute();
+                    command.execute(new CustomerListCommandAction(input, output, voucherService, customerService));
                 }
                 default -> defaultProcess();
             }
@@ -59,11 +56,11 @@ public class CommandLineApplication{
     }
 
     private void defaultProcess() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         for (String command : Command.getAllCommand()) {
-            sb.append(command).append(" ");
+            stringBuilder.append(command).append(" ");
         }
-        output.printMessage("잘못 입력 하셨습니다. 입력 가능한 명령어는 " + sb + " 입니다.");
+        output.printMessage("잘못 입력 하셨습니다. 입력 가능한 명령어는 " + stringBuilder + " 입니다.");
     }
 
     private void printCommandMessage() {

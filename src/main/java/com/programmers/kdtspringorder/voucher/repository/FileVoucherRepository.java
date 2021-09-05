@@ -5,6 +5,7 @@ import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
+import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -66,12 +67,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Voucher convertStringToVoucher(String[] voucherText) {
-        if (VoucherType.FIXED.toString().equals(voucherText[0])) {
-            return new FixedAmountVoucher(UUID.fromString(voucherText[1]), Long.parseLong(voucherText[2]));
-        } else if(VoucherType.PERCENT.toString().equals(voucherText[0])){
-            return new PercentDiscountVoucher(UUID.fromString(voucherText[1]), Long.parseLong(voucherText[2]));
-        }
-        throw new RuntimeException("File -> VoucherType Error");
+        VoucherType voucherType = VoucherType.valueOf(voucherText[0]);
+        return VoucherFactory.createVoucherFromRepository(voucherType, UUID.fromString(voucherText[1]), null, Long.parseLong(voucherText[2]), false, null, null);
     }
 
     @Override
@@ -82,7 +79,7 @@ public class FileVoucherRepository implements VoucherRepository {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-           logger.error("message : {0}", e);
+            logger.error("message : {0}", e);
         }
         return voucher;
     }

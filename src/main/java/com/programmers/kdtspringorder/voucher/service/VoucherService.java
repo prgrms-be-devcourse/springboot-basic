@@ -50,12 +50,14 @@ public class VoucherService {
         return voucherRepository.findAllWithoutCustomerId();
     }
 
-    public void allocateVoucher(UUID voucherId, UUID customerId) {
-        voucherRepository.allocateVoucher(voucherId, customerId);
+    public void allocateVoucher(Voucher voucher, UUID customerId) {
+        voucher.allocateVoucherToCustomer(customerId);
+        voucherRepository.allocateVoucher(voucher.getVoucherId(), customerId);
     }
 
-    public void deallocateVoucher(UUID voucherId) {
-        voucherRepository.deallocateVoucher(voucherId);
+    public void deallocateVoucher(Voucher voucher) {
+        voucher.removeVoucherFromCustomer();
+        voucherRepository.deallocateVoucher(voucher.getVoucherId());
     }
 
     public void deleteVoucher(UUID voucherId){
