@@ -8,7 +8,7 @@ import java.util.UUID;
 public class VoucherNotFoundException extends BusinessException{
 
     public VoucherNotFoundException(UUID voucherId) {
-        super(MessageFormat.format(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage(), voucherId));
+        super(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage() + " ( voucherId = " + voucherId + " )");
     }
 
 }

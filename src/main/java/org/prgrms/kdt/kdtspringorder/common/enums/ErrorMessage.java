@@ -2,8 +2,8 @@ package org.prgrms.kdt.kdtspringorder.common.enums;
 
 public enum ErrorMessage {
 
-    VOUCHER_NOT_FOUND_MESSAGE("Can not find a voucher for {0}"),
-    CUSTOMER_NOT_FOUND_MESSAGE("Can not find a customer for {0}");
+    VOUCHER_NOT_FOUND_MESSAGE("Can not find a voucher"),
+    CUSTOMER_NOT_FOUND_MESSAGE("Can not find a customer");
 
     private String message;
 
