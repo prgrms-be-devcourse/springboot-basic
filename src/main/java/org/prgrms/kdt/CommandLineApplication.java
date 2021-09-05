@@ -17,6 +17,8 @@ public class CommandLineApplication {
         final var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         final Scanner scanner = new Scanner(System.in);
 
+        String VoucherType = "";
+
         final List<Voucher> mylist = new ArrayList<Voucher>();
 
         boolean programRunning = true;
@@ -43,15 +45,15 @@ public class CommandLineApplication {
                     System.out.println("- PercentDiscountVoucher");
 
                     do {
-                        final String voucherType = scanner.nextLine();
+                        VoucherType = scanner.nextLine();
 
-                        switch (voucherType) {
+                        switch (VoucherType) {
                             case "FixedAmountVoucher":
                                 System.out.println("할인 가격을 얼마로 설정하시겠습니까?");
                                 final String amount = scanner.nextLine();
                                 mylist.add(new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(amount)));
 
-                                System.out.println(voucherType + "가 생성되었습니다.");
+                                System.out.println(VoucherType + "가 생성되었습니다.");
                                 createTypeRunning = false;
                                 break;
 
@@ -66,18 +68,18 @@ public class CommandLineApplication {
                                     if (Long.parseLong(percent) > 100 || Long.parseLong(percent) <= 0) {
                                         System.out.println("할인율은 0 초과, 100 이하로 설정해주십시오.");
                                     } else discountAmountCheck = false;
-                                    
+
                                     discountAmount = percent;
                                 }
 
                                 mylist.add(new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(discountAmount)));
-                                System.out.println(voucherType + "가 생성되었습니다.");
+                                System.out.println(VoucherType + "가 생성되었습니다.");
                                 createTypeRunning = false;
                                 break;
 
                             default:
                                 System.out.println("=== Input type error ===");
-                                System.out.println(voucherType + " does not exist in Voucher Program.");
+                                System.out.println(VoucherType + " does not exist in Voucher Program.");
                                 System.out.println("'FixedAmountVoucher', 'PercentDiscountVoucher'");
                                 break;
                         }
