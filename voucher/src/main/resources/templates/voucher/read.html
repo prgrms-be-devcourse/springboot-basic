@@ -32,6 +32,7 @@
         <th>Created</th>
         <th>Owner</th>
         <th>EDIT</th>
+        <th>DELETE</th>
     </tr>
     <tr th:unless="${voucher == null}" th:object="${voucher}" style="background-color: aliceblue">
         <td th:text="*{id}">ID</td>
@@ -42,6 +43,9 @@
         <td th:text="*{customerId}">CUSTOMER ID</td>
         <td>
             <a th:href="@{/voucher/update(id=*{id})}">EDIT</a>
+        </td>
+        <td>
+            <a th:href="@{/voucher/delete(id=*{id})}">DELETE</a>
         </td>
     </tr>
 </table>
