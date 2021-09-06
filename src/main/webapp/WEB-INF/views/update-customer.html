@@ -11,18 +11,15 @@
 <body class="class-fluid">
 <h1>Create Customer</h1>
 <img th:src="@{/resources/dev_course.png}" alt="" class="img_fluid">
-<form th:action="@{/customers/new}" method="post">
+<form th:action="@{/customers/update(id=${customer.customerId})}" method="post">
     <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <label for="customer_email" class="form-label">Email address</label>
+        <input th:value="${customer.email}" type="email" name="email" class="form-control" id="customer_email" aria-describedby="emailHelp">
     </div>
     <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Name</label>
-        <input type="text" name="name" class="form-control" id="exampleInputPassword1">
+        <label for="customer_name" class="form-label">Name</label>
+        <input th:value="${customer.name}" type="text" name="name" class="form-control" id="customer_name">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a th:href="@{/customers/new}" class="btn btn-primary me-md-2" type="button">New</a>
-</div>
 </body>

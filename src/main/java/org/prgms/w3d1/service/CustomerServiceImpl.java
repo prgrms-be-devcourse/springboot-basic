@@ -23,6 +23,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer createCustomer(String name, String email) {
+        var customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+        return customerRepository.insert(customer);
+    }
+
+    @Override
     @Transactional
     public void createCustomers(List<Customer> customers) {
         customers.forEach(customerRepository::insert);
@@ -55,8 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer createCustomer(String name, String email) {
-        var customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        return customerRepository.insert(customer);
+    public Customer updateCustomerByNameAndEmail(UUID customerId, String name, String email) {
+        return customerRepository.update(new Customer(customerId, name, email, LocalDateTime.now()));
     }
 }

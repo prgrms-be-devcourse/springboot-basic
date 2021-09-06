@@ -23,4 +23,6 @@ public interface CustomerService {
     Optional<Customer> findCustomerByVoucherId(UUID voucherId);
 
     Customer createCustomer(String name, String email);
+
+    Customer updateCustomerByNameAndEmail(UUID customerId, String name, String email);
 }
