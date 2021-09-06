@@ -32,9 +32,11 @@
     </tbody>
 </table>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a th:href="@{/customers/update(id=${customer.customerId})}" class="btn btn-primary me-md-2" type="button">Modify</a>
-</div>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a th:href="@{/customers/update(id=${customer.customerId})}" class="btn btn-primary me-md-2" type="button">Delete</a>
+    <span class="d-grid gap-2">
+        <a th:href="@{/customers/update(id=${customer.customerId})}" class="btn btn-primary me-md-2" type="button">Modify</a>
+    </span>
+    <span class="d-grid gap-2">
+        <a th:href="@{/customers/delete(id=${customer.customerId})}" class="btn btn-danger me-md-2" type="button">Delete</a>
+    </span>
 </div>
 </body>

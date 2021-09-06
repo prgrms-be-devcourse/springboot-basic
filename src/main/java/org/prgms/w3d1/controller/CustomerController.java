@@ -75,4 +75,11 @@ public class CustomerController {
         model.addAttribute("customer", updatedCustomer);
         return "views/customer-details";
     }
+
+    @GetMapping("/customers/delete")
+    public String deleteCustomer(@RequestParam(value = "id") UUID customerId) {
+        customerService.deleteCustomer(customerId);
+
+        return "redirect:/customers";
+    }
 }

@@ -25,4 +25,6 @@ public interface CustomerService {
     Customer createCustomer(String name, String email);
 
     Customer updateCustomerByNameAndEmail(UUID customerId, String name, String email);
+
+    void deleteCustomer(UUID customerId);
 }

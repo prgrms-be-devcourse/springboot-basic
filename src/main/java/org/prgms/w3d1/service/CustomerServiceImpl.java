@@ -64,4 +64,9 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer updateCustomerByNameAndEmail(UUID customerId, String name, String email) {
         return customerRepository.update(new Customer(customerId, name, email, LocalDateTime.now()));
     }
+
+    @Override
+    public void deleteCustomer(UUID customerId) {
+        customerRepository.deleteById(customerId);
+    }
 }
