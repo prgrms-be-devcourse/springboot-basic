@@ -1,6 +1,7 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.aop.TrackTime;
+import org.prgrms.kdt.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

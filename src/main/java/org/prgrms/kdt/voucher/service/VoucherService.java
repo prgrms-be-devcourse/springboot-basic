@@ -1,11 +1,11 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
+import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 

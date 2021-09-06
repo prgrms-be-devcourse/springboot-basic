@@ -1,6 +1,7 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.engine.OpenCsv;
+import org.prgrms.kdt.voucher.model.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

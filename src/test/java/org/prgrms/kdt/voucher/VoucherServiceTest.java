@@ -1,8 +1,9 @@
 package org.prgrms.kdt.voucher;
 
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.order.*;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.service.VoucherService;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,6 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherServiceTest {
 

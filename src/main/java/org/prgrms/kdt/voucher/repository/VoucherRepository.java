@@ -1,4 +1,6 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.repository;
+
+import org.prgrms.kdt.voucher.model.Voucher;
 
 import java.util.*;
 

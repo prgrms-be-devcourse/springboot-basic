@@ -1,8 +1,7 @@
 package org.prgrms.kdt.voucher;
 
 import org.junit.jupiter.api.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
 
 import java.util.UUID;
 

@@ -4,9 +4,9 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.SneakyThrows;
-import org.prgrms.kdt.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.core.io.Resource;
 

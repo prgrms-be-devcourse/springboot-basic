@@ -1,4 +1,6 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.model;
+
+import org.prgrms.kdt.voucher.VoucherType;
 
 import java.util.UUID;
 

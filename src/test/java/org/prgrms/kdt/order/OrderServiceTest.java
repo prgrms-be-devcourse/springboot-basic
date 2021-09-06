@@ -2,9 +2,9 @@ package org.prgrms.kdt.order;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.MemoryVoucherRepository;
-import org.prgrms.kdt.voucher.VoucherService;
+import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
+import org.prgrms.kdt.voucher.service.VoucherService;
 
 import java.util.List;
 import java.util.UUID;

@@ -4,14 +4,13 @@ import lombok.SneakyThrows;
 import org.prgrms.kdt.customer.service.CustomerServiceImpl;
 import org.prgrms.kdt.engine.Command;
 import org.prgrms.kdt.engine.Console;
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.VoucherService;
+import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -64,9 +63,9 @@ public class VoucherProgram implements Runnable {
                         continue;
                     }
 
-                    if (voucherNum == VoucherType.FixedAmountVoucher.typeNum())
+                    if (voucherNum == VoucherType.FixedAmountVoucher.ordinal())
                         voucher = Optional.ofNullable(voucherService.createFixedAmountVoucher(discount));
-                    else if (voucherNum == VoucherType.PercentDiscountVoucher.typeNum())
+                    else if (voucherNum == VoucherType.PercentDiscountVoucher.ordinal())
                         voucher = Optional.ofNullable(voucherService.createPercentDiscountVoucher(discount));
 
                     // print voucher created
@@ -104,9 +103,9 @@ public class VoucherProgram implements Runnable {
 
     private boolean isInValidInput(int voucherNum, int discount) {
         if (discount < 0) return true;
-        if (voucherNum != VoucherType.FixedAmountVoucher.typeNum()
-                && voucherNum != VoucherType.PercentDiscountVoucher.typeNum()) return true;
-        if (voucherNum == VoucherType.PercentDiscountVoucher.typeNum() && discount > 100) return true;
+        if (voucherNum != VoucherType.FixedAmountVoucher.ordinal()
+                && voucherNum != VoucherType.PercentDiscountVoucher.ordinal()) return true;
+        if (voucherNum == VoucherType.PercentDiscountVoucher.ordinal() && discount > 100) return true;
         return false;
     }
 

@@ -1,6 +1,6 @@
 package org.prgrms.kdt.order;
 
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.model.Voucher;
 
 import java.util.List;
 import java.util.Optional;

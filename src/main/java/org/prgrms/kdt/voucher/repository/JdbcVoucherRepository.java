@@ -1,7 +1,11 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.util.Utility;
 import org.prgrms.kdt.customer.repository.CustomerNamedJdbcRepository;
+import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;

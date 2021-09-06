@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
 
 import java.util.UUID;
 
