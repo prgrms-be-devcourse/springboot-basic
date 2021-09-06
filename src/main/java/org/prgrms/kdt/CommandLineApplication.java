@@ -1,9 +1,9 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.io.HowMuchDiscountMessage;
-import org.prgrms.kdt.voucher.CreateVoucher;
 import org.prgrms.kdt.voucher.Validation;
 import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
@@ -48,17 +48,15 @@ public class CommandLineApplication {
                         switch (voucherType) {
                             case "FixedAmountVoucher":
                                 new HowMuchDiscountMessage(voucherType); // 할인값을 입력해달라는 메세지
-                                mylist.add(new CreateVoucher(
-                                        Validation.inputValueValidation(voucherType)) // 유효한 값인지 검사
-                                        .createFixedAmountVoucher()); // voucher 생성
+                                mylist.add(MemoryVoucherRepository.create( // voucher 생성
+                                        voucherType, Validation.inputValueValidation(voucherType))); // 유효한 값인지 검사
                                 createTypeRunning = false;
                                 break;
 
                             case "PercentDiscountVoucher":
                                 new HowMuchDiscountMessage(voucherType); // 할인값을 입력해달라는 메세지
-                                mylist.add(new CreateVoucher(
-                                        Validation.inputValueValidation(voucherType)) // 유효한 값인지 검사
-                                        .createPercentDiscountVoucher()); // voucher 생성
+                                mylist.add(MemoryVoucherRepository.create( // voucher 생성
+                                        voucherType, Validation.inputValueValidation(voucherType))); // 유효한 값인지 검사
                                 createTypeRunning = false;
                                 break;
 

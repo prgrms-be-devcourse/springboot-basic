@@ -1,11 +1,11 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.io;
 
-public class HowMuchDiscount {
-    String voucherType;
-    long amount;
-    float percent;
+import java.util.Scanner;
 
-    public static void howMuchDiscountMessage(final String voucherType) {
+public class HowMuchDiscountMessage {
+    public Scanner scanner = new Scanner(System.in);
+
+    public HowMuchDiscountMessage(final String voucherType) {
         if (voucherType.equals("FixedAmountVoucher")) {
             System.out.println("할인 가격을 얼마로 설정하시겠습니까?");
         } else if (voucherType.equals("PercentDiscountVoucher")) {

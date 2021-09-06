@@ -5,9 +5,9 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final float percent;
+    private final long percent;
 
-    public PercentDiscountVoucher(final UUID voucherId, final float percent) {
+    public PercentDiscountVoucher(final UUID voucherId, final long percent) {
         this.voucherId = voucherId;
         this.percent = percent;
     }
