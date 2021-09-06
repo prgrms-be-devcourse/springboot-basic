@@ -80,4 +80,13 @@ public class WalletJdbcRepository implements WalletRepository {
     public int deleteAll() {
         return jdbcTemplate.update("DELETE FROM wallets");
     }
+
+    public int deleteBy(UUID customerId, UUID voucherId) {
+        return jdbcTemplate.update("DELETE FROM wallets "
+                                   + "WHERE customer_id = UUID_TO_BIN(?) AND voucher_id = UUID_TO_BIN(?) "
+                                   + "ORDER BY created_at ASC "
+                                   + "LIMIT 1",
+                customerId.toString().getBytes(),
+                voucherId.toString().getBytes());
+    }
 }

@@ -55,4 +55,9 @@ public class WalletService {
                         .collect(Collectors.toList()));
         return voucherDto;
     }
+
+    @Transactional
+    public void removeWallet(WalletDto walletDto) {
+        walletJdbcRepository.deleteBy(UUID.fromString(walletDto.getCustomerId()), UUID.fromString(walletDto.getVoucherId()));
+    }
 }

@@ -95,6 +95,16 @@ public class Apis {
         return ResponseEntity.created(uri).body(walletDto);
     }
 
+    @DeleteMapping(WALLET)
+    public ResponseEntity deleteWallet(@RequestBody WalletDto walletDto) {
+        if (isBadRequest(walletDto)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        walletService.removeWallet(walletDto);
+        return ResponseEntity.ok().build();
+    }
+
     private boolean isBadRequest(WalletDto walletDto) {
         Optional<CustomerDto> customerDto = customerService.getCustomerById(walletDto.getCustomerId());
         if (customerDto.isEmpty()) {

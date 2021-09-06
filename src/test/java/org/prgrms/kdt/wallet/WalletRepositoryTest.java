@@ -71,6 +71,17 @@ class WalletRepositoryTest extends BaseRepositoryTest {
         assertThat(customers).contains(customer);
     }
 
+    @Test
+    @DisplayName("고객에게 등록된 바우처 삭제 테스트")
+    void deleteByWallet() {
+        walletJdbcRepository.deleteBy(customer.getCustomerId(), voucher.getVoucherId());
+        List<Voucher> vouchers = walletJdbcRepository.findByCustomerId(customer.getCustomerId());
+        List<Customer> customers = walletJdbcRepository.findByVoucherId(voucher.getVoucherId());
+
+        assertThat(vouchers).isEmpty();
+        assertThat(customers).isEmpty();
+    }
+
     private Customer givenCustomer(UUID customerId) {
         return new Customer(customerId, "tester", "tester@email.com", LocalDateTime.now());
     }

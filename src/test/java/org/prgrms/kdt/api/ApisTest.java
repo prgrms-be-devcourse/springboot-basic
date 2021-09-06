@@ -4,6 +4,7 @@ import static org.prgrms.kdt.api.Apis.CUSTOMER;
 import static org.prgrms.kdt.api.Apis.VOUCHER;
 import static org.prgrms.kdt.api.Apis.WALLET;
 import static org.prgrms.kdt.api.Apis.PRE_FIX;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -186,6 +187,28 @@ class ApisTest extends BaseRepositoryTest {
                 .andExpect(jsonPath("$..name").exists())
                 .andExpect(jsonPath("$..email").exists())
                 .andExpect(jsonPath("$..createdAt").exists());
+    }
+
+    @Test
+    @DisplayName("고객의 바우처 삭제 테스트")
+    void deleteCustomersVoucher() throws Exception {
+        UUID customerId = UUID.randomUUID();
+        customerRepository.insert(givenCustomer(customerId));
+
+        UUID voucherId = UUID.randomUUID();
+        voucherRepository.insert(givenVoucher(voucherId));
+
+        WalletDto dto = new WalletDto();
+        dto.setCustomerId(customerId.toString());
+        dto.setVoucherId(voucherId.toString());
+
+        mockMvc.perform(delete(PRE_FIX + WALLET)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(dto)))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     private Customer givenCustomer(UUID customerId) {
