@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.etc;
 
 import org.prgrms.kdt.configuration.AppConfiguration;
 import org.prgrms.kdt.order.OrderItem;

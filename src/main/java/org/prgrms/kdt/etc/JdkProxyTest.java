@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.etc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

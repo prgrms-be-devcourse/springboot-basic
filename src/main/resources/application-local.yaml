@@ -1,2 +1,8 @@
 local:
   file_path: "voucher.csv"
+
+
+logging:
+  level:
+    org:
+      springframework: DEBUG

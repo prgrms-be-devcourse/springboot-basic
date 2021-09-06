@@ -1,4 +1,4 @@
-package org.prgrms.kdt.customer;
+package org.prgrms.kdt.customer.model;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

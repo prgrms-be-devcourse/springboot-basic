@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.util;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

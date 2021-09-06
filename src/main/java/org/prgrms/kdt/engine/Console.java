@@ -1,14 +1,16 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.engine;
 
 import org.prgrms.kdt.engine.io.Input;
 import org.prgrms.kdt.engine.io.Output;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+@Component
 public class Console implements Input, Output {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

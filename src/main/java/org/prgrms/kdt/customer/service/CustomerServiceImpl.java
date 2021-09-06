@@ -1,5 +1,7 @@
-package org.prgrms.kdt.customer;
+package org.prgrms.kdt.customer.service;
 
+import org.prgrms.kdt.customer.repository.CustomerRepository;
+import org.prgrms.kdt.customer.model.Customer;
 import org.prgrms.kdt.engine.OpenCsv;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;

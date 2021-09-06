@@ -1,8 +1,5 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.customer.Customer;
-import org.springframework.stereotype.Repository;
-
 import java.util.*;
 
 public interface VoucherRepository {

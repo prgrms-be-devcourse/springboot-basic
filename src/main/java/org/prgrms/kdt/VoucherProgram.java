@@ -1,44 +1,42 @@
 package org.prgrms.kdt;
 
 import lombok.SneakyThrows;
-import org.prgrms.kdt.customer.CustomerServiceImpl;
-import org.prgrms.kdt.engine.io.Input;
-import org.prgrms.kdt.engine.io.Output;
+import org.prgrms.kdt.customer.service.CustomerServiceImpl;
+import org.prgrms.kdt.engine.Command;
+import org.prgrms.kdt.engine.Console;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class VoucherProgram implements Runnable {
     private final VoucherService voucherService;
     private final CustomerServiceImpl customerService;
-    private final Resource resource;
-    private final Input input;
-    private final Output output;
+    private final Console console;
 
-    public VoucherProgram(VoucherService voucherService, CustomerServiceImpl customerService, Resource resource, Console console) {
+    public VoucherProgram(VoucherService voucherService, CustomerServiceImpl customerService, Console console) {
         this.voucherService = voucherService;
         this.customerService = customerService;
-        this.resource = resource;
-        this.input = console;
-        this.output = console;
+        this.console = console;
     }
 
     @SneakyThrows
     @Override
     public void run() {
-        output.printConsole(output.HELP);
+        console.printConsole(console.HELP);
         while (true) {
-            String inputString = input.input(output.INPUT);
+            String inputString = console.input(console.INPUT);
             Optional<Command> inputCommand = parse(inputString);
 
             if (inputCommand.isEmpty()) {
-                output.logError(output.INPUT_ERROR);
+                console.logError(console.INPUT_ERROR);
                 continue;
             }
 
@@ -50,15 +48,15 @@ public class VoucherProgram implements Runnable {
                     // create voucher
                     Optional<Voucher> voucher = Optional.empty();
                     int voucherNum = Integer.parseInt(
-                            input.input(output.INPUT_VOUCHER_NUM)
+                            console.input(console.INPUT_VOUCHER_NUM)
                     );
 
                     int discount = Integer.parseInt(
-                            input.input(output.INPUT_DISCOUNT)
+                            console.input(console.INPUT_DISCOUNT)
                     );
 
                     if (isInValidInput(voucherNum, discount)) {
-                        output.logError(output.INPUT_ERROR);
+                        console.logError(console.INPUT_ERROR);
                         continue;
                     }
 
@@ -68,8 +66,8 @@ public class VoucherProgram implements Runnable {
                         voucher = Optional.ofNullable(voucherService.createPercentDiscountVoucher(discount));
 
                     // print voucher created
-                    if (voucher.isEmpty()) output.logInfo(output.CREATE_VOUCHER_ERROR);
-                    voucher.ifPresent(value -> output.printConsole(MessageFormat.format(
+                    if (voucher.isEmpty()) console.logInfo(console.CREATE_VOUCHER_ERROR);
+                    voucher.ifPresent(value -> console.printConsole(MessageFormat.format(
                             "{0} 타입의 voucher를 생성하였습니다.",
                             value.getType())
                     ));
@@ -77,20 +75,21 @@ public class VoucherProgram implements Runnable {
                 case LIST -> {
                     Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
                     if (voucherList.isEmpty()) {
-                        output.logError(output.NO_VOUCHER);
+                        console.logError(console.NO_VOUCHER);
                     } else {
                         for (var voucher : voucherList.values()) {
-                            output.printConsole(voucher.toString());
+                            console.printConsole(voucher.toString());
                         }
                     }
                 }
                 case BLACKLIST -> {
+                    ClassPathResource resource = new ClassPathResource("blacklist/customer_blacklist.csv");
                     Optional<Map<Integer, String>> blackList = customerService.loadBlackList(resource);
                     if (blackList.isEmpty()) {
-                        output.logError(output.NO_BLACKLIST);
+                        console.logError(console.NO_BLACKLIST);
                     } else {
                         for (var customer : blackList.get().values()) {
-                            output.printConsole(customer);
+                            console.printConsole(customer);
                         }
                     }
                 }

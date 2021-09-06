@@ -1,8 +1,7 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.Utility;
-import org.prgrms.kdt.customer.Customer;
-import org.prgrms.kdt.customer.CustomerNamedJdbcRepository;
+import org.prgrms.kdt.util.Utility;
+import org.prgrms.kdt.customer.repository.CustomerNamedJdbcRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -12,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
