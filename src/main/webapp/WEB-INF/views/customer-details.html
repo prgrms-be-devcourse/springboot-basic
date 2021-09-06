@@ -9,17 +9,26 @@
     <title>KDT New Customer</title>
 </head>
 <body class="class-fluid">
-<h1>Create Customer</h1>
+<h1>Customer Detail</h1>
 <img th:src="@{/resources/dev_course.png}" alt="" class="img_fluid">
-<form th:action="@{/customers/new}" method="post">
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Name</label>
-        <input type="text" name="name" class="form-control" id="exampleInputPassword1">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Created At</th>
+        <th scope="col">Last Login At</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${customer}">
+        <th th:text="*{customerId}"></th>
+        <td th:text="*{name}"></td>
+        <td th:text="*{email}"></td>
+        <td th:text="*{createdAt}"></td>
+        <td th:text="*{lastLoginAt}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>

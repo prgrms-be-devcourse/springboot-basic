@@ -14,7 +14,7 @@ public interface CustomerService {
     @Transactional
     void createCustomers(List<Customer> customers);
 
-    Customer getCustomer(UUID customerId);
+    Optional<Customer> getCustomer(UUID customerId);
 
     void saveCustomer(Customer customer);
 

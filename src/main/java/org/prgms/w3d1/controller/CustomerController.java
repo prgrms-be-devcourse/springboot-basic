@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.UUID;
 
 @Controller
 public class CustomerController {
@@ -37,5 +40,16 @@ public class CustomerController {
     public String createNewCustomer(CreateCustomerRequest createCustomerRequest) {
         customerService.createCustomer(createCustomerRequest.name(), createCustomerRequest.email());
         return "redirect:/customers";
+    }
+
+    @GetMapping("/customers/{customerId}")
+    public String viewCustomerDetail(@PathVariable("customerId") UUID customerId, Model model) {
+        var maybeCustomer = customerService.getCustomer(customerId);
+        if(maybeCustomer.isPresent()) {
+            model.addAttribute("customer", maybeCustomer.get());
+            return "views/customer-details";
+        } else {
+            return "views/404";
+        }
     }
 }

@@ -29,10 +29,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomer(UUID customerId) {
-        return customerRepository
-            .findById(customerId)
-            .orElseThrow(() -> new RuntimeException("Can not find a customer for " + customerId));
+    public Optional<Customer> getCustomer(UUID customerId) {
+        return customerRepository.findById(customerId);
     }
 
     @Override
