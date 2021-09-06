@@ -7,10 +7,12 @@ import org.prgrms.kdt.engine.Console;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.springframework.context.MessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,23 +22,25 @@ public class VoucherProgram implements Runnable {
     private final VoucherService voucherService;
     private final CustomerServiceImpl customerService;
     private final Console console;
+    private final MessageSource messageSource;
 
-    public VoucherProgram(VoucherService voucherService, CustomerServiceImpl customerService, Console console) {
+    public VoucherProgram(VoucherService voucherService, CustomerServiceImpl customerService, Console console, MessageSource messageSource) {
         this.voucherService = voucherService;
         this.customerService = customerService;
         this.console = console;
+        this.messageSource = messageSource;
     }
 
     @SneakyThrows
     @Override
     public void run() {
-        console.printConsole(console.HELP);
+        console.printConsole(messageSource.getMessage("help", null, Locale.getDefault()));
         while (true) {
-            String inputString = console.input(console.INPUT);
+            String inputString = console.input(messageSource.getMessage("input", null, Locale.getDefault()));
             Optional<Command> inputCommand = parse(inputString);
 
             if (inputCommand.isEmpty()) {
-                console.logError(console.INPUT_ERROR);
+                console.logError(messageSource.getMessage("error.input", null, Locale.getDefault()));
                 continue;
             }
 
@@ -48,15 +52,15 @@ public class VoucherProgram implements Runnable {
                     // create voucher
                     Optional<Voucher> voucher = Optional.empty();
                     int voucherNum = Integer.parseInt(
-                            console.input(console.INPUT_VOUCHER_NUM)
+                            console.input(messageSource.getMessage("inputVoucherNum", null, Locale.getDefault()))
                     );
 
                     int discount = Integer.parseInt(
-                            console.input(console.INPUT_DISCOUNT)
+                            console.input(messageSource.getMessage("inputDiscount", null, Locale.getDefault()))
                     );
 
                     if (isInValidInput(voucherNum, discount)) {
-                        console.logError(console.INPUT_ERROR);
+                        console.logError(messageSource.getMessage("error.input", null, Locale.getDefault()));
                         continue;
                     }
 
@@ -66,16 +70,16 @@ public class VoucherProgram implements Runnable {
                         voucher = Optional.ofNullable(voucherService.createPercentDiscountVoucher(discount));
 
                     // print voucher created
-                    if (voucher.isEmpty()) console.logInfo(console.CREATE_VOUCHER_ERROR);
-                    voucher.ifPresent(value -> console.printConsole(MessageFormat.format(
-                            "{0} 타입의 voucher를 생성하였습니다.",
-                            value.getType())
-                    ));
+                    if (voucher.isEmpty())
+                        console.logInfo(messageSource.getMessage("error.createVoucher", null, Locale.getDefault()));
+                    voucher.ifPresent(value -> console.printConsole(
+                            messageSource.getMessage("createVoucher", new String[] {value.getType().name()}, Locale.getDefault()))
+                    );
                 }
                 case LIST -> {
                     Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
                     if (voucherList.isEmpty()) {
-                        console.logError(console.NO_VOUCHER);
+                        console.logError(messageSource.getMessage("error.noVoucher", null, Locale.getDefault()));
                     } else {
                         for (var voucher : voucherList.values()) {
                             console.printConsole(voucher.toString());
@@ -86,7 +90,7 @@ public class VoucherProgram implements Runnable {
                     ClassPathResource resource = new ClassPathResource("blacklist/customer_blacklist.csv");
                     Optional<Map<Integer, String>> blackList = customerService.loadBlackList(resource);
                     if (blackList.isEmpty()) {
-                        console.logError(console.NO_BLACKLIST);
+                        console.logError(messageSource.getMessage("error.noBlacklist", null, Locale.getDefault()));
                     } else {
                         for (var customer : blackList.get().values()) {
                             console.printConsole(customer);

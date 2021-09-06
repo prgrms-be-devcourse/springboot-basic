@@ -20,6 +20,4 @@ import org.springframework.context.annotation.PropertySource;
 @EnableConfigurationProperties
 public class AppConfiguration {
     // 의존 관계 형성
-    @Autowired
-    MessageSource messageSource;
 }
