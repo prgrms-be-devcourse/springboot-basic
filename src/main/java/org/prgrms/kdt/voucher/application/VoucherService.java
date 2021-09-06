@@ -1,18 +1,21 @@
 package org.prgrms.kdt.voucher.application;
 
-import org.prgrms.kdt.exception.ErrorMessage;
-import org.prgrms.kdt.exception.NotFoundException;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.customer.domain.Customer;
+import org.prgrms.kdt.customer.domain.vo.Email;
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.domain.vo.Type;
+import org.prgrms.kdt.voucher.dto.VoucherDto;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-
-import static org.prgrms.kdt.voucher.domain.VoucherType.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VoucherService {
@@ -23,28 +26,38 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher findByVoucher(UUID voucherId) {
-        return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND_VOUCHER_MESSAGE));
-    }
-
-    public Voucher insert(Voucher voucher) {
+    @Transactional
+    public Voucher createVoucher(VoucherDto voucher) {
         return voucherRepository.insert(voucher);
     }
 
-    public Map<UUID, Voucher> findByAllVoucher() {
-        return voucherRepository.findByAllVoucher();
+    @Transactional(readOnly = true)
+    public List<Voucher> findAll() {
+        return voucherRepository.findAll();
     }
 
-    public Voucher createVoucher(VoucherType type, String value) {
-        if (type == FIXED) {
-            return new FixedAmountVoucher(UUID.randomUUID(), parseLong(value));
-        }
-        return new PercentDiscountVoucher(UUID.randomUUID(), parseLong(value));
+    @Transactional(readOnly = true)
+    public List<Voucher> findByEmail(Email email) {
+        return voucherRepository.findByEmail(email);
     }
 
-    private long parseLong(String value) {
-        return Long.parseLong(value);
+    @Transactional
+    public void deleteById(UUID id) {
+        voucherRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
+    public List<Voucher> findByType(Type type) {
+        return voucherRepository.findByType(type);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Voucher> findByCreatedDate(LocalDateTime time) {
+        return voucherRepository.findByCreatedDate(time);
+    }
+
+    @Transactional(readOnly = true)
+    public Voucher findById(UUID id) {
+        return voucherRepository.findById(id);
+    }
 }

@@ -7,6 +7,7 @@ public enum ErrorMessage {
     ERROR_READING_FILE("There is a problem reading the file"),
     NAME("The Name format is not correct."),
     EMAIL("The Email format is not correct."),
+    PASSWORD("The Password format is not correct."),
     PHONE_NUMBER("The PhoneNumber format is not correct."),
     MORE_THAN_MIN_VOUCHER_AMOUNT("Amount should be more than your Input Data"),
     NOT_BE_ZERO_VOUCHER_AMOUNT("Amount should not be Zero"),

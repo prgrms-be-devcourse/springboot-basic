@@ -1,71 +1,72 @@
 package org.prgrms.kdt.voucher.presentation;
 
-import org.prgrms.kdt.common.CommandStatus;
-import org.prgrms.kdt.view.InputView;
-import org.prgrms.kdt.view.OutputView;
-import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.customer.domain.vo.Email;
 import org.prgrms.kdt.voucher.application.VoucherService;
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.vo.Type;
+import org.prgrms.kdt.voucher.dto.VoucherDto;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
-
-    private final int TYPE_INDEX = 0;
-    private final int VALUE_INDEX = 1;
     private final VoucherService voucherService;
 
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
-    public void play() {
-        while (true) {
-            InputView.initVoucherMessage();
-            String choiceMenu = InputView.input();
-            CommandStatus status = choiceMenu(choiceMenu);
-            executeMenu(status);
-        }
+    @GetMapping("/voucher/create")
+    public String createVoucher(Model model) {
+        model.addAttribute("voucher", new VoucherDto());
+        return "/voucher/create-voucher";
     }
 
-    private CommandStatus choiceMenu(String userInputMessage) {
-        return CommandStatus.findByCommandType(userInputMessage);
+    @PostMapping("/voucher/create")
+    public String createVoucher(VoucherDto voucher) {
+        voucherService.createVoucher(voucher);
+        return "redirect:/voucher/create";
+    }
+
+    @GetMapping("/voucher")
+    public String vouchers(Model model) {
+        List<Voucher> vouchers = voucherService.findAll();
+        model.addAttribute("vouchers", vouchers);
+        return "/voucher/manage-voucher";
     }
 
 
-    private void executeMenu(CommandStatus status) {
-        if (status == CommandStatus.EXIT) {
-            exitCommandOrder();
-            return;
-        }
-
-        if (status == CommandStatus.CREATE) {
-            createVoucher();
-            return;
-        }
-
-        if (status == CommandStatus.ALL) {
-            showVouchers();
-        }
+    @PostMapping("/vouchers")
+    public String vouchers(Model model, Email email) {
+        List<Voucher> vouchers = voucherService.findByEmail(email);
+        model.addAttribute("vouchers", vouchers);
+        return "/voucher/manage-voucher";
     }
 
-    private void exitCommandOrder() {
-        InputView.closeScanner();
-        OutputView.exit();
+    @GetMapping("/voucher/fixed")
+    public String manageFixedVouchers(Model model) {
+        List<Voucher> vouchers = voucherService.findByType(Type.FIXED);
+        model.addAttribute("vouchers", vouchers);
+        return "/voucher/manage-voucher";
     }
 
-    private void createVoucher() {
-        InputView.explainCreateVoucher();
-        List<String> typeAndValue = InputView.typeAndValue(InputView.input());
-        VoucherType type = VoucherType.findByVoucherType(typeAndValue.get(TYPE_INDEX));
-        Voucher voucher = voucherService.createVoucher(type, typeAndValue.get(VALUE_INDEX));
-        voucherService.insert(voucher);
+    @GetMapping("/voucher/percent")
+    public String managePercentVouchers(Model model) {
+        List<Voucher> vouchers = voucherService.findByType(Type.PERCENT);
+        model.addAttribute("vouchers", vouchers);
+        return "/voucher/manage-voucher";
     }
 
-    private void showVouchers() {
-        OutputView.showVouchers(voucherService.findByAllVoucher());
+    @GetMapping("/voucher/{id}/delete")
+    public String deleteVoucher(@PathVariable("id") UUID id) {
+        voucherService.deleteById(id);
+        return "/voucher/manage-voucher";
     }
 
 }

@@ -1,17 +1,27 @@
 package org.prgrms.kdt.voucher.repository;
 
+import org.prgrms.kdt.customer.domain.vo.Email;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.vo.Type;
+import org.prgrms.kdt.voucher.dto.VoucherDto;
 
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public interface VoucherRepository {
-    Optional<Voucher> findById(UUID voucherId);
+    Voucher insert(VoucherDto voucher);
 
-    Map<UUID, Voucher> findByAllVoucher();
+    List<Voucher> findAll();
 
-    Voucher insert(Voucher voucher);
+    List<Voucher> findByEmail(Email email);
 
-    int size();
+    UUID deleteById(UUID id);
+
+    List<Voucher> findByType(Type type);
+
+    List<Voucher> findByCreatedDate(LocalDateTime time);
+
+    Voucher findById(UUID id);
+
 }

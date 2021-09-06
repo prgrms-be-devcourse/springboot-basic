@@ -21,25 +21,4 @@ public class Order {
         this.voucher = Optional.empty();
     }
 
-    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
-        this.orderId = orderId;
-        this.customerId = customerId;
-        this.orderItems = orderItems;
-        this.voucher = Optional.of(voucher);
-    }
-
-    public UUID getOrderId() {
-        return orderId;
-    }
-
-    public long totalAmount() {
-        long beforeDiscount = orderItems.stream()
-                .map(v -> v.productPrice() * v.quantity)
-                .reduce(DEFAULT_TOTAL_AMOUNT, Long::sum);
-        return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
 }

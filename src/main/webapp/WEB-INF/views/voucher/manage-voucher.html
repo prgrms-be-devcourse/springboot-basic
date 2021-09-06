@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+<h1>안녕하세요! KDT 바우처관리 페이지입니다!</h1>
+<form th:role="form" th:action="@{/vouchers}" method="post">
+    <input type="text" class="form-control" th:name="email">
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<table class=" table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">CUSTOMER Email</th>
+        <th scope="col">TYPE</th>
+        <th scope="col">VALUE</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+        <th scope="row" th:text="${voucher.voucherId}"></th>
+        <td th:text="*{email}"></td>
+        <td th:text="*{type}"></td>
+        <td th:text="*{value}"></td>
+        <td>
+            <a th:href="@{/voucher/{id}/delete (id=${voucher.voucherId})}"
+               class="btn btn-primary" role="button">삭제</a>
+        </td>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

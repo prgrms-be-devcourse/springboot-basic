@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: wrjss
+Build-Jdk: 11.0.12
+Implementation-Title: kdt-spring-order
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: org.prgrms.kdt
+Main-Class: ${start-class}
+

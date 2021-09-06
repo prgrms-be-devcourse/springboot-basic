@@ -13,15 +13,8 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public UUID productId() {
-        return productId;
-    }
-
     public long productPrice() {
         return productPrice;
     }
 
-    public long quantity() {
-        return quantity;
-    }
 }

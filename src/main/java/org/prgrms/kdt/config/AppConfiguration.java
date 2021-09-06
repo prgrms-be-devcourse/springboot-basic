@@ -9,7 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan(
         basePackages = {
                 "org.prgrms.kdt.voucher",
-                "org.prgrms.kdt.order"
+                "org.prgrms.kdt.order",
+                "org.prgrms.kdt.customer"
         }
 )
 @EnableConfigurationProperties

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+<h1>안녕하세요! KDT 회원관리 페이지입니다!</h1>
+<form th:role="form" th:action="@{/customers}" method="post">
+    <input type="text" class="form-control" th:name="email">
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<table class=" table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Email</th>
+        <th scope="col">name</th>
+        <th scope="col">phoneNumber</th>
+        <th scope="col">role</th>
+        <th scope="col">Created Date</th>
+        <th scope="col">modified Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer: ${customers}" th:object="${customer}">
+        <th scope="row" th:text="${customer.customerId}"></th>
+        <td th:text="*{email}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{phoneNumber}"></td>
+        <td th:text="*{role}"></td>
+        <td th:text="*{createdDate}"></td>
+        <td th:text="*{modifiedDate}"></td>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
