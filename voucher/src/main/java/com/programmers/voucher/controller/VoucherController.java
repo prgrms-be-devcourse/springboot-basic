@@ -34,7 +34,7 @@ public class VoucherController {
 
     static {
         links.add(new String[]{"Main", "/voucher"});
-        links.add(new String[]{"Create Voucher", "/VIEW_CREATE_VOUCHER"});
+        links.add(new String[]{"Create Voucher", "/voucher/create"});
         links.add(new String[]{"Read Voucher", "/voucher/read"});
         links.add(new String[]{"List Vouchers", "/voucher/list"});
         links.add(new String[]{"Update Vouchers", "/voucher/update"});
@@ -58,18 +58,18 @@ public class VoucherController {
 
     @PostMapping("/create")
     public String submitCreateVoucher(@RequestParam(name = "name", defaultValue = "") String name,
-                                      @RequestParam(name = "type", defaultValue = "") String type,
-                                      @RequestParam(name = "amount", defaultValue = "") Integer amount,
-                                      @RequestParam(name = "owner", defaultValue = "") Long owner,
+                                      @RequestParam(name = "type", defaultValue = "UNKNOWN") String type,
+                                      @RequestParam(name = "amount", defaultValue = "0") int amount,
+                                      @RequestParam(name = "owner", defaultValue = "-1") long owner,
                                       Model model) {
         model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
         model.addAttribute("name", name);
-        model.addAttribute("type", type);
+        model.addAttribute("type", DiscountPolicy.Type.of(type));
         model.addAttribute("amount", amount);
         model.addAttribute("owner", owner);
 
-        if (name.isBlank() || type.isBlank() || amount == null || amount < 0 || owner == null || owner < 1) {
+        if (name.isBlank() || type.isBlank() || amount < 0) {
             model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Required fields cannot be empty.");
             return VIEW_CREATE_VOUCHER;
         }

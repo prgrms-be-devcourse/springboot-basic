@@ -22,14 +22,17 @@
     </div>
     <div>
         <label for="voucher-type">Discount Type: </label>
-        <select id="voucher-type" name="type" th:selected="${type}">
-            <option th:each="policy: ${availableDiscountPolicies}" th:text="*{policy.toString()}">DISCOUNT POLICY</option>
+        <select id="voucher-type" name="type">
+            <option
+                    th:each="policy: ${availableDiscountPolicies}"
+                    th:value="${policy}"
+                    th:text="${policy}" th:selected="${policy.equals(type)}">DISCOUNT POLICY</option>
         </select>
         <p>DISCLAIMER: 'FIXED' type allows positive discount amount. 'PERCENTAGE' type allows discount amount only between 0 and 100.</p>
     </div>
     <div>
         <label for="voucher-amount">Amount: </label>
-        <input id="voucher-amount" name="amount" type="number" th:value="${amount}" required min="0" />
+        <input id="voucher-amount" name="amount" type="number" th:value="${amount == null ? 0 : amount}" required min="0" />
     </div>
     <div>
         <label for="voucher-owner">Owner ID: </label>
