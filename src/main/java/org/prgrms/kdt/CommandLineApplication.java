@@ -3,7 +3,6 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.command.CommandCreate;
 import org.prgrms.kdt.command.NavigationMessage;
 import org.prgrms.kdt.voucher.Voucher;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,13 +10,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class CommandLineApplication {
+public class CommandLineApplication implements Runnable {
     public static void main(final String[] args) throws IOException, InterruptedException {
-        final var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         final Scanner scanner = new Scanner(System.in);
 
         final List<Optional<Voucher>> voucherList = new ArrayList<>();
-
         boolean programRunning = true;
 
         do {
@@ -36,9 +33,7 @@ public class CommandLineApplication {
                     break;
 
                 case "list":
-                    for (final Optional<Voucher> voucher : voucherList) {
-                        System.out.println(voucher);
-                    }
+                    voucherList.forEach(System.out::println);
                     break;
 
                 default:
@@ -46,5 +41,10 @@ public class CommandLineApplication {
                     break;
             }
         } while (programRunning);
+    }
+
+    @Override
+    public void run() {
+
     }
 }

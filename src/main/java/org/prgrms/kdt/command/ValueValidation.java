@@ -4,32 +4,32 @@ import java.util.Scanner;
 
 public class ValueValidation {
     static Scanner scanner = new Scanner(System.in);
-    static String inputStringType = "";
-    static long outputLongType = 0;
 
     public static long inputValueValidation(final String voucherType) {
+        String inputStringType;
         boolean discountAmountCheck = true;
-        while (discountAmountCheck) {
+        do {
             inputStringType = scanner.nextLine();
-            discountAmountCheck = false;
 
             // 숫자가 입력되었는지 검사
             // 값의 범위가 유효한지 검사
-            if (numberValidation(inputStringType) || rangeValidation(voucherType, outputLongType)) {
-                discountAmountCheck = true;
-            }
-        }
-        return outputLongType;
+            discountAmountCheck = numberValidation(voucherType, inputStringType);
+        } while (discountAmountCheck);
+
+        return Long.parseLong(inputStringType);
     }
 
-    public static boolean numberValidation(final String value) {
+    public static boolean numberValidation(final String voucherType, final String value) {
+        long valueCheck = 0;
         try {
-            outputLongType = Long.parseLong(value);
+            valueCheck = Long.parseLong(value);
         } catch (final NumberFormatException e) {
             System.out.println("숫자를 입력하세요");
             return true;
+        } catch (final Exception e) {
+            return true;
         } finally {
-            return false;
+            return rangeValidation(voucherType, valueCheck);
         }
     }
 
