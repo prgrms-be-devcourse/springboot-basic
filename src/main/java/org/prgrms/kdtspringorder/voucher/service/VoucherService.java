@@ -1,11 +1,10 @@
 package org.prgrms.kdtspringorder.voucher.service;
 
 import java.util.List;
+import java.util.UUID;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
-
-import java.util.UUID;
 
 public class VoucherService {
 
@@ -19,7 +18,7 @@ public class VoucherService {
   public Voucher getVoucher(final UUID voucherId) {
     return voucherRepository
         .findById(voucherId)
-        .orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId));
+        .orElseThrow(() -> new IllegalArgumentException("Can not find a voucher for " + voucherId));
   }
 
   public List<Voucher> getVouchers() {

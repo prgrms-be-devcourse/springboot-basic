@@ -10,12 +10,15 @@ import java.util.UUID;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
 
-public class MemoryVoucherRepository implements VoucherRepository{
-  Map<UUID, Voucher> memoryDB = new HashMap<>();
+public class MemoryVoucherRepository implements VoucherRepository {
+
+  private final Map<UUID, Voucher> memoryDB = new HashMap<>();
 
   @Override
   public Optional<Voucher> findById(UUID voucherId) {
-    if(!memoryDB.containsKey(voucherId)) return Optional.empty();
+    if (!memoryDB.containsKey(voucherId)) {
+      return Optional.empty();
+    }
     return Optional.of(memoryDB.get(voucherId));
   }
 
@@ -34,7 +37,7 @@ public class MemoryVoucherRepository implements VoucherRepository{
     return voucher;
   }
 
-  private UUID generateId(){
+  private UUID generateId() {
     return UUID.randomUUID();
   }
 }

@@ -2,10 +2,12 @@ package org.prgrms.kdtspringorder.voucher.domain;
 
 import java.util.UUID;
 import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
+import org.prgrms.kdtspringorder.voucher.exception.ValidationException;
 
 public class Voucher {
-  private UUID voucherId;
+
   private final VoucherPolicy voucherPolicy;
+  private UUID voucherId;
 
   public Voucher(VoucherPolicy voucherPolicy) {
     this.voucherPolicy = voucherPolicy;
@@ -17,9 +19,9 @@ public class Voucher {
   // 생성자로 ID를 할당하는 방법밖에 없기 때문에 Repository에 저장될 때 ID를 만들어 주고자 하면 Voucer 객체를 Repository에서 생성 해야한다.
   // 위와 같은 문제점 때문에 아래와 같이 설계하였습니다.
 
-  public void assignId(final UUID id){
-    if(this.voucherId != null) {
-      throw new RuntimeException("이미 ID가 할당된 Voucher입니다.");
+  public void assignId(UUID id) {
+    if (this.voucherId != null) {
+      throw new ValidationException("이미 ID가 할당된 Voucher입니다.");
     }
     this.voucherId = id;
   }
@@ -28,11 +30,11 @@ public class Voucher {
     return voucherId;
   }
 
-  public long discount(long originalPrice){
+  public long discount(long originalPrice) {
     return voucherPolicy.discount(originalPrice);
   }
 
-  public String getVoucherTypeInString(){
+  public String getVoucherTypeInString() {
     return this.voucherPolicy.getPolicyType();
   }
 

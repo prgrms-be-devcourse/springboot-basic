@@ -3,6 +3,7 @@ package org.prgrms.kdtspringorder.io.domain;
 import java.util.List;
 
 public class Command {
+
   private final String command;
   private final List<String> options;
 
@@ -11,7 +12,7 @@ public class Command {
     this.options = options;
   }
 
-  public String getCommandName() {
+  public String getName() {
     return command;
   }
 
