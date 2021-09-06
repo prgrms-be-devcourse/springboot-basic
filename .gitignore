@@ -34,3 +34,4 @@ build/
 
 ### etc ###
 Voucher.json
+/logs
