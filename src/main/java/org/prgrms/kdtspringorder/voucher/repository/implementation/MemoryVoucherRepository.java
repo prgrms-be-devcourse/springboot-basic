@@ -2,10 +2,12 @@ package org.prgrms.kdtspringorder.voucher.repository.implementation;
 
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Profile("dev")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
     Map<UUID, Voucher> memoryDB = new HashMap<>();

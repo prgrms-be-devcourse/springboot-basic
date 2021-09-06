@@ -8,6 +8,7 @@ import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.FileReader;
@@ -20,6 +21,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
+@Profile("!dev")
 @Primary
 public class FileVoucherRepository implements VoucherRepository {
 
@@ -48,7 +50,6 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException | CsvException ioException) {
             throw new RuntimeException(ioException);
         }
-        // 예외를 어떻게 처리 할지 모르겠어서 일단 프로그램이 터지도록 했습니다.
 
         return rows
                 .stream()
