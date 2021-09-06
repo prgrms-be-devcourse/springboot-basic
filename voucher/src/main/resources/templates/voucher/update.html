@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher Application</title>
+</head>
+<body>
+
+<h1>Update Customer.</h1>
+<h2>Fill required information of customer to update.</h2>
+
+<ul>
+    <li th:each="link: ${links}">
+        <a th:href="@{${link[1]}}" th:text="${link[0]}">Menu Text</a>
+    </li>
+</ul>
+
+<form th:action="@{/voucher/update}" th:object="${voucher}" method="post">
+    <div>
+        <label for="voucher-id">Voucher ID: </label>
+        <input id="voucher-id" th:value="*{id}" name="id" required readonly>
+    </div>
+    <div>
+        <label for="voucher-name">Voucher Name: </label>
+        <input id="voucher-name" name="name" required placeholder="Voucher" th:value="*{name}">
+    </div>
+    <div>
+        <label for="voucher-type">Discount Type: </label>
+        <select id="voucher-type" name="type">
+            <option
+                    th:each="policy: ${availableDiscountPolicies}"
+                    th:value="${policy}"
+                    th:text="${policy}"
+                    th:selected="${voucher.discountPolicy.type.equals(policy)}">DISCOUNT POLICY</option>
+        </select>
+        <p>DISCLAIMER: 'FIXED' type allows positive discount amount. 'PERCENTAGE' type allows discount amount only between 0 and 100.</p>
+    </div>
+    <div>
+        <label for="voucher-amount">Amount: </label>
+        <input id="voucher-amount" name="amount" type="number" th:value="*{discountPolicy.amount}" required min="0" />
+    </div>
+    <div>
+        <label for="voucher-owner">Owner ID: </label>
+        <input id="voucher-owner" name="owner" type="number" th:value="*{customerId}" required min="1" />
+    </div>
+    <input type="submit" value="Update">
+</form>
+
+<h3 th:text="${error}"></h3>
+
+</body>
+</html>
