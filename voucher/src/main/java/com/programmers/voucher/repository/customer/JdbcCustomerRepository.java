@@ -57,7 +57,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(long id) {
         log.debug("Find customer by id: {}", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(customerQuery.getSelect().getById(), customerRowMapper, id));
+        Customer customer;
+        try {
+            customer = jdbcTemplate.queryForObject(customerQuery.getSelect().getById(), customerRowMapper, id);
+        } catch (EmptyResultDataAccessException ex) {
+            customer = null;
+        }
+
+        return Optional.ofNullable(customer);
     }
 
     @Override

@@ -74,3 +74,5 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: vouchermanager
     password: password
+  thymeleaf:
+    cache: false
