@@ -1,7 +1,7 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.io.HowMuchDiscountMessage;
 import org.prgrms.kdt.voucher.CreateVoucher;
-import org.prgrms.kdt.voucher.HowMuchDiscount;
 import org.prgrms.kdt.voucher.Validation;
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -20,7 +20,7 @@ public class CommandLineApplication {
         final List<Voucher> mylist = new ArrayList<Voucher>();
 
         boolean programRunning = true;
-        String VoucherType = "";
+        String voucherType = "";
 
         do {
             System.out.println("=== Voucher Program ===");
@@ -44,27 +44,26 @@ public class CommandLineApplication {
                     System.out.println("- PercentDiscountVoucher");
 
                     do {
-                        VoucherType = scanner.nextLine();
-
-                        switch (VoucherType) {
+                        voucherType = scanner.nextLine();
+                        switch (voucherType) {
                             case "FixedAmountVoucher":
-                                HowMuchDiscount.howMuchDiscountMessage(VoucherType); // 할인값을 입력해달라는 메세지
+                                new HowMuchDiscountMessage(voucherType); // 할인값을 입력해달라는 메세지
                                 mylist.add(new CreateVoucher(
-                                        Validation.fixedAmountDiscountValidation()) // 유효한 값인지 검사
+                                        Validation.inputValueValidation(voucherType)) // 유효한 값인지 검사
                                         .createFixedAmountVoucher()); // voucher 생성
                                 createTypeRunning = false;
                                 break;
 
                             case "PercentDiscountVoucher":
-                                HowMuchDiscount.howMuchDiscountMessage(VoucherType); // 할인값을 입력해달라는 메세지
+                                new HowMuchDiscountMessage(voucherType); // 할인값을 입력해달라는 메세지
                                 mylist.add(new CreateVoucher(
-                                        Validation.percentDiscountValidation()) // 유효한 값인지 검사
+                                        Validation.inputValueValidation(voucherType)) // 유효한 값인지 검사
                                         .createPercentDiscountVoucher()); // voucher 생성
                                 createTypeRunning = false;
                                 break;
 
                             default:
-                                HowMuchDiscount.howMuchDiscountMessage(VoucherType);
+                                new HowMuchDiscountMessage(voucherType);
                                 break;
                         }
                     } while (createTypeRunning);

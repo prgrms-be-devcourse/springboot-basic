@@ -4,54 +4,55 @@ import java.util.Scanner;
 
 public class Validation {
     static Scanner scanner = new Scanner(System.in);
+    static String inputStringType = "";
+    static long outputLongType = 0;
 
-    public static long fixedAmountDiscountValidation() {
+    public static long inputValueValidation(final String voucherType) {
         boolean discountAmountCheck = true;
-        long amount = 0;
-
         while (discountAmountCheck) {
-            try {
-                amount = Long.parseLong(scanner.nextLine());
-            } catch (final NumberFormatException e) {
-                System.out.println("숫자를 입력하세요");
-                continue;
+            inputStringType = scanner.nextLine();
+            discountAmountCheck = false;
+
+            // 숫자가 입력되었는지 검사
+            // 값의 범위가 유효한지 검사
+            if (numberValidation(inputStringType) || rangeValidation(voucherType, outputLongType)) {
+                discountAmountCheck = true;
+                break;
             }
-            discountAmountCheck = amountValidation(amount);
         }
-        return amount;
+        return outputLongType;
     }
 
-    public static float percentDiscountValidation() {
-        boolean discountAmountCheck = true;
-        float percent = 0;
-
-        while (discountAmountCheck) {
-            try {
-                percent = Float.parseFloat(scanner.nextLine());
-            } catch (final NumberFormatException e) {
-                System.out.println("숫자를 입력하세요");
-                continue;
-            }
-            discountAmountCheck = percentValidation(percent);
-        }
-        return percent;
-    }
-
-    public static boolean amountValidation(final long amount) {
-        if (amount <= 1000000 && amount > 0)
-            return false;
-        else {
-            System.out.println("할인 가격은 0원 초과, 1,000,000원 이하로 설정해주십시오.");
+    public static boolean numberValidation(final String value) {
+        try {
+            outputLongType = Long.parseLong(value);
+        } catch (final NumberFormatException e) {
+            System.out.println("숫자를 입력하세요");
             return true;
+        } finally {
+            return false;
         }
     }
 
-    public static boolean percentValidation(final float percent) {
-        if (percent <= 100 && percent > 0)
-            return false;
-        else {
-            System.out.println("할인율은 0% 초과, 100% 이하로 설정해주십시오.");
-            return true;
+    public static boolean rangeValidation(final String voucherType, final long value) {
+        switch (voucherType) {
+            case "FixedAmountVoucher":
+                if (value <= 1000000 && value > 0)
+                    return false;
+                else {
+                    System.out.println("할인 가격은 0원 초과, 1,000,000원 이하로 설정해주십시오.");
+                    return true;
+                }
+            case "PercentDiscountVoucher":
+                if (value <= 100 && value > 0)
+                    return false;
+                else {
+                    System.out.println("할인율은 0% 초과, 100% 이하로 설정해주십시오.");
+                    return true;
+                }
+            default:
+                System.out.println("잘못된 voucher type 입니다.");
+                return true;
         }
     }
 }
