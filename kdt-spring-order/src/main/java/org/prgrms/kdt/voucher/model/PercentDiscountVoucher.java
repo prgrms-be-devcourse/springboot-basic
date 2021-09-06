@@ -20,7 +20,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long getVoucherValue() {
+    public long getValue() {
         return percent;
     }
 

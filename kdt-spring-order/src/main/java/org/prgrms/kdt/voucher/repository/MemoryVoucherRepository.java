@@ -19,12 +19,13 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public void insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
-    public List<Voucher> getVoucherList() {
+    public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
     }
 }

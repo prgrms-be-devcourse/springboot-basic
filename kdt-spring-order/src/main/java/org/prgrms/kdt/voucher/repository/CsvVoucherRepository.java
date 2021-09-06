@@ -36,12 +36,13 @@ public class CsvVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public void insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
-    public List<Voucher> getVoucherList() {
+    public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
     }
 
@@ -80,7 +81,7 @@ public class CsvVoucherRepository implements VoucherRepository{
             for(Voucher voucher : storage.values()){
                 bw.write(System.lineSeparator());
                 String row = voucher.getVoucherId()
-                        + "," + voucher.getVoucherValue()
+                        + "," + voucher.getValue()
                         + "," + voucher.getVoucherType();
                 bw.write(row);
             }

@@ -13,12 +13,13 @@ import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
 
+import static org.prgrms.kdt.common.util.Util.toUUID;
+
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -34,21 +35,20 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }};
     }
 
-        private RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-            var customerName = resultSet.getString("name");
-            var customerEmail = resultSet.getString("email");
-            var customerId = toUUID(resultSet.getBytes("customer_id"));
-            var lastLoginAt = resultSet.getTimestamp("last_login_at") != null
-                    ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-            var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-            //logger.info("customer id -> {} , name -> {} , createdAt -> {}", customerId, customerName, createdAt);
-            return new Customer(customerId, customerName, customerEmail, lastLoginAt, createdAt);
+    private RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+        var customerName = resultSet.getString("name");
+        var customerEmail = resultSet.getString("email");
+        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null
+                ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        //logger.info("customer id -> {} , name -> {} , createdAt -> {}", customerId, customerName, createdAt);
+        return new Customer(customerId, customerName, customerEmail, lastLoginAt, createdAt);
     };
 
 
     @Override
     public Customer insert(Customer customer) {
-
         var update = jdbcTemplate.update(
                 "insert into customers(customer_id, name, email, created_at) values (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
                 toParamMap(customer)
@@ -141,11 +141,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
 
-    // inner method
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
+
 
 
 }
