@@ -17,6 +17,7 @@ import java.util.Optional;
 @RequestMapping("/voucher")
 public class VoucherController {
 
+    public static final String REDIRECT_TO = "redirect:";
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
@@ -25,17 +26,20 @@ public class VoucherController {
     private static final String ERROR_MODEL_ATTRIBUTE = "error";
     private static final String VOUCHER_MODEL_ATTRIBUTE = "voucher";
     private static final String DISCOUNT_POLICIES_MODEL_ATTRIBUTE = "availableDiscountPolicies";
+
     private static final String VIEW_CREATE_VOUCHER = "voucher/create";
     private static final String VIEW_READ_VOUCHER = "voucher/read";
     private static final String VIEW_UPDATE_VOUCHER = "voucher/update";
 
+    private static final String URL_CREATE_VOUCHER = "/voucher/create";
+    public static final String URL_READ_VOUCHER = "/voucher/read";
+    public static final String URL_LIST_VOUCHER = "/voucher/list";
+
     static {
         links.add(new String[]{"Main", "/voucher"});
-        links.add(new String[]{"Create Voucher", "/voucher/create"});
-        links.add(new String[]{"Read Voucher", "/voucher/read"});
-        links.add(new String[]{"List Vouchers", "/voucher/list"});
-        links.add(new String[]{"Update Vouchers", "/voucher/update"});
-        links.add(new String[]{"Delete Voucher", "/voucher/delete"});
+        links.add(new String[]{"Create Voucher", URL_CREATE_VOUCHER});
+        links.add(new String[]{"Read Voucher", URL_READ_VOUCHER});
+        links.add(new String[]{"List Vouchers", URL_LIST_VOUCHER});
     }
 
     private static final DiscountPolicy.Type[] availableDiscountPolicies = DiscountPolicy.Type.values();
@@ -44,6 +48,12 @@ public class VoucherController {
     public VoucherController(VoucherService voucherService, CustomerService basicCustomerService) {
         this.voucherService = voucherService;
         this.customerService = basicCustomerService;
+    }
+
+    @GetMapping
+    public String voucherConsole(Model model) {
+        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
+        return "voucher/index";
     }
 
     @GetMapping("/create")
@@ -83,6 +93,13 @@ public class VoucherController {
         return "redirect:/voucher/read?id=" + voucher.getId();
     }
 
+    @GetMapping("/list")
+    public String listVouchers(Model model) {
+        model.addAttribute("vouchers", voucherService.listAll());
+        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
+        return "voucher/list";
+    }
+
     @GetMapping("/read")
     public String readVoucher(@RequestParam(name = "id", defaultValue = "") Long id,
                               Model model) {
@@ -105,7 +122,7 @@ public class VoucherController {
         Optional<Voucher> byId = voucherService.findById(id);
         if (byId.isPresent()) model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, byId.get());
         else {
-            return "redirect:/voucher/list";
+            return REDIRECT_TO + URL_LIST_VOUCHER;
         }
 
         return VIEW_UPDATE_VOUCHER;
@@ -116,13 +133,13 @@ public class VoucherController {
                                       @RequestParam(name = "name", defaultValue = "") String name,
                                       @RequestParam(name = "type", defaultValue = "") String type,
                                       @RequestParam(name = "amount", defaultValue = "0") int amount,
-                                      @RequestParam(name = "ownerId", defaultValue = "") Long ownerId,
+                                      @RequestParam(name = "owner", defaultValue = "") Long ownerId,
                                       Model model) {
-        if(id == null || ownerId == null) return "redirect:/voucher/list";
+        if (id == null || ownerId == null) return REDIRECT_TO + URL_LIST_VOUCHER;
 
         Optional<Voucher> voucher = voucherService.findById(id);
         Optional<Customer> customer = customerService.findById(ownerId);
-        if (voucher.isEmpty()) return "redirect:/voucher/list";
+        if (voucher.isEmpty()) return REDIRECT_TO + URL_LIST_VOUCHER;
 
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
         Voucher updatedVoucher = voucher.get();
@@ -149,7 +166,7 @@ public class VoucherController {
 
     @GetMapping("/delete")
     public String deleteVoucher(@RequestParam(name = "id", defaultValue = "") Long id) {
-        if(id != null) voucherService.delete(id);
-        return "redirect:/voucher/list";
+        if (id != null) voucherService.delete(id);
+        return REDIRECT_TO + URL_LIST_VOUCHER;
     }
 }
