@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -60,5 +61,22 @@ public class Voucher {
         if (name.isBlank()) {
             throw new IllegalArgumentException();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Voucher)) {
+            return false;
+        }
+        Voucher voucher = (Voucher) o;
+        return Objects.equals(voucherId, voucher.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId);
     }
 }

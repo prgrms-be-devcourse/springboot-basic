@@ -1,7 +1,9 @@
 package org.prgrms.kdt.customer;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.List;
+import org.prgrms.kdt.voucher.VoucherDto;
 
 /**
  * Created by yhh1056
@@ -9,23 +11,26 @@ import java.util.UUID;
  */
 public class CustomerDto {
 
-    private UUID customerId;
+    private String customerId;
 
     private String name;
 
     private String email;
 
-    private LocalDateTime createdAt;
+    private String createdAt;
 
-    private LocalDateTime lastLoginAt;
+    private String lastLoginAt;
 
     private String customerType;
 
-    public UUID getCustomerId() {
+    @JsonProperty("vouchers")
+    private List<VoucherDto> voucherDtos;
+
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(UUID customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
@@ -45,19 +50,19 @@ public class CustomerDto {
         this.email = email;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getLastLoginAt() {
+    public String getLastLoginAt() {
         return lastLoginAt;
     }
 
-    public void setLastLoginAt(LocalDateTime lastLoginAt) {
+    public void setLastLoginAt(String lastLoginAt) {
         this.lastLoginAt = lastLoginAt;
     }
 
@@ -67,5 +72,13 @@ public class CustomerDto {
 
     public void setCustomerType(String customerType) {
         this.customerType = customerType;
+    }
+
+    public List<VoucherDto> getVoucherDtos() {
+        return voucherDtos;
+    }
+
+    public void setVoucherDtos(List<VoucherDto> voucherDtos) {
+        this.voucherDtos = voucherDtos;
     }
 }

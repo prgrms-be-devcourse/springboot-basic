@@ -11,11 +11,11 @@ public interface VoucherMapper {
 
     static VoucherDto voucherToVoucherDto(Voucher voucher) {
         VoucherDto voucherDto = new VoucherDto();
-        voucherDto.setVoucherId(voucher.getVoucherId());
+        voucherDto.setVoucherId(voucher.getVoucherId().toString());
         voucherDto.setName(voucher.getName());
         voucherDto.setDiscount(voucher.getDiscount());
         voucherDto.setVoucherType(voucher.getVoucherType().name());
-        voucherDto.setCreatedAt(voucher.getCreatedAt());
+        voucherDto.setCreatedAt(voucher.getCreatedAt().toString());
         return voucherDto;
     }
 }

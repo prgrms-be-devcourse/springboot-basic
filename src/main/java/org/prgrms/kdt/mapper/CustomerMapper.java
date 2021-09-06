@@ -11,12 +11,12 @@ public interface CustomerMapper {
 
     static CustomerDto customerToCustomerDto(Customer customer) {
         CustomerDto customerDto = new CustomerDto();
-        customerDto.setCustomerId(customer.getCustomerId());
+        customerDto.setCustomerId(customer.getCustomerId().toString());
         customerDto.setName(customer.getName());
         customerDto.setEmail(customer.getEmail());
         customerDto.setCustomerType(customer.getCustomerType() == null ? null : customer.getCustomerType().name());
-        customerDto.setCreatedAt(customer.getCreatedAt());
-        customerDto.setLastLoginAt(customer.getLastLoginAt() == null ? null : customer.getLastLoginAt());
+        customerDto.setCreatedAt(customer.getCreatedAt().toString());
+        customerDto.setLastLoginAt(customer.getLastLoginAt() == null ? null : customer.getLastLoginAt().toString());
         return customerDto;
     }
 }

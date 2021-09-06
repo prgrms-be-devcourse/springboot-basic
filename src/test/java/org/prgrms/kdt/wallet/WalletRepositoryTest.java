@@ -1,7 +1,11 @@
 package org.prgrms.kdt.wallet;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.common.BaseRepositoryTest;
@@ -27,18 +31,34 @@ class WalletRepositoryTest extends BaseRepositoryTest {
     @Autowired
     WalletJdbcRepository walletJdbcRepository;
 
+    Customer customer = givenCustomer(UUID.randomUUID());
+    Voucher voucher = givenVoucher(UUID.randomUUID());
+
+    @BeforeEach
+    void beforeEach() {
+        walletJdbcRepository.deleteAll();
+        customerRepository.deleteAll();
+        voucherRepository.deleteAll();
+        customerRepository.insert(customer);
+        voucherRepository.insert(voucher);
+    }
+
     @Test
     @DisplayName("바우처 지갑 추가 테스트")
     void addVoucherWallet() {
-        UUID customerId = UUID.randomUUID();
-        UUID voucherId = UUID.randomUUID();
-        voucherRepository.insert(givenVoucher(voucherId));
-        customerRepository.insert(givenCustomer(customerId));
+        int insert = walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
 
-        Customer customer = customerRepository.findById(customerId).get();
-        Voucher voucher = voucherRepository.findById(voucherId).get();
+        assertThat(insert).isEqualTo(1);
+    }
 
+    @Test
+    @DisplayName("고객의 아이디로 바우처 조회 테스트")
+    void findByCustomerId() {
         walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
+        List<Voucher> vouchers = walletJdbcRepository.findByCustomerId(customer.getCustomerId());
+
+        assertThat(vouchers.size()).isEqualTo(1);
+        assertThat(vouchers).contains(voucher);
     }
 
     private Customer givenCustomer(UUID customerId) {

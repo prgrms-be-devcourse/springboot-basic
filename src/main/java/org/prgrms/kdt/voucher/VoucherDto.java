@@ -1,7 +1,6 @@
 package org.prgrms.kdt.voucher;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Created by yhh1056
@@ -9,7 +8,7 @@ import java.util.UUID;
  */
 public class VoucherDto {
 
-    private UUID voucherId;
+    private String voucherId;
 
     private String name;
 
@@ -17,13 +16,13 @@ public class VoucherDto {
 
     private String voucherType;
 
-    private LocalDateTime createdAt;
+    private String createdAt;
 
-    public UUID getVoucherId() {
+    public String getVoucherId() {
         return voucherId;
     }
 
-    public void setVoucherId(UUID voucherId) {
+    public void setVoucherId(String voucherId) {
         this.voucherId = voucherId;
     }
 
@@ -51,11 +50,11 @@ public class VoucherDto {
         this.voucherType = voucherType;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 }
