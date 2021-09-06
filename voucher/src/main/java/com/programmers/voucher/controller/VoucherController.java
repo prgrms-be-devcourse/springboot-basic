@@ -7,10 +7,7 @@ import com.programmers.voucher.service.customer.CustomerService;
 import com.programmers.voucher.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +57,7 @@ public class VoucherController {
     public String submitCreateVoucher(@RequestParam(name = "name", defaultValue = "") String name,
                                       @RequestParam(name = "type", defaultValue = "UNKNOWN") String type,
                                       @RequestParam(name = "amount", defaultValue = "0") int amount,
-                                      @RequestParam(name = "owner", defaultValue = "-1") long owner,
+                                      @RequestParam(name = "owner", defaultValue = "") Long owner,
                                       Model model) {
         model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
@@ -69,7 +66,7 @@ public class VoucherController {
         model.addAttribute("amount", amount);
         model.addAttribute("owner", owner);
 
-        if (name.isBlank() || type.isBlank() || amount < 0) {
+        if (name.isBlank() || type.isBlank() || owner == null) {
             model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Required fields cannot be empty.");
             return VIEW_CREATE_VOUCHER;
         }
@@ -115,14 +112,16 @@ public class VoucherController {
     }
 
     @PostMapping("/update")
-    public String submitUpdateVoucher(@RequestParam(name = "id", defaultValue = "0") long id,
+    public String submitUpdateVoucher(@RequestParam(name = "id", defaultValue = "") Long id,
                                       @RequestParam(name = "name", defaultValue = "") String name,
                                       @RequestParam(name = "type", defaultValue = "") String type,
                                       @RequestParam(name = "amount", defaultValue = "0") int amount,
-                                      @RequestParam(name = "owner", defaultValue = "0") long owner,
+                                      @RequestParam(name = "ownerId", defaultValue = "") Long ownerId,
                                       Model model) {
+        if(id == null || ownerId == null) return "redirect:/voucher/list";
+
         Optional<Voucher> voucher = voucherService.findById(id);
-        Optional<Customer> customer = customerService.findById(owner);
+        Optional<Customer> customer = customerService.findById(ownerId);
         if (voucher.isEmpty()) return "redirect:/voucher/list";
 
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
@@ -142,9 +141,15 @@ public class VoucherController {
             model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, updatedVoucher);
             return VIEW_UPDATE_VOUCHER;
         }
-        updatedVoucher.setCustomerId(owner);
+        updatedVoucher.setCustomerId(ownerId);
         voucherService.update(updatedVoucher);
 
         return "redirect:/voucher/read?id=" + updatedVoucher.getId();
+    }
+
+    @GetMapping("/delete")
+    public String deleteVoucher(@RequestParam(name = "id", defaultValue = "") Long id) {
+        if(id != null) voucherService.delete(id);
+        return "redirect:/voucher/list";
     }
 }
