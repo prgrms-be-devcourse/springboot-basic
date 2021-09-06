@@ -2,3 +2,7 @@ spring:
   config:
     activate:
       on-profile: production
+customer:
+  blacklist:
+    file-path: file:customer/
+    file-name: customer_blacklist.csv
