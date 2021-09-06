@@ -2,6 +2,7 @@ package com.programmers.voucher.controller;
 
 import com.programmers.voucher.entity.customer.Customer;
 import com.programmers.voucher.service.customer.CustomerService;
+import com.programmers.voucher.service.customer.CustomerVoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService basicCustomerService;
+    private final CustomerVoucherService customerVoucherService;
 
     static final List<String[]> links = new ArrayList<>();
     static final String LINKS_MODEL_ATTRIBUTE = "links";
@@ -25,10 +27,12 @@ public class CustomerController {
         links.add(new String[]{"Create User", "/customer/create"});
         links.add(new String[]{"Read User", "/customer/read"});
         links.add(new String[]{"List Users", "/customer/list"});
+        links.add(new String[]{"My Wallet", "/customer/wallet"});
     }
 
-    public CustomerController(CustomerService basicCustomerService) {
+    public CustomerController(CustomerService basicCustomerService, CustomerVoucherService customerVoucherService) {
         this.basicCustomerService = basicCustomerService;
+        this.customerVoucherService = customerVoucherService;
     }
 
     @GetMapping
@@ -80,5 +84,14 @@ public class CustomerController {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
         model.addAttribute("customers", basicCustomerService.listAll());
         return "customer/list";
+    }
+
+    @GetMapping("/wallet")
+    public String listVouchersInWallet(@RequestParam(value = "id", defaultValue = "") Long id,
+                                       Model model) {
+        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
+        model.addAttribute("id", id);
+        if(id != null) model.addAttribute("vouchers", customerVoucherService.findAllVoucherByCustomer(id));
+        return "customer/wallet";
     }
 }
