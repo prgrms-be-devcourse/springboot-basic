@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(
-        basePackages = {"org.prgrms.dev.voucher", "org.prgrms.dev.order", "org.prgrms.dev.config" }
+        basePackages = {"org.prgrms.dev.voucher", "org.prgrms.dev.order", "org.prgrms.dev.config", "org.prgrms.dev.customer" }
 )
 public class AppConfiguration {
 }

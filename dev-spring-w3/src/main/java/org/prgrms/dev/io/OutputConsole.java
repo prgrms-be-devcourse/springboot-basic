@@ -1,5 +1,7 @@
 package org.prgrms.dev.io;
 
+import org.prgrms.dev.customer.domain.Customer;
+import org.prgrms.dev.customer.service.CustomerService;
 import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.service.VoucherService;
 
@@ -47,6 +49,13 @@ public class OutputConsole implements Output {
     @Override
     public void invalidVoucherTypeInput() {
         System.out.println("Invalid voucher type input. Please re-enter.");
+    }
+
+    @Override
+    public void blackList(CustomerService customerService) {
+        customerService.blackList().stream()
+                .map(Customer::toString)
+                .forEach(System.out::println);
     }
 
 }

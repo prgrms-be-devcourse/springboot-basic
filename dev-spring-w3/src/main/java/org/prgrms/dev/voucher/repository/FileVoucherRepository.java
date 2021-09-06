@@ -33,10 +33,10 @@ public class FileVoucherRepository implements VoucherRepository {
             String line = "";
             while ((line = bufferedReader.readLine()) != null) {
                 String[] voucherInfo = line.split(SPLIT_CODE);
-                UUID customerId = UUID.fromString(voucherInfo[UUID_INDEX]);
+                UUID voucherId = UUID.fromString(voucherInfo[UUID_INDEX]);
                 long value = Long.parseLong(voucherInfo[VALUE_INDEX]);
-                Voucher voucher = VoucherType.getVoucherType(voucherInfo[TYPE_INDEX], customerId, value);
-                vouchers.put(customerId, voucher);
+                Voucher voucher = VoucherType.getVoucherType(voucherInfo[TYPE_INDEX], voucherId, value);
+                vouchers.put(voucherId, voucher);
             }
         } catch (IOException e) {
             e.printStackTrace();
