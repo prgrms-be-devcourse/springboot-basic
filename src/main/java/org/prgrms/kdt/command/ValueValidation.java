@@ -1,8 +1,8 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.command;
 
 import java.util.Scanner;
 
-public class Validation {
+public class ValueValidation {
     static Scanner scanner = new Scanner(System.in);
     static String inputStringType = "";
     static long outputLongType = 0;
