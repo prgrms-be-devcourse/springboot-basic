@@ -1,6 +1,7 @@
 package org.prgrms.kdt.api;
 
-import static org.prgrms.kdt.api.Apis.CUSTOMER_ID;
+import static org.prgrms.kdt.api.Apis.CUSTOMER;
+import static org.prgrms.kdt.api.Apis.VOUCHER;
 import static org.prgrms.kdt.api.Apis.WALLET;
 import static org.prgrms.kdt.api.Apis.PRE_FIX;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -134,7 +135,7 @@ class ApisTest extends BaseRepositoryTest {
 
     @Test
     @DisplayName("고객의 아이디로 보유한 바우처 조회 테스트")
-    void getVoucherByCustomerId() throws Exception {
+    void getVouchersByCustomerId() throws Exception {
         UUID customerId = UUID.randomUUID();
         customerRepository.insert(givenCustomer(customerId));
 
@@ -143,7 +144,7 @@ class ApisTest extends BaseRepositoryTest {
 
         walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customerId, voucherId));
 
-        mockMvc.perform(get(PRE_FIX + WALLET + CUSTOMER_ID, customerId)
+        mockMvc.perform(get(PRE_FIX + CUSTOMER, customerId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -157,6 +158,33 @@ class ApisTest extends BaseRepositoryTest {
                 .andExpect(jsonPath("$..name").exists())
                 .andExpect(jsonPath("$..discount").exists())
                 .andExpect(jsonPath("$..voucherType").exists())
+                .andExpect(jsonPath("$..createdAt").exists());
+    }
+
+    @Test
+    @DisplayName("고객의 아이디로 보유한 바우처 조회 테스트")
+    void getCustomersByVoucherId() throws Exception {
+        UUID customerId = UUID.randomUUID();
+        customerRepository.insert(givenCustomer(customerId));
+
+        UUID voucherId = UUID.randomUUID();
+        voucherRepository.insert(givenVoucher(voucherId));
+
+        walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customerId, voucherId));
+
+        mockMvc.perform(get(PRE_FIX + VOUCHER, voucherId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.voucherId").exists())
+                .andExpect(jsonPath("$.name").exists())
+                .andExpect(jsonPath("$.discount").exists())
+                .andExpect(jsonPath("$.voucherType").exists())
+                .andExpect(jsonPath("$..createdAt").exists())
+                .andExpect(jsonPath("$..customerId").exists())
+                .andExpect(jsonPath("$..name").exists())
+                .andExpect(jsonPath("$..email").exists())
                 .andExpect(jsonPath("$..createdAt").exists());
     }
 

@@ -61,6 +61,16 @@ class WalletRepositoryTest extends BaseRepositoryTest {
         assertThat(vouchers).contains(voucher);
     }
 
+    @Test
+    @DisplayName("바우처 아이디로 고객 조회 테스트")
+    void findByVoucherId() {
+        walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
+        List<Customer> customers = walletJdbcRepository.findByVoucherId(voucher.getVoucherId());
+
+        assertThat(customers.size()).isEqualTo(1);
+        assertThat(customers).contains(customer);
+    }
+
     private Customer givenCustomer(UUID customerId) {
         return new Customer(customerId, "tester", "tester@email.com", LocalDateTime.now());
     }

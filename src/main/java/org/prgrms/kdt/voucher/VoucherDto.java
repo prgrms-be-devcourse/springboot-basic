@@ -1,6 +1,8 @@
 package org.prgrms.kdt.voucher;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import org.prgrms.kdt.customer.CustomerDto;
 
 /**
  * Created by yhh1056
@@ -17,6 +19,8 @@ public class VoucherDto {
     private String voucherType;
 
     private String createdAt;
+
+    private List<CustomerDto> customerDtos;
 
     public String getVoucherId() {
         return voucherId;
@@ -56,5 +60,13 @@ public class VoucherDto {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<CustomerDto> getCustomerDtos() {
+        return customerDtos;
+    }
+
+    public void setCustomerDtos(List<CustomerDto> customerDtos) {
+        this.customerDtos = customerDtos;
     }
 }

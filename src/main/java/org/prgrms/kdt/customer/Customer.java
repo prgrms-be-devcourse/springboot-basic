@@ -2,6 +2,7 @@ package org.prgrms.kdt.customer;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -79,6 +80,23 @@ public class Customer {
 
     public CustomerType getCustomerType() {
         return customerType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Customer)) {
+            return false;
+        }
+        Customer customer = (Customer) o;
+        return customerId.equals(customer.customerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId);
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.prgrms.kdt.wallet.WalletDto;
 import org.prgrms.kdt.wallet.WalletService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class Apis {
 
     protected static final String PRE_FIX = "/kdt/api/v1";
-    protected static final String WALLET = "/customer/wallet";
-    protected static final String CUSTOMER_ID = "/{customerId}";
+    protected static final String WALLET = "/customers/wallet";
+    protected static final String CUSTOMER = "/customers/{customerId}";
+    protected static final String VOUCHER = "/vouchers/{voucherId}";
 
     private final CustomerService customerService;
     private final VoucherService voucherService;
@@ -44,19 +46,38 @@ public class Apis {
      * If you have the customer's ID, you can bring about the voucher registered By customer.
      * but returns a 404 if the customer's ID is invalid
      */
-    @GetMapping(WALLET + CUSTOMER_ID)
-    public ResponseEntity getVouchersByCustomerIid(@PathVariable String customerId) {
+    @GetMapping(CUSTOMER)
+    public ResponseEntity getVouchersByCustomerId(@PathVariable String customerId) {
         Optional<CustomerDto> customerDto = customerService.getCustomerById(customerId);
         if (customerDto.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        Optional<CustomerDto> walletDto = walletService.getVouchersByCustomer(customerDto);
-        if (walletDto.isEmpty()) {
+        Optional<CustomerDto> findByVoucherDto = walletService.getVouchersByCustomer(customerDto);
+        if (findByVoucherDto.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok().body(walletDto);
+        return ResponseEntity.ok().body(findByVoucherDto);
+    }
+
+    /**
+     * If you have the voucher's ID, you can bring about the customer registered By voucher.
+     * but returns a 404 if the voucher's ID is invalid
+     */
+    @GetMapping(VOUCHER)
+    public ResponseEntity getCustomersByVoucherId(@PathVariable String voucherId) {
+        Optional<VoucherDto> voucherDto = voucherService.getVoucherById(voucherId);
+        if (voucherDto.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Optional<VoucherDto> findByCustomerDto = walletService.getCustomersByVoucher(voucherDto);
+        if (findByCustomerDto.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().body(findByCustomerDto);
     }
 
     /**
@@ -69,7 +90,7 @@ public class Apis {
             return ResponseEntity.notFound().build();
         }
 
-        walletService.addVoucherByCustomer(walletDto);
+        walletService.addWallet(walletDto);
         URI uri = URI.create(PRE_FIX + WALLET);
         return ResponseEntity.created(uri).body(walletDto);
     }
