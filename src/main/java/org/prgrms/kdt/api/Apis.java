@@ -54,12 +54,12 @@ public class Apis {
     }
 
     private boolean isBadRequest(WalletDto walletDto) {
-        Optional<CustomerDto> customerDto = customerService.getCustomerById(UUID.fromString(walletDto.getCustomerId()));
+        Optional<CustomerDto> customerDto = customerService.getCustomerById(walletDto.getCustomerId());
         if (customerDto.isEmpty()) {
             return true;
         }
 
-        Optional<VoucherDto> voucherDto = voucherService.getVoucherById(UUID.fromString(walletDto.getVoucherId()));
+        Optional<VoucherDto> voucherDto = voucherService.getVoucherById(walletDto.getVoucherId());
         if (voucherDto.isEmpty()) {
             return true;
         }

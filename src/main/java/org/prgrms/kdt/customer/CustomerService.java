@@ -18,8 +18,8 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Optional<CustomerDto> getCustomerById(UUID customerId) {
-        return customerRepository.findById(customerId)
+    public Optional<CustomerDto> getCustomerById(String customerId) {
+        return customerRepository.findById(UUID.fromString(customerId))
                 .map(CustomerMapper::customerToCustomerDto);
     }
 }

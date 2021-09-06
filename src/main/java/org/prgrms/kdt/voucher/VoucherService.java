@@ -18,8 +18,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Optional<VoucherDto> getVoucherById(UUID voucherId) {
-        return voucherRepository.findById(voucherId)
+    public Optional<VoucherDto> getVoucherById(String voucherId) {
+        return voucherRepository.findById(UUID.fromString(voucherId))
                 .map(VoucherMapper::voucherToVoucherDto);
     }
 }
