@@ -9,13 +9,9 @@ public class Customer {
     private String name;
     private final String email;
     private LocalDateTime lastLoginAt;
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
+    private int black;
 
-    public Customer(UUID customerId, String name, String email) {
-        this.customerId = customerId;
-        this.email = email;
-        this.name = name;
-    }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         this.customerId = customerId;
@@ -24,7 +20,7 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt, int black) {
 
         validateName(name);
         this.customerId = customerId;
@@ -32,6 +28,7 @@ public class Customer {
         this.email = email;
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
+        this.black = black;
     }
 
     private void validateName(String name) {
@@ -70,6 +67,10 @@ public class Customer {
 
     public String getInfo() {
         return MessageFormat.format("{0}, {1}, {2}", getCustomerId(), getName(), getEmail());
+    }
+
+    public int getBlack() {
+        return black;
     }
 }
 

@@ -1,3 +1,9 @@
+spring: # spring 전용 주소
+  datasource:
+    url: jdbc:mysql://localhost/order_mgmt
+    username: root
+    password: root1234!
+
 app:
   version: 1.0.0
   file:

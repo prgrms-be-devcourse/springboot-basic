@@ -58,6 +58,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         filePath = MessageFormat.format("{0}/{1}", file.getAbsolutePath(), filename);
+        logger.info("path : {}",filePath);
         try {
             Files.writeString(Path.of(filePath),
                     MessageFormat.format("{0} {1} {2}\n",

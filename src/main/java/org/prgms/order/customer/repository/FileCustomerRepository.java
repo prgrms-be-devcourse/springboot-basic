@@ -20,12 +20,47 @@ import java.util.*;
 public class FileCustomerRepository implements CustomerRepository {
     private static final File file = new File(".");
 
-
     @Value("${app.file.blackList}")
     private String filename;
 
     private String filePath;
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
+
+
+    @Override
+    public Customer insert(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public Customer update(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public int count() {
+        return 0;
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByName(String name) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.empty();
+    }
 
     @Override
     public List<Customer> findBlackList() {
@@ -40,13 +75,23 @@ public class FileCustomerRepository implements CustomerRepository {
                 UUID customerId = UUID.fromString(customerInfo[0]);
                 String name = customerInfo[1];
                 String email = customerInfo[2];
-                blackList.add(new Customer(customerId, name, email));
+                blackList.add(new Customer(customerId, name, email,null));
             }
         } catch (IOException e) {
             e.printStackTrace();
             logger.info(MessageFormat.format("file read Exception{0}", e.getMessage()));
         }
         return blackList;
+    }
+
+    @Override
+    public void registerBlackListById(UUID customerId) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 
 

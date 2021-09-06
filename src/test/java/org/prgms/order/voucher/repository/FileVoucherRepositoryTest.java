@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.*;
 class FileVoucherRepositoryTest {
 
     @Test
-    @DisplayName("id로 고객을 조회할 수 있다.")
+    @DisplayName("파일 정보에서 id로 바우처를 조회할 수 있다.")
     void testFindById() {
         VoucherCreateStretage voucherCreateStretage = new VoucherCreateStretage();
         VoucherRepository fileVoucherRepository = new FileVoucherRepository();
@@ -25,12 +25,11 @@ class FileVoucherRepositoryTest {
         fileVoucherRepository.insert(voucher2);
 
         assertThat(fileVoucherRepository.findById(voucher1.getVoucherId()).get(),samePropertyValuesAs(voucher1));
-
-
     }
 
+
     @Test
-    @DisplayName("고객을 파일에 추가할 수 있다.")
+    @DisplayName("바우처를 파일에 추가할 수 있다.")
     void testInsert() {
         VoucherCreateStretage voucherCreateStretage = new VoucherCreateStretage();
         VoucherRepository voucherRepository = new FileVoucherRepository();
@@ -40,25 +39,13 @@ class FileVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("모든고객을 조회할 수 있다.")
+    @DisplayName("파일 정보에서 모든 바우처를 조회할 수 있다.")
     void testFindAllVoucher() {
         VoucherCreateStretage voucherCreateStretage = new VoucherCreateStretage();
         VoucherRepository fileVoucherRepository = new FileVoucherRepository();
-
         Voucher voucher1 = voucherCreateStretage.createVoucher("Fixed", UUID.randomUUID(), 1000);
-        Voucher voucher2 = voucherCreateStretage.createVoucher("Fixed", UUID.randomUUID(), 50);
-
         fileVoucherRepository.insert(voucher1);
-        fileVoucherRepository.insert(voucher2);
-//        fileVoucherRepository.findAllVoucher().forEach((item) -> assertThat(item,samePropertyValuesAs(voucher1)));
-
-//        assertThat(fileVoucherRepository.findAllVoucher()).containsExactly()
-
-
-
-
-
-
-
+        fileVoucherRepository.findAllVoucher().forEach((item) -> assertThat(item,samePropertyValuesAs(voucher1)));
     }
+
 }
