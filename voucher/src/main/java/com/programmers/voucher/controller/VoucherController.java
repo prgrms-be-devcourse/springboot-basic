@@ -36,7 +36,8 @@ public class VoucherController {
     public static final String URL_LIST_VOUCHER = "/voucher/list";
 
     static {
-        links.add(new String[]{"Main", "/voucher"});
+        links.add(new String[]{"Main", "/"});
+        links.add(new String[]{"Voucher Main", "/voucher"});
         links.add(new String[]{"Create Voucher", URL_CREATE_VOUCHER});
         links.add(new String[]{"Read Voucher", URL_READ_VOUCHER});
         links.add(new String[]{"List Vouchers", URL_LIST_VOUCHER});

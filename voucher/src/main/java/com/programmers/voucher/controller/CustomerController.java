@@ -23,7 +23,8 @@ public class CustomerController {
     static final List<String[]> links = new ArrayList<>();
     static final String LINKS_MODEL_ATTRIBUTE = "links";
     static {
-        links.add(new String[]{"Main", "/customer"});
+        links.add(new String[]{"Main", "/"});
+        links.add(new String[]{"Customer Main", "/customer"});
         links.add(new String[]{"Create User", "/customer/create"});
         links.add(new String[]{"Read User", "/customer/read"});
         links.add(new String[]{"List Users", "/customer/list"});
