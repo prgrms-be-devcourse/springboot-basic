@@ -9,18 +9,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
 
     private final CustomerService basicCustomerService;
 
+    static final List<String[]> links = new ArrayList<>();
+    static final String LINKS_MODEL_ATTRIBUTE = "links";
+    static {
+        links.add(new String[]{"Main", "/customer"});
+        links.add(new String[]{"Create User", "/customer/create"});
+        links.add(new String[]{"Read User", "/customer/read"});
+        links.add(new String[]{"List Users", "/customer/list"});
+    }
+
     public CustomerController(CustomerService basicCustomerService) {
         this.basicCustomerService = basicCustomerService;
     }
 
+    @GetMapping
+    public String customerConsole(Model model) {
+        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
+        return "customer/index";
+    }
+
     @GetMapping("/create")
-    public String requestCreateCustomer() {
+    public String requestCreateCustomer(Model model) {
+        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
         return "customer/create";
     }
 
@@ -28,6 +47,8 @@ public class CustomerController {
     public String submitCreateCustomer(@RequestParam(name="username", defaultValue = "") String username,
                                        @RequestParam(name="alias", defaultValue = "") String alias,
                                        Model model) {
+        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
+
         if(username.isBlank() || alias.isBlank()) {
             model.addAttribute("username", username);
             model.addAttribute("alias", alias);
@@ -42,6 +63,7 @@ public class CustomerController {
     @GetMapping("/read")
     public String getCustomer(@RequestParam(name = "id", required = false) Long id,
                               Model model) {
+        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
         model.addAttribute("id", id);
 
         if (id == null || id < 1) return "customer/read";
@@ -55,6 +77,7 @@ public class CustomerController {
 
     @GetMapping("/list")
     public String getCustomers(Model model) {
+        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
         model.addAttribute("customers", basicCustomerService.listAll());
         return "customer/list";
     }

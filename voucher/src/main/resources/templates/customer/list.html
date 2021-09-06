@@ -7,6 +7,13 @@
 <body>
 
 <h1>Customer List.</h1>
+<h2>List of created customers.</h2>
+
+<ul>
+    <li th:each="link: ${links}">
+        <a th:href="@{${link[1]}}" th:text="${link[0]}">Menu Text</a>
+    </li>
+</ul>
 
 <table style="border: 1px solid black">
     <tr>
