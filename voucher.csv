@@ -1,2 +1,7 @@
 "Voucher Type","UUID","Discount"
+"FixedAmountVoucher","763eb629-d1ef-451f-950c-9ef3d5b5b2bd","2"
+"PercentDiscountVoucher","d064d788-ff3c-405e-9e69-416d287f8cad","10"
+"PercentDiscountVoucher","a31c99d7-0506-4794-acc3-4ab610d9ab2e","10"
+"FixedAmountVoucher","494bdcc7-7254-460b-a6ef-09fc671c3bd1","3"
+"FixedAmountVoucher","bd525f7e-db8f-482a-82da-28659fdcaba7","20"
 "FixedAmountVoucher","646075d1-ca72-4f84-9b53-c26cfd2bb73c","1"

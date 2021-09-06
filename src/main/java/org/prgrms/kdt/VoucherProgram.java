@@ -20,7 +20,6 @@ public class VoucherProgram implements Runnable {
     private final Resource resource;
     private final Input input;
     private final Output output;
-    private String filePath;
 
     public VoucherProgram(VoucherService voucherService, CustomerService customerService, Resource resource, Console console) {
         this.voucherService = voucherService;
@@ -39,7 +38,7 @@ public class VoucherProgram implements Runnable {
             Optional<Command> inputCommand = parse(inputString);
 
             if (inputCommand.isEmpty()) {
-                output.printConsole(output.INPUT_ERROR);
+                output.logError(output.INPUT_ERROR);
                 continue;
             }
 
@@ -59,7 +58,7 @@ public class VoucherProgram implements Runnable {
                     );
 
                     if (isInValidInput(voucherNum, discount)) {
-                        output.printConsole(output.INPUT_ERROR);
+                        output.logError(output.INPUT_ERROR);
                         continue;
                     }
 
@@ -69,7 +68,7 @@ public class VoucherProgram implements Runnable {
                         voucher = Optional.ofNullable(voucherService.createPercentDiscountVoucher(discount));
 
                     // print voucher created
-                    if (voucher.isEmpty()) output.printConsole(output.CREATE_VOUCHER_ERROR);
+                    if (voucher.isEmpty()) output.logInfo(output.CREATE_VOUCHER_ERROR);
                     voucher.ifPresent(value -> output.printConsole(MessageFormat.format(
                             "{0} 타입의 voucher를 생성하였습니다.",
                             value.getType())
@@ -78,7 +77,7 @@ public class VoucherProgram implements Runnable {
                 case LIST -> {
                     Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
                     if (voucherList.isEmpty()) {
-                        output.printConsole(output.NO_VOUCHER);
+                        output.logError(output.NO_VOUCHER);
                     } else {
                         for (var voucher : voucherList.values()) {
                             output.printConsole(voucher.toString());
@@ -88,7 +87,7 @@ public class VoucherProgram implements Runnable {
                 case BLACKLIST -> {
                     Optional<Map<Integer, String>> blackList = customerService.loadBlackList(resource);
                     if (blackList.isEmpty()) {
-                        output.printConsole(output.NO_BLACKLIST);
+                        output.logError(output.NO_BLACKLIST);
                     } else {
                         for (var customer : blackList.get().values()) {
                             output.printConsole(customer);

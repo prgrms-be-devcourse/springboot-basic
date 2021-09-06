@@ -1,27 +1,27 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.configuration.AppConfiguration;
 import org.prgrms.kdt.order.OrderItem;
-import org.prgrms.kdt.order.OrderProperties;
 import org.prgrms.kdt.order.OrderService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.VoucherRepository;
-import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.channels.Channels;
-import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class OrderTester {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);
+
     public static void main(String[] args) {
 //        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
 
         // profile 예제
         var applicationContext = new AnnotationConfigApplicationContext();
