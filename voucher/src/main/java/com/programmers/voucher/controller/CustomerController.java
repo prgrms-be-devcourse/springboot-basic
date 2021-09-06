@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Map;
-
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
@@ -24,7 +21,7 @@ public class CustomerController {
 
     @GetMapping("/create")
     public String requestCreateCustomer() {
-        return "customer/create.html";
+        return "customer/create";
     }
 
     @PostMapping("/create")
@@ -35,7 +32,7 @@ public class CustomerController {
             model.addAttribute("username", username);
             model.addAttribute("alias", alias);
             model.addAttribute("error", "Required field should not be empty.");
-            return "customer/create.html";
+            return "customer/create";
         }
 
         Customer customer = basicCustomerService.create(username, alias);
@@ -47,18 +44,18 @@ public class CustomerController {
                               Model model) {
         model.addAttribute("id", id);
 
-        if (id == null || id < 1) return "customer/read.html";
+        if (id == null || id < 1) return "customer/read";
 
         basicCustomerService.findById(id).ifPresentOrElse(
                 customer -> model.addAttribute("customer", customer),
                 () -> model.addAttribute("error", "No customer found."));
 
-        return "customer/read.html";
+        return "customer/read";
     }
 
     @GetMapping("/list")
     public String getCustomers(Model model) {
         model.addAttribute("customers", basicCustomerService.listAll());
-
+        return "customer/list";
     }
 }
