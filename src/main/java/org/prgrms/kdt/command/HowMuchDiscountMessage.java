@@ -1,4 +1,4 @@
-package org.prgrms.kdt.io;
+package org.prgrms.kdt.command;
 
 import java.util.Scanner;
 

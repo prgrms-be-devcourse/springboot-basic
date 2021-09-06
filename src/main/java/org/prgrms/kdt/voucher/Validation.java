@@ -17,7 +17,6 @@ public class Validation {
             // 값의 범위가 유효한지 검사
             if (numberValidation(inputStringType) || rangeValidation(voucherType, outputLongType)) {
                 discountAmountCheck = true;
-                break;
             }
         }
         return outputLongType;

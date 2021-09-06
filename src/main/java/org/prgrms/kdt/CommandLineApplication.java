@@ -1,15 +1,14 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.io.HowMuchDiscountMessage;
-import org.prgrms.kdt.voucher.Validation;
+import org.prgrms.kdt.command.CommandCreate;
 import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class CommandLineApplication {
@@ -17,10 +16,9 @@ public class CommandLineApplication {
         final var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         final Scanner scanner = new Scanner(System.in);
 
-        final List<Voucher> mylist = new ArrayList<Voucher>();
+        final List<Optional<Voucher>> mylist = new ArrayList<>();
 
         boolean programRunning = true;
-        String voucherType = "";
 
         do {
             System.out.println("=== Voucher Program ===");
@@ -36,42 +34,13 @@ public class CommandLineApplication {
                     break;
 
                 case "create":
-                    boolean createTypeRunning = true;
-
-                    System.out.println("=== Voucher Create ===");
-                    System.out.println("Choose the type of voucher.");
-                    System.out.println("- FixedAmountVoucher");
-                    System.out.println("- PercentDiscountVoucher");
-
-                    do {
-                        voucherType = scanner.nextLine();
-                        switch (voucherType) {
-                            case "FixedAmountVoucher":
-                                new HowMuchDiscountMessage(voucherType); // 할인값을 입력해달라는 메세지
-                                mylist.add(MemoryVoucherRepository.create( // voucher 생성
-                                        voucherType, Validation.inputValueValidation(voucherType))); // 유효한 값인지 검사
-                                createTypeRunning = false;
-                                break;
-
-                            case "PercentDiscountVoucher":
-                                new HowMuchDiscountMessage(voucherType); // 할인값을 입력해달라는 메세지
-                                mylist.add(MemoryVoucherRepository.create( // voucher 생성
-                                        voucherType, Validation.inputValueValidation(voucherType))); // 유효한 값인지 검사
-                                createTypeRunning = false;
-                                break;
-
-                            default:
-                                new HowMuchDiscountMessage(voucherType);
-                                break;
-                        }
-                    } while (createTypeRunning);
-
+                    CommandCreate.voucherCreateMessage();
+                    mylist.add(CommandCreate.createVoucherType());
                     break;
 
                 case "list":
-                    // list 목록 출력
-                    for (int i = 0; i < mylist.size(); i++) {
-                        System.out.println(mylist.get(i));
+                    for (final Optional<Voucher> voucher : mylist) {
+                        System.out.println(voucher);
                     }
                     break;
 

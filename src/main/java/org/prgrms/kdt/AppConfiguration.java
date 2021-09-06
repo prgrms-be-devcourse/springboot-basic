@@ -9,6 +9,7 @@ import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +22,11 @@ public class AppConfiguration {
             @Override
             public Optional<Voucher> findById(final UUID voucherId) {
                 return Optional.empty();
+            }
+
+            @Override
+            public List<Voucher> findAll() {
+                return null;
             }
         };
     }
