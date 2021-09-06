@@ -169,7 +169,7 @@ class DatabaseVoucherRepositoryTest {
         databaseVoucherRepository.save(fixedAmountVoucher);
         databaseVoucherRepository.assignCustomer(customerId, fixedAmountVoucher.getVoucherId());
 
-        databaseVoucherRepository.deleteCustomerVoucher(customerId, fixedAmountVoucher.getVoucherId());
+        databaseVoucherRepository.deleteVoucher(customerId, fixedAmountVoucher.getVoucherId());
         var voucherWallet = databaseVoucherRepository.findVoucherWallet(customerId);
         assertThat(voucherWallet.getVoucherWallet().size(), is(0));
     }

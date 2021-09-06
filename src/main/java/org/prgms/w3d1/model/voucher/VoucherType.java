@@ -6,15 +6,19 @@ public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("FixedAmountVoucher"),
     PERCENT_DISCOUNT_VOUCHER("PercentDiscountVoucher");
 
-    private final String command;
+    private final String type;
 
-    VoucherType(String command){
-        this.command = command;
+    VoucherType(String type){
+        this.type = type;
     }
 
-    public static VoucherType getCommand(String str) {
+    public String getValue() {
+        return type;
+    }
+
+    public static VoucherType getType(String str) {
         return Arrays.stream(values())
-            .filter(v -> v.command.equals(str))
+            .filter(v -> v.type.equals(str))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("unknown value: " + str));
     }

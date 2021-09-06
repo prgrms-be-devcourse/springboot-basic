@@ -1,6 +1,7 @@
 package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.model.voucher.VoucherType;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -46,7 +47,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
+    public void deleteVoucher(UUID voucherId) {
 
+    }
+
+    @Override
+    public void deleteVoucher(UUID customerId, UUID voucherId) {
+
+    }
+
+    @Override
+    public List<Voucher> findVouchersByType(VoucherType voucherType) {
+        return null;
     }
 }

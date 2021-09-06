@@ -2,6 +2,7 @@ package org.prgms.w3d1.service;
 
 import org.prgms.w3d1.model.customer.Customer;
 import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.model.voucher.VoucherType;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,10 @@ public class VoucherService {
                 .orElseThrow(()-> new RuntimeException("Can not find a voucher for " + voucherId));
     }
 
+    public List<Voucher> getVouchersByType(VoucherType voucherType) {
+        return voucherRepository.findVouchersByType(voucherType);
+    }
+
     public void saveVoucher(Voucher voucher){
         voucherRepository.save(voucher);
     }
@@ -35,12 +40,14 @@ public class VoucherService {
         return voucherRepository.findVoucherWallet(customerId);
     }
 
-    public void serVoucherWallet(Customer customer, VoucherWallet voucherWallet) {
+    public void setVoucherWallet(Customer customer, VoucherWallet voucherWallet) {
         customer.setVoucherWallet(voucherWallet);
     }
 
-    public void useVoucher(Voucher voucher) {
 
+    public void useVoucher(Voucher voucher) {}
+
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.deleteVoucher(voucherId);
     }
-
 }

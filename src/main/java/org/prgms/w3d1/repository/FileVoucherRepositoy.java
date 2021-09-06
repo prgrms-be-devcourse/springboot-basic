@@ -1,6 +1,7 @@
 package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.model.voucher.VoucherType;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.util.FileConnector;
 import org.slf4j.Logger;
@@ -69,7 +70,17 @@ public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Vo
     }
 
     @Override
-    public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
+    public void deleteVoucher(UUID voucherId) {
 
+    }
+
+    @Override
+    public void deleteVoucher(UUID customerId, UUID voucherId) {
+
+    }
+
+    @Override
+    public List<Voucher> findVouchersByType(VoucherType voucherType) {
+        return null;
     }
 }

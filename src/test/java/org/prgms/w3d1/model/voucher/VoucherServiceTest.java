@@ -85,7 +85,7 @@ class VoucherServiceTest {
     void testSetVoucherWallet() {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
         VoucherWallet voucherWallet = new VoucherWallet(List.of(FixedAmountVoucher.of(UUID.randomUUID(), 100L)));
-        voucherService.serVoucherWallet(customer, voucherWallet);
+        voucherService.setVoucherWallet(customer, voucherWallet);
 
         assertThat(customer.getVoucherWallet().equals(voucherWallet), is(true));
     }

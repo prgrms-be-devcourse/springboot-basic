@@ -2,6 +2,7 @@ package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.model.voucher.VoucherFactory;
+import org.prgms.w3d1.model.voucher.VoucherType;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.util.Util;
 import org.springframework.context.annotation.Profile;
@@ -10,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,8 +29,13 @@ public class DatabaseVoucherRepository implements VoucherRepository {
         var voucherId = Util.toUUID(rs.getBytes("voucher_id"));
         var value = rs.getLong("value");
         var voucherType = rs.getString("voucher_type");
-        return VoucherFactory.getVoucher(voucherId, value, voucherType);
+        return VoucherFactory.of(voucherId, value, voucherType);
     };
+
+    @Override
+    public List<Voucher> findAll() {
+        return jdbcTemplate.query("select * from vouchers", rowMapper);
+    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -64,6 +69,11 @@ public class DatabaseVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findVouchersByType(VoucherType voucherType) {
+        return jdbcTemplate.query("select * from vouchers where voucher_type = ?", rowMapper, voucherType.getValue());
+    }
+
+    @Override
     public void save(Voucher voucher) {
         var saveCount = jdbcTemplate.update("insert into vouchers(voucher_id, value, voucher_type) values (UUID_TO_BIN(?), ?, ?)",
             voucher.getVoucherId().toString().getBytes(),
@@ -76,17 +86,25 @@ public class DatabaseVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return jdbcTemplate.query("select * from vouchers", rowMapper);
-    }
-
-    @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from vouchers");
     }
 
     @Override
-    public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
+    public void deleteVoucher(UUID voucherId) {
+        var deleteCount = jdbcTemplate.update(
+            "delete from vouchers where voucher_id=UUID_TO_BIN(?)",
+            voucherId.toString().getBytes()
+        );
+
+        if (deleteCount != 1) {
+            throw new RuntimeException("Nothing was deleted");
+        }
+    }
+
+
+    @Override
+    public void deleteVoucher(UUID customerId, UUID voucherId) {
         var deleteCount = jdbcTemplate.update(
             "delete from vouchers where customer_id=UUID_TO_BIN(?) and voucher_id=UUID_TO_BIN(?)",
             customerId.toString().getBytes(),

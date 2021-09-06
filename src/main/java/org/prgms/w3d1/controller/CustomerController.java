@@ -3,6 +3,7 @@ package org.prgms.w3d1.controller;
 import org.prgms.w3d1.model.customer.CreateCustomerRequest;
 import org.prgms.w3d1.model.customer.Customer;
 import org.prgms.w3d1.model.customer.UpdateCustomerRequest;
+import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.service.CustomerService;
 import org.prgms.w3d1.service.CustomerServiceImpl;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
 
 @Controller

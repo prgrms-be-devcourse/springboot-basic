@@ -1,6 +1,7 @@
 package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.model.voucher.VoucherType;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
 
 import java.util.List;
@@ -18,5 +19,9 @@ public interface VoucherRepository {
 
     void deleteAll();
 
-    void deleteCustomerVoucher(UUID customerId, UUID voucherId);
+    void deleteVoucher(UUID voucherId);
+
+    void deleteVoucher(UUID customerId, UUID voucherId);
+
+    List<Voucher> findVouchersByType(VoucherType voucherType);
 }
