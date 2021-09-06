@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher Application</title>
+</head>
+<body>
+
+<h1>Create Customer.</h1>
+<h2>Fill required information of customer to create.</h2>
+
+<ul>
+    <li th:each="link: ${links}">
+        <a th:href="@{${link[1]}}" th:text="${link[0]}">Menu Text</a>
+    </li>
+</ul>
+
+<form th:action="@{/voucher/create}" method="post">
+    <div>
+        <label for="voucher-name">Voucher Name: </label>
+        <input id="voucher-name" name="name" required placeholder="Voucher" th:value="${name == null ? '' : name}">
+    </div>
+    <div>
+        <label for="voucher-type">Discount Type: </label>
+        <select id="voucher-type" name="type" th:selected="${type}">
+            <option th:each="policy: ${availableDiscountPolicies}" th:text="*{policy.toString()}">DISCOUNT POLICY</option>
+        </select>
+        <p>DISCLAIMER: 'FIXED' type allows positive discount amount. 'PERCENTAGE' type allows discount amount only between 0 and 100.</p>
+    </div>
+    <div>
+        <label for="voucher-amount">Amount: </label>
+        <input id="voucher-amount" name="amount" type="number" th:value="${amount}" required min="0" />
+    </div>
+    <div>
+        <label for="voucher-owner">Owner ID: </label>
+        <input id="voucher-owner" name="owner" type="number" th:value="${owner}" required min="1" />
+    </div>
+    <input type="submit" value="Create">
+</form>
+
+<h3 th:text="${error}"></h3>
+
+</body>
+</html>
