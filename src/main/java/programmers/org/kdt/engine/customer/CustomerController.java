@@ -15,13 +15,6 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-//    @RequestMapping(value = "/customers", method = RequestMethod.GET)
-//    @GetMapping("/customers")
-//    public ModelAndView findCustomers() {
-//        List<Customer> allCustomers = customerService.getAllCustomers();
-//        return new ModelAndView("views/customers", Map.of("serverTime", LocalDateTime.now(), "customers", allCustomers));
-//    }
-
     @GetMapping("/customers")
     public String findCustomers(Model model) {
         List<Customer> allCustomers = customerService.getAllCustomers();
