@@ -8,6 +8,13 @@
 
 <h1>Read Customer.</h1>
 <h2>Type customer's id to read.</h2>
+
+<ul>
+    <li th:each="link: ${links}">
+        <a th:href="@{${link[1]}}" th:text="${link[0]}">Menu Text</a>
+    </li>
+</ul>
+
 <form th:action="@{/customer/read}" method="get">
     <label for="customer-id">ID: </label>
     <input id="customer-id" type="number" name="id" required placeholder="1" min="1" th:value="${id}">
@@ -16,7 +23,7 @@
 
 <h3 th:text="${error}"></h3>
 
-<table border="1px solid black">
+<table style="border: 1px solid black">
     <tr>
         <th>ID</th><th>Username</th><th>Alias</th><th>Blacklisted</th><th>Created</th>
     </tr>
