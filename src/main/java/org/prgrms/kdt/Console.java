@@ -7,8 +7,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
 public class Console implements Input, Output {
+
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     @Override
@@ -18,16 +18,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void inputError() {
-        System.out.println("입력이 잘못되었습니다.");
-    }
-
-    @Override
-    public void help() {
-        System.out.println("""
-                === Voucher Program ===
-                Type exit to exit the program.
-                Type create to create a new voucher.
-                Type list to list all vouchers.""");
+    public void printConsole(String output) {
+        System.out.println(output);
     }
 }

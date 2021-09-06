@@ -1,28 +1,38 @@
 package org.prgrms.kdt;
 
-import org.beryx.textio.TextIO;
-import org.beryx.textio.TextIoFactory;
-import org.prgrms.kdt.engine.VoucherProgram;
-import org.prgrms.kdt.order.OrderItem;
-import org.prgrms.kdt.order.OrderService;
+import org.prgrms.kdt.customer.CustomerService;
+import org.prgrms.kdt.voucher.VoucherProperties;
 import org.prgrms.kdt.voucher.VoucherService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.util.Assert;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.Resource;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.UUID;
+
 
 public class CommandLineApplication {
+    static final String blacklistFileName = "customer_blacklist.csv";
+
     public static void main(String[] args) {
 
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        var voucherService = applicationContext.getBean(VoucherService.class);
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.getEnvironment().setActiveProfiles("local");
+        applicationContext.register(AppConfiguration.class);
+        applicationContext.refresh();
+
+        var voucherProperties = applicationContext.getBean(VoucherProperties.class);
+        System.out.println(MessageFormat.format("Program version: {0}", voucherProperties.getVersion()));
+
+        VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+        CustomerService customerService = applicationContext.getBean(CustomerService.class);
+
+        Resource resource = applicationContext.getResource("file:" + blacklistFileName);
 
         Console console = new Console();
+        new VoucherProgram(voucherService, customerService, resource, console).run();
 
-        String filePath = "./voucher.csv";
-
-        new VoucherProgram(voucherService, console, console, filePath).run();
+        applicationContext.close();
     }
 }

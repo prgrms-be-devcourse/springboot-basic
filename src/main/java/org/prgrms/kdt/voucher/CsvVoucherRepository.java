@@ -3,8 +3,14 @@ package org.prgrms.kdt.voucher;
 import com.opencsv.exceptions.CsvValidationException;
 import org.prgrms.kdt.engine.OpenCsv;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -12,17 +18,32 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Qualifier("csv")
+@Profile({"local"})
 public class CsvVoucherRepository implements VoucherRepository {
+
+    @Value("${local.file_path}")
+    private String filePath;
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+
     OpenCsv csvWriter = new OpenCsv();
 
-    public void save(String filePath) throws IOException {
-        csvWriter.saveFile(storage, filePath);
+    @PostConstruct
+    public void load() {
+        Optional<Map<UUID, Voucher>> storage = csvWriter.loadFile(filePath);
+        if (storage.isPresent()) {
+            for (Voucher voucher: storage.get().values()) {
+                insert(voucher);
+            }
+        }
+        // TODO: 로드 성공 log로 바꿔야 함
+        System.out.println("load success");
     }
 
-    public Optional<Map<UUID, Voucher>> load(String filePath) {
-        return csvWriter.loadFile(filePath);
+    @PreDestroy
+    public void save() throws IOException {
+        csvWriter.saveFile(storage, filePath);
+        // TODO: 얘도 log로 바꿔야 함
+        System.out.println("save success");
     }
 
     @Override
