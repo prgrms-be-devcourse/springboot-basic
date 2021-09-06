@@ -1,6 +1,6 @@
 package com.prgrms.w3springboot.order;
 
-import com.prgrms.w3springboot.AppConfig;
+import com.prgrms.w3springboot.configuration.AppConfig;
 import com.prgrms.w3springboot.order.service.OrderService;
 import com.prgrms.w3springboot.voucher.FixedAmountVoucher;
 import com.prgrms.w3springboot.voucher.PercentAmountVoucher;

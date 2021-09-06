@@ -4,7 +4,7 @@ import com.prgrms.w3springboot.voucher.FixedAmountVoucher;
 import com.prgrms.w3springboot.voucher.PercentAmountVoucher;
 import com.prgrms.w3springboot.voucher.Voucher;
 import com.prgrms.w3springboot.voucher.VoucherType;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Primary
+@Profile("production")
 public class CsvVoucherRepository implements VoucherRepository {
     private static final Path FILE_PATH = Paths.get(System.getProperty("user.dir"), "voucher", "voucher.csv");
     private static final String DELIMITER = ",";
