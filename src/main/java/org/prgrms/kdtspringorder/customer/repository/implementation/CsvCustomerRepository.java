@@ -1,8 +1,8 @@
 package org.prgrms.kdtspringorder.customer.repository.implementation;
 
+import org.prgrms.kdtspringorder.config.YmlPropertiesLoader;
 import org.prgrms.kdtspringorder.customer.domain.Customer;
 import org.prgrms.kdtspringorder.customer.repository.abstraction.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
@@ -18,10 +18,14 @@ import java.util.UUID;
 @Repository
 public class CsvCustomerRepository implements CustomerRepository {
 
-    @Autowired
-    private ResourceLoader resourceLoader;
-
+    private final YmlPropertiesLoader ymlPropertiesLoader;
+    private final ResourceLoader resourceLoader;
     private BufferedReader bufferedReader;
+
+    public CsvCustomerRepository(YmlPropertiesLoader ymlPropertiesLoader, ResourceLoader resourceLoader) {
+        this.ymlPropertiesLoader = ymlPropertiesLoader;
+        this.resourceLoader = resourceLoader;
+    }
 
     @Override
     public List<Customer> getBannedCustomers() {
@@ -29,7 +33,7 @@ public class CsvCustomerRepository implements CustomerRepository {
 
         try {
             String newLine;
-            while ((newLine = bufferedReader.readLine()) != null) {
+            while ((newLine = this.bufferedReader.readLine()) != null) {
                 UUID customerId = UUID.fromString(newLine);
                 bannedCustomerList.add(new Customer(customerId));
             }
@@ -42,7 +46,7 @@ public class CsvCustomerRepository implements CustomerRepository {
 
     @PostConstruct
     public void postConstruct() throws IOException {
-        Resource resource = resourceLoader.getResource("file:files/banned-customers.csv");
+        Resource resource = this.resourceLoader.getResource(this.ymlPropertiesLoader.getBlackListFilePath());
         this.bufferedReader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
     }
 

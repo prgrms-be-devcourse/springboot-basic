@@ -1,1 +1,4 @@
+files:
+  black-list: "file:files/banned-customers.csv"
+  voucher: "files/voucher.csv"
 

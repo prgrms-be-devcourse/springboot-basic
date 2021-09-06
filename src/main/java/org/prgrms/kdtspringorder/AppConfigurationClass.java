@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Configuration;
         basePackages = {
                 "org.prgrms.kdtspringorder.io",
                 "org.prgrms.kdtspringorder.voucher",
-                "org.prgrms.kdtspringorder.customer"
+                "org.prgrms.kdtspringorder.customer",
+                "org.prgrms.kdtspringorder.config"
         },
         basePackageClasses = {App.class}
 )
