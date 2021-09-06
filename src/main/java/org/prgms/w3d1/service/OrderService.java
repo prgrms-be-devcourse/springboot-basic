@@ -1,6 +1,7 @@
-package org.prgms.w3d1.model.order;
+package org.prgms.w3d1.service;
 
-import org.prgms.w3d1.model.voucher.VoucherService;
+import org.prgms.w3d1.model.order.Order;
+import org.prgms.w3d1.model.order.OrderItem;
 import org.prgms.w3d1.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 

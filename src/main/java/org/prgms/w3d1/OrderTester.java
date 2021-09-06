@@ -2,7 +2,7 @@ package org.prgms.w3d1;
 
 import org.prgms.w3d1.configuration.AppConfiguration;
 import org.prgms.w3d1.model.order.OrderItem;
-import org.prgms.w3d1.model.order.OrderService;
+import org.prgms.w3d1.service.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
