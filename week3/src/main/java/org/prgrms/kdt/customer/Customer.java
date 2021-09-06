@@ -1,15 +1,20 @@
 package org.prgrms.kdt.customer;
 
+import lombok.Getter;
+import org.prgrms.kdt.wallet.Wallet;
+
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.List;
 import java.util.UUID;
 
+@Getter
 public class Customer {
     private final UUID customerId;
     private String name;
     private final String email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
+    private List<Wallet> wallets;
 
     public Customer(UUID customerId,String name, String email, LocalDateTime createdAt) {
         validateName(name);
@@ -27,26 +32,6 @@ public class Customer {
         this.email = email;
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 
     public void changeName(String name){
