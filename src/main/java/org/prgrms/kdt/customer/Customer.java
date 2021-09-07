@@ -28,6 +28,7 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
+        this.customerType = CustomerType.NORMAL;
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
@@ -37,6 +38,7 @@ public class Customer {
         this.email = email;
         this.createdAt = createdAt;
         this.lastLoginAt = lastLoginAt;
+        this.customerType = CustomerType.NORMAL;
     }
 
     public void changeTypeOfBlackList() {
