@@ -77,11 +77,11 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
         try {
             List<String> lines = getReadAllLines(voucherFilePath);
             for (String line : lines) {
-                List<String> voucherInfo = Arrays.asList(line.split(","));
-                if (VoucherType.FIXED.toString().equals(voucherInfo.get(2))) {
-                    storage.put(UUID.fromString(voucherInfo.get(1)), new FixedAmountVoucher(UUID.fromString(voucherInfo.get(0)), UUID.fromString(voucherInfo.get(1)), Integer.parseInt(voucherInfo.get(3)), VoucherType.FIXED));
+                List<String> voucherInfoList = Arrays.asList(line.split(","));
+                if (VoucherType.FIXED.toString().equals(voucherInfoList.get(2))) {
+                    storage.put(UUID.fromString(voucherInfoList.get(1)), new FixedAmountVoucher(UUID.fromString(voucherInfoList.get(0)), UUID.fromString(voucherInfoList.get(1)), Integer.parseInt(voucherInfoList.get(3)), VoucherType.FIXED));
                 } else {
-                    storage.put(UUID.fromString(voucherInfo.get(1)), new PercentDiscountVoucher(UUID.fromString(voucherInfo.get(0)), UUID.fromString(voucherInfo.get(1)), Integer.parseInt(voucherInfo.get(3)), VoucherType.DISCOUNT));
+                    storage.put(UUID.fromString(voucherInfoList.get(1)), new PercentDiscountVoucher(UUID.fromString(voucherInfoList.get(0)), UUID.fromString(voucherInfoList.get(1)), Integer.parseInt(voucherInfoList.get(3)), VoucherType.DISCOUNT));
                 }
             }
         } catch (NumberFormatException e) {
