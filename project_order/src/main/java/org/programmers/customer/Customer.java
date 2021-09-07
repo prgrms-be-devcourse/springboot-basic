@@ -56,19 +56,33 @@ public class Customer {
         this.customerType = customerType;
     }
 
-    public UUID getCustomerId() { return customerId; }
+    public UUID getCustomerId() {
+        return customerId;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public Gender getGender() { return gender; }
+    public Gender getGender() {
+        return gender;
+    }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-    public LocalDateTime getLastLoginAt() { return lastLoginAt; }
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
 
-    public CustomerType getCustomerType() { return customerType; }
+    public CustomerType getCustomerType() {
+        return customerType;
+    }
 
     @Override
     public String toString() {

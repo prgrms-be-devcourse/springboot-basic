@@ -125,5 +125,5 @@ public class JdbcCustomerRepository implements CustomerRepository {
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
-    
+
 }
