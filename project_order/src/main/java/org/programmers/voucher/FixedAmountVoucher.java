@@ -6,6 +6,7 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long amount;
+    private final VoucherType voucherType = VoucherType.FIXED;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
@@ -23,6 +24,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public Long getValue() {
         return amount;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
     public long discount(long beforeDiscount) {

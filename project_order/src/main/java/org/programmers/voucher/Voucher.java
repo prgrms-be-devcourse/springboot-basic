@@ -8,6 +8,8 @@ public interface Voucher {
 
     Long getValue();
 
+    VoucherType getVoucherType();
+
     long discount(long beforeDiscount);
 
 }

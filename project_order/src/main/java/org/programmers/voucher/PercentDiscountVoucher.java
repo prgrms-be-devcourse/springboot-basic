@@ -6,6 +6,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long percent;
+    private final VoucherType voucherType = VoucherType.PERCENT;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         if (percent < 0) throw new IllegalArgumentException("Percent should be positive");
@@ -24,6 +25,11 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public Long getValue() {
         return percent;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
     @Override
