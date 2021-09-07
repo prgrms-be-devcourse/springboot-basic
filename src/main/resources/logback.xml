@@ -5,10 +5,8 @@
     <property name="LOG_DIR" value="logs"/>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- warn 이상의 log 레벨의 경우에만 파일에 저장 되도록 하기 위한 필터 -->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>warn</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
         </filter>
         <file>${LOG_DIR}/${LOG_FILE}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -30,13 +28,10 @@
         </encoder>
     </appender>
 
-    <logger name="org.prgrms.kdtspringorder" level="debug" additivity="true">
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <!-- 전체 App 에서 warn 이상의 경우에만 file 에 기록하기 -->
         <appender-ref ref="FILE"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
-
-    <root level="debug">
-        <appender-ref ref="STDOUT"/>
     </root>
 
 </configuration>
