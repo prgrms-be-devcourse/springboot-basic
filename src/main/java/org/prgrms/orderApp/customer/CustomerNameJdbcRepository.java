@@ -13,13 +13,14 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
+import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
-@Profile("local")
+//@Profile("local")
 public class CustomerNameJdbcRepository implements CustomerRepository{
     private static final Logger logger = LoggerFactory.getLogger(CustomerNameJdbcRepository.class);
 
@@ -29,18 +30,17 @@ public class CustomerNameJdbcRepository implements CustomerRepository{
     private final String SELECT_BY_ID_SQL = "select * from customers where customer_id=UUID_TO_BIN(:customerId)";
     private final String SELECT_BY_EMAIL = "select * from customers where email=:email";
     private final String INSERT_SQL = "insert into customers(customer_id, name, email, created_at) value (UUID_TO_BIN(:customerId),:name,:email,:createdAt)";
-    private final String UPDATE_BY_ID_SQL = "update customers set name =:name, email =:email, last_login_at=:lastLoginAt where customer_id=UUID_TO_BIN(:customerId)";
+    private final String UPDATE_BY_ID_SQL = "update customers set name =:name, last_login_at=:lastLoginAt where customer_id=UUID_TO_BIN(:customerId)";
     private final String DELETE_ALL_SQL = "delete from customers";
     private final String COUNT_SQL = "select count(*) from customer";
 
     private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final DataSourceTransactionManager dataSourceTransactionManager;
-    private final TransactionTemplate transactionTemplate;
+
 
     private Map<String, Object> toParameter(Customer customer) {
         return new HashMap<>() {{
-            put("customerId", customer.getCustomerId());
+            put("customerId", customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("createdAt", customer.getCreatedAt());
@@ -48,11 +48,9 @@ public class CustomerNameJdbcRepository implements CustomerRepository{
 
         }};
     }
-    public CustomerNameJdbcRepository(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate, DataSourceTransactionManager dataSourceTransactionManager, TransactionTemplate transactionTemplate){
+    public CustomerNameJdbcRepository(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate){
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
-        this.dataSourceTransactionManager = dataSourceTransactionManager;
-        this.transactionTemplate = transactionTemplate;
     }
 
     @Override
@@ -126,18 +124,6 @@ public class CustomerNameJdbcRepository implements CustomerRepository{
                 resultSet.getTimestamp("last_login_at").toLocalDateTime(): null;
         logger.info("customer id -> {}, name -> {}, created at -> {}", customerId, customerName, createdAt);
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
-    }
-
-    public void testTransaction(Customer customer){
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
-                jdbcTemplate.update(UPDATE_BY_ID_SQL, toParameter(customer));
-                jdbcTemplate.update(UPDATE_BY_ID_SQL, toParameter(customer));
-            }
-        });
-
-
     }
 
 }
