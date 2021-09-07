@@ -4,6 +4,7 @@ import com.programmers.voucher.entity.voucher.DiscountPolicy;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.voucher.VoucherService;
 import com.programmers.voucher.util.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -103,5 +104,11 @@ public class VoucherAPIController {
         }
 
         return ResponseEntity.created(URI.create("/api/voucher/" + voucher.getId())).body(ApiResponse.of(voucher));
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteVoucher(@PathVariable("id") long id) {
+        basicVoucherService.delete(id);
     }
 }
