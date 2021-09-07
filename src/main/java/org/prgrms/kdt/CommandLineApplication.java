@@ -2,19 +2,17 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.command.CommandCreate;
 import org.prgrms.kdt.command.NavigationMessage;
-import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class CommandLineApplication implements Runnable {
     public static void main(final String[] args) throws IOException, InterruptedException {
         final Scanner scanner = new Scanner(System.in);
-
-        final List<Optional<Voucher>> voucherList = new ArrayList<>();
+        final VoucherRepository voucherRepository = new MemoryVoucherRepository();
+//        final List<Optional<Voucher>> voucherList = new ArrayList<>();
         boolean programRunning = true;
 
         do {
@@ -29,11 +27,11 @@ public class CommandLineApplication implements Runnable {
 
                 case "create":
                     NavigationMessage.voucherCreateMessage();
-                    voucherList.add(CommandCreate.createVoucherType());
+                    voucherRepository.addVoucher(CommandCreate.createVoucherType());
                     break;
 
                 case "list":
-                    voucherList.forEach(System.out::println);
+                    voucherRepository.findAll();
                     break;
 
                 default:

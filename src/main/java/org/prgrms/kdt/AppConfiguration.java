@@ -28,6 +28,10 @@ public class AppConfiguration {
             public List<Voucher> findAll() {
                 return null;
             }
+
+            @Override
+            public void addVoucher(final Optional<Voucher> voucher) {
+            }
         };
     }
 
