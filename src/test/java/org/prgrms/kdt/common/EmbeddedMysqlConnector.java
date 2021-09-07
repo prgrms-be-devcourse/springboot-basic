@@ -28,7 +28,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
 @ContextConfiguration(classes = JdbcDataConfig.class)
-public class BaseRepositoryTest {
+public class EmbeddedMysqlConnector {
 
     @Autowired
     protected DataSource dataSource;

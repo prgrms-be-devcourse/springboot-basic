@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.common.BaseRepositoryTest;
+import org.prgrms.kdt.common.EmbeddedMysqlConnector;
 import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.customer.CustomerRepository;
 import org.prgrms.kdt.voucher.Voucher;
@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by yhh1056
  * Date: 2021/09/04 Time: 9:57 오후
  */
-class WalletRepositoryTest extends BaseRepositoryTest {
+class WalletRepositoryTest extends EmbeddedMysqlConnector {
 
     @Autowired
     CustomerRepository customerRepository;

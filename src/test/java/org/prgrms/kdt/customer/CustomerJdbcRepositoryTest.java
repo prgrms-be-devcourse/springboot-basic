@@ -7,23 +7,19 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.hamcrest.core.Is.is;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.common.BaseRepositoryTest;
+import org.prgrms.kdt.common.EmbeddedMysqlConnector;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
 /**
  * Created by yhh1056
  * Date: 2021/08/30 Time: 6:14 오후
  */
-class CustomerJdbcRepositoryTest extends BaseRepositoryTest {
+class CustomerJdbcRepositoryTest extends EmbeddedMysqlConnector {
 
     @Autowired
     CustomerJdbcRepository customerJdbcRepository;

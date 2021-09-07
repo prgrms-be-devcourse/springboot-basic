@@ -11,14 +11,14 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.common.BaseRepositoryTest;
+import org.prgrms.kdt.common.EmbeddedMysqlConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by yhh1056
  * Date: 2021/08/30 Time: 8:02 오후
  */
-class VoucherJdbcRepositoryTest extends BaseRepositoryTest {
+class VoucherJdbcRepositoryTest extends EmbeddedMysqlConnector {
 
     @Autowired
     VoucherJdbcRepository voucherJdbcRepository;
