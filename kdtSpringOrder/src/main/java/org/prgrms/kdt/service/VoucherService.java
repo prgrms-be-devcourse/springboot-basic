@@ -80,7 +80,6 @@ public class VoucherService {
             return false;
         }
 
-        showEnterVoucherDiscount();
         if(voucherSaveRequestDto.getDiscount() < 0) {
             logger.warn("Fail to create a voucher.");
             showRetryMessage();
