@@ -78,6 +78,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> listAllByVoucherType(DiscountPolicy.Type type) {
+        log.debug("Finding vouchers by type {}", type);
+        return jdbcTemplate.query(voucherQuery.getSelect().getByType(), voucherRowMapper, type);
+    }
+
+    @Override
+    public List<Voucher> listAllBetweenByVoucherType(LocalDate from, LocalDate to, DiscountPolicy.Type type) {
+        log.debug("Finding vouchers by type {} between {} to {}", type, from, to);
+        return jdbcTemplate.query(voucherQuery.getSelect().getBetweenByType(), voucherRowMapper, from, to, type.toString());
+    }
+
+    @Override
     public Optional<Voucher> findById(long id) {
         log.debug("Find voucher by id: {}", id);
         Voucher voucher;

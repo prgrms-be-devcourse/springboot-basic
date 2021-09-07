@@ -1,5 +1,6 @@
 package com.programmers.voucher.repository.voucher;
 
+import com.programmers.voucher.entity.voucher.DiscountPolicy;
 import com.programmers.voucher.entity.voucher.Voucher;
 
 import java.time.LocalDate;
@@ -20,6 +21,14 @@ public interface VoucherRepository {
     List<Voucher> listAll();
 
     default List<Voucher> listAllBetween(LocalDate from, LocalDate to) {
+        throw new UnsupportedOperationException("Filtered search not supported.");
+    }
+
+    default List<Voucher> listAllByVoucherType(DiscountPolicy.Type type) {
+        throw new UnsupportedOperationException("Filtered search not supported.");
+    }
+
+    default List<Voucher> listAllBetweenByVoucherType(LocalDate from, LocalDate to, DiscountPolicy.Type type) {
         throw new UnsupportedOperationException("Filtered search not supported.");
     }
 

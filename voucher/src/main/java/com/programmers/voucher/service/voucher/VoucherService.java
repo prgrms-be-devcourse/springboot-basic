@@ -14,7 +14,8 @@ public interface VoucherService {
     Voucher create(String name, DiscountPolicy.Type type, int value, long customerId);
     Optional<Voucher> findById(long id);
     List<Voucher> listAll();
-    List<Voucher> listAllBetween(LocalDate from, LocalDate to);
+    List<Voucher> listAll(LocalDate from, LocalDate to);
+    List<Voucher> listAll(LocalDate from, LocalDate to, Voucher.SearchCriteria searchCriteria, String keyword);
 
     Voucher update(Voucher voucher);
     void delete(long voucherId);

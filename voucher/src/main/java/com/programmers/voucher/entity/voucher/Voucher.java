@@ -14,12 +14,12 @@ public class Voucher implements Serializable {
     private DiscountPolicy discountPolicy;
     private LocalDate createdAt;
     private long customerId;
-    private static Logger log = LoggerFactory.getLogger(Voucher.class);
+    private static final Logger log = LoggerFactory.getLogger(Voucher.class);
 
     public enum  UpdatableField {
         NAME("name", (voucher, input) -> {
             if(input.isBlank()) {
-                System.out.println("Voucher name cannot be empty.");
+                log.info("Voucher name cannot be empty.");
             } else {
                 log.debug("Updating voucher name from {} to {}", voucher.getName(), input);
                 voucher.setName(input);
@@ -29,7 +29,7 @@ public class Voucher implements Serializable {
         TYPE("type", (voucher, input) -> {
             final DiscountPolicy.Type newType = DiscountPolicy.Type.of(input);
             if(newType.equals(DiscountPolicy.Type.UNKNOWN)) {
-                System.out.println("Invalid voucher type. Please check your input.");
+                log.info("Invalid voucher type. Please check your input.");
             } else {
                 log.debug("Updating voucher type from {} to {}", voucher.getDiscountPolicy().getType(), newType);
                 voucher.getDiscountPolicy().setType(newType);
@@ -43,7 +43,7 @@ public class Voucher implements Serializable {
                 voucher.getDiscountPolicy().setAmount(newValue);
                 log.debug("Updated voucher value to {}", newValue);
             } catch (NumberFormatException ex) {
-                System.out.println("Invalid number format. Please check your input.");
+                log.info("Invalid number format. Please check your input.");
             }
         }),
         CUSTOMER("customer", (voucher, input) -> {
@@ -53,7 +53,7 @@ public class Voucher implements Serializable {
                 voucher.setCustomerId(newCustomer);
                 log.debug("Updated customer id to {}", newCustomer);
             } catch (NumberFormatException ex) {
-                System.out.println("Invalid number format. Please check your input.");
+                log.info("Invalid number format. Please check your input.");
             }
         }),
         UNKNOWN("unknown", (voucher, input) -> {throw new UnsupportedOperationException("Unknown updating field.");});
@@ -71,6 +71,37 @@ public class Voucher implements Serializable {
                 return UpdatableField.valueOf(input.toUpperCase());
             } catch (IllegalArgumentException ex) {
                 return UNKNOWN;
+            }
+        }
+    }
+
+    public enum SearchCriteria {
+        VOUCHER_TYPE("voucher_type", (repository, from, to, value) ->
+                repository.listAllBetweenByVoucherType(from, to, DiscountPolicy.Type.of(value))),
+        UNKNOWN("unknown", (repository, from, to, value) ->
+                repository.listAllBetween(from, to));
+
+        SearchCriteria(String name, DateBasedVoucherSearch search) {
+            this.name = name;
+            this.search = search;
+        }
+
+        String name;
+        DateBasedVoucherSearch search;
+
+        public String getName() {
+            return name;
+        }
+
+        public DateBasedVoucherSearch getSearch() {
+            return search;
+        }
+
+        public static SearchCriteria of(String name) {
+            try {
+                return SearchCriteria.valueOf(name.toUpperCase());
+            } catch (IllegalArgumentException ex) {
+                return SearchCriteria.UNKNOWN;
             }
         }
     }

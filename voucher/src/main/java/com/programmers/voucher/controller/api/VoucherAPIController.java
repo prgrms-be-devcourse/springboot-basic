@@ -26,7 +26,9 @@ public class VoucherAPIController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<Voucher>>> listVouchers(
             @RequestParam(name = "from", required = false, defaultValue = "1970-01-01") String from,
-            @RequestParam(name = "to", required = false, defaultValue = "2999-12-31") String to) {
+            @RequestParam(name = "to", required = false, defaultValue = "2999-12-31") String to,
+            @RequestParam(name = "criteria", required = false, defaultValue = "") String criteria,
+            @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword) {
         LocalDate fromDate;
         LocalDate toDate;
         try {
@@ -36,7 +38,7 @@ public class VoucherAPIController {
             fromDate = LocalDate.of(1970, 1, 1);
             toDate = LocalDate.now();
         }
-        List<Voucher> vouchers = basicVoucherService.listAllBetween(fromDate, toDate);
+        List<Voucher> vouchers = basicVoucherService.listAll(fromDate, toDate, Voucher.SearchCriteria.of(criteria), keyword);
         return ResponseEntity.ok(new ApiResponse<>(true, vouchers));
     }
 }
