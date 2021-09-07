@@ -12,82 +12,78 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-//@Repository
-//@Qualifier("fileVoucherRepository")
+@Repository
+@Qualifier("fileVoucherRepository")
 public class FileVoucherRepository implements VoucherRepository {
+
+    private static final String path = "src/main/VoucherData.csv";
     private final File file;
+    private final BufferedWriter bufferedWriter;
+    private BufferedReader bufferedReader;
 
     public FileVoucherRepository() throws IOException {
-        file = new File("Vouchers.txt");
+        file = new File(path);
 
-        if(!file.exists()){
-            System.out.println("create new file");
+        if (!file.exists()) {
             file.createNewFile();
         }
+
+        bufferedWriter = new BufferedWriter(new FileWriter(file, true));
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) throws IOException {
-        Reader fileReader = new FileReader("Voucher.txt");
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+    public Optional<Voucher> findById(UUID voucherId) {
+        String line;
 
-        String line = "";
-        while (null != (line = bufferedReader.readLine())) {
-            String[] data = line.split(", ");
-            UUID fileVoucherId = UUID.fromString(data[0]);
-
-            if (fileVoucherId == voucherId) {
-                String voucherType = data[1];
-                long discountValue = Long.parseLong(data[2]);
-
-                return Optional.ofNullable(makeVoucher(voucherType, voucherId, discountValue));
+        try {
+            bufferedReader = new BufferedReader(new FileReader(file));
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] splited = line.split(", ");
+                if (splited[2].equals(String.valueOf(voucherId))) {
+                    if (splited[0].equals("FixedAmountVoucher")) {
+                        return Optional.of(new FixedAmountVoucher(UUID.fromString(splited[2]), Long.parseLong(splited[1])));
+                    } else if (splited[0].equals("PercentDiscountVoucher")) {
+                        return Optional.of(new PercentDiscountVoucher(UUID.fromString(splited[2]), Long.parseLong(splited[1])));
+                    }
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return Optional.empty();
     }
 
     @Override
-    public Voucher save(Voucher voucher) throws IOException {
-        FileWriter fileWriter = new FileWriter("Vouchers.txt", true);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-        UUID voucherId = voucher.getVoucherId();
-        String[] voucherInfo = voucher.getClass().toString().split("\\.");
-        String voucherType = voucherInfo[voucherInfo.length - 1];
-        long discountValue = voucher.getDiscountValue();
-
-        bufferedWriter.append(voucherId + ", " + voucherType + ", " + discountValue);
-        bufferedWriter.newLine();
-
+    public Voucher save(Voucher voucher) {
+        try {
+            bufferedWriter.write(voucher.toString() + '\n');
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return voucher;
     }
 
     @Override
-    public List<Voucher> getVoucherList() throws IOException {
+    public List<Voucher> getVoucherList() {
         List<Voucher> voucherList = new ArrayList<>();
-        Reader fileReader = new FileReader("Vouchers.txt");
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line;
 
-        String line = "";
-        while (null != (line = bufferedReader.readLine())) {
-            String[] data = line.split(", ");
-            UUID voucherId = UUID.fromString(data[0]);
-            String voucherType = data[1];
-            Long discountValue = Long.parseLong(data[2]);
+        try {
+            bufferedReader = new BufferedReader(new FileReader(file));
 
-            voucherList.add(makeVoucher(voucherType, voucherId, discountValue));
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] component = line.split(", ");
+                if ("FixedAmountVoucher".equals(component[0]))
+                    voucherList.add(new FixedAmountVoucher(UUID.fromString(component[2]), Long.parseLong(component[1])));
+                else if ("PercentDiscountVoucher".equals(component[0]))
+                    voucherList.add(new PercentDiscountVoucher(UUID.fromString(component[2]), Long.parseLong(component[1])));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return voucherList;
-    }
-
-    private Voucher makeVoucher(String voucherType, UUID voucherId, long discountValue) {
-        Voucher voucher = null;
-        if (voucherType.equals("FixedAmountVoucher")) {
-            voucher = new FixedAmountVoucher(voucherId, discountValue);
-        } else if (voucherType.equals("PercentDiscountVoucher")) {
-            voucher = new PercentDiscountVoucher(voucherId, discountValue);
-        }
-        return voucher;
     }
 }
