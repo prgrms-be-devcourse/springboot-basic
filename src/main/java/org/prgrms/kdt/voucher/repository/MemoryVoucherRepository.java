@@ -16,11 +16,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        for (final Optional<Voucher> voucher : myVoucherRepository) {
-            System.out.println(voucher.get());
-        }
-        return null;
+    public List<Optional<Voucher>> findAll() {
+        return myVoucherRepository;
     }
 
     @Override
