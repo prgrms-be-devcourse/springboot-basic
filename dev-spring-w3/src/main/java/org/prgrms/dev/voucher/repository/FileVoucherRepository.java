@@ -3,6 +3,7 @@ package org.prgrms.dev.voucher.repository;
 import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -10,6 +11,7 @@ import java.util.*;
 
 @Repository
 @Qualifier("file")
+@Profile({"local", "file"})
 public class FileVoucherRepository implements VoucherRepository {
     private static final String PATH = "src/main/resources/voucher.csv";
     private static final String USER_DIR = "user.dir";

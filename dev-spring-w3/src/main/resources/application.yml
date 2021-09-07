@@ -1,0 +1,6 @@
+server:
+  port: 8080  #  포트 변경
+
+spring:
+  profiles:
+    active: dev
