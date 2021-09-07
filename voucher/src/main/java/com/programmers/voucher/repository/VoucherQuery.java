@@ -53,6 +53,24 @@ public class VoucherQuery {
         private String byId;
         private String byCustomer;
         private String between;
+        private String byType;
+        private String betweenByType;
+
+        public String getByType() {
+            return byType;
+        }
+
+        public void setByType(String byType) {
+            this.byType = byType;
+        }
+
+        public String getBetweenByType() {
+            return betweenByType;
+        }
+
+        public void setBetweenByType(String betweenByType) {
+            this.betweenByType = betweenByType;
+        }
 
         public String getBetween() {
             return between;

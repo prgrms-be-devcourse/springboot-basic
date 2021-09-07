@@ -47,8 +47,13 @@ public class BasicVoucherService implements VoucherService {
     }
 
     @Override
-    public List<Voucher> listAllBetween(LocalDate from, LocalDate to) {
+    public List<Voucher> listAll(LocalDate from, LocalDate to) {
         return jdbcVoucherRepository.listAllBetween(from, to);
+    }
+
+    @Override
+    public List<Voucher> listAll(LocalDate from, LocalDate to, Voucher.SearchCriteria searchCriteria, String keyword) {
+        return searchCriteria.getSearch().search(jdbcVoucherRepository, from, to, keyword);
     }
 
     @Override
