@@ -1,5 +1,6 @@
 package org.prgrms.dev.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -19,8 +20,13 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan(
-        basePackages = {"org.prgrms.dev.voucher", "org.prgrms.dev.order", "org.prgrms.dev.config", "org.prgrms.dev.customer" }
+        basePackages = {
+                "org.prgrms.dev.voucher",
+                "org.prgrms.dev.order",
+                "org.prgrms.dev.config",
+                "org.prgrms.dev.customer" }
 )
 @PropertySource(value = "application.yml", factory = YmlPropertiesFactory.class)
+@EnableConfigurationProperties
 public class AppConfiguration {
 }
