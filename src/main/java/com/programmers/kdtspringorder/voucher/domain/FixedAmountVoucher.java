@@ -4,6 +4,7 @@ import com.programmers.kdtspringorder.voucher.VoucherType;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
@@ -11,7 +12,7 @@ public class FixedAmountVoucher extends Voucher {
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
-        this(voucherId, null, amount, VoucherType.FIXED, false, LocalDateTime.now(), null);
+        this(voucherId, null, amount, VoucherType.FIXED, false, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), null);
     }
 
     public FixedAmountVoucher(UUID voucherId, UUID customerId, long amount, VoucherType type, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {

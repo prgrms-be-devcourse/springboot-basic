@@ -1,5 +1,7 @@
 package com.programmers.kdtspringorder.customer.service;
 
+import com.programmers.kdtspringorder.customer.model.Customer;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

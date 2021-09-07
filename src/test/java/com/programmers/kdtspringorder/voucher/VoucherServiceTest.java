@@ -38,7 +38,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("없는 바우처 ID를 입력하면 RuntimeException을 던진다")
-    public void getVoucherWithRuntimeException(){
+    public void getVoucherWithRuntimeException() {
         // Given
         VoucherRepository voucherRepository = mock(VoucherRepository.class);
         VoucherFactory voucherFactory = mock(VoucherFactory.class);
@@ -67,7 +67,7 @@ class VoucherServiceTest {
         VoucherService voucherService = new VoucherService(voucherRepository, voucherFactory);
 
         // When
-        Voucher actual = voucherService.createVoucher("FIXED", 2000L);
+        Voucher actual = voucherService.createVoucher(VoucherType.FIXED, 2000L);
 
         // Then
         assertThat(actual).isEqualTo(fixedAmountVoucher);

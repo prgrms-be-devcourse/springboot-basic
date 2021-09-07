@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Home</title>
+</head>
+<body class="container-fluid">
+<h1>KDT Spring App</h1>
+
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Type</th>
+        <th scope="col">Value</th>
+        <th scope="col">CreatedAt</th>
+        <th scope="col">CustomerId</th>
+        <th scope="col">used</th>
+        <th scope="col">expirationDate</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${voucher}">
+        <td th:text="${voucher.voucherId}"></td>
+        <td th:text="*{type}"></td>
+        <td th:text="*{value}"></td>
+        <td th:text="*{createdAt}"></td>
+        <td><span th:text="${voucher.customerId}?: ''"> </span></td>
+        <td th:text="*{used}"></td>
+        <td><span th:text="${voucher.expirationDate}?: ''"> </span></td>
+    </tr>
+    </tbody>
+</table>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <form th:action="@{/voucher/{voucherId}(voucherId=${voucher.voucherId})}" th:method="delete">
+        <input type="hidden" name="_method" value="delete"/>
+        <button type="submit" id="submitButton">Delete Voucher</button>
+    </form>
+</div>
+</body>
+</html>

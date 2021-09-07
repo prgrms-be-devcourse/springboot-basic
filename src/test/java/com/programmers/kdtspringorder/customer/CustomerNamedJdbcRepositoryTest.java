@@ -19,6 +19,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -87,7 +88,7 @@ class CustomerNamedJdbcRepositoryTest {
 
     @BeforeAll
     void setUp(){
-        testUser = new Customer(UUID.randomUUID(), "testUser", "test@naver.com", LocalDateTime.parse(LocalDateTime.now().toString().substring(0,26)));
+        testUser = new Customer(UUID.randomUUID(), "testUser", "test@naver.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
 
         // embedded mysql 설정인데 실행 안됨
 //        MysqldConfig mySqlConfig = aMysqldConfig(v8_0_11)

@@ -1,5 +1,7 @@
 package com.programmers.kdtspringorder.customer.service;
 
+import com.programmers.kdtspringorder.customer.model.Customer;
+import com.programmers.kdtspringorder.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

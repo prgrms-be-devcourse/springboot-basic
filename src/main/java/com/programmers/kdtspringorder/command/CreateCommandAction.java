@@ -17,13 +17,13 @@ public record CreateCommandAction(Input input,
         if (isWrongType(type)) {
             output.printMessage("잘못 입력 하셨습니다");
         }
-        Voucher voucher = createVoucher(type, 20);
+        Voucher voucher = createVoucher(VoucherType.valueOf(type), 20);
         output.printMessage("쿠폰 생성에 성공하였습니다");
     }
 
-    private Voucher createVoucher(String type, long value) {
-        VoucherType voucherType = VoucherType.valueOf(type);
-        return voucherService.createVoucher(voucherType, value);
+
+    private Voucher createVoucher(VoucherType type, long value) {
+        return voucherService.createVoucher(type, value);
     }
 
     private boolean isWrongType(String type) {
