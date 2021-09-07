@@ -11,20 +11,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Transactional
 class CustomerNamedJdbcRepositoryTest {
     @Configuration
     @ComponentScan(basePackages = {"org.prgrms.kdt.engine.customer"})
@@ -49,78 +48,72 @@ class CustomerNamedJdbcRepositoryTest {
     }
 
     @Autowired
-    CustomerNamedJdbcRepository repository;
+    CustomerNamedJdbcRepository customerNamedJdbcRepository;
     @Autowired
     DataSource dataSource;
 
-    Customer newCustomer;
+    Customer customer = new Customer(UUID.randomUUID(), "test-user", "test00@example.com", LocalDateTime.now());
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
-        repository.deleteAll();
-        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test00@example.com", LocalDateTime.now());
+        customerNamedJdbcRepository.insert(customer);
     }
 
     @Test
-    @Order(1)
     @DisplayName("DataSource는 Hikari이다")
     public void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
     }
 
     @Test
-    @Order(2)
     @DisplayName("고객을 삽입할 수 있다")
     public void testInsertCustomer() {
-        repository.insert(newCustomer);
+        var newCustomer = new Customer(UUID.randomUUID(), "test-user", "test01@example.com", LocalDateTime.now());
+        customerNamedJdbcRepository.insert(newCustomer);
 
-        var retrievedCustomer = repository.findById(newCustomer.getCustomerId());
+        var retrievedCustomer = customerNamedJdbcRepository.findById(newCustomer.getCustomerId());
         assertThat(retrievedCustomer.isEmpty(), is(false));
         assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
     }
 
     @Test
-    @Order(3)
     @DisplayName("전체 고객을 조회할 수 있다")
     public void testFindAll() {
-        var customerList = repository.findAll();
+        var customerList = customerNamedJdbcRepository.findAll();
         assertThat(customerList.isEmpty(), is(false));
         assertThat(customerList.get().size(), is(1));
     }
 
     @Test
-    @Order(4)
     @DisplayName("ID로 고객을 조회할 수 있다")
     public void testFindById() {
-        var customer = repository.findById(newCustomer.getCustomerId());
+        var customer = customerNamedJdbcRepository.findById(this.customer.getCustomerId());
         assertThat(customer.isEmpty(), is(false));
-        assertThat(customer.get(), samePropertyValuesAs(newCustomer));
+        assertThat(customer.get(), samePropertyValuesAs(this.customer));
 
-        var unknownCustomer = repository.findById(UUID.randomUUID());
+        var unknownCustomer = customerNamedJdbcRepository.findById(UUID.randomUUID());
         assertThat(unknownCustomer.isEmpty(), is(true));
     }
 
     @Test
-    @Order(5)
     @DisplayName("이름으로 고객을 조회할 수 있다")
     public void testFindByName() {
-        var customer = repository.findByName(newCustomer.getName());
+        var customer = customerNamedJdbcRepository.findByName(this.customer.getName());
         assertThat(customer.isEmpty(), is(false));
-        assertThat(customer.get(), samePropertyValuesAs(newCustomer));
+        assertThat(customer.get(), samePropertyValuesAs(this.customer));
 
-        var unknownCustomer = repository.findByName("unknown-customer");
+        var unknownCustomer = customerNamedJdbcRepository.findByName("unknown-customer");
         assertThat(unknownCustomer.isEmpty(), is(true));
     }
 
     @Test
-    @Order(6)
     @DisplayName("이메일로 고객을 조회할 수 있다")
     public void testFindByEmail() {
-        var customer = repository.findByEmail(newCustomer.getEmail());
+        var customer = customerNamedJdbcRepository.findByEmail(this.customer.getEmail());
         assertThat(customer.isEmpty(), is(false));
-        assertThat(customer.get(), samePropertyValuesAs(newCustomer));
+        assertThat(customer.get(), samePropertyValuesAs(this.customer));
 
-        var unknownCustomer = repository.findByEmail("unknown@example.com");
+        var unknownCustomer = customerNamedJdbcRepository.findByEmail("unknown@example.com");
         assertThat(unknownCustomer.isEmpty(), is(true));
     }
 }

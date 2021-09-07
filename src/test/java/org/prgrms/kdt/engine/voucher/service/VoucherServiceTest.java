@@ -1,15 +1,10 @@
 package org.prgrms.kdt.engine.voucher.service;
 
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.engine.customer.repository.CustomerMemoryRepository;
 import org.prgrms.kdt.engine.voucher.VoucherType;
 import org.prgrms.kdt.engine.voucher.domain.Voucher;
 import org.prgrms.kdt.engine.voucher.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.engine.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.UUID;
 
@@ -18,34 +13,29 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-@SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 class VoucherServiceTest {
-    @Configuration
-    @ComponentScan(basePackages = {"org.prgrms.kdt.engine.voucher"})
-    static class Config {
-        @Bean
-        public VoucherRepository voucherRepository() {
-            return new MemoryVoucherRepository();
-        }
+    // 메모리 레포지토리를 stub로 활용
+    MemoryVoucherRepository voucherRepositoryStub = new MemoryVoucherRepository();
+    CustomerMemoryRepository customerRepositoryStub = new CustomerMemoryRepository();
+    VoucherService voucherService = new VoucherService(voucherRepositoryStub, customerRepositoryStub);
+
+    Voucher fixedVoucher = VoucherType.FIXED.createVoucher(10);
+    Voucher percentVoucher = VoucherType.PERCENT.createVoucher(15);
+
+    @BeforeEach
+    void clean() {
+        voucherRepositoryStub.deleteAll();
+        customerRepositoryStub.deleteAll();
+        voucherRepositoryStub.insert(fixedVoucher);
+        voucherRepositoryStub.insert(percentVoucher);
     }
 
-    @Autowired
-    VoucherRepository voucherRepository;
-
-    @Autowired
-    VoucherService voucherService;
-
-    Voucher newFixedVoucher;
-    Voucher newPercentVoucher;
-
     @Test
-    @Order(1)
     @DisplayName("바우처를 생성할 수 있다")
     void testCreateVoucher() {
-        newFixedVoucher = voucherService.createVoucher(VoucherType.FIXED, 10);
-        newPercentVoucher = voucherService.createVoucher(VoucherType.PERCENT, 15);
+        var newFixedVoucher = voucherService.createVoucher(VoucherType.FIXED, 10);
+        var newPercentVoucher = voucherService.createVoucher(VoucherType.PERCENT, 15);
 
         var maybeNewFixedVoucher = voucherService.getVoucher(newFixedVoucher.getVoucherId());
         var maybeNewPercentVoucher = voucherService.getVoucher(newPercentVoucher.getVoucherId());
@@ -55,11 +45,10 @@ class VoucherServiceTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("바우처를 개별 조회할 수 있다")
     void testGetVoucher() {
-        var maybeNewVoucher = voucherService.getVoucher(newFixedVoucher.getVoucherId());
-        assertThat(maybeNewVoucher, samePropertyValuesAs(newFixedVoucher));
+        var maybeNewVoucher = voucherService.getVoucher(fixedVoucher.getVoucherId());
+        assertThat(maybeNewVoucher, samePropertyValuesAs(fixedVoucher));
     }
 
     @Test

@@ -51,4 +51,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Optional<UUID> findCustomerByVoucher(UUID voucherId) {
         return Optional.empty();
     }
+
+    public void deleteAll() { storage.clear(); };
 }
