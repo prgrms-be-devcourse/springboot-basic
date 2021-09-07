@@ -2,13 +2,20 @@ package org.prgrms.orderApp.voucher;
 
 import java.util.UUID;
 
-public class VoucherVo {
+public class VoucherDto {
     private final UUID vouchcerId;
     private final long amount ;
+    private String voucherType;
 
-    public VoucherVo(UUID vouchcerId, long amount){
+    public VoucherDto(UUID vouchcerId, long amount){
         this.vouchcerId = vouchcerId;
         this.amount = amount;
+    }
+
+    public VoucherDto(UUID vouchcerId, long amount, String voucherType){
+        this.vouchcerId = vouchcerId;
+        this.amount = amount;
+        this.voucherType = voucherType;
     }
 
     public UUID getVouchcerId() {

@@ -1,6 +1,5 @@
 package org.prgrms.orderApp.voucher;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("local")
 public class TempVoucherRepository implements VoucherRepository {
     private List<Voucher> voucher_list= new ArrayList<>();
 
@@ -21,7 +19,7 @@ public class TempVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int save(Voucher voucher) {
+    public int insert(Voucher voucher) {
         if (voucher_list.size()>0) {
             // 동일한 voucher id 확인
             if(voucher_list

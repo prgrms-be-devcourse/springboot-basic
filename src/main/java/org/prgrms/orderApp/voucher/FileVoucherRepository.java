@@ -7,7 +7,6 @@ import org.prgrms.orderApp.util.library.monguDb.DbManagement;
 import org.prgrms.orderApp.util.library.monguDb.DbWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -17,7 +16,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
     private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
@@ -38,7 +36,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int save(Voucher voucher) throws IOException {
+    public int insert(Voucher voucher) throws IOException {
         Optional<DbWriter> dbWriter = null;
 
         JSONObject inputData = new JSONObject();

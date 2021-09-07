@@ -32,7 +32,7 @@ public class VoucherService {
     public Map<String, Object> saveVoucher(Voucher voucher) throws IOException {
         processingResultsMessages.clear();
 
-        if (voucherRepository.save(voucher) >0 ){
+        if (voucherRepository.insert(voucher) >0 ){
             status = ProcessingStatus.SUCCESS;
             voucherId = voucher.getVoucherId();
         }else {
