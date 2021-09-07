@@ -15,7 +15,7 @@ public class Printer {
         printInputSign();
     }
 
-    public void printCustomerCommandList(){
+    public void printCustomerCommandList() {
         System.out.println("=== Customer Blacklist Program ===");
         System.out.println("Type create to create a new customer.");
         System.out.println("Type find to find blacklist customer.");
@@ -44,7 +44,7 @@ public class Printer {
         printInputSign();
     }
 
-    public void customerNameInput(){
+    public void customerNameInput() {
         System.out.print("Enter the customer's Name : ");
     }
 
