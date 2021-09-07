@@ -33,6 +33,16 @@ voucher:
         v.customer_id=c.customer_id
       WHERE
         c.customer_id=?
+    between:
+      SELECT
+        *
+      FROM
+        vouchers
+      WHERE
+        created_at
+      BETWEEN
+        ? AND ?
+
 
   update:
     byId: >
