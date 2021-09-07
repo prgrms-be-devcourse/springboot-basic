@@ -7,6 +7,7 @@ import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.CommandType;
 import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.helper.MessageHelper;
 import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.VoucherService;
 import org.slf4j.Logger;
@@ -17,8 +18,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.List;
 import java.util.UUID;
-
-import static org.prgrms.kdt.helper.MessageHelper.*;
 
 @SpringBootApplication
 public class KdtApplication {
@@ -44,7 +43,7 @@ public class KdtApplication {
         CustomerService customerService = applicationContext.getBean(CustomerService.class);
 
         while(true){
-            showVoucherProgramGuideMessage();
+            MessageHelper.showVoucherProgramGuideMessage();
             CommandType commandType = inputController.getCommandType();
 
             logger.info("CommandType is {}", commandType.toString());
@@ -83,21 +82,21 @@ public class KdtApplication {
 
     public static void runExit() {
         logger.info("Starts runExit()");
-        showExitMessage();
+        MessageHelper.showExitMessage();
         logger.info("Finished runExit()");
         System.exit(0);
     }
 
     public static void runCreate(InputController inputController, VoucherService voucherService) {
         logger.info("Starts runCreate()");
-        showEnterCustomerIdMessage();
+        MessageHelper.showEnterCustomerIdMessage();
         UUID customerId = inputController.getCustomerId();
-        showVoucherSelectionMessage();
+        MessageHelper.showVoucherSelectionMessage();
         VoucherType type = inputController.getVoucherType();
-        showEnterVoucherDiscount();
+        MessageHelper.showEnterVoucherDiscount();
         long discount = inputController.getDiscount();
         voucherService.createVoucher(new VoucherSaveRequestDto(customerId, type, discount));
-        showVoucherRegistrationSuccessMessage();
+        MessageHelper.showVoucherRegistrationSuccessMessage();
         logger.info("Finished runCreate()");
     }
 
@@ -109,7 +108,7 @@ public class KdtApplication {
 
     public static void runVoucherListByCustomerId(InputController inputController, OutputController outputController, VoucherService voucherService) {
         logger.info("Starts runVoucherListByCustomerId()");
-        showEnterCustomerIdMessage();
+        MessageHelper.showEnterCustomerIdMessage();
         UUID customerId = inputController.getCustomerId();
         outputController.showVoucherList(voucherService.getVouchersByCustomerId(customerId));
         logger.info("Finished runVoucherListByCustomerId()");
@@ -117,7 +116,7 @@ public class KdtApplication {
 
     public static void runVoucherByVoucherId(InputController inputController, OutputController outputController, VoucherService voucherService) {
         logger.info("Starts runVoucherByVoucherId()");
-        showEnterVoucherIdMessgae();
+        MessageHelper.showEnterVoucherIdMessgae();
         UUID voucherId = inputController.getVoucherId();
         outputController.showVoucherList(List.of(voucherService.getVoucher(voucherId)));
         logger.info("Finished runVoucherByVoucherId()");
@@ -126,7 +125,7 @@ public class KdtApplication {
 
     public static void runDeleteVoucher(InputController inputController, VoucherService voucherService) {
         logger.info("Starts runVoucherByVoucherId()");
-        showEnterDeleteVoucherInfo();
+        MessageHelper.showEnterDeleteVoucherInfo();
         UUID customerId = inputController.getCustomerId();
         UUID voucherId = inputController.getVoucherId();
         voucherService.deleteVoucher(customerId, voucherId);
@@ -141,13 +140,13 @@ public class KdtApplication {
 
     public static void runReplay() {
         logger.info("Starts runReplay()");
-        showVoucherProgramGuideMessage();
+        MessageHelper.showVoucherProgramGuideMessage();
         logger.info("Finished runReplay()");
     }
 
     public static void runRetry() {
         logger.info("Starts runRetry()");
-        showRetryMessage();
+        MessageHelper.showRetryMessage();
         logger.info("Finished runRetry()");
     }
 
