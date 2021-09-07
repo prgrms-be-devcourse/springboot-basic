@@ -49,7 +49,7 @@ public class CommandLineApplication implements Runnable {
                 } else if (inputString.equals("list")) {
                     System.out.println(voucherService.getAllVouchers().toString());
                 } else if ("blacklist".equals(inputString)) {
-                    System.out.println(customerService.getAllCustomersOnBlacklist().toString());
+                    System.out.println(customerService.getBlackCustomers().toString());
                 } else if (inputString.equals("exit")) {
                     break;
                 }

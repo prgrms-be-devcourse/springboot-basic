@@ -13,8 +13,8 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> getAllCustomersOnBlacklist() {
-        return customerRepository.getAllCustomersOnBlacklist();
+    public List<Customer> getBlackCustomers() {
+        return customerRepository.findBlackCustomers();
     }
 
 }
