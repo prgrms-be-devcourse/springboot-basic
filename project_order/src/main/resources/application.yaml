@@ -1,5 +1,8 @@
 prgms:
   version: "v1.0"
   definition: Voucher 관리 Command-Line Application
-  file:
-    blacklist: customer_blacklist.csv
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_mgmt
+    username: root
+    password: root1234!
