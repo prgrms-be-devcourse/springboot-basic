@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
-@Qualifier("fileVoucherRepository")
+//@Repository
+//@Qualifier("fileVoucherRepository")
 public class FileVoucherRepository implements VoucherRepository {
     private final File file;
 

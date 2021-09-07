@@ -27,4 +27,11 @@ public class FixedAmountVoucher implements Voucher {
         return amount;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "  discount: -"
+                + getDiscountValue() + "원  voucherId: "
+                + getVoucherId();
+    }
+
 }

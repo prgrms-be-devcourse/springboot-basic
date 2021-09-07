@@ -38,7 +38,7 @@ public class Printer {
         System.out.println();
         System.out.println("------------< voucherList >--------------");
         for (Voucher voucher : voucherList) {
-            System.out.println(voucher.getVoucherId());
+            System.out.println(voucher.toString());
         }
         System.out.println("-----------------------------------------");
     }

@@ -27,5 +27,10 @@ public class PercentDiscountVoucher implements Voucher {
         return percent;
     }
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "  discount: -"
+                + getDiscountValue() + "%  voucherId: "
+                + getVoucherId();
+    }
 }
