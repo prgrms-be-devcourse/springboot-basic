@@ -3,7 +3,6 @@ package org.prgrms.kdt.voucher;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.prgrms.kdt.customer.CustomerDto;
 

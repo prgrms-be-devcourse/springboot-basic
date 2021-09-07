@@ -1,13 +1,7 @@
 package org.prgrms.kdt.wallet;
 
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import org.prgrms.kdt.customer.CustomerDto;
 import org.prgrms.kdt.exception.IllegalRowUpdateException;
-import org.prgrms.kdt.mapper.CustomerMapper;
-import org.prgrms.kdt.mapper.VoucherMapper;
-import org.prgrms.kdt.voucher.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

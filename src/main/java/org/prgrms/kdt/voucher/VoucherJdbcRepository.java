@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.prgrms.kdt.exception.IllegalRowUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -51,8 +50,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public int update(Voucher voucher) {
-        return jdbcTemplate.update(
-                "UPDATE vouchers SET name = ? WHERE voucher_id = UUID_TO_BIN(?)",
+        return jdbcTemplate.update("UPDATE vouchers SET name = ? WHERE voucher_id = UUID_TO_BIN(?)",
                 voucher.getName(),
                 voucher.getVoucherId().toString().getBytes());
     }
@@ -61,8 +59,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate
-                    .queryForObject(
-                            "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
+                    .queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
                             voucherRowMapper,
                             voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {

@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.prgrms.kdt.exception.IllegalRowUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,7 +27,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<Customer> customerRowMapper =  (resultSet, i) -> {
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
@@ -65,7 +64,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
         try {
             return Optional.ofNullable(jdbcTemplate
-                    .queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerRowMapper, customerId.toString().getBytes()));
+                    .queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)",
+                            customerRowMapper,
+                            customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e.getMessage());
             return Optional.empty();
@@ -76,7 +77,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findByName(String name) {
         try {
             return Optional.ofNullable(jdbcTemplate
-                    .queryForObject("SELECT * FROM  customers WHERE name = ?", customerRowMapper, name));
+                    .queryForObject("SELECT * FROM  customers WHERE name = ?",
+                            customerRowMapper,
+                            name));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e.getMessage());
             return Optional.empty();
@@ -87,7 +90,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findByEmail(String email) {
         try {
             return Optional.ofNullable(jdbcTemplate
-                    .queryForObject("SELECT * FROM customers WHERE email = ?", customerRowMapper, email));
+                    .queryForObject("SELECT * FROM customers WHERE email = ?",
+                            customerRowMapper,
+                            email));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e.getMessage());
             return Optional.empty();

@@ -1,11 +1,8 @@
 package org.prgrms.kdt.wallet;
 
 import java.nio.ByteBuffer;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 import org.prgrms.kdt.customer.Customer;
-import org.prgrms.kdt.customer.CustomerDto;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.jdbc.core.JdbcTemplate;
