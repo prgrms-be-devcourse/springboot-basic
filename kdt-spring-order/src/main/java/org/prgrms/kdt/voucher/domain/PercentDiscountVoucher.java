@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.model;
+package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
@@ -7,8 +7,8 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if(percent > 100) throw new IllegalArgumentException("percent가 100% 이상일 수 없음");
-        if(percent < 0) throw new IllegalArgumentException("percent가 음수일 수 없음");
+        if(percent <= 0) throw new IllegalArgumentException("percent가 0보다 작습니다");
+        if(percent > 100) throw new IllegalArgumentException("percent가 100을 초과합니다");
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -31,7 +31,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - beforeDiscount * (percent / 100);
+        return (long) (beforeDiscount * ((100-percent) / 100.0));
     }
 
 }

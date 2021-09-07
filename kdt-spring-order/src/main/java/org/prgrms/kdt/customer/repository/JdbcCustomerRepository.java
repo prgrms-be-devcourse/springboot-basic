@@ -2,18 +2,17 @@ package org.prgrms.kdt.customer.repository;
 
 import org.springframework.stereotype.Repository;
 
-import org.prgrms.kdt.customer.model.Customer;
+import org.prgrms.kdt.customer.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static org.prgrms.kdt.common.util.Util.toUUID;
+import static org.prgrms.kdt.common.util.Utility.toUUID;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
@@ -139,7 +138,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 Integer.class
         );
     }
-
 
 
 

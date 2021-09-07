@@ -1,4 +1,4 @@
-package org.prgrms.kdt.customer.model;
+package org.prgrms.kdt.customer.domain;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

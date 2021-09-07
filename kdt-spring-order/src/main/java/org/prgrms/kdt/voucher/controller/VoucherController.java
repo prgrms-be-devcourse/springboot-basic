@@ -21,12 +21,11 @@ public class VoucherController {
     public String viewVouchersPage(Model model) {
         // 초기 화면 렌더링시 voucher 리스트 넘겨줌
         var voucherList = voucherService.getVoucherList();
-        System.out.println(voucherList.toString());
         model.addAttribute("voucherList", voucherList);
         return "views/vouchers";
     }
 
-    //
+    // voucher 생성하기
     @PostMapping("/vouchers/create")
     public String createVoucher(VoucherDto voucherDto) {
         voucherService.createVoucher(UUID.randomUUID(), voucherDto.type(), voucherDto.value());

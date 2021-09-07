@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.model;
+package org.prgrms.kdt.voucher.domain;
 
 public enum VoucherType {
     FIXED("FIXED"),

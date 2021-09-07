@@ -1,17 +1,16 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.customer.model.Customer;
-import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.model.Voucher;
-import org.prgrms.kdt.voucher.model.VoucherType;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static org.prgrms.kdt.common.util.Util.toUUID;
+import static org.prgrms.kdt.common.util.Utility.toUUID;
 
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository{
@@ -34,11 +33,10 @@ public class JdbcVoucherRepository implements VoucherRepository{
         var voucherId =  toUUID(resultSet.getBytes("voucher_id"));
         var value = resultSet.getLong("value");
         var voucherType = VoucherType.convert(resultSet.getString("type"));
-        switch (voucherType){
-            case FIXED -> {return new FixedAmountVoucher(voucherId, value);}
-            case PERCENT -> {return new PercentDiscountVoucher(voucherId, value);}
-        }
-        throw new RuntimeException("");
+        if(voucherType == VoucherType.FIXED)
+            return new FixedAmountVoucher(voucherId, value);
+        else
+            return new PercentDiscountVoucher(voucherId, value);
     };
 
 
