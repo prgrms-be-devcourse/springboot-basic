@@ -1,17 +1,17 @@
 package com.programmers.voucher.controller.api;
 
+import com.programmers.voucher.entity.voucher.DiscountPolicy;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.voucher.VoucherService;
 import com.programmers.voucher.util.ApiResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/voucher")/*, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})*/
@@ -39,6 +39,69 @@ public class VoucherAPIController {
             toDate = LocalDate.now();
         }
         List<Voucher> vouchers = basicVoucherService.listAll(fromDate, toDate, Voucher.SearchCriteria.of(criteria), keyword);
-        return ResponseEntity.ok(new ApiResponse<>(true, vouchers));
+        return ResponseEntity.ok(ApiResponse.of(vouchers));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Voucher>> getVoucher(
+            @PathVariable("id") long id) {
+        Optional<Voucher> byId = basicVoucherService.findById(id);
+        return ResponseEntity.ok(byId.map(ApiResponse::of).orElseGet(() -> ApiResponse.failed("No voucher found.")));
+    }
+
+    static class CreateVoucher {
+        String name;
+        String type;
+        int amount;
+        long owner;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
+        }
+
+        public long getOwner() {
+            return owner;
+        }
+
+        public void setOwner(long owner) {
+            this.owner = owner;
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<Voucher>> createVoucher(
+            @RequestBody CreateVoucher request) {
+        if(request.name.isBlank()) {
+            ApiResponse<Voucher> response = ApiResponse.failed("Voucher name cannot be empty.");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        Voucher voucher = basicVoucherService.create(request.name, DiscountPolicy.Type.of(request.type), request.amount, request.owner);
+        if(voucher.getId() < 0) {
+            ApiResponse<Voucher> response = ApiResponse.failed("Failed to create voucher. Check your input or if customer is valid.");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        return ResponseEntity.created(URI.create("/api/voucher/" + voucher.getId())).body(ApiResponse.of(voucher));
     }
 }
