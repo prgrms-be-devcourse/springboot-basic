@@ -3,6 +3,8 @@ package org.prgrms.kdtspringorder.io.validation;
 import org.prgrms.kdtspringorder.io.domain.Command;
 import org.prgrms.kdtspringorder.io.enums.implementation.CommandType;
 import org.prgrms.kdtspringorder.io.exception.InvalidCommandException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Component
 public class CommandValidator {
+    private static final Logger logger = LoggerFactory.getLogger(CommandValidator.class);
 
     public Command validate(Command inputCommand) throws InvalidCommandException {
         String commandName = inputCommand.getCommandName();
@@ -50,7 +53,6 @@ public class CommandValidator {
             throw new InvalidCommandException(
                     generateInvalidOptionMessage(commandType, inputCommandOptions));
         }
-
     }
 
     private String generateInvalidCommandMessage(CommandType commandType) {
@@ -70,6 +72,4 @@ public class CommandValidator {
                 .append(" 옵션이 존재하지 않습니다.");
         return stringBuffer.toString();
     }
-
-
 }

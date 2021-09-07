@@ -7,6 +7,8 @@ import org.prgrms.kdtspringorder.config.YmlPropertiesLoader;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     public static final int COL_UUID = 0;
     public static final int COL_VOUCHER_TYPE = 1;
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final String filePath;
 
     public FileVoucherRepository(YmlPropertiesLoader ymlPropertiesLoader) {
@@ -43,14 +46,18 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> getVouchers() {
         List<String[]> rows;
 
+        logger.info("{}에서 Voucher 읽기 시작", this.filePath);
+
         try {
             CSVReader csvReader = getCSVReader();
             rows = csvReader.readAll();
             csvReader.close();
-        } catch (IOException | CsvException ioException) {
-            throw new RuntimeException(ioException);
+        } catch (IOException | CsvException exception) {
+            logger.error("{}에서 Voucher 정보 읽어 오기 실패", this.filePath, exception);
+            throw new RuntimeException(exception);
         }
 
+        logger.info("{}에서 Voucher 읽어 오기 종료", this.filePath);
         return rows
                 .stream()
                 .map(this::generateVoucherFrom)
@@ -59,7 +66,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher saveVoucher(Voucher voucher) {
+        logger.info("Voucher 저장 시작");
         voucher.assignId(generateId());
+        logger.info("새로운 Voucher에 ID 할당 : {}", voucher.getId());
         String[] newRow = generateRowFrom(voucher);
 
         try {
@@ -67,9 +76,12 @@ public class FileVoucherRepository implements VoucherRepository {
             csvWriter.writeNext(newRow);
             csvWriter.close();
         } catch (IOException ioException) {
+            logger.error("{}에서 Voucher 정보 저장하기 실패", this.filePath, ioException);
+            // 이렇게 하는게 맞을까요?
             throw new RuntimeException(ioException);
         }
 
+        logger.info("Voucher 저장 완료");
         return voucher;
     }
 

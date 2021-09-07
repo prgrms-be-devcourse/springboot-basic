@@ -10,12 +10,16 @@ import org.prgrms.kdtspringorder.io.exception.InvalidCommandException;
 import org.prgrms.kdtspringorder.io.validation.CommandValidator;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class App {
+
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     private final Input input;
     private final Output output;
@@ -34,6 +38,7 @@ public class App {
     }
 
     public void run() {
+
         while (true) {
             String introMessage =
                     new StringBuilder()
@@ -43,14 +48,14 @@ public class App {
                             .append("Type black-list to list black list customers.\n")
                             .append("Type list to list all vouchers.").toString();
 
-            output.print(introMessage);
+            this.output.print(introMessage);
 
-            Command command = input.read();
+            Command command = this.input.read();
 
             try {
-                commandValidator.validate(command);
+                this.commandValidator.validate(command);
             } catch (InvalidCommandException e) {
-                System.out.println(e.getMessage());
+                this.output.print(e.getMessage());
                 continue;
             }
 
@@ -58,24 +63,24 @@ public class App {
 
             switch (commandType) {
                 case CREATE:
-                    output.print("=== 생성된 바우처 ===");
-                    Voucher createdVoucher = voucherService.createVoucher(command.getOptions().get(0));
-                    output.printVoucher(createdVoucher);
+                    this.output.print("=== 생성된 바우처 ===");
+                    Voucher createdVoucher = this.voucherService.createVoucher(command.getOptions().get(0));
+                    this.output.printVoucher(createdVoucher);
                     break;
 
                 case LIST:
-                    List<Voucher> vouchers = voucherService.getVouchers();
-                    output.print("=== 생성된 바우처 목록 ===");
-                    output.printVoucherList(vouchers);
+                    List<Voucher> vouchers = this.voucherService.getVouchers();
+                    this.output.print("=== 생성된 바우처 목록 ===");
+                    this.output.printVoucherList(vouchers);
                     break;
 
                 case BLACK_LIST:
-                    List<Customer> customers = customerService.getBannedCustomers();
-                    output.printCustomerList(customers);
+                    List<Customer> customers = this.customerService.getBannedCustomers();
+                    this.output.printCustomerList(customers);
                     break;
 
                 case EXIT:
-                    output.print("EXIT!");
+                    this.output.print("EXIT!");
                     return;
             }
         }
