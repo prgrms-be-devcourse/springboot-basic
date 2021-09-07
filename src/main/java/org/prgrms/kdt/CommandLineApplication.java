@@ -5,6 +5,8 @@ import org.prgrms.kdt.command.NavigationMessage;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -12,7 +14,9 @@ import java.util.Scanner;
 
 public class CommandLineApplication implements Runnable {
     public static void main(final String[] args) throws IOException, InterruptedException {
-        final VoucherRepository voucherRepository = new MemoryVoucherRepository();
+        final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        final VoucherRepository voucherRepository = applicationContext.getBean(MemoryVoucherRepository.class);
+
         final Scanner scanner = new Scanner(System.in);
         boolean programRunning = true;
 

@@ -4,6 +4,7 @@ import org.prgrms.kdt.order.Order;
 import org.prgrms.kdt.order.repository.OrderRepository;
 import org.prgrms.kdt.order.service.OrderService;
 import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +18,8 @@ import java.util.UUID;
 public class AppConfiguration {
 
     @Bean
-    public CommandLineApplication commandLineApplication() {
-        return commandLineApplication();
+    public MemoryVoucherRepository memoryVoucherRepository() {
+        return new MemoryVoucherRepository();
     }
 
     @Bean
