@@ -16,6 +16,15 @@ public class ApiResponse<T> {
         this.error = error;
     }
 
+    // reference from ResponseEntity.of
+    public static <U> ApiResponse<U> of(U result) {
+        return new ApiResponse<>(true, result, null);
+    }
+
+    public static <V> ApiResponse<V> failed(String message) {
+        return new ApiResponse<>(false, null, message);
+    }
+
     public boolean isSuccess() {
         return success;
     }
