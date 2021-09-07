@@ -1,6 +1,5 @@
 package org.programmers.voucher;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -30,7 +29,7 @@ public class VoucherService {
     }
 
     public List<Voucher> getAllVouchers() {
-        return voucherRepository.getAllVouchers();
+        return voucherRepository.findAll();
     }
 
     public void useVoucher(Voucher voucher) {

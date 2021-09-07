@@ -6,10 +6,18 @@ import java.util.UUID;
 
 public interface VoucherRepository {
 
-    Optional<Voucher> findById(UUID voucherId);
-
     Voucher insert(Voucher voucher);
 
-    List<Voucher> getAllVouchers();
+    int countAll();
+
+    int countFixed();
+
+    int countPercent();
+
+    List<Voucher> findAll();
+
+    Optional<Voucher> findById(UUID voucherId);
+
+    void deleteAll();
 
 }
