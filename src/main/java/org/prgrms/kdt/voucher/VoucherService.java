@@ -1,7 +1,10 @@
 package org.prgrms.kdt.voucher;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import org.prgrms.kdt.exception.ResourceNotFoundException;
 import org.prgrms.kdt.mapper.VoucherMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +21,15 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Optional<VoucherDto> getVoucherById(String voucherId) {
+    public VoucherDto getVoucherById(String voucherId) {
         return voucherRepository.findById(UUID.fromString(voucherId))
-                .map(VoucherMapper::voucherToVoucherDto);
+                .map(VoucherMapper::voucherToVoucherDto)
+                .orElseThrow(() -> new ResourceNotFoundException("not found voucherId : " + voucherId));
+    }
+
+    public List<VoucherDto> getVouchers(String customerId) {
+        return voucherRepository.findVouchersByCustomerId(UUID.fromString(customerId)).stream()
+                .map(VoucherMapper::voucherToVoucherDto)
+                .collect(Collectors.toList());
     }
 }

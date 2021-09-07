@@ -1,8 +1,6 @@
 package org.prgrms.kdt.wallet;
 
-import java.util.List;
 import java.util.UUID;
-import org.prgrms.kdt.voucher.Voucher;
 
 /**
  * Created by yhh1056
@@ -11,8 +9,6 @@ import org.prgrms.kdt.voucher.Voucher;
 public interface WalletRepository {
 
     int insert(Wallet wallet);
-
-    List<Voucher> findByCustomerId(UUID customerId);
 
     int deleteAll();
 

@@ -1,7 +1,10 @@
 package org.prgrms.kdt.customer;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import org.prgrms.kdt.exception.ResourceNotFoundException;
 import org.prgrms.kdt.mapper.CustomerMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +21,16 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Optional<CustomerDto> getCustomerById(String customerId) {
+    public CustomerDto getCustomerById(String customerId) {
         return customerRepository.findById(UUID.fromString(customerId))
-                .map(CustomerMapper::customerToCustomerDto);
+                .map(CustomerMapper::customerToCustomerDto)
+                .orElseThrow(() -> new ResourceNotFoundException("not found customerId : " + customerId));
     }
+
+    public List<CustomerDto> getCustomers(String customerId) {
+        return customerRepository.findCustomersByVoucherId(UUID.fromString(customerId)).stream()
+                .map(CustomerMapper::customerToCustomerDto)
+                .collect(Collectors.toList());
+    }
+
 }

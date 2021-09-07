@@ -22,6 +22,8 @@ public interface CustomerRepository {
 
     Optional<Customer> findByEmail(String email);
 
+    List<Customer> findCustomersByVoucherId(UUID voucherId);
+
     void deleteAll();
 
     int count();

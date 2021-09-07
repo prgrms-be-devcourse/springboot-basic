@@ -67,7 +67,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             return Optional.ofNullable(jdbcTemplate
                     .queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerRowMapper, customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.error("Got empty result", e.getMessage());
             return Optional.empty();
         }
     }
@@ -78,7 +78,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             return Optional.ofNullable(jdbcTemplate
                     .queryForObject("SELECT * FROM  customers WHERE name = ?", customerRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.error("Got empty result", e.getMessage());
             return Optional.empty();
         }
     }
@@ -89,9 +89,19 @@ public class CustomerJdbcRepository implements CustomerRepository {
             return Optional.ofNullable(jdbcTemplate
                     .queryForObject("SELECT * FROM customers WHERE email = ?", customerRowMapper, email));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.error("Got empty result", e.getMessage());
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Customer> findCustomersByVoucherId(UUID voucherId) {
+        return jdbcTemplate.query("select * from customers "
+                                  + "LEFT JOIN wallets "
+                                  + "ON wallets.voucher_id = UUID_TO_BIN(?) "
+                                  + "WHERE wallets.customer_id = customers.customer_id",
+                customerRowMapper,
+                voucherId.toString().getBytes());
     }
 
     @Override

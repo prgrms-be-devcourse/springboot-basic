@@ -1,7 +1,6 @@
 package org.prgrms.kdt.api;
 
 import java.net.URI;
-import java.util.Optional;
 import org.prgrms.kdt.customer.CustomerDto;
 import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.voucher.VoucherDto;
@@ -42,54 +41,23 @@ public class Apis {
         this.walletService = walletService;
     }
 
-    /**
-     * If you have the customer's ID, you can bring about the voucher registered By customer.
-     * but returns a 404 if the customer's ID is invalid
-     */
     @GetMapping(CUSTOMER)
-    public ResponseEntity getVouchersByCustomerId(@PathVariable String customerId) {
-        Optional<CustomerDto> customerDto = customerService.getCustomerById(customerId);
-        if (customerDto.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Optional<CustomerDto> findByVoucherDto = walletService.getVouchersByCustomer(customerDto);
-        if (findByVoucherDto.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok().body(findByVoucherDto);
+    public ResponseEntity getCustomer(@PathVariable String customerId) {
+        CustomerDto customerDto = customerService.getCustomerById(customerId);
+        customerDto.setVoucherDtos(voucherService.getVouchers(customerId));
+        return ResponseEntity.ok().body(customerDto);
     }
 
-    /**
-     * If you have the voucher's ID, you can bring about the customer registered By voucher.
-     * but returns a 404 if the voucher's ID is invalid
-     */
     @GetMapping(VOUCHER)
-    public ResponseEntity getCustomersByVoucherId(@PathVariable String voucherId) {
-        Optional<VoucherDto> voucherDto = voucherService.getVoucherById(voucherId);
-        if (voucherDto.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Optional<VoucherDto> findByCustomerDto = walletService.getCustomersByVoucher(voucherDto);
-        if (findByCustomerDto.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok().body(findByCustomerDto);
+    public ResponseEntity getVoucher(@PathVariable String voucherId) {
+        VoucherDto voucherDto = voucherService.getVoucherById(voucherId);
+        voucherDto.setCustomerDtos(customerService.getCustomers(voucherId));
+        return ResponseEntity.ok().body(voucherDto);
     }
 
-    /**
-     * VoucherWalletDto has customer-id and voucher-id.
-     * Returns not-found response if the customer and voucher do not exist.
-     */
     @PostMapping(WALLET)
     public ResponseEntity insertWallet(@RequestBody WalletDto walletDto) {
-        if (isBadRequest(walletDto)) {
-            return ResponseEntity.notFound().build();
-        }
-
+        validateWalletDtoExistedId(walletDto);
         walletService.addWallet(walletDto);
         URI uri = URI.create(PRE_FIX + WALLET);
         return ResponseEntity.created(uri).body(walletDto);
@@ -97,26 +65,14 @@ public class Apis {
 
     @DeleteMapping(WALLET)
     public ResponseEntity deleteWallet(@RequestBody WalletDto walletDto) {
-        if (isBadRequest(walletDto)) {
-            return ResponseEntity.notFound().build();
-        }
-
+        validateWalletDtoExistedId(walletDto);
         walletService.removeWallet(walletDto);
         return ResponseEntity.ok().build();
     }
 
-    private boolean isBadRequest(WalletDto walletDto) {
-        Optional<CustomerDto> customerDto = customerService.getCustomerById(walletDto.getCustomerId());
-        if (customerDto.isEmpty()) {
-            return true;
-        }
-
-        Optional<VoucherDto> voucherDto = voucherService.getVoucherById(walletDto.getVoucherId());
-        if (voucherDto.isEmpty()) {
-            return true;
-        }
-
-        return false;
+    private void validateWalletDtoExistedId(@RequestBody WalletDto walletDto) {
+        customerService.getCustomerById(walletDto.getCustomerId());
+        voucherService.getVoucherById(walletDto.getVoucherId());
     }
 
 }

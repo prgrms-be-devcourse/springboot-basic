@@ -55,7 +55,7 @@ class WalletRepositoryTest extends BaseRepositoryTest {
     @DisplayName("고객의 아이디로 바우처 조회 테스트")
     void findByCustomerId() {
         walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
-        List<Voucher> vouchers = walletJdbcRepository.findByCustomerId(customer.getCustomerId());
+        List<Voucher> vouchers = voucherRepository.findVouchersByCustomerId(customer.getCustomerId());
 
         assertThat(vouchers.size()).isEqualTo(1);
         assertThat(vouchers).contains(voucher);
@@ -65,7 +65,7 @@ class WalletRepositoryTest extends BaseRepositoryTest {
     @DisplayName("바우처 아이디로 고객 조회 테스트")
     void findByVoucherId() {
         walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
-        List<Customer> customers = walletJdbcRepository.findByVoucherId(voucher.getVoucherId());
+        List<Customer> customers = customerRepository.findCustomersByVoucherId(voucher.getVoucherId());
 
         assertThat(customers.size()).isEqualTo(1);
         assertThat(customers).contains(customer);
@@ -75,8 +75,8 @@ class WalletRepositoryTest extends BaseRepositoryTest {
     @DisplayName("고객에게 등록된 바우처 삭제 테스트")
     void deleteByWallet() {
         walletJdbcRepository.deleteBy(customer.getCustomerId(), voucher.getVoucherId());
-        List<Voucher> vouchers = walletJdbcRepository.findByCustomerId(customer.getCustomerId());
-        List<Customer> customers = walletJdbcRepository.findByVoucherId(voucher.getVoucherId());
+        List<Voucher> vouchers = voucherRepository.findVouchersByCustomerId(customer.getCustomerId());
+        List<Customer> customers = customerRepository.findCustomersByVoucherId(voucher.getVoucherId());
 
         assertThat(vouchers).isEmpty();
         assertThat(customers).isEmpty();

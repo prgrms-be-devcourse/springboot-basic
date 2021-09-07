@@ -1,5 +1,7 @@
 package org.prgrms.kdt.customer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +25,8 @@ public class CustomerDto {
 
     private String customerType;
 
-    @JsonProperty("vouchers")
+    @JsonProperty(value = "vouchers")
+    @JsonInclude(Include.NON_NULL)
     private List<VoucherDto> voucherDtos;
 
     public String getCustomerId() {

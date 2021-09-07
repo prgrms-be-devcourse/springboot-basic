@@ -58,25 +58,6 @@ public class WalletJdbcRepository implements WalletRepository {
     }
 
     @Override
-    public List<Voucher> findByCustomerId(UUID customerId) {
-        return jdbcTemplate.query("select * from vouchers "
-                                  + "LEFT JOIN wallets "
-                                  + "ON wallets.customer_id = UUID_TO_BIN(?) "
-                                  + "WHERE wallets.voucher_id = vouchers.voucher_id",
-                voucherRowMapper,
-                customerId.toString().getBytes());
-    }
-
-    public List<Customer> findByVoucherId(UUID voucherId) {
-        return jdbcTemplate.query("select * from customers "
-                                  + "LEFT JOIN wallets "
-                                  + "ON wallets.voucher_id = UUID_TO_BIN(?) "
-                                  + "WHERE wallets.customer_id = customers.customer_id",
-                customerRowMapper,
-                voucherId.toString().getBytes());
-    }
-
-    @Override
     public int deleteAll() {
         return jdbcTemplate.update("DELETE FROM wallets");
     }

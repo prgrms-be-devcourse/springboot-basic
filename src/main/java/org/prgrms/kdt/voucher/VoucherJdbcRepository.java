@@ -82,6 +82,16 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
+        return jdbcTemplate.query("select * from vouchers "
+                                  + "LEFT JOIN wallets "
+                                  + "ON wallets.customer_id = UUID_TO_BIN(?) "
+                                  + "WHERE wallets.voucher_id = vouchers.voucher_id",
+                voucherRowMapper,
+                customerId.toString().getBytes());
+    }
+
+    @Override
     public int deleteById(UUID voucherId) {
         return jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
                 voucherId.toString().getBytes());

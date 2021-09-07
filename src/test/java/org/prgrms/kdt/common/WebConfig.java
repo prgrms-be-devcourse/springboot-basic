@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(
-        basePackages = {"org.prgrms.kdt.api"}
+        basePackages = {"org.prgrms.kdt.api", "org.prgrms.kdt.aop"}
 )
 public class WebConfig {
 
