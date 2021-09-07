@@ -4,6 +4,8 @@ import com.prgrms.w3springboot.voucher.FixedAmountVoucher;
 import com.prgrms.w3springboot.voucher.PercentAmountVoucher;
 import com.prgrms.w3springboot.voucher.Voucher;
 import com.prgrms.w3springboot.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile("production")
 public class CsvVoucherRepository implements VoucherRepository {
+    private static final Logger logger = LoggerFactory.getLogger(CsvVoucherRepository.class);
     private static final Path FILE_PATH = Paths.get(System.getProperty("user.dir"), "voucher", "voucher.csv");
     private static final String DELIMITER = ",";
     private static final int INDEX_UUID = 0;
@@ -47,7 +50,7 @@ public class CsvVoucherRepository implements VoucherRepository {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn("{} - 파일 읽기 중 오류가 발생했습니다.", e.getMessage());
         }
     }
 
@@ -69,7 +72,7 @@ public class CsvVoucherRepository implements VoucherRepository {
             }
             bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn("파일 쓰기 중 오류가 발생했습니다. - {}", e.getMessage());
         }
     }
 
@@ -97,9 +100,10 @@ public class CsvVoucherRepository implements VoucherRepository {
 
     private void makeFile() {
         try {
+            Files.createDirectory(FILE_PATH.getParent());
             Files.createFile(FILE_PATH);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn("상위 디렉토리가 존재하지 않습니다. - {}", e.getMessage());
         }
     }
 }

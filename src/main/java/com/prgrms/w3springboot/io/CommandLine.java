@@ -1,10 +1,13 @@
 package com.prgrms.w3springboot.io;
 
 import com.prgrms.w3springboot.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommandLine implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(CommandLine.class);
     private final Console console;
     private final VoucherService voucherService;
 
@@ -23,6 +26,7 @@ public class CommandLine implements Runnable {
                 flag = CommandType.of(commandType).execute(console, voucherService);
             } catch (Exception e) {
                 console.printInvalidMessage();
+                logger.warn("{} - input : {}", e.getMessage(), commandType);
             }
         }
     }
