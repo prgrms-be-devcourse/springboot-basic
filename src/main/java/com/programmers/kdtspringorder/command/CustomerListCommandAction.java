@@ -1,10 +1,10 @@
 package com.programmers.kdtspringorder.command;
 
-import com.programmers.kdtspringorder.customer.Customer;
-import com.programmers.kdtspringorder.customer.CustomerService;
+import com.programmers.kdtspringorder.customer.model.Customer;
+import com.programmers.kdtspringorder.customer.service.CustomerService;
 import com.programmers.kdtspringorder.io.Input;
 import com.programmers.kdtspringorder.io.Output;
-import com.programmers.kdtspringorder.voucher.VoucherService;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 
 import java.text.MessageFormat;
@@ -56,15 +56,15 @@ public record CustomerListCommandAction(Input input,
 
         output.printMessage("할당할 바우처의 번호를 선택해주세요");
         int voucherIndex = Integer.parseInt(input.inputText()) - 1;
-        UUID voucherId = allVouchers.get(voucherIndex).getVoucherId();
-        voucherService.allocateVoucher(voucherId, customerId);
+        Voucher voucher = allVouchers.get(voucherIndex);
+        voucherService.allocateVoucher(voucher, customerId);
     }
 
     private void removeVoucherProcess(List<Voucher> customerVouchers) {
         output.printMessage("삭제할 바우처의 번호를 선택해주세요");
         int voucherIndex = Integer.parseInt(input.inputText()) - 1;
-        UUID voucherId = customerVouchers.get(voucherIndex).getVoucherId();
-        voucherService.deallocateVoucher(voucherId);
+        Voucher voucher = customerVouchers.get(voucherIndex);
+        voucherService.deallocateVoucher(voucher);
     }
 
     private void showVouchers(List<Voucher> voucherList) {
@@ -74,7 +74,8 @@ public record CustomerListCommandAction(Input input,
         }
 
         for (int i = 0; i < voucherList.size(); i++) {
-            System.out.println(MessageFormat.format("{0}. {1}", (i + 1), voucherList.get(i).toString()));
+            Voucher voucher = voucherList.get(i);
+            System.out.println(MessageFormat.format("{0}. {1}, {2}", (i + 1), voucher.getVoucherId(), voucher.getDiscountValue()));
         }
     }
 
@@ -85,7 +86,8 @@ public record CustomerListCommandAction(Input input,
         }
 
         for (int i = 0; i < customerList.size(); i++) {
-            System.out.println(MessageFormat.format("{0}. {1}", (i + 1), customerList.get(i).toString()));
+            Customer customer = customerList.get(i);
+            System.out.println(MessageFormat.format("{0}. {1}, {2}", (i + 1), customer.getCustomerId(), customer.getName()));
         }
     }
 }

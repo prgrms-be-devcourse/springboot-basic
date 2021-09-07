@@ -1,5 +1,6 @@
-package com.programmers.kdtspringorder.voucher;
+package com.programmers.kdtspringorder.voucher.service;
 
+import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
 import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
@@ -32,8 +33,8 @@ public class VoucherService {
 
     }
 
-    public Voucher createVoucher(String voucherType, long value) {
-        Voucher voucher = voucherFactory.createVoucher(VoucherType.valueOf(voucherType.toUpperCase()), value);
+    public Voucher createVoucher(VoucherType voucherType, long value) {
+        Voucher voucher = voucherFactory.createVoucher(voucherType, value);
         voucherRepository.save(voucher);
         return voucher;
     }
@@ -50,11 +51,18 @@ public class VoucherService {
         return voucherRepository.findAllWithoutCustomerId();
     }
 
-    public void allocateVoucher(UUID voucherId, UUID customerId) {
-        voucherRepository.allocateVoucher(voucherId, customerId);
+    public void allocateVoucher(Voucher voucher, UUID customerId) {
+        voucher.allocateVoucherToCustomer(customerId);
+        voucherRepository.allocateVoucher(voucher.getVoucherId(), customerId);
     }
 
-    public void deallocateVoucher(UUID voucherId) {
-        voucherRepository.deallocateVoucher(voucherId);
+    public void deallocateVoucher(Voucher voucher) {
+        voucher.removeVoucherFromCustomer();
+        voucherRepository.deallocateVoucher(voucher.getVoucherId());
+    }
+
+    public void deleteVoucher(UUID voucherId){
+        voucherRepository.delete(voucherId);
     }
 }
+

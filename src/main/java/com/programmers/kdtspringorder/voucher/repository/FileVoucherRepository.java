@@ -5,10 +5,10 @@ import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
+import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -67,23 +67,19 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Voucher convertStringToVoucher(String[] voucherText) {
-        if (VoucherType.FIXED.toString().equals(voucherText[0])) {
-            return new FixedAmountVoucher(UUID.fromString(voucherText[1]), Long.parseLong(voucherText[2]));
-        } else if(VoucherType.PERCENT.toString().equals(voucherText[0])){
-            return new PercentDiscountVoucher(UUID.fromString(voucherText[1]), Long.parseLong(voucherText[2]));
-        }
-        throw new RuntimeException("File -> VoucherType Error");
+        VoucherType voucherType = VoucherType.valueOf(voucherText[0]);
+        return VoucherFactory.createVoucherFromRepository(voucherType, UUID.fromString(voucherText[1]), null, Long.parseLong(voucherText[2]), false, null, null);
     }
 
     @Override
     @TrackTime
     public Voucher save(Voucher voucher) {
         try {
-            writer.write(voucher.getType().toString() + " " + voucher.getVoucherId().toString() + " " + voucher.getValue());
+            writer.write(voucher.getType().toString() + " " + voucher.getVoucherId().toString() + " " + voucher.getDiscountValue());
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-           logger.error("message : {0}", e);
+            logger.error("message : {0}", e);
         }
         return voucher;
     }

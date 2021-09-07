@@ -29,7 +29,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var expirationDate = resultSet.getTimestamp("expiration_date") != null ?
                 resultSet.getTimestamp("expiration_date").toLocalDateTime() : null;
-        return VoucherFactory.createVoucherFromDB(type, voucherId, customerId, value, used, createdAt, expirationDate);
+        return VoucherFactory.createVoucherFromRepository(type, voucherId, customerId, value, used, createdAt, expirationDate);
     };
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -80,10 +80,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void allocateVoucher(UUID voucherId, UUID customerId) {
-        Map<String, Object> paramMap = new ConcurrentHashMap<>() {{
-            put("voucherId", voucherId.toString().getBytes());
-            put("customerId", customerId.toString().getBytes());
-        }};
+        Map<String, byte[]> paramMap = Map.of("voucherId", voucherId.toString().getBytes(), "customerId", customerId.toString().getBytes());
         int update = jdbcTemplate.update("UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap);
 
@@ -110,7 +107,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("value", voucher.getValue());
+            put("value", voucher.getDiscountValue());
             put("type", voucher.getType().toString());
             put("used", voucher.isUsed());
             put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));

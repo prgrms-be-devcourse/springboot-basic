@@ -2,7 +2,7 @@ package com.programmers.kdtspringorder.command;
 
 import com.programmers.kdtspringorder.io.Input;
 import com.programmers.kdtspringorder.io.Output;
-import com.programmers.kdtspringorder.voucher.VoucherService;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 
@@ -22,7 +22,8 @@ public record CreateCommandAction(Input input,
     }
 
     private Voucher createVoucher(String type, long value) {
-        return voucherService.createVoucher(type, value);
+        VoucherType voucherType = VoucherType.valueOf(type);
+        return voucherService.createVoucher(voucherType, value);
     }
 
     private boolean isWrongType(String type) {

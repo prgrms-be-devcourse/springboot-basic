@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,16 +27,16 @@ public class VoucherFactory {
             logger.info("CREATE {} {} ", percentDiscountVoucher.getClass().getSimpleName(), percentDiscountVoucher.getVoucherId());
             return percentDiscountVoucher;
         }
-        throw new RuntimeException("일치하는 voucherType이 없습니다.");
+        throw new RuntimeException(MessageFormat.format("No matching Voucher Type found. Current Type : {0}", voucherType.getType()));
     }
 
-    public static Voucher createVoucherFromDB(VoucherType voucherType, UUID voucherId, UUID customerId, long value, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {
+    public static Voucher createVoucherFromRepository(VoucherType voucherType, UUID voucherId, UUID customerId, long value, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {
         if (voucherType == VoucherType.FIXED) {
             return new FixedAmountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
         } else if (voucherType == VoucherType.PERCENT) {
             return new PercentDiscountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
         }
-        throw new RuntimeException("일치하는 voucherType이 없습니다.");
+        throw new RuntimeException(MessageFormat.format("No matching Voucher Type found. Current Type : {0}", voucherType.getType()));
     }
 }
 

@@ -1,6 +1,6 @@
-package com.programmers.kdtspringorder.customer;
+package com.programmers.kdtspringorder.customer.repository;
 
-import com.programmers.kdtspringorder.voucher.domain.Voucher;
+import com.programmers.kdtspringorder.customer.model.Customer;
 
 import java.util.List;
 import java.util.Optional;

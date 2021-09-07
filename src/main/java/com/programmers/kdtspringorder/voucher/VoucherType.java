@@ -16,4 +16,9 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .anyMatch(c -> c.type.equalsIgnoreCase(type));
     }
+
+    public String getType() {
+        return type;
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.programmers.kdtspringorder.order;
 
-import com.programmers.kdtspringorder.voucher.VoucherService;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
