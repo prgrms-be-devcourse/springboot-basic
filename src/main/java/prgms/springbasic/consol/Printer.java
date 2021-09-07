@@ -50,6 +50,11 @@ public class Printer {
         System.out.println("-----------------------------------------");
     }
 
+    public void printVoucherCreateSuccess(Voucher voucher) {
+        System.out.println("\n" + voucher.getClass().getSimpleName() + " create success!!");
+        System.out.println("voucher Id : " + voucher.getVoucherId());
+    }
+
     public void printInputSign() {
         System.out.print(">> ");
     }

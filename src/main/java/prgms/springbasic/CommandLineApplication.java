@@ -4,7 +4,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import prgms.springbasic.consol.Printer;
-import prgms.springbasic.repository.VoucherRepository;
 import prgms.springbasic.voucher.Voucher;
 import prgms.springbasic.voucher.VoucherService;
 import prgms.springbasic.voucher.VoucherType;
@@ -19,11 +18,9 @@ public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CommandLineAppConfig.class);
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-        VoucherRepository voucherRepository = applicationContext.getBean(VoucherRepository.class);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Printer printer = new Printer();
-        Voucher newVoucher = null;
 
         while (true) {
             printer.printCommandList();
@@ -36,14 +33,14 @@ public class CommandLineApplication {
                 if (voucherNumber == 1) {
                     printer.printAmountInputInfo();
                     String amount = reader.readLine();
-                    newVoucher = voucherService.createVoucher(VoucherType.FIXEDAMOUNTVOUCHER, UUID.randomUUID(), amount);
+                    Voucher newVoucher = voucherService.createVoucher(VoucherType.FIXEDAMOUNTVOUCHER, UUID.randomUUID(), amount);
+                    printer.printVoucherCreateSuccess(newVoucher);
                 } else if (voucherNumber == 2) {
                     printer.printPercentInputInfo();
                     String percent = reader.readLine();
-                    newVoucher = voucherService.createVoucher(VoucherType.PERCENTDISCOUNTVOUCHER, UUID.randomUUID(), percent);
+                    Voucher newVoucher = voucherService.createVoucher(VoucherType.PERCENTDISCOUNTVOUCHER, UUID.randomUUID(), percent);
+                    printer.printVoucherCreateSuccess(newVoucher);
                 }
-
-                voucherRepository.save(newVoucher);
 
             } else if (inputCommand.equals("list")) {
                 if (voucherService.getVoucherList().isEmpty()) {

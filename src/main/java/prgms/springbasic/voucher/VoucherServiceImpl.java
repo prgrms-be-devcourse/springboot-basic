@@ -14,14 +14,14 @@ import java.util.UUID;
 @Qualifier("voucherService")
 public class VoucherServiceImpl implements VoucherService {
 
-    private VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
 
     public VoucherServiceImpl(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
     @Override
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, String value) {
+    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, String value) throws IOException {
         if (voucherType == VoucherType.FIXEDAMOUNTVOUCHER) {
             return createFixedAmountVoucher(voucherId, Integer.parseInt(value));
         } else if (voucherType == VoucherType.PERCENTDISCOUNTVOUCHER) {
@@ -35,12 +35,14 @@ public class VoucherServiceImpl implements VoucherService {
         return voucherRepository.getVoucherList();
     }
 
-    public Voucher createFixedAmountVoucher(UUID voucherId, int amount) {
-        return new FixedAmountVoucher(voucherId, amount);
+    public Voucher createFixedAmountVoucher(UUID voucherId, int amount) throws IOException {
+        Voucher newVoucher = new FixedAmountVoucher(voucherId, amount);
+        return voucherRepository.save(newVoucher);
     }
 
-    public Voucher createPercentDiscountVoucher(UUID voucherId, long percent) {
-        return new PercentDiscountVoucher(voucherId, percent);
+    public Voucher createPercentDiscountVoucher(UUID voucherId, long percent) throws IOException {
+        Voucher newVoucher = new PercentDiscountVoucher(voucherId, percent);
+        return voucherRepository.save(newVoucher);
     }
 
     public Voucher getVoucher(UUID voucherId) throws IOException {
