@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: html-head(${title})" >
+</head>
+<body>
+
+<div class="card bg-info text-white">
+    <div class="card-body" th:text="${title}">SHOW LIST PAGE</div>
+</div>
+
+<div class="container">
+    <a type="button" class="btn btn-warning" href="create">CREATE</a>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th><a th:href="${detail_location}+'id'">Firstname</a></th>
+            <th th:text="${detail_location}+'id'">Lastname</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="details/id">John</a></td>
+            <td>Doe</td>
+            <td>john@example.com</td>
+        </tr>
+        <tr>
+            <td>Mary</td>
+            <td>Moe</td>
+            <td>mary@example.com</td>
+        </tr>
+        <tr>
+            <td>July</td>
+            <td>Dooley</td>
+            <td>july@example.com</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
