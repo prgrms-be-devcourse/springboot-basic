@@ -1,7 +1,7 @@
 package org.prgrms.kdt.command;
 
 import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
+import org.prgrms.kdt.voucher.service.VoucherService;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -18,7 +18,7 @@ public class CommandCreate {
             switch (voucherType) {
                 case "FixedAmountVoucher", "PercentDiscountVoucher" -> {
                     NavigationMessage.howMuchDiscountMessage(voucherType);
-                    return Optional.ofNullable(MemoryVoucherRepository.create( // voucher 생성
+                    return Optional.ofNullable(VoucherService.createVoucher( // voucher 생성
                             voucherType, ValueValidation.inputValueValidation(voucherType) // 유효한 값인지 생성 및 검사
                     ));
                 }
