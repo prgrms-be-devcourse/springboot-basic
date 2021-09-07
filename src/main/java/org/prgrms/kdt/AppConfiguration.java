@@ -17,6 +17,11 @@ import java.util.UUID;
 public class AppConfiguration {
 
     @Bean
+    public CommandLineApplication commandLineApplication() {
+        return commandLineApplication();
+    }
+
+    @Bean
     public VoucherRepository voucherRepository() {
         return new VoucherRepository() {
             @Override
@@ -25,7 +30,7 @@ public class AppConfiguration {
             }
 
             @Override
-            public List<Voucher> findAll() {
+            public List<Optional<Voucher>> findAll() {
                 return null;
             }
 
