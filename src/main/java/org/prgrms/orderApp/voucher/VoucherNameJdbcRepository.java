@@ -5,6 +5,7 @@ import org.prgrms.orderApp.customer.Customer;
 import org.prgrms.orderApp.util.library.Common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,11 +20,12 @@ import java.util.*;
 
 @Repository
 @Profile("local")
+@Primary
 public class VoucherNameJdbcRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(VoucherNameJdbcRepository.class);
 
     private final String SELECT_ALL_SQL = "select * from vouchers";
-    private final String INSERT_SQL = "insert into vouchers(voucher_id, amount, voucherType) value (UUID_TO_BIN(:voucherId),:amount,:voucherType,)";
+    private final String INSERT_SQL = "insert into vouchers(voucher_id, amount, voucherType) value (UUID_TO_BIN(:voucherId),:amount,:voucherType)";
 
     private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -45,8 +47,8 @@ public class VoucherNameJdbcRepository implements VoucherRepository {
                 getVoucherTypeByVoucherClassName(resultSet.getString("voucherType"))
                 .get()
                 .getVoucher(
-                        Common.toUUID(resultSet.getBytes("voucherId")),
-                        resultSet.getLong("voucherAmount")
+                        Common.toUUID(resultSet.getBytes("voucher_id")),
+                        resultSet.getLong("amount")
                 );
 
     }

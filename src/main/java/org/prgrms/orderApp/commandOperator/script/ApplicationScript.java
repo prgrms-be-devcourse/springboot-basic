@@ -5,7 +5,7 @@ public class ApplicationScript {
             "Type created to a new voucher\nType list to list all vouchers";
 
     public static final String INPUT_USER_SELECTED_MENU_NUMBER__GUIDE_MESSAGE="[1] CREATE_VOUCHER \n[2] SHOW ALL VOUCHER LIST \n" +
-            "[3] CREATE ORDER \n[4] SHOW ALL ORDER LIST \n[5] SHOW ALL CUSTOMER LIST \n[6] CREATE COLLECTION " +
+            "[3] CREATE ORDER(NOT READY) \n[4] SHOW ALL ORDER LIST(NOT READY) \n[5] SHOW ALL CUSTOMER LIST \n[6] CREATE COLLECTION " +
             "\n[7] EXIT ";
 
     public static final String INPUT_USER_SELECTED_VOUCHER_TYPE__GUIDE_MESSAGE ="[1] Fixed Amount Type \n[2] Percent Amount Type";
