@@ -73,38 +73,4 @@ class VoucherServiceTest {
         // then
         verify(voucherRepository).findAll();
     }
-
-    /*
-        Given : Customer와 voucherWallet을 만들고
-        when : customer에게 voucherWallet을 할당할때
-        then : 할당이 되었는지 get 메서드를 통해서 확인한다.
-     */
-
-    @Test
-    void testSetVoucherWallet() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
-        VoucherWallet voucherWallet = new VoucherWallet(List.of(FixedAmountVoucher.of(UUID.randomUUID(), 100L)));
-        voucherService.serVoucherWallet(customer, voucherWallet);
-
-        assertThat(customer.getVoucherWallet().equals(voucherWallet), is(true));
-    }
-
-    /*
-        given : 특정 고객으로 바우처 지갑을 만들고
-        when : 해당 고객 id로 바우처 지갑을 찾을 때,
-        then : repository의 findVoucherWallet이 실행되야한다.
-     */
-    @Test
-    void testFindVoucherWallet() {
-        var customerId = UUID.randomUUID();
-        var voucherWallet = new VoucherWallet(List.of(new FixedAmountVoucher(customerId, 100L, customerId)));
-        // When
-        when(voucherService.findVoucherWallet(customerId)).thenReturn(voucherWallet);
-        var testVoucherWallet = voucherService.findVoucherWallet(customerId);
-
-        // then
-        assertThat(testVoucherWallet.equals(voucherWallet), is(true));
-        verify(voucherRepository).findVoucherWallet(customerId);
-    }
-
 }

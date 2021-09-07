@@ -1,46 +1,136 @@
 package org.prgms.w3d1.model.customer;
 
-import org.junit.jupiter.api.Test;
+import com.zaxxer.hikari.HikariDataSource;
+import org.junit.jupiter.api.*;
 import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
+import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
+import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.model.voucher.VoucherType;
+import org.prgms.w3d1.model.wallet.DatabaseVoucherWalletRepository;
+import org.prgms.w3d1.model.wallet.VoucherWallet;
+import org.prgms.w3d1.model.wallet.VoucherWalletRepository;
+import org.prgms.w3d1.repository.CustomerJdbcRepository;
 import org.prgms.w3d1.repository.CustomerRepository;
+import org.prgms.w3d1.repository.DatabaseVoucherRepository;
 import org.prgms.w3d1.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.Collections;
 import java.util.UUID;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@SpringJUnitConfig
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerServiceTest {
 
-    private final CustomerRepository customerRepository = mock(CustomerRepository.class);
-    private final VoucherRepository voucherRepository = mock(VoucherRepository.class);
-    private final CustomerService customerService = new CustomerService(customerRepository, voucherRepository);
+    @Configuration
+    @ComponentScan(basePackages = {"org.prgms.w3d1.model.customer"})
+    static class Config {
 
-    /*
-        given : voucher id를 만들어
-        when : 메서드가 실행되면
-        then : voucherRepository.findById와 customerRepository.findById가 동작되는지 확인한다.
-     */
+        @Bean
+        public DataSource dataSource() {
+            return DataSourceBuilder.create().url("jdbc:mysql://localhost/my_order_mgmt")
+                .username("root")
+                .password("1111")
+                .type(HikariDataSource.class)
+                .build();
+        }
+
+        @Bean
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
+        }
+
+        @Bean
+        public DatabaseVoucherRepository databaseVoucherRepository(JdbcTemplate jdbcTemplate) {
+            return new DatabaseVoucherRepository(jdbcTemplate);
+        }
+
+        @Bean
+        CustomerJdbcRepository databaseCustomerRepository(JdbcTemplate jdbcTemplate) {
+            return new CustomerJdbcRepository(jdbcTemplate);
+        }
+
+        @Bean
+        public DatabaseVoucherWalletRepository databaseVoucherWalletRepository(
+            JdbcTemplate jdbcTemplate, VoucherRepository voucherRepository)
+        {
+            return new DatabaseVoucherWalletRepository(jdbcTemplate, voucherRepository);
+        }
+
+        @Bean
+        public CustomerService customerService(
+            CustomerRepository customerRepository,
+            VoucherRepository voucherRepository,
+            VoucherWalletRepository voucherWalletRepository) {
+            return new CustomerService(customerRepository, voucherRepository, voucherWalletRepository);
+        }
+    }
+
+    @Autowired
+    DataSource dataSource;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    DatabaseVoucherRepository databaseVoucherRepository;
+
+    @Autowired
+    CustomerJdbcRepository databaseCustomerRepository;
+
+    @Autowired
+    DatabaseVoucherWalletRepository databaseVoucherWalletRepository;
+
+    @Autowired
+    CustomerService customerService;
+
+    Customer customer;
+    VoucherWallet voucherWallet;
+    Voucher fixedAmountVoucher;
+    Voucher percentDiscountVoucher;
+
+    @BeforeAll
+    @Transactional
+    void setUp() {
+        customer = new Customer(UUID.randomUUID(), "test-user", "test-user4@gmail.com", LocalDateTime.now());
+        databaseCustomerRepository.insert(customer);
+        voucherWallet = new VoucherWallet(UUID.randomUUID(), Collections.emptyList(), customer.getCustomerId());
+        databaseVoucherWalletRepository.insert(voucherWallet.getVoucherWalletId(), customer.getCustomerId());
+        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, voucherWallet.getVoucherWalletId());
+        percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 25L, voucherWallet.getVoucherWalletId());
+        databaseVoucherRepository.save(fixedAmountVoucher);
+        databaseVoucherRepository.save(percentDiscountVoucher);
+    }
+
+    @AfterAll
+    void cleanUp() {
+        databaseVoucherWalletRepository.deleteAll();
+        databaseCustomerRepository.deleteAll();
+    }
+
+    @AfterEach
+    void methodCleanUp() {
+        databaseVoucherRepository.deleteAll();
+    }
 
     @Test
-    void testFindCustomerByVoucherId() {
-        var voucherId = UUID.randomUUID();
-        var customerId = UUID.randomUUID();
-        var customer = new Customer(customerId, "test", "test@gmail.com", LocalDateTime.now());
-        when(voucherRepository.findById(voucherId))
-            .thenReturn(Optional.of(new FixedAmountVoucher(voucherId, 100L, customerId)));
-        when(customerService.findCustomerByVoucherId(voucherId))
-            .thenReturn(Optional.of(customer));
+    void findByVoucherType() {
+        var testCustomerList = customerService.findByVoucherType(VoucherType.FIXED_AMOUNT_VOUCHER);
 
-        var testCustomer = customerService.findCustomerByVoucherId(voucherId);
-
-        assertThat(Objects.equals(testCustomer.get(), customer), is(true));
-        verify(voucherRepository, times(2)).findById(voucherId);
-        verify(customerRepository).findById(customerId);
-
+        assertThat(testCustomerList, hasItem(customer));
     }
 }

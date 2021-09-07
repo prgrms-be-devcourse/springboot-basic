@@ -5,6 +5,7 @@ import org.prgms.w3d1.model.wallet.Wallet;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
@@ -13,8 +14,6 @@ public class Customer {
     private final String email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
-    // 지갑의 내용물은 가변적이다
-    private Wallet voucherWallet;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         validateName(name);
@@ -53,14 +52,6 @@ public class Customer {
         return createdAt;
     }
 
-    public Wallet getVoucherWallet() {
-        return voucherWallet;
-    }
-
-    public void setVoucherWallet(Wallet wallet) {
-        this.voucherWallet = wallet;
-    }
-
     public void changeName(String name){
         validateName(name);
         this.name = name;
@@ -76,6 +67,27 @@ public class Customer {
             ", createdAt=" + createdAt +
             '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (!Objects.equals(customerId, customer.customerId)) return false;
+        if (!Objects.equals(name, customer.name)) return false;
+        if (!Objects.equals(email, customer.email)) return false;
+        if (!Objects.equals(lastLoginAt, customer.lastLoginAt))
+            return false;
+        return Objects.equals(createdAt, customer.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, name, email, lastLoginAt, customerId);
+    }
+
     private void validateName(String name) {
         if(name.isBlank()){
             throw new RuntimeException("Name should not be blank");

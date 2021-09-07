@@ -1,21 +1,25 @@
 package org.prgms.w3d1.model.customer;
 
+import org.prgms.w3d1.model.voucher.VoucherType;
+import org.prgms.w3d1.model.wallet.VoucherWallet;
+import org.prgms.w3d1.model.wallet.VoucherWalletRepository;
 import org.prgms.w3d1.repository.CustomerRepository;
 import org.prgms.w3d1.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
     private final VoucherRepository voucherRepository;
+    private final VoucherWalletRepository voucherWalletRepository;
 
-    public CustomerService(CustomerRepository customerRepository, VoucherRepository voucherRepository) {
+    public CustomerService(CustomerRepository customerRepository, VoucherRepository voucherRepository, VoucherWalletRepository voucherWalletRepository) {
         this.customerRepository = customerRepository;
         this.voucherRepository = voucherRepository;
+        this.voucherWalletRepository = voucherWalletRepository;
     }
 
     public Customer getCustomer(UUID customerId){
@@ -32,13 +36,11 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
-        var voucher = voucherRepository.findById(voucherId);
-
-        if(voucher.isEmpty()) {
-            throw new RuntimeException("There is no Voucher :" + voucherId.toString());
-        }
-
-        return customerRepository.findById(voucher.get().getCustomerId());
+    public List<Customer> findByVoucherType(VoucherType voucherType) {
+        return voucherRepository.findByVoucherType(voucherType).stream()
+            .filter(voucher -> voucher.getVoucherWalletId() != null)
+            .map(voucher -> voucherWalletRepository.findById(voucher.getVoucherWalletId()).get())
+            .map(wallet -> wallet.getCustomerId()).filter(Objects::nonNull).distinct()
+            .map(customerId -> customerRepository.findById(customerId).get()).collect(Collectors.toList());
     }
 }

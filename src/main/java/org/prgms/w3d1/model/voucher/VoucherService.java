@@ -30,16 +30,5 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public VoucherWallet findVoucherWallet(UUID customerId) {
-        return voucherRepository.findVoucherWallet(customerId);
-    }
-
-    public void serVoucherWallet(Customer customer, VoucherWallet voucherWallet) {
-        customer.setVoucherWallet(voucherWallet);
-    }
-
-    public void useVoucher(Voucher voucher) {
-
-    }
-
+    public void useVoucher(Voucher voucher) {}
 }

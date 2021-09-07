@@ -2,7 +2,7 @@ package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.model.voucher.VoucherFactory;
-import org.prgms.w3d1.model.wallet.VoucherWallet;
+import org.prgms.w3d1.model.voucher.VoucherType;
 import org.prgms.w3d1.util.Util;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,11 +24,13 @@ public class DatabaseVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private RowMapper<Voucher> rowMapper = (rs, rowNum) -> {
+    private final RowMapper<Voucher> rowMapper = (rs, rowNum) -> {
         var voucherId = Util.toUUID(rs.getBytes("voucher_id"));
         var value = rs.getLong("value");
         var voucherType = rs.getString("voucher_type");
-        return VoucherFactory.getVoucher(voucherId, value, voucherType);
+        var voucherWalletId = rs.getBytes("wallet_id") != null ?
+            Util.toUUID(rs.getBytes("wallet_id")) : null;
+        return VoucherFactory.getVoucher(voucherId, value, voucherType, voucherWalletId);
     };
 
     @Override
@@ -45,30 +46,24 @@ public class DatabaseVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByCustomerId(UUID customerId) {
-        try {
-            return Optional.ofNullable(
-                jdbcTemplate.queryForObject(
-                    "select * from vouchers where customer_id = UUID_TO_BIN(?)",
-                    rowMapper, customerId.toString().getBytes()));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+    public List<Voucher> findByVoucherWalletId(UUID voucherWalletId) {
+        return jdbcTemplate.query("select * from my_order_mgmt.vouchers where wallet_id = UUID_TO_BIN(?)", rowMapper,
+            voucherWalletId.toString().getBytes());
     }
 
     @Override
-    public VoucherWallet findVoucherWallet(UUID customerId) {
-        return new VoucherWallet(jdbcTemplate.query("select * from vouchers where customer_id = UUID_TO_BIN(?)",
-            rowMapper,
-            customerId.toString().getBytes()));
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query("select * from my_order_mgmt.vouchers where voucher_type = ?",
+            rowMapper, voucherType.getType());
     }
 
     @Override
     public void save(Voucher voucher) {
-        var saveCount = jdbcTemplate.update("insert into vouchers(voucher_id, value, voucher_type) values (UUID_TO_BIN(?), ?, ?)",
+        var saveCount = jdbcTemplate.update("insert into vouchers(voucher_id, value, voucher_type, wallet_id) values (UUID_TO_BIN(?), ?, ?, UUID_TO_BIN(?))",
             voucher.getVoucherId().toString().getBytes(),
             voucher.getVoucherValue(),
-            voucher.getClass().getSimpleName());
+            voucher.getClass().getSimpleName(),
+            voucher.getVoucherWalletId() != null ? voucher.getVoucherWalletId().toString().getBytes() : null);
 
         if (saveCount != 1) {
             throw new RuntimeException("Nothing was saved");
@@ -86,25 +81,12 @@ public class DatabaseVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
-        var deleteCount = jdbcTemplate.update(
-            "delete from vouchers where customer_id=UUID_TO_BIN(?) and voucher_id=UUID_TO_BIN(?)",
-            customerId.toString().getBytes(),
-            voucherId.toString().getBytes()
-        );
+    public void deleteById(UUID voucherId) {
+        var deleteCount = jdbcTemplate.update("delete from vouchers where voucher_id=UUID_TO_BIN(?)",
+            voucherId.toString().getBytes());
 
         if (deleteCount != 1) {
             throw new RuntimeException("Nothing was deleted");
-        }
-    }
-
-    public void assignCustomer(UUID customerId, UUID voucherId) {
-        var updateCount = jdbcTemplate.update("update vouchers set customer_id=UUID_TO_BIN(?) where voucher_id=UUID_TO_BIN(?)",
-            customerId.toString().getBytes(),
-            voucherId.toString().getBytes());
-
-        if (updateCount != 1) {
-            throw new RuntimeException("Nothing was updated");
         }
     }
 }

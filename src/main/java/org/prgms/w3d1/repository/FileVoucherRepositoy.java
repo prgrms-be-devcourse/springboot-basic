@@ -1,6 +1,7 @@
 package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.model.voucher.VoucherType;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.util.FileConnector;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Vo
     }
 
     @PreDestroy
-    private void preDestory(){
+    private void preDestory() {
         fileInsert(PATH, storage);
     }
 
@@ -40,6 +41,8 @@ public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Vo
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
+
+
 
     @Override
     public void save(Voucher voucher) {
@@ -54,12 +57,7 @@ public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Vo
     }
 
     @Override
-    public Optional<Voucher> findByCustomerId(UUID customerId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public VoucherWallet findVoucherWallet(UUID customerId) {
+    public List<Voucher> findByVoucherWalletId(UUID customerId) {
         return null;
     }
 
@@ -69,7 +67,13 @@ public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Vo
     }
 
     @Override
-    public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
+    public void deleteById(UUID voucherId) {
 
     }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
+    }
+
 }

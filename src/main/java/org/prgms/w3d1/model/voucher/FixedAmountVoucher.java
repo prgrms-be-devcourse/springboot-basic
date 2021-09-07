@@ -6,17 +6,17 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long amount;
-    private UUID customerId;
+    private UUID voucherWalletId;
 
     private FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
     }
 
-    public FixedAmountVoucher(UUID voucherId, long amount, UUID customerId) {
+    public FixedAmountVoucher(UUID voucherId, long amount, UUID voucherWalletId) {
         this.voucherId = voucherId;
         this.amount = amount;
-        this.customerId = customerId;
+        this.voucherWalletId = voucherWalletId;
     }
 
     public static FixedAmountVoucher of(UUID voucherId, long amount){
@@ -41,13 +41,13 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     }
 
     @Override
-    public UUID getCustomerId() {
-        return this.customerId;
+    public UUID getVoucherWalletId() {
+        return this.voucherWalletId;
     }
 
     @Override
-    public void setCustomerId(UUID customerId) {
-        this.customerId = customerId;
+    public void setVoucherWalletId(UUID voucherWalletId) {
+        this.voucherWalletId = voucherWalletId;
     }
 
     @Override

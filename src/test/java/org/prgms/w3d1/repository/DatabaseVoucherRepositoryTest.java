@@ -6,6 +6,9 @@ import org.prgms.w3d1.model.customer.Customer;
 import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
 import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
 import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.model.voucher.VoucherType;
+import org.prgms.w3d1.model.wallet.DatabaseVoucherWalletRepository;
+import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,10 +16,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -53,6 +58,13 @@ class DatabaseVoucherRepositoryTest {
         CustomerJdbcRepository databaseCustomerRepository(JdbcTemplate jdbcTemplate) {
             return new CustomerJdbcRepository(jdbcTemplate);
         }
+
+        @Bean
+        public DatabaseVoucherWalletRepository databaseVoucherWalletRepository(
+            JdbcTemplate jdbcTemplate, VoucherRepository voucherRepository)
+        {
+            return new DatabaseVoucherWalletRepository(jdbcTemplate, voucherRepository);
+        }
     }
 
     @Autowired
@@ -67,19 +79,34 @@ class DatabaseVoucherRepositoryTest {
     @Autowired
     CustomerJdbcRepository databaseCustomerRepository;
 
+    @Autowired
+    DatabaseVoucherWalletRepository databaseVoucherWalletRepository;
+
+    Customer customer;
+    VoucherWallet voucherWallet;
     Voucher fixedAmountVoucher;
     Voucher percentDiscountVoucher;
 
     @BeforeAll
+    @Transactional
     void setUp() {
+        customer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now());
+        databaseCustomerRepository.insert(customer);
+        voucherWallet = new VoucherWallet(UUID.randomUUID(), Collections.emptyList(), customer.getCustomerId());
+        databaseVoucherWalletRepository.insert(voucherWallet.getVoucherWalletId(), customer.getCustomerId());
         fixedAmountVoucher = FixedAmountVoucher.of(UUID.randomUUID(), 50L);
         percentDiscountVoucher = PercentDiscountVoucher.of(UUID.randomUUID(), 25L);
     }
 
-    @BeforeEach
-    void methodSetup() {
-        databaseVoucherRepository.deleteAll();
+    @AfterAll
+    void cleanUp() {
+        databaseVoucherWalletRepository.deleteAll();
         databaseCustomerRepository.deleteAll();
+    }
+
+    @AfterEach
+    void methodCleanUp() {
+        databaseVoucherRepository.deleteAll();
     }
 
 
@@ -117,60 +144,34 @@ class DatabaseVoucherRepositoryTest {
         assertThat(testVouchers, containsInAnyOrder(samePropertyValuesAs(fixedAmountVoucher), samePropertyValuesAs(percentDiscountVoucher)));
     }
 
-    /*
-        given : 새로운 고객을 만들고
-        when : 해당 고객 id를 voucher에 할당한다.
-        then : 고객 id로 바우처를 찾아 확인한다.
-     */
-
     @Test
     @Order(4)
-    @DisplayName("특정 고객 할당하기")
-    void testAssignCustomer() {
-        var customerId = UUID.randomUUID();
-        databaseCustomerRepository.insert(new Customer(customerId, "test", "test@gmail.com", LocalDateTime.now()));
-        databaseVoucherRepository.save(fixedAmountVoucher);
-        databaseVoucherRepository.assignCustomer(customerId, fixedAmountVoucher.getVoucherId());
+    @DisplayName("바우처 지갑 id로 바우처 조회")
+    void findByVoucherWalletId() {
+        // 바우처 지갑 id를 가진 바우처를 만든다
+        var voucherWalletId = voucherWallet.getVoucherWalletId();
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, voucherWalletId);
+        databaseVoucherRepository.save(voucher);
 
-        var voucher = databaseVoucherRepository.findByCustomerId(customerId);
-        assertThat(voucher.isEmpty(), is(false));
+        // 바우처 지갑 id로 바우처를 조회하여
+        var testVouchers = databaseVoucherRepository.findByVoucherWalletId(voucherWalletId);
+
+        // 나온 결과에 voucher가 있는지 확인한다
+        assertThat(testVouchers, containsInAnyOrder(voucher));
     }
 
-    /*
-        given : 고객을 만들어 DB에 저장하고, 특정 바우처를 만들어 고객 id를 등록한뒤
-        when : 해당 바우처가 포함된 지갑을 가져오면
-        then : 바우처가 존재해야한다.
-     */
     @Test
-    @Order(5)
-    @DisplayName("바우처 지갑 가져오기")
-    void testFindVoucherWallet() {
-        var customerId = UUID.randomUUID();
-        databaseCustomerRepository.insert(new Customer(customerId, "test", "test@gmail.com", LocalDateTime.now()));
+    @DisplayName("바우처 타입으로 조회")
+    void findByVoucherType() {
         databaseVoucherRepository.save(fixedAmountVoucher);
-        databaseVoucherRepository.assignCustomer(customerId, fixedAmountVoucher.getVoucherId());
 
-        var voucherWallet = databaseVoucherRepository.findVoucherWallet(customerId);
-        assertThat(voucherWallet.getVoucherWallet().size(), not(0));
+        var testVoucherList = databaseVoucherRepository.findByVoucherType(VoucherType.FIXED_AMOUNT_VOUCHER);
+
+        assertThat(testVoucherList, containsInAnyOrder(fixedAmountVoucher));
     }
 
-    /*
-        given : 고객을 만들어 DB에 저장하고, 특정 바우처를 만들어 고객 id를 등록한뒤
-        when : 해당 바우처를 삭제하면
-        then : 고객 바우처 지갑에 아무것도 없어야한다.
-     */
 
     @Test
-    @Order(6)
-    @DisplayName("고객의 바우처 삭제하기")
-    void deleteCustomerVoucher() {
-        var customerId = UUID.randomUUID();
-        databaseCustomerRepository.insert(new Customer(customerId, "test", "test@gmail.com", LocalDateTime.now()));
-        databaseVoucherRepository.save(fixedAmountVoucher);
-        databaseVoucherRepository.assignCustomer(customerId, fixedAmountVoucher.getVoucherId());
-
-        databaseVoucherRepository.deleteCustomerVoucher(customerId, fixedAmountVoucher.getVoucherId());
-        var voucherWallet = databaseVoucherRepository.findVoucherWallet(customerId);
-        assertThat(voucherWallet.getVoucherWallet().size(), is(0));
+    void deleteById() {
     }
 }

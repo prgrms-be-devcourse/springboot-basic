@@ -6,7 +6,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long percent;
-    private UUID customerId;
+    private UUID voucherWalletId;
 
     public static PercentDiscountVoucher of(UUID voucherId, long percent) {
         return new PercentDiscountVoucher(voucherId, percent);
@@ -17,10 +17,10 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
         this.percent = percent;
     }
 
-    public PercentDiscountVoucher(UUID voucherId, long percent, UUID customerId) {
+    public PercentDiscountVoucher(UUID voucherId, long percent, UUID voucherWalletId) {
         this.voucherId = voucherId;
         this.percent = percent;
-        this.customerId = customerId;
+        this.voucherWalletId = voucherWalletId;
     }
 
     @Override
@@ -39,13 +39,13 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     }
 
     @Override
-    public UUID getCustomerId() {
-        return customerId;
+    public UUID getVoucherWalletId() {
+        return voucherWalletId;
     }
 
     @Override
-    public void setCustomerId(UUID customerId) {
-        this.customerId = customerId;
+    public void setVoucherWalletId(UUID voucherWalletId) {
+        this.voucherWalletId = voucherWalletId;
     }
 
     @Override
