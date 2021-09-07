@@ -4,9 +4,12 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.prgrms.kdt.customer.CustomerDto;
+import org.prgrms.kdt.exception.IllegalRowUpdateException;
 import org.prgrms.kdt.mapper.CustomerMapper;
 import org.prgrms.kdt.mapper.VoucherMapper;
 import org.prgrms.kdt.voucher.VoucherDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class WalletService {
+    private static final Logger logger = LoggerFactory.getLogger(WalletService.class);
 
     private final WalletJdbcRepository walletJdbcRepository;
 
@@ -30,6 +34,11 @@ public class WalletService {
                 UUID.fromString(walletDto.getCustomerId()),
                 UUID.fromString(walletDto.getVoucherId()));
         int insert = walletJdbcRepository.insert(wallet);
+
+        if (insert != 1) {
+            logger.error("invalid update query");
+            throw new IllegalRowUpdateException("wrong access");
+        }
     }
 
     @Transactional

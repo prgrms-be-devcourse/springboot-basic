@@ -2,6 +2,8 @@ package org.prgrms.kdt.aop;
 
 import org.prgrms.kdt.exception.ErrorResponse;
 import org.prgrms.kdt.exception.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ApiExceptionAdvice {
 
+    private static final Logger logger = LoggerFactory.getLogger(ApiExceptionAdvice.class);
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(ResourceNotFoundException e) {
+        logger.error("is invalid request : " +  e.getMessage());
         return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 }
