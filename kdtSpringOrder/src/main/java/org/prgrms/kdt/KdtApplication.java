@@ -2,6 +2,7 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.controller.InputController;
 import org.prgrms.kdt.controller.OutputController;
+import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.CommandType;
@@ -68,7 +69,7 @@ public class KdtApplication {
                     runDeleteVoucher(inputController, voucherService);
                 }
                 case BLACKLIST -> {
-                    runBadCustomerList(outputController, customerService);
+                    runBadCustomerList(outputController, customerService.getAllBadCustomer());
                 }
                 case REPLAY -> {
                     runReplay();
@@ -132,9 +133,9 @@ public class KdtApplication {
         logger.info("Finished runVoucherByVoucherId()");
     }
 
-    public static void runBadCustomerList(OutputController outputController, CustomerService customerService) {
+    public static void runBadCustomerList(OutputController outputController, List<Customer> customerVoucherList) {
         logger.info("Starts runBadCustomerList()");
-        outputController.showCustomerVoucherList(customerService.getAllBadCustomer());
+        outputController.showCustomerVoucherList(customerVoucherList);
         logger.info("Finished runBadCustomerList()");
     }
 
