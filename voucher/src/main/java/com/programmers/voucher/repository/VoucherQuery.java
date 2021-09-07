@@ -52,6 +52,15 @@ public class VoucherQuery {
         private String all;
         private String byId;
         private String byCustomer;
+        private String between;
+
+        public String getBetween() {
+            return between;
+        }
+
+        public void setBetween(String between) {
+            this.between = between;
+        }
         private String byIdAndCustomer;
 
         public String getAll() {

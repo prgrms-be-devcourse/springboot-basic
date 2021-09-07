@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,11 @@ public class BasicVoucherService implements VoucherService {
     @Override
     public List<Voucher> listAll() {
         return jdbcVoucherRepository.listAll();
+    }
+
+    @Override
+    public List<Voucher> listAllBetween(LocalDate from, LocalDate to) {
+        return jdbcVoucherRepository.listAllBetween(from, to);
     }
 
     @Override

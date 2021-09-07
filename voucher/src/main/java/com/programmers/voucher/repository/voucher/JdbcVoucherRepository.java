@@ -20,6 +20,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -74,6 +75,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> listAll() {
         log.debug("Find all vouchers");
         return jdbcTemplate.query(voucherQuery.getSelect().getAll(), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> listAllBetween(LocalDate from, LocalDate to) {
+        log.debug("Finding vouchers between {} to {}", from, to);
+        return jdbcTemplate.query(voucherQuery.getSelect().getBetween(), voucherRowMapper, from, to);
     }
 
     @Override

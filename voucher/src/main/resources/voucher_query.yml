@@ -41,6 +41,16 @@ voucher:
         vouchers v
       WHERE
         v.voucher_id=? AND v.customer_id=?
+    between:
+      SELECT
+        *
+      FROM
+        vouchers
+      WHERE
+        created_at
+      BETWEEN
+        ? AND ?
+
 
   update:
     byId: >
