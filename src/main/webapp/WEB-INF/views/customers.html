@@ -22,15 +22,17 @@
         <th scope="col">Email</th>
         <th scope="col">CreatedAt</th>
         <th scope="col">LastLoginAt</th>
+        <th scope="col">Allocate Voucher</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="customer: ${customers}" th:object="${customer}" >
-        <td th:text="${customer.customerId}"></td>
+        <td> <a th:href="@{/vouchers/{customerId}(customerId=${customer.customerId})}" th:text="${customer.customerId}"></a></td>
         <td th:text="*{name}"></td>
         <td th:text="*{email}"></td>
         <td th:text="*{createdAt}"></td>
         <td th:text="*{lastLoginAt}"></td>
+        <td> <a th:href="@{/vouchers/nocustomer/{customerId}(customerId=${customer.customerId})}" th:text="Allocate"></a></td>
     </tr>
     </tbody>
 </table>

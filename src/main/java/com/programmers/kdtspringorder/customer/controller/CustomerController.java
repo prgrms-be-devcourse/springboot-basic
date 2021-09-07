@@ -38,7 +38,7 @@ public class CustomerController {
         } catch (RuntimeException e) {
             return "views/new-customers";
         }
-        return "redirect:/views/customers";
+        return "redirect:/customers";
     }
 
     @GetMapping("/customers/{customerId}}")

@@ -9,10 +9,12 @@
 compiler.xml
 misc.xml
 kdt-spring-order.iml
+kdt.iml
 schema.sql
 MANIFEST.MF
 
 # User-specific stuff
+.idea/**
 .idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml

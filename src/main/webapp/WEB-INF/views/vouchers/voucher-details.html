@@ -28,7 +28,7 @@
     <tr th:object="${voucher}">
         <td th:text="${voucher.voucherId}"></td>
         <td th:text="*{type}"></td>
-        <td th:text="*{value}"></td>
+        <td th:text="*{discountValue}"></td>
         <td th:text="*{createdAt}"></td>
         <td><span th:text="${voucher.customerId}?: ''"> </span></td>
         <td th:text="*{used}"></td>
@@ -37,7 +37,7 @@
     </tbody>
 </table>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <form th:action="@{/voucher/{voucherId}(voucherId=${voucher.voucherId})}" th:method="delete">
+    <form th:action="@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}" th:method="delete">
         <input type="hidden" name="_method" value="delete"/>
         <button type="submit" id="submitButton">Delete Voucher</button>
     </form>

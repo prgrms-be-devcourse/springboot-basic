@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -56,6 +57,10 @@ public class VoucherService {
         voucherRepository.allocateVoucher(voucher.getVoucherId(), customerId);
     }
 
+    public void allocateVoucher(UUID voucherID, UUID customerId) {
+        voucherRepository.allocateVoucher(voucherID, customerId);
+    }
+
     public void deallocateVoucher(Voucher voucher) {
         voucher.removeVoucherFromCustomer();
         voucherRepository.deallocateVoucher(voucher.getVoucherId());
@@ -63,6 +68,12 @@ public class VoucherService {
 
     public void deleteVoucher(UUID voucherId){
         voucherRepository.delete(voucherId);
+    }
+
+    public void deallocateVoucher(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new RuntimeException(MessageFormat.format("No matching voucher found : {0}", voucherId)));
+        deallocateVoucher(voucher);
     }
 }
 
