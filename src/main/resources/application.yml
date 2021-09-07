@@ -1,7 +1,6 @@
 spring:
-  config:
-    activate:
-      on-profile: production
+  profiles:
+    active: production
 customer:
   blacklist:
     file-path: file:customer/
