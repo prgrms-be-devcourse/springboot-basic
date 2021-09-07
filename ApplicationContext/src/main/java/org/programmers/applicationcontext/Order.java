@@ -28,7 +28,8 @@ public class Order {
 
     //총 청구된 비용을 계산하는 메소드
     public long totalAmount(){
-        var beforeDiscount = orderItems.stream().map(v -> v.getProductPrice()*v.getQuantity())
+        var beforeDiscount = orderItems.stream()
+        .map(v -> v.getProductPrice()*v.getQuantity())
                 .reduce(0L, Long::sum);
 
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
