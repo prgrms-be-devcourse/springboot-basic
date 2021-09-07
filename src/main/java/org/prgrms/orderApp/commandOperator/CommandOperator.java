@@ -48,6 +48,9 @@ public class CommandOperator implements ApplicationRunner {
                     case "ORDER_LIST" :
                         orderPage.showOrders();
                         break;
+                    case "CUSTOMER_LIST" :
+                        customerPage.showAllCustomer();
+                        break;
                     case "CREATE_COLLECTION":
 
                         userSelectedMenu = monguDbPage.selectedMonguMainMenu();
@@ -62,9 +65,6 @@ public class CommandOperator implements ApplicationRunner {
                             default:
                                 mainPage.SelectedInvalidMenuNumber();
                         }
-                        break;
-                    case "CUSTOMER_BLACK_LIST":
-                        customerPage.showAllBlackList();
                         break;
                     case "EXIT":
                         if (mainPage.exit().equals("yes")) {

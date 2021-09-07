@@ -12,7 +12,8 @@ public class CustomerApplicationService {
     public CustomerApplicationService(CustomerService customerService){
         this.customerService = customerService;
     }
-    public List<Customer> getAllBlackList(){
-        return customerService.getAllBlackLIstCustomers();
+    public List<Customer> getAllCustomerList(){
+        return customerService.getCustomersList();
     }
+
 }

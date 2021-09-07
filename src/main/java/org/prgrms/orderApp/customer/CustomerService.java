@@ -6,13 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
+@Service
 public class CustomerService {
     private CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
     }
-    public List<Customer> getAllBlackLIstCustomers() {
+
+    public List<Customer> getCustomersList() {
         return customerRepository.findAll();
     }
     //@Transactional

@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
-//@Profile("local")
+@Profile("local")
 public class CustomerNameJdbcRepository implements CustomerRepository{
     private static final Logger logger = LoggerFactory.getLogger(CustomerNameJdbcRepository.class);
 

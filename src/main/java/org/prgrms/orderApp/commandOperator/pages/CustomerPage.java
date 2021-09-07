@@ -18,14 +18,16 @@ public class CustomerPage {
         this.console = console;
         this.customerApplicationService = customerApplicationService;
     }
-    public void showAllBlackList(){
-        console.infoMessage(ApplicationScript.SHOW_ALL_BLACKLIST__GUIDE_MESSAGE);
-        List<Customer> blackList = customerApplicationService.getAllBlackList();
-        if (blackList.isEmpty()){
+
+    public void showAllCustomer(){
+        console.infoMessage(ApplicationScript.SHOW_ALL_CUSTOMER__GUIDE_MESSAGE);
+        List<Customer> allCustomer = customerApplicationService.getAllCustomerList();
+        if (allCustomer.isEmpty()){
             console.infoMessage(BasicScript.EMPTY_DATA);
         } else {
-            console.showList(blackList);
+            console.showList(allCustomer);
         }
-
     }
+
+
 }

@@ -8,8 +8,8 @@ public enum MainMenu {
     VOUCHER_LIST(2),
     CREATE_ORDER(3),
     ORDER_LIST(4),
-    CREATE_COLLECTION(5),
-    CUSTOMER_BLACK_LIST(6),
+    CUSTOMER_LIST(5),
+    CREATE_COLLECTION(6),
     EXIT(7);
 
 
