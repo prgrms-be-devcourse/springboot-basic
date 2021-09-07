@@ -35,19 +35,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }};
     }
 
-    private RowMapper<Customer> customerRowMapper = BeanPropertyRowMapper.newInstance(Customer.class);
+//    private RowMapper<Customer> customerRowMapper = BeanPropertyRowMapper.newInstance(Customer.class);
 
-//    private RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-//        var customerId = toUUID(resultSet.getBytes("customer_id"));
-//        var customerName = resultSet.getString("name");
-//        var customerGender = Gender.valueOf(resultSet.getString("gender"));
-//        var customerEmail = resultSet.getString("email");
-//        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-//        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
-//                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-//        var customerType = CustomerType.valueOf(resultSet.getString("customer_type"));
-//        return new Customer(customerId, customerName, customerGender, customerEmail, createdAt, lastLoginAt, customerType);
-//    };
+    private RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var customerName = resultSet.getString("name");
+        var customerGender = Gender.valueOf(resultSet.getString("gender"));
+        var customerEmail = resultSet.getString("email");
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
+                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        var customerType = CustomerType.valueOf(resultSet.getString("customer_type"));
+        return new Customer(customerId, customerName, customerGender, customerEmail, createdAt, lastLoginAt, customerType);
+    };
 
     @Override
     public Customer insert(Customer customer) {
