@@ -44,3 +44,12 @@ Type list to list all vouchers.
 - YAML 프라퍼티를 만들고 어떤 설정을 만들수 있을지 고민하기 
 - 바우처를 메모리에서 관리하는 레포지토리는 개발 프로파일에서만 동작하게 해보기
 
+---
+
+<br/>
+
+## Mission 5 내용
+
+- 적절한 로그를 기록하고 로그백 설정을 해서 에러는 파일로 기록하기
+- SpringBoot 어플리케이션으로 변경 (SpringApplication 사용)
+- 실행가능한 jar 파일 생성하기
