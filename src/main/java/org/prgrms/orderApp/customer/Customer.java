@@ -1,7 +1,5 @@
 package org.prgrms.orderApp.customer;
 
-import org.prgrms.orderApp.util.library.Validate;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,7 +16,6 @@ public class Customer implements CustomerModel{
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt){
-        Validate.checkBlankForString("Name",name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -26,7 +23,6 @@ public class Customer implements CustomerModel{
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt){
-        Validate.checkBlankForString("Name",name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -56,7 +52,6 @@ public class Customer implements CustomerModel{
     }
 
     public void changeName(String name){
-        Validate.checkBlankForString("Name", name);
         this.name = name;
     }
 

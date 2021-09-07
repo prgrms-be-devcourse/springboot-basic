@@ -1,6 +1,6 @@
 package org.prgrms.orderApp.customer;
 
-import org.prgrms.orderApp.util.library.Common;
+import org.prgrms.orderApp.util.Common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
