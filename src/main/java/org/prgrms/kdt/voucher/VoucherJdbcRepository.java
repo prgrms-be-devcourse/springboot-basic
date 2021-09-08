@@ -103,6 +103,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM vouchers", Integer.class);
     }
 
+    @Override
+    public List<Voucher> findAll() {
+        return jdbcTemplate.query("SELECT * FROM  vouchers", voucherRowMapper);
+    }
+
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());

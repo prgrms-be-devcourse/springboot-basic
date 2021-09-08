@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.prgrms.kdt.exception.ResourceNotFoundException;
 import org.prgrms.kdt.mapper.VoucherMapper;
@@ -31,4 +32,11 @@ public class VoucherService {
                 .map(VoucherMapper::voucherToVoucherDto)
                 .collect(Collectors.toList());
     }
+
+    public List<VoucherDto> getAllVouchers() {
+        return voucherRepository.findAll().stream()
+                .map(VoucherMapper::voucherToVoucherDto)
+                .collect(Collectors.toList());
+    }
+
 }

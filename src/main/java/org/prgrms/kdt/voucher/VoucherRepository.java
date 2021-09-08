@@ -26,4 +26,5 @@ public interface VoucherRepository {
 
     int count();
 
+    List<Voucher> findAll();
 }

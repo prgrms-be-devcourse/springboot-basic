@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments :: fragment-header"></div>
+</head>
+<body class="bg-light">
+
+<div class="container">
+
+    <div class="text-center mt-5">
+        <a class="btn" th:href="@{/admin}"><h1>바우처 서비스</h1></a>
+    </div>
+
+    <div class="m-5 d-grid gap-3 col-12 mx-auto">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Voucher Type</th>
+                <th>Discount</th>
+                <th>Created At</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+
+                <td><a th:text="${voucher.voucherId}"></a></td>
+                <td th:text="${voucher.name}"></td>
+                <td th:text="${voucher.voucherType}"></td>
+                <td th:text="${voucher.discount}"></td>
+                <td th:text="${voucher.createdAt}"></td>
+
+                <td>
+                    <button class="btn btn-outline-danger">삭제</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div th:replace="fragments :: fragment-script"></div>
+</body>
+</html>

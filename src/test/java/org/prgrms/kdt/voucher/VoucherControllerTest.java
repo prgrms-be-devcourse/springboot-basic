@@ -4,35 +4,21 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.prgrms.kdt.api.ApisTest;
-import org.prgrms.kdt.common.BaseApiTest;
 import org.prgrms.kdt.common.EmbeddedMysqlConnector;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Created by yhh1056
@@ -57,6 +43,28 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("바우처 조회")))
                 .andExpect(content().string(containsString("바우처 등록")));
+    }
+
+    @Test
+    @DisplayName("바우처 전체 조회 테스트")
+    void vouchers() throws Exception {
+        IntStream.range(1, 10)
+                .forEach(i -> voucherJdbcRepository.insert(givenPercentVoucher(UUID.randomUUID())));
+
+        mockMvc.perform(get("/admin/vouchers"))
+                .andDo(print())
+                .andExpect(view().name("admin/vouchers"))
+                .andExpect(model().attributeExists("vouchers"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("test voucher")));
+    }
+
+    private Voucher givenFixedVoucher(UUID voucherId) {
+        return new Voucher(voucherId, "test voucher", 50L, VoucherType.FIX, LocalDateTime.now());
+    }
+
+    private Voucher givenPercentVoucher(UUID voucherId) {
+        return new Voucher(voucherId, "test voucher", 50L, VoucherType.PERCENT, LocalDateTime.now());
     }
 
 }

@@ -1,7 +1,9 @@
 package org.prgrms.kdt.mapper;
 
+import java.time.format.DateTimeFormatter;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherDto;
+import org.prgrms.kdt.voucher.VoucherType;
 
 /**
  * Created by yhh1056
@@ -13,9 +15,20 @@ public interface VoucherMapper {
         VoucherDto voucherDto = new VoucherDto();
         voucherDto.setVoucherId(voucher.getVoucherId().toString());
         voucherDto.setName(voucher.getName());
-        voucherDto.setDiscount(voucher.getDiscount());
+
+        if (voucher.getVoucherType() == VoucherType.FIX) {
+            voucherDto.setDiscount(voucher.getDiscount() + "원");
+        }
+
+        if (voucher.getVoucherType() == VoucherType.PERCENT) {
+            voucherDto.setDiscount(voucher.getDiscount() + "%");
+        }
+
         voucherDto.setVoucherType(voucher.getVoucherType().name());
-        voucherDto.setCreatedAt(voucher.getCreatedAt().toString());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        voucherDto.setCreatedAt(formatter.format(voucher.getCreatedAt()));
         return voucherDto;
     }
+
 }

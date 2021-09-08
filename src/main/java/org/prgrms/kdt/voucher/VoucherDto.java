@@ -16,7 +16,7 @@ public class VoucherDto {
 
     private String name;
 
-    private Long discount;
+    private String discount;
 
     private String voucherType;
 
@@ -42,11 +42,11 @@ public class VoucherDto {
         this.name = name;
     }
 
-    public Long getDiscount() {
+    public String getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Long discount) {
+    public void setDiscount(String discount) {
         this.discount = discount;
     }
 
