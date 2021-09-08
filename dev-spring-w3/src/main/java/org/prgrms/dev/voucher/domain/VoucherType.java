@@ -9,8 +9,7 @@ public enum VoucherType {
     PERCENT("percent", (voucherId, value) -> new PercentDiscountVoucher(voucherId, value));
 
     private final String type;
-
-    private final BiFunction<UUID, Long ,Voucher> voucherMaker;
+    private final BiFunction<UUID, Long, Voucher> voucherMaker;
 
     VoucherType(String type, BiFunction<UUID, Long, Voucher> voucherMaker) {
         this.type = type;

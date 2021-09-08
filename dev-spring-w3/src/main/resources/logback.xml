@@ -34,8 +34,4 @@
         <appender-ref ref="ERROR"/>
     </logger>
 
-<!--    <root level="debug">-->
-<!--        <appender-ref ref="CONSOLE"/>-->
-<!--    </root>-->
-
 </configuration>

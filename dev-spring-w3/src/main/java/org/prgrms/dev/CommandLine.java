@@ -27,7 +27,7 @@ public class CommandLine implements Runnable {
     @Override
     public void run() {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-        while (execute(voucherService)) ;
+        while (execute(voucherService));
     }
 
     private boolean execute(VoucherService voucherService) {

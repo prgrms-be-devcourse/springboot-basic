@@ -18,11 +18,11 @@ public class FileCustomerRepository implements CustomerRepository {
     private static final int NAME_INDEX = 1;
 
     private final File file;
-    private final Map<UUID, Customer> blacklist_store;
+    private final Map<UUID, Customer> blacklistStore;
 
     public FileCustomerRepository() {
         this.file = new File(System.getProperty(USER_DIR), PATH);
-        this.blacklist_store = init();
+        this.blacklistStore = init();
     }
 
     private Map<UUID, Customer> init() {
@@ -44,6 +44,6 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllInBlackList() {
-        return new ArrayList<>(blacklist_store.values());
+        return new ArrayList<>(blacklistStore.values());
     }
 }

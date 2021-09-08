@@ -3,17 +3,23 @@ package org.prgrms.dev.voucher.domain;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    private static final long MAX_VOUCHER_PERCENT = 100;
-    private static final long ZERO_AMOUNT = 0;
-    private static final long PERCENTAGE = 100;
+    private static final int MAX_PERCENT = 100;
+    private static final int ZERO_PERCENT = 0;
+    private static final int PERCENTAGE = 100;
 
     private final UUID voucherId;
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent < ZERO_AMOUNT) throw new IllegalArgumentException("Amount should be positive");
-        if (percent == ZERO_AMOUNT) throw new IllegalArgumentException("Amount should not be zero");
-        if (percent > MAX_VOUCHER_PERCENT) throw new IllegalArgumentException("Amount should be less than " + MAX_VOUCHER_PERCENT);
+        if (percent < ZERO_PERCENT) {
+            throw new IllegalArgumentException("Percent should be positive");
+        }
+        if (percent == ZERO_PERCENT) {
+            throw new IllegalArgumentException("Percent should not be zero");
+        }
+        if (percent > MAX_PERCENT) {
+            throw new IllegalArgumentException(String.format("Percent should be less than %d ", MAX_PERCENT));
+        }
 
         this.voucherId = voucherId;
         this.percent = percent;
