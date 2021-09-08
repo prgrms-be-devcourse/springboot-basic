@@ -1,24 +1,17 @@
 package org.prgms.order.voucher.entity;
 
+import lombok.Builder;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Builder
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long percent;
-    private final static String type = "Percent";
-
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        this.voucherId = voucherId;
-        if(percent>=100){
-            this.percent = 100;
-
-        }else if(percent <=0){
-            this.percent =0;
-
-        }else {
-            this.percent= percent;
-        }
-    }
+    private final static VoucherIndexType type = VoucherIndexType.PERCENT;
+    private final long amount;
+    private LocalDateTime createdAt;
+    private LocalDateTime expiredAt;
 
     @Override
     public UUID getVoucherId() {
@@ -27,23 +20,28 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long getAmount() {
-        return percent;
+        return amount;
     }
 
     @Override
-    public String getType() {
+    public VoucherIndexType getType() {
         return type;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (amount / 100);
     }
 
     @Override
-    public String getVoucherInfo() {
-        return getType() +", VoucherId = " + getVoucherId()+
-                 ", Percent = " + getAmount()+"%";
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
+
+    @Override
+    public LocalDateTime getExpiredAt() {
+        return expiredAt;
+    }
+
 
 }

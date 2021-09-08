@@ -8,3 +8,13 @@ CREATE TABLE customers
     black tinyint(1) DEFAULT 0,
     CONSTRAINT unq_user_email UNIQUE (email)
 );
+
+create table vouchers
+(
+    voucher_id binary(16) not null
+        primary key,
+    type       int        not null,
+    amount     int        not null,
+    created_at datetime   null,
+    expired_at datetime   null
+);

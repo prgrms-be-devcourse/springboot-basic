@@ -37,7 +37,7 @@ import java.util.Scanner;
         System.out.println("         TYPE              AMOUNT");
 
         voucherService.findAllVoucher().forEach((voucher) ->
-                System.out.println(voucher.getVoucherInfo())
+                System.out.println(voucherService.getVoucherInfoById(voucher.getVoucherId()))
         );
     }
 

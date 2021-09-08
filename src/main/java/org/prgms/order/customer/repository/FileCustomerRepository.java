@@ -85,7 +85,7 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void registerBlackListById(UUID customerId) {
+    public void insertBlackListById(UUID customerId) {
 
     }
 

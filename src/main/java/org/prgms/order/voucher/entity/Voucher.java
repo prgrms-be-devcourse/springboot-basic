@@ -1,14 +1,16 @@
 package org.prgms.order.voucher.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
 
     UUID getVoucherId();
     long getAmount();
-    String getType();
+    VoucherIndexType getType();
 
     long discount(long beforeDiscount);
 
-    String getVoucherInfo();
+    LocalDateTime getCreatedAt();
+    LocalDateTime getExpiredAt();
 }

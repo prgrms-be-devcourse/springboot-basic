@@ -1,17 +1,16 @@
 package org.prgms.order;
 
-import org.prgms.order.customer.repository.FileCustomerRepository;
 import org.prgms.order.customer.service.CustomerService;
 import org.prgms.order.io.Input;
 import org.prgms.order.io.Output;
-import org.prgms.order.voucher.entity.Voucher;
-import org.prgms.order.voucher.entity.VoucherCreateStretage;
+import org.prgms.order.voucher.entity.*;
 import org.prgms.order.voucher.service.VoucherService;
+import org.prgms.order.voucher.entity.VoucherCreateStretage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -30,7 +29,6 @@ public class CommandLineApplication implements Runnable{
     public CommandLineApplication(Input input, Output output) {
         this.input = input;
         this.output = output;
-        voucherCreateStretage = new VoucherCreateStretage();
     }
 
     @Override
@@ -73,7 +71,7 @@ public class CommandLineApplication implements Runnable{
         System.out.println("         TYPE              AMOUNT");
 
         voucherService.findAllVoucher().forEach((voucher) ->
-                System.out.println(voucher.getVoucherInfo())
+                System.out.println(voucherService.getVoucherInfoById(voucher.getVoucherId()))
         );
     }
 
@@ -93,9 +91,8 @@ public class CommandLineApplication implements Runnable{
             return;
         }
 
-
-        voucher = voucherService.insert(voucherCreateStretage.createVoucher(inputVoucherString, UUID.randomUUID(), Long.parseLong(inputAmount)));
-        System.out.println("SUCCESS >>> "+voucher.getVoucherInfo());
+        voucherCreateStretage.createVoucher(VoucherIndexType.valueOf(inputVoucherString), new VoucherData(UUID.randomUUID(),Long.parseLong(inputAmount),LocalDateTime.now().withNano(0)));
+        System.out.println("SUCCESS >>> "+voucherService.getVoucherInfoById(voucher.getVoucherId()));
     }
 
     private boolean isWrongType(String inputVoucherString) {

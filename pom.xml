@@ -79,6 +79,10 @@
             <scope>runtime</scope>
             <version>8.0.22</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

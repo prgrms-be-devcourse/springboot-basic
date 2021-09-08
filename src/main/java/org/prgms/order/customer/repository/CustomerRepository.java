@@ -19,7 +19,7 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
 
     List<Customer> findBlackList();
-    void registerBlackListById(UUID customerId);
+    void insertBlackListById(UUID customerId);
     void deleteAll();
 }
 

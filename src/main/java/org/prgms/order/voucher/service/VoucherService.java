@@ -35,4 +35,8 @@ public class VoucherService {
     public List<Voucher> findAllVoucher() {
         return voucherRepository.findAllVoucher();
     }
+
+    public String getVoucherInfoById(UUID voucherId) {
+        return voucherRepository.getVoucherInfoById(voucherId);
+    }
 }

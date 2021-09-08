@@ -3,7 +3,9 @@ package org.prgms.order.customer.repository;
 import org.prgms.order.customer.entity.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,12 +15,20 @@ import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
 
-@Repository
+
 @Primary
+@Repository
+@Profile({"default", "dev"})
 public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class); //this.getClass()
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
+
+    public CustomerNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
@@ -42,9 +52,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         }};
     }
 
-    public CustomerNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public Customer insert(Customer customer) {
@@ -70,7 +77,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public void registerBlackListById(UUID customerId) {
+    public void insertBlackListById(UUID customerId) {
         var update = jdbcTemplate.update("update customers set black = true where customer_id = UNHEX(REPLACE(:customer_id,'-',''))",
                 Collections.singletonMap("customer_id",customerId.toString().getBytes()));
 
@@ -140,6 +147,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());//한번 쪼개서 각각 64비트 씩 가져오는 방법으로 버전 차이를 우회한다.
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

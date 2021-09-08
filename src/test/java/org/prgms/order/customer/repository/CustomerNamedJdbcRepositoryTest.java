@@ -132,13 +132,11 @@ class CustomerNamedJdbcRepositoryTest {
         } catch (BadSqlGrammarException e) {
             logger.error("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode());
 
-            logger.info("customId -> {} email -> {} createdAt ->{}", testUpdate.getCustomerId(), testUpdate.getEmail(), testUpdate.getCreatedAt());
-
-            var retrievedCustomer = customerNamedJdbcRepository.findById(testUpdate.getCustomerId());
-            logger.info("customId -> {} email -> {} createdAt ->{}", retrievedCustomer.get().getCustomerId(), retrievedCustomer.get().getEmail(), retrievedCustomer.get().getCreatedAt());
-            assertThat(retrievedCustomer.isEmpty(), is(false));
-            assertThat(retrievedCustomer.get(), samePropertyValuesAs(testUpdate));//프로퍼티 value들이 같은지 비교
         }
+        var retrievedCustomer = customerNamedJdbcRepository.findById(testUpdate.getCustomerId());
+        logger.info("customId -> {} email -> {} createdAt ->{}", retrievedCustomer.get().getCustomerId(), retrievedCustomer.get().getEmail(), retrievedCustomer.get().getCreatedAt());
+        assertThat(retrievedCustomer.isEmpty(), is(false));
+        assertThat(retrievedCustomer.get(), samePropertyValuesAs(testUpdate));
     }
 
     @Test
@@ -207,7 +205,7 @@ class CustomerNamedJdbcRepositoryTest {
     @Order(9)
     @DisplayName("블랙리스트로 고객을 등록할 수 있다.")
     void registerBlackListById() {
-        customerNamedJdbcRepository.registerBlackListById(testBlackList.getCustomerId());
+        customerNamedJdbcRepository.insertBlackListById(testBlackList.getCustomerId());
         var blackList = customerNamedJdbcRepository.findBlackList();
         assertThat(blackList, hasSize(1));
     }

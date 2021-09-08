@@ -1,40 +1,51 @@
 package org.prgms.order.voucher.entity;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
+@Component
 public class VoucherCreateStretage {
     enum Operator {
-        FIXEDAMOUNTVOUCHER("Fixed", FixedAmountVoucher::new),
-        PERCENTDISCOUNTVOUCHER("Percent", PercentDiscountVoucher::new);
+        FIXEDAMOUNTVOUCHER(VoucherIndexType.FIXED,voucherData ->
+                FixedAmountVoucher.builder().
+                    voucherId(voucherData.getVoucherId()).
+                    amount(voucherData.getAmount()).
+                    createdAt(voucherData.getCreatedAt())
+                    .expiredAt(voucherData.getExpiredAt()).build()),
+
+        PERCENTDISCOUNTVOUCHER(VoucherIndexType.PERCENT, voucherData ->
+                PercentDiscountVoucher.builder().
+                    voucherId(voucherData.getVoucherId()).
+                    amount(voucherData.getAmount()).
+                    createdAt(voucherData.getCreatedAt())
+                    .expiredAt(voucherData.getExpiredAt()).build());
 
 
 
-        private String operator;
-        private BiFunction<UUID,Long,Voucher> expression;
+        private VoucherIndexType operator;
+        private Function<VoucherData,Voucher> expression;
 
-        Operator(String type, BiFunction<UUID, Long,Voucher> expression){
+        Operator(VoucherIndexType type, Function<VoucherData, Voucher> expression){
             this.operator = type;
             this.expression = expression;
         }
 
-        public Voucher create(UUID customerId, Long amount){
-            return this.expression.apply(customerId, amount);
+        public Voucher create(VoucherData voucherData){
+            return this.expression.apply(voucherData);
         }
     }
 
-    private static Map<String, Operator> operators = new HashMap<String, Operator>();
-
+    private static Map<VoucherIndexType, Operator> operators = new HashMap<VoucherIndexType, Operator>();
 
     static{
         for(Operator value : Operator.values())
             operators.put(value.operator,value);
     }
 
-    public Voucher createVoucher(String type, UUID customerId, long amount){
-        return operators.get(type).create(customerId, amount);
+    public Voucher createVoucher(VoucherIndexType type, VoucherData voucherData){
+        return operators.get(type).create(voucherData);
     }
 }
