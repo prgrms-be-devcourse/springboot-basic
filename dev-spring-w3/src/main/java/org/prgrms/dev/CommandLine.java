@@ -35,7 +35,7 @@ public class CommandLine implements Runnable {
 
         try {
             output.init();
-            String inputCommandType = input.inputCommandType(CURSOR);
+            String inputCommandType = input.input(CURSOR);
             flag = CommandType.execute(inputCommandType, input, output, voucherService);
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage());

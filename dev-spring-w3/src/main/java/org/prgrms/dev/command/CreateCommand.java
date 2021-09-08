@@ -16,8 +16,8 @@ public class CreateCommand implements Command {
     public boolean execute(Input input, Output output, VoucherService voucherService) {
         try {
             output.selectVoucherType();
-            String voucherType = input.inputVoucherType(CURSOR);
-            long value = Long.parseLong((input.inputValue("input value [fixed amount | percent discount] " + CURSOR)));
+            String voucherType = input.input(CURSOR);
+            long value = Long.parseLong((input.input("input value [fixed amount | percent discount] " + CURSOR)));
             voucherService.createVoucher(voucherType, UUID.randomUUID(), value);
         } catch (NumberFormatException e) {
             logger.error(e.getMessage());
