@@ -1,18 +1,22 @@
 package org.prgrms.kdtspringorder.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
-@Component
-@PropertySource(value = "classpath:application.yml", factory = YamlPropertySourceFactory.class)
+import java.util.Objects;
+
+// SpringBoot를 이용하여 Property 를 POJO로
+@ConstructorBinding
+@ConfigurationProperties(prefix = "files")
 public class YmlPropertiesLoader {
 
     private final String blackListFilePath;
     private final String voucherFilePath;
 
-    public YmlPropertiesLoader(@Value("${files.black-list:}") String blackListFilePath,
-                               @Value("${files.voucher}") String voucherFilePath) {
+    public YmlPropertiesLoader(String blackListFilePath, String voucherFilePath) {
+        Objects.requireNonNull(blackListFilePath);
+        Objects.requireNonNull(voucherFilePath);
+
         this.blackListFilePath = blackListFilePath;
         this.voucherFilePath = voucherFilePath;
     }
