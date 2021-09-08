@@ -2,12 +2,12 @@ package org.prgrms.kdt;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.domain.order.Order;
-import org.prgrms.kdt.domain.order.OrderItem;
-import org.prgrms.kdt.domain.order.OrderStatus;
-import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.repository.VoucherRepository;
-import org.prgrms.kdt.service.OrderService;
+import org.prgrms.kdt.order.domain.Order;
+import org.prgrms.kdt.order.domain.OrderItem;
+import org.prgrms.kdt.order.domain.OrderStatus;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
