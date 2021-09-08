@@ -50,8 +50,6 @@ Type list to list all vouchers.
 
 ## Mission 5 내용
 
-- 적절한 로그를 기록하고 로그백 설정을 해서 에러는 파일로 기록하기
-
 - SpringBoot 어플리케이션으로 변경 (SpringApplication 사용)
 
 - 실행가능한 jar 파일 생성하기
@@ -65,6 +63,10 @@ Type list to list all vouchers.
     ![jar1](assets/images/jar1.png)
 
     ![jar1](assets/images/jar2.png)
+
+
+- 적절한 로그를 기록하고 로그백 설정을 해서 에러는 파일로 기록하기
+  - ![errorlog](assets/images/errorlog.png)
 
 ---
 
