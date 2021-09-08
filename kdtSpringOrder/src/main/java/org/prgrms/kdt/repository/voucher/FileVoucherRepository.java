@@ -85,7 +85,7 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
                 }
             }
         } catch (NumberFormatException e) {
-            logger.error("Integer 자료형이 아닙니다.");
+            logger.error("정수형 변환에 실패했습니다. data : " + e);
             e.printStackTrace();
         }
     }
@@ -102,7 +102,7 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
             Files.createDirectory(voucherFilePath.getParent());
             Files.createFile(voucherFilePath.toAbsolutePath());
         } catch (IOException e) {
-            logger.error("IOException");
+            logger.error("IOException : " + e);
             e.printStackTrace();
         }
 
@@ -112,7 +112,7 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
             writer.write(voucherInfo);
             writer.flush();
         }catch (IOException e) {
-            logger.error("IOException");
+            logger.error("IOException : " + e);
             e.printStackTrace();
         }
     }
