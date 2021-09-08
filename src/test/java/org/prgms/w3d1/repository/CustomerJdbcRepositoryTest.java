@@ -1,7 +1,8 @@
-package org.prgms.w3d1.model.customer;
+package org.prgms.w3d1.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgms.w3d1.model.customer.Customer;
 import org.prgms.w3d1.repository.CustomerJdbcRepository;
 import org.prgms.w3d1.repository.DatabaseVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -42,8 +42,6 @@ public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Vo
         return Optional.ofNullable(storage.get(voucherId));
     }
 
-
-
     @Override
     public void save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
@@ -75,5 +73,4 @@ public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Vo
     public List<Voucher> findByVoucherType(VoucherType voucherType) {
         return null;
     }
-
 }

@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>KDT New Customer</title>
+</head>
+<body class="class-fluid">
+<h1>Customer Detail</h1>
+<img th:src="@{/resources/dev_course.png}" alt="" class="img_fluid">
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Created At</th>
+        <th scope="col">Last Login At</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${customer}">
+        <th th:text="*{customerId}"></th>
+        <td th:text="*{name}"></td>
+        <td th:text="*{email}"></td>
+        <td th:text="*{createdAt}"></td>
+        <td th:text="*{lastLoginAt}"></td>
+    </tr>
+    </tbody>
+</table>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <span class="d-grid gap-2">
+        <a th:href="@{/customers/update(id=${customer.customerId})}" class="btn btn-primary me-md-2" type="button">Modify</a>
+    </span>
+    <span class="d-grid gap-2">
+        <a th:href="@{/customers/delete(id=${customer.customerId})}" class="btn btn-danger me-md-2" type="button">Delete</a>
+    </span>
+</div>
+</body>

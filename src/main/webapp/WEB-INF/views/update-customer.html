@@ -1,0 +1,25 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>KDT New Customer</title>
+</head>
+<body class="class-fluid">
+<h1>Create Customer</h1>
+<img th:src="@{/resources/dev_course.png}" alt="" class="img_fluid">
+<form th:action="@{/customers/update(id=${customer.customerId})}" method="post">
+    <div class="mb-3">
+        <label for="customer_email" class="form-label">Email address</label>
+        <input th:value="${customer.email}" type="email" name="email" class="form-control" id="customer_email" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+        <label for="customer_name" class="form-label">Name</label>
+        <input th:value="${customer.name}" type="text" name="name" class="form-control" id="customer_name">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>

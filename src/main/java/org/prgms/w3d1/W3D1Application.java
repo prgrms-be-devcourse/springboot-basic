@@ -1,16 +1,14 @@
 package org.prgms.w3d1;
 
-import org.prgms.w3d1.io.Console;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class W3D1Application {
+public class W3D1Application implements WebMvcConfigurer {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(W3D1Application.class, args);
-        Console console = new Console();
-        new CommandLineApplication(console, console, applicationContext).run();
+        SpringApplication.run(W3D1Application.class, args);
     }
 }

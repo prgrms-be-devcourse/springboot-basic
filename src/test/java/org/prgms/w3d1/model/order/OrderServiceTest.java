@@ -5,15 +5,12 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
-import org.prgms.w3d1.model.voucher.VoucherService;
+import org.prgms.w3d1.service.VoucherService;
 import org.prgms.w3d1.repository.OrderRepository;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.prgms.w3d1.service.OrderService;
 
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrderServiceTest {
 

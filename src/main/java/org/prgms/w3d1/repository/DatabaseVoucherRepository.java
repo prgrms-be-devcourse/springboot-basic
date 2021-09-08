@@ -34,6 +34,11 @@ public class DatabaseVoucherRepository implements VoucherRepository {
     };
 
     @Override
+    public List<Voucher> findAll() {
+        return jdbcTemplate.query("select * from vouchers", rowMapper);
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(
@@ -68,11 +73,6 @@ public class DatabaseVoucherRepository implements VoucherRepository {
         if (saveCount != 1) {
             throw new RuntimeException("Nothing was saved");
         }
-    }
-
-    @Override
-    public List<Voucher> findAll() {
-        return jdbcTemplate.query("select * from vouchers", rowMapper);
     }
 
     @Override

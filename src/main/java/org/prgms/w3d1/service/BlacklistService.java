@@ -1,5 +1,6 @@
-package org.prgms.w3d1.model.blacklist;
+package org.prgms.w3d1.service;
 
+import org.prgms.w3d1.model.blacklist.Blacklist;
 import org.prgms.w3d1.repository.BlacklistRepository;
 import org.springframework.stereotype.Service;
 

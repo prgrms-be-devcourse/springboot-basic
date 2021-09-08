@@ -25,4 +25,6 @@ public interface CustomerRepository {
     int count();
 
     void deleteAll();
+
+    void deleteById(UUID customerId);
 }

@@ -8,3 +8,12 @@ spring:
     url: jdbc:mysql://localhost/my_order_mgmt
     username: root
     password: 1111
+  thymeleaf:
+    view-names: "views/**"
+    prefix: "/WEB-INF/"
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+

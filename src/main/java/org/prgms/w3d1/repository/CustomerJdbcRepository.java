@@ -45,7 +45,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             customer.getEmail(),
             Timestamp.valueOf(customer.getCreatedAt()));
 
-        if(insertCount != 1){
+        if (insertCount != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
 
@@ -61,7 +61,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             customer.getLastLoginAt(),
             customer.getCustomerId().toString().getBytes());
 
-        if(updateCount != 1){
+        if (updateCount != 1) {
             throw new RuntimeException("Nothing was updated");
         }
 
@@ -75,36 +75,36 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        try{
+        try {
             return Optional.ofNullable(
                 jdbcTemplate.queryForObject(
                     "select * from customers where customer_id = UUID_TO_BIN(?)",
                     rowMapper, customerId.toString().getBytes()));
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
     public Optional<Customer> findByName(String name) {
-        try{
+        try {
             return Optional.ofNullable(
                 jdbcTemplate.queryForObject(
                     "select * from customers where name = ?",
                     rowMapper, name));
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        try{
+        try {
             return Optional.ofNullable(
                 jdbcTemplate.queryForObject(
                     "select * from customers where email = ?",
                     rowMapper, email));
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
@@ -124,5 +124,15 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from customers");
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        var deleteCount = jdbcTemplate.update("delete from customers where customer_id = UUID_TO_BIN(?)",
+            customerId.toString().getBytes());
+
+        if (deleteCount != 1) {
+            throw new RuntimeException("Nothing was deleted");
+        }
     }
 }

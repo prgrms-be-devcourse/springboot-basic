@@ -1,21 +1,16 @@
 package org.prgms.w3d1.repository;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
 import org.prgms.w3d1.model.voucher.Voucher;
-import org.prgms.w3d1.model.voucher.VoucherService;
-import org.prgms.w3d1.util.FileConnector;
+import org.prgms.w3d1.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
