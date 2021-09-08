@@ -1,6 +1,7 @@
 package prgms.springbasic.voucher;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import prgms.springbasic.repository.VoucherRepository;
@@ -16,15 +17,15 @@ public class VoucherServiceImpl implements VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public VoucherServiceImpl(VoucherRepository voucherRepository) {
+    public VoucherServiceImpl(@Qualifier("fileVoucherRepository") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
     @Override
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, String value) throws IOException {
-        if (voucherType == VoucherType.FIXEDAMOUNTVOUCHER) {
+        if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER) {
             return createFixedAmountVoucher(voucherId, Integer.parseInt(value));
-        } else if (voucherType == VoucherType.PERCENTDISCOUNTVOUCHER) {
+        } else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER) {
             return createPercentDiscountVoucher(voucherId, Long.parseLong(value));
         }
         return null;

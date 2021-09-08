@@ -2,7 +2,7 @@ package prgms.springbasic;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import prgms.springbasic.consol.Printer;
+import prgms.springbasic.console.Printer;
 import prgms.springbasic.customer.Customer;
 import prgms.springbasic.customer.CustomerService;
 

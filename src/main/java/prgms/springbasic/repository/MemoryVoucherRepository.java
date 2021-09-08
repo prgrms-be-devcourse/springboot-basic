@@ -7,11 +7,11 @@ import prgms.springbasic.voucher.Voucher;
 
 import java.util.*;
 
-//@Repository
-//@Qualifier("memoryVoucherRepository")
+@Repository
+@Qualifier("memoryVoucherRepository")
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private static Map<UUID, Voucher> repository = new HashMap<>();
+    private static final Map<UUID, Voucher> repository = new HashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

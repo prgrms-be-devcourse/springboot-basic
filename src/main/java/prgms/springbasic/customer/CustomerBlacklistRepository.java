@@ -20,16 +20,13 @@ public class CustomerBlacklistRepository implements CustomerRepository {
     public CustomerBlacklistRepository() throws IOException {
         this.file = new File(path);
 
-        if (!file.exists()) {
-            file.createNewFile();
-        }
         bufferedWriter = new BufferedWriter(new FileWriter(file, true));
     }
 
     @Override
     public Customer save(Customer customer) {
         try {
-            bufferedWriter.write(customer.toString() + '\n');
+            bufferedWriter.write(customer.toString() + System.lineSeparator());
             bufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package prgms.springbasic.consol;
+package prgms.springbasic.console;
 
 import prgms.springbasic.customer.Customer;
 import prgms.springbasic.voucher.Voucher;
@@ -74,7 +74,7 @@ public class Printer {
     }
 
     public void printVoucherCreateSuccess(Voucher voucher) {
-        System.out.println("\n" + voucher.getClass().getSimpleName() + " create success!!");
+        System.out.println(System.lineSeparator() + voucher.getClass().getSimpleName() + " create success!!");
         System.out.println("voucher Id : " + voucher.getVoucherId());
     }
 

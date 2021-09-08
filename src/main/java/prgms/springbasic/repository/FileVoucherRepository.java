@@ -24,10 +24,6 @@ public class FileVoucherRepository implements VoucherRepository {
     public FileVoucherRepository() throws IOException {
         file = new File(path);
 
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-
         bufferedWriter = new BufferedWriter(new FileWriter(file, true));
     }
 
@@ -57,7 +53,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         try {
-            bufferedWriter.write(voucher.toString() + '\n');
+            bufferedWriter.write(voucher.toString() + System.lineSeparator());
             bufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();

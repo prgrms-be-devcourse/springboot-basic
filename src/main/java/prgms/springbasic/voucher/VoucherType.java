@@ -1,6 +1,6 @@
 package prgms.springbasic.voucher;
 
 public enum VoucherType {
-    FIXEDAMOUNTVOUCHER,
-    PERCENTDISCOUNTVOUCHER;
+    FIXED_AMOUNT_VOUCHER,
+    PERCENT_DISCOUNT_VOUCHER;
 }

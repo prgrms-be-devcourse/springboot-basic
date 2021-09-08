@@ -1,9 +1,8 @@
 package prgms.springbasic;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import prgms.springbasic.consol.Printer;
+import prgms.springbasic.console.Printer;
 import prgms.springbasic.voucher.Voucher;
 import prgms.springbasic.voucher.VoucherService;
 import prgms.springbasic.voucher.VoucherType;
@@ -32,12 +31,12 @@ public class CommandLineApplication {
                 if (voucherNumber == 1) {
                     printer.printAmountInputInfo();
                     String amount = reader.readLine();
-                    Voucher newVoucher = voucherService.createVoucher(VoucherType.FIXEDAMOUNTVOUCHER, UUID.randomUUID(), amount);
+                    Voucher newVoucher = voucherService.createVoucher(VoucherType.FIXED_AMOUNT_VOUCHER, UUID.randomUUID(), amount);
                     printer.printVoucherCreateSuccess(newVoucher);
                 } else if (voucherNumber == 2) {
                     printer.printPercentInputInfo();
                     String percent = reader.readLine();
-                    Voucher newVoucher = voucherService.createVoucher(VoucherType.PERCENTDISCOUNTVOUCHER, UUID.randomUUID(), percent);
+                    Voucher newVoucher = voucherService.createVoucher(VoucherType.PERCENT_DISCOUNT_VOUCHER, UUID.randomUUID(), percent);
                     printer.printVoucherCreateSuccess(newVoucher);
                 }
 
