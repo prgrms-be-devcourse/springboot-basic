@@ -1,14 +1,16 @@
 package org.prgrms.kdtspringorder.voucher.service;
 
-import java.util.List;
-import java.util.UUID;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.UUID;
 
+@Component
 public class VoucherService {
 
     private final static Logger logger = LoggerFactory.getLogger(VoucherService.class);
@@ -19,11 +21,11 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-  public Voucher getVoucher(final UUID voucherId) {
-    return voucherRepository
-        .findById(voucherId)
-        .orElseThrow(() -> new IllegalArgumentException("Can not find a voucher for " + voucherId));
-  }
+    public Voucher getVoucher(final UUID voucherId) {
+        return this.voucherRepository
+                .findById(voucherId)
+                .orElseThrow(() -> new IllegalArgumentException("Can not find a voucher for " + voucherId));
+    }
 
     public List<Voucher> getVouchers() {
         logger.info("Voucher 정보 조회 시작");
