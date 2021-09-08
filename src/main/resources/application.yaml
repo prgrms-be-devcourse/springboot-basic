@@ -1,3 +1,7 @@
+project:
+  # 절대 경로 입력
+  base-dir: file:////Users/yuhyeonho/Desktop/programmers/w3-SpringBoot_Part_A
+
 spring:
   profiles:
     active: dev
@@ -5,3 +9,9 @@ spring:
     url: jdbc:mysql://localhost:3306/order_mgmt?useUnicode=true&serverTimezone=Asia/Seoul&useSSL=false
     username: root
     password: root1234!
+  web:
+    resources:
+      static-locations: ${project.base-dir}/src/main/resources/static/
+  thymeleaf:
+    prefix: ${project.base-dir}/src/main/resources/templates/
+    cache: false
