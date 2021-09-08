@@ -30,11 +30,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         long value = resultSet.getInt("value");
-        String voucherStatusString = resultSet.getString("voucher_status");
+        VoucherStatus voucherStatus = VoucherStatus.fromString(resultSet.getString("voucher_status"));
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        switch (VoucherStatus.fromString(voucherStatusString)) {
+        switch (voucherStatus) {
             case FIXEDAMOUNTVOUCHER -> {
                 return new FixedAmountVoucher(voucherId, value);
             }
@@ -42,7 +42,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 return new PercentDiscountVoucher(voucherId, value);
             }
         }
-        LoggerFactory.getLogger(JdbcVoucherRepository.class).warn("status error"+VoucherStatus.fromString(voucherStatusString));
+        logger.warn("status error : "+voucherStatus);
         return null;
     };
 
