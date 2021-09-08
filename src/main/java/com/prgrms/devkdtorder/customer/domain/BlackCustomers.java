@@ -28,6 +28,10 @@ public class BlackCustomers {
         }
     }
 
+    public int size() {
+        return customers.size();
+    }
+
     public static BlackCustomers empty(){
         return new BlackCustomers(new ArrayList<>());
     }
