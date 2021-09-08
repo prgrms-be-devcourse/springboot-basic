@@ -3,6 +3,12 @@ spring:
     url: "jdbc:mysql://localhost/order_mgmt"
     username: "root"
     password: "root1234!"
+  thymeleaf:
+    view-names: "views/*"
+    prefix: "/WEB-INF/"
+server:
+  servlet:
+    context-path: /kdt
 data:
   storage:
     name: memoryVoucherRepository

@@ -23,7 +23,7 @@ import static org.prgrms.kdt.utils.FileUtils.getReadAllLines;
 import static org.prgrms.kdt.utils.FileUtils.isExistFile;
 
 @Repository
-@Profile({"prod", "default"})
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository, InitializingBean {
 
     private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
