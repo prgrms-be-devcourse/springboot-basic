@@ -15,6 +15,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -74,19 +75,20 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
             return;
         }
 
-        try {
-            List<String> lines = getReadAllLines(voucherFilePath);
-            for (String line : lines) {
-                List<String> voucherInfoList = Arrays.asList(line.split(","));
+
+        List<String> lines = getReadAllLines(voucherFilePath);
+        for (String line : lines) {
+            List<String> voucherInfoList = Arrays.asList(line.split(","));
+            try {
                 if (VoucherType.FIXED.toString().equals(voucherInfoList.get(2))) {
                     storage.put(UUID.fromString(voucherInfoList.get(1)), new FixedAmountVoucher(UUID.fromString(voucherInfoList.get(0)), UUID.fromString(voucherInfoList.get(1)), Integer.parseInt(voucherInfoList.get(3)), VoucherType.FIXED));
                 } else {
                     storage.put(UUID.fromString(voucherInfoList.get(1)), new PercentDiscountVoucher(UUID.fromString(voucherInfoList.get(0)), UUID.fromString(voucherInfoList.get(1)), Integer.parseInt(voucherInfoList.get(3)), VoucherType.DISCOUNT));
                 }
+            }catch (NumberFormatException e) {
+                logger.error(MessageFormat.format("정수형 변환에 실패했습니다. voucherInfo : {0}, {1}, {2}, {3}, {4} ", voucherInfoList.get(0), voucherInfoList.get(1), voucherInfoList.get(2), voucherInfoList.get(3), e));
+                e.printStackTrace();
             }
-        } catch (NumberFormatException e) {
-            logger.error("정수형 변환에 실패했습니다. data : " + e);
-            e.printStackTrace();
         }
     }
 
