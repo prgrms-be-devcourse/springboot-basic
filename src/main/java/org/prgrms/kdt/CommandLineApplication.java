@@ -2,17 +2,15 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.command.CommandCreate;
 import org.prgrms.kdt.command.NavigationMessage;
-import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.Scanner;
 
-public class CommandLineApplication implements Runnable {
+public class CommandLineApplication {
     public static void main(final String[] args) throws IOException, InterruptedException {
         final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         final VoucherRepository voucherRepository = applicationContext.getBean(MemoryVoucherRepository.class);
@@ -31,14 +29,14 @@ public class CommandLineApplication implements Runnable {
 
                 case "create":
                     NavigationMessage.voucherCreateMessage();
-                    voucherRepository.addVoucher(
+                    voucherRepository.insert(
                             CommandCreate.createVoucherType()
                     );
                     break;
 
                 case "list":
-                    for (final Optional<Voucher> voucher : voucherRepository.findAll()) {
-                        System.out.println(voucher.get());
+                    for (int i = 0; i < voucherRepository.findAll().size(); i++) {
+                        System.out.println(voucherRepository.findAll().get(i));
                     }
                     break;
 
@@ -47,10 +45,5 @@ public class CommandLineApplication implements Runnable {
                     break;
             }
         } while (programRunning);
-    }
-
-    @Override
-    public void run() {
-
     }
 }
