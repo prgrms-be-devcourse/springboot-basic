@@ -42,11 +42,9 @@ public class VoucherOperator implements CommandOperator<Voucher> {
 
     public boolean validationCheck(String[] splitList) {
         if (splitList.length != 2) return false;
-        if (VoucherType.findByCommand(splitList[0]) == null) return false;
-        if (!splitList[1].matches("^[0-9]*$")) return false;
         if (!VoucherType.isInVoucherType(splitList[0])) return false;
+        if (!splitList[1].matches("^[0-9]*$")) return false;
 
         return true;
-//        return VoucherType.createVoucher(splitList[0], Long.parseLong(splitList[1]));
     }
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
+
     private final long amount;
 
     @Override
@@ -20,6 +21,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public long getAmount() {
+        return amount;
     }
 
     @Override
