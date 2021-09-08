@@ -1,14 +1,14 @@
 package prgms.springbasic.repository;
 
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import prgms.springbasic.voucher.Voucher;
 
 import java.util.*;
 
 @Repository
-@Qualifier("memoryVoucherRepository")
+@Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final Map<UUID, Voucher> repository = new HashMap<>();
