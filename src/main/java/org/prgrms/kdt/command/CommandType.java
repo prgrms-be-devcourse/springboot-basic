@@ -1,35 +1,23 @@
 package org.prgrms.kdt.command;
 
-
-import java.util.*;
-
-
 public enum CommandType {
-    CREATE("create"),
-    LIST("list"),
-    EXIT("exit"),
-    INVALID("invalid");
+    EXIT("0"),
+    VOUCHER_CREATE("1"),
+    VOUCHER_LIST("2");
 
-    private static final Map<String, CommandType> typeByName = new HashMap<>(
-        CommandType.values().length);
-
-    static {
-        for (CommandType type : CommandType.values()) {
-            typeByName.put(type.getName(), type);
-        }
-    }
-
-    private final String name;
+    private final String num;
 
     CommandType(String value) {
-        this.name = value;
+        this.num = value;
     }
 
-    public String getName() {
-        return name;
+    public String getNum() {
+        return num;
     }
 
-    public static CommandType lookup(String name) {
-        return typeByName.getOrDefault(name, CommandType.INVALID);
+    @Override
+    public String toString() {
+        return "%s. %s".formatted(this.getNum(), super.toString());
     }
+
 }

@@ -1,11 +1,8 @@
 package org.prgrms.kdt.command;
 
+public interface CommandOperator{
+    void execute();
 
-import java.util.*;
+    CommandType getCommandType();
 
-public interface CommandOperator<T, V> {
-
-    T create(V v);
-
-    Map<UUID, T> getAll();
 }

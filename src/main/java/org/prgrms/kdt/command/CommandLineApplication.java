@@ -1,84 +1,68 @@
 package org.prgrms.kdt.command;
 
 
-import java.text.MessageFormat;
-import org.prgrms.kdt.model.Voucher;
-import org.prgrms.kdt.model.VoucherDTO;
+import java.util.*;
+import java.util.function.Function;
+import javax.annotation.PostConstruct;
+
+import org.prgrms.kdt.util.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.regex.Pattern;
-
 @Component
-public class CommandLineApplication implements Runnable {
+public class CommandLineApplication implements ApplicationRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private static final Function<String, CommandType> commandTypeLookupFunction =
+        EnumUtils.lookupMap(CommandType.values(), CommandType::getNum);
 
+    private final List<CommandOperator> commandOperators;
+    private final Map<CommandType, CommandOperator> commandMap;
     private final Console console;
-    private final CommandOperator<Voucher, VoucherDTO> operator;
+    private boolean isRunning;
 
-    public CommandLineApplication(Console console, CommandOperator<Voucher, VoucherDTO> operator) {
+    public CommandLineApplication(
+        List<CommandOperator> commandOperators,
+        Console console) {
+        this.commandOperators = commandOperators;
         this.console = console;
-        this.operator = operator;
+        this.commandMap = new EnumMap<>(CommandType.class);
+        this.isRunning = true;
+    }
+
+    private void printMenu() {
+        console.printMessage("=== Type the number of command===");
+        console.printEnumValues(CommandType.values());
+    }
+
+    @PostConstruct
+    public void init() {
+        logger.info("CommandLineApplication init");
+        commandOperators.forEach(x -> commandMap.put(x.getCommandType(), x));
+        logger.info("Init Command types -> {}", commandMap);
     }
 
     @Override
-    public void run() {
-
-        String inputStr;
-        var isExit = false;
-        while (!isExit) {
-            help();
-            inputStr = console.input();
-            switch (CommandType.lookup(inputStr)) {
-                case CREATE -> create();
-                case LIST -> list();
-                case EXIT -> {
-                    exit();
-                    isExit = true;
-                }
-                default -> {
-                    logger.warn(MessageFormat.format(
-                        "invalid user command input: {0}", inputStr));
-                    console.printError(inputStr);
-                }
-            }
-        }
-    }
-
-    private void help() {
+    public void run(ApplicationArguments args) {
         var prompt = """
-            === Voucher Program ===
+            === Voucher Management ===
             Type exit to exit the program.
-            Type create to create a new voucher.
-            Type list to list all vouchers.""";
+            Type create to create a new object.
+            Type list to list all object.
+            """;
         console.printMessage(prompt);
-    }
-
-    private void create() {
-        var msg = "Creating a new voucher. Choose a voucher name (fixed or percent): ";
-        var type = console.input(msg, Pattern.compile("^[a-z]*$").asPredicate());
-
-        msg = "How much discount?: ";
-        var value = console.input(msg, Pattern.compile("^[0-9]*$").asPredicate());
-
-        var createdVoucher = operator.create(new VoucherDTO(type, Long.parseLong(value)));
-        logger.info(MessageFormat.format("user create voucher: {0}", createdVoucher));
-    }
-
-    private void list() {
-        var vouchers = operator.getAll();
-        if (!vouchers.isEmpty()) {
-            console.printMessage("=== Voucher List ===");
-            vouchers.values().forEach(System.out::println);
-        } else {
-            console.printMessage("No Voucher Data");
+        while (isRunning) {
+            printMenu();
+            Optional.ofNullable(commandTypeLookupFunction.apply(console.input()))
+                .ifPresent(value -> {
+                    if (value == CommandType.EXIT) {
+                        isRunning = false;
+                    }
+                    commandMap.get(value).execute();
+                });
         }
     }
-
-    private void exit() {
-        console.printMessage("Bye!!");
-    }
-
 }

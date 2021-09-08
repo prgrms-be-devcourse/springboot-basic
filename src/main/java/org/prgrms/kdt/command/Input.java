@@ -6,5 +6,7 @@ public interface Input {
 
     String input();
 
+    String input(Predicate<String> p);
+
     String input(String msg, Predicate<String> p);
 }
