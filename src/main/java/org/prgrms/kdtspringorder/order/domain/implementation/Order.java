@@ -1,10 +1,9 @@
 package org.prgrms.kdtspringorder.order.domain.implementation;
 
-import org.prgrms.kdtspringorder.order.enums.OrderStatus;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.kdtspringorder.order.enums.OrderStatus;
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 
 public class Order {
@@ -13,6 +12,7 @@ public class Order {
   private final UUID customerId;
   private final List<OrderItem> orderItems;
   private final Optional<Voucher> voucher;
+  private final long ZERO = 0L;
   private OrderStatus orderStatus;
 
   public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, OrderStatus orderStatus) {
@@ -22,7 +22,8 @@ public class Order {
     this.voucher = Optional.empty();
   }
 
-  public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher, OrderStatus orderStatus) {
+  public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher,
+      OrderStatus orderStatus) {
     this.orderId = orderId;
     this.customerId = customerId;
     this.orderItems = orderItems;
@@ -33,7 +34,7 @@ public class Order {
     long beforeDiscount = orderItems
         .stream()
         .map(v -> v.getProductPrice() * v.getQuantity())
-        .reduce(0L, Long::sum);
+        .reduce(ZERO, Long::sum);
 
     return voucher
         .map(value -> value.discount(beforeDiscount))

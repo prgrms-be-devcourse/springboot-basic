@@ -1,11 +1,17 @@
 package org.prgrms.kdtspringorder.voucher.repository.implementation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.prgrms.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdtspringorder.voucher.repository.abstraction.VoucherRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-
-import java.util.*;
 
 @Profile("dev")
 @Repository
@@ -14,8 +20,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        if (!this.memoryDB.containsKey(voucherId)) return Optional.empty();
-        return Optional.of(this.memoryDB.get(voucherId));
+        if (!memoryDB.containsKey(voucherId)) {
+            return Optional.empty();
+        }
+        return Optional.of(memoryDB.get(voucherId));
     }
 
     @Override

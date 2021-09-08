@@ -59,7 +59,7 @@ public class App {
                 continue;
             }
 
-            CommandType commandType = CommandType.of(command.getCommandName());
+            CommandType commandType = CommandType.of(command.getName());
 
             switch (commandType) {
                 case CREATE:

@@ -1,8 +1,10 @@
 package org.prgrms.kdtspringorder.voucher.domain;
 
-import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
-
 import java.util.UUID;
+
+import org.prgrms.kdtspringorder.voucher.enums.VoucherPolicy;
+import org.prgrms.kdtspringorder.voucher.exception.ValidationException;
+
 
 public class Voucher {
     private final VoucherPolicy voucherPolicy;
@@ -12,9 +14,9 @@ public class Voucher {
         this.voucherPolicy = voucherPolicy;
     }
 
-    public void assignId(final UUID id) {
+    public void assignId(UUID id) {
         if (this.voucherId != null) {
-            throw new RuntimeException("이미 ID가 할당된 Voucher입니다.");
+            throw new ValidationException("이미 ID가 할당된 Voucher입니다.");
         }
         this.voucherId = id;
     }

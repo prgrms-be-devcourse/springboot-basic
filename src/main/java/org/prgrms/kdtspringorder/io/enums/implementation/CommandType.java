@@ -6,7 +6,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 
 public enum CommandType {
-    CREATE("create", CreateOption.values(), true),
+    CREATE("create", CreationOption.values(), true),
     LIST("list", new Option[]{}, false),
     EXIT("exit", new Option[]{}, false),
     BLACK_LIST("black-list", new Option[]{}, false);

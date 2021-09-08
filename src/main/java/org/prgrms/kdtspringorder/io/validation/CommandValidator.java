@@ -1,21 +1,20 @@
 package org.prgrms.kdtspringorder.io.validation;
 
-import org.prgrms.kdtspringorder.io.domain.Command;
+import java.util.Arrays;
+import java.util.List;
 import org.prgrms.kdtspringorder.io.enums.implementation.CommandType;
+import org.prgrms.kdtspringorder.io.domain.Command;
 import org.prgrms.kdtspringorder.io.exception.InvalidCommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class CommandValidator {
     private static final Logger logger = LoggerFactory.getLogger(CommandValidator.class);
 
     public Command validate(Command inputCommand) throws InvalidCommandException {
-        String commandName = inputCommand.getCommandName();
+        String commandName = inputCommand.getName();
         List<String> commandOptions = inputCommand.getOptions();
 
         // 존재하는 명령인지 확인
@@ -42,7 +41,7 @@ public class CommandValidator {
             throws InvalidCommandException {
         // 명령어를 지원한다면 해당 명령어가 옵션이 반드시 필요한 명령어인지 확인한다.
         // 옵션이 반드시 필요한 명령의 경우 입력받은 옵션이 0개라면 예외를 발생시킨다.
-        if (commandType.mustNeedOption() && inputCommandOptions.size() == 0) {
+        if (commandType.mustNeedOption() && inputCommandOptions.isEmpty()) {
             throw new InvalidCommandException(generateInvalidCommandMessage(commandType));
         }
 
@@ -56,7 +55,7 @@ public class CommandValidator {
     }
 
     private String generateInvalidCommandMessage(CommandType commandType) {
-        StringBuffer stringBuffer = new StringBuffer("");
+        StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(commandType.getTypeName())
                 .append(" : 해당 명령은 옵션이 반드시 필요합니다.\n")
                 .append(Arrays.toString(commandType.getOptions()))
@@ -65,7 +64,7 @@ public class CommandValidator {
     }
 
     private String generateInvalidOptionMessage(CommandType commandType, List<String> inputOption) {
-        StringBuffer stringBuffer = new StringBuffer("");
+        StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(commandType.getTypeName())
                 .append(" : 해당 명렁어에는 ")
                 .append(inputOption)

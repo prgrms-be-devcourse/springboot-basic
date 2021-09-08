@@ -10,12 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConsoleInput implements Input {
-  Scanner scanner = new Scanner(System.in);
+
+  private static final String SPACE_CHARACTER = " ";
+  private static final Scanner scanner = new Scanner(System.in);
 
   @Override
   public Command read() {
     String commands = scanner.nextLine();
-    String[] tokens = commands.split(" ");
+    String[] tokens = commands.split(SPACE_CHARACTER);
 
     // 한줄의 맨 앞 단어는 명령어
     String command = tokens[0];
@@ -25,6 +27,6 @@ public class ConsoleInput implements Input {
         .stream(tokens)
         .skip(1)
         .collect(Collectors.toList());
-    return new Command(tokens[0], options);
+    return new Command(command, options);
   }
 }

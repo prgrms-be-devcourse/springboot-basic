@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
 @Component
 public class ConsoleOutput implements Output {
 
@@ -19,15 +20,13 @@ public class ConsoleOutput implements Output {
 
     @Override
     public void printVoucher(Voucher voucher) {
-        StringBuilder stringBuilder = new StringBuilder("");
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append("------------------------------------------------------------")
                 .append("\nVoucher ID : ").append(voucher.getId())
                 .append("\nVoucher Type : ").append(voucher.getVoucherTypeInString())
                 .append("\n------------------------------------------------------------");
-        System.out.println(
-                stringBuilder.toString()
-        );
+        System.out.println(stringBuilder);
     }
 
     @Override
