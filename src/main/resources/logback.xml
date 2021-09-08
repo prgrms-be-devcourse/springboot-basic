@@ -11,7 +11,7 @@
         <file>${LOG_DIR}/${LOG_FILE}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/{LOG_FILE}.%d{yyyy-MM-dd}.gz</fileNamePattern>
 
             <!-- keep 30 days' worth of history capped at 3GB total size -->
             <maxHistory>30</maxHistory>
@@ -29,7 +29,6 @@
     </appender>
 
     <root level="DEBUG">
-        <appender-ref ref="STDOUT"/>
         <!-- 전체 App 에서 warn 이상의 경우에만 file 에 기록하기 -->
         <appender-ref ref="FILE"/>
     </root>
