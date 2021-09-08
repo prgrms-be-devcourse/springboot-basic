@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
-@SpringBootApplication
 public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CommandLineAppConfig.class);
