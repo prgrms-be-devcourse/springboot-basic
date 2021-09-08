@@ -2,7 +2,7 @@ package prgms.springbasic;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import prgms.springbasic.console.Printer;
+import prgms.springbasic.io.Printer;
 import prgms.springbasic.voucher.Voucher;
 import prgms.springbasic.voucher.VoucherService;
 import prgms.springbasic.voucher.VoucherType;

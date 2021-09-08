@@ -1,4 +1,4 @@
-package prgms.springbasic.console;
+package prgms.springbasic.io;
 
 import prgms.springbasic.customer.Customer;
 import prgms.springbasic.voucher.Voucher;
