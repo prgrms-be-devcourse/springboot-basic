@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+Test set: org.prgrms.kdt.KdtSpringContextTests
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.822 s <<< FAILURE! - in org.prgrms.kdt.KdtSpringContextTests
+testorderService  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/macbook/kdt-spring-order/target/classes/org/prgrms/kdt/voucher/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.prgrms.kdt.voucher.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Qualifier("voucherMemoryRepository")}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.prgrms.kdt.voucher.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Qualifier("voucherMemoryRepository")}
+
+testVoucherRepositoryCreation  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/macbook/kdt-spring-order/target/classes/org/prgrms/kdt/voucher/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.prgrms.kdt.voucher.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Qualifier("voucherMemoryRepository")}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.prgrms.kdt.voucher.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Qualifier("voucherMemoryRepository")}
+
+testApplicationContxt  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/macbook/kdt-spring-order/target/classes/org/prgrms/kdt/voucher/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.prgrms.kdt.voucher.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Qualifier("voucherMemoryRepository")}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.prgrms.kdt.voucher.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Qualifier("voucherMemoryRepository")}
+

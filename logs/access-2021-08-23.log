@@ -1,0 +1,64 @@
+17:44:50.686 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+17:44:50.689 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+17:44:50.690 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+17:44:50.690 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
+17:44:50.732 [main] INFO  org.prgrms.kdt.OrderTester - logger name => org.prgrms.kdt.OrderTester
+17:44:50.732 [main] INFO  org.prgrms.kdt.OrderTester - version -> v1.0
+17:44:50.732 [main] INFO  org.prgrms.kdt.OrderTester - minumumOrderAmount -> 1
+17:44:50.732 [main] INFO  org.prgrms.kdt.OrderTester - supportVendors -> [a, b, c, d, e]
+17:44:50.732 [main] INFO  org.prgrms.kdt.OrderTester - description -> line 1 hello world
+line 2 xxxx
+line 3
+
+17:49:54.133 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+17:49:54.139 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+17:49:54.139 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+17:49:54.139 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
+17:49:54.184 [main] ERROR org.prgrms.kdt.OrderTester - logger name => org.prgrms.kdt.OrderTester
+17:49:54.185 [main] WARN  org.prgrms.kdt.OrderTester - version -> v1.0
+17:49:54.186 [main] INFO  org.prgrms.kdt.OrderTester - minumumOrderAmount -> 1
+17:49:54.186 [main] INFO  org.prgrms.kdt.OrderTester - supportVendors -> [a, b, c, d, e]
+17:49:54.186 [main] INFO  org.prgrms.kdt.OrderTester - description -> line 1 hello world
+line 2 xxxx
+line 3
+
+18:07:45.884 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 2143 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+18:07:45.886 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+18:07:45.886 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+18:07:46.441 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+18:07:46.443 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+18:07:46.443 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+18:07:46.443 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
+18:07:46.548 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.114 seconds (JVM running for 2.03)
+18:46:40.757 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 2256 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+18:46:40.759 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+18:46:40.759 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+18:46:41.373 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+18:46:41.375 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+18:46:41.375 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+18:46:41.375 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
+18:46:41.471 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.105 seconds (JVM running for 1.877)
+18:47:03.058 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 2261 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+18:47:03.060 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+18:47:03.060 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+18:47:03.543 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+18:47:03.544 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+18:47:03.544 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+18:47:03.544 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
+18:47:03.630 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.967 seconds (JVM running for 1.679)
+19:28:17.334 [main] INFO  org.prgrms.kdt.KdtApplicationTests - Starting KdtApplicationTests using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 2818 (started by macbook in /Users/macbook/kdt-spring-order)
+19:28:17.338 [main] DEBUG org.prgrms.kdt.KdtApplicationTests - Running with Spring Boot v2.5.3, Spring v5.3.9
+19:28:17.339 [main] INFO  org.prgrms.kdt.KdtApplicationTests - No active profile set, falling back to default profiles: default
+19:28:17.872 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+19:28:17.873 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+19:28:17.873 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+19:28:17.873 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+19:28:18.088 [main] INFO  org.prgrms.kdt.KdtApplicationTests - Started KdtApplicationTests in 1.063 seconds (JVM running for 2.079)
+19:28:53.287 [main] INFO  org.prgrms.kdt.KdtApplicationTests - Starting KdtApplicationTests using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 2852 (started by macbook in /Users/macbook/kdt-spring-order)
+19:28:53.289 [main] DEBUG org.prgrms.kdt.KdtApplicationTests - Running with Spring Boot v2.5.3, Spring v5.3.9
+19:28:53.291 [main] INFO  org.prgrms.kdt.KdtApplicationTests - No active profile set, falling back to default profiles: default
+19:28:53.749 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+19:28:53.750 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+19:28:53.751 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+19:28:53.751 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+19:28:53.853 [main] INFO  org.prgrms.kdt.KdtApplicationTests - Started KdtApplicationTests in 0.882 seconds (JVM running for 1.807)
