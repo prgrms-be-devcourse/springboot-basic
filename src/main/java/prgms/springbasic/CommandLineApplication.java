@@ -1,5 +1,7 @@
 package prgms.springbasic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import prgms.springbasic.io.Printer;
@@ -13,6 +15,8 @@ import java.io.InputStreamReader;
 import java.util.UUID;
 
 public class CommandLineApplication {
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+
     public static void main(String[] args) throws IOException {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CommandLineAppConfig.class);
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
@@ -33,11 +37,13 @@ public class CommandLineApplication {
                     String amount = reader.readLine();
                     Voucher newVoucher = voucherService.createVoucher(VoucherType.FIXED_AMOUNT_VOUCHER, UUID.randomUUID(), amount);
                     printer.printVoucherCreateSuccess(newVoucher);
+                    logger.info("voucher size ++!!");
                 } else if (voucherNumber == 2) {
                     printer.printPercentInputInfo();
                     String percent = reader.readLine();
                     Voucher newVoucher = voucherService.createVoucher(VoucherType.PERCENT_DISCOUNT_VOUCHER, UUID.randomUUID(), percent);
                     printer.printVoucherCreateSuccess(newVoucher);
+                    logger.info("voucher size ++!!");
                 }
 
             } else if (inputCommand.equals("list")) {
