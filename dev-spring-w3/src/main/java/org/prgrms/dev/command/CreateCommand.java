@@ -15,16 +15,16 @@ public class CreateCommand implements Command {
     @Override
     public boolean execute(Input input, Output output, VoucherService voucherService) {
         try {
-            output.voucherSelectType();
+            output.selectVoucherType();
             String voucherType = input.inputVoucherType(CURSOR);
             long value = Long.parseLong((input.inputValue("input value [fixed amount | percent discount] " + CURSOR)));
             voucherService.createVoucher(voucherType, UUID.randomUUID(), value);
         } catch (NumberFormatException e) {
             logger.error(e.getMessage());
-            output.invalidNumberInput();
+            output.printInvalidNumber();
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage());
-            output.invalidVoucherTypeInput();
+            output.printInvalidVoucherType();
         }
         return true;
     }

@@ -11,6 +11,6 @@ public class BlackListApplication {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         CustomerService customerService = applicationContext.getBean(CustomerService.class);
         OutputConsole outputConsole = new OutputConsole();
-        outputConsole.blackList(customerService);
+        outputConsole.printBlackList(customerService.blackList());
     }
 }

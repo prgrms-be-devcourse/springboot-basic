@@ -39,7 +39,7 @@ public class CommandLine implements Runnable {
             flag = CommandType.execute(inputCommandType, input, output, voucherService);
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage());
-            output.invalidCommandTypeInput();
+            output.printInvalidCommandType();
         }
 
         return flag;
