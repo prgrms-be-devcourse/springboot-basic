@@ -1,14 +1,11 @@
 package org.prgrms.kdt.enums;
 
 public enum VoucherType {
-    UNDEFINED("undefined"),
-    FIXED("fixed"),
-    DISCOUNT("discount");
+    UNDEFINED,
+    FIXED,
+    DISCOUNT;
 
-    VoucherType(String voucherType) {
-    }
-
-    static public VoucherType getVoucherType(String voucherType){
+    public static VoucherType getVoucherType(String voucherType){
         try {
             return VoucherType.valueOf(voucherType);
         } catch (IllegalArgumentException ex){
