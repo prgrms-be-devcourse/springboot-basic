@@ -8,9 +8,7 @@ public class Console implements Input, Output {
     private final BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
     @Override
-    public String input(String s) throws IOException {
-        bw.write(s);
-        bw.flush();
+    public String input() throws IOException {
         return br.readLine();
     }
 
@@ -21,6 +19,12 @@ public class Console implements Input, Output {
         bw.write("Type create to create a new voucher.\n");
         bw.write("Type list to list all vouchers.\n");
         bw.write("Type blacklist to list all customers on blacklist.\n");
+        bw.flush();
+    }
+
+    @Override
+    public void printSign() throws IOException {
+        bw.write("> ");
         bw.flush();
     }
 

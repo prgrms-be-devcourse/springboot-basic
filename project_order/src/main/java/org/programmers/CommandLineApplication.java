@@ -29,23 +29,27 @@ public class CommandLineApplication implements Runnable {
         while (run) {
             try {
                 console.printPrompt();
+                console.printSign();
 
-                CommandType command = CommandType.valueOf(console.input("> ").toUpperCase(Locale.ROOT));
+                CommandType command = CommandType.valueOf(console.input().toUpperCase(Locale.ROOT));
                 switch (command) {
                     case CREATE -> {
                         console.printVoucherTypes();
+                        console.printSign();
 
-                        String voucherType = console.input("> ");
+                        String voucherType = console.input();
                         if (voucherType.equals("f")) {
                             console.askAmount();
+                            console.printSign();
 
-                            long amount = Long.parseLong(console.input("> "));
+                            long amount = Long.parseLong(console.input());
 
                             voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), amount);
                         } else if (voucherType.equals("p")) {
                             console.askPercentage();
+                            console.printSign();
 
-                            long percentage = Long.parseLong(console.input("> "));
+                            long percentage = Long.parseLong(console.input());
 
                             voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), percentage);
                         }
