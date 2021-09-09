@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +32,6 @@ import org.springframework.test.web.servlet.MockMvc;
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(VoucherController.class)
-@ContextConfiguration(classes = MvcConfig.class)
 class VoucherControllerTest extends EmbeddedMysqlConnector {
 
     @Autowired
@@ -39,6 +39,11 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
 
     @Autowired
     VoucherJdbcRepository voucherJdbcRepository;
+
+    @BeforeEach
+    void beforeEach() {
+        voucherJdbcRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("바우처 서비스 메인페이지")
@@ -71,7 +76,7 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
         mockMvc.perform(get("/admin/voucher/form"))
                 .andDo(print())
                 .andExpect(view().name("admin/voucher/form"))
-                .andExpect(model().attributeExists("voucherDto"))
+                .andExpect(model().attributeExists("voucherForm"))
                 .andExpect(status().isOk());
     }
 
@@ -149,7 +154,7 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("/admin/voucher/form"))
-                .andExpect(model().attributeHasFieldErrorCode("voucherForm", "voucherType", "NotBlank"));
+                .andExpect(model().hasErrors());
     }
 
     @Test
@@ -162,7 +167,7 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("/admin/voucher/form"))
-                .andExpect(model().attributeHasFieldErrorCode("voucherForm", "voucherType", "NotBlank"));
+                .andExpect(model().hasErrors());
     }
 
     @Test

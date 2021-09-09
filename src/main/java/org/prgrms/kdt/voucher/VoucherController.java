@@ -49,8 +49,11 @@ public class VoucherController {
 
     @PostMapping("/admin/voucher/form")
     public String submit(@Valid VoucherForm voucherForm, BindingResult bindingResult, RedirectAttributes attributes) {
-        voucherFormValidator.validate(voucherForm, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "/admin/voucher/form";
+        }
 
+        voucherFormValidator.validate(voucherForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/admin/voucher/form";
         }

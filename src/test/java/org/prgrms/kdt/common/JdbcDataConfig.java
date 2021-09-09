@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
 @ComponentScan(
-        basePackages = {"org.prgrms.kdt.customer", "org.prgrms.kdt.voucher", "org.prgrms.kdt.wallet"}
+        basePackages = {"org.prgrms.kdt.customer", "org.prgrms.kdt.voucher", "org.prgrms.kdt.wallet", "org.prgrms.kdt.validate"}
 )
 public class JdbcDataConfig {
 

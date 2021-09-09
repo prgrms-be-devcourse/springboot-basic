@@ -25,7 +25,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
  */
 @Disabled
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
 @ContextConfiguration(classes = JdbcDataConfig.class)
 public class EmbeddedMysqlConnector {
