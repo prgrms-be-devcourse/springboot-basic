@@ -37,21 +37,24 @@ public class CommandLineApplication implements Runnable {
                         console.printVoucherTypes();
                         console.printSign();
 
-                        String voucherType = console.input();
-                        if (voucherType.equals("f")) {
-                            console.askAmount();
-                            console.printSign();
+                        VoucherType voucherType = VoucherType.valueOf(console.input().toUpperCase(Locale.ROOT));
+                        switch (voucherType) {
+                            case FIXED -> {
+                                console.askAmount();
+                                console.printSign();
 
-                            long amount = Long.parseLong(console.input());
+                                long amount = Long.parseLong(console.input());
 
-                            voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), amount);
-                        } else if (voucherType.equals("p")) {
-                            console.askPercentage();
-                            console.printSign();
+                                voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), amount);
+                            }
+                            case PERCENT -> {
+                                console.askPercentage();
+                                console.printSign();
 
-                            long percentage = Long.parseLong(console.input());
+                                long percentage = Long.parseLong(console.input());
 
-                            voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), percentage);
+                                voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), percentage);
+                            }
                         }
                     }
                     case LIST -> System.out.println(voucherService.getAllVouchers().toString());
