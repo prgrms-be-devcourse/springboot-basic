@@ -55,6 +55,28 @@ KdtApplication 클래스의 main 메소드 실행
 <img width="670" alt="스크린샷 2021-09-08 오전 12 32 36" src="https://user-images.githubusercontent.com/58363663/132372235-79a595ca-5210-4eb8-9044-c338017b2733.png">
 
 ---
+
+## 바우처 관리 페이지
+### 바우처 등록
+![바우처등록](https://user-images.githubusercontent.com/58363663/132718281-af378cf5-cf94-49dc-851d-9ea95555b23c.gif)
+
+### 바우처 조회
+![바우처조회](https://user-images.githubusercontent.com/58363663/132718320-967dd284-4c8f-41c3-977e-8830a176f43c.gif)
+
+### 지갑 추가
+![지갑추가](https://user-images.githubusercontent.com/58363663/132718357-acf6eef9-b675-4e90-afa4-ad3daec546d9.gif)
+
+### 바우처 상세 조회
+![지갑조회](https://user-images.githubusercontent.com/58363663/132718349-9a99f131-8186-4ab2-a300-b12e2b980e4f.gif)
+
+### 삭제
+![삭제](https://user-images.githubusercontent.com/58363663/132718336-fd60fd34-28b1-41ae-a1b5-404e33ee22e1.gif)
+
+### 임의 고객 추가
+![임의고객추가](https://user-images.githubusercontent.com/58363663/132718348-3a8198d0-47e3-4e09-933a-6a8a64c30116.gif)
+
+
+---
 ## API Guide
 
 
