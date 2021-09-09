@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public interface Input {
 
-    String input(String s) throws IOException;
+    String input() throws IOException;
 
 }
