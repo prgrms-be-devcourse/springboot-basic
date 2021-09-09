@@ -21,8 +21,9 @@ class BlackCustomersTest {
         Customer whiteCustomer = TestCustomerBuilder.start().customerType(CustomerType.BLACK).build();
         Customer blackCustomer = TestCustomerBuilder.start().customerType(CustomerType.BLACK).build();
         var customers = Arrays.asList(whiteCustomer, blackCustomer);
-        //when then
+        //when
         BlackCustomers blackCustomers = BlackCustomers.valueOf(customers);
+        //then
         assertThat(blackCustomers).isNotNull();
         assertThat(blackCustomers.size()).isEqualTo(2);
         assertThat(blackCustomers, containsInAnyOrder(samePropertyValuesAs(whiteCustomer), samePropertyValuesAs(blackCustomer)));
