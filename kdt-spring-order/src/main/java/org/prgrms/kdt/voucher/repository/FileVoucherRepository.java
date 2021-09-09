@@ -2,16 +2,15 @@ package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.common.aop.TrackTime;
 import org.prgrms.kdt.common.exception.ExceptionMessage;
-import org.prgrms.kdt.voucher.exception.VoucherNotFoundException;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.exception.VoucherNotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,15 @@ import java.util.UUID;
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final String filePath = "voucher.txt";
+    private final String filePath;
+
+    public FileVoucherRepository(FileVoucherRepositoryProperties properties) {
+        filePath = new StringBuilder()
+                        .append(properties.getDirectory())
+                        .append(properties.getFileName())
+                        .append(properties.getExtension())
+                        .toString();
+    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -115,10 +122,9 @@ public class FileVoucherRepository implements VoucherRepository {
         );
     }
 
-    public void removeAllVouchers() {
-        File file = new File(filePath);
+    public void clearAllVouchers() {
         try {
-            Files.deleteIfExists(file.toPath());
+            new FileOutputStream(filePath).close();
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }

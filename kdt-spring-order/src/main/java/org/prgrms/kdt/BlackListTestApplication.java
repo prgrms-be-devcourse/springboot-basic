@@ -1,7 +1,7 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.domain.customer.Customer;
-import org.prgrms.kdt.repository.MemoryCustomerRepository;
+import org.prgrms.kdt.customer.domain.Customer;
+import org.prgrms.kdt.customer.repository.MemoryCustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

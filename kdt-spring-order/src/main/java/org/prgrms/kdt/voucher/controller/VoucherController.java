@@ -16,10 +16,11 @@ import java.util.UUID;
 public class VoucherController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
-    private final CommandLineView commandLineView = new CommandLineView();
+    private final CommandLineView commandLineView;
 
-    public VoucherController(VoucherService service) {
+    public VoucherController(VoucherService service, CommandLineView commandLineView) {
         this.voucherService = service;
+        this.commandLineView = commandLineView;
     }
 
     public void start() {
@@ -40,15 +41,15 @@ public class VoucherController {
         }
     }
 
-    public void showCommandDescription() {
+    private void showCommandDescription() {
         commandLineView.showStartMessage();
     }
 
-    public Command getCommand() {
+    private Command getCommand() {
         return Command.findByCommandName(commandLineView.requestCommand());
     }
 
-    public void executeCommand(Command command) {
+    private void executeCommand(Command command) {
         if (command == Command.CREATE) {
             executeCreateCommand();
             return;
@@ -65,7 +66,7 @@ public class VoucherController {
         }
     }
 
-    public void executeCreateCommand() {
+    private void executeCreateCommand() {
         VoucherType voucherType = VoucherType.findByVoucherType(commandLineView.requestVoucherType());
 
         try {
@@ -78,7 +79,7 @@ public class VoucherController {
 
     }
 
-    public void executeListCommand() {
+    private void executeListCommand() {
         commandLineView.showVoucherList(voucherService.getAllVouchers());
     }
 
@@ -86,7 +87,7 @@ public class VoucherController {
         commandLineView.close();
     }
 
-    public boolean isExitCommand(Command command) {
+    private boolean isExitCommand(Command command) {
         return command == Command.EXIT;
     }
 }

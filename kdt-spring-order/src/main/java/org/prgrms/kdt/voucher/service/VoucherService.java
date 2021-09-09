@@ -45,4 +45,8 @@ public class VoucherService {
     public List<Voucher> getAllVouchers(){
         return voucherRepository.findAllVouchers();
     }
+
+    public void clearAllVouchers(){
+        voucherRepository.clearAllVouchers();
+    }
 }
