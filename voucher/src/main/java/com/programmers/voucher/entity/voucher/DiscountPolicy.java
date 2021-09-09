@@ -13,10 +13,7 @@ public class DiscountPolicy implements Serializable {
                 input -> Math.max(input, 0)),
         PERCENTAGE(
                 (price, discount) -> Math.min(price * (100 - discount) / 100, price),
-                input -> Math.min(Math.max(input, 0), 100)),
-        UNKNOWN(
-                (price, discount) -> {throw new UnsupportedOperationException("Unknown discount policy type.");},
-                input -> {throw new UnsupportedOperationException("Unknown discount policy type.");});
+                input -> Math.min(Math.max(input, 0), 100));
 
         BinaryOperator<Integer> operation;
         UnaryOperator<Integer> constraint;
@@ -29,6 +26,10 @@ public class DiscountPolicy implements Serializable {
             return constraint;
         }
 
+        public int constraint(int original) {
+            return this.constraint.apply(original);
+        }
+
         Type(BinaryOperator<Integer> operation, UnaryOperator<Integer> constraint) {
             this.operation = operation;
             this.constraint = constraint;
@@ -38,7 +39,7 @@ public class DiscountPolicy implements Serializable {
             try {
                 return Type.valueOf(input.toUpperCase());
             } catch (IllegalArgumentException ex) {
-                return Type.UNKNOWN;
+                return Type.FIXED;
             }
         }
     }
