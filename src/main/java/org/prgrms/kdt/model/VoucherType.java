@@ -1,31 +1,28 @@
 package org.prgrms.kdt.model;
 
-import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.Supplier;
+import org.prgrms.kdt.model.discount.DiscountStrategy;
+import org.prgrms.kdt.model.discount.FixedDiscountStrategy;
+import org.prgrms.kdt.model.discount.PercentDiscountStrategy;
 
 public enum VoucherType {
-    FIXED_AMOUNT(
-        "1",
-        value -> new FixedAmountVoucher(UUID.randomUUID(), value)),
-
-    PERCENT(
-        "2",
-        value -> new PercentDiscountVoucher(UUID.randomUUID(), value));
+    FIX("1", FixedDiscountStrategy::new),
+    PERCENT("2", PercentDiscountStrategy::new);
 
     private final String num;
-    private final Function<Long, Voucher> creator;
+    private final Supplier<DiscountStrategy> discountStrategyCreator;
 
-    VoucherType(String value, Function<Long, Voucher> creator) {
+    VoucherType(String value, Supplier<DiscountStrategy> discountStrategyCreator) {
         this.num = value;
-        this.creator = creator;
+        this.discountStrategyCreator = discountStrategyCreator;
     }
 
     public String getNum() {
         return num;
     }
 
-    public Voucher create(Long value) {
-        return creator.apply(value);
+    public DiscountStrategy getDiscountStrategy() {
+        return discountStrategyCreator.get();
     }
 
     @Override

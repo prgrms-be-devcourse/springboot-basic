@@ -1,5 +1,6 @@
 package org.prgrms.kdt.service;
 
+import java.time.LocalDateTime;
 import org.prgrms.kdt.model.*;
 import org.prgrms.kdt.repository.*;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,13 @@ public class VoucherService {
         return voucherRepository.findAllVoucher();
     }
 
-    public Voucher createVoucher(Voucher voucher) {
+    public Voucher createVoucher(VoucherType voucherType, Long discount) {
+        var voucher = new Voucher(
+            UUID.randomUUID(),
+            discount,
+            LocalDateTime.now(),
+            voucherType,
+            voucherType.getDiscountStrategy());
         return voucherRepository.insert(voucher);
     }
 

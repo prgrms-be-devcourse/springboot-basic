@@ -1,10 +1,11 @@
-package org.prgrms.kdt.command;
+package org.prgrms.kdt.app.command;
 
 import java.text.MessageFormat;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
+import org.prgrms.kdt.app.io.Console;
 import org.prgrms.kdt.model.VoucherType;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.util.EnumUtils;
@@ -44,9 +45,9 @@ public class VoucherCreateCommand implements CommandOperator {
             voucherType = getVoucherType(typeNum);
         }
 
-        var value = console.input("How much discount?: ", digitPredicate);
-        var createdVoucher = voucherService.createVoucher(
-            voucherType.get().create(Long.valueOf(value)));
+        var discount = console.input("How much discount?: ", digitPredicate);
+        var createdVoucher = voucherService
+            .createVoucher(voucherType.get(), Long.valueOf(discount));
         logger.info(MessageFormat.format("user create voucher: {0}", createdVoucher));
     }
 

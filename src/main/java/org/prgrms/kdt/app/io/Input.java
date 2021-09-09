@@ -1,4 +1,4 @@
-package org.prgrms.kdt.command;
+package org.prgrms.kdt.app.io;
 
 import java.util.function.Predicate;
 

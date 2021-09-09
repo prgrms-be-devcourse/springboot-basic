@@ -1,5 +1,6 @@
-package org.prgrms.kdt.command;
+package org.prgrms.kdt.app.command;
 
+import org.prgrms.kdt.app.io.Console;
 import org.springframework.stereotype.Component;
 
 @Component

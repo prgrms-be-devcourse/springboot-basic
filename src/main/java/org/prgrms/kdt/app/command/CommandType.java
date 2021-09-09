@@ -1,4 +1,4 @@
-package org.prgrms.kdt.command;
+package org.prgrms.kdt.app.command;
 
 public enum CommandType {
     EXIT("0"),

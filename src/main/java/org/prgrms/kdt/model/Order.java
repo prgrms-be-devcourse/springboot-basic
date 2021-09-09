@@ -30,7 +30,9 @@ public class Order {
         var beforeDiscount = orderItems.stream()
             .map(v -> v.getProductPrice() * v.getQuantity())
             .reduce(0L, Long::sum);
-        return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
+        return voucher
+            .map(value -> value.getDiscountStrategy().discount(beforeDiscount, value.getDiscount()))
+            .orElse(beforeDiscount);
     }
 
     public UUID getOrderId() {

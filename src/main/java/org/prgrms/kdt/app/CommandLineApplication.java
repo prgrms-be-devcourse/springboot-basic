@@ -1,10 +1,13 @@
-package org.prgrms.kdt.command;
+package org.prgrms.kdt.app;
 
 
 import java.util.*;
 import java.util.function.Function;
 import javax.annotation.PostConstruct;
 
+import org.prgrms.kdt.app.command.CommandOperator;
+import org.prgrms.kdt.app.command.CommandType;
+import org.prgrms.kdt.app.io.Console;
 import org.prgrms.kdt.util.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

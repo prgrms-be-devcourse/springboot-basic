@@ -395,3 +395,55 @@ Caused by: java.lang.IllegalArgumentException: No voucher type:fix
 18:51:10.437 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
 18:51:10.438 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@64d43929, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@1d269ed7, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@437ebf59}
 18:51:10.591 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.955 seconds (JVM running for 6.83)
+13:46:11.750 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12555 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+13:46:11.752 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+13:46:12.449 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
+13:46:12.450 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@18324f97, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@64f555e7, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@71178a52}
+13:46:49.162 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12574 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+13:46:49.164 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+13:46:49.826 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
+13:46:49.826 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@18324f97, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@64f555e7, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@71178a52}
+13:47:57.646 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12610 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+13:47:57.648 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+13:47:58.072 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
+13:47:58.072 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@41c89d2f, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@410e94e, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@2d691f3d}
+13:47:58.182 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.839 seconds (JVM running for 6.559)
+13:48:03.888 [main] INFO  o.p.kdt.command.VoucherCreateCommand - user create voucher: Voucher{voucherId=d67f3063-9e35-4868-9dd5-c561f3f84f63, discount=10, type=1. FIXED_AMOUNT, discountStrategy=org.prgrms.kdt.model.FixedDiscountStrategy@c68a5f8}
+13:48:32.328 [main] INFO  o.p.kdt.command.VoucherCreateCommand - user create voucher: Voucher{voucherId=455d38dd-6777-4840-a445-ae3abce5931a, discount=100, type=2. PERCENT, discountStrategy=org.prgrms.kdt.model.PercentDiscountStrategy@3aefae67}
+13:56:16.917 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12644 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+13:56:16.918 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+13:56:17.347 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
+13:56:17.347 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@325f7fa9, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@11ce2e22, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@63a5d002}
+13:56:17.464 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.864 seconds (JVM running for 6.544)
+13:56:31.342 [main] INFO  o.p.kdt.command.VoucherCreateCommand - user create voucher: Voucher{voucherId=d38c88b0-ede9-4305-bd6a-24bcf23a603e, discount=100, type=2. PERCENT, discountStrategy=org.prgrms.kdt.model.PercentDiscountStrategy@1d3e6d34}
+13:57:15.416 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12718 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+13:57:15.418 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+13:57:15.952 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
+13:57:15.953 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@435ce306, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@537b32ef, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@7dc51783}
+13:57:16.080 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.992 seconds (JVM running for 7.436)
+13:57:37.685 [main] INFO  o.p.kdt.command.VoucherCreateCommand - user create voucher: Voucher{voucherId=a31c4f00-fa89-49cf-9b58-90c7c3d9cc4b, discount=100, type=2. PERCENT, discountStrategy=org.prgrms.kdt.model.PercentDiscountStrategy@7b44b63d}
+14:00:26.062 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12741 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+14:00:26.064 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+14:00:26.508 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
+14:00:26.509 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@150d80c4, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@6826c41e, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@3003697}
+14:00:26.627 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.896 seconds (JVM running for 6.652)
+14:00:31.626 [main] WARN  org.prgrms.kdt.command.Console - -1
+14:00:31.627 [main] WARN  org.prgrms.kdt.command.Console - -1
+14:00:43.072 [main] INFO  o.p.kdt.command.VoucherCreateCommand - user create voucher: Voucher{voucherId=8c72a7a5-8db7-4329-b5e6-546f1372df4a, discount=10, type=1. FIXED_AMOUNT, discountStrategy=org.prgrms.kdt.model.FixedDiscountStrategy@779de014}
+14:03:28.214 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 12769 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+14:03:28.215 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+14:03:28.670 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
+14:03:28.670 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@408613cc, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@325f7fa9, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@11ce2e22}
+14:03:28.791 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.924 seconds (JVM running for 6.63)
+14:50:08.777 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 13258 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+14:50:08.778 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+14:50:09.201 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
+14:50:09.202 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@41c89d2f, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@410e94e, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@2d691f3d}
+14:50:09.307 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.853 seconds (JVM running for 6.598)
+14:50:19.254 [main] INFO  o.p.kdt.command.VoucherCreateCommand - user create voucher: Voucher{voucherId=2cf44284-9e00-4b83-817f-610e392d2125, discount=5, voucherType=2. PERCENT}
+15:03:01.900 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 13333 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+15:03:01.902 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+15:03:02.361 [main] INFO  o.p.k.command.CommandLineApplication - CommandLineApplication init
+15:03:02.361 [main] INFO  o.p.k.command.CommandLineApplication - Init Command types -> {0. EXIT=org.prgrms.kdt.command.ExitCommand@11ce2e22, 1. VOUCHER_CREATE=org.prgrms.kdt.command.VoucherCreateCommand@63a5d002, 2. VOUCHER_LIST=org.prgrms.kdt.command.VoucherListCommand@13cda7c9}
+15:03:02.476 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.92 seconds (JVM running for 6.668)
+15:03:10.291 [main] INFO  o.p.kdt.command.VoucherCreateCommand - user create voucher: Voucher{voucherId=ab204b8b-dea9-4511-8574-c40ed94806f6, discount=40, voucherType=2. PERCENT}
