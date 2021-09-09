@@ -7,7 +7,7 @@ public class Console implements Input, Output {
 
     //사용자 입력값 받기
     @Override
-    public String input() {
+    public String receiveUserInput() {
         return sc.nextLine();
     }
 
@@ -22,13 +22,13 @@ public class Console implements Input, Output {
 
     //동작 입력 메시지
     @Override
-    public void inputTypeMessage() {
+    public void inputCommandTypeMessage() {
         System.out.print("Select 'create' or 'list' or 'exit': ");
     }
 
     //voucher 타입 메시지
     @Override
-    public void voucherTypeMessage() {
+    public void inputVoucherTypeMessage() {
         System.out.print("Select 'fixed' or 'percent': ");
     }
 
@@ -53,19 +53,19 @@ public class Console implements Input, Output {
 
     //커맨드 입력 오류
     @Override
-    public void commandInputError() {
+    public void invalidCommandType() {
         System.out.println("Write valid command.");
     }
 
     //타입 입력 오류
     @Override
-    public void typeInputError() {
+    public void invalidVoucherType() {
         System.out.println("Write valid type");
     }
 
     //금액 입력 오류
     @Override
-    public void amountInputError() {
+    public void invalidAmount() {
         System.out.println("Write valid amount");
     }
 

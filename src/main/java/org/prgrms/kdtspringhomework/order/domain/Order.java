@@ -7,37 +7,38 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class Order {
-    private final UUID orderid;
+    private static final long LONG_IDENTITY = 0L;
+
+    private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
     private Optional<Voucher> voucher;
-    private OrderStatus orderStatus = OrderStatus.ACCEPTED;
+    private OrderStatus orderStatus;
 
-    public Order(UUID orderid, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
-        this.orderid = orderid;
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+        this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.of(voucher);
+        orderStatus = OrderStatus.ACCEPTED;
     }
 
-    public Order(UUID orderid, UUID customerId, List<OrderItem> orderItems) {
-        this.orderid = orderid;
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems) {
+        this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.empty();
+        orderStatus = OrderStatus.ACCEPTED;
     }
 
     public long totalAmount() {
-        var beforeDiscount = orderItems.stream().map(v -> v.getProductPrice() * v.getQuantity())
-                .reduce(0L, Long::sum);
+        var beforeDiscount = orderItems.stream()
+                .map(orderItem -> orderItem.getProductPrice() * orderItem.getQuantity())
+                .reduce(LONG_IDENTITY, Long::sum);
         if (voucher.isPresent()) {
             return voucher.get().discount(beforeDiscount);
         } else {
             return beforeDiscount;
         }
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
     }
 }

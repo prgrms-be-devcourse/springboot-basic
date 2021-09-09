@@ -17,20 +17,20 @@ public class CreateCommand implements CommandStrategy {
 
         //if문을 없애기 위한 연구가 아직 더 필요한 것 같습니다...
         try {
-            output.voucherTypeMessage();
-            String voucherType = input.input();
+            output.inputVoucherTypeMessage();
+            String voucherType = input.receiveUserInput();
             long amount = 0L;
             if (voucherType.equals(FIXED)) {
                 output.inputAmountMessage();
-                amount = Long.parseLong(input.input());
+                amount = Long.parseLong(input.receiveUserInput());
                 voucherService.addVoucher(new FixedAmountVoucher(UUID.randomUUID(), amount));
             } else if (voucherType.equals(PERCENT)) {
                 output.inputAmountMessage();
-                amount = Long.parseLong(input.input());
+                amount = Long.parseLong(input.receiveUserInput());
                 voucherService.addVoucher(new PercentDiscountVoucher(UUID.randomUUID(), amount));
             }
         } catch (IllegalArgumentException e) {
-            output.typeInputError();
+            output.invalidVoucherType();
         }
         return false;
     }

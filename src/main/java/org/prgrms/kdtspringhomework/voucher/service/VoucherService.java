@@ -24,8 +24,7 @@ public class VoucherService {
 
     public void printVouchers() {
         for (Voucher voucher : voucherRepository.findAll()) {
-            String x = voucher.toString();
-            System.out.println(x);
+            System.out.println(voucher.toString());
         }
     }
 

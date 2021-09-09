@@ -11,8 +11,6 @@ public class CommandLine implements Runnable {
     private final Input input;
     private final Output output;
     private final ApplicationContext applicationContext;
-    private final String FIXED = "fixed";
-    private final String PERCENT = "percent";
 
     public CommandLine(Console console, ApplicationContext applicationContext) {
         this.input = console;
@@ -31,12 +29,12 @@ public class CommandLine implements Runnable {
     private void selectMenu(VoucherService voucherService) {
         while (true) {
             output.start();
-            output.inputTypeMessage();
+            output.inputCommandTypeMessage();
             try {
-                String userCommand = input.input();
+                String userCommand = input.receiveUserInput();
                 CommandStatus.execute(input, output, voucherService, userCommand);
             } catch (IllegalArgumentException e) {
-                output.commandInputError();
+                output.invalidCommandType();
             }
         }
     }

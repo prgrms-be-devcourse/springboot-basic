@@ -6,7 +6,7 @@ import org.prgrms.kdtspringhomework.order.service.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class OrderTester {
@@ -17,10 +17,10 @@ public class OrderTester {
         var customerId = UUID.randomUUID();
         var orderService = applicationContext.getBean(OrderService.class);
 
-        var order = orderService.createOrder(customerId, new ArrayList<OrderItem>() {{
-            add(new OrderItem(UUID.randomUUID(), 100L, 1));
-        }});
+        var order = orderService.createOrder(customerId,
+                List.of(new OrderItem(UUID.randomUUID(), 100L, 1))
+        );
 
-        Assert.isTrue(order.totalAmount() == 100L, String.format("totalDiscountAmount {0} is not 100L", order.totalAmount()));
+        Assert.isTrue(order.totalAmount() == 100L, String.format("totalDiscountAmount %d is not 100L", order.totalAmount()));
     }
 }

@@ -5,10 +5,10 @@ public interface Output {
     void start();
 
     //동작 입력 메시지
-    void inputTypeMessage();
+    void inputCommandTypeMessage();
 
     //voucher 타입 메시지
-    void voucherTypeMessage();
+    void inputVoucherTypeMessage();
 
     //금액 입력 메시지
     void inputAmountMessage();
@@ -20,11 +20,11 @@ public interface Output {
     void exit();
 
     //커맨드 입력 오류
-    void commandInputError();
+    void invalidCommandType();
 
     //타입 입력 오류
-    void typeInputError();
+    void invalidVoucherType();
 
     //금액 입력 오류
-    void amountInputError();
+    void invalidAmount();
 }
