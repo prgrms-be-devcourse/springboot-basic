@@ -3,6 +3,7 @@ package org.prgrms.kdtspringhomework.voucher.service;
 import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
 import org.prgrms.kdtspringhomework.voucher.repository.VoucherRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 public class VoucherService {
@@ -23,7 +24,8 @@ public class VoucherService {
     }
 
     public void printVouchers() {
-        for (Voucher voucher : voucherRepository.findAll()) {
+        List<Voucher> voucherList = voucherRepository.findAll();
+        for (Voucher voucher : voucherList) {
             System.out.println(voucher.toString());
         }
     }
