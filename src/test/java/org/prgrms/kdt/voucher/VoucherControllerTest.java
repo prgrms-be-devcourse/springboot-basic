@@ -200,6 +200,17 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
         assertThat(vouchers).isEmpty();
     }
 
+    @Test
+    @DisplayName("지갑 등록 페이지 (고객 선택)")
+    void wallet_customer() throws Exception {
+        mockMvc.perform(get("/admin/wallet"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("customers"))
+                .andExpect(view().name("admin/wallet"));
+    }
+
+
     private Voucher givenFixedVoucher(UUID voucherId) {
         return new Voucher(voucherId, "test voucher", 50L, VoucherType.FIX, LocalDateTime.now());
     }

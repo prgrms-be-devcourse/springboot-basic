@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments :: fragment-header"></div>
+</head>
+<body class="bg-light">
+
+<div class="container">
+
+    <div th:replace="fragments :: logo"></div>
+
+    <div class="m-5 d-grid gap-3 col-12 mx-auto">
+        <h3> <strong>고객</strong>을 선택해주세요. </h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Customer Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Customer Type</th>
+                <th>Created At</th>
+                <th>Choice</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+
+                <td th:text="${customer.customerId}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.customerType}"></td>
+                <td th:text="${customer.createdAt}"></td>
+                <td>
+                    <a class="btn btn-outline-success" th:href="@{'/admin/wallet/' + ${customer.customerId}}">
+                    선택
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div th:replace="fragments :: fragment-script"></div>
+</body>
+</html>

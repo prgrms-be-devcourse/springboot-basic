@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments :: fragment-header"></div>
+</head>
+<body class="bg-light">
+
+<div class="container">
+
+    <div th:replace="fragments :: logo"></div>
+
+
+    <div class="m-5 d-grid gap-3 col-12 mx-auto">
+        <h3> 등록할 <strong>바우처</strong>을 선택해주세요. </h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Voucher Type</th>
+                <th>Discount</th>
+                <th>Created At</th>
+                <th>Add</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+
+                <td><a th:href="@{'/admin/voucher/' + ${voucher.voucherId}}" th:text="${voucher.voucherId}" ></a></td>
+                <td th:text="${voucher.name}"></td>
+                <td th:text="${voucher.voucherType}"></td>
+                <td th:text="${voucher.discount}"></td>
+                <td th:text="${voucher.createdAt}"></td>
+<!--                <div><p th:text="${customerId}"></p></div>-->
+                <td>
+                    <form th:action="@{/admin/wallet}" method="post" th:object="${walletDto}">
+                        <input type="hidden" id="customerId" name="customerId" th:value="${customerId}">
+                        <input type="hidden" id="voucherId" name="voucherId" th:value="${voucher.voucherId}">
+                        <button class="btn btn-outline-success" type="submit"
+                                data-toggle="modal" data-target="#deleteModal"> 바우처 추가
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div th:replace="fragments :: fragment-script"></div>
+</body>
+</html>

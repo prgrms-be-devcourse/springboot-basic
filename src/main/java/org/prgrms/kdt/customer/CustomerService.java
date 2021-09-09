@@ -30,7 +30,13 @@ public class CustomerService {
     public List<CustomerDto> getCustomers(String voucherId) {
         return customerRepository.findCustomersByVoucherId(UUID.fromString(voucherId)).stream()
                 .map(CustomerMapper::customerToCustomerDto)
-                .collect(Collectors.toList());
+                .toList();
+    }
+
+    public List<CustomerDto> getAllCustomers() {
+        return customerRepository.findAll().stream()
+                .map(CustomerMapper::customerToCustomerDto)
+                .toList();
     }
 
 }

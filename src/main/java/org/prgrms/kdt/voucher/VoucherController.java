@@ -80,4 +80,5 @@ public class VoucherController {
         voucherService.removeVoucher(voucherId);
         return "redirect:/admin/voucher/vouchers";
     }
+
 }
