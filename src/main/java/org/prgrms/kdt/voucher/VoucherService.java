@@ -51,4 +51,8 @@ public class VoucherService {
 
         voucherRepository.insert(voucher);
     }
+
+    public void removeVoucher(String voucherId) {
+        voucherRepository.deleteById(UUID.fromString(voucherId));
+    }
 }

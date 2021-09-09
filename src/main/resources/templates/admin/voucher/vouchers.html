@@ -18,7 +18,6 @@
                 <th>Voucher Type</th>
                 <th>Discount</th>
                 <th>Created At</th>
-                <th>Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -29,10 +28,6 @@
                 <td th:text="${voucher.voucherType}"></td>
                 <td th:text="${voucher.discount}"></td>
                 <td th:text="${voucher.createdAt}"></td>
-
-                <td>
-                    <button class="btn btn-outline-danger">삭제</button>
-                </td>
             </tr>
             </tbody>
         </table>

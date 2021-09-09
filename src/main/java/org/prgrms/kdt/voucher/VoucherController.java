@@ -68,4 +68,9 @@ public class VoucherController {
         return "/admin/voucher";
     }
 
+    @PostMapping("/admin/voucher")
+    public String delete(String voucherId) {
+        voucherService.removeVoucher(voucherId);
+        return "redirect:/admin/voucher/vouchers";
+    }
 }

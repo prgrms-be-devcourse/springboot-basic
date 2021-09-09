@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
@@ -158,6 +160,23 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
                 .andExpect(status().isOk())
                 .andExpect(view().name("/admin/voucher"))
                 .andExpect(content().string(containsString("test voucher")));
+    }
+
+    @Test
+    @DisplayName("바우처 삭제")
+    void delete() throws Exception {
+        UUID voucherId = UUID.randomUUID();
+        voucherJdbcRepository.insert(givenPercentVoucher(voucherId));
+
+        mockMvc.perform(post("/admin/voucher")
+                .param("voucherId", voucherId.toString()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/admin/voucher/vouchers"));
+
+        List<Voucher> vouchers = voucherJdbcRepository.findAll();
+
+        assertThat(vouchers).isEmpty();
     }
 
     private Voucher givenFixedVoucher(UUID voucherId) {
