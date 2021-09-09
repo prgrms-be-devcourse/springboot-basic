@@ -4,11 +4,13 @@ import org.prgrms.kdt.kdtspringorder.common.exception.CustomerNotFoundException;
 import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
 import org.prgrms.kdt.kdtspringorder.custommer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
