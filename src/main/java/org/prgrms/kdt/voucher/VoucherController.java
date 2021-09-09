@@ -32,7 +32,7 @@ public class VoucherController {
 
     @GetMapping("/admin")
     public String admin() {
-        return "admin/main";
+        return "admin";
     }
 
     @GetMapping("/admin/voucher/vouchers")

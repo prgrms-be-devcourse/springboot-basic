@@ -50,7 +50,7 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
     void main() throws Exception {
         mockMvc.perform(get("/admin"))
                 .andDo(print())
-                .andExpect(view().name("admin/main"))
+                .andExpect(view().name("admin"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("바우처 조회")))
                 .andExpect(content().string(containsString("바우처 등록")));
