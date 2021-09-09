@@ -11,6 +11,10 @@
         <a class="btn" th:href="@{/admin}"><h1>바우처 서비스</h1></a>
     </div>
 
+    <div th:if="${message}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <span th:text="${message}">완료</span>
+    </div>
+
     <div class="m-5 d-grid gap-3 col-6 mx-auto">
         <a class="btn btn-outline-secondary" th:href="@{/admin/voucher/vouchers}" > 바우처 조회</a>
         <a class="btn btn-outline-secondary" th:href="@{/admin/voucher/form}"> 바우처 등록</a>

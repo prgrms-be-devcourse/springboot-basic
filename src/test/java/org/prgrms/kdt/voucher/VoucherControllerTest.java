@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -69,6 +70,82 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("바우처 정상적으로 등록")
+    void submit() throws Exception {
+        mockMvc.perform(post("/admin/voucher/form")
+                .param("name", "test voucher")
+                .param("discount", "100")
+                .param("voucherType", "FIX"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/admin"));
+    }
+
+    @Test
+    @DisplayName("이름이 공백일 경우 예외")
+    void submit_fail_name_blank() throws Exception {
+        mockMvc.perform(post("/admin/voucher/form")
+                .param("name", "  ")
+                .param("discount", "100")
+                .param("voucherType", "FIX"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("/admin/voucher/form"))
+                .andExpect(model().attributeHasFieldErrorCode("voucherForm", "name", "NotBlank"));
+    }
+
+    @Test
+    @DisplayName("바우처 이름이 20자가 넘는 경우 예외")
+    void submit_fail_name_over() throws Exception {
+        mockMvc.perform(post("/admin/voucher/form")
+                .param("name", "0123456789 0123456789")
+                .param("discount", "100")
+                .param("voucherType", "FIX"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("/admin/voucher/form"))
+                .andExpect(model().attributeHasFieldErrorCode("voucherForm", "name", "Length"));
+    }
+
+    @Test
+    @DisplayName("할인금액이 음수인 경우 예외")
+    void submit_fail_discount_min() throws Exception {
+        mockMvc.perform(post("/admin/voucher/form")
+                .param("name", "test voucher")
+                .param("discount", "-1")
+                .param("voucherType", "FIX"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("/admin/voucher/form"))
+                .andExpect(model().attributeHasFieldErrorCode("voucherForm", "discount", "Min"));
+    }
+
+    @Test
+    @DisplayName("할인금액이 100만이 넘는경우 예외")
+    void submit_fail_discount_max() throws Exception {
+        mockMvc.perform(post("/admin/voucher/form")
+                .param("name", "test voucher")
+                .param("discount", "1000000000000")
+                .param("voucherType", "FIX"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("/admin/voucher/form"))
+                .andExpect(model().attributeHasFieldErrorCode("voucherForm", "discount", "Max"));
+    }
+
+    @Test
+    @DisplayName("바우처 타입을 선택하지 않는 경우 예외")
+    void submit_fail_voucherType_blank() throws Exception {
+        mockMvc.perform(post("/admin/voucher/form")
+                .param("name", "test voucher")
+                .param("discount", "100")
+                .param("voucherType", " "))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("/admin/voucher/form"))
+                .andExpect(model().attributeHasFieldErrorCode("voucherForm", "voucherType", "NotBlank"));
+    }
 
     private Voucher givenFixedVoucher(UUID voucherId) {
         return new Voucher(voucherId, "test voucher", 50L, VoucherType.FIX, LocalDateTime.now());

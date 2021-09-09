@@ -1,10 +1,12 @@
 package org.prgrms.kdt.voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.prgrms.kdt.exception.ResourceNotFoundException;
+import org.prgrms.kdt.form.VoucherForm;
 import org.prgrms.kdt.mapper.VoucherMapper;
 import org.springframework.stereotype.Service;
 
@@ -39,4 +41,14 @@ public class VoucherService {
                 .collect(Collectors.toList());
     }
 
+    public void addVoucher(VoucherForm voucherForm) {
+        Voucher voucher = new Voucher(
+                UUID.randomUUID(),
+                voucherForm.getName(),
+                Long.valueOf(voucherForm.getDiscount()),
+                VoucherType.valueOf(voucherForm.getVoucherType()),
+                LocalDateTime.now());
+
+        voucherRepository.insert(voucher);
+    }
 }
