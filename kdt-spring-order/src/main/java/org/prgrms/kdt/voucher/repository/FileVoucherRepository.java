@@ -87,11 +87,18 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private Voucher getVoucherFrom(String line){
         String[] elements = line.split("\\|");
-        if (VoucherType.findByVoucherType(elements[0]) == VoucherType.FIXED_AMOUNT) {
-            return new FixedAmountVoucher(UUID.fromString(elements[1]), Long.valueOf(elements[2]));
+        Voucher voucher = null;
+
+        switch (VoucherType.findByVoucherType(elements[0])){
+            case FIXED_AMOUNT:
+                voucher =  new FixedAmountVoucher(UUID.fromString(elements[1]), Long.valueOf(elements[2]));
+                break;
+            case PERCENT_DISCOUNT:
+                voucher = new PercentDiscountVoucher(UUID.fromString(elements[1]), Long.valueOf(elements[2]));
+                break;
         }
 
-        return new PercentDiscountVoucher(UUID.fromString(elements[1]), Long.valueOf(elements[2]));
+        return voucher;
     }
 
     private void createFileIfNotExist()

@@ -50,19 +50,18 @@ public class VoucherController {
     }
 
     private void executeCommand(Command command) {
-        if (command == Command.CREATE) {
-            executeCreateCommand();
-            return;
-        }
-
-        if (command == Command.LIST) {
-            executeListCommand();
-            return;
-        }
-
-        if (command == Command.EXIT) {
-            executeExitCommand();
-            return;
+        switch (command){
+            case CREATE:
+                executeCreateCommand();
+                break;
+            case LIST:
+                executeListCommand();
+                break;
+            case EXIT:
+                executeExitCommand();
+                break;
+            default:
+                break;
         }
     }
 
@@ -85,6 +84,7 @@ public class VoucherController {
 
     private void executeExitCommand() {
         commandLineView.close();
+        //System.exit(0);
     }
 
     private boolean isExitCommand(Command command) {

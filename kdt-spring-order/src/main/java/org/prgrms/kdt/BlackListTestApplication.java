@@ -13,7 +13,7 @@ public class BlackListTestApplication {
     private static final Logger logger = LoggerFactory.getLogger(BlackListTestApplication.class);
 
     public static void main(String[] args) {
-        var springApplication = new SpringApplication(KdtApplication.class);
+        SpringApplication springApplication = new SpringApplication(KdtApplication.class);
         springApplication.setAdditionalProfiles("local");
 
         ConfigurableApplicationContext applicationContext = springApplication.run();

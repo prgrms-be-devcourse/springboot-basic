@@ -44,7 +44,7 @@ public class Order {
     }
 
     public long totalAmount(){
-        var beforeDiscount = orderItems
+        long beforeDiscount = orderItems
                                         .stream()
                                         .map(v -> (v.getProductPrice() * v.getQuantity()))
                                         .reduce(0L, Long::sum);
