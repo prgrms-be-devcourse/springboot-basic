@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/homework?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: skyey9808
+    type: com.zaxxer.hikari.HikariDataSource
+
+# 내가 프로파일 prod야 라는 것을 설정해야된다. -> on active
+# 빌드 하고 spring.profiles.active -> 자동으로 넣어줌
