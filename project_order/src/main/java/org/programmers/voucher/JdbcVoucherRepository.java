@@ -25,7 +25,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("discountValue", voucher.getValue());
-            put("voucherType", voucher.getVoucherType());
+            put("voucherType", voucher.getVoucherType().toString());
         }};
     }
 
