@@ -3,6 +3,7 @@ package com.prgrms.devkdtorder.customer.repository;
 import com.prgrms.devkdtorder.customer.domain.BlackCustomers;
 import com.prgrms.devkdtorder.customer.domain.Customer;
 import com.prgrms.devkdtorder.customer.domain.CustomerType;
+import com.prgrms.devkdtorder.customer.domain.TestCustomerBuilder;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.MysqldConfig;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.time.LocalDateTime;
@@ -22,6 +24,7 @@ import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
+import static org.assertj.core.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
@@ -89,10 +92,23 @@ class JdbcCustomerRepositoryTest {
         //then
         assertThat(allBlackCustomers, notNullValue());
         assertThat(allBlackCustomers.size(), is(3));
+
     }
 
+    @Test
+    @DisplayName("고객 추가시 중복된 이메일이 존재하면 에러가 발생해야 한다")
+    void testDuplicationNameInsert() {
+        //given
+        givenCustomer(UUID.randomUUID(), "maeng", "maeng@gmail.com", CustomerType.WHITE);
+        //when then
+        assertThatThrownBy(() -> givenCustomer(UUID.randomUUID(), "maeng1", "maeng@gmail.com",CustomerType.WHITE))
+                .isInstanceOf(DuplicateKeyException.class);
+    }
+
+
     private void givenCustomer(UUID customerId, String name, String email, CustomerType customerType) {
-        Customer customer = new Customer(customerId, name, email, null, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), customerType);
+        Customer customer = TestCustomerBuilder.start()
+                .customerId(customerId).name(name).email(email).customerType(customerType).build();
         customerRepository.insert(customer);
     }
 }
