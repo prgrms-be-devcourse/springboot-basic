@@ -30,8 +30,8 @@ public class Console implements Input, Output {
 
     @Override
     public void printVoucherTypes() throws IOException {
-        bw.write("Type f to create fixed amount voucher\n");
-        bw.write(("Type p to create percent discount voucher\n"));
+        bw.write("Type fixed to create fixed amount voucher\n");
+        bw.write(("Type percent to create percent discount voucher\n"));
         bw.flush();
     }
 
