@@ -35,6 +35,11 @@ public class VoucherMemoryRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return null;
+    }
+
+    @Override
     public UUID insert(Voucher voucher) {
         logger.info("Access insert()");
         logger.info("[Param] voucher = " + voucher.toString());
@@ -43,7 +48,12 @@ public class VoucherMemoryRepository implements VoucherRepository{
     }
 
     @Override
-    public UUID updateDiscount(Voucher voucher) {
+    public UUID updateDiscount(UUID voucherId, long amount) {
+        return null;
+    }
+
+    @Override
+    public UUID updateCustomerId(UUID voucherId, UUID customerId) {
         return null;
     }
 

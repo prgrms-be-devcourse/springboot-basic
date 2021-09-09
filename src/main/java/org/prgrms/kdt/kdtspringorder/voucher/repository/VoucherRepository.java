@@ -25,12 +25,33 @@ public interface VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId);
 
     /**
+     * 고객이 보유한 바우처를 조회합니다.
+     * @param customerId
+     * @return
+     */
+    public List<Voucher> findByCustomerId(UUID customerId);
+
+    /**
      * 새 Voucher를 등록합니다
      * @param voucher
      */
     public UUID insert(Voucher voucher);
 
-    public UUID updateDiscount(Voucher voucher);
+    /**
+     * 바우처 할인 금액/퍼센트를 변경합니다.
+     * @param voucherId
+     * @param amount
+     * @return
+     */
+    public UUID updateDiscount(UUID voucherId, long amount);
+
+    /**
+     * 고객에게 바우처를 할당합니다.
+     * @param voucherId
+     * @param customerId
+     * @return
+     */
+    public UUID updateCustomerId(UUID voucherId, UUID customerId);
 
     public int delete(UUID voucherId);
 

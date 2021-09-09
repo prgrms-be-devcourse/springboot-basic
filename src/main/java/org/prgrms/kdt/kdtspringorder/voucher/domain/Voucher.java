@@ -30,6 +30,12 @@ public abstract class Voucher implements Discountable, Serializable {
         this.amount = amount;
     }
 
+    public Voucher(UUID voucherId, UUID customerId, long amount) {
+        this.voucherId = voucherId;
+        this.customerId = customerId;
+        this.amount = amount;
+    }
+
     public Voucher(UUID voucherId, UUID customerId, VoucherType voucherType, long amount, boolean useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
         this.voucherId = voucherId;
         this.customerId = customerId;

@@ -4,7 +4,10 @@ import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.common.exception.VoucherNotFoundException;
 import org.prgrms.kdt.kdtspringorder.common.util.UuidUtil;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,10 +21,12 @@ import java.util.*;
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository{
 
-    private final String SELECT_ALL_SQL = "select * from vouchers";
-    private final String SELECT_BY_ID_SQL = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
+    private final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String SELECT_BY_CUSTOMER_ID_SQL = "SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)";
     private final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, customer_id, discount, voucher_type) VALUES(UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId), :discount, :voucherType)";
     private final String UPDATE_DISCOUNT_SQL = "UPDATE vouchers SET discount = :discount WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String UPDATE_CUSTOMER_ID_SQL = "UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String DELETE_SQL = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId) ";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -30,6 +35,8 @@ public class VoucherJdbcRepository implements VoucherRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
+
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query(SELECT_ALL_SQL, VoucherJdbcRepository::voucherRowMapper);
@@ -37,12 +44,26 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(
-            jdbcTemplate.queryForObject(
-                SELECT_BY_ID_SQL,
-                Collections.singletonMap("voucherId", voucherId.toString()),
-                VoucherJdbcRepository::voucherRowMapper
-            )
+        try {
+            return Optional.ofNullable(
+                jdbcTemplate.queryForObject(
+                    SELECT_BY_ID_SQL,
+                    Collections.singletonMap("voucherId", voucherId.toString()),
+                    VoucherJdbcRepository::voucherRowMapper
+                )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("empty result", e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return jdbcTemplate.query(
+            SELECT_BY_CUSTOMER_ID_SQL,
+            Collections.singletonMap("customerId", customerId.toString()),
+            VoucherJdbcRepository::voucherRowMapper
         );
     }
 
@@ -58,21 +79,34 @@ public class VoucherJdbcRepository implements VoucherRepository{
     }
 
     @Override
-    public UUID updateDiscount(Voucher voucher) {
-        final Map<String, Object> paramMap = toParamMap(voucher);
-
-        paramMap.put("voucherType", voucher.getVoucherType().getValue());
+    public UUID updateDiscount(UUID voucherId, long amount) {
+        final Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("voucherId", voucherId.toString());
+        paramMap.put("discount", amount);
 
         final int updateColumnCnt = jdbcTemplate.update(UPDATE_DISCOUNT_SQL, paramMap);
         if (updateColumnCnt != 1) {
-            throw new VoucherNotFoundException(voucher.getVoucherId());
+            throw new VoucherNotFoundException(voucherId);
         }
-        return voucher.getVoucherId();
+        return voucherId;
+    }
+
+    @Override
+    public UUID updateCustomerId(UUID voucherId, UUID customerId) {
+        final Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("voucherId", voucherId.toString());
+        paramMap.put("customerId", customerId.toString());
+
+        final int updateColumnCnt = jdbcTemplate.update(UPDATE_CUSTOMER_ID_SQL, paramMap);
+        if (updateColumnCnt != 1) {
+            throw new VoucherNotFoundException(voucherId);
+        }
+        return voucherId;
     }
 
     @Override
     public int delete(UUID voucherId) {
-        final int deleteColumnCnt = jdbcTemplate.update(DELETE_SQL, Map.of("voucherId", voucherId));
+        final int deleteColumnCnt = jdbcTemplate.update(DELETE_SQL, Map.of("voucherId", voucherId.toString()));
         if (deleteColumnCnt != 1) {
             throw new VoucherNotFoundException(voucherId);
         }
