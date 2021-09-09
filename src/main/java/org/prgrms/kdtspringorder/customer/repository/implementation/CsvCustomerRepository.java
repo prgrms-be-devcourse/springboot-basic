@@ -3,13 +3,14 @@ package org.prgrms.kdtspringorder.customer.repository.implementation;
 import org.prgrms.kdtspringorder.config.YmlPropertiesLoader;
 import org.prgrms.kdtspringorder.customer.domain.Customer;
 import org.prgrms.kdtspringorder.customer.repository.abstraction.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Repository
 public class CsvCustomerRepository implements CustomerRepository {
 
+    private static final Logger logger = LoggerFactory.getLogger(CsvCustomerRepository.class);
     private final YmlPropertiesLoader ymlPropertiesLoader;
     private final ResourceLoader resourceLoader;
     private BufferedReader bufferedReader;
@@ -39,25 +41,22 @@ public class CsvCustomerRepository implements CustomerRepository {
                 bannedCustomerList.add(new Customer(customerId));
             }
         } catch (IOException ioException) {
-            ioException.printStackTrace();
+            logger.error("banned-list.csv file 읽기 실패", ioException);
+            throw new RuntimeException();
         }
 
         return bannedCustomerList;
     }
 
     @PostConstruct
-    public void postConstruct() throws IOException {
+    public void postConstruct() {
         Resource resource = this.resourceLoader.getResource(this.ymlPropertiesLoader.getBlackListFilePath());
-        if (!resource.exists()) {
-            String workingDirectoryPath = System.getProperty("user.dir");
-            String[] newCsvFilePathTokens = this.ymlPropertiesLoader.getVoucherFilePath().split(":");
-            String newCsvFilepath = newCsvFilePathTokens[newCsvFilePathTokens.length - 1];
-            String csvFilePath = workingDirectoryPath + File.separator + newCsvFilepath;
-            System.out.println(csvFilePath);
-            if (!new File(csvFilePath).createNewFile()) throw new IOException();
-            resource = this.resourceLoader.getResource(this.ymlPropertiesLoader.getBlackListFilePath());
+        try {
+            this.bufferedReader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+        } catch (IOException ioException) {
+            logger.error("banned-list.csv file이 존재하지 않습니다.", ioException);
+            throw new RuntimeException();
         }
-        this.bufferedReader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
     }
 
 }

@@ -11,12 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,10 +32,13 @@ public class FileVoucherRepository implements VoucherRepository {
     public static final int COL_UUID = 0;
     public static final int COL_VOUCHER_TYPE = 1;
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-    private final String filePath;
+    private final YmlPropertiesLoader ymlPropertiesLoader;
+    private final ResourceLoader resourceLoader;
+    private File voucherCsvFile;
 
-    public FileVoucherRepository(YmlPropertiesLoader ymlPropertiesLoader) {
-        this.filePath = Paths.get(ymlPropertiesLoader.getVoucherFilePath()).toAbsolutePath().toString();
+    public FileVoucherRepository(YmlPropertiesLoader ymlPropertiesLoader, ResourceLoader resourceLoader) {
+        this.ymlPropertiesLoader = ymlPropertiesLoader;
+        this.resourceLoader = resourceLoader;
     }
 
     @Override
@@ -46,18 +51,18 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> getVouchers() {
         List<String[]> rows;
 
-        logger.info("{}에서 Voucher 읽기 시작", this.filePath);
+        logger.info("{}에서 Voucher 읽기 시작", this.voucherCsvFile.getPath());
 
         try {
             CSVReader csvReader = getCSVReader();
             rows = csvReader.readAll();
             csvReader.close();
         } catch (IOException | CsvException exception) {
-            logger.error("{}에서 Voucher 정보 읽어 오기 실패", this.filePath, exception);
+            logger.error("{}에서 Voucher 정보 읽어 오기 실패", this.voucherCsvFile.getPath(), exception);
             throw new RuntimeException(exception);
         }
 
-        logger.info("{}에서 Voucher 읽어 오기 종료", this.filePath);
+        logger.info("{}에서 Voucher 읽어 오기 종료", this.voucherCsvFile.getPath());
         return rows
                 .stream()
                 .map(this::generateVoucherFrom)
@@ -76,7 +81,7 @@ public class FileVoucherRepository implements VoucherRepository {
             csvWriter.writeNext(newRow);
             csvWriter.close();
         } catch (IOException ioException) {
-            logger.error("{}에서 Voucher 정보 저장하기 실패", this.filePath, ioException);
+            logger.error("{}에서 Voucher 정보 저장하기 실패", this.voucherCsvFile.getPath(), ioException);
             // 이렇게 하는게 맞을까요?
             throw new RuntimeException(ioException);
         }
@@ -109,12 +114,39 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
-    private CSVWriter getCSVWriter() throws IOException {
-        return new CSVWriter(new FileWriter(this.filePath, true));
+    private CSVWriter getCSVWriter() {
+        FileWriter csvFileWriter;
+        try {
+            csvFileWriter = new FileWriter(this.voucherCsvFile, true);
+        } catch (IOException ioException) {
+            logger.error("voucher.csv 쓰기 실패", ioException);
+            throw new RuntimeException();
+        }
+        return new CSVWriter(csvFileWriter);
     }
 
-    private CSVReader getCSVReader() throws IOException {
-        return new CSVReader(new FileReader(this.filePath));
+    private CSVReader getCSVReader() {
+        FileReader csvFileReader;
+        try {
+            csvFileReader = new FileReader(this.voucherCsvFile);
+        } catch (IOException ioException) {
+            logger.error("voucher.csv 읽기 실패", ioException);
+            throw new RuntimeException();
+        }
+        return new CSVReader(csvFileReader);
     }
+
+    @PostConstruct
+    public void postConstruct() throws IOException {
+        try {
+            this.voucherCsvFile = this.resourceLoader
+                    .getResource(this.ymlPropertiesLoader.getVoucherFilePath())
+                    .getFile();
+        } catch (IOException ioException) {
+            logger.error("voucher.csv가 존재하지 않습니다.", ioException);
+            throw new RuntimeException();
+        }
+    }
+
 
 }

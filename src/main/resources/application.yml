@@ -1,4 +1,4 @@
 files:
-  black-list-file-path: "file:files/banned-customers.csv"
-  voucher-file-path: "files/voucher.csv"
+  black-list-file-path: "classpath:files/banned-customers.csv"
+  voucher-file-path: "classpath:files/voucher.csv"
 
