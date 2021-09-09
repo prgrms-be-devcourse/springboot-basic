@@ -22,30 +22,6 @@ public class WalletJdbcRepository implements WalletRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var name = resultSet.getString("name");
-        var discount = resultSet.getLong("discount");
-        var voucherType = resultSet.getString("voucher_type");
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Voucher(voucherId, name, discount, VoucherType.valueOf(voucherType), createdAt);
-    };
-
-    private static final RowMapper<Customer> customerRowMapper =  (resultSet, i) -> {
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var customerName = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
-                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        return new Customer(customerId, customerName, email, createdAt, lastLoginAt);
-    };
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
     @Override
     public int insert(Wallet wallet) {
         return jdbcTemplate.update("INSERT INTO wallets (wallet_id, customer_id, voucher_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))",
