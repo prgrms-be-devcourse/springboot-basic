@@ -33,7 +33,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var discountValue = resultSet.getLong("discount_value");
         var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        return new VoucherFactory().getVoucherType(voucherType, voucherId, discountValue);
+        return new VoucherFactory().createVoucherByType(voucherType, voucherId, discountValue);
     };
 
     @Override

@@ -20,7 +20,7 @@ class VoucherServiceTest {
     void createVoucher() {
         // given
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L);
-        when(voucherFactoryMock.getVoucherType(VoucherType.FIXED, fixedAmountVoucher.getVoucherId(), 100L)).thenReturn(fixedAmountVoucher);
+        when(voucherFactoryMock.createVoucherByType(VoucherType.FIXED, fixedAmountVoucher.getVoucherId(), 100L)).thenReturn(fixedAmountVoucher);
 
         // when
         Voucher voucher = sut.createVoucher(VoucherType.FIXED, fixedAmountVoucher.getVoucherId(), 100L);
@@ -30,7 +30,7 @@ class VoucherServiceTest {
         assertThat(voucher.getVoucherId(), is(fixedAmountVoucher.getVoucherId()));
         assertThat(voucher.getValue(), is(fixedAmountVoucher.getValue()));
 
-        verify(voucherFactoryMock).getVoucherType(VoucherType.FIXED, fixedAmountVoucher.getVoucherId(), 100L);
+        verify(voucherFactoryMock).createVoucherByType(VoucherType.FIXED, fixedAmountVoucher.getVoucherId(), 100L);
     }
 
     @Test

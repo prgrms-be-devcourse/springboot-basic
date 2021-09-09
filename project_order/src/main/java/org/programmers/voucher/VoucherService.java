@@ -18,7 +18,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long value) {
-        Voucher voucher = voucherFactory.getVoucherType(voucherType, voucherId, value);
+        Voucher voucher = voucherFactory.createVoucherByType(voucherType, voucherId, value);
         voucherRepository.insert(voucher);
         return voucher;
     }

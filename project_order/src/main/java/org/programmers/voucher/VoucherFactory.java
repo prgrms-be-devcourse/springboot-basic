@@ -7,7 +7,7 @@ import java.util.UUID;
 @Component
 public class VoucherFactory {
 
-    public Voucher getVoucherType(VoucherType voucherType, UUID voucherId, long value) {
+    public Voucher createVoucherByType(VoucherType voucherType, UUID voucherId, long value) {
         if (VoucherType.FIXED == voucherType) {
             return new FixedAmountVoucher(voucherId, value);
         } else if (VoucherType.PERCENT == voucherType) {
