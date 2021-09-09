@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.*;
 class CustomerRepositoryTest {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerRepository repository;
 
     EmbeddedMysql embeddedMysql;
 
@@ -64,7 +64,7 @@ class CustomerRepositoryTest {
             @Test
             @DisplayName("빈 Customer 목록을 반환합니다.")
             void it_return_empty_list() {
-                final List<Customer> customers = customerRepository.findAll();
+                final List<Customer> customers = repository.findAll();
                 assertThat(customers, notNullValue());
                 assertThat(customers, hasSize(0));
             }
@@ -80,13 +80,13 @@ class CustomerRepositoryTest {
             @BeforeEach
             void setUp() {
                 newCustomer = new Customer(UUID.randomUUID(), "김지훈", "jihoon@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-                customerRepository.insert(newCustomer);
+                repository.insert(newCustomer);
             }
 
             @Test
             @DisplayName("빈 Customer 목록을 반환합니다.")
             void it_return_not_empty_list() {
-                final List<Customer> customers = customerRepository.findAll();
+                final List<Customer> customers = repository.findAll();
                 assertThat(customers, not(hasSize(0)));
             }
 
@@ -112,7 +112,7 @@ class CustomerRepositoryTest {
             @Test
             @DisplayName("Optional<Customer>를 반환합니다.")
             void it_return_customer_optional() {
-                final Optional<Customer> foundCustomerOptional = customerRepository.findById(customerId);
+                final Optional<Customer> foundCustomerOptional = repository.findById(customerId);
                 assertThat(foundCustomerOptional, not(nullValue()));
                 assertThat(foundCustomerOptional, instanceOf(Optional.class));
             }
@@ -139,7 +139,7 @@ class CustomerRepositoryTest {
             @Test
             @DisplayName("생성한 고객의 ID를 반환합니다.")
             void it_return_created_customer_id() {
-                final UUID createdCustomerId = customerRepository.insert(newCustomer);
+                final UUID createdCustomerId = repository.insert(newCustomer);
                 assertThat(createdCustomerId, equalTo(newCustomer.getCustomerId()));
             }
 
@@ -168,7 +168,7 @@ class CustomerRepositoryTest {
             @DisplayName("CustomerNotFound Exception을 던집니다.")
             void it_return_throw_customer_not_found_exception() {
 
-                assertThatThrownBy(() -> customerRepository.update(updateTargetCustomer))
+                assertThatThrownBy(() -> repository.update(updateTargetCustomer))
                     .isInstanceOf(CustomerNotFoundException.class);
 
             }
@@ -187,11 +187,11 @@ class CustomerRepositoryTest {
             void setUp() {
                 validCustomerId = UUID.randomUUID();
                 updateTargetCustomer = new Customer(validCustomerId, "김지훈", "jihoon@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-                customerRepository.insert(updateTargetCustomer);
+                repository.insert(updateTargetCustomer);
 
                 changeContentCustomer = new Customer(validCustomerId, "김지훈2", "update@gmail.com", LocalDateTime.now(), LocalDateTime.now());
 
-                validCustomerId = customerRepository.update(updateTargetCustomer);
+                validCustomerId = repository.update(updateTargetCustomer);
 
             }
 
@@ -199,9 +199,9 @@ class CustomerRepositoryTest {
             @DisplayName("내용을 수정한 Customer의 CustomerId를 반환합니다.")
             void it_return_updated_customer_id() {
 
-                final UUID updatedCustomerId = customerRepository.update(changeContentCustomer);
+                final UUID updatedCustomerId = repository.update(changeContentCustomer);
 
-                final Customer updatedCustomer = customerRepository.findById(updatedCustomerId).get();
+                final Customer updatedCustomer = repository.findById(updatedCustomerId).get();
 
                 assertThat(updatedCustomerId, equalTo(updateTargetCustomer.getCustomerId()));
                 assertThat(updateTargetCustomer, not(samePropertyValuesAs(updatedCustomer)));
@@ -231,7 +231,7 @@ class CustomerRepositoryTest {
             @DisplayName("CustomerNotFound Exception을 던집니다.")
             void it_return_throw_customer_not_found_exception() {
 
-                assertThatThrownBy( () -> customerRepository.delete(invalidCustomerId))
+                assertThatThrownBy( () -> repository.delete(invalidCustomerId))
                     .isInstanceOf(CustomerNotFoundException.class);
 
             }
@@ -249,16 +249,16 @@ class CustomerRepositoryTest {
             void setUp() {
                 validCustomerId = UUID.randomUUID();
                 newCustomer = new Customer(validCustomerId, "김지훈", "jihoon@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-                customerRepository.insert(newCustomer);
+                repository.insert(newCustomer);
             }
 
             @Test
             @DisplayName("삭제한 컬럼 수를 반환합니다.")
             void it_return_deleted_column_count() {
 
-                final int deletedColumnCount = customerRepository.delete(validCustomerId);
+                final int deletedColumnCount = repository.delete(validCustomerId);
                 assertThat(deletedColumnCount, equalTo(1));
-                final Optional<Customer> foundCustomerOptional = customerRepository.findById(validCustomerId);
+                final Optional<Customer> foundCustomerOptional = repository.findById(validCustomerId);
                 assertThat(foundCustomerOptional.isPresent(), is(false));
 
             }

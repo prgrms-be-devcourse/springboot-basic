@@ -15,7 +15,7 @@ CREATE TABLE vouchers (
     -- discount_percent bigint	NULL DEFAULT 0,
     -- discount_amount	bigint NULL	DEFAULT 0,
     discount bigint NULL	DEFAULT 0,
-    use_yn char(2) NOT NULL	DEFAULT 'N',
+    use_yn boolean NOT NULL	DEFAULT FALSE,
     created_at datetime	NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     used_at datetime NULL
 );

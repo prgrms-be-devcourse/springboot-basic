@@ -17,20 +17,24 @@ public abstract class Voucher implements Discountable, Serializable {
 
     protected VoucherType voucherType;
 
-    private String useYn;
+    private final long amount;
+
+    private boolean useYn;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime usedAt;
 
-    protected Voucher(UUID voucherId) {
+    public Voucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
+        this.amount = amount;
     }
 
-    public Voucher(UUID voucherId, UUID customerId, VoucherType voucherType, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
+    public Voucher(UUID voucherId, UUID customerId, VoucherType voucherType, long amount, boolean useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
         this.voucherId = voucherId;
         this.customerId = customerId;
         this.voucherType = voucherType;
+        this.amount = amount;
         this.useYn = useYn;
         this.createdAt = createdAt;
         this.usedAt = usedAt;
@@ -48,7 +52,11 @@ public abstract class Voucher implements Discountable, Serializable {
         return voucherType;
     }
 
-    public String getUseYn() {
+    public long getAmount() {
+        return amount;
+    }
+
+    public boolean getUseYn() {
         return useYn;
     }
 

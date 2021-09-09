@@ -23,14 +23,14 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher createVoucher(UUID voucherId, UUID customerId, long amount, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
+        public Voucher createVoucher(UUID voucherId, UUID customerId, long amount, boolean useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
             return new FixedAmountVoucher(voucherId, customerId, this, amount, useYn, createdAt, usedAt);
         }
 
-        @Override
-        public Long getDiscountByVoucherType(Voucher voucher) {
-            return  ((FixedAmountVoucher) voucher).getAmount();
-        }
+//        @Override
+//        public Long getDiscountByVoucherType(Voucher voucher) {
+//            return  ((FixedAmountVoucher) voucher).getAmount();
+//        }
 
     },
 
@@ -42,14 +42,14 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher createVoucher(UUID voucherId, UUID customerId, long percent, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
+        public Voucher createVoucher(UUID voucherId, UUID customerId, long percent, boolean useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
             return new PercentDiscountVoucher(voucherId, customerId, this, percent, useYn, createdAt, usedAt);
         }
 
-        @Override
-        public Long getDiscountByVoucherType(Voucher voucher) {
-            return  ((PercentDiscountVoucher) voucher).getPercent();
-        }
+//        @Override
+//        public Long getDiscountByVoucherType(Voucher voucher) {
+//            return  ((PercentDiscountVoucher) voucher).getPercent();
+//        }
 
     };
 
@@ -86,8 +86,8 @@ public enum VoucherType {
      */
     public abstract Voucher createVoucher(long discount);
 
-    public abstract Voucher createVoucher(UUID voucherId, UUID customerId, long percent, String useYn, LocalDateTime createdAt, LocalDateTime usedAt);
+    public abstract Voucher createVoucher(UUID voucherId, UUID customerId, long amount, boolean useYn, LocalDateTime createdAt, LocalDateTime usedAt);
 
-    public abstract Long getDiscountByVoucherType(Voucher voucher);
+//    public abstract Long getDiscountByVoucherType(Voucher voucher);
 
 }

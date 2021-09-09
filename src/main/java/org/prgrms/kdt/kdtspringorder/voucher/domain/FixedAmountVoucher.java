@@ -9,18 +9,14 @@ public class FixedAmountVoucher extends Voucher {
 
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
-    private final long amount;
-
     public FixedAmountVoucher(UUID voucherId, long amount) {
-        super(voucherId);
+        super(voucherId, amount);
         super.voucherType = VoucherType.FIX;
-        this.amount = amount;
         checkAmount(amount);
     }
 
-    public FixedAmountVoucher(UUID voucherId, UUID customerId, VoucherType voucherType, long amount, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
-        super(voucherId, customerId, voucherType, useYn, createdAt, usedAt);
-        this.amount = amount;
+    public FixedAmountVoucher(UUID voucherId, UUID customerId, VoucherType voucherType, long amount, boolean useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
+        super(voucherId, customerId, voucherType, amount, useYn, createdAt, usedAt);
         checkAmount(amount);
     }
 
@@ -30,13 +26,10 @@ public class FixedAmountVoucher extends Voucher {
         if(amount > MAX_VOUCHER_AMOUNT) throw new IllegalArgumentException(String.format("Amount should be less than %d", MAX_VOUCHER_AMOUNT));
     }
 
-    public long getAmount() {
-        return amount;
-    }
 
     @Override
     public long discount(long beforeDiscount) {
-        long discountedAmount = beforeDiscount - amount;
+        long discountedAmount = beforeDiscount - super.getAmount();
         return ( discountedAmount < 0 ) ? 0 : discountedAmount;
     }
 
@@ -44,7 +37,7 @@ public class FixedAmountVoucher extends Voucher {
     public String toString() {
         return "FixedAmountVoucher{" +
             "voucherId=" + super.getVoucherId() +
-            ", amount=" + amount +
+            ", amount=" + super.getAmount() +
             '}';
     }
 

@@ -1,7 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.custommer.repository;
 
 import org.prgrms.kdt.kdtspringorder.common.exception.CustomerNotFoundException;
-import org.prgrms.kdt.kdtspringorder.common.util.MapConverter;
 import org.prgrms.kdt.kdtspringorder.common.util.UuidUtil;
 import org.prgrms.kdt.kdtspringorder.custommer.domain.Customer;
 import org.slf4j.Logger;

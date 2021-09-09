@@ -5,6 +5,12 @@ import java.util.UUID;
 
 public class UuidUtil {
 
+    private UuidUtil() {}
+
+    /**
+     * UUID Generater
+     * @return
+     */
     public static UUID generateRandomUuid() {
         return UUID.randomUUID();
     }

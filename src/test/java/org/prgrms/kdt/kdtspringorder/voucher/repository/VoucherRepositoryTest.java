@@ -30,7 +30,7 @@ import static com.wix.mysql.distribution.Version.v8_0_11;
 class VoucherRepositoryTest {
 
     @Autowired
-    private VoucherRepository voucherRepository;
+    private VoucherRepository repository;
 
     EmbeddedMysql embeddedMysql;
 
@@ -65,7 +65,7 @@ class VoucherRepositoryTest {
             @Test
             @DisplayName("빈 바우처 목록을 반환합니다.")
             void It_return_empty_list() {
-                final List<Voucher> vouchers = voucherRepository.findAll();
+                final List<Voucher> vouchers = repository.findAll();
                 assertThat(vouchers, notNullValue());
                 assertThat(vouchers, hasSize(0));
             }
@@ -84,14 +84,14 @@ class VoucherRepositoryTest {
             @BeforeEach
             void setUp() {
                 newVoucher = new FixedAmountVoucher(newVoucherId, newVoucherDiscount);
-                voucherRepository.insert(newVoucher);
+                repository.insert(newVoucher);
             }
 
             @Test
             @DisplayName("비어있지 않은 바우처 목록을 반환합니다.")
             void It_return_not_empty_list() {
 
-                final List<Voucher> vouchers = voucherRepository.findAll();
+                final List<Voucher> vouchers = repository.findAll();
                 assertThat(vouchers, not(hasSize(0)));
 
             }
@@ -111,7 +111,7 @@ class VoucherRepositoryTest {
         @BeforeEach
         void setUp() {
             newVoucher = new FixedAmountVoucher(newVoucherId, newVoucherDiscount);
-            voucherRepository.insert(newVoucher);
+            repository.insert(newVoucher);
         }
 
         @Nested
@@ -121,7 +121,7 @@ class VoucherRepositoryTest {
             @Test
             @DisplayName("Optional<Voucher> 객체를 반환합니다.")
             void it_return_voucher_optional() {
-                final Optional<Voucher> foundVoucherOptional = voucherRepository.findById(newVoucherId);
+                final Optional<Voucher> foundVoucherOptional = repository.findById(newVoucherId);
                 assertThat(foundVoucherOptional, not(nullValue()));
                 assertThat(foundVoucherOptional, instanceOf(Optional.class));
             }
@@ -150,7 +150,7 @@ class VoucherRepositoryTest {
             @Test
             @DisplayName("등록한 VoucherID를 반환합니다.")
             void it_return_voucher_optional() {
-                final UUID createdVoucherId = voucherRepository.insert(newVoucher);
+                final UUID createdVoucherId = repository.insert(newVoucher);
                 assertThat(createdVoucherId, equalTo(newVoucherId));
             }
 

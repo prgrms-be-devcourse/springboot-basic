@@ -63,7 +63,7 @@ class PercentDiscountVoucherTest {
             @DisplayName("PercentDiscountVoucher 인스턴스를 생성합니다.")
             void it_return_() {
                 assertNotNull(voucher);
-                assertThat(voucher.getPercent(), equalTo(DISCOUNT_INPUT));
+                assertThat(voucher.getAmount(), equalTo(DISCOUNT_INPUT));
             }
 
         }
@@ -92,7 +92,7 @@ class PercentDiscountVoucherTest {
             @DisplayName("할인 퍼센티지 만큼 할인된 금액을 반환합니다.")
             void it_return_() {
                 final long afterDiscount = voucher.discount(BEFORE_DISCOUNT);
-                assertThat(afterDiscount, is(BEFORE_DISCOUNT * (voucher.getPercent())/100));
+                assertThat(afterDiscount, is(BEFORE_DISCOUNT * (voucher.getAmount())/100));
             }
 
         }

@@ -12,19 +12,14 @@ public class PercentDiscountVoucher extends Voucher {
 
     private static final long MAX_VOUCHER_PERCENT = 100;
 
-    private final long percent;
-
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        super(voucherId);
+    public PercentDiscountVoucher(UUID voucherId, long amount) {
+        super(voucherId, amount);
         super.voucherType = VoucherType.PERCENT;
-        this.percent = percent;
-        checkPercent(percent);
     }
 
-    public PercentDiscountVoucher(UUID voucherId, UUID customerId, VoucherType voucherType, long percent, String useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
-        super(voucherId, customerId, voucherType, useYn, createdAt, usedAt);
-        this.percent = percent;
-        checkPercent(percent);
+    public PercentDiscountVoucher(UUID voucherId, UUID customerId, VoucherType voucherType, long amount, boolean useYn, LocalDateTime createdAt, LocalDateTime usedAt) {
+        super(voucherId, customerId, voucherType, amount, useYn, createdAt, usedAt);
+        checkPercent(amount);
     }
 
     private void checkPercent(long percent) {
@@ -33,20 +28,17 @@ public class PercentDiscountVoucher extends Voucher {
         if(percent > MAX_VOUCHER_PERCENT) throw new IllegalArgumentException(String.format("Percent should be less than %d %", MAX_VOUCHER_PERCENT));
     }
 
-    public long getPercent() {
-        return percent;
-    }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (super.getAmount() / 100);
     }
 
     @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
                 "voucherId=" + super.getVoucherId() +
-                ", percent=" + percent +
+                ", percent=" + super.getAmount() +
                 '}';
     }
 
