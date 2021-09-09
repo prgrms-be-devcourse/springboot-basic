@@ -24,34 +24,34 @@ public class CommandLineApplication implements Runnable {
     public void run() {
         Console console = new Console();
 
-        while (true) {
+        boolean run = true;
+        while (run) {
             try {
                 console.printPrompt();
 
                 String inputString = console.input("> ");
-                if (inputString.equals("create")) {
-                    console.printVoucherTypes();
+                switch (inputString) {
+                    case "create" -> {
+                        console.printVoucherTypes();
 
-                    String voucherType = console.input("> ");
-                    if (voucherType.equals("f")) {
-                        console.askAmount();
+                        String voucherType = console.input("> ");
+                        if (voucherType.equals("f")) {
+                            console.askAmount();
 
-                        long amount = Long.parseLong(console.input("> "));
+                            long amount = Long.parseLong(console.input("> "));
 
-                        voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), amount);
-                    } else if (voucherType.equals("p")) {
-                        console.askPercentage();
+                            voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), amount);
+                        } else if (voucherType.equals("p")) {
+                            console.askPercentage();
 
-                        long percentage = Long.parseLong(console.input("> "));
+                            long percentage = Long.parseLong(console.input("> "));
 
-                        voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), percentage);
+                            voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), percentage);
+                        }
                     }
-                } else if (inputString.equals("list")) {
-                    System.out.println(voucherService.getAllVouchers().toString());
-                } else if ("blacklist".equals(inputString)) {
-                    System.out.println(customerService.getBlackCustomers().toString());
-                } else if (inputString.equals("exit")) {
-                    break;
+                    case "list" -> System.out.println(voucherService.getAllVouchers().toString());
+                    case "blacklist" -> System.out.println(customerService.getBlackCustomers().toString());
+                    case "exit" -> run = false;
                 }
             } catch (IOException e) {
                 log.error("Got IOException", e);
