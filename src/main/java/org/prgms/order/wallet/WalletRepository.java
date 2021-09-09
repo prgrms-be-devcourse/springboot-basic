@@ -1,4 +1,4 @@
-package org.prgms.order.voucher.wallet;
+package org.prgms.order.wallet;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,10 +11,11 @@ public interface WalletRepository {
     Optional<Wallet> findById(UUID walletId);
     List<Wallet> findByCustomerId(UUID customerId);
     List<Wallet> findByVoucherId(UUID voucherId);
+    List<Wallet> findAll();
 
 
     List<Wallet> findByCustomerAvailable(UUID customerId);
-    Wallet useVoucher(Wallet wallet);
+    void useVoucher(Wallet wallet);
 
     void  deleteByWalletId(UUID walletId);
     void  deleteByCustomerId(UUID customerId);

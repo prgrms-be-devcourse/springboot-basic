@@ -35,8 +35,8 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
         var type = VoucherIndexType.indexToType(resultSet.getInt("type"));
         var amount = resultSet.getInt("amount");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var expiredAt = resultSet.getTimestamp("expired_At") != null ?
-                resultSet.getTimestamp("expired_At").toLocalDateTime() : null;
+        var expiredAt = resultSet.getTimestamp("expired_at") != null ?
+                resultSet.getTimestamp("expired_at").toLocalDateTime() : null;
         return new VoucherCreateStretage().createVoucher(type, new VoucherData(voucherId, amount, createdAt, expiredAt));
     };
 

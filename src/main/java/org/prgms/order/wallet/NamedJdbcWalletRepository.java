@@ -1,7 +1,5 @@
-package org.prgms.order.voucher.wallet;
+package org.prgms.order.wallet;
 
-import org.prgms.order.voucher.entity.VoucherCreateStretage;
-import org.prgms.order.voucher.entity.VoucherData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -12,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
-import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -32,10 +29,9 @@ public class NamedJdbcWalletRepository implements WalletRepository{
         var walletId = toUUID(resultSet.getBytes("wallet_id"));
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        return Wallet.builder().
-                walletId(walletId).
-                customerId(customerId).
-                voucherId(voucherId).build();
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        var usedAt = resultSet.getBoolean("used_at");
+        return new Wallet(new WalletData(walletId, customerId, voucherId, createdAt, usedAt));
     };
 
     static UUID toUUID(byte[] bytes) {
@@ -48,6 +44,9 @@ public class NamedJdbcWalletRepository implements WalletRepository{
             put("wallet_id", wallet.getWalletId() != null?wallet.getWalletId().toString().getBytes() : null);
             put("customer_id", wallet.getCustomerId() != null?wallet.getCustomerId().toString().getBytes() : null);
             put("voucher_id", wallet.getVoucherId() != null?wallet.getVoucherId().toString().getBytes() : null);
+            put("created_at", wallet.getCreatedAt() != null?wallet.getCreatedAt() : null);
+            put("used_at", wallet.getUsedAt());
+
         }};
     }
 
@@ -55,8 +54,8 @@ public class NamedJdbcWalletRepository implements WalletRepository{
 
     @Override
     public Wallet insert(Wallet wallet) {
-        var update = jdbcTemplate.update("insert into wallets(wallet_id, customer_id, voucher_id) values " +
-                        "(UNHEX(REPLACE(:wallet_id,'-','')), (UNHEX(REPLACE(:customer_id,'-','')), (UNHEX(REPLACE(:voucher_id,'-','')),)",
+        var update = jdbcTemplate.update("insert into wallets(wallet_id, customer_id, voucher_id, created_at) values " +
+                        "( UNHEX(REPLACE(:wallet_id,'-','')), UNHEX(REPLACE(:customer_id,'-','')), UNHEX(REPLACE(:voucher_id,'-','')), :created_at)",
                 toParamMap(wallet));
         if (update != 1) {
             throw new RuntimeException("Nothing was insert");
@@ -101,9 +100,14 @@ public class NamedJdbcWalletRepository implements WalletRepository{
     }
 
     @Override
+    public List<Wallet> findAll() {
+        return jdbcTemplate.query("select * from wallets", walletRowMapper);
+    }
+
+    @Override
     public List<Wallet> findByCustomerAvailable(UUID customerId) {
         try {
-            return jdbcTemplate.query("select * from wallets where customer_id = UNHEX(REPLACE(:customer_id,'-',''))",
+            return jdbcTemplate.query("select * from wallets where customer_id = UNHEX(REPLACE(:customer_id,'-','')) and usedAt = false",
                     Collections.singletonMap("customer_id",customerId.toString().getBytes()),
                     walletRowMapper);
         } catch (EmptyResultDataAccessException e) {
@@ -113,13 +117,12 @@ public class NamedJdbcWalletRepository implements WalletRepository{
     }
 
     @Override
-    public Wallet useVoucher(Wallet wallet) {
-        var update = jdbcTemplate.update("update wallets set . used_at = :used_at wallet_id = UNHEX(REPLACE(:wallet_id,'-',''))",
+    public void useVoucher(Wallet wallet) {
+        var update = jdbcTemplate.update("update wallets set used_at = :used_at where wallet_id = UNHEX(REPLACE(:wallet_id,'-',''))",
                 toParamMap(wallet));
         if (update != 1) {
             throw new RuntimeException("Nothing was insert");
         }
-        return wallet;
     }
 
     @Override

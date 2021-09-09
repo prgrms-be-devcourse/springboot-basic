@@ -1,23 +1,22 @@
-package org.prgms.order.voucher.wallet;
+package org.prgms.order.wallet;
 
-import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Builder
 public class Wallet {
     private final UUID walletId;
     private final UUID customerId;
     private final UUID voucherId;
     private final LocalDateTime createdAt;
-    private LocalDateTime usedAt;
+    private boolean usedAt;
 
-    public Wallet(UUID walletId, UUID customerId, UUID voucherId, LocalDateTime createdAt) {
-        this.walletId = walletId;
-        this.customerId = customerId;
-        this.voucherId = voucherId;
-        this.createdAt = createdAt;
+    public Wallet(WalletData walletData) {
+        this.walletId = walletData.getWalletId();
+        this.customerId = walletData.getCustomerId();
+        this.voucherId = walletData.getVoucherId();
+        this.createdAt = walletData.getCreatedAt();
+        this.usedAt = walletData.getUsedAt();
     }
 
     public UUID getWalletId() {
@@ -36,7 +35,7 @@ public class Wallet {
         return createdAt;
     }
 
-    public LocalDateTime getUsedAt() {
+    public boolean getUsedAt() {
         return usedAt;
     }
 }

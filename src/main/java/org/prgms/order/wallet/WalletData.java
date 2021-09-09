@@ -1,4 +1,4 @@
-package org.prgms.order.voucher.wallet;
+package org.prgms.order.wallet;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -8,10 +8,11 @@ public class WalletData {
     private UUID customerId;
     private UUID voucherId;
     private LocalDateTime createdAt;
-    private LocalDateTime usedAt;
+    private boolean usedAt;
 
-    public WalletData(UUID walletId, LocalDateTime usedAt) {
+    public WalletData(UUID walletId, boolean usedAt) {
         this.walletId = walletId;
+        this.usedAt = usedAt;
     }
 
     public WalletData(UUID walletId, UUID customerId, UUID voucherId) {
@@ -27,7 +28,7 @@ public class WalletData {
         this.createdAt = createdAt;
     }
 
-    public WalletData(UUID walletId, UUID customerId, UUID voucherId, LocalDateTime createdAt, LocalDateTime usedAt) {
+    public WalletData(UUID walletId, UUID customerId, UUID voucherId, LocalDateTime createdAt, boolean usedAt) {
         this.walletId = walletId;
         this.customerId = customerId;
         this.voucherId = voucherId;
@@ -51,7 +52,7 @@ public class WalletData {
         return createdAt;
     }
 
-    public LocalDateTime getUsedAt() {
+    public boolean getUsedAt() {
         return usedAt;
     }
 }

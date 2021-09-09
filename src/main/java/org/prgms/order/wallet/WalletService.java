@@ -1,12 +1,9 @@
-package org.prgms.order.voucher.wallet;
+package org.prgms.order.wallet;
 
-import org.prgms.order.voucher.entity.Voucher;
-import org.prgms.order.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -37,8 +34,11 @@ public class WalletService {
     List<Wallet> findByCustomerAvailable(UUID customerId){
         return walletRepository.findByCustomerAvailable(customerId);
     }
-    Wallet useVoucher(Wallet wallet){
-        return walletRepository.useVoucher(wallet);
+    List<Wallet> findAll(){
+        return walletRepository.findAll();
+    }
+    void useVoucher(Wallet wallet){
+        walletRepository.useVoucher(wallet);
     }
 
     void  deleteByWalletId(UUID walletId){
