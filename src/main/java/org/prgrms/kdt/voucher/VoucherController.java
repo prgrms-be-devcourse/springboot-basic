@@ -23,10 +23,15 @@ public class VoucherController {
         return "admin/main";
     }
 
-    @GetMapping("/admin/vouchers")
+    @GetMapping("/admin/voucher/vouchers")
     public String vouchers(Model model) {
         model.addAttribute("vouchers", voucherService.getAllVouchers());
-        return "admin/vouchers";
+        return "admin/voucher/vouchers";
     }
 
+    @GetMapping("/admin/voucher/form")
+    public String form(Model model) {
+        model.addAttribute(new VoucherDto());
+        return "admin/voucher/form";
+    }
 }

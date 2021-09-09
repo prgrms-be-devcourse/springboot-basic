@@ -51,13 +51,24 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
         IntStream.range(1, 10)
                 .forEach(i -> voucherJdbcRepository.insert(givenPercentVoucher(UUID.randomUUID())));
 
-        mockMvc.perform(get("/admin/vouchers"))
+        mockMvc.perform(get("/admin/voucher/vouchers"))
                 .andDo(print())
-                .andExpect(view().name("admin/vouchers"))
+                .andExpect(view().name("admin/voucher/vouchers"))
                 .andExpect(model().attributeExists("vouchers"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("test voucher")));
     }
+
+    @Test
+    @DisplayName("바우처 등록 페이지로 이동")
+    void form() throws Exception {
+        mockMvc.perform(get("/admin/voucher/form"))
+                .andDo(print())
+                .andExpect(view().name("admin/voucher/form"))
+                .andExpect(model().attributeExists("voucherDto"))
+                .andExpect(status().isOk());
+    }
+
 
     private Voucher givenFixedVoucher(UUID voucherId) {
         return new Voucher(voucherId, "test voucher", 50L, VoucherType.FIX, LocalDateTime.now());

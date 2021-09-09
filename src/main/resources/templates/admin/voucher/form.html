@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments :: fragment-header"></div>
+</head>
+<body class="bg-light">
+
+<div class="container">
+
+    <div class="text-center mt-5">
+        <a class="btn" th:href="@{/templates/admin}"><h1>바우처 서비스</h1></a>
+    </div>
+
+    <form id="voucher_form" th:href="@{/admin/voucher/form}" th:object="${voucherDto}" method="post">
+        <div class="m-5 d-grid gap-3 col-6 mx-auto">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Voucher Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}">
+                <div id="nameHelp" class="form-text">등록할 바우처 이름을 입력해주세요</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="voucherType" class="form-label">Voucher Type</label>
+                <select class="form-select" id="voucherType" th:field="*{voucherType}">
+                    <option th:each="difficultyValue : ${T(org.prgrms.kdt.voucher.VoucherType).values()}"
+                            th:value="${difficultyValue.name()}"
+                            th:text="${difficultyValue.name()}">
+                    </option>
+                </select>
+                <div id="typeHelp" class="form-text">등록할 바우처 타입을 선택해주세요.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="discount" class="form-label">Discount</label>
+                <input type="number" class="form-control" id="discount" th:field="*{discount}">
+                <div id="discountHelp" class="form-text">할인 금액 또는 퍼센트를 입력해주세요.</div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary">Submit</button>
+        </div>
+    </form>
+
+</div>
+
+<div th:replace="fragments :: fragment-script"></div>
+</body>
+</html>
