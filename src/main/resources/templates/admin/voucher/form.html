@@ -34,6 +34,7 @@
                 <label for="discount" class="form-label">Discount</label>
                 <input type="number" class="form-control" id="discount" th:field="*{discount}">
                 <div id="discountHelp" class="form-text">할인 금액 또는 퍼센트를 입력해주세요.</div>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}">discount Error</small>
             </div>
 
             <button type="submit" class="btn btn-outline-primary">Submit</button>

@@ -18,8 +18,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.prgrms.kdt.common.EmbeddedMysqlConnector;
+import org.prgrms.kdt.common.MvcConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -29,6 +31,7 @@ import org.springframework.test.web.servlet.MockMvc;
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(VoucherController.class)
+@ContextConfiguration(classes = MvcConfig.class)
 class VoucherControllerTest extends EmbeddedMysqlConnector {
 
     @Autowired
@@ -143,6 +146,19 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
                 .param("name", "test voucher")
                 .param("discount", "100")
                 .param("voucherType", " "))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("/admin/voucher/form"))
+                .andExpect(model().attributeHasFieldErrorCode("voucherForm", "voucherType", "NotBlank"));
+    }
+
+    @Test
+    @DisplayName("퍼센트타입의 바우처가 100퍼센트틀 넘길 경우 예외")
+    void submit_fail_invalid_percent() throws Exception {
+        mockMvc.perform(post("/admin/voucher/form")
+                .param("name", "test voucher")
+                .param("discount", "101")
+                .param("voucherType", "PERCENT"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("/admin/voucher/form"))
