@@ -23,19 +23,20 @@ public class CommandLine implements Runnable {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
 
         //프로그램 시작
-        selectMenu(voucherService);
+        while (selectMenu(voucherService)) ;
     }
 
-    private void selectMenu(VoucherService voucherService) {
-        while (true) {
-            output.start();
-            output.inputCommandTypeMessage();
-            try {
-                String userCommand = input.receiveUserInput();
-                CommandStatus.execute(input, output, voucherService, userCommand);
-            } catch (IllegalArgumentException e) {
-                output.invalidCommandType();
-            }
+    private boolean selectMenu(VoucherService voucherService) {
+        boolean flag = true;
+
+        output.start();
+        output.inputCommandTypeMessage();
+        try {
+            String userCommand = input.receiveUserInput();
+            flag = CommandStatus.execute(input, output, voucherService, userCommand);
+        } catch (IllegalArgumentException e) {
+            output.invalidCommandType();
         }
+        return flag;
     }
 }

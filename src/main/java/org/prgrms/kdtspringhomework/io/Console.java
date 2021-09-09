@@ -48,7 +48,6 @@ public class Console implements Input, Output {
     @Override
     public void exit() {
         System.out.print("The program has ended.");
-        System.exit(0);
     }
 
     //커맨드 입력 오류

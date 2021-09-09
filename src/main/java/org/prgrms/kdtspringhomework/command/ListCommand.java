@@ -8,6 +8,6 @@ public class ListCommand implements CommandStrategy {
     @Override
     public boolean execute(Input input, Output output, VoucherService voucherService) {
         voucherService.printVouchers();
-        return false;
+        return true;
     }
 }

@@ -32,6 +32,6 @@ public class CreateCommand implements CommandStrategy {
         } catch (IllegalArgumentException e) {
             output.invalidVoucherType();
         }
-        return false;
+        return true;
     }
 }
