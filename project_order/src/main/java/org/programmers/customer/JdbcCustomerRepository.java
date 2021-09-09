@@ -111,6 +111,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByVoucherId(UUID voucherId) {
+        try {
+            return Optional.of(jdbcTemplate.queryForObject("select * from customers c join vouchers v on c.customer_id = v.owner_id where voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId.toString().getBytes()), customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public List<Customer> findBlackCustomers() {
         var blackList = jdbcTemplate.query("select * from customers where customer_type = 'BLACK'", customerRowMapper);
         return (blackList != null ? blackList : Collections.EMPTY_LIST);

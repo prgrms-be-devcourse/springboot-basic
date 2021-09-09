@@ -1,5 +1,6 @@
 package org.programmers.voucher;
 
+import org.programmers.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,6 +30,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }};
     }
 
+    private Map<String, Object> toParamMap(Customer customer, Voucher voucher) {
+        return new HashMap<>() {{
+            put("customerId", customer.getCustomerId().toString().getBytes());
+            put("voucherId", voucher.getVoucherId().toString().getBytes());
+        }};
+    }
+
     private RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var discountValue = resultSet.getLong("discount_value");
@@ -41,6 +49,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :voucherType)", toParamMap(voucher));
         if (update != 1)
             throw new RuntimeException("Nothing was inserted");
+        return voucher;
+    }
+
+    @Override
+    public Voucher assignToCustomer(Customer customer, Voucher voucher) {
+        var update = jdbcTemplate.update("UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)", toParamMap(customer, voucher));
+        if (update != 1)
+            throw new RuntimeException("Failed to assign voucher to customer");
         return voucher;
     }
 
@@ -75,8 +91,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByOwnerId(UUID ownerId) {
+        return jdbcTemplate.query("select * from vouchers where owner_id = :ownerId", Collections.singletonMap("ownerId", ownerId.toString().getBytes()), voucherRowMapper);
+    }
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
+    }
+
+    @Override
+    public void deleteByCustomerId(Customer customerId) {
+        jdbcTemplate.update("DELETE FROM vouchers where owner_id = :ownerId", Collections.singletonMap("ownerId", customerId.toString().getBytes()));
     }
 
     static UUID toUUID(byte[] bytes) {
