@@ -102,22 +102,30 @@ public class VoucherProjectApplication {
             printOutput("", voucherService.create(voucherName, voucherType, voucherAmount, customerId));
         }),
         LIST_VOUCHER("list_voucher", () -> {
-            System.out.println("======= [ VOUCHERS ] =======");
-            voucherService.listAll().forEach(System.out::println);
-            System.out.println("============================");
+            printOutput("%n", "======= [ VOUCHERS ] =======");
+            voucherService.listAll().forEach(voucher -> printOutput("%n", voucher));
+            printOutput("%n", "============================");
         }),
         READ_VOUCHER("read_voucher", () -> {
-            try {
-                System.out.print(applicationMessages.getRequireVoucherId());
-                long voucherId = Integer.parseInt(br.readLine());
-                final Optional<Voucher> byId = voucherService.findById(voucherId);
-                if (byId.isEmpty())
-                    System.out.println("NO VOUCHER FOUND.");
-                else
-                    System.out.println(byId.get());
-            } catch (IOException | NumberFormatException ex) {
-                log.warn("IOException or NumberFormatException occur when input voucher id. {}...", ex.getMessage());
+            long voucherId = 0;
+            boolean allowed = false;
+            while(!allowed) {
+                String voucherIdInput = "";
+                while(voucherIdInput.isBlank()) {
+                    voucherIdInput = acquireInput(applicationMessages.getRequireVoucherId());
+                }
+
+                try {
+                    voucherId = Long.parseLong(voucherIdInput);
+                    allowed =true;
+                } catch (NumberFormatException ex) {
+                    log.warn("Invalid number format for customer id.");
+                }
             }
+
+            voucherService.findById(voucherId).ifPresentOrElse(
+                    voucher -> printOutput("", voucher),
+                    () -> printOutput("", "NO VOUCHER FOUND."));
         }),
         UPDATE_VOUCHER("update_voucher", () -> {
             try {
