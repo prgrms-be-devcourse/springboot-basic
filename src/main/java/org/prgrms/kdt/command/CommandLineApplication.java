@@ -3,27 +3,22 @@ package org.prgrms.kdt.command;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
-
 @Component
 public class CommandLineApplication {
     public void run(final VoucherRepository voucherRepository) {
-        final Scanner scanner = new Scanner(System.in);
         boolean programRunning = true;
         do {
-            new NavigationMessage();
+            Output.commandChoose();
 
-            final String commandInput = scanner.nextLine();
+            final String commandInput = Input.input();
             switch (commandInput) {
                 case "exit":
                     programRunning = false;
                     break;
 
                 case "create":
-                    NavigationMessage.voucherCreateMessage();
-                    voucherRepository.insert(
-                            CommandCreate.createVoucherType()
-                    );
+                    Output.voucherChoose();
+                    voucherRepository.insert(CommandCreate.createVoucherType());
                     break;
 
                 case "list":
@@ -33,7 +28,7 @@ public class CommandLineApplication {
                     break;
 
                 default:
-                    NavigationMessage.inputTypeErrorMessage(commandInput);
+                    Output.inputTypeError(commandInput);
                     break;
             }
         } while (programRunning);

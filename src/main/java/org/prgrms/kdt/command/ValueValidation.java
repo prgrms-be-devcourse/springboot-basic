@@ -1,15 +1,12 @@
 package org.prgrms.kdt.command;
 
-import java.util.Scanner;
-
 public class ValueValidation {
-    static Scanner scanner = new Scanner(System.in);
 
     public static long inputValueValidation(final String voucherType) {
         String inputStringType;
         boolean discountAmountCheck = true;
         do {
-            inputStringType = scanner.nextLine();
+            inputStringType = Input.input();
 
             // 숫자가 입력되었는지 검사
             // 값의 범위가 유효한지 검사
