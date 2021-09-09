@@ -50,11 +50,11 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.write(voucher.toString());
             bufferedWriter.newLine();
             bufferedWriter.flush();
-
-            store.put(voucher.getVoucherId(), voucher);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        store.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
