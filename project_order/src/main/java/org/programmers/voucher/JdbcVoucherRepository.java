@@ -24,21 +24,21 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("value", voucher.getValue());
+            put("discountValue", voucher.getValue());
             put("voucherType", voucher.getVoucherType());
         }};
     }
 
     private RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var value = resultSet.getLong("value");
+        var discountValue = resultSet.getLong("discount_value");
         var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        return new VoucherFactory().getVoucherType(voucherType, voucherId, value);
+        return new VoucherFactory().getVoucherType(voucherType, voucherId, discountValue);
     };
 
     @Override
     public Voucher insert(Voucher voucher) {
-        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, value, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :value, :voucherTyep", toParamMap(voucher));
+        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :voucherType)", toParamMap(voucher));
         if (update != 1)
             throw new RuntimeException("Nothing was inserted");
         return voucher;
