@@ -27,8 +27,8 @@ public class CustomerService {
                 .orElseThrow(() -> new ResourceNotFoundException("not found customerId : " + customerId));
     }
 
-    public List<CustomerDto> getCustomers(String customerId) {
-        return customerRepository.findCustomersByVoucherId(UUID.fromString(customerId)).stream()
+    public List<CustomerDto> getCustomers(String voucherId) {
+        return customerRepository.findCustomersByVoucherId(UUID.fromString(voucherId)).stream()
                 .map(CustomerMapper::customerToCustomerDto)
                 .collect(Collectors.toList());
     }
