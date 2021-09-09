@@ -7,6 +7,7 @@ import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
  * 요구사항에 따라 바우처 데이터를 가공하여 반환합니다.
  */
 @Service
+@Transactional
 public class VoucherServiceImpl implements VoucherService {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherServiceImpl.class);
@@ -41,6 +43,11 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public List<Voucher> getVouchersByCustomer(UUID customerId) {
+        return this.voucherRepository.findByCustomerId(customerId);
+    }
+
+    @Override
     public UUID saveVoucher(VoucherType type, long discount) {
 
         logger.info("Access saveVoucher()");
@@ -50,6 +57,21 @@ public class VoucherServiceImpl implements VoucherService {
         Voucher createdVoucher = type.createVoucher(discount);
         return this.voucherRepository.insert(createdVoucher);
 
+    }
+
+    @Override
+    public void updateVoucherDiscountAmount(UUID voucherId, long amount) {
+        this.voucherRepository.updateDiscount(voucherId, amount);
+    }
+
+    @Override
+    public void allocateVoucherToCustomer(UUID voucherId, UUID customerId) {
+        this.voucherRepository.updateCustomerId(voucherId, customerId);
+    }
+
+    @Override
+    public void deleteVoucher(UUID voucherId) {
+        this.voucherRepository.delete(voucherId);
     }
 
 }
