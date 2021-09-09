@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -47,6 +48,15 @@ public class CsvCustomerRepository implements CustomerRepository {
     @PostConstruct
     public void postConstruct() throws IOException {
         Resource resource = this.resourceLoader.getResource(this.ymlPropertiesLoader.getBlackListFilePath());
+        if (!resource.exists()) {
+            String workingDirectoryPath = System.getProperty("user.dir");
+            String[] newCsvFilePathTokens = this.ymlPropertiesLoader.getVoucherFilePath().split(":");
+            String newCsvFilepath = newCsvFilePathTokens[newCsvFilePathTokens.length - 1];
+            String csvFilePath = workingDirectoryPath + File.separator + newCsvFilepath;
+            System.out.println(csvFilePath);
+            if (!new File(csvFilePath).createNewFile()) throw new IOException();
+            resource = this.resourceLoader.getResource(this.ymlPropertiesLoader.getBlackListFilePath());
+        }
         this.bufferedReader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
     }
 
