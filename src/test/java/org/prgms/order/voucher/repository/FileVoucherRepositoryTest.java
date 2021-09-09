@@ -1,12 +1,9 @@
 package org.prgms.order.voucher.repository;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.prgms.order.voucher.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -28,12 +25,12 @@ class FileVoucherRepositoryTest {
         VoucherRepository fileVoucherRepository = new FileVoucherRepository();
 
         //when
-        var size = fileVoucherRepository.findAllVoucher().size();
+        var size = fileVoucherRepository.findAll().size();
         Voucher voucher1 = voucherCreateStretage.createVoucher(VoucherIndexType.FIXED, new VoucherData(UUID.randomUUID(),20,LocalDateTime.now().withNano(0)));
         fileVoucherRepository.insert(voucher1);
 
         //then
-        assertThat(size+1, is(fileVoucherRepository.findAllVoucher().size()));
+        assertThat(size+1, is(fileVoucherRepository.findAll().size()));
     }
 
 

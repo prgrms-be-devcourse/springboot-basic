@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -36,6 +37,7 @@ public class CommandLineApplication implements Runnable{
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         voucherService = applicationContext.getBean(VoucherService.class);
         customerService = applicationContext.getBean(CustomerService.class);
+        voucherCreateStretage = applicationContext.getBean(VoucherCreateStretage.class);
 
 
         while(true){
@@ -90,8 +92,10 @@ public class CommandLineApplication implements Runnable{
             System.out.println("=  Insert Correct Amount. PLEASE RETRY =");
             return;
         }
-
-        voucherCreateStretage.createVoucher(VoucherIndexType.valueOf(inputVoucherString), new VoucherData(UUID.randomUUID(),Long.parseLong(inputAmount),LocalDateTime.now().withNano(0)));
+        voucher = voucherCreateStretage.createVoucher(
+                VoucherIndexType.valueOf(inputVoucherString.toUpperCase(Locale.ROOT)),
+                new VoucherData(UUID.randomUUID(),Long.parseLong(inputAmount),LocalDateTime.now().withNano(0)));
+        voucherService.insert(voucher);
         System.out.println("SUCCESS >>> "+voucherService.getVoucherInfoById(voucher.getVoucherId()));
     }
 

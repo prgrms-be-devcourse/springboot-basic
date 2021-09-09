@@ -33,7 +33,7 @@ public class VoucherService {
     }
 
     public List<Voucher> findAllVoucher() {
-        return voucherRepository.findAllVoucher();
+        return voucherRepository.findAll();
     }
 
     public String getVoucherInfoById(UUID voucherId) {

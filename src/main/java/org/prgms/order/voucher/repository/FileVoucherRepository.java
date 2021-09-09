@@ -1,11 +1,8 @@
 package org.prgms.order.voucher.repository;
 
-import org.prgms.order.YamlPropertiesFactory;
 import org.prgms.order.voucher.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
@@ -15,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -57,6 +53,22 @@ public class FileVoucherRepository implements VoucherRepository {
         return Optional.empty();
     }
 
+    @Override
+    public List<Voucher> findByType(VoucherIndexType Type) {
+        return null;
+    }
+
+
+    @Override
+    public List<Voucher> findByTypeAmount(VoucherIndexType Type, long amount) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findAvailable() {
+        return null;
+    }
+
     private boolean isSame(UUID voucherId, UUID findVoucherId) {
         return findVoucherId.equals(voucherId);
     }
@@ -79,7 +91,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAllVoucher() {
+    public List<Voucher> findAll() {
         filePath = MessageFormat.format("{0}/{1}", file.getAbsolutePath(), filename);
         logger.info("findAllVoucher path : {}",filePath);
         List<Voucher> vouchers = new ArrayList<>();
@@ -97,6 +109,21 @@ public class FileVoucherRepository implements VoucherRepository {
             logger.info(MessageFormat.format("file read Exception{0}", e.getMessage()));
         }
         return vouchers;
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 
     @Override

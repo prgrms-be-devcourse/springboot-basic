@@ -44,4 +44,9 @@ public class FixedAmountVoucher implements Voucher {
         return expiredAt;
     }
 
+    @Override
+    public void setExpiry() {
+        expiredAt = LocalDateTime.now().withNano(0);
+    }
+
 }

@@ -21,6 +21,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -91,10 +92,12 @@ class NamedJdbcVoucherRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        testUpdate = voucherCreateStretage.createVoucher(VoucherIndexType.PERCENT, new VoucherData(UUID.randomUUID(),50,LocalDateTime.now().withNano(0)));
-        newVoucher1 =voucherCreateStretage.createVoucher(VoucherIndexType.FIXED, new VoucherData(UUID.randomUUID(),5000,LocalDateTime.now().withNano(0)));
-        newVoucher2 = voucherCreateStretage.createVoucher(VoucherIndexType.PERCENT, new VoucherData(UUID.randomUUID(),20,LocalDateTime.now().withNano(0)));
-        notVoucher = voucherCreateStretage.createVoucher(VoucherIndexType.FIXED, new VoucherData(UUID.randomUUID(),100000,LocalDateTime.now().withNano(0)));
+        String inputFixed = "Fixed";
+        String inputPercent = "Percent";
+        testUpdate = voucherCreateStretage.createVoucher(VoucherIndexType.valueOf(inputPercent.toUpperCase(Locale.ROOT)), new VoucherData(UUID.randomUUID(),50,LocalDateTime.now().withNano(0)));
+        newVoucher1 =voucherCreateStretage.createVoucher(VoucherIndexType.valueOf(inputFixed.toUpperCase(Locale.ROOT)), new VoucherData(UUID.randomUUID(),5000,LocalDateTime.now().withNano(0)));
+        newVoucher2 = voucherCreateStretage.createVoucher(VoucherIndexType.valueOf(inputPercent.toUpperCase(Locale.ROOT)), new VoucherData(UUID.randomUUID(),20,LocalDateTime.now().withNano(0)));
+        notVoucher = voucherCreateStretage.createVoucher(VoucherIndexType.valueOf(inputFixed.toUpperCase(Locale.ROOT)), new VoucherData(UUID.randomUUID(),100000,LocalDateTime.now().withNano(0)));
         var mysqldConfig = aMysqldConfig(v5_7_10) //port, characterset을 지정해 줄 수 있음
                 .withCharset(UTF8)
                 .withPort(2215) //임의의 포트 지정
@@ -124,7 +127,7 @@ class NamedJdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     @DisplayName("바우처를 추가할 수 있다.")
     void testInsert() {
         try {
@@ -141,7 +144,7 @@ class NamedJdbcVoucherRepositoryTest {
 
 
     @Test
-    @Order(2)
+    @Order(3)
     @DisplayName("아이디로 바우처를 찾을 수 있다.")
     void findById() {
         var voucher = namedJdbcVoucherRepository.findById(testUpdate.getVoucherId());
@@ -153,11 +156,62 @@ class NamedJdbcVoucherRepositoryTest {
 
 
     @Test
-    @Order(3)
+    @Order(4)
     @DisplayName("모든 바우처를 조회할 수 있다.")
     void findAllVoucher() {
-        var vouchers = namedJdbcVoucherRepository.findAllVoucher();
+        var vouchers = namedJdbcVoucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
         assertThat(vouchers,hasSize(3));
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("일치하는 타입의 바우처 목록을 찾을 수 있다.")
+    void testFindByType() {
+        String inputPercent = "Percent";
+        var vouchers = namedJdbcVoucherRepository.findByType(VoucherIndexType.valueOf(inputPercent.toUpperCase(Locale.ROOT)));
+        assertThat(vouchers.isEmpty(), is(false));
+        assertThat(vouchers,hasSize(2));
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("타입과 할인 amount가 일치하는 바우처 목록을 찾을 수 있다.")
+    void testFindByTypeAmount() {
+        String inputPercent = "Percent";
+        var vouchers = namedJdbcVoucherRepository.findByTypeAmount(VoucherIndexType.valueOf(inputPercent.toUpperCase(Locale.ROOT)),20);
+        assertThat(vouchers.get(0), samePropertyValuesAs(newVoucher2));
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("유효기간이 지나지 않은 바우처 목록을 찾을 수 있다.")
+    void testFindAvailable() {
+        var vouchers = namedJdbcVoucherRepository.findAvailable();
+        assertThat(vouchers, hasSize(0));
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("바우처 기한을 만료시킬 수 있다.")
+    void update() {
+        testUpdate.setExpiry();
+        var voucher = namedJdbcVoucherRepository.update(testUpdate);
+        assertThat(testUpdate.getExpiredAt(),notNullValue());
+    }
+
+    @Test
+    @Order(9)
+    @DisplayName("아이디로 바우처를 삭제할 수 있다.")
+    void deleteById() {
+    }
+
+    @Test
+    @Order(10)
+    @DisplayName("모든 바우처를 삭제할 수 있다.")
+    void deleteAll() {
+        namedJdbcVoucherRepository.deleteAll();
+        var vouchers = namedJdbcVoucherRepository.findAll();
+        assertThat(vouchers, hasSize(0));
     }
 }

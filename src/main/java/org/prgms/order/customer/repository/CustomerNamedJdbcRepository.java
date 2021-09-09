@@ -55,9 +55,9 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        var update = jdbcTemplate.update("insert into customers(customer_id, name, email, created_at) values (UNHEX(REPLACE(:customer_id,'-','')), :name, :email, :created_at)",
+        var insert = jdbcTemplate.update("insert into customers(customer_id, name, email, created_at) values (UNHEX(REPLACE(:customer_id,'-','')), :name, :email, :created_at)",
                 toParamMap(customer));
-        if (update != 1) {
+        if (insert != 1) {
             throw new RuntimeException("Nothing was insert");
         }
         return customer;

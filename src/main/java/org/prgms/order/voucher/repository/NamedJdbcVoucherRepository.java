@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -48,7 +47,7 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
 
     private Map<String, Object> toParamMap(Voucher voucher){
         return new HashMap<>() {{
-            put("voucher_id", voucher.getVoucherId().toString().getBytes());
+            put("voucher_id", voucher.getVoucherId() != null?voucher.getVoucherId().toString().getBytes() : null);
             put("type", voucher.getType().ordinal());
             put("amount", voucher.getAmount());
             put("created_at", voucher.getCreatedAt());
@@ -69,6 +68,41 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByType(VoucherIndexType type) {
+        try {
+            return jdbcTemplate.query("select * from vouchers where type = :type",
+                    Collections.singletonMap("type",type.ordinal()),
+                    voucherRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Voucher> findByTypeAmount(VoucherIndexType type, long amount) {
+        try {
+            return jdbcTemplate.query("select * from vouchers where type = :type and amount = :amount",
+                    toParamMap(new VoucherCreateStretage().createVoucher(type,new VoucherData(null, amount))),
+                    voucherRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Voucher> findAvailable() {
+        try {
+            return jdbcTemplate.query("select * from vouchers where expired_at > LOCALTIME",
+                    voucherRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return null;
+        }
+    }
+
+    @Override
     public Voucher insert(Voucher voucher) {
         var update = jdbcTemplate.update("insert into vouchers(voucher_id, type, amount, created_at, expired_at) values " +
                         "(UNHEX(REPLACE(:voucher_id,'-','')), :type, :amount, :created_at, :expired_at)",
@@ -80,8 +114,30 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public List<Voucher> findAllVoucher() {
+    public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        var update = jdbcTemplate.update("update vouchers set type = :type, amount = :amount, created_at = :created_at, expired_at = :expired_at where voucher_id = UNHEX(REPLACE(:voucher_id,'-',''))",
+                toParamMap(voucher));
+
+        if (update != 1) {
+            throw new RuntimeException("Nothing was updated");
+        }
+        return voucher;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update("delete from vouchers where voucher_id = UNHEX(REPLACE(:voucher_id,'-',''))",
+                Collections.singletonMap("voucher_id",voucherId.toString().getBytes()));
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("delete from vouchers",Collections.emptyMap());
     }
 
     @Override
