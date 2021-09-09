@@ -1,8 +1,9 @@
 package org.prgrms.kdtspringhomework.command;
 
-import org.prgrms.kdtspringhomework.io.Console;
 import org.prgrms.kdtspringhomework.io.Input;
+import org.prgrms.kdtspringhomework.io.InputConsole;
 import org.prgrms.kdtspringhomework.io.Output;
+import org.prgrms.kdtspringhomework.io.OutputConsole;
 import org.prgrms.kdtspringhomework.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 
@@ -12,9 +13,9 @@ public class CommandLine implements Runnable {
     private final Output output;
     private final ApplicationContext applicationContext;
 
-    public CommandLine(Console console, ApplicationContext applicationContext) {
-        this.input = console;
-        this.output = console;
+    public CommandLine(InputConsole inputConsole, OutputConsole outputConsole, ApplicationContext applicationContext) {
+        this.input = inputConsole;
+        this.output = outputConsole;
         this.applicationContext = applicationContext;
     }
 
