@@ -1,6 +1,9 @@
 package org.prgrms.kdt.api;
 
+import static org.springframework.http.MediaType.*;
+
 import java.net.URI;
+import java.util.List;
 import org.prgrms.kdt.customer.CustomerDto;
 import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.voucher.VoucherDto;
@@ -23,13 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = Apis.PRE_FIX, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = Apis.PRE_FIX, produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
 public class Apis {
 
     protected static final String PRE_FIX = "/kdt/api/v1";
     protected static final String WALLET = "/customers/wallet";
     protected static final String CUSTOMER = "/customers/{customerId}";
     protected static final String VOUCHER = "/vouchers/{voucherId}";
+    protected static final String VOUCHERS = "/vouchers";
 
     private final CustomerService customerService;
     private final VoucherService voucherService;
@@ -53,6 +57,11 @@ public class Apis {
         VoucherDto voucherDto = voucherService.getVoucherById(voucherId);
         voucherDto.setCustomerDtos(customerService.getCustomers(voucherId));
         return ResponseEntity.ok().body(voucherDto);
+    }
+
+    @GetMapping(VOUCHERS)
+    public ResponseEntity getAllVouchers() {
+        return ResponseEntity.ok().body(voucherService.getAllVouchers());
     }
 
     @PostMapping(WALLET)

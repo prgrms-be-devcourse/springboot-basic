@@ -3,6 +3,7 @@ package org.prgrms.kdt.api;
 import static org.prgrms.kdt.api.Apis.CUSTOMER;
 import static org.prgrms.kdt.api.Apis.PRE_FIX;
 import static org.prgrms.kdt.api.Apis.VOUCHER;
+import static org.prgrms.kdt.api.Apis.VOUCHERS;
 import static org.prgrms.kdt.api.Apis.WALLET;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -141,6 +142,25 @@ public class ApisTest extends BaseApiTest {
                 .content(objectMapper.writeValueAsString(dto)))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("바우처 전체 조회 테스트")
+    void getAllVouchers() throws Exception {
+        initVoucher();
+        initVoucher();
+        initVoucher();
+
+        mockMvc.perform(get(PRE_FIX + VOUCHERS)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .characterEncoding("UTF-8"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$..voucherId").exists())
+                .andExpect(jsonPath("$..discount").exists())
+                .andExpect(jsonPath("$..voucherType").exists())
+                .andExpect(jsonPath("$..createdAt").exists());
     }
 
     private WalletDto givenValidWalletDto(UUID mockCustomerId, UUID mockVoucherId) {
