@@ -1,11 +1,13 @@
 package org.prgrms.kdt.voucher;
 
 import javax.validation.Valid;
+import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.form.VoucherForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -18,9 +20,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class VoucherController {
 
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @GetMapping("/admin")
@@ -49,5 +53,17 @@ public class VoucherController {
         voucherService.addVoucher(voucherForm);
         attributes.addFlashAttribute("message", "바우처가 정상적으로 등록되었습니다.");
         return "redirect:/admin";
+    }
+
+    @GetMapping("/admin/voucher/{voucherId}")
+    public String getVoucher(@PathVariable String voucherId, Model model) {
+        VoucherDto voucherDto = voucherService.getVoucherById(voucherId);
+        if (voucherDto == null) {
+            return "error";
+        }
+
+        model.addAttribute("voucher", voucherDto);
+        model.addAttribute("customers", customerService.getCustomers(voucherId));
+        return "/admin/voucher";
     }
 }

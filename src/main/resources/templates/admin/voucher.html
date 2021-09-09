@@ -24,13 +24,38 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="voucher : ${vouchers}">
-
-                <td><a th:href="@{'/admin/voucher/' + ${voucher.voucherId}}" th:text="${voucher.voucherId}" ></a></td>
+                <td th:text="${voucher.voucherId}"></td>
                 <td th:text="${voucher.name}"></td>
                 <td th:text="${voucher.voucherType}"></td>
                 <td th:text="${voucher.discount}"></td>
                 <td th:text="${voucher.createdAt}"></td>
+                <td>
+                    <button class="btn btn-outline-danger">삭제</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="m-5 d-grid gap-3 col-12 mx-auto">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Customer Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Customer Type</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+
+                <td th:text="${customer.customerId}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.customerType}"></td>
+                <td th:text="${customer.createdAt}"></td>
 
                 <td>
                     <button class="btn btn-outline-danger">삭제</button>

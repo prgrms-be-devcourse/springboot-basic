@@ -147,6 +147,19 @@ class VoucherControllerTest extends EmbeddedMysqlConnector {
                 .andExpect(model().attributeHasFieldErrorCode("voucherForm", "voucherType", "NotBlank"));
     }
 
+    @Test
+    @DisplayName("바우처 상세 조회")
+    void getVoucher() throws Exception {
+        UUID voucherId = UUID.randomUUID();
+        voucherJdbcRepository.insert(givenPercentVoucher(voucherId));
+
+        mockMvc.perform(get("/admin/voucher/{voucherId}", voucherId))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("/admin/voucher"))
+                .andExpect(content().string(containsString("test voucher")));
+    }
+
     private Voucher givenFixedVoucher(UUID voucherId) {
         return new Voucher(voucherId, "test voucher", 50L, VoucherType.FIX, LocalDateTime.now());
     }
