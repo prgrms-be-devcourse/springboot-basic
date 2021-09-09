@@ -1,0 +1,9 @@
+kdt:
+  version: "default-v1.0"
+  minimum-order-amount: 1
+  support-vendors:
+    - default
+  description: |-
+    default line 1 hello world
+    default line 2 xxxx
+    default line 3
