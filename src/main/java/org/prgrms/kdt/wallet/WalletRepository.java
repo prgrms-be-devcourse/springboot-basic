@@ -12,5 +12,4 @@ public interface WalletRepository {
 
     int deleteAll();
 
-    int deleteBy(UUID customerId, UUID voucherId);
 }

@@ -4,6 +4,7 @@ import javax.validation.Valid;
 import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.form.VoucherForm;
 import org.prgrms.kdt.validate.VoucherFormValidator;
+import org.prgrms.kdt.wallet.WalletDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -72,6 +73,7 @@ public class VoucherController {
 
         model.addAttribute("voucher", voucherDto);
         model.addAttribute("customers", customerService.getCustomers(voucherId));
+        model.addAttribute(new WalletDto());
         return "/admin/voucher";
     }
 

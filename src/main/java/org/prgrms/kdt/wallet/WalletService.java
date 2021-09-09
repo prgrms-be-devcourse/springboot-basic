@@ -1,5 +1,6 @@
 package org.prgrms.kdt.wallet;
 
+import java.util.List;
 import java.util.UUID;
 import org.prgrms.kdt.exception.IllegalRowUpdateException;
 import org.slf4j.Logger;
@@ -37,6 +38,6 @@ public class WalletService {
 
     @Transactional
     public void removeWallet(WalletDto walletDto) {
-        walletJdbcRepository.deleteBy(UUID.fromString(walletDto.getCustomerId()), UUID.fromString(walletDto.getVoucherId()));
+        walletJdbcRepository.deleteByCustomerIdAndVoucherId(UUID.fromString(walletDto.getCustomerId()), UUID.fromString(walletDto.getVoucherId()));
     }
 }

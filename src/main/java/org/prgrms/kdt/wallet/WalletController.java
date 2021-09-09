@@ -54,4 +54,9 @@ public class WalletController {
         return "redirect:/admin";
     }
 
+    @PostMapping("/admin/wallet/deletion")
+    public String getWallets(WalletDto walletDto) {
+        walletService.removeWallet(walletDto);
+        return "redirect:/admin/voucher/" + walletDto.getVoucherId();
+    }
 }

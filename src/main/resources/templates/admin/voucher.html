@@ -83,7 +83,15 @@
                 <td th:text="${customer.email}"></td>
                 <td th:text="${customer.customerType}"></td>
                 <td th:text="${customer.createdAt}"></td>
+                <td>
+                    <form th:action="@{/admin/wallet/deletion}" method="post" th:object="${walletDto}">
+                        <input type="hidden" name="customerId" th:value="${customer.customerId}">
+                        <input type="hidden" name="voucherId" th:value="${voucher.voucherId}">
 
+                        <button class="btn btn-danger" type="submit"> 삭제
+                        </button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>

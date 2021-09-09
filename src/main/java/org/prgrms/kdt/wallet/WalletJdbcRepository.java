@@ -35,7 +35,7 @@ public class WalletJdbcRepository implements WalletRepository {
         return jdbcTemplate.update("DELETE FROM wallets");
     }
 
-    public int deleteBy(UUID customerId, UUID voucherId) {
+    public int deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
         return jdbcTemplate.update("DELETE FROM wallets "
                                    + "WHERE customer_id = UUID_TO_BIN(?) AND voucher_id = UUID_TO_BIN(?) "
                                    + "ORDER BY created_at ASC "

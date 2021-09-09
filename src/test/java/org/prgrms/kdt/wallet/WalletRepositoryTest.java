@@ -74,7 +74,7 @@ class WalletRepositoryTest extends EmbeddedMysqlConnector {
     @Test
     @DisplayName("고객에게 등록된 바우처 삭제 테스트")
     void deleteByWallet() {
-        walletJdbcRepository.deleteBy(customer.getCustomerId(), voucher.getVoucherId());
+        walletJdbcRepository.deleteByCustomerIdAndVoucherId(customer.getCustomerId(), voucher.getVoucherId());
         List<Voucher> vouchers = voucherRepository.findVouchersByCustomerId(customer.getCustomerId());
         List<Customer> customers = customerRepository.findCustomersByVoucherId(voucher.getVoucherId());
 

@@ -90,7 +90,25 @@ class WalletControllerTest extends EmbeddedMysqlConnector {
         mockMvc.perform(post("/admin/wallet")
                 .param("customerId", customerId.toString())
                 .param("voucherId", voucherId.toString()))
+                .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/admin"));
+    }
+
+    @Test
+    @DisplayName("지갑 삭제")
+    void deleteWallet() throws Exception {
+        UUID customerId = UUID.randomUUID();
+        customerRepository.insert(new Customer(customerId, "tester", "tester@email.com", LocalDateTime.now()));
+
+        UUID voucherId = UUID.randomUUID();
+        voucherJdbcRepository.insert(new Voucher(voucherId, "voucher", 100L, VoucherType.FIX, LocalDateTime.now()));
+
+        mockMvc.perform(post("/admin/wallet/deletion")
+                .param("customerId", customerId.toString())
+                .param("voucherId", voucherId.toString()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/admin/voucher/" + voucherId));
     }
 }
