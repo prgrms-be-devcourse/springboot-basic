@@ -60,8 +60,8 @@ public class DiscountPolicy implements Serializable {
         return amount;
     }
 
-    public void setAmount(int amount) {
-        amount = this.type.constraint.apply(amount);
+    public void updateAmount(int amount) {
+        amount = this.type.constraint(amount);
         this.amount = amount;
     }
 
@@ -69,8 +69,9 @@ public class DiscountPolicy implements Serializable {
         return type;
     }
 
-    public void setType(Type type) {
+    public void updateType(Type type) {
         this.type = type;
+        this.amount = type.constraint(amount);
     }
 
     @Override

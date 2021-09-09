@@ -30,7 +30,7 @@ public class VoucherProjectApplication {
     private static final BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     private static final Logger log = LoggerFactory.getLogger(VoucherProjectApplication.class);
 
-    private static String acquireInput(String msg) {
+    public static String acquireInput(String msg) {
         try {
             bw.write(msg);
             bw.flush();
@@ -41,11 +41,15 @@ public class VoucherProjectApplication {
         }
     }
 
-    private static void printOutput(String delim, Object... args) {
+    public static void printOutput(String delim, Object... args) {
         try {
             for (Object arg : args) {
                 bw.write(arg.toString());
-                bw.write(delim);
+                if("\n".equals(delim) || "\r\n".equals(delim)) {
+                    bw.newLine();
+                } else {
+                    bw.write(delim);
+                }
             }
 
             bw.flush();
@@ -67,7 +71,7 @@ public class VoucherProjectApplication {
             }
             DiscountPolicy.Type voucherType = DiscountPolicy.Type.of(voucherTypeInput);
 
-			int voucherAmount = 0;
+            int voucherAmount = 0;
             boolean allowed = false;
             while (!allowed) {
                 String voucherAmountInput = "";
@@ -83,41 +87,41 @@ public class VoucherProjectApplication {
                 }
             }
 
-			long customerId = 0;
+            long customerId = 0;
             allowed = false;
-            while(!allowed) {
-				String customerIdInput = "";
-				while (customerIdInput.isBlank()) {
-					customerIdInput = acquireInput(applicationMessages.getRequireCustomerId());
-				}
+            while (!allowed) {
+                String customerIdInput = "";
+                while (customerIdInput.isBlank()) {
+                    customerIdInput = acquireInput(applicationMessages.getRequireCustomerId());
+                }
 
-				try {
-					customerId = Long.parseLong(customerIdInput);
-					allowed = true;
-				} catch (NumberFormatException ex) {
-					log.warn("Invalid number format for customer id.");
-				}
-			}
+                try {
+                    customerId = Long.parseLong(customerIdInput);
+                    allowed = true;
+                } catch (NumberFormatException ex) {
+                    log.warn("Invalid number format for customer id.");
+                }
+            }
 
             printOutput("", voucherService.create(voucherName, voucherType, voucherAmount, customerId));
         }),
         LIST_VOUCHER("list_voucher", () -> {
-            printOutput("%n", "======= [ VOUCHERS ] =======");
-            voucherService.listAll().forEach(voucher -> printOutput("%n", voucher));
-            printOutput("%n", "============================");
+            printOutput("\n", "======= [ VOUCHERS ] =======");
+            voucherService.listAll().forEach(voucher -> printOutput("\n", voucher));
+            printOutput("\n", "============================");
         }),
         READ_VOUCHER("read_voucher", () -> {
             long voucherId = 0;
             boolean allowed = false;
-            while(!allowed) {
+            while (!allowed) {
                 String voucherIdInput = "";
-                while(voucherIdInput.isBlank()) {
+                while (voucherIdInput.isBlank()) {
                     voucherIdInput = acquireInput(applicationMessages.getRequireVoucherId());
                 }
 
                 try {
                     voucherId = Long.parseLong(voucherIdInput);
-                    allowed =true;
+                    allowed = true;
                 } catch (NumberFormatException ex) {
                     log.warn("Invalid number format for customer id.");
                 }
@@ -128,26 +132,39 @@ public class VoucherProjectApplication {
                     () -> printOutput("", "NO VOUCHER FOUND."));
         }),
         UPDATE_VOUCHER("update_voucher", () -> {
-            try {
-                System.out.print(applicationMessages.getRequireVoucherId());
-                long voucherId = Integer.parseInt(br.readLine());
-                voucherService.findById(voucherId).ifPresentOrElse(
-                        voucher -> {
-                            try {
-                                System.out.print(applicationMessages.getRequireUpdateField());
-                                final Voucher.UpdatableField field = Voucher.UpdatableField.of(br.readLine());
-                                System.out.print(applicationMessages.getRequireUpdateValue());
-                                voucher.update(field, br.readLine());
-                                voucherService.update(voucher);
-                            } catch (IOException ex) {
-                                log.warn("IOException occur when input updating field.");
-                            }
-                        },
-                        () -> System.out.println("NO VOUCHER FOUND.")
-                );
-            } catch (IOException | NumberFormatException ex) {
-                log.warn("IOException or NumberFormatException occur when input voucher id. {}...", ex.getMessage());
+            long voucherId = 0;
+            boolean allowed = false;
+            while (!allowed) {
+                String voucherIdInput = "";
+                while (voucherIdInput.isBlank()) {
+                    voucherIdInput = acquireInput(applicationMessages.getRequireVoucherId());
+                }
+
+                try {
+                    voucherId = Long.parseLong(voucherIdInput);
+                    allowed = true;
+                } catch (NumberFormatException ex) {
+                    log.warn("Invalid number format for voucher id.");
+                }
             }
+
+            voucherService.findById(voucherId).ifPresentOrElse(
+                    voucher -> {
+                        String updateTypeInput = "";
+                        while (updateTypeInput.isBlank()) {
+                            updateTypeInput = acquireInput(applicationMessages.getRequireUpdateField());
+                        }
+
+                        String updateValueInput = "";
+                        while(updateValueInput.isBlank()) {
+                            updateValueInput = acquireInput(applicationMessages.getRequireUpdateValue());
+                        }
+
+                        voucher.update(Voucher.UpdatableField.of(updateTypeInput), updateValueInput);
+                        voucherService.update(voucher);
+                    },
+                    () -> printOutput("", "NO VOUCHER FOUND.")
+            );
         }),
         DELETE_VOUCHER("delete_voucher", () -> {
             try {

@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.function.BiConsumer;
 
+import static com.programmers.voucher.VoucherProjectApplication.*;
+
 public class Voucher implements Serializable {
 
     private long id;
@@ -16,47 +18,44 @@ public class Voucher implements Serializable {
     private long customerId;
     private static Logger log = LoggerFactory.getLogger(Voucher.class);
 
-    public enum  UpdatableField {
+    public enum UpdatableField {
         NAME("name", (voucher, input) -> {
-            if(input.isBlank()) {
-                System.out.println("Voucher name cannot be empty.");
-            } else {
-                log.debug("Updating voucher name from {} to {}", voucher.getName(), input);
-                voucher.setName(input);
-                log.debug("Updated voucher name to {}", input);
+            while (input.isBlank()) {
+                input = acquireInput("Voucher name cannot be empty. Please type again: ");
             }
+            log.debug("Updating voucher name from {} to {}", voucher.getName(), input);
+            voucher.setName(input);
+            log.debug("Updated voucher name to {}", input);
         }),
         TYPE("type", (voucher, input) -> {
             final DiscountPolicy.Type newType = DiscountPolicy.Type.of(input);
-            if(newType.equals(DiscountPolicy.Type.UNKNOWN)) {
-                System.out.println("Invalid voucher type. Please check your input.");
-            } else {
-                log.debug("Updating voucher type from {} to {}", voucher.getDiscountPolicy().getType(), newType);
-                voucher.getDiscountPolicy().setType(newType);
-                log.debug("Updated voucher type to {}", newType);
-            }
+            log.debug("Updating voucher type from {} to {}", voucher.getDiscountPolicy().getType(), newType);
+            voucher.getDiscountPolicy().updateType(newType);
+            log.debug("Updated voucher type to {}", newType);
         }),
         VALUE("value", (voucher, input) -> {
             try {
-                final int newValue = Integer.parseInt(input);
+                int newValue = Integer.parseInt(input);
                 log.debug("Updating voucher value from {} to {}", voucher.getDiscountPolicy().getAmount(), newValue);
-                voucher.getDiscountPolicy().setAmount(newValue);
+                voucher.getDiscountPolicy().updateAmount(newValue);
                 log.debug("Updated voucher value to {}", newValue);
             } catch (NumberFormatException ex) {
-                System.out.println("Invalid number format. Please check your input.");
+                log.warn("Invalid number format for voucher amount.");
             }
         }),
         CUSTOMER("customer", (voucher, input) -> {
             try {
                 final long newCustomer = Long.parseLong(input);
                 log.debug("Updating customer id from {} to {}", voucher.getCustomerId(), newCustomer);
-                voucher.setCustomerId(newCustomer);
+                voucher.updateCustomerId(newCustomer);
                 log.debug("Updated customer id to {}", newCustomer);
             } catch (NumberFormatException ex) {
-                System.out.println("Invalid number format. Please check your input.");
+                log.warn("Invalid number format. Please check your input.");
             }
         }),
-        UNKNOWN("unknown", (voucher, input) -> {throw new UnsupportedOperationException("Unknown updating field.");});
+        UNKNOWN("unknown", (voucher, input) -> {
+            log.warn("Unknown update field. Please check your input.");
+        });
 
         String name;
         BiConsumer<Voucher, String> behavior;
@@ -118,7 +117,7 @@ public class Voucher implements Serializable {
         return customerId;
     }
 
-    public void setCustomerId(long customerId) {
+    public void updateCustomerId(long customerId) {
         this.customerId = customerId;
     }
 
@@ -150,7 +149,7 @@ public class Voucher implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Voucher)) return false;
+        if (!(obj instanceof Voucher)) return false;
         Voucher other = (Voucher) obj;
         return this.id == other.id &&
                 this.discountPolicy.equals(other.discountPolicy) &&

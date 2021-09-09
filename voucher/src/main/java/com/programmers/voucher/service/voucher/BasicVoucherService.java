@@ -64,6 +64,6 @@ public class BasicVoucherService implements VoucherService {
 
     private void applyDiscountPolicyConstraint(Voucher voucher) {
         final DiscountPolicy discountPolicy = voucher.getDiscountPolicy();
-        discountPolicy.setAmount(discountPolicy.getType().getConstraint().apply(discountPolicy.getAmount()));
+        discountPolicy.updateAmount(discountPolicy.getType().getConstraint().apply(discountPolicy.getAmount()));
     }
 }

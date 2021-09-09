@@ -57,14 +57,14 @@ class InMemoryVoucherRepositoryTest {
         final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
         final Voucher voucher = inMemoryVoucherRepository.save(new Voucher(voucherName, discountPolicy, -1));
 
-        discountPolicy.setAmount(5000);
+        discountPolicy.updateAmount(5000);
         inMemoryVoucherRepository.update(voucher);
 
         final Optional<Voucher> updatedAmount = inMemoryVoucherRepository.findById(voucher.getId());
         assertTrue(updatedAmount.isPresent());
         assertEquals(5000, updatedAmount.get().getDiscountPolicy().getAmount());
 
-        discountPolicy.setType(DiscountPolicy.Type.PERCENTAGE);
+        discountPolicy.updateType(DiscountPolicy.Type.PERCENTAGE);
         inMemoryVoucherRepository.update(voucher);
 
         final Optional<Voucher> updatedType = inMemoryVoucherRepository.findById(voucher.getId());

@@ -23,7 +23,7 @@ voucher:
           Input voucher name:
 
         type: >-
-          Select voucher type(Fixed / Percent): (Fixed)
+          Select voucher type(Fixed / Percentage): (Fixed)
 
         amount: >-
           Input discount value(ex: 1000 for Fixed, 52 for Rated):

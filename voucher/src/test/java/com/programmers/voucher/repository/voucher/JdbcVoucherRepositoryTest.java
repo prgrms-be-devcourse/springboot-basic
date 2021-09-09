@@ -81,14 +81,14 @@ class JdbcVoucherRepositoryTest {
         final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
         final Voucher voucher = jdbcVoucherRepository.save(new Voucher(voucherName, discountPolicy, customer.getId()));
 
-        discountPolicy.setAmount(5000);
+        discountPolicy.updateAmount(5000);
         jdbcVoucherRepository.update(voucher);
 
         final Optional<Voucher> updatedAmount = jdbcVoucherRepository.findById(voucher.getId());
         assertTrue(updatedAmount.isPresent());
         assertEquals(5000, updatedAmount.get().getDiscountPolicy().getAmount());
 
-        discountPolicy.setType(DiscountPolicy.Type.PERCENTAGE);
+        discountPolicy.updateType(DiscountPolicy.Type.PERCENTAGE);
         jdbcVoucherRepository.update(voucher);
 
         final Optional<Voucher> updatedType = jdbcVoucherRepository.findById(voucher.getId());

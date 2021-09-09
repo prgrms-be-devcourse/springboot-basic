@@ -57,7 +57,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         final Voucher updatingVoucher = db.get(voucher.getId());
         updatingVoucher.setName(voucher.getName());
         updatingVoucher.setDiscountPolicy(voucher.getDiscountPolicy());
-        updatingVoucher.setCustomerId(voucher.getCustomerId());
+        updatingVoucher.updateCustomerId(voucher.getCustomerId());
         return updatingVoucher;
     }
 

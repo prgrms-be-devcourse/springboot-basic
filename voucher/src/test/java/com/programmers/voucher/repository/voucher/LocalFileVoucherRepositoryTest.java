@@ -68,14 +68,14 @@ class LocalFileVoucherRepositoryTest {
         final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
         final Voucher voucher = localFileVoucherRepository.save(new Voucher(voucherName, discountPolicy, -1));
 
-        discountPolicy.setAmount(5000);
+        discountPolicy.updateAmount(5000);
         localFileVoucherRepository.update(voucher);
 
         final Optional<Voucher> updatedAmount = localFileVoucherRepository.findById(voucher.getId());
         assertTrue(updatedAmount.isPresent());
         assertEquals(5000, updatedAmount.get().getDiscountPolicy().getAmount());
 
-        discountPolicy.setType(DiscountPolicy.Type.PERCENTAGE);
+        discountPolicy.updateType(DiscountPolicy.Type.PERCENTAGE);
         localFileVoucherRepository.update(voucher);
 
         final Optional<Voucher> updatedType = localFileVoucherRepository.findById(voucher.getId());
