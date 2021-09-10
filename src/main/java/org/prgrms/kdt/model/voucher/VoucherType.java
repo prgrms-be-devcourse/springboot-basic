@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model;
+package org.prgrms.kdt.model.voucher;
 
 import java.util.function.Supplier;
 import org.prgrms.kdt.model.discount.DiscountStrategy;

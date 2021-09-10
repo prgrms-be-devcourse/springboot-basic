@@ -1,8 +1,9 @@
-package org.prgrms.kdt.model;
+package org.prgrms.kdt.model.order;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.kdt.model.voucher.Voucher;
 
 public class Order {
 

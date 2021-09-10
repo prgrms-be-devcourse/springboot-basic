@@ -1,8 +1,8 @@
 package org.prgrms.kdt.repository;
 
 import java.util.*;
-import org.prgrms.kdt.model.Customer;
-import org.prgrms.kdt.model.CustomerType;
+import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.customer.CustomerType;
 
 public interface CustomerRepository {
 

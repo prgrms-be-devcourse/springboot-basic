@@ -1,7 +1,7 @@
 package org.prgrms.kdt.app.command;
 
 import org.prgrms.kdt.app.io.Console;
-import org.prgrms.kdt.model.Customer;
+import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.service.CustomerService;
 import org.springframework.stereotype.Component;
 

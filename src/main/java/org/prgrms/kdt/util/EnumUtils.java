@@ -3,7 +3,7 @@ package org.prgrms.kdt.util;
 import java.util.*;
 import java.util.function.Function;
 import org.prgrms.kdt.app.command.CommandType;
-import org.prgrms.kdt.model.VoucherType;
+import org.prgrms.kdt.model.voucher.VoucherType;
 
 public class EnumUtils {
     private static final Function<String, CommandType> commandTypeLookupFunction =

@@ -1,14 +1,13 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.voucher;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import org.prgrms.kdt.model.Voucher;
-import org.prgrms.kdt.model.VoucherType;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.util.UuidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

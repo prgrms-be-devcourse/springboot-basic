@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model;
+package org.prgrms.kdt.model.order;
 
 import java.util.UUID;
 

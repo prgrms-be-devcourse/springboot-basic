@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model;
+package org.prgrms.kdt.model.customer;
 
 public enum CustomerType {
     NEW,

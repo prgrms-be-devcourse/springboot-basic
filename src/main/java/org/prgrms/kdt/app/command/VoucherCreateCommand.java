@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.prgrms.kdt.app.io.Console;
-import org.prgrms.kdt.model.VoucherType;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.util.EnumUtils;
 import org.slf4j.Logger;

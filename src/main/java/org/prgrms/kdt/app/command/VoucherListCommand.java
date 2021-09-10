@@ -1,7 +1,7 @@
 package org.prgrms.kdt.app.command;
 
 import org.prgrms.kdt.app.io.Console;
-import org.prgrms.kdt.model.Voucher;
+import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.stereotype.Component;
 

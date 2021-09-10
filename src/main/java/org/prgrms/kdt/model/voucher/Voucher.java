@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model;
+package org.prgrms.kdt.model.voucher;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

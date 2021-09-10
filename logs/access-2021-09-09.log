@@ -52,12 +52,12 @@
 18:15:42.392 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
 18:15:43.023 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 1.013 seconds (JVM running for 6.963)
 18:15:53.017 [main] INFO  o.p.k.command.VoucherCommandOperator - input voucher data: VoucherDTO[name=list, value=10]
-18:15:53.020 [main] ERROR org.prgrms.kdt.model.VoucherType - No voucher type:list
+18:15:53.020 [main] ERROR org.prgrms.kdt.model.voucher.VoucherType - No voucher type:list
 19:16:22.315 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 13825 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
 19:16:22.316 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
 19:16:22.910 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.936 seconds (JVM running for 6.811)
 19:16:29.876 [main] INFO  o.p.k.command.VoucherCommandOperator - input voucher data: VoucherDTO[name=fix, value=10]
-19:16:29.877 [main] ERROR org.prgrms.kdt.model.VoucherType - No voucher type:fix
+19:16:29.877 [main] ERROR org.prgrms.kdt.model.voucher.VoucherType - No voucher type:fix
 19:16:29.883 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
 
 Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
@@ -70,7 +70,7 @@ java.lang.IllegalStateException: Failed to execute ApplicationRunner
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1332)
 	at org.prgrms.kdt.KdtApplication.main(KdtApplication.java:10)
 Caused by: java.lang.IllegalArgumentException: No voucher type:fix
-	at org.prgrms.kdt.model.VoucherType.lookup(VoucherType.java:54)
+	at org.prgrms.kdt.model.voucher.VoucherType.lookup(VoucherType.java:54)
 	at org.prgrms.kdt.command.VoucherCommandOperator.create(VoucherCommandOperator.java:28)
 	at org.prgrms.kdt.command.VoucherCommandOperator.create(VoucherCommandOperator.java:15)
 	at org.prgrms.kdt.command.CommandLineApplication.create(CommandLineApplication.java:70)

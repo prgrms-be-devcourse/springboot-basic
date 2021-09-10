@@ -1,8 +1,9 @@
 package org.prgrms.kdt.service;
 
 import java.time.LocalDateTime;
-import org.prgrms.kdt.model.*;
-import org.prgrms.kdt.repository.*;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherType;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

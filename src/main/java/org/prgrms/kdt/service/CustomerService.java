@@ -1,13 +1,8 @@
 package org.prgrms.kdt.service;
 
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import javax.annotation.PostConstruct;
-import org.prgrms.kdt.model.Customer;
-import org.prgrms.kdt.model.CustomerType;
-import org.prgrms.kdt.model.Voucher;
+import java.util.*;
+import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.customer.CustomerType;
 import org.prgrms.kdt.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 

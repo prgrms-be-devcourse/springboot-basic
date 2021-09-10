@@ -1,7 +1,7 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.order;
 
 
-import org.prgrms.kdt.model.Order;
+import org.prgrms.kdt.model.order.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

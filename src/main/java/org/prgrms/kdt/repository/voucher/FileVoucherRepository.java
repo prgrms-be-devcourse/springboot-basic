@@ -1,7 +1,8 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.voucher;
 
 
-import org.prgrms.kdt.model.Voucher;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.repository.customer.FileRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
