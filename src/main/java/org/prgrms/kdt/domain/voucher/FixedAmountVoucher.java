@@ -1,21 +1,36 @@
 package org.prgrms.kdt.domain.voucher;
 
+import lombok.Builder;
+import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.exception.ValidationException;
-
-import java.util.UUID;
 
 import static org.prgrms.kdt.exception.Message.*;
 
+@Builder
 public class FixedAmountVoucher implements Voucher {
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
-    private final UUID voucherId;
+    private final Long voucherId;
+    private final VoucherType type;
     private final long amount;
+    private Long customerId;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(Long voucherId, VoucherType type, long amount, Long customerId) {
         validate(amount);
         this.voucherId = voucherId;
+        this.type = type;
         this.amount = amount;
+        this.customerId = customerId;
+    }
+
+    public FixedAmountVoucher(Long voucherId, VoucherType type, long amount) {
+        this.voucherId = voucherId;
+        this.type = type;
+        this.amount = amount;
+    }
+
+    public static FixedAmountVoucherBuilder builder() {
+        return new FixedAmountVoucherBuilder();
     }
 
     private void validate(long amount) {
@@ -25,13 +40,17 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 
     @Override
     public long getAmount() {
         return amount;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
     }
 
     @Override
@@ -41,9 +60,22 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public VoucherType getType() {
+        return type;
+    }
+
+    @Override
+    public void allocateCustomer(Customer customer) {
+        this.customerId = customer.getCustomerId();
+    }
+
+    @Override
     public String toString() {
-        return "voucherId = " + voucherId +
-                ", amount = " + amount +
-                "원";
+        return "FixedAmountVoucher{" +
+                "voucherId=" + voucherId +
+                ", type=" + type +
+                ", amount=" + amount +
+                ", customerId=" + customerId +
+                '}';
     }
 }
