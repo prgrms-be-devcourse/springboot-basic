@@ -42,7 +42,7 @@ public class Apis {
     protected static final String VOUCHER = "/vouchers/{voucherId}";
     protected static final String VOUCHERS = "/vouchers";
     protected static final String SEARCH = "/search";
-    protected static final String VOUCHER_TYPE = "/{voucherType}";
+    protected static final String VOUCHER_TYPE = "/type/{voucherType}";
 
     private final CustomerService customerService;
     private final VoucherService voucherService;
