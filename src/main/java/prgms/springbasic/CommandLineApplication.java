@@ -27,9 +27,9 @@ public class CommandLineApplication {
 
         while (true) {
             printer.printCommandList();
-            String command = reader.readLine();
+            CommandType command = convertToCommandType(reader.readLine());
 
-            if (command.equals("create")) {
+            if (command.equals(CommandType.CREATE)) {
                 printer.printVoucherTypeList();
                 int newVoucherType = Integer.parseInt(reader.readLine());
 
@@ -40,7 +40,7 @@ public class CommandLineApplication {
                 printer.printVoucherCreateSuccess(newVoucher);
                 logger.info("바우처 저장소에 바우처가 추가되었습니다. VoucherId = {}", newVoucher.getVoucherId());
 
-            } else if (command.equals("list")) {
+            } else if (command.equals(CommandType.LIST)) {
                 List<Voucher> voucherList = voucherService.getVoucherList();
                 if (voucherList.isEmpty()) {
                     voucherService.listIsEmpty();
@@ -48,7 +48,7 @@ public class CommandLineApplication {
                 }
                 printer.printVoucherList(voucherList);
 
-            } else if (command.equals("exit")) {
+            } else if (command.equals(CommandType.EXIT)) {
                 break;
             }
         }
@@ -61,5 +61,14 @@ public class CommandLineApplication {
             }
         }
         throw new IllegalArgumentException("해당 번호의 바우처 타입이 존재하지 않습니다.");
+    }
+
+    public static CommandType convertToCommandType(String input){
+        for (CommandType commandType : CommandType.values()) {
+            if(commandType.getValue().equals(input)){
+                return commandType;
+            }
+        }
+        throw new IllegalArgumentException("해당 명령을 지원하지 않습니다.");
     }
 }
