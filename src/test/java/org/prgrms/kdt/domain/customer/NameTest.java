@@ -20,7 +20,7 @@ class NameTest {
 
         assertAll(
                 () -> assertThat(name).isEqualTo(new Name(nameSource)),
-                () -> assertThat(name.getName()).isEqualTo(nameSource)
+                () -> assertThat(name.name()).isEqualTo(nameSource)
         );
     }
 

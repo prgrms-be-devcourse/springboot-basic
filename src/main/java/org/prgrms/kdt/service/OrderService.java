@@ -1,12 +1,12 @@
 package org.prgrms.kdt.service;
 
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.prgrms.kdt.domain.order.Order;
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.order.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class OrderService {
@@ -18,9 +18,9 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
-        var voucher = voucherService.getVoucher(voucherId);
-        var order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
+    public Order createOrder(Long customerId, List<OrderItem> orderItems, Long voucherId) {
+        var voucher = voucherService.findVoucher(voucherId);
+        var order = new Order(new RandomDataGenerator().nextLong(0, 10000), customerId, orderItems, voucher);
         orderRepository.insert(order);
         voucherService.useVoucher(voucher);
         return order;

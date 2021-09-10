@@ -7,7 +7,7 @@ import org.prgrms.kdt.exception.ValidationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class EmailTest {
 
@@ -20,7 +20,7 @@ class EmailTest {
 
         assertAll(
                 () -> assertThat(email).isEqualTo(new Email(emailSource)),
-                () -> assertThat(email.getEmail()).isEqualTo(emailSource)
+                () -> assertThat(email.email()).isEqualTo(emailSource)
         );
     }
 

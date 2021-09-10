@@ -2,9 +2,10 @@ package org.prgrms.kdt.domain.customer;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.common.YamlPropertiesFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,7 +17,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Slf4j
 @SpringJUnitConfig
-@PropertySource("classpath:application.properties")
+@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomerJdbcRepositoryTest {
@@ -38,7 +38,7 @@ class CustomerJdbcRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        newCustomer = new Customer(UUID.randomUUID(),
+        newCustomer = new Customer(new RandomDataGenerator().nextLong(0, 10000),
                 Name.valueOf("테스트"),
                 Email.valueOf("test@gmail.com"),
                 LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
@@ -134,10 +134,7 @@ class CustomerJdbcRepositoryTest {
     )
     static class Config {
 
-        @Value("${application.username}")
         private String user;
-
-        @Value("${application.password}")
         private String password;
 
         @Bean
