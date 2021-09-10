@@ -28,4 +28,17 @@ public class VoucherDto {
 
     }
 
+    @Data
+    @Builder
+    @RequiredArgsConstructor
+    public static class Allocate {
+
+        @NotNull(message = "바우처 ID는 필수 입력값 입니다.")
+        private final UUID voucherId;
+
+        @NotNull(message = "고객 ID는 필수 입력값 입니다.")
+        private final UUID customerId;
+
+    }
+
 }

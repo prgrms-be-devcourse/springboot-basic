@@ -121,4 +121,21 @@ public class VoucherApiController {
 
     }
 
+    @PatchMapping("/voucher")
+    public ResponseEntity<ApiResponse> allocate( @Valid @RequestBody VoucherDto.Allocate voucherDto) {
+
+        logger.debug("Access allocate()");
+        logger.info("[Param] VoucherDto.Allocate = " + voucherDto.toString());
+
+        this.voucherService.allocateVoucherToCustomer(voucherDto.getVoucherId(), voucherDto.getCustomerId());
+
+        final ApiResponse apiResponse = ApiResponse.builder()
+            .status(HttpStatus.OK)
+            .success(true)
+            .build();
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
 }
