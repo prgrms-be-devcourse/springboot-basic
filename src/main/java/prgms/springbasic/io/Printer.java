@@ -32,15 +32,9 @@ public class Printer {
         printInputSign();
     }
 
-    public void printAmountInputInfo() {
+    public void printDiscountValueInputInfo() {
         System.out.println();
         System.out.println("=== Enter the discount amount ===");
-        printInputSign();
-    }
-
-    public void printPercentInputInfo() {
-        System.out.println();
-        System.out.println("=== Enter the discount percent ===");
         printInputSign();
     }
 

@@ -16,9 +16,6 @@ import java.util.UUID;
 
 public class CommandLineApplication {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
-    private static final int FIXED_VOUCHER_SYMBOL = 1;
-    private static final int PERCENT_VOUCHER_SYMBOL = 2;
-
 
     public static void main(String[] args) throws IOException {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CommandLineAppConfig.class);
@@ -29,36 +26,38 @@ public class CommandLineApplication {
 
         while (true) {
             printer.printCommandList();
-            String inputCommand = reader.readLine();
+            String command = reader.readLine();
 
-            if (inputCommand.equals("create")) {
+            if (command.equals("create")) {
                 printer.printVoucherTypeList();
-                int voucherNumber = Integer.parseInt(reader.readLine());
+                int newVoucherType = Integer.parseInt(reader.readLine());
 
-                if (voucherNumber == FIXED_VOUCHER_SYMBOL) {
-                    printer.printAmountInputInfo();
-                    String amount = reader.readLine();
-                    Voucher newVoucher = voucherService.createVoucher(VoucherType.FIXED_AMOUNT_VOUCHER, UUID.randomUUID(), amount);
-                    printer.printVoucherCreateSuccess(newVoucher);
-                    logger.info("voucher size ++!!");
-                } else if (voucherNumber == PERCENT_VOUCHER_SYMBOL) {
-                    printer.printPercentInputInfo();
-                    String percent = reader.readLine();
-                    Voucher newVoucher = voucherService.createVoucher(VoucherType.PERCENT_DISCOUNT_VOUCHER, UUID.randomUUID(), percent);
-                    printer.printVoucherCreateSuccess(newVoucher);
-                    logger.info("voucher size ++!!");
-                }
+                printer.printDiscountValueInputInfo();
+                String discountValue = reader.readLine();
+                Voucher newVoucher = voucherService.createVoucher(convertToVoucherType(newVoucherType), UUID.randomUUID(), discountValue);
 
-            } else if (inputCommand.equals("list")) {
+                printer.printVoucherCreateSuccess(newVoucher);
+                logger.info("바우처 저장소에 바우처가 추가되었습니다. VoucherId = {}", newVoucher.getVoucherId());
+
+            } else if (command.equals("list")) {
                 if (voucherService.getVoucherList().isEmpty()) {
                     printer.printVoucherListEmpty();
                     continue;
                 }
                 printer.printVoucherList(voucherService.getVoucherList());
 
-            } else if (inputCommand.equals("exit")) {
+            } else if (command.equals("exit")) {
                 break;
             }
         }
+    }
+
+    public static VoucherType convertToVoucherType(int inputNumber) {
+        for (VoucherType voucherType : VoucherType.values()) {
+            if (voucherType.getTypeNumber() == inputNumber) {
+                return voucherType;
+            }
+        }
+        throw new IllegalArgumentException("해당 번호의 바우처 타입이 존재하지 않습니다.");
     }
 }

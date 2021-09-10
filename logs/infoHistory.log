@@ -1,1 +1,1 @@
-21:42:20.354 [main] INFO  p.springbasic.CommandLineApplication - voucher size ++!!
+22:24:08.284 [main] INFO  p.springbasic.CommandLineApplication - 바우처 저장소에 바우처가 추가되었습니다. VoucherId = e82ef167-480a-4840-8270-40bfb40f42e3
