@@ -43,10 +43,6 @@ public class FixedAmountVoucher implements Voucher {
         return amount;
     }
 
-    @Override
-    public long getPercent() {
-        return 0;
-    }
 
     @Override
     public VoucherType getVoucherType() {

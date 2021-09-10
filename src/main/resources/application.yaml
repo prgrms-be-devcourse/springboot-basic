@@ -13,4 +13,10 @@ black:
   version: "v1.0.0"
   title: "local 블랙리스트 명단"
 
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/kdt
+    username: root
+    password: 1234
+
 ---

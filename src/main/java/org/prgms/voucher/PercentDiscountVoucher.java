@@ -8,16 +8,16 @@ public class PercentDiscountVoucher implements Voucher {
 
 
     private final UUID voucherId;
-    private final long percent;
+    private final long amount;
 
 
-    public PercentDiscountVoucher(UUID voucherId, long percent, VoucherType voucherType) {
-        if (percent < 0) throw new IllegalArgumentException("percent should be positive");
-        if (percent == 0) throw new IllegalArgumentException("percent should not be zero");
-        if (percent > MAX_VOUCHER_PERCENT)
-            throw new IllegalArgumentException("percent should be less than %d".formatted(MAX_VOUCHER_PERCENT));
+    public PercentDiscountVoucher(UUID voucherId, long amount, VoucherType voucherType) {
+        if (amount < 0) throw new IllegalArgumentException("amount should be positive");
+        if (amount == 0) throw new IllegalArgumentException("amount should not be zero");
+        if (amount > MAX_VOUCHER_PERCENT)
+            throw new IllegalArgumentException("amount should be less than %d".formatted(MAX_VOUCHER_PERCENT));
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.amount = amount;
     }
 
 
@@ -28,27 +28,23 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return (long) (beforeDiscount * (percent / (double) 100));
+        return (long) (beforeDiscount * (amount / (double) 100));
     }
 
     @Override
     public long getAmount() {
-        return 0;
+        return amount;
     }
 
-    @Override
-    public long getPercent() {
-        return percent;
-    }
 
     @Override
     public VoucherType getVoucherType() {
         return VoucherType.PERCENT_DISCOUNT;
     }
-    
+
     @Override
     public String toString() {
-        return MessageFormat.format("[PercentDiscountVoucher] voucherId : {0}, percent : {1}", voucherId, percent);
+        return MessageFormat.format("[PercentDiscountVoucher] voucherId : {0}, amount : {1}", voucherId, amount);
     }
 
 }

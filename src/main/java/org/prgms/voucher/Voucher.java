@@ -10,7 +10,5 @@ public interface Voucher {
 
     long getAmount();
 
-    long getPercent();
-
     VoucherType getVoucherType();
 }

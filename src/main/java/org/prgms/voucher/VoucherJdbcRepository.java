@@ -26,10 +26,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("amount");
-        var percent = resultSet.getLong("percent");
         return switch (voucherType) {
             case FIXED_AMOUNT -> new FixedAmountVoucher(voucherId, amount, voucherType);
-            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(voucherId, percent, voucherType);
+            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(voucherId, amount, voucherType);
         };
     };
 
@@ -58,11 +57,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, amount, percent, created_at) VALUES (UNHEX(REPLACE(?,'-','')),?,?,?,?)",
+        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, amount, created_at) VALUES (UNHEX(REPLACE(?,'-','')),?,?,?)",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getVoucherType().toString(),
                 voucher.getAmount(),
-                voucher.getPercent(),
                 LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         if (update != 1) {
             throw new RuntimeException("Nothing was inserted");

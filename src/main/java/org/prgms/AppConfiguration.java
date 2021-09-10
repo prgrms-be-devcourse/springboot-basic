@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 
 
 @Configuration
-@ComponentScan(basePackageClasses = { Voucher.class, Io.class, BlackProperties.class})
+@ComponentScan(basePackageClasses = {Voucher.class, Io.class, BlackProperties.class})
 @PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 
