@@ -58,7 +58,12 @@ public class BasicVoucherService implements VoucherService {
 
     @Override
     public void delete(long voucherId) {
-        jdbcVoucherRepository.deleteById(voucherId);
+        jdbcVoucherRepository.findById(voucherId).ifPresentOrElse(
+                voucher -> jdbcVoucherRepository.deleteById(voucherId),
+                () -> {
+                    throw new IllegalArgumentException("Voucher with given id not found.");
+                }
+        );
     }
 
 }

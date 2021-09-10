@@ -110,7 +110,11 @@ public class VoucherProjectApplication {
         }),
         DELETE_VOUCHER("delete_voucher", () -> {
             long voucherId = acquireInputUntil(applicationMessages.getRequireVoucherId(), Long::parseUnsignedLong);
-            voucherService.delete(voucherId);
+            try {
+                voucherService.delete(voucherId);
+            } catch (IllegalArgumentException ex) {
+                log.warn(ex.getLocalizedMessage());
+            }
         }),
         BLACKLIST("blacklist", () -> {
             printOutput("\n", "====== [ BLACKLIST ] ======");
