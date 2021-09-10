@@ -5,7 +5,9 @@ public enum CommandType {
     VOUCHER_CREATE("1"),
     VOUCHER_LIST("2"),
     DELETE_ALL_VOUCHER("3"),
-    UPDATE_VOUCHER_TYPE("4");
+    UPDATE_VOUCHER_TYPE("4"),
+    CUSTOMER_LIST("5"),
+    BLACK_LIST("6");
 
     private final String num;
 

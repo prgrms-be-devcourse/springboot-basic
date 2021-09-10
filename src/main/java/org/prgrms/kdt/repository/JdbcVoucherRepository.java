@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.kdt.model.Voucher;
 import org.prgrms.kdt.model.VoucherType;
+import org.prgrms.kdt.util.UuidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -25,7 +26,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var voucherId = UuidUtils.toUUID(resultSet.getBytes("voucher_id"));
         var discount = resultSet.getLong("discount");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
@@ -106,9 +107,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return paramMap;
     }
 
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
+
 }
 
