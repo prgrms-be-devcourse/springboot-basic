@@ -1,10 +1,10 @@
-package org.prgrms.kdt.voucher.controller;
+package org.prgrms.kdt.application.cmd.controller;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.kdt.application.cmd.view.CommandLineView;
 import org.prgrms.kdt.common.exception.ExceptionMessage;
-import org.prgrms.kdt.view.cmd.CommandLineView;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;

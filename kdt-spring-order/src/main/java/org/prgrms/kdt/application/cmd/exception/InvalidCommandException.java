@@ -1,4 +1,4 @@
-package org.prgrms.kdt.view.cmd.exception;
+package org.prgrms.kdt.application.cmd.exception;
 
 public class InvalidCommandException extends RuntimeException{
     public InvalidCommandException(String errorMessage) {

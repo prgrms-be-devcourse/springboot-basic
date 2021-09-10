@@ -1,7 +1,7 @@
-package org.prgrms.kdt.view.cmd;
+package org.prgrms.kdt.application.cmd;
 
 import org.prgrms.kdt.common.exception.ExceptionMessage;
-import org.prgrms.kdt.view.cmd.exception.InvalidCommandException;
+import org.prgrms.kdt.application.cmd.exception.InvalidCommandException;
 
 import java.util.Arrays;
 

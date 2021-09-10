@@ -1,6 +1,6 @@
 package org.prgrms.kdt.common.config;
 
-import org.prgrms.kdt.view.cmd.CommandLineView;
+import org.prgrms.kdt.application.cmd.view.CommandLineView;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

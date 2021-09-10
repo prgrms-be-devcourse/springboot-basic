@@ -1,9 +1,9 @@
-package org.prgrms.kdt.voucher.controller;
+package org.prgrms.kdt.application.cmd.controller;
 
-import org.prgrms.kdt.view.cmd.Command;
+import org.prgrms.kdt.application.cmd.Command;
 import org.prgrms.kdt.common.exception.ExceptionMessage;
-import org.prgrms.kdt.view.cmd.exception.DiscountNumberFormatException;
-import org.prgrms.kdt.view.cmd.CommandLineView;
+import org.prgrms.kdt.application.cmd.exception.DiscountNumberFormatException;
+import org.prgrms.kdt.application.cmd.view.CommandLineView;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.slf4j.Logger;

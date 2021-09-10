@@ -1,4 +1,4 @@
-package org.prgrms.kdt.view.cmd;
+package org.prgrms.kdt.application.cmd.view;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.common.view.console.io.Console;

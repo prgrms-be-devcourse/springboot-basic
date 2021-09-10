@@ -1,6 +1,6 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.voucher.controller.VoucherController;
+import org.prgrms.kdt.application.cmd.controller.VoucherController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
