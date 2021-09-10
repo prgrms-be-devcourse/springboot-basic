@@ -4,23 +4,22 @@ import org.prgrms.kdt.domain.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class Order {
-    private final UUID orderId;
-    private final UUID customerId;
+    private final Long orderId;
+    private final Long customerId;
     private final List<OrderItem> orderItems;
     private final Optional<Voucher> voucher;
     private OrderStatus orderStatus = OrderStatus.ACCEPTED;
 
-    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+    public Order(Long orderId, Long customerId, List<OrderItem> orderItems, Voucher voucher) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.of(voucher);
     }
 
-    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems) {
+    public Order(Long orderId, Long customerId, List<OrderItem> orderItems) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
@@ -34,11 +33,11 @@ public class Order {
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
 
-    public UUID getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 

@@ -1,13 +1,11 @@
 package org.prgrms.kdt.domain.order;
 
-import java.util.UUID;
-
 public class OrderItem {
-    private final UUID productId;
+    private final Long productId;
     private final long productPrice;
     private final long quantity;
 
-    public OrderItem(UUID productId, long productPrice, long quantity) {
+    public OrderItem(Long productId, long productPrice, long quantity) {
         this.productId = productId;
         this.productPrice = productPrice;
         this.quantity = quantity;
