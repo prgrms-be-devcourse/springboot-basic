@@ -1,10 +1,15 @@
 package com.programmers.voucher.repository.customer;
 
 import com.programmers.voucher.entity.customer.Customer;
+import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.repository.CustomerQuery;
+import com.programmers.voucher.repository.VoucherQuery;
+import com.programmers.voucher.repository.voucher.JdbcVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,10 +27,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final CustomerQuery customerQuery;
+    private final VoucherQuery voucherQuery;
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcCustomerRepository(CustomerQuery customerQuery, JdbcTemplate jdbcTemplate) {
+    public JdbcCustomerRepository(CustomerQuery customerQuery, VoucherQuery voucherQuery, JdbcTemplate jdbcTemplate) {
         this.customerQuery = customerQuery;
+        this.voucherQuery = voucherQuery;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -49,7 +56,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             statement.setBoolean(3, customer.isBlacklisted());
             return statement;
         }, keyHolder);
-        customer.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        customer.registerId(Objects.requireNonNull(keyHolder.getKey()).longValue());
         log.debug("Saved customer({}) to repository.", customer);
         return customer;
     }
@@ -57,7 +64,22 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(long id) {
         log.debug("Find customer by id: {}", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(customerQuery.getSelect().getById(), customerRowMapper, id));
+        try {
+            Customer customer = jdbcTemplate.queryForObject(customerQuery.getSelect().getById(), customerRowMapper, id);
+            if (customer == null) {
+                log.error("Queried customer returned as null by row mapper.");
+                return Optional.empty();
+            }
+            List<Voucher> vouchers = jdbcTemplate.query(voucherQuery.getSelect().getByCustomer(), JdbcVoucherRepository.voucherRowMapper, id);
+            vouchers.stream().map(Voucher::getId).forEach(customer.getVouchers()::add);
+            return Optional.of(customer);
+        } catch (IncorrectResultSizeDataAccessException ex) {
+            log.warn("Customer does not exist or not unique customer.");
+            return Optional.empty();
+        } catch (DataAccessException ex) {
+            log.warn("Query failed. Check DB connection status.");
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -79,7 +101,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return jdbcTemplate.query(customerQuery.getSelect().getAll(), customerRowMapper);
     }
 
-    private static RowMapper<Customer> customerRowMapper = (rs, rowNum) -> new Customer(
+    public static final RowMapper<Customer> customerRowMapper = (rs, rowNum) -> new Customer(
             rs.getLong("customer_id"),
             rs.getString("username"),
             rs.getString("alias"),

@@ -1,19 +1,20 @@
 package com.programmers.voucher.entity.customer;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Customer {
 
-    private long id;
+    private Long id;
     private String username;
     private String alias;
     private boolean blacklisted;
-    private LocalDate createdAt;
-    private List<Long> vouchers = new ArrayList<>();
+    private final LocalDate createdAt;
+    private final List<Long> vouchers = new LinkedList<>();
 
-    public Customer(long id, String username, String alias, boolean blacklisted, LocalDate createdAt) {
+    public Customer(Long id, String username, String alias, boolean blacklisted, LocalDate createdAt) {
         this.id = id;
         this.username = username;
         this.alias = alias;
@@ -22,17 +23,14 @@ public class Customer {
     }
 
     public Customer(String username, String alias) {
-        this.username = username;
-        this.alias = alias;
-        this.blacklisted = false;
-        this.createdAt = LocalDate.now();
+        this(null, username, alias, false, LocalDate.now());
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void registerId(long id) {
         this.id = id;
     }
 
@@ -40,7 +38,7 @@ public class Customer {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void updateUsername(String username) {
         this.username = username;
     }
 
@@ -48,7 +46,7 @@ public class Customer {
         return alias;
     }
 
-    public void setAlias(String alias) {
+    public void updateAlias(String alias) {
         this.alias = alias;
     }
 
@@ -56,24 +54,16 @@ public class Customer {
         return blacklisted;
     }
 
-    public void setBlacklisted(boolean blacklisted) {
-        this.blacklisted = blacklisted;
+    public void toggleBlacklisted() {
+        blacklisted = !blacklisted;
     }
 
     public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public List<Long> getVouchers() {
         return vouchers;
-    }
-
-    public void setVouchers(List<Long> vouchers) {
-        this.vouchers = vouchers;
     }
 
     @Override
@@ -83,14 +73,14 @@ public class Customer {
 
     @Override
     public int hashCode() {
-        return (int) this.id;
+        return Objects.hash(id, username, alias, blacklisted, createdAt, vouchers);
     }
 
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Customer)) return false;
         Customer other = (Customer) obj;
-        return this.id == other.getId() &&
+        return (this.id == null || this.id.equals(other.getId())) &&
                 this.username.equals(other.getUsername()) &&
                 this.alias.equals(other.getAlias()) &&
                 this.createdAt.equals(other.getCreatedAt());

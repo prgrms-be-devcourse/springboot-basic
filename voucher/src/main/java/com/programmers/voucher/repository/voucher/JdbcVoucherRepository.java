@@ -105,7 +105,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query(voucherQuery.getSelect().getByCustomer(), voucherRowMapper, customerId);
     }
 
-    private static RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> new Voucher(
+    public static final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> new Voucher(
             rs.getLong("voucher_id"),
             rs.getString("name"),
             new DiscountPolicy(rs.getInt("value"), DiscountPolicy.Type.of(rs.getString("type"))),
