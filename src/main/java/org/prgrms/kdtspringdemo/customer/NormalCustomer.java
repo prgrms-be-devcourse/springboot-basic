@@ -1,29 +1,18 @@
 package org.prgrms.kdtspringdemo.customer;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class NormalCustomer implements Customer {
-    private UUID uuid;
-    private String name;
+public class NormalCustomer extends Customer {
 
-    public NormalCustomer(UUID customerId, String name) {
-        this.uuid = customerId;
-        this.name = name;
+    public NormalCustomer(UUID customerId, String name, String email, String type, LocalDateTime createdAt) {
+        super(customerId, name, email, type, createdAt);
+        this.type = "Normal";
     }
 
-    @Override
-    public UUID getId() {
-        return UUID.randomUUID();
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return MessageFormat.format("id : {0}, name : {1}, {2}", uuid, name, this.getClass().getSimpleName());
+    public NormalCustomer(UUID customerId, String name, String email, String type, LocalDateTime last_loginAt, LocalDateTime createdAt) {
+        super(customerId, name, email, type, last_loginAt, createdAt);
+        this.type = "Normal";
     }
 }

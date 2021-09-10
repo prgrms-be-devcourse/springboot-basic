@@ -4,6 +4,7 @@ import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -14,11 +15,11 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Stream<Customer> getAllBlacklist() {
+    public List<Customer> getAllBlacklist() {
         return customerRepository.findBlacklist();
     }
 
-    public Stream<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 }

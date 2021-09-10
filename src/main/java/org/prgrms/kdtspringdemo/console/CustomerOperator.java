@@ -5,6 +5,7 @@ import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public class CustomerOperator implements CommandOperator<Customer> {
@@ -22,11 +23,11 @@ public class CustomerOperator implements CommandOperator<Customer> {
     }
 
     @Override
-    public Stream<Customer> getAllitems() {
+    public List<Customer> getAllitems() {
         return customerService.getAllCustomers();
     }
 
-    public Stream<Customer> getAllBlacklist() {
+    public List<Customer> getAllBlacklist() {
         return customerService.getAllBlacklist();
     }
 }

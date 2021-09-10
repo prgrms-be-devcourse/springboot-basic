@@ -5,6 +5,7 @@ import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -27,7 +28,7 @@ public class VoucherService {
         return voucher;
     }
 
-    public Stream<Voucher> getAllVouchers() {
+    public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
     }
 }

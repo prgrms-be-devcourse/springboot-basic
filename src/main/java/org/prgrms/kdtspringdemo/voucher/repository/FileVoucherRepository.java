@@ -41,8 +41,8 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     }
 
     @Override
-    public Stream<Voucher> findAll() {
-        return storage.values().stream();
+    public List<Voucher> findAll() {
+        return storage.values().stream().toList();
     }
 
     @Override

@@ -11,6 +11,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,7 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 @Repository
-@Primary
 public class FileCustomerRepository implements CustomerRepository, InitializingBean {
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
     private final Map<UUID, Customer> blacklist_storage = new ConcurrentHashMap<>();
@@ -30,18 +32,48 @@ public class FileCustomerRepository implements CustomerRepository, InitializingB
     }
 
     @Override
+    public Optional<Customer> findByName(String name) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByType(String email) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
     public Customer insert(Customer customer) {
         return null;
     }
 
     @Override
-    public Stream<Customer> findAll() {
-        return storage.values().stream();
+    public Customer update(Customer customer) {
+        return null;
     }
 
     @Override
-    public Stream<Customer> findBlacklist() {
-        return blacklist_storage.values().stream();
+    public int count() {
+        return 0;
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return storage.values().stream().toList();
+    }
+
+    @Override
+    public List<Customer> findBlacklist() {
+        return blacklist_storage.values().stream().toList();
     }
 
     @Override
@@ -52,12 +84,13 @@ public class FileCustomerRepository implements CustomerRepository, InitializingB
                 String customerType = dataArray[0];
                 String uuid = dataArray[1];
                 String name = dataArray[2];
+                String email = "NoneInFile@aaa.com";
 
                 if (customerType.equals("normal")) {
-                    var customer = new NormalCustomer(UUID.fromString(uuid), name);
+                    var customer = new NormalCustomer(UUID.fromString(uuid), name, email, "Normal", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
                     storage.put(customer.getId(), customer);
                 } else if (customerType.equals("black")) {
-                    var customer = new BlackCustomer(UUID.fromString(uuid), name);
+                    var customer = new BlackCustomer(UUID.fromString(uuid), name, email, "Black", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
                     storage.put(customer.getId(), customer);
                     blacklist_storage.put(customer.getId(), customer);
                 } else {

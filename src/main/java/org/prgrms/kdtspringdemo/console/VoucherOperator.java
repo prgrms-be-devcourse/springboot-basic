@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Component
@@ -36,7 +37,7 @@ public class VoucherOperator implements CommandOperator<Voucher> {
     }
 
     @Override
-    public Stream<Voucher> getAllitems() {
+    public List<Voucher> getAllitems() {
         return voucherService.getAllVouchers();
     }
 

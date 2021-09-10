@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -54,7 +55,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public <T> void printStream(Stream<T> list) {
+    public <T> void printList(List<T> list) {
         list.forEach(System.out::println);
     }
 

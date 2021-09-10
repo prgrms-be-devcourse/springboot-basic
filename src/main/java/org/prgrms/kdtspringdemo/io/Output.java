@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.io;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface Output {
@@ -11,5 +12,5 @@ public interface Output {
 
     void printCreateTypes();
 
-    <T> void printStream(Stream<T> stream);
+    <T> void printList(List<T> stream);
 }

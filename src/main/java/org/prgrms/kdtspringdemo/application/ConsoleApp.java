@@ -4,10 +4,7 @@ import org.prgrms.kdtspringdemo.CommandType;
 import org.prgrms.kdtspringdemo.console.CommandOperator;
 import org.prgrms.kdtspringdemo.console.Console;
 import org.prgrms.kdtspringdemo.console.CustomerOperator;
-import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
-
-import java.util.stream.Stream;
 
 public class ConsoleApp {
     public ConsoleApp(Console console, CommandOperator<Voucher> operator, CustomerOperator customerOperator) {
@@ -25,9 +22,9 @@ public class ConsoleApp {
                         voucher = operator.create(createCommand);
                     }
                 }
-                case CUSTOMERS -> console.printStream(customerOperator.getAllitems());
-                case BLACKS -> console.printStream(customerOperator.getAllBlacklist());
-                case LIST -> console.printStream(operator.getAllitems());
+                case CUSTOMERS -> console.printList(customerOperator.getAllitems());
+                case BLACKS -> console.printList(customerOperator.getAllBlacklist());
+                case LIST -> console.printList(operator.getAllitems());
                 case EXIT -> System.exit(0);
             }
         }

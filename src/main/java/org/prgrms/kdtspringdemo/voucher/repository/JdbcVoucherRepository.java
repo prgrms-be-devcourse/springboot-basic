@@ -25,7 +25,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Stream<Voucher> findAll() {
-        return storage.values().stream();
+    public List<Voucher> findAll() {
+        return storage.values().stream().toList();
     }
 }
