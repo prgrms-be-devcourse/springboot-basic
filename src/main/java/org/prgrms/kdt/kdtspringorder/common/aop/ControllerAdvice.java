@@ -62,4 +62,24 @@ public class ControllerAdvice {
 
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiResponse> handleException(RuntimeException ex){
+
+        log.error("{}", ex);
+
+        final ErrorInfo errorInfo = ErrorInfo.UNKNOWN;
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse();
+        apiErrorResponse.setErrorCode(errorInfo.getCode());
+        apiErrorResponse.setErrorMessage(errorInfo.getMessage());
+
+        ApiResponse apiResponse = ApiResponse.builder()
+            .error(apiErrorResponse)
+            .status(HttpStatus.BAD_REQUEST)
+            .success(false)
+            .build();
+
+        return ResponseEntity.badRequest().body(apiResponse);
+
+    }
+
 }
