@@ -1,5 +1,4 @@
-package org.programmers.applicationcontext;
-
+package org.programmers.applicationcontext.voucher;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher{

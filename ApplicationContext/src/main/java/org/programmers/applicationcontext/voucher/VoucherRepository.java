@@ -1,4 +1,4 @@
-package org.programmers.applicationcontext;
+package org.programmers.applicationcontext.voucher;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -9,5 +9,5 @@ public interface VoucherRepository {
     /* voucherId를 통해 바우쳐를 조회하는 메소드지만 바우쳐 데이터가 비어있을 수도 있으므로 Optional해준다*/
     Optional<Voucher> findById(UUID voucherId);
 
-    void insert(Voucher voucher);
+    // void insert(Voucher voucher);
 }

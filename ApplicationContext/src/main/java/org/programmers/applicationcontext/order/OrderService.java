@@ -1,4 +1,6 @@
-package org.programmers.applicationcontext;
+package org.programmers.applicationcontext.order;
+
+import org.programmers.applicationcontext.voucher.VoucherService;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +21,7 @@ public class OrderService {
         return order;
     }
 
+    /*
     public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId){
         var voucher = voucherService.getVoucher(voucherId); // 어떤 바우쳐 종류인지 알아내기 위한 객체
         var order =  new Order(UUID.randomUUID(), customerId, orderItems, voucher);
@@ -26,4 +29,6 @@ public class OrderService {
         voucherService.useVoucher(voucher); // 바우처를 썼다는 것을 표시하기 위한 코드
         return order;
     }
+
+     */
 }

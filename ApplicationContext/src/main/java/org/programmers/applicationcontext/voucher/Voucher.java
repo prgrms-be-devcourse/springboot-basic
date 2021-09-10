@@ -1,4 +1,4 @@
-package org.programmers.applicationcontext;
+package org.programmers.applicationcontext.voucher;
 import java.util.UUID;
 
 public interface Voucher {

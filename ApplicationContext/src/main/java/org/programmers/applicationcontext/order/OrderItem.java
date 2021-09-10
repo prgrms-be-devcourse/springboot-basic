@@ -1,4 +1,4 @@
-package org.programmers.applicationcontext;
+package org.programmers.applicationcontext.order;
 
 import java.util.UUID;
 

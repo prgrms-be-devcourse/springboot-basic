@@ -1,4 +1,6 @@
-package org.programmers.applicationcontext;
+package org.programmers.applicationcontext.order;
+
+import org.programmers.applicationcontext.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +33,6 @@ public class Order {
         var beforeDiscount = orderItems.stream()
         .map(v -> v.getProductPrice()*v.getQuantity())
                 .reduce(0L, Long::sum);
-
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
 
         /* 아래의 if 조건문이 위의 아주 간단한 람다식으로 변모됨
@@ -42,7 +43,4 @@ public class Order {
         }*/
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
 }
