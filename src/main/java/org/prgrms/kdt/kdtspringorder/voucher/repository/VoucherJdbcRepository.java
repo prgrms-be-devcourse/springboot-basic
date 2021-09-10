@@ -133,7 +133,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
         String voucherId = voucher.getVoucherId().toString();
         String customerId = voucher.getCustomerId() != null ? voucher.getCustomerId().toString() : null;
         String voucherType = voucher.getVoucherType().getValue();
-        boolean useYn = voucher.getUseYn();
+        boolean useYn = voucher.getUseYn() != null ? voucher.getUseYn() : false;
         Long discount = voucher.getAmount();
         Timestamp createdAt = voucher.getCreatedAt() != null ? Timestamp.valueOf(voucher.getCreatedAt()) : null;
         Timestamp usedAt = voucher.getUsedAt() != null ? Timestamp.valueOf(voucher.getUsedAt()) : null;
