@@ -79,7 +79,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
     @Override
     public int count() {
-        return jdbcTemplate.queryForObject("SELECT coount(*) FROM customers", Collections.emptyMap() ,Integer.class);
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM customers", Collections.emptyMap() ,Integer.class);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findBlacklist() {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM customers WHERE type = 'Black'", customerRowMapper);
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.customer.NormalCustomer;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
+@Profile("dev2")
 @Repository
 public class FileCustomerRepository implements CustomerRepository, InitializingBean {
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
