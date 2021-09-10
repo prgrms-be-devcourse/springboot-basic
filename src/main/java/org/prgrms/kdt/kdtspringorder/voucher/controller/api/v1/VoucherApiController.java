@@ -40,7 +40,7 @@ public class VoucherApiController {
     }
 
     @GetMapping("/voucher/{voucherId}")
-    public ResponseEntity<ApiResponse> detailById( @PathVariable("voucherId") UUID voucherId) {
+    public ResponseEntity<ApiResponse> detailById( @PathVariable("voucherId") UUID voucherId ) {
 
         logger.debug("Access detailById()");
         logger.info("[Param] voucherId = " + voucherId);
@@ -56,13 +56,29 @@ public class VoucherApiController {
     }
 
     @GetMapping("/voucher")
-    public ResponseEntity<ApiResponse> detailByVoucherType( @RequestParam("voucherType") VoucherType voucherType) {
+    public ResponseEntity<ApiResponse> detailByVoucherType( @RequestParam("voucherType") VoucherType voucherType ) {
 
         logger.debug("Access detailByVoucherType()");
         logger.info("[Param] voucherType = " + voucherType);
 
         final ApiResponse apiResponse = ApiResponse.builder()
             .payload(this.voucherService.getVouchersByVoucherType(voucherType))
+            .status(HttpStatus.OK)
+            .success(true)
+            .build();
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
+    @GetMapping("/voucher/customer")
+    public ResponseEntity<ApiResponse> detailByCustomerId( @RequestParam("customerId") UUID customerId ) {
+
+        logger.debug("Access detailByCustomerId()");
+        logger.info("[Param] customerId = " + customerId);
+
+        final ApiResponse apiResponse = ApiResponse.builder()
+            .payload(this.voucherService.getVouchersByCustomer(customerId))
             .status(HttpStatus.OK)
             .success(true)
             .build();
