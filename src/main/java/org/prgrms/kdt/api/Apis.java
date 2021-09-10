@@ -79,6 +79,13 @@ public class Apis {
         return ResponseEntity.ok().body(voucherDto);
     }
 
+    @DeleteMapping(VOUCHERS)
+    public ResponseEntity deleteVoucher(@RequestBody VoucherDto voucherDto) {
+        VoucherDto removeVoucher = voucherService.getVoucherById(voucherDto.getVoucherId());
+        voucherService.removeVoucher(removeVoucher.getVoucherId());
+        return ResponseEntity.ok().body(removeVoucher);
+    }
+
     @PostMapping(WALLET)
     public ResponseEntity insertWallet(@RequestBody WalletDto walletDto) {
         validateWalletDtoExistedId(walletDto);

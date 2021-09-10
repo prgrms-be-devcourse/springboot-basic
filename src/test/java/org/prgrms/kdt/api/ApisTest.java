@@ -13,12 +13,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.common.BaseApiTest;
+import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherDto;
+import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.wallet.Wallet;
 import org.prgrms.kdt.wallet.WalletDto;
 import org.springframework.http.HttpHeaders;
@@ -172,6 +175,22 @@ public class ApisTest extends BaseApiTest {
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .characterEncoding("UTF-8")
                 .content(objectMapper.writeValueAsString(givenVoucherDto())))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("바우처 삭제 테스트")
+    void deleteVoucher() throws Exception {
+        UUID id = UUID.randomUUID();
+        VoucherDto dto = givenVoucherDto();
+        dto.setVoucherId(id.toString());
+        voucherRepository.insert(new Voucher(id, "test",100L, VoucherType.FIX, LocalDateTime.now()));
+
+        mockMvc.perform(delete(PRE_FIX + VOUCHERS)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(dto)))
                 .andDo(print());
     }
 
