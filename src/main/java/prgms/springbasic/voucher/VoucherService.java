@@ -8,4 +8,6 @@ public interface VoucherService {
     Voucher createVoucher(VoucherType voucherType, UUID voucherId, String value) throws IOException;
 
     List<Voucher> getVoucherList() throws IOException;
+
+    void listIsEmpty();
 }

@@ -4,6 +4,7 @@ package prgms.springbasic.voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import prgms.springbasic.io.Printer;
 import prgms.springbasic.repository.VoucherRepository;
 
 import java.io.IOException;
@@ -34,6 +35,12 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public List<Voucher> getVoucherList() throws IOException {
         return voucherRepository.getVoucherList();
+    }
+
+    @Override
+    public void listIsEmpty() {
+        Printer printer = new Printer();
+        printer.printVoucherListEmpty();
     }
 
     public Voucher createFixedAmountVoucher(UUID voucherId, int amount) throws IOException {

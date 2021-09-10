@@ -12,6 +12,7 @@ import prgms.springbasic.voucher.VoucherType;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.UUID;
 
 public class CommandLineApplication {
@@ -34,17 +35,18 @@ public class CommandLineApplication {
 
                 printer.printDiscountValueInputInfo();
                 String discountValue = reader.readLine();
-                Voucher newVoucher = voucherService.createVoucher(convertToVoucherType(newVoucherType), UUID.randomUUID(), discountValue);
 
+                Voucher newVoucher = voucherService.createVoucher(convertToVoucherType(newVoucherType), UUID.randomUUID(), discountValue);
                 printer.printVoucherCreateSuccess(newVoucher);
                 logger.info("바우처 저장소에 바우처가 추가되었습니다. VoucherId = {}", newVoucher.getVoucherId());
 
             } else if (command.equals("list")) {
-                if (voucherService.getVoucherList().isEmpty()) {
-                    printer.printVoucherListEmpty();
+                List<Voucher> voucherList = voucherService.getVoucherList();
+                if (voucherList.isEmpty()) {
+                    voucherService.listIsEmpty();
                     continue;
                 }
-                printer.printVoucherList(voucherService.getVoucherList());
+                printer.printVoucherList(voucherList);
 
             } else if (command.equals("exit")) {
                 break;
