@@ -22,7 +22,7 @@
         <appender-ref ref="STDOUT"/>
     </root>
 
-    <logger name="com.programmers.voucher" level="error">
+    <logger name="com.programmers.voucher" level="warn">
         <appender-ref ref="ERROR_ROLLING_FILE" />
     </logger>
 

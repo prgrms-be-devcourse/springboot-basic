@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.io.*;
 import java.util.List;
@@ -187,9 +188,24 @@ public class VoucherProjectApplication {
             // do nothing
         }),
         CREATE_USER("create_user", () -> {
-            int randomNumber = new Random().nextInt();
-            Customer customer = customerVoucherService.create("username" + randomNumber, "alias" + randomNumber);
-            System.out.println("Created user " + customer);
+            boolean allowed = false;
+            while(!allowed) {
+                String usernameInput = "";
+                while(usernameInput.isBlank()) {
+                    usernameInput = acquireInput("Type username: ");
+                }
+
+                String aliasInput = "";
+                while(aliasInput.isBlank()) {
+                    aliasInput = acquireInput("Type alias: ");
+                }
+                try {
+                    printOutput("", customerVoucherService.create(usernameInput, aliasInput));
+                    allowed = true;
+                } catch (DuplicateKeyException ex) {
+                    log.warn("Duplicated username. Please try another username.");
+                }
+            }
         }),
         LIST_USER("list_user", () -> {
             System.out.println("======== [ USERS ] ========");
