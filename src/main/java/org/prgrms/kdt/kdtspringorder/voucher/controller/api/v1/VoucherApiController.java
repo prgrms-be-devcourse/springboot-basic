@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -28,6 +30,23 @@ public class VoucherApiController {
         final ApiResponse apiResponse = ApiResponse.builder()
             .payload(this.voucherService.getVouchers())
             .status(HttpStatus.OK)
+            .success(true)
+            .build();
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
+    @PostMapping("/voucher")
+    public ResponseEntity<ApiResponse> create( @Valid @RequestBody VoucherDto.Create voucherDto) {
+
+        logger.debug("Access create()");
+        logger.info("[Param] VoucherDto.Join = " + voucherDto.toString());
+
+        this.voucherService.saveVoucher(voucherDto.getVoucherType(), voucherDto.getAmount());
+
+        final ApiResponse apiResponse = ApiResponse.builder()
+            .status(HttpStatus.CREATED)
             .success(true)
             .build();
 
