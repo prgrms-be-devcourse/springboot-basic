@@ -2,28 +2,26 @@ package org.prgrms.kdt.domain.voucher;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.kdt.domain.customer.Customer;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Repository
-@Profile({"local", "test"})
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class VoucherJdbcRepository implements VoucherRepository {
+@Primary
+public class VoucherNamedJdbcRepository implements VoucherRepository {
 
-    private static final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = ?";
-    private static final String SELECT_BY_TYPE_SQL = "SELECT * FROM vouchers WHERE type = ?";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = :voucherId";
+    private static final String SELECT_BY_TYPE_SQL = "SELECT * FROM vouchers WHERE type = :type";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
     private static final String COUNT_SQL = "SELECT COUNT(*) FROM vouchers";
-    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, type, amount) VALUES (?, ?, ?)";
+    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, type, amount) VALUES (:voucherId, :type, :amount)";
+    private static final String UPDATE_CUSTOMER_ID_SQL = "UPDATE vouchers SET customer_id = :customerId WHERE voucher_id = :voucherId";
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
@@ -45,19 +43,29 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
     };
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public VoucherJdbcRepository(JdbcTemplate jdbcTemplate) {
+    public VoucherNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private Map<String, Object> toParamMap(Voucher voucher) {
+        log.info("[*] now: {}", voucher.getType().toString());
+        return new HashMap<>() {{
+            put("voucherId", voucher.getVoucherId());
+            put("type", voucher.getType().toString());
+            put("amount", voucher.getAmount());
+        }};
     }
 
     @Override
     public Optional<Voucher> findById(Long voucherId) {
+        log.info("[*] voucherId: {}", voucherId);
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(SELECT_BY_ID_SQL,
-                            voucherRowMapper,
-                            voucherId));
+                            Collections.singletonMap("voucherId", voucherId),
+                            voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             log.error("Got empty result", e);
             return Optional.empty();
@@ -66,8 +74,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByType(VoucherType type) {
+        List<Voucher> vouchers = jdbcTemplate.query(SELECT_BY_TYPE_SQL, voucherRowMapper);
+        for (Voucher voucher : vouchers) {
+            log.info("[*] voucher: {}", voucher);
+        }
         return jdbcTemplate.query(SELECT_BY_TYPE_SQL, voucherRowMapper);
     }
+
 
     @Override
     public List<Voucher> findAll() {
@@ -77,28 +90,33 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         var update = jdbcTemplate.update(INSERT_SQL,
-                voucher.getVoucherId(),
-                voucher.getType(),
-                voucher.getAmount()
-        );
+                toParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
         return voucher;
     }
 
-    @Override
+    @Transactional
     public Voucher update(Voucher voucher, Customer customer) {
-        return null;
+        var update = jdbcTemplate.update(
+                UPDATE_CUSTOMER_ID_SQL, new HashMap<>() {{
+                    put("voucherId", voucher.getVoucherId());
+                    put("customerId", customer.getCustomerId());
+                }});
+        if (update != 1) {
+            throw new RuntimeException("Nothing was updated");
+        }
+        return voucher;
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(DELETE_ALL_SQL);
+        jdbcTemplate.update(DELETE_ALL_SQL, Collections.emptyMap());
     }
 
     @Override
     public int count() {
-        return jdbcTemplate.queryForObject(COUNT_SQL, Integer.class);
+        return jdbcTemplate.queryForObject(COUNT_SQL, Collections.emptyMap(), Integer.class);
     }
 }
