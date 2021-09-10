@@ -10,8 +10,6 @@ public class Voucher {
     private final long discount;
     private final LocalDateTime createdAt;
 
-    private boolean isUsed;
-    private LocalDateTime usedAt;
     private VoucherType voucherType;
     private DiscountStrategy discountStrategy;
 
@@ -22,7 +20,6 @@ public class Voucher {
         this.createdAt = createdAt;
         this.voucherType = voucherType;
         this.discountStrategy = discountStrategy;
-        this.isUsed = false;
     }
 
     public UUID getVoucherId() {
@@ -41,30 +38,17 @@ public class Voucher {
         return createdAt;
     }
 
-    public boolean isUsed() {
-        return isUsed;
-    }
-
-    public LocalDateTime getUsedAt() {
-        return usedAt;
-    }
-
     public DiscountStrategy getDiscountStrategy() {
         return discountStrategy;
     }
 
     public long discount(long beforeDiscount) {
-        isUsed = true;
-        usedAt = LocalDateTime.now();
         return discountStrategy.discount(beforeDiscount, discount);
     }
 
-    public void changeVoucherType(VoucherType voucherType, DiscountStrategy discountStrategy) {
-        if (isUsed) {
-            throw new RuntimeException("already used voucher");
-        }
+    public void changeVoucherType(VoucherType voucherType) {
         this.voucherType = voucherType;
-        this.discountStrategy = discountStrategy;
+        this.discountStrategy = voucherType.getDiscountStrategy();
     }
 
     @Override
@@ -72,6 +56,7 @@ public class Voucher {
         return "Voucher{" +
             "voucherId=" + voucherId +
             ", discount=" + discount +
+            ", createdAt=" + createdAt +
             ", voucherType=" + voucherType +
             '}';
     }

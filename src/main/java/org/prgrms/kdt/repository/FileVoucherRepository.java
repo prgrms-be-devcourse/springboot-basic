@@ -4,7 +4,6 @@ package org.prgrms.kdt.repository;
 import org.prgrms.kdt.model.Voucher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -67,8 +66,20 @@ public class FileVoucherRepository implements FileRepository, VoucherRepository 
     }
 
     @Override
-    public Map<UUID, Voucher> findAllVoucher() {
-        return storage;
+    public List<Voucher> findAllVoucher() {
+        return new ArrayList<>(storage.values());
+    }
+
+    // TODO
+    @Override
+    public Voucher updateType(Voucher customer) {
+        throw new UnsupportedOperationException();
+    }
+
+    // TODO
+    @Override
+    public void deleteAll() {
+        throw new UnsupportedOperationException();
     }
 
 }

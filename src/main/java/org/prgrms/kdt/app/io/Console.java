@@ -20,6 +20,12 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public String input(String msg) {
+        System.out.println(msg);
+        return input();
+    }
+
+    @Override
     public String input(String msg, Predicate<String> p) {
         System.out.println(msg);
         return input(p);

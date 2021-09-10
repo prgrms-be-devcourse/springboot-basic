@@ -6,6 +6,7 @@ import org.prgrms.kdt.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -24,24 +25,32 @@ public class VoucherService {
                 () -> new RuntimeException("Can not find a voucher %s".formatted(voucherId)));
     }
 
-    public Map<UUID, Voucher> getAllVouchers() {
+    public List<Voucher> getAllVouchers() {
         return voucherRepository.findAllVoucher();
     }
 
+    @Transactional
     public Voucher createVoucher(VoucherType voucherType, Long discount) {
-        var voucher = new Voucher(
-            UUID.randomUUID(),
-            discount,
-            LocalDateTime.now(),
-            voucherType,
-            voucherType.getDiscountStrategy());
-        return voucherRepository.insert(voucher);
+        var voucher = voucherRepository.insert(
+            new Voucher(
+                UUID.randomUUID(),
+                discount,
+                LocalDateTime.now(),
+                voucherType,
+                voucherType.getDiscountStrategy())
+        );
+        return getVoucher(voucher.getVoucherId());
     }
 
-//    TODO
-//    public void useVoucher(Voucher voucher) {
-//        throw new UnsupportedOperationException();
-//    }
+    @Transactional
+    public Voucher updateVoucherType(Voucher voucher, VoucherType voucherType) {
+        voucher.changeVoucherType(voucherType);
+        voucherRepository.updateType(voucher);
+        return getVoucher(voucher.getVoucherId());
+    }
 
+    public void deleteAllVouchers() {
+        voucherRepository.deleteAll();
+    }
 
 }

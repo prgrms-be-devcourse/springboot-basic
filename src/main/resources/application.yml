@@ -5,3 +5,9 @@ kdt:
   file:
     black-list:
       path: data/customer_blacklist.csv
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/command_application
+    username: root
+    password: root1234!

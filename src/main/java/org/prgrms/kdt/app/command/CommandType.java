@@ -3,7 +3,9 @@ package org.prgrms.kdt.app.command;
 public enum CommandType {
     EXIT("0"),
     VOUCHER_CREATE("1"),
-    VOUCHER_LIST("2");
+    VOUCHER_LIST("2"),
+    DELETE_ALL_VOUCHER("3"),
+    UPDATE_VOUCHER_TYPE("4");
 
     private final String num;
 

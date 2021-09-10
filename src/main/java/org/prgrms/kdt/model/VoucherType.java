@@ -27,6 +27,6 @@ public enum VoucherType {
 
     @Override
     public String toString() {
-        return "%s. %s".formatted(this.getNum(), super.toString());
+        return "%s(%s)".formatted(super.toString(), this.getNum());
     }
 }

@@ -19,8 +19,7 @@ import org.springframework.stereotype.Component;
 public class CommandLineApplication implements ApplicationRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
-    private static final Function<String, CommandType> commandTypeLookupFunction =
-        EnumUtils.lookupMap(CommandType.values(), CommandType::getNum);
+
 
     private final List<CommandOperator> commandOperators;
     private final Map<CommandType, CommandOperator> commandMap;
@@ -37,7 +36,8 @@ public class CommandLineApplication implements ApplicationRunner {
     }
 
     private void printMenu() {
-        console.printMessage("=== Type the number of command===");
+        console.printMessage("=== Command Application ===");
+        console.printMessage("Type the number of command");
         console.printEnumValues(CommandType.values());
     }
 
@@ -50,22 +50,14 @@ public class CommandLineApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        var prompt = """
-            === Voucher Management ===
-            Type exit to exit the program.
-            Type create to create a new object.
-            Type list to list all object.
-            """;
-        console.printMessage(prompt);
         while (isRunning) {
             printMenu();
-            Optional.ofNullable(commandTypeLookupFunction.apply(console.input()))
-                .ifPresent(value -> {
-                    if (value == CommandType.EXIT) {
-                        isRunning = false;
-                    }
-                    commandMap.get(value).execute();
-                });
+            EnumUtils.getCommnadType(console.input()).ifPresent(commandType -> {
+                if (commandType == CommandType.EXIT) {
+                    isRunning = false;
+                }
+                commandMap.get(commandType).execute();
+            });
         }
     }
 }

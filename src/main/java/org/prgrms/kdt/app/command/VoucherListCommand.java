@@ -1,6 +1,7 @@
 package org.prgrms.kdt.app.command;
 
 import org.prgrms.kdt.app.io.Console;
+import org.prgrms.kdt.model.Voucher;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class VoucherListCommand implements CommandOperator {
         var vouchers = voucherService.getAllVouchers();
         console.printMessage("=== Voucher List ===");
         if (!vouchers.isEmpty()) {
-            vouchers.values().forEach(v -> console.printMessage(v.toString()));
+            vouchers.stream().map(Voucher::toString).forEach(console::printMessage);
         } else {
             console.printMessage("No Voucher Data");
         }
