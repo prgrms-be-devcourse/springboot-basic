@@ -20,7 +20,7 @@ public class Name {
         return new Name(name);
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
@@ -39,12 +39,12 @@ public class Name {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Name name1 = (Name) o;
-        return Objects.equals(getName(), name1.getName());
+        return Objects.equals(name(), name1.name());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName());
+        return Objects.hash(name());
     }
 
     @Override

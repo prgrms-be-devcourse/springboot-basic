@@ -21,7 +21,7 @@ public class Email {
         return new Email(email);
     }
 
-    public String getEmail() {
+    public String email() {
         return email;
     }
 
@@ -36,12 +36,12 @@ public class Email {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Email email1 = (Email) o;
-        return Objects.equals(getEmail(), email1.getEmail());
+        return Objects.equals(email(), email1.email());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEmail());
+        return Objects.hash(email());
     }
 
     @Override
