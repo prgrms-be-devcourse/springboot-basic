@@ -21,7 +21,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         long id = sequencer.getAndAdd(1);
-        voucher.setId(id);
+        voucher.registerId(id);
         db.put(id, voucher);
         log.debug("Saved voucher '{}' to database.", voucher);
         return voucher;
@@ -55,8 +55,8 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         final Voucher updatingVoucher = db.get(voucher.getId());
-        updatingVoucher.setName(voucher.getName());
-        updatingVoucher.setDiscountPolicy(voucher.getDiscountPolicy());
+        updatingVoucher.updateName(voucher.getName());
+        updatingVoucher.replaceDiscountPolicy(voucher.getDiscountPolicy());
         updatingVoucher.updateCustomerId(voucher.getCustomerId());
         return updatingVoucher;
     }

@@ -55,10 +55,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 statement.setLong(4, voucher.getCustomerId());
                 return statement;
             }, keyHolder);
-            voucher.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+            voucher.registerId(Objects.requireNonNull(keyHolder.getKey()).longValue());
             log.debug("Saved voucher({}) to repository.", voucher);
         } catch (DataAccessException ex) {
-            voucher.setId(-1);
+            voucher.registerId(-1);
             log.error("DataAccessException occur on saving voucher({}) to repository: {}", voucher, ex.getMessage());
         }
 

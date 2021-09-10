@@ -2,6 +2,7 @@ package com.programmers.voucher;
 
 import com.programmers.voucher.config.ApplicationMessages;
 import com.programmers.voucher.entity.voucher.DiscountType;
+import com.programmers.voucher.entity.voucher.UpdatableField;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.customer.CustomerService;
 import com.programmers.voucher.service.customer.CustomerVoucherService;
@@ -99,7 +100,7 @@ public class VoucherProjectApplication {
             long voucherId = acquireInputUntil(applicationMessages.getRequireVoucherId(), Long::parseUnsignedLong);
             voucherService.findById(voucherId).ifPresentOrElse(
                     voucher -> {
-                        Voucher.UpdatableField updateType = acquireInputUntil(applicationMessages.getRequireUpdateField(), Voucher.UpdatableField::of);
+                        UpdatableField updateType = acquireInputUntil(applicationMessages.getRequireUpdateField(), UpdatableField::of);
                         String updateValue = acquireInputUntil(applicationMessages.getRequireUpdateValue(), string -> string);
                         voucher.update(updateType, updateValue);
                         voucherService.update(voucher);
