@@ -19,6 +19,31 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByName(String name) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Voucher> findByType(String type) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public int count() {
+        return 0;
+    }
+
+    @Override
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;

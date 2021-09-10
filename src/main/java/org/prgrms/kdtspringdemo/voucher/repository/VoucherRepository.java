@@ -8,9 +8,16 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 public interface VoucherRepository {
-    public Optional<Voucher> findById(UUID voucherId);
+    Voucher insert(Voucher voucher);
 
-    public Voucher insert(Voucher voucher);
+    List<Voucher> findAll();
+    Optional<Voucher> findById(UUID voucherId);
+    List<Voucher> findByName(String name);
+    List<Voucher> findByType(String email);
 
-    public List<Voucher> findAll();
+    Voucher update(Voucher voucher);
+
+    void deleteAll();
+
+    int count();
 }

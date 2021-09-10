@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 @Repository
-@Profile("dev")
+@Profile("file_dev")
 public class FileVoucherRepository implements VoucherRepository, InitializingBean {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final String FILE_NAME = "voucher.csv";
@@ -29,6 +29,31 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findByName(String name) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Voucher> findByType(String email) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public int count() {
+        return 0;
     }
 
     @Override
