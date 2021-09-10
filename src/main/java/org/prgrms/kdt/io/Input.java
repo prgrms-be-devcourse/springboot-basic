@@ -8,4 +8,9 @@ public interface Input {
     String inputVoucherType();
 
     void newLine();
+
+    Long inputCustomerId();
+
+    Long inputVoucherId();
+
 }
