@@ -38,6 +38,22 @@ public class VoucherApiController {
 
     }
 
+    @GetMapping("/voucher/{voucherId}")
+    public ResponseEntity<ApiResponse> detailById( @PathVariable("voucherId") UUID voucherId) {
+
+        logger.debug("Access detailById()");
+        logger.info("[Param] voucherId = " + voucherId);
+
+        final ApiResponse apiResponse = ApiResponse.builder()
+            .payload(this.voucherService.getVoucher(voucherId))
+            .status(HttpStatus.OK)
+            .success(true)
+            .build();
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
     @PostMapping("/voucher")
     public ResponseEntity<ApiResponse> create( @Valid @RequestBody VoucherDto.Create voucherDto) {
 
@@ -54,7 +70,6 @@ public class VoucherApiController {
         return ResponseEntity.ok(apiResponse);
 
     }
-
 
     @DeleteMapping("/voucher/{voucherId}")
     public ResponseEntity<ApiResponse> delete( @PathVariable("voucherId") UUID voucherId) {
