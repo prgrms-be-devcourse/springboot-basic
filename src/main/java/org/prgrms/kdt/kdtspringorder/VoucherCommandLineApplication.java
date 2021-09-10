@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 /**
  * Voucher Command Line 어플리케이션을 실행한다.
  */
-@SpringBootApplication
+//@SpringBootApplication
 public class VoucherCommandLineApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineApplication.class);
