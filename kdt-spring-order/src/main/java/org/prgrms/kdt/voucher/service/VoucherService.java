@@ -1,11 +1,8 @@
 package org.prgrms.kdt.voucher.service;
 
 import org.prgrms.kdt.common.exception.ExceptionMessage;
+import org.prgrms.kdt.voucher.domain.*;
 import org.prgrms.kdt.voucher.exception.VoucherNotFoundException;
-import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +28,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount){
-        if(voucherType == VoucherType.FIXED_AMOUNT){
-            return new FixedAmountVoucher(voucherId, discount);
-        }
-
-        return new PercentDiscountVoucher(voucherId, discount);
+        return VoucherFactory.createVoucher(voucherType, voucherId, discount);
     }
 
     public void addVoucher(Voucher voucher){

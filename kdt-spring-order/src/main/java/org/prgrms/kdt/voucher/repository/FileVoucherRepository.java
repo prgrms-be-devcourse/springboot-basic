@@ -2,10 +2,7 @@ package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.common.aop.TrackTime;
 import org.prgrms.kdt.common.exception.ExceptionMessage;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.domain.*;
 import org.prgrms.kdt.voucher.exception.VoucherNotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -87,18 +84,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private Voucher getVoucherFrom(String line){
         String[] elements = line.split("\\|");
-        Voucher voucher = null;
 
-        switch (VoucherType.findByVoucherType(elements[0])){
-            case FIXED_AMOUNT:
-                voucher =  new FixedAmountVoucher(UUID.fromString(elements[1]), Long.valueOf(elements[2]));
-                break;
-            case PERCENT_DISCOUNT:
-                voucher = new PercentDiscountVoucher(UUID.fromString(elements[1]), Long.valueOf(elements[2]));
-                break;
-        }
-
-        return voucher;
+        return VoucherFactory.createVoucher(
+                VoucherType.findByVoucherType(elements[0]),
+                UUID.fromString(elements[1]),
+                Long.parseLong(elements[2])
+        );
     }
 
     private void createFileIfNotExist()
