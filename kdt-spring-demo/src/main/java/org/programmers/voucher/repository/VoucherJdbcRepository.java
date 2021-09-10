@@ -47,7 +47,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(VoucherBase voucherBase) {
+    public void create(VoucherBase voucherBase) {
         VoucherType voucherType = voucherBase.getVoucherType();
         int update = 0;
         switch (voucherType) {
@@ -68,12 +68,25 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public void update(VoucherType voucherType, long value, long changeValue) {
         var paramMap = new HashMap<String, Object>();
-        paramMap.put("voucherType", voucherType.toString());
+        paramMap.put("voucherType", voucherType);
         paramMap.put("voucherValue", value);
         paramMap.put("changeValue", changeValue);
 
         var update = namedParameterJdbcTemplate.update("UPDATE vouchers SET voucher_value = :changeValue WHERE voucher_value = :voucherValue AND voucher_type = :voucherType",
                 paramMap);
+        if (update != 1) {
+            throw new RuntimeException("Nothing was updated");
+        }
+    }
+
+    @Override
+    public void update(UUID voucherId, VoucherType voucherType, long changeValue) {
+        var paramMap = new HashMap<String, Object>();
+        paramMap.put("voucherId", voucherId.toString().getBytes());
+        paramMap.put("voucherType", voucherType.toString());
+        paramMap.put("changeValue", changeValue);
+
+        var update = namedParameterJdbcTemplate.update("UPDATE vouchers SET voucher_value = :changeValue, voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
         if (update != 1) {
             throw new RuntimeException("Nothing was updated");
         }

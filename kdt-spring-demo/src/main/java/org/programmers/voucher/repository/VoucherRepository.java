@@ -9,9 +9,11 @@ import java.util.UUID;
 
 public interface VoucherRepository {
 
-    void save(VoucherBase voucherBase);
+    void create(VoucherBase voucherBase);
 
     void update(VoucherType voucherType, long value, long changeValue);
+
+    void update(UUID voucherId,VoucherType voucherType, long changeValue);
 
     List<VoucherBase> findAll();
 

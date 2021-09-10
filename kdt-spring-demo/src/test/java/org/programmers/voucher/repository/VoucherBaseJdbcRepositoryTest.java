@@ -66,7 +66,7 @@ class VoucherBaseJdbcRepositoryTest {
     @BeforeEach
     void setUp() {
         voucherBase = new VoucherBase(UUID.randomUUID(), VoucherType.FIXED, 1L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        voucherJdbcRepository.save(voucherBase);
+        voucherJdbcRepository.create(voucherBase);
     }
 
     @AfterEach
@@ -78,7 +78,7 @@ class VoucherBaseJdbcRepositoryTest {
     @DisplayName("FIXED 바우처를 저장할 수 있다.")
     void fixedVoucherSave() {
         VoucherBase testVoucherBase = new VoucherBase(UUID.randomUUID(), VoucherType.FIXED, 10L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        voucherJdbcRepository.save(testVoucherBase);
+        voucherJdbcRepository.create(testVoucherBase);
 
         Optional<VoucherBase> findVoucherById = voucherJdbcRepository.findById(testVoucherBase.getVoucherId());
         assertThat(findVoucherById.get(), samePropertyValuesAs(testVoucherBase));
@@ -88,7 +88,7 @@ class VoucherBaseJdbcRepositoryTest {
     @DisplayName("PERCENT 바우처를 저장할 수 있다.")
     void percentVoucherSave() {
         VoucherBase testVoucherBase = new VoucherBase(UUID.randomUUID(), VoucherType.PERCENT, 10L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        voucherJdbcRepository.save(testVoucherBase);
+        voucherJdbcRepository.create(testVoucherBase);
 
         Optional<VoucherBase> findVoucherById = voucherJdbcRepository.findById(testVoucherBase.getVoucherId());
         assertThat(findVoucherById.get(), samePropertyValuesAs(testVoucherBase));
@@ -98,7 +98,7 @@ class VoucherBaseJdbcRepositoryTest {
     @DisplayName("바우처를 저장하지 못하면, 예외가 발생한다.")
     void saveException() {
         VoucherBase testVoucherBase = new VoucherBase(UUID.randomUUID(), VoucherType.FIXED, 10000000L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        assertThrows(RuntimeException.class, () -> voucherJdbcRepository.save(testVoucherBase));
+        assertThrows(RuntimeException.class, () -> voucherJdbcRepository.create(testVoucherBase));
     }
 
     @Test
@@ -159,7 +159,7 @@ class VoucherBaseJdbcRepositoryTest {
     @DisplayName("바우처 아이디로 바우처를 삭제할 수 있다.")
     void deleteByVoucherId() {
         VoucherBase testVoucherBase = new VoucherBase(UUID.randomUUID(), VoucherType.PERCENT, 10L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        voucherJdbcRepository.save(testVoucherBase);
+        voucherJdbcRepository.create(testVoucherBase);
         List<VoucherBase> before = voucherJdbcRepository.findAll();
         assertThat(before, hasSize(2));
 
@@ -178,7 +178,7 @@ class VoucherBaseJdbcRepositoryTest {
     @DisplayName("바우처타입과 값으로 삭제할 수 있다.")
     void deleteByVoucherTypeAndValue() {
         VoucherBase testVoucherBase = new VoucherBase(UUID.randomUUID(), VoucherType.PERCENT, 10L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        voucherJdbcRepository.save(testVoucherBase);
+        voucherJdbcRepository.create(testVoucherBase);
 
         voucherJdbcRepository.deleteByVoucherTypeAndValue(VoucherType.PERCENT, 10L);
     }

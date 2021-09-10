@@ -141,7 +141,7 @@ public class VoucherProgram implements CommandLineRunner {
         console.voucherNumberInfoOutput(mode);
         long number = Long.parseLong(String.valueOf(console.getVoucherNumber()));
 
-        voucherJdbcService.create(new VoucherBase(UUID.randomUUID(), inputVoucherType, number, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)));
+        voucherJdbcService.save(new VoucherBase(UUID.randomUUID(), inputVoucherType, number, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)));
     }
 
     private void deleteCustomer(String mode) {

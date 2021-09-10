@@ -72,8 +72,8 @@ class VoucherBaseJdbcServiceTest {
         fixedVoucherBase = new VoucherBase(UUID.randomUUID(), VoucherType.FIXED, 10L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         percentVoucherBase = new VoucherBase(UUID.randomUUID(), VoucherType.PERCENT, 10L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
 
-        voucherJdbcService.create(fixedVoucherBase);
-        voucherJdbcService.create(percentVoucherBase);
+        voucherJdbcService.save(fixedVoucherBase);
+        voucherJdbcService.save(percentVoucherBase);
     }
 
     @AfterEach
@@ -85,7 +85,7 @@ class VoucherBaseJdbcServiceTest {
     @DisplayName("바우처를 새로 생성 및 저장할 수 있다.")
     void create() {
         VoucherBase testVoucherBase = new VoucherBase(UUID.randomUUID(), VoucherType.FIXED, 50L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        voucherJdbcService.create(testVoucherBase);
+        voucherJdbcService.save(testVoucherBase);
 
         VoucherBase findVoucherBase = voucherJdbcService.findById(testVoucherBase.getVoucherId());
         assertThat(findVoucherBase, samePropertyValuesAs(testVoucherBase));

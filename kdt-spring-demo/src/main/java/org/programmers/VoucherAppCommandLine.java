@@ -9,10 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class VoucherAppAplication {
-
+public class VoucherAppCommandLine {
     public static void main(String[] args) throws Exception {
-        ConfigurableApplicationContext applicationContext = new SpringApplication(VoucherAppAplication.class).run();
+        ConfigurableApplicationContext applicationContext = new SpringApplication(VoucherAppApplication.class).run();
 
         var voucherService = applicationContext.getBean(VoucherJdbcService.class);
         var blackListCustomerService = applicationContext.getBean(BlackListCustomerService.class);
