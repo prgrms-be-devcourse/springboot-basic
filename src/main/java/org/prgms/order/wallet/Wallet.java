@@ -9,14 +9,14 @@ public class Wallet {
     private final UUID customerId;
     private final UUID voucherId;
     private final LocalDateTime createdAt;
-    private boolean usedAt;
+    private boolean used;
 
     public Wallet(WalletData walletData) {
         this.walletId = walletData.getWalletId();
         this.customerId = walletData.getCustomerId();
         this.voucherId = walletData.getVoucherId();
         this.createdAt = walletData.getCreatedAt();
-        this.usedAt = walletData.getUsedAt();
+        this.used = walletData.getUsed();
     }
 
     public UUID getWalletId() {
@@ -35,7 +35,7 @@ public class Wallet {
         return createdAt;
     }
 
-    public boolean getUsedAt() {
-        return usedAt;
+    public boolean getUsed() {
+        return used;
     }
 }

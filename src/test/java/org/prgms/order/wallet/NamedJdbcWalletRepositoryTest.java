@@ -214,9 +214,9 @@ class NamedJdbcWalletRepositoryTest {
     @DisplayName("wallet을 사용상태로 만들 수 있다.")
     void testUseVoucher() {
         var inputwallet = new Wallet(new WalletData(newWallet3.getWalletId(), true));
-        namedJdbcWalletRepository.useVoucher(inputwallet);
+        namedJdbcWalletRepository.useVoucher(inputwallet.getWalletId());
         var testList = namedJdbcWalletRepository.findById(newWallet3.getWalletId()).get();
-        assertThat(testList.getUsedAt(),notNullValue());
+        assertThat(testList.getUsed(),notNullValue());
     }
 
     @Test

@@ -37,8 +37,8 @@ public class WalletService {
     List<Wallet> findAll(){
         return walletRepository.findAll();
     }
-    void useVoucher(Wallet wallet){
-        walletRepository.useVoucher(wallet);
+    void useVoucher(UUID walletId){
+        walletRepository.useVoucher(walletId);
     }
 
     void  deleteByWalletId(UUID walletId){

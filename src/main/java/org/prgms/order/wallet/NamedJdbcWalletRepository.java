@@ -30,8 +30,8 @@ public class NamedJdbcWalletRepository implements WalletRepository{
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var usedAt = resultSet.getBoolean("used_at");
-        return new Wallet(new WalletData(walletId, customerId, voucherId, createdAt, usedAt));
+        var used = resultSet.getBoolean("used");
+        return new Wallet(new WalletData(walletId, customerId, voucherId, createdAt, used));
     };
 
     static UUID toUUID(byte[] bytes) {
@@ -45,7 +45,7 @@ public class NamedJdbcWalletRepository implements WalletRepository{
             put("customer_id", wallet.getCustomerId() != null?wallet.getCustomerId().toString().getBytes() : null);
             put("voucher_id", wallet.getVoucherId() != null?wallet.getVoucherId().toString().getBytes() : null);
             put("created_at", wallet.getCreatedAt() != null?wallet.getCreatedAt() : null);
-            put("used_at", wallet.getUsedAt());
+            put("used", wallet.getUsed());
 
         }};
     }
@@ -107,7 +107,7 @@ public class NamedJdbcWalletRepository implements WalletRepository{
     @Override
     public List<Wallet> findByCustomerAvailable(UUID customerId) {
         try {
-            return jdbcTemplate.query("select * from wallets where customer_id = UNHEX(REPLACE(:customer_id,'-','')) and usedAt = false",
+            return jdbcTemplate.query("select * from wallets where customer_id = UNHEX(REPLACE(:customer_id,'-','')) and used = false",
                     Collections.singletonMap("customer_id",customerId.toString().getBytes()),
                     walletRowMapper);
         } catch (EmptyResultDataAccessException e) {
@@ -117,9 +117,9 @@ public class NamedJdbcWalletRepository implements WalletRepository{
     }
 
     @Override
-    public void useVoucher(Wallet wallet) {
-        var update = jdbcTemplate.update("update wallets set used_at = :used_at where wallet_id = UNHEX(REPLACE(:wallet_id,'-',''))",
-                toParamMap(wallet));
+    public void useVoucher(UUID walletId) {
+        var update = jdbcTemplate.update("update wallets set used = true where wallet_id = UNHEX(REPLACE(:wallet_id,'-',''))",
+                Collections.singletonMap("wallet_id",walletId.toString().getBytes()));
         if (update != 1) {
             throw new RuntimeException("Nothing was insert");
         }

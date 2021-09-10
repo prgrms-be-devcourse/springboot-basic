@@ -29,11 +29,11 @@ create table vouchers
 
 create table wallets
 (
-    wallet_id   binary(16) not null,
-    customer_id binary(16) not null,
-    voucher_id  binary(16) not null,
-    created_at  datetime   not null,
-    used_at     datetime   null,
+    `used`       tinyint(1) default 0 null,
+    created_at  datetime             not null,
+    voucher_id  binary(16)           not null,
+    customer_id binary(16)           not null,
+    wallet_id   binary(16)           not null,
     constraint wallets_wallet_id_uindex
         unique (wallet_id),
     constraint wallets_ibfk_1
@@ -50,4 +50,3 @@ create index voucher_id
 
 alter table wallets
     add primary key (wallet_id);
-
