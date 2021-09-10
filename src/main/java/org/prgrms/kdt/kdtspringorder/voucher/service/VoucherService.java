@@ -24,6 +24,8 @@ public interface VoucherService {
 
     public List<Voucher> getVouchersByCustomer(UUID customerId);
 
+    public List<Voucher> getVouchersByVoucherType(VoucherType voucherType);
+
     /**
      * 새 Voucher를 생성하여 등록합니다.
      * @param type 생성할 Voucher 유형

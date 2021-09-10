@@ -2,6 +2,7 @@ package org.prgrms.kdt.kdtspringorder.voucher.controller.api.v1;
 
 import lombok.RequiredArgsConstructor;
 import org.prgrms.kdt.kdtspringorder.common.dto.ApiResponse;
+import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.voucher.dto.VoucherDto;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherJdbcRepository;
 import org.prgrms.kdt.kdtspringorder.voucher.service.VoucherService;
@@ -46,6 +47,22 @@ public class VoucherApiController {
 
         final ApiResponse apiResponse = ApiResponse.builder()
             .payload(this.voucherService.getVoucher(voucherId))
+            .status(HttpStatus.OK)
+            .success(true)
+            .build();
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
+    @GetMapping("/voucher")
+    public ResponseEntity<ApiResponse> detailByVoucherType( @RequestParam("voucherType") VoucherType voucherType) {
+
+        logger.debug("Access detailByVoucherType()");
+        logger.info("[Param] voucherType = " + voucherType);
+
+        final ApiResponse apiResponse = ApiResponse.builder()
+            .payload(this.voucherService.getVouchersByVoucherType(voucherType))
             .status(HttpStatus.OK)
             .success(true)
             .build();

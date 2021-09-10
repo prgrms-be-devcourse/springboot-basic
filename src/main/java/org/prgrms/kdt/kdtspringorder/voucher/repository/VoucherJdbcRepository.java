@@ -24,6 +24,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
     private final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
     private final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String SELECT_BY_CUSTOMER_ID_SQL = "SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)";
+    private final String SELECT_BY_VOUCHER_TYPE_SQL = "SELECT * FROM vouchers WHERE voucher_type = :voucherType";
     private final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, customer_id, discount, voucher_type) VALUES(UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId), :discount, :voucherType)";
     private final String UPDATE_DISCOUNT_SQL = "UPDATE vouchers SET discount = :discount WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String UPDATE_CUSTOMER_ID_SQL = "UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)";
@@ -63,6 +64,15 @@ public class VoucherJdbcRepository implements VoucherRepository{
         return jdbcTemplate.query(
             SELECT_BY_CUSTOMER_ID_SQL,
             Collections.singletonMap("customerId", customerId.toString()),
+            VoucherJdbcRepository::voucherRowMapper
+        );
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query(
+            SELECT_BY_VOUCHER_TYPE_SQL,
+            Collections.singletonMap("voucherType", voucherType.getValue()),
             VoucherJdbcRepository::voucherRowMapper
         );
     }

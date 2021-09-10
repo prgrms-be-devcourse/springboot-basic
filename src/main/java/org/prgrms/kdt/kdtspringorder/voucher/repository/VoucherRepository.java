@@ -1,7 +1,9 @@
 package org.prgrms.kdt.kdtspringorder.voucher.repository;
 
+import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,6 +32,8 @@ public interface VoucherRepository {
      * @return
      */
     public List<Voucher> findByCustomerId(UUID customerId);
+
+    public List<Voucher> findByVoucherType(VoucherType voucherType);
 
     /**
      * 새 Voucher를 등록합니다

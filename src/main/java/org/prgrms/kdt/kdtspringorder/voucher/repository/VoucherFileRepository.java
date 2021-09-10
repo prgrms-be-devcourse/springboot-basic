@@ -1,5 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.voucher.repository;
 
+import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.common.io.FileIo;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -40,6 +42,11 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByCustomerId(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
         return null;
     }
 

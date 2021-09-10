@@ -48,6 +48,11 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public List<Voucher> getVouchersByVoucherType(VoucherType voucherType) {
+        return this.voucherRepository.findByVoucherType(voucherType);
+    }
+
+    @Override
     public UUID saveVoucher(VoucherType type, long discount) {
 
         logger.info("Access saveVoucher()");
