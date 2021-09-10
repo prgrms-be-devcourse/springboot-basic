@@ -43,4 +43,11 @@ public class Email {
     public int hashCode() {
         return Objects.hash(getEmail());
     }
+
+    @Override
+    public String toString() {
+        return "Email{" +
+                "email='" + email + '\'' +
+                '}';
+    }
 }
