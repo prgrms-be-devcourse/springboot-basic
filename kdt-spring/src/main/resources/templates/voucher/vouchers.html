@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Voucher Management</title>
+</head>
+<body class="container-md">
+    <a href="/"><h1>KDT Spring App</h1></a>
+    <a href="/voucher/vouchers"><h2>Voucher Home</h2></a>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a href="/voucher/new-form" class="btn btn-primary me-md-2" type="button">Create Voucher</a>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Created</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="voucher, stat : ${vouchers}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${voucher.type}"></td>
+                <td th:text="${voucher.value}"></td>
+                <td th:text="${voucher.createdAt}"></td>
+                <td><a th:href="'/voucher/' + ${voucher.voucherId}"   type="button" class="btn btn-info">Update</a></td>
+                <td>
+                    <form th:action="'/voucher/' + ${voucher.voucherId}" th:method="DELETE">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

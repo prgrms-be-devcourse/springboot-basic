@@ -4,8 +4,6 @@ import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.factory.VoucherFactory;
 import org.prgrms.kdt.repository.voucher.VoucherRepository;
-import org.prgrms.kdt.service.dto.RequestCreateVoucherDto;
-import org.prgrms.kdt.service.dto.RequestUpdateVoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
