@@ -4,14 +4,19 @@ import static org.springframework.http.MediaType.*;
 
 import java.net.URI;
 import java.util.List;
+import javax.validation.Valid;
 import org.prgrms.kdt.customer.CustomerDto;
 import org.prgrms.kdt.customer.CustomerService;
+import org.prgrms.kdt.exception.BadRequestException;
+import org.prgrms.kdt.exception.ErrorResponse;
+import org.prgrms.kdt.form.VoucherForm;
 import org.prgrms.kdt.voucher.VoucherDto;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.wallet.WalletDto;
 import org.prgrms.kdt.wallet.WalletService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,11 +69,22 @@ public class Apis {
         return ResponseEntity.ok().body(voucherService.getAllVouchers());
     }
 
+    @PostMapping(VOUCHERS)
+    public ResponseEntity addVoucher(@RequestBody @Valid VoucherDto voucherDto, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new BadRequestException(result.getFieldError().getDefaultMessage());
+        }
+        voucherService.addVoucher(voucherDto);
+        /**todo 저장된 바우처로 리턴도되록 변경*/
+        return ResponseEntity.ok().body(voucherDto);
+    }
+
     @PostMapping(WALLET)
     public ResponseEntity insertWallet(@RequestBody WalletDto walletDto) {
         validateWalletDtoExistedId(walletDto);
         walletService.addWallet(walletDto);
         URI uri = URI.create(PRE_FIX + WALLET);
+        /**todo 저장된 지갑으로 리턴도되록 변경*/
         return ResponseEntity.created(uri).body(walletDto);
     }
 

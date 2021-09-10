@@ -9,6 +9,7 @@ import org.prgrms.kdt.exception.ResourceNotFoundException;
 import org.prgrms.kdt.form.VoucherForm;
 import org.prgrms.kdt.mapper.VoucherMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by yhh1056
@@ -49,6 +50,12 @@ public class VoucherService {
                 VoucherType.valueOf(voucherForm.getVoucherType()),
                 LocalDateTime.now());
 
+        voucherRepository.insert(voucher);
+    }
+
+    @Transactional
+    public void addVoucher(VoucherDto voucherDto) {
+        Voucher voucher = VoucherMapper.voucherDtoToVoucher(voucherDto);
         voucherRepository.insert(voucher);
     }
 

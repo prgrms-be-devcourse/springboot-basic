@@ -1,5 +1,6 @@
 package org.prgrms.kdt.aop;
 
+import org.prgrms.kdt.exception.BadRequestException;
 import org.prgrms.kdt.exception.ErrorResponse;
 import org.prgrms.kdt.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -22,5 +23,11 @@ public class ApiExceptionAdvice {
     public ResponseEntity<ErrorResponse> exceptionHandler(ResourceNotFoundException e) {
         logger.error("is invalid request : " +  e.getMessage());
         return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> exceptionHandler(BadRequestException e) {
+        logger.error("is invalid request : " +  e.getMessage());
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

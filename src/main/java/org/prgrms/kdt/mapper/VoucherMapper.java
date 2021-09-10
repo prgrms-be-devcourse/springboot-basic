@@ -1,6 +1,8 @@
 package org.prgrms.kdt.mapper;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherDto;
 import org.prgrms.kdt.voucher.VoucherType;
@@ -31,4 +33,13 @@ public interface VoucherMapper {
         return voucherDto;
     }
 
+    static Voucher voucherDtoToVoucher(VoucherDto voucherDto) {
+        return new Voucher(
+                UUID.randomUUID(),
+                voucherDto.getName(),
+                Long.valueOf(voucherDto.getDiscount()),
+                VoucherType.valueOf(voucherDto.getVoucherType()),
+                LocalDateTime.now()
+        );
+    }
 }

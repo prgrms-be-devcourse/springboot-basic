@@ -10,15 +10,15 @@ import java.util.UUID;
  */
 public class Voucher {
 
-    private final UUID voucherId;
+    private UUID voucherId;
 
     private String name;
 
-    private final Long discount;
+    private Long discount;
 
-    private final VoucherType voucherType;
+    private VoucherType voucherType;
 
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     public Voucher(UUID voucherId, String name, Long discount, VoucherType voucherType, LocalDateTime createdAt) {
         this.voucherId = voucherId;
@@ -26,6 +26,12 @@ public class Voucher {
         this.discount = discount;
         this.voucherType = voucherType;
         this.createdAt = createdAt;
+    }
+
+    public Voucher (String name, Long discount, VoucherType voucherType) {
+        this.name = name;
+        this.discount = discount;
+        this.voucherType = voucherType;
     }
 
     public static Voucher of(String name, Long discount, VoucherType voucherType) {

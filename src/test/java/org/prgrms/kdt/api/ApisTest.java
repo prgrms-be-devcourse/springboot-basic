@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.common.BaseApiTest;
+import org.prgrms.kdt.voucher.VoucherDto;
 import org.prgrms.kdt.wallet.Wallet;
 import org.prgrms.kdt.wallet.WalletDto;
 import org.springframework.http.HttpHeaders;
@@ -161,6 +162,25 @@ public class ApisTest extends BaseApiTest {
                 .andExpect(jsonPath("$..discount").exists())
                 .andExpect(jsonPath("$..voucherType").exists())
                 .andExpect(jsonPath("$..createdAt").exists());
+    }
+
+    @Test
+    @DisplayName("바우처 등록 테스트")
+    void addVoucher() throws Exception {
+        mockMvc.perform(post(PRE_FIX + VOUCHERS)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(givenVoucherDto())))
+                .andDo(print());
+    }
+
+    private VoucherDto givenVoucherDto() {
+        VoucherDto voucherDto = new VoucherDto();
+        voucherDto.setName("test voucher");
+        voucherDto.setVoucherType("FIX");
+        voucherDto.setDiscount("1000");
+        return voucherDto;
     }
 
     private WalletDto givenValidWalletDto(UUID mockCustomerId, UUID mockVoucherId) {
