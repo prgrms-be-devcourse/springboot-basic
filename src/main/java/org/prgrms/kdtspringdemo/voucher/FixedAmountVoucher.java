@@ -1,39 +1,18 @@
 package org.prgrms.kdtspringdemo.voucher;
 
+import org.prgrms.kdtspringdemo.VoucherType;
+
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId;
+public class FixedAmountVoucher extends Voucher {
 
-    private final long amount;
-
-    @Override
-    public String toString() {
-        return MessageFormat.format("[FixedAmountVoucher] voucherId : {0}, amount : {1}", voucherId, amount);
-    }
-
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        this.voucherId = voucherId;
-        this.amount = amount;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
-    public long getAmount() {
-        return amount;
-    }
-
-    @Override
-    public String saveCSV() {
-        return String.format("FixedAmountVoucher,%s,%s", voucherId, amount);
+    public FixedAmountVoucher(UUID voucherId, String name, long amount, VoucherType voucherType, LocalDateTime createdAt) {
+        super(voucherId, name, amount, voucherType, createdAt);
     }
 
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        return beforeDiscount - getAmount();
     }
 }

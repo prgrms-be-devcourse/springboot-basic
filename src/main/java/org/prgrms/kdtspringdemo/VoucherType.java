@@ -4,6 +4,8 @@ import org.prgrms.kdtspringdemo.voucher.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.PercentDiscountVoucher;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,11 +36,11 @@ public enum VoucherType {
     public static Voucher createVoucher(String inputCommand, long value) {
         switch (findByCommand(inputCommand)) {
             case FIXED_AMOUNT -> {
-                if (value > 0 && value <= 100000) return new FixedAmountVoucher(UUID.randomUUID(), value);
+                if (value > 0 && value <= 100000) return new FixedAmountVoucher(UUID.randomUUID(), "FixedAmountVoucherName", value, FIXED_AMOUNT, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
                 else return null;
             }
             case PERCENT_DISCOUNT ->  {
-                if (value > 0 && value <= 100) return new PercentDiscountVoucher(UUID.randomUUID(), value);
+                if (value > 0 && value <= 100) return new PercentDiscountVoucher(UUID.randomUUID(), "PercentDiscountVoucherName", value, PERCENT_DISCOUNT, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
                 else return null;
             }
         }

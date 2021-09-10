@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.repository;
 
+import org.prgrms.kdtspringdemo.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.PercentDiscountVoucher;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -55,10 +58,10 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
                 String data = dataArray[2];
 
                 if (voucherType.equals("FixedAmountVoucher")) {
-                    var voucher = new FixedAmountVoucher(UUID.fromString(uuid), Long.parseLong(data));
+                    var voucher = new FixedAmountVoucher(UUID.fromString(uuid), "FixedAmountVoucherName", Long.parseLong(data), VoucherType.FIXED_AMOUNT, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
                     storage.put(voucher.getVoucherId(), voucher);
                 } else if (voucherType.equals("PercentDiscountVoucher")) {
-                    var voucher = new PercentDiscountVoucher(UUID.fromString(uuid), Long.parseLong(data));
+                    var voucher = new PercentDiscountVoucher(UUID.fromString(uuid), "PercentDiscountVoucherName", Long.parseLong(data), VoucherType.PERCENT_DISCOUNT, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
                     storage.put(voucher.getVoucherId(), voucher);
                 } else {
                     System.out.println("None VoucherType!!! : " + voucherType);
