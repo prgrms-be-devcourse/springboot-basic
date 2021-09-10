@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -100,14 +101,14 @@ public class CommandLineApplication implements Runnable{
     }
 
     private boolean isWrongType(String inputVoucherString) {
-        return !(inputVoucherString.contains("Fixed") || inputVoucherString.contains("Percent"));
+        return Arrays.stream(VoucherIndexType.values()).
+                noneMatch((value) ->
+                        value.name().equals(inputVoucherString.toUpperCase(Locale.ROOT)));
     }
 
+    Pattern numberPattern = Pattern.compile("^[0-9]*$");
 
     private boolean isNotDigit(String input) {
-        String pattern = "^[0-9]*$";
-        return !(Pattern.matches(pattern,input) && !input.isEmpty());
+        return !(numberPattern.matcher(input).matches() && !input.isEmpty());
     }
-
-
 }

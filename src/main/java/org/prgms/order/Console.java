@@ -40,6 +40,4 @@ import java.util.Scanner;
                 System.out.println(voucherService.getVoucherInfoById(voucher.getVoucherId()))
         );
     }
-
-
  }

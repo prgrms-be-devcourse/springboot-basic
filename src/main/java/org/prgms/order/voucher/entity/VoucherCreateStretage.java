@@ -25,8 +25,8 @@ public class VoucherCreateStretage {
 
 
 
-        private VoucherIndexType operator;
-        private Function<VoucherData,Voucher> expression;
+        private final VoucherIndexType operator;
+        private final Function<VoucherData,Voucher> expression;
 
         Operator(VoucherIndexType type, Function<VoucherData, Voucher> expression){
             this.operator = type;
@@ -38,7 +38,7 @@ public class VoucherCreateStretage {
         }
     }
 
-    private static Map<VoucherIndexType, Operator> operators = new HashMap<VoucherIndexType, Operator>();
+    private static final Map<VoucherIndexType, Operator> operators = new HashMap<VoucherIndexType, Operator>();
 
     static{
         for(Operator value : Operator.values())

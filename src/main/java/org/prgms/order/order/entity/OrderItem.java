@@ -24,4 +24,8 @@ public class OrderItem {
     public long getQuantity() {
         return quantity;
     }
+
+    public long calculateTotalAmount() {
+        return productPrice * quantity;
+    }
 }
