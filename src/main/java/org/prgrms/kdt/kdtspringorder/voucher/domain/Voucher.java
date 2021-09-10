@@ -1,5 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.voucher.domain;
 
+import lombok.Getter;
 import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.UUID;
 /**
  * 바우처 추상클래스
  */
+@Getter
 public abstract class Voucher implements Discountable, Serializable {
 
     private final UUID voucherId;
@@ -19,7 +21,7 @@ public abstract class Voucher implements Discountable, Serializable {
 
     private final long amount;
 
-    private boolean useYn;
+    private Boolean useYn;
 
     private LocalDateTime createdAt;
 
@@ -44,34 +46,6 @@ public abstract class Voucher implements Discountable, Serializable {
         this.useYn = useYn;
         this.createdAt = createdAt;
         this.usedAt = usedAt;
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    public long getAmount() {
-        return amount;
-    }
-
-    public boolean getUseYn() {
-        return useYn;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUsedAt() {
-        return usedAt;
     }
 
 }

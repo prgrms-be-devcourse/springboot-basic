@@ -1,8 +1,11 @@
 package org.prgrms.kdt.kdtspringorder.custommer.domain;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
 public class Customer {
 
     private UUID customerId;
@@ -22,26 +25,6 @@ public class Customer {
     public Customer(UUID customerId, String name) {
         this.customerId = customerId;
         this.name = name;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 
     private void validateName(String name) {
