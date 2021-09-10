@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS customers, vouchers;
 
 CREATE TABLE customers
 (
-    customer_id BINARY(16) PRIMARY KEY,
+    customer_id bigint(100) PRIMARY KEY,
     name varchar(20) NOT NULL,
     email varchar(50) NOT NULL,
     last_login_at datetime DEFAULT NULL,
@@ -12,10 +12,9 @@ CREATE TABLE customers
 
 CREATE TABLE vouchers
 (
-    voucher_id BINARY(16) PRIMARY KEY,
-    fixed boolean NOT NULL DEFAULT 0,
-    percent boolean NOT NULL DEFAULT 0,
+    voucher_id bigint(100) PRIMARY KEY,
+    type varchar(20) NOT NULL,
     amount long NOT NULL,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    customer_id BINARY(16) REFERENCES customers (customer_id) ON UPDATE CASCADE
+    customer_id bigint(100) REFERENCES customers (customer_id) ON UPDATE CASCADE
 );
