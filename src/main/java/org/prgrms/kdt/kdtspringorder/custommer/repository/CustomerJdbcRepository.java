@@ -46,7 +46,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public UUID insert(Customer customer) {
         final int update = jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
         if (update != 1) {
-            throw new CustomerNotFoundException(customer.getCustomerId());
+            throw new CustomerNotFoundException();
         }
         return customer.getCustomerId();
     }
@@ -56,7 +56,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         final int update = jdbcTemplate.update(UPDATE_SQL, toParamMap(customer));
 
         if (update != 1) {
-            throw new CustomerNotFoundException(customer.getCustomerId());
+            throw new CustomerNotFoundException();
         }
 
         return customer.getCustomerId();
@@ -120,7 +120,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         final int update = jdbcTemplate.update(DELETE_SQL, Map.of("customerId", customerId.toString()));
 
         if (update != 1) {
-            throw new CustomerNotFoundException(customerId);
+            throw new CustomerNotFoundException();
         }
 
         return update;

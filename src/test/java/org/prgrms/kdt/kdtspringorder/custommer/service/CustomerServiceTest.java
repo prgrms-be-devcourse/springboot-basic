@@ -178,7 +178,7 @@ class CustomerServiceTest {
             void setUp() {
                 invalidCustomerId = UUID.randomUUID();
                 updateTargetCustomer = new Customer(invalidCustomerId, "김지훈", "jihoon@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-                when(customerRepository.update(updateTargetCustomer)).thenThrow(new CustomerNotFoundException(invalidCustomerId));
+                when(customerRepository.update(updateTargetCustomer)).thenThrow(new CustomerNotFoundException());
             }
 
             @Test
@@ -232,7 +232,7 @@ class CustomerServiceTest {
             @BeforeEach
             void setUp() {
                 invalidCustomerId = UUID.randomUUID();
-                when(customerRepository.delete(invalidCustomerId)).thenThrow(new CustomerNotFoundException(invalidCustomerId));
+                when(customerRepository.delete(invalidCustomerId)).thenThrow(new CustomerNotFoundException());
             }
 
             @Test

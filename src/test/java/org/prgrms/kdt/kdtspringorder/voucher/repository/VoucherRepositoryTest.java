@@ -4,6 +4,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.kdtspringorder.common.enums.VoucherType;
 import org.prgrms.kdt.kdtspringorder.common.exception.VoucherNotFoundException;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
@@ -156,6 +157,41 @@ class VoucherRepositoryTest {
                 final List<Voucher> allocatedVoucherList = repository.findByCustomerId(newCustomerId);
                 assertThat(allocatedVoucherList, not(nullValue()));
                 assertThat(allocatedVoucherList, hasSize(1));
+            }
+
+        }
+
+    }
+
+    @Nested
+    @DisplayName("findByVoucherType 메서드는")
+    class Describe_findByVoucherType {
+
+        private Voucher newVoucher;
+        private UUID newVoucherId = UUID.randomUUID();
+        private UUID newCustomerId = UUID.randomUUID();
+        private long newVoucherDiscount = 100;
+        private VoucherType targetVoucherType;
+
+        @BeforeEach
+        void setUp() {
+            newVoucher = new FixedAmountVoucher(newVoucherId, newCustomerId, newVoucherDiscount);
+            repository.insert(newVoucher);
+            targetVoucherType = newVoucher.getVoucherType();
+        }
+
+        @Nested
+        @DisplayName("VoucherType으로 바우처를 조회한다면")
+        class Context_voucherType{
+            @Test
+            @DisplayName("해당 Voucher 타입의 바우처목록을 반환합니다.")
+            void it_return_voucher_list_by_voucher_type() {
+                final List<Voucher> voucherListByType = repository.findByVoucherType(targetVoucherType);
+                assertThat(voucherListByType, not(nullValue()));
+                assertThat(voucherListByType, hasSize(1));
+                voucherListByType.forEach(voucher -> {
+                    assertThat(voucher, instanceOf(newVoucher.getClass()));
+                });
             }
 
         }

@@ -3,7 +3,8 @@ package org.prgrms.kdt.kdtspringorder.common.aop;
 import lombok.extern.log4j.Log4j2;
 import org.prgrms.kdt.kdtspringorder.common.dto.ApiErrorResponse;
 import org.prgrms.kdt.kdtspringorder.common.dto.ApiResponse;
-import org.prgrms.kdt.kdtspringorder.common.enums.ErrorMessage;
+import org.prgrms.kdt.kdtspringorder.common.enums.ErrorInfo;
+import org.prgrms.kdt.kdtspringorder.common.exception.BusinessException;
 import org.prgrms.kdt.kdtspringorder.common.exception.VoucherNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,14 +42,15 @@ public class ControllerAdvice {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
-    @ExceptionHandler(VoucherNotFoundException.class)
-    public ResponseEntity<ApiResponse> handleVoucherNotFoundException(VoucherNotFoundException ex){
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ApiResponse> handleBusinessException(BusinessException ex){
 
         log.error("{}", ex);
 
+        final ErrorInfo errorInfo = ex.getErrorInfo();
         ApiErrorResponse apiErrorResponse = new ApiErrorResponse();
-        apiErrorResponse.setErrorCode("VOUCHER_NOT_FOUND");
-        apiErrorResponse.setErrorMessage(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage());
+        apiErrorResponse.setErrorCode(errorInfo.getCode());
+        apiErrorResponse.setErrorMessage(errorInfo.getMessage());
 
         ApiResponse apiResponse = ApiResponse.builder()
             .error(apiErrorResponse)
