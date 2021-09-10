@@ -1,9 +1,12 @@
 package org.prgrms.kdt.api;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.prgrms.kdt.api.Apis.CUSTOMER;
 import static org.prgrms.kdt.api.Apis.PRE_FIX;
+import static org.prgrms.kdt.api.Apis.SEARCH;
 import static org.prgrms.kdt.api.Apis.VOUCHER;
 import static org.prgrms.kdt.api.Apis.VOUCHERS;
+import static org.prgrms.kdt.api.Apis.VOUCHER_TYPE;
 import static org.prgrms.kdt.api.Apis.WALLET;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -175,7 +178,13 @@ public class ApisTest extends BaseApiTest {
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .characterEncoding("UTF-8")
                 .content(objectMapper.writeValueAsString(givenVoucherDto())))
-                .andDo(print());
+                .andDo(print())
+                .andExpect(jsonPath("$..voucherId").exists())
+                .andExpect(jsonPath("$..name").exists())
+                .andExpect(jsonPath("$..discount").exists())
+                .andExpect(jsonPath("$..voucherType").exists())
+                .andExpect(jsonPath("$..createdAt").exists());
+
     }
 
     @Test
@@ -192,6 +201,38 @@ public class ApisTest extends BaseApiTest {
                 .characterEncoding("UTF-8")
                 .content(objectMapper.writeValueAsString(dto)))
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("FIX 타입 바우처 조회 테스트")
+    void getVoucherByType() throws Exception {
+        initVoucher();      // FIX
+        initVoucher();      // FIX
+        voucherRepository.insert(new Voucher(UUID.randomUUID(), "test",100L, VoucherType.PERCENT, LocalDateTime.now()));
+
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + VOUCHER_TYPE, "FIX")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .characterEncoding("UTF-8"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$..voucherId").exists())
+                .andExpect(jsonPath("$..name").exists())
+                .andExpect(jsonPath("$..discount").exists())
+                .andExpect(jsonPath("$..voucherType").exists())
+                .andExpect(jsonPath("$..createdAt").exists());
+    }
+
+    @Test
+    @DisplayName("존재하지 안는 바우처 조회시 404 응답 테스트")
+    void getVoucherByType_badRequest() throws Exception {
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + VOUCHER_TYPE, "NOOOOOOP")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .characterEncoding("UTF-8"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     private VoucherDto givenVoucherDto() {

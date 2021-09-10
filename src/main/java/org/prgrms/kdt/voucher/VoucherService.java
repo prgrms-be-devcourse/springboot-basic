@@ -62,4 +62,10 @@ public class VoucherService {
     public void removeVoucher(String voucherId) {
         voucherRepository.deleteById(UUID.fromString(voucherId));
     }
+
+    public List<VoucherDto> getVoucherByVoucherType(String voucherType) {
+        return voucherRepository.findByVoucherType(VoucherType.valueOf(voucherType)).stream()
+                .map(VoucherMapper::voucherToVoucherDto)
+                .toList();
+    }
 }

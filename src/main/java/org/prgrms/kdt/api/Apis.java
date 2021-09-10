@@ -3,6 +3,7 @@ package org.prgrms.kdt.api;
 import static org.springframework.http.MediaType.*;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 import javax.validation.Valid;
 import org.prgrms.kdt.customer.CustomerDto;
@@ -12,6 +13,7 @@ import org.prgrms.kdt.exception.ErrorResponse;
 import org.prgrms.kdt.form.VoucherForm;
 import org.prgrms.kdt.voucher.VoucherDto;
 import org.prgrms.kdt.voucher.VoucherService;
+import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.wallet.WalletDto;
 import org.prgrms.kdt.wallet.WalletService;
 import org.springframework.http.MediaType;
@@ -39,6 +41,8 @@ public class Apis {
     protected static final String CUSTOMER = "/customers/{customerId}";
     protected static final String VOUCHER = "/vouchers/{voucherId}";
     protected static final String VOUCHERS = "/vouchers";
+    protected static final String SEARCH = "/search";
+    protected static final String VOUCHER_TYPE = "/{voucherType}";
 
     private final CustomerService customerService;
     private final VoucherService voucherService;
@@ -100,6 +104,14 @@ public class Apis {
         validateWalletDtoExistedId(walletDto);
         walletService.removeWallet(walletDto);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(VOUCHERS + SEARCH + VOUCHER_TYPE)
+    public ResponseEntity getByVoucherType(@PathVariable String voucherType) {
+        if (!VoucherType.isValue(voucherType)) {
+            throw  new BadRequestException("not exist : " + voucherType);
+        }
+        return ResponseEntity.ok().body(voucherService.getVoucherByVoucherType(voucherType));
     }
 
     private void validateWalletDtoExistedId(@RequestBody WalletDto walletDto) {
