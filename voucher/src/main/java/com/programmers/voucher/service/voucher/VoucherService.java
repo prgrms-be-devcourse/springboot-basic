@@ -1,6 +1,6 @@
 package com.programmers.voucher.service.voucher;
 
-import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 
 import java.util.List;
@@ -10,7 +10,7 @@ public interface VoucherService {
     void openStorage();
     void closeStorage();
 
-    Voucher create(String name, DiscountPolicy.Type type, int value, long customerId);
+    Voucher create(String name, DiscountType type, int value, long customerId);
     Optional<Voucher> findById(long id);
     List<Voucher> listAll();
 

@@ -28,7 +28,7 @@ public class Voucher implements Serializable {
             log.debug("Updated voucher name to {}", input);
         }),
         TYPE("type", (voucher, input) -> {
-            final DiscountPolicy.Type newType = DiscountPolicy.Type.of(input);
+            final DiscountType newType = DiscountType.of(input);
             log.debug("Updating voucher type from {} to {}", voucher.getDiscountPolicy().getType(), newType);
             voucher.getDiscountPolicy().updateType(newType);
             log.debug("Updated voucher type to {}", newType);
@@ -53,9 +53,7 @@ public class Voucher implements Serializable {
                 log.warn("Invalid number format. Please check your input.");
             }
         }),
-        UNKNOWN("unknown", (voucher, input) -> {
-            log.warn("Unknown update field. Please check your input.");
-        });
+        UNKNOWN("unknown", (voucher, input) -> log.warn("Unknown update field. Please check your input."));
 
         String name;
         BiConsumer<Voucher, String> behavior;

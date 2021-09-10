@@ -1,6 +1,7 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.repository.VoucherQuery;
 import org.slf4j.Logger;
@@ -108,7 +109,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public static final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> new Voucher(
             rs.getLong("voucher_id"),
             rs.getString("name"),
-            new DiscountPolicy(rs.getInt("value"), DiscountPolicy.Type.of(rs.getString("type"))),
+            new DiscountPolicy(rs.getInt("value"), DiscountType.of(rs.getString("type"))),
             rs.getTimestamp("created_at").toLocalDateTime().toLocalDate(),
             rs.getLong("customer_id"));
 }

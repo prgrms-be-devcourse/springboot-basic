@@ -1,6 +1,7 @@
 package com.programmers.voucher.service.voucher;
 
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
@@ -32,9 +33,8 @@ public class BasicVoucherService implements VoucherService {
     }
 
     @Override
-    public Voucher create(String name, DiscountPolicy.Type type, int value, long customerId) {
+    public Voucher create(String name, DiscountType type, int value, long customerId) {
         Voucher voucher = new Voucher(name, new DiscountPolicy(value, type), customerId);
-        applyDiscountPolicyConstraint(voucher);
         voucher = jdbcVoucherRepository.save(voucher);
         log.debug("Persisted voucher {} to repository", voucher);
         return voucher;
@@ -52,7 +52,6 @@ public class BasicVoucherService implements VoucherService {
 
     @Override
     public Voucher update(Voucher voucher) {
-        applyDiscountPolicyConstraint(voucher);
         jdbcVoucherRepository.update(voucher);
         return voucher;
     }
@@ -62,8 +61,4 @@ public class BasicVoucherService implements VoucherService {
         jdbcVoucherRepository.deleteById(voucherId);
     }
 
-    private void applyDiscountPolicyConstraint(Voucher voucher) {
-        final DiscountPolicy discountPolicy = voucher.getDiscountPolicy();
-        discountPolicy.updateAmount(discountPolicy.getType().getConstraint().apply(discountPolicy.getAmount()));
-    }
 }

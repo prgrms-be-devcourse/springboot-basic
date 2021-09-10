@@ -2,6 +2,7 @@ package com.programmers.voucher.service.relation;
 
 import com.programmers.voucher.entity.customer.Customer;
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.repository.customer.CustomerRepository;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
@@ -29,9 +30,9 @@ class CustomerWalletTest {
     @Test
     @DisplayName("Get customer owning specific voucher")
     void getCustomerByVoucher() {
-        Customer customer1 = new Customer(1, "username1", "alias", false, LocalDate.now());
-        Customer customer2 = new Customer(2, "username2", "alias", false, LocalDate.now());
-        Customer customer3 = new Customer(3, "username3", "alias", false, LocalDate.now());
+        Customer customer1 = new Customer(1L, "username1", "alias", false, LocalDate.now());
+        Customer customer2 = new Customer(2L, "username2", "alias", false, LocalDate.now());
+        Customer customer3 = new Customer(3L, "username3", "alias", false, LocalDate.now());
 
         long voucherId1 = 1111;
         long voucherId2 = 2222;
@@ -65,7 +66,7 @@ class CustomerWalletTest {
     void getVouchers() {
         List<Voucher> list = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
-            list.add(new Voucher(i + 1, "voucherName" + i, new DiscountPolicy(2500, DiscountPolicy.Type.FIXED), LocalDate.now(), 1000 + i));
+            list.add(new Voucher(i + 1, "voucherName" + i, new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1000 + i));
         }
         long customerId = 1;
         when(voucherRepository.findAllByCustomer(customerId))

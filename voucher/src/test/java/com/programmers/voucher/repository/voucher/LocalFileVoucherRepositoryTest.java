@@ -1,6 +1,7 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +35,7 @@ class LocalFileVoucherRepositoryTest {
     void createVoucher() {
         String voucherName = "voucher1";
         int price = 10000;
-        DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
+        DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
 
         final Voucher voucher = localFileVoucherRepository.save(new Voucher(voucherName, discountPolicy, -1));
         assertEquals(voucherName, voucher.getName());
@@ -49,7 +50,7 @@ class LocalFileVoucherRepositoryTest {
     @DisplayName("Voucher Read Test")
     void readVoucher() {
         String voucherName = "voucherReadme";
-        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
+        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
         final Voucher voucher = localFileVoucherRepository.save(new Voucher(voucherName, discountPolicy, -12345));
 
         final Optional<Voucher> byId = localFileVoucherRepository.findById(voucher.getId());
@@ -65,7 +66,7 @@ class LocalFileVoucherRepositoryTest {
     @DisplayName("Voucher Update Test")
     void updateVoucher() {
         String voucherName = "voucherUpdateMe";
-        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
+        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
         final Voucher voucher = localFileVoucherRepository.save(new Voucher(voucherName, discountPolicy, -1));
 
         discountPolicy.updateAmount(5000);
@@ -75,18 +76,18 @@ class LocalFileVoucherRepositoryTest {
         assertTrue(updatedAmount.isPresent());
         assertEquals(5000, updatedAmount.get().getDiscountPolicy().getAmount());
 
-        discountPolicy.updateType(DiscountPolicy.Type.PERCENTAGE);
+        discountPolicy.updateType(DiscountType.PERCENTAGE);
         localFileVoucherRepository.update(voucher);
 
         final Optional<Voucher> updatedType = localFileVoucherRepository.findById(voucher.getId());
         assertTrue(updatedType.isPresent());
-        assertEquals(DiscountPolicy.Type.PERCENTAGE, updatedType.get().getDiscountPolicy().getType());
+        assertEquals(DiscountType.PERCENTAGE, updatedType.get().getDiscountPolicy().getType());
     }
 
     @Test
     @DisplayName("Voucher Deletion Test")
     void deleteVoucher() {
-        final Voucher voucher = localFileVoucherRepository.save(new Voucher("voucher", new DiscountPolicy(2500, DiscountPolicy.Type.FIXED), -1));
+        final Voucher voucher = localFileVoucherRepository.save(new Voucher("voucher", new DiscountPolicy(2500, DiscountType.FIXED), -1));
         localFileVoucherRepository.deleteById(voucher.getId());
         assertTrue(localFileVoucherRepository.findById(voucher.getId()).isEmpty());
     }
@@ -94,7 +95,7 @@ class LocalFileVoucherRepositoryTest {
     @Test
     @DisplayName("Local File Input/Output Test")
     void fileIO() {
-        final Voucher voucher = localFileVoucherRepository.save(new Voucher("fileIO", new DiscountPolicy(1000, DiscountPolicy.Type.FIXED), -1));
+        final Voucher voucher = localFileVoucherRepository.save(new Voucher("fileIO", new DiscountPolicy(1000, DiscountType.FIXED), -1));
         localFileVoucherRepository.persistVouchers();
         localFileVoucherRepository.loadVouchers();
         assertTrue(localFileVoucherRepository.findById(voucher.getId()).isPresent());

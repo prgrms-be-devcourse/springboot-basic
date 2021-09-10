@@ -1,7 +1,7 @@
 package com.programmers.voucher;
 
 import com.programmers.voucher.config.ApplicationMessages;
-import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.customer.CustomerService;
 import com.programmers.voucher.service.customer.CustomerVoucherService;
@@ -79,7 +79,7 @@ public class VoucherProjectApplication {
     public enum Command {
         CREATE_VOUCHER("create_voucher", () -> {
             String voucherName = acquireInputUntil(applicationMessages.getRequireName(), string -> string);
-            DiscountPolicy.Type voucherType = acquireInputUntil(applicationMessages.getRequireType(), DiscountPolicy.Type::of);
+            DiscountType voucherType = acquireInputUntil(applicationMessages.getRequireType(), DiscountType::of);
             int voucherAmount = acquireInputUntil(applicationMessages.getRequireAmount(), Integer::parseUnsignedInt);
             long customerId = acquireInputUntil(applicationMessages.getRequireCustomerId(), Long::parseUnsignedLong);
             printOutput("", voucherService.create(voucherName, voucherType, voucherAmount, customerId));

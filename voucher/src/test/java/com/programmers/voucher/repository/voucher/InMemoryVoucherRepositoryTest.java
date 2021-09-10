@@ -1,6 +1,7 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class InMemoryVoucherRepositoryTest {
     void createVoucher() {
         String voucherName = "voucher1";
         int price = 10000;
-        DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
+        DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
 
         final Voucher voucher = inMemoryVoucherRepository.save(new Voucher(voucherName, discountPolicy, -1));
         assertEquals(voucherName, voucher.getName());
@@ -38,7 +39,7 @@ class InMemoryVoucherRepositoryTest {
     @DisplayName("Voucher Read Test")
     void readVoucher() {
         String voucherName = "voucherReadme";
-        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
+        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
         final Voucher voucher = inMemoryVoucherRepository.save(new Voucher(voucherName, discountPolicy, -1));
 
         final Optional<Voucher> byId = inMemoryVoucherRepository.findById(voucher.getId());
@@ -54,7 +55,7 @@ class InMemoryVoucherRepositoryTest {
     @DisplayName("Voucher Update Test")
     void updateVoucher() {
         String voucherName = "voucherUpdateMe";
-        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
+        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
         final Voucher voucher = inMemoryVoucherRepository.save(new Voucher(voucherName, discountPolicy, -1));
 
         discountPolicy.updateAmount(5000);
@@ -64,18 +65,18 @@ class InMemoryVoucherRepositoryTest {
         assertTrue(updatedAmount.isPresent());
         assertEquals(5000, updatedAmount.get().getDiscountPolicy().getAmount());
 
-        discountPolicy.updateType(DiscountPolicy.Type.PERCENTAGE);
+        discountPolicy.updateType(DiscountType.PERCENTAGE);
         inMemoryVoucherRepository.update(voucher);
 
         final Optional<Voucher> updatedType = inMemoryVoucherRepository.findById(voucher.getId());
         assertTrue(updatedType.isPresent());
-        assertEquals(DiscountPolicy.Type.PERCENTAGE, updatedType.get().getDiscountPolicy().getType());
+        assertEquals(DiscountType.PERCENTAGE, updatedType.get().getDiscountPolicy().getType());
     }
 
     @Test
     @DisplayName("Voucher Deletion Test")
     void deleteVoucher() {
-        final Voucher voucher = inMemoryVoucherRepository.save(new Voucher("voucher", new DiscountPolicy(2500, DiscountPolicy.Type.FIXED), -1));
+        final Voucher voucher = inMemoryVoucherRepository.save(new Voucher("voucher", new DiscountPolicy(2500, DiscountType.FIXED), -1));
         inMemoryVoucherRepository.deleteById(voucher.getId());
         assertTrue(inMemoryVoucherRepository.findById(voucher.getId()).isEmpty());
     }

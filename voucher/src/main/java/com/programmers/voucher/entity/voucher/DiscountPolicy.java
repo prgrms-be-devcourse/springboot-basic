@@ -2,58 +2,19 @@ package com.programmers.voucher.entity.voucher;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.function.BinaryOperator;
-import java.util.function.UnaryOperator;
 
 public class DiscountPolicy implements Serializable {
 
-    public enum Type {
-        FIXED(
-                (price, discount) -> Math.max(price - discount, 0),
-                input -> Math.max(input, 0)),
-        PERCENTAGE(
-                (price, discount) -> Math.min(price * (100 - discount) / 100, price),
-                input -> Math.min(Math.max(input, 0), 100));
-
-        BinaryOperator<Integer> operation;
-        UnaryOperator<Integer> constraint;
-
-        public BinaryOperator<Integer> getOperation() {
-            return operation;
-        }
-
-        public UnaryOperator<Integer> getConstraint() {
-            return constraint;
-        }
-
-        public int constraint(int original) {
-            return this.constraint.apply(original);
-        }
-
-        Type(BinaryOperator<Integer> operation, UnaryOperator<Integer> constraint) {
-            this.operation = operation;
-            this.constraint = constraint;
-        }
-
-        public static Type of(String input) {
-            try {
-                return Type.valueOf(input.toUpperCase());
-            } catch (IllegalArgumentException ex) {
-                return Type.FIXED;
-            }
-        }
-    }
-
     private int amount;
-    private Type type;
+    private DiscountType type;
 
-    public DiscountPolicy(int amount, Type type) {
-        this.amount = amount;
+    public DiscountPolicy(int amount, DiscountType type) {
         this.type = type;
+        this.amount = type.constraint(amount);
     }
 
     public int discount(int price) {
-        return type.operation.apply(price, amount);
+        return type.discount(price, amount);
     }
 
     public int getAmount() {
@@ -65,11 +26,11 @@ public class DiscountPolicy implements Serializable {
         this.amount = amount;
     }
 
-    public Type getType() {
+    public DiscountType getType() {
         return type;
     }
 
-    public void updateType(Type type) {
+    public void updateType(DiscountType type) {
         this.type = type;
         this.amount = type.constraint(amount);
     }

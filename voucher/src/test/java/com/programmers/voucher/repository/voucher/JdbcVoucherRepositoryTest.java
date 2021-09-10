@@ -2,6 +2,7 @@ package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.entity.customer.Customer;
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,7 @@ class JdbcVoucherRepositoryTest {
 
         String voucherName = "voucher1";
         int price = 10000;
-        DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
+        DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
 
         final Voucher voucher = jdbcVoucherRepository.save(new Voucher(voucherName, discountPolicy, customer.getId()));
         assertEquals(voucherName, voucher.getName());
@@ -60,7 +61,7 @@ class JdbcVoucherRepositoryTest {
         final Customer customer = customerRepository.save(new Customer("username", "alias"));
 
         String voucherName = "voucherReadme";
-        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
+        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
         final Voucher voucher = jdbcVoucherRepository.save(new Voucher(voucherName, discountPolicy, customer.getId()));
 
         final Optional<Voucher> byId = jdbcVoucherRepository.findById(voucher.getId());
@@ -78,7 +79,7 @@ class JdbcVoucherRepositoryTest {
         final Customer customer = customerRepository.save(new Customer("username", "alias"));
 
         String voucherName = "voucherUpdateMe";
-        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountPolicy.Type.FIXED);
+        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
         final Voucher voucher = jdbcVoucherRepository.save(new Voucher(voucherName, discountPolicy, customer.getId()));
 
         discountPolicy.updateAmount(5000);
@@ -88,19 +89,19 @@ class JdbcVoucherRepositoryTest {
         assertTrue(updatedAmount.isPresent());
         assertEquals(5000, updatedAmount.get().getDiscountPolicy().getAmount());
 
-        discountPolicy.updateType(DiscountPolicy.Type.PERCENTAGE);
+        discountPolicy.updateType(DiscountType.PERCENTAGE);
         jdbcVoucherRepository.update(voucher);
 
         final Optional<Voucher> updatedType = jdbcVoucherRepository.findById(voucher.getId());
         assertTrue(updatedType.isPresent());
-        assertEquals(DiscountPolicy.Type.PERCENTAGE, updatedType.get().getDiscountPolicy().getType());
+        assertEquals(DiscountType.PERCENTAGE, updatedType.get().getDiscountPolicy().getType());
     }
 
     @Test
     @DisplayName("Voucher Deletion Test")
     void deleteVoucher() {
         final Customer customer = customerRepository.save(new Customer("username", "alias"));
-        final Voucher voucher = jdbcVoucherRepository.save(new Voucher("voucher", new DiscountPolicy(2500, DiscountPolicy.Type.FIXED), customer.getId()));
+        final Voucher voucher = jdbcVoucherRepository.save(new Voucher("voucher", new DiscountPolicy(2500, DiscountType.FIXED), customer.getId()));
         jdbcVoucherRepository.deleteById(voucher.getId());
         assertTrue(jdbcVoucherRepository.findById(voucher.getId()).isEmpty());
     }
