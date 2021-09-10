@@ -8,6 +8,7 @@ public class Output {
         System.out.println("Type 'exit' for Exit.");
         System.out.println("Type 'create' to create a new voucher");
         System.out.println("Type 'list' to list all vouchers");
+        System.out.println("Type 'blacklist' to list all blacklists");
     }
 
     public static void inputTypeError(final String commandInput) {

@@ -45,7 +45,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     storage.put(voucherId, new PercentDiscountVoucher(voucherId, discountAmount));
                 }
             }
-            System.out.println("File Read Complete!");
+            System.out.println("Voucher File Read Complete!");
         } catch (final IOException e) {
             e.printStackTrace();
         }
