@@ -1,6 +1,6 @@
 package org.prgrms.kdt.kdtspringorder.common.enums;
 
-import org.prgrms.kdt.kdtspringorder.voucher.domain.Discountable;
+import org.prgrms.kdt.kdtspringorder.common.exception.VoucherTypeNotFoundException;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
@@ -76,7 +76,7 @@ public enum VoucherType {
      */
     public static VoucherType findVoucherType(String voucherTypeFlag) {
         Optional<VoucherType> foundVoucher = Arrays.stream(values()).filter(v -> (v.getValue().equals(voucherTypeFlag))).findFirst();
-        return foundVoucher.orElseThrow(() -> new IllegalArgumentException());
+        return foundVoucher.orElseThrow(() -> new VoucherTypeNotFoundException());
     }
 
     /**
