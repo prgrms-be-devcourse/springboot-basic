@@ -41,4 +41,21 @@ public class ControllerAdvice {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
+    @ExceptionHandler(VoucherNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleVoucherNotFoundException(VoucherNotFoundException ex){
+
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse();
+        apiErrorResponse.setErrorCode("VOUCHER_NOT_FOUND");
+        apiErrorResponse.setErrorMessage(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage());
+
+        ApiResponse apiResponse = ApiResponse.builder()
+            .error(apiErrorResponse)
+            .status(HttpStatus.BAD_REQUEST)
+            .success(false)
+            .build();
+
+        return ResponseEntity.badRequest().body(apiResponse);
+
+    }
+
 }

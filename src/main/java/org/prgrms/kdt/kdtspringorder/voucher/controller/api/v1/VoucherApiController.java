@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +48,24 @@ public class VoucherApiController {
 
         final ApiResponse apiResponse = ApiResponse.builder()
             .status(HttpStatus.CREATED)
+            .success(true)
+            .build();
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
+
+    @DeleteMapping("/voucher/{voucherId}")
+    public ResponseEntity<ApiResponse> delete( @PathVariable("voucherId") UUID voucherId) {
+
+        logger.debug("Access delete()");
+        logger.info("[Param] voucherId = " + voucherId);
+
+        this.voucherService.deleteVoucher(voucherId);
+
+        final ApiResponse apiResponse = ApiResponse.builder()
+            .status(HttpStatus.OK)
             .success(true)
             .build();
 
