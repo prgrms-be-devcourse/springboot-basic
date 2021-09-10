@@ -10,7 +10,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
 @ContextConfiguration(classes = Config.class)
@@ -24,7 +23,7 @@ class VoucherOperatorTest{
         var voucherUp = voucherOperator.create("F 100050".split(" "));
         var voucherDown = voucherOperator.create("F 0".split(" "));
 
-        assertThat(voucher.getAmount(), is(99L));
+        assertThat(voucher.getDiscount(), is(99L));
         assertThat(voucherUp, is(nullValue()));
         assertThat(voucherDown, is(nullValue()));
     }
@@ -36,7 +35,7 @@ class VoucherOperatorTest{
         var voucherUp = voucherOperator.create("P 105".split(" "));
         var voucherDown = voucherOperator.create("P 0".split(" "));
 
-        assertThat(voucher.getAmount(), is(99L));
+        assertThat(voucher.getDiscount(), is(99L));
         assertThat(voucherUp, is(nullValue()));
         assertThat(voucherDown, is(nullValue()));
     }

@@ -2,7 +2,6 @@ package org.prgrms.kdtspringdemo.voucher;
 
 import org.prgrms.kdtspringdemo.VoucherType;
 
-import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,6 +12,6 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     public long discount(long beforeDiscount) {
-        return beforeDiscount - getAmount();
+        return beforeDiscount - getDiscount();
     }
 }

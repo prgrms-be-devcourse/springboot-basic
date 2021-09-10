@@ -2,7 +2,6 @@ package org.prgrms.kdtspringdemo.voucher;
 
 import org.prgrms.kdtspringdemo.VoucherType;
 
-import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,6 +13,6 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (getAmount() / 100);
+        return beforeDiscount * (getDiscount() / 100);
     }
 }
