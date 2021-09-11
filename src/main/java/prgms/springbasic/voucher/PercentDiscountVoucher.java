@@ -1,5 +1,6 @@
 package prgms.springbasic.voucher;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -32,5 +33,18 @@ public class PercentDiscountVoucher implements Voucher {
         return getClass().getSimpleName() + ", "
                 + getDiscountValue() + ", "
                 + getVoucherId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return percent == that.percent && Objects.equals(voucherId, that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, percent);
     }
 }

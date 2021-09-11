@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +50,7 @@ public class CustomerBlacklistRepository implements CustomerRepository {
         } catch (IOException e) {
             throw new RuntimeException("레포지토리를 읽을 수 없습니다.");
         }
-        return null;
+        throw new RuntimeException(MessageFormat.format("해당 이름의 고객을 찾을 수 없습니다. name -> {0}", name));
     }
 
     @Override

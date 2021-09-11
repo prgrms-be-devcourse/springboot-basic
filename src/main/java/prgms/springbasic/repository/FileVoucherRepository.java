@@ -82,7 +82,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private static Voucher makeVoucher(String[] voucherInfo) {
-        if (voucherInfo[TYPE].equals(FixedAmountVoucher.class.getSimpleName())) {
+        if (voucherInfo[TYPE].equals("FixedAmountVoucher")) {
             new FixedAmountVoucher(UUID.fromString(voucherInfo[VOUCHER_ID]), Long.parseLong(voucherInfo[DISCOUNT_VALUE]));
         }
         return new PercentDiscountVoucher(UUID.fromString(voucherInfo[VOUCHER_ID]), Long.parseLong(voucherInfo[DISCOUNT_VALUE]));
