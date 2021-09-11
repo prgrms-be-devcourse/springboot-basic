@@ -4,14 +4,17 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.UUID;
 
 @Service
+@Profile("dev")
 public class VoucherService {
-    private final VoucherRepository voucherRepository;
+    private static VoucherRepository voucherRepository;
 
     public VoucherService(final VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -29,10 +32,14 @@ public class VoucherService {
         }
     }
 
-    public Voucher getVoucher(final UUID voucherId) {
+    public static Voucher getVoucher(final UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+    }
+
+    public static List<Voucher> getAllVoucher() {
+        return voucherRepository.findAll();
     }
 
     public void useVoucher(final Voucher voucher) {

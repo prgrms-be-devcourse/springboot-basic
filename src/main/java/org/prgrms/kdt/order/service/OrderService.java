@@ -4,12 +4,14 @@ import org.prgrms.kdt.order.Order;
 import org.prgrms.kdt.order.OrderItem;
 import org.prgrms.kdt.order.repository.OrderRepository;
 import org.prgrms.kdt.voucher.service.VoucherService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Profile("file")
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;

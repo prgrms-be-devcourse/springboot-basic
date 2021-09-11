@@ -2,15 +2,16 @@ package org.prgrms.kdt.command;
 
 import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.customer.service.CustomerService;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class CommandLineApplication {
-    public void run(final VoucherRepository voucherRepository) {
+public class CommandLineApplication implements Runnable {
+    @Override
+    public void run() {
         boolean programRunning = true;
         do {
             Output.commandChooseMessage();
@@ -29,8 +30,9 @@ public class CommandLineApplication {
                     break;
 
                 case "list":
-                    for (int i = 0; i < voucherRepository.findAll().size(); i++) {
-                        System.out.println(voucherRepository.findAll().get(i));
+                    final List<Voucher> allVoucherList = VoucherService.getAllVoucher();
+                    for (final Voucher voucher : allVoucherList) {
+                        System.out.println(voucher);
                     }
                     break;
 

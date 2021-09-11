@@ -1,13 +1,18 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.command.CommandLineApplication;
-import org.prgrms.kdt.voucher.repository.FileVoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 public class CommandLineApplicationContext {
     public static void main(final String[] args) {
-        final AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        applicationContext.getBean(CommandLineApplication.class).run(applicationContext.getBean(FileVoucherRepository.class));
+        final AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+        final ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("dev");
+        applicationContext.refresh();
+
+        applicationContext.getBean(CommandLineApplication.class).run();
         applicationContext.close();
     }
 }

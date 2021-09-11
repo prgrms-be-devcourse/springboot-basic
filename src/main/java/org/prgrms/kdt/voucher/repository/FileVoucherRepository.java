@@ -3,7 +3,7 @@ package org.prgrms.kdt.voucher.repository;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Qualifier("file")
+@Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
     private static final Path FILE_PATH = Paths.get(System.getProperty("user.dir"), "src/main/resources/voucher.csv");
     private static final String DELIMITER = ",";
