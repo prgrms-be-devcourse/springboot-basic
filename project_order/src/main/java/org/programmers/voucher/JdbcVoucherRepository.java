@@ -54,7 +54,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher assignToCustomer(Customer customer, Voucher voucher) {
-        var update = jdbcTemplate.update("UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)", toParamMap(customer, voucher));
+        var update = jdbcTemplate.update("UPDATE vouchers SET owner_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)", toParamMap(customer, voucher));
         if (update != 1)
             throw new RuntimeException("Failed to assign voucher to customer");
         return voucher;
@@ -101,8 +101,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteByCustomerId(Customer customerId) {
-        jdbcTemplate.update("DELETE FROM vouchers where owner_id = :ownerId", Collections.singletonMap("ownerId", customerId.toString().getBytes()));
+    public void deleteByOwnerId(UUID ownerId) {
+        jdbcTemplate.update("DELETE FROM vouchers where owner_id = :ownerId", Collections.singletonMap("ownerId", ownerId.toString().getBytes()));
     }
 
     static UUID toUUID(byte[] bytes) {
