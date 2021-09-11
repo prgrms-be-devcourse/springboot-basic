@@ -19,4 +19,6 @@ public abstract class Voucher implements Discountable {
         this.name = name;
         this.createdAt = createdAt;
     }
+
+    public abstract VoucherType getVoucherType();
 }

@@ -20,6 +20,11 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENTDISCOUNT;
+    }
+
+    @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
                 "voucherId=" + voucherId +
