@@ -3,6 +3,7 @@ package org.prgrms.kdt.command;
 import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.customer.service.CustomerService;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class CommandLineApplication {
     public void run(final VoucherRepository voucherRepository) {
         boolean programRunning = true;
         do {
-            Output.commandChoose();
+            Output.commandChooseMessage();
 
             final String commandInput = Input.input();
             switch (commandInput) {
@@ -21,8 +22,10 @@ public class CommandLineApplication {
                     break;
 
                 case "create":
-                    Output.voucherChoose();
-                    voucherRepository.insert(CommandCreate.createVoucherType());
+                    Output.voucherChooseMessage();
+                    final String voucherType = CommandCreate.createVoucherType();
+                    final long voucherDiscountValue = CommandCreate.createVoucherDiscountValue(voucherType);
+                    VoucherService.createVoucher(voucherType, voucherDiscountValue);
                     break;
 
                 case "list":
@@ -39,7 +42,7 @@ public class CommandLineApplication {
                     break;
 
                 default:
-                    Output.inputTypeError(commandInput);
+                    Output.inputTypeErrorMessage(commandInput);
                     break;
             }
         } while (programRunning);

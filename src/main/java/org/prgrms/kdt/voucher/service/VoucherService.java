@@ -4,7 +4,6 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -14,7 +13,7 @@ import java.util.UUID;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(@Qualifier("file") final VoucherRepository voucherRepository) {
+    public VoucherService(final VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
