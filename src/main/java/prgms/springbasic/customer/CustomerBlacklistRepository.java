@@ -29,7 +29,7 @@ public class CustomerBlacklistRepository implements CustomerRepository {
             bufferedWriter.write(customer.toString() + System.lineSeparator());
             bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("레포지토리에 고객을 저장할 수 없습니다.");
         }
         return customer;
     }
@@ -47,7 +47,7 @@ public class CustomerBlacklistRepository implements CustomerRepository {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("레포지토리를 읽을 수 없습니다.");
         }
         return null;
     }
@@ -63,7 +63,7 @@ public class CustomerBlacklistRepository implements CustomerRepository {
                 blackList.add(new Customer(splited[0], UUID.fromString(splited[1])));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("레포지토리를 읽을 수 없습니다.");
         }
         return blackList;
     }
