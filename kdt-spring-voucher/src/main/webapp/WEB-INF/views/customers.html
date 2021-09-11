@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Home</title>
+</head>
+<body>
+    <h1>KDT SPRING APP</h1>
+    <img th:src="@{/resources/iu.jpeg}" class="img-fluid">
+    <p th:text="'the time on the server is ' + ${serverTime}">----</p>
+    <br/>
+    <h2>Customer Table</h2>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a th:href="@{/customers/new}" class="btn btn-primary me-md-2" type="button">Create Customer</a>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">CreatedAt</th>
+            <th scope="col">LastLoginAt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customers}">
+        <tr th:each="customer : ${customers}" th:object="${customer}">
+            <td th:text="${customer.customerId}"></td>
+            <td th:text="*{name}"></td>
+            <td th:text="*{email}"></td>
+            <td th:text="*{createdAt}"></td>
+            <td th:text="*{lastLoginAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

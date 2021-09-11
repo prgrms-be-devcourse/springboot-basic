@@ -1,22 +1,17 @@
 package org.prgrms.kdt.jdbcRepository;
 
-import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.domain.VoucherEntity;
-import org.prgrms.kdt.enumType.VoucherStatus;
 import org.prgrms.kdt.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
-import java.sql.Timestamp;
 import java.util.*;
 
-import static org.prgrms.kdt.utill.EntityUtill.toVoucherParamMap;
-import static org.prgrms.kdt.utill.EntityUtill.voucherEntityRowMapper;
+import static org.prgrms.kdt.utill.EntityUtil.toVoucherParamMap;
+import static org.prgrms.kdt.utill.EntityUtil.voucherEntityRowMapper;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {

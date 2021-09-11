@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: yujihun
+Build-Jdk: version 11.0.2
+Implementation-Title: kdt-spring-voucher
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: org.prgrms.kdt
+Main-Class: ${start-class}
+

@@ -15,11 +15,15 @@ public class CommandLineApplication {
     public static void main(String[] args) {
         AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
 
-        var springApplication = new SpringApplication(CommandLineApplication.class);
-//        springApplication.setAdditionalProfiles("local");
-        var applicationContext = springApplication.run(args);
-        VoucherController voucherController = new VoucherController();
-        voucherController.run();
+
+//        var springApplication = new SpringApplication(CommandLineApplication.class);
+////        springApplication.setAdditionalProfiles("local");
+//        var applicationContext = springApplication.run(args);
+//        VoucherController voucherController = new VoucherController();
+//        voucherController.run();
+
+        SpringApplication.run(CommandLineApplication.class, args);
+
 
     }
 

@@ -2,23 +2,17 @@ package org.prgrms.kdt.jdbcRepository;
 
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.repository.CustomerRepository;
-import org.prgrms.kdt.utill.EntityUtill;
+import org.prgrms.kdt.utill.EntityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.*;
 
-import static org.prgrms.kdt.utill.EntityUtill.customerEntityRowMapper;
-import static org.prgrms.kdt.utill.EntityUtill.toCustomerParamMap;
+import static org.prgrms.kdt.utill.EntityUtil.customerEntityRowMapper;
+import static org.prgrms.kdt.utill.EntityUtil.toCustomerParamMap;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
@@ -27,7 +21,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static EntityUtill entityUtill;
+    private static EntityUtil entityUtill;
 
 
 

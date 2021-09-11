@@ -14,7 +14,7 @@ import java.util.UUID;
 
 
 @Component
-public class EntityUtill {
+public class EntityUtil {
 
     public static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);

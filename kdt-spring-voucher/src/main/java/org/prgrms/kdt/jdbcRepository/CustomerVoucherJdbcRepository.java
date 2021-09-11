@@ -2,8 +2,6 @@ package org.prgrms.kdt.jdbcRepository;
 
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.domain.CustomerVoucherEntity;
-import org.prgrms.kdt.domain.VoucherEntity;
-import org.prgrms.kdt.enumType.VoucherStatus;
 import org.prgrms.kdt.repository.CustomerVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.*;
 
-import static org.prgrms.kdt.utill.EntityUtill.*;
+import static org.prgrms.kdt.utill.EntityUtil.*;
 
 @Repository
 public class CustomerVoucherJdbcRepository implements CustomerVoucherRepository {
