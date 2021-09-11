@@ -23,7 +23,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public VoucherType getVoucherType() {
-        return VoucherType.PERCENTDISCOUNT;
+        return VoucherType.FIXEDAMOUNT;
     }
 
     @Override
