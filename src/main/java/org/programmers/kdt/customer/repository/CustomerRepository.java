@@ -7,11 +7,24 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
-    Customer save(Customer customer);
-    Customer registerToBlackList(Customer customer);
+    Customer insert(Customer customer);
+    default void deleteCustomer(Customer customer) {
+        deleteCustomer(customer.getCustomerId());
+    }
+    void deleteCustomer(UUID customerId);
+
     Optional<Customer> findById(UUID customerId);
-    Optional<List<Customer>> findByName(String name);
-    Optional<List<Customer>> findByEmail(String name);
-    List<Customer> findBlackListCustomers();
+    List<Customer> findByName(String name);
+    Optional<Customer> findByEmail(String email);
+
     List<Customer> findAll();
+
+    Customer registerToBlacklist(Customer customer);
+    List<Customer> findAllBlacklistCustomer();
+    Optional<Customer> findCustomerOnBlacklistById(UUID customerId);
+    default Optional<Customer> findCustomerOnBlacklistById(Customer customer) {
+        return findCustomerOnBlacklistById(customer.getCustomerId());
+    }
+
+    void deleteAll();
 }

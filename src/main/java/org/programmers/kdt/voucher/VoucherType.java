@@ -14,10 +14,10 @@ public enum VoucherType {
 
     public static VoucherType of(String type) {
         return Arrays.stream(values())
-                .filter(iter -> iter.getVoucherType().equals(type.toLowerCase()))
+                .filter(iter -> type.toLowerCase().startsWith(iter.getVoucherType()))
                 .findAny()
                 .orElseThrow(
-                        () -> new RuntimeException(MessageFormat.format("Invalid voucher type : {0}", type))
+                        () -> new RuntimeException(MessageFormat.format("Invalid voucher Type : {0}", type))
                 );
     }
 

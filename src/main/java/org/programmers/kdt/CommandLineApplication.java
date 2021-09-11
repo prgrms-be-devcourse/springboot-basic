@@ -1,26 +1,41 @@
 package org.programmers.kdt;
 
+import org.programmers.kdt.command.Command;
 import org.programmers.kdt.io.Input;
 import org.programmers.kdt.io.Output;
-import org.programmers.kdt.usercommand.UserCommand;
-import org.programmers.kdt.utils.MyUtils;
-import org.programmers.kdt.voucher.*;
+import org.programmers.kdt.utils.DigitUtils;
+import org.programmers.kdt.voucher.Voucher;
+import org.programmers.kdt.voucher.VoucherType;
 import org.programmers.kdt.voucher.service.VoucherService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
+@Component
 public class CommandLineApplication implements Runnable {
     private final Input input;
     private final Output output;
 
-    private final String welcomeMessage
-            = "\n=== Voucher Program ===\nType create to create a voucher.\nType list to list all vouchers.\nType exit to exit the program.";
-    private final String voucherTypeRequestMessage
-            = "Choose your voucher type(FixedAmountVoucher = fixed, PercentDiscountVoucher = percent)";
+    private final String requestCommandMeesage
+            = MessageFormat.format(
+                    """
+                    
+                    === Voucher Program ===
+                    [Type {0} to exit the program]
+                    Type {1} to create a voucher.
+                    Type {2} to list all voucher.
+                    Type {3} to enter customer managing page.
+                    """,
+            Command.EXIT, Command.CREATE, Command.LIST, Command.CUSTOMER);
+    private final String requestVoucherTypeMessage
+            = MessageFormat.format("Choose voucher type : {0}", List.of(VoucherType.values()));
 
+    @Autowired
     public CommandLineApplication(Input input, Output output) {
         this.input = input;
         this.output = output;
@@ -37,43 +52,63 @@ public class CommandLineApplication implements Runnable {
 
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
 
-
         boolean termi = false;
-        do {
-            UserCommand command;
-            try {
-                command = UserCommand.of(input.input(this.welcomeMessage));
-            } catch (RuntimeException e) {
-                output.inputError("Invalid Command. Valid Command : " + List.of(UserCommand.values()));
-                continue;
-            }
-            // String command = input.input(this.welcomeMessage);
-            // TODO: "create", "list" 처럼 문자열을 직접 사용하지 않고, 상수 또는 ENUM 등을 사용하는 방식으로 바꿔보기
+        while (!termi) {
+            Command command;
+
+            command = Command.getCommandFromInput(requestCommandMeesage, Command.getVoucherApplicationCommand(), input, output);
+            if (command == null) continue;
+
             switch (command) {
                 case CREATE -> {
                     VoucherType voucherType;
-                    try {
-                        voucherType = VoucherType.of(input.input(voucherTypeRequestMessage));
-                    } catch (RuntimeException e) {
-                        output.inputError("Invalid Input. You can create " + List.of(VoucherType.values()) + " discount voucher");
-                        continue;
-                    }
+
+                    voucherType = getVoucherType();
+                    if (voucherType == null) continue;
 
                     String discount = input.input("How much of a discount do you want to give?");
-                    while (!MyUtils.isDigits(discount)) {
-                        output.inputError("Invalid Input. Only digits are allowed");
+                    while (!DigitUtils.isDigits(discount)) {
+                        output.inputError("Invalid Input. Only digits are allowed.");
                         discount = input.input("How much of a discount do you want to give?");
                     }
 
-                    Voucher voucher = voucherService.createVoucher(voucherType, UUID.randomUUID(), Long.parseLong(discount));
-                    output.printSuccessAddVoucher(voucher);
+                    Voucher voucher;
+                    try {
+                        voucher = voucherService.createVoucher(voucherType, UUID.randomUUID(), Long.parseLong(discount));
+                    } catch (RuntimeException e) {
+                        output.inputError(e.getMessage());
+                        continue;
+                    }
+                    output.printSuccessMessage();
+                    output.print(voucherService.getPrintFormat(voucher));
                 }
-                case LIST -> output.printAllVouchersInfo(voucherService.getAllVoucher());
+                case LIST -> {
+                    List<Voucher> allVoucher = voucherService.getAllVouchers();
+                    for (Voucher voucher : allVoucher) {
+                        output.print(voucherService.getPrintFormat(voucher));
+                    }
+                }
                 case EXIT -> {
                     output.sayGoodBye();
                     termi = true;
                 }
+                case CUSTOMER -> {
+                    // Enter Customer-Voucher Managing Application
+                    CustomerVoucherManagingApplication customerVoucherManagingApplication = applicationContext.getBean(CustomerVoucherManagingApplication.class);
+                    customerVoucherManagingApplication.run();
+                }
             }
-        } while (!termi);
+        }
+    }
+
+    private VoucherType getVoucherType() {
+        VoucherType voucherType;
+        try {
+            voucherType = VoucherType.of(input.input(requestVoucherTypeMessage));
+        } catch (RuntimeException e) {
+            output.inputError(MessageFormat.format("Invalid Input. You can create {0} discount voucher", List.of(VoucherType.values())));
+            return null;
+        }
+        return voucherType;
     }
 }

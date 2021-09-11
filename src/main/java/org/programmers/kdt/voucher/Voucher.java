@@ -5,8 +5,12 @@ import java.util.UUID;
 public interface Voucher {
     UUID getVoucherId();
     long getDiscount();
-    default long discount(long beforeDiscount) {
-        return beforeDiscount - fetchDiscountAmount(beforeDiscount);
+    VoucherType getVoucherType();
+
+    default long applyDiscount(long beforeDiscount) {
+        return beforeDiscount - getDiscountAmount(beforeDiscount);
     }
-    long fetchDiscountAmount(long beforeDiscount);
+    long getDiscountAmount(long beforeDiscount);
+
+    VoucherStatus getStatus();
 }

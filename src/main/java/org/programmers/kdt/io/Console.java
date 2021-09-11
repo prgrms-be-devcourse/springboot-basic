@@ -1,6 +1,5 @@
 package org.programmers.kdt.io;
 
-import org.programmers.kdt.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,21 +10,20 @@ public class Console implements Input, Output {
     private final Scanner sc = new Scanner(System.in);
 
     @Override
-    public String input(String prompt) {
-        System.out.println(prompt);
+    public String input(String messageToPrint) {
+        System.out.println(messageToPrint);
         System.out.print(">>> ");
         return sc.nextLine().trim();
     }
 
     @Override
-    public void inputError(String message) {
-        System.out.println(message);
+    public void inputError(String errorMessage) {
+        System.out.println(errorMessage);
     }
 
     @Override
-    public void printSuccessAddVoucher(Voucher voucher) {
-        System.out.println("** Your new voucher has been added **");
-        System.out.println(voucher);
+    public void printSuccessMessage() {
+        System.out.println("Your action has been successfully executed.");
     }
 
     @Override
@@ -34,9 +32,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printAllVouchersInfo(List<Voucher> voucherList) {
-        for (Voucher voucher : voucherList) {
-            System.out.println(voucher);
-        }
+    public void print(String message) {
+        System.out.println(message);
     }
+
 }

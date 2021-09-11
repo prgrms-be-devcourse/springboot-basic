@@ -1,1 +1,14 @@
-# TODO: 어떤 설정을 만들 수 있을지 생각 해 보기
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/order_mgmt
+    username: root
+    password: "root1234!"
+    table:
+      customers: "customers"
+      customers-blacklist: "customers_blacklist"
+      vouchers: "vouchers"
+  file:
+    customer-list: "customer.csv"
+    customer-blacklist: "customer_blacklist.csv"
+    voucher-list: "VoucherData.txt"

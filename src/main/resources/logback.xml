@@ -12,10 +12,11 @@
         </encoder>
     </appender>
 
-    <!-- define individual log level -->
-    <logger name="org.programmers.kdt" level="info"/>
 
-    <!-- default root log level -->
+    <!-- Define Inidivisual Log Level -->
+    <logger name="org.programmers.kdt" level="info" />
+
+    <!-- Default Root Log Level -->
     <root level="warn">
         <appender-ref ref="ROLLING_FILE" />
     </root>

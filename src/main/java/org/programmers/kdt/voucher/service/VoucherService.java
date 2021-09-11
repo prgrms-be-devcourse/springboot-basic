@@ -1,60 +1,38 @@
 package org.programmers.kdt.voucher.service;
 
-import org.programmers.kdt.voucher.*;
-import org.programmers.kdt.voucher.factory.FixedAmountVoucherFactory;
-import org.programmers.kdt.voucher.factory.PercentDiscountVoucherFactory;
-import org.programmers.kdt.voucher.factory.VoucherFactory;
-import org.programmers.kdt.voucher.repository.VoucherRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.programmers.kdt.customer.Customer;
+import org.programmers.kdt.voucher.Voucher;
+import org.programmers.kdt.voucher.VoucherStatus;
+import org.programmers.kdt.voucher.VoucherType;
 
-import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class VoucherService {
-    private final VoucherRepository voucherRepository;
-    private VoucherFactory voucherFactory;
-    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
-
-    @Autowired
-    public VoucherService(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
+public interface VoucherService {
+    Optional<Voucher> getVoucher(UUID voucherId);
+    void useVoucher(Voucher voucher);
+    Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount);
+    default void removeVoucher(Voucher voucher) {
+        removeVoucher(voucher.getVoucherId());
     }
 
-    public Voucher getVoucher(UUID voucherId) {
-        return this.voucherRepository
-                .findById(voucherId)
-                .orElseThrow( () -> {
-                    logger.error("{} -> Fail : getVoucher for ID {}", this.getClass(), voucherId);
-                    return new RuntimeException(MessageFormat.format("Cannot find a voucher for {0}", voucherId));
-                } );
-    }
+    void removeVoucher(UUID voucherid);
+    List<Voucher> getAllVouchers();
+    List<Voucher> getAllUnregisteredVouchers();
 
-    public void useVoucher(Voucher voucher) {
-        // TODO: TO BE IMPLEMENTED...
-    }
+    String getPrintFormat(Voucher voucher);
+    VoucherStatus getVoucherStatus(Voucher voucher);
 
-    public void addVoucher(Voucher voucher) {
-        this.voucherRepository.save(voucher);
-        logger.info("New Voucher has Been Added : {} {} {}", voucher.getClass(), voucher.getVoucherId(), voucher.getDiscount());
+    Voucher addOwner(Customer customer, Voucher voucher);
+    default void removeOwner(Customer customer, Voucher voucher) {
+        removeOwner(customer, voucher.getVoucherId());
     }
+    void removeOwner(Customer customer, UUID voucherId);
 
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount) {
-        // TODO: 팩토리 구상체 설정을 해 주는 가장 적절한 방법 생각 해 보기
-        switch (voucherType) {
-            case FIXED -> voucherFactory = new FixedAmountVoucherFactory();
-            case PERCENT -> voucherFactory = new PercentDiscountVoucherFactory();
-        }
-        Voucher voucher = this.voucherFactory.createVoucher(voucherId, discount);
-        this.addVoucher(voucher);
-        return voucher;
+    Optional<UUID> findCustomerIdHoldingVoucherOf(UUID voucherId);
+    default Optional<UUID> findCustomerIdHoldingVoucherOf(Voucher voucher) {
+        return findCustomerIdHoldingVoucherOf(voucher.getVoucherId());
     }
-
-    public List<Voucher> getAllVoucher() {
-        return this.voucherRepository.findAll();
-    }
+    List<Voucher> getAllVouchersBelongsToCustomer(Customer customer);
 }

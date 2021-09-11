@@ -2,79 +2,110 @@ package org.programmers.kdt.customer.service;
 
 import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.customer.repository.CustomerRepository;
+import org.programmers.kdt.voucher.Voucher;
+import org.programmers.kdt.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
-
     @Autowired
+    private VoucherService voucherService;
+
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
     @Override
-    public Customer findCustomerById(UUID customerId) {
-        return customerRepository.findById(customerId).orElseThrow(
-                () -> {
-                    logger.error("{} -> Fail : findCustomerById for ID {}", this.getClass(), customerId);
-                    return new RuntimeException(MessageFormat.format("Cannot find a customer for ID : {0}", customerId));
-                }
-        );
+    public Customer signUp(UUID customerId, String name, String email) {
+        LocalDateTime now = LocalDateTime.now();
+        Customer customer = new Customer(customerId, name, email, now, now);
+        customerRepository.insert(customer);
+        logger.info("New Customer has been successfully added to customer list");
+        return customer;
+    }
+
+    @Override
+    public Optional<Customer> findCustomerById(UUID customerId) {
+        return customerRepository.findById(customerId);
     }
 
     @Override
     public List<Customer> findCustomersByName(String name) {
-        // 이름은 중복 가능
-        return customerRepository.findByName(name).orElseThrow(
-                () -> {
-                    logger.error("{} -> Fail : findCustomersByName for Name {}", this.getClass(), name);
-                    return new RuntimeException(MessageFormat.format("Cannot find a customer for Name : {0}", name));
-                }
-        );
+        return customerRepository.findByName(name);
     }
 
     @Override
-    public List<Customer> findCustomersByEmail(String email) {
-        // email은 중복 가능
-        return customerRepository.findByEmail(email).orElseThrow(
-                () -> {
-                    logger.error("{} -> Fail : findCustomerByEmail for Email {}", this.getClass(), email);
-                    return new RuntimeException(MessageFormat.format("Cannot find a customer for email : {0}", email));
-                }
-        );
+    public Optional<Customer> findCustomerByEmail(String email) {
+        return customerRepository.findByEmail(email);
     }
 
     @Override
-    public Customer registerToBlacklist(Customer customer) {
-        return this.customerRepository.registerToBlackList(customer);
+    public Customer addToBlacklist(Customer customer) {
+        Customer newBlacklistedCustomer = customerRepository.registerToBlacklist(customer);
+        logger.info("Customer({}) has been added into blacklist", customer.getCustomerId());
+        return newBlacklistedCustomer;
     }
 
     @Override
-    public Customer join(UUID uuid, String name, String email) {
-        return customerRepository.save(new Customer(uuid, name, email));
-    }
-
-    @Override
-    public List<Customer> getBlacklistCustomers() {
-        return customerRepository.findBlackListCustomers();
-    }
-
-    @Override
-    public List<Customer> getAllCustomer() {
+    public List<Customer> findAll() {
         return customerRepository.findAll();
     }
 
     @Override
-    public Boolean isOnBlacklist(Customer customer) {
-        return customerRepository.findBlackListCustomers().contains(customer);
+    public List<Customer> findAllBlacklistCustomer() {
+        return customerRepository.findAllBlacklistCustomer();
+    }
+
+    @Override
+    public void removeCustomer(UUID customerId) {
+        customerRepository.deleteCustomer(customerId);
+    }
+
+    @Override
+    public boolean isOnBlacklist(Customer customer) {
+        return customerRepository.findCustomerOnBlacklistById(customer).isPresent();
+    }
+
+    @Override
+    public String getPrintFormat(Customer customer) {
+        return MessageFormat
+                .format("<< Customer Information >>\nCustomer ID : {0}\nCustomer Name : {1}\nCustomer Email : {2}\nLast Login At : {3}\nSign Up At : {4}",
+                        customer.getCustomerId(), customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt());
+    }
+
+    @Override
+    public boolean addVoucherToCustomer(Customer customer, Voucher voucher) {
+        return voucher.equals(voucherService.addOwner(customer, voucher));
+    }
+
+    @Override
+    public void removeVoucherFromCustomer(Customer customer, UUID voucherId) {
+        voucherService.removeOwner(customer, voucherId);
+    }
+
+    @Override
+    public Optional<Customer> findByVoucher(UUID voucherId) {
+        Optional<UUID> customerId = voucherService.findCustomerIdHoldingVoucherOf(voucherId);
+        if (customerId.isEmpty()) {
+            return Optional.empty();
+        }
+        return customerRepository.findById(customerId.get());
+
+    }
+
+    @Override
+    public List<Voucher> getAllVoucherOf(Customer customer) {
+        return voucherService.getAllVouchersBelongsToCustomer(customer);
     }
 }

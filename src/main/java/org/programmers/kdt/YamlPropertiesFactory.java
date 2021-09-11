@@ -9,13 +9,13 @@ import org.springframework.core.io.support.PropertySourceFactory;
 import java.io.IOException;
 
 public class YamlPropertiesFactory implements PropertySourceFactory {
-    @Override
-    public PropertySource<?> createPropertySource(
-            String str, EncodedResource encodedResource) throws IOException {
-        YamlPropertiesFactoryBean yamlPropertiesFactoryBean =	new YamlPropertiesFactoryBean();
-        yamlPropertiesFactoryBean.setResources(encodedResource.getResource());
 
-        var properties = yamlPropertiesFactoryBean.getObject();
-        return new PropertiesPropertySource(encodedResource.getResource().getFilename(), properties);
-    }
+	@Override
+	public PropertySource<?> createPropertySource(String str, EncodedResource encodedResource) throws IOException {
+		YamlPropertiesFactoryBean yamlPropertiesFactoryBean = new YamlPropertiesFactoryBean();
+		yamlPropertiesFactoryBean.setResources(encodedResource.getResource());
+
+		var properties = yamlPropertiesFactoryBean.getObject();
+		return new PropertiesPropertySource(encodedResource.getResource().getFilename(), properties);
+	}
 }

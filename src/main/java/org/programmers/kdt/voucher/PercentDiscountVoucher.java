@@ -1,46 +1,64 @@
 package org.programmers.kdt.voucher;
 
+import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    private final int MAXIMUM_DISCOUNT_PERCENTAGE = 100;
-    private final int MINIMUM_DISCOUNT_PERCENTAGE = 0;
+    private final int MAXIMUM_DISCOUNT_PERCENT = 100;
+    private final int MINIMUM_DISCOUNT_PERCENT = 0;
+
     private final UUID voucherId;
     private final long percent;
 
+    private VoucherStatus status;
+
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent < 0) {
-            System.out.println("!! WARNING !!\nInvalid discount percentage : "
-                            + percent
-                            + "%\nAutomatically changed to " + MINIMUM_DISCOUNT_PERCENTAGE + "%");
-            percent = 0;
-        } else if ( percent > 100) {
-            System.out.println("!! WARNING !!\nInvalid discount percentage : "
-                    + percent
-                    + "%\nAutomatically changed to " + MAXIMUM_DISCOUNT_PERCENTAGE + "%");
-            percent = 100;
-        }
         this.voucherId = voucherId;
+        if (percent < MINIMUM_DISCOUNT_PERCENT || percent > MAXIMUM_DISCOUNT_PERCENT) {
+            throw new RuntimeException(MessageFormat.format("Invalid Discount Percentage! Valid Range : [{0}, {1}]",
+                    MINIMUM_DISCOUNT_PERCENT, MAXIMUM_DISCOUNT_PERCENT));
+        }
         this.percent = percent;
+        status = VoucherStatus.VALID;
     }
+
 
     @Override
     public UUID getVoucherId() {
-        return this.voucherId;
-    }
-
-    @Override
-    public String toString() {
-        return "<< Percent Discount Voucher >>\nID : " + this.voucherId + "\nDiscount : " + this.percent + "%";
+        return voucherId;
     }
 
     @Override
     public long getDiscount() {
-        return this.percent;
+        return percent;
     }
 
     @Override
-    public long fetchDiscountAmount(long beforeDiscount) {
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT;
+    }
+
+    @Override
+    public long getDiscountAmount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
+    }
+
+    @Override
+    public VoucherStatus getStatus() {
+        return status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return voucherId.equals(that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId);
     }
 }
