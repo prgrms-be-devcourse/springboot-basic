@@ -11,4 +11,6 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
+    List<Voucher> findByVoucherType(VoucherType voucherType);
+
 }

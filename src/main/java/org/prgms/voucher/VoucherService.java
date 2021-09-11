@@ -19,7 +19,7 @@ public class VoucherService {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException("Can not find a voucher for" + voucherId));
-                //voucherRepository 에서 voucherId를 가져오려고 하지만 없는 경우에는 에러를 처리함(cna not find a voucher for id)
+        //voucherRepository 에서 voucherId를 가져오려고 하지만 없는 경우에는 에러를 처리함(cna not find a voucher for id)
     }
 
     public Voucher createVoucher(VoucherType voucherType, long amount) {
@@ -37,8 +37,12 @@ public class VoucherService {
         return null;
     }
 
-    public List<Voucher> getVouchers(){
+    public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
+    }
+
+    public List<Voucher> getVouchersByType(VoucherType voucherType) {
+        return voucherRepository.findByVoucherType(voucherType);
     }
 
     public void useVoucher(Voucher voucher) {

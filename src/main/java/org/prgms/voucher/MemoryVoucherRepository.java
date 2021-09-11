@@ -32,5 +32,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return new ArrayList<>(storage.values());
     }
 
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
+    }
 
 }

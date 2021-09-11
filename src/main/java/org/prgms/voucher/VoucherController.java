@@ -27,13 +27,18 @@ public class VoucherController {
         return voucherService.getVoucher(voucherId);
     }
 
-    @PostMapping("/vouchers/FIXED_AMOUNT")
+    @GetMapping("/vouchers/type/{voucherType}")
+    public List<Voucher> findVouchersByType(@PathVariable("voucherType") VoucherType voucherType) {
+        return voucherService.getVouchersByType(voucherType);
+    }
+
+    @PostMapping("/voucher/FIXED_AMOUNT")
     public Voucher addFixedVoucher(@RequestBody CreateVoucherRequest createVoucherRequest) {
         var voucher = voucherService.createVoucher(VoucherType.FIXED_AMOUNT, createVoucherRequest.getAmount());
         return voucher;
     }
 
-    @PostMapping("/vouchers/PERCENT_DISCOUNT")
+    @PostMapping("/voucher/PERCENT_DISCOUNT")
     public Voucher addPercentVoucher(@RequestBody CreateVoucherRequest createVoucherRequest) {
         var voucher = voucherService.createVoucher(VoucherType.PERCENT_DISCOUNT, createVoucherRequest.getAmount());
         return voucher;
