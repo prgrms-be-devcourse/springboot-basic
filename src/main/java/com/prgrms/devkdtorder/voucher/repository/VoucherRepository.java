@@ -1,6 +1,5 @@
 package com.prgrms.devkdtorder.voucher.repository;
 
-import com.prgrms.devkdtorder.customer.domain.Customer;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
 
 import java.util.List;

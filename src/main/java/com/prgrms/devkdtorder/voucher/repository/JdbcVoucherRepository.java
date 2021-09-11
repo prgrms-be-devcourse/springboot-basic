@@ -78,10 +78,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             String sql = "SELECT * FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucher_id, '-', ''))";
-            Voucher customer = jdbcTemplate.queryForObject(sql,
+            Voucher voucher = jdbcTemplate.queryForObject(sql,
                     Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
                     voucherRowMapper);
-            return Optional.ofNullable(customer);
+            return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();

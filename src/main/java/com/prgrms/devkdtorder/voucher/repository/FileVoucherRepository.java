@@ -3,7 +3,6 @@ package com.prgrms.devkdtorder.voucher.repository;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 import org.ini4j.Wini;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

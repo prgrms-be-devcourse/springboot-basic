@@ -1,10 +1,9 @@
 package com.prgrms.devkdtorder.voucher.domain;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-public class PercentDiscountVoucher extends AbstractVoucher {
+public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long percent, String name, LocalDateTime createdAt) {
         super(voucherId, percent, name, createdAt);

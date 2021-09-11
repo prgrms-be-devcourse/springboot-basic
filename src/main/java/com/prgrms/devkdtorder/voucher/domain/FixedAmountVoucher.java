@@ -1,10 +1,9 @@
 package com.prgrms.devkdtorder.voucher.domain;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-public class FixedAmountVoucher extends AbstractVoucher {
+public class FixedAmountVoucher extends Voucher {
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
     public FixedAmountVoucher(UUID voucherId, long amount, String name, LocalDateTime createdAt) {
@@ -16,7 +15,7 @@ public class FixedAmountVoucher extends AbstractVoucher {
         this(voucherId, amount, "", LocalDateTime.now());
     }
 
-
+    @Override
     public long discount(long beforeDiscount) {
         long discountedAmount = beforeDiscount - value;
         return discountedAmount < 0 ? 0 : discountedAmount;

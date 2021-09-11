@@ -1,18 +1,15 @@
 package com.prgrms.devkdtorder.voucher.repository;
 
 import com.prgrms.devkdtorder.voucher.domain.FixedAmountVoucher;
-import com.prgrms.devkdtorder.voucher.domain.PercentDiscountVoucher;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import org.junit.jupiter.api.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.assertj.core.api.Assertions.*;
 
 class VoucherRepositoryTest {
 

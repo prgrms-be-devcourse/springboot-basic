@@ -1,17 +1,22 @@
 package com.prgrms.devkdtorder.voucher.domain;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public interface Voucher {
+@Getter
+public abstract class Voucher implements Discountable {
 
-    UUID getVoucherId();
+    protected final UUID voucherId;
+    protected final long value;
+    protected final String name;
+    protected final LocalDateTime createdAt;
 
-    long discount(long beforeDiscount);
-
-    long getValue();
-
-    String getName();
-
-    LocalDateTime getCreatedAt();
+    public Voucher(UUID voucherId, long value, String name, LocalDateTime createdAt) {
+        this.voucherId = voucherId;
+        this.value = value;
+        this.name = name;
+        this.createdAt = createdAt;
+    }
 }

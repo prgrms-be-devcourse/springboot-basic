@@ -1,7 +1,6 @@
 package com.prgrms.devkdtorder.voucher.service;
 
 import com.prgrms.devkdtorder.voucher.domain.FixedAmountVoucher;
-import com.prgrms.devkdtorder.voucher.domain.PercentDiscountVoucher;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import com.prgrms.devkdtorder.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
