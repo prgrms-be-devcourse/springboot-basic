@@ -24,6 +24,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public FixedAmountVoucher(Long voucherId, VoucherType type, long amount) {
+        validate(amount);
         this.voucherId = voucherId;
         this.type = type;
         this.amount = amount;
