@@ -1,9 +1,10 @@
 package org.prgrms.kdt.voucher;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.prgrms.kdt.exception.ResourceNotFoundException;
 import org.prgrms.kdt.form.VoucherForm;
@@ -67,5 +68,15 @@ public class VoucherService {
         return voucherRepository.findByVoucherType(VoucherType.valueOf(voucherType)).stream()
                 .map(VoucherMapper::voucherToVoucherDto)
                 .toList();
+    }
+
+    public List<VoucherDto> getVoucherByCreatedAt(String beforeDate, String afterDate) {
+        List<Voucher> vouchers = voucherRepository.findByPeriodByCreatedAt(
+                LocalDate.parse(beforeDate), LocalDate.parse(afterDate));
+
+        return vouchers.stream()
+                .map(VoucherMapper::voucherToVoucherDto)
+                .toList();
+
     }
 }

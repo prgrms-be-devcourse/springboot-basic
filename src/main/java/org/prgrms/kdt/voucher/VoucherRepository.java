@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,4 +28,6 @@ public interface VoucherRepository {
     int count();
 
     List<Voucher> findAll();
+
+    List<Voucher> findByPeriodByCreatedAt(LocalDate beforeDate, LocalDate afterDate);
 }

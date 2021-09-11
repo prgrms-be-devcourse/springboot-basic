@@ -235,6 +235,21 @@ public class ApisTest extends BaseApiTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    @DisplayName("바우처 기간별 조회 테스트")
+    void getByCreatedAt() throws Exception {
+        voucherRepository.insert(new Voucher(UUID.randomUUID(), "test", 100L, VoucherType.FIX, LocalDateTime.of(2020, 11, 12, 00, 00, 00)));
+
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "?beforeDate=2020-01-01&afterDate=2022-01-01"))
+                .andDo(print())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$..voucherId").exists())
+                .andExpect(jsonPath("$..name").exists())
+                .andExpect(jsonPath("$..discount").exists())
+                .andExpect(jsonPath("$..voucherType").exists())
+                .andExpect(jsonPath("$..createdAt").exists());
+    }
+
     private VoucherDto givenVoucherDto() {
         VoucherDto voucherDto = new VoucherDto();
         voucherDto.setName("test voucher");

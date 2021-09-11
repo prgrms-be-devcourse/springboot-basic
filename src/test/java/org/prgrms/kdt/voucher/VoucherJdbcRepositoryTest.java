@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -145,6 +146,19 @@ class VoucherJdbcRepositoryTest extends EmbeddedMysqlConnector {
         voucherJdbcRepository.deleteAll();
 
         assertThat(voucherJdbcRepository.count()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("바우처 생성 기간 조회 테스트")
+    void findByPeriodByCreatedAt() {
+        voucherJdbcRepository.insert(new Voucher(UUID.randomUUID(), "test", 100L, VoucherType.FIX, LocalDateTime.of(2020, 11, 12, 00, 00, 00)));
+        voucherJdbcRepository.insert(new Voucher(UUID.randomUUID(), "test", 100L, VoucherType.FIX, LocalDateTime.of(2019, 11, 12, 00, 00, 00)));
+        voucherJdbcRepository.insert(new Voucher(UUID.randomUUID(), "test", 100L, VoucherType.FIX, LocalDateTime.of(2021, 11, 12, 00, 00, 00)));
+
+        List<Voucher> vouchers = voucherJdbcRepository
+                .findByPeriodByCreatedAt(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-12-31"));
+
+        assertThat(vouchers.size()).isEqualTo(1);
     }
 
     private Voucher givenFixedVoucher(UUID voucherId) {

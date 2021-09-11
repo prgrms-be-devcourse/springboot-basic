@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -106,6 +107,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM  vouchers", voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByPeriodByCreatedAt(LocalDate beforeDate, LocalDate afterDate) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE created_at >= (?) AND created_at <= (?)",
+                voucherRowMapper,
+                beforeDate, afterDate);
     }
 
     static UUID toUUID(byte[] bytes) {

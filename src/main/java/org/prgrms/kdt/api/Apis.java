@@ -1,5 +1,6 @@
 package org.prgrms.kdt.api;
 
+import static org.prgrms.kdt.util.LocalDateUtil.isValid;
 import static org.springframework.http.MediaType.*;
 
 import java.net.URI;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -33,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = Apis.PRE_FIX, produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+@RequestMapping(value = Apis.PRE_FIX)
 public class Apis {
 
     protected static final String PRE_FIX = "/kdt/api/v1";
@@ -112,6 +115,20 @@ public class Apis {
             throw  new BadRequestException("not exist : " + voucherType);
         }
         return ResponseEntity.ok().body(voucherService.getVoucherByVoucherType(voucherType));
+    }
+
+    @GetMapping(VOUCHERS + SEARCH)
+    public ResponseEntity getByCreatedAt(@RequestParam String beforeDate,
+                                         @RequestParam String afterDate) {
+        if (!isValid(beforeDate)) {
+            throw new BadRequestException("invalidDate : " + beforeDate);
+        }
+
+        if (!isValid(afterDate)) {
+            throw new BadRequestException("invalidDate : " + afterDate);
+        }
+
+        return ResponseEntity.ok().body(voucherService.getVoucherByCreatedAt(beforeDate, afterDate));
     }
 
     private void validateWalletDtoExistedId(@RequestBody WalletDto walletDto) {
