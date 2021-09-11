@@ -4,15 +4,16 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.junit.jupiter.api.*;
-import org.prgrms.kdt.common.YamlPropertiesFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
@@ -24,13 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Slf4j
 @SpringJUnitConfig
-@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerJdbcRepositoryTest {
 
     @Autowired
     CustomerJdbcRepository customerJdbcRepository;
+
     @Autowired
     DataSource dataSource;
 
@@ -130,21 +131,23 @@ class CustomerJdbcRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"org.prgrms.kdt.domain.customer"}
+            basePackages = {"org.prgrms.kdt.domain",
+                    "org.prgrms.kdt.common",
+                    "org.prgrms.kdt.service"
+            }
     )
     static class Config {
-
-        private String user;
-        private String password;
 
         @Bean
         public DataSource dataSource() {
             var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/order_mgmt")
+                    .url("jdbc:mysql://localhost:3306/order_mgmt?characterEncoding=utf8&serverTimezone=UTC")
                     .username("kdt")
                     .password("kdt")
                     .type(HikariDataSource.class)
                     .build();
+            dataSource.setMaximumPoolSize(1000);
+            dataSource.setMinimumIdle(100);
             return dataSource;
         }
 
@@ -152,5 +155,17 @@ class CustomerJdbcRepositoryTest {
         public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
         }
+
+        @Bean
+        public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
+            return new DataSourceTransactionManager(dataSource);
+        }
+
+        @Bean
+        public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
+            return new TransactionTemplate(platformTransactionManager);
+        }
+
     }
 }
+
