@@ -1,5 +1,6 @@
 package org.prgrms.kdt.service;
 
+import org.prgrms.kdt.domain.CustomerDto;
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.jdbcRepository.CustomerJdbcRepository;
 import org.prgrms.kdt.repository.CustomerRepository;
@@ -40,5 +41,15 @@ public class SimpleCustomerService implements CustomerService{
     @Override
     public Optional<CustomerEntity> getCustomer(UUID customerId) {
         return customerRepository.findById(customerId);
+    }
+
+    @Override
+    public void deleteCustomer(UUID customerId) {
+        customerRepository.deleteById(customerId);
+    }
+
+    @Override
+    public Optional<CustomerEntity> updateCustomer(CustomerDto customer) {
+        return Optional.ofNullable(customerRepository.update(CustomerDto.to(customer)));
     }
 }

@@ -22,8 +22,10 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.EncodedResourceResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -41,24 +43,6 @@ import javax.sql.DataSource;
 public class ServletConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
     ApplicationContext applicationContext;
-
-//    @Autowired
-//    DataSource dataSource;
-//
-//    @Bean
-//    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-//        return new JdbcTemplate(dataSource);
-//    }
-//
-//    @Bean
-//    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-//        return new NamedParameterJdbcTemplate(jdbcTemplate);
-//    }
-//
-//    @Bean
-//    public PlatformTransactionManager platformTransactionManager(DataSource dataSource){
-//        return new DataSourceTransactionManager(dataSource);
-//    }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -79,6 +63,15 @@ public class ServletConfiguration implements WebMvcConfigurer, ApplicationContex
         thymeleafViewResolver.setViewNames(new String[]{"views/*"});
 
         registry.viewResolver(thymeleafViewResolver);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/")
+                .setCachePeriod(60)
+                .resourceChain(true)
+                .addResolver(new EncodedResourceResolver());
     }
 
     @Override

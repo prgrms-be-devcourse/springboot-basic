@@ -1,6 +1,7 @@
 package org.prgrms.kdt.service;
 
 
+import org.prgrms.kdt.domain.CustomerDto;
 import org.prgrms.kdt.domain.CustomerEntity;
 
 import java.util.List;
@@ -18,4 +19,7 @@ public interface CustomerService {
     //없을 수도 있으니 Optional 로 처리한다.
     Optional<CustomerEntity> getCustomer(UUID customerId);
 
+    void deleteCustomer(UUID customerId);
+
+    Optional<CustomerEntity> updateCustomer(CustomerDto customer);
 }
