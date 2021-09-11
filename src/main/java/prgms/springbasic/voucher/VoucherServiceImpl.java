@@ -1,7 +1,8 @@
 package prgms.springbasic.voucher;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import prgms.springbasic.io.Printer;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Qualifier("voucherService")
 public class VoucherServiceImpl implements VoucherService {
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
     private final VoucherRepository voucherRepository;
 
     public VoucherServiceImpl(@Qualifier("fileVoucherRepository") VoucherRepository voucherRepository) {
@@ -23,18 +25,23 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, String value) throws IOException {
+    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, String value) {
         if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER) {
-            return createFixedAmountVoucher(voucherId, Integer.parseInt(value));
+            return createFixedAmountVoucher(voucherId, Long.parseLong(value));
         } else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER) {
             return createPercentDiscountVoucher(voucherId, Long.parseLong(value));
         }
-        return null;
+        throw new RuntimeException(MessageFormat.format("바우처를 생성할 수 없습니다. 바우처 타입 = {0}, 바우처 아이디 = {0}, 할인값 = {0}", voucherType, voucherId, value));
     }
 
     @Override
-    public List<Voucher> getVoucherList() throws IOException {
-        return voucherRepository.getVoucherList();
+    public List<Voucher> getVoucherList() {
+        try {
+            return voucherRepository.getVoucherList();
+        } catch (IOException exception) {
+            logger.error("바우처 레포지토리의 정보를 읽어올 수 없습니다. ", exception);
+            throw new RuntimeException("바우처 레포지토리의 정보를 읽어올 수 없습니다.");
+        }
     }
 
     @Override
@@ -43,14 +50,24 @@ public class VoucherServiceImpl implements VoucherService {
         printer.printVoucherListEmpty();
     }
 
-    public Voucher createFixedAmountVoucher(UUID voucherId, int amount) throws IOException {
+    public Voucher createFixedAmountVoucher(UUID voucherId, long amount){
         Voucher newVoucher = new FixedAmountVoucher(voucherId, amount);
-        return voucherRepository.save(newVoucher);
+        try {
+            return voucherRepository.save(newVoucher);
+        } catch (IOException exception) {
+            logger.error("바우처를 레포지토리에 저장하지 못했습니다. VoucherInformation -> {}", newVoucher);
+            throw new RuntimeException("바우처를 레포지토리에 저장하지 못했습니다.");
+        }
     }
 
-    public Voucher createPercentDiscountVoucher(UUID voucherId, long percent) throws IOException {
+    public Voucher createPercentDiscountVoucher(UUID voucherId, long percent){
         Voucher newVoucher = new PercentDiscountVoucher(voucherId, percent);
-        return voucherRepository.save(newVoucher);
+        try {
+            return voucherRepository.save(newVoucher);
+        } catch (IOException e) {
+            logger.error("바우처를 레포지토리에 저장하지 못했습니다. VoucherInformation -> {}", newVoucher);
+            throw new RuntimeException("바우처를 레포지토리에 저장하지 못했습니다.");
+        }
     }
 
     public Voucher getVoucher(UUID voucherId) throws IOException {

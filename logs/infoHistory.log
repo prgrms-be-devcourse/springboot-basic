@@ -1,4 +1,1 @@
-22:24:08.284 [main] INFO  p.springbasic.CommandLineApplication - 바우처 저장소에 바우처가 추가되었습니다. VoucherId = e82ef167-480a-4840-8270-40bfb40f42e3
-22:58:38.486 [main] INFO  p.springbasic.CommandLineApplication - 바우처 저장소에 바우처가 추가되었습니다. VoucherId = fc8085a5-7d11-4da0-b708-02c50262897a
-22:59:28.405 [main] INFO  p.springbasic.CommandLineApplication - 바우처 저장소에 바우처가 추가되었습니다. VoucherId = 4e8a2071-158d-4c59-9e61-07b83a9d7278
-23:34:05.516 [main] INFO  p.springbasic.CommandLineApplication - 바우처 저장소에 바우처가 추가되었습니다. VoucherId = f979b333-0344-4fa8-82f0-f984a52b6261
+14:15:45.892 [main] INFO  p.springbasic.CommandLineApplication - 바우처 저장소에 바우처가 추가되었습니다. VoucherId = e6653979-c1c1-41da-844a-a7bc79268c36
