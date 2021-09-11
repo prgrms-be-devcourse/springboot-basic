@@ -20,6 +20,13 @@ class InMemoryVoucherRepositoryTest {
     InMemoryVoucherRepository inMemoryVoucherRepository = new InMemoryVoucherRepository();
 
     @Test
+    @DisplayName("Load, Persist Vouchers Test")
+    void loadAndPersist() {
+        assertThrows(UnsupportedOperationException.class, () -> inMemoryVoucherRepository.loadVouchers());
+        assertThrows(UnsupportedOperationException.class, () -> inMemoryVoucherRepository.persistVouchers());
+    }
+
+    @Test
     @DisplayName("Voucher Creation Test")
     void createVoucher() {
         String voucherName = "voucher1";
@@ -40,15 +47,28 @@ class InMemoryVoucherRepositoryTest {
     void readVoucher() {
         String voucherName = "voucherReadme";
         final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
-        final Voucher voucher = inMemoryVoucherRepository.save(new Voucher(voucherName, discountPolicy, -1));
+        final Voucher voucher = inMemoryVoucherRepository.save(new Voucher(voucherName, discountPolicy, 1234));
 
         final Optional<Voucher> byId = inMemoryVoucherRepository.findById(voucher.getId());
         assertTrue(byId.isPresent());
-        assertEquals(voucherName, byId.get().getName());
+        assertEquals(voucher, byId.get());
 
-        final List<Voucher> allByCustomer = inMemoryVoucherRepository.findAllByCustomer(-1);
-        assertEquals(1, allByCustomer.size());
-        assertEquals(byId.get(), allByCustomer.get(0));
+    }
+
+    @Test
+    @DisplayName("Vouchers Read Test")
+    void readVouchers() {
+        String voucherName = "voucherReadme";
+        final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
+        final Voucher voucher1 = inMemoryVoucherRepository.save(new Voucher(voucherName, discountPolicy, 1111));
+        final Voucher voucher2 = inMemoryVoucherRepository.save(new Voucher(voucherName, discountPolicy, 1111));
+        final Voucher voucher3 = inMemoryVoucherRepository.save(new Voucher(voucherName, discountPolicy, 1111));
+
+        final List<Voucher> allByCustomer = inMemoryVoucherRepository.findAllByCustomer(1111);
+        assertEquals(3, allByCustomer.size());
+        assertEquals(voucher1.getId(), allByCustomer.get(0).getId());
+        assertEquals(voucher2.getId(), allByCustomer.get(1).getId());
+        assertEquals(voucher3.getId(), allByCustomer.get(2).getId());
     }
 
     @Test
@@ -81,4 +101,21 @@ class InMemoryVoucherRepositoryTest {
         assertTrue(inMemoryVoucherRepository.findById(voucher.getId()).isEmpty());
     }
 
+    @Test
+    @DisplayName("List All Vouchers Test")
+    void listAll() {
+        Voucher voucher1 = inMemoryVoucherRepository.save(new Voucher("voucher1", new DiscountPolicy(2500, DiscountType.FIXED), 0));
+        Voucher voucher2 = inMemoryVoucherRepository.save(new Voucher("voucher2", new DiscountPolicy(2500, DiscountType.FIXED), 0));
+        Voucher voucher3 = inMemoryVoucherRepository.save(new Voucher("voucher3", new DiscountPolicy(2500, DiscountType.FIXED), 0));
+        Voucher voucher4 = inMemoryVoucherRepository.save(new Voucher("voucher4", new DiscountPolicy(2500, DiscountType.FIXED), 0));
+        Voucher voucher5 = inMemoryVoucherRepository.save(new Voucher("voucher5", new DiscountPolicy(2500, DiscountType.FIXED), 0));
+
+        List<Voucher> vouchers = inMemoryVoucherRepository.listAll();
+        assertEquals(5, vouchers.size());
+        assertEquals(voucher1, vouchers.get(0));
+        assertEquals(voucher2, vouchers.get(1));
+        assertEquals(voucher3, vouchers.get(2));
+        assertEquals(voucher4, vouchers.get(3));
+        assertEquals(voucher5, vouchers.get(4));
+    }
 }

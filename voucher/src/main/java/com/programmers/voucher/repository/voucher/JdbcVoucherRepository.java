@@ -16,6 +16,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -52,7 +55,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 statement.setString(1, voucher.getName());
                 statement.setString(2, voucher.getDiscountPolicy().getType().toString());
                 statement.setInt(3, voucher.getDiscountPolicy().getAmount());
-                statement.setLong(4, voucher.getCustomerId());
+                statement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.of(voucher.getCreatedAt(), LocalTime.MIDNIGHT)));
+                statement.setLong(5, voucher.getCustomerId());
                 return statement;
             }, keyHolder);
             voucher.registerId(Objects.requireNonNull(keyHolder.getKey()).longValue());

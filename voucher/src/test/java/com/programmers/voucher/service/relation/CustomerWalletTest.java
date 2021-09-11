@@ -65,7 +65,7 @@ class CustomerWalletTest {
     @DisplayName("Get vouchers of customer")
     void getVouchers() {
         List<Voucher> list = new ArrayList<>(5);
-        for (int i = 0; i < 5; i++) {
+        for (long i = 0; i < 5; i++) {
             list.add(new Voucher(i + 1, "voucherName" + i, new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1000 + i));
         }
         long customerId = 1;

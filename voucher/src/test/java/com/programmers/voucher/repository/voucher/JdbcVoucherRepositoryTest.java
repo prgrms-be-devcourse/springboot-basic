@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +34,15 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeEach
     void init() {
-        jdbcTemplate.execute("DELETE FROM customers");
-        jdbcTemplate.execute("DELETE FROM vouchers");
+        jdbcTemplate.execute("TRUNCATE customers");
+        jdbcTemplate.execute("TRUNCATE vouchers");
+    }
+
+    @Test
+    @DisplayName("Load, Persist Vouchers Test")
+    void loadAndPersist() {
+        assertDoesNotThrow(() -> jdbcVoucherRepository.loadVouchers());
+        assertDoesNotThrow(() -> jdbcVoucherRepository.persistVouchers());
     }
 
     @Test
@@ -59,18 +67,33 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("Voucher Read Test")
     void readVoucher() {
         final Customer customer = customerRepository.save(new Customer("username", "alias"));
-
         String voucherName = "voucherReadme";
         final DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
         final Voucher voucher = jdbcVoucherRepository.save(new Voucher(voucherName, discountPolicy, customer.getId()));
 
-        final Optional<Voucher> byId = jdbcVoucherRepository.findById(voucher.getId());
+        Optional<Voucher> byId = jdbcVoucherRepository.findById(voucher.getId());
         assertTrue(byId.isPresent());
-        assertEquals(voucherName, byId.get().getName());
+        assertEquals(voucher, byId.get());
+    }
+
+    @Test
+    @DisplayName("Vouchers Read Test")
+    void readVouchers() {
+        final Customer customer = customerRepository.save(new Customer("username", "alias"));
+        DiscountPolicy discountPolicy = new DiscountPolicy(2500, DiscountType.FIXED);
+        final Voucher voucher1 = jdbcVoucherRepository.save(new Voucher("voucher1", discountPolicy, customer.getId()));
+        final Voucher voucher2 = jdbcVoucherRepository.save(new Voucher("voucher2", discountPolicy, customer.getId()));
+        final Voucher voucher3 = jdbcVoucherRepository.save(new Voucher("voucher3", discountPolicy, customer.getId()));
+        final Voucher voucher4 = jdbcVoucherRepository.save(new Voucher("voucher4", discountPolicy, customer.getId()+1));
+        final Voucher voucher5 = jdbcVoucherRepository.save(new Voucher("voucher5", discountPolicy, customer.getId()));
 
         final List<Voucher> allByCustomer = jdbcVoucherRepository.findAllByCustomer(customer.getId());
-        assertEquals(1, allByCustomer.size());
-        assertEquals(byId.get(), allByCustomer.get(0));
+        assertEquals(4, allByCustomer.size());
+        assertEquals(voucher1, allByCustomer.get(0));
+        assertEquals(voucher2, allByCustomer.get(1));
+        assertEquals(voucher3, allByCustomer.get(2));
+        assertNotEquals(voucher4, allByCustomer.get(3));
+        assertEquals(voucher5, allByCustomer.get(3));
     }
 
     @Test
@@ -104,6 +127,22 @@ class JdbcVoucherRepositoryTest {
         final Voucher voucher = jdbcVoucherRepository.save(new Voucher("voucher", new DiscountPolicy(2500, DiscountType.FIXED), customer.getId()));
         jdbcVoucherRepository.deleteById(voucher.getId());
         assertTrue(jdbcVoucherRepository.findById(voucher.getId()).isEmpty());
+    }
+
+    @Test
+    @DisplayName("List All Vouchers")
+    void listAll() {
+        Voucher name1 = jdbcVoucherRepository.save(new Voucher(1L, "name1", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1234));
+        Voucher name2 = jdbcVoucherRepository.save(new Voucher(2L, "name2", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1234));
+        Voucher name3 = jdbcVoucherRepository.save(new Voucher(3L, "name3", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1234));
+        Voucher name4 = jdbcVoucherRepository.save(new Voucher(4L, "name4", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1234));
+
+        List<Voucher> vouchers = jdbcVoucherRepository.listAll();
+        assertEquals(4, vouchers.size());
+        assertEquals(name1, vouchers.get(0));
+        assertEquals(name2, vouchers.get(1));
+        assertEquals(name3, vouchers.get(2));
+        assertEquals(name4, vouchers.get(3));
     }
     
 }

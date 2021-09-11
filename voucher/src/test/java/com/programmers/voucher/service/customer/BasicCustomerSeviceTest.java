@@ -34,7 +34,7 @@ class BasicCustomerSeviceTest {
 
     @BeforeEach
     void init() {
-        jdbcTemplate.execute("DELETE FROM customers");
+        jdbcTemplate.execute("TRUNCATE customers");
     }
 
     @Test
@@ -43,7 +43,7 @@ class BasicCustomerSeviceTest {
         String username = "usernameCreate";
         String alias = "aliasCreate";
         final Customer customerCreationParam = new Customer(username, alias);
-        when(customerRepository.save(customerCreationParam)).thenReturn(new Customer(1, username, alias, false, LocalDate.now()));
+        when(customerRepository.save(customerCreationParam)).thenReturn(new Customer(1L, username, alias, false, LocalDate.now()));
 
         final Customer customer = basicCustomerService.create(username, alias);
         assertEquals(username, customer.getUsername());
@@ -74,7 +74,7 @@ class BasicCustomerSeviceTest {
         String username = "usernameList";
         String alias = "usernameAlias";
         List<Customer> list = new ArrayList<>(10);
-        for(int i=0;i<10;i++) {
+        for(long i=0;i<10;i++) {
             list.add(new Customer(i+1, username+i, alias+i, false, LocalDate.now()));
         }
 

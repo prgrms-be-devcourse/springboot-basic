@@ -5,9 +5,10 @@ voucher:
         name,
         type,
         value,
+        created_at,
         customer_id)
     VALUES (
-        ?, ?, ?, ?)
+        ?, ?, ?, ?, ?)
 
   select:
     all: >

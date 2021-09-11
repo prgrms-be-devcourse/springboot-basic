@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -25,9 +26,18 @@ class LocalFileVoucherRepositoryTest {
     @Autowired
     VoucherRepository localFileVoucherRepository;
 
+    @Test
+    @DisplayName("Load, Persist Vouchers Test")
+    void loadAndPersist() {
+        assertDoesNotThrow(() -> localFileVoucherRepository.loadVouchers());
+        assertDoesNotThrow(() -> localFileVoucherRepository.persistVouchers());
+    }
+
     @BeforeEach
     void deleteFile() throws IOException {
         Files.deleteIfExists(Path.of("storage/test", "vouchers.db"));
+        Files.createFile(Path.of("storage/test", "vouchers.db"));
+        localFileVoucherRepository.loadVouchers();
     }
 
     @Test
@@ -56,10 +66,22 @@ class LocalFileVoucherRepositoryTest {
         final Optional<Voucher> byId = localFileVoucherRepository.findById(voucher.getId());
         assertTrue(byId.isPresent());
         assertEquals(voucherName, byId.get().getName());
+    }
 
-        final List<Voucher> allByCustomer = localFileVoucherRepository.findAllByCustomer(-12345);
-//        assertEquals(1, allByCustomer.size()); --> JUnit test is independent but file doesn't.
-        assertEquals(byId.get(), allByCustomer.get(0));
+    @Test
+    @DisplayName("Vouchers Read Test")
+    void readVouchers() {
+        Voucher voucher1 = localFileVoucherRepository.save(new Voucher("voucher1", new DiscountPolicy(2500, DiscountType.FIXED), 1111));
+        Voucher voucher2 = localFileVoucherRepository.save(new Voucher("voucher2", new DiscountPolicy(2500, DiscountType.FIXED), 1111));
+        Voucher voucher3 = localFileVoucherRepository.save(new Voucher("voucher3", new DiscountPolicy(2500, DiscountType.FIXED), 2222));
+        Voucher voucher4 = localFileVoucherRepository.save(new Voucher("voucher4", new DiscountPolicy(2500, DiscountType.FIXED), 1111));
+
+        List<Voucher> vouchers = localFileVoucherRepository.findAllByCustomer(1111);
+        assertEquals(3, vouchers.size());
+        assertEquals(voucher1, vouchers.get(0));
+        assertEquals(voucher2, vouchers.get(1));
+        assertNotEquals(voucher3, vouchers.get(2));
+        assertEquals(voucher4, vouchers.get(2));
     }
 
     @Test
@@ -99,5 +121,22 @@ class LocalFileVoucherRepositoryTest {
         localFileVoucherRepository.persistVouchers();
         localFileVoucherRepository.loadVouchers();
         assertTrue(localFileVoucherRepository.findById(voucher.getId()).isPresent());
+    }
+
+    @Test
+    @DisplayName("List All Vouchers Test")
+    void listAll() {
+        localFileVoucherRepository.listAll().stream().map(Voucher::getId).forEach(localFileVoucherRepository::deleteById);
+        Voucher voucher1 = localFileVoucherRepository.save(new Voucher("voucher1", new DiscountPolicy(2500, DiscountType.FIXED), 1234));
+        Voucher voucher2 = localFileVoucherRepository.save(new Voucher("voucher2", new DiscountPolicy(2500, DiscountType.FIXED), 1234));
+        Voucher voucher3 = localFileVoucherRepository.save(new Voucher("voucher3", new DiscountPolicy(2500, DiscountType.FIXED), 1234));
+        Voucher voucher4 = localFileVoucherRepository.save(new Voucher("voucher4", new DiscountPolicy(2500, DiscountType.FIXED), 1234));
+
+        List<Voucher> vouchers = localFileVoucherRepository.listAll();
+        assertEquals(4, vouchers.size());
+        assertEquals(voucher1, vouchers.get(0));
+        assertEquals(voucher2, vouchers.get(1));
+        assertEquals(voucher3, vouchers.get(2));
+        assertEquals(voucher4, vouchers.get(3));
     }
 }

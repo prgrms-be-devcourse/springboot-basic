@@ -91,10 +91,10 @@ public class LocalFileVoucherRepository implements VoucherRepository {
             sequencer = new AtomicLong(maxNum + 1);
             log.debug("Sequencer initialized as {}", maxNum + 1);
         } catch (IOException ex) {
-            log.error("IOException occur on initializing vouchers from local file {}", file);
+            log.error("IOException occur on initializing vouchers from local file {} - {}", file, ex.getMessage());
             System.exit(1);
         } catch (ClassNotFoundException ex) {
-            log.error("ClassNotFoundException occur on initializing vouchers from local file {}", file);
+            log.error("ClassNotFoundException occur on initializing vouchers from local file {} - {}", file, ex.getMessage());
             System.exit(1);
         }
 

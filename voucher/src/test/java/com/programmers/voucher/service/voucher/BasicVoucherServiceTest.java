@@ -24,8 +24,8 @@ class BasicVoucherServiceTest {
     VoucherService voucherService = new BasicVoucherService(voucherRepository);
 
     @Test
-    @DisplayName("Voucher Creation Test")
-    void createVoucher() {
+    @DisplayName("Fixed Voucher Creation Test")
+    void createFixedVoucher() {
         long customerId = 1;
 
         String voucherFixedName = "voucherCreateFixed";
@@ -33,7 +33,7 @@ class BasicVoucherServiceTest {
         int voucherFixedAmount = 2500;
         DiscountPolicy fixedDiscountPolicy = new DiscountPolicy(voucherFixedAmount, voucherFixedType);
         when(voucherRepository.save(new Voucher(voucherFixedName, fixedDiscountPolicy, customerId)))
-                .thenReturn(new Voucher(1, voucherFixedName, fixedDiscountPolicy, LocalDate.now(), customerId));
+                .thenReturn(new Voucher(1L, voucherFixedName, fixedDiscountPolicy, LocalDate.now(), customerId));
 
         final Voucher voucherFixed = voucherService.create(voucherFixedName, voucherFixedType, voucherFixedAmount, customerId);
 
@@ -41,13 +41,19 @@ class BasicVoucherServiceTest {
         assertEquals(voucherFixedType, voucherFixed.getDiscountPolicy().getType());
         assertEquals(voucherFixedAmount, voucherFixed.getDiscountPolicy().getAmount());
         verify(voucherRepository).save(new Voucher(voucherFixedName, fixedDiscountPolicy, customerId));
+    }
+
+    @Test
+    @DisplayName("Create Percentage Voucher Test")
+    void createPercentageVoucher() {
+        long customerId = 2;
 
         String voucherPercentageName = "voucherCreatePercentage";
         DiscountType voucherPercentageType = DiscountType.PERCENTAGE;
         int voucherPercentageAmount = 50;
         final DiscountPolicy percentageDiscountPolicy = new DiscountPolicy(voucherPercentageAmount, voucherPercentageType);
         when(voucherRepository.save(new Voucher(voucherPercentageName, percentageDiscountPolicy, customerId)))
-                .thenReturn(new Voucher(2, voucherPercentageName, percentageDiscountPolicy, LocalDate.now(), customerId));
+                .thenReturn(new Voucher(2L, voucherPercentageName, percentageDiscountPolicy, LocalDate.now(), customerId));
 
         final Voucher voucherPercentage = voucherService.create(voucherPercentageName, voucherPercentageType, voucherPercentageAmount, customerId);
 
@@ -58,23 +64,27 @@ class BasicVoucherServiceTest {
     }
 
     @Test
-    @DisplayName("Voucher Creation Constraints Test")
-    void constraintCreate() {
+    @DisplayName("Fixed Voucher Creation Constraints Test")
+    void constraintVoucherCreationConstraint() {
         String fixedVoucherName = "FixedVoucherName";
         final DiscountPolicy discountPolicyFixed = new DiscountPolicy(0, DiscountType.FIXED);
         when(voucherRepository.save(new Voucher(fixedVoucherName, discountPolicyFixed, 1)))
-                .thenReturn(new Voucher(1111, fixedVoucherName, discountPolicyFixed, LocalDate.now(), 1));
+                .thenReturn(new Voucher(1111L, fixedVoucherName, discountPolicyFixed, LocalDate.now(), 1));
 
         final Voucher voucherFixed = voucherService.create(fixedVoucherName, DiscountType.FIXED, -2500, 1);
 
         verify(voucherRepository).save(new Voucher(fixedVoucherName, discountPolicyFixed, 1));
         assertEquals(DiscountType.FIXED, voucherFixed.getDiscountPolicy().getType());
         assertEquals(0, voucherFixed.getDiscountPolicy().getAmount());
+    }
 
+    @Test
+    @DisplayName("Percentage Voucher Creation Constraint Test")
+    void percentageVoucherCreationConstraint() {
         String percentageVoucherName = "PercentageVoucherName";
         final DiscountPolicy discountPolicyPercentage1 = new DiscountPolicy(100, DiscountType.PERCENTAGE);
         when(voucherRepository.save(new Voucher(percentageVoucherName, discountPolicyPercentage1, 2)))
-                .thenReturn(new Voucher(2222, percentageVoucherName, discountPolicyPercentage1, LocalDate.now(), 2));
+                .thenReturn(new Voucher(2222L, percentageVoucherName, discountPolicyPercentage1, LocalDate.now(), 2));
 
         final Voucher voucherPercentage1 = voucherService.create(percentageVoucherName, DiscountType.PERCENTAGE, 250, 2);
 
@@ -84,7 +94,7 @@ class BasicVoucherServiceTest {
 
         final DiscountPolicy discountPolicyPercentage2 = new DiscountPolicy(0, DiscountType.PERCENTAGE);
         when(voucherRepository.save(new Voucher(percentageVoucherName, discountPolicyPercentage2, 2)))
-                .thenReturn(new Voucher(3333, percentageVoucherName, discountPolicyPercentage2, LocalDate.now(), 2));
+                .thenReturn(new Voucher(3333L, percentageVoucherName, discountPolicyPercentage2, LocalDate.now(), 2));
 
         final Voucher voucherPercentage2 = voucherService.create(percentageVoucherName, DiscountType.PERCENTAGE, -250, 2);
 
@@ -115,8 +125,8 @@ class BasicVoucherServiceTest {
     @Test
     @DisplayName("Voucher Update Test")
     void updateVoucher() {
-        Voucher beforeNameUpdate = new Voucher(1, "updateMe", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1111);
-        Voucher afterNameUpdate = new Voucher(1, "updated", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1111);
+        Voucher beforeNameUpdate = new Voucher(1L, "updateMe", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1111);
+        Voucher afterNameUpdate = new Voucher(1L, "updated", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1111);
 
         when(voucherRepository.update(afterNameUpdate))
                 .thenReturn(afterNameUpdate);
@@ -127,8 +137,8 @@ class BasicVoucherServiceTest {
         assertNotEquals(beforeNameUpdate, nameUpdatedVoucher);
         assertEquals(afterNameUpdate, nameUpdatedVoucher);
 
-        Voucher beforeTypeUpdate = new Voucher(2, "typeUpdateVoucher", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 2222);
-        Voucher afterTypeUpdate = new Voucher(2, "typeUpdateVoucher", new DiscountPolicy(100, DiscountType.PERCENTAGE), LocalDate.now(), 2222);
+        Voucher beforeTypeUpdate = new Voucher(2L, "typeUpdateVoucher", new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 2222);
+        Voucher afterTypeUpdate = new Voucher(2L, "typeUpdateVoucher", new DiscountPolicy(100, DiscountType.PERCENTAGE), LocalDate.now(), 2222);
 
         when(voucherRepository.update(afterTypeUpdate))
                 .thenReturn(afterTypeUpdate);
@@ -139,8 +149,8 @@ class BasicVoucherServiceTest {
         assertNotEquals(beforeTypeUpdate, typeUpdatedVoucher);
         assertEquals(afterTypeUpdate, typeUpdatedVoucher);
 
-        Voucher beforeAmountUpdate = new Voucher(3, "amountUpdateVoucher", new DiscountPolicy(500, DiscountType.FIXED), LocalDate.now(), 3333);
-        Voucher afterAmountUpdate = new Voucher(3, "amountUpdateVoucher", new DiscountPolicy(5000, DiscountType.FIXED), LocalDate.now(), 3333);
+        Voucher beforeAmountUpdate = new Voucher(3L, "amountUpdateVoucher", new DiscountPolicy(500, DiscountType.FIXED), LocalDate.now(), 3333);
+        Voucher afterAmountUpdate = new Voucher(3L, "amountUpdateVoucher", new DiscountPolicy(5000, DiscountType.FIXED), LocalDate.now(), 3333);
 
         when(voucherRepository.update(afterAmountUpdate))
                 .thenReturn(afterAmountUpdate);
@@ -153,10 +163,10 @@ class BasicVoucherServiceTest {
     }
 
     @Test
-    @DisplayName("Voucher Discount Policy Update Constraints Test")
-    void constraintsUpdate() {
-        Voucher fixedBefore = new Voucher(1, "typeUpdateVoucher", new DiscountPolicy(-2500, DiscountType.FIXED), LocalDate.now(), 2222);
-        Voucher fixedAfter = new Voucher(1, "typeUpdateVoucher", new DiscountPolicy(0, DiscountType.FIXED), LocalDate.now(), 2222);
+    @DisplayName("Fixed Voucher Discount Policy Update Constraints Test")
+    void fixedVoucherUpdateConstraints() {
+        Voucher fixedBefore = new Voucher(1L, "typeUpdateVoucher", new DiscountPolicy(-2500, DiscountType.FIXED), LocalDate.now(), 2222);
+        Voucher fixedAfter = new Voucher(1L, "typeUpdateVoucher", new DiscountPolicy(0, DiscountType.FIXED), LocalDate.now(), 2222);
         when(voucherRepository.update(fixedAfter))
                 .thenReturn(fixedAfter);
 
@@ -165,9 +175,13 @@ class BasicVoucherServiceTest {
         verify(voucherRepository).update(fixedAfter);
         assertNotEquals(-2500, constrainedFixedVoucher.getDiscountPolicy().getAmount());
         assertEquals(0, constrainedFixedVoucher.getDiscountPolicy().getAmount());
+    }
 
-        Voucher percentageBefore1 = new Voucher(2, "typeUpdateVoucher", new DiscountPolicy(-250, DiscountType.PERCENTAGE), LocalDate.now(), 3333);
-        Voucher percentageAfter1 = new Voucher(2, "typeUpdateVoucher", new DiscountPolicy(0, DiscountType.PERCENTAGE), LocalDate.now(), 3333);
+    @Test
+    @DisplayName("Percentage Voucher Discount Policy Update Constraints Test")
+    void percentageVoucherUpdateConstraints() {
+        Voucher percentageBefore1 = new Voucher(2L, "typeUpdateVoucher", new DiscountPolicy(-250, DiscountType.PERCENTAGE), LocalDate.now(), 3333);
+        Voucher percentageAfter1 = new Voucher(2L, "typeUpdateVoucher", new DiscountPolicy(0, DiscountType.PERCENTAGE), LocalDate.now(), 3333);
         when(voucherRepository.update(percentageAfter1))
                 .thenReturn(percentageAfter1);
 
@@ -177,8 +191,8 @@ class BasicVoucherServiceTest {
         assertNotEquals(-250, constrainedPercentageVoucher1.getDiscountPolicy().getAmount());
         assertEquals(0, constrainedPercentageVoucher1.getDiscountPolicy().getAmount());
 
-        Voucher percentageBefore2 = new Voucher(3, "typeUpdateVoucher", new DiscountPolicy(250, DiscountType.PERCENTAGE), LocalDate.now(), 4444);
-        Voucher percentageAfter2 = new Voucher(3, "typeUpdateVoucher", new DiscountPolicy(100, DiscountType.PERCENTAGE), LocalDate.now(), 4444);
+        Voucher percentageBefore2 = new Voucher(3L, "typeUpdateVoucher", new DiscountPolicy(250, DiscountType.PERCENTAGE), LocalDate.now(), 4444);
+        Voucher percentageAfter2 = new Voucher(3L, "typeUpdateVoucher", new DiscountPolicy(100, DiscountType.PERCENTAGE), LocalDate.now(), 4444);
         when(voucherRepository.update(percentageAfter2))
                 .thenReturn(percentageAfter2);
 
@@ -190,12 +204,23 @@ class BasicVoucherServiceTest {
     }
 
     // no deletion test because service method 'delete' returns nothing and just calls repository's delete(or deleteById) method.
+    @Test
+    @DisplayName("Delete Voucher Test")
+    void deleteVoucher() {
+        long voucherId = 1313;
+        when(voucherRepository.findById(voucherId))
+                .thenReturn(Optional.of(new Voucher(voucherId, "voucher", null, null, 0)));
+        doNothing().when(voucherRepository).deleteById(voucherId);
+
+        voucherService.delete(voucherId);
+        verify(voucherRepository).deleteById(voucherId);
+    }
 
     @Test
     @DisplayName("Vouchers List Test")
     void listAllVouchers() {
         List<Voucher> list = new ArrayList<>(10);
-        for(int i=0;i<10;i++) {
+        for(long i=0;i<10;i++) {
             list.add(new Voucher(i + 1, "voucherName" + i, new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1000 + i));
         }
         when(voucherRepository.listAll())
@@ -205,9 +230,9 @@ class BasicVoucherServiceTest {
 
         verify(voucherRepository).listAll();
         assertEquals(10, vouchers.size());
-        for(int i=0;i<10;i++) {
+        for(long i=0;i<10;i++) {
             Voucher compare = new Voucher(i + 1, "voucherName" + i, new DiscountPolicy(2500, DiscountType.FIXED), LocalDate.now(), 1000 + i);
-            assertEquals(compare, vouchers.get(i));
+            assertEquals(compare, vouchers.get((int)i));
         }
     }
 
