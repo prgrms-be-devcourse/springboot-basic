@@ -1,5 +1,7 @@
 package org.prgrms.dev.voucher.domain;
 
+import org.prgrms.dev.voucher.exception.InvalidArgumentException;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -11,18 +13,33 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent < ZERO_PERCENT) {
-            throw new IllegalArgumentException("Percent should be positive");
-        }
-        if (percent == ZERO_PERCENT) {
-            throw new IllegalArgumentException("Percent should not be zero");
-        }
-        if (percent > MAX_PERCENT) {
-            throw new IllegalArgumentException(String.format("Percent should be less than %d ", MAX_PERCENT));
-        }
+        validate(percent);
 
         this.voucherId = voucherId;
         this.percent = percent;
+    }
+    private void validate(long percent) {
+        validatePercentIsZero(percent);
+        validatePercentIsNegative(percent);
+        validatePercentOutOfMax(percent);
+    }
+
+    private void validatePercentIsZero(long percent) {
+        if (percent == ZERO_PERCENT) {
+            throw new InvalidArgumentException("Percent should not be zero");
+        }
+    }
+
+    private void validatePercentIsNegative(long percent) {
+        if (percent < ZERO_PERCENT) {
+            throw new InvalidArgumentException("Percent should be positive");
+        }
+    }
+
+    private void validatePercentOutOfMax(long percent) {
+        if (percent > MAX_PERCENT) {
+            throw new InvalidArgumentException(String.format("Percent should be less than %d ", MAX_PERCENT));
+        }
     }
 
     @Override

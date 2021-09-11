@@ -66,7 +66,10 @@ Type list to list all vouchers.
 
 
 - 적절한 로그를 기록하고 로그백 설정을 해서 에러는 파일로 기록하기
-  - ![errorlog](assets/images/errorlog.png)
+
+  ![errorlog](assets/images/errorlog0908.png)
+
+  ![errorlog](assets/images/errorlog.png)
 
 ---
 

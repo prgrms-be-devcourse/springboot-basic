@@ -2,6 +2,7 @@ package org.prgrms.dev.command;
 
 import org.prgrms.dev.io.Input;
 import org.prgrms.dev.io.Output;
+import org.prgrms.dev.voucher.exception.InvalidArgumentException;
 import org.prgrms.dev.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,9 @@ public class CreateCommand implements Command {
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage());
             output.printInvalidVoucherType();
+        } catch (InvalidArgumentException e) {
+            logger.error(e.getMessage());
+            output.printInvalidNumber();
         }
         return true;
     }
