@@ -1,6 +1,10 @@
 package org.programmers;
 
+import org.programmers.customer.Customer;
+import org.programmers.voucher.Voucher;
+
 import java.io.*;
+import java.util.List;
 
 public class Console implements Input, Output {
 
@@ -32,6 +36,31 @@ public class Console implements Input, Output {
     public void printVoucherTypes() throws IOException {
         bw.write("Type fixed to create fixed amount voucher\n");
         bw.write(("Type percent to create percent discount voucher\n"));
+        bw.flush();
+    }
+
+    @Override
+    public void printVoucherList(List<Voucher> voucherList) throws IOException {
+        voucherList.forEach(voucher -> {
+            try {
+                bw.write(voucher.toString() + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        bw.flush();
+    }
+
+    @Override
+    public void printBlackList(List<Customer> blackList) throws IOException {
+        if (blackList.isEmpty()) bw.write("Empty voucher list\n");
+        else blackList.forEach(blackCustomer -> {
+            try {
+                bw.write(blackCustomer.toString() + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         bw.flush();
     }
 

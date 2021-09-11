@@ -48,8 +48,8 @@ public class CommandLineApplication implements Runnable {
                         long value = Long.parseLong(console.input());
                         voucherService.createVoucher(voucherType, UUID.randomUUID(), value);
                     }
-                    case LIST -> System.out.println(voucherService.getAllVouchers().toString());
-                    case BLACKLIST -> System.out.println(customerService.getBlackCustomers().toString());
+                    case LIST -> console.printVoucherList(voucherService.getAllVouchers());
+                    case BLACKLIST -> console.printBlackList(customerService.getBlackCustomers());
                     case EXIT -> run = false;
                 }
             } catch (IOException e) {
