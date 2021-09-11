@@ -2,6 +2,7 @@ package org.prgms.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 
 @Repository
+@Primary
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 

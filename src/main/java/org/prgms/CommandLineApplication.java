@@ -36,7 +36,7 @@ public class CommandLineApplication {
                     VoucherType voucherType = VoucherType.valueOf(sc.next());
                     System.out.println("Enter voucher amount : ");
                     int amount = sc.nextInt();
-                    voucherService.createVoucher(voucherType, UUID.randomUUID(), amount);
+                    voucherService.createVoucher(voucherType, amount);
                     break;
 
                 case LIST:

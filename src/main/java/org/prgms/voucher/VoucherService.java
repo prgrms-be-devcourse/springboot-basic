@@ -22,15 +22,15 @@ public class VoucherService {
                 //voucherRepository 에서 voucherId를 가져오려고 하지만 없는 경우에는 에러를 처리함(cna not find a voucher for id)
     }
 
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long amount) {
+    public Voucher createVoucher(VoucherType voucherType, long amount) {
         switch (voucherType) {
             case FIXED_AMOUNT:
-                var Fixedvoucher = new FixedAmountVoucher(voucherId, amount, voucherType);
+                var Fixedvoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, voucherType);
                 voucherRepository.save(Fixedvoucher);
                 return Fixedvoucher;
 
             case PERCENT_DISCOUNT:
-                var Percentvoucher = new PercentDiscountVoucher(voucherId, amount, voucherType);
+                var Percentvoucher = new PercentDiscountVoucher(UUID.randomUUID(), amount, voucherType);
                 voucherRepository.save(Percentvoucher);
                 return Percentvoucher;
         }
