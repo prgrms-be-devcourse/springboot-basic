@@ -1,11 +1,13 @@
 package org.prgrms.kdt;
 
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.order.OrderStatus;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.VoucherRepository;
+import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -14,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -49,13 +50,13 @@ public class KdtSpringContextTests {
     @DisplayName("orderService를 사용해서 주문을 생성할 수 있다.")
     public void testOrderService() {
         //given
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        var fixedAmountVoucher = new FixedAmountVoucher(new RandomDataGenerator().nextLong(0, 10000), VoucherType.FIXED_AMOUNT, 100);
         voucherRepository.insert(fixedAmountVoucher);
 
         //when
         var order = orderService.createOrder(
-                UUID.randomUUID(),
-                List.of(new OrderItem(UUID.randomUUID(), 200, 1)),
+                new RandomDataGenerator().nextLong(0, 10000),
+                List.of(new OrderItem(new RandomDataGenerator().nextLong(0, 10000), 200L, 1L)),
                 fixedAmountVoucher.getVoucherId());
 
         //then
