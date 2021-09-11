@@ -17,8 +17,8 @@ import java.util.UUID;
 
 
 @Repository
-public class VoucherJdbcRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
+public class JdbcVoucherRepository implements VoucherRepository {
+    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
@@ -37,7 +37,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
-    public VoucherJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+    public JdbcVoucherRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
