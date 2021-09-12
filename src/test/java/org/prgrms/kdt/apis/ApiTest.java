@@ -1,13 +1,12 @@
-package org.prgrms.kdt.api;
+package org.prgrms.kdt.apis;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.prgrms.kdt.api.Apis.CUSTOMER;
-import static org.prgrms.kdt.api.Apis.PRE_FIX;
-import static org.prgrms.kdt.api.Apis.SEARCH;
-import static org.prgrms.kdt.api.Apis.VOUCHER;
-import static org.prgrms.kdt.api.Apis.VOUCHERS;
-import static org.prgrms.kdt.api.Apis.VOUCHER_TYPE;
-import static org.prgrms.kdt.api.Apis.WALLET;
+import static org.prgrms.kdt.apis.Api.CUSTOMER;
+import static org.prgrms.kdt.apis.Api.PRE_FIX;
+import static org.prgrms.kdt.apis.Api.SEARCH;
+import static org.prgrms.kdt.apis.Api.VOUCHER;
+import static org.prgrms.kdt.apis.Api.VOUCHERS;
+import static org.prgrms.kdt.apis.Api.WALLET;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -18,14 +17,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.common.BaseApiTest;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherDto;
 import org.prgrms.kdt.voucher.VoucherType;
-import org.prgrms.kdt.wallet.Wallet;
 import org.prgrms.kdt.wallet.WalletDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -35,7 +32,7 @@ import org.springframework.http.MediaType;
  * Date: 2021/09/04 Time: 1:42 오후
  */
 
-public class ApisTest extends BaseApiTest {
+public class ApiTest extends BaseApiTest {
 
     @Test
     @DisplayName("고객에게 바우처를 정상적으로 할당하는 테스트")
@@ -210,7 +207,7 @@ public class ApisTest extends BaseApiTest {
         initVoucher();      // FIX
         voucherRepository.insert(new Voucher(UUID.randomUUID(), "test",100L, VoucherType.PERCENT, LocalDateTime.now()));
 
-        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + VOUCHER_TYPE, "FIX")
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "/type?voucherType=FIX")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .characterEncoding("UTF-8"))
@@ -227,7 +224,7 @@ public class ApisTest extends BaseApiTest {
     @Test
     @DisplayName("존재하지 안는 바우처 조회시 404 응답 테스트")
     void getVoucherByType_badRequest() throws Exception {
-        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + VOUCHER_TYPE, "NOOOOOOP")
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "/type?voucherType=NOOOOOOP")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .characterEncoding("UTF-8"))
@@ -240,7 +237,7 @@ public class ApisTest extends BaseApiTest {
     void getByCreatedAt() throws Exception {
         voucherRepository.insert(new Voucher(UUID.randomUUID(), "test", 100L, VoucherType.FIX, LocalDateTime.of(2020, 11, 12, 00, 00, 00)));
 
-        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "?beforeDate=2020-01-01&afterDate=2022-01-01"))
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "/createAt?beforeDate=2020-01-01&afterDate=2022-01-01"))
                 .andDo(print())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$..voucherId").exists())
