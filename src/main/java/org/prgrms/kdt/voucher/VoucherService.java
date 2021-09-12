@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Date: 2021/09/04 Time: 10:27 오전
  */
 @Service
+@Transactional(readOnly = true)
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
@@ -43,6 +44,7 @@ public class VoucherService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void addVoucher(VoucherForm voucherForm) {
         Voucher voucher = new Voucher(
                 UUID.randomUUID(),
@@ -60,6 +62,7 @@ public class VoucherService {
         voucherRepository.insert(voucher);
     }
 
+    @Transactional
     public void removeVoucher(String voucherId) {
         voucherRepository.deleteById(UUID.fromString(voucherId));
     }

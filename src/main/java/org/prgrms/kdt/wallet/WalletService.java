@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Date: 2021/09/04 Time: 12:24 오후
  */
 @Service
+@Transactional(readOnly = true)
 public class WalletService {
     private static final Logger logger = LoggerFactory.getLogger(WalletService.class);
 
