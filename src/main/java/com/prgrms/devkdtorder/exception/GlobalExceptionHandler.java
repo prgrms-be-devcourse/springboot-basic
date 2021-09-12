@@ -27,6 +27,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ApiUtils.error(message, status), status);
     }
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<?> handleBusinessException(BusinessException e) {
+        log.error("businessException exception occurred: {}", e.getMessage(), e);
+        return newResponseEntity(e, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler({
             IllegalArgumentException.class,
