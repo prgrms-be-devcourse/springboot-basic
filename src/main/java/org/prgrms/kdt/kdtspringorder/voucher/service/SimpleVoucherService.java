@@ -17,13 +17,13 @@ import java.util.UUID;
  */
 @Service
 @Transactional
-public class VoucherServiceImpl implements VoucherService {
+public class SimpleVoucherService implements VoucherService {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(SimpleVoucherService.class);
 
     private final VoucherRepository voucherRepository;
 
-    public VoucherServiceImpl(VoucherRepository voucherRepository) {
+    public SimpleVoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

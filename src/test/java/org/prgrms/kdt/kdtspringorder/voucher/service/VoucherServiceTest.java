@@ -1,6 +1,5 @@
 package org.prgrms.kdt.kdtspringorder.voucher.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -12,9 +11,6 @@ import org.prgrms.kdt.kdtspringorder.voucher.domain.Voucher;
 import org.prgrms.kdt.kdtspringorder.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.ArrayList;
@@ -40,7 +36,7 @@ class VoucherServiceTest {
 
     @BeforeEach
     public void setUp() {
-        voucherService = new VoucherServiceImpl(voucherRepository);
+        voucherService = new SimpleVoucherService(voucherRepository);
     }
 
     @Nested
