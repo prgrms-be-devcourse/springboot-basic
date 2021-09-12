@@ -34,18 +34,21 @@ public class VoucherApiController {
     }
 
     @PostMapping
-    public void saveVoucher(@RequestBody VoucherDto voucherDto) {
+    public ApiResponse<Boolean> saveVoucher(@RequestBody VoucherDto voucherDto) {
         voucherService.saveVoucher(voucherDto.toEntity());
+        return ApiUtils.success(true);
     }
 
     @PutMapping
-    public void updateVoucher(@RequestBody VoucherDto voucherDto) {
+    public ApiResponse<Boolean> updateVoucher(@RequestBody VoucherDto voucherDto) {
         voucherService.updateVoucher(voucherDto.toEntity());
+        return ApiUtils.success(true);
     }
 
     @DeleteMapping(path = "{voucherId}")
-    public void deleteVoucherById(@PathVariable("voucherId") UUID voucherId) {
+    public ApiResponse<Boolean> deleteVoucherById(@PathVariable("voucherId") UUID voucherId) {
         voucherService.deleteVoucherById(voucherId);
+        return ApiUtils.success(true);
     }
 
 }
