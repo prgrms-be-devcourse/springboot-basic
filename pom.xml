@@ -20,7 +20,7 @@
         <commons.math.version>3.6.1</commons.math.version>
         <commons.io.version>2.8.0</commons.io.version>
         <guava.version>30.1-jre</guava.version>
-        <xstream.version> 1.4.17</xstream.version>
+        <xstream.version>1.4.17</xstream.version>
     </properties>
 
     <dependencies>
@@ -111,7 +111,7 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
-        
+
     </dependencies>
 
     <build>
