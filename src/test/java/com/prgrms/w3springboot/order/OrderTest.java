@@ -4,6 +4,7 @@ import com.prgrms.w3springboot.configuration.AppConfig;
 import com.prgrms.w3springboot.order.service.OrderService;
 import com.prgrms.w3springboot.voucher.FixedAmountVoucher;
 import com.prgrms.w3springboot.voucher.PercentAmountVoucher;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
@@ -15,7 +16,8 @@ import java.util.UUID;
 class OrderTest {
 
     @Test
-    void 고정할인적용() {
+    @DisplayName("고정 할인 바우처 생성 테스트")
+    void testCreateFixedVoucher() {
         var customerId = UUID.randomUUID();
         var orderItems = List.of(
                 new OrderItem(UUID.randomUUID(), 100L, 1)
@@ -27,7 +29,8 @@ class OrderTest {
     }
 
     @Test
-    void 퍼센트할인적용() {
+    @DisplayName("퍼센트 할인 바우처 생성 테스트")
+    void testCreatePercentVoucher() {
         var customerId = UUID.randomUUID();
         var orderItems = List.of(
                 new OrderItem(UUID.randomUUID(), 100L, 1)
@@ -39,7 +42,8 @@ class OrderTest {
     }
 
     @Test
-    void 주문생성_의존성주입() {
+    @DisplayName("의존성 빈으로 주문 생성 테스트")
+    void testCreateOrderByDI() {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         var orderService = applicationContext.getBean(OrderService.class);
         var order = orderService.createOrder(UUID.randomUUID(), List.of(
