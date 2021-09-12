@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org" lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body class="container-fruid">
+
+  <div class="container">
+
+    <div class="row" th:each = "voucher: ${vouchers}" th:object="${voucher}" th:onclick="|location.href='@{/voucher/detail/{voucherId}(voucherId=*{voucherId}) }'|">
+      <div class="col" th:text="*{voucherId}">Column</div>
+      <div class="col" th:text="*{voucherType}">Column</div>
+      <div class="col" th:text="*{amount}">Column</div>
+      <div class="col" th:text="*{createdAt}">Column</div>
+    </div>
+
+      <div>
+          <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/voucher/new}'|">추가</button>
+      </div>
+
+  </div>
+
+</body>
+</html>

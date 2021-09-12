@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org" lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+
+<body>
+
+<div class="container">
+    <form th:action="@{/voucher/new}" th:object="${createForm}" method="post">
+
+        <div class="btn-group form-group" role="group" aria-label="Basic radio toggle button group" th:field="*{voucherType}">
+            <input type="radio" class="btn-check" name="voucherType" id="fix" autocomplete="off" value="FIX" checked>
+            <label class="btn btn-outline-primary" for="fix">FIX</label>
+
+            <input type="radio" class="btn-check" name="voucherType" id="percent" autocomplete="off"  value="PERCENT">
+            <label class="btn btn-outline-primary" for="percent">PERCENT</label>
+        </div>
+
+        <div class="form-group">
+            <label th:for="amount">가격</label>
+            <input type="number" th:field="*{amount}" class="form-control"
+                   placeholder="가격을 입력하세요">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+</body>
+</html>
