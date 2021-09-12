@@ -34,4 +34,13 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
 
     }
+
+    public void deleteVoucherById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
+    public UUID updateVoucher(Voucher voucher) {
+        Voucher updatedVoucher = voucherRepository.update(voucher);
+        return updatedVoucher.getVoucherId();
+    }
 }
