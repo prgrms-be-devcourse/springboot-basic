@@ -74,11 +74,11 @@ public class ControllerAdvice {
 
         ApiResponse apiResponse = ApiResponse.builder()
             .error(apiErrorResponse)
-            .status(HttpStatus.BAD_REQUEST)
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .success(false)
             .build();
 
-        return ResponseEntity.badRequest().body(apiResponse);
+        return ResponseEntity.internalServerError().body(apiResponse);
 
     }
 
