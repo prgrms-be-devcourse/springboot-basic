@@ -5,9 +5,10 @@ import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Component
@@ -15,7 +16,7 @@ public class CreateVoucher implements FileRepository<VoucherData> {
 
     private static final String VoucherFileName = "voucher.txt";
 
-    private VoucherService voucherService;
+    private final VoucherService voucherService;
 
     public CreateVoucher(VoucherService voucherService) {
         this.voucherService = voucherService;

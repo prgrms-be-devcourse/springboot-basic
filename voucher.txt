@@ -54,3 +54,15 @@ VoucherNumber : 2,  DiscountAmount : 50
 VoucherNumber : 2,  DiscountAmount : 50
 VoucherNumber : 2,  DiscountAmount : 50
 VoucherNumber : 2,  DiscountAmount : 50
+VoucherNumber : 1,  DiscountAmount : 20
+VoucherNumber : 2,  DiscountAmount : 50
+VoucherNumber : 1,  DiscountAmount : 50
+VoucherNumber : 1,  DiscountAmount : 50
+VoucherNumber : 2,  DiscountAmount : 50
+VoucherNumber : 1,  DiscountAmount : 30
+VoucherNumber : 2,  DiscountAmount : 50
+VoucherNumber : 1,  DiscountAmount : 20
+VoucherNumber : 1,  DiscountAmount : 50
+VoucherNumber : 2,  DiscountAmount : 50
+VoucherNumber : 2,  DiscountAmount : 50
+VoucherNumber : 1,  DiscountAmount : 20

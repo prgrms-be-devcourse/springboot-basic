@@ -44,12 +44,13 @@ public class Console implements ConsoleCommands{
         System.out.println("Type exit to exit the program.");
         System.out.println("Type create to create a new voucher.");
         System.out.println("Type list to list all vouchers");
-        System.out.println("-> ");
+        System.out.print("-> ");
     }
 
     @Override
     public void successfullyCreated() {
         System.out.println("바우처가 성공적으로 생성되었습니다.");
+        System.out.println("");
     }
 
     @Override
@@ -67,12 +68,14 @@ public class Console implements ConsoleCommands{
 
     @Override
     public void commandError() {
-        System.out.println("지원하지 않는 명령어입니다. 입력값을 확인해주세요.");
+        System.out.println("지원하지 않는 명령어입니다 입력값을 확인해주세요.");
+        System.out.println("");
     }
 
     @Override
     public void printVoucherList(Map<UUID, Voucher> vouchers) {
-        vouchers.values().forEach(System.out::println);
+        vouchers.entrySet().stream().forEach(entry -> System.out.println("Voucher Type : " + entry.getValue().toString() + ", UUID : " + entry.getValue().getVoucherID()));
+        System.out.println("");
     }
 
     @Override

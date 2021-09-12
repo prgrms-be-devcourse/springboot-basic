@@ -1,0 +1,133 @@
+09:45:07.256 [main] INFO  o.p.k.v.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 7942 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+09:45:07.259 [main] DEBUG o.p.k.v.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+09:45:07.259 [main] INFO  o.p.k.v.CommandLineApllicationRunner - The following profiles are active: dev
+09:46:05.381 [main] INFO  o.p.k.v.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 7948 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+09:46:05.382 [main] DEBUG o.p.k.v.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+09:46:05.382 [main] INFO  o.p.k.v.CommandLineApllicationRunner - The following profiles are active: dev
+09:50:43.841 [main] INFO  o.p.k.v.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 7958 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+09:50:43.843 [main] DEBUG o.p.k.v.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+09:50:43.843 [main] INFO  o.p.k.v.CommandLineApllicationRunner - The following profiles are active: dev
+09:50:48.013 [main] INFO  o.p.k.v.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 7960 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+09:50:48.015 [main] DEBUG o.p.k.v.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+09:50:48.015 [main] INFO  o.p.k.v.CommandLineApllicationRunner - The following profiles are active: dev
+09:51:31.059 [main] INFO  o.p.k.v.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 7965 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+09:51:31.060 [main] DEBUG o.p.k.v.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+09:51:31.061 [main] INFO  o.p.k.v.CommandLineApllicationRunner - The following profiles are active: dev
+09:58:18.044 [main] INFO  o.p.k.v.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 7995 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+09:58:18.046 [main] DEBUG o.p.k.v.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+09:58:18.046 [main] INFO  o.p.k.v.CommandLineApllicationRunner - The following profiles are active: dev
+09:59:32.776 [main] INFO  o.p.k.v.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8019 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+09:59:32.778 [main] DEBUG o.p.k.v.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+09:59:32.778 [main] INFO  o.p.k.v.CommandLineApllicationRunner - The following profiles are active: dev
+10:02:35.054 [main] INFO  o.p.k.v.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8029 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+10:02:35.056 [main] DEBUG o.p.k.v.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+10:02:35.056 [main] INFO  o.p.k.v.CommandLineApllicationRunner - The following profiles are active: dev
+10:10:20.931 [main] INFO  o.p.k.v.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8048 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+10:10:20.933 [main] DEBUG o.p.k.v.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+10:10:20.933 [main] INFO  o.p.k.v.CommandLineApllicationRunner - The following profiles are active: dev
+10:38:59.176 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8160 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+10:38:59.178 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+10:38:59.178 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+10:38:59.727 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+10:38:59.728 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+10:38:59.728 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+10:38:59.729 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+10:38:59.816 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.87 seconds (JVM running for 1.416)
+10:39:19.551 [main] INFO  o.p.kdt.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8162 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+10:39:19.553 [main] DEBUG o.p.kdt.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+10:39:19.553 [main] INFO  o.p.kdt.CommandLineApllicationRunner - The following profiles are active: dev
+10:41:38.987 [main] INFO  o.p.kdt.CommandLineApllicationRunner - Starting CommandLineApllicationRunner using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8183 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+10:41:38.990 [main] DEBUG o.p.kdt.CommandLineApllicationRunner - Running with Spring Boot v2.5.3, Spring v5.3.9
+10:41:38.990 [main] INFO  o.p.kdt.CommandLineApllicationRunner - The following profiles are active: dev
+10:44:28.209 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8202 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+10:44:28.210 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+10:44:28.210 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+10:44:28.622 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+10:44:28.623 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+10:44:28.623 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+10:44:28.623 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+10:44:28.706 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.716 seconds (JVM running for 1.24)
+10:44:58.705 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8208 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+10:44:58.707 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+10:44:58.707 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+10:44:59.151 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+10:44:59.151 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+10:44:59.151 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+10:44:59.152 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+10:44:59.227 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.874 seconds (JVM running for 2.375)
+10:47:11.889 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8219 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+10:47:11.891 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+10:47:11.891 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+10:47:12.406 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+10:47:12.407 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+10:47:12.407 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+10:47:12.407 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+10:47:12.485 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.819 seconds (JVM running for 1.365)
+10:47:21.646 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.FixedAmountVoucher@58cec85b
+11:06:07.749 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8259 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+11:06:07.750 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+11:06:07.750 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+11:06:08.203 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+11:06:08.204 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+11:06:08.204 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+11:06:08.204 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+11:06:08.287 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.771 seconds (JVM running for 1.313)
+11:06:26.309 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.PercentDiscountVoucher@6d3c232f
+11:06:59.979 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8270 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+11:06:59.981 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+11:06:59.981 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+11:07:00.522 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+11:07:00.523 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+11:07:00.523 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+11:07:00.523 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+11:07:00.609 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.905 seconds (JVM running for 1.479)
+11:07:08.983 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.FixedAmountVoucher@7bde1f3a
+11:07:43.684 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8278 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+11:07:43.685 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+11:07:43.685 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+11:07:44.099 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+11:07:44.099 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+11:07:44.099 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+11:07:44.100 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+11:07:44.180 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.727 seconds (JVM running for 1.29)
+11:07:48.403 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.FixedAmountVoucher@5cf8edcf
+11:07:54.810 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.PercentDiscountVoucher@153f66e7
+11:11:33.582 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8292 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+11:11:33.584 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+11:11:33.584 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+11:11:33.976 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+11:11:33.977 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+11:11:33.977 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+11:11:33.977 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+11:11:34.055 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.701 seconds (JVM running for 1.223)
+11:11:40.959 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.FixedAmountVoucher@58cec85b
+11:11:47.760 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.PercentDiscountVoucher@7aad3f7d
+11:14:12.205 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8303 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+11:14:12.207 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+11:14:12.207 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+11:14:12.596 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+11:14:12.597 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+11:14:12.597 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+11:14:12.597 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+11:14:12.671 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.678 seconds (JVM running for 1.186)
+11:14:19.949 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.FixedAmountVoucher@25d3cfc8
+11:18:14.036 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8321 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+11:18:14.038 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+11:18:14.038 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+11:18:14.382 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+11:18:14.382 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+11:18:14.382 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+11:18:14.383 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+11:18:14.442 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.673 seconds (JVM running for 1.597)
+11:18:25.262 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.FixedAmountVoucher@6b587673
+11:18:31.797 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.PercentDiscountVoucher@3b569985
+11:19:04.934 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on maegbug-ui-MacBook-Pro.local with PID 8327 (/Users/macbook/kdt-spring-order/target/classes started by macbook in /Users/macbook/kdt-spring-order)
+11:19:04.936 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+11:19:04.936 [main] INFO  org.prgrms.kdt.KdtApplication - The following profiles are active: dev
+11:19:05.484 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] version : v1.0
+11:19:05.485 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] minimumOrderAmount : 1
+11:19:05.485 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] supportVendors : [a, b, c, d, e]
+11:19:05.485 [main] DEBUG org.prgrms.kdt.order.OrderProperties - [OrderProperties] javahome : /Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+11:19:05.558 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.907 seconds (JVM running for 1.464)
+11:19:51.436 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.PercentDiscountVoucher@3eed0f5
+11:19:54.326 [main] INFO  o.prgrms.kdt.voucher.VoucherService - 바우처 생성 완료 org.prgrms.kdt.voucher.FixedAmountVoucher@2032e725

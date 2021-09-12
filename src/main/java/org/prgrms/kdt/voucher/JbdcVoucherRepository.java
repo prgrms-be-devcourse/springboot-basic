@@ -10,7 +10,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"dev", "staging", "production"})
+@Profile({"staging", "production"})
 public class JbdcVoucherRepository implements VoucherRepository {
     // 메모리에서 관리하기위해 해쉬맵 사용
     // Thread safety한 처리 위해 ConcurrentHashMap 사용

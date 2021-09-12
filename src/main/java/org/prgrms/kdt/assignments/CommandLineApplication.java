@@ -24,9 +24,9 @@ public class CommandLineApplication implements Runnable {
     @Override
     public void run() {
         Console console = new Console();
-        console.guide();
 
         while(true) {
+            console.guide();
             switch (scanner.nextLine().toUpperCase()){
                 case "CREATE" -> {
                     VoucherData voucherData = console.inputVoucher();
