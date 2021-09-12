@@ -23,8 +23,8 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherType() {
-        return "percent";
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT;
     }
 
     @Override

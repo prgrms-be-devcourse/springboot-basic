@@ -7,7 +7,7 @@ public interface Voucher {
 
     long getAmount();
 
-    String getVoucherType();
+    VoucherType getVoucherType();
 
     long discount(long beforeDiscount);
 }
