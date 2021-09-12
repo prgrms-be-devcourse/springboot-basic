@@ -1,13 +1,26 @@
 package org.prgrms.kdtspringdemo.application;
 
 import org.prgrms.kdtspringdemo.CommandType;
-import org.prgrms.kdtspringdemo.console.CommandOperator;
 import org.prgrms.kdtspringdemo.console.Console;
 import org.prgrms.kdtspringdemo.console.CustomerOperator;
-import org.prgrms.kdtspringdemo.voucher.Voucher;
+import org.prgrms.kdtspringdemo.console.VoucherOperator;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleApp {
-    public ConsoleApp(Console console, CommandOperator<Voucher> operator, CustomerOperator customerOperator) {
+    private final VoucherOperator voucherOperator;
+    private final CustomerOperator customerOperator;
+
+    private Console console;
+
+    public ConsoleApp(VoucherOperator voucherOperator, CustomerOperator customerOperator) {
+        this.voucherOperator = voucherOperator;
+        this.customerOperator = customerOperator;
+
+        console = new Console();
+    }
+
+    public void run() {
         console.printStartAppInfo();
 
         while (true) {
@@ -27,11 +40,10 @@ public class ConsoleApp {
                         }
                         case "2" -> {
                             boolean commandSuccess = false;
-                            while (!commandSuccess)
-                            {
+                            while (!commandSuccess) {
                                 console.printCreateVoucherByTypes();
                                 String[] createCommand = console.getCreateLine().split(" ");
-                                commandSuccess = operator.create(createCommand);
+                                commandSuccess = voucherOperator.create(createCommand);
                             }
                         }
                     }
@@ -42,7 +54,7 @@ public class ConsoleApp {
                     String num = console.getCreateLine();
                     switch (num) {
                         case "1" -> console.printList(customerOperator.getAllitems());
-                        case "2" -> console.printList(operator.getAllitems());
+                        case "2" -> console.printList(voucherOperator.getAllitems());
                     }
                 }
                 case EXIT -> System.exit(0);

@@ -1,26 +1,33 @@
 package org.prgrms.kdtspringdemo.console;
 
-import org.prgrms.kdtspringdemo.configuration.AppConfiguration;
 import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.prgrms.kdtspringdemo.wallet.WalletService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CustomerOperator implements CommandOperator<Customer> {
     private final CustomerService customerService;
+    private final WalletService walletService;
 
-    public CustomerOperator() {
-        var application = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        customerService = application.getBean(CustomerService.class);
+    public CustomerOperator(CustomerService customerService, WalletService walletService) {
+        this.customerService = customerService;
+        this.walletService = walletService;
     }
 
+    // todo : VO로 CustomerData 전달하기
     @Override
     public boolean create(String[] splitList) {
         if (!validationCheck(splitList)) return false;
-        Customer customer = customerService.saveCustomer(splitList[0], splitList[1], splitList[2]);
+        var name = splitList[0];
+        var email = splitList[1];
+        var type = splitList[2];
+        Customer customer = customerService.saveCustomer(name, email, type);
+//        walletService.addWallet(customer.getId());
+
         return customer != null;
     }
 
