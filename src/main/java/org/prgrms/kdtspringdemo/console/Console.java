@@ -29,7 +29,6 @@ public class Console implements Input, Output {
                 Type exit to exit the program.
                 Type create to create a new voucher.
                 Type list to list all vouchers.
-                Type customers to list all customers
                 Type blacks to list all blacklist customers""");
     }
 
@@ -43,7 +42,25 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printCreateTypes() {
+    public void printCreateSelect() {
+        System.out.print("""
+                Select Create Object type.
+                1. Customer
+                2. Voucher
+                Input select number(1 or 2):""");
+    }
+
+    @Override
+    public void printCreateCustomerByTypes() {
+        System.out.print("""
+                <name> <email> <customerType>
+                customerType(NORMAL, BLACK)
+                data is string value
+                input customer info:""");
+    }
+
+    @Override
+    public void printCreateVoucherByTypes() {
         System.out.print("""
                 <vouhcerType> <data>
                 voucherType
@@ -52,6 +69,15 @@ public class Console implements Input, Output {
                 data is long value
                 ex) P 10
                 input voucher info:""");
+    }
+
+    @Override
+    public void printListSelect() {
+        System.out.print("""
+                Select List Object type.
+                1. Customer
+                2. Voucher
+                Input select number(1 or 2):""");
     }
 
     @Override

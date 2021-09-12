@@ -10,7 +10,13 @@ public interface Output {
 
     void printCommandError(String command);
 
-    void printCreateTypes();
+    void printCreateSelect();
+
+    void printCreateCustomerByTypes();
+
+    void printCreateVoucherByTypes();
+
+    void printListSelect();
 
     <T> void printList(List<T> stream);
 }
