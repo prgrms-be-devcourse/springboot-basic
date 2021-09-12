@@ -1,6 +1,7 @@
 package com.prgrms.devkdtorder.exception;
 
 import com.prgrms.devkdtorder.util.ApiUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -15,9 +16,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import static com.prgrms.devkdtorder.util.ApiUtils.ApiResponse;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
-
-    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private ResponseEntity<ApiResponse<?>> newResponseEntity(Throwable throwable, HttpStatus status) {
         return newResponseEntity(throwable.getMessage(), status);
