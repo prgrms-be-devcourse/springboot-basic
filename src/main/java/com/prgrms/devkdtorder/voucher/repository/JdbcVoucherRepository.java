@@ -1,6 +1,6 @@
 package com.prgrms.devkdtorder.voucher.repository;
 
-import com.prgrms.devkdtorder.util.Utils;
+import com.prgrms.devkdtorder.util.UUIDUtils;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 import org.slf4j.Logger;
@@ -28,7 +28,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
+        var voucherId = UUIDUtils.toUUID(resultSet.getBytes("voucher_id"));
         var name = resultSet.getString("name");
         var value = resultSet.getLong("value");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);

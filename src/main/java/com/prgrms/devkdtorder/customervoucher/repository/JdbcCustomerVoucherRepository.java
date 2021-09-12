@@ -1,7 +1,7 @@
 package com.prgrms.devkdtorder.customervoucher.repository;
 
 import com.prgrms.devkdtorder.customervoucher.domain.CustomerVoucher;
-import com.prgrms.devkdtorder.util.Utils;
+import com.prgrms.devkdtorder.util.UUIDUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.Timestamp;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository {
@@ -23,9 +22,9 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
     }
 
     private static final RowMapper<CustomerVoucher> customerVoucherRowMapper = (resultSet, i) -> {
-        var customerVoucherId = Utils.toUUID(resultSet.getBytes("customer_voucher_id"));
-        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
-        var voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
+        var customerVoucherId = UUIDUtils.toUUID(resultSet.getBytes("customer_voucher_id"));
+        var customerId = UUIDUtils.toUUID(resultSet.getBytes("customer_id"));
+        var voucherId = UUIDUtils.toUUID(resultSet.getBytes("voucher_id"));
         var used = resultSet.getBoolean("used");
         var usedAt = resultSet.getTimestamp("used_at") != null ?
                 resultSet.getTimestamp("used_at").toLocalDateTime() : null;

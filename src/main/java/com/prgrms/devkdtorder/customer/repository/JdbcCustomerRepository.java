@@ -3,7 +3,7 @@ package com.prgrms.devkdtorder.customer.repository;
 import com.prgrms.devkdtorder.customer.domain.BlackCustomers;
 import com.prgrms.devkdtorder.customer.domain.Customer;
 import com.prgrms.devkdtorder.customer.domain.CustomerType;
-import com.prgrms.devkdtorder.util.Utils;
+import com.prgrms.devkdtorder.util.UUIDUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -31,7 +31,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
-        var customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
+        var customerId = UUIDUtils.toUUID(resultSet.getBytes("customer_id"));
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);
