@@ -1,26 +1,57 @@
 package org.prgrms.kdt.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
 @Builder
 public class CustomerDto {
 
-    private final UUID customerId;
-    private final String name;
-    private final String email;
-    private final LocalDateTime lastLoginAt;
+    private UUID customerId;
+    private String name;
+    private String email;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private LocalDateTime lastLoginAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private final LocalDateTime createdAt;
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
     public CustomerDto(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
+    }
+
+    public CustomerDto(UUID customerId, String name, String email, LocalDateTime createdAt) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
         this.createdAt = createdAt;
     }
 

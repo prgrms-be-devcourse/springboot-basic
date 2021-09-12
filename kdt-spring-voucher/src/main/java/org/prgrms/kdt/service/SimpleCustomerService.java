@@ -33,9 +33,10 @@ public class SimpleCustomerService implements CustomerService{
     }
 
     @Override
-    public CustomerEntity createCustomer(String email, String name) {
+    public Optional<CustomerEntity> createCustomer(String email, String name) {
         CustomerEntity customer = new CustomerEntity(UUID.randomUUID(), name, email, LocalDateTime.now());
-        return customerRepository.insert(customer);
+        customerRepository.insert(customer);
+        return Optional.ofNullable(customer);
     }
 
     @Override
@@ -50,6 +51,14 @@ public class SimpleCustomerService implements CustomerService{
 
     @Override
     public Optional<CustomerEntity> updateCustomer(CustomerDto customer) {
-        return Optional.ofNullable(customerRepository.update(CustomerDto.to(customer)));
+        var customerEntity = customerRepository.findById(customer.getCustomerId()).get();
+        var updateCustomer = CustomerEntity.builder()
+                .customerId(customerEntity.getCustomerId())
+                .name(customer.getName())
+                .email(customer.getEmail())
+                .lastLoginAt(LocalDateTime.now())
+                .createdAt(customerEntity.getCreatedAt())
+                .build();
+        return Optional.ofNullable(customerRepository.update(updateCustomer));
     }
 }

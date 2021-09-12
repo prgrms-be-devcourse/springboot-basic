@@ -12,7 +12,7 @@ public interface CustomerService {
 
     public void createCustomers(List<CustomerEntity> customers);
 
-    CustomerEntity createCustomer(String email, String name);
+    Optional<CustomerEntity> createCustomer(String email, String name);
 
     List<CustomerEntity> getAllCustomers();
 

@@ -3,6 +3,7 @@ package org.prgrms.kdt.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.prgrms.kdt.controller.CustomerController;
+import org.prgrms.kdt.controller.CustomerRestController;
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.jdbcRepository.CustomerJdbcRepository;
 import org.prgrms.kdt.service.SimpleCustomerService;
@@ -37,7 +38,8 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = { "org.prgrms.kdt.controller","org.prgrms.kdt.domain"
         ,"org.prgrms.kdt.service","org.prgrms.kdt.jdbcRepository" ,"org.prgrms.kdt.config"},
         includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {SimpleCustomerService.class,
-                CustomerJdbcRepository.class, CustomerController.class, AppConfiguration.class})
+                CustomerJdbcRepository.class, CustomerController.class, AppConfiguration.class, CustomerRestController.class
+        })
         , useDefaultFilters = false
 )
 public class ServletConfiguration implements WebMvcConfigurer, ApplicationContextAware {

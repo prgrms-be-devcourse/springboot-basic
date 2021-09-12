@@ -39,12 +39,6 @@ public class CustomerController {
         return "views/customers";
     }
 
-    @GetMapping("/api/v1/customers")
-    @ResponseBody
-    public List<CustomerEntity> restFindCustomers() {
-        List<CustomerEntity> allCustomers = customerService.getAllCustomers();
-        return allCustomers;
-    }
 
     @GetMapping("/customers/{customerId}")
     public String findCustomer(@PathVariable("customerId") UUID customerId, Model model) {
@@ -62,35 +56,10 @@ public class CustomerController {
         return "views/new-customers";
     }
 
-    @PostMapping("/api/v1/customers/{customerId}")
-    @ResponseBody
-    public CustomerEntity saveCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDto customer) {
-        logger.info("Got customer save request {}", customer);
-        return CustomerDto.to(customer);
-    }
-
     @PostMapping("/customers/new")
     public String addNewCustomer(CreateCustomerRequest createCustomerRequest) {
         customerService.createCustomer(createCustomerRequest.getEmail(), createCustomerRequest.getName());
         return "redirect:/customers";
-    }
-
-    //delete 기능
-    @DeleteMapping("/api/v1/customers/{customerId}")
-    public void removeCustomer(@PathVariable("customerId") UUID customerId){
-        customerService.deleteCustomer(customerId);
-    }
-
-    //update 기능
-    @PutMapping("/api/vi/customers/{customerId}")
-    public CustomerEntity updateCustomer(@PathVariable("customerId") UUID customerid, String email, String name){
-        var customer = CustomerDto.builder()
-                .customerId(customerid)
-                .email(email)
-                .name(name)
-                .build();
-        var updateCustomer = customerService.updateCustomer(customer);
-        return updateCustomer.get();
     }
 
 }

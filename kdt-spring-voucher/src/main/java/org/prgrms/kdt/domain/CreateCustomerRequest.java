@@ -2,8 +2,10 @@ package org.prgrms.kdt.domain;
 
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class CreateCustomerRequest {
 
     private final String email;

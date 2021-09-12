@@ -1,8 +1,10 @@
 package org.prgrms.kdt.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -15,7 +17,11 @@ public class CustomerEntity {
     private final UUID customerId;
     private String name;
     private final String email;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDateTime lastLoginAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private final LocalDateTime createdAt;
 
     public CustomerEntity(UUID customerId, String name, String email, LocalDateTime createdAt) {
@@ -45,7 +51,4 @@ public class CustomerEntity {
         validateName(name);
         this.name = name;
     }
-
-
-
 }
