@@ -94,5 +94,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.getJdbcTemplate().update("DELETE FROM vouchers");
     }
 
-
+    @Override
+    public void deleteById(UUID voucherId) {
+        String sql = "DELETE FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucher_id, '-', ''))";
+        jdbcTemplate.getJdbcTemplate().update(sql);
+    }
 }
