@@ -54,6 +54,38 @@ KdtApplication 클래스의 main 메소드 실행
 ## 📄 ERD
 <img width="670" alt="스크린샷 2021-09-08 오전 12 32 36" src="https://user-images.githubusercontent.com/58363663/132372235-79a595ca-5210-4eb8-9044-c338017b2733.png">
 
+
+```sql
+CREATE TABLE customers
+(
+    customer_id    BINARY(16) PRIMARY KEY,
+    name           varchar(20) NOT NULL,
+    email          varchar(50) NOT NULL,
+    last_login_at  datetime(6)             DEFAULT NULL,
+    created_at     datetime(6)    NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    CONSTRAINT unq_user_email UNIQUE (email)
+);
+
+CREATE TABLE vouchers
+(
+    voucher_id     BINARY(16) PRIMARY KEY,
+    name           varchar(20) NOT NULL,
+    voucher_type   ENUM('FIX', 'PERCENT') NOT NULL,
+    discount       int(4) NOT NULL,
+    created_at     datetime(6)    NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+);
+
+CREATE TABLE wallets
+(
+    wallet_id BINARY(16) PRIMARY KEY,
+    customer_id       BINARY(16),
+    voucher_id        BINARY(16),
+    created_at        datetime(6)    NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
+    FOREIGN KEY (voucher_id) REFERENCES vouchers (voucher_id)
+);
+
+```
 ---
 
 ## 바우처 관리 페이지
@@ -87,9 +119,6 @@ GET 요청을 사용하여 고객을 조회할 수 있다.
 ### Http Request
 ```http request
 GET /kdt/api/v1/customers/4fdf585c-f7f8-4a7d-bc7e-492c6aaf932b HTTP/1.1
-Content-Type: application/json 
-Accept: application/json
-Host: localhost:8080
 ```
 
 ### Http Response
@@ -105,13 +134,13 @@ Content-Type: application/json
    "createdAt" : "2021-09-08T00:37:50.433914",
    "lastLoginAt" : null,
    "customerType" : "NORMAL",
-   "vouchers":[
+   "vouchers" : [
       {
-         "voucherId":"0ef475ab-3761-4b51-b05a-1cf0aaa05abd",
-         "name":"test voucher",
-         "discount":100,
-         "voucherType":"FIX",
-         "createdAt":"2021-09-08T00:37:50.438875"
+         "voucherId" : "0ef475ab-3761-4b51-b05a-1cf0aaa05abd",
+         "name" : "test voucher",
+         "discount" : 100,
+         "voucherType" : "FIX",
+         "createdAt" : "2021-09-08T00:37:50.438875"
       }
    ]
 }
@@ -139,9 +168,6 @@ GET 요청을 사용하여 바우처를 조회할 수 있다.
 
 ```http request
 GET /kdt/api/v1/vouchers/4e62cb61-7dd8-421c-99e6-964e7fabca37 HTTP/1.1
-Content-Type: application/json 
-Accept: application/json
-Host: localhost:8080
 ```
 
 ### Http Response
@@ -174,8 +200,6 @@ Content-Type: application/json
 
 ```http request
 HTTP/1.1 404 Not Found
-
-Content-Type: application/json
 {
    "errorCode" : "404 NOT_FOUND",
    "message" : "not found voucher_id : a6662c4c-7fe4-463d-9d23-abf834624974"
@@ -192,9 +216,6 @@ POST 요청을 통해 지갑을 생성할 수 있다.
 ### Http Request
 ```http request
 POST /kdt/api/v1/customers/wallet HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Accept: application/json
-Host: localhost:8080
 
 {
     "customerId" : "0e5da4e1-189d-4ad3-a4f5-03ca82abbd0e",
@@ -226,9 +247,6 @@ DELETE 요청을 통해 지갑을 삭제할 수 있다.
 ### Http Request
 ```http request
 DELETE /kdt/api/v1/customers/wallet HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Accept: application/json
-Host: localhost:8080
 
 {
     "customerId" : "0e5da4e1-189d-4ad3-a4f5-03ca82abbd0e",
@@ -246,4 +264,82 @@ Content-Type: application/json
     "customerId" : "0e5da4e1-189d-4ad3-a4f5-03ca82abbd0e",
     "voucherId" : "9516bd07-721d-449f-80ec-f2075eb08aba"
 }
+```
+
+
+<br>
+<br>
+
+
+### 바우처 타입별 조회
+
+GET 요청을 통해 바우처 타입별로 조회할 수 있다.
+
+### Http Request
+```http request
+GET /kdt/api/v1/vouchers/search/type?voucherType=FIX HTTP/1.1
+```
+
+### Http Response
+```http request
+HTTP/1.1 200 OK
+
+Content-Type: application/json
+
+[
+  {
+    "voucherId": "c7cb2751-fa32-43bf-baf5-146feaeb958a",
+    "name": "피자 할인 쿠폰",
+    "discount": "1000원",
+    "voucherType": "FIX",
+    "createdAt": "12/09/2021 23:55:40"
+  },
+  {
+    "voucherId": "dfd43d50-7629-4fa2-b2bc-8d09b796b456",
+    "name": "치킨 할인 쿠폰",
+    "discount": "100원",
+    "voucherType": "FIX",
+    "createdAt": "12/09/2021 23:57:05"
+  }
+]
+```
+
+### 바우처 기간별 조회
+
+GET 요청을 통해 바우처 생성 기간별로 조회할 수 있다.
+
+### Http Request
+```http request
+GET /kdt/api/v1/vouchers/search/createAt?beforeDate=2020-02-02&afterDate=2022-02-02 HTTP/1.1
+```
+
+### Http Response
+```http request
+HTTP/1.1 200 OK
+
+Content-Type: application/json
+
+[
+  {
+    "voucherId": "ba091766-e94f-481f-bde9-8ef7eaef768d",
+    "name": "전 상품 5프로 할인 쿠폰",
+    "discount": "5%",
+    "voucherType": "PERCENT",
+    "createdAt": "12/09/2021 23:59:45"
+  },
+  {
+    "voucherId": "c7cb2751-fa32-43bf-baf5-146feaeb958a",
+    "name": "피자 할인 쿠폰",
+    "discount": "1000원",
+    "voucherType": "FIX",
+    "createdAt": "12/09/2021 23:55:40"
+  },
+  {
+    "voucherId": "dfd43d50-7629-4fa2-b2bc-8d09b796b456",
+    "name": "치킨 할인 쿠폰",
+    "discount": "100원",
+    "voucherType": "FIX",
+    "createdAt": "12/09/2021 23:57:05"
+  }
+]
 ```
