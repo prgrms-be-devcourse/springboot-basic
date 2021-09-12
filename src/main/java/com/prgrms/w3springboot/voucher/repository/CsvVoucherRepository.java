@@ -41,7 +41,7 @@ public class CsvVoucherRepository implements VoucherRepository {
                 String[] voucherInfo = line.split(DELIMITER);
                 UUID csvVoucherId = UUID.fromString(voucherInfo[INDEX_UUID]);
                 long discountAmount = Long.parseLong(voucherInfo[INDEX_AMOUNT]);
-                String voucherType = voucherInfo[INDEX_TYPE];
+                String voucherType = voucherInfo[INDEX_TYPE].toLowerCase();
 
                 if (VoucherType.of(voucherType) == VoucherType.FIXED) {
                     storage.put(csvVoucherId, new FixedAmountVoucher(csvVoucherId, discountAmount));
@@ -50,7 +50,7 @@ public class CsvVoucherRepository implements VoucherRepository {
                 }
             }
         } catch (IOException e) {
-            logger.warn("{} - 파일 읽기 중 오류가 발생했습니다.", e.getMessage());
+            logger.error("{} - 파일 읽기 중 오류가 발생했습니다.", e.getMessage());
         }
     }
 
@@ -72,7 +72,7 @@ public class CsvVoucherRepository implements VoucherRepository {
             }
             bufferedWriter.flush();
         } catch (IOException e) {
-            logger.warn("파일 쓰기 중 오류가 발생했습니다. - {}", e.getMessage());
+            logger.error("파일 쓰기 중 오류가 발생했습니다. - {}", e.getMessage());
         }
     }
 
@@ -103,7 +103,7 @@ public class CsvVoucherRepository implements VoucherRepository {
             Files.createDirectory(FILE_PATH.getParent());
             Files.createFile(FILE_PATH);
         } catch (IOException e) {
-            logger.warn("상위 디렉토리가 존재하지 않습니다. - {}", e.getMessage());
+            logger.error("상위 디렉토리가 존재하지 않습니다. - {}", e.getMessage());
         }
     }
 }

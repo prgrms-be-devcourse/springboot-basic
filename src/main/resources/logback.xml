@@ -14,11 +14,7 @@
         </encoder>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="CONSOLE"/>
-    </root>
-
-    <logger name="com.prgrms.w3springboot" level="warn">
+    <logger name="com.prgrms.w3springboot" level="error">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 </configuration>
