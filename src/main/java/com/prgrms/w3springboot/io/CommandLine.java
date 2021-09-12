@@ -8,11 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommandLine implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(CommandLine.class);
-    private final Console console;
+
+    private final Input input;
+    private final Output output;
     private final VoucherService voucherService;
 
-    public CommandLine(final Console console, final VoucherService voucherService) {
-        this.console = console;
+    public CommandLine(final Input input, final Output output, final VoucherService voucherService) {
+        this.input = input;
+        this.output = output;
         this.voucherService = voucherService;
     }
 
@@ -20,13 +23,13 @@ public class CommandLine implements Runnable {
     public void run() {
         boolean flag = true;
         while (flag) {
-            console.printInit();
-            String commandType = console.input();
+            output.printInit();
+            String commandType = input.input();
             try {
-                flag = CommandType.of(commandType).execute(console, voucherService);
+                flag = CommandType.of(commandType).execute(input, output, voucherService);
             } catch (Exception e) {
-                console.printInvalidMessage();
-                logger.warn("{} - input : {}", e.getMessage(), commandType);
+                output.printInvalidMessage();
+                logger.error("{} - input : {}", e.getMessage(), commandType);
             }
         }
     }

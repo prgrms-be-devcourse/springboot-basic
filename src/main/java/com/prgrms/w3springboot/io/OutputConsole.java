@@ -5,17 +5,9 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Scanner;
 
 @Component
-public class Console implements Input, Output {
-    private static final Scanner scanner = new Scanner(System.in);
-
-    @Override
-    public String input() {
-        return scanner.next();
-    }
-
+public class OutputConsole implements Output {
     @Override
     public void printInit() {
         StringBuilder sb = new StringBuilder();
