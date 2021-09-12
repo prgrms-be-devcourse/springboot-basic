@@ -1,0 +1,62 @@
+package com.prgrms.devkdtorder.voucher.controller.api;
+
+import com.prgrms.devkdtorder.voucher.dto.VoucherDto;
+import com.prgrms.devkdtorder.voucher.dto.VoucherListDto;
+import com.prgrms.devkdtorder.voucher.service.VoucherService;
+import lombok.Getter;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/v1/vouchers")
+public class VoucherApiController {
+
+    private VoucherService voucherService;
+
+    public VoucherApiController(VoucherService voucherService) {
+        this.voucherService = voucherService;
+    }
+
+    @GetMapping
+    public ApiResponse<VoucherListDto> findAllVouchers() {
+        var voucherDtoList = voucherService.getAllVouchers().stream()
+                .map(VoucherDto::new).collect(Collectors.toList());
+        return ApiResponse.of(new VoucherListDto(voucherDtoList));
+    }
+
+    @GetMapping(path = "{voucherId}")
+    public ApiResponse<VoucherDto> findVoucherById(@PathVariable("voucherId") UUID voucherId) {
+        return ApiResponse.of(new VoucherDto(voucherService.getVoucher(voucherId)));
+    }
+
+    @PostMapping
+    public void saveVoucher(@RequestBody VoucherDto voucherDto) {
+        voucherService.saveVoucher(voucherDto.toEntity());
+    }
+
+    @PutMapping
+    public void updateVoucher(@RequestBody VoucherDto voucherDto) {
+        voucherService.updateVoucher(voucherDto.toEntity());
+    }
+
+    @DeleteMapping(path = "{voucherId}")
+    public void deleteVoucherById(@PathVariable("voucherId") UUID voucherId) {
+        voucherService.deleteVoucherById(voucherId);
+    }
+
+    @Getter
+    static class ApiResponse<T> {
+        private final T data;
+
+        private ApiResponse(T data) {
+            this.data = data;
+        }
+
+        public static <T> ApiResponse<T> of(T data) {
+            return new ApiResponse<>(data);
+        }
+    }
+}
