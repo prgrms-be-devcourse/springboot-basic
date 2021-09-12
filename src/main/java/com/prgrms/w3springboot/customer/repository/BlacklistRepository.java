@@ -22,6 +22,7 @@ public class BlacklistRepository {
     private static final int INDEX_UUID = 0;
     private static final int INDEX_NAME = 1;
     private static final int INDEX_REASON = 2;
+
     private final ApplicationContext resourceLoader;
     private final BlacklistProperties blacklistProperties;
 
