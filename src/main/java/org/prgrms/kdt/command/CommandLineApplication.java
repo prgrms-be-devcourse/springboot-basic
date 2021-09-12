@@ -4,12 +4,17 @@ import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.customer.service.CustomerService;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class CommandLineApplication implements Runnable {
+
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+
     @Override
     public void run() {
         boolean programRunning = true;

@@ -1,6 +1,8 @@
 package org.prgrms.kdt.customer.repository;
 
 import org.prgrms.kdt.customer.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -16,8 +18,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
+
     static final Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
     static final Map<UUID, Customer> blacklistMap = new ConcurrentHashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final Path FILE_PATH = Paths.get(System.getProperty("user.dir"), "src/main/resources/customer_blacklist.csv");
     private static final String DELIMITER = ",";
     private static final int INDEX_UUID = 0;
@@ -36,7 +40,7 @@ public class FileCustomerRepository implements CustomerRepository {
             }
             System.out.println("Blacklist File Read Complete!");
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getMessage());
         }
     }
 

@@ -4,7 +4,6 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Profile("dev")
 public class VoucherService {
     private static VoucherRepository voucherRepository;
 
@@ -20,15 +18,14 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public static Voucher createVoucher(final String voucherType, final long discountValue) {
+    public static void createVoucher(final String voucherType, final long discountValue) {
         System.out.println(MessageFormat.format("{0}가 생성되었습니다.", voucherType));
         if (voucherType.equals("FixedAmountVoucher")) {
-            return new FixedAmountVoucher(UUID.randomUUID(), discountValue);
+            voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), discountValue));
         } else if (voucherType.equals("PercentDiscountVoucher")) {
-            return new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
+            voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), discountValue));
         } else {
             System.out.println("Voucher Type 입력값이 잘못되었습니다.");
-            return null;
         }
     }
 

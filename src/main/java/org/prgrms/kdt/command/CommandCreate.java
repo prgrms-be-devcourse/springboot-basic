@@ -22,10 +22,9 @@ public class CommandCreate {
                 do {
                     final String inputValue = Input.input();
                     if (ValueValidation.numberValidation(voucherType, inputValue)) {
-                        ValueValidation.rangeValidation(voucherType, inputValue);
-                        inputValueCheck = false;
+                        inputValueCheck = ValueValidation.rangeValidation(voucherType, inputValue);
+                        voucherDiscountValue = Long.parseLong(inputValue);
                     }
-                    voucherDiscountValue = Long.parseLong(inputValue);
                 } while (inputValueCheck);
             }
             voucherTypeCheck = false;

@@ -3,6 +3,9 @@ package org.prgrms.kdt.voucher.repository;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +21,12 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("file")
+@Profile("!dev")
+@Primary
 public class FileVoucherRepository implements VoucherRepository {
+
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+
     private static final Path FILE_PATH = Paths.get(System.getProperty("user.dir"), "src/main/resources/voucher.csv");
     private static final String DELIMITER = ",";
     private static final int INDEX_TYPE = 0;
@@ -47,7 +54,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
             System.out.println("Voucher File Read Complete!");
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getMessage());
         }
     }
 
@@ -71,7 +78,7 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.close();
             System.out.println("File Write Complete!");
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getMessage());
         }
     }
 
@@ -86,7 +93,7 @@ public class FileVoucherRepository implements VoucherRepository {
             Files.createFile(FILE_PATH);
             System.out.println("create file");
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getMessage());
         }
     }
 
