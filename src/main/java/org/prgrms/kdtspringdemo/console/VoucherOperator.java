@@ -20,9 +20,10 @@ public class VoucherOperator implements CommandOperator<Voucher> {
         this.voucherService = voucherService;
     }
 
+    // todo : voucher 생성 코드를 service 내부에서 처리하기
     @Override
-    public Voucher create(String[] splitList) {
-        if (!validationCheck(splitList)) return null;
+    public boolean create(String[] splitList) {
+        if (!validationCheck(splitList)) return false;
         Voucher voucher = VoucherType.createVoucher(splitList[0], Long.parseLong(splitList[1]));
         if (voucher != null) {
             voucherService.saveVoucher(voucher);
@@ -33,7 +34,7 @@ public class VoucherOperator implements CommandOperator<Voucher> {
             System.out.println("[ERROR]Invalid create command");
             System.out.println(MessageFormat.format("Your input : {0}, {1}", splitList[0], splitList[1]));
         }
-        return voucher;
+        return voucher != null;
     }
 
     @Override

@@ -4,7 +4,6 @@ import org.prgrms.kdtspringdemo.CommandType;
 import org.prgrms.kdtspringdemo.console.CommandOperator;
 import org.prgrms.kdtspringdemo.console.Console;
 import org.prgrms.kdtspringdemo.console.CustomerOperator;
-import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
 
 public class ConsoleApp {
@@ -19,20 +18,20 @@ public class ConsoleApp {
                     String num = console.getCreateLine();
                     switch (num) {
                         case "1" -> {
-                            Customer customer = null;
-                            while (customer == null) {
+                            boolean commandSuccess = false;
+                            while (!commandSuccess) {
                                 console.printCreateCustomerByTypes();
                                 String[] createCommand = console.getCreateLine().split(" ");
-                                customer = customerOperator.create(createCommand);
+                                commandSuccess = customerOperator.create(createCommand);
                             }
                         }
                         case "2" -> {
-                            Voucher voucher = null;
-                            while (voucher == null)
+                            boolean commandSuccess = false;
+                            while (!commandSuccess)
                             {
                                 console.printCreateVoucherByTypes();
                                 String[] createCommand = console.getCreateLine().split(" ");
-                                voucher = operator.create(createCommand);
+                                commandSuccess = operator.create(createCommand);
                             }
                         }
                     }

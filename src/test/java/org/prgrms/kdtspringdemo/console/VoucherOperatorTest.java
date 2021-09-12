@@ -16,29 +16,6 @@ import static org.hamcrest.Matchers.nullValue;
 class VoucherOperatorTest{
     @Autowired
     VoucherOperator voucherOperator;
-    @Test
-    @DisplayName("FixedAmountVoucher 생성하기")
-    void createFixedAmountVoucher() {
-        var voucher = voucherOperator.create("F 99".split(" "));
-        var voucherUp = voucherOperator.create("F 100050".split(" "));
-        var voucherDown = voucherOperator.create("F 0".split(" "));
-
-        assertThat(voucher.getDiscount(), is(99L));
-        assertThat(voucherUp, is(nullValue()));
-        assertThat(voucherDown, is(nullValue()));
-    }
-
-    @Test
-    @DisplayName("PercentDiscountVoucher 생성하기")
-    void createPercentDiscountVoucher() {
-        var voucher = voucherOperator.create("P 99".split(" "));
-        var voucherUp = voucherOperator.create("P 105".split(" "));
-        var voucherDown = voucherOperator.create("P 0".split(" "));
-
-        assertThat(voucher.getDiscount(), is(99L));
-        assertThat(voucherUp, is(nullValue()));
-        assertThat(voucherDown, is(nullValue()));
-    }
 
     @Test
     @DisplayName("Voucher 커맨드 작동 확인")

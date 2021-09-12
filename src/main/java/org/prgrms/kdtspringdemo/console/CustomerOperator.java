@@ -7,11 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 public class CustomerOperator implements CommandOperator<Customer> {
-    private final static Logger logger = LoggerFactory.getLogger(CustomerOperator.class);
     private final CustomerService customerService;
 
     public CustomerOperator() {
@@ -20,16 +18,10 @@ public class CustomerOperator implements CommandOperator<Customer> {
     }
 
     @Override
-    public Customer create(String[] splitList) {
-        if (!validationCheck(splitList)) return null;
-        Customer customer = null;
-        customer = customerService.saveCustomer(splitList[0], splitList[1], splitList[2]);
-        if (customer == null) {
-            logger.error(MessageFormat.format("Invalid create command. Your input -> {0}, {1}, {2}", splitList[0], splitList[1], splitList[2]));
-            System.out.println("[ERROR]Invalid create command");
-            System.out.println(MessageFormat.format("Your input : {0}, {1}, {2}", splitList[0], splitList[1], splitList[2]));
-        }
-        return customer;
+    public boolean create(String[] splitList) {
+        if (!validationCheck(splitList)) return false;
+        Customer customer = customerService.saveCustomer(splitList[0], splitList[1], splitList[2]);
+        return customer != null;
     }
 
     @Override

@@ -2,16 +2,20 @@ package org.prgrms.kdtspringdemo.customer.service;
 
 import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Service
 public class CustomerService {
+    private final static Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
     private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
@@ -27,8 +31,19 @@ public class CustomerService {
     }
 
     public Customer saveCustomer(String name, String email, String type) {
-        Customer customer = new Customer(UUID.randomUUID(), name, email, type, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        customerRepository.insert(customer);
+        Customer customer = customerRepository.insert(
+                new Customer(UUID.randomUUID(),
+                        name,
+                        email,
+                        type,
+                        LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)));
+
+        if (customer == null) {
+            logger.error(MessageFormat.format("Invalid create command. Your input -> {0}, {1}, {2}", name, email, type));
+            System.out.println("[ERROR]Invalid create command");
+            System.out.println(MessageFormat.format("Your input : {0}, {1}, {2}", name, email, type));
+        }
+
         return customer;
     }
 }
