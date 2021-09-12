@@ -33,7 +33,7 @@ public class Order {
 
     public long totalAmount() {
         var beforeDiscount = orderItems.stream()
-                .map(voucher -> voucher.getProductPrice() * voucher.getQuantity())
+                .map(orderItem -> orderItem.getProductPrice() * orderItem.getQuantity())
                 .reduce(INITIAL_VALUE, Long::sum);
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
