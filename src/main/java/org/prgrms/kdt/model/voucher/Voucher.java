@@ -7,19 +7,24 @@ import org.prgrms.kdt.model.discount.DiscountStrategy;
 public class Voucher {
 
     private final UUID voucherId;
-    private final long discount;
+    private long discount;
     private final LocalDateTime createdAt;
 
     private VoucherType voucherType;
     private DiscountStrategy discountStrategy;
 
     public Voucher(UUID voucherId, long discount, LocalDateTime createdAt,
-        VoucherType voucherType, DiscountStrategy discountStrategy) {
+        VoucherType voucherType) {
         this.voucherId = voucherId;
         this.discount = discount;
         this.createdAt = createdAt;
         this.voucherType = voucherType;
-        this.discountStrategy = discountStrategy;
+        this.discountStrategy = voucherType.getDiscountStrategy();
+        validate(discount);
+    }
+
+    private void validate(long discount) {
+        discountStrategy.validateDiscountAmount(discount);
     }
 
     public UUID getVoucherId() {
@@ -46,9 +51,11 @@ public class Voucher {
         return discountStrategy.discount(beforeDiscount, discount);
     }
 
-    public void changeVoucherType(VoucherType voucherType) {
+    public void changeVoucherType(VoucherType voucherType, long discount) {
         this.voucherType = voucherType;
+        this.discount = discount;
         this.discountStrategy = voucherType.getDiscountStrategy();
+        validate(discount);
     }
 
     @Override

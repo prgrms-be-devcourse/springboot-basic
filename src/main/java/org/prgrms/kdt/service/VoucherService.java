@@ -37,21 +37,24 @@ public class VoucherService {
                 UUID.randomUUID(),
                 discount,
                 LocalDateTime.now(),
-                voucherType,
-                voucherType.getDiscountStrategy())
+                voucherType)
         );
         return getVoucher(voucher.getVoucherId());
     }
 
     @Transactional
-    public Voucher updateVoucherType(Voucher voucher, VoucherType voucherType) {
-        voucher.changeVoucherType(voucherType);
+    public Voucher updateVoucherType(Voucher voucher, VoucherType voucherType, long discount) {
+        voucher.changeVoucherType(voucherType, discount);
         voucherRepository.updateType(voucher);
         return getVoucher(voucher.getVoucherId());
     }
 
     public void deleteAllVouchers() {
         voucherRepository.deleteAll();
+    }
+
+    public List<Voucher> getCustomerVouchers(UUID customerId) {
+        return voucherRepository.findByCustomerId(customerId);
     }
 
 }

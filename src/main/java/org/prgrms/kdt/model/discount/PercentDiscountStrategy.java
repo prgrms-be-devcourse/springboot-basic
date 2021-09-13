@@ -8,7 +8,6 @@ public class PercentDiscountStrategy implements DiscountStrategy {
     @Override
     public long discount(long beforeDiscount, long discount) {
         validateBeforeDiscountAmount(beforeDiscount);
-        validateDiscountAmount(discount);
         return (beforeDiscount * (100 - discount)) / 100;
     }
 

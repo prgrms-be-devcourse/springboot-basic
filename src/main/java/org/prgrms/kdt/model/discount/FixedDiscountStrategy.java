@@ -8,7 +8,6 @@ public class FixedDiscountStrategy implements DiscountStrategy {
     @Override
     public long discount(long beforeDiscount, long discount) {
         validateDiscountAmount(beforeDiscount);
-        validateDiscountAmount(discount);
         return beforeDiscount > discount ? beforeDiscount - discount : 0;
     }
 
@@ -19,7 +18,6 @@ public class FixedDiscountStrategy implements DiscountStrategy {
                 MessageFormat
                     .format("beforeDiscount amount should be positive: {0}", beforeDiscount));
         }
-
     }
 
     @Override
