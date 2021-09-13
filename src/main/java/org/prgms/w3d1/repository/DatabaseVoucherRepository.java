@@ -30,7 +30,7 @@ public class DatabaseVoucherRepository implements VoucherRepository {
         var voucherType = rs.getString("voucher_type");
         var voucherWalletId = rs.getBytes("wallet_id") != null ?
             Util.toUUID(rs.getBytes("wallet_id")) : null;
-        return VoucherFactory.getVoucher(voucherId, value, voucherType, voucherWalletId);
+        return VoucherFactory.of(voucherId, value, voucherType, voucherWalletId);
     };
 
     @Override

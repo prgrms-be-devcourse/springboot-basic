@@ -7,7 +7,6 @@ import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
 import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
 import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.model.voucher.VoucherType;
-import org.prgms.w3d1.model.wallet.DatabaseVoucherWalletRepository;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;

@@ -1,4 +1,6 @@
-package org.prgms.w3d1.model.wallet;
+package org.prgms.w3d1.repository;
+
+import org.prgms.w3d1.model.wallet.VoucherWallet;
 
 import java.util.Optional;
 import java.util.UUID;

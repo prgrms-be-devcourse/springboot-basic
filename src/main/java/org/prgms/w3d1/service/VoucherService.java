@@ -1,8 +1,7 @@
-package org.prgms.w3d1.model.voucher;
+package org.prgms.w3d1.service;
 
-import org.prgms.w3d1.model.customer.Customer;
+import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.model.voucher.VoucherType;
-import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class VoucherService {
     }
 
     public List<Voucher> getVouchersByType(VoucherType voucherType) {
-        return voucherRepository.findVouchersByType(voucherType);
+        return voucherRepository.findByVoucherType(voucherType);
     }
 
     public void saveVoucher(Voucher voucher){
@@ -36,4 +35,8 @@ public class VoucherService {
     }
 
     public void useVoucher(Voucher voucher) {}
+
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
 }

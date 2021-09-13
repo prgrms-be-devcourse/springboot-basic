@@ -34,15 +34,15 @@ public class VoucherController {
     }
 
     // 바우처 타입별 조회
-    @GetMapping("api/v1/vouchers/type/{voucherType}")
+    @GetMapping(path = "/api/v1/vouchers", params = "type")
     @ResponseBody
     public List<Voucher> getVoucherByType(
-        @PathVariable String voucherType) {
-        return voucherService.getVouchersByType(VoucherType.getType(voucherType));
+        @RequestParam("type") String type) {
+        return voucherService.getVouchersByType(VoucherType.getVoucherType(type));
     }
 
     // 바우처 생성
-    @PostMapping("api/v1/vouchers/{voucherId}")
+    @PostMapping("/api/v1/vouchers/{voucherId}")
     @ResponseBody
     public Voucher createVoucher(
         @PathVariable("voucherId") UUID voucherId,
@@ -54,9 +54,9 @@ public class VoucherController {
     }
 
     // 바우처 삭제
-    @DeleteMapping("api/v1/vouchers/{voucherId}")
+    @DeleteMapping("/api/v1/vouchers/{voucherId}")
     @ResponseBody
     public void deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
-        voucherService.deleteVoucher(voucherId);
+        voucherService.deleteById(voucherId);
     }
 }

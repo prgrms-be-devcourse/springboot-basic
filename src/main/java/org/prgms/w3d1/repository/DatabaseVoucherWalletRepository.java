@@ -1,14 +1,11 @@
-package org.prgms.w3d1.model.wallet;
+package org.prgms.w3d1.repository;
 
-import org.prgms.w3d1.model.voucher.Voucher;
-import org.prgms.w3d1.model.voucher.VoucherFactory;
-import org.prgms.w3d1.repository.VoucherRepository;
+import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.util.Util;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

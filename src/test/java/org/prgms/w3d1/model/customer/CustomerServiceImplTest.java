@@ -6,13 +6,14 @@ import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
 import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
 import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.model.voucher.VoucherType;
-import org.prgms.w3d1.model.wallet.DatabaseVoucherWalletRepository;
+import org.prgms.w3d1.repository.DatabaseVoucherWalletRepository;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
-import org.prgms.w3d1.model.wallet.VoucherWalletRepository;
+import org.prgms.w3d1.repository.VoucherWalletRepository;
 import org.prgms.w3d1.repository.CustomerJdbcRepository;
 import org.prgms.w3d1.repository.CustomerRepository;
 import org.prgms.w3d1.repository.DatabaseVoucherRepository;
 import org.prgms.w3d1.repository.VoucherRepository;
+import org.prgms.w3d1.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 

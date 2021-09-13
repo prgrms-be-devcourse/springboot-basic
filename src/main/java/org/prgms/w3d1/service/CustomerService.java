@@ -1,30 +1,60 @@
 package org.prgms.w3d1.service;
 
 import org.prgms.w3d1.model.customer.Customer;
+import org.prgms.w3d1.model.voucher.VoucherType;
+import org.prgms.w3d1.model.wallet.VoucherWallet;
+import org.prgms.w3d1.repository.VoucherWalletRepository;
 import org.prgms.w3d1.repository.CustomerRepository;
 import org.prgms.w3d1.repository.VoucherRepository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public interface CustomerService {
+@Service
+public class CustomerService {
+    private final CustomerRepository customerRepository;
+    private final VoucherRepository voucherRepository;
+    private final VoucherWalletRepository voucherWalletRepository;
 
-    @Transactional
-    void createCustomers(List<Customer> customers);
+    public CustomerService(CustomerRepository customerRepository, VoucherRepository voucherRepository, VoucherWalletRepository voucherWalletRepository) {
+        this.customerRepository = customerRepository;
+        this.voucherRepository = voucherRepository;
+        this.voucherWalletRepository = voucherWalletRepository;
+    }
 
-    Optional<Customer> getCustomer(UUID customerId);
+    public Customer createCustomer(String name, String email) {
+        var customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+        return saveCustomer(customer);
+    }
 
-    void saveCustomer(Customer customer);
+    public Optional<Customer> getCustomer(UUID customerId){
+        return customerRepository.findById(customerId);
+    }
 
-    List<Customer> findAll();
+    public Customer saveCustomer(Customer customer){
+        return customerRepository.insert(customer);
+    }
 
-    Optional<Customer> findCustomerByVoucherId(UUID voucherId);
+    public List<Customer> findAll(){
+        return customerRepository.findAll();
+    }
 
-    Customer createCustomer(String name, String email);
+    public List<Customer> findByVoucherType(VoucherType voucherType) {
+        return voucherRepository.findByVoucherType(voucherType).stream()
+            .filter(voucher -> voucher.getVoucherWalletId() != null)
+            .map(voucher -> voucherWalletRepository.findById(voucher.getVoucherWalletId()).get())
+            .map(VoucherWallet::getCustomerId).filter(Objects::nonNull).distinct()
+            .map(customerId -> customerRepository.findById(customerId).get()).collect(Collectors.toList());
+    }
 
-    Customer updateCustomerByNameAndEmail(UUID customerId, String name, String email);
+    public Customer updateWithNameAndEmail(UUID customerId, String name, String email) {
+        return customerRepository.updateWithNameAndEmail(customerId, name, email);
+    }
 
-    void deleteCustomer(UUID customerId);
+    public void deleteCustomer(UUID customerId) {
+        customerRepository.deleteById(customerId);
+    }
 }

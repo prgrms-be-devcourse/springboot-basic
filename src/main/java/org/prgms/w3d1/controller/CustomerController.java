@@ -1,19 +1,14 @@
 package org.prgms.w3d1.controller;
 
-import org.prgms.w3d1.model.customer.CreateCustomerRequest;
-import org.prgms.w3d1.model.customer.Customer;
-import org.prgms.w3d1.model.customer.UpdateCustomerRequest;
-import org.prgms.w3d1.model.voucher.Voucher;
+import org.prgms.w3d1.controller.api.CreateCustomerRequest;
 import org.prgms.w3d1.service.CustomerService;
-import org.prgms.w3d1.service.CustomerServiceImpl;
+import org.prgms.w3d1.controller.api.UpdateCustomerRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -72,7 +67,7 @@ public class CustomerController {
         @RequestParam(value = "id") UUID customerId,
         UpdateCustomerRequest updateCustomerRequest, Model model)
     {
-        var updatedCustomer = customerService.updateCustomerByNameAndEmail(
+        var updatedCustomer = customerService.updateWithNameAndEmail(
             customerId, updateCustomerRequest.name(), updateCustomerRequest.email());
         model.addAttribute("customer", updatedCustomer);
         return "views/customer-details";

@@ -27,4 +27,6 @@ public interface CustomerRepository {
     void deleteAll();
 
     void deleteById(UUID customerId);
+
+    Customer updateWithNameAndEmail(UUID customerId, String name, String email);
 }

@@ -4,9 +4,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgms.w3d1.model.customer.Customer;
 import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
-import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.repository.CustomerJdbcRepository;
 import org.prgms.w3d1.repository.DatabaseVoucherRepository;
+import org.prgms.w3d1.repository.DatabaseVoucherWalletRepository;
 import org.prgms.w3d1.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -21,7 +21,6 @@ import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
