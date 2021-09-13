@@ -70,7 +70,7 @@ Host: localhost:8080
 ```
 
 ### Http Response
-```json
+```http request
 HTTP/1.1 200 OK
 
 Content-Type: application/json
@@ -96,7 +96,7 @@ Content-Type: application/json
 
 ### Http Response (실패)
 
-```json
+```http request
 HTTP/1.1 404 NOT FOUND
 
 Content-Type: application/json
@@ -123,7 +123,7 @@ Host: localhost:8080
 
 ### Http Response
 
-```json
+```http request
 HTTP/1.1 200 OK
 
 Content-Type: application/json
@@ -149,7 +149,7 @@ Content-Type: application/json
 
 ### Http Response (실패)
 
-```json
+```http request
 HTTP/1.1 404 Not Found
 
 Content-Type: application/json
@@ -180,7 +180,7 @@ Host: localhost:8080
 ```
 
 ### Http Response
-```json
+```http request
 HTTP/1.1 201 Created
 
 Content-Type: application/json
@@ -214,7 +214,7 @@ Host: localhost:8080
 ```
 
 ### Http Response
-```json
+```http request
 HTTP/1.1 200 OK
 
 Content-Type: application/json
