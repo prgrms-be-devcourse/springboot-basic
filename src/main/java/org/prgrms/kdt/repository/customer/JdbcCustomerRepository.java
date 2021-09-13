@@ -11,7 +11,7 @@ import org.prgrms.kdt.model.customer.CustomerType;
 import org.prgrms.kdt.util.UuidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -35,20 +35,20 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private String INSERT = """
-        INSERT INTO customers(customer_id, name, email, created_at, customer_type)
+        INSERT INTO customer(customer_id, name, email, created_at, customer_type)
         VALUES(UUID_TO_BIN(:customerId), :name, :email, :createdAt, :customerType)""";
     private String UPDATE_TYPE = """
-        UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt 
+        UPDATE customer SET customer_type = :customerType
         WHERE customer_id = UUID_TO_BIN(:customerId)""";
     private String SELECT_ALL = "SELECT * FROM customer";
     private String SELECT_BY_ID = "SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customerId)";
     private String SELECT_BY_TYPE = "SELECT * FROM customer WHERE customer_type = :customerType";
     private String DELETE_ALL = "DELETE FROM customer";
     private String SELECT_BY_VOUCHER_ID = """
-        SELECT customer.* from customer
-        INNER JOIN (SELECT customer_id FROM wallet WHERE voucher_id = UUID_TO_BIN(:voucherId)) AS sub_wallet
-        ON customer.customer_id = sub_wallet.customer_id""";
-
+        SELECT * FROM customer
+        LEFT OUTER JOIN wallet
+        ON customer.customer_id = wallet.customer_id
+        WHERE wallet.voucher_id = UUID_TO_BIN(:voucherId)""";
 
     public JdbcCustomerRepository(
         NamedParameterJdbcTemplate jdbcTemplate) {
@@ -58,16 +58,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
-                SELECT_BY_ID,
-                Map.of("customerId", customerId.toString().getBytes()),
-                customerRowMapper
-            ));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
-            return Optional.empty();
-        }
+        var customers = jdbcTemplate.query(
+            SELECT_BY_ID,
+            Map.of("customerId", customerId.toString().getBytes()),
+            customerRowMapper
+        );
+        return Optional.ofNullable(DataAccessUtils.singleResult(customers));
+
     }
 
     @Override
