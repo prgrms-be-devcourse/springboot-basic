@@ -10,6 +10,7 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -45,5 +46,10 @@ public class CustomerService {
         }
 
         return customer;
+    }
+
+    public Customer findCustomer(String voucherId) {
+        Optional<Customer> customer = customerRepository.findByVoucherId(voucherId);
+        return customer.orElse(null);
     }
 }

@@ -30,7 +30,8 @@ public class Console implements Input, Output {
                 Type create to create a new customer/voucher.
                 Type list to list customers/vouchers.
                 Type blacks to list all blacklist customers
-                Type delete customer/voucher.""");
+                Type delete customer/voucher.
+                Type find by id customer/voucher""");
     }
 
     @Override
@@ -82,6 +83,11 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public void printObject(Object obj) {
+        System.out.println(obj.toString());
+    }
+
+    @Override
     public void printDeleteSelect() {
         System.out.print("""
                 Select Delete Object type.
@@ -95,6 +101,22 @@ public class Console implements Input, Output {
         System.out.print("""
                 <vouhcerId>
                 select to delete voucherId:""");
+    }
+
+    @Override
+    public void printFindSelect() {
+        System.out.print("""
+                Select Find Object type.
+                1. Customer
+                2. Voucher(Not implement)
+                Input select number(only 1):""");
+    }
+
+    @Override
+    public void printFindCustomer() {
+        System.out.print("""
+                <vouhcerId>
+                find customer data by voucherId:""");
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.prgrms.kdtspringdemo.CommandType;
 import org.prgrms.kdtspringdemo.console.Console;
 import org.prgrms.kdtspringdemo.console.CustomerOperator;
 import org.prgrms.kdtspringdemo.console.VoucherOperator;
+import org.prgrms.kdtspringdemo.customer.Customer;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -61,12 +62,26 @@ public class ConsoleApp {
                     console.printDeleteSelect();
                     String num = console.getCreateLine();
                     switch (num) {
-//                        case "1" -> console.printDelete(customerOperator.getAllitems());
+                        case "1" -> {}
                         case "2" -> {
                             console.printDeleteVoucher();
                             String[] deleteCommand = console.getCreateLine().split(" ");
                             voucherOperator.delete(deleteCommand);
                         }
+                    }
+                }
+                case FIND -> {
+                    console.printFindSelect();
+                    String num = console.getCreateLine();
+                    switch (num) {
+                        case "1" -> {
+                            console.printFindCustomer();
+                            String[] findCommand = console.getCreateLine().split(" ");
+                            Customer customer = voucherOperator.findCustomer(findCommand);
+                            if (customer != null) console.printObject(customer);
+                            else System.out.println("None!!!");
+                        }
+                        case "2" -> {}
                     }
                 }
                 case EXIT -> System.exit(0);

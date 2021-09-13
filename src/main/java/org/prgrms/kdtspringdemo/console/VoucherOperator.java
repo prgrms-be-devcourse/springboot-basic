@@ -1,6 +1,8 @@
 package org.prgrms.kdtspringdemo.console;
 
 import org.prgrms.kdtspringdemo.VoucherType;
+import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.wallet.WalletService;
@@ -13,10 +15,12 @@ import java.util.List;
 public class VoucherOperator implements CommandOperator<Voucher> {
     private final VoucherService voucherService;
     private final WalletService walletService;
+    private final CustomerService customerService;
 
-    public VoucherOperator(VoucherService voucherService, WalletService walletService) {
+    public VoucherOperator(VoucherService voucherService, WalletService walletService, CustomerService customerService) {
         this.voucherService = voucherService;
         this.walletService = walletService;
+        this.customerService = customerService;
     }
 
     // todo : voucher 생성 코드를 service 내부에서 처리하기
@@ -44,6 +48,13 @@ public class VoucherOperator implements CommandOperator<Voucher> {
         voucherService.deleteVoucher(voucherId);
     }
 
+    public Customer findCustomer(String[] splitList) {
+        if (!validationFindCheck(splitList)) return null;
+        var voucherId = splitList[0];
+        Customer customer = customerService.findCustomer(voucherId);
+        return customer;
+    }
+
     @Override
     public List<Voucher> getAllitems() {
         return voucherService.getAllVouchers();
@@ -59,7 +70,11 @@ public class VoucherOperator implements CommandOperator<Voucher> {
 
     private boolean validationDeleteCheck(String[] splitList) {
         if (splitList.length != 1) return false;
+        return true;
+    }
 
+    private boolean validationFindCheck(String[] splitList) {
+        if (splitList.length != 1) return false;
         return true;
     }
 }

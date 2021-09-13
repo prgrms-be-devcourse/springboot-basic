@@ -1,7 +1,6 @@
 package org.prgrms.kdtspringdemo.io;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public interface Output {
     void printCommandList();
@@ -18,9 +17,15 @@ public interface Output {
 
     void printListSelect();
 
+    void printObject(Object obj);
+
     <T> void printList(List<T> stream);
 
     void printDeleteSelect();
 
     void printDeleteVoucher();
+
+    void printFindSelect();
+
+    void printFindCustomer();
 }

@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.jdbc.core.RowMapper;
+
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,6 +48,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return new Customer(customerId, customerName, email, type, createdAt);
     };
 
+    private String getVersion57UUID(String value) {
+        return "UNHEX(REPLACE(:" + value + ", '-', ''))";
+    }
+
     private Map<String, Object> toparamMap(Customer customer) {
         return new HashMap<String, Object>() {{
             put("name", customer.getName());
@@ -68,6 +73,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }
         return customer;
     }
+
     @Override
     public Customer update(Customer customer) {
         var update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, type = :type, created_at = :createAt WHERE customer_id = " + CURRENT_UUID + ";",
@@ -77,9 +83,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }
         return customer;
     }
+
     @Override
     public int count() {
-        return jdbcTemplate.queryForObject("SELECT count(*) FROM customers", Collections.emptyMap() ,Integer.class);
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM customers", Collections.emptyMap(), Integer.class);
     }
 
     @Override
@@ -103,6 +110,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.empty();
         }
     }
+
     @Override
     public Optional<Customer> findByName(String name) {
         try {
@@ -114,6 +122,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.empty();
         }
     }
+
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
@@ -138,6 +147,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }
     }
 
+    @Override
+    public Optional<Customer> findByVoucherId(String voucherId) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers LEFT JOIN wallets ON wallets.voucher_id = " + getVersion57UUID("voucherId") + " WHERE wallets.customer_id = customers.customer_id",
+                    Collections.singletonMap("voucherId", voucherId.getBytes()),
+                    customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Get empty result(findByVoucherId)", e);
+            return Optional.empty();
+        }
+    }
+
     private void mapToCustomer(List<Customer> allCustomers, ResultSet resultSet) throws SQLException {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
@@ -147,6 +168,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         allCustomers.add(new Customer(customerId, customerName, email, "Normal", lastLoginAt, createdAt));
     }
+
     @Override
     public void deleteAll() {
         jdbcTemplate.update(DELETE_SQL, Collections.emptyMap());

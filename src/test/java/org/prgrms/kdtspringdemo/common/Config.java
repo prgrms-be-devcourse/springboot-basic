@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.common;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.prgrms.kdtspringdemo.console.VoucherOperator;
+import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.voucher.repository.JdbcVoucherRepository;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.wallet.WalletService;
@@ -58,7 +59,7 @@ public class Config {
     }
 
     @Bean
-    public VoucherOperator voucherOperator(VoucherService voucherService, WalletService walletService) {
-        return new VoucherOperator(voucherService, walletService);
+    public VoucherOperator voucherOperator(VoucherService voucherService, WalletService walletService, CustomerService customerService) {
+        return new VoucherOperator(voucherService, walletService, customerService);
     }
 }
