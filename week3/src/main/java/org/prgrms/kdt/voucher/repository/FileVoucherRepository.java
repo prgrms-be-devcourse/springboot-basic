@@ -28,18 +28,24 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(memory.values());
+//        return List.of(memory.values().toArray(new Voucher[]{}));
+        return Arrays.asList(memory.values().toArray(new Voucher[]{}));
     }
 
     @Override
-    public void insert(Voucher voucher) {
+    public int insert(Voucher voucher) {
         memory.put(voucher.getVoucherId(), voucher);
+        return memory.size();
     }
 
     @PostConstruct
     void fileToMem() {
         VoucherFileReader voucherFileReader = new VoucherFileReader();
-        memory.putAll(voucherFileReader.readFile(PATH + FILENAME));
+        try {
+            memory.putAll(voucherFileReader.readFile(PATH + FILENAME));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @PreDestroy

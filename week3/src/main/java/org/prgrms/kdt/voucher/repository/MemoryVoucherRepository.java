@@ -14,7 +14,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> memory;
 
     public MemoryVoucherRepository() {
-            memory = new ConcurrentHashMap<>();
+        memory = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -24,11 +24,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(memory.values());
+        return List.of(memory.values().toArray(new Voucher[]{}));
     }
 
     @Override
-    public void insert(Voucher voucher) {
+    public int insert(Voucher voucher) {
         memory.put(voucher.getVoucherId(), voucher);
+        return memory.size();
     }
 }

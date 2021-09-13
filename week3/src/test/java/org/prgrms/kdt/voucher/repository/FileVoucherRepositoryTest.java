@@ -19,10 +19,6 @@ import static org.hamcrest.Matchers.*;
 @Profile("local")
 class FileVoucherRepositoryTest {
 
-    private Map<UUID, Voucher> memory;
-    private static final String PATH = "src/main/resources/static/";
-    private static final String FILENAME = "voucher.csv";
-
     static FixedAmountVoucher fixedAmountVoucher;
 
     static FileVoucherRepository voucherRepository;

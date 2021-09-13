@@ -18,7 +18,6 @@ import static org.hamcrest.Matchers.*;
 @SpringJUnitConfig
 @Profile("dev")
 @ComponentScan(basePackages = {"org.prgrms.kdt.voucher"})
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class MemoryVoucherRepositoryTest {
 
     static FixedAmountVoucher fixedAmountVoucher;

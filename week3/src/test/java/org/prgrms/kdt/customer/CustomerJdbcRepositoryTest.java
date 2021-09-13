@@ -1,17 +1,14 @@
 package org.prgrms.kdt.customer;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.ClassLevelTestConfig;
+import org.prgrms.kdt.JdbcTemplateConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -19,30 +16,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class CustomerJdbcRepositoryTest {
+class CustomerJdbcRepositoryTest extends ClassLevelTestConfig {
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgrms.kdt.customer"})
-    static class Config {
-
-        @Bean
-        public DataSource dataSource() {
-            var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/order_mgmt")
-                    .username("root")
-                    .password("1234")
-                    .type(HikariDataSource.class)
-                    .build();
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-    }
+    static class Config extends JdbcTemplateConfig {}
 
     @Autowired
     CustomerJdbcRepository customerJdbcRepository;

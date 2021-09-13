@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Scanner;
 
 @Component
 public class CommandLineInterface implements UserInteraction {
@@ -64,5 +65,10 @@ public class CommandLineInterface implements UserInteraction {
         for (BlackUser blackUser : blackUserList) {
             logger.info(String.valueOf(blackUser));
         }
+    }
+
+    @Override
+    public String getNext(Scanner sc) {
+        return sc.next();
     }
 }
