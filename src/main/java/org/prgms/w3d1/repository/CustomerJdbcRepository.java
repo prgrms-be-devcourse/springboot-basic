@@ -55,7 +55,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Customer update(Customer customer) {
         var updateCount = jdbcTemplate.update(
-            "update customers set name=?, email=?, last_login_at=? where customer_id=UUID_TO_BIN(?)",
+            "update customers set name = ?, email = ?, last_login_at = ? where customer_id = UUID_TO_BIN(?)",
             customer.getName(),
             customer.getEmail(),
             customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
@@ -71,7 +71,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Customer updateWithNameAndEmail(UUID customerId, String name, String email) {
         var updateCount = jdbcTemplate.update(
-            "update customers set name=?, email=? where customer_id=UUID_TO_BIN(?)",
+            "update customers set name = ?, email = ? where customer_id = UUID_TO_BIN(?)",
             name, email, customerId.toString().getBytes());
 
         if (updateCount != 1) {

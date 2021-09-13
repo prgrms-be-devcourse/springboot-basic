@@ -64,7 +64,8 @@ public class DatabaseVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        var saveCount = jdbcTemplate.update("insert into vouchers(voucher_id, value, voucher_type, wallet_id) values (UUID_TO_BIN(?), ?, ?, UUID_TO_BIN(?))",
+        var saveCount = jdbcTemplate.update(
+            "insert into vouchers(voucher_id, value, voucher_type, wallet_id) values (UUID_TO_BIN(?), ?, ?, UUID_TO_BIN(?))",
             voucher.getVoucherId().toString().getBytes(),
             voucher.getVoucherValue(),
             voucher.getClass().getSimpleName(),
@@ -82,7 +83,7 @@ public class DatabaseVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        var deleteCount = jdbcTemplate.update("delete from vouchers where voucher_id=UUID_TO_BIN(?)",
+        var deleteCount = jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(?)",
             voucherId.toString().getBytes());
 
         if (deleteCount != 1) {
