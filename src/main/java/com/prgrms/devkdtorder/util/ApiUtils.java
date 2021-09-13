@@ -2,6 +2,7 @@ package com.prgrms.devkdtorder.util;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
 public class ApiUtils {
@@ -20,6 +21,7 @@ public class ApiUtils {
 
     @Getter
     @RequiredArgsConstructor
+    @ToString(of = {"success", "data", "error"})
     public static class ApiResponse<T> {
 
         private final boolean success;
@@ -29,6 +31,7 @@ public class ApiUtils {
     }
 
     @Getter
+    @ToString(of = {"message", "status"})
     public static class ApiError {
 
         private final String message;
