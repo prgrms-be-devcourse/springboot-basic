@@ -3,27 +3,22 @@ package org.prgrms.kdt.web.dto;
 
 public class RequestCreateVoucherDto {
 
-    private Integer type;
-    private Long value;
+    private String voucherType;
+    private Long voucherValue;
 
-    public RequestCreateVoucherDto(Integer type, Long value) {
-        this.type = type;
-        this.value = value;
+    public String getVoucherType() {
+        return voucherType;
     }
 
-    public Integer getType() {
-        return type;
+    public void setVoucherType(String voucherType) {
+        this.voucherType = voucherType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public Long getVoucherValue() {
+        return voucherValue;
     }
 
-    public Long getValue() {
-        return value;
-    }
-
-    public void setValue(Long value) {
-        this.value = value;
+    public void setVoucherValue(Long voucherValue) {
+        this.voucherValue = voucherValue;
     }
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <style>
+        .container {
+            max-width: 660px;
+        }
+    </style>
+    <title>Voucher Detail</title>
+</head>
+<body class="container">
+<a href="/"><h1>KDT Spring App</h1></a>
+<a href="/vouchers"><h2>Voucher Home</h2></a>
+
+<form th:action="'/voucher/' + ${voucher.voucherId}" th:method="post">
+    <label for="voucherId" class="form-label">바우처 ID</label>
+    <input type="text" id="voucherId" name="voucherId" class="form-control" th:value="${voucher.voucherId}" disabled>
+    <label for="voucherType" class="form-label">바우처 타입</label>
+    <select id="voucherType" th:name="voucherType" class="form-select" disabled>
+        <option value="FIX" th:selected="${#strings.equals(voucher.type, 'FIX')}">Fixed Amount Voucher</option>
+        <option value="PERCENT" th:selected="${#strings.equals(voucher.type, 'PERCENT')}">Percent Amount Voucher</option>
+    </select>
+    <label for="voucherValue" class="form-label">바우처 값</label>
+    <input type="number" id="voucherValue" class="form-control" th:name="voucherValue" th:value="${voucher.value}" disabled>
+    <label for="createdAt" class="form-label">바우처 생성 시각</label>
+    <input type="text" id="createdAt" class="form-control" th:name="createdAt" th:value="${voucher.createdAt}" disabled>
+
+    <div class="mx-auto mt-2 gap-3 d-flex justify-content-center">
+        <button type="button" class="w-25 p-2 btn btn-secondary" th:onclick="|location.href='@{/vouchers}'|">목록 이동</button>
+        <button type="button" class="w-25 p-2 btn btn-primary" th:onclick="|location.href='@{/vouchers/{voucherId}/edit(voucherId=${voucher.voucherId})}'|">바우처 수정</button>
+        <button type="button" class="w-25 p-2 btn btn-danger" th:onclick="|location.href='@{/vouchers/{voucherId}/delete(voucherId=${voucher.voucherId})}'|">바우처 삭제</button>
+    </div>
+</form>
+</body>
+</html>

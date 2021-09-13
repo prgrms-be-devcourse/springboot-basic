@@ -4,12 +4,7 @@ import java.util.UUID;
 
 public class RequestUpdateVoucherDto {
     private UUID voucherId;
-    private Long value;
-
-    public RequestUpdateVoucherDto(UUID voucherId, Long value) {
-        this.voucherId = voucherId;
-        this.value = value;
-    }
+    private Long voucherValue;
 
     public UUID getVoucherId() {
         return voucherId;
@@ -19,11 +14,11 @@ public class RequestUpdateVoucherDto {
         this.voucherId = voucherId;
     }
 
-    public Long getValue() {
-        return value;
+    public Long getVoucherValue() {
+        return voucherValue;
     }
 
-    public void setValue(Long value) {
-        this.value = value;
+    public void setVoucherValue(Long voucherValue) {
+        this.voucherValue = voucherValue;
     }
 }
