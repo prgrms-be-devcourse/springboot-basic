@@ -45,7 +45,6 @@ public class RegularCustomerRepository implements CustomerRepository {
             put("customerId", customer.getCustomerId().toString().getBytes());
             put("name", customer.getName());
             put("email", customer.getEmail());
-            put("isBadCustomer", customer.getBadCustomer());
             put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
             put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
         }};
@@ -53,7 +52,7 @@ public class RegularCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, last_login_at, created_at, isBadCustomer) VALUES (UUID_TO_BIN(:customerId), :name, :email, :lastLoginAt, :createdAt, :isBadCustomer)", toParamMap(customer));
+        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, last_login_at, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :lastLoginAt, :createdAt)", toParamMap(customer));
         if(update != 1){
             throw new RuntimeException("Nothing was inserted");
         }
@@ -62,7 +61,11 @@ public class RegularCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        int update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, isBadCustomer = :isBadCustomer, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
+        paramMap.put("isBadCustomer", customer.getBadCustomer());
+
+        int update = jdbcTemplate.update("UPDATE customers SET name = :name, isBadCustomer = :isBadCustomer WHERE customer_id = UUID_TO_BIN(:customerId)", paramMap);
         if(update != 1) {
             throw new RuntimeException("Nothing was updated");
         }

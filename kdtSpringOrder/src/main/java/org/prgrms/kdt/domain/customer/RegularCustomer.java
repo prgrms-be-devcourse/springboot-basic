@@ -41,15 +41,6 @@ public class RegularCustomer implements Customer {
         this.createdAt = createdAt;
     }
 
-    public RegularCustomer(UUID customerId, String name, String email, Integer isBadCustomer, LocalDateTime createdAt) {
-        validate(name);
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.isBadCustomer = isBadCustomer;
-        this.createdAt = createdAt;
-    }
-
     public void changeName(String name) {
         validate(name);
         this.name = name;

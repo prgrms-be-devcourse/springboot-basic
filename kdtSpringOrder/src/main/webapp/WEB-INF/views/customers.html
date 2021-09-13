@@ -7,9 +7,33 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <title>Customer</title>
+    <title>Home</title>
 </head>
 <body class="container-fluid">
-    <h1>KDT Spring App</h1>
+<h1>KDT Spring App</h1>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/customers/new}" class="btn btn-primary me-md-2" type="button">New Customer</a>
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">CreatedAt</th>
+        <th scope="col">LastLoginAt</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer: ${customers}" th:object="${customer}">
+        <td th:text="${customer.customerId}"></td>
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.email}"></td>
+        <td th:text="${customer.createdAt}"></td>
+        <td th:text="${customer.lastLoginAt}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
+

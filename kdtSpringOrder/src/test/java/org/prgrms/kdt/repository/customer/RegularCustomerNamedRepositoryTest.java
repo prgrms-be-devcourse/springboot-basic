@@ -76,7 +76,7 @@ class RegularCustomerNamedRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        newCustomer = new RegularCustomer(UUID.randomUUID(), "test1-user", "test1-user@gmail.com", 0,LocalDateTime.now());
+        newCustomer = new RegularCustomer(UUID.randomUUID(), "test1-user", "test1-user@gmail.com", LocalDateTime.now());
         MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
