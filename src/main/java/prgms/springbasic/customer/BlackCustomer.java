@@ -3,16 +3,16 @@ package prgms.springbasic.customer;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Customer {
+public class BlackCustomer {
     private final String name;
     private final UUID customerId;
 
-    public Customer(String name) {
+    public BlackCustomer(String name) {
         this.name = name;
         this.customerId = UUID.randomUUID();
     }
 
-    public Customer(String name, UUID customerId) {
+    public BlackCustomer(String name, UUID customerId) {
         this.name = name;
         this.customerId = customerId;
     }
@@ -34,7 +34,7 @@ public class Customer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
+        BlackCustomer customer = (BlackCustomer) o;
         return Objects.equals(name, customer.name) && Objects.equals(customerId, customer.customerId);
     }
 

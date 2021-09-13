@@ -26,8 +26,8 @@ class CustomerBlacklistRepositoryTest {
     @DisplayName("고객 정보를 저장할 수 있어야 한다.")
     void save() {
         try {
-            CustomerRepository repository = new CustomerBlacklistRepository();
-            Customer customer01 = new Customer("allen");
+            BlackCustomerRepository repository = new BlackCustomerRepositoryImpl();
+            BlackCustomer customer01 = new BlackCustomer("allen");
             int beforeSize = repository.getCustomerList().size();
             repository.save(customer01);
             assertThat(repository.getCustomerList().size()).isEqualTo(beforeSize + 1);
@@ -41,11 +41,11 @@ class CustomerBlacklistRepositoryTest {
     @DisplayName("이름을 통해 고객 정보를 받아올 수 있어야한다.")
     void findByName() {
         try {
-            CustomerRepository repository = new CustomerBlacklistRepository();
-            Customer customer01 = new Customer("allen");
+            BlackCustomerRepository repository = new BlackCustomerRepositoryImpl();
+            BlackCustomer customer01 = new BlackCustomer("allen");
             repository.save(customer01);
 
-            Customer findCustomer = repository.findByName("allen");
+            BlackCustomer findCustomer = repository.findByName("allen");
             assertThat(customer01.getCustomerId()).isEqualTo(findCustomer.getCustomerId());
 
         } catch (IOException exception) {
@@ -56,12 +56,12 @@ class CustomerBlacklistRepositoryTest {
     @Test
     @DisplayName("모든 고객의 정보를 들고와야한다.")
     void getCustomerList() {
-        CustomerRepository repository = null;
+        BlackCustomerRepository repository = null;
         try {
-            repository = new CustomerBlacklistRepository();
-            Customer customer01 = new Customer("allen");
-            Customer customer02 = new Customer("runju");
-            Customer customer03 = new Customer("rabbit");
+            repository = new BlackCustomerRepositoryImpl();
+            BlackCustomer customer01 = new BlackCustomer("allen");
+            BlackCustomer customer02 = new BlackCustomer("runju");
+            BlackCustomer customer03 = new BlackCustomer("rabbit");
 
             repository.save(customer01);
             repository.save(customer02);

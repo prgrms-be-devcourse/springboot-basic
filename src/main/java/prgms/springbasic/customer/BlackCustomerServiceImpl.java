@@ -7,27 +7,27 @@ import java.util.List;
 
 @Service
 @Qualifier("customerService")
-public class CustomerServiceImpl implements CustomerService {
+public class BlackCustomerServiceImpl implements BlackCustomerService {
 
-    private final CustomerRepository customerRepository;
+    private final BlackCustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public BlackCustomerServiceImpl(BlackCustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
     @Override
-    public Customer createCustomer(String name) {
-        Customer newCustomer = new Customer(name);
+    public BlackCustomer createCustomer(String name) {
+        BlackCustomer newCustomer = new BlackCustomer(name);
         return customerRepository.save(newCustomer);
     }
 
     @Override
-    public Customer findByName(String name) {
+    public BlackCustomer findByName(String name) {
         return customerRepository.findByName(name);
     }
 
     @Override
-    public List<Customer> getCustomerList() {
+    public List<BlackCustomer> getCustomerList() {
         return customerRepository.getCustomerList();
     }
 }

@@ -28,8 +28,8 @@ class CustomerServiceImplTest {
     @Test
     void createCustomer() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CustomerBlacklistAppConfig.class);
-        CustomerService customerService = applicationContext.getBean(CustomerService.class);
-        Customer customer = customerService.createCustomer("eonju");
+        BlackCustomerService customerService = applicationContext.getBean(BlackCustomerService.class);
+        BlackCustomer customer = customerService.createCustomer("eonju");
 
         assertThat(customer.getCustomerId()).isNotNull();
     }
@@ -37,9 +37,9 @@ class CustomerServiceImplTest {
     @Test
     void findByName() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CustomerBlacklistAppConfig.class);
-        CustomerService customerService = applicationContext.getBean(CustomerService.class);
-        Customer customer = customerService.createCustomer("eonju");
-        Customer findCustomer = customerService.findByName(customer.getName());
+        BlackCustomerService customerService = applicationContext.getBean(BlackCustomerService.class);
+        BlackCustomer customer = customerService.createCustomer("eonju");
+        BlackCustomer findCustomer = customerService.findByName(customer.getName());
         assertThat(customer.getCustomerId()).isEqualTo(findCustomer.getCustomerId());
         assertThatThrownBy(() -> customerService.findByName("ohoho"))
                 .isInstanceOf(RuntimeException.class)
@@ -49,12 +49,12 @@ class CustomerServiceImplTest {
     @Test
     void getCustomerList() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CustomerBlacklistAppConfig.class);
-        CustomerService customerService = applicationContext.getBean(CustomerService.class);
-        Customer customer01 = customerService.createCustomer("eonju");
-        Customer customer02 = customerService.createCustomer("spancer");
-        Customer customer03 = customerService.createCustomer("allen");
-        Customer customer04 = new Customer("iamnotcustommer");
-        List<Customer> customerList = customerService.getCustomerList();
+        BlackCustomerService customerService = applicationContext.getBean(BlackCustomerService.class);
+        BlackCustomer customer01 = customerService.createCustomer("eonju");
+        BlackCustomer customer02 = customerService.createCustomer("spancer");
+        BlackCustomer customer03 = customerService.createCustomer("allen");
+        BlackCustomer customer04 = new BlackCustomer("iamnotcustommer");
+        List<BlackCustomer> customerList = customerService.getCustomerList();
 
         assertThat(customerList).containsAll(List.of(customer01, customer02, customer03));
         assertThat(customerList).doesNotContain(customer04);

@@ -11,21 +11,21 @@ import java.util.UUID;
 
 @Repository
 @Qualifier("customerBlacklistRepository")
-public class CustomerBlacklistRepository implements CustomerRepository {
+public class BlackCustomerRepositoryImpl implements BlackCustomerRepository {
 
     private static final String path = "src/main/customer_blacklist.csv";
     private final File file;
     private final BufferedWriter bufferedWriter;
     private BufferedReader bufferedReader;
 
-    public CustomerBlacklistRepository() throws IOException {
+    public BlackCustomerRepositoryImpl() throws IOException {
         this.file = new File(path);
 
         bufferedWriter = new BufferedWriter(new FileWriter(file, true));
     }
 
     @Override
-    public Customer save(Customer customer) {
+    public BlackCustomer save(BlackCustomer customer) {
         try {
             bufferedWriter.write(customer.toString() + System.lineSeparator());
             bufferedWriter.flush();
@@ -36,7 +36,7 @@ public class CustomerBlacklistRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer findByName(String name) {
+    public BlackCustomer findByName(String name) {
         String line;
 
         try {
@@ -44,7 +44,7 @@ public class CustomerBlacklistRepository implements CustomerRepository {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] splited = line.split(", ");
                 if (splited[0].equals(name)) {
-                    return new Customer(splited[0], UUID.fromString(splited[1]));
+                    return new BlackCustomer(splited[0], UUID.fromString(splited[1]));
                 }
             }
         } catch (IOException e) {
@@ -54,14 +54,14 @@ public class CustomerBlacklistRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> getCustomerList() {
+    public List<BlackCustomer> getCustomerList() {
         String line;
-        List<Customer> blackList = new ArrayList<>();
+        List<BlackCustomer> blackList = new ArrayList<>();
         try {
             bufferedReader = new BufferedReader(new FileReader(file));
             while ((line = bufferedReader.readLine()) != null) {
                 String[] splited = line.split(", ");
-                blackList.add(new Customer(splited[0], UUID.fromString(splited[1])));
+                blackList.add(new BlackCustomer(splited[0], UUID.fromString(splited[1])));
             }
         } catch (IOException e) {
             throw new RuntimeException("레포지토리를 읽을 수 없습니다.");

@@ -1,6 +1,6 @@
 package prgms.springbasic.io;
 
-import prgms.springbasic.customer.Customer;
+import prgms.springbasic.customer.BlackCustomer;
 import prgms.springbasic.voucher.Voucher;
 
 import java.util.List;
@@ -51,10 +51,10 @@ public class Printer {
         System.out.println("-----------------------------------------");
     }
 
-    public void printCustomerList(List<Customer> customerList) {
+    public void printCustomerList(List<BlackCustomer> customerList) {
         System.out.println();
         System.out.println("------- <Customer Blacklist> -------");
-        for (Customer customer : customerList) {
+        for (BlackCustomer customer : customerList) {
             System.out.println(customer.toString());
         }
         System.out.println("-------------------------------------");
