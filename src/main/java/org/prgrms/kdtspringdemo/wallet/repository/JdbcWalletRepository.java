@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.wallet.repository;
 
-import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.wallet.Wallet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

@@ -3,7 +3,6 @@ package org.prgrms.kdtspringdemo.console;
 import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.wallet.WalletService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

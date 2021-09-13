@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Service
 public class WalletService {
-
     private final WalletRepository walletRepository;
 
     public WalletService(WalletRepository walletRepository) {
@@ -22,6 +21,7 @@ public class WalletService {
         return walletRepository.findAll();
     }
 
+    //todo: customer:addWallet 시 wallet을 선택해서 넣는 기능 구현하기
     @Transactional
     public Wallet addWallet(UUID customerId) {
         Wallet wallet = new Wallet(UUID.randomUUID(),
