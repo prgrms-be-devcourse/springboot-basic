@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class JdbcWalletRepository implements WalletRepository {
+public class WalletJdbcRepository implements WalletRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private String INSERT = """
@@ -20,7 +20,7 @@ public class JdbcWalletRepository implements WalletRepository {
     private String DELETE_BY_CUSTOMER_VOUCHER = "DELETE FROM wallet WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)";
 
 
-    public JdbcWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public WalletJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

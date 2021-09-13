@@ -3,12 +3,12 @@ package org.prgrms.kdt.model.discount;
 import java.text.MessageFormat;
 import org.prgrms.kdt.exception.InvalidDataException;
 
-public class PercentDiscountStrategy implements DiscountStrategy {
+public class FixedDiscountPolicy implements DiscountPolicy {
 
     @Override
     public long discount(long beforeDiscount, long discount) {
-        validateBeforeDiscountAmount(beforeDiscount);
-        return (beforeDiscount * (100 - discount)) / 100;
+        validateDiscountAmount(beforeDiscount);
+        return beforeDiscount > discount ? beforeDiscount - discount : 0;
     }
 
     @Override
@@ -22,9 +22,13 @@ public class PercentDiscountStrategy implements DiscountStrategy {
 
     @Override
     public void validateDiscountAmount(long discount) {
-        if (discount < 0 || discount > 100) {
+        if (discount < 0) {
             throw new InvalidDataException(
-                MessageFormat.format("percentage discount amount should be 0~100: {0}", discount));
+                MessageFormat.format("fixed discount amount should be positive: {0}", discount));
+        }
+        if (discount == 0) {
+            throw new InvalidDataException(
+                MessageFormat.format("fixed discount amount should not be zero: {0}", discount));
         }
     }
 }

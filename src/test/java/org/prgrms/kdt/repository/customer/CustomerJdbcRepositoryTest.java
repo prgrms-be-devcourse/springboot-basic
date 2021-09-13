@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository.wallet;
+package org.prgrms.kdt.repository.customer;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
@@ -18,12 +18,8 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherType;
-import org.prgrms.kdt.model.wallet.Wallet;
-import org.prgrms.kdt.repository.customer.JdbcCustomerRepository;
-import org.prgrms.kdt.repository.voucher.JdbcVoucherRepository;
-import org.springframework.beans.factory.annotation.*;
+import org.prgrms.kdt.model.customer.CustomerType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,12 +30,11 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-class JdbcWalletRepositoryTest {
+class CustomerJdbcRepositoryTest {
 
     private EmbeddedMysql embeddedMysql;
-    private Wallet wallet;
-    private Customer customer;
-    private Voucher voucher;
+    private Customer newCustomer;
+
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgrms.kdt"})
@@ -66,13 +61,8 @@ class JdbcWalletRepositoryTest {
     }
 
     @Autowired
-    JdbcCustomerRepository jdbcCustomerRepository;
+    CustomerJdbcRepository customerJdbcRepository;
 
-    @Autowired
-    JdbcVoucherRepository jdbcVoucherRepository;
-
-    @Autowired
-    WalletRepository walletJdbcRepository;
 
     @Autowired
     DataSource dataSource;
@@ -90,62 +80,79 @@ class JdbcWalletRepositoryTest {
         embeddedMysql = anEmbeddedMysql(config)
             .addSchema("test-command_application", classPathScript("schema.sql"))
             .start();
-    }
 
-    @Test
-    @DisplayName("고객에게 바우처를 할당할 수 있다.")
-    @Order(1)
-    void insert() {
-        customer = jdbcCustomerRepository.insert(
-            new Customer(
-                UUID.randomUUID(),
-                "test-customer",
-                "test@gmail.com",
-                LocalDateTime.now()
-            ));
-        voucher = jdbcVoucherRepository.insert(
-            new Voucher(
-                UUID.randomUUID(),
-                1000,
-                LocalDateTime.now(),
-                VoucherType.FIX
-            )
-        );
-        wallet = new Wallet(
+        newCustomer = new Customer(
             UUID.randomUUID(),
-            customer.getCustomerId(),
-            voucher.getVoucherId(),
+            "test-user",
+            "test-user@gmail.com",
             LocalDateTime.now());
-        var retrievedWallet = walletJdbcRepository.insert(wallet);
-        assertThat(retrievedWallet, samePropertyValuesAs(wallet));
+
+    }
+
+    @AfterAll
+    void cleanUp() {
+        embeddedMysql.stop();
+    }
+
+
+    @Test
+    @Order(1)
+    void testHikariConnectionPool() {
+        assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
     }
 
     @Test
-    @DisplayName("고객의 아이디로 고객의 바우처를 조회할 수 있다.")
+    @DisplayName("고객을 추가할 수 있다.")
     @Order(2)
-    void findByCustomerId() {
-        var vouchers = jdbcVoucherRepository.findByCustomerId(wallet.getCustomerId());
-        assertThat(vouchers.size(), is(1));
-        assertThat(vouchers, everyItem(samePropertyValuesAs(voucher)));
+    void testInsert() {
+        customerJdbcRepository.insert(newCustomer);
+        var retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
+        assertThat(retrievedCustomer.isEmpty(), is(false));
+        assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
     }
 
     @Test
-    @DisplayName("바우처 아이디로 고객 조회 테스트")
+    @DisplayName("전체 고객을 조회할 수 있다.")
     @Order(3)
-    void findByVoucherId() {
-        var customers = jdbcCustomerRepository.findByVoucherId(wallet.getVoucherId());
-        assertThat(customers.size(), is(1));
-        assertThat(customers, everyItem(samePropertyValuesAs(customer)));
+    void testFindAll() {
+        var customers = customerJdbcRepository.findAllCustomer();
+        assertThat(customers.isEmpty(), is(false));
+    }
+
+
+    @Test
+    @DisplayName("아이디로 고객을 조회할 수 있다.")
+    @Order(4)
+    void testFindById() {
+        var customer = customerJdbcRepository.findById(newCustomer.getCustomerId());
+        assertThat(customer.isEmpty(), is(false));
+
+        var unknown = customerJdbcRepository.findById(UUID.randomUUID());
+        assertThat(unknown.isEmpty(), is(true));
+    }
+
+
+
+    @Test
+    @DisplayName("고객의 타입을 수정할 수 있다.")
+    @Order(5)
+    void testUpdate() {
+        newCustomer.changeCustomerType(CustomerType.BLACK);
+        customerJdbcRepository.updateType(newCustomer);
+
+        var retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId()).get();
+        assertThat(retrievedCustomer.getCustomerType(), is(CustomerType.BLACK));
+        assertThat(retrievedCustomer, samePropertyValuesAs(newCustomer));
+
     }
 
     @Test
-    @DisplayName("고객에게 등록된 바우처를 삭제할 수 있다.")
-    @Order(4)
-    void deleteByWallet() {
-        walletJdbcRepository.deleteByCustomerVoucher(wallet.getCustomerId(), wallet.getVoucherId());
-        var vouchers = jdbcVoucherRepository.findByCustomerId(wallet.getCustomerId());
-        assertThat(vouchers.isEmpty(), is(true));
+    @DisplayName("고객 타입으로 고객들을 조회할 수 있다.")
+    @Order(6)
+    void testFindByType() {
+        var blackList = customerJdbcRepository.findByCustomerType(CustomerType.BLACK);
+        assertThat(blackList, hasSize(1));
+        assertThat(blackList, everyItem(samePropertyValuesAs(newCustomer)));
     }
-
 
 }

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository.customer;
+package org.prgrms.kdt.repository.voucher;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.model.customer.CustomerType;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
@@ -30,11 +30,11 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-class JdbcCustomerRepositoryTest {
+class VoucherJdbcRepositoryTest {
 
     private EmbeddedMysql embeddedMysql;
-    private Customer newCustomer;
-
+    private Voucher fixedVoucher;
+    private Voucher percentVoucher;
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgrms.kdt"})
@@ -61,7 +61,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Autowired
-    JdbcCustomerRepository jdbcCustomerRepository;
+    VoucherJdbcRepository voucherJdbcRepository;
 
 
     @Autowired
@@ -81,19 +81,14 @@ class JdbcCustomerRepositoryTest {
             .addSchema("test-command_application", classPathScript("schema.sql"))
             .start();
 
-        newCustomer = new Customer(
-            UUID.randomUUID(),
-            "test-user",
-            "test-user@gmail.com",
-            LocalDateTime.now());
-
+        fixedVoucher = new Voucher(UUID.randomUUID(), 1000, LocalDateTime.now(), VoucherType.FIX);
+        percentVoucher = new Voucher(UUID.randomUUID(), 50, LocalDateTime.now(), VoucherType.PERCENT);
     }
 
     @AfterAll
     void cleanUp() {
         embeddedMysql.stop();
     }
-
 
     @Test
     @Order(1)
@@ -102,57 +97,53 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("고객을 추가할 수 있다.")
+    @DisplayName("바우처를 추가할 수 있다.")
     @Order(2)
     void testInsert() {
-        jdbcCustomerRepository.insert(newCustomer);
-        var retrievedCustomer = jdbcCustomerRepository.findById(newCustomer.getCustomerId());
-        assertThat(retrievedCustomer.isEmpty(), is(false));
-        assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
+        voucherJdbcRepository.insert(fixedVoucher);
+        var retrievedFixedVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId());
+        assertThat(retrievedFixedVoucher.isEmpty(), is(false));
+        assertThat(retrievedFixedVoucher.get(), samePropertyValuesAs(fixedVoucher));
+
+
+        voucherJdbcRepository.insert(percentVoucher);
+        var retrievedPercentVoucher = voucherJdbcRepository.findById(percentVoucher.getVoucherId());
+        assertThat(retrievedPercentVoucher.isEmpty(), is(false));
+        assertThat(retrievedPercentVoucher.get(), samePropertyValuesAs(percentVoucher));
     }
 
     @Test
-    @DisplayName("전체 고객을 조회할 수 있다.")
+    @DisplayName("전체 바우처를 조회할 수 있다.")
     @Order(3)
     void testFindAll() {
-        var customers = jdbcCustomerRepository.findAllCustomer();
-        assertThat(customers.isEmpty(), is(false));
+        var vouchers = voucherJdbcRepository.findAllVoucher();
+        assertThat(vouchers.size(), is(2));
     }
 
-
     @Test
-    @DisplayName("아이디로 고객을 조회할 수 있다.")
+    @DisplayName("아이디로 바우처를 조회할 수 있다.")
     @Order(4)
     void testFindById() {
-        var customer = jdbcCustomerRepository.findById(newCustomer.getCustomerId());
-        assertThat(customer.isEmpty(), is(false));
+        var retrievedVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId());
+        assertThat(retrievedVoucher.isEmpty(), is(false));
 
-        var unknown = jdbcCustomerRepository.findById(UUID.randomUUID());
+        var unknown = voucherJdbcRepository.findById(UUID.randomUUID());
         assertThat(unknown.isEmpty(), is(true));
     }
 
-
-
     @Test
-    @DisplayName("고객의 타입을 수정할 수 있다.")
+    @DisplayName("바우처의 타입과 값을 변경할 수 있다.")
     @Order(5)
-    void testUpdate() {
-        newCustomer.changeCustomerType(CustomerType.BLACK);
-        jdbcCustomerRepository.updateType(newCustomer);
+    void testVoucherUpdate() {
+        var newType = VoucherType.PERCENT;
+        var newDiscountAmount = 40L;
 
-        var retrievedCustomer = jdbcCustomerRepository.findById(newCustomer.getCustomerId()).get();
-        assertThat(retrievedCustomer.getCustomerType(), is(CustomerType.BLACK));
-        assertThat(retrievedCustomer, samePropertyValuesAs(newCustomer));
+        fixedVoucher.changeVoucherType(newType, newDiscountAmount);
+        voucherJdbcRepository.updateType(fixedVoucher);
 
-    }
-
-    @Test
-    @DisplayName("고객 타입으로 고객들을 조회할 수 있다.")
-    @Order(6)
-    void testFindByType() {
-        var blackList = jdbcCustomerRepository.findByCustomerType(CustomerType.BLACK);
-        assertThat(blackList, hasSize(1));
-        assertThat(blackList, everyItem(samePropertyValuesAs(newCustomer)));
+        var retrievedVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId()).get();
+        assertThat(retrievedVoucher.getVoucherType(), is(newType));
+        assertThat(retrievedVoucher.getDiscount(), is(newDiscountAmount));
     }
 
 }

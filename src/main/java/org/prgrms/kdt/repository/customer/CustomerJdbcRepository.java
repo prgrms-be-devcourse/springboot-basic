@@ -9,8 +9,6 @@ import java.util.UUID;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.customer.CustomerType;
 import org.prgrms.kdt.util.UuidUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,9 +16,8 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class JdbcCustomerRepository implements CustomerRepository {
+public class CustomerJdbcRepository implements CustomerRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerId = UuidUtils.toUUID(resultSet.getBytes("customer_id"));
         var customerName = resultSet.getString("name");
@@ -50,7 +47,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         ON customer.customer_id = wallet.customer_id
         WHERE wallet.voucher_id = UUID_TO_BIN(:voucherId)""";
 
-    public JdbcCustomerRepository(
+    public CustomerJdbcRepository(
         NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

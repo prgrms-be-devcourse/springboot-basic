@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository.voucher;
+package org.prgrms.kdt.repository.wallet;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
@@ -17,11 +17,14 @@ import java.util.concurrent.TimeUnit;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherType;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.prgrms.kdt.model.wallet.Wallet;
+import org.prgrms.kdt.repository.customer.CustomerJdbcRepository;
+import org.prgrms.kdt.repository.voucher.VoucherJdbcRepository;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -31,11 +34,12 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-class JdbcVoucherRepositoryTest {
+class WalletJdbcRepositoryTest {
 
     private EmbeddedMysql embeddedMysql;
-    private Voucher fixedVoucher;
-    private Voucher percentVoucher;
+    private Wallet wallet;
+    private Customer customer;
+    private Voucher voucher;
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgrms.kdt"})
@@ -62,8 +66,13 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Autowired
-    JdbcVoucherRepository jdbcVoucherRepository;
+    CustomerJdbcRepository customerJdbcRepository;
 
+    @Autowired
+    VoucherJdbcRepository voucherJdbcRepository;
+
+    @Autowired
+    WalletRepository walletJdbcRepository;
 
     @Autowired
     DataSource dataSource;
@@ -81,70 +90,62 @@ class JdbcVoucherRepositoryTest {
         embeddedMysql = anEmbeddedMysql(config)
             .addSchema("test-command_application", classPathScript("schema.sql"))
             .start();
-
-        fixedVoucher = new Voucher(UUID.randomUUID(), 1000, LocalDateTime.now(), VoucherType.FIX);
-        percentVoucher = new Voucher(UUID.randomUUID(), 50, LocalDateTime.now(), VoucherType.PERCENT);
-    }
-
-    @AfterAll
-    void cleanUp() {
-        embeddedMysql.stop();
     }
 
     @Test
+    @DisplayName("고객에게 바우처를 할당할 수 있다.")
     @Order(1)
-    void testHikariConnectionPool() {
-        assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
+    void insert() {
+        customer = customerJdbcRepository.insert(
+            new Customer(
+                UUID.randomUUID(),
+                "test-customer",
+                "test@gmail.com",
+                LocalDateTime.now()
+            ));
+        voucher = voucherJdbcRepository.insert(
+            new Voucher(
+                UUID.randomUUID(),
+                1000,
+                LocalDateTime.now(),
+                VoucherType.FIX
+            )
+        );
+        wallet = new Wallet(
+            UUID.randomUUID(),
+            customer.getCustomerId(),
+            voucher.getVoucherId(),
+            LocalDateTime.now());
+        var retrievedWallet = walletJdbcRepository.insert(wallet);
+        assertThat(retrievedWallet, samePropertyValuesAs(wallet));
     }
 
     @Test
-    @DisplayName("바우처를 추가할 수 있다.")
+    @DisplayName("고객의 아이디로 고객의 바우처를 조회할 수 있다.")
     @Order(2)
-    void testInsert() {
-        jdbcVoucherRepository.insert(fixedVoucher);
-        var retrievedFixedVoucher = jdbcVoucherRepository.findById(fixedVoucher.getVoucherId());
-        assertThat(retrievedFixedVoucher.isEmpty(), is(false));
-        assertThat(retrievedFixedVoucher.get(), samePropertyValuesAs(fixedVoucher));
-
-
-        jdbcVoucherRepository.insert(percentVoucher);
-        var retrievedPercentVoucher = jdbcVoucherRepository.findById(percentVoucher.getVoucherId());
-        assertThat(retrievedPercentVoucher.isEmpty(), is(false));
-        assertThat(retrievedPercentVoucher.get(), samePropertyValuesAs(percentVoucher));
+    void findByCustomerId() {
+        var vouchers = voucherJdbcRepository.findByCustomerId(wallet.getCustomerId());
+        assertThat(vouchers.size(), is(1));
+        assertThat(vouchers, everyItem(samePropertyValuesAs(voucher)));
     }
 
     @Test
-    @DisplayName("전체 바우처를 조회할 수 있다.")
+    @DisplayName("바우처 아이디로 고객 조회 테스트")
     @Order(3)
-    void testFindAll() {
-        var vouchers = jdbcVoucherRepository.findAllVoucher();
-        assertThat(vouchers.size(), is(2));
+    void findByVoucherId() {
+        var customers = customerJdbcRepository.findByVoucherId(wallet.getVoucherId());
+        assertThat(customers.size(), is(1));
+        assertThat(customers, everyItem(samePropertyValuesAs(customer)));
     }
 
     @Test
-    @DisplayName("아이디로 바우처를 조회할 수 있다.")
+    @DisplayName("고객에게 등록된 바우처를 삭제할 수 있다.")
     @Order(4)
-    void testFindById() {
-        var retrievedVoucher = jdbcVoucherRepository.findById(fixedVoucher.getVoucherId());
-        assertThat(retrievedVoucher.isEmpty(), is(false));
-
-        var unknown = jdbcVoucherRepository.findById(UUID.randomUUID());
-        assertThat(unknown.isEmpty(), is(true));
+    void deleteByWallet() {
+        walletJdbcRepository.deleteByCustomerVoucher(wallet.getCustomerId(), wallet.getVoucherId());
+        var vouchers = voucherJdbcRepository.findByCustomerId(wallet.getCustomerId());
+        assertThat(vouchers.isEmpty(), is(true));
     }
 
-    @Test
-    @DisplayName("바우처의 타입과 값을 변경할 수 있다.")
-    @Order(5)
-    void testVoucherUpdate() {
-        var newType = VoucherType.PERCENT;
-        var newDiscountAmount = 40L;
-
-        fixedVoucher.changeVoucherType(newType, newDiscountAmount);
-        jdbcVoucherRepository.updateType(fixedVoucher);
-
-        var retrievedVoucher = jdbcVoucherRepository.findById(fixedVoucher.getVoucherId()).get();
-        assertThat(retrievedVoucher.getVoucherType(), is(newType));
-        assertThat(retrievedVoucher.getDiscount(), is(newDiscountAmount));
-    }
 
 }

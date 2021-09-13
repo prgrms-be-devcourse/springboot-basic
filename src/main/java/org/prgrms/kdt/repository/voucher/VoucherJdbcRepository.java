@@ -9,8 +9,6 @@ import java.util.UUID;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.util.UuidUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,9 +18,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile({"default"})
-public class JdbcVoucherRepository implements VoucherRepository {
-
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId = UuidUtils.toUUID(resultSet.getBytes("voucher_id"));
@@ -50,7 +46,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         WHERE wallet.customer_id = UUID_TO_BIN(:customerId)""";
 
 
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

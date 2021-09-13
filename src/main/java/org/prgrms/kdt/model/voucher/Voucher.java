@@ -2,7 +2,7 @@ package org.prgrms.kdt.model.voucher;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.prgrms.kdt.model.discount.DiscountStrategy;
+import org.prgrms.kdt.model.discount.DiscountPolicy;
 
 public class Voucher {
 
@@ -11,7 +11,7 @@ public class Voucher {
     private final LocalDateTime createdAt;
 
     private VoucherType voucherType;
-    private DiscountStrategy discountStrategy;
+    private DiscountPolicy discountPolicy;
 
     public Voucher(UUID voucherId, long discount, LocalDateTime createdAt,
         VoucherType voucherType) {
@@ -19,12 +19,12 @@ public class Voucher {
         this.discount = discount;
         this.createdAt = createdAt;
         this.voucherType = voucherType;
-        this.discountStrategy = voucherType.getDiscountStrategy();
+        this.discountPolicy = voucherType.getDiscountPolicy();
         validate(discount);
     }
 
     private void validate(long discount) {
-        discountStrategy.validateDiscountAmount(discount);
+        discountPolicy.validateDiscountAmount(discount);
     }
 
     public UUID getVoucherId() {
@@ -43,18 +43,18 @@ public class Voucher {
         return createdAt;
     }
 
-    public DiscountStrategy getDiscountStrategy() {
-        return discountStrategy;
+    public DiscountPolicy getDiscountStrategy() {
+        return discountPolicy;
     }
 
     public long discount(long beforeDiscount) {
-        return discountStrategy.discount(beforeDiscount, discount);
+        return discountPolicy.discount(beforeDiscount, discount);
     }
 
     public void changeVoucherType(VoucherType voucherType, long discount) {
         this.voucherType = voucherType;
         this.discount = discount;
-        this.discountStrategy = voucherType.getDiscountStrategy();
+        this.discountPolicy = voucherType.getDiscountPolicy();
         validate(discount);
     }
 
