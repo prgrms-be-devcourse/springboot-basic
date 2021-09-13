@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -44,6 +45,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
             put("value", voucher.getValue());
             put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
             put("voucherType", voucher.getClass().getSimpleName().replace("Voucher","").toUpperCase());
+        }};
+    }
+    private Map<String, Object> toDateRangeParamMap(LocalDateTime from, LocalDateTime to) {
+        return new HashMap<>() {{
+            put("from", Timestamp.valueOf(from));
+            put("to", Timestamp.valueOf(to));
         }};
     }
 
@@ -98,5 +105,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         String sql = "DELETE FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucher_id, '-', ''))";
         jdbcTemplate.getJdbcTemplate().update(sql);
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDateTime from, LocalDateTime to) {
+        String sql = "SELECT * FROM vouchers" +
+                " WHERE created_at BETWEEN :from AND :to";
+        return jdbcTemplate.query(sql, toDateRangeParamMap(from, to), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        String sql = "SELECT * FROM vouchers WHERE voucher_type = :voucherType";
+        return jdbcTemplate.query(sql, Collections.singletonMap("voucherType", voucherType.name()), voucherRowMapper);
     }
 }

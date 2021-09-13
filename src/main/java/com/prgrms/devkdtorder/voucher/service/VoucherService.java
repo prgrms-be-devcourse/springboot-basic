@@ -3,9 +3,11 @@ package com.prgrms.devkdtorder.voucher.service;
 import com.prgrms.devkdtorder.exception.ErrorType;
 import com.prgrms.devkdtorder.exception.NotFoundException;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
+import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 import com.prgrms.devkdtorder.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,5 +46,13 @@ public class VoucherService {
     public UUID updateVoucher(Voucher voucher) {
         Voucher updatedVoucher = voucherRepository.update(voucher);
         return updatedVoucher.getVoucherId();
+    }
+
+    public List<Voucher> getVouchersByCreatedAt(LocalDateTime from, LocalDateTime to) {
+        return voucherRepository.findByCreatedAt(from, to);
+    }
+
+    public List<Voucher> getVouchersByVoucherType(VoucherType voucherType) {
+        return voucherRepository.findByVoucherType(voucherType);
     }
 }

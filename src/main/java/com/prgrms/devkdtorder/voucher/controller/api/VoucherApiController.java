@@ -1,11 +1,15 @@
 package com.prgrms.devkdtorder.voucher.controller.api;
 
 import com.prgrms.devkdtorder.util.ApiUtils;
+import com.prgrms.devkdtorder.voucher.domain.Voucher;
+import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 import com.prgrms.devkdtorder.voucher.dto.VoucherDto;
 import com.prgrms.devkdtorder.voucher.dto.VoucherListDto;
 import com.prgrms.devkdtorder.voucher.service.VoucherService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,16 +25,31 @@ public class VoucherApiController {
         this.voucherService = voucherService;
     }
 
+    private VoucherListDto mapToVoucherListDto(List<Voucher> vouchers) {
+        List<VoucherDto> voucherDtoList = vouchers.stream().map(VoucherDto::new).collect(Collectors.toList());
+        return new VoucherListDto(voucherDtoList);
+    }
+
     @GetMapping
     public ApiResponse<VoucherListDto> findAllVouchers() {
-        var voucherDtoList = voucherService.getAllVouchers().stream()
-                .map(VoucherDto::new).collect(Collectors.toList());
-        return ApiUtils.success(new VoucherListDto(voucherDtoList));
+        return ApiUtils.success(mapToVoucherListDto(voucherService.getAllVouchers()));
     }
 
     @GetMapping(path = "{voucherId}")
     public ApiResponse<VoucherDto> findVoucherById(@PathVariable("voucherId") UUID voucherId) {
         return ApiUtils.success(new VoucherDto(voucherService.getVoucher(voucherId)));
+    }
+
+    @GetMapping
+    public ApiResponse<VoucherListDto> findVoucherByCreatedAt(
+            @RequestParam("from") LocalDateTime createdAtFrom,
+            @RequestParam("to") LocalDateTime createdAtTo) {
+        return ApiUtils.success(mapToVoucherListDto(voucherService.getVouchersByCreatedAt(createdAtFrom, createdAtTo)));
+    }
+
+    @GetMapping
+    public ApiResponse<VoucherListDto> findVoucherByVoucherType (@RequestParam("voucherType") VoucherType voucherType) {
+        return ApiUtils.success(mapToVoucherListDto(voucherService.getVouchersByVoucherType(voucherType)));
     }
 
     @PostMapping
