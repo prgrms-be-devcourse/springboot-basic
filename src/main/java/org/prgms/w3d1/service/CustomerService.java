@@ -43,10 +43,17 @@ public class CustomerService {
     }
 
     public List<Customer> findByVoucherType(VoucherType voucherType) {
-        return voucherRepository.findByVoucherType(voucherType).stream()
-            .filter(voucher -> voucher.getVoucherWalletId() != null)
-            .map(voucher -> voucherWalletRepository.findById(voucher.getVoucherWalletId()).get())
-            .map(VoucherWallet::getCustomerId).filter(Objects::nonNull).distinct()
+        var voucherList = voucherRepository.findByVoucherType(voucherType);
+
+        var voucherWalletStream = voucherList.stream()
+            .filter(v -> v.getVoucherWalletId() != null)
+            .map(v -> voucherWalletRepository.findById(v.getVoucherWalletId()).get());
+
+        var customerIdStream = voucherWalletStream
+            .map(VoucherWallet::getCustomerId)
+            .filter(Objects::nonNull).distinct();
+
+        return customerIdStream
             .map(customerId -> customerRepository.findById(customerId).get()).collect(Collectors.toList());
     }
 
