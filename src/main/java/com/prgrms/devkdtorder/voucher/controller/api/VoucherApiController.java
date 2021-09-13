@@ -31,25 +31,23 @@ public class VoucherApiController {
     }
 
     @GetMapping
-    public ApiResponse<VoucherListDto> findAllVouchers() {
+    public ApiResponse<VoucherListDto> findAllVouchers(
+            @RequestParam("from") LocalDateTime createdAtFrom,
+            @RequestParam("to") LocalDateTime createdAtTo,
+            @RequestParam("voucherType") VoucherType voucherType
+    ) {
+        if (createdAtFrom != null && createdAtTo != null) {
+            return ApiUtils.success(mapToVoucherListDto(voucherService.getVouchersByCreatedAt(createdAtFrom, createdAtTo)));
+        }
+        if (voucherType != null) {
+            return ApiUtils.success(mapToVoucherListDto(voucherService.getVouchersByVoucherType(voucherType)));
+        }
         return ApiUtils.success(mapToVoucherListDto(voucherService.getAllVouchers()));
     }
 
     @GetMapping(path = "{voucherId}")
     public ApiResponse<VoucherDto> findVoucherById(@PathVariable("voucherId") UUID voucherId) {
         return ApiUtils.success(new VoucherDto(voucherService.getVoucher(voucherId)));
-    }
-
-    @GetMapping
-    public ApiResponse<VoucherListDto> findVoucherByCreatedAt(
-            @RequestParam("from") LocalDateTime createdAtFrom,
-            @RequestParam("to") LocalDateTime createdAtTo) {
-        return ApiUtils.success(mapToVoucherListDto(voucherService.getVouchersByCreatedAt(createdAtFrom, createdAtTo)));
-    }
-
-    @GetMapping
-    public ApiResponse<VoucherListDto> findVoucherByVoucherType (@RequestParam("voucherType") VoucherType voucherType) {
-        return ApiUtils.success(mapToVoucherListDto(voucherService.getVouchersByVoucherType(voucherType)));
     }
 
     @PostMapping
