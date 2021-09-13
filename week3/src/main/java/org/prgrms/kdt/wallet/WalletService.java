@@ -11,7 +11,7 @@ public interface WalletService {
 
     List<Voucher> findCustomerVoucher(UUID customerId);
 
-    void deleteCustomerVoucher(UUID customerId);
+    void deleteByCustomerId(UUID customerId);
 
     List<Customer> findByVoucher(String voucherType);
 }

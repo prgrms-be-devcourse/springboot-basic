@@ -45,7 +45,7 @@ public class WalletServiceImpl implements WalletService{
     }
 
     @Override
-    public void deleteCustomerVoucher(UUID customerId) {
+    public void deleteByCustomerId(UUID customerId) {
         var wallets = walletRepository.findByCustomerId(customerId);
 
         wallets.forEach(wallet -> voucherRepository.deleteByWalletId(wallet.getWalletId()));
