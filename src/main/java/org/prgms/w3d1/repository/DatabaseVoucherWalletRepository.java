@@ -13,18 +13,15 @@ import java.util.UUID;
 public class DatabaseVoucherWalletRepository implements VoucherWalletRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private VoucherRepository voucherRepository;
 
-    public DatabaseVoucherWalletRepository(JdbcTemplate jdbcTemplate, VoucherRepository voucherRepository) {
+    public DatabaseVoucherWalletRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.voucherRepository = voucherRepository;
     }
 
     private final RowMapper<VoucherWallet> rowMapper = (rs, rowNum) -> {
         var voucherWalletId = Util.toUUID(rs.getBytes("voucher_wallet_id"));
-        var vouchers = voucherRepository.findByVoucherWalletId(voucherWalletId);
         var customerId = Util.toUUID(rs.getBytes("customer_id"));
-        return new VoucherWallet(voucherWalletId, vouchers, customerId);
+        return new VoucherWallet(voucherWalletId, customerId);
     };
 
     @Override
@@ -40,11 +37,11 @@ public class DatabaseVoucherWalletRepository implements VoucherWalletRepository 
     }
 
     @Override
-    public void insert(UUID voucherWalletId, UUID customerId) {
+    public void insert(VoucherWallet voucherWallet) {
         var insertCount = jdbcTemplate.update(
             "insert into my_order_mgmt.voucher_wallet(voucher_wallet_id, customer_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?))",
-            voucherWalletId.toString().getBytes(),
-            customerId.toString().getBytes());
+            voucherWallet.getVoucherWalletId().toString().getBytes(),
+            voucherWallet.getCustomerId().toString().getBytes());
 
         if (insertCount != 1) {
             throw new RuntimeException("Nothing was Inserted" + DatabaseVoucherWalletRepository.class.getCanonicalName());

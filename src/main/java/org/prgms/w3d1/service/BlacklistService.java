@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Service
 public class BlacklistService {
-    private BlacklistRepository blacklistRepository;
+    private final BlacklistRepository blacklistRepository;
 
     public BlacklistService(BlacklistRepository blacklistRepository) {
         this.blacklistRepository = blacklistRepository;

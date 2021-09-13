@@ -60,23 +60,21 @@ class CustomerServiceTest {
         }
 
         @Bean
-        CustomerJdbcRepository databaseCustomerRepository(JdbcTemplate jdbcTemplate) {
+        public CustomerJdbcRepository customerJdbcRepository(JdbcTemplate jdbcTemplate) {
             return new CustomerJdbcRepository(jdbcTemplate);
         }
 
         @Bean
-        public DatabaseVoucherWalletRepository databaseVoucherWalletRepository(
-            JdbcTemplate jdbcTemplate, VoucherRepository voucherRepository)
-        {
-            return new DatabaseVoucherWalletRepository(jdbcTemplate, voucherRepository);
+        public DatabaseVoucherWalletRepository databaseVoucherWalletRepository(JdbcTemplate jdbcTemplate) {
+            return new DatabaseVoucherWalletRepository(jdbcTemplate);
         }
 
         @Bean
         public CustomerService customerService(
-            CustomerRepository customerRepository,
+            CustomerJdbcRepository customerJdbcRepository,
             VoucherRepository voucherRepository,
             VoucherWalletRepository voucherWalletRepository) {
-            return new CustomerService(customerRepository, voucherRepository, voucherWalletRepository);
+            return new CustomerService(customerJdbcRepository, voucherRepository, voucherWalletRepository);
         }
     }
 
@@ -90,7 +88,7 @@ class CustomerServiceTest {
     DatabaseVoucherRepository databaseVoucherRepository;
 
     @Autowired
-    CustomerJdbcRepository databaseCustomerRepository;
+    CustomerJdbcRepository customerJdbcRepository;
 
     @Autowired
     DatabaseVoucherWalletRepository databaseVoucherWalletRepository;
@@ -104,12 +102,11 @@ class CustomerServiceTest {
     Voucher percentDiscountVoucher;
 
     @BeforeAll
-    @Transactional
     void setUp() {
-        customer = new Customer(UUID.randomUUID(), "test-user", "test-user4@gmail.com", LocalDateTime.now());
-        databaseCustomerRepository.insert(customer);
-        voucherWallet = new VoucherWallet(UUID.randomUUID(), Collections.emptyList(), customer.getCustomerId());
-        databaseVoucherWalletRepository.insert(voucherWallet.getVoucherWalletId(), customer.getCustomerId());
+        customer = new Customer(UUID.randomUUID(), "test-user", "test-user3@gmail.com", LocalDateTime.now());
+        customerJdbcRepository.insert(customer);
+        voucherWallet = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId());
+        databaseVoucherWalletRepository.insert(voucherWallet);
         fixedAmountVoucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, voucherWallet.getVoucherWalletId());
         percentDiscountVoucher = PercentDiscountVoucher.of(UUID.randomUUID(), 25L, voucherWallet.getVoucherWalletId());
         databaseVoucherRepository.save(fixedAmountVoucher);
@@ -119,7 +116,7 @@ class CustomerServiceTest {
     @AfterAll
     void cleanUp() {
         databaseVoucherWalletRepository.deleteAll();
-        databaseCustomerRepository.deleteAll();
+        customerJdbcRepository.deleteAll();
     }
 
     @AfterEach

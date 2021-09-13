@@ -11,7 +11,7 @@ public interface VoucherWalletRepository {
 
     Optional<VoucherWallet> findByCustomerId(UUID customerId);
 
-    void insert(UUID voucherWalletId, UUID customerId);
+    void insert(VoucherWallet voucherWallet);
 
     void deleteAll();
 }

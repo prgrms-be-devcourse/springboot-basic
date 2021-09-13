@@ -13,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.*;
 
-@Profile("prod")
 @Repository
 public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Voucher> {
 

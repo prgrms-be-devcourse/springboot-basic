@@ -59,10 +59,9 @@ class DatabaseVoucherRepositoryTest {
         }
 
         @Bean
-        public DatabaseVoucherWalletRepository databaseVoucherWalletRepository(
-            JdbcTemplate jdbcTemplate, VoucherRepository voucherRepository)
+        public DatabaseVoucherWalletRepository databaseVoucherWalletRepository(JdbcTemplate jdbcTemplate)
         {
-            return new DatabaseVoucherWalletRepository(jdbcTemplate, voucherRepository);
+            return new DatabaseVoucherWalletRepository(jdbcTemplate);
         }
     }
 
@@ -91,8 +90,8 @@ class DatabaseVoucherRepositoryTest {
     void setUp() {
         customer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now());
         databaseCustomerRepository.insert(customer);
-        voucherWallet = new VoucherWallet(UUID.randomUUID(), Collections.emptyList(), customer.getCustomerId());
-        databaseVoucherWalletRepository.insert(voucherWallet.getVoucherWalletId(), customer.getCustomerId());
+        voucherWallet = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), Collections.emptyList());
+        databaseVoucherWalletRepository.insert(voucherWallet);
         fixedAmountVoucher = FixedAmountVoucher.of(UUID.randomUUID(), 50L);
         percentDiscountVoucher = PercentDiscountVoucher.of(UUID.randomUUID(), 25L);
     }

@@ -50,7 +50,7 @@ class CustomerJdbcRepositoryTest {
         }
 
         @Bean
-        public CustomerJdbcRepository customerRepository(JdbcTemplate jdbcTemplate) {
+        public CustomerJdbcRepository customerJdbcRepository(JdbcTemplate jdbcTemplate) {
             return new CustomerJdbcRepository(jdbcTemplate);
         }
     }

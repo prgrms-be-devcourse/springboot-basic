@@ -52,9 +52,8 @@ class DatabaseVoucherWalletRepositoryTest {
         }
 
         @Bean
-        public DatabaseVoucherWalletRepository databaseVoucherWalletRepository(
-            JdbcTemplate jdbcTemplate, VoucherRepository voucherRepository) {
-            return new DatabaseVoucherWalletRepository(jdbcTemplate, voucherRepository);
+        public DatabaseVoucherWalletRepository databaseVoucherWalletRepository(JdbcTemplate jdbcTemplate) {
+            return new DatabaseVoucherWalletRepository(jdbcTemplate);
         }
 
         @Bean
@@ -80,15 +79,15 @@ class DatabaseVoucherWalletRepositoryTest {
 
     UUID customerId;
 
-    @BeforeAll
-    void setup() {
+    @BeforeEach
+    void setupMethod() {
         customerId = UUID.randomUUID();
         databaseCustomerRepository.insert(
             new Customer(customerId, "testForVoucherWallet", "testForVoucherWallet@gmail.com", LocalDateTime.now()));
     }
 
-    @AfterAll
-    void cleanUp() {
+    @AfterEach
+    void cleanUpMethod() {
         databaseVoucherRepository.deleteAll();
         databaseVoucherWalletRepository.deleteAll();
         databaseCustomerRepository.deleteAll();
@@ -99,14 +98,14 @@ class DatabaseVoucherWalletRepositoryTest {
     @Order(1)
     void insert() {
         // wallet id와, wallet에 들어갈 고객을 만든 뒤
-        var voucherWalletId = UUID.randomUUID();
-        databaseVoucherWalletRepository.insert(voucherWalletId, customerId);
+        var voucherWallet  = new VoucherWallet(UUID.randomUUID(), customerId);
+        databaseVoucherWalletRepository.insert(voucherWallet);
 
         // wallet id로 db에서 wallet을 찾아
-        var testVoucherWallet = databaseVoucherWalletRepository.findById(voucherWalletId);
+        var testVoucherWallet = databaseVoucherWalletRepository.findById(voucherWallet.getVoucherWalletId());
 
         // 2개의 아이디를 비교한다
-        assertThat(testVoucherWallet.get().getVoucherWalletId().equals(voucherWalletId), is(true));
+        assertThat(testVoucherWallet.get().equals(voucherWallet), is(true));
     }
 
     @Test
@@ -114,41 +113,37 @@ class DatabaseVoucherWalletRepositoryTest {
     @Order(2)
     void findById() {
         // wallet id를 만들어 db에 wallet을 넣은뒤
-        var voucherWalletId = UUID.randomUUID();
-        databaseVoucherWalletRepository.insert(voucherWalletId, customerId);
+        var voucherWallet  = new VoucherWallet(UUID.randomUUID(), customerId);
+        databaseVoucherWalletRepository.insert(voucherWallet);
 
         // 해당 wallet id를 가진 voucher를 등록하여
         var voucherId = UUID.randomUUID();
-        var testVoucher = FixedAmountVoucher.of(voucherId, 100L, voucherWalletId);
+        var testVoucher = FixedAmountVoucher.of(voucherId, 100L, voucherWallet.getVoucherWalletId());
         databaseVoucherRepository.save(testVoucher);
 
         // wallet id로 db에서 wallet을 찾아
-        var testVoucherWallet = databaseVoucherWalletRepository.findById(voucherWalletId);
+        var testVoucherWallet = databaseVoucherWalletRepository.findById(voucherWallet.getVoucherWalletId());
 
-        // 2개의 아이디를 비교한다
-        assertThat(testVoucherWallet.get().getVoucherWalletId().equals(voucherWalletId), is(true));
-        // 지갑 안에 들어있는 voucher도 비교한다.
-        assertThat(testVoucherWallet.get().getVoucherWallet(), containsInAnyOrder(testVoucher));
+        // 비교한다
+        assertThat(testVoucherWallet.get().equals(voucherWallet), is(true));
     }
 
     @Test
     @DisplayName("customer id로 Voucherwallet을 찾을 수 있어야한다.")
     void findByCustomerId() {
         // wallet id를 만들어 db에 wallet을 넣은뒤
-        var voucherWalletId = UUID.randomUUID();
-        databaseVoucherWalletRepository.insert(voucherWalletId, customerId);
+        var voucherWallet  = new VoucherWallet(UUID.randomUUID(), customerId);
+        databaseVoucherWalletRepository.insert(voucherWallet);
 
         // 해당 wallet id를 가진 voucher를 등록하여
         var voucherId = UUID.randomUUID();
-        var testVoucher = FixedAmountVoucher.of(voucherId, 100L, voucherWalletId);
+        var testVoucher = FixedAmountVoucher.of(voucherId, 100L, voucherWallet.getVoucherWalletId());
         databaseVoucherRepository.save(testVoucher);
 
         // customer id로 db에서 wallet을 찾아
         var testVoucherWallet = databaseVoucherWalletRepository.findByCustomerId(customerId);
 
-        // 2개의 아이디를 비교한다
-        assertThat(testVoucherWallet.get().getCustomerId().equals(customerId), is(true));
-        // 지갑 안에 들어있는 voucher도 비교한다.
-        assertThat(testVoucherWallet.get().getVoucherWallet(), containsInAnyOrder(testVoucher));
+        // 비교한다
+        assertThat(testVoucherWallet.get().equals(voucherWallet), is(true));
     }
 }

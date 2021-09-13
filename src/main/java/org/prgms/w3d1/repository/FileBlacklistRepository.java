@@ -5,6 +5,7 @@ import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.util.FileConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
