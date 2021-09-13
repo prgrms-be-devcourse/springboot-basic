@@ -109,6 +109,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteByVoucherId(String voucherId) {
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = " + CURRENT_UUID,
+                Collections.singletonMap("voucherId", voucherId.getBytes()));
+    }
+
+    @Override
     public int count() {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM vouchers", Collections.emptyMap() ,Integer.class);
     }

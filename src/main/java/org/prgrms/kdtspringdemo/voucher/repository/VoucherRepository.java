@@ -19,5 +19,7 @@ public interface VoucherRepository {
 
     void deleteAll();
 
+    void deleteByVoucherId(String voucherId);
+
     int count();
 }

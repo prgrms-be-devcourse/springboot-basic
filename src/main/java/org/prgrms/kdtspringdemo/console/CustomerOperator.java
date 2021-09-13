@@ -20,13 +20,18 @@ public class CustomerOperator implements CommandOperator<Customer> {
     // todo : VO로 CustomerData 전달하기
     @Override
     public boolean create(String[] splitList) {
-        if (!validationCheck(splitList)) return false;
+        if (!validationCreateCheck(splitList)) return false;
         var name = splitList[0];
         var email = splitList[1];
         var type = splitList[2];
         Customer customer = customerService.saveCustomer(name, email, type);
 
         return customer != null;
+    }
+
+    @Override
+    public void delete(String[] splitList) {
+
     }
 
     @Override
@@ -38,7 +43,7 @@ public class CustomerOperator implements CommandOperator<Customer> {
         return customerService.getAllBlacklist();
     }
 
-    public boolean validationCheck(String[] splitList) {
+    public boolean validationCreateCheck(String[] splitList) {
         if (splitList.length != 3) return false;
         if (!splitList[2].equals("NORMAL") && !splitList[2].equals("BLACK")) return false;
 

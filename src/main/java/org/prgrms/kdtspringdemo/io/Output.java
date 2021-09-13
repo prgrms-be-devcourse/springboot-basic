@@ -19,4 +19,8 @@ public interface Output {
     void printListSelect();
 
     <T> void printList(List<T> stream);
+
+    void printDeleteSelect();
+
+    void printDeleteVoucher();
 }

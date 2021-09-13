@@ -16,4 +16,6 @@ public interface WalletRepository {
     Optional<Wallet> findByCustomerId(UUID customerId);
 
     void deleteAll();
+
+    void deleteByVoucherId(String voucherId);
 }

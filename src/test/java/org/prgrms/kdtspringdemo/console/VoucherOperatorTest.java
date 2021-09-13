@@ -20,11 +20,11 @@ class VoucherOperatorTest{
     @Test
     @DisplayName("Voucher 커맨드 작동 확인")
     void checkCommand() {
-        boolean percentCheck = voucherOperator.validationCheck("P 3".split(" "));
-        boolean fixCheck = voucherOperator.validationCheck("F 3".split(" "));
-        boolean noneTypeCheck = voucherOperator.validationCheck("AAA 13".split(" "));
-        boolean numValueCheck = voucherOperator.validationCheck("AAA BB".split(" "));
-        boolean argCountCheck = voucherOperator.validationCheck("AAA 33 CC".split(" "));
+        boolean percentCheck = voucherOperator.validationCreateCheck("P 3".split(" "));
+        boolean fixCheck = voucherOperator.validationCreateCheck("F 3".split(" "));
+        boolean noneTypeCheck = voucherOperator.validationCreateCheck("AAA 13".split(" "));
+        boolean numValueCheck = voucherOperator.validationCreateCheck("AAA BB".split(" "));
+        boolean argCountCheck = voucherOperator.validationCreateCheck("AAA 33 CC".split(" "));
 
         assertThat(percentCheck, is(true));
         assertThat(fixCheck, is(true));

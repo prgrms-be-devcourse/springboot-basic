@@ -1,7 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.service;
 
 import org.prgrms.kdtspringdemo.VoucherType;
-import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
@@ -42,5 +41,9 @@ public class VoucherService {
 
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
+    }
+
+    public void deleteVoucher(String voucherId) {
+        voucherRepository.deleteByVoucherId(voucherId);
     }
 }

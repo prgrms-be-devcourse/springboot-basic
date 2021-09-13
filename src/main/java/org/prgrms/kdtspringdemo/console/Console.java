@@ -27,9 +27,10 @@ public class Console implements Input, Output {
     public void printCommandList() {
         System.out.println("""
                 Type exit to exit the program.
-                Type create to create a new voucher.
-                Type list to list all vouchers.
-                Type blacks to list all blacklist customers""");
+                Type create to create a new customer/voucher.
+                Type list to list customers/vouchers.
+                Type blacks to list all blacklist customers
+                Type delete customer/voucher.""");
     }
 
     @Override
@@ -78,6 +79,22 @@ public class Console implements Input, Output {
                 1. Customer
                 2. Voucher
                 Input select number(1 or 2):""");
+    }
+
+    @Override
+    public void printDeleteSelect() {
+        System.out.print("""
+                Select Delete Object type.
+                1. Customer(Not implement)
+                2. Voucher
+                Input select number(only 2):""");
+    }
+
+    @Override
+    public void printDeleteVoucher() {
+        System.out.print("""
+                <vouhcerId>
+                select to delete voucherId:""");
     }
 
     @Override

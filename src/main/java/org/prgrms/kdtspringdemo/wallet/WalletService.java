@@ -21,12 +21,15 @@ public class WalletService {
         return walletRepository.findAll();
     }
 
-    @Transactional
     public void addVoucher(String customerId, UUID voucherId) {
         Wallet wallet = new Wallet(UUID.randomUUID(),
                 UUID.fromString(customerId),
                 voucherId,
                 LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         walletRepository.insert(wallet);
+    }
+
+    public void deleteVoucher(String voucherId) {
+        walletRepository.deleteByVoucherId(voucherId);
     }
 }

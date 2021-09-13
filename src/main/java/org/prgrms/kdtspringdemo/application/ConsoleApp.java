@@ -48,13 +48,25 @@ public class ConsoleApp {
                         }
                     }
                 }
-                case BLACKS -> console.printList(customerOperator.getAllBlacklist());
                 case LIST -> {
                     console.printListSelect();
                     String num = console.getCreateLine();
                     switch (num) {
                         case "1" -> console.printList(customerOperator.getAllitems());
                         case "2" -> console.printList(voucherOperator.getAllitems());
+                    }
+                }
+                case BLACKS -> console.printList(customerOperator.getAllBlacklist());
+                case DELETE -> {
+                    console.printDeleteSelect();
+                    String num = console.getCreateLine();
+                    switch (num) {
+//                        case "1" -> console.printDelete(customerOperator.getAllitems());
+                        case "2" -> {
+                            console.printDeleteVoucher();
+                            String[] deleteCommand = console.getCreateLine().split(" ");
+                            voucherOperator.delete(deleteCommand);
+                        }
                     }
                 }
                 case EXIT -> System.exit(0);

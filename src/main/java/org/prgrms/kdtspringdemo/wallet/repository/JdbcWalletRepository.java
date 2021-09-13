@@ -1,10 +1,14 @@
 package org.prgrms.kdtspringdemo.wallet.repository;
 
+import org.prgrms.kdtspringdemo.VoucherType;
+import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.wallet.Wallet;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -25,6 +29,19 @@ public class JdbcWalletRepository implements WalletRepository {
     public JdbcWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    static UUID toUUID(byte[] bytes) {
+        var byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    }
+
+    private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
+        var walletId = toUUID(resultSet.getBytes("wallet_id"));
+        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return new Wallet(walletId, customerId, voucherId, createdAt);
+    };
 
     private Map<String, Object> toparamMap(Wallet wallet) {
         return new HashMap<String, Object>() {{
@@ -76,5 +93,11 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public void deleteByVoucherId(String voucherId) {
+        jdbcTemplate.update("DELETE FROM wallets WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+                Collections.singletonMap("voucherId", voucherId.getBytes()));
     }
 }

@@ -5,6 +5,7 @@ import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.wallet.WalletService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,9 +20,10 @@ public class VoucherOperator implements CommandOperator<Voucher> {
     }
 
     // todo : voucher 생성 코드를 service 내부에서 처리하기
+    @Transactional
     @Override
     public boolean create(String[] splitList) {
-        if (!validationCheck(splitList)) return false;
+        if (!validationCreateCheck(splitList)) return false;
         var customerId = splitList[0];
         var voucherType = splitList[1];
         var value = splitList[2];
@@ -31,15 +33,32 @@ public class VoucherOperator implements CommandOperator<Voucher> {
         return voucher != null;
     }
 
+    @Transactional
+    @Override
+    public void delete(String[] splitList) {
+        // todo: validate 에러 처리하기
+        if (!validationDeleteCheck(splitList)) return;
+        var voucherId = splitList[0];
+
+        walletService.deleteVoucher(voucherId);
+        voucherService.deleteVoucher(voucherId);
+    }
+
     @Override
     public List<Voucher> getAllitems() {
         return voucherService.getAllVouchers();
     }
 
-    public boolean validationCheck(String[] splitList) {
+    public boolean validationCreateCheck(String[] splitList) {
         if (splitList.length != 3) return false;
         if (!VoucherType.isInVoucherType(splitList[1])) return false;
         if (!splitList[2].matches("^[0-9]*$")) return false;
+
+        return true;
+    }
+
+    private boolean validationDeleteCheck(String[] splitList) {
+        if (splitList.length != 1) return false;
 
         return true;
     }
