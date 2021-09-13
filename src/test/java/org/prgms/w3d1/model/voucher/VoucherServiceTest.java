@@ -1,12 +1,15 @@
 package org.prgms.w3d1.model.voucher;
 
 import org.junit.jupiter.api.Test;
+import org.prgms.w3d1.model.customer.Customer;
+import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.repository.VoucherRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

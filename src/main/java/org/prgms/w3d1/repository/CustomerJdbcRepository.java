@@ -1,14 +1,14 @@
-package org.prgms.w3d1.model.customer;
+package org.prgms.w3d1.repository;
 
+import org.prgms.w3d1.model.customer.Customer;
+import org.prgms.w3d1.util.Util;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.nio.ByteBuffer;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Profile("dev")
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -25,7 +26,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     private final RowMapper<Customer> rowMapper = (rs, rowNum) -> {
-        var customerId = toUUID(rs.getBytes("customer_id"));
+        var customerId = Util.toUUID(rs.getBytes("customer_id"));
         var name = rs.getString("name");
         var email = rs.getString("email");
         var lastLoginAt = rs.getTimestamp("last_login_at") != null ?
@@ -34,8 +35,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
         return new Customer(customerId, name, email, lastLoginAt, createAt);
     };
-
-
 
     @Override
     public Customer insert(Customer customer) {
@@ -84,7 +83,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
         } catch (EmptyResultDataAccessException e){
             return Optional.empty();
         }
-
     }
 
     @Override
@@ -126,12 +124,5 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from customers");
-    }
-
-    static UUID toUUID(byte[] customer_ids) {
-        var byteBuffer = ByteBuffer.wrap(customer_ids);
-        long high = byteBuffer.getLong();
-        long low = byteBuffer.getLong();
-        return new UUID(high, low);
     }
 }

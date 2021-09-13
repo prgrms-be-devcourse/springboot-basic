@@ -1,7 +1,11 @@
 package org.prgms.w3d1.model.customer;
 
+import org.prgms.w3d1.model.wallet.VoucherWallet;
+import org.prgms.w3d1.model.wallet.Wallet;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
@@ -53,7 +57,6 @@ public class Customer {
         this.name = name;
     }
 
-
     @Override
     public String toString() {
         return "Customer{" +
@@ -64,6 +67,27 @@ public class Customer {
             ", createdAt=" + createdAt +
             '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (!Objects.equals(customerId, customer.customerId)) return false;
+        if (!Objects.equals(name, customer.name)) return false;
+        if (!Objects.equals(email, customer.email)) return false;
+        if (!Objects.equals(lastLoginAt, customer.lastLoginAt))
+            return false;
+        return Objects.equals(createdAt, customer.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, name, email, lastLoginAt, customerId);
+    }
+
     private void validateName(String name) {
         if(name.isBlank()){
             throw new RuntimeException("Name should not be blank");

@@ -1,8 +1,10 @@
-
-
 server:
-  port: 8000
+  port: 8080
 
 spring:
   profiles:
-    active: prod
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost/my_order_mgmt
+    username: root
+    password: 1111

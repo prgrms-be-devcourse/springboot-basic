@@ -1,14 +1,18 @@
-package org.prgms.w3d1.repository;
+package org.prgms.w3d1.model.customer;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
-import org.prgms.w3d1.model.customer.Customer;
 import org.prgms.w3d1.model.voucher.FixedAmountVoucher;
 import org.prgms.w3d1.model.voucher.PercentDiscountVoucher;
 import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.model.voucher.VoucherType;
 import org.prgms.w3d1.model.wallet.DatabaseVoucherWalletRepository;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
+import org.prgms.w3d1.model.wallet.VoucherWalletRepository;
+import org.prgms.w3d1.repository.CustomerJdbcRepository;
+import org.prgms.w3d1.repository.CustomerRepository;
+import org.prgms.w3d1.repository.DatabaseVoucherRepository;
+import org.prgms.w3d1.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -24,15 +28,16 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class DatabaseVoucherRepositoryTest {
+class CustomerServiceTest {
 
     @Configuration
-    @ComponentScan(basePackages = {"org.prgms.w3d1.model.voucher"})
+    @ComponentScan(basePackages = {"org.prgms.w3d1.model.customer"})
     static class Config {
 
         @Bean
@@ -65,6 +70,14 @@ class DatabaseVoucherRepositoryTest {
         {
             return new DatabaseVoucherWalletRepository(jdbcTemplate, voucherRepository);
         }
+
+        @Bean
+        public CustomerService customerService(
+            CustomerRepository customerRepository,
+            VoucherRepository voucherRepository,
+            VoucherWalletRepository voucherWalletRepository) {
+            return new CustomerService(customerRepository, voucherRepository, voucherWalletRepository);
+        }
     }
 
     @Autowired
@@ -82,6 +95,9 @@ class DatabaseVoucherRepositoryTest {
     @Autowired
     DatabaseVoucherWalletRepository databaseVoucherWalletRepository;
 
+    @Autowired
+    CustomerService customerService;
+
     Customer customer;
     VoucherWallet voucherWallet;
     Voucher fixedAmountVoucher;
@@ -90,12 +106,14 @@ class DatabaseVoucherRepositoryTest {
     @BeforeAll
     @Transactional
     void setUp() {
-        customer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now());
+        customer = new Customer(UUID.randomUUID(), "test-user", "test-user4@gmail.com", LocalDateTime.now());
         databaseCustomerRepository.insert(customer);
         voucherWallet = new VoucherWallet(UUID.randomUUID(), Collections.emptyList(), customer.getCustomerId());
         databaseVoucherWalletRepository.insert(voucherWallet.getVoucherWalletId(), customer.getCustomerId());
-        fixedAmountVoucher = FixedAmountVoucher.of(UUID.randomUUID(), 50L);
-        percentDiscountVoucher = PercentDiscountVoucher.of(UUID.randomUUID(), 25L);
+        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, voucherWallet.getVoucherWalletId());
+        percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 25L, voucherWallet.getVoucherWalletId());
+        databaseVoucherRepository.save(fixedAmountVoucher);
+        databaseVoucherRepository.save(percentDiscountVoucher);
     }
 
     @AfterAll
@@ -109,69 +127,10 @@ class DatabaseVoucherRepositoryTest {
         databaseVoucherRepository.deleteAll();
     }
 
-
     @Test
-    @Order(1)
-    @DisplayName("Id를 통해서 바우처 조회")
-    void findById() {
-        databaseVoucherRepository.save(fixedAmountVoucher);
-
-        var testVoucher = databaseVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
-        assertThat(testVoucher.isEmpty(), is(false));
-        assertThat(testVoucher.get(), samePropertyValuesAs(fixedAmountVoucher));
-    }
-
-    @Test
-    @Order(2)
-    @DisplayName("바우처를 DBMS에 저장")
-    void save() {
-        databaseVoucherRepository.save(fixedAmountVoucher);
-
-        var testVoucher = databaseVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
-        assertThat(testVoucher.isEmpty(), is(false));
-        assertThat(testVoucher.get(), samePropertyValuesAs(fixedAmountVoucher));
-    }
-
-    @Test
-    @Order(3)
-    @DisplayName("모든 바우처 꺼내기")
-    void findAll() {
-        databaseVoucherRepository.save(fixedAmountVoucher);
-        databaseVoucherRepository.save(percentDiscountVoucher);
-
-        var testVouchers = databaseVoucherRepository.findAll();
-
-        assertThat(testVouchers, containsInAnyOrder(samePropertyValuesAs(fixedAmountVoucher), samePropertyValuesAs(percentDiscountVoucher)));
-    }
-
-    @Test
-    @Order(4)
-    @DisplayName("바우처 지갑 id로 바우처 조회")
-    void findByVoucherWalletId() {
-        // 바우처 지갑 id를 가진 바우처를 만든다
-        var voucherWalletId = voucherWallet.getVoucherWalletId();
-        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, voucherWalletId);
-        databaseVoucherRepository.save(voucher);
-
-        // 바우처 지갑 id로 바우처를 조회하여
-        var testVouchers = databaseVoucherRepository.findByVoucherWalletId(voucherWalletId);
-
-        // 나온 결과에 voucher가 있는지 확인한다
-        assertThat(testVouchers, containsInAnyOrder(voucher));
-    }
-
-    @Test
-    @DisplayName("바우처 타입으로 조회")
     void findByVoucherType() {
-        databaseVoucherRepository.save(fixedAmountVoucher);
+        var testCustomerList = customerService.findByVoucherType(VoucherType.FIXED_AMOUNT_VOUCHER);
 
-        var testVoucherList = databaseVoucherRepository.findByVoucherType(VoucherType.FIXED_AMOUNT_VOUCHER);
-
-        assertThat(testVoucherList, containsInAnyOrder(fixedAmountVoucher));
-    }
-
-
-    @Test
-    void deleteById() {
+        assertThat(testCustomerList, hasItem(customer));
     }
 }
