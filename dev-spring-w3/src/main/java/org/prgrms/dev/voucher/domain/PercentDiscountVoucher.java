@@ -18,6 +18,7 @@ public class PercentDiscountVoucher implements Voucher {
         this.voucherId = voucherId;
         this.percent = percent;
     }
+
     private void validate(long percent) {
         validatePercentIsZero(percent);
         validatePercentIsNegative(percent);
@@ -49,7 +50,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / PERCENTAGE);
+        return (long) (beforeDiscount * ((float) percent / PERCENTAGE));
     }
 
     @Override
