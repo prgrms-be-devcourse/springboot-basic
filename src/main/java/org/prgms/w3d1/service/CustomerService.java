@@ -43,18 +43,17 @@ public class CustomerService {
     }
 
     public List<Customer> findByVoucherType(VoucherType voucherType) {
+        var customerList = new ArrayList<Customer>();
+
         var voucherList = voucherRepository.findByVoucherType(voucherType);
 
-        var voucherWalletStream = voucherList.stream()
-            .filter(v -> v.getVoucherWalletId() != null)
-            .map(v -> voucherWalletRepository.findById(v.getVoucherWalletId()).get());
+        voucherList.stream()
+            .filter(voucher -> voucher.getVoucherWalletId() != null)
+            .map(voucher -> voucherWalletRepository.findById(voucher.getVoucherWalletId()).get())
+            .map(voucherWallet -> customerRepository.findById(voucherWallet.getCustomerId())).distinct()
+            .forEach(customer -> customer.ifPresent(customerList::add));
 
-        var customerIdStream = voucherWalletStream
-            .map(VoucherWallet::getCustomerId)
-            .filter(Objects::nonNull).distinct();
-
-        return customerIdStream
-            .map(customerId -> customerRepository.findById(customerId).get()).collect(Collectors.toList());
+        return customerList;
     }
 
     public Customer updateWithNameAndEmail(UUID customerId, String name, String email) {
