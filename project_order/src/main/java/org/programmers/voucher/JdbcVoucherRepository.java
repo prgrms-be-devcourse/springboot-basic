@@ -93,7 +93,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByOwnerId(UUID ownerId) {
-        return jdbcTemplate.query("select * from vouchers where owner_id = :ownerId", Collections.singletonMap("ownerId", ownerId.toString().getBytes()), voucherRowMapper);
+        return jdbcTemplate.query("select * from vouchers where owner_id = UUID_TO_BIN(:ownerId)", Collections.singletonMap("ownerId", ownerId.toString().getBytes()), voucherRowMapper);
     }
 
     @Override
