@@ -17,4 +17,6 @@ public interface VoucherRepository {
 
     void deleteAll();
 
+    List<Voucher> findByCustomerId(UUID customerId);
+
 }

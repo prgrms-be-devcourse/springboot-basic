@@ -7,7 +7,12 @@ public enum CommandType {
     DELETE_ALL_VOUCHER("3"),
     UPDATE_VOUCHER_TYPE("4"),
     CUSTOMER_LIST("5"),
-    BLACK_LIST("6");
+    BLACK_CUSTOMER_LIST("6"),
+    CUSTOMER_VOUCHER_CREATE("7"),
+    CUSTOMER_VOUCHER_LIST("8"),
+    CUSTOMER_VOUCHER_DELETE("9"),
+    VOUCHER_CUSTOMER_LIST("10");
+
 
     private final String num;
 

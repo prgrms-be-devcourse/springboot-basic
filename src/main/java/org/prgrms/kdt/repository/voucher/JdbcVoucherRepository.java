@@ -29,8 +29,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var discount = resultSet.getLong("discount");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        return new Voucher(voucherId, discount, createdAt, voucherType,
-            voucherType.getDiscountStrategy());
+        return new Voucher(voucherId, discount, createdAt, voucherType);
 
     };
 
@@ -39,10 +38,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String SELECT_ALL = "SELECT * FROM voucher";
     private final String SELECT_BY_ID = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String INSERT = """
-        INSERT INTO voucher(voucher_id, voucher_type, discount, created_at) 
+        INSERT INTO voucher(voucher_id, voucher_type, discount, created_at)
         VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discount, :createdAt)""";
-    private final String UPDATE_TYPE = "UPDATE voucher SET voucher_type = :voucherType where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String UPDATE_TYPE = "UPDATE voucher SET voucher_type = :voucherType, discount = :discount where voucher_id = UUID_TO_BIN(:voucherId)";
     private String DELETE_ALL = "DELETE FROM voucher";
+
+    private String SELECT_BY_CUSTOMER_ID = """
+        SELECT * FROM voucher
+        LEFT OUTER JOIN wallet
+        ON voucher.voucher_id = wallet.voucher_id
+        WHERE wallet.customer_id = UUID_TO_BIN(:customerId)""";
 
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -95,6 +100,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         jdbcTemplate.getJdbcTemplate().update(DELETE_ALL);
 
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return jdbcTemplate.query(
+            SELECT_BY_CUSTOMER_ID,
+            Map.of("customerId", customerId.toString().getBytes()),
+            voucherRowMapper);
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {

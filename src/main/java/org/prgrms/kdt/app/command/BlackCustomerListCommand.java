@@ -15,7 +15,7 @@ public class BlackCustomerListCommand implements CommandOperator{
     public BlackCustomerListCommand(CustomerService customerService, Console console) {
         this.customerService = customerService;
         this.console = console;
-        this.commandType = CommandType.BLACK_LIST;
+        this.commandType = CommandType.BLACK_CUSTOMER_LIST;
     }
 
     @Override

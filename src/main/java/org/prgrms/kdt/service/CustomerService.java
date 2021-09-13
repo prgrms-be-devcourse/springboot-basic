@@ -3,7 +3,7 @@ package org.prgrms.kdt.service;
 import java.util.*;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.customer.CustomerType;
-import org.prgrms.kdt.repository.CustomerRepository;
+import org.prgrms.kdt.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 
@@ -31,4 +31,7 @@ public class CustomerService {
         return customerRepository.findByCustomerType(CustomerType.BLACK);
     }
 
+    public List<Customer> getCustomersByVoucherId(UUID voucherId) {
+        return customerRepository.findByVoucherId(voucherId);
+    }
 }

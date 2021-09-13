@@ -53,7 +53,7 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    public List<Voucher> getCustomerVouchers(UUID customerId) {
+    public List<Voucher> getVouchersByCustomerId(UUID customerId) {
         return voucherRepository.findByCustomerId(customerId);
     }
 

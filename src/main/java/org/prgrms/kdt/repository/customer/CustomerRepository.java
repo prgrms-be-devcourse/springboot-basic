@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.customer;
 
 import java.util.*;
 import org.prgrms.kdt.model.customer.Customer;
@@ -17,5 +17,7 @@ public interface CustomerRepository {
     Customer updateType(Customer customer);
 
     void deleteAllCustomer();
+
+    List<Customer> findByVoucherId(UUID voucherId);
 
 }

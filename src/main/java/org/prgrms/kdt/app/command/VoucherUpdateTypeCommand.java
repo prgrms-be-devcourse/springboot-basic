@@ -13,7 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VoucherUpdateTypeCommand implements CommandOperator{
+public class VoucherUpdateTypeCommand implements CommandOperator {
+
     private static final Logger logger = LoggerFactory.getLogger(VoucherUpdateTypeCommand.class);
 
     private final VoucherService voucherService;
@@ -46,8 +47,15 @@ public class VoucherUpdateTypeCommand implements CommandOperator{
             var typeNum = console.input(digitPredicate);
             voucherType = EnumUtils.getVoucherType(typeNum);
         }
-        var updatedVoucher = voucherService.updateVoucherType(voucher, voucherType.get());
-        logger.info("updated voucher: {}" ,updatedVoucher);
+        var discount = console.input(
+            "Type discount you want to modify",
+            Pattern.compile("^[0-9]*$").asPredicate());
+
+        var updatedVoucher = voucherService.updateVoucherType(
+            voucher,
+            voucherType.get(),
+            Long.parseLong(discount));
+        logger.info("updated voucher: {}", updatedVoucher);
 
     }
 

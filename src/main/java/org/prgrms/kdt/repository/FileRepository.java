@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository.customer;
+package org.prgrms.kdt.repository;
 
 import java.io.IOException;
 

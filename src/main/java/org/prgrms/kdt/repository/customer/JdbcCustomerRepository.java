@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.customer;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -44,6 +44,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private String SELECT_BY_ID = "SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customerId)";
     private String SELECT_BY_TYPE = "SELECT * FROM customer WHERE customer_type = :customerType";
     private String DELETE_ALL = "DELETE FROM customer";
+    private String SELECT_BY_VOUCHER_ID = """
+        SELECT customer.* from customer
+        INNER JOIN (SELECT customer_id FROM wallet WHERE voucher_id = UUID_TO_BIN(:voucherId)) AS sub_wallet
+        ON customer.customer_id = sub_wallet.customer_id""";
 
 
     public JdbcCustomerRepository(
@@ -92,6 +96,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findByVoucherId(UUID voucherId) {
+        return jdbcTemplate.query(
+            SELECT_BY_VOUCHER_ID,
+            Map.of("voucherId", voucherId.toString().getBytes()),
+            customerRowMapper);
+    }
+
+
+    @Override
     public Customer updateType(Customer customer) {
         var update = jdbcTemplate.update(
             UPDATE_TYPE,
@@ -106,6 +119,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteAllCustomer() {
         jdbcTemplate.getJdbcTemplate().update(DELETE_ALL);
     }
+
 
     private Map<String, Object> toParamMap(Customer customer) {
         var paramMap = new HashMap<String, Object>();
