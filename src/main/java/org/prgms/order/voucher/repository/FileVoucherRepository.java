@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -65,7 +66,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAvailable() {
+    public List<Voucher> findAvailables() {
         return null;
     }
 
@@ -127,8 +128,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public String getVoucherInfoById(UUID voucherId) {
-        Voucher voucher= findById(voucherId).get();
-        return MessageFormat.format("{0}, VoucherId = {1}, Discount = {2}", voucher.getType(), voucher.getVoucherId(), voucher.getAmount());
+    public void updateExpiryDate(UUID voucherId, LocalDateTime withNano) {
+        return;
     }
+
 }

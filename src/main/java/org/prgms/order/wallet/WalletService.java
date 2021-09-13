@@ -16,39 +16,39 @@ public class WalletService {
         return walletRepository.insert(wallet);
     }
 
-    Wallet findById(UUID walletId){
+    public Wallet findById(UUID walletId){
         return walletRepository.findById(walletId)
                 .orElseThrow(() -> new RuntimeException(
                         MessageFormat.format("Can not find a wallet for {0}", walletId)
                 ));
     }
 
-    List<Wallet> findByCustomerId(UUID customerId){
+    public List<Wallet> findByCustomerId(UUID customerId){
         return walletRepository.findByCustomerId(customerId);
     }
 
-    List<Wallet> findByVoucherId(UUID voucherId){
+    public List<Wallet> findByVoucherId(UUID voucherId){
         return walletRepository.findByVoucherId(voucherId);
     }
 
-    List<Wallet> findByCustomerAvailable(UUID customerId){
+    public List<Wallet> findByCustomerAvailable(UUID customerId){
         return walletRepository.findByCustomerAvailable(customerId);
     }
-    List<Wallet> findAll(){
+    public List<Wallet> findAll(){
         return walletRepository.findAll();
     }
-    void useVoucher(UUID walletId){
+    public void useVoucher(UUID walletId){
         walletRepository.useVoucher(walletId);
     }
 
-    void  deleteByWalletId(UUID walletId){
+    public void  deleteByWalletId(UUID walletId){
         walletRepository.deleteByWalletId(walletId);
     }
 
-    void  deleteByCustomerId(UUID customerId){
+    public void  deleteByCustomerId(UUID customerId){
         walletRepository.deleteByCustomerId(customerId);
     }
-    void deleteByVoucherId(UUID voucherId){
+    public void deleteByVoucherId(UUID voucherId){
         walletRepository.deleteByVoucherId(voucherId);
     }
 }

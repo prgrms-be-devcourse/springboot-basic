@@ -9,14 +9,17 @@ import java.util.UUID;
 public interface CustomerService {
 
     List<Customer> findAllBlackList();
+    void insertBlackListById(UUID customerId);
 
     void createCustomers(List<Customer> customers);
-
     Customer createCustomer(String email, String name);
 
-    List<Customer> getAllCustomers();
+    Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findByName(String name);
+    Optional<Customer> findByEmail(String email);
+    List<Customer> findAllCustomer();
 
-    Optional<Customer> getCustomer(UUID customerId);
+    Customer modifyCustomer(Customer customer);
 
 
 }

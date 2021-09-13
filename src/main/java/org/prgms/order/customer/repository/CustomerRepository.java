@@ -21,5 +21,6 @@ public interface CustomerRepository {
     List<Customer> findBlackList();
     void insertBlackListById(UUID customerId);
     void deleteAll();
+    void deleteById(UUID customerId);
 }
 

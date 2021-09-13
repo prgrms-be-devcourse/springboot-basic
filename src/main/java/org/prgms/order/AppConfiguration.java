@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
         "org.prgms.order.order.*",
         "org.prgms.order.customer.*",
         "org.prgms.order.voucher.*",
-        "org.prgms.order.wallet.*",
+        "org.prgms.order.wallet",
         "org.prgms.order.configuration"})
 @PropertySource(value = "classpath:application.yaml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties

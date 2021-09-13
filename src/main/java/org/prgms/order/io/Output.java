@@ -6,8 +6,13 @@ public interface Output {
 
     void mainMenu();
 
-    void selectVoucher();
+    void voucherMenu();
+    void customerMenu();
+    void walletMenu();
 
-    void voucherList(VoucherService voucherService);
+    void createVoucherType();
 
+    void deleteWallet();
+
+    void deleteVoucher();
 }

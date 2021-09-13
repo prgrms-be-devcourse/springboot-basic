@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -92,7 +92,7 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public List<Voucher> findAvailable() {
+    public List<Voucher> findAvailables() {
         try {
             return jdbcTemplate.query("select * from vouchers where expired_at > LOCALTIME",
                     voucherRowMapper);
@@ -101,6 +101,7 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
             return null;
         }
     }
+
 
     @Override
     public Voucher insert(Voucher voucher) {
@@ -130,6 +131,20 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public void updateExpiryDate(UUID voucherId, LocalDateTime localDateTime) {
+        HashMap map = new HashMap<>() {{
+            put("voucher_id", voucherId.toString().getBytes());
+            put("expired_at", Timestamp.valueOf(localDateTime));
+        }};
+        var update = jdbcTemplate.update("update vouchers set expired_at = :expired_at where voucher_id = UNHEX(REPLACE(:voucher_id,'-',''))",
+                map);
+
+        if (update != 1) {
+            throw new RuntimeException("Nothing was updated");
+        }
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
         jdbcTemplate.update("delete from vouchers where voucher_id = UNHEX(REPLACE(:voucher_id,'-',''))",
                 Collections.singletonMap("voucher_id",voucherId.toString().getBytes()));
@@ -140,9 +155,4 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
         jdbcTemplate.update("delete from vouchers",Collections.emptyMap());
     }
 
-    @Override
-    public String getVoucherInfoById(UUID voucherId) {
-        Voucher voucher= findById(voucherId).get();
-        return MessageFormat.format("{0}, VoucherId = {1}, Discount = {2}", voucher.getType(), voucher.getVoucherId(), voucher.getAmount());
-    }
 }

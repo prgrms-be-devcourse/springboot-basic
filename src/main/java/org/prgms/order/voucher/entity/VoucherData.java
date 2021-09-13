@@ -6,13 +6,18 @@ import java.util.UUID;
 public class VoucherData {
     private final UUID voucherId;
     private VoucherIndexType type;
-    private final long amount;
+    private long amount;
     private LocalDateTime createdAt;
     private LocalDateTime expiredAt;
 
     public VoucherData(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
+    }
+
+    public VoucherData(UUID voucherId, LocalDateTime expiredAt) {
+        this.voucherId = voucherId;
+        this.expiredAt = expiredAt;
     }
 
     public VoucherData(UUID voucherId, long amount, LocalDateTime createdAt) {

@@ -94,5 +94,10 @@ public class FileCustomerRepository implements CustomerRepository {
 
     }
 
+    @Override
+    public void deleteById(UUID customerId) {
+
+    }
+
 
 }

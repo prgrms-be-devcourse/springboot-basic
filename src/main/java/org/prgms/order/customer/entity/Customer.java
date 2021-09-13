@@ -65,10 +65,6 @@ public class Customer {
         return createdAt;
     }
 
-    public String getInfo() {
-        return MessageFormat.format("{0}, {1}, {2}", getCustomerId(), getName(), getEmail());
-    }
-
     public int getBlack() {
         return black;
     }

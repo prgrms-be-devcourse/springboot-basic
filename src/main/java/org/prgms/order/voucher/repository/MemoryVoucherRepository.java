@@ -5,7 +5,7 @@ import org.prgms.order.voucher.entity.VoucherIndexType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,7 +30,7 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public List<Voucher> findAvailable() {
+    public List<Voucher> findAvailables() {
         return null;
     }
 
@@ -62,8 +62,8 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public String getVoucherInfoById(UUID voucherId) {
-        Voucher voucher= findById(voucherId).get();
-        return MessageFormat.format("{0}, VoucherId = {1}, Discount = {2}", voucher.getType(), voucher.getVoucherId(), voucher.getAmount());
+    public void updateExpiryDate(UUID voucherId, LocalDateTime withNano) {
+        return;
     }
+
 }

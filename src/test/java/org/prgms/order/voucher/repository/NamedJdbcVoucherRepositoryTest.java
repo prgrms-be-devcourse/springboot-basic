@@ -21,7 +21,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -187,7 +191,7 @@ class NamedJdbcVoucherRepositoryTest {
     @Order(7)
     @DisplayName("유효기간이 지나지 않은 바우처 목록을 찾을 수 있다.")
     void testFindAvailable() {
-        var vouchers = namedJdbcVoucherRepository.findAvailable();
+        var vouchers = namedJdbcVoucherRepository.findAvailables();
         assertThat(vouchers, hasSize(0));
     }
 
@@ -202,12 +206,32 @@ class NamedJdbcVoucherRepositoryTest {
 
     @Test
     @Order(9)
-    @DisplayName("아이디로 바우처를 삭제할 수 있다.")
-    void deleteById() {
+    @DisplayName("바우처 기한을 변경할 수 있다.")
+    void updateExpiryDate() {
+        String date = "2019-10-24 19:49:47";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(date.substring(0, 19), formatter);
+
+        logger.info("localDateTime : {}",localDateTime);
+        logger.info("localDateTime : {}",testUpdate.getExpiredAt());
+        namedJdbcVoucherRepository.updateExpiryDate(testUpdate.getVoucherId(), localDateTime);
+        var valiVoucher = namedJdbcVoucherRepository.findById(testUpdate.getVoucherId());
+        assertThat(valiVoucher.get().getExpiredAt(),is(localDateTime));
     }
 
     @Test
     @Order(10)
+    @DisplayName("아이디로 바우처를 삭제할 수 있다.")
+    void deleteById() {
+        namedJdbcVoucherRepository.deleteById(testUpdate.getVoucherId());
+
+
+        var vouchers = namedJdbcVoucherRepository.findAll();
+        assertThat(vouchers,hasSize(2));
+    }
+
+    @Test
+    @Order(11)
     @DisplayName("모든 바우처를 삭제할 수 있다.")
     void deleteAll() {
         namedJdbcVoucherRepository.deleteAll();

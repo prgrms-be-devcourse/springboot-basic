@@ -22,6 +22,11 @@ public class CustomerServiceImpl implements CustomerService{
         return customerRepository.findBlackList();
     }
 
+    @Override
+    public void insertBlackListById(UUID customerId) {
+
+    }
+
 
     @Override
     @Transactional
@@ -36,13 +41,28 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
+    public List<Customer> findAllCustomer() {
         return customerRepository.findAll();
     }
 
     @Override
-    public Optional<Customer> getCustomer(UUID customerId) {
+    public Customer modifyCustomer(Customer customer) {
+        return customerRepository.update(customer);
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
         return customerRepository.findById(customerId);
+    }
+
+    @Override
+    public Optional<Customer> findByName(String name) {
+        return customerRepository.findByName(name);
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return customerRepository.findByEmail(email);
     }
 
 

@@ -145,6 +145,12 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         jdbcTemplate.update("delete from customers",Collections.emptyMap());
     }
 
+    @Override
+    public void deleteById(UUID customerId) {
+        jdbcTemplate.update("delete from customers where customer_id = UNHEX(REPLACE(:customer_id,'-',''))",
+                Collections.singletonMap("customer_id",customerId.toString().getBytes()));
+    }
+
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
