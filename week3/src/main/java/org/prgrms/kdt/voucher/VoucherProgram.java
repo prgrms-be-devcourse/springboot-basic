@@ -35,7 +35,6 @@ public class VoucherProgram {
 
         String input;
 
-        boolean flag = false;
         while (true) {
             userInteraction.showInfoMessage();
             input = userInteraction.getNext(sc);
@@ -52,13 +51,12 @@ public class VoucherProgram {
                 }
                 case EXIT -> {
                     userInteraction.showExitProgramMessage();
-                    flag = true;
+                    return;
                 }
                 default -> {
                     userInteraction.showInvalidMessage();
                 }
             }
-            if(flag) break;
         }
     }
 
