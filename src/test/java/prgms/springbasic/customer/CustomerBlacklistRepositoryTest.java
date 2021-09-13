@@ -45,7 +45,7 @@ class CustomerBlacklistRepositoryTest {
             BlackCustomer customer01 = new BlackCustomer("allen");
             repository.save(customer01);
 
-            BlackCustomer findCustomer = repository.findByName("allen");
+            BlackCustomer findCustomer = repository.findByName("allen").get();
             assertThat(customer01.getCustomerId()).isEqualTo(findCustomer.getCustomerId());
 
         } catch (IOException exception) {

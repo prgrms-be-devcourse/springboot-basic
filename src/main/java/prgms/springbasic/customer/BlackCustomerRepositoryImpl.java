@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -14,6 +14,9 @@ import java.util.UUID;
 public class BlackCustomerRepositoryImpl implements BlackCustomerRepository {
 
     private static final String path = "src/main/customer_blacklist.csv";
+    private static final int NAME = 0;
+    private static final int CUSTOMER_ID = 1;
+
     private final File file;
     private final BufferedWriter bufferedWriter;
     private BufferedReader bufferedReader;
@@ -36,21 +39,22 @@ public class BlackCustomerRepositoryImpl implements BlackCustomerRepository {
     }
 
     @Override
-    public BlackCustomer findByName(String name) {
-        String line;
-
+    public Optional<BlackCustomer> findByName(String name) {
         try {
             bufferedReader = new BufferedReader(new FileReader(file));
+            String line = "";
+
             while ((line = bufferedReader.readLine()) != null) {
                 String[] splited = line.split(", ");
-                if (splited[0].equals(name)) {
-                    return new BlackCustomer(splited[0], UUID.fromString(splited[1]));
+                if (splited[NAME].equals(name)) {
+                    return Optional.of(new BlackCustomer(splited[NAME], UUID.fromString(splited[CUSTOMER_ID])));
                 }
             }
+
+            return Optional.empty();
         } catch (IOException e) {
             throw new RuntimeException("레포지토리를 읽을 수 없습니다.");
         }
-        throw new RuntimeException(MessageFormat.format("해당 이름의 고객을 찾을 수 없습니다. name -> {0}", name));
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerBlacklistApplication {
     public static void main(String[] args) throws IOException {
@@ -19,24 +20,29 @@ public class CustomerBlacklistApplication {
         Printer printer = new Printer();
 
         while (true) {
-            printer.printCustomerCommandList();
+            printer.printBlackCustomerCommandList();
             String command = bufferedReader.readLine();
-            if (command.equals("create")) {
+            if (command.equals("save")) {
                 printer.customerNameInput();
                 String name = bufferedReader.readLine();
-                BlackCustomer customer = customerService.createCustomer(name);
-                System.out.println("create customer success!!");
-                System.out.println(customer.toString());
+                BlackCustomer customer = customerService.saveCustomer(name);
+                printer.printBlackCustomerSaveSuccess(customer);
+
             } else if (command.equals("list")) {
                 List<BlackCustomer> customerList = customerService.getCustomerList();
-                printer.printCustomerList(customerList);
+                if(customerList.isEmpty()){
+                    customerService.listIsEmpty();
+                    continue;
+                }
+                printer.printBlackCustomerList(customerList);
+
             } else if (command.equals("find")) {
                 printer.customerNameInput();
                 String name = bufferedReader.readLine();
-                BlackCustomer findCustomer = customerService.findByName(name);
-                if (findCustomer == null) {
-                    System.out.println(name + "is not blacklist");
-                    break;
+                Optional<BlackCustomer> findCustomer = customerService.findByName(name);
+                if(findCustomer.isEmpty()){
+                    printer.printBlackCustomerIsNotPresent(name);
+                    continue;
                 }
                 System.out.println(findCustomer);
             } else if (command.equals("exit")) {

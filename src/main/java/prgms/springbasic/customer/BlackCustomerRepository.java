@@ -1,11 +1,12 @@
 package prgms.springbasic.customer;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BlackCustomerRepository {
     BlackCustomer save(BlackCustomer customer);
 
-    BlackCustomer findByName(String name);
+    Optional<BlackCustomer> findByName(String name);
 
     List<BlackCustomer> getCustomerList();
 }
