@@ -1,10 +1,12 @@
 package org.prgrms.kdt.voucher.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;

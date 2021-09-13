@@ -1,6 +1,8 @@
 package org.prgrms.kdt.voucher.util;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -11,7 +13,8 @@ import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "voucher")
-@Data
+@Getter
+@Setter
 public class VoucherProperties implements InitializingBean {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherProperties.class);
