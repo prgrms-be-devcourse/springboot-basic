@@ -8,13 +8,13 @@ import java.util.UUID;
 
 @Getter
 public class Wallet {
-    final private UUID walletId;
+    private final UUID walletId;
 
-    final private UUID customerId;
+    private final UUID customerId;
 
     private List<Voucher> vouchers;
 
-    Wallet(UUID walletId, UUID customerId){
+    public Wallet(UUID walletId, UUID customerId){
         this.walletId = walletId;
         this.customerId = customerId;
     }
