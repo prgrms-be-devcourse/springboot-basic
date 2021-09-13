@@ -8,14 +8,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.nio.ByteBuffer;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.prgms.Utils.toUUID;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
@@ -124,8 +122,4 @@ public class CustomerJdbcRepository implements CustomerRepository {
         jdbcTemplate.update("DELETE FROM customers");
     }
 
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 }
