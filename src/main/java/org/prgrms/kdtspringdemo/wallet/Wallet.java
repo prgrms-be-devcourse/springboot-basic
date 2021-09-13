@@ -15,11 +15,11 @@ public class Wallet {
         this.createdAt = createdAt;
     }
 
-    public Wallet(UUID walletId, UUID customerId, LocalDateTime createdAt, UUID voucherId) {
+    public Wallet(UUID walletId, UUID customerId, UUID voucherId, LocalDateTime createdAt) {
         this.walletId = walletId;
         this.customerId = customerId;
-        this.createdAt = createdAt;
         this.voucherId = voucherId;
+        this.createdAt = createdAt;
     }
 
     public UUID getCustomerId() {

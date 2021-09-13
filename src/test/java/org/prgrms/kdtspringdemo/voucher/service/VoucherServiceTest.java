@@ -26,8 +26,8 @@ class VoucherServiceTest {
     @Test
     @DisplayName("Voucher 생성하기")
     void createFixedAmountVoucher() {
-        var fixVoucher = voucherService.saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), "TestFixVoucher", 10L, VoucherType.FIXED_AMOUNT, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)));
-        var percentVoucher = voucherService.saveVoucher(new PercentDiscountVoucher(UUID.randomUUID(), "TestFixVoucher",20L, VoucherType.PERCENT_DISCOUNT, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)));
+        var fixVoucher = voucherService.saveVoucher("F", "10");
+        var percentVoucher = voucherService.saveVoucher("P", "20");
 
         assertThat(fixVoucher.getDiscount(), is(10L));
         assertThat(voucherService.getVoucher(fixVoucher.getVoucherId()), is(fixVoucher));

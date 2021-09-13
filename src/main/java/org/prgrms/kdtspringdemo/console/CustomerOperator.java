@@ -25,7 +25,6 @@ public class CustomerOperator implements CommandOperator<Customer> {
         var email = splitList[1];
         var type = splitList[2];
         Customer customer = customerService.saveCustomer(name, email, type);
-        walletService.addWallet(customer.getId());
 
         return customer != null;
     }

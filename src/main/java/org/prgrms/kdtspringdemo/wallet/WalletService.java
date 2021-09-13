@@ -21,14 +21,12 @@ public class WalletService {
         return walletRepository.findAll();
     }
 
-    //todo: customer:addWallet 시 wallet을 선택해서 넣는 기능 구현하기
     @Transactional
-    public Wallet addWallet(UUID customerId) {
+    public void addVoucher(String customerId, UUID voucherId) {
         Wallet wallet = new Wallet(UUID.randomUUID(),
-                customerId,
+                UUID.fromString(customerId),
+                voucherId,
                 LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         walletRepository.insert(wallet);
-
-        return wallet;
     }
 }

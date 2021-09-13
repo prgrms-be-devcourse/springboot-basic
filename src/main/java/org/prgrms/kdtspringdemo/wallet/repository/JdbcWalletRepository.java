@@ -11,12 +11,13 @@ import java.util.*;
 
 @Profile("dev")
 @Repository
-public class JdbcWalletRepository implements WalletRepository{
+public class JdbcWalletRepository implements WalletRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private final String VERSION_8_0_UUID = "UUID_TO_BIN(:customerId)";
     private final String VERSION_5_7_UUID = "UNHEX(REPLACE(:customerId, '-', ''))";
     private final String CURRENT_UUID = VERSION_5_7_UUID;
+
     private String getVersion57UUID(String value) {
         return "UNHEX(REPLACE(:" + value + ", '-', ''))";
     }
@@ -29,15 +30,18 @@ public class JdbcWalletRepository implements WalletRepository{
         return new HashMap<String, Object>() {{
             put("walletId", wallet.getWalletId().toString().getBytes());
             put("customerId", wallet.getCustomerId().toString().getBytes());
+            put("voucherId", wallet.getVoucherId().toString().getBytes());
             put("createdAt", Timestamp.valueOf(wallet.getCreatedAt().truncatedTo(ChronoUnit.MILLIS)));
         }};
     }
 
     @Override
     public Wallet insert(Wallet wallet) {
-        var update = jdbcTemplate.update("INSERT INTO wallets(wallet_id, customer_id, created_at) VALUES (" + getVersion57UUID("walletId") + ", " + getVersion57UUID("customerId")+", :createdAt)",
+        var update = jdbcTemplate.update("INSERT INTO wallets(wallet_id, customer_id, voucher_id, created_at)" +
+                        " VALUES (" + getVersion57UUID("walletId") + ", "
+                        + getVersion57UUID("customerId") + ", "
+                        + getVersion57UUID("voucherId") + ", :createdAt)",
                 toparamMap(wallet));
-        System.out.println(jdbcTemplate.toString());
         if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }

@@ -62,12 +62,12 @@ public class Console implements Input, Output {
     @Override
     public void printCreateVoucherByTypes() {
         System.out.print("""
-                <vouhcerType> <data>
+                <customerId> <vouhcerType> <data>
                 voucherType
                 \tP : PercentDiscountVoucher(1~100)
                 \tF : FixedAmountVoucher(1~100000)
                 data is long value
-                ex) P 10
+                ex) <id> P 10
                 input voucher info:""");
     }
 
