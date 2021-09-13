@@ -35,8 +35,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }};
     }
 
-//    private RowMapper<Customer> customerRowMapper = BeanPropertyRowMapper.newInstance(Customer.class);
-
     private RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var customerName = resultSet.getString("name");
