@@ -25,7 +25,7 @@ public class EnumUtils {
         return index::get;
     }
 
-    public static Optional<CommandType> getCommnadType(String typeNum) {
+    public static Optional<CommandType> getCommandType(String typeNum) {
         return Optional.ofNullable(commandTypeLookupFunction.apply(typeNum));
     }
 

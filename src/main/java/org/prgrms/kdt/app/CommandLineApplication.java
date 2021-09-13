@@ -51,7 +51,7 @@ public class CommandLineApplication implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         while (isRunning) {
             printMenu();
-            EnumUtils.getCommnadType(console.input()).ifPresent(commandType -> {
+            EnumUtils.getCommandType(console.input()).ifPresent(commandType -> {
                 if (commandType == CommandType.EXIT) {
                     isRunning = false;
                 }
