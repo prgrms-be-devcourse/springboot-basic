@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.prgrms.kdt.helper.MessageHelper.*;
-
 @Service
 public class VoucherService {
 
@@ -76,19 +74,16 @@ public class VoucherService {
         logger.info("Starts checkValidity()");
         if(voucherSaveRequestDto.getVoucherType() == VoucherType.UNDEFINED) {
             logger.warn("Fail to create a voucher.");
-            showRetryMessage();
             return false;
         }
 
         if(voucherSaveRequestDto.getDiscount() < 0) {
             logger.warn("Fail to create a voucher.");
-            showRetryMessage();
             return false;
         }
 
         if(voucherRepository.findById(uuid).isPresent()) {
             logger.warn("Voucher is duplicated");
-            showDuplicateVoucherMessage();
             return false;
         }
 
