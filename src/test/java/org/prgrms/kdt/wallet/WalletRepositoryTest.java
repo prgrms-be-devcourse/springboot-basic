@@ -46,15 +46,16 @@ class WalletRepositoryTest extends EmbeddedMysqlConnector {
     @Test
     @DisplayName("바우처 지갑 추가 테스트")
     void addVoucherWallet() {
-        int insert = walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
+        walletJdbcRepository.insert(new Wallet(customer.getCustomerId(), voucher.getVoucherId()));
 
-        assertThat(insert).isEqualTo(1);
+        List<Customer> customers = customerRepository.findCustomersByVoucherId(voucher.getVoucherId());
+        assertThat(customers.size()).isEqualTo(1);
     }
 
     @Test
     @DisplayName("고객의 아이디로 바우처 조회 테스트")
     void findByCustomerId() {
-        walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
+        walletJdbcRepository.insert(new Wallet(customer.getCustomerId(), voucher.getVoucherId()));
         List<Voucher> vouchers = voucherRepository.findVouchersByCustomerId(customer.getCustomerId());
 
         assertThat(vouchers.size()).isEqualTo(1);
@@ -64,7 +65,7 @@ class WalletRepositoryTest extends EmbeddedMysqlConnector {
     @Test
     @DisplayName("바우처 아이디로 고객 조회 테스트")
     void findByVoucherId() {
-        walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
+        walletJdbcRepository.insert(new Wallet(customer.getCustomerId(), voucher.getVoucherId()));
         List<Customer> customers = customerRepository.findCustomersByVoucherId(voucher.getVoucherId());
 
         assertThat(customers.size()).isEqualTo(1);
@@ -74,7 +75,7 @@ class WalletRepositoryTest extends EmbeddedMysqlConnector {
     @Test
     @DisplayName("고객에게 등록된 바우처 삭제 테스트")
     void deleteByWallet() {
-        walletJdbcRepository.deleteBy(customer.getCustomerId(), voucher.getVoucherId());
+        walletJdbcRepository.deleteByCustomerIdAndVoucherId(customer.getCustomerId(), voucher.getVoucherId());
         List<Voucher> vouchers = voucherRepository.findVouchersByCustomerId(customer.getCustomerId());
         List<Customer> customers = customerRepository.findCustomersByVoucherId(voucher.getVoucherId());
 

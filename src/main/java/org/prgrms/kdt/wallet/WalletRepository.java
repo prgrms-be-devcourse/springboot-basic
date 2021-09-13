@@ -8,9 +8,9 @@ import java.util.UUID;
  */
 public interface WalletRepository {
 
-    int insert(Wallet wallet);
+    void insert(Wallet wallet);
 
-    int deleteAll();
+    void deleteAll();
 
-    int deleteBy(UUID customerId, UUID voucherId);
+    void deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId);
 }

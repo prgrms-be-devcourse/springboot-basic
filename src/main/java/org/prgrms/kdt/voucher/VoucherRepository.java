@@ -10,9 +10,9 @@ import java.util.UUID;
  */
 public interface VoucherRepository {
 
-    int insert(Voucher voucher);
+    void insert(Voucher voucher);
 
-    int update(Voucher voucher);
+    void update(Voucher voucher);
 
     Optional<Voucher> findById(UUID voucherId);
 
@@ -20,7 +20,7 @@ public interface VoucherRepository {
 
     List<Voucher> findVouchersByCustomerId(UUID customerId);
 
-    int deleteById(UUID voucherId);
+    void deleteById(UUID voucherId);
 
     void deleteAll();
 
