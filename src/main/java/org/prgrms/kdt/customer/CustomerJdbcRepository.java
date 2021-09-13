@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -38,8 +39,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
     };
 
     @Override
-    public int insert(Customer customer) {
-        return jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
+    public void insert(Customer customer) {
+        jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
                 customer.getName(),
                 customer.getEmail(),
@@ -47,8 +48,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public int update(Customer customer) {
-        return jdbcTemplate.update("UPDATE customers SET name = ?, email = ?, last_login_at =? WHERE customer_id = UUID_TO_BIN(?)",
+    public void update(Customer customer) {
+        jdbcTemplate.update("UPDATE customers SET name = ?, email = ?, last_login_at =? WHERE customer_id = UUID_TO_BIN(?)",
                 customer.getName(),
                 customer.getEmail(),
                 customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
@@ -62,41 +63,31 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate
-                    .queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)",
-                            customerRowMapper,
-                            customerId.toString().getBytes()));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e.getMessage());
-            return Optional.empty();
-        }
+        List<Customer> customers = jdbcTemplate
+                .query("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)",
+                        customerRowMapper,
+                        customerId.toString().getBytes());
+
+        return Optional.ofNullable(DataAccessUtils.singleResult(customers));
     }
 
     @Override
     public Optional<Customer> findByName(String name) {
-        try {
-            return Optional.ofNullable(jdbcTemplate
-                    .queryForObject("SELECT * FROM  customers WHERE name = ?",
-                            customerRowMapper,
-                            name));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e.getMessage());
-            return Optional.empty();
-        }
+        List<Customer> customers = jdbcTemplate
+                .query("SELECT * FROM  customers WHERE name = ?",
+                        customerRowMapper,
+                        name);
+        return Optional.ofNullable(DataAccessUtils.singleResult(customers));
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        try {
-            return Optional.ofNullable(jdbcTemplate
-                    .queryForObject("SELECT * FROM customers WHERE email = ?",
-                            customerRowMapper,
-                            email));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e.getMessage());
-            return Optional.empty();
-        }
+        List<Customer> customers = jdbcTemplate
+                .query("SELECT * FROM customers WHERE email = ?",
+                        customerRowMapper,
+                        email);
+        return Optional.ofNullable(DataAccessUtils.singleResult(customers));
+
     }
 
     @Override

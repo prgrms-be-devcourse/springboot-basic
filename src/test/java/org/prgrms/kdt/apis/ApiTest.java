@@ -35,7 +35,7 @@ import org.springframework.http.MediaType;
 public class ApiTest extends BaseApiTest {
 
     @Test
-    @DisplayName("고객에게 바우처를 정상적으로 할당하는 테스트")
+    @DisplayName("지갑 등록 테스트")
     void addVoucherByCustomer() throws Exception {
         initCustomer();
         initVoucher();
@@ -55,7 +55,7 @@ public class ApiTest extends BaseApiTest {
     }
 
     @Test
-    @DisplayName("고객에게 바우처 할당시 고객이 존재하지 않으면 not found 테스트")
+    @DisplayName("지갑 등록 예외 테스트 (고객의 아이디가 잘못된 경우)")
     void addVoucherByCustomer_notfound_customer() throws Exception {
         initVoucher();
         WalletDto dto = givenValidWalletDto(mockCustomerId, mockVoucherId);
@@ -70,7 +70,7 @@ public class ApiTest extends BaseApiTest {
     }
 
     @Test
-    @DisplayName("고객에게 바우처 할당시 바우처가 존재하지 않으면 not found 테스트")
+    @DisplayName("지갑 등록 예외 테스트 (바우처 아이디가 잘못된 경우)")
     void addVoucherByCustomer_notfound_voucher() throws Exception {
         initCustomer();
         WalletDto dto = givenValidWalletDto(mockCustomerId, mockVoucherId);
@@ -85,7 +85,7 @@ public class ApiTest extends BaseApiTest {
     }
 
     @Test
-    @DisplayName("고객의 아이디로 보유한 바우처 조회 테스트")
+    @DisplayName("고객 조회 테스트")
     void getVouchersByCustomerId() throws Exception {
         initCustomer();
         initVoucher();
@@ -109,7 +109,7 @@ public class ApiTest extends BaseApiTest {
     }
 
     @Test
-    @DisplayName("고객의 아이디로 보유한 바우처 조회 테스트")
+    @DisplayName("바우처 조회 테스트")
     void getCustomersByVoucherId() throws Exception {
         initCustomer();
         initVoucher();
@@ -132,7 +132,7 @@ public class ApiTest extends BaseApiTest {
     }
 
     @Test
-    @DisplayName("고객의 바우처 삭제 테스트")
+    @DisplayName("지갑 삭제 테스트")
     void deleteCustomersVoucher() throws Exception {
         initCustomer();
         initVoucher();

@@ -26,15 +26,9 @@ public class WalletService {
     @Transactional
     public void addWallet(WalletDto walletDto) {
         Wallet wallet = new Wallet(
-                UUID.randomUUID(),
                 UUID.fromString(walletDto.getCustomerId()),
                 UUID.fromString(walletDto.getVoucherId()));
-        int insert = walletJdbcRepository.insert(wallet);
-
-        if (insert != 1) {
-            logger.error("invalid update query");
-            throw new IllegalRowUpdateException("wrong access");
-        }
+        walletJdbcRepository.insert(wallet);
     }
 
     @Transactional

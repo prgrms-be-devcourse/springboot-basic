@@ -23,20 +23,20 @@ public class WalletJdbcRepository implements WalletRepository {
     }
 
     @Override
-    public int insert(Wallet wallet) {
-        return jdbcTemplate.update("INSERT INTO wallets (wallet_id, customer_id, voucher_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))",
-                wallet.voucherWalletId().toString().getBytes(),
+    public void insert(Wallet wallet) {
+        jdbcTemplate.update("INSERT INTO wallets (wallet_id, customer_id, voucher_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))",
+                UUID.randomUUID().toString().getBytes(),
                 wallet.customerId().toString().getBytes(),
                 wallet.voucherId().toString().getBytes());
     }
 
     @Override
-    public int deleteAll() {
-        return jdbcTemplate.update("DELETE FROM wallets");
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM wallets");
     }
 
-    public int deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
-        return jdbcTemplate.update("DELETE FROM wallets "
+    public void deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        jdbcTemplate.update("DELETE FROM wallets "
                                    + "WHERE customer_id = UUID_TO_BIN(?) AND voucher_id = UUID_TO_BIN(?) "
                                    + "ORDER BY created_at ASC "
                                    + "LIMIT 1",

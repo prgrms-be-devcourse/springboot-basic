@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -39,8 +40,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     };
 
     @Override
-    public int insert(Voucher voucher) {
-        return jdbcTemplate.update(
+    public void insert(Voucher voucher) {
+        jdbcTemplate.update(
                 "INSERT INTO vouchers(voucher_id, name, voucher_type, discount, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getName(),
@@ -50,24 +51,18 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public int update(Voucher voucher) {
-        return jdbcTemplate.update("UPDATE vouchers SET name = ? WHERE voucher_id = UUID_TO_BIN(?)",
+    public void update(Voucher voucher) {
+        jdbcTemplate.update("UPDATE vouchers SET name = ? WHERE voucher_id = UUID_TO_BIN(?)",
                 voucher.getName(),
                 voucher.getVoucherId().toString().getBytes());
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate
-                    .queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
-                            voucherRowMapper,
-                            voucherId.toString().getBytes()));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result ", e);
-            return Optional.empty();
-        }
-
+        List<Voucher> vouchers = jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
+                voucherRowMapper,
+                voucherId.toString().getBytes());
+        return Optional.ofNullable(DataAccessUtils.singleResult(vouchers));
     }
 
     @Override
@@ -90,8 +85,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public int deleteById(UUID voucherId) {
-        return jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
                 voucherId.toString().getBytes());
     }
 

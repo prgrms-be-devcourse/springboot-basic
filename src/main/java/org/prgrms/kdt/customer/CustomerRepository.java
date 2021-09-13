@@ -10,9 +10,9 @@ import java.util.UUID;
  */
 public interface CustomerRepository {
 
-    int insert(Customer customer);
+    void insert(Customer customer);
 
-    int update(Customer customer);
+    void update(Customer customer);
 
     List<Customer> findAll();
 

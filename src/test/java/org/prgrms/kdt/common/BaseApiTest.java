@@ -67,7 +67,7 @@ public class BaseApiTest extends EmbeddedMysqlConnector {
     }
 
     public void initWallet() {
-        walletJdbcRepository.insert(new Wallet(UUID.randomUUID(), mockCustomerId, mockVoucherId));
+        walletJdbcRepository.insert(new Wallet(mockCustomerId, mockVoucherId));
     }
 
     protected Customer givenCustomer(UUID customerId) {
