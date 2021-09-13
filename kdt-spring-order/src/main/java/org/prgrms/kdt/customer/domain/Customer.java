@@ -83,13 +83,13 @@ public class Customer {
 
     @Override
     public String toString() {
-        String formatString = "id : {0}, name : {1}";
+        String formatString = "[Customer {0}]\n email : {1}\n createdAt : {2}\n lastLoginAt : {3}";
 
         if(isBlacklisted){
-            return MessageFormat.format("[BlackList] " + formatString, id, name);
+            return MessageFormat.format("[BlackList] " + formatString, name, email, createdAt, lastLoginAt != null ? lastLoginAt : "");
         }
 
-        return MessageFormat.format(formatString, id, name);
+        return MessageFormat.format(formatString, name, email, createdAt, lastLoginAt != null ? lastLoginAt : "");
     }
 
 }

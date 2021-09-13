@@ -7,7 +7,9 @@ public enum ExceptionMessage {
     INVALID_COMMAND("유효하지 않은 커맨드 입니다."),
     VOUCHER_NOT_FOUNDED("바우처 정보가 존재하지 않습니다."),
     VOUCHER_FILE_NOT_FOUNDED("바우처 파일이 존재하지 않습니다."),
-    VOUCHER_NOT_INSERTED("바우처 추가를 실패하였습니다.");
+    VOUCHER_NOT_INSERTED("바우처 추가를 실패하였습니다."),
+    CUSTOMER_NOT_INSERTED("고객 추가를 실패하였습니다."),
+    CUSTOMER_NOT_UPDATED("고객 정보 업데이트를 실패하였습니다.");
 
     private final String message;
 

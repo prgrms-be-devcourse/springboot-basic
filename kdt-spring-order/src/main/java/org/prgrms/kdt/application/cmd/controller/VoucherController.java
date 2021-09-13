@@ -4,6 +4,7 @@ import org.prgrms.kdt.application.cmd.Command;
 import org.prgrms.kdt.common.exception.ExceptionMessage;
 import org.prgrms.kdt.application.cmd.exception.DiscountNumberFormatException;
 import org.prgrms.kdt.application.cmd.view.CommandLineView;
+import org.prgrms.kdt.customer.service.CustomerService;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.slf4j.Logger;
@@ -16,10 +17,12 @@ import java.util.UUID;
 public class VoucherController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
+    private final CustomerService customerService;
     private final CommandLineView commandLineView;
 
-    public VoucherController(VoucherService service, CommandLineView commandLineView) {
-        this.voucherService = service;
+    public VoucherController(VoucherService voucherService, CustomerService customerService, CommandLineView commandLineView) {
+        this.voucherService = voucherService;
+        this.customerService = customerService;
         this.commandLineView = commandLineView;
     }
 
@@ -51,11 +54,14 @@ public class VoucherController {
 
     private void executeCommand(Command command) {
         switch (command){
-            case CREATE:
-                executeCreateCommand();
+            case CREATE_VOUCHER:
+                executeCreateVoucherCommand();
                 break;
-            case LIST:
-                executeListCommand();
+            case LIST_VOUCHER:
+                executeListVoucherCommand();
+                break;
+            case LIST_CUSTOMER:
+                executeListCustomerCommand();
                 break;
             case EXIT:
                 executeExitCommand();
@@ -65,7 +71,11 @@ public class VoucherController {
         }
     }
 
-    private void executeCreateCommand() {
+    private void executeListCustomerCommand() {
+        commandLineView.showCustomerList(customerService.getAllCustomers());
+    }
+
+    private void executeCreateVoucherCommand() {
         VoucherType voucherType = VoucherType.findByVoucherType(commandLineView.requestVoucherType());
 
         try {
@@ -78,7 +88,7 @@ public class VoucherController {
 
     }
 
-    private void executeListCommand() {
+    private void executeListVoucherCommand() {
         commandLineView.showVoucherList(voucherService.getAllVouchers());
     }
 

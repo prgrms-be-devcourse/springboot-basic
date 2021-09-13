@@ -6,8 +6,9 @@ import org.prgrms.kdt.application.cmd.exception.InvalidCommandException;
 import java.util.Arrays;
 
 public enum Command {
-    CREATE("create"),
-    LIST("list"),
+    CREATE_VOUCHER("create_voucher"),
+    LIST_VOUCHER("list_voucher"),
+    LIST_CUSTOMER("list_customer"),
     EXIT("exit");
 
     private final String command;

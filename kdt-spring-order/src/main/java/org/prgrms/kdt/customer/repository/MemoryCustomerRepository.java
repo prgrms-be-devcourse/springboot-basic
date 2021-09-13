@@ -2,6 +2,7 @@ package org.prgrms.kdt.customer.repository;
 
 import org.prgrms.kdt.customer.CustomerProperties;
 import org.prgrms.kdt.customer.domain.Customer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
+@Profile("local")
 public class MemoryCustomerRepository {
     public final CustomerProperties properties;
 
