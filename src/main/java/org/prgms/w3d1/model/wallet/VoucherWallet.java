@@ -7,18 +7,18 @@ import java.util.UUID;
 
 public class VoucherWallet implements Wallet{
 
-    private final UUID VoucherWalletId;
+    private final UUID voucherWalletId;
     private final List<Voucher> voucherWallet;
     private final UUID customerId;
 
     public VoucherWallet(UUID voucherWalletId, List<Voucher> voucherWallet, UUID customerId) {
-        VoucherWalletId = voucherWalletId;
+        this.voucherWalletId = voucherWalletId;
         this.voucherWallet = voucherWallet;
         this.customerId = customerId;
     }
 
     public UUID getVoucherWalletId() {
-        return VoucherWalletId;
+        return voucherWalletId;
     }
 
     public UUID getCustomerId() {
