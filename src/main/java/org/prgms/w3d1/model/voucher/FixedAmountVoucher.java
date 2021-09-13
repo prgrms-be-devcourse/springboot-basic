@@ -8,19 +8,18 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     private final long amount;
     private UUID voucherWalletId;
 
-    private FixedAmountVoucher(UUID voucherId, long amount) {
-        this.voucherId = voucherId;
-        this.amount = amount;
-    }
-
-    public FixedAmountVoucher(UUID voucherId, long amount, UUID voucherWalletId) {
+    private FixedAmountVoucher(UUID voucherId, long amount, UUID voucherWalletId) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherWalletId = voucherWalletId;
     }
 
-    public static FixedAmountVoucher of(UUID voucherId, long amount){
-        return new FixedAmountVoucher(voucherId, amount);
+    public static FixedAmountVoucher of(UUID voucherId, long amount) {
+        return new FixedAmountVoucher(voucherId, amount, null);
+    }
+
+    public static FixedAmountVoucher of(UUID voucherId, long amount, UUID voucherWalletId){
+        return new FixedAmountVoucher(voucherId, amount, voucherWalletId);
     }
 
     @Override
@@ -32,8 +31,6 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     public long getVoucherValue() {
         return amount;
     }
-
-
 
     @Override
     public long discount(long beforeDiscount){

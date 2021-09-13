@@ -149,7 +149,7 @@ class DatabaseVoucherRepositoryTest {
     void findByVoucherWalletId() {
         // 바우처 지갑 id를 가진 바우처를 만든다
         var voucherWalletId = voucherWallet.getVoucherWalletId();
-        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, voucherWalletId);
+        var voucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, voucherWalletId);
         databaseVoucherRepository.save(voucher);
 
         // 바우처 지갑 id로 바우처를 조회하여

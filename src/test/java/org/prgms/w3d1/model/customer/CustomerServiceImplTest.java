@@ -110,8 +110,8 @@ class CustomerServiceTest {
         databaseCustomerRepository.insert(customer);
         voucherWallet = new VoucherWallet(UUID.randomUUID(), Collections.emptyList(), customer.getCustomerId());
         databaseVoucherWalletRepository.insert(voucherWallet.getVoucherWalletId(), customer.getCustomerId());
-        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, voucherWallet.getVoucherWalletId());
-        percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 25L, voucherWallet.getVoucherWalletId());
+        fixedAmountVoucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, voucherWallet.getVoucherWalletId());
+        percentDiscountVoucher = PercentDiscountVoucher.of(UUID.randomUUID(), 25L, voucherWallet.getVoucherWalletId());
         databaseVoucherRepository.save(fixedAmountVoucher);
         databaseVoucherRepository.save(percentDiscountVoucher);
     }

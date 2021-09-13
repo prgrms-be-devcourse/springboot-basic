@@ -8,10 +8,10 @@ public class VoucherFactory {
         VoucherType voucherType = VoucherType.getVoucherType(type);
         switch (voucherType) {
             case FIXED_AMOUNT_VOUCHER -> {
-                return new FixedAmountVoucher(voucherId, value, voucherWalletId);
+                return FixedAmountVoucher.of(voucherId, value, voucherWalletId);
             }
             case PERCENT_DISCOUNT_VOUCHER -> {
-                return new PercentDiscountVoucher(voucherId, value, voucherWalletId);
+                return PercentDiscountVoucher.of(voucherId, value, voucherWalletId);
             }
             default -> throw new IllegalArgumentException("Wrong voucher Type");
 

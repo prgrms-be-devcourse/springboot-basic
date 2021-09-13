@@ -8,19 +8,19 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     private final long percent;
     private UUID voucherWalletId;
 
-    public static PercentDiscountVoucher of(UUID voucherId, long percent) {
-        return new PercentDiscountVoucher(voucherId, percent);
-    }
-
     private PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
         this.percent = percent;
     }
 
-    public PercentDiscountVoucher(UUID voucherId, long percent, UUID voucherWalletId) {
-        this.voucherId = voucherId;
-        this.percent = percent;
-        this.voucherWalletId = voucherWalletId;
+    public static PercentDiscountVoucher of(UUID voucherId, long percent) {
+        return new PercentDiscountVoucher(voucherId, percent);
+    }
+
+    public static PercentDiscountVoucher of(UUID voucherId, long percent, UUID voucherWalletId) {
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, percent);
+        percentDiscountVoucher.setVoucherWalletId(voucherWalletId);
+        return percentDiscountVoucher;
     }
 
     @Override

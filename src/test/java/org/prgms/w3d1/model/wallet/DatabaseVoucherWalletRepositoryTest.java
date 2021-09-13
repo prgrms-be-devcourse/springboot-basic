@@ -53,8 +53,7 @@ class DatabaseVoucherWalletRepositoryTest {
 
         @Bean
         public DatabaseVoucherWalletRepository databaseVoucherWalletRepository(
-            JdbcTemplate jdbcTemplate, VoucherRepository voucherRepository)
-        {
+            JdbcTemplate jdbcTemplate, VoucherRepository voucherRepository) {
             return new DatabaseVoucherWalletRepository(jdbcTemplate, voucherRepository);
         }
 
@@ -120,7 +119,7 @@ class DatabaseVoucherWalletRepositoryTest {
 
         // 해당 wallet id를 가진 voucher를 등록하여
         var voucherId = UUID.randomUUID();
-        var testVoucher = new FixedAmountVoucher(voucherId, 100L, voucherWalletId);
+        var testVoucher = FixedAmountVoucher.of(voucherId, 100L, voucherWalletId);
         databaseVoucherRepository.save(testVoucher);
 
         // wallet id로 db에서 wallet을 찾아
@@ -141,7 +140,7 @@ class DatabaseVoucherWalletRepositoryTest {
 
         // 해당 wallet id를 가진 voucher를 등록하여
         var voucherId = UUID.randomUUID();
-        var testVoucher = new FixedAmountVoucher(voucherId, 100L, voucherWalletId);
+        var testVoucher = FixedAmountVoucher.of(voucherId, 100L, voucherWalletId);
         databaseVoucherRepository.save(testVoucher);
 
         // customer id로 db에서 wallet을 찾아
