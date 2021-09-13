@@ -1,5 +1,6 @@
 package org.programmers.voucher;
 
+import org.programmers.customer.Customer;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -30,6 +31,14 @@ public class VoucherService {
 
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
+    }
+
+    public List<Voucher> getVouchersByOwnerId(UUID ownerId) {
+        return voucherRepository.findByOwnerId(ownerId);
+    }
+
+    public void assignToCustomer(Customer customer, Voucher voucher){
+        voucherRepository.assignToCustomer(customer, voucher);
     }
 
     public void useVoucher(Voucher voucher) {

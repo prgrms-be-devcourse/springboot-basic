@@ -7,6 +7,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
     private final VoucherType voucherType = VoucherType.PERCENT;
+    private UUID ownerId;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         if (percent < 0) throw new IllegalArgumentException("Percent should be positive");
@@ -15,6 +16,16 @@ public class PercentDiscountVoucher implements Voucher {
 
         this.voucherId = voucherId;
         this.percent = percent;
+        this.ownerId = null;
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, long amount, UUID ownerId) {
+        if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
+        if (amount == 0) throw new IllegalArgumentException("Amount should not be zero ");
+
+        this.voucherId = voucherId;
+        this.percent = amount;
+        this.ownerId = ownerId;
     }
 
     @Override

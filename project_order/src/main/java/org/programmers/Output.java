@@ -16,10 +16,16 @@ public interface Output {
 
     void printVoucherList(List<Voucher> voucherList) throws IOException;
 
+    void printCustomerList(List<Customer> customerList) throws IOException;
+
     void printBlackList(List<Customer> blackList) throws IOException;
 
     void askAmount() throws IOException;
 
     void askPercentage() throws IOException;
+
+    void askCustomerNumber() throws IOException;
+
+    void askVoucherNumber() throws IOException;
 
 }

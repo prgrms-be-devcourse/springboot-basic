@@ -7,6 +7,7 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
     private final VoucherType voucherType = VoucherType.FIXED;
+    private UUID ownerId;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
@@ -14,6 +15,16 @@ public class FixedAmountVoucher implements Voucher {
 
         this.voucherId = voucherId;
         this.amount = amount;
+        this.ownerId = null;
+    }
+
+    public FixedAmountVoucher(UUID voucherId, long amount, UUID ownerId) {
+        if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
+        if (amount == 0) throw new IllegalArgumentException("Amount should not be zero ");
+
+        this.voucherId = voucherId;
+        this.amount = amount;
+        this.ownerId = ownerId;
     }
 
     @Override

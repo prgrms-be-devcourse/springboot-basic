@@ -15,4 +15,12 @@ public class VoucherFactory {
         } else throw new IllegalArgumentException();
     }
 
+    public Voucher createVoucherByType(VoucherType voucherType, UUID voucherId, long value, UUID ownerId) {
+        if (VoucherType.FIXED == voucherType) {
+            return new FixedAmountVoucher(voucherId, value, ownerId);
+        } else if (VoucherType.PERCENT == voucherType) {
+            return new PercentDiscountVoucher(voucherId, value, ownerId);
+        } else throw new IllegalArgumentException();
+    }
+
 }
