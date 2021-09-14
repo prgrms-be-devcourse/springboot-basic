@@ -1,5 +1,7 @@
 package org.prgrms.kdt.order.property;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,9 +19,13 @@ import java.util.List;
  * 요 안에서 확인할 수 있는 방법이 annotation을 이용합니다.-> InitializingBean을 사용하면 필드에 접근하여 확인해볼 수 있습니다.
  */
 // yaml에서 배열형태로 된게 spring boot에서 인식이 안됩니다. 그래서 저희는 OrderProperties를 Component에서 ConfigurationProperty로 바꿀꺼에옹
-@Configuration
+// @Configuration
+@Component
 @ConfigurationProperties(prefix = "kdt") // spring boot에서 나온 것. 그래서 Appconfigt에서 @EnableConfiguration 달아줘야함
 public class OrderProperties implements InitializingBean {
+
+    private final static Logger logger = LoggerFactory.getLogger(OrderProperties.class);
+
     private String version;
     private int minimumOrderAmount;
     private List<String> supportVendors;
@@ -27,9 +33,9 @@ public class OrderProperties implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println(MessageFormat.format("[OrderProperties] version -> {0}", version ));
-        System.out.println(MessageFormat.format("[OrderProperties] minimumOrderAmount -> {0}", minimumOrderAmount ));
-        System.out.println(MessageFormat.format("[OrderProperties] supportVendors -> {0}", supportVendors ));
+        logger.debug("[OrderProperties] version -> {}", version );
+        logger.debug("[OrderProperties] minimumOrderAmount -> {}", minimumOrderAmount );
+        logger.debug("[OrderProperties] supportVendors -> {}", supportVendors );
     }
 
     public String getVersion() {
