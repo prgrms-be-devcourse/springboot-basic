@@ -21,7 +21,8 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var rate = resultSet.getLong("rate");
         var type = VoucherType.valueOf(resultSet.getString("type"));
-        return type.createVoucher(voucherId, rate);
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return type.createVoucher(voucherId, rate, createdAt);
     };
 
     public NamedJdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -139,6 +140,7 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
         paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
         paramMap.put("rate", voucher.getVoucherRate());
         paramMap.put("type", voucher.getVoucherType().toString());
+        paramMap.put("created_at", voucher.getVoucherCreatedAt());
         return paramMap;
     }
 
