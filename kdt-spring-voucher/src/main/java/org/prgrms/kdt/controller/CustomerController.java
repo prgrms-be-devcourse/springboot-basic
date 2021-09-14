@@ -1,7 +1,6 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.domain.CreateCustomerRequest;
-import org.prgrms.kdt.domain.CustomerDto;
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.service.CustomerService;
 import org.slf4j.Logger;
@@ -9,11 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -58,7 +55,7 @@ public class CustomerController {
 
     @GetMapping("/customers/new")
     public String viewNewCustomerPage() {
-        return "views/new-customers";
+        return "views/items/customerForm";
     }
 
     @PostMapping("/customers/new")

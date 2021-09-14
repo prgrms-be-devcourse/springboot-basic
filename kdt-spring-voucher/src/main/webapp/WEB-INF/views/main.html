@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="views/fragments/header :: header">
-        <title>Hello</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
     <div class="container" >
+        <div>
+            <div class="text-center mt-5">
+                <a class="btn" th:href="@{/main}"><h1>바우처 관리 시스템</h1></a>
+            </div>
+        </div>
         <div class="align_center">
-            <h1>바우처 관리 시스템</h1>
-            </br>
+            <br/>
             <p class="lead">Customer</p> <p>
-                <a class="btn btn-lg btn-outline-primary" href="/members/new">Customer 생성</a>
-                <a class="btn btn-lg btn-outline-primary" href="/members">Customer 목록</a> </p>
-            </br>
+                <a class="btn btn-lg btn-outline-primary" href="/customers/new">Customer 생성</a>
+                <a class="btn btn-lg btn-outline-primary" href="/customers">Customer 목록</a> </p>
+            <br/>
             <p class="lead">Voucher</p> <p>
-                <a class="btn btn-lg btn-outline-secondary" href="/items/new">Voucher 생성</a>
+                <a class="btn btn-lg btn-outline-secondary" href="/vouchers/new">Voucher 생성</a>
                 <a class="btn btn-lg btn-outline-secondary" href="/items">Voucher 목록</a> </p>
-            </br>
+            <br/>
             <p class="lead">Voucher Allocate</p> <p>
                 <a class="btn btn-lg btn-info" href="/order">voucher 할당하기</a>
         </div>
