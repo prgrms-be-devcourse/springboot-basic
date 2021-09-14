@@ -1,5 +1,6 @@
 package org.prgrms.kdt.command.io;
 
+import org.prgrms.kdt.customer.domain.BannedCustomer;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,10 @@ public class Console implements Input, Output {
     public void printOnStart() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("\n=== Voucher Program ===\n");
-        stringBuffer.append("Type exit to exit the program.\n");
-        stringBuffer.append("Type create to create a new voucher.\n");
-        stringBuffer.append("Type list to list all vouchers.");
+        stringBuffer.append("Type 'exit' to exit the program.\n");
+        stringBuffer.append("Type 'create' to create a new voucher.\n");
+        stringBuffer.append("Type 'list' to list all vouchers.\n");
+        stringBuffer.append("Type 'blacklist' to list blacklist customers.");
 
         System.out.println(stringBuffer);
     }
@@ -42,6 +44,12 @@ public class Console implements Input, Output {
     @Override
     public void printRequestVoucherValue(VoucherType type) {
         System.out.println(MessageFormat.format("Input discount {0} : ", type));
+    }
+
+    @Override
+    public void printBlackList(List<BannedCustomer> blackList) {
+        System.out.println("Print All BlackList Customers.");
+        blackList.forEach((bannedCustomer) -> System.out.println(bannedCustomer.toString()));
     }
 
     @Override

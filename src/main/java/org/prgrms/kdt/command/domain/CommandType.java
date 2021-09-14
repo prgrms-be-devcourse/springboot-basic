@@ -13,7 +13,8 @@ import java.util.function.Supplier;
 public enum CommandType {
     CREATE("create"),
     EXIT("exit"),
-    LIST("list");
+    LIST("list"),
+    BLACKLIST("blacklist");
 
     private final String strCommand;
 

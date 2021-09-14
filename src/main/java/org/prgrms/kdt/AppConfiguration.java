@@ -28,7 +28,8 @@ import org.springframework.context.annotation.FilterType;
 @ComponentScan(basePackages = {
         "org.prgrms.kdt.order",
         "org.prgrms.kdt.voucher",
-        "org.prgrms.kdt.command"
+        "org.prgrms.kdt.command",
+        "org.prgrms.kdt.customer",
 })
 public class AppConfiguration {
 }
