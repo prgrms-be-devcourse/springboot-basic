@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Customer Voucher List</title>
+</head>
+<body class="container-fluid">
+<h1>Customer Voucher List</h1>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Voucher ID</th>
+        <th scope="col">voucherType</th>
+        <th scope="col">discount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+        <td th:text="*{voucherId}"></td>
+        <td th:text="*{voucherType}"></td>
+        <td th:text="*{discount}"></td>
+        <td>
+            <form th:action="@{'/customers/'+ *{customerId}  + '/' + *{voucherId}}" method="post">
+                <input type="hidden" name="customerId" th:value="*{customerId}">
+                <input type="hidden" name="voucherId" th:value="*{voucherId}">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+

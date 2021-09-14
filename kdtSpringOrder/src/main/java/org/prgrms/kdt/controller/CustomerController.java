@@ -1,8 +1,10 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.domain.customer.Customer;
+import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.CustomerDto;
 import org.prgrms.kdt.service.CustomerService;
+import org.prgrms.kdt.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +20,13 @@ import java.util.UUID;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final VoucherService voucherService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, VoucherService voucherService) {
         this.customerService = customerService;
+        this.voucherService = voucherService;
     }
 
-    //조회페이지
     @GetMapping("/customers")
     public String list(Model model) {
         model.addAttribute("customers", customerService.getAllCustomers());
@@ -41,4 +44,20 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
+    @GetMapping("/customers/{customerId}")
+    public String findVoucherByCustomerId(@PathVariable("customerId") UUID customerId, Model model) {
+        List<Voucher> VoucherList = voucherService.getVouchersByCustomerId(customerId);
+        if(VoucherList.isEmpty()) {
+            return "views/404";
+        }
+
+        model.addAttribute("vouchers", VoucherList);
+        return "views/customer-detail";
+    }
+
+    @PostMapping("/customers/{customerId}/{voucherId}")
+    public String voucherDelete(@PathVariable("customerId") UUID customerId, @PathVariable("voucherId") UUID voucherId) {
+        voucherService.deleteVoucher(customerId, voucherId);
+        return "redirect:/customers";
+    }
 }

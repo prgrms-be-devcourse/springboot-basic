@@ -26,11 +26,14 @@
     </thead>
     <tbody>
     <tr th:each="customer: ${customers}" th:object="${customer}">
-        <td th:text="${customer.customerId}"></td>
-        <td th:text="${customer.name}"></td>
-        <td th:text="${customer.email}"></td>
-        <td th:text="${customer.createdAt}"></td>
-        <td th:text="${customer.lastLoginAt}"></td>
+        <td th:text="*{customerId}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{email}"></td>
+        <td th:text="*{createdAt}"></td>
+        <td th:text="*{lastLoginAt}"></td>
+        <td>
+            <a class="btn btn-primary me-md-2" th:href="@{'/customers/'+ *{customerId}}">바우처 조회</a>
+        </td>
     </tr>
     </tbody>
 </table>

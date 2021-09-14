@@ -38,7 +38,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType(){ return VoucherType.DISCOUNT; };
+    public VoucherType getVoucherType(){ return voucherType; };
 
     @Override
     public String toString() {
