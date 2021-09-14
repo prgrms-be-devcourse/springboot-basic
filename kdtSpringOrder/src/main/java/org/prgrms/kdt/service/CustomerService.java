@@ -21,7 +21,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer createCustomer(String email, String name){
+    public Customer createCustomer(String name, String email){
         RegularCustomer customer = new RegularCustomer(UUID.randomUUID(), name, email, LocalDateTime.now());
         return customerRepository.insert(customer);
     }
