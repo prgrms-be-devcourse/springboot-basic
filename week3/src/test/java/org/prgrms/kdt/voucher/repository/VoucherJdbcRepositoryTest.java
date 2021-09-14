@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -32,9 +33,9 @@ class VoucherJdbcRepositoryTest extends ClassLevelTestConfig {
     @Autowired
     DataSource dataSource;
 
-    FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER);;
+    FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());;
 
-    PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L, VoucherType.PERCENT_DISCOUNT_VOUCHER);;
+    PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L, VoucherType.PERCENT_DISCOUNT_VOUCHER, LocalDateTime.now());;
 
     @BeforeAll
     void setUp() {
@@ -44,7 +45,7 @@ class VoucherJdbcRepositoryTest extends ClassLevelTestConfig {
     @Test
     @Order(1)
     @DisplayName("FixedAmountVoucher 바우처를 추가할 수 있다.")
-    public void testFixedAmountVoucherInsert() throws IOException {
+    public void testFixedAmountVoucherInsert() {
         var fixedVoucherId = fixedAmountVoucher.getVoucherId();
 
         voucherJdbcRepository.insert(fixedAmountVoucher);

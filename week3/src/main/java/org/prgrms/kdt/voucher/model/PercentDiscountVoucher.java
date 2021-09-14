@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -10,13 +11,15 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
-    private UUID walletId;
     private final VoucherType voucherType;
+    private final LocalDateTime createdAt;
+    private UUID walletId;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent, VoucherType voucherType) {
+    public PercentDiscountVoucher(UUID voucherId, long percent, VoucherType voucherType, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherType = voucherType;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -34,6 +37,9 @@ public class PercentDiscountVoucher implements Voucher {
         return "PercentDiscountVoucher{" +
                 "voucherId=" + voucherId +
                 ", percent=" + percent +
+                ", voucherType=" + voucherType +
+                ", createdAt=" + createdAt +
+                ", walletId=" + walletId +
                 '}';
     }
 }

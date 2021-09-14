@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,7 +28,7 @@ class MemoryVoucherRepositoryTest {
     @BeforeAll
     static void setUp() {
         voucherRepository = new MemoryVoucherRepository();
-        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER);
+        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());
     }
 
     @Test

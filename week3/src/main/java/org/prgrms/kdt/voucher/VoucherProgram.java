@@ -10,6 +10,7 @@ import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -72,9 +73,10 @@ public class VoucherProgram {
     }
 
     private void checkDiscountType(UUID uuid, VoucherType voucherType, long amount) throws IOException {
+
         switch (voucherType) {
-            case FIXED_AMOUNT_VOUCHER -> voucherService.create(new FixedAmountVoucher(uuid, amount, voucherType));
-            case PERCENT_DISCOUNT_VOUCHER -> voucherService.create(new PercentDiscountVoucher(uuid, amount, voucherType));
+            case FIXED_AMOUNT_VOUCHER -> voucherService.create(new FixedAmountVoucher(uuid, amount, voucherType, LocalDateTime.now()));
+            case PERCENT_DISCOUNT_VOUCHER -> voucherService.create(new PercentDiscountVoucher(uuid, amount, voucherType, LocalDateTime.now()));
             default -> userInteraction.showInvalidTypeMessage();
         }
     }
