@@ -14,5 +14,5 @@ public interface Voucher {
     LocalDateTime getCreatedAt();
     LocalDateTime getExpiredAt();
 
-    void setExpiry();
+    void initExpiry();
 }

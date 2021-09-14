@@ -44,7 +44,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public void setExpiry() {
+    public void initExpiry() {
         expiredAt = LocalDateTime.now().withNano(0);
     }
 

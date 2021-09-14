@@ -22,10 +22,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -199,7 +196,7 @@ class NamedJdbcVoucherRepositoryTest {
     @Order(8)
     @DisplayName("바우처 기한을 만료시킬 수 있다.")
     void update() {
-        testUpdate.setExpiry();
+        testUpdate.initExpiry();
         var voucher = namedJdbcVoucherRepository.update(testUpdate);
         assertThat(testUpdate.getExpiredAt(),notNullValue());
     }
