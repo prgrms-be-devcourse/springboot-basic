@@ -55,7 +55,7 @@ public class FileVoucherRepository implements VoucherRepository {
         StringBuilder sb = new StringBuilder();
         for (Voucher voucher : findAll()) {
             sb.append(voucher.getVoucherId()).append(",")
-                    .append(voucher.getClass().getSimpleName()).append(",")
+                    .append(voucher.getVoucherType()).append(",")
                     .append(voucher.getAmount()).append("\n");
         }
 

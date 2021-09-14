@@ -93,7 +93,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, voucher_type, wallet_id) values(UUID_TO_BIN(?), ? , ?, UUID_TO_BIN(?))",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getAmount(),
-                voucher.getClass().getSimpleName(),
+                voucher.getVoucherType(),
                 walletId.toString().getBytes());
         return update;
     }
