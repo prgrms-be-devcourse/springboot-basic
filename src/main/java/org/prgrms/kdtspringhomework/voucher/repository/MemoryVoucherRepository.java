@@ -1,9 +1,11 @@
 package org.prgrms.kdtspringhomework.voucher.repository;
 
 import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final Map<UUID, Voucher> Vouchers = new HashMap<>();
@@ -20,7 +22,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher add(Voucher voucher) {
-        //Voucher 추가하기
         Vouchers.put(voucher.getVoucherId(), voucher);
         return voucher;
     }

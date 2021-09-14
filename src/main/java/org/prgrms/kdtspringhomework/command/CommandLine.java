@@ -24,7 +24,7 @@ public class CommandLine implements Runnable {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
 
         //프로그램 시작
-        while (selectMenu(voucherService)) ;
+        while (selectMenu(voucherService));
     }
 
     private boolean selectMenu(VoucherService voucherService) {

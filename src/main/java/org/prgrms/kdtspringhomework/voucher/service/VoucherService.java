@@ -2,10 +2,12 @@ package org.prgrms.kdtspringhomework.voucher.service;
 
 import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
 import org.prgrms.kdtspringhomework.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
