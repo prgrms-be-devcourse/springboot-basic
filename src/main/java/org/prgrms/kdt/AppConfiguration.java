@@ -1,14 +1,8 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.command.CommandLineApplication;
-import org.prgrms.kdt.command.io.Console;
-import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import org.prgrms.kdt.configuration.YamlPropertiesFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.*;
 
 /**
  * OrderContext는 주문에 대한 전반적인 도메인 객체에 대한 생성을 책임지고 있음.
@@ -24,13 +18,23 @@ import org.springframework.context.annotation.FilterType;
  * - Tombi의 스프링을 꼭 읽으세용 ㅋㅋ
  */
 
+/**
+ * Enviornment
+ * - Spring Application이 처한 상황 및 시공간을 등 환경을 말함.
+ * - 속성은 property 파일, jvm sys.pro, os env, spring.property, yaml
+ * -
+ */
 @Configuration
 @ComponentScan(basePackages = {
         "org.prgrms.kdt.order",
         "org.prgrms.kdt.voucher",
+        "org.prgrms.kdt.configuration",
         "org.prgrms.kdt.command",
         "org.prgrms.kdt.customer",
 })
+// 기본적으로 spring boot는 yaml 을 지원하는데, @PropertySource는 yaml을 지원하지 않습니다 ㅠㅠ 그래서 factory로 만들어서 줍시다
+@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class) // property를 적용
+@EnableConfigurationProperties // OrderProperties사용하
 public class AppConfiguration {
 }
 

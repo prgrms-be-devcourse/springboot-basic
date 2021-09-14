@@ -1,7 +1,6 @@
 package org.prgrms.kdt.command;
 
 import org.prgrms.kdt.command.controller.CommandController;
-import org.prgrms.kdt.command.domain.CommandType;
 import org.prgrms.kdt.command.io.Console;
 import org.prgrms.kdt.command.io.Input;
 import org.prgrms.kdt.command.io.Output;
@@ -32,8 +31,6 @@ public class CommandLineApplication implements Runnable {
 
     private boolean execute() {
         String inputCommandType = input.inputString(INPUT_PROMPT);
-
-        CommandType command = CommandType.findCommand(inputCommandType);
 
         return commandController.getCommandService(inputCommandType).execute();
     }

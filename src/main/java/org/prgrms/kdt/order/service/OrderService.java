@@ -30,7 +30,7 @@ public class OrderService {
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
         var voucher = voucherService.getVoucher(voucherId);
-        var order = new Order(UUID.randomUUID(), customerId, orderItems);
+        var order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
         orderRepository.insert(order);
         voucherService.useVoucher(voucher);
 
