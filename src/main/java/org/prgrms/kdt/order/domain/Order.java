@@ -24,6 +24,7 @@ public class Order {
         this.voucher = Optional.of(voucher);
     }
 
+    // voucher가 없을 때
     public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems) {
         this.orderId = orderId;
         this.customerId = customerId;
@@ -38,12 +39,7 @@ public class Order {
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    } // 다음 강의에서 사용
-
-    public void applyVoucher(Voucher voucher) {
-        this.voucher = Optional.of(voucher);
-    } // 다음 강의에서 사용
-
+    public UUID getOrderId() {
+        return orderId;
+    }
 }

@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher.repository;
 
+import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface VoucherRepository {
 
     List<Voucher> find();
 
-    void create(Voucher voucher);
+    Voucher insert(Voucher voucher);
 }

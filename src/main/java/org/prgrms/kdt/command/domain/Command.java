@@ -14,5 +14,5 @@ import org.prgrms.kdt.voucher.service.VoucherService;
  */
 @FunctionalInterface
 public interface Command {
-    boolean execute(Input input, Output output, VoucherService voucherService);
+    boolean execute();
 }

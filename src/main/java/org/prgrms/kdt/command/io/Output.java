@@ -1,5 +1,6 @@
 package org.prgrms.kdt.command.io;
 
+import org.prgrms.kdt.customer.domain.BannedCustomer;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 
@@ -15,6 +16,8 @@ public interface Output {
     void printRequestVoucherType();
 
     void printRequestVoucherValue(VoucherType type);
+
+    void printBlackList(List<BannedCustomer> blackList);
 
     void printInputError();
 }

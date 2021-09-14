@@ -1,25 +1,25 @@
 package org.prgrms.kdt.command;
 
+import org.prgrms.kdt.command.controller.CommandController;
+import org.prgrms.kdt.command.domain.CommandType;
 import org.prgrms.kdt.command.io.Console;
 import org.prgrms.kdt.command.io.Input;
 import org.prgrms.kdt.command.io.Output;
-import org.prgrms.kdt.voucher.service.VoucherService;
-import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CommandLineApplication implements Runnable {
 
     private static final String INPUT_PROMPT = "> ";
 
     private final Input input;
     private final Output output;
-    private final ApplicationContext applicationContext;
-    private final VoucherService voucherService;
+    private final CommandController commandController;
 
-    public CommandLineApplication(Console console, ApplicationContext applicationContext) {
+    public CommandLineApplication(Console console, CommandController commandController) {
         this.input = console;
         this.output = console;
-        this.applicationContext = applicationContext;
-        this.voucherService = this.applicationContext.getBean(VoucherService.class);
+        this.commandController = commandController;
     }
 
     @Override
@@ -35,6 +35,6 @@ public class CommandLineApplication implements Runnable {
 
         CommandType command = CommandType.findCommand(inputCommandType);
 
-        return command.execute(input, output, voucherService);
+        return commandController.getCommandService(inputCommandType).execute();
     }
 }

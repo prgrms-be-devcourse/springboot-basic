@@ -2,16 +2,13 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.command.CommandLineApplication;
 import org.prgrms.kdt.command.io.Console;
-import org.prgrms.kdt.order.domain.Order;
-import org.prgrms.kdt.order.repository.OrderRepository;
-import org.prgrms.kdt.order.service.OrderService;
-import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
-import org.prgrms.kdt.voucher.service.VoucherService;
+import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.context.annotation.FilterType;
 
 /**
  * OrderContext는 주문에 대한 전반적인 도메인 객체에 대한 생성을 책임지고 있음.
@@ -27,60 +24,13 @@ import org.springframework.context.annotation.Configuration;
  * - Tombi의 스프링을 꼭 읽으세용 ㅋㅋ
  */
 
-// Spring에게 Configuration Metadata라고 알려줘야함.
 @Configuration
+@ComponentScan(basePackages = {
+        "org.prgrms.kdt.order",
+        "org.prgrms.kdt.voucher",
+        "org.prgrms.kdt.command",
+        "org.prgrms.kdt.customer",
+})
 public class AppConfiguration {
-    // 각각의 Componenet를 맺는 method를 만들어 봅시다.
-
-    // Bean이라는 annotaion을 사용해서 bean을 정의합니다.
-    @Bean
-    public OrderService orderService(VoucherService voucherService, OrderRepository orderRepository) {
-        return new OrderService(voucherService, orderRepository);
-    }
-
-    @Bean
-    public VoucherService voucherService(VoucherRepository voucherRepository) {
-        return new VoucherService(voucherRepository);
-    }
-
-    @Bean
-    public OrderRepository orderRepository() {
-        return new OrderRepository() {
-            @Override
-            public void insert(Order order) {
-
-            }
-        };
-    }
-
-    @Bean
-    public VoucherRepository voucherRepository() {
-        return new VoucherMemoryRepository();
-        /** 나중 강의를 위해에 남겨둠
-         return new VoucherRepository() {
-
-        @Override public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
-        }
-
-        @Override public List<Voucher> find() {
-        return new ArrayList<>();
-        }
-
-        @Override public void create(Voucher voucher) {
-
-        }
-        };
-         */
-    }
-
-    @Bean
-    public Console console() {
-        return new Console();
-    }
-
-    @Bean
-    public CommandLineApplication commandLineApplication(Console console, ApplicationContext applicationContext) {
-        return new CommandLineApplication(console, applicationContext);
-    }
 }
+
