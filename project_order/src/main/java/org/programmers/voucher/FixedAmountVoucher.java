@@ -5,25 +5,25 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final long amount;
+    private final long discountValue;
     private final VoucherType voucherType = VoucherType.FIXED;
     private UUID ownerId;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
-        if (amount == 0) throw new IllegalArgumentException("Amount should not be zero ");
+    public FixedAmountVoucher(UUID voucherId, long discountValue) {
+        if (discountValue < 0) throw new IllegalArgumentException("Amount should be positive");
+        if (discountValue == 0) throw new IllegalArgumentException("Amount should not be zero ");
 
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.discountValue = discountValue;
         this.ownerId = null;
     }
 
-    public FixedAmountVoucher(UUID voucherId, long amount, UUID ownerId) {
-        if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
-        if (amount == 0) throw new IllegalArgumentException("Amount should not be zero ");
+    public FixedAmountVoucher(UUID voucherId, long discountValue, UUID ownerId) {
+        if (discountValue < 0) throw new IllegalArgumentException("Amount should be positive");
+        if (discountValue == 0) throw new IllegalArgumentException("Amount should not be zero ");
 
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.discountValue = discountValue;
         this.ownerId = ownerId;
     }
 
@@ -33,8 +33,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public Long getValue() {
-        return amount;
+    public Long getDiscountValue() {
+        return discountValue;
     }
 
     @Override
@@ -42,15 +42,20 @@ public class FixedAmountVoucher implements Voucher {
         return voucherType;
     }
 
+    @Override
+    public UUID getOwnerId() {
+        return ownerId;
+    }
+
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        return beforeDiscount - discountValue;
     }
 
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
                 "voucherId=" + voucherId +
-                ", amount=" + amount +
+                ", amount=" + discountValue +
                 '}';
     }
 

@@ -28,7 +28,7 @@ class VoucherServiceTest {
         // then
         assertThat(voucher.getClass().getSimpleName(), is(FixedAmountVoucher.class.getSimpleName()));
         assertThat(voucher.getVoucherId(), is(fixedAmountVoucher.getVoucherId()));
-        assertThat(voucher.getValue(), is(fixedAmountVoucher.getValue()));
+        assertThat(voucher.getDiscountValue(), is(fixedAmountVoucher.getDiscountValue()));
 
         verify(voucherFactoryMock).createVoucherByType(VoucherType.FIXED, fixedAmountVoucher.getVoucherId(), 100L);
     }
@@ -46,7 +46,7 @@ class VoucherServiceTest {
         // then
         assertThat(voucher.getClass().getSimpleName(), is(FixedAmountVoucher.class.getSimpleName()));
         assertThat(voucher.getVoucherId(), is(fixedAmountVoucher.getVoucherId()));
-        assertThat(voucher.getValue(), is(fixedAmountVoucher.getValue()));
+        assertThat(voucher.getDiscountValue(), is(fixedAmountVoucher.getDiscountValue()));
 
         verify(voucherRepositoryMock).findById(fixedAmountVoucher.getVoucherId());
     }

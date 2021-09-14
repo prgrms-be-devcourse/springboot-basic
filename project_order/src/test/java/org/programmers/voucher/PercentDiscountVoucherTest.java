@@ -25,7 +25,7 @@ class PercentDiscountVoucherTest {
         long discountedAmount = percentDiscountVoucher.discount(100L);
 
         // then
-        log.info("percent -> {}", percentDiscountVoucher.getValue());
+        log.info("percent -> {}", percentDiscountVoucher.getDiscountValue());
         assertThat(discountedAmount, is(80L));
     }
 
