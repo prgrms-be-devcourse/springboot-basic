@@ -68,18 +68,4 @@ class VoucherApiControllerTest {
         mockMvc.perform(requestBuilder).andExpect(status().isOk()).andDo(print());
         verify(voucherJdbcService).findAllVouchers();
     }
-
-
-    @Test
-    public void createVouchersTest() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/voucher")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(new CreateVoucherRequest(VoucherType.FIXED, 22))))
-                .andExpect(status().isOk())
-                .andDo(print());
-
-    }
-
 }
