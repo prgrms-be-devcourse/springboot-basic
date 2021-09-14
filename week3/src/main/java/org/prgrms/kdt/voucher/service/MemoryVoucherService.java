@@ -17,12 +17,12 @@ public class MemoryVoucherService implements VoucherService {
     }
 
     @Override
-    public void create(Voucher voucher) throws IOException {
+    public void create(Voucher voucher)  {
         voucherRepository.insert(voucher);
     }
 
     @Override
-    public List<Voucher> list() throws IOException {
+    public List<Voucher> list()  {
          return voucherRepository.findAll();
     }
 }

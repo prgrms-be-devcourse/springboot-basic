@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface VoucherService {
 
-    void create(Voucher voucher) throws IOException;
+    void create(Voucher voucher);
 
-    List<Voucher> list() throws IOException;
+    List<Voucher> list();
 }
