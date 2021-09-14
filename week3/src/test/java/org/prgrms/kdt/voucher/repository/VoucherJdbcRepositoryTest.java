@@ -5,6 +5,7 @@ import org.prgrms.kdt.ClassLevelTestConfig;
 import org.prgrms.kdt.JdbcTemplateConfig;
 import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -31,9 +32,9 @@ class VoucherJdbcRepositoryTest extends ClassLevelTestConfig {
     @Autowired
     DataSource dataSource;
 
-    FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);;
+    FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER);;
 
-    PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);;
+    PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L, VoucherType.PERCENT_DISCOUNT_VOUCHER);;
 
     @BeforeAll
     void setUp() {

@@ -4,12 +4,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -26,7 +25,7 @@ class FileVoucherRepositoryTest {
     @BeforeAll
     static void setUp() {
         voucherRepository = new FileVoucherRepository();
-        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER);
     }
 
     @Test

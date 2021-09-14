@@ -3,8 +3,8 @@ package org.prgrms.kdt.voucher.repository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -27,7 +27,7 @@ class MemoryVoucherRepositoryTest {
     @BeforeAll
     static void setUp() {
         voucherRepository = new MemoryVoucherRepository();
-        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER);
     }
 
     @Test
