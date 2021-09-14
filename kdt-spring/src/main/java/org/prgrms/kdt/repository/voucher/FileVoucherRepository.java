@@ -1,6 +1,7 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.domain.voucher.VoucherSearch;
 import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.factory.VoucherFactory;
 import org.prgrms.kdt.io.IO;
@@ -73,6 +74,11 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         io.reset();
         return list;
+    }
+
+    @Override
+    public List<Voucher> findAll(VoucherSearch search) {
+        return null;
     }
 
 

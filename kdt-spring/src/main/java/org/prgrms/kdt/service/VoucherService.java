@@ -1,6 +1,7 @@
 package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.domain.voucher.VoucherSearch;
 import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.factory.VoucherFactory;
 import org.prgrms.kdt.repository.voucher.VoucherRepository;
@@ -68,4 +69,11 @@ public class VoucherService {
     public void deleteAll() {
         voucherRepository.deleteAll();
     }
+
+    public List<Voucher> search(VoucherSearch search) {
+        List<Voucher> vouchers = voucherRepository.findAll(search);
+        logger.info(String.format("search: %s, %s", search.getVoucherType(), search.getCreatedAt()));
+        return vouchers;
+    }
 }
+

@@ -1,6 +1,7 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.domain.voucher.VoucherSearch;
 import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.factory.VoucherFactory;
 import org.springframework.context.annotation.Primary;
@@ -15,6 +16,7 @@ import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -87,6 +89,26 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAll(VoucherSearch search) {
+        StringBuilder searchQuery = new StringBuilder("SELECT * FROM vouchers WHERE 1=1");
+        List queryArgs = new ArrayList<>();
+
+        if (search.getVoucherType() != null) {
+            searchQuery.append(" AND type = ?");
+            queryArgs.add(search.getVoucherType().toString());
+        }
+
+        if (search.getCreatedAt() != null) {
+            searchQuery.append(" AND DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT(?, '%Y-%m-%d')");
+            queryArgs.add(Timestamp.valueOf(search.getCreatedAt()));
+        }
+
+
+
+        return jdbcTemplate.query(searchQuery.toString(), voucherRowMapper, mapToArray(queryArgs));
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
 
         Assert.notNull(voucherId, "Voucher id should not be null");
@@ -133,6 +155,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
+
     private UUID mapToUUID(byte[] bytes) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
@@ -148,6 +171,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         if (found.isPresent()) {
             throw new RuntimeException(MessageFormat.format("Voucher is already existed: type = {0}, value = {1}", voucher.getType().toString(), voucher.getValue()));
         }
+    }
+
+    private Object[] mapToArray(List queryArgs) {
+        return queryArgs.toArray(new Object[queryArgs.size()]);
     }
 
 }

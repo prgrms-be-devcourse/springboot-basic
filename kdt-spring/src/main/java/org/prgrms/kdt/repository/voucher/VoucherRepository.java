@@ -1,6 +1,7 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.domain.voucher.VoucherSearch;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,8 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
+    List<Voucher> findAll(VoucherSearch search);
+
     Voucher insert(Voucher voucher);
 
     Voucher update(Voucher voucher);
@@ -22,4 +25,5 @@ public interface VoucherRepository {
     void deleteById(UUID voucherId);
 
     void deleteAll();
+
 }
