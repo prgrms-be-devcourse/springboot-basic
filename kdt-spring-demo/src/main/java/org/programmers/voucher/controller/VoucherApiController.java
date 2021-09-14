@@ -54,7 +54,6 @@ public class VoucherApiController {
     }
 
     @DeleteMapping("/api/voucher/{voucherId}")
-    @ResponseBody
     public ResponseEntity<VoucherBase> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherJdbcService.deleteByVoucherId(voucherId);
 
