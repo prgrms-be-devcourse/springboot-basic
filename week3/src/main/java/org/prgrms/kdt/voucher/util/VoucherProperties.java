@@ -24,8 +24,5 @@ public class VoucherProperties implements InitializingBean {
     private List<String> description;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        logger.debug("[VoucherProperties] version -> {}", version);
-        logger.debug("[VoucherProperties] minimumOrderAmount -> {}", description);
-    }
+    public void afterPropertiesSet() throws Exception {}
 }
