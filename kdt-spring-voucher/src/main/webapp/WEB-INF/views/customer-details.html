@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="views/fragments/header :: header">
+</head>
+<body>
+    <div class="container" >
+        <div>
+            <div class="text-center mt-5">
+                <a class="btn" th:href="@{/main}"><h1>바우처 관리 시스템</h1></a>
+            </div>
+        </div>
+        <div class="align_left" th:object="${customer}">
+            <form th:action="@{'/customers/'+*{customerId}+'/edit'}" method="post"> <!-- id -->
+                <div class="form-group">
+                    <label th:for="name">이름</label>
+                    <input type="text" th:field="*{name}" name="name" class="form-control" placeholder="이름을 입력하세요" />
+                </div>
+                <div class="form-group">
+                    <label th:for="email">이메일</label>
+                    <input type="email" th:field="*{email}" name="email" class="form-control" placeholder="이메일을 입력하세요" />
+                </div>
+                <div class="form-group">
+                    <label th:for="createdAt">생성 날짜</label>
+                    <input type="text" th:field="*{createdAt}" name="createdAt" class="form-control"
+                           readonly /> </div>
+                <button type="submit" class="btn btn-primary">수정</button>
+            </form>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                    삭제
+                </button>
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">삭제 확인 메세지</h5>
+                            </div>
+                            <div class="modal-body">
+                                <p>정말로 삭제하시겠습니까??</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                <form th:action="@{'/customers/'+*{customerId}+'/remove'}" method="post">
+                                    <button type="submit"  class="btn btn-danger">삭제</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

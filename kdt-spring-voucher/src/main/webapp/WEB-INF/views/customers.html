@@ -28,13 +28,13 @@
             </thead>
             <tbody>
             <tr th:each="customer : ${customers}" th:object="${customer}">
-                <td th:text="${customer.customerId}"></td>
+                <td class="col-md-8" th:text="${customer.customerId}"></td>
                 <td th:text="*{name}"></td>
                 <td th:text="*{email}"></td>
                 <td th:text="*{createdAt}"></td>
                 <td th:text="*{lastLoginAt}"></td>
-                <td>
-                    <a class="btn btn-outline-info" th:href="@{'/customers/'+*{customerId}}">수정</a>
+                <td class="col-md-2">
+                    <a class="btn btn-outline-info" th:href="@{'/customers/'+*{customerId}+'/edit'}">수정</a>
                 </td>
             </tr>
             </tbody>

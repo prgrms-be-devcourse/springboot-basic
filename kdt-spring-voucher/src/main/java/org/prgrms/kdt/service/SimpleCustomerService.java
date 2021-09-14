@@ -15,9 +15,9 @@ import java.util.UUID;
 @Service
 public class SimpleCustomerService implements CustomerService{
 
-    private final CustomerJdbcRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-    public SimpleCustomerService(CustomerJdbcRepository customerRepository) {
+    public SimpleCustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 

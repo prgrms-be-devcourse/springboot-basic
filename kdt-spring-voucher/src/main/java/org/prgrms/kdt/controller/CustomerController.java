@@ -1,6 +1,7 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.domain.CreateCustomerRequest;
+import org.prgrms.kdt.domain.CustomerDto;
 import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.service.CustomerService;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class CustomerController {
     }
 
 
-    @GetMapping("/customers/{customerId}")
+    @GetMapping("/customers/{customerId}/edit")
     public String findCustomer(@PathVariable("customerId") UUID customerId, Model model) {
         Optional<CustomerEntity> maybeCustomer = customerService.getCustomer(customerId);
         if (maybeCustomer.isPresent()) {
@@ -51,6 +52,24 @@ public class CustomerController {
         } else {
             return "views/404";
         }
+    }
+
+    @PostMapping("/customers/{customerId}/remove}")
+    public String deleteCustomer(@PathVariable("customerId") UUID customerId){
+        logger.info("삭제할 customerid : {}",customerId);
+        System.out.println("삭제할 customerid : "+customerId);
+        customerService.deleteCustomer(customerId);
+        return "views/customers";
+    }
+
+    @PostMapping("/customers/{customerId}/edit")
+    public String editCustomer(@PathVariable("customerId") UUID customerId, CreateCustomerRequest createCustomerRequest){
+        CustomerDto updateCustomer = CustomerDto.builder().customerId(customerId)
+                .name(createCustomerRequest.getName())
+                .email(createCustomerRequest.getEmail())
+                .build();
+        customerService.updateCustomer(updateCustomer);
+        return "redirect:/customers";
     }
 
     @GetMapping("/customers/new")

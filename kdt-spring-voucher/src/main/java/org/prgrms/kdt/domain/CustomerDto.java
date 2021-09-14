@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Builder
@@ -40,6 +41,12 @@ public class CustomerDto {
         return createdAt;
     }
 
+    public CustomerDto(String name, String email, LocalDateTime createdAt) {
+        this.name = name;
+        this.email = email;
+        this.createdAt = createdAt;
+    }
+
     public CustomerDto(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
@@ -55,13 +62,12 @@ public class CustomerDto {
         this.createdAt = createdAt;
     }
 
-    public static CustomerEntity to(CustomerDto dto){
-        return new CustomerEntity(dto.customerId,
+    public Optional<CustomerEntity> toEntity(CustomerDto dto){
+        var customerEntity = new CustomerEntity(dto.customerId,
                 dto.name,
                 dto.email,
                 dto.lastLoginAt,
                 dto.createdAt);
+        return Optional.of(customerEntity);
     }
-
-
 }

@@ -29,9 +29,10 @@ public class CustomerRestController {
     }
 
     @PostMapping("/{customerId}")
-    public CustomerEntity saveCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDto customer) {
-        logger.info("Got customer save request {}", customer);
-        return CustomerDto.to(customer);
+    public CustomerEntity saveCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDto customerDto) {
+        logger.info("Got customer save request {}", customerDto);
+        var customer = customerDto.toEntity(customerDto);
+        return customer.get();
     }
 
     @DeleteMapping("/{customerId}")
