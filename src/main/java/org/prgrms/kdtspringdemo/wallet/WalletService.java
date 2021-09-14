@@ -2,7 +2,6 @@ package org.prgrms.kdtspringdemo.wallet;
 
 import org.prgrms.kdtspringdemo.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

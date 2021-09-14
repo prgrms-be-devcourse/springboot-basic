@@ -1,7 +1,5 @@
 package org.prgrms.kdtspringdemo.wallet.repository;
 
-import org.prgrms.kdtspringdemo.VoucherType;
-import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.wallet.Wallet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,10 +15,6 @@ import java.util.*;
 @Repository
 public class JdbcWalletRepository implements WalletRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    private final String VERSION_8_0_UUID = "UUID_TO_BIN(:customerId)";
-    private final String VERSION_5_7_UUID = "UNHEX(REPLACE(:customerId, '-', ''))";
-    private final String CURRENT_UUID = VERSION_5_7_UUID;
 
     private String getVersion57UUID(String value) {
         return "UNHEX(REPLACE(:" + value + ", '-', ''))";
