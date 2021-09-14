@@ -1,6 +1,5 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 
 import java.util.List;

@@ -3,9 +3,7 @@ package org.prgrms.kdt.customer.repository;
 import org.prgrms.kdt.customer.domain.BannedCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -16,13 +14,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 enum BannedCustomerIndex {
-    BANNED_UUID (0), EMAIL (1), NAME (2), DESCRIPTION (3);
+    BANNED_UUID(0), EMAIL(1), NAME(2), DESCRIPTION(3);
+
+    private final int index;
 
     BannedCustomerIndex(int index) {
         this.index = index;
     }
-
-    private final int index;
 
     public int getIndex() {
         return index;

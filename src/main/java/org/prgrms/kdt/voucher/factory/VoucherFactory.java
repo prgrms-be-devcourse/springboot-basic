@@ -1,6 +1,5 @@
 package org.prgrms.kdt.voucher.factory;
 
-import org.prgrms.kdt.command.domain.CommandType;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;

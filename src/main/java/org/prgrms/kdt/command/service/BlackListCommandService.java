@@ -1,11 +1,9 @@
 package org.prgrms.kdt.command.service;
 
 import org.prgrms.kdt.command.domain.Command;
-import org.prgrms.kdt.command.io.Console;
 import org.prgrms.kdt.command.io.Output;
 import org.prgrms.kdt.customer.domain.BannedCustomer;
 import org.prgrms.kdt.customer.service.CustomerService;
-import org.prgrms.kdt.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
