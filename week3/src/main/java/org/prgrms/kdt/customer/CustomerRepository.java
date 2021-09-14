@@ -9,8 +9,6 @@ public interface CustomerRepository {
 
     Customer update(Customer customer);
 
-    int count();
-
     List<Customer> findAll();
 
     Optional<Customer> findById(UUID customerID);
@@ -20,4 +18,6 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
 
     void deleteAll();
+
+    List<Customer> findCustomersByWalletIds(List<byte[]> vouchers);
 }

@@ -9,3 +9,9 @@ spring:
     default: local
 
 ---
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/order_mgmt
+    username: root
+    password: 1234

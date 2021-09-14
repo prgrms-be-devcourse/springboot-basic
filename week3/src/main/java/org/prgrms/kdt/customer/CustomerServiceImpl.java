@@ -3,7 +3,10 @@ package org.prgrms.kdt.customer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -14,10 +17,26 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    //트랜잭션 어노테이션을 사용하려면??
     @Override
     @Transactional
     public void createCustomers(List<Customer> customers) {
         customers.forEach(customerRepository::insert);
+    }
+
+
+    @Override
+    public List<Customer> getAllCustomer() {
+        return customerRepository.findAll();
+    }
+
+    @Override
+    public Optional<Customer> getCustomer(UUID customerId) {
+        return customerRepository.findById(customerId);
+    }
+
+    @Override
+    public Customer createCustomer(String email, String name) {
+        var customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
+        return customerRepository.insert(customer);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,11 +54,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
             logger.error("Got empty result", e);
             return Optional.empty();
         }
-    }
-
-    @Override
-    public int count() {
-        return jdbcTemplate.queryForObject("select count(*) from customers", Integer.class);
     }
 
     @Override
@@ -119,6 +115,17 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers");
+    }
+
+    @Override
+    public List<Customer> findCustomersByWalletIds(List<byte[]> wallets) {
+        String sql = String.join(",", Collections.nCopies(wallets.size(), "?"));
+
+        return jdbcTemplate.query(
+                String.format("SELECT * FROM customers WHERE wallet_id in(%s)", sql),
+                customerRowMapper,
+                wallets.toArray()
+        );
     }
 
 }
