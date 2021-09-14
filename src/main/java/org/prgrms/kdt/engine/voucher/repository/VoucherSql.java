@@ -10,7 +10,8 @@ public enum VoucherSql {
     DELETE_CUSTOMER_VOUCHER("DELETE FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)"),
     SELECT_CUSTOMERID_BY_VOUCHERID("SELECT customer_id FROM vouchers WHERE voucher_id = :voucherId"),
     DELETE_VOUCHER("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)"),
-    SELECT_VOUCHERS_BY_TYPE("SELECT * FROM vouchers where type = :type");
+    SELECT_VOUCHERS_BY_TYPE("SELECT * FROM vouchers where type = :type"),
+    SELECT_VOUCHERS_BY_CREATED_DATE("SELECT * FROM vouchers WHERE created_at >= :createdDate AND created_at < DATE_ADD(:createdDate, interval 1 day)");
 
     private final String sql;
 

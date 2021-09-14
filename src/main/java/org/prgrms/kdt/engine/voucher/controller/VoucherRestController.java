@@ -4,10 +4,13 @@ import org.prgrms.kdt.engine.voucher.VoucherType;
 import org.prgrms.kdt.engine.voucher.domain.Voucher;
 import org.prgrms.kdt.engine.voucher.dto.VoucherDto;
 import org.prgrms.kdt.engine.voucher.service.VoucherService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -62,6 +65,18 @@ public class VoucherRestController {
         if (vouchers.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No voucher of type " + type + " found");
 
+        return vouchers;
+    }
+
+    @GetMapping("/api/v1/vouchers/created-date/{createdDate}")
+    public List<Voucher> getVouchersByCreatedDate(
+        @PathVariable("createdDate")
+        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate) {
+
+        var vouchers = voucherService.getVoucherByCreatedDate(createdDate);
+
+        if (vouchers.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No voucher created on " + createdDate + " found");
         return vouchers;
     }
 }

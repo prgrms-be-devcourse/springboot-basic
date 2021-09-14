@@ -3,6 +3,7 @@ package org.prgrms.kdt.engine.voucher.repository;
 import org.prgrms.kdt.engine.voucher.VoucherType;
 import org.prgrms.kdt.engine.voucher.domain.Voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,4 +19,5 @@ public interface VoucherRepository {
     void deleteVoucher(UUID voucherId);
     Optional<UUID> findCustomerByVoucher(UUID voucherId);
     List<Voucher> findByType(VoucherType type);
+    List<Voucher> findByCreatedDate(LocalDateTime createdDate);
 }

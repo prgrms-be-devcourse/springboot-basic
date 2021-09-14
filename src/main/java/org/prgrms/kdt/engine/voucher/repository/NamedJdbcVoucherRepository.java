@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.xml.crypto.Data;
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -119,6 +120,19 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
             return jdbcTemplate.query(
                 VoucherSql.SELECT_VOUCHERS_BY_TYPE.getSql(),
                 Collections.singletonMap("type", type.toString()),
+                voucherRowMapper);
+        } catch (DataAccessException e) {
+            logger.error("Got Data Access Error", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Voucher> findByCreatedDate(LocalDateTime createdDate) {
+        try {
+            return jdbcTemplate.query(
+                VoucherSql.SELECT_VOUCHERS_BY_CREATED_DATE.getSql(),
+                Collections.singletonMap("createdDate", createdDate),
                 voucherRowMapper);
         } catch (DataAccessException e) {
             logger.error("Got Data Access Error", e);

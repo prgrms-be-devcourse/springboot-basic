@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -73,6 +74,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByType(VoucherType type) {
+        // 미구현
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Voucher> findByCreatedDate(LocalDateTime createdDate) {
         // 미구현
         return Collections.emptyList();
     }

@@ -8,6 +8,8 @@ import org.prgrms.kdt.engine.voucher.repository.VoucherRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -79,5 +81,9 @@ public class VoucherService {
 
     public List<Voucher> getVoucherByType(VoucherType type) {
         return voucherRepository.findByType(type);
+    }
+
+    public List<Voucher> getVoucherByCreatedDate(LocalDate createdDate) {
+        return voucherRepository.findByCreatedDate(createdDate.atStartOfDay());
     }
 }

@@ -5,6 +5,7 @@ import org.prgrms.kdt.engine.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -58,6 +59,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByType(VoucherType type) {
+        // 미구현
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Voucher> findByCreatedDate(LocalDateTime createdDate) {
         // 미구현
         return Collections.emptyList();
     }
