@@ -8,4 +8,4 @@
     </root>
 
     <logger name="org.springframework" level="warn"/>
-</configuration> 
+</configuration>

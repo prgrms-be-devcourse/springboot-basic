@@ -3,6 +3,8 @@ package org.prgrms.kdt.command.io;
 import org.prgrms.kdt.customer.domain.BannedCustomer;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
