@@ -33,15 +33,16 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.sql.DataSource;
 
+//@ComponentScan(basePackages = { "org.prgrms.kdt.controller","org.prgrms.kdt.domain"
+//        ,"org.prgrms.kdt.service","org.prgrms.kdt.jdbcRepository" ,"org.prgrms.kdt.config"},
+//        includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {SimpleCustomerService.class,
+//                CustomerJdbcRepository.class, CustomerController.class, AppConfiguration.class
+//        })
+//        , useDefaultFilters = false
+//)
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "org.prgrms.kdt.controller","org.prgrms.kdt.domain"
-        ,"org.prgrms.kdt.service","org.prgrms.kdt.jdbcRepository" ,"org.prgrms.kdt.config"},
-        includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {SimpleCustomerService.class,
-                CustomerJdbcRepository.class, CustomerController.class, AppConfiguration.class
-        })
-        , useDefaultFilters = false
-)
+@ComponentScan
 public class ServletConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
     ApplicationContext applicationContext;

@@ -1,6 +1,8 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.CommandLineApplication;
+import org.prgrms.kdt.domain.CreateCustomerRequest;
+import org.prgrms.kdt.domain.CreateVoucherRequest;
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.domain.VoucherEntity;
 import org.prgrms.kdt.enumType.InputStatus;
@@ -13,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,6 +37,24 @@ public class VoucherController {
         this.applicationContext = applicationContext;
     }
 
+    @GetMapping("/vouchers")
+    public String viewVouchersPage(Model model) {
+        List<VoucherEntity> allVouchers = voucherService.findAll();
+        model.addAttribute("vouchers", allVouchers);
+        return "views/vouchers";
+    }
+
+    @GetMapping("/vouchers/new")
+    public String viewNewCustomerPage() {
+        return "views/items/voucherForm";
+    }
+
+    @PostMapping("/vouchers/new")
+    public String addNewCustomer(CreateVoucherRequest createVoucherRequest) {
+        voucherService.createVoucher(createVoucherRequest);
+        return "redirect:/vouchers";
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     public void run() {
@@ -46,7 +69,7 @@ public class VoucherController {
                 switch (type) {
                     case CREATE:
                         var typeValue = getVoucherStatus(ioConsole);
-                        var voucherEntity = voucherService.createVoucher(typeValue);
+                        var voucherEntity = voucherService.commandCreateVoucher(typeValue);
                         break;
                     case LIST:
                         ioConsole.message("지금까지 생성한 바우처를 출력합니다.");

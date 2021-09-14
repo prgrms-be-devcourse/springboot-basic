@@ -2,6 +2,7 @@ package org.prgrms.kdt.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import org.prgrms.kdt.domain.CreateVoucherRequest;
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.domain.VoucherEntity;
 import org.prgrms.kdt.enumType.VoucherStatus;
@@ -27,17 +28,16 @@ public class VoucherService {
     @Autowired
     private VoucherFactory voucherFactory;
 
-    public VoucherEntity createVoucher(int voucherStatus) {
-        var voucherType = voucherStatus == 1 ? VoucherStatus.FIXED : VoucherStatus.PERCENT;
-        var v = voucherFactory.getDiscounterVoucher(voucherType);
+
+    public VoucherEntity createVoucher(CreateVoucherRequest createVoucherRequest){
+        var voucherType = VoucherStatus.valueOf(createVoucherRequest.getVoucherType());
+        var discount = Long.parseLong(createVoucherRequest.getDiscount());
         var voucherEntity = VoucherEntity.builder()
-                .voucherId(v.getVoucherId())
+                .voucherId(UUID.randomUUID())
                 .voucherType(voucherType)
-                .discount(v.discountCoupon())
                 .createdAt(LocalDateTime.now())
-                .build();
-        voucherRepository.insert(voucherEntity);
-        return voucherEntity;
+                .discount(discount).build();
+        return voucherRepository.insert(voucherEntity);
     }
 
     public List<VoucherEntity> findAll() {
@@ -50,6 +50,19 @@ public class VoucherService {
 
     public void removeAll() {
         voucherRepository.deleteAll();
+    }
+
+    public VoucherEntity commandCreateVoucher(int voucherStatus) {
+        var voucherType = voucherStatus == 1 ? VoucherStatus.FIXED : VoucherStatus.PERCENT;
+        var v = voucherFactory.getDiscounterVoucher(voucherType);
+        var voucherEntity = VoucherEntity.builder()
+                .voucherId(v.getVoucherId())
+                .voucherType(voucherType)
+                .discount(v.discountCoupon())
+                .createdAt(LocalDateTime.now())
+                .build();
+        voucherRepository.insert(voucherEntity);
+        return voucherEntity;
     }
 
     //

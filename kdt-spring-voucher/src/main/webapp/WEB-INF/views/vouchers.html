@@ -10,31 +10,29 @@
     </div>
     <div class="container" >
         <br/>
-        <h2>Customer 목록</h2>
+        <h2>Voucher 목록</h2>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a th:href="@{/customers/new}" class="btn btn-primary me-md-2" type="button">Customer 생성</a>
+            <a th:href="@{/vouchers/new}" class="btn btn-primary me-md-2" type="button">Voucher 생성</a>
         </div>
         <br/>
         <table class="table table-striped table-hover">
             <thead>
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
+                <th scope="col">VoucherType</th>
+                <th scope="col">Discount</th>
                 <th scope="col">CreatedAt</th>
-                <th scope="col">LastLoginAt</th>
-                <th scope="col">edit</th>
+                <th scope="col">delete</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="customer : ${customers}" th:object="${customer}">
-                <td th:text="${customer.customerId}"></td>
-                <td th:text="*{name}"></td>
-                <td th:text="*{email}"></td>
+            <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
+                <td th:text="*{voucherId}"></td>
+                <td th:text="*{voucherType}"></td>
+                <td th:text="*{discount}"></td>
                 <td th:text="*{createdAt}"></td>
-                <td th:text="*{lastLoginAt}"></td>
                 <td>
-                    <a class="btn btn-outline-info" th:href="@{'/customers/'+*{customerId}}">수정</a>
+                    <a class="btn btn-outline-danger" th:href="@{'/vouchers/'+*{voucherId}}">삭제</a>
                 </td>
             </tr>
             </tbody>
