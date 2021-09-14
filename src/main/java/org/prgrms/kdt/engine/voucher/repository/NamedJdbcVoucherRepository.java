@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.xml.crypto.Data;
 import java.nio.ByteBuffer;
 import java.util.*;
 
@@ -108,6 +109,19 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
         } catch (DataAccessException e) {
             logger.error("Got Data Access Error", e);
             return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        try {
+            return jdbcTemplate.query(
+                VoucherSql.SELECT_VOUCHERS_BY_TYPE.getSql(),
+                Collections.singletonMap("type", type.toString()),
+                voucherRowMapper);
+        } catch (DataAccessException e) {
+            logger.error("Got Data Access Error", e);
+            return Collections.emptyList();
         }
     }
 

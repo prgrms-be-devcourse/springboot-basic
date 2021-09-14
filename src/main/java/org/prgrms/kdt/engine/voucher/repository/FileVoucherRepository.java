@@ -11,10 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.AbstractMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -72,6 +69,12 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<UUID> findCustomerByVoucher(UUID voucherId) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        // 미구현
+        return Collections.emptyList();
     }
 
     private Map.Entry<UUID, Voucher> deserializeVoucher(String filename) {

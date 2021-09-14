@@ -1,12 +1,11 @@
 package org.prgrms.kdt.engine.voucher.repository;
 
+import org.prgrms.kdt.engine.voucher.VoucherType;
 import org.prgrms.kdt.engine.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -55,6 +54,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Optional<UUID> findCustomerByVoucher(UUID voucherId) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        // 미구현
+        return Collections.emptyList();
     }
 
     public void deleteAll() { storage.clear(); };

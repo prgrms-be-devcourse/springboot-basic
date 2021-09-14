@@ -8,10 +8,7 @@ import org.prgrms.kdt.engine.voucher.repository.VoucherRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class VoucherService {
@@ -78,5 +75,9 @@ public class VoucherService {
 
     public void deleteVoucher(UUID voucherId) {
         voucherRepository.deleteVoucher(voucherId);
+    }
+
+    public List<Voucher> getVoucherByType(VoucherType type) {
+        return voucherRepository.findByType(type);
     }
 }

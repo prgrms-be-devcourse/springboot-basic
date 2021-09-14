@@ -9,7 +9,8 @@ public enum VoucherSql {
     SELECT_CUSTOMER_VOUCHERS("SELECT * FROM vouchers where customer_id = UUID_TO_BIN(:customerId)"),
     DELETE_CUSTOMER_VOUCHER("DELETE FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)"),
     SELECT_CUSTOMERID_BY_VOUCHERID("SELECT customer_id FROM vouchers WHERE voucher_id = :voucherId"),
-    DELETE_VOUCHER("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)");
+    DELETE_VOUCHER("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)"),
+    SELECT_VOUCHERS_BY_TYPE("SELECT * FROM vouchers where type = :type");
 
     private final String sql;
 

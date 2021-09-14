@@ -1,5 +1,6 @@
 package org.prgrms.kdt.engine.voucher.controller;
 
+import org.prgrms.kdt.engine.voucher.VoucherType;
 import org.prgrms.kdt.engine.voucher.domain.Voucher;
 import org.prgrms.kdt.engine.voucher.dto.VoucherDto;
 import org.prgrms.kdt.engine.voucher.service.VoucherService;
@@ -7,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 public class VoucherRestController {
@@ -20,7 +19,7 @@ public class VoucherRestController {
     }
 
     @GetMapping("/api/v1/vouchers")
-    public Map<UUID, Voucher> listVouchers() {
+    public Map<UUID, Voucher> getVouchers() {
         var allVouchers = voucherService.listVoucher();
         if (allVouchers.isEmpty())
             return Map.of();
@@ -51,5 +50,18 @@ public class VoucherRestController {
 
         voucherService.deleteVoucher(voucherId);
         return "deleted voucher " + voucherId;
+    }
+
+    @GetMapping("/api/v1/vouchers/type/{type}")
+    public List<Voucher> getVouchersByType(@PathVariable("type") String type) {
+        if (!VoucherType.has(type))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid type " + type);
+
+        var vouchers = voucherService.getVoucherByType(VoucherType.valueOf(type.toUpperCase()));
+
+        if (vouchers.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No voucher of type " + type + " found");
+
+        return vouchers;
     }
 }
