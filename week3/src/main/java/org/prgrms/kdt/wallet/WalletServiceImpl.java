@@ -3,8 +3,8 @@ package org.prgrms.kdt.wallet;
 import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.customer.CustomerRepository;
 import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.repository.VoucherJdbcRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,14 +16,17 @@ import java.util.stream.Collectors;
 @Service
 public class WalletServiceImpl implements WalletService{
 
-    @Autowired
-    private WalletRepository walletRepository;
+    private final WalletRepository walletRepository;
 
-    @Autowired
-    private VoucherJdbcRepository voucherRepository;
+    private final VoucherJdbcRepository voucherRepository;
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+
+    public WalletServiceImpl(WalletRepository walletRepository, VoucherJdbcRepository voucherRepository, CustomerRepository customerRepository) {
+        this.walletRepository = walletRepository;
+        this.voucherRepository = voucherRepository;
+        this.customerRepository = customerRepository;
+    }
 
     @Override
     public int insert(UUID walletId, Voucher voucher) {
@@ -52,7 +55,7 @@ public class WalletServiceImpl implements WalletService{
     }
 
     @Override
-    public List<Customer> findByVoucher(String voucherType) {
+    public List<Customer> findByVoucher(VoucherType voucherType) {
         List<Customer> retValue = new ArrayList<>();
 
         var vouchers = voucherRepository.findByVoucherType(voucherType);
