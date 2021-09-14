@@ -1,6 +1,7 @@
 package org.prgrms.kdt.engine.voucher.controller;
 
 import org.prgrms.kdt.engine.voucher.domain.Voucher;
+import org.prgrms.kdt.engine.voucher.dto.VoucherDto;
 import org.prgrms.kdt.engine.voucher.service.VoucherService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,5 +22,10 @@ public class VoucherRestController {
         if (allVouchers.isEmpty())
             return Map.of();
         return allVouchers.get();
+    }
+
+    @PostMapping("/api/v1/vouchers")
+    public Voucher createVoucher(@RequestBody VoucherDto voucherDto) {
+        return voucherService.createVoucher(voucherDto.getType(), voucherDto.getRate());
     }
 }
