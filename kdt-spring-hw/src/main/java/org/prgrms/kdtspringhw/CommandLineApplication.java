@@ -31,9 +31,8 @@ public class CommandLineApplication implements CommandLineRunner {
     public void CommandLineApplicationRun() throws IOException {
         AnnotationConfigApplicationContext a;
         printHome();
-        //switch , 2중 if 문은 메소드화 (깊이가 깊어지면 가독성이 안좋아짐) , command -> enum화
+
         while (true) {
-            //String command = "";
             bw.write("명령어를 입력해주세요. \n");bw.flush();
             Command command = Command.getCommandType(br.readLine());
             switch (command) {
@@ -74,7 +73,6 @@ public class CommandLineApplication implements CommandLineRunner {
             }
         }
     }
-
 
     private void printHome() throws IOException {
         bw.write("=== Voucher Program ===\n" +

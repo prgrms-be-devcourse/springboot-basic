@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -27,7 +26,6 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    // enum으로 -> 별도로 사용하지 않으면 VOID fh qkRnwk(insert)
     public boolean createVoucher(Command command) {
         Voucher voucher;
         switch (command) {
@@ -45,7 +43,4 @@ public class VoucherService {
     public Map<UUID, Voucher> getVouchers() {
         return voucherRepository.returnAll();
     }
-
-    ;
-
 }
