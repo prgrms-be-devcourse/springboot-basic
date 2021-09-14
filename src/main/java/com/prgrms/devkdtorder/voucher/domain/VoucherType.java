@@ -16,7 +16,7 @@ public enum VoucherType {
 
         @Override
         public Voucher createVoucher(UUID voucherId, long value) {
-            return createVoucher(voucherId, value, "", LocalDateTime.now());
+            return createVoucher(voucherId, value, "이름없음", LocalDateTime.now());
         }
     },
     PERCENTDISCOUNT("2") {
@@ -27,7 +27,7 @@ public enum VoucherType {
 
         @Override
         public Voucher createVoucher(UUID voucherId, long value) {
-            return createVoucher(voucherId, value, "", LocalDateTime.now());
+            return createVoucher(voucherId, value, "이름없음", LocalDateTime.now());
         }
     };
 
