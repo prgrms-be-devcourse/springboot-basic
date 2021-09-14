@@ -6,8 +6,10 @@ import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 import com.prgrms.devkdtorder.voucher.dto.VoucherDto;
 import com.prgrms.devkdtorder.voucher.dto.VoucherListDto;
 import com.prgrms.devkdtorder.voucher.service.VoucherService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -32,12 +34,14 @@ public class VoucherApiController {
 
     @GetMapping
     public ApiResponse<VoucherListDto> findAllVouchers(
-            @RequestParam("from") LocalDateTime createdAtFrom,
-            @RequestParam("to") LocalDateTime createdAtTo,
-            @RequestParam("voucherType") VoucherType voucherType
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromCreatedAt,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toCreatedAt,
+            @RequestParam(required = false) VoucherType voucherType
     ) {
-        if (createdAtFrom != null && createdAtTo != null) {
-            return ApiUtils.success(mapToVoucherListDto(voucherService.getVouchersByCreatedAt(createdAtFrom, createdAtTo)));
+        if (fromCreatedAt != null && toCreatedAt != null) {
+            var from = LocalDateTime.of(fromCreatedAt.getYear(), fromCreatedAt.getMonth(), fromCreatedAt.getDayOfMonth(), 0, 0);
+            var to = LocalDateTime.of(toCreatedAt.getYear(), toCreatedAt.getMonth(), toCreatedAt.getDayOfMonth(), 0, 0);
+            return ApiUtils.success(mapToVoucherListDto(voucherService.getVouchersByCreatedAt(from, to)));
         }
         if (voucherType != null) {
             return ApiUtils.success(mapToVoucherListDto(voucherService.getVouchersByVoucherType(voucherType)));
