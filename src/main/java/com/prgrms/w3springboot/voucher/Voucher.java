@@ -10,4 +10,6 @@ public interface Voucher {
     VoucherType getVoucherType();
 
     long discount(long beforeDiscount);
+
+    void validate(long value);
 }
