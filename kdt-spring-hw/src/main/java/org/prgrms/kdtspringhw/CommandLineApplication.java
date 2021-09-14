@@ -44,10 +44,12 @@ public class CommandLineApplication implements CommandLineRunner {
                     bw.close();
                     return;
                 case CREATE:
-                    bw.write("Voucher 타입 번호를 입력하세요.\n 1:FixedAmount    2:PrecentDiscount\n");
+                    bw.write("Voucher 타입을 입력하세요.\n fix:FixedAmount    per:PrecentDiscount\n");
                     bw.flush();
                     command = Command.getCommandType(br.readLine());
-                    if (!createSelect(command)) continue;
+                    if (!voucherService.createVoucher(command)) {
+                        continue;
+                    }
                     break;
                 case LIST:
                     Map<UUID, Voucher> voucherList = voucherService.getVouchers();
@@ -73,19 +75,6 @@ public class CommandLineApplication implements CommandLineRunner {
         }
     }
 
-
-    public boolean createSelect(Command command){
-        switch (command) {
-            case FIX:
-                voucherService.createVoucher("fix");
-                return true;
-            case PER:
-                voucherService.createVoucher("per");
-                return true;
-            default:
-                return false;
-        }
-    }
 
     private void printHome() throws IOException {
         bw.write("=== Voucher Program ===\n" +

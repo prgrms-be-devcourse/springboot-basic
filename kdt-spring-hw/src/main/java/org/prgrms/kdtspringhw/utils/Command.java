@@ -9,8 +9,8 @@ public enum Command {
     CREATE("create"),
     LIST("list"),
     BLACK_LIST("black"),
-    FIX("1"),
-    PER("2"),
+    FIXED_AMOUNT_VOUCHER("fix"),
+    PERCENT_DISCOUNT_VOUCHER("per"),
     ELSE("");
     private final String command;
     Command(String command){
