@@ -20,15 +20,14 @@
                     <input type="email" th:field="*{email}" name="email" class="form-control" placeholder="이메일을 입력하세요" />
                 </div>
                 <div class="form-group">
-                    <label th:for="createdAt">생성 날짜</label>
-                    <input type="text" th:field="*{createdAt}" name="createdAt" class="form-control"
+                    <label >생성 날짜</label>
+                    <input type="text" th:field="*{createdAt}" class="form-control"
                            readonly /> </div>
                 <button type="submit" class="btn btn-primary">수정</button>
-            </form>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal2">
                     삭제
                 </button>
-                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -40,12 +39,13 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                                 <form th:action="@{'/customers/'+*{customerId}+'/remove'}" method="post">
-                                    <button type="submit"  class="btn btn-danger">삭제</button>
+                                    <button type="submit" class="btn btn-danger" data-target="#myModal2">삭제</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+            </form>
         </div>
     </div>
 </body>

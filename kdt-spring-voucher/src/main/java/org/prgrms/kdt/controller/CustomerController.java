@@ -54,12 +54,12 @@ public class CustomerController {
         }
     }
 
-    @PostMapping("/customers/{customerId}/remove}")
+    @PostMapping("/customers/{customerId}/remove")
     public String deleteCustomer(@PathVariable("customerId") UUID customerId){
         logger.info("삭제할 customerid : {}",customerId);
         System.out.println("삭제할 customerid : "+customerId);
         customerService.deleteCustomer(customerId);
-        return "views/customers";
+        return "redirect:/customers";
     }
 
     @PostMapping("/customers/{customerId}/edit")
@@ -69,6 +69,7 @@ public class CustomerController {
                 .email(createCustomerRequest.getEmail())
                 .build();
         customerService.updateCustomer(updateCustomer);
+//        logger.info("수정한 customerid : {}",customerId);
         return "redirect:/customers";
     }
 
