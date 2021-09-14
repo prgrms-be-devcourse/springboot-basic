@@ -65,6 +65,10 @@ public class VoucherService {
         return voucherEntity;
     }
 
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
     //
 //    public Voucher getVoucher(UUID voucherId) {
 //        return memoryVoucherRepository.findById(voucherId)

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="views/fragments/header :: header">
-</head>
+<head th:replace="views/fragments/header :: header"></head>
 <body>
     <div>
         <div class="text-center mt-5">
@@ -32,11 +31,37 @@
                 <td th:text="*{discount}"></td>
                 <td th:text="*{createdAt}"></td>
                 <td>
-                    <a class="btn btn-outline-danger" th:href="@{'/vouchers/'+*{voucherId}}">삭제</a>
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
+                        삭제
+                    </button>
+<!--                    <a class="btn btn-outline-danger" th:method="delete" th:href="@{'/vouchers/'+*{voucherId}}">삭제</a>-->
+                    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">삭제 확인 메세지</h5>
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close">
+                                        닫기
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>정말로 삭제하시겠습니까??</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                    <form th:action="@{'/vouchers/'+*{voucherId}+'/remove'}" method="post">
+                                        <button type="submit"  class="btn btn-danger">삭제</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+
 </body>
 </html>

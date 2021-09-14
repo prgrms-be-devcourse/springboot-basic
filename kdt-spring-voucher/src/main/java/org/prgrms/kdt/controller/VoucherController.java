@@ -16,24 +16,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
 
     private VoucherService voucherService;
 
-    private FileIoStream fileIOStream;
-
     private ConfigurableApplicationContext applicationContext;
 
-    public VoucherController(VoucherService voucherService, FileIoStream fileIOStream, ConfigurableApplicationContext applicationContext) {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+
+
+    public VoucherController(VoucherService voucherService, ConfigurableApplicationContext applicationContext) {
         this.voucherService = voucherService;
-        this.fileIOStream = fileIOStream;
         this.applicationContext = applicationContext;
     }
 
@@ -55,7 +58,11 @@ public class VoucherController {
         return "redirect:/vouchers";
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+    @PostMapping("/vouchers/{voucherId}/remove")
+    public String removeVoucher(@PathVariable(name = "voucherId") UUID voucherId){
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:/vouchers";
+    }
 
     public void run() {
         IoConsole ioConsole = new IoConsole();
