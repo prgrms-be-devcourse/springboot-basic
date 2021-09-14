@@ -1,8 +1,6 @@
 package com.prgrms.devkdtorder.util;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 public class ApiUtils {
@@ -32,10 +30,11 @@ public class ApiUtils {
 
     @Getter
     @ToString(of = {"message", "status"})
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ApiError {
 
-        private final String message;
-        private final int status;
+        private String message;
+        private int status;
 
         ApiError(Throwable throwable, HttpStatus status) {
             this(throwable.getMessage(), status);

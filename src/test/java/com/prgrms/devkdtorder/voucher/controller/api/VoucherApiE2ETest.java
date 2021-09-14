@@ -1,9 +1,14 @@
 package com.prgrms.devkdtorder.voucher.controller.api;
 
+import com.prgrms.devkdtorder.customer.repository.FileCustomerRepository;
+import com.prgrms.devkdtorder.exception.GlobalExceptionHandler;
+import com.prgrms.devkdtorder.util.ApiUtils;
+import com.prgrms.devkdtorder.util.ApiUtils.ApiError;
 import com.prgrms.devkdtorder.util.ApiUtils.ApiResponse;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 import com.prgrms.devkdtorder.voucher.dto.VoucherDto;
+import com.prgrms.devkdtorder.voucher.repository.FileVoucherRepository;
 import com.prgrms.devkdtorder.voucher.repository.JdbcVoucherRepository;
 import com.prgrms.devkdtorder.voucher.service.VoucherService;
 import com.wix.mysql.EmbeddedMysql;
@@ -87,15 +92,12 @@ class VoucherApiE2ETest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(voucherDto);
         //when
-        var response = testRestTemplate.exchange(
-                request,
-                new ParameterizedTypeReference<ApiResponse<Boolean>>() {
-                });
+        var response = testRestTemplate.exchange(request, new ParameterizedTypeReference<ApiResponse<Boolean>>() {});
         //then
-        SoftAssertions.assertSoftly(softAssertions -> {
+        SoftAssertions.assertSoftly(soft -> {
             assertSuccess(response);
-            Boolean data = (Boolean) response.getBody().getData();
-            assertThat(data).isTrue();
+            Boolean data = response.getBody().getData();
+            soft.assertThat(data).isTrue();
         });
     }
 
@@ -116,16 +118,30 @@ class VoucherApiE2ETest {
                 .accept(MediaType.APPLICATION_JSON)
                 .build();
 
-        var response = testRestTemplate.exchange(
-                request,
-                new ParameterizedTypeReference<ApiResponse<VoucherDto>>() {
-                });
+        var response = testRestTemplate.exchange(request, new ParameterizedTypeReference<ApiResponse<VoucherDto>>() {});
         //then
         SoftAssertions.assertSoftly(soft -> {
             assertSuccess(response);
             VoucherDto actualVoucher = response.getBody().getData();
             soft.assertThat(actualVoucher.getVoucherId()).isEqualTo(savedVoucherId);
         });
+    }
+
+    @Test
+    @DisplayName("바우처 ID 조회 실패 테스트 - 저장되지 않은 ID로 조회")
+    void testFindVoucherByIdFail() {
+        //given
+        String findVoucherId = "0ee56205-ea1f-4925-9923-a07f3a2d1322";
+        //when
+        RequestEntity<Void> request = RequestEntity.get(URI.create("/api/v1/vouchers/" + findVoucherId))
+                .accept(MediaType.APPLICATION_JSON)
+                .build();
+        var response = testRestTemplate.exchange(request, new ParameterizedTypeReference<ApiResponse<VoucherDto>>() {});
+        //then
+        assertError(response);
+        ApiError error = response.getBody().getError();
+        assertThat(error.getStatus()).isEqualTo(400);
+        assertThat(error.getMessage()).isEqualTo("Can not find a voucher for 0ee56205-ea1f-4925-9923-a07f3a2d1322");
     }
 
     private <T> void assertSuccess(ResponseEntity<ApiResponse<T>> response) {
@@ -137,12 +153,23 @@ class VoucherApiE2ETest {
             soft.assertThat(response.getBody().getData()).isNotNull();
         });
     }
+
+    private <T> void assertError(ResponseEntity<ApiResponse<T>> response) {
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+            soft.assertThat(response.getBody()).isNotNull();
+            soft.assertThat(response.getBody().isSuccess()).isFalse();
+            soft.assertThat(response.getBody().getError()).isNotNull();
+            soft.assertThat(response.getBody().getData()).isNull();
+        });
+    }
 }
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.prgrms.devkdtorder.voucher",
+@ComponentScan(basePackages = "com.prgrms.devkdtorder",
         includeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = JdbcVoucherRepository.class),
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = VoucherService.class),
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = GlobalExceptionHandler.class),
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = VoucherApiController.class)},
         useDefaultFilters = false
 )
