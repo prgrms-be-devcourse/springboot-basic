@@ -7,11 +7,12 @@ spring:
       minimum-idle: 10
       maximum-pool-size: 50
   thymeleaf:
-    view-names: "views/*"
-    prefix: "/WEB-INF/"
-server:
-  servlet:
-    context-path: /kdt
+    prefix: /WEB-INF/
+    suffix: ".html"
+    cache: false
+#server:
+#  servlet:
+#    context-path: /kdt
 kdt:
   version: "dev property"
   file:

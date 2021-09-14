@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <title>Home</title>
+<head th:replace="views/fragments/header :: header">
+        <title>Hello</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <div class="container">
-        <h1>KDT Spring 과제</h1>
-        <div class="m-5 d-grid gap-3 col-6 mx-auto">
-            <a class="btn btn-outline-secondary" th:href="@{/voucher}" >버튼</a>
-            <a class="btn btn-outline-secondary" th:href="@{/voucher}" >버튼</a>
-            <a class="btn btn-outline-secondary" th:href="@{/voucher}" >버튼</a>
-            <a class="btn btn-outline-secondary" th:href="@{/voucher}" >버튼</a>
-            <a class="btn btn-outline-secondary" th:href="@{/voucher}" >버튼</a>
-            <a class="btn btn-outline-secondary" th:href="@{/voucher}" >버튼</a>
-            <a class="btn btn-outline-secondary" th:href="@{/voucher}" >버튼</a>
+    <div class="container" >
+        <div class="align_center">
+            <h1>바우처 관리 시스템</h1>
+            </br>
+            <p class="lead">Customer</p> <p>
+                <a class="btn btn-lg btn-outline-primary" href="/members/new">Customer 생성</a>
+                <a class="btn btn-lg btn-outline-primary" href="/members">Customer 목록</a> </p>
+            </br>
+            <p class="lead">Voucher</p> <p>
+                <a class="btn btn-lg btn-outline-secondary" href="/items/new">Voucher 생성</a>
+                <a class="btn btn-lg btn-outline-secondary" href="/items">Voucher 목록</a> </p>
+            </br>
+            <p class="lead">Voucher Allocate</p> <p>
+                <a class="btn btn-lg btn-info" href="/order">voucher 할당하기</a>
         </div>
     </div>
 </body>
