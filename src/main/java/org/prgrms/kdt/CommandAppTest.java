@@ -12,5 +12,3 @@ public class CommandAppTest {
         applicationContext.getBean(CommandLineApplication.class).run();
     }
 }
-
-//

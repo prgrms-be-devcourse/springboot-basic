@@ -1,0 +1,13 @@
+
+kdt:
+  version: "v1.0-dev"
+  minium-order-amount: 1
+  support-vendors:
+    - dev-a
+    - dev-b
+    - dev-c
+    - dev-d
+  description: | # multi line '-'잇으면 줄바꿈 문자가 포함안됨.
+    line 1 dev
+    line 2 deveev
+    line 3 데브데브
