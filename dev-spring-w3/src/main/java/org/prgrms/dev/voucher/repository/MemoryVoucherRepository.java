@@ -1,15 +1,15 @@
 package org.prgrms.dev.voucher.repository;
 
 import org.prgrms.dev.voucher.domain.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
-@Qualifier("memory")
+@Profile({"dev", "memory"})
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class MemoryVoucherRepository implements VoucherRepository {
 

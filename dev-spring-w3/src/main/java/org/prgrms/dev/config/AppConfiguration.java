@@ -1,7 +1,9 @@
 package org.prgrms.dev.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  * - 주요 객체에 대해서 생성과 관계 설정을 하는 클래스
@@ -18,7 +20,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(
-        basePackages = {"org.prgrms.dev.voucher", "org.prgrms.dev.order", "org.prgrms.dev.config" }
+        basePackages = {
+                "org.prgrms.dev.voucher",
+                "org.prgrms.dev.order",
+                "org.prgrms.dev.config",
+                "org.prgrms.dev.customer" }
 )
+@PropertySource(value = "application.yml", factory = YmlPropertiesFactory.class)
+@EnableConfigurationProperties
 public class AppConfiguration {
 }

@@ -1,7 +1,9 @@
 package org.prgrms.dev.io;
 
+import org.prgrms.dev.customer.domain.Customer;
 import org.prgrms.dev.voucher.domain.Voucher;
-import org.prgrms.dev.voucher.service.VoucherService;
+
+import java.util.List;
 
 public class OutputConsole implements Output {
 
@@ -19,7 +21,7 @@ public class OutputConsole implements Output {
     }
 
     @Override
-    public void voucherSelectType() {
+    public void selectVoucherType() {
         StringBuffer sb = new StringBuffer();
         sb.append("=== Select Voucher Type ===");
         sb.append(System.lineSeparator());
@@ -28,25 +30,32 @@ public class OutputConsole implements Output {
     }
 
     @Override
-    public void voucherList(VoucherService voucherService) {
-        voucherService.listVoucher().stream()
+    public void printVoucherList(List<Voucher> voucherList) {
+        voucherList.stream()
                 .map(Voucher::toString)
                 .forEach(System.out::println);
     }
 
     @Override
-    public void invalidNumberInput() {
+    public void printInvalidNumber() {
         System.out.println("Invalid number input. Please re-enter.");
     }
 
     @Override
-    public void invalidCommandTypeInput() {
+    public void printInvalidCommandType() {
         System.out.println("Invalid command type input. Please re-enter.");
     }
 
     @Override
-    public void invalidVoucherTypeInput() {
+    public void printInvalidVoucherType() {
         System.out.println("Invalid voucher type input. Please re-enter.");
+    }
+
+    @Override
+    public void printBlackList(List<Customer> blackList) {
+        blackList.stream()
+                .map(Customer::toString)
+                .forEach(System.out::println);
     }
 
 }
