@@ -71,10 +71,10 @@ public class VoucherProgram {
         checkDiscountType(uuid, VoucherType.getVoucherType(discountType), amount);
     }
 
-    private void checkDiscountType(UUID uuid, VoucherType discountType, long amount) throws IOException {
-        switch (discountType) {
-            case FIXED_AMOUNT_VOUCHER -> voucherService.create(new FixedAmountVoucher(uuid, amount));
-            case PERCENT_DISCOUNT_VOUCHER -> voucherService.create(new PercentDiscountVoucher(uuid, amount));
+    private void checkDiscountType(UUID uuid, VoucherType voucherType, long amount) throws IOException {
+        switch (voucherType) {
+            case FIXED_AMOUNT_VOUCHER -> voucherService.create(new FixedAmountVoucher(uuid, amount, voucherType));
+            case PERCENT_DISCOUNT_VOUCHER -> voucherService.create(new PercentDiscountVoucher(uuid, amount, voucherType));
             default -> userInteraction.showInvalidTypeMessage();
         }
     }

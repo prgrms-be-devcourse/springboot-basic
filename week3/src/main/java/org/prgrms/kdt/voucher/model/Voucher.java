@@ -13,4 +13,6 @@ public interface Voucher {
     UUID getWalletId();
 
     void setWalletId(UUID walletId);
+
+    VoucherType getVoucherType();
 }

@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,7 +31,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public static RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("amount");
-        var voucherType = resultSet.getString("voucher_type");
+        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         var walletId = toUUID(resultSet.getBytes("wallet_id"));
 
         var voucher = VoucherGenerator.createVoucher(voucherId, amount, voucherType);
@@ -41,16 +40,16 @@ public class VoucherJdbcRepository implements VoucherRepository {
     };
 
     @Override
-    public int insert(Voucher voucher) throws IOException {
+    public int insert(Voucher voucher) {
         var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, voucher_type) values(UUID_TO_BIN(?), ? , ?)",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getAmount(),
-                voucher.getClass().getSimpleName());
+                voucher.getVoucherType());
         return update;
     }
 
     @Override
-    public List<Voucher> findAll() throws IOException {
+    public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
     }
 
@@ -83,11 +82,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
         jdbcTemplate.update("delete from voucher where wallet_id = ?", walletId.toString().getBytes());
     }
 
-    public List<Voucher> findByVoucherType(String voucherType){
+    public List<Voucher> findByVoucherType(VoucherType voucherType){
         return (jdbcTemplate.query(
                 "select * from voucher where voucher_type = ?",
                 voucherRowMapper,
-                VoucherType.getVoucherType(voucherType)));
+                voucherType));
     }
 
     public int insertWalletIdToVoucher(UUID walletId, Voucher voucher){

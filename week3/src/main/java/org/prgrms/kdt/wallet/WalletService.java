@@ -2,6 +2,7 @@ package org.prgrms.kdt.wallet;
 
 import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,5 +14,5 @@ public interface WalletService {
 
     void deleteByCustomerId(UUID customerId);
 
-    List<Customer> findByVoucher(String voucherType);
+    List<Customer> findByVoucher(VoucherType voucherType);
 }

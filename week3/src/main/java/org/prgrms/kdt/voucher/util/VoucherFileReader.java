@@ -28,10 +28,10 @@ public class VoucherFileReader {
         return map;
     }
 
-    private void voucherGenerate(ConcurrentHashMap<UUID, Voucher> map, UUID uuid, VoucherType discountType, long amount) {
-        switch (discountType) {
-            case FIXED_AMOUNT_VOUCHER -> map.put(uuid, new FixedAmountVoucher(uuid, amount));
-            case PERCENT_DISCOUNT_VOUCHER -> map.put(uuid, new PercentDiscountVoucher(uuid, amount));
+    private void voucherGenerate(ConcurrentHashMap<UUID, Voucher> map, UUID uuid, VoucherType voucherType, long amount) {
+        switch (voucherType) {
+            case FIXED_AMOUNT_VOUCHER -> map.put(uuid, new FixedAmountVoucher(uuid, amount, voucherType));
+            case PERCENT_DISCOUNT_VOUCHER -> map.put(uuid, new PercentDiscountVoucher(uuid, amount, voucherType));
             default -> throw new IllegalArgumentException("해당 타입에 맞는 바우처 없음");
         }
     }

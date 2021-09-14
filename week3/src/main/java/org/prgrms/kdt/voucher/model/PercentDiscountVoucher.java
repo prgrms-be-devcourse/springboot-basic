@@ -11,10 +11,12 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
     private UUID walletId;
+    private final VoucherType voucherType;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent ) {
+    public PercentDiscountVoucher(UUID voucherId, long percent, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.percent = percent;
+        this.voucherType = voucherType;
     }
 
     @Override
