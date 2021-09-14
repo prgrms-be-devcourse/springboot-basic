@@ -65,5 +65,4 @@ public class VoucherController {
         voucherJdbcService.update(voucherId, createVoucherRequest.getVoucherType(), createVoucherRequest.getVoucherValue());
         return "redirect:/vouchers";
     }
-
 }

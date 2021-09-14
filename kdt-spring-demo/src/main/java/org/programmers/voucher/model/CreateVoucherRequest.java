@@ -1,11 +1,12 @@
 package org.programmers.voucher.model;
 
 public class CreateVoucherRequest {
-    private final VoucherType voucherType;
-    private final long voucherValue;
+    private VoucherType voucherType;
+    private Integer voucherValue;
 
+    public CreateVoucherRequest(){}
 
-    public CreateVoucherRequest(VoucherType voucherType, long voucherValue) {
+    public CreateVoucherRequest(VoucherType voucherType, int voucherValue) {
         this.voucherType = voucherType;
         this.voucherValue = voucherValue;
     }
@@ -16,5 +17,13 @@ public class CreateVoucherRequest {
 
     public long getVoucherValue() {
         return voucherValue;
+    }
+
+    public void setVoucherType(VoucherType voucherType){
+        this.voucherType = voucherType;
+    }
+
+    public void setVoucherValue(Integer voucherValue) {
+        this.voucherValue = voucherValue;
     }
 }

@@ -28,13 +28,19 @@ public class VoucherJdbcService {
         voucherRepository.create(voucherBase);
     }
 
-    public void save(CreateVoucherRequest createVoucherRequest){
+    public VoucherBase save(CreateVoucherRequest createVoucherRequest){
         VoucherBase voucherBase = new VoucherBase(UUID.randomUUID(),createVoucherRequest.getVoucherType(),createVoucherRequest.getVoucherValue(), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         voucherRepository.create(voucherBase);
+
+        return voucherBase;
     }
 
     public VoucherBase findByVoucherTypeAndVoucherValue(VoucherType voucherType, Long value) {
         return voucherRepository.findByVoucherTypeAndVoucherValue(voucherType, value).orElseThrow(NoSuchElementException::new);
+    }
+
+    public List<VoucherBase> findByVouchersType(VoucherType voucherType){
+        return voucherRepository.findAllByVoucherType(voucherType);
     }
 
     public void update(VoucherType voucherType, long value, long changeValue) {
@@ -61,7 +67,8 @@ public class VoucherJdbcService {
         voucherRepository.deleteByVoucherTypeAndValue(voucherType, value);
     }
 
-    public void deleteByVoucherId(UUID voucherId) {
+    public int deleteByVoucherId(UUID voucherId) {
         voucherRepository.deleteByVoucherId(voucherId);
+        return 1;
     }
 }

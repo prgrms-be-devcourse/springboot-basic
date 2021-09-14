@@ -98,6 +98,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public List<VoucherBase> findAllByVoucherType(VoucherType voucherType) {
+        var paramMap = new HashMap<String,Object>();
+        paramMap.put("voucherType",voucherType.toString());
+        return namedParameterJdbcTemplate.query("select * from vouchers where voucher_type = :voucherType",paramMap,voucherRowMapper);
+    }
+
+    @Override
     public Optional<VoucherBase> findById(UUID voucherId) {
         return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()),

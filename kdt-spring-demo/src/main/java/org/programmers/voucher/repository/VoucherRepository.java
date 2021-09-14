@@ -17,6 +17,8 @@ public interface VoucherRepository {
 
     List<VoucherBase> findAll();
 
+    List<VoucherBase> findAllByVoucherType(VoucherType voucherType);
+
     Optional<VoucherBase> findById(UUID voucherId);
 
     Optional<VoucherBase> findByVoucherTypeAndVoucherValue(VoucherType voucherType, Long value);
