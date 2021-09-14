@@ -2,51 +2,56 @@ package org.prgrms.kdt.command.io;
 
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class Console implements Input, Output {
-    private final Scanner scanner;
+    private static final Scanner SCANNER = new Scanner(System.in);
 
-    public Console() {
-        this.scanner = new Scanner(System.in);
+    @Override
+    public void printOnStart() {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("\n=== Voucher Program ===\n");
+        stringBuffer.append("Type exit to exit the program.\n");
+        stringBuffer.append("Type create to create a new voucher.\n");
+        stringBuffer.append("Type list to list all vouchers.");
+
+        System.out.println(stringBuffer);
     }
 
     @Override
-    public void init() {
-        System.out.println("=== Voucher Program ===\n" +
-                "Type exit to exit the program.\n" +
-                "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers.");
-    }
-
-    @Override
-    public void exit() {
+    public void printOnExit() {
         System.out.println("Exit Voucher Program.");
     }
 
     @Override
-    public void voucherList(List<Voucher> vouchers) {
+    public void printVoucherList(List<Voucher> vouchers) {
         System.out.println("Print All Voucher List.");
         vouchers.forEach((voucher) -> System.out.println(voucher.toString()));
     }
 
     @Override
-    public void inputVoucherType() {
+    public void printRequestVoucherType() {
         System.out.println("Input Voucher Type(PERCENT/FIXED) : ");
     }
 
     @Override
-    public void inputVoucherValue(VoucherType type) {
-        System.out.println(MessageFormat.format("Input discount {0} : ", type.toString()));
+    public void printRequestVoucherValue(VoucherType type) {
+        System.out.println(MessageFormat.format("Input discount {0} : ", type));
+    }
+
+    @Override
+    public void printInputError() {
+        System.out.println("Invalid Input Error. Please type correct command.");
     }
 
     @Override
     public String inputString(final String inputPrompt) {
         System.out.print(inputPrompt);
-        return this.scanner.nextLine();
+        return this.SCANNER.nextLine();
     }
 }
