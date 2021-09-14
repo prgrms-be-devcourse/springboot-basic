@@ -55,11 +55,4 @@ public class FileMemoryVoucherService {
             default -> logger.info("Wrong Type -> {} ", voucherType);
         }
     }
-
-    public void memoryShowVoucherList() {
-        List<Voucher> allVouchers = voucherRepository.findAllVouchers();
-        for (Voucher voucher : allVouchers) {
-            System.out.println(voucher.toString());
-        }
-    }
 }
