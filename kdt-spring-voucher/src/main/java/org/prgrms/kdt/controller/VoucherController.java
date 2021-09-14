@@ -20,18 +20,20 @@ import java.util.List;
 @Controller
 public class VoucherController {
 
-    @Autowired
     private VoucherService voucherService;
 
-    @Autowired
     private FileIoStream fileIOStream;
 
-    @Autowired
     private ConfigurableApplicationContext applicationContext;
+
+    public VoucherController(VoucherService voucherService, FileIoStream fileIOStream, ConfigurableApplicationContext applicationContext) {
+        this.voucherService = voucherService;
+        this.fileIOStream = fileIOStream;
+        this.applicationContext = applicationContext;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
-    @Autowired
     public void run() {
         IoConsole ioConsole = new IoConsole();
         while (true) {

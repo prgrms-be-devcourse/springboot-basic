@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +17,13 @@ public class CommandLineApplication {
         AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
 
 
-//        var springApplication = new SpringApplication(CommandLineApplication.class);
-////        springApplication.setAdditionalProfiles("local");
-//        var applicationContext = springApplication.run(args);
+        var springApplication = new SpringApplication(CommandLineApplication.class);
+//        springApplication.setAdditionalProfiles("local");
+        var applicationContext = springApplication.run(args);
 //        VoucherController voucherController = new VoucherController();
 //        voucherController.run();
 
-        SpringApplication.run(CommandLineApplication.class, args);
+//        SpringApplication.run(CommandLineApplication.class, args);
 
 
     }

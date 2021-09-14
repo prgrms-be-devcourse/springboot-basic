@@ -38,7 +38,7 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = { "org.prgrms.kdt.controller","org.prgrms.kdt.domain"
         ,"org.prgrms.kdt.service","org.prgrms.kdt.jdbcRepository" ,"org.prgrms.kdt.config"},
         includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {SimpleCustomerService.class,
-                CustomerJdbcRepository.class, CustomerController.class, AppConfiguration.class, CustomerRestController.class
+                CustomerJdbcRepository.class, CustomerController.class, AppConfiguration.class
         })
         , useDefaultFilters = false
 )

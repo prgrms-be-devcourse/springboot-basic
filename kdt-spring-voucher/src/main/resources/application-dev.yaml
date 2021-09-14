@@ -1,14 +1,17 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    jdbc-url: "jdbc:mysql://localhost:3306/voucher_order_mgmt"
+    url: "jdbc:mysql://localhost:3306/voucher_order_mgmt"
     username: root
     password: root1234!
     hikari:
       minimum-idle: 10
       maximum-pool-size: 50
-
-
+  thymeleaf:
+    view-names: "views/*"
+    prefix: "/WEB-INF/"
+server:
+  servlet:
+    context-path: /kdt
 kdt:
   version: "dev property"
   file:

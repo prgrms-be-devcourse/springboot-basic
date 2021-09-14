@@ -16,7 +16,7 @@ public class CustomerRestController {
 
     private final CustomerService customerService;
 
-    private final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+    private final Logger logger = LoggerFactory.getLogger(CustomerRestController.class);
 
     public CustomerRestController(CustomerService customerService) {
         this.customerService = customerService;
