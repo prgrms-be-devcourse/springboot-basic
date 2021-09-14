@@ -1,24 +1,34 @@
 package org.prgrms.kdt;
 
-import java.util.Optional;
+import org.prgrms.kdt.Exception.VoucherTypeNotMatchException;
 
-public enum VoucherType {
-    FIXED("fixed", "고정"),
-    PERCENT("percent", "비율");
+public enum VoucherType{
+    ALL("전체 바우처 목록 조회"),
+    FIXED("fixed amount voucher 목록 조회"),
+    PERCENT("percent amount voucher 목록 조회");
 
     private String type;
-    private String desc;
 
-    VoucherType(String type, String desc) {
+    VoucherType(String type) {
         this.type = type;
-        this.desc = desc;
     }
 
-    public static Optional<VoucherType> matchVoucherType(String input) {
-        for (VoucherType vtype : VoucherType.values()) {
-            if (vtype.name().equalsIgnoreCase(input)) return Optional.of(vtype);
+    public static VoucherType matchVoucherType(String input) throws VoucherTypeNotMatchException {
+        for (VoucherType commandType : VoucherType.values()) {
+            if (commandType.toString().equalsIgnoreCase(input)) return commandType;
         }
-        return Optional.empty();
+        throw new VoucherTypeNotMatchException();
+    }
+
+    public static VoucherType toVoucherType(String input) {
+        VoucherType voucher = null;
+        for (VoucherType commandType : VoucherType.values()) {
+            if (commandType.toString().equalsIgnoreCase(input)) {
+                voucher = commandType;
+                return voucher;
+            }
+        }
+        return voucher;
     }
 
 }
