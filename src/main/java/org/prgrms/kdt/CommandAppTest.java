@@ -1,13 +1,13 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.command.CommandLineApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class CommandAppTest {
     public static void main(String[] args) {
-
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var applicationContext = SpringApplication.run(CommandAppTest.class, args);
 
         applicationContext.getBean(CommandLineApplication.class).run();
     }

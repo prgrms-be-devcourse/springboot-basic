@@ -3,9 +3,7 @@ package org.prgrms.kdt.customer.repository;
 import org.prgrms.kdt.customer.domain.BannedCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -15,14 +13,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-enum BANNED_CUSTOMER_INDEX {
-    BANNED_UUID (0), EMAIL (1), NAME (2), DESCRIPTION (3);
-
-    BANNED_CUSTOMER_INDEX(int index) {
-        this.index = index;
-    }
+enum BannedCustomerIndex {
+    BANNED_UUID(0), EMAIL(1), NAME(2), DESCRIPTION(3);
 
     private final int index;
+
+    BannedCustomerIndex(int index) {
+        this.index = index;
+    }
 
     public int getIndex() {
         return index;
@@ -44,10 +42,10 @@ public class FileCustomerRepository implements CustomerRepository {
         return items.stream()
                 .map(line -> Arrays.asList(line.split(",")))
                 .map(list -> new BannedCustomer(
-                        UUID.fromString(list.get(BANNED_CUSTOMER_INDEX.BANNED_UUID.getIndex())),
-                        list.get(BANNED_CUSTOMER_INDEX.EMAIL.getIndex()),
-                        list.get(BANNED_CUSTOMER_INDEX.NAME.getIndex()),
-                        list.get(BANNED_CUSTOMER_INDEX.DESCRIPTION.getIndex())))
+                        UUID.fromString(list.get(BannedCustomerIndex.BANNED_UUID.getIndex())),
+                        list.get(BannedCustomerIndex.EMAIL.getIndex()),
+                        list.get(BannedCustomerIndex.NAME.getIndex()),
+                        list.get(BannedCustomerIndex.DESCRIPTION.getIndex())))
                 .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,6 @@
 
 kdt:
-  version: "v1.0"
+  version: "v1.0-local"
   minium-order-amount: 1
   support-vendors:
     - a

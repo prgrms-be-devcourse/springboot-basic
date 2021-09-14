@@ -1,10 +1,15 @@
 package org.prgrms.kdt.voucher;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 
 public enum VoucherType {
     PERCENTAGE("PERCENT"),
     FIXED("FIXED");
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
 
     private final String strVoucherType;
 
@@ -16,6 +21,9 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(voucherType -> voucherType.strVoucherType.equals(inputString))
                 .findAny()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> {
+                    logger.error("Can't find voucher type");
+                    return new IllegalArgumentException();
+                });
     }
 }

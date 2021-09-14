@@ -4,6 +4,8 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
@@ -14,7 +16,7 @@ import java.util.UUID;
  * - 싱글톤패턴은 private constructor 사용.
  */
 public class VoucherFactory {
-
+    private static final Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
     private static final VoucherFactory uniqueInstance = new VoucherFactory();
 
     private VoucherFactory() {
@@ -31,6 +33,7 @@ public class VoucherFactory {
             case FIXED:
                 return new FixedAmountVoucher(voucherId, policyValue);
             default:
+                logger.error("Can't find voucher type");
                 throw new IllegalArgumentException();
         }
     }

@@ -1,48 +1,51 @@
 package org.prgrms.kdt;
 
-import org.apache.logging.log4j.message.Message;
-import org.prgrms.kdt.AppConfiguration;
 import org.prgrms.kdt.order.OrderItem;
 import org.prgrms.kdt.order.property.OrderProperties;
 import org.prgrms.kdt.order.service.OrderService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.channels.Channels;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class OrderTester {
 
+    private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);
+
     public static void main(String[] args) throws IOException {
         // Spring Application Context를 만드는데 Java 기반껄 만들꺼야
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);// Color 바꾸기
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
         // env 가져옵시다.
-        var orderProperties = applicationContext.getBean(OrderProperties.class);
-        var environment = applicationContext.getEnvironment();
-        environment.setActiveProfiles("local");
+//        var environment = applicationContext.getEnvironment();
+//        environment.setActiveProfiles("local");
         // applicationContext.refresh();
 //        var version = environment.getProperty("kdt.version");
 //        var minimumOrderAmount = environment.getProperty("kdt.minium-order-amount", Integer.class);
 //        var supportVendeors = environment.getProperty("kdt.support-vendors", List.class);
 //        var description = environment.getProperty("kdt.description");
 
-//        System.out.println(MessageFormat.format("version -> {0}", orderProperties.getVersion()));
-//        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", orderProperties.getMinimumOrderAmount()));
-//        System.out.println(MessageFormat.format("supportVendeors -> {0}", orderProperties.getSupportVendors()));
-//        System.out.println(MessageFormat.format("description -> {0}", orderProperties.getDescription()));
+
+        var orderProperties = applicationContext.getBean(OrderProperties.class);
+        logger.error("logger name => {}", logger.getName()); // logger도 치환이 됨
+        logger.warn("version -> {}", orderProperties.getVersion());
+        logger.info("minimumOrderAmount -> {}", orderProperties.getMinimumOrderAmount());
+        logger.info("supportVendeors -> {}", orderProperties.getSupportVendors());
+        logger.info("description -> {}", orderProperties.getDescription());
 
         // 리소스 가져오기
         // 클레스 path에서 가져오기.
@@ -63,7 +66,7 @@ public class OrderTester {
         var readableByteChannel= Channels.newChannel(resource3.getURL().openStream()); // 실제 다운받게헤줘야함.
         var bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
         var contents = bufferedReader.lines().collect(Collectors.joining());
-        System.out.println(contents);
+        // System.out.println(contents);
 
         var customerId = UUID.randomUUID();
 

@@ -4,13 +4,16 @@ import org.prgrms.kdt.command.domain.Command;
 import org.prgrms.kdt.command.io.Output;
 import org.prgrms.kdt.customer.domain.BannedCustomer;
 import org.prgrms.kdt.customer.service.CustomerService;
-import org.prgrms.kdt.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BlackListCommandService implements Command {
+    private static final Logger logger = LoggerFactory.getLogger(BlackListCommandService.class);
 
     private final Output output;
     private final CustomerService customerService;
@@ -23,7 +26,14 @@ public class BlackListCommandService implements Command {
     @Override
     public boolean execute() {
         List<BannedCustomer> blackList = customerService.getBlackList();
+
+        logger.info("Execute BlackListCommand : {}",
+                blackList.stream()
+                        .map(BannedCustomer::toString)
+                        .collect(Collectors.joining()));
+
         output.printBlackList(blackList);
+
         return true;
     }
 }

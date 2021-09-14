@@ -21,13 +21,13 @@ class B {
 
 // 순환참조가 이뤄
 // 그러면 ApplicationContext가 생성이안되니까 조심해야합니다.
-@Configuration
+//@Configuration
 class CircularConfig {
-    @Bean
+//    @Bean
     public A a(B b) {
         return new A(b);
     }
-    @Bean
+//    @Bean
     public B b (A a) {
         return new B(a);
     }

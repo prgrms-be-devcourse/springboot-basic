@@ -1,20 +1,18 @@
 package org.prgrms.kdt.command.domain;
 
-import org.prgrms.kdt.command.io.Input;
-import org.prgrms.kdt.command.io.Output;
-import org.prgrms.kdt.command.service.CreateCommandService;
-import org.prgrms.kdt.command.service.ExitCommandService;
-import org.prgrms.kdt.command.service.ListCommandService;
-import org.prgrms.kdt.voucher.service.VoucherService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
 
 public enum CommandType {
     CREATE("create"),
     EXIT("exit"),
     LIST("list"),
     BLACKLIST("blacklist");
+
+    private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
 
     private final String strCommand;
 
@@ -26,6 +24,9 @@ public enum CommandType {
         return Arrays.stream(values())
                 .filter(commandType -> commandType.strCommand.equals(inputCommandType))
                 .findAny()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> {
+                    logger.error("Can't find command type");
+                    return new IllegalArgumentException();
+                });
     }
 }
