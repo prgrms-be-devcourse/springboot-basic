@@ -1,12 +1,12 @@
-package org.prgrms.dev.customer.domain;
+package org.prgrms.dev.blacklist.domain;
 
 import java.util.UUID;
 
-public class Customer {
+public class Blacklist {
     private final UUID customerId;
     private final String name;
 
-    public Customer(UUID customerId, String name) {
+    public Blacklist(UUID customerId, String name) {
         this.customerId = customerId;
         this.name = name;
     }

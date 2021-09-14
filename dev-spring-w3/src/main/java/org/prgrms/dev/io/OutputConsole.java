@@ -1,6 +1,6 @@
 package org.prgrms.dev.io;
 
-import org.prgrms.dev.customer.domain.Customer;
+import org.prgrms.dev.blacklist.domain.Blacklist;
 import org.prgrms.dev.voucher.domain.Voucher;
 
 import java.util.List;
@@ -52,9 +52,9 @@ public class OutputConsole implements Output {
     }
 
     @Override
-    public void printBlackList(List<Customer> blackList) {
+    public void printBlackList(List<Blacklist> blackList) {
         blackList.stream()
-                .map(Customer::toString)
+                .map(Blacklist::toString)
                 .forEach(System.out::println);
     }
 

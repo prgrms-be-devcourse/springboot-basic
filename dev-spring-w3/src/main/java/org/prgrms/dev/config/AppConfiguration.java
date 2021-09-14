@@ -24,7 +24,7 @@ import org.springframework.context.annotation.PropertySource;
                 "org.prgrms.dev.voucher",
                 "org.prgrms.dev.order",
                 "org.prgrms.dev.config",
-                "org.prgrms.dev.customer" }
+                "org.prgrms.dev.blacklist"}
 )
 @PropertySource(value = "application.yml", factory = YmlPropertiesFactory.class)
 @EnableConfigurationProperties

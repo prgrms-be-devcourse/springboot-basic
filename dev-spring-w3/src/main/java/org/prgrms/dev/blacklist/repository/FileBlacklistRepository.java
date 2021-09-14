@@ -1,6 +1,6 @@
-package org.prgrms.dev.customer.repository;
+package org.prgrms.dev.blacklist.repository;
 
-import org.prgrms.dev.customer.domain.Customer;
+import org.prgrms.dev.blacklist.domain.Blacklist;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Repository
-public class FileCustomerRepository implements CustomerRepository {
+public class FileBlacklistRepository implements BlacklistRepository {
     private static final String PATH = "src/main/resources/customer_blacklist.csv";
     private static final String USER_DIR = "user.dir";
     private static final String SPLIT_CODE = ":";
@@ -18,23 +18,23 @@ public class FileCustomerRepository implements CustomerRepository {
     private static final int NAME_INDEX = 1;
 
     private final File file;
-    private final Map<UUID, Customer> blacklistStore;
+    private final Map<UUID, Blacklist> blacklistStore;
 
-    public FileCustomerRepository() {
+    public FileBlacklistRepository() {
         this.file = new File(System.getProperty(USER_DIR), PATH);
         this.blacklistStore = init();
     }
 
-    private Map<UUID, Customer> init() {
-        Map<UUID, Customer> blackList = new HashMap<>();
+    private Map<UUID, Blacklist> init() {
+        Map<UUID, Blacklist> blackList = new HashMap<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line = "";
             while ((line = bufferedReader.readLine()) != null) {
                 String[] customerInfo = line.split(SPLIT_CODE);
                 UUID customerId = UUID.fromString(customerInfo[UUID_INDEX]);
                 String name = customerInfo[NAME_INDEX];
-                Customer customer = new Customer(customerId, name);
-                blackList.put(customerId, customer);
+                Blacklist blacklist = new Blacklist(customerId, name);
+                blackList.put(customerId, blacklist);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAllInBlackList() {
+    public List<Blacklist> findAllInBlackList() {
         return new ArrayList<>(blacklistStore.values());
     }
 }
