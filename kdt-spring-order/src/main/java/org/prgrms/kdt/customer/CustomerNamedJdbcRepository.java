@@ -20,7 +20,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");

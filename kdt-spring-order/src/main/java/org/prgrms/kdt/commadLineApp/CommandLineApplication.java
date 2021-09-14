@@ -18,7 +18,7 @@ public class CommandLineApplication {
         var appConfiguration = new AnnotationConfigApplicationContext();
         appConfiguration.register(AppConfiguration.class);
         var environment = appConfiguration.getEnvironment();
-        environment.setActiveProfiles("dev");
+        environment.setActiveProfiles("jdbc");
 //        environment.setActiveProfiles("local");
         appConfiguration.refresh();
         File blackList = appConfiguration.getResource("customer_blacklist.csv").getFile();

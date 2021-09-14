@@ -1,10 +1,12 @@
-kdt:
-  version: "v1.0"
-  minimum-order-amount: 1
-  support-vendors:
-  description:
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/order_mgmt
+    username: root
+    password: root1234!
+#  thymeleaf:
+#    view-names: "views/*"
+#    prefix: "/WEB-INF/"
 
-#spring.config.activate.on-profile: "dev"
-
-logging:
-  level: debug
+server:
+  servlet:
+    context-path: /kdt
