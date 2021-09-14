@@ -8,6 +8,7 @@ import org.prgrms.kdtspringhw.voucher.VoucherService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import java.io.*;
 import java.util.Map;
 import java.util.UUID;
@@ -33,7 +34,8 @@ public class CommandLineApplication implements CommandLineRunner {
         printHome();
 
         while (true) {
-            bw.write("명령어를 입력해주세요. \n");bw.flush();
+            bw.write("명령어를 입력해주세요. \n");
+            bw.flush();
             Command command = Command.getCommandType(br.readLine());
             switch (command) {
                 case EXIT:
@@ -79,7 +81,7 @@ public class CommandLineApplication implements CommandLineRunner {
                 "Type exit to exit the program.\n" +
                 "Type create to create a new voucher.\n" +
                 "Type list to list all vouchers\n" +
-                "Type black to list all black_list\n"+
+                "Type black to list all black_list\n" +
                 "\n"
         );
         bw.flush();
