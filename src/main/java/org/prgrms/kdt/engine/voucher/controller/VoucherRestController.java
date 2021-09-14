@@ -28,4 +28,9 @@ public class VoucherRestController {
     public Voucher createVoucher(@RequestBody VoucherDto voucherDto) {
         return voucherService.createVoucher(voucherDto.getType(), voucherDto.getRate());
     }
+
+    @GetMapping("/api/v1/vouchers/{voucherId}")
+    public Voucher findVoucher(@PathVariable("voucherId") UUID voucherId) {
+        return voucherService.getVoucher(voucherId);
+    }
 }
