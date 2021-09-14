@@ -39,6 +39,11 @@ public class CustomerController {
         return "views/customers";
     }
 
+    @GetMapping("/main")
+    public String viewMainPage() {
+        return "views/main";
+    }
+
 
     @GetMapping("/customers/{customerId}")
     public String findCustomer(@PathVariable("customerId") UUID customerId, Model model) {
