@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -38,4 +39,14 @@ public class CustomerServiceImpl implements CustomerService {
     public Optional<Customer> getCustomer(UUID customerId) {
         return customerRepository.findById(customerId);
     }
+
+    @Override
+    public Boolean checkEmail(String email) {
+        final String pattern = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
+        if(!Pattern.matches(pattern, email)){
+            return false;
+        }
+        return true;
+    }
+
 }

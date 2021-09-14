@@ -1,11 +1,5 @@
 package org.prgrms.kdt.commadLineApp;
 
-
-import org.prgrms.kdt.voucher.Voucher;
-
-import java.util.Map;
-import java.util.UUID;
-
 public class InPutView {
 
     public static void startProgram(){
@@ -14,6 +8,16 @@ public class InPutView {
         System.out.println("Type create to create a new voucher.");
         System.out.println("Type list to list all vouchers.");
         System.out.println("Type blacklist to show blacklist");
+        System.out.println("Type join to create new customer");
+        System.out.println("Type customerList to show customerList");
+    }
+
+    public static void inputCustomerName(){
+        System.out.print("Input your Name : ");
+    }
+
+    public static void inputCustomerEmail(){
+        System.out.print("Input your Email : ");
     }
 
     public static void exit(){
@@ -36,10 +40,5 @@ public class InPutView {
 
     public static void listIsEmpty() {
         System.out.println("Voucher list is empty");
-    }
-
-    public static void showList(Map<UUID, Voucher> voucherList) {
-        for(UUID id : voucherList.keySet())
-            System.out.println(voucherList.get(id).toString());
     }
 }

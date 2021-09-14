@@ -66,4 +66,13 @@ public class Customer {
     public void changeName(String s) {
         name = s;
     }
+
+    @Override
+    public String toString() {
+        return "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", lastLoginAt=" + lastLoginAt +
+                ", createdAt=" + createdAt;
+    }
 }

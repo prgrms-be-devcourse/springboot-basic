@@ -4,5 +4,7 @@ public enum CommandType {
     CREATE,
     EXIT,
     LIST,
-    BLACKLIST
+    BLACKLIST,
+    JOIN,
+    CUSTOMERLIST
 }

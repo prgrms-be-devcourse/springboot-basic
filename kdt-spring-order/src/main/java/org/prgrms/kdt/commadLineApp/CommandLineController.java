@@ -1,5 +1,7 @@
 package org.prgrms.kdt.commadLineApp;
 
+import org.prgrms.kdt.customer.Customer;
+import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.Voucher;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,9 +17,11 @@ import java.util.UUID;
 public class CommandLineController {
 
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public CommandLineController(VoucherService voucherService) {
+    public CommandLineController(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     public void startProgram(File blackList) throws IOException {
@@ -41,14 +46,45 @@ public class CommandLineController {
             return;
         }
 
-        if (command == CommandType.EXIT)
+        if (command == CommandType.EXIT) {
             exitCommand();
+        }
 
-        if (command == CommandType.BLACKLIST)
+        if (command == CommandType.BLACKLIST) {
             blackListCommand(blackList);
+            return;
+        }
+
+        if (command == CommandType.JOIN){
+            joinNewCustomer();
+            return;
+        }
+
+        if (command == CommandType.CUSTOMERLIST){
+            showCustomerList();
+            return;
+        }
     }
 
-    private void blackListCommand(File blackList) throws IOException {
+    public void showCustomerList() {
+        List<Customer> customerList = customerService.getAllCustomers();
+        OutPutView.showCustomerList(customerList);
+    }
+
+    public void joinNewCustomer() throws IOException {
+        InPutView.inputCustomerName();
+        String name = CommandLineInput.inputCustomerName();
+        InPutView.inputCustomerEmail();
+        String email = CommandLineInput.inputCustomerEmail();
+        if (customerService.checkEmail(email)) {
+            customerService.createCustomer(email, name);
+        }
+        else{
+            OutPutView.wrongEmail(email);
+        }
+    }
+
+    public void blackListCommand(File blackList) throws IOException {
         OutPutView.showBlackList(blackList);
     }
 
@@ -70,7 +106,7 @@ public class CommandLineController {
             InPutView.listIsEmpty();
         else{
             Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
-            InPutView.showList(voucherList);
+            OutPutView.showList(voucherList);
         }
     }
 }

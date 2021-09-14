@@ -41,6 +41,18 @@ public class CommandLineInput {
         return input;
     }
 
+    public static String inputCustomerName() throws IOException {
+        String input;
+        input = reader.readLine();
+        return input;
+    }
+
+    public static String inputCustomerEmail() throws IOException {
+        String input;
+        input = reader.readLine();
+        return input;
+    }
+
     public static void closeReader() throws IOException {
         reader.close();
     }
