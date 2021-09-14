@@ -13,9 +13,11 @@ import java.util.UUID;
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
+    private final VoucherFactory voucherFactory;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
         this.voucherRepository = voucherRepository;
+        this.voucherFactory = voucherFactory;
     }
 
     public Voucher getVoucher(UUID voucherId) {
@@ -24,9 +26,8 @@ public class VoucherService {
                 .orElseThrow(() -> new NullPointerException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public Voucher createVoucher(VoucherType voucherType, long discountAmount) {
-        // voucherType, discountAmount -> domain
-        Voucher voucher = VoucherFactory.createVoucher(voucherType, discountAmount);
+    public Voucher createVoucher(UUID voucherId, VoucherType voucherType, long discountAmount) {
+        Voucher voucher = voucherFactory.createVoucher(voucherId, voucherType, discountAmount);
         return voucherRepository.insert(voucher);
     }
 

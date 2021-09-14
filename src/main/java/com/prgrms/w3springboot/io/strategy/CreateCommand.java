@@ -8,6 +8,8 @@ import com.prgrms.w3springboot.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.UUID;
+
 public class CreateCommand implements CommandStrategy {
     private static final Logger logger = LoggerFactory.getLogger(CreateCommand.class);
 
@@ -22,7 +24,7 @@ public class CreateCommand implements CommandStrategy {
 
             Voucher createdVoucher;
             try {
-                createdVoucher = voucherService.createVoucher(VoucherType.of(voucherType), Long.parseLong(discountAmount));
+                createdVoucher = voucherService.createVoucher(UUID.randomUUID(), VoucherType.of(voucherType), Long.parseLong(discountAmount));
                 output.printVoucher(createdVoucher);
                 flag = false;
             } catch (NumberFormatException e) {
