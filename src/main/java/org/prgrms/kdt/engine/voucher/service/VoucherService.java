@@ -23,9 +23,9 @@ public class VoucherService {
         this.customerRepository = customerRepository;
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Optional<Voucher> getVoucher(UUID voucherId) {
         validateVoucherId(voucherId);
-        return voucherRepository.findById(voucherId).get();
+        return voucherRepository.findById(voucherId);
     }
 
     public void useVoucher(Voucher voucher) {
