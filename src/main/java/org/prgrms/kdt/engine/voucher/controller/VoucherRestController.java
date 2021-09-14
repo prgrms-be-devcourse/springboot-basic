@@ -33,4 +33,10 @@ public class VoucherRestController {
     public Voucher findVoucher(@PathVariable("voucherId") UUID voucherId) {
         return voucherService.getVoucher(voucherId);
     }
+
+    @DeleteMapping("/api/v1/vouchers/{voucherId}")
+    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+        voucherService.deleteVoucher(voucherId);
+        return "deleted voucher " + voucherId;
+    }
 }

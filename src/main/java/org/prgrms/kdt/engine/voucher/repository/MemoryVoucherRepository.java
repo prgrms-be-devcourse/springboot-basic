@@ -48,6 +48,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteVoucher(UUID voucherId) {
+        // 미구현
+    }
+
+    @Override
     public Optional<UUID> findCustomerByVoucher(UUID voucherId) {
         return Optional.empty();
     }
