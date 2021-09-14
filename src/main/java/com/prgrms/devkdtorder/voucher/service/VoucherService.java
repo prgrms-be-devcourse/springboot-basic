@@ -2,6 +2,7 @@ package com.prgrms.devkdtorder.voucher.service;
 
 import com.prgrms.devkdtorder.exception.ErrorType;
 import com.prgrms.devkdtorder.exception.NotFoundException;
+import com.prgrms.devkdtorder.exception.VoucherNotFoundException;
 import com.prgrms.devkdtorder.voucher.domain.Voucher;
 import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 import com.prgrms.devkdtorder.voucher.repository.VoucherRepository;
@@ -23,7 +24,7 @@ public class VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new NotFoundException(ErrorType.VOUCHER_NOT_FOUND.with("for " + voucherId)));
+                .orElseThrow(() -> new VoucherNotFoundException(voucherId.toString()));
     }
 
     public UUID saveVoucher(Voucher voucher){
