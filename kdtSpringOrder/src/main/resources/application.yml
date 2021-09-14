@@ -6,6 +6,9 @@ spring:
   thymeleaf:
     view-names: "views/*"
     prefix: "/WEB-INF/"
+  devtools:
+    livereload:
+      enabled: true
 server:
   servlet:
     context-path: /kdt
