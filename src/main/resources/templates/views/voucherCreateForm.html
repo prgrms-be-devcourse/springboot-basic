@@ -11,6 +11,9 @@
 
 <body>
 
+<h1>바우처 생성</h1>
+<br/>
+
 <div class="container">
     <form th:action="@{/voucher/new}" th:object="${createForm}" method="post">
 
@@ -28,6 +31,8 @@
                    placeholder="가격을 입력하세요">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/vouchers}'|">뒤로</button>
+
     </form>
 </div>
 

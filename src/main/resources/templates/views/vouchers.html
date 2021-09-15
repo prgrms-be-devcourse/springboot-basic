@@ -8,22 +8,36 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
-<body class="container-fruid">
+<body class="container">
 
-  <div class="container">
+<h1>바우처 목록</h1>
+<br/>
 
-    <div class="row" th:each = "voucher: ${vouchers}" th:object="${voucher}" th:onclick="|location.href='@{/voucher/detail/{voucherId}(voucherId=*{voucherId}) }'|">
-      <div class="col" th:text="*{voucherId}">Column</div>
-      <div class="col" th:text="*{voucherType}">Column</div>
-      <div class="col" th:text="*{amount}">Column</div>
-      <div class="col" th:text="*{createdAt}">Column</div>
-    </div>
+<table class="table table-striped">
 
-      <div>
-          <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/voucher/new}'|">추가</button>
-      </div>
+    <thead>
+        <tr>
+            <th scope="col">Voucher Id</th>
+            <th scope="col">할인유형</th>
+            <th scope="col">할인률/할인금액</th>
+            <th scope="col">생성일자</th>
+        </tr>
+    </thead>
 
-  </div>
+    <tbody>
+        <tr th:each = "voucher: ${vouchers}" th:object="${voucher}" th:onclick="|location.href='@{/voucher/detail/{voucherId}(voucherId=*{voucherId}) }'|">
+            <th scope="col" th:text="*{voucherId}">#</th>
+            <th scope="col" th:text="*{voucherType}">First</th>
+            <th scope="col" th:text="*{amount}">Last</th>
+            <th scope="col" th:text="*{createdAt}">Handle</th>
+        </tr>
+    </tbody>
+
+</table>
+
+<div>
+    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/voucher/new}'|">추가</button>
+</div>
 
 </body>
 </html>
