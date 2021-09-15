@@ -34,5 +34,10 @@ public class VoucherApiV1Controller {
         voucherService.deleteVoucher(voucherId, customerId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+    
+    @GetMapping("/{voucherId}")
+    public ResponseEntity findVoucher(@PathVariable UUID voucherId) {
+        return ResponseEntity.ok().body(voucherService.getVoucher(voucherId));
+    }
 
 }
