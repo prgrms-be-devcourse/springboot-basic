@@ -24,7 +24,7 @@ public enum CommandType {
         CommandType commandType = Arrays.stream(CommandType.values())
                 .filter(cmd -> cmd.command.equals(inputCommandType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid command type input..."));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid input..."));
         return commandType.supplier.get()
                 .execute(input, output, voucherService);
     }

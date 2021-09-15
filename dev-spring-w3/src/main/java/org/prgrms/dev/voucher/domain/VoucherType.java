@@ -9,7 +9,8 @@ public enum VoucherType {
     PERCENT("percent", (voucherId, value) -> new PercentDiscountVoucher(voucherId, value));
 
     private final String type;
-    private final BiFunction<UUID, Long, Voucher> voucherMaker;
+
+    private final BiFunction<UUID, Long ,Voucher> voucherMaker;
 
     VoucherType(String type, BiFunction<UUID, Long, Voucher> voucherMaker) {
         this.type = type;
@@ -24,7 +25,7 @@ public enum VoucherType {
         VoucherType voucherType = Arrays.stream(VoucherType.values())
                 .filter(voucher -> voucher.type.equals(inputType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid voucher type input..."));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid input..."));
 
         return voucherType.create(voucherId, value);
     }

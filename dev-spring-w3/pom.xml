@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.prgrms</groupId>
-	<artifactId>dev-springboot-order</artifactId>
+	<artifactId>dev</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>W3</name>
-	<description>Dev SpringBoot Order</description>
+	<description>Dev Spring Order</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

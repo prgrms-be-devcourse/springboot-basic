@@ -1,22 +1,17 @@
 package org.prgrms.dev.io;
 
-import org.prgrms.dev.customer.domain.Customer;
-import org.prgrms.dev.voucher.domain.Voucher;
-
-import java.util.List;
+import org.prgrms.dev.voucher.service.VoucherService;
 
 public interface Output {
     void init();
 
-    void selectVoucherType();
+    void voucherSelectType();
 
-    void printInvalidNumber();
+    void voucherList(VoucherService voucherService);
 
-    void printInvalidCommandType();
+    void invalidNumberInput();
 
-    void printInvalidVoucherType();
+    void invalidCommandTypeInput();
 
-    void printBlackList(List<Customer> blackList);
-
-    void printVoucherList(List<Voucher> voucherList);
+    void invalidVoucherTypeInput();
 }

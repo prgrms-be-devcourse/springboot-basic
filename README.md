@@ -30,48 +30,8 @@ Type list to list all vouchers.
 
 ## Mission 3  내용 
 
-- 컴포넌트 스캔을 통해서 빈이 등록되도록 해보기
-- 메모리 관리가 아닌 파일로 관리가 되는 Repository를 만들어 보기
+- 컴포넌트 스캔을 통해서 빈이 등록되도록 한다.
+- 메모리 관리가 아닌 파일로 관리가 되는 Repository를 만들어 본다.
 
 ---
-
-<br/>
-
-## Mission 4 내용
-
-- 고객 블랙 리스트 명단 작성하기
-  - customer_blacklist.csv 파일을 만들고 스프링 애플리케이션에서 해당 파일을 읽을 수 있고 블랙 리스트조회 가능 
-- YAML 프라퍼티를 만들고 어떤 설정을 만들수 있을지 고민하기 
-- 바우처를 메모리에서 관리하는 레포지토리는 개발 프로파일에서만 동작하게 해보기
-
----
-
-<br/>
-
-## Mission 5 내용
-
-- SpringBoot 어플리케이션으로 변경 (SpringApplication 사용)
-
-- 실행가능한 jar 파일 생성하기
-
-  - ```shell
-    mvn clean package spring-boot:repackage
-    ll target/
-    java -jar target/dev-springboot-order-0.0.1-SNAPSHOT.jar
-    ```
-
-    ![jar1](assets/images/jar1.png)
-
-    ![jar1](assets/images/jar2.png)
-
-
-- 적절한 로그를 기록하고 로그백 설정을 해서 에러는 파일로 기록하기
-
-  ![errorlog](assets/images/errorlog0908.png)
-
-  ![errorlog](assets/images/errorlog.png)
-
----
-
-
 
