@@ -5,12 +5,10 @@ import com.wix.mysql.config.Charset;
 import org.junit.jupiter.api.*;
 import org.prgms.TestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -84,6 +82,15 @@ class JdbcVoucherRepositoryTest {
     public void testFindAll() {
         var vouchers = jdbcVoucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName(" Voucher를 삭제 할 수 있다.")
+    public void testDelete() {
+        jdbcVoucherRepository.delete(newPercentDiscount.getVoucherId());
+        var voucher = jdbcVoucherRepository.findById(newPercentDiscount.getVoucherId());
+        assertThat(voucher.isEmpty(), is(true));
     }
 
 

@@ -77,4 +77,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query("select * from vouchers where voucher_type = ?", voucherRowMapper, voucherType.toString());
     }
 
+    @Override
+    public void delete(UUID voucherId) {
+        var update = jdbcTemplate.update("delete from vouchers where voucher_id =  (UNHEX(REPLACE(?,'-','')))", voucherId.toString().getBytes());
+        if (update != 1) {
+            throw new RuntimeException("Nothing was deleted");
+        }
+    }
+
 }

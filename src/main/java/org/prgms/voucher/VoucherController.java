@@ -1,11 +1,8 @@
 package org.prgms.voucher;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("/api/v1")
@@ -25,6 +22,12 @@ public class VoucherController {
     @GetMapping("/vouchers/{voucherId}")
     public Voucher findVoucher(@PathVariable("voucherId") UUID voucherId) {
         return voucherService.getVoucher(voucherId);
+    }
+
+    @DeleteMapping("/voucher/{voucherId}")
+    public void deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+        System.out.println("ssss");
+        voucherService.deleteVoucher(voucherId);
     }
 
     @GetMapping("/vouchers/type/{voucherType}")

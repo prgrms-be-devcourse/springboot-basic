@@ -1,7 +1,5 @@
 package org.prgms.voucher;
 
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -35,6 +33,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByVoucherType(VoucherType voucherType) {
         return null;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+
     }
 
 }
