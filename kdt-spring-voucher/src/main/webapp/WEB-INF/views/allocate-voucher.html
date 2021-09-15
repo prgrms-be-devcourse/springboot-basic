@@ -35,7 +35,9 @@
             <td th:text="*{discount}"></td>
             <td th:text="*{allocatedAt}"></td>
             <td class="col-md-2">
-                <a class="btn btn-outline-info" th:href="@{'/customers/'+*{customerId}+'/edit'}">할당 삭제</a>
+                <form th:action="@{'/customer-vouchers/'+*{voucherId}+'/'+*{customerId}+'/delete'}" method="post">
+                    <button type="submit" class="btn btn-outline-danger">할당해제</button>
+                </form>
             </td>
         </tr>
         </tbody>

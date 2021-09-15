@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="align_left" th:object="${customer}">
-            <form th:action="@{'/customers/'+*{customerId}+'/edit'}" method="post"> <!-- id -->
+            <form th:action="@{'/customers/'+*{customerId}+'/detail'}" method="post"> <!-- id -->
                 <div class="form-group">
                     <label th:for="name">이름</label>
                     <input type="text" th:field="*{name}" name="name" class="form-control" placeholder="이름을 입력하세요" />

@@ -69,4 +69,7 @@ public class CustomerVoucherService {
         return Optional.of(entity);
     }
 
+    public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
+        customerVoucherRepository.deleteById(customerId,voucherId);
+    }
 }

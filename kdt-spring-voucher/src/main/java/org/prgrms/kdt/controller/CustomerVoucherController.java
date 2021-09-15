@@ -45,4 +45,14 @@ public class CustomerVoucherController {
         customerVoucherService.createAllocateVoucher(customerId,voucherId);
         return "redirect:/customer-vouchers";
     }
+
+    @PostMapping("/customer-vouchers/{voucherId}/{customerId}/delete")
+    public String deleteCustomerVoucher(@PathVariable("voucherId") UUID voucherId,
+                                        @PathVariable("customerId") UUID customerId){
+        customerVoucherService.deleteCustomerVoucher(customerId,voucherId);
+        return "redirect:/customer-vouchers";
+    }
+
+
+
 }

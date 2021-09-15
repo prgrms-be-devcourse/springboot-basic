@@ -43,7 +43,7 @@ public class CustomerController {
     }
 
 
-    @GetMapping("/customers/{customerId}/edit")
+    @GetMapping("/customers/{customerId}/detail")
     public String findCustomer(@PathVariable("customerId") UUID customerId, Model model) {
         Optional<CustomerEntity> maybeCustomer = customerService.getCustomer(customerId);
         if (maybeCustomer.isPresent()) {
