@@ -4,14 +4,16 @@ import org.prgrms.kdt.controller.view.CustomerForm;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.service.VoucherService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api/v1/vouchers")
 public class VoucherApiV1Controller {
 
     private final VoucherService voucherService;
@@ -20,12 +22,17 @@ public class VoucherApiV1Controller {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("/Vouchers/new")
+    @PostMapping("/new")
     public ResponseEntity createVoucherByCustomerId(VoucherSaveRequestDto voucherSaveRequestDto){
         return voucherService.createVoucher(voucherSaveRequestDto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.noContent().build());
+    }
 
+    @DeleteMapping("/{voucherId}/customers/{customerId}")
+    public ResponseEntity deleteVoucherByCustomerId(@PathVariable UUID voucherId, @PathVariable UUID customerId) {
+        voucherService.deleteVoucher(voucherId, customerId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
