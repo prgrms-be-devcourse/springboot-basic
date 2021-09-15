@@ -26,13 +26,14 @@ public class CustomerController {
 
     @GetMapping("/customer/sign")
     public String signCustomer(Model model) {
-        model.addAttribute("customerSign", new CustomerSignDto());
+        CustomerSignDto dto = new CustomerSignDto();
+        model.addAttribute("customerSign", dto);
         return "/customer/sign-customer";
     }
 
     @PostMapping("/customer/sign")
-    public String signCustomer(CustomerSignDto customerSign) {
-        customerService.createCustomer(customerSign);
+    public String signCustomer(CustomerSignDto dto) {
+        customerService.createCustomer(dto);
         return "redirect:/index";
     }
 

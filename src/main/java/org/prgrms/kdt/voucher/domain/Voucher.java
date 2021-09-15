@@ -7,6 +7,7 @@ import org.prgrms.kdt.exception.InvalidArgumentException;
 import org.prgrms.kdt.voucher.domain.vo.Type;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Voucher extends Date {
@@ -80,5 +81,18 @@ public class Voucher extends Date {
 
     public long getValue() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Voucher voucher = (Voucher) o;
+        return value == voucher.value && Objects.equals(voucherId, voucher.voucherId) && Objects.equals(email, voucher.email) && type == voucher.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, email, type, value);
     }
 }

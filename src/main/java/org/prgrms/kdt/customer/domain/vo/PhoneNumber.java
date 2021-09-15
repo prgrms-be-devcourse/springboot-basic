@@ -2,8 +2,8 @@ package org.prgrms.kdt.customer.domain.vo;
 
 import org.prgrms.kdt.exception.ErrorMessage;
 import org.prgrms.kdt.exception.InvalidArgumentException;
-import org.springframework.util.StringUtils;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class PhoneNumber {
@@ -17,14 +17,25 @@ public class PhoneNumber {
     }
 
     public void validatePhoneNumber(String phoneNumber) {
-        if (!StringUtils.hasText(phoneNumber) || !Pattern.matches(PHONE_NUMBER_VALIDATOR, phoneNumber)) {
+        if (!Pattern.matches(PHONE_NUMBER_VALIDATOR, phoneNumber)) {
             throw new InvalidArgumentException(ErrorMessage.PHONE_NUMBER);
         }
     }
 
-    @Override
-    public String toString() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PhoneNumber that = (PhoneNumber) o;
+        return Objects.equals(phoneNumber, that.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phoneNumber);
+    }
 }

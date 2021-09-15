@@ -3,6 +3,8 @@ package org.prgrms.kdt.customer.repository;
 import org.prgrms.kdt.customer.domain.*;
 import org.prgrms.kdt.customer.domain.vo.*;
 import org.prgrms.kdt.customer.dto.CustomerSignDto;
+import org.prgrms.kdt.exception.ErrorMessage;
+import org.prgrms.kdt.exception.NotInsertException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -50,16 +52,16 @@ public class CustomerJdbcRepository implements CustomerRepository {
         Customer customer = customerSignDto.of();
         int insert = jdbcTemplate.update("insert into customer(customer_id, customer_email, customer_password, customer_name, customer_phone_number, customer_role, customer_created_date, customer_modified_date) values (UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
-                customer.getEmail().toString(),
-                customer.getPassword().toString(),
-                customer.getName().toString(),
-                customer.getPhoneNumber().toString(),
-                customer.getRole().toString(),
+                customer.getEmail().getEmail(),
+                customer.getPassword().getPassword(),
+                customer.getName().getName(),
+                customer.getPhoneNumber().getPhoneNumber(),
+                customer.getRole().getRole(),
                 Timestamp.valueOf(customer.getCreatedDate()),
                 Timestamp.valueOf(customer.getModifiedDate())
         );
         if (insert != SUCCESS_NUMBER) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new NotInsertException(ErrorMessage.CAN_NOT_INSERT);
         }
         return customer;
     }
@@ -67,7 +69,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByEmail(Email email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customer where customer_email = ?", customerRowMapper, email.toString()));
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customer where customer_email = ?", customerRowMapper, email.getEmail()));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -76,12 +78,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public boolean updateRoleByEmail(Customer customer) {
         int update = jdbcTemplate.update("update customer set customer_role = ?, customer_modified_date = ? where customer_email = ?",
-                customer.getRole().toString(),
+                customer.getRole().getRole(),
                 LocalDateTime.now(),
-                customer.getEmail().toString()
+                customer.getEmail().getEmail()
         );
 
-        if (update != 1) {
+        if (update != SUCCESS_NUMBER) {
             return false;
         }
         return true;

@@ -5,19 +5,18 @@ import org.springframework.http.HttpStatus;
 import java.util.Optional;
 
 public class ResponseDto {
-
     private int status;
     private String message;
     private Object data;
 
     public ResponseDto(int status, ResponseMessage message) {
         this.status = status;
-        this.message = message.toString();
+        this.message = message.getMessage();
     }
 
     public ResponseDto(int status, ResponseMessage message, Object data) {
         this.status = status;
-        this.message = message.toString();
+        this.message = message.getMessage();
         this.data = data;
     }
 

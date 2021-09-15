@@ -4,6 +4,7 @@ import org.prgrms.kdt.common.Date;
 import org.prgrms.kdt.customer.domain.vo.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer extends Date {
@@ -51,5 +52,18 @@ public class Customer extends Date {
     public Customer isBlackList() {
         role = role == Role.USER ? Role.BLACKLIST : Role.USER;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(customerId, customer.customerId) && Objects.equals(email, customer.email) && Objects.equals(password, customer.password) && Objects.equals(name, customer.name) && Objects.equals(phoneNumber, customer.phoneNumber) && role == customer.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, email, password, name, phoneNumber, role);
     }
 }

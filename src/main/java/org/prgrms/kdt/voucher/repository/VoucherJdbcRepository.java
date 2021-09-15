@@ -1,6 +1,9 @@
 package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.customer.domain.vo.Email;
+import org.prgrms.kdt.exception.ErrorMessage;
+import org.prgrms.kdt.exception.NotDeleteException;
+import org.prgrms.kdt.exception.NotInsertException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.vo.Type;
 import org.prgrms.kdt.voucher.dto.VoucherDto;
@@ -48,14 +51,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
         Voucher voucher = voucherDto.of();
         int insert = jdbcTemplate.update("insert into voucher(voucher_id, customer_email, voucher_type, voucher_value, voucher_created_date, voucher_modified_date) values (UUID_TO_BIN(?), ?, ?, ?, ?, ?)",
                 voucher.getVoucherId().toString().getBytes(),
-                voucher.getEmail().toString(),
+                voucher.getEmail().getEmail(),
                 voucher.getType().toString(),
                 voucher.getValue(),
                 Timestamp.valueOf(voucher.getCreatedDate()),
                 Timestamp.valueOf(voucher.getModifiedDate())
         );
         if (insert != SUCCESS_NUMBER) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new NotInsertException(ErrorMessage.CAN_NOT_INSERT);
         }
         return voucher;
     }
@@ -67,14 +70,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByEmail(Email email) {
-        return jdbcTemplate.query("select * from voucher where customer_email = ?", voucherRowMapper, email.toString());
+        return jdbcTemplate.query("select * from voucher where customer_email = ?", voucherRowMapper, email.getEmail());
     }
 
     @Override
     public UUID deleteById(UUID id) {
         int result = jdbcTemplate.update("delete from voucher where voucher_id = UUID_TO_BIN(?)", id.toString().getBytes());
         if (result != SUCCESS_NUMBER) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new NotDeleteException(ErrorMessage.CAN_NOT_DELETE);
         }
         return id;
     }

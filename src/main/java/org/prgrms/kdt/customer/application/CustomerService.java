@@ -4,6 +4,8 @@ import org.prgrms.kdt.customer.domain.Customer;
 import org.prgrms.kdt.customer.domain.vo.Email;
 import org.prgrms.kdt.customer.dto.CustomerSignDto;
 import org.prgrms.kdt.customer.repository.CustomerRepository;
+import org.prgrms.kdt.exception.ErrorMessage;
+import org.prgrms.kdt.exception.NotUpdateException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +14,6 @@ import java.util.Optional;
 
 @Service
 public class CustomerService {
-
     private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
@@ -20,8 +21,8 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer createCustomer(CustomerSignDto customerSignDto) {
-        return customerRepository.insert(customerSignDto);
+    public Customer createCustomer(CustomerSignDto dto) {
+        return customerRepository.insert(dto);
     }
 
     @Transactional
@@ -37,7 +38,7 @@ public class CustomerService {
         if (result) {
             return email;
         }
-        throw new IllegalArgumentException("실패");
+        throw new NotUpdateException(ErrorMessage.CAM_NOT_UPDATE_ROLE);
     }
 
     @Transactional(readOnly = true)

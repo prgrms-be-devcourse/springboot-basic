@@ -2,7 +2,6 @@ package org.prgrms.kdt.customer.domain.vo;
 
 import org.prgrms.kdt.exception.ErrorMessage;
 import org.prgrms.kdt.exception.InvalidArgumentException;
-import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -18,13 +17,12 @@ public class Password {
     }
 
     public void validatePassword(String password) {
-        if (!StringUtils.hasText(password) || !Pattern.matches(PASSWORD_VALIDATOR, password)) {
+        if (!Pattern.matches(PASSWORD_VALIDATOR, password)) {
             throw new InvalidArgumentException(ErrorMessage.PASSWORD);
         }
     }
 
-    @Override
-    public String toString() {
+    public String getPassword() {
         return password;
     }
 

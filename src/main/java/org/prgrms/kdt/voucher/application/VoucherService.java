@@ -1,6 +1,5 @@
 package org.prgrms.kdt.voucher.application;
 
-import org.prgrms.kdt.customer.domain.Customer;
 import org.prgrms.kdt.customer.domain.vo.Email;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.vo.Type;
@@ -8,18 +7,13 @@ import org.prgrms.kdt.voucher.dto.VoucherDto;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class VoucherService {
-
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {

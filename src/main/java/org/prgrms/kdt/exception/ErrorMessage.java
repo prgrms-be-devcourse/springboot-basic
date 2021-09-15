@@ -14,7 +14,10 @@ public enum ErrorMessage {
     LESS_THAN_MAX_VOUCHER_AMOUNT("Amount should be less than your Input Data"),
     MORE_THAN_MIN_VOUCHER_PERCENT("Percent should be more than your Input Data"),
     NOT_BE_ZERO_VOUCHER_PERCENT("Percent should not be Zero"),
-    LESS_THAN_MAX_VOUCHER_PERCENT("Percent should be less than your Input Data");
+    LESS_THAN_MAX_VOUCHER_PERCENT("Percent should be less than your Input Data"),
+    CAM_NOT_UPDATE_ROLE("Can not update role"),
+    CAN_NOT_INSERT("Can not Insert"),
+    CAN_NOT_DELETE("Can not Delete");
 
 
     ErrorMessage(String message) {

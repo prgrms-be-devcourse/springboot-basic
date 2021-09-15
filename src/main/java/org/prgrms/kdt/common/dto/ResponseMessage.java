@@ -1,18 +1,24 @@
 package org.prgrms.kdt.common.dto;
 
 public enum ResponseMessage {
-    SUCCESS("성공"),
-    FAIL("실패");
+    SUCCESS(200, "성공"),
+    FAIL(400, "실패");
 
+    private final int status;
     private final String message;
 
-    ResponseMessage(String message) {
+    ResponseMessage(int status, String message) {
+        this.status = status;
         this.message = message;
     }
 
-    @Override
-    public String toString() {
+    public int getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
         return message;
     }
+
 
 }

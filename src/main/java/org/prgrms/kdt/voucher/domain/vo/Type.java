@@ -9,7 +9,7 @@ public enum Type {
     FIXED("Fixed") {
         @Override
         public long discount(long price, long value) {
-            long discountAmount = price * (value / 100);
+            long discountAmount = price * (value / PERCENT_RATIO);
             if (discountAmount < 0) {
                 throw new InvalidArgumentException(ErrorMessage.NOT_CORRECT_INPUT_MESSAGE);
             }
@@ -20,12 +20,15 @@ public enum Type {
         @Override
         public long discount(long price, long value) {
             long discountAmount = price - value;
-            if (discountAmount < 0) {
+            if (discountAmount < MIN_COUNT) {
                 throw new InvalidArgumentException(ErrorMessage.NOT_CORRECT_INPUT_MESSAGE);
             }
             return discountAmount;
         }
     };
+
+    private static final int PERCENT_RATIO = 100;
+    private static final int MIN_COUNT = 0;
 
     private final String type;
 
