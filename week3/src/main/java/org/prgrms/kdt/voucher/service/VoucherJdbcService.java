@@ -4,22 +4,23 @@ import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.repository.IVoucherJdbcRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @Primary
-public class VoucherJdbcService implements VoucherService{
+public class VoucherJdbcService implements IVoucherJdbcService{
 
-    private final VoucherRepository voucherRepository;
+    private final IVoucherJdbcRepository voucherRepository;
 
-    public VoucherJdbcService(VoucherRepository voucherRepository) {
+    public VoucherJdbcService(IVoucherJdbcRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -50,5 +51,19 @@ public class VoucherJdbcService implements VoucherService{
     @Override
     public void deleteById(UUID voucherId) {
         voucherRepository.deleteByVoucherId(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return voucherRepository.findByVoucherType(voucherType);
+    }
+
+    @Override
+    public List<Voucher> findByVouchersTerm(String start, String end) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        LocalDateTime startDate = LocalDateTime.parse(start, formatter);
+        LocalDateTime endDate = LocalDateTime.parse(end, formatter);
+
+        return voucherRepository.findByVouchersTerm(startDate, endDate);
     }
 }
