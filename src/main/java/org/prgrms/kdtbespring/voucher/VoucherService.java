@@ -31,26 +31,16 @@ public class VoucherService {
     }
 
     // Voucher 타입 생성
-    public Optional<Voucher> create(VoucherType voucherType){
+    public Optional<Voucher> create(VoucherType voucherType) {
         UUID voucherId = UUID.randomUUID();
-        if (voucherType.equals(VoucherType.FixedAmountVoucher) ){
-            // 임의로 지정 10원 할인
-            long amount = 10L;
-            Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, amount);
-            voucherRepository.insert(fixedAmountVoucher);
-            return Optional.of(fixedAmountVoucher);
-        }else if (voucherType.equals(VoucherType.PercentDiscountVoucher)){
-            // 임의로 지정 10%
-            long percent = 10L;
-            Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, percent);
-            voucherRepository.insert(percentDiscountVoucher);
-            return Optional.of(percentDiscountVoucher);
-        }
-        return Optional.empty();
+        long value = 10L;
+
+        Voucher voucher = voucherType.voucherCreate(voucherRepository, voucherId, value);
+        return Optional.ofNullable(voucher);
     }
 
     // 리스트 반환
-    public List<Voucher> list(){
+    public List<Voucher> list() {
         List<Voucher> vouchers = voucherRepository.findAll();
         return vouchers;
     }
