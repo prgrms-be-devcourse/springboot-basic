@@ -3,6 +3,7 @@ package org.prgrms.kdtspringhw;
 import org.prgrms.kdtspringhw.blacklist.BlackList;
 import org.prgrms.kdtspringhw.blacklist.BlackListService;
 import org.prgrms.kdtspringhw.utils.Command;
+import org.prgrms.kdtspringhw.utils.ShellPrint;
 import org.prgrms.kdtspringhw.voucher.voucherObj.Voucher;
 import org.prgrms.kdtspringhw.voucher.VoucherService;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +21,7 @@ public class CommandLineApplication implements CommandLineRunner {
     private final BlackListService blackListService;
     private BufferedReader br;
     private BufferedWriter bw;
+    private static ShellPrint sp;
 
     public CommandLineApplication(ConfigurableApplicationContext applicationContext, VoucherService voucherService, BlackListService blackListService) {
         this.applicationContext = applicationContext;
@@ -28,25 +30,19 @@ public class CommandLineApplication implements CommandLineRunner {
         this.br = new BufferedReader(new InputStreamReader(System.in));
         this.bw = new BufferedWriter(new OutputStreamWriter(System.out));
     }
-
     public void CommandLineApplicationRun() throws IOException {
         AnnotationConfigApplicationContext a;
-        printHome();
-
+        sp.printHome();
         while (true) {
-            bw.write("명령어를 입력해주세요. \n");
-            bw.flush();
+            sp.print("명령어를 입력해주세요. \n");
             Command command = Command.getCommandType(br.readLine());
             switch (command) {
                 case EXIT:
-                    bw.write("프로그램을 종료합니다");
+                    sp.print("프로그램을 종료합니다");
                     applicationContext.close();
-                    bw.flush();
-                    bw.close();
                     return;
                 case CREATE:
-                    bw.write("Voucher 타입을 입력하세요.\n fix:FixedAmount    per:PrecentDiscount\n");
-                    bw.flush();
+                    sp.print("Voucher 타입을 입력하세요.\n fix:FixedAmount    per:PrecentDiscount\n");
                     command = Command.getCommandType(br.readLine());
                     if (!voucherService.createVoucher(command)) {
                         continue;
@@ -54,39 +50,18 @@ public class CommandLineApplication implements CommandLineRunner {
                     break;
                 case LIST:
                     Map<UUID, Voucher> voucherList = voucherService.getVouchers();
-                    for (UUID uuid : voucherList.keySet()) {
-                        Voucher voc = voucherList.get(uuid);
-                        bw.write(voc.toString() + "\n");
-                        bw.flush();
-                    }
+                    sp.printVoucherList(voucherList);
                     break;
                 case BLACK_LIST:
                     Map<UUID, BlackList> blackLists = blackListService.getBlackLists();
-                    for (UUID uuid : blackLists.keySet()) {
-                        BlackList blackList = blackLists.get(uuid);
-                        bw.write(blackList.toString() + "\n");
-                    }
-                    bw.flush();
+                    sp.printBlackList(blackLists);
                     break;
                 default:
-                    bw.write("유효하지 않은 명령어 입니다.\n");
-                    bw.flush();
+                    sp.print("유효하지 않은 명령어 입니다.\n");
                     continue;
             }
         }
     }
-
-    private void printHome() throws IOException {
-        bw.write("=== Voucher Program ===\n" +
-                "Type exit to exit the program.\n" +
-                "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers\n" +
-                "Type black to list all black_list\n" +
-                "\n"
-        );
-        bw.flush();
-    }
-
     @Override
     public void run(String... args) throws Exception {
         CommandLineApplicationRun();
