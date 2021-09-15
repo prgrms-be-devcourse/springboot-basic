@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>회원 등록하기</h2>
+    </div>
+
+    <h4 class="mb-3">회원 정보 입력</h4>
+    <form action="customer.html" th:action method="post">
+        <div>
+            <label for="name">Customer Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter Customer Name">
+        </div>
+        <div>
+            <label for="email">Customer Email</label>
+            <input type="text" id="email" name="email" class="form-control" placeholder="Enter Customer Email">
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">회원 등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg" onclick="location.href='customers.html'" th:onclick="|location.href='@{/customers}'|" type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>

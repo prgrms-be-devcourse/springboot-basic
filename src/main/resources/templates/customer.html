@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>회원 정보 상세보기</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary btn-lg"
+                    onclick="location.href='customers.html'"
+                    th:onclick="|location.href='@{/customers}'|"
+                    type="button">목록으로
+            </button>
+        </div>
+        <div class="col">
+            <button class="btn btn-secondary btn-lg"
+                    onclick="location.href='customers.html'"
+                    th:onclick="|location.href='@{/customers/{customerId}/remove(customerId=${customer.getCustomerId()})}'|"
+                    type="button">삭제하기
+            </button>
+        </div>
+    </div>
+    <hr class="my-4">
+
+    <div>
+        <label for="customerId">Customer ID</label>
+        <input type="text" id="customerId" name="customerId" class="form-control" value="-1" th:value="${customer.getCustomerId()}" readonly>
+    </div>
+    <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" class="form-control" value="----" th:value="${customer.getName()}" readonly>
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" class="form-control" value="----" th:value="${customer.getEmail()}" readonly>
+    </div>
+    <div>
+        <label for="lastLoginAt">Last Login At</label>
+        <input type="text" id="lastLoginAt" name="lastLoginAt" class="form-control" value="0000-00-00" th:value="${customer.getLastLoginAt()}" readonly>
+    </div>
+    <div>
+        <label for="createdAt">Created At</label>
+        <input type="text" id="createdAt" name="createdAt" class="form-control" value="0000-00-00" th:value="${customer.getCreatedAt()}" readonly>
+    </div>
+
+    <hr class="my-4">
+    <h4>Vouchers belong to the customer</h4>
+    <form action="customer.html" th:action="@{|/customers/${customer.getCustomerId()}/remove|}" method="post">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Select</th>
+                <th>Voucher ID</th>
+                <th>Voucher Type</th>
+                <th>Discount Amount</th>
+                <th>Validity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher :${vouchers}">
+<!--                <td><input type="checkbox" name="removingVoucherId" id="removingVoucherId" th:value="${voucher.getVoucherId()}" /></td>-->
+                <td><button class="w-100 btn btn-primary" type="submit" name="removingVoucherId" id="removingVoucherId" th:value="${voucher.getVoucherId()}">Deallocate</button></td>
+                <td><a href="voucher.html" th:href="@{|/vouchers/${voucher.getVoucherId()}|}" th:text="${voucher.getVoucherId()}">Voucher ID</a></td>
+                <td th:text="${voucher.getVoucherType()}">Voucher Type</td>
+                <td th:text="${voucher.getDiscount()}">Discount Amount</td>
+                <td th:text="${voucher.getStatus()}">Validity</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<!--    <button class="w-100 btn btn-primary" type="submit">Deallocate</button>-->
+    </form>
+
+    <hr class="my-4">
+    <h4>Vouchers currently unowned</h4>
+    Choose a voucher if you want to register it to this customer.
+    <br><br>
+
+    <form action="customer.html" th:action method="post">
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Voucher ID</th>
+                    <th>Voucher Type</th>
+                    <th>Discount Amount</th>
+                    <th>Validity</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="voucher :${unownedVouchers}">
+<!--                        <td><input type="checkbox" name="voucherId" id="voucherId" th:value="${voucher.getVoucherId()}" /></td>-->
+                        <td><button class="w-100 btn btn-primary" type="submit" name="voucherId" id="voucherId" th:value="${voucher.getVoucherId()}">Allocate</button></td>
+                        <td><a href="voucher.html" th:href="@{|/vouchers/${voucher.getVoucherId()}|}" th:text="${voucher.getVoucherId()}">Voucher ID</a></td>
+                        <td th:text="${voucher.getVoucherType()}">Voucher Type</td>
+                        <td th:text="${voucher.getDiscount()}">Discount Amount</td>
+                        <td th:text="${voucher.getStatus()}">Validity</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+<!--    <button class="w-100 btn btn-primary" type="submit">Allocate</button>-->
+    </form>
+
+</div>
+</body>

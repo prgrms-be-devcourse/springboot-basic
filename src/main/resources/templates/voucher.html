@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>바우처 상세보기</h2>
+        </div>
+
+        <div>
+            <label for="voucherId">Voucher ID</label>
+            <input type="text" id="voucherId" name="voucherId" class="form-control" value="-1" th:value="${voucher.getVoucherId()}" readonly>
+        </div>
+        <div>
+            <label for="voucherType">Voucher Type</label>
+            <input type="text" id="voucherType" name="voucherType" class="form-control" value="UNKNOWN" th:value="${voucher.getVoucherType()}" readonly>
+        </div>
+        <div>
+            <label for="discountAmount">DiscountAmount</label>
+            <input type="text" id="discountAmount" name="discountAmount" class="form-control" value="-1" th:value="${voucher.getDiscount()}" readonly>
+        </div>
+        <div>
+            <label for="owner">Owner</label>
+            <input type="text" id="owner" name="owner" class="form-control" value="UNKNOWN" th:value="${ownerId}" readonly>
+        </div>
+        <div>
+            <label for="validity">Status</label>
+            <input type="text" id="status" name="status" class="form-control" value="INVALID" th:value="${voucher.getStatus()}" readonly>
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-lg"
+                        onclick="location.href='vouchers.html'"
+                        th:onclick="|location.href='@{/vouchers}'|"
+                        type="button">목록으로
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-secondary btn-lg"
+                        onclick="location.href='vouchers.html'"
+                        th:onclick="|location.href='@{/vouchers/{voucherId}/remove(voucherId=${voucher.getVoucherId()})}'|"
+                        type="button">삭제하기
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
