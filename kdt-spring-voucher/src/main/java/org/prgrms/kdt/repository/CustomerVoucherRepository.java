@@ -20,10 +20,13 @@ public interface CustomerVoucherRepository {
 
     Optional<CustomerVoucherEntity> findById(UUID customerVoucherId);
 
-    List<UUID> findByCustomerId(UUID customerId);
+    List<VoucherEntity> findByCustomerId(UUID customerId);
 
     Optional<CustomerEntity> findByVoucherId(UUID voucherId);
 
+    void deleteByCustomerId(UUID customerId);
+
+    void deleteByVoucherId(UUID voucherId);
 }
 
 

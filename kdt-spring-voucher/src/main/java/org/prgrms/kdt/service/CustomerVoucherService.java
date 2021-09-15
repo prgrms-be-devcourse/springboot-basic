@@ -72,4 +72,16 @@ public class CustomerVoucherService {
     public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
         customerVoucherRepository.deleteById(customerId,voucherId);
     }
+
+    public void deleteVoucherByCustomerId(UUID customerId) {
+        customerVoucherRepository.deleteByCustomerId(customerId);
+    }
+
+    public List<VoucherEntity> findVoucherByCustomerId(UUID customerId) {
+        return customerVoucherRepository.findByCustomerId(customerId);
+    }
+
+    public void deleteCustomerByVoucherId(UUID voucherId) {
+        customerVoucherRepository.deleteByVoucherId(voucherId);
+    }
 }

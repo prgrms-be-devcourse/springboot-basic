@@ -82,7 +82,6 @@ class CustomerVoucherRepositoryTest {
                 .start();
     }
 
-
     @Test
     @Order(1)
     @DisplayName("특정 고객에게 바우처를 할당해준다.")
@@ -158,10 +157,11 @@ class CustomerVoucherRepositoryTest {
         customerVoucherRepository.insert(testCase);
         voucherRepository.insert(testVoucher3);
         customerVoucherRepository.insert(testCase3);
-        var voucherIdList = customerVoucherRepository.findByCustomerId(testCustomer.getCustomerId());
-        var voucherList = voucherIdList.stream()
-                .map(id -> voucherRepository.findById(id).get()).collect(Collectors.toList());
-        assertThat(voucherList.size(), is(voucherIdList.size()));
+//        var voucherIdList = customerVoucherRepository.findByCustomerId(testCustomer.getCustomerId());
+//        var voucherList = voucherIdList.stream()
+//                .map(id -> voucherRepository.findById(id).get()).collect(Collectors.toList());
+        var voucherList = customerVoucherRepository.findByCustomerId(testCustomer.getCustomerId());
+        assertThat(voucherList.size(), is(voucherList.size()));
         assertThat(voucherList.isEmpty(), is(false));
     }
 

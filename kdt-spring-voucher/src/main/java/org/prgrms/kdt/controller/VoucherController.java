@@ -7,6 +7,7 @@ import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.domain.VoucherEntity;
 import org.prgrms.kdt.enumType.InputStatus;
 import org.prgrms.kdt.enumType.VoucherStatus;
+import org.prgrms.kdt.service.CustomerVoucherService;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.utill.FileIoStream;
 import org.prgrms.kdt.utill.IO.IoConsole;
@@ -30,13 +31,15 @@ public class VoucherController {
 
     private VoucherService voucherService;
 
+    private CustomerVoucherService customerVoucherService;
+
     private ConfigurableApplicationContext applicationContext;
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
-
-    public VoucherController(VoucherService voucherService, ConfigurableApplicationContext applicationContext) {
+    public VoucherController(VoucherService voucherService, CustomerVoucherService customerVoucherService, ConfigurableApplicationContext applicationContext) {
         this.voucherService = voucherService;
+        this.customerVoucherService = customerVoucherService;
         this.applicationContext = applicationContext;
     }
 
@@ -60,6 +63,7 @@ public class VoucherController {
 
     @PostMapping("/vouchers/{voucherId}/remove")
     public String removeVoucher(@PathVariable(name = "voucherId") UUID voucherId){
+        customerVoucherService.deleteCustomerByVoucherId(voucherId);
         voucherService.deleteVoucher(voucherId);
         return "redirect:/vouchers";
     }
