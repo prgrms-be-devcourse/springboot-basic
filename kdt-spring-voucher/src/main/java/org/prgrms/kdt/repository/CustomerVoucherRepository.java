@@ -23,6 +23,7 @@ public interface CustomerVoucherRepository {
     List<UUID> findByCustomerId(UUID customerId);
 
     Optional<CustomerEntity> findByVoucherId(UUID voucherId);
+
 }
 
 

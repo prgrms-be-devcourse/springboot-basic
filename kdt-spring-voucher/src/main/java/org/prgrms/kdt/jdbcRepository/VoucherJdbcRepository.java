@@ -5,13 +5,15 @@ import org.prgrms.kdt.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
-import static org.prgrms.kdt.utill.EntityUtil.toVoucherParamMap;
-import static org.prgrms.kdt.utill.EntityUtil.voucherEntityRowMapper;
+import static org.prgrms.kdt.utill.EntityUtil.*;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
@@ -30,6 +32,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private final String DELETE_ALL_SQL = "delete from voucher";
     private final String DELETE_BY_ID_SQL = "delete from voucher where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String UPDATE_BY_ID_SQL = "update voucher set voucher_type = :voucherType, discount= :discount  where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String SELECT_BY_NOT_ALLOCATE = "select * from voucher as v left join customer_voucher as cv on v.voucher_id != cv.voucher_id";
+
+    @Override
+    public List<VoucherEntity> findNotAllocateList() {
+        return jdbcTemplate.query(SELECT_BY_NOT_ALLOCATE, voucherEntityRowMapper);
+    }
 
     @Override
     public VoucherEntity insert(VoucherEntity voucherEntity) {

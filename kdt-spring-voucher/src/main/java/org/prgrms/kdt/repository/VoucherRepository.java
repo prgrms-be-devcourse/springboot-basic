@@ -21,4 +21,6 @@ public interface VoucherRepository {
     void deleteAll();
 
     void deleteById(UUID voucherId);
+
+    List<VoucherEntity> findNotAllocateList();
 }
