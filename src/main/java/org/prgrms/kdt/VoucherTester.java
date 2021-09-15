@@ -2,6 +2,8 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.Exception.InputFormatException;
 import org.prgrms.kdt.Exception.VoucherTypeNotMatchException;
+import org.prgrms.kdt.util.Console;
+import org.prgrms.kdt.util.CommandType;
 import org.prgrms.kdt.voucher.*;
 import org.prgrms.kdt.IO.Input;
 import org.prgrms.kdt.IO.Output;
@@ -28,7 +30,7 @@ public class VoucherTester {
 
         while (!exitProgram) {
             try {
-                TesterCommandType commandType = TesterCommandType.matchCommandType(input.input(VoucherTesterGuideComment.commandGuide));
+                CommandType commandType = CommandType.matchCommandType(input.input(VoucherTesterGuideComment.commandGuide));
 
                 switch (commandType) {
                     case EXIT:

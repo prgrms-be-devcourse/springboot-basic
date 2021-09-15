@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.util;
 
 import org.prgrms.kdt.IO.Input;
 import org.prgrms.kdt.IO.Output;

@@ -5,6 +5,7 @@ import org.prgrms.kdt.customer.CustomerRepository;
 import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.IO.Input;
 import org.prgrms.kdt.IO.Output;
+import org.prgrms.kdt.util.Console;
 import org.prgrms.kdt.util.CustomerTesterGuideComment;
 
 import java.time.LocalDateTime;

@@ -1,6 +1,5 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;

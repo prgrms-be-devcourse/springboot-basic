@@ -1,7 +1,5 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.VoucherType;
-
 import java.util.*;
 
 public interface VoucherRepository {

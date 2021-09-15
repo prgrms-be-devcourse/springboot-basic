@@ -1,20 +1,20 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.util;
 
 import org.prgrms.kdt.Exception.InputFormatException;
 
-public enum TesterCommandType {
+public enum CommandType {
     EXIT("프로그램 종료"),
     CREATE("생성"),
     LIST("목록 조회");
 
     private String type;
 
-    TesterCommandType(String type) {
+    CommandType(String type) {
         this.type = type;
     }
 
-    public static TesterCommandType matchCommandType(String input) throws InputFormatException{
-        for (TesterCommandType commandType : TesterCommandType.values()) {
+    public static CommandType matchCommandType(String input) throws InputFormatException{
+        for (CommandType commandType : CommandType.values()) {
             if (commandType.toString().equalsIgnoreCase(input)) return commandType;
         }
         throw new InputFormatException();
