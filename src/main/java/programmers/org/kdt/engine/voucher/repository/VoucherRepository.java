@@ -1,5 +1,6 @@
 package programmers.org.kdt.engine.voucher.repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -12,6 +13,8 @@ public interface VoucherRepository {
     Optional<Voucher> insert(Voucher voucher);
 
     Set<Map.Entry<UUID, Voucher>> getAllEntry();
+
+    List<Voucher> findAll();
 
     void deleteAll();
 }

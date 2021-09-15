@@ -35,8 +35,8 @@ public class VoucherService {
         }
 
         switch (voucherStatusData) {
-            case PERCENTDISCOUNTVOUCHER -> voucher = new FixedAmountVoucher(UUID.randomUUID(), value);
-            case FIXEDAMOUNTVOUCHER -> voucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
+            case FIXEDAMOUNTVOUCHER -> voucher = new FixedAmountVoucher(UUID.randomUUID(), value);
+            case PERCENTDISCOUNTVOUCHER  -> voucher = new PercentDiscountVoucher(UUID.randomUUID(), value);
         }
 
         if (voucher == null || !voucher.conditionCheck()) {
@@ -56,6 +56,14 @@ public class VoucherService {
 
     public Set<Map.Entry<UUID, Voucher>> getRepositoryEntry() {
         return voucherRepository.getAllEntry();
+    }
+
+    public List<Voucher> getAllVouchers() {
+        return voucherRepository.findAll();
+    }
+
+    public void deleteAllVouchers() {
+        voucherRepository.deleteAll();
     }
 
     public void useVoucher(Voucher voucher) {

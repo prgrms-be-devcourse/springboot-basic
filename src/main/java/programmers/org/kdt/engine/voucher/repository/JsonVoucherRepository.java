@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -55,6 +58,12 @@ public class JsonVoucherRepository implements VoucherRepository, InitializingBea
     public Set<Entry<UUID, Voucher>> getAllEntry() {
         updateStorage();
         return storage.entrySet();
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        updateStorage();
+        return new ArrayList<>(storage.values());
     }
 
     @Override

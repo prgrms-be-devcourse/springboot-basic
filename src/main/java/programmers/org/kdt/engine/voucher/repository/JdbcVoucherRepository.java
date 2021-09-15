@@ -1,6 +1,7 @@
 package programmers.org.kdt.engine.voucher.repository;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -84,6 +85,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Set<Entry<UUID, Voucher>> getAllEntry() {
         updateStorage();
         return storage.entrySet();
+    }
+
+    public List<Voucher> findAll() {
+        updateStorage();
+        return new ArrayList<>(storage.values());
     }
 
     @Override

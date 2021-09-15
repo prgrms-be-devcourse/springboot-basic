@@ -5,19 +5,19 @@ import java.util.UUID;
 public class Voucher {
     private UUID voucherId;
     private long value;
-    private VoucherStatus voucherstatus;
+    private VoucherStatus voucherStatus;
 
-    public Voucher(UUID voucherId, Integer value, VoucherStatus voucherstatus) {
+    public Voucher(UUID voucherId, Integer value, VoucherStatus voucherStatus) {
         this.voucherId = voucherId;
         this.value = value;
-        this.voucherstatus = voucherstatus;
+        this.voucherStatus = voucherStatus;
     }
 
     public Voucher() {
     }
 
     public boolean conditionCheck() {
-        return (this.voucherstatus != VoucherStatus.NULL);
+        return (this.voucherStatus != VoucherStatus.NULL);
     }
 
     public UUID getVoucherId() {
@@ -25,7 +25,7 @@ public class Voucher {
     }
 
     public VoucherStatus getVoucherStatus() {
-        return voucherstatus;
+        return voucherStatus;
     }
 
     public long getValue() {
