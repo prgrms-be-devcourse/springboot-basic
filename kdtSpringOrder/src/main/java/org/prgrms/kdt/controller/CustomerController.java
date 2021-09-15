@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -42,7 +43,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/new")
-    public String addNewCustomer(@Valid CustomerForm customerForm, BindingResult result){
+    public String createForm(@Valid CustomerForm customerForm, BindingResult result){
         if(result.hasErrors()) {
             return "views/new-customers";
         }
@@ -63,9 +64,10 @@ public class CustomerController {
         return "views/customer-detail";
     }
 
-    @PostMapping("/customers/{customerId}/{voucherId}")
-    public String voucherDelete(@PathVariable("customerId") UUID customerId, @PathVariable("voucherId") UUID voucherId) {
+    @PostMapping("/customers/{customerId}/vouchers/{voucherId}")
+    public String deleteVoucherByCustomerId(@PathVariable("customerId") UUID customerId, @PathVariable("voucherId") UUID voucherId) {
         voucherService.deleteVoucher(customerId, voucherId);
         return "redirect:/customers";
     }
+
 }
