@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <title>Home</title>
+</head>
+
+<body class="container-fluid">
+<h1>KDT Spring App</h1>
+<p th:text="'The time on the server is ' + ${serverTime}"> ---- </p>
+
+<div class="gap-3"> <br> </div>
+
+<div class="border border-dark rounded" style="padding: 10px">
+  <figure class="text-center">
+    <p class="fs-3 fw-bolder">Select Service</p>
+  </figure>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+    <a th:href="@{/vouchers/}" class="btn btn-info btn-lg" type="button">Go to voucher service</a>
+    <a th:href="@{/customers/}" class="btn btn-info btn-lg" type="button">Go to customer service</a>
+  </div>
+</div>
+</body>
+
+</html>

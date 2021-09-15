@@ -37,3 +37,5 @@ Voucher.json
 /logs
 *.iml
 lib/jstl-1.2.jar
+
+.DS_Store
