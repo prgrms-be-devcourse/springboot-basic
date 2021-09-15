@@ -26,7 +26,7 @@ public class Console implements Input, Output {
             System.out.println("내용이 없습니다.");
             return;
         }
-        list.stream().forEach(System.out::println);
+        list.forEach(System.out::println);
     }
 
 }
