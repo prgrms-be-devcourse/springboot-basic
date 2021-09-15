@@ -7,10 +7,7 @@ public interface Voucher {
     long getDiscount();
     VoucherType getVoucherType();
 
-    default long applyDiscount(long beforeDiscount) {
-        return beforeDiscount - getDiscountAmount(beforeDiscount);
-    }
-    long getDiscountAmount(long beforeDiscount);
+    long getDiscountedPrice(long beforeDiscount);
 
     VoucherStatus getStatus();
 }

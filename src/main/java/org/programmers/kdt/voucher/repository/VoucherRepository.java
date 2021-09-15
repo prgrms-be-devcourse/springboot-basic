@@ -3,6 +3,7 @@ package org.programmers.kdt.voucher.repository;
 import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.voucher.Voucher;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,4 +23,5 @@ public interface VoucherRepository {
 
     Optional<UUID> findCustomerIdByVoucherId(UUID voucherId);
     List<Voucher> findVouchersByCustomerId(UUID customerId);
+    List<Voucher> findVouchersBetween(Timestamp from, Timestamp to);
 }

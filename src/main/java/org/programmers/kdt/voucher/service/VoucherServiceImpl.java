@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Service
 public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
-    private VoucherFactory voucherFactory;
+    private final VoucherFactory voucherFactory;
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherServiceImpl.class);
 
@@ -101,5 +102,10 @@ public class VoucherServiceImpl implements VoucherService {
         return MessageFormat.format("<< {0} Discount Voucher >>\nID : {1}\nDiscount: {2}",
                 voucher.getVoucherType(), voucher.getVoucherId(),
                 voucher.getVoucherType() == VoucherType.FIXED ? "$" + voucher.getDiscount() : voucher.getDiscount() + "%");
+    }
+
+    @Override
+    public List<Voucher> getVouchersBetween(Timestamp from, Timestamp to) {
+        return voucherRepository.findVouchersBetween(from, to);
     }
 }
