@@ -19,6 +19,7 @@
         <th scope="col">Type</th>
         <th scope="col">Discount Rate</th>
         <th scope="col">Created At</th>
+        <th scope="col"></th>
 
     </tr>
     </thead>
@@ -28,6 +29,11 @@
         <td th:text="${voucher.value.getVoucherType()}"></td>
         <td th:text="${voucher.value.getVoucherRate()}"></td>
         <td th:text="${voucher.value.getVoucherCreatedAt()}"></td>
+        <td>
+            <form th:method="delete" th:action="@{/vouchers/{voucherId}(voucherId=${voucher.value.voucherId})}">
+                <button>Delete</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
