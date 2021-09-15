@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher.service;
 
 import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,9 +14,7 @@ public interface VoucherService {
 
     List<Voucher> list();
 
-    void create(String voucherType, Long amount);
-
     Optional<Voucher> getVoucher(UUID voucherId);
 
-    void deleteById(UUID voucherId);
+    void create(String voucherType, Long amount);
 }

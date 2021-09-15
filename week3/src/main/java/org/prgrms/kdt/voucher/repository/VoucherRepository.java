@@ -1,9 +1,7 @@
 package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.voucher.model.Voucher;
-import org.prgrms.kdt.voucher.model.VoucherType;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +12,4 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     int insert(Voucher voucher);
-
-    void deleteByVoucherId(UUID voucherId);
 }
