@@ -21,23 +21,22 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	runtimeOnly 'mysql:mysql-connector-java'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	// https://mvnrepository.com/artifact/com.opencsv/opencsv
-	implementation group: 'com.opencsv', name: 'opencsv', version: '5.4'
-
-	// https://mvnrepository.com/artifact/org.mockito/mockito-core
-	testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.12.4'
-
-	// jdbc
-	implementation 'org.springframework.boot:spring-boot-starter'
-
-	// https://mvnrepository.com/artifact/org.yaml/snakeyaml
 	implementation group: 'org.yaml', name: 'snakeyaml', version: '1.29'
+	implementation group: 'com.opencsv', name: 'opencsv', version: '5.4'
+	implementation 'org.springframework.boot:spring-boot-starter-parent:2.5.4'
+	implementation 'org.hibernate:hibernate-validator:7.0.1.Final'
 
-	// https://mvnrepository.com/artifact/com.wix/wix-embedded-mysql
+	runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.12.4'
 	testImplementation group: 'com.wix', name: 'wix-embedded-mysql', version: '4.6.1'
 }
 
