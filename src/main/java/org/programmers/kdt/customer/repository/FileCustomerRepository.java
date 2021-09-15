@@ -27,8 +27,8 @@ public class FileCustomerRepository implements CustomerRepository {
     // TODO : 각 class마다 logger를 두지 않고 AOP 적용
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
-    public FileCustomerRepository(String customerList, String customerBlacklist) {
-        blacklistCSV = new File(customerBlacklist);
+    public FileCustomerRepository(String customerListFile, String customerBlacklistFile) {
+        blacklistCSV = new File(customerBlacklistFile);
         if (!blacklistCSV.exists()) {
             try {
                 blacklistCSV.createNewFile();
@@ -38,7 +38,7 @@ public class FileCustomerRepository implements CustomerRepository {
             }
         }
 
-        customersCSV = new File(customerList);
+        customersCSV = new File(customerListFile);
         if (!customersCSV.exists()) {
             try {
                 customersCSV.createNewFile();
