@@ -12,6 +12,7 @@ public enum Command {
     CREATE("create"), CUSTOMER("customer"), LIST("list"), EXIT("exit"),
     REGISTER("register"), DEREGISTER("deregister"), FIND_CUSTOMER_BY_VOUCHER("find"); // for Customer-Voucher Managing Application
 
+
     private final String command;
 
     Command(String command) {
@@ -46,7 +47,7 @@ public enum Command {
             command = Command.of(input.input(message));
         } catch (RuntimeException e) {
             output.inputError(MessageFormat.format("Invalid Command.\nValid Commands -> {0}", validCommand));
-            return null;
+            throw new RuntimeException("Invalid command input", e);
         }
         return command;
     }
