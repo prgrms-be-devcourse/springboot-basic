@@ -1,10 +1,12 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.voucher.model.*;
+import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -41,10 +43,5 @@ public class MemoryVoucherService implements VoucherService {
     @Override
     public Optional<Voucher> getVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId);
-    }
-
-    @Override
-    public void deleteById(UUID voucherId) {
-        voucherRepository.deleteByVoucherId(voucherId);
     }
 }
