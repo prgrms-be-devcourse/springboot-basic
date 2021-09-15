@@ -6,6 +6,7 @@ import org.prgrms.kdtspringhw.voucher.repository.VoucherRepository;
 import org.prgrms.kdtspringhw.voucher.voucherObj.FixedAmountVoucher;
 import org.prgrms.kdtspringhw.voucher.voucherObj.PercentDiscountVoucher;
 import org.prgrms.kdtspringhw.voucher.voucherObj.Voucher;
+import org.prgrms.kdtspringhw.voucher.voucherObj.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -26,9 +27,9 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public boolean createVoucher(Command command) {
+    public boolean createVoucher(VoucherType voucherType) {
         Voucher voucher;
-        switch (command) {
+        switch (voucherType) {
             case FIXED_AMOUNT_VOUCHER:
                 voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
                 return true;

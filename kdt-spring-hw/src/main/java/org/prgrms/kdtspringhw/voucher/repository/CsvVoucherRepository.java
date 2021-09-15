@@ -4,6 +4,7 @@ package org.prgrms.kdtspringhw.voucher.repository;
 import org.prgrms.kdtspringhw.voucher.voucherObj.FixedAmountVoucher;
 import org.prgrms.kdtspringhw.voucher.voucherObj.PercentDiscountVoucher;
 import org.prgrms.kdtspringhw.voucher.voucherObj.Voucher;
+import org.prgrms.kdtspringhw.voucher.voucherObj.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -29,34 +30,30 @@ public class CsvVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
     }
-
     @Override
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
-
     @Override
     public Map<UUID, Voucher> returnAll() {
         return storage;
     }
-
     public void roadCSV() {
         BufferedReader br = null;
         try {
-            br = Files.newBufferedReader(Paths.get("/Users/minkyujeon/Desktop/PJ/programers/spring/w3-SpringBoot_Part_A/kdt-spring-order/repository/voucer.csv"));
+            br = Files.newBufferedReader(Paths.get("/Users/minkyujeon/Desktop/PJ/programers/spring/w3-SpringBoot_Part_A/kdt-spring-hw/repository/voucher.csv"));
             String line = "";
-
             while ((line = br.readLine()) != null) {
                 Voucher voc;
                 String[] token = line.split(",", -1);
                 String voucherType = token[0];
                 String voucherUUID = token[1];
-                if (voucherType.equals("fix")) {
+                if (VoucherType.getVoucherType(voucherType).equals(VoucherType.FIXED_AMOUNT_VOUCHER)) {
                     String voucherAmount = token[2];
                     voc = new FixedAmountVoucher(UUID.fromString(voucherUUID), Long.parseLong(voucherAmount));
                     storage.put(voc.getVoucherId(), voc);
-                } else if (voucherType.equals("per")) {
+                } else if (VoucherType.getVoucherType(voucherType).equals(VoucherType.FIXED_AMOUNT_VOUCHER)) {
                     String voucherPercent = token[2];
                     voc = new PercentDiscountVoucher(UUID.fromString(voucherUUID), Long.parseLong(voucherPercent));
                     storage.put(voc.getVoucherId(), voc);
@@ -71,15 +68,15 @@ public class CsvVoucherRepository implements VoucherRepository {
     public void writeCSV() {
         BufferedWriter bw = null;
         try {
-            bw = Files.newBufferedWriter(Paths.get("/Users/minkyujeon/Desktop/PJ/programers/spring/w3-SpringBoot_Part_A/kdt-spring-order/repository/voucer.csv"), Charset.forName("UTF-8"));
+            bw = Files.newBufferedWriter(Paths.get("/Users/minkyujeon/Desktop/PJ/programers/spring/w3-SpringBoot_Part_A/kdt-spring-hw/repository/voucher.csv"), Charset.forName("UTF-8"));
             for (UUID uuid : storage.keySet()) {
                 Voucher voc;
                 voc = storage.get(uuid);
-                if (voc instanceof FixedAmountVoucher) {
-                    bw.write("fix," + voc.getVoucherId() + "," + ((FixedAmountVoucher) voc).getAmount());
+                if (voc.getType().equals(VoucherType.FIXED_AMOUNT_VOUCHER)) {
+                    bw.write("fix," + voc.getVoucherId() + "," + ((FixedAmountVoucher) voc).getData());
                     bw.newLine();
-                } else if (voc instanceof PercentDiscountVoucher) {
-                    bw.write("per," + voc.getVoucherId() + "," + ((PercentDiscountVoucher) voc).getPercent());
+                } else if (voc.getType().equals(VoucherType.PERCENT_DISCOUNT_VOUCHER)) {
+                    bw.write("per," + voc.getVoucherId() + "," + ((PercentDiscountVoucher) voc).getData());
                     bw.newLine();
                 }
                 bw.flush();
@@ -96,12 +93,10 @@ public class CsvVoucherRepository implements VoucherRepository {
             }
         }
     }
-
     @PostConstruct
     public void postConstruct() {
         roadCSV();
     }
-
     @PreDestroy
     public void preDestory() {
         writeCSV();

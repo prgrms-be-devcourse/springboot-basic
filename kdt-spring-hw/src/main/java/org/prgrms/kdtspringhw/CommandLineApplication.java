@@ -6,6 +6,7 @@ import org.prgrms.kdtspringhw.utils.Command;
 import org.prgrms.kdtspringhw.utils.ShellPrint;
 import org.prgrms.kdtspringhw.voucher.voucherObj.Voucher;
 import org.prgrms.kdtspringhw.voucher.VoucherService;
+import org.prgrms.kdtspringhw.voucher.voucherObj.VoucherType;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -20,7 +21,6 @@ public class CommandLineApplication implements CommandLineRunner {
     private final VoucherService voucherService;
     private final BlackListService blackListService;
     private BufferedReader br;
-    private BufferedWriter bw;
     private static ShellPrint sp;
 
     public CommandLineApplication(ConfigurableApplicationContext applicationContext, VoucherService voucherService, BlackListService blackListService) {
@@ -28,7 +28,7 @@ public class CommandLineApplication implements CommandLineRunner {
         this.voucherService = voucherService;
         this.blackListService = blackListService;
         this.br = new BufferedReader(new InputStreamReader(System.in));
-        this.bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        this.sp = new ShellPrint();
     }
     public void CommandLineApplicationRun() throws IOException {
         AnnotationConfigApplicationContext a;
@@ -43,8 +43,7 @@ public class CommandLineApplication implements CommandLineRunner {
                     return;
                 case CREATE:
                     sp.print("Voucher 타입을 입력하세요.\n fix:FixedAmount    per:PrecentDiscount\n");
-                    command = Command.getCommandType(br.readLine());
-                    if (!voucherService.createVoucher(command)) {
+                    if (!voucherService.createVoucher(VoucherType.getVoucherType(br.readLine()))) {
                         continue;
                     }
                     break;
