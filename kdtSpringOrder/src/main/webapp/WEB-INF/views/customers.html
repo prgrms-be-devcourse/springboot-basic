@@ -32,7 +32,7 @@
         <td th:text="*{createdAt}"></td>
         <td th:text="*{lastLoginAt}"></td>
         <td>
-            <a class="btn btn-primary me-md-2" th:href="@{'/customers/'+ *{customerId}}">바우처 조회</a>
+            <a class="btn btn-primary me-md-2" th:href="@{'vouchers/customers/'+ *{customerId}}">바우처 조회</a>
         </td>
     </tr>
     </tbody>

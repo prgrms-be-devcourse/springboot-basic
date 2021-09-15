@@ -64,7 +64,7 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     }
 
     @Override
-    public void deleteVoucher(UUID customerId, UUID voucherId) {
+    public void deleteVoucher(UUID voucherId, UUID customerId) {
     }
 
     private void loadStorage() {

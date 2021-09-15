@@ -1,4 +1,4 @@
-package org.prgrms.kdt.controller;
+package org.prgrms.kdt.controller.view;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.controller;
+package org.prgrms.kdt.controller.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -66,8 +66,8 @@ public class VoucherService {
                 .findByVoucherId(customerId);
     }
 
-    public void deleteVoucher(UUID customerId, UUID voucherId) {
-        voucherRepository.deleteVoucher(customerId, voucherId);
+    public void deleteVoucher(UUID voucherId, UUID customerId) {
+        voucherRepository.deleteVoucher(voucherId, customerId);
     }
 
     private boolean checkValidity(VoucherSaveRequestDto voucherSaveRequestDto, UUID uuid) {

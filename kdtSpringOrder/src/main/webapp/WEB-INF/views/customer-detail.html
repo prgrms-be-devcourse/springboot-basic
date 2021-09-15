@@ -25,7 +25,7 @@
         <td th:text="*{voucherType}"></td>
         <td th:text="*{discount}"></td>
         <td>
-            <form th:action="@{'/customers/'+ *{customerId}  + '/vouchers/' + *{voucherId}}" method="post">
+            <form th:action="@{'/vouchers/'+ *{voucherId}  + '/customers/' + *{customerId}}" method="post">
                 <input type="hidden" name="customerId" th:value="*{customerId}">
                 <input type="hidden" name="voucherId" th:value="*{voucherId}">
                 <button type="submit" class="btn btn-primary">Delete</button>

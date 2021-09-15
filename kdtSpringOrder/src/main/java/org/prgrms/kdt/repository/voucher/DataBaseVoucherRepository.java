@@ -85,10 +85,10 @@ public class DataBaseVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteVoucher(UUID customerId, UUID voucherId) {
+    public void deleteVoucher(UUID voucherId, UUID customerId) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("customerId", customerId.toString().getBytes());
         paramMap.put("voucherId", voucherId.toString().getBytes());
+        paramMap.put("customerId", customerId.toString().getBytes());
         jdbcTemplate.update("DELETE FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
     }
 

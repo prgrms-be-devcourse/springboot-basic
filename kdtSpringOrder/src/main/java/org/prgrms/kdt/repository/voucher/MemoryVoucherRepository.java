@@ -41,7 +41,7 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     }
 
     @Override
-    public void deleteVoucher(UUID customerId, UUID voucherId) {
+    public void deleteVoucher(UUID voucherId, UUID customerId) {
     }
 
     @Override
