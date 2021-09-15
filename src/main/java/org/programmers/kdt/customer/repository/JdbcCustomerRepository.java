@@ -39,11 +39,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public Customer insert(Customer customer) {
-		int update = jdbcTemplate.update(SQL_INSERT_CUSTOMER.formatted(customerTable), toParamMap(customer)
+		int numberOfRowSAffected = jdbcTemplate.update(SQL_INSERT_CUSTOMER.formatted(customerTable), toParamMap(customer)
 		);
 
-		if (update != 1) {
-			logger.error("[FAILED] Insert a new customer : Already Exists");
+		// 0: The customer already exists so that no row has been affected.
+		// 1: Successfully created so that one row has been affected(created).
+		if (numberOfRowSAffected != 1) {
+			logger.info("Attempt to create a duplicate customer has been detected. Customer Information -> {}", customer);
+			throw new RuntimeException("Try to create a duplicate customer!");
 		}
 
 		return customer;
@@ -68,7 +71,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 					Collections.singletonMap("customer_id", customerId.toString().getBytes()),
 					rowMapper));
 		} catch (EmptyResultDataAccessException e) {
-			logger.error("No Such Customer(ID: {0}) Exists. -> {}", customerId, e);
+			logger.error("No Such Customer(ID: {}) Exists. -> {}", customerId, e.getMessage());
 			return Optional.empty();
 		}
 	}
@@ -132,18 +135,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 			LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
 					resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
 			LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-			return new Customer(customerId, name, email, lastLoginAt, createdAt);
+			return new Customer.Builder(customerId, email, createdAt).name(name).lastLoginAt(lastLoginAt).build();
 		};
 
 	private Map<String, Object> toParamMap(Customer customer) {
-		return new HashMap<>() {
-			{
-				put("customer_id", customer.getCustomerId().toString().getBytes());
-				put("name", customer.getName());
-				put("email", customer.getEmail());
-				put("last_login_at", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-				put("created_at", customer.getCreatedAt());
-			}
-		};
+		return Map.of(
+				"customer_id", customer.getCustomerId().toString().getBytes(),
+				"name", customer.getName(),
+				"email", customer.getEmail(),
+				"last_login_at", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
+				"created_at", customer.getCreatedAt()
+		);
 	}
 }

@@ -9,16 +9,43 @@ public class Customer {
     private String name;
     private final String email; // 변경가능해야할 것 같은데 강의 내용 때문에...
     private LocalDateTime lastLoginAt;
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        // TODO : DB에서 login 을 위한 접근이 발생할 때 마다 갱신되도록 수정하기
-        this.lastLoginAt = lastLoginAt;
-        // TODO : DB에 insert 된 후 DB에서 받아오도록 수정
-        this.createdAt = createdAt;
+    public static class Builder {
+        private final UUID customerId;
+        private final String email;
+        private final LocalDateTime createdAt;
+
+        private String name = "";
+        private LocalDateTime lastLoginAt = LocalDateTime.MIN;
+
+        public Builder(UUID customerId, String email, LocalDateTime createdAt) {
+            this.customerId = customerId;
+            this.email = email;
+            this.createdAt = createdAt;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder lastLoginAt(LocalDateTime lastLoginAt) {
+            this.lastLoginAt = lastLoginAt;
+            return this;
+        }
+
+        public Customer build() {
+            return new Customer(this);
+        }
+    }
+
+    public Customer(Builder builder) {
+        this.customerId = builder.customerId;
+        this.name = builder.name;
+        this.email = builder.email;
+        this.lastLoginAt = builder.lastLoginAt;
+        this.createdAt = builder.createdAt;
     }
 
     public UUID getCustomerId() {
@@ -41,12 +68,12 @@ public class Customer {
         return createdAt;
     }
 
-    public boolean changeName(String newName) {
+    public String changeName(String newName) {
         if (newName.isBlank()) {
             throw new RuntimeException("Name should not be a black");
         }
         name = newName;
-        return true;
+        return name;
     }
 
     @Override
