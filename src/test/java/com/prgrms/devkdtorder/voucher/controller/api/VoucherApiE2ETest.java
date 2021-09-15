@@ -10,16 +10,14 @@ import com.prgrms.devkdtorder.voucher.domain.VoucherType;
 import com.prgrms.devkdtorder.voucher.dto.VoucherDto;
 import com.prgrms.devkdtorder.voucher.repository.FileVoucherRepository;
 import com.prgrms.devkdtorder.voucher.repository.JdbcVoucherRepository;
+import com.prgrms.devkdtorder.voucher.repository.VoucherRepository;
 import com.prgrms.devkdtorder.voucher.service.VoucherService;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.MysqldConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,13 +33,16 @@ import org.springframework.http.ResponseEntity;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestApplication.class)
 @Slf4j
@@ -50,7 +51,7 @@ class VoucherApiE2ETest {
     @Autowired
     private TestRestTemplate testRestTemplate;
     @Autowired
-    private VoucherService voucherService;
+    private VoucherRepository voucherRepository;
 
     static EmbeddedMysql embeddedMysql;
 
@@ -74,6 +75,11 @@ class VoucherApiE2ETest {
     static void cleanUp() {
         log.info("cleanUp called...");
         embeddedMysql.stop();
+    }
+
+    @AfterEach
+    void tearDown() {
+        voucherRepository.deleteAll();
     }
 
     @Test
@@ -105,16 +111,9 @@ class VoucherApiE2ETest {
     @DisplayName("바우처 ID 조회 성공 테스트")
     void testFindVoucherById() {
         //given
-        UUID savedVoucherId = UUID.randomUUID();
-        Voucher fixedAmountVoucher = VoucherType.FIXEDAMOUNT.createVoucher(
-                savedVoucherId,
-                1000,
-                "추석맞이 천원 할인 쿠폰",
-                LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        voucherService.saveVoucher(fixedAmountVoucher);
-
+        var givenVoucher = givenVoucher(1000L, "추석맞이 1000원 할인 쿠폰", VoucherType.FIXEDAMOUNT);
         //when
-        RequestEntity<Void> request = RequestEntity.get(URI.create("/api/v1/vouchers/" + savedVoucherId))
+        RequestEntity<Void> request = RequestEntity.get(URI.create("/api/v1/vouchers/" + givenVoucher.getVoucherId()))
                 .accept(MediaType.APPLICATION_JSON)
                 .build();
 
@@ -123,7 +122,7 @@ class VoucherApiE2ETest {
         SoftAssertions.assertSoftly(soft -> {
             assertSuccess(response);
             VoucherDto actualVoucher = response.getBody().getData();
-            soft.assertThat(actualVoucher.getVoucherId()).isEqualTo(savedVoucherId);
+            soft.assertThat(actualVoucher.getVoucherId()).isEqualTo(givenVoucher.getVoucherId());
         });
     }
 
@@ -142,6 +141,40 @@ class VoucherApiE2ETest {
         ApiError error = response.getBody().getError();
         assertThat(error.getStatus()).isEqualTo(400);
         assertThat(error.getMessage()).isEqualTo("Can not find a voucher for 0ee56205-ea1f-4925-9923-a07f3a2d1322");
+    }
+
+    @Test
+    @DisplayName("바우처 업데이트 성공 테스트")
+    void testUpdateVoucher() {
+        //given
+        var givenVoucher = givenVoucher(1000L, "추석맞이 1000원 할인 쿠폰", VoucherType.FIXEDAMOUNT);
+        //when
+        var updateVoucher = VoucherType.PERCENTDISCOUNT.createVoucher(
+                givenVoucher.getVoucherId(),
+                10,
+                "추석맞이 10% 할인 쿠폰",
+                givenVoucher.getCreatedAt());
+        var voucherDto = new VoucherDto(updateVoucher);
+
+        RequestEntity<VoucherDto> request = RequestEntity.put(URI.create("/api/v1/vouchers"))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(voucherDto);
+        var response = testRestTemplate.exchange(request, new ParameterizedTypeReference<ApiResponse<Boolean>>() {});
+        //then
+        assertSuccess(response);
+        assertThat(response.getBody().getData()).isTrue();
+
+        var actualVoucher = voucherRepository.findById(givenVoucher.getVoucherId());
+        assertThat(actualVoucher.isPresent()).isTrue();
+        assertThat(actualVoucher.get(), is(samePropertyValuesAs(updateVoucher)));
+    }
+
+
+    private Voucher givenVoucher(long value, String name, VoucherType voucherType) {
+        Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), value, name, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+        voucherRepository.insert(voucher);
+        return voucher;
     }
 
     private <T> void assertSuccess(ResponseEntity<ApiResponse<T>> response) {
