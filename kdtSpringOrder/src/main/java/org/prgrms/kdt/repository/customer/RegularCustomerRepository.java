@@ -1,6 +1,5 @@
 package org.prgrms.kdt.repository.customer;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.domain.customer.RegularCustomer;
 import org.slf4j.Logger;

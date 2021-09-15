@@ -1,8 +1,6 @@
 package org.prgrms.kdt.controller;
 
-import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.domain.voucher.Voucher;
-import org.prgrms.kdt.dto.CustomerDto;
 import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -11,12 +9,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -48,7 +43,6 @@ public class CustomerController {
             return "views/new-customers";
         }
 
-        String test = customerForm.getName();
         customerService.createCustomer(customerForm.getName(), customerForm.getEmail());
         return "redirect:/customers";
     }
