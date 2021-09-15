@@ -9,7 +9,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("[FixedAmountVoucher - 할인 금액 : {0}]", amount);
+        return MessageFormat.format("Fixed {0} {1}",voucherId, amount);
     }
 
 

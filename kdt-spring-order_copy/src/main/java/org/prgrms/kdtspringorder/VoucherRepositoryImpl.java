@@ -1,36 +1,31 @@
 package org.prgrms.kdtspringorder;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
-public class VoucherRepositoryImpl implements VoucherRepository{
-    List<Voucher> voucherList;
+public class VoucherRepositoryImpl implements VoucherRepository {
+    Map<UUID, Voucher> storage;
+
     public VoucherRepositoryImpl() {
-        voucherList = new ArrayList<>();
+        this.storage = new HashMap<UUID, Voucher>();
     }
+
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        for (Voucher voucher : voucherList) {
-            if (voucher.getVoucherId() == voucherId) {
-                return Optional.of(voucher);
-            }
-        }
-        return Optional.empty();
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
     public void insert(Voucher voucher) {
-        voucherList.add(voucher);
+        storage.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
-    public List<Voucher> getAllVoucher() {
-        return voucherList;
+    public Map<UUID, Voucher> getAllVoucher() {
+        return storage;
     }
 }

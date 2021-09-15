@@ -9,7 +9,7 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public String toString() {
-        return MessageFormat.format("[PercentDiscountVoucher - 할인률 : {0}]", percent);
+        return MessageFormat.format("Percent {0} {1}",voucherId, percent);
     }
 
     public PercentDiscountVoucher(UUID voucherId,long percent) {
