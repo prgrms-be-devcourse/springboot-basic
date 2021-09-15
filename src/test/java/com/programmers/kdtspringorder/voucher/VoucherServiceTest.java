@@ -4,17 +4,14 @@ import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
 import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
-import org.assertj.core.api.Assertions;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class VoucherServiceTest {
@@ -33,7 +30,7 @@ class VoucherServiceTest {
         VoucherService voucherService = new VoucherService(voucherRepository, voucherFactory);
 
         // When
-        Voucher voucher = voucherService.getVoucher(fixedAmountVoucher.getVoucherId());
+        Voucher voucher = voucherService.findByID(fixedAmountVoucher.getVoucherId());
 
         // Then
         assertThat(voucher).isEqualTo(fixedAmountVoucher);
@@ -41,7 +38,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("없는 바우처 ID를 입력하면 RuntimeException을 던진다")
-    public void getVoucherWithRuntimeException() throws Exception {
+    public void getVoucherWithRuntimeException(){
         // Given
         VoucherRepository voucherRepository = mock(VoucherRepository.class);
         VoucherFactory voucherFactory = mock(VoucherFactory.class);
@@ -52,7 +49,7 @@ class VoucherServiceTest {
 
         // When Then
         assertThatExceptionOfType(RuntimeException.class).isThrownBy(
-                () -> voucherService.getVoucher(UUID.randomUUID())
+                () -> voucherService.findByID(UUID.randomUUID())
         );
     }
 
@@ -65,12 +62,12 @@ class VoucherServiceTest {
 
         VoucherType voucherType = VoucherType.FIXED;
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
-        when(voucherFactory.createVoucher(voucherType)).thenReturn(fixedAmountVoucher);
+        when(voucherFactory.createVoucher(voucherType, 10L)).thenReturn(fixedAmountVoucher);
 
         VoucherService voucherService = new VoucherService(voucherRepository, voucherFactory);
 
         // When
-        Voucher actual = voucherService.createVoucher("FIXED");
+        Voucher actual = voucherService.createVoucher("FIXED", 2000L);
 
         // Then
         assertThat(actual).isEqualTo(fixedAmountVoucher);

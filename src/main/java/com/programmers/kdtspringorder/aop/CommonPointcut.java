@@ -7,7 +7,6 @@ public class CommonPointcut {
     @Pointcut("execution(public * com.programmers.kdtspringorder..*Service.*(..))")
     public void servicePublicMethodPointcut(){}
 
-
     @Pointcut("execution(public * com.programmers.kdtspringorder..*Repository.*(..))")
     public void repositoryMethodPointcut(){}
 

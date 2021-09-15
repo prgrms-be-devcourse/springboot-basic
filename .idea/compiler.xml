@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="kdt-spring-order" target="11" />
+      <module name="kdt-spring-order" target="16" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

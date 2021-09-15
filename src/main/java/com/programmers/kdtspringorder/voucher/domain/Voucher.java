@@ -2,29 +2,86 @@ package com.programmers.kdtspringorder.voucher.domain;
 
 import com.programmers.kdtspringorder.voucher.VoucherType;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
-public interface Voucher {
+public abstract class Voucher {
 
+    private final UUID voucherId;
+    private UUID customerId;
+    private final long discountValue;
+    private final VoucherType type;
+    private boolean used;
+    private LocalDateTime createdAt;
+    private LocalDateTime expirationDate;
 
-    UUID getVoucherId();
+    public Voucher(UUID voucherId, UUID customerId, long discountValue, VoucherType type, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {
+        this.voucherId = voucherId;
+        this.customerId = customerId;
+        this.discountValue = discountValue;
+        this.type = type;
+        this.used = used;
+        this.createdAt = createdAt;
+        this.expirationDate = expirationDate;
+    }
 
-    long discount(long beforeDiscount);
+    public UUID getVoucherId() {
+        return voucherId;
+    }
 
-    void allocateVoucherToCustomer(UUID customerId);
+    public abstract long discount(long beforeDiscount);
 
-    void removeVoucherFromCustomer();
+    public void allocateVoucherToCustomer(UUID customerId) {
+        if (this.customerId != null) {
+            throw new RuntimeException(MessageFormat.format("This Voucher already allocated to a customer : {0}", this.customerId));
+        }
+        this.customerId = customerId;
+    }
 
-    void use();
+    public void removeVoucherFromCustomer() {
+        this.customerId = null;
+    }
 
-    long getValue();
+    public void use() {
+        used = true;
+    }
 
-    VoucherType getType();
+    public long getDiscountValue() {
+        return discountValue;
+    }
 
-    boolean isUsed();
+    public VoucherType getType() {
+        return type;
+    }
 
-    LocalDateTime getCreatedAt();
+    public boolean isUsed() {
+        return used;
+    }
 
-    LocalDateTime getExpirationDate();
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Voucher voucher = (Voucher) o;
+        return voucherId.equals(voucher.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId);
+    }
 }

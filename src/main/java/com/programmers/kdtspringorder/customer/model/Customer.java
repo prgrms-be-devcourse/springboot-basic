@@ -1,6 +1,11 @@
-package com.programmers.kdtspringorder.customer;
+package com.programmers.kdtspringorder.customer.model;
+
+import com.programmers.kdtspringorder.voucher.domain.Voucher;
+import com.programmers.kdtspringorder.voucher.domain.VoucherWallet;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 
 public class Customer {
@@ -10,7 +15,7 @@ public class Customer {
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
-    public Customer(UUID customerId, String name , String email, LocalDateTime createdAt) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         this(customerId, name, email, null, createdAt);
     }
 
@@ -28,8 +33,8 @@ public class Customer {
         this.name = name;
     }
 
-    public void login(){
-        this.lastLoginAt = LocalDateTime.now();
+    public void login() {
+        this.lastLoginAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
     private void validateName(String name) {

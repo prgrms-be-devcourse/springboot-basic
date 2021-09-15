@@ -6,6 +6,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.AggregateWith;
+import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
+import org.junit.jupiter.params.aggregator.ArgumentsAggregationException;
+import org.junit.jupiter.params.aggregator.ArgumentsAggregator;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +37,7 @@ class FixedAmountVoucherTest {
 
     @Test
     @DisplayName("주어진 금액만큼 할인")
-    public void discount() throws Exception {
+    public void discount() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 30L);
 
@@ -41,17 +48,25 @@ class FixedAmountVoucherTest {
         Assertions.assertThat(amount).isEqualTo(70L);
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(ints = {-1, -2, -100})
     @DisplayName("할인 금액은 마이너스가 될 수 없다")
-    public void discountWithMinus() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -1));
+    public void discountWithMinus(int amount) {
+        assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), amount));
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(ints = {901, 950, 1000, 9999})
     @DisplayName("디스카운트된 금액은 마이너스가 될 수 없다.")
-    public void testMinusDiscountedAmount() throws Exception {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        assertEquals(0, fixedAmountVoucher.discount(900));
+    public void testMinusDiscountedAmount(@AggregateWith(FixedVoucherAggregator.class) FixedAmountVoucher fixedAmountVoucher) {
+        assertThrows(IllegalArgumentException.class, () -> fixedAmountVoucher.discount(900));
+    }
+
+    static class FixedVoucherAggregator implements ArgumentsAggregator {
+        @Override
+        public Object aggregateArguments(ArgumentsAccessor argumentsAccessor, ParameterContext parameterContext) throws ArgumentsAggregationException {
+            return new FixedAmountVoucher(UUID.randomUUID(), argumentsAccessor.getInteger(0));
+        }
     }
 
     @Test

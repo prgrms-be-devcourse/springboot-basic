@@ -1,10 +1,9 @@
-package com.programmers.kdtspringorder.customer;
+package com.programmers.kdtspringorder.customer.repository;
 
+import com.programmers.kdtspringorder.customer.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,7 +11,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -28,10 +26,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final PlatformTransactionManager transactionManager;
-
-    private final TransactionTemplate transactionTemplate;
-
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         String customerName = resultSet.getString("name");
         String email = resultSet.getString("email");
@@ -44,8 +38,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     public CustomerNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate, DataSourceTransactionManager transactionManager, TransactionTemplate transactionTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.transactionManager = transactionManager;
-        this.transactionTemplate = transactionTemplate;
     }
 
     @Override
@@ -140,28 +132,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
-    public void testTransaction(Customer customer) {
-        // transactionTemplate 으로 트랜잭션 사용하는 코드
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
-                jdbcTemplate.update("update customers set name = :name  where customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
-                jdbcTemplate.update("update customers set email = :email where customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
-            }
-        });
-
-        // transactionManager 으로 트랜잭션 사용하는 코드
-//        TransactionStatus transaction = transactionManager.getTransaction(new DefaultTransactionDefinition());
-//        try {
-//            jdbcTemplate.update("update customers set name = :name  where customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
-//            jdbcTemplate.update("update customers set email = :email where customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
-//            transactionManager.commit(transaction);
-//        } catch (DataAccessException e) {
-//            logger.error("Got error", e);
-//            transactionManager.rollback(transaction);
-//        }
     }
 
 }

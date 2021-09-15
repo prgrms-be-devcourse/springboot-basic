@@ -23,11 +23,6 @@ public class Console implements Input, Output {
         return scanner.nextLine();
     }
 
-    public String inputText(String s) {
-        System.out.println(s);
-        return scanner.nextLine();
-    }
-
     public void newLine() {
         System.out.println();
     }

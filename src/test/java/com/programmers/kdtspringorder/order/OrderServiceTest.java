@@ -1,18 +1,16 @@
 package com.programmers.kdtspringorder.order;
 
-import com.programmers.kdtspringorder.voucher.VoucherService;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import com.programmers.kdtspringorder.voucher.domain.FixedAmountVoucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
-import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class OrderServiceTest {
@@ -24,7 +22,7 @@ public class OrderServiceTest {
         VoucherService voucherServiceMock = mock(VoucherService.class);
         OrderRepository orderRepositoryMock = mock(OrderRepository.class);
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L);
-        when(voucherServiceMock.getVoucher(fixedAmountVoucher.getVoucherId())).thenReturn(fixedAmountVoucher);
+        when(voucherServiceMock.findByID(fixedAmountVoucher.getVoucherId())).thenReturn(fixedAmountVoucher);
 
         OrderService sut = new OrderService(voucherServiceMock, orderRepositoryMock);
 
@@ -40,7 +38,7 @@ public class OrderServiceTest {
         assertThat(order.getVoucher().isEmpty(), is(false));
         InOrder inOrder = inOrder(voucherServiceMock, orderRepositoryMock);
 
-        inOrder.verify(voucherServiceMock).getVoucher(fixedAmountVoucher.getVoucherId());
+        inOrder.verify(voucherServiceMock).findByID(fixedAmountVoucher.getVoucherId());
         inOrder.verify(voucherServiceMock).useVoucher(fixedAmountVoucher);
         inOrder.verify(orderRepositoryMock).insert(order);
 

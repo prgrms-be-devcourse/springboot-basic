@@ -14,4 +14,12 @@ public interface VoucherRepository {
     Voucher save(Voucher voucher);
 
     void delete(UUID voucherId);
+
+    List<Voucher> findByCustomerId(UUID customerId);
+
+    List<Voucher> findAllWithoutCustomerId();
+
+    void allocateVoucher(UUID voucherId, UUID customerId);
+
+    void deallocateVoucher(UUID voucherId);
 }

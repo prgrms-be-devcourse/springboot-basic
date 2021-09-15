@@ -1,22 +1,17 @@
 package com.programmers.kdtspringorder.voucher.repository;
 
-import com.programmers.kdtspringorder.customer.Customer;
 import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Qualifier("jdbc")
@@ -34,7 +29,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var expirationDate = resultSet.getTimestamp("expiration_date") != null ?
                 resultSet.getTimestamp("expiration_date").toLocalDateTime() : null;
-        return VoucherFactory.createVoucher(type, voucherId, customerId, value, used, createdAt, expirationDate);
+        return VoucherFactory.createVoucherFromRepository(type, voucherId, customerId, value, used, createdAt, expirationDate);
     };
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -69,6 +64,40 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
     }
 
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findAllWithoutCustomerId() {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id IS NULL",
+                Collections.emptyMap(),
+                voucherRowMapper);
+    }
+
+    @Override
+    public void allocateVoucher(UUID voucherId, UUID customerId) {
+        Map<String, byte[]> paramMap = Map.of("voucherId", voucherId.toString().getBytes(), "customerId", customerId.toString().getBytes());
+        int update = jdbcTemplate.update("UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                paramMap);
+
+        if (update != 1) {
+            throw new RuntimeException("Nothing was allocated");
+        }
+    }
+
+    @Override
+    public void deallocateVoucher(UUID voucherId) {
+        int update = jdbcTemplate.update("UPDATE vouchers SET customer_id = NULL WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+        if (update != 1) {
+            throw new RuntimeException("Nothing was deallocated");
+        }
+    }
+
 
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
@@ -78,7 +107,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("value", voucher.getValue());
+            put("value", voucher.getDiscountValue());
             put("type", voucher.getType().toString());
             put("used", voucher.isUsed());
             put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));

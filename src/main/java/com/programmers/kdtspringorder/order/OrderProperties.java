@@ -50,4 +50,24 @@ public class OrderProperties implements InitializingBean {
     public String getJavaHome() {
         return javaHome;
     }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setMinimumOrderAmount(int minimumOrderAmount) {
+        this.minimumOrderAmount = minimumOrderAmount;
+    }
+
+    public void setSupportVendors(List<String> supportVendors) {
+        this.supportVendors = supportVendors;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setJavaHome(String javaHome) {
+        this.javaHome = javaHome;
+    }
 }

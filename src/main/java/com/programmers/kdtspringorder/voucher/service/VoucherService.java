@@ -1,5 +1,6 @@
-package com.programmers.kdtspringorder.voucher;
+package com.programmers.kdtspringorder.voucher.service;
 
+import com.programmers.kdtspringorder.voucher.VoucherType;
 import com.programmers.kdtspringorder.voucher.domain.Voucher;
 import com.programmers.kdtspringorder.voucher.factory.VoucherFactory;
 import com.programmers.kdtspringorder.voucher.repository.VoucherRepository;
@@ -22,7 +23,7 @@ public class VoucherService {
         this.voucherFactory = voucherFactory;
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher findByID(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
@@ -32,8 +33,8 @@ public class VoucherService {
 
     }
 
-    public Voucher createVoucher(String voucherType) {
-        Voucher voucher = voucherFactory.createVoucher(VoucherType.valueOf(voucherType.toUpperCase()));
+    public Voucher createVoucher(VoucherType voucherType, long value) {
+        Voucher voucher = voucherFactory.createVoucher(voucherType, value);
         voucherRepository.save(voucher);
         return voucher;
     }
@@ -41,4 +42,27 @@ public class VoucherService {
     public List<Voucher> findAll(){
         return voucherRepository.findAll();
     }
+
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return voucherRepository.findByCustomerId(customerId);
+    }
+
+    public List<Voucher> findAllWithoutCustomerId() {
+        return voucherRepository.findAllWithoutCustomerId();
+    }
+
+    public void allocateVoucher(Voucher voucher, UUID customerId) {
+        voucher.allocateVoucherToCustomer(customerId);
+        voucherRepository.allocateVoucher(voucher.getVoucherId(), customerId);
+    }
+
+    public void deallocateVoucher(Voucher voucher) {
+        voucher.removeVoucherFromCustomer();
+        voucherRepository.deallocateVoucher(voucher.getVoucherId());
+    }
+
+    public void deleteVoucher(UUID voucherId){
+        voucherRepository.delete(voucherId);
+    }
 }
+

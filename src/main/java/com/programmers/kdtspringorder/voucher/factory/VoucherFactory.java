@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -15,16 +16,6 @@ import java.util.UUID;
 public class VoucherFactory {
 
     private final Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
-
-    public Voucher createVoucher(VoucherType voucherType) {
-        if (voucherType == VoucherType.FIXED) {
-            return createVoucher(voucherType, 2000L);
-        } else if (voucherType == VoucherType.PERCENT) {
-            return createVoucher(voucherType, 10L);
-        }
-
-        return null;
-    }
 
     public Voucher createVoucher(VoucherType voucherType, long value) {
         if (voucherType == VoucherType.FIXED) {
@@ -36,19 +27,16 @@ public class VoucherFactory {
             logger.info("CREATE {} {} ", percentDiscountVoucher.getClass().getSimpleName(), percentDiscountVoucher.getVoucherId());
             return percentDiscountVoucher;
         }
-
-        return null;
+        throw new RuntimeException(MessageFormat.format("No matching Voucher Type found. Current Type : {0}", voucherType.getType()));
     }
 
-    public static Voucher createVoucher(VoucherType voucherType, UUID voucherId, UUID customerId, long value, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {
+    public static Voucher createVoucherFromRepository(VoucherType voucherType, UUID voucherId, UUID customerId, long value, boolean used, LocalDateTime createdAt, LocalDateTime expirationDate) {
         if (voucherType == VoucherType.FIXED) {
-            FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
-            return fixedAmountVoucher;
+            return new FixedAmountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
         } else if (voucherType == VoucherType.PERCENT) {
-            PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
-            return percentDiscountVoucher;
+            return new PercentDiscountVoucher(voucherId, customerId, value, voucherType, used, createdAt, expirationDate);
         }
-        return null;
+        throw new RuntimeException(MessageFormat.format("No matching Voucher Type found. Current Type : {0}", voucherType.getType()));
     }
 }
 

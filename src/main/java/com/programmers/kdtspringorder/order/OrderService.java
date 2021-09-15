@@ -1,6 +1,6 @@
 package com.programmers.kdtspringorder.order;
 
-import com.programmers.kdtspringorder.voucher.VoucherService;
+import com.programmers.kdtspringorder.voucher.service.VoucherService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class OrderService {
     }
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItemList, UUID voucherId) {
-        var voucher = voucherService.getVoucher(voucherId);
+        var voucher = voucherService.findByID(voucherId);
         Order order = new Order(UUID.randomUUID(), customerId, orderItemList, voucher);
         voucherService.useVoucher(voucher);
         orderRepository.insert(order);

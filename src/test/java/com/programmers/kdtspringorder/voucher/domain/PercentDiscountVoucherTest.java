@@ -1,10 +1,11 @@
 package com.programmers.kdtspringorder.voucher.domain;
 
-import com.programmers.kdtspringorder.voucher.domain.PercentDiscountVoucher;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.ArgumentConversionException;
+import org.junit.jupiter.params.converter.ConvertWith;
+import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.UUID;
@@ -13,23 +14,23 @@ import static org.assertj.core.api.Assertions.*;
 
 class PercentDiscountVoucherTest {
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(longs = {20, 1, 50})
     @DisplayName("할인율 정상 테스트")
-    public void discount() throws Exception {
-        //given
-        PercentDiscountVoucher percentDiscountVoucher1 = new PercentDiscountVoucher(UUID.randomUUID(), 20L);
-        PercentDiscountVoucher percentDiscountVoucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 1L);
-        PercentDiscountVoucher percentDiscountVoucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 50L);
-
+    public void discount(@ConvertWith(PercentVoucherConverter.class) PercentDiscountVoucher percentDiscountVoucher) {
         //when
-        long discount1 = percentDiscountVoucher1.discount(100);
-        long discount2 = percentDiscountVoucher2.discount(100);
-        long discount3 = percentDiscountVoucher3.discount(100);
+        long discount = percentDiscountVoucher.discount(100L);
 
         //then
-        assertThat(discount1).isEqualTo(80L);
-        assertThat(discount2).isEqualTo(99L);
-        assertThat(discount3).isEqualTo(50L);
+        assertThat(discount).isEqualTo(100L - 100L * percentDiscountVoucher.getDiscountValue() / 100L);
+    }
+
+
+    static class PercentVoucherConverter extends SimpleArgumentConverter {
+        @Override
+        protected Object convert(Object o, Class<?> aClass) throws ArgumentConversionException {
+            return new PercentDiscountVoucher(UUID.randomUUID(), (long) o);
+        }
     }
 
     @ParameterizedTest(name = "{index} {displayName} percent = {0}")
@@ -41,7 +42,7 @@ class PercentDiscountVoucherTest {
 
     @Test
     @DisplayName("할인율은 0초과 50 이하 입니다.")
-    public void discountRateTest() throws Exception {
+    public void discountRateTest() {
         assertThatIllegalArgumentException().isThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), -1));
         assertThatIllegalArgumentException().isThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), 0));
         assertThatIllegalArgumentException().isThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), 51));

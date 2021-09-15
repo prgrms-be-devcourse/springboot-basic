@@ -1,4 +1,6 @@
-package com.programmers.kdtspringorder.customer;
+package com.programmers.kdtspringorder.customer.repository;
+
+import com.programmers.kdtspringorder.customer.model.Customer;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +25,5 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
 
     void deleteAll();
+
 }

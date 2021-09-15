@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class HamCrestAssertionTests {
     @Test
     @DisplayName("여러 hamcrest matcher 테스트")
-    public void hamcrestTest() throws Exception{
+    public void hamcrestTest(){
         assertThat(1 + 1, equalTo(2));
         assertThat(1 + 1, is(2));
         assertThat(1 + 1, anyOf(is(1), is(2)));
@@ -23,7 +23,7 @@ public class HamCrestAssertionTests {
 
     @Test
     @DisplayName("컬렉션에 대한 matcher 테스트")
-    public void hamcrestListMatcherTest() throws Exception{
+    public void hamcrestListMatcherTest() {
         List<Integer> list = List.of(1, 2, 3);
         assertThat(list, hasSize(3));
         assertThat(list, everyItem(greaterThan(0)));
