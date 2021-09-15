@@ -24,7 +24,7 @@ import programmers.org.kdt.engine.voucher.type.Voucher;
 import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
 @Repository
-@Profile("local")
+@Profile({"default"})
 public class JdbcVoucherRepository implements VoucherRepository {
     private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 

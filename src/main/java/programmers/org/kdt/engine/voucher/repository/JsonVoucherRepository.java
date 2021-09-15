@@ -29,7 +29,7 @@ import programmers.org.kdt.engine.voucher.type.VoucherStatus;
 
 @Repository
 //@Qualifier("json")
-@Profile("default")
+@Profile("local")
 public class JsonVoucherRepository implements VoucherRepository, InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(JsonVoucherRepository.class);
     private Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
