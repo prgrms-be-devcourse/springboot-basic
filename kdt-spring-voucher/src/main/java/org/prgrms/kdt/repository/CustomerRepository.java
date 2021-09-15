@@ -1,6 +1,7 @@
 package org.prgrms.kdt.repository;
 
 import org.prgrms.kdt.domain.CustomerEntity;
+import org.prgrms.kdt.domain.VoucherEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +24,7 @@ public interface CustomerRepository {
     Optional<CustomerEntity> findByName(String name);
 
     Optional<CustomerEntity> findByEmail(String email);
+
+//    List<CustomerEntity> findNotAllocateList();
+
 }

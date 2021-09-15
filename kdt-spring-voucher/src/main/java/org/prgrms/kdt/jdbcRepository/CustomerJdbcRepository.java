@@ -41,7 +41,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private final String DELETE_BY_ID_SQL = "delete from customers where customer_id = UUID_TO_BIN(:customerId)";
     private final String UPDATE_BY_ID_SQL = "update customers set name = :name, email = :email, last_login_at = :lastLoginAt where customer_id = UUID_TO_BIN(:customerId)";
     private final String SELECT_BY_ID_SQL = "select * from customers where customer_id = UUID_TO_BIN(:customerId)";
-
+//    private final String SELECT_BY_NOT_ALLOCATE = "select * from customers as c left join customer_voucher as cv on c.customer_id = cv.customer_id where c.customer_id not like cv.customer_id";
 //    private HashMap<String, Object> toParamMap(CustomerEntity customer) {
 //        return new HashMap<>() {
 //            {
@@ -67,6 +67,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
 //        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 //        return new CustomerEntity(customerId, customerName, email, lastLoginAt, createdAt);
 //    };
+
+
+//    @Override
+//    public List<CustomerEntity> findNotAllocateList() {
+//        return jdbcTemplate.query(SELECT_BY_NOT_ALLOCATE, customerEntityRowMapper);
+//    }
 
     @Override
     public CustomerEntity insert(CustomerEntity customer) {

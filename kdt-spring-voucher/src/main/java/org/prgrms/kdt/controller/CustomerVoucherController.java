@@ -1,5 +1,6 @@
 package org.prgrms.kdt.controller;
 
+import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.CustomerVoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +15,11 @@ public class CustomerVoucherController {
 
     private final CustomerVoucherService customerVoucherService;
 
-    public CustomerVoucherController(CustomerVoucherService customerVoucherService) {
+    private final CustomerService customerService;
+
+    public CustomerVoucherController(CustomerVoucherService customerVoucherService, CustomerService customerService) {
         this.customerVoucherService = customerVoucherService;
+        this.customerService = customerService;
     }
 
     @GetMapping("/customer-vouchers")
@@ -29,7 +33,9 @@ public class CustomerVoucherController {
 
     @GetMapping("/customer-vouchers/{voucherId}")
     public String viewAllocateCustomerPage(@PathVariable("voucherId") UUID voucherId, Model model){
+        var customerList = customerService.getAllCustomers();
         model.addAttribute("voucherId",voucherId);
+        model.addAttribute("customers",customerList);
         return "views/allocate-customer";
     }
 
@@ -37,6 +43,6 @@ public class CustomerVoucherController {
     public String createCustomerVoucher(@PathVariable("voucherId") UUID voucherId,
                                         @PathVariable("customerId") UUID customerId){
         customerVoucherService.createAllocateVoucher(customerId,voucherId);
-        return "redirect:/allocate-customer";
+        return "redirect:/customer-vouchers";
     }
 }

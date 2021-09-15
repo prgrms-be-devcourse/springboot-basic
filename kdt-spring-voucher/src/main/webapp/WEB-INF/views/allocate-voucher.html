@@ -62,7 +62,7 @@
             <td th:text="*{discount}"></td>
             <td th:text="*{createdAt}"></td>
             <td class="col-md-2">
-                <a class="btn btn-outline-info" th:href="@{'/vouchers/'+*{voucherId}+'/allocate'}">할당하기</a>
+                <a class="btn btn-outline-info" th:method="get" th:href="@{'/customer-vouchers/'+*{voucherId}}">할당하기</a>
             </td>
         </tr>
         </tbody>

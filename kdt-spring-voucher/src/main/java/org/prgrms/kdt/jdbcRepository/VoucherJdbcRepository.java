@@ -32,7 +32,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private final String DELETE_ALL_SQL = "delete from voucher";
     private final String DELETE_BY_ID_SQL = "delete from voucher where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String UPDATE_BY_ID_SQL = "update voucher set voucher_type = :voucherType, discount= :discount  where voucher_id = UUID_TO_BIN(:voucherId)";
-    private final String SELECT_BY_NOT_ALLOCATE = "select * from voucher as v left join customer_voucher as cv on v.voucher_id != cv.voucher_id";
+    private final String SELECT_BY_NOT_ALLOCATE = "select * from voucher as v left join customer_voucher as cv on v.voucher_id = cv.voucher_id where cv.voucher_id is NULL";
 
     @Override
     public List<VoucherEntity> findNotAllocateList() {

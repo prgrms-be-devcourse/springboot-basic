@@ -62,14 +62,13 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
-    @PostMapping("/customers/{customerId}/edit")
+    @PostMapping("/customers/{customerId}/detail")
     public String editCustomer(@PathVariable("customerId") UUID customerId, CreateCustomerRequest createCustomerRequest){
         CustomerDto updateCustomer = CustomerDto.builder().customerId(customerId)
                 .name(createCustomerRequest.getName())
                 .email(createCustomerRequest.getEmail())
                 .build();
         customerService.updateCustomer(updateCustomer);
-//        logger.info("수정한 customerid : {}",customerId);
         return "redirect:/customers";
     }
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="views/fragments/header :: header">
+</head>
+<body>
+<div>
+    <div class="text-center mt-5">
+        <a th:href="@{/main}" class="btn me-md-2" type="button"><h1>바우처 관리 시스템</h1></a>
+    </div>
+</div>
+<div class="container" >
+    <br/>
+    <h2>Voucher를 할당할 Customer 고르기</h2>
+    <br/>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">CreatedAt</th>
+            <th scope="col">LastLoginAt</th>
+            <th scope="col">edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customers}" th:object="${customer}">
+            <td class="col-md-8" th:text="${customer.customerId}"></td>
+            <td th:text="*{name}"></td>
+            <td th:text="*{email}"></td>
+            <td th:text="*{createdAt}"></td>
+            <td th:text="*{lastLoginAt}"></td>
+            <td class="col-md-2">
+                <form th:action="@{'/customer-vouchers/'+${voucherId}+'/'+*{customerId}}" method="post">
+                    <button type="submit" class="btn btn-primary">선택</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

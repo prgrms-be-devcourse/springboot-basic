@@ -2,6 +2,7 @@ package org.prgrms.kdt.service;
 
 
 import org.prgrms.kdt.domain.CreateCustomerVoucherDto;
+import org.prgrms.kdt.domain.CustomerEntity;
 import org.prgrms.kdt.domain.CustomerVoucherEntity;
 import org.prgrms.kdt.domain.VoucherEntity;
 import org.prgrms.kdt.repository.CustomerRepository;
@@ -53,6 +54,11 @@ public class CustomerVoucherService {
         var notVoucherList = voucherRepository.findNotAllocateList();
         return notVoucherList;
     }
+
+//    public List<CustomerEntity> findNotAllocateCustomers() {
+//        var notCustomerList = customerRepository.findNotAllocateList();
+//        return notCustomerList;
+//    }
 
     public Optional<CustomerVoucherEntity> createAllocateVoucher(UUID customerId, UUID voucherId) {
         var entity = CustomerVoucherEntity.builder().customerVoucherId(UUID.randomUUID()).customerId(customerId)
