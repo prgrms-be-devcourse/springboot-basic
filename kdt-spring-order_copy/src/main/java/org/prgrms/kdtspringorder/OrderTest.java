@@ -1,5 +1,7 @@
 package org.prgrms.kdtspringorder;
 
+import org.prgrms.kdtspringorder.Order.OrderItem;
+import org.prgrms.kdtspringorder.Order.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
