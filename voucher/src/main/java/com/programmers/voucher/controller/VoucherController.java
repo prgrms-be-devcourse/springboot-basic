@@ -2,6 +2,7 @@ package com.programmers.voucher.controller;
 
 import com.programmers.voucher.entity.customer.Customer;
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.customer.CustomerService;
 import com.programmers.voucher.service.voucher.VoucherService;
@@ -43,7 +44,7 @@ public class VoucherController {
         links.add(new String[]{"List Vouchers", URL_LIST_VOUCHER});
     }
 
-    private static final DiscountPolicy.Type[] availableDiscountPolicies = DiscountPolicy.Type.values();
+    private static final DiscountType[] availableDiscountPolicies = DiscountType.values();
 
 
     public VoucherController(VoucherService voucherService, CustomerService basicCustomerService) {
@@ -73,7 +74,7 @@ public class VoucherController {
         model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
         model.addAttribute("name", name);
-        model.addAttribute("type", DiscountPolicy.Type.of(type));
+        model.addAttribute("type", DiscountType.of(type));
         model.addAttribute("amount", amount);
         model.addAttribute("owner", owner);
 
@@ -82,7 +83,7 @@ public class VoucherController {
             return VIEW_CREATE_VOUCHER;
         }
 
-        Voucher voucher = voucherService.create(name, DiscountPolicy.Type.of(type), amount, owner);
+        Voucher voucher = voucherService.create(name, DiscountType.of(type), amount, owner);
         // currently when DataAccessException, which is SQLIntegrityConstraintViolationException is thrown
         // when customer id(foreign key) does not match constraint. And by repository implementation it returns
         // voucher object with id set '-1'.
@@ -150,8 +151,8 @@ public class VoucherController {
             model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, updatedVoucher);
             return VIEW_UPDATE_VOUCHER;
         }
-        updatedVoucher.setName(name);
-        updatedVoucher.setDiscountPolicy(new DiscountPolicy(amount, DiscountPolicy.Type.of(type)));
+        updatedVoucher.updateName(name);
+        updatedVoucher.replaceDiscountPolicy(new DiscountPolicy(amount, DiscountType.of(type)));
 
         if (customer.isEmpty()) {
             model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Customer not exists.");
@@ -159,7 +160,7 @@ public class VoucherController {
             model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, updatedVoucher);
             return VIEW_UPDATE_VOUCHER;
         }
-        updatedVoucher.setCustomerId(ownerId);
+        updatedVoucher.updateCustomerId(ownerId);
         voucherService.update(updatedVoucher);
 
         return "redirect:/voucher/read?id=" + updatedVoucher.getId();

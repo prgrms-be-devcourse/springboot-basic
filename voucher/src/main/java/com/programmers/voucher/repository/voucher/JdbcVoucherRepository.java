@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -84,13 +83,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> listAllByVoucherType(DiscountPolicy.Type type) {
+    public List<Voucher> listAllByVoucherType(DiscountType type) {
         log.debug("Finding vouchers by type {}", type);
         return jdbcTemplate.query(voucherQuery.getSelect().getByType(), voucherRowMapper, type);
     }
 
     @Override
-    public List<Voucher> listAllBetweenByVoucherType(LocalDate from, LocalDate to, DiscountPolicy.Type type) {
+    public List<Voucher> listAllBetweenByVoucherType(LocalDate from, LocalDate to, DiscountType type) {
         log.debug("Finding vouchers by type {} between {} to {}", type, from, to);
         return jdbcTemplate.query(voucherQuery.getSelect().getBetweenByType(), voucherRowMapper, from, to, type.toString());
     }

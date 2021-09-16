@@ -1,6 +1,7 @@
 package com.programmers.voucher.controller.api;
 
 import com.programmers.voucher.entity.voucher.DiscountPolicy;
+import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.voucher.VoucherService;
 import com.programmers.voucher.util.ApiResponse;
@@ -97,7 +98,7 @@ public class VoucherAPIController {
             return ResponseEntity.badRequest().body(response);
         }
 
-        Voucher voucher = basicVoucherService.create(request.name, DiscountPolicy.Type.of(request.type), request.amount, request.owner);
+        Voucher voucher = basicVoucherService.create(request.name, DiscountType.of(request.type), request.amount, request.owner);
         if(voucher.getId() < 0) {
             ApiResponse<Voucher> response = ApiResponse.failed("Failed to create voucher. Check your input or if customer is valid.");
             return ResponseEntity.badRequest().body(response);

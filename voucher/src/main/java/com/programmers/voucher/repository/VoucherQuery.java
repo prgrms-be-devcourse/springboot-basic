@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "voucher")
-@PropertySource(value = "voucher_query.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:/voucher_query.yml", factory = YamlPropertySourceFactory.class)
 public class VoucherQuery {
     private String create;
     private Select select;

@@ -17,6 +17,37 @@ public class Voucher implements Serializable {
 
     private static final Logger log = LoggerFactory.getLogger(Voucher.class);
 
+    public enum SearchCriteria {
+        VOUCHER_TYPE("voucher_type", (repository, from, to, value) ->
+                repository.listAllBetweenByVoucherType(from, to, DiscountType.of(value))),
+        UNKNOWN("unknown", (repository, from, to, value) ->
+                repository.listAllBetween(from, to));
+
+        SearchCriteria(String name, DateBasedVoucherSearch search) {
+            this.name = name;
+            this.search = search;
+        }
+
+        String name;
+        DateBasedVoucherSearch search;
+
+        public String getName() {
+            return name;
+        }
+
+        public DateBasedVoucherSearch getSearch() {
+            return search;
+        }
+
+        public static SearchCriteria of(String name) {
+            try {
+                return SearchCriteria.valueOf(name.toUpperCase());
+            } catch (IllegalArgumentException ex) {
+                return SearchCriteria.UNKNOWN;
+            }
+        }
+    }
+
     public Voucher(Long id, String name, DiscountPolicy discountPolicy, LocalDate createdAt, long customerId) {
         this.id = id;
         this.name = name;
