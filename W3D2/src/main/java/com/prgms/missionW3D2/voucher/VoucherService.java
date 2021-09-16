@@ -12,15 +12,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType voucherType , long figure) {
-        if (voucherType == voucherType.FixedAmountVoucher) {
-            Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), figure);
-            voucherRepository.insert(newVoucher);
-            return newVoucher;
-        } else {
-            Voucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), figure);
-            voucherRepository.insert(newVoucher);
-            return newVoucher;
-        }
+        return voucherType.createVoucher(voucherRepository, UUID.randomUUID(), figure);
     }
 
     public List<Voucher> getVoucherList() {
