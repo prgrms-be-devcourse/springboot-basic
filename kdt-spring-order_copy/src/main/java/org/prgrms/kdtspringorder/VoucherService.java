@@ -21,9 +21,10 @@ public class VoucherService {
 
     }
 
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId) {
+    public Voucher createVoucher(VoucherType voucherType) {
+        UUID voucherId = UUID.randomUUID();
         if (voucherType.equals(VoucherType.FixedAmountVoucher)) {
-            return new FixedAmountVoucher(voucherId, 1000);
+            return new FixedAmountVoucher(voucherId, 100);
         } else  {
             return new PercentDiscountVoucher(voucherId, 10);
         }
