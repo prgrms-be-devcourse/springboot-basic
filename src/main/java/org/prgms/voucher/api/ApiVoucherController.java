@@ -39,15 +39,9 @@ public class ApiVoucherController {
         return voucherService.getVouchersByType(voucherType);
     }
 
-    @PostMapping("/voucher/FIXED_AMOUNT")
+    @PostMapping("/voucher")
     public Voucher addFixedVoucher(@RequestBody CreateVoucherRequest createVoucherRequest) {
-        var voucher = voucherService.createVoucher(VoucherType.FIXED_AMOUNT, createVoucherRequest.getAmount());
-        return voucher;
-    }
-
-    @PostMapping("/voucher/PERCENT_DISCOUNT")
-    public Voucher addPercentVoucher(@RequestBody CreateVoucherRequest createVoucherRequest) {
-        var voucher = voucherService.createVoucher(VoucherType.PERCENT_DISCOUNT, createVoucherRequest.getAmount());
+        var voucher = voucherService.createVoucher(createVoucherRequest.getVoucherType(), createVoucherRequest.getAmount());
         return voucher;
     }
 
