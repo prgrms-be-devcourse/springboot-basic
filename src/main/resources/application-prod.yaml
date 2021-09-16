@@ -1,0 +1,6 @@
+voucher:
+  max-discount-amount: 10000
+
+  max-discount-percent: 100
+
+  description: "prod"
