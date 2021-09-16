@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <style>
+        .container {
+            max-width: 660px;
+        }
+    </style>
+    <title>Voucher Detail</title>
+</head>
+<body class="container">
+<a href="/"><h1>KDT Spring App</h1></a>
+<a href="/customers"><h2>Customer Home</h2></a>
+
+<form th:action="|/customers/customerId(customerId=customer.customerId)|" th:method="post">
+    <label for="customerId" class="form-label">고객 ID</label>
+    <input type="text" id="customerId" name="customerId" class="form-control" th:value="${customer.customerId}" disabled>
+    <label for="name" class="form-label">고객 이름</label>
+    <input type="text" id="name" class="form-control" th:name="name" th:value="${customer.name}" disabled>
+    <label for="email" class="form-label">고객 이메일</label>
+    <input type="text" id="email" class="form-control" th:name="email" th:value="${customer.email}" disabled>
+    <label for="lastLoginAt" class="form-label">마지막 로그인</label>
+    <input type="text" id="lastLoginAt" class="form-control" th:name="lastLoginAt" th:value="${customer.lastLoginAt}" disabled>
+    <label for="createdAt" class="form-label">고객 생성 시각</label>
+    <input type="text" id="createdAt" class="form-control" th:name="createdAt" th:value="${customer.createdAt}" disabled>
+
+    <div class="mx-auto mt-2 gap-3 d-flex justify-content-center">
+        <button type="button" class="w-25 p-2 btn btn-secondary" th:onclick="|location.href='@{/customers}'|">목록 이동</button>
+        <button type="button" class="w-25 p-2 btn btn-primary" th:onclick="|location.href='@{/customers/{customerId}/edit(customerId=${customer.customerId})}'|">고객 수정</button>
+        <button type="button" class="w-25 p-2 btn btn-danger" th:onclick="|location.href='@{/customers/{customerId}/delete(customerId=${customer.customerId})}'|">고객 삭제</button>
+    </div>
+</form>
+</body>
+</html>

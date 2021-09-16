@@ -2,9 +2,6 @@ package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.domain.customer.Customer;
 import org.prgrms.kdt.repository.customer.CustomerRepository;
-import org.prgrms.kdt.repository.wallet.WalletRepository;
-import org.prgrms.kdt.service.dto.RequestCreateCustomerDto;
-import org.prgrms.kdt.service.dto.RequestUpdateCustomerDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +50,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public void delete(UUID customerId) {
+    public void deleteById(UUID customerId) {
         customerRepository.deleteById(customerId);
     }
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <style>
+        .container {
+            max-width: 1200px;
+        }
+    </style>
+    <title>Customer Home</title>
+</head>
+<body class="container">
+    <a href="/"><h1>KDT Spring App</h1></a>
+    <a href="/customers"><h2>Customer Home</h2></a>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a th:href="@{/customers/new}" class="btn btn-primary me-md-2" type="button">Create Customer</a>
+    </div>
+    <table class="table table-hover text-center">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Last Login</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="customer, stat : ${customers}" th:onclick="|location.href='@{/customers/{customerId}(customerId=${customer.customerId})}'|">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${customer.customerId}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.lastLoginAt}"></td>
+                <td th:text="${customer.createdAt}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
