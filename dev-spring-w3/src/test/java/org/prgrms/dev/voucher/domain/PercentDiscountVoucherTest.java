@@ -13,7 +13,7 @@ class PercentDiscountVoucherTest {
     @Test
     void discountTest() {
         Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30);
-        assertEquals(900, percentDiscountVoucher.discount(3000));
+        assertEquals(2100, percentDiscountVoucher.discount(3000));
     }
 
     @DisplayName("유효한 할인율(0%~100%)으로만 생성할 수 있다.")
