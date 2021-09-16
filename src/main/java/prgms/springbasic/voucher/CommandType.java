@@ -1,4 +1,4 @@
-package prgms.springbasic;
+package prgms.springbasic.voucher;
 
 public enum CommandType {
     CREATE("create"),

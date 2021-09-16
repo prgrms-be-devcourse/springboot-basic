@@ -18,6 +18,6 @@ class CustomerServiceImplTest {
     void join() {
         Customer newCustomer = new Customer(UUID.randomUUID(), "hello", "hello@gmail.com");
         Customer joinCustomer = customerService.join(newCustomer);
-        Assertions.assertThat(joinCustomer.getEmail()).isEqualTo(joinCustomer);
+        Assertions.assertThat(joinCustomer.getEmail()).isEqualTo(newCustomer.getEmail());
     }
 }

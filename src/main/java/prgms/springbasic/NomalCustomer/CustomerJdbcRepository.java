@@ -90,7 +90,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return (resultSet, rowNum) -> {
             String name = resultSet.getString("name");
             String email = resultSet.getString("email");
-            UUID customerId = UUID.fromString("customer_id");
+            UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
             LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                     resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
             LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();

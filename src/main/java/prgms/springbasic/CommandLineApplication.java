@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import prgms.springbasic.io.Printer;
+import prgms.springbasic.voucher.CommandType;
 import prgms.springbasic.voucher.Voucher;
 import prgms.springbasic.voucher.VoucherService;
 import prgms.springbasic.voucher.VoucherType;
