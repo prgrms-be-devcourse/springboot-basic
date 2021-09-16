@@ -7,6 +7,5 @@ import prgms.springbasic.YamlPropertiesFactory;
 
 @Configuration
 @ComponentScan
-@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
 public class CustomerBlacklistAppConfig {
 }

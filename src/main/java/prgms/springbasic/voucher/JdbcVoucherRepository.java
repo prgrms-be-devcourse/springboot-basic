@@ -15,12 +15,10 @@ import java.util.UUID;
 
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final String INSERT_QUERY = "INSERT INTO vouchers(voucher_type, voucher_id, discount_value) VALUES ?, (UUID_TO_BIN(?), ?)";
+    private static final String INSERT_QUERY = "INSERT INTO vouchers(voucher_type, voucher_id, discount_value) VALUES (?, UUID_TO_BIN(?), ?)";
     private static final String UPDATE_QUERY = "UPDATE vouchers SET voucher_type = ?, discount_value = ? WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM vouchers WHERE voucher_id = ?";
-    private static final String SELECT_ALL_QUERY = "SELECT * FROM customers";
-
-
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM vouchers";
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
@@ -59,7 +57,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getVoucherList() throws IOException {
+    public List<Voucher> getVoucherList() {
         return jdbcTemplate.query(SELECT_ALL_QUERY, rowMapper());
     }
 

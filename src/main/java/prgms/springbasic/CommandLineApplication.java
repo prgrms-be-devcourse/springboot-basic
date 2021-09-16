@@ -2,8 +2,9 @@ package prgms.springbasic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import prgms.springbasic.io.Printer;
 import prgms.springbasic.voucher.CommandType;
 import prgms.springbasic.voucher.Voucher;
@@ -16,26 +17,26 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.UUID;
 
+@SpringBootApplication
 public class CommandLineApplication {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
-    public static void main(String[] args) throws IOException {
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CommandLineAppConfig.class);
+    public static void main(String[] args){
+        ApplicationContext applicationContext = SpringApplication.run(CommandLineApplication.class);
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Printer printer = new Printer();
 
         while (true) {
             printer.printCommandList();
-            CommandType command = convertToCommandType(reader.readLine());
+            CommandType command = convertToCommandType(input());
 
             if (command.equals(CommandType.CREATE)) {
                 printer.printVoucherTypeList();
-                int newVoucherType = Integer.parseInt(reader.readLine());
+                int newVoucherType = Integer.parseInt(input());
 
                 printer.printDiscountValueInputInfo();
-                String discountValue = reader.readLine();
+                String discountValue = input();
 
                 Voucher newVoucher = voucherService.createVoucher(convertToVoucherType(newVoucherType), UUID.randomUUID(), discountValue);
                 printer.printVoucherCreateSuccess(newVoucher);
@@ -71,5 +72,16 @@ public class CommandLineApplication {
             }
         }
         throw new IllegalArgumentException("해당 명령을 지원하지 않습니다.");
+    }
+
+    public static String input(){
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String line = "";
+        try {
+            line = reader.readLine();
+        } catch (IOException ioException) {
+            logger.error("입력을 받지 못했습니다.");
+        }
+        return line;
     }
 }
