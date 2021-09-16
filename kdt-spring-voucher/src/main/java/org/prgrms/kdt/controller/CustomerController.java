@@ -63,11 +63,11 @@ public class CustomerController {
     @PostMapping("/customers/{customerId}/remove")
     public String deleteCustomer(@PathVariable("customerId") UUID customerId) {
         logger.info("경로를 찾아왔음!");
-//        customerVoucherService.deleteVoucherByCustomerId(customerId);
-//        logger.info("customer 관련 voucher 전부 해제 완료");
+        customerVoucherService.deleteVoucherByCustomerId(customerId);
+        logger.info("customer 관련 voucher 전부 해제 완료");
         customerService.deleteCustomer(customerId);
         logger.info("customer 삭제");
-        return "views/customers";
+        return "redirect:/customers";
     }
 
     @PostMapping("/customers/{customerId}/detail")

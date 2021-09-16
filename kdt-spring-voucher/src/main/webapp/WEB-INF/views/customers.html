@@ -24,6 +24,7 @@
                 <th scope="col">CreatedAt</th>
                 <th scope="col">LastLoginAt</th>
                 <th scope="col">edit</th>
+                <th scope="col">delete</th>
             </tr>
             </thead>
             <tbody>
@@ -36,6 +37,31 @@
                 <td class="col-md-2">
                     <a class="btn btn-outline-info" th:href="@{'/customers/'+*{customerId}+'/detail'}">상세</a>
                 </td>
+                <td class="col-md-2">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal2">
+                        삭제
+                    </button>
+                    <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">삭제 확인 메세지</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <p>정말로 삭제하시겠습니까??</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                    <form method="post" th:action="@{'/customers/'+*{customerId}+'/remove'}">
+                                        <button type="submit" class="btn btn-danger" data-target="#myModal2">삭제</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+
             </tr>
             </tbody>
         </table>
