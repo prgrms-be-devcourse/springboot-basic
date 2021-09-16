@@ -61,6 +61,11 @@ public class CustomerController {
 	// 회원 탈퇴(삭제) 기능
 	@GetMapping("/{customerId}/remove")
 	public String removeCustomer(@PathVariable("customerId") UUID customerId) {
+		Customer customer = customerService.findCustomerById(customerId).get();
+		List<Voucher> vouchers = voucherService.getAllVouchersBelongsToCustomer(customer);
+		for (Voucher voucher : vouchers) {
+			customerService.removeVoucherFromCustomer(customer, voucher);
+		}
 		customerService.removeCustomer(customerId);
 		return "redirect:/customers";
 	}
