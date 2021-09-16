@@ -1,4 +1,4 @@
-package org.prgrms.kdt.web.dto;
+package org.prgrms.kdt.web.dto.voucher;
 
 
 public class RequestCreateVoucherDto {

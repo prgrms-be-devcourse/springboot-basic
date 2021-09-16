@@ -1,4 +1,4 @@
-package org.prgrms.kdt.web.dto;
+package org.prgrms.kdt.web.dto.voucher;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.prgrms.kdt.domain.voucher.VoucherSearch;

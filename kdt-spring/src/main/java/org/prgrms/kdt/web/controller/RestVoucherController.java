@@ -1,13 +1,12 @@
 package org.prgrms.kdt.web.controller;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
-import org.prgrms.kdt.domain.voucher.VoucherSearch;
 import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.web.dto.RequestCreateVoucherDto;
-import org.prgrms.kdt.web.dto.RequestSearchVoucherDto;
-import org.prgrms.kdt.web.dto.RequestUpdateVoucherDto;
-import org.prgrms.kdt.web.dto.ResponseVoucherDto;
+import org.prgrms.kdt.web.dto.voucher.RequestCreateVoucherDto;
+import org.prgrms.kdt.web.dto.voucher.RequestSearchVoucherDto;
+import org.prgrms.kdt.web.dto.voucher.RequestUpdateVoucherDto;
+import org.prgrms.kdt.web.dto.voucher.ResponseVoucherDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

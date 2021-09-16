@@ -3,8 +3,9 @@ package org.prgrms.kdt.web.controller;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.domain.voucher.VoucherType;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.web.dto.RequestCreateVoucherDto;
-import org.prgrms.kdt.web.dto.RequestUpdateVoucherDto;
+import org.prgrms.kdt.web.dto.voucher.RequestCreateVoucherDto;
+import org.prgrms.kdt.web.dto.voucher.RequestUpdateVoucherDto;
+import org.prgrms.kdt.web.dto.voucher.ResponseVoucherDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequestMapping("/vouchers")
 @Controller
@@ -26,15 +28,16 @@ public class VoucherController {
     @GetMapping
     public String viewVouchers(Model model) {
         List<Voucher> vouchers = voucherService.vouchers();
-
-        model.addAttribute("vouchers", vouchers);
+        List<ResponseVoucherDto> dtoList = mapToDtoList(vouchers);
+        model.addAttribute("vouchers", dtoList);
         return "voucher/vouchers";
     }
 
     @GetMapping("/{voucherId}")
     public String viewVoucherDetail(@PathVariable("voucherId") UUID voucherId, Model model) {
         Voucher voucher = voucherService.findById(voucherId);
-        model.addAttribute("voucher", voucher);
+        ResponseVoucherDto dto = mapToDto(voucher);
+        model.addAttribute("voucher", dto);
         return "voucher/voucher-detail";
     }
 
@@ -49,9 +52,9 @@ public class VoucherController {
     public String voucherUpdate(@PathVariable("voucherId") UUID voucherId,
                                 @ModelAttribute RequestUpdateVoucherDto dto,
                                 Model model) {
-        System.out.println("VoucherController.voucherUpdate");
         Voucher voucher = voucherService.update(voucherId, dto.getVoucherValue());
-        model.addAttribute("voucher", voucher);
+        ResponseVoucherDto responseDto = mapToDto(voucher);
+        model.addAttribute("voucher", responseDto);
         return "redirect:/vouchers/{voucherId}";
     }
 
@@ -79,5 +82,15 @@ public class VoucherController {
         Long voucherValue = dto.getVoucherValue();
         Voucher voucher = voucherService.insert(voucherType, voucherValue);
         return voucher;
+    }
+
+    private List<ResponseVoucherDto> mapToDtoList(List<Voucher> vouchers) {
+        return vouchers.stream()
+                .map(voucher -> mapToDto(voucher))
+                .collect(Collectors.toList());
+    }
+
+    private ResponseVoucherDto mapToDto(Voucher voucher) {
+        return new ResponseVoucherDto(voucher.getVoucherId(),  voucher.getValue(), voucher.getType(), voucher.getCreatedAt());
     }
 }

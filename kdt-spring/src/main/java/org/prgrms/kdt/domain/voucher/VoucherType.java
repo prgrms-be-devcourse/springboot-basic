@@ -2,8 +2,11 @@ package org.prgrms.kdt.domain.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public enum VoucherType {
@@ -25,13 +28,22 @@ public enum VoucherType {
         return this.maxValue;
     }
 
-    public static VoucherType findType(int value) {
+    public static VoucherType of(int value) {
         return Arrays.stream(VoucherType.values())
                 .filter(isSameValue(value))
                 .findFirst()
                 .get();
 
     }
+
+    public static VoucherType of(String type) {
+        return Arrays.stream(VoucherType.values())
+                .filter(v -> v.toString().equals(type))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        MessageFormat.format("해당 바우처가 존재하지 않습니다. voucher = {0}", type)));
+    }
+
     public static int totalTypes() {
         return values().length;
     }
