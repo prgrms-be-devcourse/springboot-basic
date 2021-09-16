@@ -36,6 +36,7 @@ public class VoucherService {
         long value = 10L;
 
         Voucher voucher = voucherType.voucherCreate(voucherRepository, voucherId, value);
+        voucherRepository.insert(voucher);
         return Optional.ofNullable(voucher);
     }
 

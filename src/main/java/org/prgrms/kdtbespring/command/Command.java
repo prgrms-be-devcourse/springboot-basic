@@ -36,8 +36,9 @@ public enum Command {
             System.out.println("1. FixedAmountVoucher, 2. PercentDiscountVoucher");
             String select = br.readLine();
 
-            Optional<VoucherType> selectResult = selectVoucherType(select);
-            selectResult.ifPresentOrElse(
+            Optional<VoucherType> selectVoucherType = VoucherType.of(select);
+
+            selectVoucherType.ifPresentOrElse(
                     voucherType -> {
                         Optional<Voucher> voucher = voucherService.create(voucherType);
                         voucher.ifPresent(System.out::println);
@@ -51,14 +52,6 @@ public enum Command {
             return true;
         }
     };
-
-    Optional<VoucherType> selectVoucherType(String select) {
-        return switch (select) {
-            case "1" -> Optional.of(VoucherType.FixedAmountVoucher);
-            case "2" -> Optional.of(VoucherType.PercentDiscountVoucher);
-            default -> Optional.empty();
-        };
-    }
 
     public abstract boolean run(VoucherService voucherService) throws IOException;
 }
