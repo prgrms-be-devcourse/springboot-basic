@@ -58,5 +58,4 @@ public enum CommandType {
                     return CommandType.EXIT;
                 });
     }
-
 }

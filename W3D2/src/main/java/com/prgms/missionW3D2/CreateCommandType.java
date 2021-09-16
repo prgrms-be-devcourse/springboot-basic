@@ -1,8 +1,6 @@
 package com.prgms.missionW3D2;
 
-import com.prgms.missionW3D2.voucher.Voucher;
-import com.prgms.missionW3D2.voucher.VoucherService;
-import com.prgms.missionW3D2.voucher.VoucherType;
+import com.prgms.missionW3D2.voucher.*;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -17,7 +15,7 @@ public enum CreateCommandType {
             String amountStr = sc.nextLine();
             try {
                 Long amount = Long.parseLong(amountStr);
-                Voucher newVoucher = voucherService.createVoucher(VoucherType.FixedAmountVoucher, amount);
+                var newVoucher = voucherService.createVoucher(VoucherType.FixedAmountVoucher, amount);
                 System.out.println("Created "+ newVoucher.getVoucherInfo());
             } catch (NumberFormatException e) {
                 System.out.println("What you typed is not the long type amount.");
@@ -33,8 +31,11 @@ public enum CreateCommandType {
             String percentStr = sc.nextLine();
             try {
                 Long percent = Long.parseLong(percentStr);
-                Voucher newVoucher = voucherService.createVoucher(VoucherType.PercentDiscountVoucher, percent);
+                var newVoucher = voucherService.createVoucher(VoucherType.PercentDiscountVoucher, percent);
                 System.out.println("Created "+ newVoucher.getVoucherInfo());
+//                VoucherTypeFixing.PercentDiscountVoucher.createVoucher(voucherRepository, UUID.randomUUID(), percent);
+//                Voucher newVoucher = voucherService.createVoucher(VoucherType.PercentDiscountVoucher, percent);
+//                System.out.println("Created "+ newVoucher.getVoucherInfo());
             } catch (NumberFormatException e) {
                 System.out.println("What you typed is not the long type.");
             }
@@ -55,7 +56,10 @@ public enum CreateCommandType {
         return Arrays.stream(CreateCommandType.values())
                 .filter(createCommandType -> createCommandType.getCommand().equals(command))
                 .findFirst()
-                .orElse(CreateCommandType.EXIT);
+                .orElseGet(()-> {
+                    System.out.println("You typed wrong command.");
+                    return CreateCommandType.EXIT;
+                });
     }
 
     private String getCommand() {
