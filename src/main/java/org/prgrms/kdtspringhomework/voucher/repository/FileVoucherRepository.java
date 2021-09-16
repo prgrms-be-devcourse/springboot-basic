@@ -5,6 +5,7 @@ import org.prgrms.kdtspringhomework.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdtspringhomework.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
@@ -17,7 +18,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Primary
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
     private static final String USER_DIR = "user.dir";
     private static final String FILE_PATH = "src/main/resources/voucher.csv";
