@@ -18,7 +18,7 @@
         - [x] 바우처 생성기간
         - [x] 특정 할인타입별
     - [x] 바우처 삭제기능
-    
+
 **(보너스) 바우처 지갑용 관리페이지를 만들어보세요.**
 (지난 과제에서 만들었던 기능을 페이지도만들고 api 도 개발해보았습니다.)
 - [x] 특정 고객에게 바우처를 할당할 수 있습니다.
@@ -27,15 +27,15 @@
 - [x] 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다. (해당 부분은 api 로 진행하였습니다.)
 
 ### [바우처 서비스 관리페이지(타임리프)]
-![UI-시나리오](https://www.notion.so/TIL34-2a07ce76e47447809496405bc0880b59#263db812b53a443b8b07991de855d81f)
+![UI-시나리오](https://wooden-plate-047.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fca97975d-8662-4304-83ed-b06f6b134d40%2FKakaoTalk_Photo_2021-09-16-21-04-44.jpeg?table=block&id=263db812-b53a-443b-8b07-991de855d81f&spaceId=da06fe4c-dbc0-451e-a09d-8fe561a808ae&width=2540&userId=&cache=v2)
 1. 프로그램을 시작하면 customerList 를 확인할 수 있다. (조회)
-   1. 해당 페이지에서 고객을 추가하기위해 버튼을 눌러 입력창으로 이동 가능. (입력)
-   2. 리스트중 원하는 고객을 누르면 고객이 가진 지갑들과 바우처 정보를 확인할 수 있다. (상세페이지)
-   3. 상세페이지에서 원하는 바우처를 삭제할 수 있다.
-      1. 새로운 바우처를 만들 수 있다.
+    1. 해당 페이지에서 고객을 추가하기위해 버튼을 눌러 입력창으로 이동 가능. (입력)
+    2. 리스트중 원하는 고객을 누르면 고객이 가진 지갑들과 바우처 정보를 확인할 수 있다. (상세페이지)
+    3. 상세페이지에서 원하는 바우처를 삭제할 수 있다.
+        1. 새로운 바우처를 만들 수 있다.
 
 ### [바우처 지갑용 관리 페이지(JSON XML)]
-#### 1. 전체 바우처 조회 
+#### 1. 전체 바우처 조회
 ##### Request
 ```http request
 voucher API
@@ -114,7 +114,7 @@ GET http://localhost:8080/api/v1/vouchers/e8c54288-4aa2-4197-95b3-85f66c6f1143
 
 
 ### 3. 바우처 추가기능
-#### Request (body)로 
+#### Request (body)로
 ```http request
 POST http://localhost:8080/api/v1/vouchers
 Content-Type: application/json
