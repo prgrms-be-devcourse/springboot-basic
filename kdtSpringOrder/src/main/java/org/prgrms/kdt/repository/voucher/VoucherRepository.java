@@ -1,7 +1,10 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.enums.VoucherType;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,6 +18,10 @@ public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
 
     List<Voucher> findByVoucherId(UUID customerId);
+
+    List<Voucher> findByVoucherType(VoucherType voucherType);
+
+    List<Voucher> findByVoucherTerm(LocalDateTime beforeDate, LocalDateTime afterDate);
 
     List<Voucher> findAll();
 

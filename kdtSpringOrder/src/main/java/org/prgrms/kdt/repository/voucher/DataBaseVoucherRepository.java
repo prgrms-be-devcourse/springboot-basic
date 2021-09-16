@@ -16,6 +16,7 @@ import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -32,6 +33,7 @@ public class DataBaseVoucherRepository implements VoucherRepository {
         UUID voucherId = toUUID(resultSet, "voucher_id");
         int discount = resultSet.getInt("discount");
         String voucherType = resultSet.getString("voucher_type");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         if(VoucherType.getVoucherType(voucherType) == VoucherType.FIXED) {
             return new FixedAmountVoucher(customerId, voucherId, discount, VoucherType.FIXED);
         } else {
@@ -77,6 +79,25 @@ public class DataBaseVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByVoucherId(UUID customerId) {
         return jdbcTemplate.query("SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)", Collections.singletonMap("customerId", customerId.toString().getBytes()), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = :voucherType",
+                Collections.singletonMap("voucherType", voucherType.toString()),
+                voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByVoucherTerm(LocalDateTime startDate, LocalDateTime endDate) {
+
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("startDate", Timestamp.valueOf(startDate));
+        paramMap.put("endDate", Timestamp.valueOf(endDate));
+
+        return (jdbcTemplate.query(
+                "select * from vouchers where created_at >= :startDate and created_at <= :endDate",
+                paramMap, voucherRowMapper));
     }
 
     @Override

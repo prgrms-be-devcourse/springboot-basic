@@ -1,12 +1,15 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.enums.VoucherType;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,6 +34,16 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
 
     @Override
     public List<Voucher> findByVoucherId(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherTerm(LocalDateTime beforeDate, LocalDateTime afterDate) {
         return null;
     }
 

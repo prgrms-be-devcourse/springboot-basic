@@ -16,6 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -52,6 +54,16 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
 
     @Override
     public List<Voucher> findByVoucherId(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherTerm(LocalDateTime beforeDate, LocalDateTime afterDate) {
         return null;
     }
 

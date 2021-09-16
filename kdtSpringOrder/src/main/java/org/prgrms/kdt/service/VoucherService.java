@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -64,6 +67,18 @@ public class VoucherService {
         logger.info("Starts getVouchersByCustomerId()");
         return voucherRepository
                 .findByVoucherId(customerId);
+    }
+
+    public List<Voucher> getVouchersByVoucherType(VoucherType type) {
+        logger.info("Starts getVouchersByVoucherType()");
+        return voucherRepository
+                .findByVoucherType(type);
+    }
+
+    public List<Voucher> getVoucherByCreatedAt(String startDate, String endDate) {
+        logger.info("Starts getVoucherByCreatedAt()");
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        return voucherRepository.findByVoucherTerm(LocalDateTime.parse(startDate, formatter), LocalDateTime.parse(endDate, formatter));
     }
 
     public void deleteVoucher(UUID voucherId, UUID customerId) {
