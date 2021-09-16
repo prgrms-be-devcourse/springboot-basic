@@ -1,4 +1,4 @@
-package prgms.springbasic.customer;
+package prgms.springbasic.BlackCustomer;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

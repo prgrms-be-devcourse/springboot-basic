@@ -1,11 +1,8 @@
-package prgms.springbasic.repository;
+package prgms.springbasic.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import prgms.springbasic.voucher.FixedAmountVoucher;
-import prgms.springbasic.voucher.PercentDiscountVoucher;
-import prgms.springbasic.voucher.Voucher;
 
 import java.io.*;
 import java.util.ArrayList;

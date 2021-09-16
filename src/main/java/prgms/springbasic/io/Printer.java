@@ -1,6 +1,6 @@
 package prgms.springbasic.io;
 
-import prgms.springbasic.customer.BlackCustomer;
+import prgms.springbasic.BlackCustomer.BlackCustomer;
 import prgms.springbasic.voucher.Voucher;
 
 import java.util.List;

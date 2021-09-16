@@ -1,4 +1,4 @@
-package prgms.springbasic.customer;
+package prgms.springbasic.BlackCustomer;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;

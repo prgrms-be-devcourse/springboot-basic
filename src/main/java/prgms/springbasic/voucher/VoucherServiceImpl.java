@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import prgms.springbasic.io.Printer;
-import prgms.springbasic.repository.VoucherRepository;
 
 import java.io.IOException;
 import java.text.MessageFormat;

@@ -3,14 +3,12 @@ package prgms.springbasic.repository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import prgms.springbasic.voucher.FixedAmountVoucher;
+import prgms.springbasic.voucher.MemoryVoucherRepository;
 import prgms.springbasic.voucher.PercentDiscountVoucher;
 import prgms.springbasic.voucher.Voucher;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryVoucherRepositoryTest {
 

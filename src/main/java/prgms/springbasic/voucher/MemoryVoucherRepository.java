@@ -1,9 +1,8 @@
-package prgms.springbasic.repository;
+package prgms.springbasic.voucher;
 
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-import prgms.springbasic.voucher.Voucher;
 
 import java.util.*;
 

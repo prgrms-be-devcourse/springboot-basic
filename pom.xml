@@ -17,9 +17,18 @@
         <java.version>11</java.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 <!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-jdbc</artifactId>-->
+<!--            <groupId>com.h2database</groupId>-->
+<!--            <artifactId>h2</artifactId>-->
+<!--            <scope>test</scope>-->
 <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -36,8 +45,6 @@
             <artifactId>logback-core</artifactId>
             <version>1.2.3</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

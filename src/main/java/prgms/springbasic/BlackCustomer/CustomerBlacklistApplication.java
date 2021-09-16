@@ -1,10 +1,8 @@
-package prgms.springbasic;
+package prgms.springbasic.BlackCustomer;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import prgms.springbasic.io.Printer;
-import prgms.springbasic.customer.BlackCustomer;
-import prgms.springbasic.customer.BlackCustomerService;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package prgms.springbasic.customer;
+package prgms.springbasic.BlackCustomer;
 
 import java.util.Objects;
 import java.util.UUID;

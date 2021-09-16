@@ -1,4 +1,4 @@
-package prgms.springbasic.repository;
+package prgms.springbasic.voucher;
 
 
 import prgms.springbasic.voucher.Voucher;

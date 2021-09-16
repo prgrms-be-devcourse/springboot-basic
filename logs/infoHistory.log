@@ -1,13 +1,6 @@
-14:15:45.892 [main] INFO  p.springbasic.CommandLineApplication - 바우처 저장소에 바우처가 추가되었습니다. VoucherId = e6653979-c1c1-41da-844a-a7bc79268c36
-15:38:10.233 [main] INFO  p.s.customer.CustomerServiceImplTest - Starting CustomerServiceImplTest using Java 16.0.2 on sin-eonjuui-MacBookPro.local with PID 1889 (started by eonju in /Users/eonju/IdeaProjects/SpringBasic)
-15:38:10.243 [main] INFO  p.s.customer.CustomerServiceImplTest - No active profile set, falling back to default profiles: default
-15:38:39.974 [main] INFO  p.s.customer.CustomerServiceImplTest - Starting CustomerServiceImplTest using Java 16.0.2 on sin-eonjuui-MacBookPro.local with PID 1895 (started by eonju in /Users/eonju/IdeaProjects/SpringBasic)
-15:38:39.988 [main] INFO  p.s.customer.CustomerServiceImplTest - No active profile set, falling back to default profiles: default
-15:38:40.319 [main] INFO  p.s.customer.CustomerServiceImplTest - Starting CustomerServiceImplTest using Java 16.0.2 on sin-eonjuui-MacBookPro.local with PID 1895 (started by eonju in /Users/eonju/IdeaProjects/SpringBasic)
-15:38:40.322 [main] INFO  p.s.customer.CustomerServiceImplTest - No active profile set, falling back to default profiles: default
-15:38:40.470 [main] INFO  p.s.customer.CustomerServiceImplTest - Starting CustomerServiceImplTest using Java 16.0.2 on sin-eonjuui-MacBookPro.local with PID 1895 (started by eonju in /Users/eonju/IdeaProjects/SpringBasic)
-15:38:40.471 [main] INFO  p.s.customer.CustomerServiceImplTest - No active profile set, falling back to default profiles: default
-16:53:54.703 [main] ERROR p.s.repository.FileVoucherRepository - java.io.FileNotFoundException: src/main/VoucherData.csv (No such file or directory)
-17:09:11.601 [main] ERROR p.s.repository.FileVoucherRepository - java.io.FileNotFoundException: src/main/VoucherData.csv (No such file or directory)
-17:09:36.930 [main] ERROR p.s.repository.FileVoucherRepository - java.io.FileNotFoundException: src/main/VoucherData.csv (No such file or directory)
-17:09:50.024 [main] ERROR p.s.repository.FileVoucherRepository - java.io.FileNotFoundException: src/main/VoucherData.csv (No such file or directory)
+00:00:03.755 [main] INFO  p.s.N.CustomerApplication - Starting CustomerApplication using Java 16.0.2 on sin-eonjuui-MacBookPro.local with PID 6032 (/Users/eonju/IdeaProjects/SpringBasic/target/classes started by eonju in /Users/eonju/IdeaProjects/SpringBasic)
+00:00:03.757 [main] INFO  p.s.N.CustomerApplication - No active profile set, falling back to default profiles: default
+00:04:07.151 [main] INFO  p.s.N.CustomerApplication - Starting CustomerApplication using Java 16.0.2 on sin-eonjuui-MacBookPro.local with PID 6065 (/Users/eonju/IdeaProjects/SpringBasic/target/classes started by eonju in /Users/eonju/IdeaProjects/SpringBasic)
+00:04:07.153 [main] INFO  p.s.N.CustomerApplication - No active profile set, falling back to default profiles: default
+00:06:59.100 [main] INFO  p.s.N.CustomerApplication - Starting CustomerApplication using Java 16.0.2 on sin-eonjuui-MacBookPro.local with PID 6107 (/Users/eonju/IdeaProjects/SpringBasic/target/classes started by eonju in /Users/eonju/IdeaProjects/SpringBasic)
+00:06:59.101 [main] INFO  p.s.N.CustomerApplication - No active profile set, falling back to default profiles: default

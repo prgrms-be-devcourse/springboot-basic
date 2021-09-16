@@ -1,4 +1,4 @@
-package prgms.springbasic.customer;
+package prgms.springbasic.BlackCustomer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
