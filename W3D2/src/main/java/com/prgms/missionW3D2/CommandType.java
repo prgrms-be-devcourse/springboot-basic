@@ -55,6 +55,10 @@ public enum CommandType {
         return Arrays.stream(CommandType.values())
                 .filter(commandType -> commandType.getCommand().equals(command))
                 .findFirst()
-                .orElse(CommandType.EXIT);
+                .orElseGet(() -> {
+                    System.out.println("잘못된 command를 입력하셨습니다");
+                    return CommandType.EXIT;
+                });
     }
+
 }
