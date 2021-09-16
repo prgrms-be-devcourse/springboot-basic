@@ -30,15 +30,18 @@ public class CsvVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
     }
+
     @Override
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
+
     @Override
     public Map<UUID, Voucher> returnAll() {
         return storage;
     }
+
     public void roadCSV() {
         BufferedReader br = null;
         try {
@@ -93,10 +96,12 @@ public class CsvVoucherRepository implements VoucherRepository {
             }
         }
     }
+
     @PostConstruct
     public void postConstruct() {
         roadCSV();
     }
+
     @PreDestroy
     public void preDestory() {
         writeCSV();

@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public interface BlackListRepository {
     Optional<BlackList> findById(UUID voucherId);
+
     BlackList insert(BlackList blackList);
-    Map<UUID,BlackList> returnAll();
+
+    Map<UUID, BlackList> returnAll();
 }

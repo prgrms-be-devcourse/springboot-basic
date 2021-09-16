@@ -16,10 +16,12 @@ public class ShellPrint {
     public ShellPrint() {
         this.bw = new BufferedWriter(new OutputStreamWriter(System.out));
     }
+
     public void print(String str) throws IOException {
         bw.write(str);
         bw.flush();
     }
+
     public void printVoucherList(Map<UUID, Voucher> voucherList) throws IOException {
         for (UUID uuid : voucherList.keySet()) {
             Voucher voc = voucherList.get(uuid);

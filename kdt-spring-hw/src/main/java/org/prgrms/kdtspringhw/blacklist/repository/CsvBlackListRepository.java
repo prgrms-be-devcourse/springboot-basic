@@ -19,10 +19,10 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class CsvBlackListRepository implements BlackListRepository{
+public class CsvBlackListRepository implements BlackListRepository {
 
-    private BlackListReader blackListReader ;
-    private Map<UUID,BlackList> storage = new ConcurrentHashMap<>();
+    private BlackListReader blackListReader;
+    private Map<UUID, BlackList> storage = new ConcurrentHashMap<>();
 
     public CsvBlackListRepository() throws IOException {
         blackListReader = new BlackListReader("csv/customer_blacklist.csv");
@@ -35,7 +35,7 @@ public class CsvBlackListRepository implements BlackListRepository{
 
     @Override
     public BlackList insert(BlackList blackList) {
-        storage.put(blackList.getBlackListId(),blackList);
+        storage.put(blackList.getBlackListId(), blackList);
         return blackList;
     }
 
@@ -48,5 +48,4 @@ public class CsvBlackListRepository implements BlackListRepository{
     public void postConstruct() throws IOException {
         storage = blackListReader.readCsv();
     }
-
 }

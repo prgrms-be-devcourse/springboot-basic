@@ -30,6 +30,7 @@ public class CommandLineApplication implements CommandLineRunner {
         this.br = new BufferedReader(new InputStreamReader(System.in));
         this.sp = new ShellPrint();
     }
+
     public void CommandLineApplicationRun() throws IOException {
         AnnotationConfigApplicationContext a;
         sp.printHome();
@@ -61,6 +62,7 @@ public class CommandLineApplication implements CommandLineRunner {
             }
         }
     }
+
     @Override
     public void run(String... args) throws Exception {
         CommandLineApplicationRun();

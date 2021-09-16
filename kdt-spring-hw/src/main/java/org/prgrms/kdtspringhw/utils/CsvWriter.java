@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.UUID;
 
 
-
-public interface CsvWriter <T> {
+public interface CsvWriter<T> {
     void writeCsv(Map<UUID, T> map) throws IOException;
 }

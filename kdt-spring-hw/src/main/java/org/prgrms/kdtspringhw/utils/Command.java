@@ -9,15 +9,13 @@ public enum Command {
     CREATE("create"),
     LIST("list"),
     BLACK_LIST("black"),
-    //FIXED_AMOUNT_VOUCHER("fix"),
-    //PERCENT_DISCOUNT_VOUCHER("per"),
     ELSE("");
     private final String command;
+
     Command(String command){
         this.command = command;
     }
 
-    //필터를 통해서 하나 뽑는다.
     public static Command getCommandType(String command){
         return Arrays.stream(values())//values는 배열을 보낸다.
                 .filter(commandType -> commandType.command.equals(command))

@@ -22,13 +22,14 @@ public class BlackListService {
         this.blackListRepository = blackListRepository;
     }
 
-    public BlackList getBlacklist(UUID blackListId){
+    public BlackList getBlacklist(UUID blackListId) {
         return blackListRepository
                 .findById(blackListId)
-                .orElseThrow(()->new RuntimeException(MessageFormat.format("Can not find a BlackList for {0}", blackListId)));
+                .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a BlackList for {0}", blackListId)));
     }
 
-    public Map<UUID,BlackList> getBlackLists(){return blackListRepository.returnAll();}
-
+    public Map<UUID, BlackList> getBlackLists() {
+        return blackListRepository.returnAll();
+    }
 }
 

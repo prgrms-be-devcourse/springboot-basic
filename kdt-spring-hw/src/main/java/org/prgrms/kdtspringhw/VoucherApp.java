@@ -8,13 +8,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class VoucherApp {
-
     public static void main(String[] args) throws Exception {
-
         ConfigurableApplicationContext applicationContext = new SpringApplication(VoucherApp.class).run();
-
         var voucherService = applicationContext.getBean(VoucherService.class);
         var blackListService = applicationContext.getBean(BlackListService.class);
-        new CommandLineApplication(applicationContext,voucherService, blackListService).run();
+        new CommandLineApplication(applicationContext, voucherService, blackListService).run();
     }
 }

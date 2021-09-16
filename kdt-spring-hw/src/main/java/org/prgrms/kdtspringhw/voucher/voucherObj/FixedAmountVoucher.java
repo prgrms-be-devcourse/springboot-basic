@@ -14,18 +14,22 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = amount;
         this.voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
     }
+
     @Override
-    public long discount(long beforeDiscount){
+    public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }
+
     @Override
-    public UUID getVoucherId(){
+    public UUID getVoucherId() {
         return voucherId;
     }
+
     @Override
     public long getData() {
         return amount;
     }
+
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
@@ -33,8 +37,9 @@ public class FixedAmountVoucher implements Voucher {
                 ", amount=" + amount +
                 '}';
     }
+
     @Override
-    public VoucherType getType(){
+    public VoucherType getType() {
         return this.voucherType;
     }
 }

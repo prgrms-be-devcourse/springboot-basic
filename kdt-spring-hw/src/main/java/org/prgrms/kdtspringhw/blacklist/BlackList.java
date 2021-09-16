@@ -3,13 +3,12 @@ package org.prgrms.kdtspringhw.blacklist;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class BlackList  {
+public class BlackList {
     private final UUID BlackListId;
 
     public BlackList(UUID blackListId) {
         this.BlackListId = blackListId;
     }
-
 
     public UUID getBlackListId() {
         return BlackListId;
@@ -21,5 +20,4 @@ public class BlackList  {
                 "BlackListId=" + BlackListId +
                 '}';
     }
-
 }

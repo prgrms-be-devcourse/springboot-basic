@@ -8,7 +8,6 @@ public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("fix"),
     PERCENT_DISCOUNT_VOUCHER("per"),
     ELSE("");
-
     private final String name;
 
     VoucherType(String name){

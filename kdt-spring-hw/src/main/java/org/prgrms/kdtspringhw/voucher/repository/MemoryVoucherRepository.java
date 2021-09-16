@@ -12,20 +12,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("prod")
-public class MemoryVoucherRepository implements VoucherRepository{
+public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId)); //null인경우 empty반환
     }
+
     @Override
     public Voucher insert(Voucher voucher) {
-        storage.put(voucher.getVoucherId(),voucher);
+        storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
+
     @Override
-    public  Map<UUID,Voucher> returnAll() {
+    public Map<UUID, Voucher> returnAll() {
         return storage;
     }
 
