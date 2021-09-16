@@ -53,6 +53,11 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findByIdAndCustomer(long id, long customerId) {
+        throw new UnsupportedOperationException("findByIdAndCustomer not supported in in-memory repository yet.");
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         final Voucher updatingVoucher = db.get(voucher.getId());
         updatingVoucher.updateName(voucher.getName());

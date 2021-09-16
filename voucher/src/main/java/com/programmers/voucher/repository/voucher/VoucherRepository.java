@@ -14,6 +14,8 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(long id);
 
+    Optional<Voucher> findByIdAndCustomer(long id, long customerId);
+
     List<Voucher> findAllByCustomer(long customerId);
 
     List<Voucher> listAll();

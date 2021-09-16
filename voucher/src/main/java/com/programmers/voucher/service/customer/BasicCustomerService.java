@@ -36,15 +36,9 @@ public class BasicCustomerService implements CustomerVoucherService {
     }
 
     @Override
-    public void deleteVoucherFromWallet(long customerId, long voucherId) {
-        jdbcVoucherRepository.findById(voucherId).ifPresentOrElse(
-                voucher -> {
-                    if (voucher.getCustomerId() == customerId) {
-                        jdbcVoucherRepository.deleteById(voucherId);
-                    } else {
-                        throw new IllegalArgumentException("Only voucher's owner can delete voucher.");
-                    }
-                },
+    public void deleteVoucherFromWallet(long voucherId, long customerId) {
+        jdbcVoucherRepository.findByIdAndCustomer(voucherId, customerId).ifPresentOrElse(
+                voucher -> jdbcVoucherRepository.deleteById(voucherId),
                 () -> {
                     throw new IllegalArgumentException("Voucher with given id doesn't exist.");
                 }

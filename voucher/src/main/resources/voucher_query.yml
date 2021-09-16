@@ -34,6 +34,13 @@ voucher:
         v.customer_id=c.customer_id
       WHERE
         c.customer_id=?
+    byIdAndCustomer: >
+      SELECT
+        *
+      FROM
+        vouchers v
+      WHERE
+        v.voucher_id=? AND v.customer_id=?
 
   update:
     byId: >

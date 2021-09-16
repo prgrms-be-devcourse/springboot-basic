@@ -52,6 +52,7 @@ public class VoucherQuery {
         private String all;
         private String byId;
         private String byCustomer;
+        private String byIdAndCustomer;
 
         public String getAll() {
             return all;
@@ -75,6 +76,14 @@ public class VoucherQuery {
 
         public void setByCustomer(String byCustomer) {
             this.byCustomer = byCustomer;
+        }
+
+        public String getByIdAndCustomer() {
+            return byIdAndCustomer;
+        }
+
+        public void setByIdAndCustomer(String byIdAndCustomer) {
+            this.byIdAndCustomer = byIdAndCustomer;
         }
     }
 

@@ -7,6 +7,7 @@ import com.programmers.voucher.repository.VoucherQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -81,7 +82,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Voucher voucher;
         try {
             voucher = jdbcTemplate.queryForObject(voucherQuery.getSelect().getById(), voucherRowMapper, id);
-        } catch (EmptyResultDataAccessException ex) {
+        } catch (DataRetrievalFailureException ex) {
             voucher = null;
         } // based on https://stackoverflow.com/questions/18503607/best-practice-to-select-data-using-spring-jdbctemplate
 
@@ -108,6 +109,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findAllByCustomer(long customerId) {
         log.debug("Find vouchers by customer(id: {})", customerId);
         return jdbcTemplate.query(voucherQuery.getSelect().getByCustomer(), voucherRowMapper, customerId);
+    }
+
+    @Override
+    public Optional<Voucher> findByIdAndCustomer(long id, long customerId) {
+        log.debug("Find voucher by id and customer(id: {}, customer: {})", id, customerId);
+        Voucher voucher;
+        try {
+            voucher = jdbcTemplate.queryForObject(voucherQuery.getSelect().getByIdAndCustomer(), voucherRowMapper, id, customerId);
+        } catch (DataRetrievalFailureException ex) {
+            voucher = null;
+        }
+        return Optional.ofNullable(voucher);
     }
 
     public static final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> new Voucher(
