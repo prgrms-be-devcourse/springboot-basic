@@ -1,0 +1,63 @@
+voucher:
+  create: >
+    INSERT INTO
+      vouchers(
+        name,
+        type,
+        value,
+        created_at,
+        customer_id)
+    VALUES (
+        ?, ?, ?, ?, ?)
+
+  select:
+    all: >
+      SELECT
+        *
+      FROM
+        vouchers
+    byId: >
+      SELECT
+        *
+      FROM
+        vouchers
+      WHERE
+        voucher_id=?
+    byCustomer: >
+      SELECT
+        *
+      FROM
+        vouchers v
+      JOIN
+        customers c
+      ON
+        v.customer_id=c.customer_id
+      WHERE
+        c.customer_id=?
+    byIdAndCustomer: >
+      SELECT
+        *
+      FROM
+        vouchers v
+      WHERE
+        v.voucher_id=? AND v.customer_id=?
+
+  update:
+    byId: >
+      UPDATE
+        vouchers
+      SET
+        name=?,
+        type=?,
+        value=?,
+        customer_id=?
+      WHERE
+        voucher_id=?
+
+  delete:
+    byId: >
+      DELETE
+      FROM
+        vouchers
+      WHERE
+        voucher_id=?

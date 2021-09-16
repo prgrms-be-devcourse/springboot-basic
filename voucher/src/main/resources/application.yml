@@ -1,0 +1,75 @@
+voucher:
+  message:
+    intro: |
+
+      === Voucher Program ===
+      Type exit to exit the program.
+      Type create_voucher to create a new voucher.
+      Type list_voucher to list all vouchers.
+      Type read_voucher to read voucher.
+      Type update_voucher to update voucher.
+      Type delete_voucher to delete voucher.
+      Type blacklist to list all blacklisted customers.
+      Type intro to get intro this message.
+      Type create_user to generate random user.
+      Type list_user to list all users.
+      Type list_user_voucher to get vouchers of user.
+      Type read_user_by_voucher to get user by voucher.
+
+    command:
+      create:
+        name: >-
+          Input voucher name:
+
+        type: >-
+          Select voucher type(Fixed / Percentage): (Fixed)
+
+        amount: >-
+          Input discount value(ex: 1000 for Fixed, 52 for Rated):
+
+        customerId: >-
+          Input voucher owning customer's id:
+
+        fallback: >-
+          Didn't select voucher type or invalid voucher type. Fallback to "Fixed" voucher type.
+
+      update:
+        voucherId: >-
+          Input voucher's id:
+
+        field: >-
+          Select voucher's updating field(NAME/TYPE/VALUE/CUSTOMER):
+
+        value: >-
+          Input updated value:
+
+  file:
+    blacklist:
+      location:
+        consumer
+
+      filename:
+        customer_blacklist.csv
+
+    voucher:
+      location:
+        storage
+
+      filename:
+        vouchers.db
+
+  db:
+    jdbc:
+      url:
+        jdbc:mysql://localhost:3306/voucher_app
+      username: vouchermanager
+      password: password
+
+
+spring:
+  datasource:
+    url:
+      jdbc:mysql://localhost:3306/voucher_app
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: vouchermanager
+    password: password
