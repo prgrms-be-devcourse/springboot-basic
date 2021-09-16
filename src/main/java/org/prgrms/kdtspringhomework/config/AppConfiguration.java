@@ -5,7 +5,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(
-        basePackages = {"org.prgrms.kdtspringhomework.order", "org.prgrms.kdtspringhomework.voucher", "org.prgrms.kdtspringhomework.config" }
+        basePackages = {"org.prgrms.kdtspringhomework.order",
+                        "org.prgrms.kdtspringhomework.voucher",
+                        "org.prgrms.kdtspringhomework.config",
+                        "org.prgrms.kdtspringhomework.customer"}
 )
 public class AppConfiguration {
 }
