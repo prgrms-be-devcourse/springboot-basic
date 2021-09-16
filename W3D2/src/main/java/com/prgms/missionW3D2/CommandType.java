@@ -31,9 +31,7 @@ public enum CommandType {
             if (list.size() == 0) {
                 System.out.println("There's no voucher. Create a voucher.");
             } else {
-                for (int i = 0; i < list.size(); i++) {
-                    System.out.println(list.get(i).getVoucherInfo());
-                }
+                list.stream().forEach(a -> System.out.println(a.getVoucherInfo()));
             }
         }
     };
