@@ -1,7 +1,6 @@
 package org.prgrms.kdt.customer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgrms.kdt.wallet.WalletService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +11,13 @@ import java.util.UUID;
 @Controller
 public class CustomerController {
 
-    private final static Logger logger = LoggerFactory.getLogger(CustomerController.class);
-
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService) {
+    private final WalletService walletService;
+
+    public CustomerController(CustomerService customerService, WalletService walletService) {
         this.customerService = customerService;
+        this.walletService = walletService;
     }
 
     @GetMapping("/customers")
@@ -28,14 +28,14 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/{customerId}")
-    public String findCustomer(@PathVariable("customerId") UUID customerId, Model model){
-        var mayBeCustomer = customerService.getCustomer(customerId);
-        if(mayBeCustomer.isPresent()){
-            model.addAttribute("customer", mayBeCustomer.get());
-            return "/customer-details";
-        }else{
-            return "/404";
-        }
+    public String viewCustomerDetail(@PathVariable("customerId") UUID customerId, Model model){
+        var wallets = walletService.finsWalletsByCustomerId(customerId);
+        var vouchers = walletService.findVouchersByCustomerId(customerId);
+
+        model.addAttribute("customerId", customerId);
+        model.addAttribute("wallets", wallets);
+        model.addAttribute("vouchers",vouchers);
+        return "/customer-details";
     }
 
     @GetMapping("/customers/new")
