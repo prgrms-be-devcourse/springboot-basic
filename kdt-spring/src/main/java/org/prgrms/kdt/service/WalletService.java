@@ -7,7 +7,9 @@ import org.prgrms.kdt.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,14 @@ public class WalletService {
         return customers;
     }
 
+    public List<Voucher> findVouchersNotAssignedToCustomer(UUID customerId) {
+        Wallet wallet = walletRepository.findByCustomerId(customerId);
+        Set<UUID> voucherIdSet = createVoucherIdSet(wallet);
+        return allVouchers().stream()
+                .filter(voucher -> isNotAssignedToCustomer(voucherIdSet, voucher))
+                .collect(Collectors.toList());
+    }
+
     public List<Customer> customersHavingWallet() {
         return walletRepository.findAllCustomers();
     }
@@ -65,4 +75,13 @@ public class WalletService {
     public Voucher findVoucher(UUID voucherId) {
         return voucherService.findById(voucherId);
     }
+
+    private HashSet<UUID> createVoucherIdSet(Wallet wallet) {
+        return new HashSet<>(wallet.getVoucherIds());
+    }
+
+    private boolean isNotAssignedToCustomer(Set<UUID> voucherIdSet, Voucher voucher) {
+        return !voucherIdSet.contains(voucher.getVoucherId());
+    }
+
 }

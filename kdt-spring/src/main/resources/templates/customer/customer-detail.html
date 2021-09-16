@@ -13,7 +13,7 @@
             max-width: 660px;
         }
     </style>
-    <title>Voucher Detail</title>
+    <title>Customer Detail</title>
 </head>
 <body class="container">
 <a href="/"><h1>KDT Spring App</h1></a>
@@ -30,11 +30,32 @@
     <input type="text" id="lastLoginAt" class="form-control" th:name="lastLoginAt" th:value="${customer.lastLoginAt}" disabled>
     <label for="createdAt" class="form-label">고객 생성 시각</label>
     <input type="text" id="createdAt" class="form-control" th:name="createdAt" th:value="${customer.createdAt}" disabled>
-
+    <label for="vouchers">보유한 바우처</label>
+    <table class="table table-hover text-center" id="vouchers" th:name="vouchers">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Id</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher, stat : ${vouchers}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${voucher.voucherId}"></td>
+            <td th:text="${voucher.type}"></td>
+            <td th:text="${voucher.value}"></td>
+            <td th:text="${voucher.createdAt}"></td>
+        </tr>
+        </tbody>
+    </table>
     <div class="mx-auto mt-2 gap-3 d-flex justify-content-center">
         <button type="button" class="w-25 p-2 btn btn-secondary" th:onclick="|location.href='@{/customers}'|">목록 이동</button>
         <button type="button" class="w-25 p-2 btn btn-primary" th:onclick="|location.href='@{/customers/{customerId}/edit(customerId=${customer.customerId})}'|">고객 수정</button>
         <button type="button" class="w-25 p-2 btn btn-danger" th:onclick="|location.href='@{/customers/{customerId}/delete(customerId=${customer.customerId})}'|">고객 삭제</button>
+        <button type="button" class="w-25 p-2 btn btn-info" th:onclick="|location.href='@{/customers/{customerId}/assign(customerId=${customer.customerId})}'|">바우처 할당</button>
     </div>
 </form>
 </body>

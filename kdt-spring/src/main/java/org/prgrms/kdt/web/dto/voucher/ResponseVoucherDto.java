@@ -1,4 +1,4 @@
-package org.prgrms.kdt.web.dto;
+package org.prgrms.kdt.web.dto.voucher;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.prgrms.kdt.domain.voucher.VoucherType;
@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class ResponseVoucherDto {
 
-    private UUID voucherId;
-    private long value;
-    private VoucherType type;
+    private final UUID voucherId;
+    private final long value;
+    private final VoucherType type;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
