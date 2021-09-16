@@ -10,7 +10,7 @@
     <title>HOME</title>
 </head>
 <body class="container-fluid">
-<h1>KDT Spring App</h1>
+<h1>KDT Customer Management</h1>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <a th:href="@{/}" class="btn btn-primary me-md-2" type="button">Move Main Page</a>
     <a th:href="@{/customers/new}" class="btn btn-primary me-md-2" type="button">Create Customer</a>
@@ -22,18 +22,16 @@
         <th scope="col">Name</th>
         <th scope="col">Email</th>
         <th scope="col">CreatedAt</th>
-        <th scope="col">LastLogin</th>
     </tr>
     </thead>
     <tbody>
     <!--location.href='경로'-->
     <tr th:each ="customer:${customers}" th:object="${customer}"
         th:onclick="'location.href=\'' + @{/customers/{customerId}(customerId=${customer.customerId})} + '\''">
-        <td th:text="${customer.customerId}"  > </td>
+        <td th:text="${customer.customerId}" > </td>
         <td th:text="*{name}"></td>
         <td th:text="*{email}"></td>
         <td th:text="*{createdAt}"></td>
-        <td th:text="*{lastLoginAt}"></td>
     </tr>
     </tbody>
 </table>

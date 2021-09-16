@@ -14,9 +14,13 @@
     <div>
         <form th:action="@{/vouchers}" method="post">
             <div class="mb-3">
+                <label for="walletId" class="form-label">WalletId</label>
+                <input type="text" name="walletId" class="form-control" id="walletId" th:value="${walletId}" readonly>
+            </div>
+            <div class="mb-3">
                 <label for="voucherType" class="form-label">Voucher Type</label>
                 <select id="voucherType" name="voucherType" class="form-select">
-                    <option selected>Open this select menu</option>
+                    <option selected>Open select Voucher Type</option>
                     <option value="FIXED_AMOUNT_VOUCHER">Fixed Amount Voucher</option>
                     <option value="PERCENT_DISCOUNT_VOUCHER">Percent Discount Voucher</option>
                 </select>
@@ -25,6 +29,7 @@
                 <label for="amount" class="form-label">Amount</label>
                 <input type="number" name="amount" class="form-control" id="amount">
             </div>
+            <input type="hidden" name="customerId" id ="customerId" th:value="${customerId}"/>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

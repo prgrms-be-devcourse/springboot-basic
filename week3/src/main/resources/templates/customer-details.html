@@ -8,32 +8,63 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <title>KDT - Customer Details </title>
+    <style>
+        #middle-padding {
+            padding-bottom: 150px;
+        }
+    </style>
 </head>
-    <body class="container-fluid">
-        <h1>KDT Customer Details</h1>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a th:href="@{/}" class="btn btn-primary me-md-2" type="button"> Main Page</a>
-            <a th:href="@{/customers/}" class="btn btn-primary me-md-2" type="button"> Customer List</a>
-        </div>
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">CreatedAt</th>
-                <th scope="col">LastLogin</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:object="${customer}">
-                <td th:text="*{customerId}"></td>
-                <td th:text="*{name}"></td>
-                <td th:text="*{email}"></td>
-                <td th:text="*{createdAt}"></td>
-                <td th:text="*{lastLoginAt}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </body>
+<body class="container-fluid">
+<h1>KDT Customer Details</h1>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/customers/}" class="btn btn-primary me-md-2" type="button"> Customer List</a>
+</div>
+<h2>Wallet List</h2>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">WALLET ID</th>
+        <th scope="col" style="text-align:right"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="wallet:${wallets}" th:object="${wallet}">
+        <td th:text="*{walletId}"></td>
+        <td style="text-align: right">
+            <button th:object="${wallet}" th:text="CREATE" type="submit" class="btn btn-success"
+                    th:onclick="'location.href=\'' + @{/wallets/(walletId=*{walletId},customerId=${customerId})} + '\''"></button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div id="middle-padding"></div>
+<hr>
+<h2 th:text="'voucher List'"></h2>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Amount</th>
+        <th scope="col">VoucherType</th>
+        <th scope="col">Created At</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher:${vouchers}" th:object="${voucher}">
+        <td th:text="*{voucherId}"
+            th:onclick="'location.href=\'' + @{/vouchers/{voucherId}(voucherId=*{voucherId})} + '\''"></td>
+        <td th:text="*{amount}"></td>
+        <td th:text="*{voucherType}"></td>
+        <td th:text="*{createdAt}"></td>
+        <td>
+            <form th:action="@{/vouchers/delete/(voucherId=*{voucherId},customerId=${customerId})}"
+                  th:object="${voucher}" th:method="post">
+                <button th:text="Delete" type="submit" class="btn btn-danger"
+                        onClick="return confirm('정말 삭제 하실건가요?')"></button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</body>
 </html>
