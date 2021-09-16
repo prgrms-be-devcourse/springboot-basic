@@ -18,7 +18,13 @@ public class CommandLineApplication {
         sb.append("Type create to create a new voucher." + "\n");
         sb.append("Type list to list all voucher.");
 
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+        var environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("local");
+        applicationContext.refresh();
+
+
         var voucherService = applicationContext.getBean(VoucherService.class);
         System.out.println(sb);
         while (true) {

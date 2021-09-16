@@ -2,6 +2,7 @@ package org.prgrms.kdtspringorder;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -11,8 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-//@Qualifier("fileVoucher")
-@Primary
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
     private final static String path = "src/main/resources/VoucherRepository.csv";
