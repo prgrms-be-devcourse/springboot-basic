@@ -3,7 +3,6 @@ package org.prgrms.kdt.domain.voucher;
 import org.prgrms.kdt.enums.VoucherType;
 
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {

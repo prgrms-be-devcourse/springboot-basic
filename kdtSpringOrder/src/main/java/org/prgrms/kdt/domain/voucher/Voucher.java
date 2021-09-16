@@ -2,7 +2,6 @@ package org.prgrms.kdt.domain.voucher;
 
 import org.prgrms.kdt.enums.VoucherType;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {

@@ -1,17 +1,14 @@
 package org.prgrms.kdt.controller.api;
 
-import org.prgrms.kdt.controller.view.CustomerForm;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
