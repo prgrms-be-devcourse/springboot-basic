@@ -93,7 +93,7 @@ Type list to list all vouchers.
 - 엣지 케이스(예외 케이스)를 고려해서 작성해주세요.
 - Hamcrest 의 메쳐들을 다양하게 작성해보고 익숙해져 보세요.
 
-[ ]  바우처 관리 애플리케이션에서도 과정에서 다루었던 고객을 적용해보세요.
+[x]  바우처 관리 애플리케이션에서도 과정에서 다루었던 고객을 적용해보세요.
 
 - customers 테이블 정의 및 추가
 - CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
