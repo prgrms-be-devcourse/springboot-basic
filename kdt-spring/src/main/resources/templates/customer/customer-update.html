@@ -10,7 +10,7 @@
           rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <style>
         .container {
-            max-width: 660px;
+            max-width: 1000px;
         }
     </style>
     <title>Voucher Detail</title>
@@ -26,10 +26,38 @@
     <input type="text" id="name" class="form-control" th:name="name" th:value="${customer.name}">
     <label for="email" class="form-label">고객 이메일</label>
     <input type="text" id="email" class="form-control" th:name="email" th:value="${customer.email}" disabled>
-
     <div class="mx-auto mt-2 gap-3 d-flex justify-content-center">
         <button type="submit" class="w-25 p-2 btn btn-primary">고객 수정 확인</button>
     </div>
 </form>
+
+<table class="table table-hover text-center" id="vouchers" th:name="vouchers">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Id</th>
+        <th>Type</th>
+        <th>Value</th>
+        <th>Created</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher, stat : ${vouchers}">
+        <td th:text="${stat.count}"></td>
+        <td th:text="${voucher.voucherId}"></td>
+        <td th:text="${voucher.type}"></td>
+        <td th:text="${voucher.value}"></td>
+        <td th:text="${voucher.createdAt}"></td>
+        <td>
+            <form th:action="|@{/customers/{customerId}/vouchers/{voucherId}/delete(customerId=${customerId}, voucherId=${voucher.voucherId})}|" th:method="post">
+                <div class="mx-auto mt-2 gap-3 d-flex justify-content-center">
+                    <button type="submit" class="w-75 p-2 btn btn-danger">Deallocate</button>
+                </div>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
