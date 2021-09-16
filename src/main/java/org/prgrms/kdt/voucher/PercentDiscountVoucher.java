@@ -37,7 +37,11 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / MAX_VOUCHER_PERCENT);
+        var discountedAmount = beforeDiscount - beforeDiscount * percent / MAX_VOUCHER_PERCENT;
+        if (discountedAmount < 0) {
+            return 0;
+        }
+        return discountedAmount;
     }
 
     @Override
