@@ -10,9 +10,14 @@ import java.util.UUID;
 public interface WalletService {
     int insert(UUID walletId, Voucher voucher);
 
-    List<Voucher> findCustomerVoucher(UUID customerId);
+    int insertWalletByCustomerId(UUID customerId);
+
+    List<Voucher> findVouchersByCustomerId(UUID customerId);
 
     void deleteByCustomerId(UUID customerId);
 
-    List<Customer> findByVoucher(VoucherType voucherType);
+    List<Customer> findCustomersByVoucherType(VoucherType voucherType);
+
+    List<Wallet> finsWalletsByCustomerId(UUID customerId);
+
 }
