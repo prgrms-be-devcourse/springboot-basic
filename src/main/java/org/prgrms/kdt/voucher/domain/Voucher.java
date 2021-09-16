@@ -1,16 +1,17 @@
 package org.prgrms.kdt.voucher.domain;
 
-import org.prgrms.kdt.common.Date;
+import org.prgrms.kdt.common.BaseEntity;
 import org.prgrms.kdt.customer.domain.vo.Email;
 import org.prgrms.kdt.exception.ErrorMessage;
 import org.prgrms.kdt.exception.InvalidArgumentException;
 import org.prgrms.kdt.voucher.domain.vo.Type;
+import org.prgrms.kdt.voucher.dto.VoucherDto;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Voucher extends Date {
+public class Voucher extends BaseEntity {
     private static final long MIN_VOUCHER_AMOUNT = 0;
     private static final long MAX_VOUCHER_AMOUNT = 10000;
     private final static long MIN_VOUCHER_PERCENT = 0;
@@ -37,8 +38,7 @@ public class Voucher extends Date {
             validatePercent(value);
         }
     }
-
-
+    
     private void validateAmount(long amount) {
         if (amount < MIN_VOUCHER_AMOUNT) {
             throw new InvalidArgumentException(ErrorMessage.MORE_THAN_MIN_VOUCHER_AMOUNT);
@@ -81,6 +81,10 @@ public class Voucher extends Date {
 
     public long getValue() {
         return value;
+    }
+
+    private Voucher of(VoucherDto voucherDto) {
+        return new Voucher(LocalDateTime.now(), LocalDateTime.now(), UUID.randomUUID(), voucherDto.getEmail(), voucherDto.getType(), voucherDto.getValue());
     }
 
     @Override

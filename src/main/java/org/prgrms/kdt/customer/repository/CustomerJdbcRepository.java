@@ -49,7 +49,16 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer insert(CustomerSignDto customerSignDto) {
-        Customer customer = customerSignDto.of();
+        Customer customer = new Customer(
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                UUID.randomUUID(),
+                customerSignDto.getEmail(),
+                customerSignDto.getPassword(),
+                customerSignDto.getName(),
+                customerSignDto.getPhoneNumber(),
+                Role.USER
+        );
         int insert = jdbcTemplate.update("insert into customer(customer_id, customer_email, customer_password, customer_name, customer_phone_number, customer_role, customer_created_date, customer_modified_date) values (UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
                 customer.getEmail().getEmail(),

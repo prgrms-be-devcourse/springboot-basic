@@ -38,7 +38,7 @@ public class CustomerService {
         if (result) {
             return email;
         }
-        throw new NotUpdateException(ErrorMessage.CAM_NOT_UPDATE_ROLE);
+        throw new NotUpdateException(ErrorMessage.CAN_NOT_UPDATE_ROLE);
     }
 
     @Transactional(readOnly = true)

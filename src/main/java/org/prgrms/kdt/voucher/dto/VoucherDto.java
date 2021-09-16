@@ -12,17 +12,6 @@ public class VoucherDto {
     private Type type;
     private long value;
 
-    public Voucher of() {
-        return new Voucher(
-                LocalDateTime.now(),
-                LocalDateTime.now(),
-                UUID.randomUUID(),
-                email,
-                type,
-                value
-        );
-    }
-
     public Type getType() {
         return type;
     }

@@ -12,19 +12,6 @@ public class CustomerSignDto {
     private Name name;
     private PhoneNumber phoneNumber;
 
-    public Customer of() {
-        return new Customer(
-                LocalDateTime.now(),
-                LocalDateTime.now(),
-                UUID.randomUUID(),
-                email,
-                password,
-                name,
-                phoneNumber,
-                Role.USER
-        );
-    }
-
     public Email getEmail() {
         return email;
     }

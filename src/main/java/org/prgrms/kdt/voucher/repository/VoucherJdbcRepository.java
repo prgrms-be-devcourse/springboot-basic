@@ -48,7 +48,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     public Voucher insert(VoucherDto voucherDto) {
-        Voucher voucher = voucherDto.of();
+        Voucher voucher = new Voucher(
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                UUID.randomUUID(),
+                voucherDto.getEmail(),
+                voucherDto.getType(),
+                voucherDto.getValue()
+        );
+
         int insert = jdbcTemplate.update("insert into voucher(voucher_id, customer_email, voucher_type, voucher_value, voucher_created_date, voucher_modified_date) values (UUID_TO_BIN(?), ?, ?, ?, ?, ?)",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getEmail().getEmail(),

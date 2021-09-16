@@ -23,7 +23,7 @@ public class VoucherApiController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("/vouchers")
+    @GetMapping("/vouchers")
     public ResponseEntity<ResponseDto> vouchers() {
         List<Voucher> vouchers = voucherService.findAll();
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS, vouchers));
@@ -41,20 +41,20 @@ public class VoucherApiController {
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS, vouchers));
     }
 
-    @PostMapping("/voucher/create")
+    @PostMapping("/voucher")
     public ResponseEntity<ResponseDto> createVoucher(@RequestBody VoucherDto voucherDto) {
         Voucher voucher = voucherService.createVoucher(voucherDto);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS, voucher));
     }
 
-    @GetMapping("/voucher/delete/{id}")
+    @DeleteMapping("/vouchers/{id}")
     public ResponseEntity<ResponseDto> deleteVoucher(@PathVariable("id") UUID id) {
         voucherService.deleteById(id);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS));
     }
 
-    @PostMapping("/voucher")
-    public ResponseEntity<ResponseDto> voucher(UUID id) {
+    @GetMapping("/voucher/{id}")
+    public ResponseEntity<ResponseDto> voucher(@PathVariable("id") UUID id) {
         Voucher voucher = voucherService.findById(id);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, ResponseMessage.SUCCESS, voucher));
     }

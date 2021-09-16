@@ -1,13 +1,13 @@
 package org.prgrms.kdt.customer.domain;
 
-import org.prgrms.kdt.common.Date;
+import org.prgrms.kdt.common.BaseEntity;
 import org.prgrms.kdt.customer.domain.vo.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Customer extends Date {
+public class Customer extends BaseEntity {
     private UUID customerId;
     private Email email;
     private Password password;
