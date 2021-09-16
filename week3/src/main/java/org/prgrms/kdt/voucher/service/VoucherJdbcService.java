@@ -30,8 +30,13 @@ public class VoucherJdbcService implements IVoucherJdbcService{
     }
 
     @Override
-    public List<Voucher> list() {
-        return voucherRepository.findAll();
+    public void create(String walletId, String voucherTypeStr, Long amount) {
+        var voucherType = VoucherType.valueOf(voucherTypeStr);
+        var walletUUID = UUID.fromString(walletId);
+        switch (voucherType){
+            case PERCENT_DISCOUNT_VOUCHER -> voucherRepository.insertWalletIdToVoucher(walletUUID, new PercentDiscountVoucher(UUID.randomUUID(), amount, voucherType, LocalDateTime.now()));
+            case FIXED_AMOUNT_VOUCHER -> voucherRepository.insertWalletIdToVoucher(walletUUID, new FixedAmountVoucher(UUID.randomUUID(), amount, voucherType, LocalDateTime.now()));
+        };
     }
 
     @Override
@@ -44,13 +49,13 @@ public class VoucherJdbcService implements IVoucherJdbcService{
     }
 
     @Override
-    public Optional<Voucher> getVoucher(UUID voucherId) {
-        return voucherRepository.findById(voucherId);
+    public List<Voucher> list() {
+        return voucherRepository.findAll();
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
-        voucherRepository.deleteByVoucherId(voucherId);
+    public Optional<Voucher> getVoucher(UUID voucherId) {
+        return voucherRepository.findById(voucherId);
     }
 
     @Override
@@ -65,5 +70,10 @@ public class VoucherJdbcService implements IVoucherJdbcService{
         LocalDateTime endDate = LocalDateTime.parse(end, formatter);
 
         return voucherRepository.findByVouchersTerm(startDate, endDate);
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteByVoucherId(voucherId);
     }
 }

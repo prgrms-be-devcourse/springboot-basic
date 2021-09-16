@@ -1,26 +1,24 @@
 package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.voucher.model.CreateVoucherRequest;
-import org.prgrms.kdt.voucher.service.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgrms.kdt.voucher.service.IVoucherJdbcService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
 @Controller
 public class VoucherController {
 
-    private final static Logger logger = LoggerFactory.getLogger(VoucherController.class);
+    private final IVoucherJdbcService voucherService;
 
-    private final VoucherService voucherService;
-
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(IVoucherJdbcService voucherService) {
         this.voucherService = voucherService;
     }
-
 
     @GetMapping("/vouchers")
     public String viewCustomersPage(Model model) {
@@ -30,17 +28,18 @@ public class VoucherController {
     }
 
     @GetMapping("/vouchers/new")
-    public String viewNewCustomerPage(Model model) {
+    public String viewNewCustomerPage() {
         return "/new-vouchers";
     }
 
     @PostMapping("/vouchers")
     public String newVoucher(CreateVoucherRequest createVoucherRequest) {
         voucherService.create(
+                createVoucherRequest.walletId(),
                 createVoucherRequest.voucherType(),
                 createVoucherRequest.amount()
         );
-        return "redirect:/vouchers";
+        return "redirect:/customers/" + createVoucherRequest.customerId();
     }
 
     @GetMapping("/vouchers/{voucherId}")
@@ -54,10 +53,9 @@ public class VoucherController {
         }
     }
 
-    @PostMapping("/vouchers/delete/{voucherId}")
-    public String deleteByVoucherId(@PathVariable("voucherId") UUID voucherId){
-        logger.info("voucherId:{}", voucherId);
+    @PostMapping("/vouchers/delete")
+    public String deleteByVoucherId(@RequestParam("voucherId") UUID voucherId, @RequestParam("customerId") String customerId){
         voucherService.deleteById(voucherId);
-        return "redirect:/vouchers";
+        return "redirect:/customers/" + customerId;
     }
 }

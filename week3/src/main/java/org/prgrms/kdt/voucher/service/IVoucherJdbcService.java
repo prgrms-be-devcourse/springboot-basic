@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface IVoucherJdbcService extends VoucherService {
 
-    void create(String voucherType, Long amount);
+    void create(String walletId, String voucherType, Long amount);
 
     void deleteById(UUID voucherId);
 

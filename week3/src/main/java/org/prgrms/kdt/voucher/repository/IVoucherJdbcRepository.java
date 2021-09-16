@@ -14,4 +14,6 @@ public interface IVoucherJdbcRepository extends VoucherRepository{
     List<Voucher> findByVoucherType(VoucherType voucherType);
 
     List<Voucher> findByVouchersTerm(LocalDateTime startDate, LocalDateTime endDate);
+
+    int insertWalletIdToVoucher(UUID walletUUID, Voucher voucher);
 }

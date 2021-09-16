@@ -50,6 +50,18 @@ public class VoucherJdbcRepository implements IVoucherJdbcRepository {
                 voucher.getAmount(),
                 voucher.getVoucherType().toString(),
                 Timestamp.valueOf(voucher.getCreatedAt())
+        );
+        return update;
+    }
+
+    @Override
+    public int insertWalletIdToVoucher(UUID walletId, Voucher voucher) {
+        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, voucher_type, created_at, wallet_id) values(UUID_TO_BIN(?), ? , ?, ?, UUID_TO_BIN(?))",
+                voucher.getVoucherId().toString().getBytes(),
+                voucher.getAmount(),
+                voucher.getVoucherType().toString(),
+                Timestamp.valueOf(voucher.getCreatedAt()),
+                walletId.toString().getBytes()
                 );
         return update;
     }
@@ -72,24 +84,11 @@ public class VoucherJdbcRepository implements IVoucherJdbcRepository {
         }
     }
 
-    public void deleteAll(){
-        jdbcTemplate.update("DELETE FROM vouchers");
-    }
-
     public List<Voucher> findByWalletId(UUID walletId){
         return (jdbcTemplate.query(
                 "select * from vouchers where wallet_id = UUID_TO_BIN(?)",
                 voucherRowMapper,
                 walletId.toString().getBytes()));
-    }
-
-    //지갑에 있는 모든 바우처 제거
-    public void deleteByWalletId(UUID walletId){
-        jdbcTemplate.update("delete from vouchers where wallet_id = UUID_TO_BIN(?)", walletId.toString().getBytes());
-    }
-    @Override
-    public void deleteByVoucherId(UUID voucherId){
-        jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(?)", voucherId.toString().getBytes());
     }
 
     @Override
@@ -99,7 +98,6 @@ public class VoucherJdbcRepository implements IVoucherJdbcRepository {
                 voucherRowMapper,
                 voucherType.toString()));
     }
-
     @Override
     public List<Voucher> findByVouchersTerm(LocalDateTime startDate, LocalDateTime endDate) {
         logger.info("startDate: {}", startDate);
@@ -110,13 +108,18 @@ public class VoucherJdbcRepository implements IVoucherJdbcRepository {
                 Timestamp.valueOf(startDate),
                 Timestamp.valueOf(endDate)));
     }
+    public void deleteAll(){
+        jdbcTemplate.update("DELETE FROM vouchers");
+    }
 
-    public int insertWalletIdToVoucher(UUID walletId, Voucher voucher){
-        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, voucher_type, wallet_id) values(UUID_TO_BIN(?), ? , ?, UUID_TO_BIN(?))",
-                voucher.getVoucherId().toString().getBytes(),
-                voucher.getAmount(),
-                voucher.getVoucherType().toString(),
-                walletId.toString().getBytes());
-        return update;
+    //지갑에 있는 모든 바우처 제거
+
+    public void deleteByWalletId(UUID walletId){
+        jdbcTemplate.update("delete from vouchers where wallet_id = UUID_TO_BIN(?)", walletId.toString().getBytes());
+    }
+
+    @Override
+    public void deleteByVoucherId(UUID voucherId){
+        jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(?)", voucherId.toString().getBytes());
     }
 }
