@@ -9,6 +9,7 @@ import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    @Transactional
     public Optional<Voucher> createVoucher(VoucherSaveRequestDto voucherSaveRequestDto) {
         logger.info("Starts createVoucher()");
 
@@ -80,6 +82,7 @@ public class VoucherService {
         return voucherRepository.findByVoucherTerm(LocalDateTime.parse(startDate, formatter), LocalDateTime.parse(endDate, formatter));
     }
 
+    @Transactional
     public void deleteVoucher(UUID voucherId, UUID customerId) {
         voucherRepository.deleteVoucher(voucherId, customerId);
     }
