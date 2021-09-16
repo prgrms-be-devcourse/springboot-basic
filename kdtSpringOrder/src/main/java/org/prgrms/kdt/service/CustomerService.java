@@ -34,8 +34,8 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getCustomer(UUID customerId){
-        return customerRepository.findById(customerId);
+    public Optional<Customer> getCustomer(String customerId){
+        return customerRepository.findById(UUID.fromString(customerId));
     }
 
 }
