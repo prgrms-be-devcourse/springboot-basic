@@ -8,8 +8,7 @@ public enum Command {
     EXIT("exit"),
     CREATE("create"),
     LIST("list"),
-    BLACK_LIST("black"),
-    ELSE("");
+    BLACK_LIST("black");
     private final String command;
 
     Command(String command){
@@ -19,7 +18,7 @@ public enum Command {
     public static Command getCommandType(String command){
         return Arrays.stream(values())//values는 배열을 보낸다.
                 .filter(commandType -> commandType.command.equals(command))
-                .findAny()
-                .orElse(ELSE);
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 명령어 <" + command+">를 입력하셨습니다.\n유효한 "));
     }
 }

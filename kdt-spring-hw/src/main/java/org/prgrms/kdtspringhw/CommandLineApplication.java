@@ -36,29 +36,31 @@ public class CommandLineApplication implements CommandLineRunner {
         sp.printHome();
         while (true) {
             sp.print("명령어를 입력해주세요. \n");
-            Command command = Command.getCommandType(br.readLine());
-            switch (command) {
-                case EXIT:
-                    sp.print("프로그램을 종료합니다");
-                    applicationContext.close();
-                    return;
-                case CREATE:
-                    sp.print("Voucher 타입을 입력하세요.\n fix:FixedAmount    per:PrecentDiscount\n");
-                    if (!voucherService.createVoucher(VoucherType.getVoucherType(br.readLine()))) {
-                        continue;
-                    }
-                    break;
-                case LIST:
-                    Map<UUID, Voucher> voucherList = voucherService.getVouchers();
-                    sp.printVoucherList(voucherList);
-                    break;
-                case BLACK_LIST:
-                    Map<UUID, BlackList> blackLists = blackListService.getBlackLists();
-                    sp.printBlackList(blackLists);
-                    break;
-                default:
-                    sp.print("유효하지 않은 명령어 입니다.\n");
-                    continue;
+            try{
+                Command command = Command.getCommandType(br.readLine());
+                switch (command) {
+                    case EXIT:
+                        sp.print("프로그램을 종료합니다");
+                        applicationContext.close();
+                        return;
+                    case CREATE:
+                        sp.print("Voucher 타입을 입력하세요.\n fix:FixedAmount    per:PrecentDiscount\n");
+                        if (!voucherService.createVoucher(VoucherType.getVoucherType(br.readLine()))) {
+                            continue;
+                        }
+                        break;
+                    case LIST:
+                        Map<UUID, Voucher> voucherList = voucherService.getVouchers();
+                        sp.printVoucherList(voucherList);
+                        break;
+                    case BLACK_LIST:
+                        Map<UUID, BlackList> blackLists = blackListService.getBlackLists();
+                        sp.printBlackList(blackLists);
+                        break;
+                }
+            } catch(Exception e){
+                sp.print(e.getMessage());
+                continue;
             }
         }
     }
