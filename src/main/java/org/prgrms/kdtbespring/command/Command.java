@@ -35,28 +35,30 @@ public enum Command {
             System.out.println("생성할 바우처를 선택하세요.");
             System.out.println("1. FixedAmountVoucher, 2. PercentDiscountVoucher");
             String select = br.readLine();
-            Optional<Voucher> voucher = Optional.empty();
-            switch (select) {
-                // FixedAmountVoucher 생성
-                case "1" -> {
-                    voucher = voucherService.create(VoucherType.FixedAmountVoucher);
-                }
-                // PercentDiscountVoucher 생성
-                case "2" -> {
-                    voucher = voucherService.create(VoucherType.PercentDiscountVoucher);
-                }
-                default -> System.out.println("입력 실패(번호를 입력해주세요.)");
-            }
 
-            if (voucher.isPresent()){
-                System.out.println(voucher.get());
-                return true;
-            }
+            Optional<VoucherType> selectResult = selectVoucherType(select);
+            selectResult.ifPresentOrElse(
+                    voucherType -> {
+                        Optional<Voucher> voucher = voucherService.create(voucherType);
+                        voucher.ifPresent(System.out::println);
+                    },
+                    () -> {
+                        System.out.println("입력 실패(번호를 입력해주세요.)");
+                        System.out.println("Voucher 생성 실패");
+                    }
+            );
 
-            System.out.println("Voucher 생성 실패");
             return true;
         }
     };
+
+    Optional<VoucherType> selectVoucherType(String select) {
+        return switch (select) {
+            case "1" -> Optional.of(VoucherType.FixedAmountVoucher);
+            case "2" -> Optional.of(VoucherType.PercentDiscountVoucher);
+            default -> Optional.empty();
+        };
+    }
 
     public abstract boolean run(VoucherService voucherService) throws IOException;
 }

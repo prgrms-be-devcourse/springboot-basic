@@ -16,11 +16,11 @@ import java.util.Optional;
 
 public class CommandLineApplication {
     public static void main(String[] args) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        sb.append("=== Voucher Program ===" + "\n");
-        sb.append("Type \"exit\" to exit the program." + "\n");
-        sb.append("Type \"create\" to create a new voucher." + "\n");
-        sb.append("Type \"list\" to list all voucher.");
+        StringBuilder manual = new StringBuilder();
+        manual.append("=== Voucher Program ===" + "\n");
+        manual.append("Type \"exit\" to exit the program." + "\n");
+        manual.append("Type \"create\" to create a new voucher." + "\n");
+        manual.append("Type \"list\" to list all voucher.");
 
         ApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         VoucherService voucherService = annotationConfigApplicationContext.getBean(VoucherService.class);
@@ -29,7 +29,7 @@ public class CommandLineApplication {
         boolean status = true;
 
         while (status) {
-            System.out.println(sb);
+            System.out.println(manual);
 
             String input = br.readLine();
             input = input.toUpperCase();
