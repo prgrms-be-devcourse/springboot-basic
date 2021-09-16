@@ -21,13 +21,13 @@ public class ApiExceptionAdvice {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(ResourceNotFoundException e) {
-        logger.error("is invalid request : " +  e.getMessage());
+        logger.error("is invalid request : " + e.getMessage());
         return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(BadRequestException e) {
-        logger.error("is invalid request : " +  e.getMessage());
+        logger.error("is invalid request : " + e.getMessage());
         return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

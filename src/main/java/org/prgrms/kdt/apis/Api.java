@@ -104,14 +104,14 @@ public class Api {
     @GetMapping(VOUCHERS + SEARCH + "/type")
     public ResponseEntity getByVoucherType(@RequestParam String voucherType) {
         if (!VoucherType.isValue(voucherType)) {
-            throw  new BadRequestException("not exist : " + voucherType);
+            throw new BadRequestException("not exist : " + voucherType);
         }
         return ResponseEntity.ok().body(voucherService.getVoucherByVoucherType(voucherType));
     }
 
     @GetMapping(VOUCHERS + SEARCH + "/createAt")
     public ResponseEntity getByCreatedAt(@RequestParam String beforeDate,
-                                         @RequestParam String afterDate) {
+            @RequestParam String afterDate) {
         if (!isValid(beforeDate)) {
             throw new BadRequestException("invalidDate : " + beforeDate);
         }

@@ -190,7 +190,7 @@ public class ApiTest extends BaseApiTest {
         UUID id = UUID.randomUUID();
         VoucherDto dto = givenVoucherDto();
         dto.setVoucherId(id.toString());
-        voucherRepository.insert(new Voucher(id, "test",100L, VoucherType.FIX, LocalDateTime.now()));
+        voucherRepository.insert(new Voucher(id, "test", 100L, VoucherType.FIX, LocalDateTime.now()));
 
         mockMvc.perform(delete(PRE_FIX + VOUCHERS)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -205,7 +205,7 @@ public class ApiTest extends BaseApiTest {
     void getVoucherByType() throws Exception {
         initVoucher();      // FIX
         initVoucher();      // FIX
-        voucherRepository.insert(new Voucher(UUID.randomUUID(), "test",100L, VoucherType.PERCENT, LocalDateTime.now()));
+        voucherRepository.insert(new Voucher(UUID.randomUUID(), "test", 100L, VoucherType.PERCENT, LocalDateTime.now()));
 
         mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "/type?voucherType=FIX")
                 .contentType(MediaType.APPLICATION_JSON)

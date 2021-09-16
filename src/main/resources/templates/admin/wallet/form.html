@@ -26,12 +26,12 @@
             <tbody>
             <tr th:each="voucher : ${vouchers}">
 
-                <td><a th:href="@{'/admin/voucher/' + ${voucher.voucherId}}" th:text="${voucher.voucherId}" ></a></td>
+                <td><a th:href="@{'/admin/voucher/' + ${voucher.voucherId}}" th:text="${voucher.voucherId}"></a></td>
                 <td th:text="${voucher.name}"></td>
                 <td th:text="${voucher.voucherType}"></td>
                 <td th:text="${voucher.discount}"></td>
                 <td th:text="${voucher.createdAt}"></td>
-<!--                <div><p th:text="${customerId}"></p></div>-->
+                <!--                <div><p th:text="${customerId}"></p></div>-->
                 <td>
                     <form th:action="@{/admin/wallet}" method="post" th:object="${walletDto}">
                         <input type="hidden" id="customerId" name="customerId" th:value="${customerId}">

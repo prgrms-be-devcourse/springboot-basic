@@ -10,6 +10,7 @@ import java.util.UUID;
  * Date: 2021/08/30 Time: 6:08 오후
  */
 public class Customer {
+
     private final UUID customerId;
 
     private String name;

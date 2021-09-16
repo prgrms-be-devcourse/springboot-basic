@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public class WalletService {
+
     private static final Logger logger = LoggerFactory.getLogger(WalletService.class);
 
     private final WalletJdbcRepository walletJdbcRepository;

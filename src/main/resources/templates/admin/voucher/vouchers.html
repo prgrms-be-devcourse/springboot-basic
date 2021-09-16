@@ -23,7 +23,7 @@
             <tbody>
             <tr th:each="voucher : ${vouchers}">
 
-                <td><a th:href="@{'/admin/voucher/' + ${voucher.voucherId}}" th:text="${voucher.voucherId}" ></a></td>
+                <td><a th:href="@{'/admin/voucher/' + ${voucher.voucherId}}" th:text="${voucher.voucherId}"></a></td>
                 <td th:text="${voucher.name}"></td>
                 <td th:text="${voucher.voucherType}"></td>
                 <td th:text="${voucher.discount}"></td>

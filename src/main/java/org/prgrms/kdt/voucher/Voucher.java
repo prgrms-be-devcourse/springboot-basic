@@ -28,7 +28,7 @@ public class Voucher {
         this.createdAt = createdAt;
     }
 
-    public Voucher (String name, Long discount, VoucherType voucherType) {
+    public Voucher(String name, Long discount, VoucherType voucherType) {
         this.name = name;
         this.discount = discount;
         this.voucherType = voucherType;
