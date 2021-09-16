@@ -3,6 +3,7 @@ package com.programmers.voucher.controller;
 import com.programmers.voucher.entity.customer.Customer;
 import com.programmers.voucher.service.customer.CustomerService;
 import com.programmers.voucher.service.customer.CustomerVoucherService;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,8 +62,15 @@ public class CustomerController {
             return "customer/create";
         }
 
-        Customer customer = basicCustomerService.create(username, alias);
-        return "redirect:/customer/read?id=" + customer.getId();
+        try {
+            Customer customer = basicCustomerService.create(username, alias);
+            return "redirect:/customer/read?id=" + customer.getId();
+        } catch (DuplicateKeyException ex) {
+            model.addAttribute("username", username);
+            model.addAttribute("alias", alias);
+            model.addAttribute("error", "Duplicated username exists. Please try another username.");
+            return "customer/create";
+        }
     }
 
     @GetMapping("/read")
