@@ -11,7 +11,9 @@ public class BlackCustomerApplication {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
         CustomerService customerService = applicationContext.getBean(CustomerService.class);
+        OutputConsole outputConsole = new OutputConsole();
         customerService.blackCustomerList();
+        outputConsole.startBlackList();
         customerService.printCustomers();
     }
 }

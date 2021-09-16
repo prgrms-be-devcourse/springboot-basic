@@ -4,6 +4,9 @@ public interface Output {
     //프로그램 시작시 출력 메시지
     void start();
 
+    //블랙리스트 시작시 출력 메시지
+    void startBlackList();
+
     //동작 입력 메시지
     void inputCommandTypeMessage();
 
