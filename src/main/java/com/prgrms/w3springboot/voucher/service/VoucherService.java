@@ -33,9 +33,25 @@ public class VoucherService {
 		return voucherRepository.insert(voucher);
 	}
 
-    public List<Voucher> listVoucher() {
-        return voucherRepository.findAll();
-    }
+	public Voucher updateVoucher(UUID voucherId, long updateAmount) {
+		Optional<Voucher> existingVoucher = voucherRepository.findById(voucherId);
+
+		if (existingVoucher.isPresent()) {
+			Voucher updatingVoucher = voucherFactory.createVoucher(voucherId, updateAmount,
+				existingVoucher.get().getVoucherType());
+			return voucherRepository.update(updatingVoucher);
+		}
+
+		throw new IllegalArgumentException("유효하지 않은 입력입니다.");
+	}
+
+	public void deleteVoucher(UUID voucherId) {
+		voucherRepository.delete(voucherId);
+	}
+
+	public List<Voucher> listVoucher() {
+		return voucherRepository.findAll();
+	}
 
 	// 나중에 구현
 	public void useVoucher(Voucher voucher) {
