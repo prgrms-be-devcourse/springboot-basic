@@ -3,6 +3,7 @@ package org.prgms.voucher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class VoucherController {
@@ -20,6 +21,17 @@ public class VoucherController {
         return "voucher-list";
     }
 
+    @GetMapping("new-voucher")
+    public String newVoucherPage() {
+        return "new-voucher";
+    }
 
+    @PostMapping("/vouchers")
+    public String newProduct(CreateVoucherRequest createVoucherRequest) {
+        voucherService.createVoucher(
+                createVoucherRequest.getVoucherType(),
+                createVoucherRequest.getAmount());
+        return "redirect:/vouchers";
+    }
 
 }
