@@ -77,7 +77,7 @@ public class ConsoleApp {
                         case "1" -> {
                             console.printFindCustomer();
                             String[] findCommand = console.getCreateLine().split(" ");
-                            Customer customer = voucherOperator.findCustomer(findCommand);
+                            Customer customer = customerOperator.findCustomer(findCommand);
                             if (customer != null) console.printObject(customer);
                             else System.out.println("None!!!");
                         }

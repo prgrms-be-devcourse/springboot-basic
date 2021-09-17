@@ -48,13 +48,6 @@ public class VoucherOperator implements CommandOperator<Voucher> {
         voucherService.deleteVoucher(voucherId);
     }
 
-    public Customer findCustomer(String[] splitList) {
-        if (!validationFindCheck(splitList)) return null;
-        var voucherId = splitList[0];
-        Customer customer = customerService.findCustomer(voucherId);
-        return customer;
-    }
-
     @Override
     public List<Voucher> getAllitems() {
         return voucherService.getAllVouchers();
@@ -69,11 +62,6 @@ public class VoucherOperator implements CommandOperator<Voucher> {
     }
 
     private boolean validationDeleteCheck(String[] splitList) {
-        if (splitList.length != 1) return false;
-        return true;
-    }
-
-    private boolean validationFindCheck(String[] splitList) {
         if (splitList.length != 1) return false;
         return true;
     }

@@ -39,6 +39,13 @@ public class CustomerOperator implements CommandOperator<Customer> {
         return customerService.getAllCustomers();
     }
 
+    public Customer findCustomer(String[] splitList) {
+        if (!validationFindCheck(splitList)) return null;
+        var voucherId = splitList[0];
+        Customer customer = customerService.findCustomer(voucherId);
+        return customer;
+    }
+
     public List<Customer> getAllBlacklist() {
         return customerService.getAllBlacklist();
     }
@@ -47,6 +54,11 @@ public class CustomerOperator implements CommandOperator<Customer> {
         if (splitList.length != 3) return false;
         if (!splitList[2].equals("NORMAL") && !splitList[2].equals("BLACK")) return false;
 
+        return true;
+    }
+
+    private boolean validationFindCheck(String[] splitList) {
+        if (splitList.length != 1) return false;
         return true;
     }
 }
