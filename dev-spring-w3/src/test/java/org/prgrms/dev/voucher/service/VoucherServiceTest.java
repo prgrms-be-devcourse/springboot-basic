@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.dev.voucher.domain.FixedAmountVoucher;
 import org.prgrms.dev.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.dev.voucher.domain.Voucher;
+import org.prgrms.dev.voucher.domain.VoucherDto;
 import org.prgrms.dev.voucher.repository.VoucherRepository;
 
 import java.util.ArrayList;
@@ -36,17 +37,17 @@ class VoucherServiceTest {
 
     static Stream<Arguments> parametersProvider() {
         return Stream.of(
-                arguments("ff", UUID.randomUUID(), 1000),
-                arguments("fixedd", UUID.randomUUID(), 2500),
-                arguments("1000", UUID.randomUUID(), 3000)
+                arguments(new VoucherDto(UUID.randomUUID(), "ff", 1000)),
+                arguments(new VoucherDto(UUID.randomUUID(), "fixedd", 2500)),
+                arguments(new VoucherDto(UUID.randomUUID(), "1000", 3000))
         );
     }
 
     @DisplayName("잘못된 바우처 타입 명령어로 바우처를 생성할 수 없다.")
     @ParameterizedTest
     @MethodSource("parametersProvider")
-    void createVoucherByInvalidVoucherTypeTest(String type, UUID voucherId, long amount) {
-        assertThatThrownBy(() -> voucherService.createVoucher(type, voucherId, amount))
+    void createVoucherByInvalidVoucherTypeTest(VoucherDto voucherDto) {
+        assertThatThrownBy(() -> voucherService.createVoucher(voucherDto))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Invalid voucher type input...");
     }

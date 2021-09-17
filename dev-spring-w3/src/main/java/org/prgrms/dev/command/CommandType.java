@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 public enum CommandType {
     CREATE("create", CreateCommand::new),
     LIST("list", ListCommand::new),
+    UPDATE("update", UpdateCommand::new),
     EXIT("exit", ExitCommand::new);
 
     private final String command;
@@ -24,7 +25,7 @@ public enum CommandType {
         CommandType commandType = Arrays.stream(CommandType.values())
                 .filter(cmd -> cmd.command.equalsIgnoreCase(inputCommandType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid command type input..."));
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입을 입력하였습니다."));
         return commandType.supplier.get()
                 .execute(input, output, voucherService);
     }

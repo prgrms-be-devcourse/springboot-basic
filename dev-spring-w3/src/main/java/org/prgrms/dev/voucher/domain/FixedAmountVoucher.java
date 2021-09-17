@@ -57,6 +57,7 @@ public class FixedAmountVoucher implements Voucher {
         return VoucherType.FIXED;
     }
 
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount < 0 ? 0 : beforeDiscount - amount;
     }

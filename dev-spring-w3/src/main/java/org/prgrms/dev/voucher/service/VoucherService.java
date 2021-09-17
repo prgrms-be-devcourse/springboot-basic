@@ -1,6 +1,7 @@
 package org.prgrms.dev.voucher.service;
 
 import org.prgrms.dev.voucher.domain.Voucher;
+import org.prgrms.dev.voucher.domain.VoucherDto;
 import org.prgrms.dev.voucher.domain.VoucherType;
 import org.prgrms.dev.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,11 @@ public class VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId));
+                .orElseThrow(() -> new RuntimeException("해당 바우처 아이디를 찾을 수 없습니다. " + voucherId));
     }
 
-    public Voucher createVoucher(String type, UUID voucherId, long discountValue) {
-        Voucher voucher = VoucherType.getVoucherType(type, voucherId, discountValue);
+    public Voucher createVoucher(VoucherDto voucherDto) {
+        Voucher voucher = VoucherType.getVoucherType(voucherDto.getVoucherType(), voucherDto.getVoucherId(), voucherDto.getDiscount());
         return voucherRepository.insert(voucher);
     }
 
@@ -31,9 +32,9 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher updateVoucherDiscount(UUID voucherId, long newDiscount) {
-        Voucher voucher = getVoucher(voucherId);
-        Voucher updateVoucher = VoucherType.getVoucherType(voucher.getVoucherType().toString(), voucher.getVoucherId(), newDiscount);
+    public Voucher updateVoucherDiscount(VoucherDto voucherDto) {
+        Voucher voucher = getVoucher(voucherDto.getVoucherId());
+        Voucher updateVoucher = VoucherType.getVoucherType(voucher.getVoucherType().toString(), voucher.getVoucherId(), voucherDto.getDiscount());
         return voucherRepository.update(updateVoucher);
     }
 
