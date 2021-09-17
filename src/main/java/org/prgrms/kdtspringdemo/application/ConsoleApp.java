@@ -5,7 +5,10 @@ import org.prgrms.kdtspringdemo.console.Console;
 import org.prgrms.kdtspringdemo.console.CustomerOperator;
 import org.prgrms.kdtspringdemo.console.VoucherOperator;
 import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ConsoleApp {
@@ -81,7 +84,13 @@ public class ConsoleApp {
                             if (customer != null) console.printObject(customer);
                             else System.out.println("None!!!");
                         }
-                        case "2" -> {}
+                        case "2" -> {
+                            console.printFindVouchers();
+                            String[] findCommand = console.getCreateLine().split(" ");
+                            List<Voucher> vouchers = voucherOperator.findVouchers(findCommand);
+                            if (vouchers != null) console.printList(vouchers);
+                            else System.out.println("None!!!");
+                        }
                     }
                 }
                 case EXIT -> System.exit(0);

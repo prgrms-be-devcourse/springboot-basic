@@ -28,4 +28,6 @@ public interface Output {
     void printFindSelect();
 
     void printFindCustomer();
+
+    void printFindVouchers();
 }

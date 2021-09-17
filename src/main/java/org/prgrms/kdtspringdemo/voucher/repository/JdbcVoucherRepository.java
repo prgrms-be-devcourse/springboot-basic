@@ -33,6 +33,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
+    private String getVersion57UUID(String value) {
+        return "UNHEX(REPLACE(:" + value + ", '-', ''))";
+    }
+
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var voucherName = resultSet.getString("name");
@@ -91,6 +95,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByType(String type) {
         return jdbcTemplate.query("SELECT * FROM vouchers WHERE type = :type", Collections.singletonMap("type", type), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(String customerId) {
+        return jdbcTemplate.query("SELECT * FROM vouchers LEFT JOIN wallets ON wallets.customer_id = " + getVersion57UUID("customerId") + " WHERE wallets.voucher_id = vouchers.voucher_id",
+                Collections.singletonMap("customerId", customerId.getBytes()), voucherRowMapper);
     }
 
     @Override

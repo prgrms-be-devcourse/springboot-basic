@@ -43,6 +43,10 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public List<Voucher> findVouchers(String customerId) {
+        return voucherRepository.findByCustomerId(customerId);
+    }
+
     public void deleteVoucher(String voucherId) {
         voucherRepository.deleteByVoucherId(voucherId);
     }

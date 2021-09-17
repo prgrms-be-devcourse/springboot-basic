@@ -65,4 +65,16 @@ public class VoucherOperator implements CommandOperator<Voucher> {
         if (splitList.length != 1) return false;
         return true;
     }
+
+    public List<Voucher> findVouchers(String[] splitList) {
+        if (!validationFindCheck(splitList)) return null;
+        var customerId = splitList[0];
+        List<Voucher> vouchers = voucherService.findVouchers(customerId);
+        return vouchers;
+    }
+
+    private boolean validationFindCheck(String[] splitList) {
+        if (splitList.length != 1) return false;
+        return true;
+    }
 }

@@ -108,8 +108,8 @@ public class Console implements Input, Output {
         System.out.print("""
                 Select Find Object type.
                 1. Customer
-                2. Voucher(Not implement)
-                Input select number(only 1):""");
+                2. Voucher
+                Input select number(1 or 2):""");
     }
 
     @Override
@@ -117,6 +117,13 @@ public class Console implements Input, Output {
         System.out.print("""
                 <vouhcerId>
                 find customer data by voucherId:""");
+    }
+
+    @Override
+    public void printFindVouchers() {
+        System.out.print("""
+                <customerId>
+                find voucher datas by customerId:""");
     }
 
     @Override
