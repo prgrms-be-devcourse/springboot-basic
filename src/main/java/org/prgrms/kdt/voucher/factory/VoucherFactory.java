@@ -27,14 +27,13 @@ public class VoucherFactory {
     }
 
     public Voucher createVoucher(VoucherType type, UUID voucherId, long policyValue) {
-        switch (type) {
-            case PERCENTAGE:
-                return new PercentDiscountVoucher(voucherId, policyValue);
-            case FIXED:
-                return new FixedAmountVoucher(voucherId, policyValue);
-            default:
-                logger.error("Can't find voucher type");
-                throw new IllegalArgumentException();
+        if (type == VoucherType.PERCENTAGE) {
+            return new PercentDiscountVoucher(voucherId, policyValue);
+        } else if (type == VoucherType.FIXED) {
+            return new FixedAmountVoucher(voucherId, policyValue);
         }
+        String errorMsg = "Can't find voucher type";
+        logger.error(errorMsg);
+        throw new IllegalArgumentException(errorMsg);
     }
 }

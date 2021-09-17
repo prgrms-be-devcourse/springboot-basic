@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -23,9 +22,9 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(VoucherType type, UUID voucherId, long policyValue) {
+    public Voucher createVoucher(VoucherType type, UUID voucherId, long policyValue) {
         Voucher voucher = VoucherFactory.getInstance().createVoucher(type, voucherId, policyValue);
-        voucherRepository.insert(voucher);
+        return voucherRepository.insert(voucher);
     }
 
     public Voucher getVoucher(UUID voucherId) {
