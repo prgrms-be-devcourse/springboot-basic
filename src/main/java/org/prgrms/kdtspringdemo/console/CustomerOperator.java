@@ -4,6 +4,7 @@ import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.wallet.WalletService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,9 +30,14 @@ public class CustomerOperator implements CommandOperator<Customer> {
         return customer != null;
     }
 
+    @Transactional
     @Override
     public void delete(String[] splitList) {
+        if (!validationDeleteCheck(splitList)) return;
+        var customerId = splitList[0];
 
+        walletService.deleteCustomer(customerId);
+        customerService.deleteCustomer(customerId);
     }
 
     @Override
@@ -54,6 +60,11 @@ public class CustomerOperator implements CommandOperator<Customer> {
         if (splitList.length != 3) return false;
         if (!splitList[2].equals("NORMAL") && !splitList[2].equals("BLACK")) return false;
 
+        return true;
+    }
+
+    private boolean validationDeleteCheck(String[] splitList) {
+        if (splitList.length != 1) return false;
         return true;
     }
 

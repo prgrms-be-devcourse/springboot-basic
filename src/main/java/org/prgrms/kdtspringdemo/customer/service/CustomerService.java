@@ -48,6 +48,10 @@ public class CustomerService {
         return customer;
     }
 
+    public void deleteCustomer(String customerId) {
+        customerRepository.deleteByCustomerId(customerId);
+    }
+
     public Customer findCustomer(String voucherId) {
         Optional<Customer> customer = customerRepository.findByVoucherId(voucherId);
         return customer.orElse(null);

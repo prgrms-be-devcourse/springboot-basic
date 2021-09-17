@@ -173,4 +173,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteAll() {
         jdbcTemplate.update(DELETE_SQL, Collections.emptyMap());
     }
+
+    @Override
+    public void deleteByCustomerId(String customerId) {
+        jdbcTemplate.update("DELETE FROM customers WHERE customer_id = " + CURRENT_UUID,
+                Collections.singletonMap("customerId", customerId.getBytes()));
+    }
 }

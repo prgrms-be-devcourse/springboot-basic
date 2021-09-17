@@ -23,6 +23,8 @@ public interface Output {
 
     void printDeleteSelect();
 
+    void printDeleteCustomer();
+
     void printDeleteVoucher();
 
     void printFindSelect();

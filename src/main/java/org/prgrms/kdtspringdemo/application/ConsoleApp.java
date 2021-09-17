@@ -65,7 +65,11 @@ public class ConsoleApp {
                     console.printDeleteSelect();
                     String num = console.getCreateLine();
                     switch (num) {
-                        case "1" -> {}
+                        case "1" -> {
+                            console.printDeleteCustomer();
+                            String[] deleteCommand = console.getCreateLine().split(" ");
+                            customerOperator.delete(deleteCommand);
+                        }
                         case "2" -> {
                             console.printDeleteVoucher();
                             String[] deleteCommand = console.getCreateLine().split(" ");

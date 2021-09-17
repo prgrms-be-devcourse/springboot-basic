@@ -16,5 +16,7 @@ public interface WalletRepository {
 
     void deleteAll();
 
+    void deleteByCustomerId(String customerId);
+
     void deleteByVoucherId(String voucherId);
 }

@@ -28,6 +28,10 @@ public class WalletService {
         walletRepository.insert(wallet);
     }
 
+    public void deleteCustomer(String customerId) {
+        walletRepository.deleteByCustomerId(customerId);
+    }
+
     public void deleteVoucher(String voucherId) {
         walletRepository.deleteByVoucherId(voucherId);
     }

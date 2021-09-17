@@ -90,6 +90,12 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
+    public void deleteByCustomerId(String customerId) {
+        jdbcTemplate.update("DELETE FROM wallets WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+                Collections.singletonMap("customerId", customerId.getBytes()));
+    }
+
+    @Override
     public void deleteByVoucherId(String voucherId) {
         jdbcTemplate.update("DELETE FROM wallets WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 Collections.singletonMap("voucherId", voucherId.getBytes()));

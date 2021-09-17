@@ -91,9 +91,16 @@ public class Console implements Input, Output {
     public void printDeleteSelect() {
         System.out.print("""
                 Select Delete Object type.
-                1. Customer(Not implement)
+                1. Customer
                 2. Voucher
-                Input select number(only 2):""");
+                Input select number(1 or 2):""");
+    }
+
+    @Override
+    public void printDeleteCustomer() {
+        System.out.print("""
+                <customerId>
+                select to delete customerId:""");
     }
 
     @Override
