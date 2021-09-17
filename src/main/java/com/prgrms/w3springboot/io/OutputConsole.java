@@ -28,14 +28,14 @@ public class OutputConsole implements Output {
         System.out.print("How much discount do you want to get? > ");
     }
 
-    @Override
-    public void printVoucher(Voucher voucher) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Voucher is just created!");
-        sb.append(System.lineSeparator());
-        sb.append(MessageFormat.format("Voucher info : {0}", voucher));
-        System.out.println(sb);
-    }
+	@Override
+	public void printCreatedVoucher(Voucher createdVoucher) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Voucher is just created!");
+		sb.append(System.lineSeparator());
+		sb.append(MessageFormat.format("Voucher info : {0}", createdVoucher));
+		System.out.println(sb);
+	}
 
     @Override
     public void printVoucherList(List<Voucher> voucherList) {

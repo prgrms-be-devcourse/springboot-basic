@@ -11,7 +11,7 @@ public interface Output {
 
     void printDiscountAmountChoice();
 
-    void printVoucher(Voucher voucher);
+	void printCreatedVoucher(Voucher createdVoucher);
 
     void printVoucherList(List<Voucher> voucherList);
 
