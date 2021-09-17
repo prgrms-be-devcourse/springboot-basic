@@ -10,3 +10,13 @@ customer:
   blacklist:
     file-path: file:customer/
     file-name: customer_blacklist.csv
+
+---
+
+spring:
+  profiles:
+    active: test
+customer:
+  blacklist:
+    file-path: file:customer/
+    file-name: customer_blacklist.csv
