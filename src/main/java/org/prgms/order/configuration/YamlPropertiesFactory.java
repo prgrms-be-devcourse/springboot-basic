@@ -1,4 +1,4 @@
-package org.prgms.order;
+package org.prgms.order.configuration;
 
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.env.PropertiesPropertySource;

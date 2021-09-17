@@ -1,6 +1,7 @@
 package org.prgms.order;
 
 
+import org.prgms.order.configuration.YamlPropertiesFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +12,7 @@ import org.springframework.context.annotation.PropertySource;
         "org.prgms.order.order.*",
         "org.prgms.order.customer.*",
         "org.prgms.order.voucher.*",
-        "org.prgms.order.wallet",
-        "org.prgms.order.configuration"})
+        "org.prgms.order.wallet"})
 @PropertySource(value = "classpath:application.yaml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 public class AppConfiguration {
