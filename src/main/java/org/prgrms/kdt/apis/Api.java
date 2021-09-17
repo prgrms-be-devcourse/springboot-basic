@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.prgrms.kdt.customer.CustomerDto;
 import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.exception.BadRequestException;
+import org.prgrms.kdt.form.VoucherSearchForm;
 import org.prgrms.kdt.voucher.VoucherDto;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.VoucherType;
@@ -16,11 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -101,31 +102,29 @@ public class Api {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(VOUCHERS + SEARCH + "/type")
-    public ResponseEntity getByVoucherType(@RequestParam String voucherType) {
-        if (!VoucherType.isValue(voucherType)) {
-            throw new BadRequestException("not exist : " + voucherType);
-        }
-        return ResponseEntity.ok().body(voucherService.getVoucherByVoucherType(voucherType));
-    }
-
-    @GetMapping(VOUCHERS + SEARCH + "/createAt")
-    public ResponseEntity getByCreatedAt(@RequestParam String beforeDate,
-            @RequestParam String afterDate) {
-        if (!isValid(beforeDate)) {
-            throw new BadRequestException("invalidDate : " + beforeDate);
-        }
-
-        if (!isValid(afterDate)) {
-            throw new BadRequestException("invalidDate : " + afterDate);
-        }
-
-        return ResponseEntity.ok().body(voucherService.getVoucherByCreatedAt(beforeDate, afterDate));
-    }
-
     private void validateWalletDtoExistedId(@RequestBody WalletDto walletDto) {
         customerService.getCustomerById(walletDto.getCustomerId());
         voucherService.getVoucherById(walletDto.getVoucherId());
+    }
+
+    @GetMapping(VOUCHERS + SEARCH)
+    public ResponseEntity search(@ModelAttribute VoucherSearchForm voucherSearchForm) {
+        validateVoucherTypeForm(voucherSearchForm.getVoucherType());
+        validateDateTime(voucherSearchForm.getBeforeDate());
+        validateDateTime(voucherSearchForm.getAfterDate());
+        return ResponseEntity.ok().body(voucherService.getSearchVoucher(voucherSearchForm));
+    }
+
+    private void validateVoucherTypeForm(String voucherType) {
+        if (voucherType != null && !VoucherType.isValue(voucherType)) {
+            throw new BadRequestException("not exist : " + voucherType);
+        }
+    }
+
+    private void validateDateTime(String dateTime) {
+        if (dateTime != null && !isValid(dateTime)) {
+            throw new BadRequestException("invalidDate : " + dateTime);
+        }
     }
 
 }

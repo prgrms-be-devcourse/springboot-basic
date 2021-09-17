@@ -207,7 +207,7 @@ public class ApiTest extends BaseApiTest {
         initVoucher();      // FIX
         voucherRepository.insert(new Voucher(UUID.randomUUID(), "test", 100L, VoucherType.PERCENT, LocalDateTime.now()));
 
-        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "/type?voucherType=FIX")
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "?voucherType=FIX")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .characterEncoding("UTF-8"))
@@ -224,7 +224,7 @@ public class ApiTest extends BaseApiTest {
     @Test
     @DisplayName("존재하지 안는 바우처 조회시 404 응답 테스트")
     void getVoucherByType_badRequest() throws Exception {
-        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "/type?voucherType=NOOOOOOP")
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "?voucherType=NOOOOOOP")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .characterEncoding("UTF-8"))
@@ -237,9 +237,26 @@ public class ApiTest extends BaseApiTest {
     void getByCreatedAt() throws Exception {
         voucherRepository.insert(new Voucher(UUID.randomUUID(), "test", 100L, VoucherType.FIX, LocalDateTime.of(2020, 11, 12, 00, 00, 00)));
 
-        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "/createAt?beforeDate=2020-01-01&afterDate=2022-01-01"))
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "?beforeDate=2020-01-01&afterDate=2022-01-01"))
                 .andDo(print())
                 .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$..voucherId").exists())
+                .andExpect(jsonPath("$..name").exists())
+                .andExpect(jsonPath("$..discount").exists())
+                .andExpect(jsonPath("$..voucherType").exists())
+                .andExpect(jsonPath("$..createdAt").exists());
+    }
+
+    @Test
+    @DisplayName("바우처 타입, 기간 조회 테스트")
+    void getByTypeAndCreatedAt() throws Exception {
+        initVoucher();
+        initVoucher();
+        voucherRepository.insert(new Voucher(UUID.randomUUID(), "test", 100L, VoucherType.PERCENT, LocalDateTime.of(2020, 11, 12, 00, 00, 00)));
+
+        mockMvc.perform(get(PRE_FIX + VOUCHERS + SEARCH + "?voucherType=FIX&beforeDate=2020-01-01&afterDate=2022-01-01"))
+                .andDo(print())
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$..voucherId").exists())
                 .andExpect(jsonPath("$..name").exists())
                 .andExpect(jsonPath("$..discount").exists())

@@ -30,4 +30,6 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     List<Voucher> findByPeriodByCreatedAt(LocalDate beforeDate, LocalDate afterDate);
+
+    List<Voucher> findBySearchData(SearchVoucher searchVoucher);
 }

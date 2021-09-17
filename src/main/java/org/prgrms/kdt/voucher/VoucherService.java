@@ -2,12 +2,12 @@ package org.prgrms.kdt.voucher;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.prgrms.kdt.exception.ResourceNotFoundException;
 import org.prgrms.kdt.form.VoucherForm;
+import org.prgrms.kdt.form.VoucherSearchForm;
 import org.prgrms.kdt.mapper.VoucherMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,6 +80,17 @@ public class VoucherService {
         return vouchers.stream()
                 .map(VoucherMapper::voucherToVoucherDto)
                 .toList();
+    }
 
+    public List<VoucherDto> getSearchVoucher(VoucherSearchForm form) {
+        SearchVoucher searchVoucher = new SearchVoucher(
+                form.getVoucherType() == null ? null : VoucherType.valueOf(form.getVoucherType()),
+                form.getBeforeDate() == null ? null : LocalDate.parse(form.getBeforeDate()),
+                form.getAfterDate() == null ? null : LocalDate.parse(form.getAfterDate()));
+
+        List<Voucher> vouchers = voucherRepository.findBySearchData(searchVoucher);
+        return vouchers.stream()
+                .map(VoucherMapper::voucherToVoucherDto)
+                .toList();
     }
 }

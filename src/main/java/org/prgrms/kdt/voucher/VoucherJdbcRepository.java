@@ -3,12 +3,14 @@ package org.prgrms.kdt.voucher;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -109,6 +111,25 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return jdbcTemplate.query("SELECT * FROM vouchers WHERE created_at >= (?) AND created_at <= (?)",
                 voucherRowMapper,
                 beforeDate, afterDate);
+    }
+
+    @Override
+    public List<Voucher> findBySearchData(SearchVoucher searchVoucher) {
+        String sql = "SELECT * FROM vouchers WHERE 1 = 1 ";
+        List<Object> queryArgs = new ArrayList<>();
+
+        if (searchVoucher.getVoucherType() != null) {
+            sql += "AND voucher_type = (?) ";
+            queryArgs.add(searchVoucher.getVoucherType().name());
+        }
+
+        if (searchVoucher.getBeforeDate() != null && searchVoucher.getAfterDate() != null) {
+            sql += "AND created_at >= (?) AND created_at <= (?)";
+            queryArgs.add(searchVoucher.getBeforeDate());
+            queryArgs.add(searchVoucher.getAfterDate());
+        }
+
+        return jdbcTemplate.query(sql, voucherRowMapper, queryArgs.toArray());
     }
 
     static UUID toUUID(byte[] bytes) {
