@@ -75,7 +75,6 @@ public class Api {
             throw new BadRequestException(result.getFieldError().getDefaultMessage());
         }
         voucherService.addVoucher(voucherDto);
-        /**todo 저장된 바우처로 리턴도되록 변경*/
         return ResponseEntity.ok().body(voucherDto);
     }
 
@@ -88,23 +87,19 @@ public class Api {
 
     @PostMapping(WALLET)
     public ResponseEntity insertWallet(@RequestBody WalletDto walletDto) {
-        validateWalletDtoExistedId(walletDto);
-        walletService.addWallet(walletDto);
+        CustomerDto customerDto = customerService.getCustomerById(walletDto.getCustomerId());
+        VoucherDto voucherDto = voucherService.getVoucherById(walletDto.getVoucherId());
+        walletService.addWallet(customerDto.getCustomerId(), voucherDto.getVoucherId());
         URI uri = URI.create(PRE_FIX + WALLET);
-        /**todo 저장된 지갑으로 리턴도되록 변경*/
         return ResponseEntity.created(uri).body(walletDto);
     }
 
     @DeleteMapping(WALLET)
     public ResponseEntity deleteWallet(@RequestBody WalletDto walletDto) {
-        validateWalletDtoExistedId(walletDto);
-        walletService.removeWallet(walletDto);
+        CustomerDto customerDto = customerService.getCustomerById(walletDto.getCustomerId());
+        VoucherDto voucherDto = voucherService.getVoucherById(walletDto.getVoucherId());
+        walletService.removeWallet(customerDto.getCustomerId(), voucherDto.getVoucherId());
         return ResponseEntity.ok().build();
-    }
-
-    private void validateWalletDtoExistedId(@RequestBody WalletDto walletDto) {
-        customerService.getCustomerById(walletDto.getCustomerId());
-        voucherService.getVoucherById(walletDto.getVoucherId());
     }
 
     @GetMapping(VOUCHERS + SEARCH)

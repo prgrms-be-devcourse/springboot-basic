@@ -49,14 +49,14 @@ public class WalletController {
 
     @PostMapping("/admin/wallet")
     public String submitWallet(WalletDto walletDto, RedirectAttributes attributes) {
-        walletService.addWallet(walletDto);
+        walletService.addWallet(walletDto.getCustomerId(), walletDto.getVoucherId());
         attributes.addFlashAttribute("message", "정상적으로 등록되었습니다.");
         return "redirect:/admin";
     }
 
     @PostMapping("/admin/wallet/deletion")
     public String getWallets(WalletDto walletDto) {
-        walletService.removeWallet(walletDto);
+        walletService.removeWallet(walletDto.getCustomerId(), walletDto.getVoucherId());
         return "redirect:/admin/voucher/" + walletDto.getVoucherId();
     }
 }

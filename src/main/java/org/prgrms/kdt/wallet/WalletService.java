@@ -25,15 +25,15 @@ public class WalletService {
     }
 
     @Transactional
-    public void addWallet(WalletDto walletDto) {
+    public void addWallet(String customerId, String voucherId) {
         Wallet wallet = new Wallet(
-                UUID.fromString(walletDto.getCustomerId()),
-                UUID.fromString(walletDto.getVoucherId()));
+                UUID.fromString(customerId),
+                UUID.fromString(voucherId));
         walletJdbcRepository.insert(wallet);
     }
 
     @Transactional
-    public void removeWallet(WalletDto walletDto) {
-        walletJdbcRepository.deleteByCustomerIdAndVoucherId(UUID.fromString(walletDto.getCustomerId()), UUID.fromString(walletDto.getVoucherId()));
+    public void removeWallet(String customerId, String voucherId) {
+        walletJdbcRepository.deleteByCustomerIdAndVoucherId(UUID.fromString(customerId), UUID.fromString(voucherId));
     }
 }
