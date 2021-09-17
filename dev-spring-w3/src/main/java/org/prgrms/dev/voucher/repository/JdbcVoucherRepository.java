@@ -35,15 +35,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
-    private Map<String, Object> toParamMap(Voucher voucher) {
-        Map<String, Object> map = Map.of("voucherId", voucher.getVoucherId().toString().getBytes(),
-                "voucherType", voucher.getVoucherType().name(),
-                "discount", voucher.getDiscountValue());
-        return map;
     }
 
     @Override
@@ -65,8 +58,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
+        Map<String, Object> params =Map.of("voucherId", voucher.getVoucherId().toString().getBytes(),
+                "voucherType", voucher.getVoucherType().name(),
+                "discount", voucher.getDiscountValue());
+
         int insert = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, discount) VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discount)",
-                toParamMap(voucher));
+                params);
         if (insert != SUCCESS) {
             throw new RuntimeException("Noting was inserted");
         }

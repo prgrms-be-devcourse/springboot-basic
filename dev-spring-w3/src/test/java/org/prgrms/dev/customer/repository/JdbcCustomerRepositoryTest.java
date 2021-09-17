@@ -1,6 +1,7 @@
 package org.prgrms.dev.customer.repository;
 
 import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.dev.customer.domain.Customer;
@@ -37,7 +38,7 @@ class JdbcCustomerRepositoryTest {
 
     @BeforeAll
     static void setup() {
-        var mysqlConfig = aMysqldConfig(v8_0_11)
+        MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
                 .withUser("test", "test1234!")
@@ -93,7 +94,7 @@ class JdbcCustomerRepositoryTest {
     static class Config {
         @Bean
         public DataSource dataSource() {
-            var dataSource = DataSourceBuilder.create()
+            HikariDataSource dataSource = DataSourceBuilder.create()
                     .url("jdbc:mysql://localhost:2215/test_springboot_order")
                     .username("test")
                     .password("test1234!")

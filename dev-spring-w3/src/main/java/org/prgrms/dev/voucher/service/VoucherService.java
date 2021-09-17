@@ -16,34 +16,17 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    /**
-     * voucherId 에 해당하는 바우처 조회
-     *
-     * @param voucherId
-     * @return 조회한 바우처 반환
-     */
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId));
     }
 
-    /**
-     * type 에 따른 Voucher 생성
-     *
-     * @param type
-     * @param discountValue
-     * @return 생성된 바우처 반환
-     */
     public Voucher createVoucher(String type, UUID voucherId, long discountValue) {
         Voucher voucher = VoucherType.getVoucherType(type, voucherId, discountValue);
-        voucherRepository.insert(voucher);
-        return voucher;
+        return voucherRepository.insert(voucher);
     }
 
-    /**
-     * @return 모든 바우처 반환
-     */
     public List<Voucher> listVoucher() {
         return voucherRepository.findAll();
     }

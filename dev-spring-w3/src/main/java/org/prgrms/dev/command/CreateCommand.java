@@ -20,15 +20,12 @@ public class CreateCommand implements Command {
             String voucherType = input.input(CURSOR);
             long value = Long.parseLong((input.input("input value [fixed amount | percent discount] " + CURSOR)));
             voucherService.createVoucher(voucherType, UUID.randomUUID(), value);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | InvalidArgumentException e) {
             logger.error(e.getMessage());
             output.printInvalidNumber();
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage());
             output.printInvalidVoucherType();
-        } catch (InvalidArgumentException e) {
-            logger.error(e.getMessage());
-            output.printInvalidNumber();
         }
         return true;
     }
