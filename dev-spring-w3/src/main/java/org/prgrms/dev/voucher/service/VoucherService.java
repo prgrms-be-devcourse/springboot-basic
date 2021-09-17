@@ -32,12 +32,12 @@ public class VoucherService {
      * type 에 따른 Voucher 생성
      *
      * @param type
-     * @param value
+     * @param discountValue
      * @return 생성된 바우처 반환
      */
-    public Voucher createVoucher(String type, UUID voucherId, long value) {
-        Voucher voucher = VoucherType.getVoucherType(type, voucherId, value);
-        voucherRepository.create(voucher);
+    public Voucher createVoucher(String type, UUID voucherId, long discountValue) {
+        Voucher voucher = VoucherType.getVoucherType(type, voucherId, discountValue);
+        voucherRepository.insert(voucher);
         return voucher;
     }
 
@@ -48,7 +48,17 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public void useVoucher(Voucher voucher) {
+    public Voucher updateVoucherDiscount(UUID voucherId, long newDiscount) {
+        Voucher voucher = getVoucher(voucherId);
+        Voucher updateVoucher = VoucherType.getVoucherType(voucher.getVoucherType().toString(), voucher.getVoucherId(), newDiscount);
+        return voucherRepository.update(updateVoucher);
+    }
 
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
+    public void useVoucher(Voucher voucher) {
+        // TODO:
     }
 }

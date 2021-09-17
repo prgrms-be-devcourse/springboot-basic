@@ -98,7 +98,7 @@ Type list to list all vouchers.
 - customers 테이블 정의 및 추가
 - CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
 
-[ ]  (1주차를 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
+[x]  (1주차를 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
 
 - 바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
 - 바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)

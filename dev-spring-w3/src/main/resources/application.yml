@@ -1,3 +1,9 @@
 spring:
   profiles:
-    active: local
+    active: dev
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/dev_springboot_order?serverTimezone=Asia/Seoul&useUniCode=yes&characterEncoding=UTF-8
+    username: root
+    password: root1234!

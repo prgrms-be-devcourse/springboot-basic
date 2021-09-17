@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.dev.voucher.domain.FixedAmountVoucher;
 import org.prgrms.dev.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.dev.voucher.domain.Voucher;
-import org.prgrms.dev.voucher.repository.FileVoucherRepository;
+import org.prgrms.dev.voucher.repository.VoucherRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +27,20 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
-    private static final String VOUCHER_TYPE = "fixed";
-    private static final UUID VOUCHER_ID = UUID.randomUUID();
-    private static final long AMOUNT = 3500;
-
-    private FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(VOUCHER_ID, AMOUNT);
 
     @InjectMocks
     VoucherService voucherService;
 
     @Mock
-    FileVoucherRepository fileVoucherRepository;
+    VoucherRepository voucherRepository;
+
+    static Stream<Arguments> parametersProvider() {
+        return Stream.of(
+                arguments("ff", UUID.randomUUID(), 1000),
+                arguments("fixedd", UUID.randomUUID(), 2500),
+                arguments("1000", UUID.randomUUID(), 3000)
+        );
+    }
 
     @DisplayName("잘못된 바우처 타입 명령어로 바우처를 생성할 수 없다.")
     @ParameterizedTest
@@ -48,38 +51,38 @@ class VoucherServiceTest {
                 .hasMessage("Invalid voucher type input...");
     }
 
-    static Stream<Arguments> parametersProvider() {
-        return Stream.of(
-                arguments("ff", UUID.randomUUID(), 1000),
-                arguments("fixedd", UUID.randomUUID(), 2500),
-                arguments("1000", UUID.randomUUID(), 3000)
-        );
-    }
-
     @DisplayName("바우처를 생성할 수 있다.")
     @Test
     void createVoucherTest() {
-        // when
-        Voucher retrievedVoucher = voucherService.createVoucher(VOUCHER_TYPE, VOUCHER_ID, AMOUNT);
+        // TODO
+    }
 
-        // then
-        assertThat(retrievedVoucher).isNotNull();
-        verify(fileVoucherRepository).create(retrievedVoucher);
+    @DisplayName("바우처의 할인정보를 수정할 수 있다.")
+    @Test
+    void updateDiscountValueTest() {
+        // TODO
+    }
+
+    @DisplayName("바우처를 삭제할 수 있다.")
+    @Test
+    void deleteVoucherTest() {
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L);
+
+        voucherService.deleteVoucher(voucher.getVoucherId());
+
+        verify(voucherRepository).deleteById(voucher.getVoucherId());
     }
 
     @DisplayName("바우처 아이디로 원하는 바우처를 조회할 수 있다.")
     @Test
     void getVoucherByIdTest() {
-        // given
-        when(fileVoucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(fixedAmountVoucher));
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L);
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
 
-        // when
-        Voucher retrievedVoucher = voucherService.getVoucher(VOUCHER_ID);
+        Voucher retrievedVoucher = voucherService.getVoucher(voucher.getVoucherId());
 
-        // then
-        assertThat(retrievedVoucher.getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
-        verify(fileVoucherRepository).findById(VOUCHER_ID);
-
+        assertThat(retrievedVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        verify(voucherRepository).findById(voucher.getVoucherId());
     }
 
     @DisplayName("존재하지 않는 아이디로는 바우처를 조회할 수 없다.")
@@ -95,23 +98,20 @@ class VoucherServiceTest {
     @DisplayName("모든 바우처를 조회할 수 있다.")
     @Test
     void listVoucherTest() {
-        // given
-        doReturn(voucherList()).when(fileVoucherRepository).findAll();
+        doReturn(voucherList()).when(voucherRepository).findAll();
 
-        // when
         final List<Voucher> voucherList = voucherService.listVoucher();
 
-        // then
         assertThat(voucherList).hasSize(6);
-        verify(fileVoucherRepository).findAll();
+        verify(voucherRepository).findAll();
     }
 
     private List<Voucher> voucherList() {
         final List<Voucher> voucherList = new ArrayList<>();
         int tmp = 1;
         for (int i = 0; i < 3; i++) {
-            voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), 1000 * tmp));
-            voucherList.add(new PercentDiscountVoucher(UUID.randomUUID(), 10 * tmp));
+            voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), 1000L * tmp));
+            voucherList.add(new PercentDiscountVoucher(UUID.randomUUID(), 10L * tmp));
             tmp += 1;
         }
         return voucherList;

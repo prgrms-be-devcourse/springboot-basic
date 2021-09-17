@@ -16,16 +16,16 @@ public enum VoucherType {
         this.voucherMaker = voucherMaker;
     }
 
-    public Voucher create(UUID voucherId, long value) {
-        return this.voucherMaker.apply(voucherId, value);
-    }
-
     public static Voucher getVoucherType(String inputType, UUID voucherId, long value) {
         VoucherType voucherType = Arrays.stream(VoucherType.values())
-                .filter(voucher -> voucher.type.equals(inputType))
+                .filter(voucher -> voucher.type.equalsIgnoreCase(inputType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid voucher type input..."));
 
         return voucherType.create(voucherId, value);
+    }
+
+    public Voucher create(UUID voucherId, long value) {
+        return this.voucherMaker.apply(voucherId, value);
     }
 }
