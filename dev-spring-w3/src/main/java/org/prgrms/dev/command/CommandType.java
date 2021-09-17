@@ -11,6 +11,7 @@ public enum CommandType {
     CREATE("create", CreateCommand::new),
     LIST("list", ListCommand::new),
     UPDATE("update", UpdateCommand::new),
+    DELETE("delete", DeleteCommand::new),
     EXIT("exit", ExitCommand::new);
 
     private final String command;

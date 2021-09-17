@@ -104,6 +104,8 @@ Type list to list all vouchers.
 - 바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
 - 기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
 
+![crud](assets/images/jdbc.png)
+
 #
 
 #### (심화 과제) **바우처 지갑을 만들어보세요.**

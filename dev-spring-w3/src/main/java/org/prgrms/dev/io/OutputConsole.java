@@ -12,13 +12,15 @@ public class OutputConsole implements Output {
         StringBuffer sb = new StringBuffer();
         sb.append("=== 바우처 프로그램 ===");
         sb.append(System.lineSeparator());
-        sb.append(" 종료 [exit] ");
+        sb.append("종료 [exit] ");
         sb.append(System.lineSeparator());
-        sb.append(" 바우처 생성 [create] ");
+        sb.append("바우처 생성 [create] ");
         sb.append(System.lineSeparator());
-        sb.append(" 바우처 할인정보 수정 [update] ");
+        sb.append("바우처 할인정보 수정 [update] ");
         sb.append(System.lineSeparator());
-        sb.append(" 모든 바우처 조회 [list] ");
+        sb.append("바우처 삭제 [delete] ");
+        sb.append(System.lineSeparator());
+        sb.append("모든 바우처 조회 [list] ");
         System.out.println(sb);
     }
 
