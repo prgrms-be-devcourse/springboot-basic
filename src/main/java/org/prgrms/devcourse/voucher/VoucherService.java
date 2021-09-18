@@ -1,7 +1,5 @@
-package org.prgrms.devcourse.service;
+package org.prgrms.devcourse.voucher;
 
-import org.prgrms.devcourse.domain.Voucher;
-import org.prgrms.devcourse.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -28,5 +26,8 @@ public class VoucherService {
 
     public List<Voucher> getVoucherList() {
         return voucherRepository.findAll();
+    }
+
+    public void useVoucher(Voucher voucher) {
     }
 }
