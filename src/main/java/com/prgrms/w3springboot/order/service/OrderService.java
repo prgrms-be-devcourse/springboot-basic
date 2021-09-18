@@ -4,10 +4,12 @@ import com.prgrms.w3springboot.order.Order;
 import com.prgrms.w3springboot.order.OrderItem;
 import com.prgrms.w3springboot.order.repository.OrderRepository;
 import com.prgrms.w3springboot.voucher.service.VoucherService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderService {
     private final VoucherService voucherService;
     private final OrderRepository orderRepository;

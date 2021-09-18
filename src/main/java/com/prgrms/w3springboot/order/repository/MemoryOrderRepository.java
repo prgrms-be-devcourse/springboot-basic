@@ -1,11 +1,13 @@
 package com.prgrms.w3springboot.order.repository;
 
 import com.prgrms.w3springboot.order.Order;
+import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class MemoryOrderRepository implements OrderRepository {
     private final Map<UUID, Order> storage = new ConcurrentHashMap<>();
 

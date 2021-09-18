@@ -23,6 +23,11 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / DENOMINATOR_FOR_PECENT);
     }

@@ -14,7 +14,7 @@ public enum VoucherType {
 
     public static VoucherType of(final String type) {
         return Arrays.stream(VoucherType.values())
-                .filter(v -> v.isVoucherType(type))
+                .filter(voucherType -> voucherType.isVoucherType(type))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 타입을 입력받았습니다."));
     }
@@ -22,5 +22,4 @@ public enum VoucherType {
     private boolean isVoucherType(final String type) {
         return this.type.equals(type);
     }
-
 }

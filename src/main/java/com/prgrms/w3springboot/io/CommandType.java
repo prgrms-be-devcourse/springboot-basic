@@ -33,8 +33,8 @@ public enum CommandType {
         return this.command.equals(commandType);
     }
 
-    public boolean execute(Console console, VoucherService voucherService) {
-        return this.supplier.get().execute(console, voucherService);
+    public boolean execute(Input input, Output output, VoucherService voucherService) {
+        return this.supplier.get().execute(input, output, voucherService);
     }
 
 }
