@@ -1,6 +1,6 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.command.CommandLineApplication;
+import org.prgrms.kdt.command.domain.CommandLineApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

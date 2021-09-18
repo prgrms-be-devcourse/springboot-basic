@@ -52,11 +52,11 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllCustomer() {
-        return new ArrayList<Customer>(customerMap.values());
+        return new ArrayList<>(customerMap.values());
     }
 
     @Override
     public List<Customer> findAllBlacklist() {
-        return new ArrayList<Customer>(blacklistMap.values());
+        return new ArrayList<>(blacklistMap.values());
     }
 }

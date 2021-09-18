@@ -1,6 +1,6 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.command.CommandLineApplication;
+import org.prgrms.kdt.command.domain.CommandLineApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 

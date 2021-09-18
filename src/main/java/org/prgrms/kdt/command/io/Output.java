@@ -1,4 +1,4 @@
-package org.prgrms.kdt.command;
+package org.prgrms.kdt.command.io;
 
 import java.text.MessageFormat;
 
@@ -37,5 +37,9 @@ public class Output {
         System.out.println("=== Input type error ===");
         System.out.println(voucherType + "은(는) 존재하지 않는 voucher type 입니다.");
         System.out.println("'FixedAmountVoucher', 'PercentDiscountVoucher'를 입력하세요.");
+    }
+
+    public static void exitMessage() {
+        System.out.println("프로그램을 종료합니다.");
     }
 }

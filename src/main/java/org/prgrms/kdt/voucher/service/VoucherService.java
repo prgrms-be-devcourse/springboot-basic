@@ -12,13 +12,13 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private static VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
 
     public VoucherService(final VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
-    public static void createVoucher(final String voucherType, final long discountValue) {
+    public void createVoucher(final String voucherType, final long discountValue) {
         System.out.println(MessageFormat.format("{0}가 생성되었습니다.", voucherType));
         if (voucherType.equals("FixedAmountVoucher")) {
             voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), discountValue));
@@ -29,13 +29,13 @@ public class VoucherService {
         }
     }
 
-    public static Voucher getVoucher(final UUID voucherId) {
+    public Voucher getVoucher(final UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public static List<Voucher> getAllVoucher() {
+    public List<Voucher> getAllVoucher() {
         return voucherRepository.findAll();
     }
 

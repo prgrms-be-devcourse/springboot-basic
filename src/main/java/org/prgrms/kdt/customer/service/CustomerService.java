@@ -9,13 +9,13 @@ import java.util.UUID;
 
 @Service
 public class CustomerService {
-    private static CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerService(final CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-    public static List<Customer> findAllBlacklist() {
+    public List<Customer> findAllBlacklist() {
         return customerRepository.findAllBlacklist();
     }
 

@@ -98,6 +98,12 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher insert(final Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    @Override
     public Optional<Voucher> findById(final UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
@@ -107,9 +113,4 @@ public class FileVoucherRepository implements VoucherRepository {
         return new ArrayList<>(storage.values());
     }
 
-    @Override
-    public Voucher insert(final Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
-        return voucher;
-    }
 }

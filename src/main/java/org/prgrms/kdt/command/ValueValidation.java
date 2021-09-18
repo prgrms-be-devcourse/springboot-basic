@@ -1,12 +1,8 @@
 package org.prgrms.kdt.command;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgrms.kdt.command.io.Output;
 
 public class ValueValidation {
-
-    private static final Logger logger = LoggerFactory.getLogger(ValueValidation.class);
-
     public static boolean voucherTypeValidation(final String voucherType) {
         switch (voucherType) {
             case "FixedAmountVoucher", "PercentDiscountVoucher" -> {
@@ -19,14 +15,11 @@ public class ValueValidation {
         }
     }
 
-    public static boolean numberValidation(final String voucherType, final String value) {
+    public static boolean numberValidation(final String value) {
         try {
             Long.parseLong(value);
         } catch (final NumberFormatException e) {
-            logger.error("{} -> 숫자를 입력하세요", e.getMessage());
-            return false;
-        } catch (final Exception e) {
-            logger.error("{}", e.getMessage());
+            System.out.println("숫자를 입력하세요.");
             return false;
         }
         return true;
@@ -37,21 +30,21 @@ public class ValueValidation {
         switch (voucherType) {
             case "FixedAmountVoucher":
                 if (parsingValue <= 1000000 && parsingValue > 0)
-                    return false;
+                    return true;
                 else {
                     System.out.println("할인 가격은 0원 초과, 1,000,000원 이하로 설정해주십시오.");
-                    return true;
+                    return false;
                 }
             case "PercentDiscountVoucher":
                 if (parsingValue <= 100 && parsingValue > 0)
-                    return false;
+                    return true;
                 else {
                     System.out.println("할인율은 0% 초과, 100% 이하로 설정해주십시오.");
-                    return true;
+                    return false;
                 }
             default:
                 System.out.println("잘못된 voucher type 입니다.");
-                return true;
+                return false;
         }
     }
 }
