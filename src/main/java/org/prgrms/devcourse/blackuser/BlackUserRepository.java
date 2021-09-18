@@ -1,6 +1,4 @@
-package org.prgrms.devcourse.repository;
-
-import org.prgrms.devcourse.domain.BlackUser;
+package org.prgrms.devcourse.blackuser;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,7 +1,8 @@
 package org.prgrms.devcourse.ui;
 
-import org.prgrms.devcourse.domain.BlackUser;
-import org.prgrms.devcourse.domain.Voucher;
+import org.prgrms.devcourse.blackuser.BlackUser;
+import org.prgrms.devcourse.customer.Customer;
+import org.prgrms.devcourse.voucher.Voucher;
 
 import java.util.List;
 import java.util.Scanner;
@@ -26,6 +27,7 @@ public class CommandLineInterface implements UserInterface {
         System.out.println("Type create to create a new voucher");
         System.out.println("Type list to list all vouchers");
         System.out.println("Type blacklist to list black user");
+        System.out.println("Type customerlist to customer list");
     }
 
     @Override
@@ -53,20 +55,21 @@ public class CommandLineInterface implements UserInterface {
     @Override
     public void showVoucherList(List<Voucher> voucherList) {
         System.out.println("-------------------------------");
-        for (int i = 0; i < voucherList.size(); ++i) {
-            Voucher voucher = voucherList.get(i);
-            System.out.print(voucher);
-        }
+        voucherList.forEach(System.out::print);
         System.out.println("-------------------------------");
     }
 
     @Override
     public void showBlackList(List<BlackUser> blackList) {
         System.out.println("-------------------------------");
-        for (int i = 0; i < blackList.size(); ++i) {
-            BlackUser blackUser = blackList.get(i);
-            System.out.println(blackUser);
-        }
+        blackList.forEach(System.out::println);
+        System.out.println("-------------------------------");
+    }
+
+    @Override
+    public void showCustomerList(List<Customer> customerList) {
+        System.out.println("-------------------------------");
+        customerList.forEach(System.out::println);
         System.out.println("-------------------------------");
     }
 }

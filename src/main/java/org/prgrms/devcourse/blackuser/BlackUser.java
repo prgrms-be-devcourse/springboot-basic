@@ -1,4 +1,4 @@
-package org.prgrms.devcourse.domain;
+package org.prgrms.devcourse.blackuser;
 
 import java.util.UUID;
 

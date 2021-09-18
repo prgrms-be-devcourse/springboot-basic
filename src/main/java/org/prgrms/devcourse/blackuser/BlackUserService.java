@@ -1,7 +1,5 @@
-package org.prgrms.devcourse.service;
+package org.prgrms.devcourse.blackuser;
 
-import org.prgrms.devcourse.domain.BlackUser;
-import org.prgrms.devcourse.repository.BlackUserRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;

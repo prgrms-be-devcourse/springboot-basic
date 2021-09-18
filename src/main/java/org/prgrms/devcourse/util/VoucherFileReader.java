@@ -1,8 +1,7 @@
 package org.prgrms.devcourse.util;
 
-import org.prgrms.devcourse.domain.FixedAmountVoucher;
-import org.prgrms.devcourse.domain.PercentDiscountVoucher;
-import org.prgrms.devcourse.domain.Voucher;
+import org.prgrms.devcourse.voucher.Voucher;
+import org.prgrms.devcourse.voucher.VoucherType;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,10 +19,10 @@ public class VoucherFileReader implements FileReader {
                 String[] params = line.split(",");
                 if (params[0].equals("FixedAmountVoucher")) {
                     voucherMap.put(UUID.fromString(params[1])
-                            , FixedAmountVoucher.of(UUID.fromString(params[1]), Long.parseLong(params[2])));
+                            , Voucher.of(UUID.fromString(params[1]), Long.parseLong(params[2]), VoucherType.FIXED_AMOUNT_DISCOUNT_VOUCHER));
                 } else {
                     voucherMap.put(UUID.fromString(params[1])
-                            , PercentDiscountVoucher.of(UUID.fromString(params[1]), Long.parseLong(params[2])));
+                            , Voucher.of(UUID.fromString(params[1]), Long.parseLong(params[2]), VoucherType.PERCENT_DISCOUNT_VOUCHER));
                 }
             }
         } catch (Exception e) {

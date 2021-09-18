@@ -1,6 +1,5 @@
-package org.prgrms.devcourse.repository;
+package org.prgrms.devcourse.order;
 
-import org.prgrms.devcourse.domain.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

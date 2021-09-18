@@ -1,6 +1,6 @@
 package org.prgrms.devcourse.util;
 
-import org.prgrms.devcourse.domain.BlackUser;
+import org.prgrms.devcourse.blackuser.BlackUser;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

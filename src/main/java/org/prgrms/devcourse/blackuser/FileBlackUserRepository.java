@@ -1,6 +1,5 @@
-package org.prgrms.devcourse.repository;
+package org.prgrms.devcourse.blackuser;
 
-import org.prgrms.devcourse.domain.BlackUser;
 import org.prgrms.devcourse.util.BlackUserFileReader;
 import org.springframework.stereotype.Repository;
 

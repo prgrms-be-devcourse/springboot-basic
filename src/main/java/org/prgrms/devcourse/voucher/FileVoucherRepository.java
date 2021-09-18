@@ -1,7 +1,7 @@
-package org.prgrms.devcourse.repository;
+package org.prgrms.devcourse.voucher;
 
-import org.prgrms.devcourse.domain.Voucher;
 import org.prgrms.devcourse.util.VoucherFileReader;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("local")
+//@Primary
 public class FileVoucherRepository implements VoucherRepository {
     private final ConcurrentHashMap<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
     private static final String VOUCHER_DATA_SOURCE = "data/voucher.csv";
@@ -26,6 +26,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(voucherMap.getOrDefault(voucherId, null));
     }
@@ -33,6 +38,11 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(voucherMap.values());
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 
     @PostConstruct
