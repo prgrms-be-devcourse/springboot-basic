@@ -1,7 +1,8 @@
 package org.prgrms.devcourse.ui;
 
-import org.prgrms.devcourse.domain.BlackUser;
-import org.prgrms.devcourse.domain.Voucher;
+import org.prgrms.devcourse.blackuser.BlackUser;
+import org.prgrms.devcourse.customer.Customer;
+import org.prgrms.devcourse.voucher.Voucher;
 
 import java.util.List;
 
@@ -22,4 +23,5 @@ public interface UserInterface {
 
     void showBlackList(List<BlackUser> blackUserList);
 
+    void showCustomerList(List<Customer> customerList);
 }
