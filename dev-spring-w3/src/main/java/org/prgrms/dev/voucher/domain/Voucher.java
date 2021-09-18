@@ -1,5 +1,6 @@
 package org.prgrms.dev.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
@@ -8,6 +9,8 @@ public interface Voucher {
     long getDiscountValue();
 
     VoucherType getVoucherType();
+
+    LocalDateTime getCreatedAt();
 
     long discount(long beforeDiscount);
 }

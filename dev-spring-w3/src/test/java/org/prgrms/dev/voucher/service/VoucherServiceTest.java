@@ -15,6 +15,7 @@ import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.domain.VoucherDto;
 import org.prgrms.dev.voucher.repository.VoucherRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +68,7 @@ class VoucherServiceTest {
     @DisplayName("바우처를 삭제할 수 있다.")
     @Test
     void deleteVoucherTest() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L, LocalDateTime.now());
 
         voucherService.deleteVoucher(voucher.getVoucherId());
 
@@ -77,7 +78,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 아이디로 원하는 바우처를 조회할 수 있다.")
     @Test
     void getVoucherByIdTest() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L, LocalDateTime.now());
         when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
 
         Voucher retrievedVoucher = voucherService.getVoucher(voucher.getVoucherId());
@@ -89,11 +90,9 @@ class VoucherServiceTest {
     @DisplayName("존재하지 않는 아이디로는 바우처를 조회할 수 없다.")
     @Test
     void getVoucherByNoIdTest() {
-        UUID voucherId = UUID.randomUUID();
-
-        assertThatThrownBy(() -> voucherService.getVoucher(voucherId))
+        assertThatThrownBy(() -> voucherService.getVoucher(UUID.randomUUID()))
                 .isInstanceOf(RuntimeException.class)
-                .hasMessage("Can not find a voucher for " + voucherId);
+                .hasMessageContaining("해당 바우처 아이디를 찾을 수 없습니다.");
     }
 
     @DisplayName("모든 바우처를 조회할 수 있다.")
@@ -111,8 +110,8 @@ class VoucherServiceTest {
         final List<Voucher> voucherList = new ArrayList<>();
         int tmp = 1;
         for (int i = 0; i < 3; i++) {
-            voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), 1000L * tmp));
-            voucherList.add(new PercentDiscountVoucher(UUID.randomUUID(), 10L * tmp));
+            voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), 1000L * tmp, LocalDateTime.now()));
+            voucherList.add(new PercentDiscountVoucher(UUID.randomUUID(), 10L * tmp, LocalDateTime.now()));
             tmp += 1;
         }
         return voucherList;

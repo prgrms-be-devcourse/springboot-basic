@@ -17,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -59,7 +60,7 @@ class VoucherRepositoryTest {
     @DisplayName("바우처를 생성할 수 있다.")
     @Test
     void createTest() {
-        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 50L);
+        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 50L, LocalDateTime.now());
         voucherRepository.insert(voucher);
 
         Optional<Voucher> retrievedVoucher = voucherRepository.findById(voucher.getVoucherId());
@@ -70,7 +71,7 @@ class VoucherRepositoryTest {
     @Test
     void updateDiscountValueTest() {
         UUID voucherId = UUID.fromString("6b20f733-628c-431e-b8ae-d76b81175554");
-        Voucher voucher = new PercentDiscountVoucher(voucherId, 20L);
+        Voucher voucher = new PercentDiscountVoucher(voucherId, 20L, LocalDateTime.now());
 
         voucherRepository.update(voucher);
 

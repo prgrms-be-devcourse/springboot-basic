@@ -24,7 +24,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherDto voucherDto) {
-        Voucher voucher = VoucherType.getVoucherType(voucherDto.getVoucherType(), voucherDto.getVoucherId(), voucherDto.getDiscount());
+        Voucher voucher = VoucherType.getVoucherType(voucherDto.getVoucherType(), voucherDto.getVoucherId(), voucherDto.getDiscount(), voucherDto.getCreatedAt());
         return voucherRepository.insert(voucher);
     }
 
@@ -34,7 +34,7 @@ public class VoucherService {
 
     public Voucher updateVoucherDiscount(VoucherDto voucherDto) {
         Voucher voucher = getVoucher(voucherDto.getVoucherId());
-        Voucher updateVoucher = VoucherType.getVoucherType(voucher.getVoucherType().toString(), voucher.getVoucherId(), voucherDto.getDiscount());
+        Voucher updateVoucher = VoucherType.getVoucherType(voucher.getVoucherType().toString(), voucher.getVoucherId(), voucherDto.getDiscount(), voucher.getCreatedAt());
         return voucherRepository.update(updateVoucher);
     }
 

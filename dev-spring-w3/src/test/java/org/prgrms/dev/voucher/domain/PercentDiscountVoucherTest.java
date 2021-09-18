@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.dev.voucher.exception.InvalidArgumentException;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,7 +13,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("주어진 할인율만큼 할인을 해야한다.")
     @Test
     void discountTest() {
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30, LocalDateTime.now());
         assertEquals(2100, percentDiscountVoucher.discount(3000));
     }
 
@@ -20,9 +21,9 @@ class PercentDiscountVoucherTest {
     @Test
     void voucherCreationTest() {
         assertAll("PercentDiscountVoucher creation",
-                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), -10)),
-                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 0)),
-                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 1000))
+                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), -10, LocalDateTime.now())),
+                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 0, LocalDateTime.now())),
+                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now()))
         );
     }
 

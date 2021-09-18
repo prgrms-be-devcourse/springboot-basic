@@ -2,6 +2,7 @@ package org.prgrms.dev.voucher.domain;
 
 import org.prgrms.dev.voucher.exception.InvalidArgumentException;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -11,12 +12,14 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long percent;
+    private final LocalDateTime createdAt;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
         validate(percent);
 
         this.voucherId = voucherId;
         this.percent = percent;
+        this.createdAt = createdAt;
     }
 
     private void validate(long percent) {
@@ -59,14 +62,21 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - (beforeDiscount * percent / PERCENTAGE);
     }
 
     @Override
     public String toString() {
-        return "percent:"
-                + voucherId +
-                ":" + percent;
+        return "percent{" +
+                "voucherId=" + voucherId +
+                ", percent=" + percent +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

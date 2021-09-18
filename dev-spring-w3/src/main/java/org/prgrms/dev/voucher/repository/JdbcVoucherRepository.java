@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -25,7 +26,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         String voucherType = resultSet.getString("voucher_type");
         long voucherDiscount = resultSet.getLong("discount");
-        return VoucherType.getVoucherType(voucherType, voucherId, voucherDiscount);
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return VoucherType.getVoucherType(voucherType, voucherId, voucherDiscount, createdAt);
     };
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -58,7 +60,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        Map<String, Object> params =Map.of("voucherId", voucher.getVoucherId().toString().getBytes(),
+        Map<String, Object> params = Map.of("voucherId", voucher.getVoucherId().toString().getBytes(),
                 "voucherType", voucher.getVoucherType().name(),
                 "discount", voucher.getDiscountValue());
 
