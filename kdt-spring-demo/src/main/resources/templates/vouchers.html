@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Home</title>
+</head>
+<body class="container-fluid">
+<h1>KDT Spring App</h1>
+<img th:src="@{/images/background.jpg}" class="img-fluid">
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/vouchers/new}" class="btn btn-primary me-md-2" type="button">Create Voucher</a>
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">VoucherType</th>
+        <th scope="col">VoucherValue</th>
+        <th scope="col">Info</th>
+        <th scope="col">Button</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+        <td th:text="*{voucherType}"></td>
+        <td th:text="*{voucherValue}"></td>
+        <td th:if="${voucher.voucherType.toString().equals('FIXED')}">이것은 Fixed 바우처입니다!</td>
+        <td th:if="${voucher.voucherType.toString().equals('PERCENT')}">이것은 Percent 바우처입니다!</td>
+        <td><a th:href="@{/voucher/{voucherId}(voucherId=${voucher.voucherId})}">
+            <button type="button" class="btn btn-secondary">Secondary</button>
+        </a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
