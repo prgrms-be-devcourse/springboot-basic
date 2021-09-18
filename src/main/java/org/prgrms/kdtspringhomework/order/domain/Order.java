@@ -12,8 +12,8 @@ public class Order {
     private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
-    private Optional<Voucher> voucher;
-    private OrderStatus orderStatus;
+    private final Optional<Voucher> voucher;
+    private final OrderStatus orderStatus;
 
     public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
         this.orderId = orderId;
@@ -35,10 +35,6 @@ public class Order {
         var beforeDiscount = orderItems.stream()
                 .map(orderItem -> orderItem.getProductPrice() * orderItem.getQuantity())
                 .reduce(LONG_IDENTITY, Long::sum);
-        if (voucher.isPresent()) {
-            return voucher.get().discount(beforeDiscount);
-        } else {
-            return beforeDiscount;
-        }
+        return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
 }

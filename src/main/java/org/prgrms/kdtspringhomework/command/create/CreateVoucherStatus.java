@@ -12,7 +12,7 @@ public enum CreateVoucherStatus {
     private final String command;
     private final Supplier<CreateVoucherStrategy> supplier;
 
-    CreateVoucherStatus(final String command, final Supplier<CreateVoucherStrategy> supplier) {
+    CreateVoucherStatus(String command, Supplier<CreateVoucherStrategy> supplier) {
         this.command = command;
         this.supplier = supplier;
     }

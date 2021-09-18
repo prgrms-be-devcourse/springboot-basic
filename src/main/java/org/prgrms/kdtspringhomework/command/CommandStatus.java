@@ -15,7 +15,7 @@ public enum CommandStatus {
     private final String command;
     private final Supplier<CommandStrategy> supplier;
 
-    CommandStatus(final String command, final Supplier<CommandStrategy> supplier) {
+    CommandStatus(String command, Supplier<CommandStrategy> supplier) {
         this.command = command;
         this.supplier = supplier;
     }
