@@ -14,13 +14,10 @@ public class CreateCommand implements CommandStrategy {
             output.inputVoucherTypeMessage();
             String voucherType = input.receiveUserInput();
             output.inputAmountMessage();
-            long amount = 0L;
-            try {
-                amount = Long.parseLong(input.receiveUserInput());
-            } catch (NumberFormatException e) {
-                output.invalidAmount();
-            }
+            long amount = Long.parseLong(input.receiveUserInput());
             flag = CreateVoucherStatus.create(voucherService, voucherType, amount);
+        } catch (NumberFormatException e) {
+            output.invalidAmount();
         } catch (IllegalArgumentException e) {
             output.invalidVoucherType();
         }
