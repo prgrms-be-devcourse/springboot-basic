@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/order_mgmt
+    username: root
+    password: root1234!
+
+logging:
+  level:
+    root: info
+
+voucher:
+  max-discount-amount: 10000
+
+  max-discount-percent: 100
+
+  description: "local"
