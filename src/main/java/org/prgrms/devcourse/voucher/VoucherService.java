@@ -28,6 +28,4 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public void useVoucher(Voucher voucher) {
-    }
 }

@@ -29,10 +29,6 @@ public class Voucher {
         return voucherType;
     }
 
-    public long discount(long beforeDiscount) {
-        return beforeDiscount * discountValue / 100;
-    }
-
     @Override
     public String toString() {
         return voucherType.toString() + "," + voucherId + "," + discountValue + "\n";
