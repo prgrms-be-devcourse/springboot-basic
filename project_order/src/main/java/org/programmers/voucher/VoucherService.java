@@ -37,11 +37,15 @@ public class VoucherService {
         return voucherRepository.findByOwnerId(ownerId);
     }
 
-    public void assignToCustomer(Customer customer, Voucher voucher){
+    public List<Voucher> getVouchersByType(VoucherType voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
+
+    public void assignToCustomer(Customer customer, Voucher voucher) {
         voucherRepository.assignToCustomer(customer, voucher);
     }
 
-    public void deleteVoucher(UUID voucherId){
+    public void deleteVoucher(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
     }
 

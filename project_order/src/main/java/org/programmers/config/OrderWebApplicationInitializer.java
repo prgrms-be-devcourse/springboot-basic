@@ -2,6 +2,8 @@ package org.programmers.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.programmers.voucher.VoucherController;
+import org.programmers.voucher.VoucherResponse;
+import org.programmers.voucher.VoucherRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -35,7 +38,10 @@ public class OrderWebApplicationInitializer implements WebApplicationInitializer
     @Configuration
     @EnableWebMvc
     @ComponentScan(basePackages = "org.programmers.voucher",
-            includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = VoucherController.class),
+            includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {
+                    VoucherRestController.class,
+                    VoucherController.class
+            }),
             useDefaultFilters = false
     )
     static class ServletConfig implements WebMvcConfigurer, ApplicationContextAware {
@@ -75,7 +81,10 @@ public class OrderWebApplicationInitializer implements WebApplicationInitializer
 
     @Configuration
     @ComponentScan(basePackages = "org.programmers.voucher",
-            excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = VoucherController.class)
+            excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {
+                    VoucherRestController.class,
+                    VoucherController.class
+            })
     )
     static class RootConfig {
 

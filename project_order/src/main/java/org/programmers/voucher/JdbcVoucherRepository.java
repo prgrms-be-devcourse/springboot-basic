@@ -97,6 +97,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return jdbcTemplate.query("select * from vouchers where voucher_type = :voucherType", Collections.singletonMap("voucherType", voucherType.toString()), voucherRowMapper);
+    }
+
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
     }
