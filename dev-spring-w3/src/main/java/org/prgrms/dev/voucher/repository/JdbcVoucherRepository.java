@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -62,9 +63,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         Map<String, Object> params = Map.of("voucherId", voucher.getVoucherId().toString().getBytes(),
                 "voucherType", voucher.getVoucherType().name(),
-                "discount", voucher.getDiscountValue());
+                "discount", voucher.getDiscountValue(),
+                "createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
 
-        int insert = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, discount) VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discount)",
+        int insert = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, discount, created_at) " +
+                        "VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discount, :createdAt)",
                 params);
         if (insert != SUCCESS) {
             throw new RuntimeException("Noting was inserted");
@@ -82,12 +85,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         if (update != SUCCESS) {
             throw new RuntimeException("Noting was inserted");
         }
-
         return voucher;
     }
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
     }
 }
