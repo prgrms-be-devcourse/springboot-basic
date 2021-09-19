@@ -17,8 +17,9 @@ import java.util.concurrent.TimeUnit;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherType;
+import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
+import org.prgrms.kdt.voucher.repository.VoucherJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
@@ -82,7 +83,8 @@ class VoucherJdbcRepositoryTest {
             .start();
 
         fixedVoucher = new Voucher(UUID.randomUUID(), 1000, LocalDateTime.now(), VoucherType.FIX);
-        percentVoucher = new Voucher(UUID.randomUUID(), 50, LocalDateTime.now(), VoucherType.PERCENT);
+        percentVoucher = new Voucher(UUID.randomUUID(), 50, LocalDateTime.now(),
+            VoucherType.PERCENT);
     }
 
     @AfterAll
@@ -104,7 +106,6 @@ class VoucherJdbcRepositoryTest {
         var retrievedFixedVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId());
         assertThat(retrievedFixedVoucher.isEmpty(), is(false));
         assertThat(retrievedFixedVoucher.get(), samePropertyValuesAs(fixedVoucher));
-
 
         voucherJdbcRepository.insert(percentVoucher);
         var retrievedPercentVoucher = voucherJdbcRepository.findById(percentVoucher.getVoucherId());
