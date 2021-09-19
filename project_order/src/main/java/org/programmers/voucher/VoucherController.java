@@ -23,6 +23,13 @@ public class VoucherController {
         return "views/vouchers";
     }
 
+    @GetMapping("/vouchers/{voucherId}")
+    public String viewVoucherDetails(@PathVariable("voucherId") UUID voucherId, Model model) {
+        Voucher voucher = voucherService.getVoucher(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "views/voucher-details";
+    }
+
     @GetMapping("/vouchers/new")
     public String viewNewVoucher() {
         return "views/voucher-new";

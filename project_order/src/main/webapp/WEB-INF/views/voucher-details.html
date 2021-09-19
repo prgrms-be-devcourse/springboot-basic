@@ -1,0 +1,34 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>[Project-Order]Voucher Details</title>
+</head>
+<body class="container-fluid">
+<h1>Voucher Details</h1>
+<div th:object="${voucher}">
+    <label for="voucherId">Voucher Id</label>
+    <input type="text" id="voucherId" class="form-control" th:value="*{voucherId}" disabled>
+    <label for="discountValue">Discount Value</label>
+    <input type="text" id="discountValue" class="form-control" th:value="*{discountValue}" disabled>
+    <label for="voucherType" class="form-label">Voucher Type</label>
+    <select id="voucherType" th:name="voucherType" class="form-select" disabled>
+        <option th:selected="${voucher.voucherType}=='FIXED'">Fixed Amount Voucher</option>
+        <option th:selected="${voucher.voucherType}=='PERCENT'">Percent Discount Voucher</option>
+    </select>
+    <label for="ownerId" class="form-label">Owner Id</label>
+    <input type="text" id="ownerId" class="form-control" th:value="*{ownerId}" disabled>
+</div>
+<br>
+<div>
+    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/vouchers}'|">
+        voucher list
+    </button>
+</div>
+</body>
+</html>

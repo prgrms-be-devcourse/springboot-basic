@@ -22,7 +22,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}" th:onclick="|location.href='@{/vouchers/{voucherId} (voucherId=*{voucherId})}'|">
         <td th:text="*{voucherId}"></td>
         <td th:text="*{discountValue}"></td>
         <td th:text="*{voucherType}"></td>
