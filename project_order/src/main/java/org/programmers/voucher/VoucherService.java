@@ -41,6 +41,10 @@ public class VoucherService {
         voucherRepository.assignToCustomer(customer, voucher);
     }
 
+    public void deleteVoucher(UUID voucherId){
+        voucherRepository.deleteById(voucherId);
+    }
+
     public void useVoucher(Voucher voucher) {
     }
 

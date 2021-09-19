@@ -1,6 +1,7 @@
 package org.programmers.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.programmers.voucher.VoucherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -10,12 +11,11 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.*;
@@ -25,6 +25,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRegistration;
 import javax.sql.DataSource;
 
 public class OrderWebApplicationInitializer implements WebApplicationInitializer {
@@ -33,9 +34,11 @@ public class OrderWebApplicationInitializer implements WebApplicationInitializer
 
     @Configuration
     @EnableWebMvc
-    @ComponentScan(basePackages = "org.programmers.voucher")
-    @EnableTransactionManagement
-    static class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
+    @ComponentScan(basePackages = "org.programmers.voucher",
+            includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = VoucherController.class),
+            useDefaultFilters = false
+    )
+    static class ServletConfig implements WebMvcConfigurer, ApplicationContextAware {
 
         ApplicationContext applicationContext;
 
@@ -63,6 +66,19 @@ public class OrderWebApplicationInitializer implements WebApplicationInitializer
                     .addResolver(new EncodedResourceResolver());
         }
 
+        @Override
+        public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+            this.applicationContext = applicationContext;
+        }
+
+    }
+
+    @Configuration
+    @ComponentScan(basePackages = "org.programmers.voucher",
+            excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = VoucherController.class)
+    )
+    static class RootConfig {
+
         @Bean
         public DataSource dataSource() {
             var dataSource = DataSourceBuilder.create()
@@ -71,10 +87,9 @@ public class OrderWebApplicationInitializer implements WebApplicationInitializer
                     .password("root1234!")
                     .type(HikariDataSource.class)
                     .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
             return dataSource;
         }
+
 
         @Bean
         public JdbcTemplate jdbcTemplate(DataSource dataSource) {
@@ -86,28 +101,24 @@ public class OrderWebApplicationInitializer implements WebApplicationInitializer
             return new NamedParameterJdbcTemplate(jdbcTemplate);
         }
 
-        @Bean
-        public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-            return new DataSourceTransactionManager(dataSource);
-        }
-
-        @Override
-        public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-            this.applicationContext = applicationContext;
-        }
-
     }
 
     @Override
     public void onStartup(ServletContext servletContext) {
         logger.info("Staring Server...");
-        var applicationContext = new AnnotationConfigWebApplicationContext();
-        applicationContext.register(AppConfig.class);
 
-        var dispatcherServlet = new DispatcherServlet(applicationContext);
-        var servletRegistration = servletContext.addServlet("test", dispatcherServlet);
+        AnnotationConfigWebApplicationContext rootApplicationContext = new AnnotationConfigWebApplicationContext();
+        rootApplicationContext.register(RootConfig.class);
+        ContextLoaderListener loaderListener = new ContextLoaderListener(rootApplicationContext);
+        servletContext.addListener(loaderListener);
+
+        AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
+        applicationContext.register(ServletConfig.class);
+        DispatcherServlet dispatcherServlet = new DispatcherServlet(applicationContext);
+        ServletRegistration.Dynamic servletRegistration = servletContext.addServlet("test", dispatcherServlet);
         servletRegistration.addMapping("/");
         servletRegistration.setLoadOnStartup(1);
     }
+
 
 }

@@ -2,9 +2,10 @@ package org.programmers.voucher;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -20,6 +21,24 @@ public class VoucherController {
         List<Voucher> allVouchers = voucherService.getAllVouchers();
         model.addAttribute("vouchers", allVouchers);
         return "views/vouchers";
+    }
+
+    @GetMapping("/vouchers/new")
+    public String viewNewVoucher() {
+        return "views/voucher-new";
+    }
+
+    @PostMapping("/vouchers/new")
+    public String addNewVoucher(VoucherRequest voucherRequest, Model model) {
+        Voucher voucher = voucherService.createVoucher(voucherRequest.voucherType(), UUID.randomUUID(), voucherRequest.discountValue());
+        model.addAttribute("voucher", voucher);
+        return "redirect:/vouchers";
+    }
+
+    @GetMapping("vouchers/{voucherId}/delete")
+    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:/vouchers";
     }
 
 }

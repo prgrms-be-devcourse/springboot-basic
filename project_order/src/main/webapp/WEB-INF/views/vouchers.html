@@ -18,16 +18,28 @@
         <th scope="col">DiscountValue</th>
         <th scope="col">VoucherType</th>
         <th scope="col">OwnerId</th>
+        <th scope="col">Delete Button</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="voucher: ${vouchers}" th:object="${voucher}" >
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
         <td th:text="*{voucherId}"></td>
         <td th:text="*{discountValue}"></td>
         <td th:text="*{voucherType}"></td>
         <td th:text="*{ownerId}"></td>
+        <td>
+            <button type="button" class="btn btn-danger"
+                    th:onclick="|location.href='@{/vouchers/{voucherId}/delete (voucherId=*{voucherId})}'|">
+                delete
+            </button>
+        </td>
     </tr>
     </tbody>
 </table>
+<div>
+    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/vouchers/new}'|">
+        create new voucher
+    </button>
+</div>
 </body>
 </html>
