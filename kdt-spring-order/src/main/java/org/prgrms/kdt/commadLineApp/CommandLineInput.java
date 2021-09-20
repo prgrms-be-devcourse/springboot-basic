@@ -5,6 +5,7 @@ import org.prgrms.kdt.voucher.VoucherType;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.UUID;
 
 public class CommandLineInput {
 
@@ -62,5 +63,11 @@ public class CommandLineInput {
 
     public static void closeReader() throws IOException {
         reader.close();
+    }
+
+    public static UUID inputUUid() throws IOException {
+        String input;
+        input = reader.readLine();
+        return UUID.fromString(input);
     }
 }

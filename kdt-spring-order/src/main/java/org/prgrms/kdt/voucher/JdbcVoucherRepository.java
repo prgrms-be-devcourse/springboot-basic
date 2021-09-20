@@ -28,6 +28,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
            put("voucherId", voucher.getVoucherId().toString().getBytes());
            put("amount", voucher.getVoucherAmount());
            put("type", voucher.getVoucherType().toString());
+           put("customerEmail", voucher.getCustomerEmail());
         }};
     }
 
@@ -35,11 +36,12 @@ public class JdbcVoucherRepository implements VoucherRepository{
         var type = resultSet.getString("type");
         var amount  = resultSet.getLong("amount");
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var customerEmail = resultSet.getString("customer_email");
         if (type.equals("FIXED")){
-            return new FixedAmountVoucher(voucherId, amount);
+            return new FixedAmountVoucher(voucherId, amount, customerEmail);
         }
         else if(type.equals("PERCENT")){
-            return new PercentDiscountVoucher(voucherId, amount);
+            return new PercentDiscountVoucher(voucherId, amount, customerEmail);
         }
         return null;
     };
@@ -57,7 +59,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Map<UUID, Voucher> getVoucherList() {
+    public Map<UUID, Voucher> getVoucherAll() {
         var voucherList = jdbcTemplate.query("select * from vouchers",
                 (rs, rowNum) -> Objects.equals(rs.getString("type"), "FIXED")
                         ? new FixedAmountVoucher(toUUID(rs.getBytes("voucher_id")), rs.getLong("amount"))
@@ -80,6 +82,13 @@ public class JdbcVoucherRepository implements VoucherRepository{
             throw new RuntimeException("Nothing was inserted");
         }
         return voucher;
+    }
+
+
+    @Override
+    public void updateAssignVoucher(Voucher voucher) {
+        jdbcTemplate.update("update vouchers set customer_email = :email where voucher_id = UUID_TO_BIN(:voucherId)",
+                toParamMap(voucher));
     }
 
     static UUID toUUID ( byte[] bytes){

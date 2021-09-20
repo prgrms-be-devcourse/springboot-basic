@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,8 +24,8 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
     }
 
-    public Map<UUID, Voucher> getVoucherList() {
-        return voucherRepository.getVoucherList();
+    public Map<UUID, Voucher> getVoucherAll() {
+        return voucherRepository.getVoucherAll();
     }
 
     public Voucher createFixVoucher(String amount) {
@@ -48,4 +49,9 @@ public class VoucherService {
             return createPercentVoucher(amount);
         }
     }
+
+    public void updateAssignVoucher(Voucher voucher) {
+        voucherRepository.updateAssignVoucher(voucher);
+    }
+
 }

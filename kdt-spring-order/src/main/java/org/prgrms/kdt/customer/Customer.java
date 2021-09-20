@@ -1,7 +1,7 @@
 package org.prgrms.kdt.customer;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.*;
 
 public class Customer {
     private final UUID customerId;

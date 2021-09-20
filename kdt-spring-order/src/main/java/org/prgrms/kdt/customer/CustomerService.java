@@ -10,4 +10,5 @@ public interface CustomerService {
     List<Customer> getAllCustomers();
     Optional<Customer> getCustomer(UUID customerId);
     Boolean checkEmail(String email);
+    Optional<Customer> getCustomerByEmail(String email);
 }

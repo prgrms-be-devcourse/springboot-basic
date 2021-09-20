@@ -7,4 +7,5 @@ public enum CommandType {
     BLACKLIST,
     JOIN,
     CUSTOMERLIST
+    ASSIGNVOUCHER,
 }

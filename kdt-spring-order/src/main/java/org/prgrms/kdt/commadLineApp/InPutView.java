@@ -9,6 +9,7 @@ public class InPutView {
         System.out.println("Type list to list all vouchers.");
         System.out.println("Type blacklist to show blacklist");
         System.out.println("Type join to create new customer");
+        System.out.println("Type assignVoucher to give voucher to customer");
         System.out.println("Type customerList to show customerList");
     }
 

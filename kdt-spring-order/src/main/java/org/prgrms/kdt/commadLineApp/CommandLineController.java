@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -60,10 +61,28 @@ public class CommandLineController {
             return;
         }
 
+        if (command == CommandType.ASSIGNVOUCHER){
+            assignVoucher();
+            return;
+        }
+
         if (command == CommandType.CUSTOMERLIST){
             showCustomerList();
             return;
         }
+    private void assignVoucher() throws IOException {
+        InPutView.assignCustomerEmail();
+        Optional<Customer> customer = customerService.getCustomerByEmail(CommandLineInput.inputCustomerEmail());
+        InPutView.inputVoucherId();
+        var voucher = voucherService.getVoucher(CommandLineInput.inputUUid());
+        if (voucher.getCustomerEmail().equals(null)){
+            voucher.setCustomer(customer.get().getEmail());
+            voucherService.updateAssignVoucher(voucher);
+        }
+        else{
+            OutPutView.existCustomer();
+        }
+    }
     }
 
     public void showCustomerList() {

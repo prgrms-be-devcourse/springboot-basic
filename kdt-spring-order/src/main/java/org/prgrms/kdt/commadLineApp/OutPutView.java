@@ -34,4 +34,9 @@ public class OutPutView {
     public static void wrongEmail(String email) {
         System.out.println(email + " is wrong input");
     }
+
+    public static void existCustomer() {
+        System.out.println("This voucher is already assigned");
+    }
+
 }
