@@ -1,17 +1,19 @@
 package org.programmers.applicationcontext.order;
-
-import org.programmers.applicationcontext.voucher.VoucherService;
-
 import java.util.List;
 import java.util.UUID;
 
 public class OrderService {
-    private final VoucherService voucherService;
+    // private final VoucherService voucherService;
     private final OrderRepository orderRepository;
 
-    /*의존성 주입을 위해 생성자를 만듦*/
+    /*의존성 주입을 위해 생성자를 만듦
     public OrderService(VoucherService voucherService, OrderRepository orderRepository) {
         this.voucherService = voucherService;
+        this.orderRepository = orderRepository;
+    }
+    */
+
+    public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 

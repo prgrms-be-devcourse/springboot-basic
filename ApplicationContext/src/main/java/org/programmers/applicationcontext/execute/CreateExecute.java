@@ -8,7 +8,6 @@ import org.programmers.applicationcontext.voucher.volume.FixedVoucherVolume;
 import org.programmers.applicationcontext.voucher.volume.PercentVoucherVolume;
 import org.programmers.applicationcontext.voucher.volume.VoucherVolume;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +32,6 @@ public class CreateExecute implements Execute{
             outPutView.selectVoucherType();
             String userVoucherType = br.readLine();
             voucherType = VoucherType.of(userVoucherType);
-            if(voucherType==null){
             if (voucherType == null) {
                 System.out.println("해당 명령어는 올바르지 않습니다 다시 입력해주세요\n");
                 continue;

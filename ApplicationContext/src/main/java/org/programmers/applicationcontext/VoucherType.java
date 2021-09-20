@@ -5,7 +5,8 @@ public enum VoucherType {
     FIXED_VOUCHER("1"),
     PERCENT_VOUCHER("2");
 
-    private String number;
+    private final String number;
+
     VoucherType(String number) {
         this.number = number;
     }

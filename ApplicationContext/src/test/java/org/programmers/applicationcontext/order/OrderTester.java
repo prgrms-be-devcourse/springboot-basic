@@ -2,7 +2,6 @@ package org.programmers.applicationcontext.order;
 import org.programmers.applicationcontext.config.AppConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
-
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
