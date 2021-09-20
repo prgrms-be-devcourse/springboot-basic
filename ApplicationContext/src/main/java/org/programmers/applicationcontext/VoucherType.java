@@ -11,9 +11,9 @@ public enum VoucherType {
         this.number = number;
     }
 
-    public static VoucherType of(String str) {
+    public static VoucherType of(String userVoucherType) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> str.equals(voucherType.number))
+                .filter(voucherType -> userVoucherType.equals(voucherType.number))
                 .findFirst()
                 .orElse(null);
     }
