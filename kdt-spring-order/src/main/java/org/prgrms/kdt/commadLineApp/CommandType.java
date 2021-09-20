@@ -10,4 +10,5 @@ public enum CommandType {
     CUSTOMERVOUCHER,
     ASSIGNVOUCHER,
     DELETEVOUCHER,
+    WHOHAVEVOUCHER;
 }

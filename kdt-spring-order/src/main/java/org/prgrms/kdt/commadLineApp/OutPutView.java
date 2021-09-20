@@ -39,4 +39,11 @@ public class OutPutView {
         System.out.println("This voucher is already assigned");
     }
 
+    public static void noExistCustomer() {
+        System.out.println("This voucher not assign yet");
+    }
+
+    public static void showCustomer(Customer customer) {
+        System.out.println(customer.toString());
+    }
 }

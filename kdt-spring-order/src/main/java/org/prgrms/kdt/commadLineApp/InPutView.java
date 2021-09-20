@@ -12,6 +12,7 @@ public class InPutView {
         System.out.println("Type deleteVoucher to delete vouchers.");
         System.out.println("Type customerList to show customerList");
         System.out.println("Type customerVoucher to show customer's voucher");
+        System.out.println("Type whoHaveVoucher to show customer who have Voucher");
         System.out.println("Type blacklist to show blacklist");
     }
 

@@ -81,6 +81,24 @@ public class CommandLineController {
             return;
         }
 
+        if (command == CommandType.WHOHAVEVOUCHER){
+            findCustomerByVoucher();
+            return;
+        }
+    }
+
+    private void findCustomerByVoucher() throws IOException {
+        InPutView.inputVoucherId();
+        var voucher = voucherService.getVoucher(CommandLineInput.inputUUid());
+        if (voucher.getCustomerEmail().equals(null)){
+            OutPutView.noExistCustomer();
+        }
+        else {
+            var customer = customerService.getCustomerByEmail(voucher.getCustomerEmail());
+            OutPutView.showCustomer(customer.get());
+        }
+    }
+
     private void deleteVoucher() throws IOException {
         InPutView.inputVoucherId();
         voucherService.deleteVoucher(CommandLineInput.inputUUid());
