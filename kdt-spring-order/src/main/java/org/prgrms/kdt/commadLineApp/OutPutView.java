@@ -31,6 +31,10 @@ public class OutPutView {
         System.out.println();
     }
 
+    public static void listIsEmpty() {
+        System.out.println("List is empty");
+    }
+
     public static void wrongEmail(String email) {
         System.out.println(email + " is wrong input");
     }

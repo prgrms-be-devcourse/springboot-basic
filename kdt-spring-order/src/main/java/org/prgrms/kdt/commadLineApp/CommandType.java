@@ -6,7 +6,7 @@ public enum CommandType {
     LIST,
     BLACKLIST,
     JOIN,
-    CUSTOMERLIST
+    CUSTOMERLIST,
     CUSTOMERVOUCHER,
     ASSIGNVOUCHER,
     DELETEVOUCHER,

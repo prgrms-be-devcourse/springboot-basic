@@ -126,7 +126,12 @@ public class CommandLineController {
 
     public void showCustomerList() {
         List<Customer> customerList = customerService.getAllCustomers();
-        OutPutView.showCustomerList(customerList);
+        if (customerList.isEmpty()){
+            OutPutView.listIsEmpty();
+        }
+        else {
+            OutPutView.showCustomerList(customerList);
+        }
     }
 
     public void joinNewCustomer() throws IOException {
@@ -163,10 +168,11 @@ public class CommandLineController {
     }
 
     public void listCommand(){
-        if(voucherService.getVoucherList().isEmpty())
-            InPutView.listIsEmpty();
+        if(voucherService.getVoucherAll().isEmpty()) {
+            OutPutView.listIsEmpty();
+        }
         else{
-            Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
+            Map<UUID, Voucher> voucherList = voucherService.getVoucherAll();
             OutPutView.showList(voucherList);
         }
     }
