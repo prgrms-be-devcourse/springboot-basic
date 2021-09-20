@@ -70,6 +70,12 @@ public class CommandLineController {
             showCustomerList();
             return;
         }
+
+        if (command == CommandType.CUSTOMERVOUCHER){
+            showCustomerVoucher();
+            return;
+        }
+
     private void assignVoucher() throws IOException {
         InPutView.assignCustomerEmail();
         Optional<Customer> customer = customerService.getCustomerByEmail(CommandLineInput.inputCustomerEmail());
@@ -83,6 +89,11 @@ public class CommandLineController {
             OutPutView.existCustomer();
         }
     }
+
+    private void showCustomerVoucher() throws IOException {
+        InPutView.inputCustomerEmail();
+        var voucherList = voucherService.getVoucherByCustomerEmail(CommandLineInput.inputCustomerEmail());
+        OutPutView.showList(voucherList);
     }
 
     public void showCustomerList() {

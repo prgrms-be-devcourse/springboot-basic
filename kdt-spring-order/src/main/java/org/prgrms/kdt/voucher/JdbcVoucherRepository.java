@@ -84,6 +84,18 @@ public class JdbcVoucherRepository implements VoucherRepository{
         return voucher;
     }
 
+    @Override
+    public HashMap<UUID, Voucher> getVoucherListByCustomerEmail(String inputCustomerEmail) {
+        var voucherList = jdbcTemplate.query("select * from vouchers where customer_email = :customerEmail",
+                Collections.singletonMap("customerEmail", inputCustomerEmail),
+                voucherRowMapper);
+        var voucherMap = new HashMap<UUID, Voucher>();
+        for(Voucher v : voucherList){
+            voucherMap.put(v.getVoucherId(), v);
+        }
+
+        return voucherMap;
+    }
 
     @Override
     public void updateAssignVoucher(Voucher voucher) {

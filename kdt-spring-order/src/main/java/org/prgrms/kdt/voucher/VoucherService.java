@@ -50,6 +50,10 @@ public class VoucherService {
         }
     }
 
+    public HashMap<UUID, Voucher> getVoucherByCustomerEmail(String inputCustomerEmail) {
+        return voucherRepository.getVoucherListByCustomerEmail(inputCustomerEmail);
+    }
+
     public void updateAssignVoucher(Voucher voucher) {
         voucherRepository.updateAssignVoucher(voucher);
     }
