@@ -25,9 +25,16 @@ public class CommandLineInput {
     public static VoucherType inputType() throws IOException{
         String input;
         input = reader.readLine();
-        if(input.equals("1"))
+        if(input.equals("1")) {
             return VoucherType.FIXED;
-        return VoucherType.PERCENT;
+        }
+        else if(input.equals("2")) {
+            return VoucherType.PERCENT;
+        }
+        else{
+            System.out.println("worng Input!");
+            return VoucherType.NONE;
+        }
     }
 
     public static String inputAmount(VoucherType type) throws IOException{

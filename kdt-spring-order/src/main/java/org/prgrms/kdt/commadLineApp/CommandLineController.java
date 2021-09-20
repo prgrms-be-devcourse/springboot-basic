@@ -91,6 +91,9 @@ public class CommandLineController {
     public void createCommand() throws IOException {
         InPutView.chooseType();
         VoucherType type = CommandLineInput.inputType();
+        if (type == VoucherType.NONE){
+            return;
+        }
         String amount =  CommandLineInput.inputAmount(type);
         voucherService.createVoucher(type, amount);
     }
