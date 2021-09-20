@@ -14,7 +14,6 @@ public class VoucherService { // 바우쳐에 관련된 기능을 정의하는 �
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException("can't find a voucher for "+ voucherId));
-
     }
 
     public FixedAmountVoucher createFixedAmountVoucher(UUID voucherId, long amount){ // 새로 생긴 기능1
