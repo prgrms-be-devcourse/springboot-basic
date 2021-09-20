@@ -41,5 +41,8 @@ public class InPutView {
 
     public static void listIsEmpty() {
         System.out.println("Voucher list is empty");
+    public static void assignCustomerEmail() {
+        System.out.print("Input Customer Email : ");
+    }
     }
 }
