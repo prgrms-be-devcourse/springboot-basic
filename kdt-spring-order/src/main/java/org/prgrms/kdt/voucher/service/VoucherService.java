@@ -26,9 +26,6 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public void useVoucher(Voucher voucher) {
-    }
-
     public void createVoucher(UUID voucherId, VoucherType voucherType, long value){
         switch(voucherType){
             case FIXED -> voucherRepository.insert(new FixedAmountVoucher(voucherId, value));
@@ -38,5 +35,9 @@ public class VoucherService {
 
     public List<Voucher> getVoucherList(){
         return voucherRepository.findAll();
+    }
+
+    public void deleteVoucher(UUID voucherId){
+        voucherRepository.deleteById(voucherId);
     }
 }

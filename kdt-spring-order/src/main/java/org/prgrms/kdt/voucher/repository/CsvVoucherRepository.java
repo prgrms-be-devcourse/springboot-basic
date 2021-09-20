@@ -46,6 +46,11 @@ public class CsvVoucherRepository implements VoucherRepository{
         return new ArrayList<>(storage.values());
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+    }
+
+
     // Bean 생성시 파일 불러오기
     @PostConstruct
     public void loadCsv() throws IOException {
