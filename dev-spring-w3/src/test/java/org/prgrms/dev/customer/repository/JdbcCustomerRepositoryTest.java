@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
@@ -29,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles(value = "dev")
 class JdbcCustomerRepositoryTest {
 
     static EmbeddedMysql embeddedMysql;
@@ -62,7 +64,7 @@ class JdbcCustomerRepositoryTest {
         jdbcCustomerRepository.create(customer);
 
         Optional<Customer> retrievedCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
-        assertThat(retrievedCustomer.orElse(null)).isNotNull();
+        assertThat(retrievedCustomer).isNotEmpty();
         assertThat(retrievedCustomer.get().getName()).isEqualTo(customer.getName());
 
     }

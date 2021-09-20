@@ -3,6 +3,7 @@ package org.prgrms.dev.customer.repository;
 import org.prgrms.dev.customer.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,8 +15,10 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
+@Profile({"dev"})
 public class JdbcCustomerRepository implements CustomerRepository {
 
+    private static final int SUCCESS = 1;
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
@@ -40,11 +43,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
-        return Map.of("customerId", customer.getCustomerId().toString().getBytes(),
-                "name", customer.getName(),
-                "email", customer.getEmail(),
-                "createdAt", Timestamp.valueOf(customer.getCreatedAt()),
-                "lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
+        Map<String, Object> params = new HashMap<>();
+        params.put("customerId", customer.getCustomerId().toString().getBytes());
+        params.put("name", customer.getName());
+        params.put("email", customer.getEmail());
+        params.put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
+        params.put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
+        return params;
     }
 
     @Override
@@ -84,7 +89,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         int insert = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
                 toParamMap(newCustomer));
-        if (insert != 1) {
+        if (insert != SUCCESS) {
             throw new RuntimeException("Noting was inserted");
         }
         return newCustomer;
