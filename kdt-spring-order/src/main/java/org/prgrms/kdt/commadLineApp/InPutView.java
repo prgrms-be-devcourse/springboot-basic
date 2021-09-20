@@ -9,6 +9,7 @@ public class InPutView {
         System.out.println("Type list to list all vouchers.");
         System.out.println("Type join to create new customer");
         System.out.println("Type assignVoucher to give voucher to customer");
+        System.out.println("Type deleteVoucher to delete vouchers.");
         System.out.println("Type customerList to show customerList");
         System.out.println("Type customerVoucher to show customer's voucher");
         System.out.println("Type blacklist to show blacklist");
@@ -45,5 +46,8 @@ public class InPutView {
     public static void assignCustomerEmail() {
         System.out.print("Input Customer Email : ");
     }
+
+    public static void inputVoucherId(){
+        System.out.print("Input Voucher Id : ");
     }
 }

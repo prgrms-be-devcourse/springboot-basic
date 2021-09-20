@@ -76,6 +76,16 @@ public class CommandLineController {
             return;
         }
 
+        if (command == CommandType.DELETEVOUCHER){
+            deleteVoucher();
+            return;
+        }
+
+    private void deleteVoucher() throws IOException {
+        InPutView.inputVoucherId();
+        voucherService.deleteVoucher(CommandLineInput.inputUUid());
+    }
+
     private void assignVoucher() throws IOException {
         InPutView.assignCustomerEmail();
         Optional<Customer> customer = customerService.getCustomerByEmail(CommandLineInput.inputCustomerEmail());

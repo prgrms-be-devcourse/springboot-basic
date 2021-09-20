@@ -11,4 +11,6 @@ public interface VoucherRepository {
     HashMap<UUID, Voucher> getVoucherListByCustomerEmail(String inputCustomerEmail);
 
     void updateAssignVoucher(Voucher voucher);
+
+    void deleteVoucher(UUID voucherId);
 }

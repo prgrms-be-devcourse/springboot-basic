@@ -9,4 +9,5 @@ public enum CommandType {
     CUSTOMERLIST
     CUSTOMERVOUCHER,
     ASSIGNVOUCHER,
+    DELETEVOUCHER,
 }

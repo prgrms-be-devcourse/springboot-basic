@@ -58,4 +58,7 @@ public class VoucherService {
         voucherRepository.updateAssignVoucher(voucher);
     }
 
+    public void deleteVoucher(UUID voucherId){
+        voucherRepository.deleteVoucher(voucherId);
+    }
 }
