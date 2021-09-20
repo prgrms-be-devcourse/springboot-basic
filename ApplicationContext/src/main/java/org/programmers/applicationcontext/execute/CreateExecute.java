@@ -34,6 +34,7 @@ public class CreateExecute implements Execute{
             String userVoucherType = br.readLine();
             voucherType = VoucherType.of(userVoucherType);
             if(voucherType==null){
+            if (voucherType == null) {
                 System.out.println("해당 명령어는 올바르지 않습니다 다시 입력해주세요\n");
                 continue;
             }
