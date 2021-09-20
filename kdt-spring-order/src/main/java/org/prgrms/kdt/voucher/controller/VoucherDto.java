@@ -1,11 +1,24 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.model.VoucherType;
 
-public record VoucherDto(
-        // TODO : 웹에서 입력시 예외처리 필요
-        long value,
-        VoucherType type
-) {
+import javax.validation.constraints.NotNull;
 
+public class VoucherDto {
+    @NotNull
+    private final long value;
+    @NotNull
+    private final VoucherType type;
+
+    public VoucherDto(long value, VoucherType type) {
+        this.value = value;
+        this.type = type;
+    }
+
+    public long getValue() {
+        return value;
+    }
+    public VoucherType getType() {
+        return type;
+    }
 }

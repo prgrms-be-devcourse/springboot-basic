@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @Controller
@@ -22,13 +23,13 @@ public class VoucherController {
         // 초기 화면 렌더링시 voucher 리스트 넘겨줌
         var voucherList = voucherService.getVoucherList();
         model.addAttribute("voucherList", voucherList);
-        return "views/vouchers";
+        return "vouchers";
     }
 
     // voucher 생성하기
     @PostMapping("/vouchers/create")
-    public String createVoucher(VoucherDto voucherDto) {
-        voucherService.createVoucher(UUID.randomUUID(), voucherDto.type(), voucherDto.value());
+    public String createVoucher(@Valid VoucherDto voucherDto) {
+        voucherService.createVoucher(UUID.randomUUID(), voucherDto.getType(), voucherDto.getValue());
         return "redirect:/vouchers";
     }
 

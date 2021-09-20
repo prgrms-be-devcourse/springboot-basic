@@ -1,7 +1,7 @@
 package org.prgrms.kdt.common.io;
 
-import org.prgrms.kdt.customer.domain.Customer;
-import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.customer.model.Customer;
+import org.prgrms.kdt.voucher.model.Voucher;
 import java.util.List;
 
 public interface Output {

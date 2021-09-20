@@ -19,6 +19,6 @@ public class CustomerController {
 
     @GetMapping("/customers")
     public String viewCustomersPage(Model model) {
-        return "views/customers";
+        return "customers";
     }
 }

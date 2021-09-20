@@ -1,16 +1,16 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
-import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.model.Voucher;
+import org.prgrms.kdt.voucher.model.VoucherType;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static org.prgrms.kdt.common.util.Utility.toUUID;
+import static org.prgrms.kdt.common.util.JdbcUtil.toUUID;
 
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository{
@@ -40,7 +40,6 @@ public class JdbcVoucherRepository implements VoucherRepository{
     };
 
 
-
     @Override
     public Voucher insert(Voucher voucher) {
         var update = jdbcTemplate.update(
@@ -48,7 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
                 toParamMap(voucher)
         );
         if (update != 1)
-            throw new RuntimeException("insert 실패");
+            throw new RuntimeException("Failed insert");
         return voucher;
     }
 
@@ -61,7 +60,5 @@ public class JdbcVoucherRepository implements VoucherRepository{
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
     }
-
-
 
 }

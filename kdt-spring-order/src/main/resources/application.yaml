@@ -5,9 +5,9 @@ spring:
     url: jdbc:mysql://localhost/order_mgmt
     username: root
     password: root1234
-  thymeleaf:
-    prefix: "/"
-    view-names: "views/*"
+#  thymeleaf:
+#    prefix: "/"
+#    view-names: "views/*"
 
 
 ---
