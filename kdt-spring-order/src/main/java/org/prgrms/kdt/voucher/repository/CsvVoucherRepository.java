@@ -4,29 +4,19 @@ import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
-@Profile("prod")
-//@Qualifier("csv")
+@Profile("csv")
 public class CsvVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
@@ -46,12 +36,13 @@ public class CsvVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public void insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
-    public List<Voucher> getVoucherList() {
+    public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
     }
 
@@ -59,8 +50,6 @@ public class CsvVoucherRepository implements VoucherRepository{
     @PostConstruct
     public void loadCsv() throws IOException {
         absoluteFilePath = basePath + filePath + fileName;
-
-        System.out.println(absoluteFilePath);
 
         try(BufferedReader br = new BufferedReader(new FileReader(absoluteFilePath))){
             String row = "";
@@ -92,7 +81,7 @@ public class CsvVoucherRepository implements VoucherRepository{
             for(Voucher voucher : storage.values()){
                 bw.write(System.lineSeparator());
                 String row = voucher.getVoucherId()
-                        + "," + voucher.getVoucherValue()
+                        + "," + voucher.getValue()
                         + "," + voucher.getVoucherType();
                 bw.write(row);
             }

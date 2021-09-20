@@ -7,6 +7,7 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
+        if(amount <= 0) throw new IllegalArgumentException("amount가 0보다 작습니다");
         this.voucherId = voucherId;
         this.amount = amount;
     }
@@ -17,7 +18,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long getVoucherValue() {
+    public long getValue() {
         return amount;
     }
 
@@ -27,7 +28,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public long discount(long beforeDiscount){
-        return beforeDiscount - amount;
+        var discountedAmount = beforeDiscount - amount;
+        return (discountedAmount<0) ? 0 : discountedAmount;
     }
 
 

@@ -1,55 +1,37 @@
 package org.prgrms.kdt.voucher.controller;
-
-import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.io.Console;
 import org.prgrms.kdt.voucher.service.VoucherService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.UUID;
 
+@Controller
 public class VoucherController {
+
     private final VoucherService voucherService;
-    private final Console console = new Console();
 
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
-        // 초기 문구 출력
-        console.printInitText();
     }
 
-    public void run() {
-        // 프로그램 시작
-        while (true) {
-            String command = console.inputCommand();
-            switch (command) {
-                // voucher 생성
-                case "create" -> {
-                    // voucher 타입 선택
-                    String inputType = console.inputVoucherType();
-                    VoucherType voucherType = VoucherType.convert(inputType);
-                    switch (voucherType){
-                        case FIXED, PERCENT -> {
-                            long voucherValue = console.inputVoucherValue();
-                            voucherService.createVoucher(UUID.randomUUID(), voucherType, voucherValue);
-                            console.printSuccess();
-                        }
-                        case UNDEFINED -> {
-                            console.printCommandError(inputType);
-                        }
-                    }
-                }
-                // voucher 레포 리스트 출력
-                case "list" -> {
-                    console.printVoucherList(voucherService.getVoucherList());
-                }
-                // 프로그램 종료
-                case "exit" -> {
-                    console.printExitText();
-                    return;
-                }
-                // 커맨드 오류시 메시지
-                default -> console.printCommandError(command);
-            }
-        }
+    // vouchers 관리 페이지 렌더링
+    @GetMapping("/vouchers")
+    public String viewVouchersPage(Model model) {
+        // 초기 화면 렌더링시 voucher 리스트 넘겨줌
+        var voucherList = voucherService.getVoucherList();
+        model.addAttribute("voucherList", voucherList);
+        return "views/vouchers";
     }
+
+    // voucher 생성하기
+    @PostMapping("/vouchers/create")
+    public String createVoucher(VoucherDto voucherDto) {
+        voucherService.createVoucher(UUID.randomUUID(), voucherDto.type(), voucherDto.value());
+        return "redirect:/vouchers";
+    }
+
+
 
 }

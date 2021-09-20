@@ -1,6 +1,4 @@
-package org.prgrms.kdt.io;
-
-import org.prgrms.kdt.voucher.domain.VoucherType;
+package org.prgrms.kdt.common.io;
 
 public interface Input {
     String inputCommand();

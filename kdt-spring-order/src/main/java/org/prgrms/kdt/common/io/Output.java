@@ -1,4 +1,4 @@
-package org.prgrms.kdt.io;
+package org.prgrms.kdt.common.io;
 
 import org.prgrms.kdt.customer.domain.Customer;
 import org.prgrms.kdt.voucher.domain.Voucher;

@@ -1,9 +1,8 @@
 package org.prgrms.kdt.voucher.domain;
 
 public enum VoucherType {
-    FIXED("fixed"),
-    PERCENT("percent"),
-    UNDEFINED("");
+    FIXED("FIXED"),
+    PERCENT("PERCENT");
 
     private final String typeStr;
 
@@ -11,13 +10,13 @@ public enum VoucherType {
         this.typeStr = typeStr;
     }
 
-    static public VoucherType convert(String inputType){
+    public static VoucherType convert(String inputType){
         for(VoucherType voucherType : values()){
-            if(voucherType.name().equals(inputType) || voucherType.typeStr.equals(inputType)){
+            if(voucherType.name().equals(inputType)){
                 return voucherType;
             }
         }
-        return UNDEFINED;
+        throw new RuntimeException(inputType + " is not VoucherType");
     }
 }
 

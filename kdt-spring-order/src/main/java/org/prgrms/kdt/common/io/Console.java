@@ -1,9 +1,7 @@
-package org.prgrms.kdt.io;
+package org.prgrms.kdt.common.io;
 
 import org.prgrms.kdt.customer.domain.Customer;
-import org.prgrms.kdt.order.OrderTester;
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +46,7 @@ public class Console implements Input, Output{
         for(Voucher voucher : voucherList){
             System.out.println(
                     "ID : " + voucher.getVoucherId() + " | " +
-                    "value : " + voucher.getVoucherValue() + " | " +
+                    "value : " + voucher.getValue() + " | " +
                     "type : " + voucher.getVoucherType()
             );
         }

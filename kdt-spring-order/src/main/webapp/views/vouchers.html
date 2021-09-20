@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>바우처 관리페이지</title>
+
+    <style>
+        body {
+            padding:50px 0 0 100px;
+        }
+
+        th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Voucher 관리페이지</h1>
+<hr><br>
+
+<h2>Voucher List</h2>
+<table>
+    <tr>
+        <th>voucherId</th>
+        <th>value</th>
+        <th>type</th>
+    </tr>
+    <tr th:each="voucher: ${voucherList}" th:object="${voucher}">
+        <td th:text="*{voucherId}"></td>
+        <td th:text="*{value}"></td>
+        <td th:text="*{voucherType}"></td>
+    </tr>
+</table>
+
+<hr><br>
+
+<h2>Voucher 삽입하기</h2>
+<form th:action="@{/vouchers/create}" method="post">
+    type :
+    <input type="radio" name="type" value="FIXED"> FIXED
+    <input type="radio" name="type" value="PERCENT"> PERCENT
+    <br>
+    value : <input type="text" name="value" placeholder="value">
+    <br>
+    <input type="submit" value="삽입하기">
+</form>
+
+
+</body>
+
+</html>

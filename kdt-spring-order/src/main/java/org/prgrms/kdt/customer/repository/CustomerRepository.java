@@ -1,11 +1,18 @@
 package org.prgrms.kdt.customer.repository;
 
 import org.prgrms.kdt.customer.domain.Customer;
-import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface CustomerRepository {
-    void insert(Customer customer);
-    List<Customer> getCustomerList();
+    Customer insert(Customer customer);
+    Customer update(Customer customer);
+    List<Customer> findAll();
+    Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findByName(String name);
+    Optional<Customer> findByEmail(String email);
+    void deleteAll();
+    int count();
 }
