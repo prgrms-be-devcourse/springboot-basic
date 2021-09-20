@@ -1,7 +1,5 @@
-package org.programmers.applicationcontext.test;
+package org.programmers.applicationcontext.order;
 import org.programmers.applicationcontext.config.AppConfiguration;
-import org.programmers.applicationcontext.order.OrderItem;
-import org.programmers.applicationcontext.order.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
