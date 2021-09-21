@@ -8,8 +8,12 @@ import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
+
+import static org.prgrms.kdt.common.util.VoucherUtil.createVoucherByType;
 
 
 @Service
@@ -26,11 +30,9 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public void createVoucher(UUID voucherId, VoucherType voucherType, long value){
-        switch(voucherType){
-            case FIXED -> voucherRepository.insert(new FixedAmountVoucher(voucherId, value));
-            case PERCENT -> voucherRepository.insert(new PercentDiscountVoucher(voucherId, value));
-        }
+    public void createVoucher(VoucherType voucherType, long value){
+        var voucher = createVoucherByType(UUID.randomUUID(), value, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), voucherType);
+        voucherRepository.insert(voucher);
     }
 
     public List<Voucher> getVoucherList(){

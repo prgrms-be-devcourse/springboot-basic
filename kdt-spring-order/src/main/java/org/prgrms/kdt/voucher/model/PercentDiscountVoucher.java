@@ -1,18 +1,23 @@
 package org.prgrms.kdt.voucher.model;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
+    private final VoucherType voucherType;
+    private final LocalDateTime createdAt;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if(percent <= 0) throw new IllegalArgumentException("percent must be more than 0");
-        if(percent > 100) throw new IllegalArgumentException("percent must be less than 100");
+    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
+        if (percent <= 0) throw new IllegalArgumentException("percent must be more than 0");
+        if (percent > 100) throw new IllegalArgumentException("percent must be less than 100");
         this.voucherId = voucherId;
         this.percent = percent;
+        this.voucherType = VoucherType.PERCENT;
+        this.createdAt = createdAt;
     }
-
 
     @Override
     public UUID getVoucherId() {
@@ -26,12 +31,16 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public Enum<VoucherType> getVoucherType() {
-        return VoucherType.PERCENT;
+        return voucherType;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return (long) (beforeDiscount * ((100-percent) / 100.0));
+        return (long) (beforeDiscount * ((100 - percent) / 100.0));
     }
-
 }

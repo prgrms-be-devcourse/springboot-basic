@@ -8,9 +8,13 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+import static org.prgrms.kdt.common.util.JdbcUtil.toLocalDateTime;
 import static org.prgrms.kdt.common.util.JdbcUtil.toUUID;
+import static org.prgrms.kdt.common.util.VoucherUtil.createVoucherByType;
 
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository{
@@ -26,6 +30,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("value", voucher.getValue());
             put("type", voucher.getVoucherType().toString());
+            put("createdAt", voucher.getCreatedAt());
         }};
     }
 
@@ -33,17 +38,15 @@ public class JdbcVoucherRepository implements VoucherRepository{
         var voucherId =  toUUID(resultSet.getBytes("voucher_id"));
         var value = resultSet.getLong("value");
         var voucherType = VoucherType.convert(resultSet.getString("type"));
-        if(voucherType == VoucherType.FIXED)
-            return new FixedAmountVoucher(voucherId, value);
-        else
-            return new PercentDiscountVoucher(voucherId, value);
+        var createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
+        return createVoucherByType(voucherId, value, createdAt, voucherType);
     };
 
 
     @Override
     public Voucher insert(Voucher voucher) {
         var update = jdbcTemplate.update(
-                "insert into vouchers(voucher_id, value, type) values (UUID_TO_BIN(:voucherId), :value, :type)",
+                "insert into vouchers(voucher_id, value, type, created_at) values (UUID_TO_BIN(:voucherId), :value, :type, :createdAt)",
                 toParamMap(voucher)
         );
         if (update != 1)

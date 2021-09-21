@@ -30,12 +30,14 @@
         <th>voucherId</th>
         <th>value</th>
         <th>type</th>
+        <th>createdAt</th>
         <th>삭제하기</th>
     </tr>
     <tr th:each="voucher: ${voucherList}" th:object="${voucher}">
         <td th:text="*{voucherId}"></td>
         <td th:text="*{value}"></td>
         <td th:text="*{voucherType}"></td>
+        <td th:text="*{createdAt}"></td>
         <td><a th:href="@{ 'vouchers/delete/' + ${voucher.voucherId} }"> 삭제 </a></td>
     </tr>
 </table>

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 class FixedAmountVoucherTest {
@@ -15,23 +17,23 @@ class FixedAmountVoucherTest {
         assertAll(
                 "FixedAmountVoucher 생성",
                 // 0일경우
-                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 0)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 0, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS))),
                 // 음수일경우
-                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -1))
+                () -> assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -1, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)))
         );
     }
 
     @Test
     @DisplayName("주어진 금액만큼 할인되어야 한다.")
     void testDiscount() {
-        var sut = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        var sut = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         assertThat(sut.discount(1000), is(900L));
     }
 
     @Test
     @DisplayName("할인 금액이 원금 초과시 원금은 0이 되어야한다.")
     void testMinusDiscountedAmount() {
-        var sut = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        var sut = new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         assertThat(sut.discount(900), is(0L));
     }
 

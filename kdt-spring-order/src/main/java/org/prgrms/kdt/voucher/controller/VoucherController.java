@@ -32,7 +32,7 @@ public class VoucherController {
     // voucher 생성하기
     @PostMapping("/create")
     public String createVoucher(@Valid VoucherDto voucherDto) {
-        voucherService.createVoucher(UUID.randomUUID(), voucherDto.getType(), voucherDto.getValue());
+        voucherService.createVoucher(voucherDto.getType(), voucherDto.getValue());
         return "redirect:/vouchers";
     }
 

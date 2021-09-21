@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 class PercentDiscountVoucherTest {
@@ -15,25 +17,25 @@ class PercentDiscountVoucherTest {
         assertAll(
                 "PercentDiscountVoucher 생성",
                 // 0일경우
-                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 0)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 0, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS))),
                 // 음수일경우
-                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), -1)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), -1, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS))),
                 // 100을 초과할 경우
-                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 101))
+                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 101, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)))
         );
     }
 
     @Test
     @DisplayName("주어진 할인율만큼 할인되어야 한다.")
     void testDiscount() {
-        var sut = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+        var sut = new PercentDiscountVoucher(UUID.randomUUID(), 10, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         assertThat(sut.discount(1000), is(900L));
     }
 
     @Test
     @DisplayName("할인율이 100%일 경우 원금은 0이 되어야 한다.")
     void testMinusDiscountedAmount() {
-        var sut = new PercentDiscountVoucher(UUID.randomUUID(), 100);
+        var sut = new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         assertThat(sut.discount(100), is(0L));
     }
 
