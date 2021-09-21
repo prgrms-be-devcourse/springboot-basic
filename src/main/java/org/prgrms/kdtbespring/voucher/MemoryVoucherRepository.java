@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 
 /**
@@ -22,6 +21,7 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
 
     // Thread safety 하게 처리하기 위한 Concurrent hashmap 사용
     private final Map<UUID,Voucher> storage = new ConcurrentHashMap<>();
+    private final List<Voucher> storages = new ArrayList<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -31,12 +31,13 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
 
     @Override
     public List<Voucher> findAll() {
-        ArrayList<Voucher> vouchers = new ArrayList<>(storage.values());
-        return vouchers;
+        /*ArrayList<Voucher> vouchers = new ArrayList<>(storage.values());*/
+        return storages;
     }
 
     @Override
     public Voucher insert(Voucher voucher) {
+        storages.add(voucher);
         storage.put(voucher.getVoucherId(),voucher);
         return voucher;
     }

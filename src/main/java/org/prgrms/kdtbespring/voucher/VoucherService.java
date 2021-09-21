@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,8 +13,7 @@ public class VoucherService {
 
     private VoucherRepository voucherRepository;
 
-
-    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("file") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -38,6 +36,7 @@ public class VoucherService {
         Voucher voucher = voucherType.voucherCreate(voucherRepository, voucherId, value);
         voucherRepository.insert(voucher);
         return Optional.ofNullable(voucher);
+
     }
 
     // 리스트 반환
@@ -45,9 +44,4 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAll();
         return vouchers;
     }
-
-    /*public void setVoucherRepository(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }*/
-
 }
