@@ -1,5 +1,8 @@
-package W3D2.jcu.voucher;
+package W3D2.jcu.voucher.repository;
 
+import W3D2.jcu.voucher.model.FixedAmountVoucher;
+import W3D2.jcu.voucher.model.PercentDiscountVoucher;
+import W3D2.jcu.voucher.model.Voucher;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,15 +20,15 @@ public class VoucherRepositoryImpl implements VoucherRepository{
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public void readStorage() throws IOException {
+    public void readStorage() throws IOException { // txt 읽어오기
         try{
-            BufferedReader br = new BufferedReader(new FileReader("D:/storage.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/storage.csv"));
             StringTokenizer st;
             String input;
             while((input = br.readLine())!=null) {
                 st = new StringTokenizer(input);
 
-                // Quest : Class에 새로운 멤버 추가
+                //  Todo : Class에 새로운 멤버 추가
                 //  - Voucher에 새로운 멤버가 추가된다면...? (type, id, amount, ...)
                 //  - 어떻게 설계하는 것이 좋을까?
 
@@ -42,8 +45,8 @@ public class VoucherRepositoryImpl implements VoucherRepository{
     }
 
     @Override
-    public void writeStorage() throws FileNotFoundException {
-        PrintWriter pw = new PrintWriter("D:/storage.txt");
+    public void writeStorage() throws FileNotFoundException { // txt 저장하기
+        PrintWriter pw = new PrintWriter("src/main/resources/storage.csv");
 
         for (Voucher output : storage.values()) {
             StringBuilder sb = new StringBuilder();
