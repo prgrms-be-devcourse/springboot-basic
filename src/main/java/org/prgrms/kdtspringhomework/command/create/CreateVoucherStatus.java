@@ -1,27 +1,30 @@
 package org.prgrms.kdtspringhomework.command.create;
 
-import org.prgrms.kdtspringhomework.voucher.service.VoucherService;
+import org.prgrms.kdtspringhomework.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdtspringhomework.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
+import java.util.UUID;
+import java.util.function.BiFunction;
 
 public enum CreateVoucherStatus {
-    FIXED("fixed", CreateFixedVoucher::new),
-    PERCENT("percent", CreatePercentVoucher::new);
+    FIXED("fixed",FixedAmountVoucher::new),
+    PERCENT("percent",PercentDiscountVoucher::new);
 
     private static final Logger logger = LoggerFactory.getLogger(CreateVoucherStatus.class);
 
     private final String command;
-    private final Supplier<CreateVoucherStrategy> supplier;
+    private final BiFunction<UUID, Long, Voucher> biFunction;
 
-    CreateVoucherStatus(final String command, final Supplier<CreateVoucherStrategy> supplier) {
+    CreateVoucherStatus(String command, BiFunction<UUID, Long, Voucher> biFunction) {
         this.command = command;
-        this.supplier = supplier;
+        this.biFunction = biFunction;
     }
 
-    public static boolean create(VoucherService voucherService, String voucherType, long amount) {
+    public static Voucher getVoucher(String voucherType, UUID voucherId, long amount) {
         CreateVoucherStatus userVoucherType = Arrays.stream(CreateVoucherStatus.values())
                 .filter(createVoucherStatus -> createVoucherStatus.command.equals(voucherType))
                 .findFirst()
@@ -29,6 +32,10 @@ public enum CreateVoucherStatus {
                     logger.error("Select one of two things: 'fixed', 'percent'");
                     return new IllegalArgumentException();
                 });
-        return userVoucherType.supplier.get().create(voucherService, amount);
+        return userVoucherType.createVoucher(voucherId, amount);
+    }
+
+    public Voucher createVoucher(UUID voucherId, Long amount) {
+        return biFunction.apply(voucherId, amount);
     }
 }

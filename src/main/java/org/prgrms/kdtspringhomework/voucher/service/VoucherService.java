@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringhomework.voucher.service;
 
+import org.prgrms.kdtspringhomework.command.create.CreateVoucherStatus;
 import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
 import org.prgrms.kdtspringhomework.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,8 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(String.format("Can not find a voucher for %s", voucherId)));
     }
 
-    public void addVoucher(Voucher voucher) {
+    public void addVoucher(String voucherType, long amount) {
+        Voucher voucher = CreateVoucherStatus.getVoucher(voucherType, UUID.randomUUID(), amount);
         voucherRepository.add(voucher);
     }
 
