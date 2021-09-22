@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringhw.voucher.repository;
+package org.prgrms.kdtspringhw.voucher;
 
 
 import org.prgrms.kdtspringhw.voucher.voucherObj.FixedAmountVoucher;

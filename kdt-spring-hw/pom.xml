@@ -5,32 +5,58 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.4</version>
+        <version>2.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.prgrms</groupId>
-    <artifactId>kdt-spring-hw</artifactId>
+    <artifactId>kdt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>kdt-spring-hw</name>
-    <description>kdt-spring-hw</description>
+    <name>kdt</name>
+    <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>16</java.version>
     </properties>
     <dependencies>
-        <!--아니 뭐지,,, 이해가 안가네 왜 JDBC 를끄니까 왜되는 걸까-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+
+        <!-- servlet 의존성 추가-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--		jstl 의존성 추가-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

@@ -39,9 +39,6 @@ class CustomerJdbcRepositoryTest {
                     .password("1234")
                     .type(HikariDataSource.class)
                     .build();
-            // 기본 10개가 pool size
-            //dataSource.setMinimumIdle(100);
-            //dataSource.setMaximumPoolSize(1000);
             return dataSource;
         }
 

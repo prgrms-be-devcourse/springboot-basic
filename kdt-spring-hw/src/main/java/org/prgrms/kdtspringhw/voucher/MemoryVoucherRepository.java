@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringhw.voucher.repository;
+package org.prgrms.kdtspringhw.voucher;
 
 
 import org.prgrms.kdtspringhw.voucher.voucherObj.Voucher;
@@ -11,7 +11,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("prod")
+@Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
