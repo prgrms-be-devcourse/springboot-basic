@@ -62,15 +62,22 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
     }
 
     @Override
-    public List<VoucherUseInfo> findById(UUID customerId) {
-        return jdbcTemplate.query("select * from voucher_use_infos where cutomer_id = :customerId",
+    public List<VoucherUseInfo> findByVoucherId(UUID voucherId) {
+        return jdbcTemplate.query("select * from voucher_use_infos where voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                voucherUseInfoRowMapper);
+    }
+
+    @Override
+    public List<VoucherUseInfo> findByCustomerId(UUID customerId) {
+        return jdbcTemplate.query("select * from voucher_use_infos where cutomer_id = UUID_TO_BIN(:customerId)",
                 Collections.singletonMap("customerId", customerId.toString().getBytes()),
                 voucherUseInfoRowMapper);
     }
 
     @Override
     public List<VoucherUseInfo> findByEmail(String email) {
-        return jdbcTemplate.query("select * from voucher_use_infos where cutomer_id = :customerId",
+        return jdbcTemplate.query("select * from voucher_use_infos where email = :email",
                 Collections.singletonMap("email", email),
                 voucherUseInfoRowMapper);
     }
