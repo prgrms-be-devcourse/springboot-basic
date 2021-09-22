@@ -1,0 +1,28 @@
+<configuration>
+
+    <conversionRule
+            conversionWord="clr"
+            converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{HH:mm:ss.SSS}){cyan} [%thread] %clr(%-5level) %logger{36} - %msg%n" />
+    <property name="ERROR_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"></timestamp> <!-- 실행 시간에 따른 로그파일제목 만들어 기록하기 -->
+
+<!-- appender: 어디에 어떤 포맷으로 남길것인지 결정 -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+<!--            <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>-->
+            <fileNamePattern>logs/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${ERROR_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.prgrms.kdtspringhomework" level="error">
+        <appender-ref ref="ERROR"/>
+    </logger>
+</configuration>

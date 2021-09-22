@@ -10,6 +10,12 @@ public class OutputConsole implements Output {
         System.out.println("Type list to list all vouchers.");
     }
 
+    //블랙리스트 시작시 출력 메시지
+    @Override
+    public void startBlackList() {
+        System.out.println("=== Black List Program ===");
+    }
+
     //동작 입력 메시지
     @Override
     public void inputCommandTypeMessage() {
