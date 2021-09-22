@@ -28,7 +28,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        var update = jdbcTemplate.update("insert into voucher(voucher_id, discount_value, voucher_type) values(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)",
+        var update = jdbcTemplate.update("insert into vouchers(voucher_id, discount_value, voucher_type) values(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)",
                 toParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
@@ -38,7 +38,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        var update = jdbcTemplate.update("update voucher set discount_value = :discountValue, voucher_type = :voucherType where voucher_id = UUID_TO_BIN(:voucherId)",
+        var update = jdbcTemplate.update("update vouchers set discount_value = :discountValue, voucher_type = :voucherType where voucher_id = UUID_TO_BIN(:voucherId)",
                 toParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Nothing was updated");
@@ -50,7 +50,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -60,12 +60,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("select * from voucher", voucherRowMapper);
+        return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.getJdbcTemplate().update("delete from voucher");
+        jdbcTemplate.getJdbcTemplate().update("delete from vouchers");
     }
 
     private HashMap<String, Object> toParamMap(Voucher voucher) {
