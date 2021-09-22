@@ -9,7 +9,6 @@ public interface VoucherWalletRepository {
     Optional<VoucherUseInfo> findOne(UUID voucherUseInfoId);
     List<VoucherUseInfo> findByVoucherId(UUID voucherId);
     List<VoucherUseInfo> findByCustomerId(UUID customerId);
-    List<VoucherUseInfo> findByEmail(String email);
     UUID delete(UUID voucherUseInfoId);
     VoucherUseInfo update(VoucherUseInfo voucherUseInfo);
     void deleteAll();
