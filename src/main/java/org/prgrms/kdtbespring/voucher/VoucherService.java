@@ -33,7 +33,7 @@ public class VoucherService {
         UUID voucherId = UUID.randomUUID();
         long value = 10L;
 
-        Voucher voucher = voucherType.voucherCreate(voucherRepository, voucherId, value);
+        Voucher voucher = voucherType.voucherCreate(voucherId, value);
         voucherRepository.insert(voucher);
         return Optional.ofNullable(voucher);
 
@@ -41,7 +41,6 @@ public class VoucherService {
 
     // 리스트 반환
     public List<Voucher> list() {
-        List<Voucher> vouchers = voucherRepository.findAll();
-        return vouchers;
+        return voucherRepository.findAll();
     }
 }

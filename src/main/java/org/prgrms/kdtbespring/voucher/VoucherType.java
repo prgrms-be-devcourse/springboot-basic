@@ -7,18 +7,18 @@ import java.util.UUID;
 public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("1","FixedAmountVoucher"){
         @Override
-        Voucher voucherCreate(VoucherRepository voucherRepository, UUID voucherId, long amount) {
+        public Voucher voucherCreate(UUID voucherId, long amount) {
             return new FixedAmountVoucher(voucherId, amount);
         }
     },
     PERCENT_DISCOUNT_VOUCHER("2","PercentDiscountVoucher"){
         @Override
-        Voucher voucherCreate(VoucherRepository voucherRepository, UUID voucherId, long percent) {
+        public Voucher voucherCreate(UUID voucherId, long percent) {
             return new PercentDiscountVoucher(voucherId, percent);
         }
     };
 
-    abstract Voucher voucherCreate(VoucherRepository voucherRepository, UUID voucherId, long value);
+    public abstract Voucher voucherCreate(UUID voucherId, long value);
 
     String value;
     String voucherName;
@@ -47,5 +47,4 @@ public enum VoucherType {
                 .filter(voucherType -> voucherType.getVoucherName().equals(voucherName))
                 .findFirst();
     }
-
 }

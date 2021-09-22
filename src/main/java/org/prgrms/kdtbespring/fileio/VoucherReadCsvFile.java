@@ -3,6 +3,7 @@ package org.prgrms.kdtbespring.fileio;
 import org.prgrms.kdtbespring.voucher.FixedAmountVoucher;
 import org.prgrms.kdtbespring.voucher.PercentDiscountVoucher;
 import org.prgrms.kdtbespring.voucher.Voucher;
+import org.prgrms.kdtbespring.voucher.VoucherType;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,10 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class VoucherReadCsvFile implements ReadFile {
     @Override
@@ -50,8 +48,7 @@ public class VoucherReadCsvFile implements ReadFile {
                 System.out.println("voucherId : " + voucherId);
                 // 만약 찾는 voucherId와 같은 값이 있으면 해당 바우처 리턴
                 if (voucherString[2].equals(voucherId.toString())) {
-                    Optional<Voucher> voucher = parseVoucher(voucherString);
-                    return voucher;
+                    return parseVoucher(voucherString);
                 }
             }
         } catch (IOException e) {
@@ -63,19 +60,14 @@ public class VoucherReadCsvFile implements ReadFile {
 
     // String[]을 받아 각각의 값을 voucher에 맞는 값으로 변환하여 객체 생성
     private Optional<Voucher> parseVoucher(String[] voucherString) {
-        Voucher voucher;
-        if (voucherString[1].equals("FIXED_AMOUNT_VOUCHER")) {
+        try {
+            VoucherType voucherType = VoucherType.valueOf(voucherString[1]);
+            System.out.println("voucherType = " + voucherType);
             UUID uuid = UUID.fromString(voucherString[2]);
-            long amount = Long.parseLong(voucherString[3]);
-            voucher = new FixedAmountVoucher(uuid, amount);
+            long discountValue = Long.parseLong(voucherString[3]);
+            Voucher voucher = voucherType.voucherCreate(uuid, discountValue);
             return Optional.of(voucher);
-        } else if (voucherString[1].equals("PERCENT_DISCOUNT_VOUCHER")) {
-            UUID uuid = UUID.fromString(voucherString[2]);
-            long percent = Long.parseLong(voucherString[3]);
-            voucher = new PercentDiscountVoucher(uuid, percent);
-            return Optional.of(voucher);
-        } else {
-            // 형식에 맞는 Voucher 타입이 없는 경우
+        }catch (IllegalArgumentException e){
             return Optional.empty();
         }
     }
