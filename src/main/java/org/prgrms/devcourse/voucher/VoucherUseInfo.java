@@ -63,4 +63,11 @@ public class VoucherUseInfo {
     public boolean isUsed() {
         return isUsed;
     }
+
+    public void setExpiredAt(LocalDateTime expiredAt) {
+        if (this.expiredAt.isAfter(expiredAt)) {
+            throw new RuntimeException("Invalid Expired Date");
+        }
+        this.expiredAt = expiredAt;
+    }
 }

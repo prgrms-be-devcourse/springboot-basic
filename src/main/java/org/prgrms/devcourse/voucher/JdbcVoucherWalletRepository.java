@@ -70,21 +70,15 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
 
     @Override
     public List<VoucherUseInfo> findByCustomerId(UUID customerId) {
-        return jdbcTemplate.query("select * from voucher_use_infos where cutomer_id = UUID_TO_BIN(:customerId)",
+        return jdbcTemplate.query("select * from voucher_use_infos where customer_id = UUID_TO_BIN(:customerId)",
                 Collections.singletonMap("customerId", customerId.toString().getBytes()),
                 voucherUseInfoRowMapper);
     }
 
     @Override
-    public List<VoucherUseInfo> findByEmail(String email) {
-        return jdbcTemplate.query("select * from voucher_use_infos where email = :email",
-                Collections.singletonMap("email", email),
-                voucherUseInfoRowMapper);
-    }
-
-    @Override
     public UUID delete(UUID voucherUseInfoId) {
-        var update = jdbcTemplate.getJdbcTemplate().update("delete from voucher_use_infos where voucher_use_info_id = UUID_TO_BIN(:voucherUseInfoId)");
+        var update = jdbcTemplate.update("delete from voucher_use_infos where voucher_use_info_id = UUID_TO_BIN(:voucherUseInfoId)",
+                Collections.singletonMap("voucherUseInfoId", voucherUseInfoId.toString().getBytes()));
         if (update != 1) {
             throw new RuntimeException("Nothing was deleted");
         }
