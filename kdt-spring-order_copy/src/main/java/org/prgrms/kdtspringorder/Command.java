@@ -13,24 +13,30 @@ public enum Command {
     CREATE("create", voucherService -> {
         System.out.println("선택하세요 :");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("1. FixedAmountVoucher, 2. PercentDiscountVoucher");
+        System.out.println("1. Fixed, 2. Percent");
         String select = null;
         try {
             select = br.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (select.equals("1")) {
-            Voucher voucher = voucherService.createVoucher(VoucherType.FixedAmountVoucher);
-            voucherService.addVoucher(voucher);
-            System.out.println("생성이 완료 되었습니다.");
-        } else if (select.equals("2")) {
-            Voucher voucher = voucherService.createVoucher(VoucherType.PercentDiscountVoucher);
-            voucherService.addVoucher(voucher);
-            System.out.println("생성이 완료 되었습니다.");
-        } else {
-            System.out.println("다시입력하세요");
-                }
+
+        VoucherType voucherTypeEnum = VoucherType.from(select);
+        Voucher voucher = voucherTypeEnum.accept();
+        voucherService.addVoucher(voucher);
+
+//        if (select.equals("1")) {
+//
+//            Voucher voucher = voucherService.createVoucher(VoucherType.FixedAmountVoucher);
+//            voucherService.addVoucher(voucher);
+//            System.out.println("생성이 완료 되었습니다.");
+//        } else if (select.equals("2")) {
+//            Voucher voucher = voucherService.createVoucher(VoucherType.PercentDiscountVoucher);
+//            voucherService.addVoucher(voucher);
+//            System.out.println("생성이 완료 되었습니다.");
+//        } else {
+//            System.out.println("다시입력하세요");
+//                }
     }),
 
     LIST("list", voucherService -> { Map<UUID, Voucher> list = voucherService.getAllVouchers();
