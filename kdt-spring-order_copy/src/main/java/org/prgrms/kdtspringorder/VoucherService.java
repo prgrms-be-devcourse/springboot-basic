@@ -1,18 +1,20 @@
 package org.prgrms.kdtspringorder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 import java.util.*;
 import java.text.MessageFormat;
 @Service
 public class VoucherService {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
+
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
-
-    //private final List<Voucher> vouchers = new ArrayList<>();
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
@@ -21,16 +23,8 @@ public class VoucherService {
 
     }
 
-//    public Voucher createVoucher(VoucherType voucherType) {
-//        UUID voucherId = UUID.randomUUID();
-//        if (voucherType.equals(VoucherType.FixedAmountVoucher)) {
-//            return new FixedAmountVoucher(voucherId, 100);
-//        } else  {
-//            return new PercentDiscountVoucher(voucherId, 10);
-//        }
-//    }
-
     public void addVoucher(Voucher voucher){
+        logger.info("Initialized voucher repository.");
         voucherRepository.insert(voucher);
     }
 

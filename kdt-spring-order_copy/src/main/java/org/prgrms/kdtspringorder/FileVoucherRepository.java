@@ -1,5 +1,7 @@
 package org.prgrms.kdtspringorder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
@@ -14,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
+
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     private final static String path = "src/main/resources/VoucherRepository.csv";
     private final File file;
@@ -66,7 +70,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return voucherList;
     }
@@ -78,7 +82,7 @@ public class FileVoucherRepository implements VoucherRepository {
             bw.newLine();
             bw.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 }
