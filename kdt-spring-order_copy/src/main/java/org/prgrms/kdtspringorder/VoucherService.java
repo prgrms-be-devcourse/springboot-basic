@@ -21,14 +21,15 @@ public class VoucherService {
 
     }
 
-    public Voucher createVoucher(VoucherType voucherType) {
-        UUID voucherId = UUID.randomUUID();
-        if (voucherType.equals(VoucherType.FixedAmountVoucher)) {
-            return new FixedAmountVoucher(voucherId, 100);
-        } else  {
-            return new PercentDiscountVoucher(voucherId, 10);
-        }
-    }
+//    public Voucher createVoucher(VoucherType voucherType) {
+//        UUID voucherId = UUID.randomUUID();
+//        if (voucherType.equals(VoucherType.FixedAmountVoucher)) {
+//            return new FixedAmountVoucher(voucherId, 100);
+//        } else  {
+//            return new PercentDiscountVoucher(voucherId, 10);
+//        }
+//    }
+
     public void addVoucher(Voucher voucher){
         voucherRepository.insert(voucher);
     }
@@ -37,5 +38,9 @@ public class VoucherService {
         return voucherRepository.getAllVoucher();
     }
     public void useVoucher(Voucher voucher) {
+    }
+
+    public static VoucherType from(String value){
+        return VoucherType.valueOf(value.toUpperCase());
     }
 }
