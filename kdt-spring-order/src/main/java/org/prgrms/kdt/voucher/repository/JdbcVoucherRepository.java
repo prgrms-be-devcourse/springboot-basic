@@ -8,8 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import static org.prgrms.kdt.common.util.JdbcUtil.toLocalDateTime;
@@ -42,7 +40,6 @@ public class JdbcVoucherRepository implements VoucherRepository{
         return createVoucherByType(voucherId, value, createdAt, voucherType);
     };
 
-
     @Override
     public Voucher insert(Voucher voucher) {
         var update = jdbcTemplate.update(
@@ -60,17 +57,16 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
         jdbcTemplate.update(
                 "delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes())
         );
-    }
-
-
-    @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
     }
 
 }
