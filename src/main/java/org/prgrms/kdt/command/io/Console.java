@@ -6,8 +6,10 @@ import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class Console implements Input, Output {
@@ -38,7 +40,12 @@ public class Console implements Input, Output {
 
     @Override
     public void printRequestVoucherType() {
-        System.out.println("Input Voucher Type(PERCENT/FIXED) : ");
+//        System.out.println("Input Voucher Type(Percent/Fixed) : ");
+
+        String voucherTypes = Arrays.stream(VoucherType.values())
+                .map(VoucherType::toString)
+                .collect(Collectors.joining("/"));
+        System.out.println("Input Voucher Type : " + voucherTypes);
     }
 
     @Override

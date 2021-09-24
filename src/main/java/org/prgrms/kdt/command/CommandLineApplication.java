@@ -25,7 +25,11 @@ public class CommandLineApplication implements Runnable {
     public void run() {
         while (true) {
             output.printOnStart(); // command 설명
-            if (!execute()) break;
+            try {
+                if (!execute()) break;
+            } catch (Exception e) {
+                output.printInputError();
+            }
         }
     }
 

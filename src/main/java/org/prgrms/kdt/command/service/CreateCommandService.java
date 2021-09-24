@@ -29,9 +29,7 @@ public class CreateCommandService implements Command {
     @Override
     public boolean execute() {
         // input voucher Type
-        output.printRequestVoucherType();
-        String inputVoucherType = input.inputString(INPUT_PROMPT);
-        VoucherType voucherType = VoucherType.findVoucher(inputVoucherType);
+        VoucherType voucherType = inputVoucherType();
 
         // input Voucher Value
         output.printRequestVoucherValue(voucherType);
@@ -46,5 +44,22 @@ public class CreateCommandService implements Command {
                 UUID.randomUUID(),
                 value);
         return true;
+    }
+
+    private VoucherType inputVoucherType() {
+        VoucherType voucherType;
+
+        while (true) {
+            try {
+                output.printRequestVoucherType();
+                String inputVoucherType = input.inputString(INPUT_PROMPT);
+                voucherType = VoucherType.findVoucher(inputVoucherType);
+                break;
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        }
+
+        return voucherType;
     }
 }
