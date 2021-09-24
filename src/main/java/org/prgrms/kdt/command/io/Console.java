@@ -33,7 +33,7 @@ public class Console implements Input, Output {
     @Override
     public void printVoucherList(List<Voucher> vouchers) {
         System.out.println("Print All Voucher List.");
-        vouchers.forEach((voucher) -> System.out.println(voucher.toString()));
+        vouchers.forEach(System.out::println);
     }
 
     @Override
@@ -60,6 +60,6 @@ public class Console implements Input, Output {
     @Override
     public String inputString(final String inputPrompt) {
         System.out.print(inputPrompt);
-        return this.SCANNER.nextLine();
+        return SCANNER.nextLine();
     }
 }

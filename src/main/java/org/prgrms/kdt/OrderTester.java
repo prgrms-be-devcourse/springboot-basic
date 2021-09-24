@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -63,10 +64,14 @@ public class OrderTester {
         var strings2 = Files.readAllLines(resource2.getFile().toPath());
         System.out.println(strings2.stream().reduce("", (a, b) -> a + "\n" + b));
 
-        var readableByteChannel= Channels.newChannel(resource3.getURL().openStream()); // 실제 다운받게헤줘야함.
-        var bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
-        var contents = bufferedReader.lines().collect(Collectors.joining());
-        // System.out.println(contents);
+        var readableByteChannel = Channels.newChannel(resource3.getURL().openStream()); // 실제 다운받게헤줘야함.
+
+        try (var bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8))) {
+            var contents = bufferedReader.lines().collect(Collectors.joining());
+            // System.out.println(contents);
+        } catch (Exception e) {
+            OrderTester.logger.error(e.getMessage());
+        }
 
         var customerId = UUID.randomUUID();
 
@@ -77,9 +82,9 @@ public class OrderTester {
 
 
         var orderService = applicationContext.getBean(OrderService.class); // 대박 ㅋㅋ
-        var order = orderService.createOrder(customerId, new ArrayList<OrderItem>() {{
-            add(new OrderItem(UUID.randomUUID(), 100L, 1));
-        }}, voucher.getVoucherId());
+        List<OrderItem> orderItems = new ArrayList<OrderItem>();
+        orderItems.add(new OrderItem(UUID.randomUUID(), 100L, 1));
+        var order = orderService.createOrder(customerId, orderItems, voucher.getVoucherId());
 
         Assert.isTrue(order.totalAmount() == 90L,
                 MessageFormat.format("totalAmount({0}) is not 90L", order.totalAmount()));

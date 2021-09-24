@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class BlackListCommandService implements Command {
@@ -26,9 +27,10 @@ public class BlackListCommandService implements Command {
     @Override
     public boolean execute() {
         List<BannedCustomer> blackList = customerService.getBlackList();
+        Stream<BannedCustomer> blackListStream = blackList.stream();
 
         logger.info("Execute BlackListCommand : {}",
-                blackList.stream()
+                blackListStream
                         .map(BannedCustomer::toString)
                         .collect(Collectors.joining()));
 

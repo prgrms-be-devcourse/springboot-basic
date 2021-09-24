@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 public enum VoucherType {
-    PERCENTAGE("PERCENT"),
-    FIXED("FIXED");
+    PERCENTAGE("Percent"),
+    FIXED("Fixed");
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
 
@@ -25,5 +25,10 @@ public enum VoucherType {
                     logger.error("Can't find voucher type");
                     return new IllegalArgumentException();
                 });
+    }
+
+    @Override
+    public String toString() {
+        return strVoucherType;
     }
 }

@@ -25,8 +25,9 @@ public enum CommandType {
                 .filter(commandType -> commandType.strCommand.equals(inputCommandType))
                 .findAny()
                 .orElseThrow(() -> {
-                    logger.error("Can't find command type");
-                    return new IllegalArgumentException();
+                    String errorMessage = "Can't find command type";
+                    logger.error(errorMessage);
+                    return new IllegalArgumentException(errorMessage);
                 });
     }
 }

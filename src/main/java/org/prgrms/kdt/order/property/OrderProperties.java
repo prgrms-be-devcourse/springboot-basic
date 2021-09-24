@@ -21,7 +21,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "kdt") // spring boot에서 나온 것. 그래서 Appconfigt에서 @EnableConfiguration 달아줘야함
 public class OrderProperties implements InitializingBean {
 
-    private final static Logger logger = LoggerFactory.getLogger(OrderProperties.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderProperties.class);
 
     private String version;
     private int minimumOrderAmount;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExitCommandService implements Command {
     private static final Logger logger = LoggerFactory.getLogger(ExitCommandService.class);
+
     private final Output output;
 
     public ExitCommandService(Output output) {

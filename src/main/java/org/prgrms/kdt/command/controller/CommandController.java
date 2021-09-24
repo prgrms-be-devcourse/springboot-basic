@@ -8,6 +8,8 @@ import org.prgrms.kdt.command.service.ExitCommandService;
 import org.prgrms.kdt.command.service.ListCommandService;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
+
 @Component
 public class CommandController {
     private final CreateCommandService createCommand;
@@ -39,7 +41,7 @@ public class CommandController {
             case BLACKLIST:
                 return blacklistCommand;
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(MessageFormat.format("알수 없는 명령어 입니다. : {}", inputString));
         }
     }
 

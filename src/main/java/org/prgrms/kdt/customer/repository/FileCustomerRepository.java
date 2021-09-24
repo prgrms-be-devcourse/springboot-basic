@@ -14,21 +14,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 enum BannedCustomerIndex {
-    BANNED_UUID(0), EMAIL(1), NAME(2), DESCRIPTION(3);
-
-    private final int index;
-
-    BannedCustomerIndex(int index) {
-        this.index = index;
-    }
-
-    public int getIndex() {
-        return index;
-    }
+    BANNED_UUID, EMAIL, NAME, DESCRIPTION
 }
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
+    private static final String COMMA = ",";
+    private static final String RESOURCE_PATH = "file:customer/blacklist.csv";
 
     @Autowired
     ApplicationContext resourceLoader;
@@ -36,16 +28,16 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public List<BannedCustomer> getBlackListCSV() throws IOException {
 
-        Resource resource = resourceLoader.getResource("file:customer/blacklist.csv");
+        Resource resource = resourceLoader.getResource(RESOURCE_PATH);
 
         var items = Files.readAllLines(resource.getFile().toPath());
         return items.stream()
-                .map(line -> Arrays.asList(line.split(",")))
+                .map(line -> Arrays.asList(line.split(COMMA)))
                 .map(list -> new BannedCustomer(
-                        UUID.fromString(list.get(BannedCustomerIndex.BANNED_UUID.getIndex())),
-                        list.get(BannedCustomerIndex.EMAIL.getIndex()),
-                        list.get(BannedCustomerIndex.NAME.getIndex()),
-                        list.get(BannedCustomerIndex.DESCRIPTION.getIndex())))
+                        UUID.fromString(list.get(BannedCustomerIndex.BANNED_UUID.ordinal())),
+                        list.get(BannedCustomerIndex.EMAIL.ordinal()),
+                        list.get(BannedCustomerIndex.NAME.ordinal()),
+                        list.get(BannedCustomerIndex.DESCRIPTION.ordinal())))
                 .collect(Collectors.toList());
     }
 }
