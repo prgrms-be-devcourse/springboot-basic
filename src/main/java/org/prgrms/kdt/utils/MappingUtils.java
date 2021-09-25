@@ -11,8 +11,8 @@ public class MappingUtils {
     }
 
 
-    public static <S, T> List<T> mapList(ModelMapper modelMapper, List<S> source,
-        Class<T> targetClass) {
+    public static <S, T> List<T> mapList(List<S> source,
+        Class<T> targetClass, ModelMapper modelMapper) {
         return source
             .stream()
             .map(element -> modelMapper.map(element, targetClass))

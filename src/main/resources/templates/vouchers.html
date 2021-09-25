@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header :: header"></head>
+<body class="container-fluid">
+<div class="text-center mt-5">
+  <h1>바우처 리스트</h1>
+</div>
+<br/>
+<table class="table table-striped table-hover">
+  <thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Voucher Type</th>
+    <th scope="col">Discount</th>
+    <th scope="col">CreatedAt</th>
+    <th scope="col">Delete</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
+    <td><a th:href="@{'/vouchers/' + *{voucherId}}" th:text="*{voucherId}"></a></td>
+    <td th:text="*{voucherType}"></td>
+    <td th:text="*{discount}"></td>
+    <td th:text="*{createdAt}"></td>
+    <td>
+      <form th:action="@{'/vouchers/' + *{voucherId} + '/delete'}" method="post"
+            th:object="${voucher}">
+        <input type="hidden" name="voucherId" th:value="*{voucherId}">
+        <button class="btn btn-outline-danger" type="submit"> 삭제</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br/>
+<div class="d-grid gap-2 col-6 mx-auto">
+  <a th:href="@{/vouchers/new}" class="btn btn-outline-success" type="button">New</a>
+</div>
+</body>
+</html>

@@ -38,7 +38,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discount, :createdAt)""";
     private final String UPDATE_TYPE = "UPDATE voucher SET voucher_type = :voucherType, discount = :discount where voucher_id = UUID_TO_BIN(:voucherId)";
     private String DELETE_ALL = "DELETE FROM voucher";
-
+    private String DELETE_BY_ID = "DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private String SELECT_BY_CUSTOMER_ID = """
         SELECT * FROM voucher
         LEFT OUTER JOIN wallet
@@ -91,6 +91,16 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.getJdbcTemplate().update(DELETE_ALL);
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        var update = jdbcTemplate.update(
+            DELETE_BY_ID,
+            Map.of("voucherId", voucherId.toString().getBytes()));
+        if (update != 1) {
+            throw new RuntimeException("Nothing was deleted");
+        }
 
     }
 

@@ -40,15 +40,13 @@ public class CustomerController {
 
 
     @GetMapping("/customers/new")
-    public String viewNewCustomerPage(Model model) {
-        var allCustomers = customerService.getAllCustomers();
-        model.addAttribute("customers", allCustomers);
+    public String viewNewCustomerPage() {
         return "customer-new";
     }
 
     @PostMapping("/customers/new")
     public String addNewCustomer(@ModelAttribute CustomerDto customerDto) {
-        customerService.createCustomer(customerDto.getEmail(), customerDto.getName());
+        customerService.createCustomer(customerDto);
         return "redirect:/customers";
     }
 

@@ -2,7 +2,6 @@
 CREATE TABLE voucher
 (
     voucher_id   BINARY(16) PRIMARY KEY,
-    name          varchar(20) NOT NULL,
     voucher_type varchar(50) NOT NULL,
     discount     int         NOT NULL,
     created_at   datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)

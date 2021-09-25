@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header :: header"></head>
+<body class="container-fluid">
+<div class="text-center mt-5">
+  <h1>바우처 생성</h1>
+</div>
+<br/>
+<form th:action="@{/vouchers/new}" method="post">
+    <div class="mb-3">
+      <label for="voucherType" class="form-label">바우처 타입</label>
+      <select class="form-select" id="voucherType" name="voucherType">
+        <option th:each="value : ${T(org.prgrms.kdt.voucher.model.VoucherType).values()}"
+                th:value="${value.name()}"
+                th:text="${value.name()}">
+        </option>
+      </select>
+    </div>
+  <div class="mb-3">
+    <label for="inputDiscount" class="form-label">할인</label>
+    <input type="text" name="discount" class="form-control" id="inputDiscount">
+  </div>
+  <div class="d-grid gap-2 col-6 mx-auto">
+    <button class="btn btn-outline-success" type="submit">추가</button>
+  </div>
+</form>
+</body>
+</html>

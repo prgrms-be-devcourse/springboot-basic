@@ -1,6 +1,11 @@
 package org.prgrms.kdt.voucher.service;
 
 import java.time.LocalDateTime;
+import org.modelmapper.ModelMapper;
+import org.prgrms.kdt.customer.controller.CustomerDto;
+import org.prgrms.kdt.customer.model.CustomerType;
+import org.prgrms.kdt.utils.MappingUtils;
+import org.prgrms.kdt.voucher.controller.VoucherDto;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
@@ -14,47 +19,68 @@ import org.springframework.transaction.annotation.Transactional;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final ModelMapper modelMapper;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository,
+        ModelMapper modelMapper) {
         this.voucherRepository = voucherRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public Voucher getVoucher(UUID voucherId) {
-        return voucherRepository
+    public VoucherDto getVoucher(UUID voucherId) {
+        var voucher = voucherRepository
             .findById(voucherId)
             .orElseThrow(
                 () -> new RuntimeException("Can not find a voucher %s".formatted(voucherId)));
+        return modelMapper.map(voucher, VoucherDto.class);
     }
 
-    public List<Voucher> getAllVouchers() {
-        return voucherRepository.findAllVoucher();
+    public List<VoucherDto> getAllVouchers() {
+        return MappingUtils
+            .mapList(voucherRepository.findAllVoucher(), VoucherDto.class, modelMapper);
     }
 
     @Transactional
-    public Voucher createVoucher(VoucherType voucherType, Long discount) {
+    public VoucherDto createVoucher(VoucherDto voucherDto) {
         var voucher = voucherRepository.insert(
             new Voucher(
                 UUID.randomUUID(),
-                discount,
+                voucherDto.getDiscount(),
                 LocalDateTime.now(),
-                voucherType)
+                VoucherType.valueOf(voucherDto.getVoucherType()))
         );
-        return getVoucher(voucher.getVoucherId());
+        return modelMapper.map(voucher, VoucherDto.class);
     }
 
     @Transactional
-    public Voucher updateVoucherType(Voucher voucher, VoucherType voucherType, long discount) {
-        voucher.changeVoucherType(voucherType, discount);
-        voucherRepository.updateType(voucher);
-        return getVoucher(voucher.getVoucherId());
+    public VoucherDto updateVoucher(UUID voucherId, VoucherDto voucherDto) {
+        var voucher = voucherRepository
+            .findById(voucherId)
+            .orElseThrow(
+                () -> new RuntimeException(
+                    "Can not find customer %s".formatted(voucherId)));
+        voucher.changeVoucherType(
+            VoucherType.valueOf(voucherDto.getVoucherType()),
+            voucherDto.getDiscount()
+        );
+
+        var updatedVoucher = voucherRepository.updateType(voucher);
+        return modelMapper.map(updatedVoucher, VoucherDto.class);
     }
 
     public void deleteAllVouchers() {
         voucherRepository.deleteAll();
     }
 
-    public List<Voucher> getVouchersByCustomerId(UUID customerId) {
-        return voucherRepository.findByCustomerId(customerId);
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
+    public List<VoucherDto> getVouchersByCustomerId(UUID customerId) {
+        return MappingUtils.mapList(
+            voucherRepository.findByCustomerId(customerId),
+            VoucherDto.class,
+            modelMapper);
     }
 
 }

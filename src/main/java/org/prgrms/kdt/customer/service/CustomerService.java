@@ -35,26 +35,34 @@ public class CustomerService {
 
     public List<CustomerDto> getAllCustomers() {
         return MappingUtils
-            .mapList(modelMapper, customerRepository.findAllCustomer(), CustomerDto.class);
+            .mapList(customerRepository.findAllCustomer(), CustomerDto.class, modelMapper);
 
     }
 
     public List<CustomerDto> getAllBlackCustomers() {
         return MappingUtils
-            .mapList(modelMapper, customerRepository.findByCustomerType(CustomerType.BLACK),
-                CustomerDto.class);
+            .mapList(
+                customerRepository.findByCustomerType(CustomerType.BLACK),
+                CustomerDto.class,
+                modelMapper);
     }
 
     public List<CustomerDto> getCustomersByVoucherId(UUID voucherId) {
         return MappingUtils
-            .mapList(modelMapper, customerRepository.findByVoucherId(voucherId),
-                CustomerDto.class);
+            .mapList(
+                customerRepository.findByVoucherId(voucherId),
+                CustomerDto.class,
+                modelMapper);
     }
 
     @Transactional
-    public CustomerDto createCustomer(String email, String name) {
-        var customer = customerRepository
-            .insert(new Customer(UUID.randomUUID(), name, email, LocalDateTime.now()));
+    public CustomerDto createCustomer(CustomerDto customerDto) {
+        var customer = customerRepository.insert(
+            new Customer(
+                UUID.randomUUID(),
+                customerDto.getName(),
+                customerDto.getEmail(),
+                LocalDateTime.now()));
         return modelMapper.map(customer, CustomerDto.class);
     }
 

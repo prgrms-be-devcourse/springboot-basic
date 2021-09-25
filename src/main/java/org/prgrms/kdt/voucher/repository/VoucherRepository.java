@@ -18,4 +18,6 @@ public interface VoucherRepository {
 
     List<Voucher> findByCustomerId(UUID customerId);
 
+    void deleteById(UUID voucherId);
 }
+

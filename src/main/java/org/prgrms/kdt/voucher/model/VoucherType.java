@@ -12,7 +12,6 @@ public enum VoucherType {
         this.discountPolicy = discountPolicy;
     }
 
-
     public String getNum() {
         return num;
     }
@@ -21,8 +20,4 @@ public enum VoucherType {
         return discountPolicy;
     }
 
-    @Override
-    public String toString() {
-        return "%s(%s)".formatted(super.toString(), this.getNum());
-    }
 }
