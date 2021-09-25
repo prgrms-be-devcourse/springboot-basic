@@ -1,7 +1,5 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
@@ -11,6 +9,7 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.prgrms.kdt.common.util.VoucherUtil.createVoucherByType;
@@ -39,7 +38,15 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public List<Voucher> getVoucherListByParams(String from, String to, String type){
+        return voucherRepository.findByParams(from, to, type);
+    }
+
     public void deleteVoucher(UUID voucherId){
         voucherRepository.deleteById(voucherId);
+    }
+
+    public Optional<Voucher> getVoucherById(UUID voucherId){
+        return voucherRepository.findById(voucherId);
     }
 }

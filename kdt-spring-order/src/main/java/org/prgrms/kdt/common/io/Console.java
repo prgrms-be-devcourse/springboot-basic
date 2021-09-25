@@ -47,7 +47,7 @@ public class Console implements Input, Output{
             System.out.println(
                     "ID : " + voucher.getVoucherId() + " | " +
                     "value : " + voucher.getValue() + " | " +
-                    "type : " + voucher.getVoucherType()
+                    "type : " + voucher.getType()
             );
         }
         System.out.println("-----------------------------------------------------------------------");

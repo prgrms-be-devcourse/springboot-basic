@@ -6,7 +6,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
-    private final VoucherType voucherType;
+    private final VoucherType type;
     private final LocalDateTime createdAt;
 
     public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
@@ -14,7 +14,7 @@ public class PercentDiscountVoucher implements Voucher {
         if (percent > 100) throw new IllegalArgumentException("percent must be less than 100");
         this.voucherId = voucherId;
         this.percent = percent;
-        this.voucherType = VoucherType.PERCENT;
+        this.type = VoucherType.PERCENT;
         this.createdAt = createdAt;
     }
 
@@ -29,8 +29,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public Enum<VoucherType> getVoucherType() {
-        return voucherType;
+    public Enum<VoucherType> getType() {
+        return type;
     }
 
     @Override

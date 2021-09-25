@@ -6,7 +6,7 @@ import java.util.UUID;
 public interface Voucher {
     UUID getVoucherId();
     long getValue();
-    Enum<VoucherType> getVoucherType();
+    Enum<VoucherType> getType();
     LocalDateTime getCreatedAt();
     public long discount(long beforeDiscount);
 }

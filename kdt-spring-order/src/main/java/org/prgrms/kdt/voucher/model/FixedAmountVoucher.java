@@ -6,14 +6,14 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
-    private final VoucherType voucherType;
+    private final VoucherType type;
     private final LocalDateTime createdAt;
 
     public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
         if (amount <= 0) throw new IllegalArgumentException("amount must be more than 0");
         this.voucherId = voucherId;
         this.amount = amount;
-        this.voucherType = VoucherType.FIXED;
+        this.type = VoucherType.FIXED;
         this.createdAt = createdAt;
     }
 
@@ -28,8 +28,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public Enum<VoucherType> getVoucherType() {
-        return voucherType;
+    public Enum<VoucherType> getType() {
+        return type;
     }
 
     @Override

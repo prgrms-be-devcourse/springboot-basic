@@ -1,9 +1,8 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,7 +26,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("value", voucher.getValue());
-            put("type", voucher.getVoucherType().toString());
+            put("type", voucher.getType().toString());
             put("createdAt", voucher.getCreatedAt());
         }};
     }
@@ -35,9 +34,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId =  toUUID(resultSet.getBytes("voucher_id"));
         var value = resultSet.getLong("value");
-        var voucherType = VoucherType.convert(resultSet.getString("type"));
+        var type = VoucherType.convert(resultSet.getString("type"));
         var createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
-        return createVoucherByType(voucherId, value, createdAt, voucherType);
+        return createVoucherByType(voucherId, value, createdAt, type);
     };
 
     @Override
@@ -57,9 +56,45 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+    public List<Voucher> findByParams(String from, String to, String type) {
+        if("ALL".equals(type)){
+            return jdbcTemplate.query(
+                    "select * from vouchers where created_at between :from and :to ",
+                    new HashMap<>() {{
+                            put("from", from);
+                            put("to", to);
+                        }},
+                    voucherRowMapper
+            );
+        }
+        else{
+            return jdbcTemplate.query(
+                    "select * from vouchers where created_at between :from and :to and type = :type",
+                    new HashMap<>() {{
+                        put("from", from);
+                        put("to", to);
+                        put("type", type);
+                    }},
+                    voucherRowMapper
+            );
+        }
     }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
+                            Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                            voucherRowMapper
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
 
     @Override
     public void deleteById(UUID voucherId) {
