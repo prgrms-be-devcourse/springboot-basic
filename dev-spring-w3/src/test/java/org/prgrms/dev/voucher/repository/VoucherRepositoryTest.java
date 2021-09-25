@@ -1,55 +1,38 @@
 package org.prgrms.dev.voucher.repository;
 
 import com.wix.mysql.EmbeddedMysql;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.dev.config.DBConfig;
 import org.prgrms.dev.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.domain.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.Charset.UTF8;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.prgrms.dev.config.DBConfig.dbSetup;
 
 
 @SpringJUnitConfig
+@ContextConfiguration(classes = {DBConfig.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles(value = "dev")
 class VoucherRepositoryTest {
 
-    static EmbeddedMysql embeddedMysql;
+    private static EmbeddedMysql embeddedMysql;
 
     @Autowired
     private VoucherRepository voucherRepository;
 
     @BeforeAll
     static void setup() {
-        var mysqlConfig = aMysqldConfig(v8_0_11)
-                .withCharset(UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test_springboot_order", classPathScript("schema.sql"), classPathScript("data.sql"))
-                .start();
+        embeddedMysql = dbSetup();
     }
 
     @AfterAll
@@ -105,34 +88,5 @@ class VoucherRepositoryTest {
         Optional<Voucher> retrievedVoucher = voucherRepository.findById(UUID.randomUUID());
 
         assertThat(retrievedVoucher).isEmpty();
-    }
-
-    @Configuration
-    @ComponentScan(
-            basePackages = {"org.prgrms.dev.voucher"}
-    )
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test_springboot_order")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
     }
 }

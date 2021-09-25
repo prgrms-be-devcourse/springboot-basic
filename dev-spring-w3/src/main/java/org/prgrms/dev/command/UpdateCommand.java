@@ -10,21 +10,21 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-public class UpdateCommand implements Command{
-    private static final Logger logger = LoggerFactory.getLogger(CreateCommand.class);
+public class UpdateCommand implements Command {
+    private static final Logger logger = LoggerFactory.getLogger(UpdateCommand.class);
     private static final String CURSOR = "> ";
 
     @Override
     public boolean execute(Input input, Output output, VoucherService voucherService) {
         try {
-            String voucherId =  (input.input("변경을 원하는 바우처 아이디를 입력하세요. " + CURSOR));
+            String voucherId = (input.input("변경을 원하는 바우처 아이디를 입력하세요. " + CURSOR));
             long discount = Long.parseLong((input.input("변경할 할인정보를 입력하세요. " + CURSOR)));
             VoucherDto voucherDto = new VoucherDto(UUID.fromString(voucherId), discount);
             voucherService.updateVoucherDiscount(voucherDto);
         } catch (NumberFormatException | InvalidArgumentException e) {
             logger.error(e.getMessage());
             output.printInvalidNumber();
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             System.out.println("일치하는 아이디가 없습니다.");
         }
         return true;

@@ -17,7 +17,6 @@ import java.util.*;
 @Repository
 @Profile({"dev"})
 public class JdbcWalletRepository implements WalletRepository {
-
     private static final int SUCCESS = 1;
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
@@ -71,7 +70,7 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public List<Voucher> findNoVoucherByCustomerId(UUID customerId) {
         return jdbcTemplate.query("SELECT * FROM vouchers " +
-                        "WHERE voucher_id not in (SELECT voucher_id FROM wallets WHERE customer_id = UUID_TO_BIN(:customerId));",
+                        "WHERE voucher_id NOT IN (SELECT voucher_id FROM wallets WHERE customer_id = UUID_TO_BIN(:customerId));",
                 Collections.singletonMap("customerId", customerId.toString().getBytes())
                 , voucherRowMapper);
     }

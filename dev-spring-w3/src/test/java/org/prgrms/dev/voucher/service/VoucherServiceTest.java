@@ -9,10 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgrms.dev.voucher.domain.FixedAmountVoucher;
-import org.prgrms.dev.voucher.domain.PercentDiscountVoucher;
-import org.prgrms.dev.voucher.domain.Voucher;
-import org.prgrms.dev.voucher.domain.VoucherDto;
+import org.prgrms.dev.voucher.domain.*;
 import org.prgrms.dev.voucher.repository.VoucherRepository;
 
 import java.time.LocalDateTime;
@@ -56,7 +53,16 @@ class VoucherServiceTest {
     @DisplayName("바우처를 생성할 수 있다.")
     @Test
     void createVoucherTest() {
-        // TODO
+        UUID uuid = UUID.randomUUID();
+        VoucherDto voucherDto = new VoucherDto(uuid, "FIXED", 1);
+        Voucher voucherType = VoucherType.getVoucherType(voucherDto.getVoucherType(), voucherDto.getVoucherId(), voucherDto.getDiscount(), voucherDto.getCreatedAt());
+
+        when(voucherRepository.insert(any())).thenReturn(voucherType);
+
+        Voucher voucher = voucherService.createVoucher(voucherDto);
+
+        assertThat(voucher.getVoucherId()).isEqualTo(voucherType.getVoucherId());
+
     }
 
     @DisplayName("바우처의 할인정보를 수정할 수 있다.")
@@ -108,11 +114,9 @@ class VoucherServiceTest {
 
     private List<Voucher> voucherList() {
         final List<Voucher> voucherList = new ArrayList<>();
-        int tmp = 1;
         for (int i = 0; i < 3; i++) {
-            voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), 1000L * tmp, LocalDateTime.now()));
-            voucherList.add(new PercentDiscountVoucher(UUID.randomUUID(), 10L * tmp, LocalDateTime.now()));
-            tmp += 1;
+            voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), 1000L * (i + 1), LocalDateTime.now()));
+            voucherList.add(new PercentDiscountVoucher(UUID.randomUUID(), 10L * (i + 1), LocalDateTime.now()));
         }
         return voucherList;
     }

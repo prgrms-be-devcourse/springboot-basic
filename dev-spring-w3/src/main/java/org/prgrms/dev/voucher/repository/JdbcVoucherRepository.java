@@ -1,6 +1,5 @@
 package org.prgrms.dev.voucher.repository;
 
-import org.prgrms.dev.customer.repository.JdbcCustomerRepository;
 import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.domain.VoucherType;
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ import java.util.*;
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final int SUCCESS = 1;
-    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
