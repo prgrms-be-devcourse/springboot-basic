@@ -2,7 +2,7 @@ package org.prgrms.dev.voucher.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.dev.voucher.exception.InvalidArgumentException;
+import org.prgrms.dev.exception.InvalidArgumentException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -29,9 +29,12 @@ class FixedAmountVoucherTest {
     @Test
     void voucherCreationTest() {
         assertAll("FixedAmountVoucher creation",
-                () -> assertThrows(InvalidArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 0, LocalDateTime.now())),
-                () -> assertThrows(InvalidArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -100, LocalDateTime.now())),
-                () -> assertThrows(InvalidArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 100000, LocalDateTime.now()))
+                () -> assertThrows(InvalidArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(),
+                        0, LocalDateTime.now()), "할인금액은 0원이 아니여야 합니다."),
+                () -> assertThrows(InvalidArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(),
+                        -100, LocalDateTime.now()), "할인금액은 양수여야 합니다."),
+                () -> assertThrows(InvalidArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(),
+                        100000, LocalDateTime.now()), "할인금액은 10000보다 작아야 합니다. ")
         );
     }
 }

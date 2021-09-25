@@ -41,18 +41,23 @@ public class OutputConsole implements Output {
     }
 
     @Override
-    public void printInvalidNumber() {
-        System.out.println("유효하지 않은 숫자를 입력하였습니다. 다시 입력해주세요.");
+    public void printNotFound(String msg) {
+        System.out.println(msg);
     }
 
     @Override
-    public void printInvalidCommandType() {
-        System.out.println("잘못된 명령을 입력하였습니다. 다시 입력해주세여.");
+    public void printInvalidNumber(String msg) {
+        System.out.println(msg + " 다시 입력해주세요.");
     }
 
     @Override
-    public void printInvalidVoucherType() {
-        System.out.println("잘못된 바우처 타입을 입력하였습니다. 다시 입력해주세여.");
+    public void printInvalidCommandType(String msg) {
+        System.out.println(msg + " 다시 입력해주세요.");
+    }
+
+    @Override
+    public void printInvalidVoucherType(String msg) {
+        System.out.println(msg + " 다시 입력해주세요.");
     }
 
     @Override

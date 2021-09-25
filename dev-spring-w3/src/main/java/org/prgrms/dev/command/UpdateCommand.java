@@ -1,9 +1,11 @@
 package org.prgrms.dev.command;
 
+import org.prgrms.dev.exception.InvalidArgumentException;
+import org.prgrms.dev.exception.NotFoundException;
+import org.prgrms.dev.exception.NotUpdateException;
 import org.prgrms.dev.io.Input;
 import org.prgrms.dev.io.Output;
 import org.prgrms.dev.voucher.domain.VoucherDto;
-import org.prgrms.dev.voucher.exception.InvalidArgumentException;
 import org.prgrms.dev.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +25,12 @@ public class UpdateCommand implements Command {
             voucherService.updateVoucherDiscount(voucherDto);
         } catch (NumberFormatException | InvalidArgumentException e) {
             logger.error(e.getMessage());
-            output.printInvalidNumber();
-        } catch (RuntimeException e) {
-            System.out.println("일치하는 아이디가 없습니다.");
+            output.printInvalidNumber(e.getMessage());
+        } catch (NotFoundException e) {
+            logger.error(e.getMessage());
+            output.printNotFound(e.getMessage());
+        } catch (NotUpdateException e) {
+            logger.error(e.getMessage());
         }
         return true;
     }

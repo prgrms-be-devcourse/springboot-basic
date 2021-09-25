@@ -1,6 +1,6 @@
 package org.prgrms.dev.voucher.domain;
 
-import org.prgrms.dev.voucher.exception.InvalidArgumentException;
+import org.prgrms.dev.exception.InvalidArgumentException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -30,19 +30,19 @@ public class PercentDiscountVoucher implements Voucher {
 
     private void validatePercentIsZero(long percent) {
         if (percent == ZERO_PERCENT) {
-            throw new InvalidArgumentException("Percent should not be zero");
+            throw new InvalidArgumentException("할일율은 0이 아니여야 합니다.");
         }
     }
 
     private void validatePercentIsNegative(long percent) {
         if (percent < ZERO_PERCENT) {
-            throw new InvalidArgumentException("Percent should be positive");
+            throw new InvalidArgumentException("할인율은 양수여야 합니다.");
         }
     }
 
     private void validatePercentOutOfMax(long percent) {
         if (percent > MAX_PERCENT) {
-            throw new InvalidArgumentException(String.format("Percent should be less than %d ", MAX_PERCENT));
+            throw new InvalidArgumentException(String.format("할인율은 %d보다 작아야 합니다.", MAX_PERCENT));
         }
     }
 

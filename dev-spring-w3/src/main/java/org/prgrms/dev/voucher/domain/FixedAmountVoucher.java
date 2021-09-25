@@ -1,6 +1,6 @@
 package org.prgrms.dev.voucher.domain;
 
-import org.prgrms.dev.voucher.exception.InvalidArgumentException;
+import org.prgrms.dev.exception.InvalidArgumentException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -29,19 +29,19 @@ public class FixedAmountVoucher implements Voucher {
 
     private void validateAmountIsZero(long amount) {
         if (amount == ZERO_AMOUNT) {
-            throw new InvalidArgumentException("Amount should not be zero");
+            throw new InvalidArgumentException("할인금액은 0원이 아니여야 합니다.");
         }
     }
 
     private void validateAmountIsNegative(long amount) {
         if (amount < ZERO_AMOUNT) {
-            throw new InvalidArgumentException("Amount should be positive");
+            throw new InvalidArgumentException("할인금액은 양수여야 합니다.");
         }
     }
 
     private void validateAmountOutOfMax(long amount) {
         if (amount > MAX_AMOUNT) {
-            throw new InvalidArgumentException(String.format("Amount should be less than %d ", MAX_AMOUNT));
+            throw new InvalidArgumentException(String.format("할인금액은 %d보다 작아야 합니다.", MAX_AMOUNT));
         }
     }
 

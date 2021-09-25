@@ -1,5 +1,7 @@
 package org.prgrms.dev.customer.domain;
 
+import org.prgrms.dev.exception.InvalidNameException;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -31,7 +33,7 @@ public class Customer {
 
     private void validateName(String name) {
         if (name.isBlank()) {
-            throw new RuntimeException("Name should not be blank");
+            throw new InvalidNameException("이름은 빈 값일 수 없습니다.");
         }
     }
 

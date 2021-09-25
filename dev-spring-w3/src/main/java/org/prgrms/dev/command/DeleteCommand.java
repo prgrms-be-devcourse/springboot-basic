@@ -1,5 +1,6 @@
 package org.prgrms.dev.command;
 
+import org.prgrms.dev.exception.NotFoundException;
 import org.prgrms.dev.io.Input;
 import org.prgrms.dev.io.Output;
 import org.prgrms.dev.voucher.service.VoucherService;
@@ -17,9 +18,9 @@ public class DeleteCommand implements Command {
         try {
             String voucherId = (input.input("삭제를 원하는 바우처 아이디를 입력하세요. " + CURSOR));
             voucherService.deleteVoucher(UUID.fromString(voucherId));
-        } catch (RuntimeException e) {
+        } catch (NotFoundException e) {
             logger.error(e.getMessage());
-            System.out.println("일치하는 아이디가 없습니다.");
+            output.printNotFound(e.getMessage());
         }
         return true;
     }

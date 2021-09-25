@@ -2,7 +2,7 @@ package org.prgrms.dev.voucher.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.dev.voucher.exception.InvalidArgumentException;
+import org.prgrms.dev.exception.InvalidArgumentException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -21,9 +21,12 @@ class PercentDiscountVoucherTest {
     @Test
     void voucherCreationTest() {
         assertAll("PercentDiscountVoucher creation",
-                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), -10, LocalDateTime.now())),
-                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 0, LocalDateTime.now())),
-                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now()))
+                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(),
+                        -10, LocalDateTime.now()), "할일율은 0이 아니여야 합니다."),
+                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(),
+                        0, LocalDateTime.now()), "할인율은 양수여야 합니다."),
+                () -> assertThrows(InvalidArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(),
+                        1000, LocalDateTime.now()), "할인율은 100보다 작아야 합니다.")
         );
     }
 

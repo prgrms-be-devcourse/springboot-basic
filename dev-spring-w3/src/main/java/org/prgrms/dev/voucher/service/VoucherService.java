@@ -1,5 +1,6 @@
 package org.prgrms.dev.voucher.service;
 
+import org.prgrms.dev.exception.NotFoundException;
 import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.domain.VoucherDto;
 import org.prgrms.dev.voucher.domain.VoucherType;
@@ -20,7 +21,7 @@ public class VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException("해당 바우처 아이디를 찾을 수 없습니다. " + voucherId));
+                .orElseThrow(() -> new NotFoundException("해당 바우처를 찾을 수 없습니다. " + voucherId));
     }
 
     public Voucher createVoucher(VoucherDto voucherDto) {
@@ -39,6 +40,7 @@ public class VoucherService {
     }
 
     public void deleteVoucher(UUID voucherId) {
+        getVoucher(voucherId);
         voucherRepository.deleteById(voucherId);
     }
 

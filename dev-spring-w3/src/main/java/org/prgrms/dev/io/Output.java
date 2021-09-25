@@ -10,13 +10,16 @@ public interface Output {
 
     void selectVoucherType();
 
-    void printInvalidNumber();
+    void printInvalidNumber(String msg);
 
-    void printInvalidCommandType();
+    void printInvalidCommandType(String msg);
 
-    void printInvalidVoucherType();
+    void printInvalidVoucherType(String msg);
+
+    void printNotFound(String msg);
 
     void printBlackList(List<Blacklist> blackList);
 
     void printVoucherList(List<Voucher> voucherList);
+
 }

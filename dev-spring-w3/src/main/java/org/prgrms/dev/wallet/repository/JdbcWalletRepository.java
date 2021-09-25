@@ -1,6 +1,7 @@
 package org.prgrms.dev.wallet.repository;
 
 import org.prgrms.dev.customer.domain.Customer;
+import org.prgrms.dev.exception.NotInsertException;
 import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.domain.VoucherType;
 import org.prgrms.dev.wallet.domain.Wallet;
@@ -107,7 +108,7 @@ public class JdbcWalletRepository implements WalletRepository {
         int insert = jdbcTemplate.update("INSERT INTO wallets(wallet_id, customer_id, voucher_id, created_at) " +
                 "VALUES (UUID_TO_BIN(:walletId), UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId), :createdAt)", params);
         if (insert != SUCCESS) {
-            throw new RuntimeException("Noting was inserted");
+            throw new NotInsertException("Noting was inserted");
         }
         return insert;
     }

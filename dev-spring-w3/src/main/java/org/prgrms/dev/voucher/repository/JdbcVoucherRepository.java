@@ -1,5 +1,7 @@
 package org.prgrms.dev.voucher.repository;
 
+import org.prgrms.dev.exception.NotInsertException;
+import org.prgrms.dev.exception.NotUpdateException;
 import org.prgrms.dev.voucher.domain.Voucher;
 import org.prgrms.dev.voucher.domain.VoucherType;
 import org.slf4j.Logger;
@@ -69,7 +71,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                         "VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discount, :createdAt)",
                 params);
         if (insert != SUCCESS) {
-            throw new RuntimeException("Noting was inserted");
+            throw new NotInsertException("Noting was inserted");
         }
         return voucher;
     }
@@ -82,7 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int update = jdbcTemplate.update("UPDATE vouchers SET discount = :discount WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 params);
         if (update != SUCCESS) {
-            throw new RuntimeException("Noting was inserted");
+            throw new NotUpdateException("Noting was inserted");
         }
         return voucher;
     }

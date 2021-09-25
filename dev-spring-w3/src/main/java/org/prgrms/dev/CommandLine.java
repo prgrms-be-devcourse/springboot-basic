@@ -27,7 +27,7 @@ public class CommandLine implements Runnable {
     @Override
     public void run() {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-        while (execute(voucherService));
+        while (execute(voucherService)) ;
     }
 
     private boolean execute(VoucherService voucherService) {
@@ -39,7 +39,7 @@ public class CommandLine implements Runnable {
             flag = CommandType.execute(inputCommandType, input, output, voucherService);
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage());
-            output.printInvalidCommandType();
+            output.printInvalidCommandType(e.getMessage());
         }
 
         return flag;

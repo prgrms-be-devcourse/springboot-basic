@@ -1,6 +1,7 @@
 package org.prgrms.dev.customer.repository;
 
 import org.prgrms.dev.customer.domain.Customer;
+import org.prgrms.dev.exception.NotInsertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -90,7 +91,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         int insert = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
                 toParamMap(newCustomer));
         if (insert != SUCCESS) {
-            throw new RuntimeException("Noting was inserted");
+            throw new NotInsertException("Noting was inserted");
         }
         return newCustomer;
     }

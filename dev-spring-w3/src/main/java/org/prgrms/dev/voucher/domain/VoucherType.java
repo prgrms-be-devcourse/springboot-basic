@@ -28,7 +28,7 @@ public enum VoucherType {
         VoucherType voucherType = Arrays.stream(VoucherType.values())
                 .filter(voucher -> voucher.type.equalsIgnoreCase(inputType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid voucher type input..."));
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입을 입력하였습니다."));
 
         return voucherType.create(voucherId, value, createdAt);
     }
