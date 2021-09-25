@@ -1,7 +1,6 @@
 package org.prgms.w3d1.servlet;
 
-import org.prgms.w3d1.configuration.AppConfiguration;
-import org.prgms.w3d1.configuration.ServletConfiguration;
+import org.prgms.w3d1.configuration.WebMvcConfiguration;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -16,7 +15,7 @@ public class CustomerServletContainerInitializer implements ServletContainerInit
     @Override
     public void onStartup(Set<Class<?>> c, ServletContext ctx) throws ServletException {
         var applicationContext = new AnnotationConfigWebApplicationContext();
-        applicationContext.register(ServletConfiguration.class);
+        applicationContext.register(WebMvcConfiguration.class);
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(applicationContext);
         ServletRegistration.Dynamic customerRegistration = ctx.addServlet("customer", dispatcherServlet);
