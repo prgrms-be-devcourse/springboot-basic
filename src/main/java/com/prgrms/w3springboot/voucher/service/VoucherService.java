@@ -1,6 +1,7 @@
 package com.prgrms.w3springboot.voucher.service;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,11 +16,10 @@ import com.prgrms.w3springboot.voucher.repository.VoucherRepository;
 @Service
 public class VoucherService {
 	private final VoucherRepository voucherRepository;
-	private final VoucherFactory voucherFactory;
+	private final VoucherFactory voucherFactory = VoucherFactory.getInstance();
 
-	public VoucherService(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+	public VoucherService(VoucherRepository voucherRepository) {
 		this.voucherRepository = voucherRepository;
-		this.voucherFactory = voucherFactory;
 	}
 
 	public Voucher getVoucher(UUID voucherId) {
@@ -28,8 +28,9 @@ public class VoucherService {
 				() -> new NullPointerException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
 	}
 
-	public Voucher createVoucher(UUID voucherId, long discountAmount, VoucherType voucherType) {
-		Voucher voucher = voucherFactory.createVoucher(voucherId, discountAmount, voucherType);
+	public Voucher createVoucher(UUID voucherId, long discountAmount, VoucherType voucherType,
+		LocalDateTime localDateTime) {
+		Voucher voucher = voucherFactory.createVoucher(voucherId, discountAmount, voucherType, localDateTime);
 		return voucherRepository.insert(voucher);
 	}
 
@@ -38,7 +39,7 @@ public class VoucherService {
 
 		if (existingVoucher.isPresent()) {
 			Voucher updatingVoucher = voucherFactory.createVoucher(voucherId, updateAmount,
-				existingVoucher.get().getVoucherType());
+				existingVoucher.get().getVoucherType(), existingVoucher.get().getCreatedAt());
 			return voucherRepository.update(updatingVoucher);
 		}
 

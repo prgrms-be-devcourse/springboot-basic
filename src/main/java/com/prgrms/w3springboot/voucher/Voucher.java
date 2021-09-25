@@ -1,15 +1,18 @@
 package com.prgrms.w3springboot.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
-    UUID getVoucherId();
+	UUID getVoucherId();
 
-    long getAmount();
+	long getAmount();
 
-    VoucherType getVoucherType();
+	VoucherType getVoucherType();
 
-    long discount(long beforeDiscount);
+	LocalDateTime getCreatedAt();
 
-    void validate(long value);
+	long discount(long beforeDiscount);
+
+	void validate(long value);
 }

@@ -1,5 +1,6 @@
 package com.prgrms.w3springboot.io.strategy;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ public class CreateCommand implements CommandStrategy {
 			Voucher createdVoucher;
 			try {
 				createdVoucher = voucherService.createVoucher(UUID.randomUUID(), Long.parseLong(discountAmount),
-					VoucherType.of(voucherType));
+					VoucherType.of(voucherType), LocalDateTime.now());
 				output.printCreatedVoucher(createdVoucher);
 				flag = false;
 			} catch (NumberFormatException e) {

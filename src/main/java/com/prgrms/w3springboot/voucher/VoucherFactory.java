@@ -3,16 +3,23 @@ package com.prgrms.w3springboot.voucher;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class VoucherFactory {
-	public Voucher createVoucher(UUID voucherId, long discountAmount, VoucherType voucherType) {
+	private static final VoucherFactory instance = new VoucherFactory();
+
+	private VoucherFactory() {
+	}
+
+	public static VoucherFactory getInstance() {
+		return instance;
+	}
+
+	public Voucher createVoucher(UUID voucherId, long discountAmount, VoucherType voucherType,
+		LocalDateTime localDateTime) {
 		switch (voucherType) {
 			case FIXED:
-				return new FixedAmountVoucher(voucherId, discountAmount, voucherType, LocalDateTime.now());
+				return new FixedAmountVoucher(voucherId, discountAmount, voucherType, localDateTime);
 			case PERCENT:
-				return new PercentAmountVoucher(voucherId, discountAmount, voucherType, LocalDateTime.now());
+				return new PercentAmountVoucher(voucherId, discountAmount, voucherType, localDateTime);
 			default:
 				throw new IllegalArgumentException("잘못된 타입을 입력받았습니다.");
 		}

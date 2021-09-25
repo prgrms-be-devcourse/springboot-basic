@@ -37,6 +37,11 @@ public class FixedAmountVoucher implements Voucher {
 	}
 
 	@Override
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	@Override
 	public long discount(long beforeDiscount) {
 		return beforeDiscount - amount < 0 ? 0 : beforeDiscount - amount;
 	}

@@ -38,6 +38,11 @@ public class PercentAmountVoucher implements Voucher {
 	}
 
 	@Override
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	@Override
 	public long discount(long beforeDiscount) {
 		long discountAmount = beforeDiscount - beforeDiscount * amount / DENOMINATOR_FOR_PERCENT;
 		if (discountAmount < 0) {
