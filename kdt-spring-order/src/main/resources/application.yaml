@@ -9,24 +9,3 @@ spring:
 #    prefix: "/"
 #    view-names: "views/*"
 
-
----
-
-spring.config.activate.on-profile: memory
-
----
-
-spring.config.activate.on-profile: csv
-
-csv:
-  file-path : /src/main/resources/csv/
-  voucher-repository:
-    file-name : voucher_list.csv
-  customer-blacklist:
-    file-name : customer_blacklist.csv
-
-
-
-
-
-

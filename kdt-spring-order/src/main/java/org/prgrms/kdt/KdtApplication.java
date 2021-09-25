@@ -7,8 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 public class KdtApplication {
 	public static void main(String[] args) {
-		var springApplication = new SpringApplication(KdtApplication.class);
-		springApplication.setAdditionalProfiles("jdbc");
-		springApplication.run(args);
+		SpringApplication.run(KdtApplication.class, args);
 	}
 }
