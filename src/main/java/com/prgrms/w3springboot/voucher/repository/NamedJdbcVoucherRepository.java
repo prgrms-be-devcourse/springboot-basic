@@ -1,6 +1,7 @@
 package com.prgrms.w3springboot.voucher.repository;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +33,12 @@ public class NamedJdbcVoucherRepository implements VoucherRepository {
 		UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
 		long amount = resultSet.getLong("amount");
 		VoucherType type = VoucherType.of(resultSet.getString("type").toLowerCase());
+		LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
 		if (type == VoucherType.FIXED) {
-			return new FixedAmountVoucher(voucherId, amount, type);
+			return new FixedAmountVoucher(voucherId, amount, type, createdAt);
 		} else if (type == VoucherType.PERCENT) {
-			return new PercentAmountVoucher(voucherId, amount, type);
+			return new PercentAmountVoucher(voucherId, amount, type, createdAt);
 		}
 
 		throw new IllegalArgumentException("유효하지 않은 바우처 타입입니다.");

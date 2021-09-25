@@ -1,5 +1,6 @@
 package com.prgrms.w3springboot.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
@@ -10,13 +11,15 @@ public class PercentAmountVoucher implements Voucher {
 	private final UUID voucherId;
 	private final long amount;
 	private final VoucherType type;
+	private final LocalDateTime createdAt;
 
-	public PercentAmountVoucher(UUID voucherId, long amount, VoucherType type) {
+	public PercentAmountVoucher(UUID voucherId, long amount, VoucherType type, LocalDateTime createdAt) {
 		validate(amount);
 
 		this.voucherId = voucherId;
 		this.amount = amount;
 		this.type = type;
+		this.createdAt = createdAt;
 	}
 
 	@Override

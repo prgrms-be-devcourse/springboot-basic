@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +51,11 @@ public class CsvVoucherRepository implements VoucherRepository {
 				VoucherType voucherType = VoucherType.of(voucherInfo[INDEX_TYPE].toLowerCase());
 
 				if (voucherType == VoucherType.FIXED) {
-					storage.put(csvVoucherId, new FixedAmountVoucher(csvVoucherId, discountAmount, voucherType));
+					storage.put(csvVoucherId,
+						new FixedAmountVoucher(csvVoucherId, discountAmount, voucherType, LocalDateTime.now()));
 				} else if (voucherType == VoucherType.PERCENT) {
-					storage.put(csvVoucherId, new PercentAmountVoucher(csvVoucherId, discountAmount, voucherType));
+					storage.put(csvVoucherId,
+						new PercentAmountVoucher(csvVoucherId, discountAmount, voucherType, LocalDateTime.now()));
 				}
 			}
 		} catch (IOException e) {
