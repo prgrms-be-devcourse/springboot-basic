@@ -29,9 +29,9 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public void createVoucher(VoucherType voucherType, long value){
+    public Voucher createVoucher(VoucherType voucherType, long value){
         var voucher = createVoucherByType(UUID.randomUUID(), value, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), voucherType);
-        voucherRepository.insert(voucher);
+        return voucherRepository.insert(voucher);
     }
 
     public List<Voucher> getVoucherList(){

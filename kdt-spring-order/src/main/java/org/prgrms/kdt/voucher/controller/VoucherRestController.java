@@ -39,8 +39,9 @@ public class VoucherRestController {
 
     // 바우처 생성
     @PostMapping
-    public void createVoucher(@RequestBody @Valid VoucherDto voucherDto){
-        voucherService.createVoucher(voucherDto.getType(), voucherDto.getValue());
+    public ResponseEntity<Voucher> createVoucher(@RequestBody @Valid VoucherDto voucherDto){
+        var voucher = voucherService.createVoucher(voucherDto.getType(), voucherDto.getValue());
+        return ResponseEntity.ok(voucher);
     }
 
     // 바우처 삭제
