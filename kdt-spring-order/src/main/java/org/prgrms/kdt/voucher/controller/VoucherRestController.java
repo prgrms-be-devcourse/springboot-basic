@@ -23,7 +23,7 @@ public class VoucherRestController {
     public ResponseEntity<List<Voucher>> getVoucherList(
             @RequestParam(name = "from", required = false, defaultValue = "1970-01-01") String from,
             @RequestParam(name = "to", required = false, defaultValue = "2999-12-31") String to,
-            @RequestParam(name = "type", required = false, defaultValue = "") String type
+            @RequestParam("type") String type
     ){
         var voucherList = voucherService.getVoucherListByParams(from, to, type);
         return ResponseEntity.ok(voucherList);
