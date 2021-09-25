@@ -2,6 +2,7 @@ package com.prgrms.w3springboot.voucher;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +16,7 @@ class VoucherFactoryTest {
 	@ParameterizedTest
 	@EnumSource(value = VoucherType.class)
 	void testCreateVoucher(VoucherType voucherType) {
-		VoucherFactory voucherFactory = new VoucherFactory();
-		Voucher voucher = voucherFactory.createVoucher(VOUCHER_ID, 10L, voucherType);
+		Voucher voucher = VoucherFactory.getInstance().createVoucher(VOUCHER_ID, 10L, voucherType, LocalDateTime.now());
 
 		assertThat(voucherType).isEqualTo(voucher.getVoucherType());
 		assertThat(10L).isEqualTo(voucher.getAmount());
