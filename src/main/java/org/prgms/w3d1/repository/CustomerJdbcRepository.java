@@ -31,15 +31,15 @@ public class CustomerJdbcRepository implements CustomerRepository {
         var email = rs.getString("email");
         var lastLoginAt = rs.getTimestamp("last_login_at") != null ?
             rs.getTimestamp("last_login_at").toLocalDateTime() : null;
-        var createAt = rs.getTimestamp("create_at").toLocalDateTime();
+        var createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
-        return new Customer(customerId, name, email, lastLoginAt, createAt);
+        return new Customer(customerId, name, email, lastLoginAt, createdAt);
     };
 
     @Override
     public Customer insert(Customer customer) {
         var insertCount = jdbcTemplate.update(
-            "insert into customers(customer_id, name, email, create_at) values(UUID_TO_BIN(?), ?, ?, ?)",
+            "insert into customers(customer_id, name, email, created_at) values(UUID_TO_BIN(?), ?, ?, ?)",
             customer.getCustomerId().toString().getBytes(),
             customer.getName(),
             customer.getEmail(),
@@ -128,7 +128,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findByCreatedDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        return jdbcTemplate.query("select * from customers where create_at between ? and ?", rowMapper,
+        return jdbcTemplate.query("select * from customers where created_at between ? and ?", rowMapper,
             Timestamp.valueOf(startDate),
             Timestamp.valueOf(endDate));
     }

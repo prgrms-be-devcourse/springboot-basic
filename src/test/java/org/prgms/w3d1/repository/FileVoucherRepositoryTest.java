@@ -15,13 +15,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-class FileVoucherRepositoyTest {
+class FileVoucherRepositoryTest {
 
     @Configuration
     static class config {
         @Bean
         VoucherRepository voucherRepository(){
-            return new FileVoucherRepositoy();
+            return new FileVoucherRepository();
         }
 
         @Bean

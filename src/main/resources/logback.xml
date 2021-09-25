@@ -20,7 +20,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.prgms.w3d1.repository.FileVoucherRepositoy" level="error">
+    <logger name="org.prgms.w3d1.repository.FileVoucherRepository" level="error">
         <appender-ref ref="RollingFile"/>
     </logger>
 

@@ -2,7 +2,6 @@ package org.prgms.w3d1.repository;
 
 import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.model.voucher.VoucherType;
-import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.util.FileConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +13,10 @@ import javax.annotation.PreDestroy;
 import java.util.*;
 
 @Repository
-public class FileVoucherRepositoy implements VoucherRepository, FileConnector<Voucher> {
+@Profile("pro")
+public class FileVoucherRepository implements VoucherRepository, FileConnector<Voucher> {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepositoy.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     private static Map<UUID, Voucher> storage;
 
