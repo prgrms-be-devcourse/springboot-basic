@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header :: header"></head>
+<body class="container-fluid">
+<div class="text-center mt-5">
+  <h1>고객 생성</h1>
+</div>
+<br/>
+<form th:action="@{/customers/new}" method="post">
+  <div class="mb-3">
+    <label for="inputEmail" class="form-label">이메일</label>
+    <input type="email" name="email" class="form-control" id="inputEmail"
+           aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="inputName" class="form-label">이름</label>
+    <input type="text" name="name" class="form-control" id="inputName">
+  </div>
+  <div class="d-grid gap-2 col-6 mx-auto">
+    <button class="btn btn-outline-success" type="submit">추가</button>
+  </div></form>
+</body>
+</html>

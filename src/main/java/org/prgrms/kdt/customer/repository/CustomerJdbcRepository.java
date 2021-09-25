@@ -34,13 +34,14 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private String INSERT = """
         INSERT INTO customer(customer_id, name, email, created_at, customer_type)
         VALUES(UUID_TO_BIN(:customerId), :name, :email, :createdAt, :customerType)""";
-    private String UPDATE_TYPE = """
-        UPDATE customer SET customer_type = :customerType
+    private String UPDATE = """
+        UPDATE customer SET customer_type = :customerType, name = :name
         WHERE customer_id = UUID_TO_BIN(:customerId)""";
     private String SELECT_ALL = "SELECT * FROM customer";
     private String SELECT_BY_ID = "SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customerId)";
     private String SELECT_BY_TYPE = "SELECT * FROM customer WHERE customer_type = :customerType";
     private String DELETE_ALL = "DELETE FROM customer";
+    private String DELETE_BY_ID = "DELETE FROM customer WHERE customer_id = UUID_TO_BIN(:customerId)";
     private String SELECT_BY_VOUCHER_ID = """
         SELECT * FROM customer
         LEFT OUTER JOIN wallet
@@ -99,9 +100,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 
     @Override
-    public Customer updateType(Customer customer) {
+    public Customer update(Customer customer) {
         var update = jdbcTemplate.update(
-            UPDATE_TYPE,
+            UPDATE,
             toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Nothing was updated");
@@ -114,6 +115,16 @@ public class CustomerJdbcRepository implements CustomerRepository {
         jdbcTemplate.getJdbcTemplate().update(DELETE_ALL);
     }
 
+    @Override
+    public void deleteById(UUID customerId) {
+        var update = jdbcTemplate.update(
+            DELETE_BY_ID,
+            Map.of("customerId", customerId.toString().getBytes()));
+        if (update != 1) {
+            throw new RuntimeException("Nothing was deleted");
+        }
+
+    }
 
     private Map<String, Object> toParamMap(Customer customer) {
         var paramMap = new HashMap<String, Object>();

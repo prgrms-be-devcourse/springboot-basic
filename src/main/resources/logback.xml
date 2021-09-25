@@ -32,11 +32,11 @@
     </encoder>
   </appender>
 
-  <logger name="org.prgrms.kdt" level="info">
+  <logger name="org.prgrms.kdt" level="debug">
     <appender-ref ref="ROLLING_FILE"/>
   </logger>
 
-  <root level="info">
+  <root level="debug">
     <appender-ref ref="STDOUT"/>
   </root>
 </configuration>

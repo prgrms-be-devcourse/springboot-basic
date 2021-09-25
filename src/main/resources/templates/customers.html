@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header :: header"></head>
+<body class="container-fluid">
+<div class="text-center mt-5">
+  <h1>고객 리스트</h1>
+</div>
+<br/>
+<table class="table table-striped table-hover">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Email</th>
+    <th scope="col">Customer Type</th>
+    <th scope="col">CreatedAt</th>
+    <th scope="col">Delete</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="customer : ${customers}" th:object="${customer}">
+    <td><a th:href="@{'/customers/' + *{customerId}}" th:text="*{customerId}"></a></td>
+    <td th:text="*{name}"></td>
+    <td th:text="*{email}"></td>
+    <td th:text="*{customerType}"></td>
+    <td th:text="*{createdAt}"></td>
+    <td>
+      <form th:action="@{'/customers/' + *{customerId} + '/delete'}" method="post"
+            th:object="${customer}">
+        <input type="hidden" name="customerId" th:value="*{customerId}">
+        <button class="btn btn-outline-danger" type="submit"> 삭제</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br/>
+<div class="d-grid gap-2 col-6 mx-auto">
+  <a th:href="@{/customers/new}" class="btn btn-outline-success" type="button">New</a>
+</div>
+</body>
+</html>

@@ -14,9 +14,11 @@ public interface CustomerRepository {
 
     List<Customer> findAllCustomer();
 
-    Customer updateType(Customer customer);
+    Customer update(Customer customer);
 
     void deleteAllCustomer();
+
+    void deleteById(UUID customerId);
 
     List<Customer> findByVoucherId(UUID voucherId);
 

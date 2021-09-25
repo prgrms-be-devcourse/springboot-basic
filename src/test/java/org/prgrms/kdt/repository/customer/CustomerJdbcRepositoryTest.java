@@ -139,7 +139,7 @@ class CustomerJdbcRepositoryTest {
     @Order(5)
     void testUpdate() {
         newCustomer.changeCustomerType(CustomerType.BLACK);
-        customerJdbcRepository.updateType(newCustomer);
+        customerJdbcRepository.update(newCustomer);
 
         var retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId()).get();
         assertThat(retrievedCustomer.getCustomerType(), is(CustomerType.BLACK));

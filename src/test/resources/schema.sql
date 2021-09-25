@@ -2,11 +2,12 @@
 CREATE TABLE voucher
 (
     voucher_id   BINARY(16) PRIMARY KEY,
+    name          varchar(20) NOT NULL,
     voucher_type varchar(50) NOT NULL,
     discount     int         NOT NULL,
     created_at   datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
 );
-CREATE TABLE customer
+CREATE TABLE customerDto
 (
     customer_id   BINARY(16) PRIMARY KEY,
     name          varchar(20) NOT NULL,
@@ -23,7 +24,7 @@ CREATE TABLE wallet
     voucher_id  BINARY(16),
     created_at  datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     is_used     boolean              DEFAULT false,
-    FOREIGN KEY (customer_id) REFERENCES customer (customer_id),
+    FOREIGN KEY (customer_id) REFERENCES customerDto (customer_id),
     FOREIGN KEY (voucher_id) REFERENCES voucher (voucher_id),
     CONSTRAINT unq_customer_voucher UNIQUE (customer_id, voucher_id)
 );

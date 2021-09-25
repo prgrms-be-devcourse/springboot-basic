@@ -1,7 +1,3 @@
-kdt:
-  version: v1.0.0
-  description: |-
-    dev profile
-  file:
-    voucher-storage:
-      path: voucher_data.ser
+spring:
+  thymeleaf:
+    cache : true

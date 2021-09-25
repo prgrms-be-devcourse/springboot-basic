@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header :: header"></head>
+<body class="container-fluid">
+<div class="text-center mt-5">
+  <h1>바우처 관리 시스템</h1>
+</div>
+<br/>
+<div class="d-grid gap-2 col-6 mx-auto">
+  <a th:href="@{/vouchers}" class="btn btn-outline-success" role="button">바우처 관리</a>
+  <a th:href="@{/customers}" class="btn btn-outline-danger" role="button">고객 관리</a>
+  <a th:href="@{/wallets}" class="btn btn-outline-warning" role="button">바우처 지갑 관리</a>
+</div>
+</body>
+</html>
