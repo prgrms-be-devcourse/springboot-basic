@@ -2,7 +2,8 @@ CREATE TABLE vouchers
 (
     voucher_id BINARY(16) PRIMARY KEY,
     amount     INT(4) NOT NULL,
-    type       ENUM ('FIXED', 'PERCENT') NOT NULL
+    type       ENUM ('FIXED', 'PERCENT') NOT NULL,
+    created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP (6)
 );
 
 INSERT INTO vouchers(voucher_id, amount, type)

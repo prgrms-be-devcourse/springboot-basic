@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +33,7 @@ class PercentAmountVoucherTest {
 	@Test
 	void testDiscount() {
 		long beforeDiscount = 80L;
-		Voucher voucher = new PercentAmountVoucher(UUID.randomUUID(), 3, VoucherType.PERCENT);
+		Voucher voucher = new PercentAmountVoucher(UUID.randomUUID(), 3, VoucherType.PERCENT, LocalDateTime.now());
 
 		long afterDiscount = voucher.discount(beforeDiscount);
 
@@ -44,11 +45,11 @@ class PercentAmountVoucherTest {
 	void testValidPercent() {
 		assertAll(
 			() -> assertThatIllegalArgumentException().isThrownBy(
-				() -> new PercentAmountVoucher(UUID.randomUUID(), 0, VoucherType.PERCENT)),
+				() -> new PercentAmountVoucher(UUID.randomUUID(), 0, VoucherType.PERCENT, LocalDateTime.now())),
 			() -> assertThatIllegalArgumentException().isThrownBy(
-				() -> new PercentAmountVoucher(UUID.randomUUID(), -20, VoucherType.PERCENT)),
+				() -> new PercentAmountVoucher(UUID.randomUUID(), -20, VoucherType.PERCENT, LocalDateTime.now())),
 			() -> assertThatIllegalArgumentException().isThrownBy(
-				() -> new PercentAmountVoucher(UUID.randomUUID(), 1000, VoucherType.PERCENT))
+				() -> new PercentAmountVoucher(UUID.randomUUID(), 1000, VoucherType.PERCENT, LocalDateTime.now()))
 		);
 	}
 }

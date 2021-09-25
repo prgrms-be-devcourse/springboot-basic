@@ -3,6 +3,7 @@ package com.prgrms.w3springboot.voucher.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,15 +41,17 @@ class VoucherServiceTest {
 
 	public static Stream<Arguments> provideVouchersForMock() {
 		return Stream.of(
-			Arguments.of(new FixedAmountVoucher(VOUCHER_ID, 10, VoucherType.FIXED), VoucherType.FIXED),
-			Arguments.of(new PercentAmountVoucher(VOUCHER_ID, 10, VoucherType.PERCENT), VoucherType.PERCENT)
+			Arguments.of(new FixedAmountVoucher(VOUCHER_ID, 10, VoucherType.FIXED, LocalDateTime.now()),
+				VoucherType.FIXED),
+			Arguments.of(new PercentAmountVoucher(VOUCHER_ID, 10, VoucherType.PERCENT, LocalDateTime.now()),
+				VoucherType.PERCENT)
 		);
 	}
 
 	@DisplayName("바우처 아이디로 바우처를 조회한다.")
 	@Test
 	void testGetVoucherByVoucherId() {
-		doReturn(Optional.of(new FixedAmountVoucher(VOUCHER_ID, 10, VoucherType.FIXED)))
+		doReturn(Optional.of(new FixedAmountVoucher(VOUCHER_ID, 10, VoucherType.FIXED, LocalDateTime.now())))
 			.when(csvVoucherRepository).findById(VOUCHER_ID);
 
 		Voucher voucher = voucherService.getVoucher(VOUCHER_ID);
@@ -75,9 +78,9 @@ class VoucherServiceTest {
 	@Test
 	void testListVoucher() {
 		doReturn(List.of(
-			new FixedAmountVoucher(UUID.randomUUID(), 10, VoucherType.FIXED),
-			new PercentAmountVoucher(UUID.randomUUID(), 30, VoucherType.PERCENT),
-			new FixedAmountVoucher(UUID.randomUUID(), 10, VoucherType.FIXED)
+			new FixedAmountVoucher(UUID.randomUUID(), 10, VoucherType.FIXED, LocalDateTime.now()),
+			new PercentAmountVoucher(UUID.randomUUID(), 30, VoucherType.PERCENT, LocalDateTime.now()),
+			new FixedAmountVoucher(UUID.randomUUID(), 10, VoucherType.FIXED, LocalDateTime.now())
 		)).when(csvVoucherRepository).findAll();
 
 		List<Voucher> voucherList = voucherService.listVoucher();

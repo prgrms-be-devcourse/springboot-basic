@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ class FixedAmountVoucherTest {
 		var orderItems = List.of(
 			new OrderItem(UUID.randomUUID(), 100L, 1)
 		);
-		var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, VoucherType.FIXED);
+		var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, VoucherType.FIXED, LocalDateTime.now());
 		var order = new Order(UUID.randomUUID(), customerId, orderItems, fixedAmountVoucher);
 
 		Assert.isTrue(order.totalAmount() == 90L, MessageFormat.format("totalAmount is not {0}", order.totalAmount()));
@@ -33,7 +34,7 @@ class FixedAmountVoucherTest {
 	@Test
 	void testDiscount() {
 		long beforeDiscount = 1000L;
-		Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.PERCENT);
+		Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.PERCENT, LocalDateTime.now());
 
 		long afterDiscount = voucher.discount(beforeDiscount);
 
@@ -45,11 +46,11 @@ class FixedAmountVoucherTest {
 	void testValidFixed() {
 		assertAll(
 			() -> assertThatIllegalArgumentException().isThrownBy(
-				() -> new FixedAmountVoucher(UUID.randomUUID(), 0, VoucherType.FIXED)),
+				() -> new FixedAmountVoucher(UUID.randomUUID(), 0, VoucherType.FIXED, LocalDateTime.now())),
 			() -> assertThatIllegalArgumentException().isThrownBy(
-				() -> new FixedAmountVoucher(UUID.randomUUID(), -20, VoucherType.FIXED)),
+				() -> new FixedAmountVoucher(UUID.randomUUID(), -20, VoucherType.FIXED, LocalDateTime.now())),
 			() -> assertThatIllegalArgumentException().isThrownBy(
-				() -> new FixedAmountVoucher(UUID.randomUUID(), 10001, VoucherType.FIXED))
+				() -> new FixedAmountVoucher(UUID.randomUUID(), 10001, VoucherType.FIXED, LocalDateTime.now()))
 		);
 	}
 }

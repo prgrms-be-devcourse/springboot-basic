@@ -7,6 +7,7 @@ import static com.wix.mysql.config.MysqldConfig.*;
 import static com.wix.mysql.distribution.Version.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -76,7 +77,7 @@ class NamedJdbcVoucherRepositoryTest {
 	@DisplayName("바우처를 생성한다.")
 	@Test
 	void testInsert() {
-		Voucher voucher = new FixedAmountVoucher(NEW_VOUCHER_ID, 20, VoucherType.FIXED);
+		Voucher voucher = new FixedAmountVoucher(NEW_VOUCHER_ID, 20, VoucherType.FIXED, LocalDateTime.now());
 
 		Voucher insertedVoucher = voucherRepository.insert(voucher);
 		assertThat(insertedVoucher.getVoucherId()).isEqualTo(NEW_VOUCHER_ID);
@@ -91,7 +92,7 @@ class NamedJdbcVoucherRepositoryTest {
 	@DisplayName("바우처 할인 수치를 수정한다.")
 	@Test
 	void testUpdate() {
-		Voucher voucher = new FixedAmountVoucher(EXISTING_VOUCHER_ID, 35L, VoucherType.FIXED);
+		Voucher voucher = new FixedAmountVoucher(EXISTING_VOUCHER_ID, 35L, VoucherType.FIXED, LocalDateTime.now());
 
 		Voucher retrievedVoucher = voucherRepository.update(voucher);
 
@@ -104,7 +105,7 @@ class NamedJdbcVoucherRepositoryTest {
 	@DisplayName("바우처를 삭제한다.")
 	@Test
 	void testDelete() {
-		Voucher voucher = new PercentAmountVoucher(NEW_VOUCHER_ID, 45, VoucherType.PERCENT);
+		Voucher voucher = new PercentAmountVoucher(NEW_VOUCHER_ID, 45, VoucherType.PERCENT, LocalDateTime.now());
 		Voucher newVoucher = voucherRepository.insert(voucher);
 		assertThat(newVoucher.getVoucherId()).isEqualTo(NEW_VOUCHER_ID);
 
