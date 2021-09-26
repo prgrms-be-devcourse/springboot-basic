@@ -107,4 +107,15 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Voucher> getAllVoucherOf(Customer customer) {
         return voucherService.getAllVouchersBelongsToCustomer(customer);
     }
+
+    @Override
+    public Customer changeCustomerName(UUID customerId, String newName) {
+        Optional<Customer> customerNameChanged = customerRepository.updateName(customerId, newName);
+        if (customerNameChanged.isEmpty()) {
+            logger.error("Wrong customer ID input for update");
+            throw new RuntimeException("No such customer exist. (Given customer ID : %s".formatted(customerId.toString()));
+        }
+
+        return customerNameChanged.get();
+    }
 }

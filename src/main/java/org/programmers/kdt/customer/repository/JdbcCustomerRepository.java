@@ -30,6 +30,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	private static String SQL_SELECT_CUSTOMER_BY_NAME = "SELECT * FROM %s WHERE name = :name";
 	private static String SQL_SELECT_CUSTOMER_BY_EMAIL = "SELECT * FROM %s WHERE email = :email";
 	private static String SQL_SELECT_ALL = "SELECT * FROM %s";
+	private static String SQL_UPDATE_NAME_BY_ID = "UPDATE %s SET name = :name WHERE customer_id = UUID_TO_BIN(:%customer_id)";
 
 	public JdbcCustomerRepository(DataSource dataSource, String customerTable, String customerBlacklistTable) {
 		jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -98,6 +99,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public List<Customer> findAll() {
 		return jdbcTemplate.query(SQL_SELECT_ALL.formatted(customerTable), rowMapper);
+	}
+
+	@Override
+	public Optional<Customer> updateName(UUID customerId, String newName) {
+		jdbcTemplate.update(SQL_UPDATE_NAME_BY_ID.formatted(customerTable),
+				Map.of(
+						"name", newName,
+						"customer_id", customerId
+				));
+		return findById(customerId);
 	}
 
 	@Override

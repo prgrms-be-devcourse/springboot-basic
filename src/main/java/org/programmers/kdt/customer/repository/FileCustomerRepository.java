@@ -133,6 +133,12 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> updateName(UUID customerId, String newString) {
+        // TODO: Implement
+        return Optional.empty();
+    }
+
+    @Override
     public Customer registerToBlacklist(Customer customer) {
         if (null == cache4Blacklist.put(customer.getCustomerId(), customer)) {
             updateFile(blacklistCSV, Map.of(customer.getCustomerId(), customer), true);

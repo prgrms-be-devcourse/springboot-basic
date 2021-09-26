@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -30,9 +31,16 @@ public class CustomerController {
 	}
 
 	// 회원 상세 조회
-	@GetMapping("{customerId}")
+	@GetMapping("/{customerId}")
 	public String customer(@PathVariable("customerId") UUID customerId, Model model) {
-		Customer customer = customerService.findCustomerById(customerId).get();
+		// 2021-09-27 Allen 피드백 반영
+		// msg : "findCustomerById가 optional을 리턴하나요?
+		//        get()을 사용하는건 Optional을 이용하는 의미가 없는 것 같아요. 인텔리제이도 아마 경고메시지를 줄 것 같네요"
+		// sol) 존재하지 않는 회원 조회시 RuntimeException 을 날리도록 수정
+		Customer customer = customerService.findCustomerById(customerId).orElseThrow(() -> {
+			throw new RuntimeException("No such customer found. Please check customer ID again. (Given: %s)"
+					.formatted(customerId.toString()));
+		});
 		model.addAttribute("customer", customer);
 
 		List<Voucher> vouchers = voucherService.getAllVouchersBelongsToCustomer(customer);
@@ -45,13 +53,16 @@ public class CustomerController {
 	}
 
 	// 회원 등록 폼
-	@GetMapping("/newCustomer")
+	// 2021-09-27 Allen 피드백 반영
+	// msg : "url prefix에 custromers가 들어가서 new만 들어가도 자연스럽지 않나 싶습니다."
+	// sol) 처음 작성시에는 newCustomer 쪽이 더 명확해 보인다고 생각했는데, 다시 살펴보니 별로 전달력의 차이가 느껴지지 않음. 보다 간결한 new 쪽이 더 나을 듯 하다고 판단.
+	@GetMapping("/new")
 	public String newCustomerForm() {
-		return "/newCustomerForm";
+		return "/new";
 	}
 
 	// 회원 등록 실행
-	@PostMapping("/newCustomer")
+	@PostMapping("/new")
 	public String addCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, RedirectAttributes redirectAttributes) {
 		Customer customer = customerService.signUp(customerDto.getName(), customerDto.getEmail());
 		redirectAttributes.addAttribute("customerId", customer.getCustomerId());

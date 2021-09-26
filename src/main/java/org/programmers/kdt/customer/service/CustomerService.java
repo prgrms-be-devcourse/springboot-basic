@@ -36,6 +36,12 @@ public interface CustomerService {
     // 회원 정보 출력
     String getPrintFormat(Customer customer);
 
+    // 회원 정보 수정
+    default Customer changeCustomerName(Customer customer, String newName) {
+        return changeCustomerName(customer.getCustomerId(), newName);
+    }
+    Customer changeCustomerName(UUID customerId, String newName);
+
     // 회원 바우처 관련 기능
     boolean addVoucherToCustomer(Customer customer, Voucher voucher);
 

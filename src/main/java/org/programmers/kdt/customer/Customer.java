@@ -40,7 +40,10 @@ public class Customer {
         }
     }
 
-    public Customer(Builder builder) {
+    // 2021-09-27 Allen 피드백 반영
+    // msg : "빌더패턴을 사용하시면 생성자를 private으로 막고, 빌더패턴의 정적메서드를 사용하도록 유도해야합니다."
+    // sol) public -> private
+    private Customer(Builder builder) {
         this.customerId = builder.customerId;
         this.name = builder.name;
         this.email = builder.email;
@@ -68,13 +71,9 @@ public class Customer {
         return createdAt;
     }
 
-    public String changeName(String newName) {
-        if (newName.isBlank()) {
-            throw new RuntimeException("Name should not be a black");
-        }
-        name = newName;
-        return name;
-    }
+    // 2021-09-27 Allen 피드백 반영
+    // msg : "changeName이라는 메서드네임과 String을 반환하는건 두가지 일을 하는 것 같네요"
+    // sol) changeName 메서드 제거. 이 역할은 CustomerService로 이동되었습니다.
 
     @Override
     public boolean equals(Object o) {
