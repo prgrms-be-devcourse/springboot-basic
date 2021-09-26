@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class OrderService {
-    // private final VoucherService voucherService;
     private final OrderRepository orderRepository;
 
     /*의존성 주입을 위해 생성자를 만듦
