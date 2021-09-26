@@ -73,10 +73,9 @@ public class ViewCustomerController {
         return "views/customer-details";
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public String deleteCustomer(@RequestParam(value = "id") UUID customerId) {
         customerService.deleteCustomer(customerId);
-
         return "redirect:/customers";
     }
 }
