@@ -1,16 +1,17 @@
 package org.prgrms.kdt.voucher.controller;
 
 import java.util.UUID;
-import org.prgrms.kdt.customer.controller.CustomerDto;
+import javax.validation.Valid;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@ControllerAdvice
 public class VoucherController {
 
     private final VoucherService voucherService;
@@ -41,7 +42,7 @@ public class VoucherController {
     @PostMapping("/vouchers/{voucherId}")
     public String voucherUpdate(
         @PathVariable("voucherId") UUID voucherId,
-        @ModelAttribute VoucherDto voucherDto) {
+        @Valid VoucherDto voucherDto) {
         voucherService.updateVoucher(voucherId, voucherDto);
         return "redirect:/vouchers";
     }
@@ -53,7 +54,7 @@ public class VoucherController {
     }
 
     @PostMapping("/vouchers/new")
-    public String addNewVoucher(@ModelAttribute VoucherDto voucherDto) {
+    public String addNewVoucher(@Valid VoucherDto voucherDto) {
         voucherService.createVoucher(voucherDto);
         return "redirect:/vouchers";
     }

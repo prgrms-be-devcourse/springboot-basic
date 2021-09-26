@@ -1,12 +1,14 @@
 package org.prgrms.kdt.customer.controller;
 
 import java.util.UUID;
+import javax.validation.Valid;
 import org.prgrms.kdt.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@ControllerAdvice
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -33,7 +35,7 @@ public class CustomerController {
     @PostMapping("/customers/{customerId}")
     public String customerUpdate(
         @PathVariable("customerId") UUID customerId,
-        @ModelAttribute CustomerDto customerDto) {
+        @Valid CustomerDto customerDto) {
         customerService.updateCustomer(customerId, customerDto);
         return "redirect:/customers";
     }
@@ -45,7 +47,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/new")
-    public String addNewCustomer(@ModelAttribute CustomerDto customerDto) {
+    public String addNewCustomer(@Valid CustomerDto customerDto) {
         customerService.createCustomer(customerDto);
         return "redirect:/customers";
     }

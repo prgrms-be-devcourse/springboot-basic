@@ -106,3 +106,27 @@
 03:39:43.625 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
 03:39:43.625 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
 03:39:45.613 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 2.374 seconds (JVM running for 8.497)
+16:34:39.231 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 77352 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+16:34:39.233 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+16:34:39.233 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+16:34:42.292 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 3.508 seconds (JVM running for 9.929)
+16:34:55.581 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 77364 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+16:34:55.582 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+16:34:55.583 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+16:34:57.702 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 2.464 seconds (JVM running for 8.162)
+16:39:09.592 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 77418 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+16:39:09.596 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+16:39:09.596 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+16:39:11.597 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 2.375 seconds (JVM running for 8.501)
+16:59:26.334 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 77623 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+16:59:26.334 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+16:59:26.335 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+16:59:28.724 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 2.804 seconds (JVM running for 8.6)
+17:00:33.479 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 77634 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+17:00:33.480 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+17:00:33.480 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+17:00:35.785 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 2.659 seconds (JVM running for 8.933)
+17:11:41.409 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 16.0.2 on ljoui-MacBookPro.local with PID 77765 (/Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A/target/classes started by ljo in /Users/ljo/Desktop/project/programmers-school/w3-SpringBoot_Part_A)
+17:11:41.411 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.5.3, Spring v5.3.9
+17:11:41.411 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to default profiles: default
+17:11:43.886 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 2.91 seconds (JVM running for 8.718)

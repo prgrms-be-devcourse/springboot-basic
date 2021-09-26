@@ -2,11 +2,17 @@ package org.prgrms.kdt.voucher.controller;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 public class VoucherDto {
     private UUID voucherId;
+    @NotNull
+    @Positive
     private long discount;
     private LocalDateTime createdAt;
+    @NotBlank
     private String voucherType;
 
     public UUID getVoucherId() {
