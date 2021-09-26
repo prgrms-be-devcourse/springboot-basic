@@ -1,5 +1,6 @@
 package org.programmers.applicationcontext.voucher.volume;
 
+import org.programmers.applicationcontext.voucher.FixedAmountVoucher;
 import org.programmers.applicationcontext.voucher.Voucher;
 import org.programmers.applicationcontext.voucher.VoucherService;
 import java.io.BufferedReader;
