@@ -4,8 +4,12 @@ import java.time.LocalDateTime;
 import org.modelmapper.ModelMapper;
 import org.prgrms.kdt.customer.controller.CustomerDto;
 import org.prgrms.kdt.customer.model.CustomerType;
+import org.prgrms.kdt.exception.BadRequestException;
+import org.prgrms.kdt.exception.NotFoundException;
+import org.prgrms.kdt.utils.EnumUtils;
 import org.prgrms.kdt.utils.MappingUtils;
 import org.prgrms.kdt.voucher.controller.VoucherDto;
+import org.prgrms.kdt.voucher.controller.VoucherSearch;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
@@ -31,13 +35,18 @@ public class VoucherService {
         var voucher = voucherRepository
             .findById(voucherId)
             .orElseThrow(
-                () -> new RuntimeException("Can not find a voucher %s".formatted(voucherId)));
+                () -> new NotFoundException("Can not find a voucher %s".formatted(voucherId)));
         return modelMapper.map(voucher, VoucherDto.class);
     }
 
     public List<VoucherDto> getAllVouchers() {
         return MappingUtils
             .mapList(voucherRepository.findAllVoucher(), VoucherDto.class, modelMapper);
+    }
+
+    public List<VoucherDto> getFilteredVouchers(VoucherSearch voucherSearch) {
+        return MappingUtils
+            .mapList(voucherRepository.findFilteredVouchers(voucherSearch), VoucherDto.class, modelMapper);
     }
 
     @Transactional
@@ -47,7 +56,8 @@ public class VoucherService {
                 UUID.randomUUID(),
                 voucherDto.getDiscount(),
                 LocalDateTime.now(),
-                VoucherType.valueOf(voucherDto.getVoucherType()))
+                EnumUtils.getVoucherTypeByName(voucherDto.getVoucherType())
+                    .orElseThrow(() -> new BadRequestException("invalid voucher type")))
         );
         return modelMapper.map(voucher, VoucherDto.class);
     }
@@ -57,10 +67,10 @@ public class VoucherService {
         var voucher = voucherRepository
             .findById(voucherId)
             .orElseThrow(
-                () -> new RuntimeException(
-                    "Can not find customer %s".formatted(voucherId)));
+                () -> new NotFoundException("Can not find customer %s".formatted(voucherId)));
         voucher.changeVoucherType(
-            VoucherType.valueOf(voucherDto.getVoucherType()),
+            EnumUtils.getVoucherTypeByName(voucherDto.getVoucherType())
+                .orElseThrow(() -> new BadRequestException("invalid voucher type")),
             voucherDto.getDiscount()
         );
 

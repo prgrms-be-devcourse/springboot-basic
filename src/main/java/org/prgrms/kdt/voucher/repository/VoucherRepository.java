@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher.repository;
 
 import java.util.*;
+import org.prgrms.kdt.voucher.controller.VoucherSearch;
 import org.prgrms.kdt.voucher.model.Voucher;
 
 
@@ -19,5 +20,7 @@ public interface VoucherRepository {
     List<Voucher> findByCustomerId(UUID customerId);
 
     void deleteById(UUID voucherId);
+
+    List<Voucher> findFilteredVouchers(VoucherSearch voucherSearch);
 }
 

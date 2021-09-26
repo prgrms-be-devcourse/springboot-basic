@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.StringJoiner;
 import java.util.UUID;
+import org.prgrms.kdt.exception.NotFoundException;
 import org.prgrms.kdt.utils.UuidUtils;
+import org.prgrms.kdt.voucher.controller.VoucherSearch;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
@@ -67,7 +70,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             toParamMap(voucher));
 
         if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new NotFoundException("Nothing was inserted");
         }
         return voucher;
     }
@@ -78,7 +81,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             UPDATE_TYPE,
             toParamMap(voucher));
         if (update != 1) {
-            throw new RuntimeException("Nothing was updated");
+            throw new NotFoundException("Nothing was updated");
         }
         return voucher;
     }
@@ -86,6 +89,25 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAllVoucher() {
         return jdbcTemplate.query(SELECT_ALL, voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findFilteredVouchers(VoucherSearch voucherSearch) {
+        StringJoiner where = new StringJoiner(" AND ", " WHERE ", "").setEmptyValue("");
+        Map<String, Object> params = new HashMap<>();
+        if(voucherSearch.getVoucherType() != null) {
+            params.put("voucherType", voucherSearch.getVoucherType());
+            where.add("voucher_type = :voucherType");
+        }
+        if(voucherSearch.getFrom() != null) {
+            params.put("from", voucherSearch.getFrom());
+            where.add("created_at >= :from");
+        }
+        if(voucherSearch.getTo() != null) {
+            params.put("to", voucherSearch.getTo());
+            where.add("created_at <= :to");
+        }
+        return jdbcTemplate.query(SELECT_ALL + where, params, voucherRowMapper);
     }
 
     @Override
@@ -99,7 +121,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             DELETE_BY_ID,
             Map.of("voucherId", voucherId.toString().getBytes()));
         if (update != 1) {
-            throw new RuntimeException("Nothing was deleted");
+            throw new NotFoundException("Nothing was deleted");
         }
 
     }

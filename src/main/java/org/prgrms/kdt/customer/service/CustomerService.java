@@ -7,6 +7,9 @@ import org.prgrms.kdt.customer.controller.CustomerDto;
 import org.prgrms.kdt.customer.model.Customer;
 import org.prgrms.kdt.customer.repository.CustomerRepository;
 import org.prgrms.kdt.customer.model.CustomerType;
+import org.prgrms.kdt.exception.BadRequestException;
+import org.prgrms.kdt.exception.NotFoundException;
+import org.prgrms.kdt.utils.EnumUtils;
 import org.prgrms.kdt.utils.MappingUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +32,7 @@ public class CustomerService {
         var customer = customerRepository
             .findById(customerId)
             .orElseThrow(
-                () -> new RuntimeException("Can not find customer %s".formatted(customerId)));
+                () -> new NotFoundException("Can not find customer %s".formatted(customerId)));
         return modelMapper.map(customer, CustomerDto.class);
     }
 
@@ -71,9 +74,11 @@ public class CustomerService {
         var customer = customerRepository
             .findById(customerId)
             .orElseThrow(
-                () -> new RuntimeException(
+                () -> new NotFoundException(
                     "Can not find customer %s".formatted(customerId)));
-        customer.changeCustomerType(CustomerType.valueOf(customerDto.getCustomerType()));
+        customer.changeCustomerType(
+            EnumUtils.getCustomerTypeByName(customerDto.getCustomerType())
+                .orElseThrow(() -> new BadRequestException("invalid customer type")));
         customer.changeName(customerDto.getName());
 
         var updatedCustomer = customerRepository.update(customer);

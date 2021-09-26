@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.kdt.customer.model.Customer;
 import org.prgrms.kdt.customer.model.CustomerType;
+import org.prgrms.kdt.exception.NotFoundException;
 import org.prgrms.kdt.utils.UuidUtils;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.RowMapper;
@@ -72,7 +73,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             toParamMap(customer));
 
         if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new NotFoundException("Nothing was inserted");
         }
         return customer;
     }
@@ -105,7 +106,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             UPDATE,
             toParamMap(customer));
         if (update != 1) {
-            throw new RuntimeException("Nothing was updated");
+            throw new NotFoundException("Nothing was updated");
         }
         return customer;
     }
@@ -121,7 +122,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             DELETE_BY_ID,
             Map.of("customerId", customerId.toString().getBytes()));
         if (update != 1) {
-            throw new RuntimeException("Nothing was deleted");
+            throw new NotFoundException("Nothing was deleted");
         }
 
     }
