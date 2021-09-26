@@ -3,9 +3,11 @@ package org.prgms.w3d1.service;
 import org.prgms.w3d1.model.wallet.VoucherWallet;
 import org.prgms.w3d1.repository.VoucherRepository;
 import org.prgms.w3d1.repository.VoucherWalletRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class VoucherWalletService {
 
     private final VoucherWalletRepository voucherWalletRepository;
