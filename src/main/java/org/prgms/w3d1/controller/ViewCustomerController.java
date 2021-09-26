@@ -12,35 +12,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Controller
-public class CustomerController {
+@RequestMapping("/customers")
+public class ViewCustomerController {
 
     private final CustomerService customerService;
-    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ViewCustomerController.class);
 
-    public CustomerController(CustomerService customerService) {
+    public ViewCustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
-    @GetMapping("/customers")
+    @GetMapping()
     public String viewCustomersPage(Model model) {
         var allCustomers = customerService.findAll();
         model.addAttribute("customers", allCustomers);
         return "views/customers";
     }
 
-    @GetMapping("/customers/new")
+    @GetMapping("/new")
     public String viewNewCustomerPage() {
         return "views/new-customers";
     }
 
-    @PostMapping("/customers/new")
-    // 왜 record가 들어가면 매칭이 되는거냐고;;
+    @PostMapping("/new")
     public String createNewCustomer(CreateCustomerRequest createCustomerRequest) {
         customerService.createCustomer(createCustomerRequest.name(), createCustomerRequest.email());
         return "redirect:/customers";
     }
 
-    @GetMapping("/customers/{customerId}")
+    @GetMapping("/{customerId}")
     public String viewCustomerDetail(@PathVariable("customerId") UUID customerId, Model model) {
         var maybeCustomer = customerService.getCustomer(customerId);
         if (maybeCustomer.isPresent()) {
@@ -51,7 +51,7 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("/customers/update")
+    @GetMapping("/update")
     public String viewCustomerUpdate(@RequestParam(value = "id") UUID customerId, Model model) {
         var maybeCustomer = customerService.getCustomer(customerId);
         if (maybeCustomer.isPresent()) {
@@ -62,7 +62,7 @@ public class CustomerController {
         }
     }
 
-    @PostMapping("/customers/update")
+    @PostMapping("/update")
     public String updateCustomer(
         @RequestParam(value = "id") UUID customerId,
         UpdateCustomerRequest updateCustomerRequest, Model model)
@@ -73,7 +73,7 @@ public class CustomerController {
         return "views/customer-details";
     }
 
-    @GetMapping("/customers/delete")
+    @GetMapping("/delete")
     public String deleteCustomer(@RequestParam(value = "id") UUID customerId) {
         customerService.deleteCustomer(customerId);
 

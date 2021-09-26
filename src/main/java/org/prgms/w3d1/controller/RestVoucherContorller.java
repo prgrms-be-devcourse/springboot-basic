@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
+public class RestVoucherContorller {
 
     private final VoucherService voucherService;
 
-    public VoucherController(VoucherService voucherService) {
+    public RestVoucherContorller(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
