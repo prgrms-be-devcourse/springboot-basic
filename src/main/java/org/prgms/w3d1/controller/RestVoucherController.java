@@ -12,35 +12,35 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-public class RestVoucherContorller {
+public class RestVoucherController {
 
     private final VoucherService voucherService;
 
-    public RestVoucherContorller(VoucherService voucherService) {
+    public RestVoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
     // 전체 조회기능
-    @GetMapping("/api/v1/vouchers")
+    @GetMapping(value = "/api/v1/vouchers")
     public List<Voucher> getAllVouchers() {
         return voucherService.findAll();
     }
 
     //특정 아이디 조회
-    @GetMapping("/api/v1/vouchers/{voucherId}")
+    @GetMapping(value = "/api/v1/vouchers/{voucherId}")
     public Voucher getVoucher(@PathVariable("voucherId") UUID voucherId) {
         return voucherService.getVoucher(voucherId);
     }
 
     // 바우처 타입별 조회
-    @GetMapping(path = "/api/v1/vouchers", params = "type")
+    @GetMapping(value = "/api/v1/vouchers", params = "type")
     public List<Voucher> getVoucherByType(
         @RequestParam("type") String type) {
         return voucherService.getVouchersByType(VoucherType.getVoucherType(type));
     }
 
     // 바우처 생성
-    @PostMapping("/api/v1/vouchers/{voucherId}")
+    @PostMapping(value = "/api/v1/vouchers/{voucherId}")
     public Voucher createVoucher (
             @PathVariable("voucherId") UUID voucherId, @RequestBody CreateVoucherRequest createVoucherRequest)
     {
@@ -50,7 +50,7 @@ public class RestVoucherContorller {
     }
 
     // 바우처 삭제
-    @DeleteMapping("/api/v1/vouchers/{voucherId}")
+    @DeleteMapping(value = "/api/v1/vouchers/{voucherId}")
     public void deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.deleteById(voucherId);
     }
