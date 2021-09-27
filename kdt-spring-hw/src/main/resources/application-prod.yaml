@@ -1,4 +1,9 @@
 spring:
+  datasource:
+    url: jdbc:mysql://localhost/order_mgmt
+    username: root
+    password: 1234
+
   config:
     activate:
       on-profile: prod
