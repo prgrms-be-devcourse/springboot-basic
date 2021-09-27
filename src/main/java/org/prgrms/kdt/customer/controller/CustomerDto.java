@@ -13,7 +13,6 @@ public class CustomerDto {
     @NotBlank
     @Email
     private String email;
-    @NotBlank
     private String customerType;
     private LocalDateTime lastLoginAt;
     private LocalDateTime createdAt;

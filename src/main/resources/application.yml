@@ -7,10 +7,8 @@ kdt:
       path: data/customer_blacklist.csv
 
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/command_application
-    username: root
-    password: root1234!
+  profiles:
+    active: dev
   thymeleaf:
     prefix: file:src/main/resources/templates/
     suffix : .html

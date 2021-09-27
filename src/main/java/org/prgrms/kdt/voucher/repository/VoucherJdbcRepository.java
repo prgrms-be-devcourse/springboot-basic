@@ -20,7 +20,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-@Profile({"default"})
 public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
