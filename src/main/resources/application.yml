@@ -7,8 +7,6 @@ kdt:
       path: data/customer_blacklist.csv
 
 spring:
-  profiles:
-    active: dev
   thymeleaf:
     prefix: file:src/main/resources/templates/
     suffix : .html
