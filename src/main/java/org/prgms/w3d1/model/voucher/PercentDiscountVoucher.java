@@ -4,23 +4,24 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher, Serializable {
-    private final UUID voucherId;
-    private final long percent;
+    private UUID voucherId;
+    private long percent;
     private UUID voucherWalletId;
 
-    private PercentDiscountVoucher(UUID voucherId, long percent) {
+    private PercentDiscountVoucher() {}
+
+    private PercentDiscountVoucher(UUID voucherId, long percent, UUID voucherWalletId) {
         this.voucherId = voucherId;
         this.percent = percent;
+        this.voucherWalletId = voucherWalletId;
     }
 
     public static PercentDiscountVoucher of(UUID voucherId, long percent) {
-        return new PercentDiscountVoucher(voucherId, percent);
+        return new PercentDiscountVoucher(voucherId, percent, null);
     }
 
     public static PercentDiscountVoucher of(UUID voucherId, long percent, UUID voucherWalletId) {
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, percent);
-        percentDiscountVoucher.setVoucherWalletId(voucherWalletId);
-        return percentDiscountVoucher;
+        return new PercentDiscountVoucher(voucherId, percent, voucherWalletId);
     }
 
     @Override
@@ -41,6 +42,16 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     @Override
     public UUID getVoucherWalletId() {
         return voucherWalletId;
+    }
+
+    @Override
+    public void setVoucherId(UUID voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    @Override
+    public void setVoucherValue(long value) {
+        this.percent = value;
     }
 
     @Override

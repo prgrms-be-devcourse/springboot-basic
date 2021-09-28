@@ -7,5 +7,7 @@ public interface Voucher {
     long getVoucherValue();
     long discount(long beforeDiscount);
     UUID getVoucherWalletId();
+    void setVoucherId(UUID voucherId);
+    void setVoucherValue(long value);
     void setVoucherWalletId(UUID voucherWalletId);
 }

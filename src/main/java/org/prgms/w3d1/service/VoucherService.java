@@ -2,6 +2,7 @@ package org.prgms.w3d1.service;
 
 import org.prgms.w3d1.model.voucher.Voucher;
 import org.prgms.w3d1.model.voucher.VoucherType;
+import org.prgms.w3d1.model.voucher.dto.VoucherDto;
 import org.prgms.w3d1.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 

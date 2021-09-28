@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher, Serializable {
-    private final UUID voucherId;
-    private final long amount;
+    private UUID voucherId;
+    private long amount;
     private UUID voucherWalletId;
+
+    private FixedAmountVoucher() {}
 
     private FixedAmountVoucher(UUID voucherId, long amount, UUID voucherWalletId) {
         this.voucherId = voucherId;
@@ -40,6 +42,16 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     @Override
     public UUID getVoucherWalletId() {
         return this.voucherWalletId;
+    }
+
+    @Override
+    public void setVoucherId(UUID voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    @Override
+    public void setVoucherValue(long value) {
+        this.amount = value;
     }
 
     @Override
