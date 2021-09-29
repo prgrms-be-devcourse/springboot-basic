@@ -1,5 +1,10 @@
-package W3D2.jcu.voucher;
+package W3D2.jcu.voucher.repository;
 
+import W3D2.jcu.Utils;
+import W3D2.jcu.voucher.model.FixedAmountVoucher;
+import W3D2.jcu.voucher.model.PercentDiscountVoucher;
+import W3D2.jcu.voucher.model.Voucher;
+import W3D2.jcu.voucher.model.VoucherStatus;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,41 +18,38 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VoucherRepositoryImpl implements VoucherRepository{
+public class VoucherRepositoryImpl implements VoucherRepository {
+
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public void readStorage() throws IOException {
+    public void readStorage() { // csv 읽어오기
         try{
-            BufferedReader br = new BufferedReader(new FileReader("D:/storage.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/storage.csv"));
             StringTokenizer st;
             String input;
             while((input = br.readLine())!=null) {
                 st = new StringTokenizer(input);
 
-                // Quest : Class에 새로운 멤버 추가
-                //  - Voucher에 새로운 멤버가 추가된다면...? (type, id, amount, ...)
-                //  - 어떻게 설계하는 것이 좋을까?
-
                 String type = st.nextToken();
                 UUID id = UUID.fromString(st.nextToken());
                 Long amount = Long.parseLong(st.nextToken());
-                // enum 업데이트 전
-                if(type.equals("FIXED")) insert(new FixedAmountVoucher(id, amount));
-                else insert(new PercentDiscountVoucher(id, amount));
+                VoucherStatus code = VoucherStatus.from(type);
+                this.insert(code.execute(id, amount));
             }
             br.close();
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {} catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
-    public void writeStorage() throws FileNotFoundException {
-        PrintWriter pw = new PrintWriter("D:/storage.txt");
+    public void writeStorage() throws FileNotFoundException { // csv 저장하기
+        PrintWriter pw = new PrintWriter("src/main/resources/storage.csv");
 
         for (Voucher output : storage.values()) {
             StringBuilder sb = new StringBuilder();
-            // ID값까지 유지되어 저장되도록 함.
             sb.append(output.getInfo());
             pw.println(sb);
         }
@@ -66,7 +68,7 @@ public class VoucherRepositoryImpl implements VoucherRepository{
     }
 
     @Override
-    public Map<UUID, Voucher> findAll(){
+    public Map<UUID, Voucher> findAll() {
         return storage;
     }
 }

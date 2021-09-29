@@ -1,4 +1,4 @@
-package W3D2.jcu.voucher;
+package W3D2.jcu.voucher.model;
 
 import java.util.UUID;
 import lombok.Getter;
@@ -6,14 +6,14 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class FixedAmountVoucher implements Voucher {
-    private VoucherStatus voucherStatus = VoucherStatus.FIXED;
+public class PercentDiscountVoucher implements Voucher {
+    private VoucherStatus voucherStatus = VoucherStatus.PERCENT;
     private final UUID voucherId;
     private final Long amount;
 
     @Override
-    public Long discount(Long beforeDiscount)  {
-        return beforeDiscount - amount;
+    public Long discount(Long beforeDiscount) {
+        return beforeDiscount * (100-amount / 100);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "FixedAmountVoucher, " +
+        return "PercentDiscountVoucher, " +
             "amount = " + amount;
     }
 }

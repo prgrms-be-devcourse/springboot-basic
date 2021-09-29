@@ -1,4 +1,4 @@
-package W3D2.jcu;
+package W3D2.jcu.config;
 
 import org.springframework.context.annotation.Configuration;
 

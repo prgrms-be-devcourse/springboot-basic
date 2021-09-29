@@ -1,4 +1,4 @@
-package W3D2.jcu.voucher;
+package W3D2.jcu.voucher.model;
 
 import java.util.UUID;
 
