@@ -18,9 +18,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.prgrms.w3springboot.voucher.FixedAmountVoucher;
-import com.prgrms.w3springboot.voucher.PercentAmountVoucher;
 import com.prgrms.w3springboot.voucher.Voucher;
+import com.prgrms.w3springboot.voucher.VoucherFactory;
 import com.prgrms.w3springboot.voucher.VoucherType;
 
 @Repository
@@ -28,23 +27,16 @@ import com.prgrms.w3springboot.voucher.VoucherType;
 public class NamedJdbcVoucherRepository implements VoucherRepository {
 	private static final Logger logger = LoggerFactory.getLogger(NamedJdbcVoucherRepository.class);
 	private static final int SUCCESS = 1;
-
-	private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+	private final NamedParameterJdbcTemplate jdbcTemplate;
+	private final VoucherFactory voucherFactory = VoucherFactory.getInstance();
+	private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
 		UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
 		long amount = resultSet.getLong("amount");
-		VoucherType type = VoucherType.of(resultSet.getString("type").toLowerCase());
+		VoucherType voucherType = VoucherType.of(resultSet.getString("type").toLowerCase());
 		LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
-		if (type == VoucherType.FIXED) {
-			return new FixedAmountVoucher(voucherId, amount, type, createdAt);
-		} else if (type == VoucherType.PERCENT) {
-			return new PercentAmountVoucher(voucherId, amount, type, createdAt);
-		}
-
-		throw new IllegalArgumentException("유효하지 않은 바우처 타입입니다.");
+		return voucherFactory.createVoucher(voucherId, amount, voucherType, createdAt);
 	};
-
-	private final NamedParameterJdbcTemplate jdbcTemplate;
 
 	public NamedJdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
