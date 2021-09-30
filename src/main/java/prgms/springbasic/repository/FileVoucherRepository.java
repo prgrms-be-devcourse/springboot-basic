@@ -43,6 +43,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         } catch (IOException exception) {
             logger.error(String.valueOf(exception));
+            throw new RuntimeException("저장소의 내용을 읽어올 수 없습니다.");
         }
         return Optional.empty();
     }
@@ -56,7 +57,8 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.close();
 
         } catch (IOException exception) {
-            logger.error(String.valueOf(exception));
+            logger.error("바우처 파일 레포지토리에 바우처를 추가하지 못했습니다. voucher -> {}", voucher.toString());
+            throw new RuntimeException("해당 바우처를 저장할 수 없습니다.");
         }
         return voucher;
     }
@@ -77,6 +79,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         } catch (IOException exception) {
             logger.error(String.valueOf(exception));
+            throw new RuntimeException("해당 바우처 리스트를 표시할 수 없습니다.");
         }
         return voucherList;
     }
