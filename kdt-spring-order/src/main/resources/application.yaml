@@ -1,0 +1,11 @@
+customer :
+    blacklist :
+      directory : ""
+      filename : "customer_blacklist"
+      extension : ".csv"
+voucher :
+  repository :
+    file :
+      directory : ""
+      filename : "voucher"
+      extension : ".txt"
