@@ -12,6 +12,7 @@ import prgms.springbasic.voucher.VoucherType;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,20 +56,16 @@ public class CommandLineApplication {
     }
 
     public static VoucherType convertToVoucherType(int inputNumber) {
-        for (VoucherType voucherType : VoucherType.values()) {
-            if (voucherType.getTypeNumber() == inputNumber) {
-                return voucherType;
-            }
-        }
-        throw new IllegalArgumentException("해당 번호의 바우처 타입이 존재하지 않습니다.");
+        return Arrays.stream(VoucherType.values())
+                .filter(voucherType -> voucherType.getTypeNumber() == inputNumber)
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("해당 번호의 바우처 타입이 존재하지 않습니다."));
     }
 
-    public static CommandType convertToCommandType(String input){
-        for (CommandType commandType : CommandType.values()) {
-            if(commandType.getValue().equals(input)){
-                return commandType;
-            }
-        }
-        throw new IllegalArgumentException("해당 명령을 지원하지 않습니다.");
+    public static CommandType convertToCommandType(String input) {
+        return Arrays.stream(CommandType.values())
+                .filter(commandType -> commandType.getValue().equals(input))
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("해당 명령은 존재하지 않습니다."));
     }
 }
