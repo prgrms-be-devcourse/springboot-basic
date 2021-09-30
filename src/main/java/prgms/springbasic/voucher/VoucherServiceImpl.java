@@ -36,12 +36,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public List<Voucher> getVoucherList() {
-        try {
-            return voucherRepository.getVoucherList();
-        } catch (IOException exception) {
-            logger.error("바우처 레포지토리의 정보를 읽어올 수 없습니다. ", exception);
-            throw new RuntimeException("바우처 레포지토리의 정보를 읽어올 수 없습니다.");
-        }
+        return voucherRepository.getVoucherList();
     }
 
     @Override
@@ -50,29 +45,19 @@ public class VoucherServiceImpl implements VoucherService {
         printer.printVoucherListEmpty();
     }
 
-    public Voucher createFixedAmountVoucher(UUID voucherId, long amount){
+    public Voucher createFixedAmountVoucher(UUID voucherId, long amount) {
         Voucher newVoucher = new FixedAmountVoucher(voucherId, amount);
-        try {
-            return voucherRepository.save(newVoucher);
-        } catch (IOException exception) {
-            logger.error("바우처를 레포지토리에 저장하지 못했습니다. VoucherInformation -> {}", newVoucher);
-            throw new RuntimeException("바우처를 레포지토리에 저장하지 못했습니다.");
-        }
+        return voucherRepository.save(newVoucher);
     }
 
-    public Voucher createPercentDiscountVoucher(UUID voucherId, long percent){
+    public Voucher createPercentDiscountVoucher(UUID voucherId, long percent) {
         Voucher newVoucher = new PercentDiscountVoucher(voucherId, percent);
-        try {
-            return voucherRepository.save(newVoucher);
-        } catch (IOException e) {
-            logger.error("바우처를 레포지토리에 저장하지 못했습니다. VoucherInformation -> {}", newVoucher);
-            throw new RuntimeException("바우처를 레포지토리에 저장하지 못했습니다.");
-        }
+        return voucherRepository.save(newVoucher);
     }
 
     public Voucher getVoucher(UUID voucherId) throws IOException {
-        return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(MessageFormat.format("해당 바우처를 찾을 수 없습니다. 바우처 ID = {0}", voucherId))
-                );
+        return voucherRepository
+                .findById(voucherId)
+                .orElseThrow(() -> new RuntimeException(MessageFormat.format("해당 바우처를 찾을 수 없습니다. 바우처 ID = {0}", voucherId)));
     }
 }
