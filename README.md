@@ -118,11 +118,25 @@ Type list to list all vouchers.
 #### **(기본) 바우처 서비스 관리페이지 개발하기**
 
 - Spring MVC를 적용해서 thymeleaf 템플릿을 설정해보세요.
+
 - 커맨드로 지원했던 기능을 thymeleaf를 이용해서 관리페이지를 만들고 다음 기능을 지원가능하게 해보세요
-   - [ ] 조회페이지
-   - [ ] 상세페이지
-   - [ ] 입력페이지
-   - [ ] 삭제기능
+
+   - [x] 조회페이지
+   - [x] 상세페이지
+   - [x] 입력페이지 & 수정페이지
+   - [x] 삭제기능
+
+   
+
+   ![list](assets/images/voucher-list.png)
+
+   ![new](assets/images/new-voucher.png)
+
+   ![detail](assets/images/voucher-detail.png)
+
+   ![update](assets/images/update-voucher.png)
+
+
 
 #### **(기본) 바우처 서비스의 API 개발하기**
 

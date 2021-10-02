@@ -9,7 +9,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgrms.dev.voucher.domain.*;
+import org.prgrms.dev.voucher.domain.FixedAmountVoucher;
+import org.prgrms.dev.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.dev.voucher.domain.Voucher;
+import org.prgrms.dev.voucher.domain.VoucherType;
+import org.prgrms.dev.voucher.domain.dto.InsertVoucherDto;
 import org.prgrms.dev.voucher.repository.VoucherRepository;
 
 import java.time.LocalDateTime;
@@ -35,17 +39,17 @@ class VoucherServiceTest {
 
     static Stream<Arguments> parametersProvider() {
         return Stream.of(
-                arguments(new VoucherDto(UUID.randomUUID(), "ff", 1000)),
-                arguments(new VoucherDto(UUID.randomUUID(), "fixedd", 2500)),
-                arguments(new VoucherDto(UUID.randomUUID(), "1000", 3000))
+                arguments(new InsertVoucherDto("ff", 1000)),
+                arguments(new InsertVoucherDto("fixedd", 2500)),
+                arguments(new InsertVoucherDto("1000", 3000))
         );
     }
 
     @DisplayName("잘못된 바우처 타입 명령어로 바우처를 생성할 수 없다.")
     @ParameterizedTest
     @MethodSource("parametersProvider")
-    void createVoucherByInvalidVoucherTypeTest(VoucherDto voucherDto) {
-        assertThatThrownBy(() -> voucherService.createVoucher(voucherDto))
+    void createVoucherByInvalidVoucherTypeTest(InsertVoucherDto insertVoucherDto) {
+        assertThatThrownBy(() -> voucherService.createVoucher(insertVoucherDto))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Invalid voucher type input...");
     }
@@ -53,13 +57,12 @@ class VoucherServiceTest {
     @DisplayName("바우처를 생성할 수 있다.")
     @Test
     void createVoucherTest() {
-        UUID uuid = UUID.randomUUID();
-        VoucherDto voucherDto = new VoucherDto(uuid, "FIXED", 1);
-        Voucher voucherType = VoucherType.getVoucherType(voucherDto.getVoucherType(), voucherDto.getVoucherId(), voucherDto.getDiscount(), voucherDto.getCreatedAt());
+        InsertVoucherDto insertVoucherDto = new InsertVoucherDto("FIXED", 1);
+        Voucher voucherType = VoucherType.getVoucherType(insertVoucherDto.getVoucherType(), insertVoucherDto.getVoucherId(), insertVoucherDto.getDiscount(), insertVoucherDto.getCreatedAt());
 
         when(voucherRepository.insert(any())).thenReturn(voucherType);
 
-        Voucher voucher = voucherService.createVoucher(voucherDto);
+        Voucher voucher = voucherService.createVoucher(insertVoucherDto);
 
         assertThat(voucher.getVoucherId()).isEqualTo(voucherType.getVoucherId());
 
