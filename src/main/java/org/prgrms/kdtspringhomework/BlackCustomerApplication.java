@@ -12,10 +12,10 @@ public class BlackCustomerApplication {
         CustomerService customerService = applicationContext.getBean(CustomerService.class);
         OutputConsole outputConsole = new OutputConsole();
 
-        ExecuteBlacklistProgram(customerService, outputConsole);
+        executeBlacklistProgram(customerService, outputConsole);
     }
 
-    private static void ExecuteBlacklistProgram(CustomerService customerService, OutputConsole outputConsole) {
+    private static void executeBlacklistProgram(CustomerService customerService, OutputConsole outputConsole) {
         customerService.blackCustomerList();
         outputConsole.startBlackList();
         customerService.printCustomers();
