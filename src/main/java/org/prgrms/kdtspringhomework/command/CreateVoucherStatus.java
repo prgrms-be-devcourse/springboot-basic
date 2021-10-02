@@ -3,6 +3,8 @@ package org.prgrms.kdtspringhomework.command;
 import org.prgrms.kdtspringhomework.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdtspringhomework.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -11,6 +13,8 @@ import java.util.function.BiFunction;
 public enum CreateVoucherStatus {
     FIXED("fixed", FixedAmountVoucher::new),
     PERCENT("percent", PercentDiscountVoucher::new);
+
+    private static final Logger logger = LoggerFactory.getLogger(CreateVoucherStatus.class);
 
     private final String command;
     private final BiFunction<UUID, Long, Voucher> biFunction;
@@ -24,7 +28,10 @@ public enum CreateVoucherStatus {
         CreateVoucherStatus userVoucherType = Arrays.stream(CreateVoucherStatus.values())
                 .filter(createVoucherStatus -> createVoucherStatus.command.equals(voucherType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Select one of two things: 'fixed', 'percent'"));
+                .orElseThrow(() -> {
+                    logger.error("Select one of two things: 'fixed', 'percent'");
+                    return new IllegalArgumentException("Select one of two things: 'fixed', 'percent'");
+                });
         return userVoucherType.createVoucher(voucherId, amount);
     }
 

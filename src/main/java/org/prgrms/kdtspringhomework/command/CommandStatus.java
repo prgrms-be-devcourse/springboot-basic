@@ -30,7 +30,7 @@ public enum CommandStatus {
                 .findFirst()
                 .orElseThrow(() -> {
                     logger.error("Select one of three things: 'exit', 'list', 'create'.");
-                    return new IllegalArgumentException();
+                    return new IllegalArgumentException("Select one of three things: 'exit', 'list', 'create'.");
                 });
         return userCommandStatus.supplier.get().execute(input, output, voucherService);
     }
