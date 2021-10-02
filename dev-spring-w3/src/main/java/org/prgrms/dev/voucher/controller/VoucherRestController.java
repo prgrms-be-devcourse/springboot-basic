@@ -23,6 +23,16 @@ public class VoucherRestController {
         return voucherService.listVoucher();
     }
 
+    @GetMapping("/type/{voucherType}")
+    public List<Voucher> voucherListByType(@PathVariable String voucherType) {
+        return voucherService.listVoucherByType(voucherType);
+    }
+
+    @GetMapping("/period")
+    public List<Voucher> voucherListByPeriod() {
+        return voucherService.listVoucherByPeriod();
+    }
+
     @GetMapping("/{voucherId}")
     public Voucher getVoucher(@PathVariable String voucherId) {
         return voucherService.getVoucher(UUID.fromString(voucherId));

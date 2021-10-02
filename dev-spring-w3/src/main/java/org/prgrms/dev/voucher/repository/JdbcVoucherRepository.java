@@ -61,6 +61,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByVoucherType(String voucherType) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = :voucherType",
+                Collections.singletonMap("voucherType", voucherType),
+                voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt() {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE DATE(created_at) > (NOW() - INTERVAL 7 DAY)",
+                voucherRowMapper);
+    }
+
+
+    @Override
     public Voucher insert(Voucher voucher) {
         Map<String, Object> params = Map.of("voucherId", voucher.getVoucherId().toString().getBytes(),
                 "voucherType", voucher.getVoucherType().name(),

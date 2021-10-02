@@ -25,13 +25,21 @@ public class VoucherService {
                 .orElseThrow(() -> new NotFoundException("해당 바우처를 찾을 수 없습니다. " + voucherId));
     }
 
+    public List<Voucher> listVoucher() {
+        return voucherRepository.findAll();
+    }
+
+    public List<Voucher> listVoucherByType(String voucherType) {
+        return voucherRepository.findByVoucherType(voucherType);
+    }
+
+    public List<Voucher> listVoucherByPeriod() {
+        return voucherRepository.findByCreatedAt();
+    }
+
     public Voucher createVoucher(InsertVoucherDto insertVoucherDto) {
         Voucher voucher = VoucherType.getVoucherType(insertVoucherDto.getVoucherType(), insertVoucherDto.getVoucherId(), insertVoucherDto.getDiscount(), insertVoucherDto.getCreatedAt());
         return voucherRepository.insert(voucher);
-    }
-
-    public List<Voucher> listVoucher() {
-        return voucherRepository.findAll();
     }
 
     public Voucher updateVoucherDiscount(UpdateVoucherDto voucherDto) {

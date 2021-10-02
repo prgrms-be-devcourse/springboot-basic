@@ -11,6 +11,10 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
+    List<Voucher> findByVoucherType(String voucherType);
+
+    List<Voucher> findByCreatedAt();
+
     Voucher insert(Voucher voucher);
 
     Voucher update(Voucher voucher);
