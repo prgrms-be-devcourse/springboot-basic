@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Profile("memory")
+@Profile("test")
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class MemoryVoucherRepository implements VoucherRepository {
 
@@ -25,7 +25,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return new ArrayList<>(Vouchers.values());
     }
 
-    @Override
+    @Overrid
     public Voucher add(Voucher voucher) {
         Vouchers.put(voucher.getVoucherId(), voucher);
         return voucher;
