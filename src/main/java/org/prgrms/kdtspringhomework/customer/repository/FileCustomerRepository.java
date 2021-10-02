@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringhomework.customer.repository;
 
 import org.prgrms.kdtspringhomework.customer.domain.Customer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-//@Profile("file")
+@Profile("file")
 public class FileCustomerRepository implements CustomerRepository {
     private static final String USER_DIR = "user.dir";
     private static final String FILE_PATH = "src/main/resources/blackList.csv";
