@@ -2,7 +2,7 @@ package org.prgrms.dev.io;
 
 import java.util.Scanner;
 
-public class InputConsole implements Input{
+public class InputConsole implements Input {
     private static final Scanner scanner = new Scanner(System.in);
 
     @Override
