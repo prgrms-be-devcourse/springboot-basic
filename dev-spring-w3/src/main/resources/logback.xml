@@ -34,4 +34,8 @@
         <appender-ref ref="ERROR"/>
     </logger>
 
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
 </configuration>
