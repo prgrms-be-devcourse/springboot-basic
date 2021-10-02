@@ -1,7 +1,6 @@
 package org.prgrms.kdtspringhomework.customer.repository;
 
 import org.prgrms.kdtspringhomework.customer.domain.Customer;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -23,13 +22,14 @@ public class FileCustomerRepository implements CustomerRepository {
     private static final String SEPARATION_CRITERIA = ",";
     private static final int ID_INDEX = 0;
     private static final int NAME_INDEX = 1;
-    private final Map<UUID, Customer> FILE_STORAGE;
+
+    private final Map<UUID, Customer> fileStorage;
 
     public FileCustomerRepository() {
-        FILE_STORAGE = seperateCustomers();
+        fileStorage = separateCustomers();
     }
 
-    private Map<UUID, Customer> seperateCustomers() {
+    private Map<UUID, Customer> separateCustomers() {
         Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
         try {
             List<String> blackCustomerList = Files.readAllLines(FILE_DIR);
@@ -48,6 +48,6 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return new ArrayList<>(FILE_STORAGE.values());
+        return new ArrayList<>(fileStorage.values());
     }
 }

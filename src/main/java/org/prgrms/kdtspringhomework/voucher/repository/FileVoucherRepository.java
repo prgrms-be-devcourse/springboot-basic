@@ -4,7 +4,6 @@ package org.prgrms.kdtspringhomework.voucher.repository;
 import org.prgrms.kdtspringhomework.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdtspringhomework.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -29,13 +28,14 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final int AMOUNT_INDEX = 2;
     private static final String FIXED = "fixed";
     private static final String PERCENT = "percent";
-    private final Map<UUID, Voucher> FILE_STORAGE;
+
+    private final Map<UUID, Voucher> fileStorage;
 
     public FileVoucherRepository() {
-        FILE_STORAGE = seperateVouchers();
+        fileStorage = separateVouchers();
     }
 
-    private Map<UUID, Voucher> seperateVouchers() {
+    private Map<UUID, Voucher> separateVouchers() {
         Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
         try {
             List<String> voucherList = Files.readAllLines(FILE_DIR);
@@ -61,12 +61,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(FILE_STORAGE.get(voucherId));
+        return Optional.ofNullable(fileStorage.get(voucherId));
     }
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(FILE_STORAGE.values());
+        return new ArrayList<>(fileStorage.values());
     }
 
     @Override
