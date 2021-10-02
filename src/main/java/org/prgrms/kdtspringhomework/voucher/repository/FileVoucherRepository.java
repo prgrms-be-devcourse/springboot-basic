@@ -71,12 +71,10 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher add(Voucher voucher) {
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_PATH, true));
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             bufferedWriter.write(voucher.toString());
             bufferedWriter.newLine();
             bufferedWriter.flush();
-            bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
