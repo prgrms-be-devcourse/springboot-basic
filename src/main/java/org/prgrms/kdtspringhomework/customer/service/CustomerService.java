@@ -20,7 +20,6 @@ public class CustomerService {
     }
 
     public void printCustomers() {
-        List<Customer> blackCustomerList = customerRepository.findAll();
         blackCustomerList().stream()
                 .map(Customer::toString)
                 .forEach(System.out::println);
