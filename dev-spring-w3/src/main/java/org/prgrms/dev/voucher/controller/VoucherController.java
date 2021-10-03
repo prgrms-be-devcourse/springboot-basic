@@ -26,14 +26,14 @@ public class VoucherController {
     public String vouchersPage(Model model) {
         List<Voucher> vouchers = voucherService.listVoucher();
         model.addAttribute("vouchers", vouchers);
-        return "voucher-list";
+        return "voucher/voucher-list";
     }
 
     @GetMapping("/detail-voucher/{voucherId}")
     public String detailVoucherPage(@PathVariable("voucherId") String voucherId, Model model) {
         Voucher voucher = voucherService.getVoucher(UUID.fromString(voucherId));
         model.addAttribute("voucher", voucher);
-        return "detail-voucher";
+        return "voucher/detail-voucher";
     }
 
     @GetMapping("/new-voucher")
@@ -44,25 +44,25 @@ public class VoucherController {
     @PostMapping("/voucher")
     public String newVoucher(InsertVoucherDto insertVoucherDto) {
         voucherService.createVoucher(insertVoucherDto);
-        return "redirect:/vouchers";
+        return "redirect:/voucher/vouchers";
     }
 
     @GetMapping("/update-voucher/{voucherId}")
     public String updateVoucherPage(@PathVariable("voucherId") String voucherId, Model model) {
         Voucher voucher = voucherService.getVoucher(UUID.fromString(voucherId));
         model.addAttribute("voucher", voucher);
-        return "update-voucher";
+        return "voucher/update-voucher";
     }
 
     @PostMapping("/update-voucher")
     public String updateVoucher(UpdateVoucherDto updateVoucherDto) {
         voucherService.updateVoucherDiscount(updateVoucherDto);
-        return "redirect:/detail-voucher/" + updateVoucherDto.getVoucherId();
+        return "redirect:/voucher/detail-voucher/" + updateVoucherDto.getVoucherId();
     }
 
     @GetMapping("/delete-voucher/{voucherId}")
     public String deleteVoucher(@PathVariable("voucherId") String voucherId) {
         voucherService.deleteVoucher(UUID.fromString(voucherId));
-        return "redirect:/vouchers";
+        return "redirect:/voucher/vouchers";
     }
 }
