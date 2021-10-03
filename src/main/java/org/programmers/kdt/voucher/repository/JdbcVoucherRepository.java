@@ -27,7 +27,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	private static String SQL_SELECT_VOUCHER_NO_OWNER = "SELECT * FROM %s WHERE customer_id IS null";
 	private static String SQL_SELECT_ALL = "SELECT * FROM %s";
 	private static String SQL_DELETE_VOCUHER_BY_ID = "DELETE FROM %s WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
-	private static String SQL_DEALLOCATE_VOUCHER_BY_ID_AND_OWNER_ID = "UPDATE %s SET customer_Id = null WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+	private static String SQL_DEALLOCATE_VOUCHER_BY_ID_AND_OWNER_ID = "UPDATE %s SET customer_id = null WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+	private static String SQL_DEALLOCATE_ALL_VOUCHER_BY_OWNER_ID = "UPDATE %s SET customer_id = null WHERE customer_id = UUID_TO_BIN(:customer_id)";
 	private static String SQL_UPDATE_OWNER = "UPDATE %s SET customer_id = UUID_TO_BIN(:customer_id) WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
 	private static String SQL_SELECT_VOUCHER_BY_DATE = "SELECT * FROM %s WHERE created_at BETWEEN :from and :to";
 
@@ -91,6 +92,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	@Override
 	public void removeOwner(Customer customer, UUID voucherId) {
 		jdbcTemplate.update(SQL_DEALLOCATE_VOUCHER_BY_ID_AND_OWNER_ID.formatted(voucherTable), voucherOwnerMap(customer, voucherId));
+	}
+
+	@Override
+	public void releaseAllVoucherBelongsTo(Customer customer) {
+		jdbcTemplate.update(SQL_DEALLOCATE_ALL_VOUCHER_BY_OWNER_ID.formatted(voucherTable),
+				Collections.singletonMap(
+						"customer_id", customer.getCustomerId().toString().getBytes()
+				));
 	}
 
 	@Override

@@ -52,6 +52,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void releaseAllVoucherBelongsTo(Customer customer) {
+        // TODO: Implement
+    }
+
+    @Override
     public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
         // TODO: Implement
         return Optional.empty();

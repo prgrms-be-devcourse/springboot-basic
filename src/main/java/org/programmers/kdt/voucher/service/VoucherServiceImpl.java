@@ -88,6 +88,11 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public void releaseAllVoucherBelongsTo(Customer customer) {
+        voucherRepository.releaseAllVoucherBelongsTo(customer);
+    }
+
+    @Override
     public Optional<UUID> findCustomerIdHoldingVoucherOf(UUID voucherId) {
         return voucherRepository.findCustomerIdByVoucherId(voucherId);
     }

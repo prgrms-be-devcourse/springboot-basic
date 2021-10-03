@@ -21,6 +21,8 @@ public interface VoucherRepository {
     Voucher addOwner(Customer customer, Voucher voucher);
     void removeOwner(Customer customer, UUID voucherId);
 
+    void releaseAllVoucherBelongsTo(Customer customer);
+
     Optional<UUID> findCustomerIdByVoucherId(UUID voucherId);
     List<Voucher> findVouchersByCustomerId(UUID customerId);
     List<Voucher> findVouchersBetween(Timestamp from, Timestamp to);

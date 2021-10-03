@@ -34,6 +34,8 @@ public interface VoucherService {
     }
     void removeOwner(Customer customer, UUID voucherId);
 
+    void releaseAllVoucherBelongsTo(Customer customer);
+
     Optional<UUID> findCustomerIdHoldingVoucherOf(UUID voucherId);
     default Optional<UUID> findCustomerIdHoldingVoucherOf(Voucher voucher) {
         return findCustomerIdHoldingVoucherOf(voucher.getVoucherId());
