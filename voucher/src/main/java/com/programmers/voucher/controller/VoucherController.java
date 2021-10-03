@@ -139,31 +139,28 @@ public class VoucherController {
                                       Model model) {
         if (id == null || ownerId == null) return REDIRECT_TO + URL_LIST_VOUCHER;
 
-        Optional<Voucher> voucher = voucherService.findById(id);
-        Optional<Customer> customer = customerService.findById(ownerId);
-        if (voucher.isEmpty()) return REDIRECT_TO + URL_LIST_VOUCHER;
-
-        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        Voucher updatedVoucher = voucher.get();
-        if (name.isBlank() || type.isBlank()) {
-            model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Required fields cannot be empty.");
+        try {
+            Voucher updatedVoucher = voucherService.findById(id).orElseThrow(IllegalArgumentException::new);
+            model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
             model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
             model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, updatedVoucher);
-            return VIEW_UPDATE_VOUCHER;
-        }
-        updatedVoucher.updateName(name);
-        updatedVoucher.replaceDiscountPolicy(new DiscountPolicy(amount, DiscountType.of(type)));
+            if (name.isBlank() || type.isBlank()) {
+                model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Required fields cannot be empty.");
+                return VIEW_UPDATE_VOUCHER;
+            }
 
-        if (customer.isEmpty()) {
-            model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Customer not exists.");
-            model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
-            model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, updatedVoucher);
-            return VIEW_UPDATE_VOUCHER;
-        }
-        updatedVoucher.updateCustomerId(ownerId);
-        voucherService.update(updatedVoucher);
+            AtomicBoolean customerExists = new AtomicBoolean(false);
+            customerService.findById(ownerId).ifPresentOrElse(
+                    customer -> {
+                        customerExists.set(true);
+                        voucherService.update(updatedVoucher, name, DiscountType.of(type), amount, ownerId);
+                    },
+                    () -> model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Customer not exists."));
 
-        return "redirect:/voucher/read?id=" + updatedVoucher.getId();
+            return customerExists.get() ? REDIRECT_TO + URL_READ_VOUCHER + "?id=" + updatedVoucher.getId() : VIEW_UPDATE_VOUCHER;
+        } catch (IllegalArgumentException ex) {
+            return REDIRECT_TO + URL_LIST_VOUCHER;
+        }
     }
 
     @GetMapping("/delete")

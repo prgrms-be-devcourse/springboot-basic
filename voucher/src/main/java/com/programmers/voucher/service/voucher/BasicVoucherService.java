@@ -68,6 +68,15 @@ public class BasicVoucherService implements VoucherService {
     }
 
     @Override
+    public Voucher update(Voucher voucher, String name, DiscountType type, int amount, long ownerId) {
+        voucher.updateName(name);
+        voucher.replaceDiscountPolicy(new DiscountPolicy(amount, type));
+        voucher.updateCustomerId(ownerId);
+        jdbcVoucherRepository.update(voucher);
+        return voucher;
+    }
+
+    @Override
     public void delete(long voucherId) {
         jdbcVoucherRepository.findById(voucherId).ifPresentOrElse(
                 voucher -> jdbcVoucherRepository.deleteById(voucherId),

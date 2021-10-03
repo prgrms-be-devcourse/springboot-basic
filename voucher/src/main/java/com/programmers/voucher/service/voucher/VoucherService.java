@@ -18,5 +18,7 @@ public interface VoucherService {
     List<Voucher> listAll(LocalDate from, LocalDate to, Voucher.SearchCriteria searchCriteria, String keyword);
 
     Voucher update(Voucher voucher);
+    Voucher update(Voucher voucher, String name, DiscountType type, int amount, long ownerId);
+
     void delete(long voucherId);
 }
