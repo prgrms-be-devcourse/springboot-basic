@@ -58,7 +58,7 @@ public class CustomerController {
 	// sol) 처음 작성시에는 newCustomer 쪽이 더 명확해 보인다고 생각했는데, 다시 살펴보니 별로 전달력의 차이가 느껴지지 않음. 보다 간결한 new 쪽이 더 나을 듯 하다고 판단.
 	@GetMapping("/new")
 	public String newCustomerForm() {
-		return "/new";
+		return "/newCustomerForm";
 	}
 
 	// 회원 등록 실행

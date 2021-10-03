@@ -40,12 +40,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public Customer insert(Customer customer) {
-		int numberOfRowSAffected = jdbcTemplate.update(SQL_INSERT_CUSTOMER.formatted(customerTable), toParamMap(customer)
+		int numberOfRowsAffected = jdbcTemplate.update(SQL_INSERT_CUSTOMER.formatted(customerTable), toParamMap(customer)
 		);
 
-		// 0: The customer already exists so that no row has been affected.
-		// 1: Successfully created so that one row has been affected(created).
-		if (numberOfRowSAffected != 1) {
+		if (numberOfRowsAffected != 1) {
 			logger.info("Attempt to create a duplicate customer has been detected. Customer Information -> {}", customer);
 			throw new RuntimeException("Try to create a duplicate customer!");
 		}

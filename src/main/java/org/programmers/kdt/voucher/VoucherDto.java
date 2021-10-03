@@ -1,8 +1,10 @@
 package org.programmers.kdt.voucher;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class VoucherDto {
 	private final VoucherType voucherType;
 	private final long discountAmount;
