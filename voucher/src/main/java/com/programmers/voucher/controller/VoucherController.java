@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Controller
 @RequestMapping("/voucher")
@@ -121,13 +122,12 @@ public class VoucherController {
         if (id == null) return "redirect:/voucher";
         model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        Optional<Voucher> byId = voucherService.findById(id);
-        if (byId.isPresent()) model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, byId.get());
-        else {
-            return REDIRECT_TO + URL_LIST_VOUCHER;
-        }
-
-        return VIEW_UPDATE_VOUCHER;
+        AtomicBoolean voucherExists = new AtomicBoolean(false);
+        voucherService.findById(id).ifPresent(voucher -> {
+            model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, voucher);
+            voucherExists.set(true);
+        });
+        return voucherExists.get() ? VIEW_UPDATE_VOUCHER : REDIRECT_TO + URL_LIST_VOUCHER;
     }
 
     @PostMapping("/update")
