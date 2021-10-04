@@ -3,10 +3,12 @@ package org.prgrms.kdtspringhomework.voucher.service;
 import org.prgrms.kdtspringhomework.command.CreateVoucherStatus;
 import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
 import org.prgrms.kdtspringhomework.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
@@ -25,11 +27,8 @@ public class VoucherService {
         voucherRepository.add(voucher);
     }
 
-    public void printVouchers() {
-        List<Voucher> voucherList = voucherRepository.findAll();
-        for (Voucher voucher : voucherList) {
-            System.out.println(voucher.toString());
-        }
+    public List<Voucher> listVouchers() {
+        return voucherRepository.findAll();
     }
 
     public void useVoucher(Voucher voucher) {
