@@ -15,7 +15,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("file")
 public class FileCustomerRepository implements CustomerRepository {
     private static final String USER_DIR = "user.dir";
     private static final String FILE_PATH = "src/main/resources/blackList.csv";
