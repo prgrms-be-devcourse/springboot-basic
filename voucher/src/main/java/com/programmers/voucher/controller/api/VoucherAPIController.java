@@ -67,7 +67,7 @@ public class VoucherAPIController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteVoucher(@PathVariable("id") long id) {
         basicVoucherService.delete(id);
     }
