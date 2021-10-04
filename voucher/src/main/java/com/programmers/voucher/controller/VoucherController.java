@@ -105,8 +105,8 @@ public class VoucherController {
     public String readVoucher(@RequestParam(name = "id", defaultValue = "") Long id,
                               Model model) {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        model.addAttribute("id", id);
         if (id != null) {
+            model.addAttribute("id", id);
             voucherService.findById(id).ifPresentOrElse(
                     voucher -> model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, voucher),
                     () -> model.addAttribute(ERROR_MODEL_ATTRIBUTE, "No voucher found."));

@@ -98,8 +98,10 @@ public class CustomerController {
     public String listVouchersInWallet(@RequestParam(value = "id", defaultValue = "") Long id,
                                        Model model) {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        model.addAttribute("id", id);
-        if(id != null) model.addAttribute("vouchers", customerVoucherService.findAllVoucherByCustomer(id));
+        if(id != null) {
+            model.addAttribute("vouchers", customerVoucherService.findAllVoucherByCustomer(id));
+            model.addAttribute("id", id);
+        }
         return "customer/wallet";
     }
 }
