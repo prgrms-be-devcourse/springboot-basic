@@ -113,4 +113,35 @@ public class VoucherServiceImpl implements VoucherService {
     public List<Voucher> getVouchersBetween(Timestamp from, Timestamp to) {
         return voucherRepository.findVouchersBetween(from, to);
     }
+
+    public List<Voucher> getVouchersWithConditions(String voucherId, String voucherType, String dateFrom, String dateTo) {
+        // 날짜 범위 검색 조건
+        Timestamp from = Timestamp.valueOf(dateFrom + " 00:00:00");
+        Timestamp to = Timestamp.valueOf(dateTo + " 23:59:59");
+        List<Voucher> vouchers = getVouchersBetween(from, to);
+
+        // Voucher ID 검색 조건이 지정되었을 경우
+        if (!voucherId.equals("all")) {
+            vouchers = List.of(vouchers.stream().filter(voucher -> voucher.getVoucherId().equals(UUID.fromString(voucherId))).findAny().get());
+        }
+
+        // Voucher Type 검색 조건이 지정되었을 경우
+        if (!VoucherType.of(voucherType).equals(VoucherType.ALL)) {
+            VoucherType type = VoucherType.of(voucherType);
+            vouchers = vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
+        }
+
+        return vouchers;
+    }
+
+    @Override
+    public List<Voucher> filteringWithId(List<Voucher> vouchers, String voucherId) {
+        return vouchers.stream().filter(voucher -> voucher.getVoucherId().equals(UUID.fromString(voucherId))).toList();
+    }
+
+    @Override
+    public List<Voucher> filteringWithType(List<Voucher> vouchers, String voucherType) {
+        VoucherType type = VoucherType.of(voucherType);
+        return vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
+    }
 }

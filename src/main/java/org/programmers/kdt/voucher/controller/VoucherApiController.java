@@ -27,22 +27,7 @@ public class VoucherApiController {
 	                       @RequestParam(defaultValue = "all") String voucherId,
 	                       @RequestParam(defaultValue = "1970-01-01") String dateFrom,
 	                       @RequestParam(defaultValue = "9999-12-31") String dateTo) {
-		// 날짜 범위 검색 조건.
-		Timestamp from = Timestamp.valueOf(dateFrom + " 00:00:00");
-		Timestamp to = Timestamp.valueOf(dateTo + " 23:59:59");
-		List<Voucher> vouchers = voucherService.getVouchersBetween(from, to);
-
-		// Voucher ID 검색 조건이 지정되었을 경우
-		if (!voucherId.equals("all")) {
-			vouchers = List.of(vouchers.stream().filter(voucher -> voucher.getVoucherId().equals(UUID.fromString(voucherId))).findAny().get());
-		}
-
-		// Voucher Type 검색 조건이 지정되었을 경우
-		if (!voucherType.equals("all")) {
-			VoucherType type = VoucherType.of(voucherType);
-			vouchers = vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
-		}
-
+		List<Voucher> vouchers = voucherService.getVouchersWithConditions(voucherId, voucherType, dateFrom, dateTo);
 		return VoucherConverter.convertToVoucherDtoList(vouchers);
 	}
 
