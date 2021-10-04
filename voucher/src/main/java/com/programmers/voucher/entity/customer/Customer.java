@@ -85,4 +85,22 @@ public class Customer {
                 this.alias.equals(other.getAlias()) &&
                 this.createdAt.equals(other.getCreatedAt());
     }
+
+    public static class CreateRequest {
+        private final String username;
+        private final String alias;
+
+        public CreateRequest(String username, String alias) {
+            this.username = username;
+            this.alias = alias;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getAlias() {
+            return alias;
+        }
+    }
 }

@@ -50,24 +50,23 @@ public class CustomerController {
     }
 
     @PostMapping("/create")
-    public String submitCreateCustomer(@RequestParam(name="username", defaultValue = "") String username,
-                                       @RequestParam(name="alias", defaultValue = "") String alias,
+    public String submitCreateCustomer(Customer.CreateRequest request,
                                        Model model) {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
 
-        if(username.isBlank() || alias.isBlank()) {
-            model.addAttribute("username", username);
-            model.addAttribute("alias", alias);
+        if(request.getUsername().isBlank() || request.getAlias().isBlank()) {
+            model.addAttribute("username", request.getUsername());
+            model.addAttribute("alias", request.getAlias());
             model.addAttribute("error", "Required field should not be empty.");
             return "customer/create";
         }
 
         try {
-            Customer customer = basicCustomerService.create(username, alias);
+            Customer customer = basicCustomerService.create(request.getUsername(), request.getAlias());
             return "redirect:/customer/read?id=" + customer.getId();
         } catch (DuplicateKeyException ex) {
-            model.addAttribute("username", username);
-            model.addAttribute("alias", alias);
+            model.addAttribute("username", request.getUsername());
+            model.addAttribute("alias", request.getAlias());
             model.addAttribute("error", "Duplicated username exists. Please try another username.");
             return "customer/create";
         }

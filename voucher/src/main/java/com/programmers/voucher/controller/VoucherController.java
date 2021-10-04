@@ -1,7 +1,5 @@
 package com.programmers.voucher.controller;
 
-import com.programmers.voucher.entity.customer.Customer;
-import com.programmers.voucher.entity.voucher.DiscountPolicy;
 import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.customer.CustomerService;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Controller
@@ -67,24 +64,25 @@ public class VoucherController {
     }
 
     @PostMapping("/create")
-    public String submitCreateVoucher(@RequestParam(name = "name", defaultValue = "") String name,
-                                      @RequestParam(name = "type", defaultValue = "UNKNOWN") String type,
-                                      @RequestParam(name = "amount", defaultValue = "0") int amount,
-                                      @RequestParam(name = "owner", defaultValue = "") Long owner,
+    public String submitCreateVoucher(Voucher.CreateRequest request,
                                       Model model) {
         model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        model.addAttribute("name", name);
-        model.addAttribute("type", DiscountType.of(type));
-        model.addAttribute("amount", amount);
-        model.addAttribute("owner", owner);
-
-        if (name.isBlank() || type.isBlank() || owner == null) {
+        if (request.getName().isBlank() || request.getType().isBlank() || request.getOwner() == null) {
             model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Required fields cannot be empty.");
             return VIEW_CREATE_VOUCHER;
         }
+        String name = request.getName();
+        DiscountType type = DiscountType.of(request.getType());
+        int amount = request.getAmount();
+        Long ownerId = request.getOwner();
 
-        Voucher voucher = voucherService.create(name, DiscountType.of(type), amount, owner);
+        model.addAttribute("name", name);
+        model.addAttribute("type", type);
+        model.addAttribute("amount", amount);
+        model.addAttribute("owner", ownerId);
+
+        Voucher voucher = voucherService.create(name, type, amount, ownerId);
         // currently when DataAccessException, which is SQLIntegrityConstraintViolationException is thrown
         // when customer id(foreign key) does not match constraint. And by repository implementation it returns
         // voucher object with id set '-1'.
@@ -131,14 +129,14 @@ public class VoucherController {
     }
 
     @PostMapping("/update")
-    public String submitUpdateVoucher(@RequestParam(name = "id", defaultValue = "") Long id,
-                                      @RequestParam(name = "name", defaultValue = "") String name,
-                                      @RequestParam(name = "type", defaultValue = "") String type,
-                                      @RequestParam(name = "amount", defaultValue = "0") int amount,
-                                      @RequestParam(name = "owner", defaultValue = "") Long ownerId,
+    public String submitUpdateVoucher(Voucher.UpdateRequest request,
                                       Model model) {
+        Long id = request.getId();
+        Long ownerId = request.getOwner();
+        String name = request.getName();
+        String type = request.getType();
+        int amount = request.getAmount();
         if (id == null || ownerId == null) return REDIRECT_TO + URL_LIST_VOUCHER;
-
         try {
             Voucher updatedVoucher = voucherService.findById(id).orElseThrow(IllegalArgumentException::new);
             model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
