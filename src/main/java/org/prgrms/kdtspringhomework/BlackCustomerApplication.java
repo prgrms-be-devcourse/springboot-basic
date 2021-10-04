@@ -16,7 +16,7 @@ public class BlackCustomerApplication {
     }
 
     private static void executeBlacklistProgram(CustomerService customerService, OutputConsole outputConsole) {
-        customerService.blackCustomerList();
+        customerService.listBlackCustomers();
         outputConsole.startBlackList();
         customerService.printCustomers();
     }

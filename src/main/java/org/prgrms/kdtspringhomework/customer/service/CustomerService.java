@@ -2,7 +2,6 @@ package org.prgrms.kdtspringhomework.customer.service;
 
 import org.prgrms.kdtspringhomework.customer.domain.Customer;
 import org.prgrms.kdtspringhomework.customer.repository.CustomerRepository;
-import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +14,12 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> blackCustomerList() {
+    public List<Customer> listBlackCustomers() {
         return customerRepository.findAll();
     }
 
     public void printCustomers() {
-        blackCustomerList().stream()
+        listBlackCustomers().stream()
                 .map(Customer::toString)
                 .forEach(System.out::println);
     }
