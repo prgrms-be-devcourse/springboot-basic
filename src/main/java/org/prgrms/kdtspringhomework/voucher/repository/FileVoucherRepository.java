@@ -45,18 +45,23 @@ public class FileVoucherRepository implements VoucherRepository {
                 UUID customerId = UUID.fromString(voucherArray[UUID_INDEX]);
                 long customerAmount = Long.parseLong(voucherArray[AMOUNT_INDEX]);
 
-                Voucher voucher = null;
-                if (customerType.equals(FIXED)) {
-                    voucher = new FixedAmountVoucher(customerId, customerAmount);
-                } else if (customerType.equals(PERCENT)) {
-                    voucher = new PercentDiscountVoucher(customerId, customerAmount);
-                }
+                Voucher voucher = getVoucher(customerType, customerId, customerAmount);
                 voucherMap.put(customerId, voucher);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return voucherMap;
+    }
+
+    private Voucher getVoucher(String customerType, UUID customerId, long customerAmount) {
+        Voucher voucher = null;
+        if (customerType.equals(FIXED)) {
+            voucher = new FixedAmountVoucher(customerId, customerAmount);
+        } else if (customerType.equals(PERCENT)) {
+            voucher = new PercentDiscountVoucher(customerId, customerAmount);
+        }
+        return voucher;
     }
 
     @Override
