@@ -2,10 +2,7 @@ package org.programmers.kdt.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.programmers.kdt.customer.service.CustomerService;
-import org.programmers.kdt.voucher.Voucher;
-import org.programmers.kdt.voucher.VoucherConverter;
-import org.programmers.kdt.voucher.VoucherDto;
-import org.programmers.kdt.voucher.VoucherType;
+import org.programmers.kdt.voucher.*;
 import org.programmers.kdt.voucher.service.VoucherService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,30 +30,8 @@ public class VoucherApiController {
 
 	// 바우처 ID로 조회 API
 	@GetMapping("/{voucherId}")
-	public Map<String, String> voucher(@PathVariable("voucherId") UUID voucherId) {
-		Map<String, String> result = new HashMap<>();
-
-		Optional<Voucher> foundVoucher = voucherService.getVoucher(voucherId);
-		if (foundVoucher.isEmpty()) {
-			return result;
- 		}
-
-		Voucher voucher = foundVoucher.get();
-
-		Optional<UUID> foundOwnerId = voucherService.findCustomerIdHoldingVoucherOf(voucher);
-		String ownerId = "----";
-
-		if (foundOwnerId.isPresent()) {
-			ownerId = foundOwnerId.get().toString();
-		}
-
-		result.put("voucherId", voucher.getVoucherId().toString());
-		result.put("voucherType", voucher.getVoucherType().toString());
-		result.put("discountAmount", String.valueOf(voucher.getDiscount()));
-		result.put("status", voucher.getStatus().toString());
-		result.put("ownerId", ownerId);
-
-		return result;
+	public VoucherDetailDto voucher(@PathVariable("voucherId") UUID voucherId) {
+		return voucherService.getDetailInfoOf(voucherId);
 	}
 
 	// 바우처 추가 API

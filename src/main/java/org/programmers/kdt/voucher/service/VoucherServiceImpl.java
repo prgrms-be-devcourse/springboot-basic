@@ -1,9 +1,7 @@
 package org.programmers.kdt.voucher.service;
 
 import org.programmers.kdt.customer.Customer;
-import org.programmers.kdt.voucher.Voucher;
-import org.programmers.kdt.voucher.VoucherStatus;
-import org.programmers.kdt.voucher.VoucherType;
+import org.programmers.kdt.voucher.*;
 import org.programmers.kdt.voucher.factory.VoucherFactory;
 import org.programmers.kdt.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
@@ -143,5 +141,17 @@ public class VoucherServiceImpl implements VoucherService {
     public List<Voucher> filteringWithType(List<Voucher> vouchers, String voucherType) {
         VoucherType type = VoucherType.of(voucherType);
         return vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
+    }
+
+    @Override
+    public VoucherDetailDto getDetailInfoOf(UUID voucherId) {
+        VoucherDetailDto result = VoucherConverter.convertToVoucherDetailDto(getVoucher(voucherId));
+
+        Optional<UUID> foundOwnerId = findCustomerIdHoldingVoucherOf(UUID.fromString(result.getVoucherId()));
+        if (foundOwnerId.isPresent()) {
+            result.updateOwnerId(foundOwnerId.toString());
+        }
+
+        return result;
     }
 }

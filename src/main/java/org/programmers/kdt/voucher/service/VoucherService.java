@@ -2,6 +2,7 @@ package org.programmers.kdt.voucher.service;
 
 import org.programmers.kdt.customer.Customer;
 import org.programmers.kdt.voucher.Voucher;
+import org.programmers.kdt.voucher.VoucherDetailDto;
 import org.programmers.kdt.voucher.VoucherStatus;
 import org.programmers.kdt.voucher.VoucherType;
 
@@ -46,4 +47,6 @@ public interface VoucherService {
     List<Voucher> getVouchersWithConditions(String voucherId, String voucherType, String from, String to);
     List<Voucher> filteringWithId(List<Voucher> vouchers, String voucherId);
     List<Voucher> filteringWithType(List<Voucher> vouchers, String voucherType);
+
+    VoucherDetailDto getDetailInfoOf(UUID voucherId);
 }
