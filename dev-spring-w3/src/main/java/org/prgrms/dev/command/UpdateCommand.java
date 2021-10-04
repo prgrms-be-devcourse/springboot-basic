@@ -1,7 +1,8 @@
 package org.prgrms.dev.command;
 
 import org.prgrms.dev.exception.InvalidArgumentException;
-import org.prgrms.dev.exception.NotInsertException;
+import org.prgrms.dev.exception.NotFoundException;
+import org.prgrms.dev.exception.NotUpdateException;
 import org.prgrms.dev.io.Input;
 import org.prgrms.dev.io.Output;
 import org.prgrms.dev.voucher.domain.VoucherDto;
@@ -11,28 +12,26 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-public class CreateCommand implements Command {
-    private static final Logger logger = LoggerFactory.getLogger(CreateCommand.class);
+public class UpdateCommand implements Command {
+    private static final Logger logger = LoggerFactory.getLogger(UpdateCommand.class);
     private static final String CURSOR = "> ";
 
     @Override
     public boolean execute(Input input, Output output, VoucherService voucherService) {
         try {
-            output.selectVoucherType();
-            String voucherType = input.input(CURSOR);
-            long discount = Long.parseLong((input.input("타입에 맞는 할인 정보를 입력하세요. " + CURSOR)));
-            VoucherDto voucherDto = new VoucherDto(UUID.randomUUID(), voucherType, discount);
-            voucherService.createVoucher(voucherDto);
+            String voucherId = (input.input("변경을 원하는 바우처 아이디를 입력하세요. " + CURSOR));
+            long discount = Long.parseLong((input.input("변경할 할인정보를 입력하세요. " + CURSOR)));
+            VoucherDto voucherDto = new VoucherDto(UUID.fromString(voucherId), discount);
+            voucherService.updateVoucherDiscount(voucherDto);
         } catch (NumberFormatException | InvalidArgumentException e) {
             logger.error(e.getMessage());
             output.printInvalidNumber(e.getMessage());
-        } catch (IllegalArgumentException e) {
+        } catch (NotFoundException e) {
             logger.error(e.getMessage());
-            output.printInvalidVoucherType(e.getMessage());
-        } catch (NotInsertException e) {
+            output.printNotFound(e.getMessage());
+        } catch (NotUpdateException e) {
             logger.error(e.getMessage());
         }
         return true;
     }
 }
-

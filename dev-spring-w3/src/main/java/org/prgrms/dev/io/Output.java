@@ -1,6 +1,6 @@
 package org.prgrms.dev.io;
 
-import org.prgrms.dev.customer.domain.Customer;
+import org.prgrms.dev.blacklist.domain.Blacklist;
 import org.prgrms.dev.voucher.domain.Voucher;
 
 import java.util.List;
@@ -10,13 +10,16 @@ public interface Output {
 
     void selectVoucherType();
 
-    void printInvalidNumber();
+    void printInvalidNumber(String msg);
 
-    void printInvalidCommandType();
+    void printInvalidCommandType(String msg);
 
-    void printInvalidVoucherType();
+    void printInvalidVoucherType(String msg);
 
-    void printBlackList(List<Customer> blackList);
+    void printNotFound(String msg);
+
+    void printBlackList(List<Blacklist> blackList);
 
     void printVoucherList(List<Voucher> voucherList);
+
 }

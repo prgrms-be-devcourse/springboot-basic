@@ -1,6 +1,8 @@
 package org.prgrms.dev.voucher.service;
 
+import org.prgrms.dev.exception.NotFoundException;
 import org.prgrms.dev.voucher.domain.Voucher;
+import org.prgrms.dev.voucher.domain.VoucherDto;
 import org.prgrms.dev.voucher.domain.VoucherType;
 import org.prgrms.dev.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -16,39 +18,33 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    /**
-     * voucherId 에 해당하는 바우처 조회
-     *
-     * @param voucherId
-     * @return 조회한 바우처 반환
-     */
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException("Can not find a voucher for " + voucherId));
+                .orElseThrow(() -> new NotFoundException("해당 바우처를 찾을 수 없습니다. " + voucherId));
     }
 
-    /**
-     * type 에 따른 Voucher 생성
-     *
-     * @param type
-     * @param value
-     * @return 생성된 바우처 반환
-     */
-    public Voucher createVoucher(String type, UUID voucherId, long value) {
-        Voucher voucher = VoucherType.getVoucherType(type, voucherId, value);
-        voucherRepository.create(voucher);
-        return voucher;
+    public Voucher createVoucher(VoucherDto voucherDto) {
+        Voucher voucher = VoucherType.getVoucherType(voucherDto.getVoucherType(), voucherDto.getVoucherId(), voucherDto.getDiscount(), voucherDto.getCreatedAt());
+        return voucherRepository.insert(voucher);
     }
 
-    /**
-     * @return 모든 바우처 반환
-     */
     public List<Voucher> listVoucher() {
         return voucherRepository.findAll();
     }
 
-    public void useVoucher(Voucher voucher) {
+    public Voucher updateVoucherDiscount(VoucherDto voucherDto) {
+        Voucher voucher = getVoucher(voucherDto.getVoucherId());
+        Voucher updateVoucher = VoucherType.getVoucherType(voucher.getVoucherType().toString(), voucher.getVoucherId(), voucherDto.getDiscount(), voucher.getCreatedAt());
+        return voucherRepository.update(updateVoucher);
+    }
 
+    public void deleteVoucher(UUID voucherId) {
+        getVoucher(voucherId);
+        voucherRepository.deleteById(voucherId);
+    }
+
+    public void useVoucher(Voucher voucher) {
+        // TODO:
     }
 }
