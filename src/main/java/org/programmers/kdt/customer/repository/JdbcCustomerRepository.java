@@ -17,6 +17,8 @@ import static org.programmers.kdt.utils.UuidUtils.toUUID;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
+	private final int NUMBER_OF_ROWS_UPDATED_CORRECTLY = 1;
+
 	// TODO : AOP 적용
 	private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 	private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -43,7 +45,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 		int numberOfRowsAffected = jdbcTemplate.update(SQL_INSERT_CUSTOMER.formatted(customerTable), toParamMap(customer)
 		);
 
-		if (numberOfRowsAffected != 1) {
+		if (numberOfRowsAffected != NUMBER_OF_ROWS_UPDATED_CORRECTLY) {
 			logger.info("Attempt to create a duplicate customer has been detected. Customer Information -> {}", customer);
 			throw new RuntimeException("Try to create a duplicate customer!");
 		}
