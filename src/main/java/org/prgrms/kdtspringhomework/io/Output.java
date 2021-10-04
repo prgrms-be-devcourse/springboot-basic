@@ -1,5 +1,9 @@
 package org.prgrms.kdtspringhomework.io;
 
+import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
+
+import java.util.List;
+
 public interface Output {
     //프로그램 시작시 출력 메시지
     void start();
@@ -30,4 +34,7 @@ public interface Output {
 
     //금액 입력 오류
     void invalidAmount();
+
+    //list 출력
+    void printVouchers(List<Voucher> voucherList);
 }

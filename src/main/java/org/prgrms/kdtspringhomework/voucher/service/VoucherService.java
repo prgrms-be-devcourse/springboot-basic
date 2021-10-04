@@ -27,11 +27,9 @@ public class VoucherService {
         voucherRepository.add(voucher);
     }
 
-    public void printVouchers() {
+    public List<Voucher> listVouchers() {
         List<Voucher> voucherList = voucherRepository.findAll();
-        for (Voucher voucher : voucherList) {
-            System.out.println(voucher.toString());
-        }
+        return voucherList;
     }
 
     public void useVoucher(Voucher voucher) {

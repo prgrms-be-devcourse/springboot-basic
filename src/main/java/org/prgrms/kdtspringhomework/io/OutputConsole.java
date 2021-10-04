@@ -1,5 +1,9 @@
 package org.prgrms.kdtspringhomework.io;
 
+import org.prgrms.kdtspringhomework.voucher.domain.Voucher;
+
+import java.util.List;
+
 public class OutputConsole implements Output {
     //프로그램 시작 시 출력 메시지
     @Override
@@ -63,5 +67,14 @@ public class OutputConsole implements Output {
     public void invalidAmount() {
         System.out.println("Write valid amount");
     }
+
+    //list 출력
+    @Override
+    public void printVouchers(List<Voucher> voucherList) {
+        for (Voucher voucher : voucherList) {
+            System.out.println(voucher.toString());
+        }
+    }
+
 
 }
