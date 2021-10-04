@@ -1,6 +1,5 @@
 package com.programmers.voucher.controller.api;
 
-import com.programmers.voucher.entity.voucher.DiscountPolicy;
 import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.voucher.VoucherService;

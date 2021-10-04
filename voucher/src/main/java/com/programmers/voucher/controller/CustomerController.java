@@ -17,6 +17,19 @@ import java.util.List;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
+    private static final String USERID_MODEL_ATTRIBUTE = "id";
+    private static final String USERNAME_MODEL_ATTRIBUTE = "username";
+    private static final String ALIAS_MODEL_ATTRIBUTE = "alias";
+    private static final String CUSTOMER_MODEL_ATTRIBUTE = "customer";
+    private static final String CUSTOMERS_MODEL_ATTRIBUTE = "customers";
+    private static final String VOUCHERS_MODEL_ATTRIBUTE = "vouchers";
+    private static final String ERROR_MODEL_ATTRIBUTE = "error";
+
+    private static final String TEMPLATE_CUSTOMER_INDEX = "customer/index";
+    private static final String TEMPLATE_CUSTOMER_CREATE = "customer/create";
+    private static final String TEMPLATE_CUSTOMER_READ = "customer/read";
+    private static final String TEMPLATE_CUSTOMER_WALLET = "customer/wallet";
+    private static final String TEMPLATE_CUSTOMER_LIST = "customer/list";
 
     private final CustomerService basicCustomerService;
     private final CustomerVoucherService customerVoucherService;
@@ -40,13 +53,13 @@ public class CustomerController {
     @GetMapping
     public String customerConsole(Model model) {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        return "customer/index";
+        return TEMPLATE_CUSTOMER_INDEX;
     }
 
     @GetMapping("/create")
     public String requestCreateCustomer(Model model) {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        return "customer/create";
+        return TEMPLATE_CUSTOMER_CREATE;
     }
 
     @PostMapping("/create")
@@ -55,20 +68,20 @@ public class CustomerController {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
 
         if(request.getUsername().isBlank() || request.getAlias().isBlank()) {
-            model.addAttribute("username", request.getUsername());
-            model.addAttribute("alias", request.getAlias());
-            model.addAttribute("error", "Required field should not be empty.");
-            return "customer/create";
+            model.addAttribute(USERNAME_MODEL_ATTRIBUTE, request.getUsername());
+            model.addAttribute(ALIAS_MODEL_ATTRIBUTE, request.getAlias());
+            model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Required field should not be empty.");
+            return TEMPLATE_CUSTOMER_CREATE;
         }
 
         try {
             Customer customer = basicCustomerService.create(request.getUsername(), request.getAlias());
             return "redirect:/customer/read?id=" + customer.getId();
         } catch (DuplicateKeyException ex) {
-            model.addAttribute("username", request.getUsername());
-            model.addAttribute("alias", request.getAlias());
-            model.addAttribute("error", "Duplicated username exists. Please try another username.");
-            return "customer/create";
+            model.addAttribute(USERNAME_MODEL_ATTRIBUTE, request.getUsername());
+            model.addAttribute(ALIAS_MODEL_ATTRIBUTE, request.getAlias());
+            model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Duplicated username exists. Please try another username.");
+            return TEMPLATE_CUSTOMER_CREATE;
         }
     }
 
@@ -76,22 +89,21 @@ public class CustomerController {
     public String getCustomer(@RequestParam(name = "id", required = false) Long id,
                               Model model) {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        model.addAttribute("id", id);
+        model.addAttribute(USERID_MODEL_ATTRIBUTE, id);
 
-        if (id == null || id < 1) return "customer/read";
-
-        basicCustomerService.findById(id).ifPresentOrElse(
-                customer -> model.addAttribute("customer", customer),
-                () -> model.addAttribute("error", "No customer found."));
-
-        return "customer/read";
+        if (id != null && id > 0) {
+            basicCustomerService.findById(id).ifPresentOrElse(
+                    customer -> model.addAttribute(CUSTOMER_MODEL_ATTRIBUTE, customer),
+                    () -> model.addAttribute(ERROR_MODEL_ATTRIBUTE, "No customer found."));
+        }
+        return TEMPLATE_CUSTOMER_READ;
     }
 
     @GetMapping("/list")
     public String getCustomers(Model model) {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        model.addAttribute("customers", basicCustomerService.listAll());
-        return "customer/list";
+        model.addAttribute(CUSTOMERS_MODEL_ATTRIBUTE, basicCustomerService.listAll());
+        return TEMPLATE_CUSTOMER_LIST;
     }
 
     @GetMapping("/wallet")
@@ -99,9 +111,9 @@ public class CustomerController {
                                        Model model) {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
         if(id != null) {
-            model.addAttribute("vouchers", customerVoucherService.findAllVoucherByCustomer(id));
-            model.addAttribute("id", id);
+            model.addAttribute(VOUCHERS_MODEL_ATTRIBUTE, customerVoucherService.findAllVoucherByCustomer(id));
+            model.addAttribute(USERID_MODEL_ATTRIBUTE, id);
         }
-        return "customer/wallet";
+        return TEMPLATE_CUSTOMER_WALLET;
     }
 }
