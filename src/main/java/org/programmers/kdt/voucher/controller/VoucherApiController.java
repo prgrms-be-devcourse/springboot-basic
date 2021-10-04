@@ -14,14 +14,14 @@ import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/vouchers")
 public class VoucherApiController {
 	private final VoucherService voucherService;
 	private final CustomerService customerService;
 
 	// 바우처 조회 API (조건별 검색 가능)
 	// TODO: 현재 반환값만 JSON. 값 받는 것도 JSON 되도록 구현
-	@GetMapping("/vouchers")
+	@GetMapping
 	public List<Voucher> vouchers(@RequestParam(defaultValue = "all") String voucherType,
 	                       @RequestParam(defaultValue = "all") String voucherId,
 	                       @RequestParam(defaultValue = "1970-01-01") String dateFrom,
@@ -46,7 +46,7 @@ public class VoucherApiController {
 	}
 
 	// 바우처 ID로 조회 API
-	@GetMapping("/vouchers/{voucherId}")
+	@GetMapping("/{voucherId}")
 	public Map<String, String> voucher(@PathVariable("voucherId") UUID voucherId) {
 		Map<String, String> result = new HashMap<>();
 
@@ -74,13 +74,13 @@ public class VoucherApiController {
 	}
 
 	// 바우처 추가 API
-	@PostMapping("/newVoucher")
+	@PostMapping
 	public Voucher addVoucher(@ModelAttribute("voucherDto") VoucherDto voucherDto) {
 		return voucherService.createdVoucher(voucherDto.getVoucherType(), voucherDto.getDiscountAmount());
 	}
 
 	// 바우처 삭제 API
-	@DeleteMapping("/vouchers/{voucherId}")
+	@DeleteMapping("/{voucherId}")
 	public void removeVoucher(@PathVariable("voucherId") UUID voucherId) {
 		voucherService.removeVoucher(voucherId);
 	}
