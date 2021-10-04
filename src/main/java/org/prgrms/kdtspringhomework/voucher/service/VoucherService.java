@@ -28,8 +28,7 @@ public class VoucherService {
     }
 
     public List<Voucher> listVouchers() {
-        List<Voucher> voucherList = voucherRepository.findAll();
-        return voucherList;
+        return voucherRepository.findAll();
     }
 
     public void useVoucher(Voucher voucher) {
