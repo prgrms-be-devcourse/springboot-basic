@@ -9,9 +9,8 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.UUID;
 
-@Component
 public class VoucherFactory {
-    public Voucher createVoucher(VoucherType type, UUID voucherId, long discount) {
+    public static Voucher createVoucher(VoucherType type, UUID voucherId, long discount) {
         switch (type) {
             case FIXED -> {
                 return new FixedAmountVoucher(voucherId, discount);

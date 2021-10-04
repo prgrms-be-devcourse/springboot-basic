@@ -44,6 +44,7 @@ public interface VoucherService {
     List<Voucher> getAllVouchersBelongsToCustomer(Customer customer);
     List<Voucher> getVouchersBetween(Timestamp from, Timestamp to);
 
+    List<Voucher> getVouchersWithConditions(String voucherType, String from, String to);
     List<Voucher> getVouchersWithConditions(Optional<String> voucherId, String voucherType, String from, String to);
     List<Voucher> filteringWithId(List<Voucher> vouchers, String voucherId);
     List<Voucher> filteringWithType(List<Voucher> vouchers, String voucherType);

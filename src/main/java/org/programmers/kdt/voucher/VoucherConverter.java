@@ -1,9 +1,11 @@
 package org.programmers.kdt.voucher;
 
+import org.programmers.kdt.voucher.factory.VoucherFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class VoucherConverter {
@@ -13,6 +15,12 @@ public class VoucherConverter {
 
 	public static VoucherDto convertToVoucherDto(Voucher voucher) {
 		return new VoucherDto(voucher.getVoucherType().toString(), voucher.getDiscount());
+	}
+
+	public static Voucher convertToVoucher(VoucherDetailDto voucherDetailDto) {
+		return VoucherFactory.createVoucher(VoucherType.of(voucherDetailDto.getVoucherType()),
+				UUID.fromString(voucherDetailDto.getVoucherId()),
+				voucherDetailDto.getDiscountAmount());
 	}
 
 	public static VoucherDetailDto convertToVoucherDetailDto(Optional<Voucher> voucherOpt) {

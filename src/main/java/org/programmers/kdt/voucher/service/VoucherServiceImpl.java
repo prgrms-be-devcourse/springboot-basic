@@ -17,13 +17,11 @@ import java.util.UUID;
 @Service
 public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
-    private final VoucherFactory voucherFactory;
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherServiceImpl.class);
 
-    public VoucherServiceImpl(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+    public VoucherServiceImpl(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.voucherFactory = voucherFactory;
     }
 
     @Override
@@ -46,7 +44,7 @@ public class VoucherServiceImpl implements VoucherService {
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount) {
         Voucher voucher;
         try {
-            voucher = voucherFactory.createVoucher(voucherType, voucherId, discount);
+            voucher = VoucherFactory.createVoucher(voucherType, voucherId, discount);
         } catch (RuntimeException e) {
             logger.error("Failed to created a voucher : {}", e.getMessage());
             throw e;
@@ -112,23 +110,40 @@ public class VoucherServiceImpl implements VoucherService {
         return voucherRepository.findVouchersBetween(from, to);
     }
 
+    @Override
+    public List<Voucher> getVouchersWithConditions(String voucherType, String dateFrom, String dateTo) {
+        // 날짜 범위 검색 조건
+        Timestamp from = Timestamp.valueOf(dateFrom + " 00:00:00");
+        Timestamp to = Timestamp.valueOf(dateTo + " 23:59:59");
+        List<Voucher> vouchers = getVouchersBetween(from, to);
+
+        // Voucher Type 검색 조건이 지정되었을 경우
+        if (!VoucherType.of(voucherType).equals(VoucherType.ALL)) {
+            VoucherType type = VoucherType.of(voucherType);
+            vouchers = vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
+        }
+
+        return vouchers;
+    }
+
+    @Override
     public List<Voucher> getVouchersWithConditions(Optional<String> voucherId, String voucherType, String dateFrom, String dateTo) {
         // 날짜 범위 검색 조건
         Timestamp from = Timestamp.valueOf(dateFrom + " 00:00:00");
         Timestamp to = Timestamp.valueOf(dateTo + " 23:59:59");
         List<Voucher> vouchers = getVouchersBetween(from, to);
 
+        // Voucher Type 검색 조건이 지정되었을 경우
+        if (!VoucherType.of(voucherType).equals(VoucherType.ALL)) {
+            VoucherType type = VoucherType.of(voucherType);
+            vouchers = vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
+        }
+
         // Voucher ID 검색 조건이 지정되었을 경우
         if (voucherId.isPresent()) {
             vouchers = List.of(vouchers.stream()
                     .filter(voucher -> voucher.getVoucherId().equals(UUID.fromString(voucherId.get())))
                     .findAny().get());
-        }
-
-        // Voucher Type 검색 조건이 지정되었을 경우
-        if (!VoucherType.of(voucherType).equals(VoucherType.ALL)) {
-            VoucherType type = VoucherType.of(voucherType);
-            vouchers = vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
         }
 
         return vouchers;
