@@ -1,5 +1,7 @@
 package com.programmers.voucher.controller;
 
+import com.programmers.voucher.entity.voucher.dto.VoucherUpdateRequest;
+import com.programmers.voucher.entity.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.service.customer.CustomerService;
@@ -64,7 +66,7 @@ public class VoucherController {
     }
 
     @PostMapping("/create")
-    public String submitCreateVoucher(Voucher.CreateRequest request,
+    public String submitCreateVoucher(VoucherCreateRequest request,
                                       Model model) {
         model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
@@ -129,7 +131,7 @@ public class VoucherController {
     }
 
     @PostMapping("/update")
-    public String submitUpdateVoucher(Voucher.UpdateRequest request,
+    public String submitUpdateVoucher(VoucherUpdateRequest request,
                                       Model model) {
         Long id = request.getId();
         Long ownerId = request.getOwner();
