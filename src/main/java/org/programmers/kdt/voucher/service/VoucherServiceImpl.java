@@ -112,15 +112,17 @@ public class VoucherServiceImpl implements VoucherService {
         return voucherRepository.findVouchersBetween(from, to);
     }
 
-    public List<Voucher> getVouchersWithConditions(String voucherId, String voucherType, String dateFrom, String dateTo) {
+    public List<Voucher> getVouchersWithConditions(Optional<String> voucherId, String voucherType, String dateFrom, String dateTo) {
         // 날짜 범위 검색 조건
         Timestamp from = Timestamp.valueOf(dateFrom + " 00:00:00");
         Timestamp to = Timestamp.valueOf(dateTo + " 23:59:59");
         List<Voucher> vouchers = getVouchersBetween(from, to);
 
         // Voucher ID 검색 조건이 지정되었을 경우
-        if (!voucherId.equals("all")) {
-            vouchers = List.of(vouchers.stream().filter(voucher -> voucher.getVoucherId().equals(UUID.fromString(voucherId))).findAny().get());
+        if (voucherId.isPresent()) {
+            vouchers = List.of(vouchers.stream()
+                    .filter(voucher -> voucher.getVoucherId().equals(UUID.fromString(voucherId.get())))
+                    .findAny().get());
         }
 
         // Voucher Type 검색 조건이 지정되었을 경우

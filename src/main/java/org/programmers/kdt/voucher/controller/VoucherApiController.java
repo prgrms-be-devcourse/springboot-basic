@@ -21,7 +21,7 @@ public class VoucherApiController {
 	// TODO: 현재 반환값만 JSON. 값 받는 것도 JSON 되도록 구현
 	@GetMapping
 	public List<VoucherDto> vouchers(@RequestParam(defaultValue = "all") String voucherType,
-	                       @RequestParam(defaultValue = "all") String voucherId,
+	                       @RequestParam Optional<String> voucherId,
 	                       @RequestParam(defaultValue = "1970-01-01") String dateFrom,
 	                       @RequestParam(defaultValue = "9999-12-31") String dateTo) {
 		List<Voucher> vouchers = voucherService.getVouchersWithConditions(voucherId, voucherType, dateFrom, dateTo);

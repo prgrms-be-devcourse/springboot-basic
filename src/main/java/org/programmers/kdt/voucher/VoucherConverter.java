@@ -1,8 +1,11 @@
 package org.programmers.kdt.voucher;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class VoucherConverter {
 	public static List<VoucherDto> convertToVoucherDtoList(List<Voucher> vouchers) {
 		return vouchers.stream().map(VoucherConverter::convertToVoucherDto).toList();
