@@ -38,7 +38,8 @@ public class VoucherAPIController {
             fromDate = LocalDate.of(1970, 1, 1);
             toDate = LocalDate.now();
         }
-        List<Voucher> vouchers = basicVoucherService.listAll(fromDate, toDate, Voucher.SearchCriteria.of(request.getCriteria()), request.getKeyword());
+        Voucher.SearchCriteria searchCriteria = Voucher.SearchCriteria.of(request.getCriteria());
+        List<Voucher> vouchers = basicVoucherService.listAll(fromDate, toDate, searchCriteria, request.getKeyword());
         return ResponseEntity.ok(ApiResponse.of(vouchers));
     }
 

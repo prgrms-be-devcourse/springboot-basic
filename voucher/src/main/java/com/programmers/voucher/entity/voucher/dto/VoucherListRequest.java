@@ -3,7 +3,7 @@ package com.programmers.voucher.entity.voucher.dto;
 import java.time.LocalDate;
 
 public class VoucherListRequest {
-    String from = "1970-01-01";
+    String from = LocalDate.of(1970,1,1).toString();
     String to = LocalDate.now().toString();
     String criteria = "";
     String keyword = "";
