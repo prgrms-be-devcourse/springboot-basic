@@ -3,6 +3,7 @@ package org.programmers.kdt.voucher.controller;
 import lombok.RequiredArgsConstructor;
 import org.programmers.kdt.customer.service.CustomerService;
 import org.programmers.kdt.voucher.Voucher;
+import org.programmers.kdt.voucher.VoucherConverter;
 import org.programmers.kdt.voucher.VoucherDto;
 import org.programmers.kdt.voucher.VoucherType;
 import org.programmers.kdt.voucher.service.VoucherService;
@@ -22,7 +23,7 @@ public class VoucherApiController {
 	// 바우처 조회 API (조건별 검색 가능)
 	// TODO: 현재 반환값만 JSON. 값 받는 것도 JSON 되도록 구현
 	@GetMapping
-	public List<Voucher> vouchers(@RequestParam(defaultValue = "all") String voucherType,
+	public List<VoucherDto> vouchers(@RequestParam(defaultValue = "all") String voucherType,
 	                       @RequestParam(defaultValue = "all") String voucherId,
 	                       @RequestParam(defaultValue = "1970-01-01") String dateFrom,
 	                       @RequestParam(defaultValue = "9999-12-31") String dateTo) {
@@ -42,7 +43,7 @@ public class VoucherApiController {
 			vouchers = vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
 		}
 
-		return vouchers;
+		return VoucherConverter.convertToVoucherDtoList(vouchers);
 	}
 
 	// 바우처 ID로 조회 API
@@ -75,8 +76,8 @@ public class VoucherApiController {
 
 	// 바우처 추가 API
 	@PostMapping
-	public Voucher addVoucher(@ModelAttribute("voucherDto") VoucherDto voucherDto) {
-		return voucherService.createdVoucher(voucherDto.getVoucherType(), voucherDto.getDiscountAmount());
+	public VoucherDto addVoucher(@ModelAttribute("voucherDto") VoucherDto voucherDto) {
+		return VoucherConverter.convertToVoucherDto(voucherService.createdVoucher(voucherDto.getVoucherType(), voucherDto.getDiscountAmount()));
 	}
 
 	// 바우처 삭제 API
