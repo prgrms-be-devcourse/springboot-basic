@@ -10,7 +10,6 @@ import com.prgrms.w3springboot.wallet.dto.WalletRequestDto;
 import com.prgrms.w3springboot.wallet.repository.WalletRepository;
 
 public class WalletService {
-	public static final int SUCCESS = 1;
 	private final WalletRepository walletRepository;
 
 	public WalletService(WalletRepository walletRepository) {

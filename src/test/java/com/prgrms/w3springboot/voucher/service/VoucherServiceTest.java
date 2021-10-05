@@ -29,10 +29,10 @@ class VoucherServiceTest {
 	private static final LocalDateTime NOW = LocalDateTime.now();
 
 	@Mock
-	CsvVoucherRepository csvVoucherRepository;
+	private CsvVoucherRepository csvVoucherRepository;
 
 	@InjectMocks
-	VoucherService voucherService;
+	private VoucherService voucherService;
 
 	@DisplayName("바우처 아이디로 바우처를 조회한다.")
 	@Test

@@ -12,7 +12,7 @@ import com.prgrms.w3springboot.voucher.Voucher;
 import com.prgrms.w3springboot.voucher.service.VoucherService;
 
 public class UpdateCommand implements CommandStrategy {
-	private static final Logger logger = LoggerFactory.getLogger(CreateCommand.class);
+	private static final Logger logger = LoggerFactory.getLogger(UpdateCommand.class);
 
 	@Override
 	public boolean execute(Input input, Output output, VoucherService voucherService) {

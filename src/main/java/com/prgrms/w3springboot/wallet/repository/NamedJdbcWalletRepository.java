@@ -24,6 +24,7 @@ import com.prgrms.w3springboot.wallet.Wallet;
 @Profile("production")
 public class NamedJdbcWalletRepository implements WalletRepository {
 	private static final int SUCCESS = 1;
+
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 	private final VoucherFactory voucherFactory = VoucherFactory.getInstance();
 	private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {

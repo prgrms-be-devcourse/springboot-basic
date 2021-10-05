@@ -11,7 +11,7 @@ import com.prgrms.w3springboot.io.Output;
 import com.prgrms.w3springboot.voucher.service.VoucherService;
 
 public class DeleteCommand implements CommandStrategy {
-	private static final Logger logger = LoggerFactory.getLogger(CreateCommand.class);
+	private static final Logger logger = LoggerFactory.getLogger(DeleteCommand.class);
 
 	@Override
 	public boolean execute(Input input, Output output, VoucherService voucherService) {

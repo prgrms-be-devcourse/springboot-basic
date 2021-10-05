@@ -38,14 +38,14 @@ import com.zaxxer.hikari.HikariDataSource;
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class NamedJdbcVoucherRepositoryTest {
-
 	private static final UUID NEW_VOUCHER_ID = UUID.randomUUID();
 	private static final UUID EXISTING_VOUCHER_ID = UUID.fromString(
-		"da92052e-170a-11ec-9621-0242ac130002");
-	static EmbeddedMysql embeddedMysql;
+		"9cbb3d0a-158a-11ec-82a8-0242ac130003");
+
+	private static EmbeddedMysql embeddedMysql;
 
 	@Autowired
-	VoucherRepository voucherRepository;
+	private VoucherRepository voucherRepository;
 
 	@BeforeAll
 	void setup() {

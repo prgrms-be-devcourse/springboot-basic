@@ -1,10 +1,24 @@
 package com.prgrms.w3springboot.customer.repository;
 
-import com.prgrms.w3springboot.customer.Customer;
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.*;
+import static com.wix.mysql.EmbeddedMysql.*;
+import static com.wix.mysql.ScriptResolver.*;
+import static com.wix.mysql.config.Charset.*;
+import static com.wix.mysql.config.MysqldConfig.*;
+import static com.wix.mysql.distribution.Version.*;
+import static org.assertj.core.api.Assertions.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import javax.sql.DataSource;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,139 +27,133 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.Charset.UTF8;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_11;
-import static org.assertj.core.api.Assertions.assertThat;
+import com.prgrms.w3springboot.customer.Customer;
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.MysqldConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerRepositoryTest {
-    final static UUID NEW_CUSTOMER_ID = UUID.randomUUID();
-    static final UUID EXISTING_CUSTOMER_ID = UUID.fromString("9cbb3d0a-158a-11ec-82a8-0242ac130003");
+	private static final UUID NEW_CUSTOMER_ID = UUID.randomUUID();
+	private static final UUID EXISTING_CUSTOMER_ID = UUID.fromString("9cbb3d0a-158a-11ec-82a8-0242ac130003");
 
-    static EmbeddedMysql embeddedMysql;
-    @Autowired
-    CustomerRepository customerRepository;
+	private static EmbeddedMysql embeddedMysql;
 
-    @BeforeAll
-    void setup() {
-        MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
-                .withCharset(UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
+	@Autowired
+	private CustomerRepository customerRepository;
 
-        embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-devcourse", classPathScript("schema.sql"))
-                .start();
-    }
+	@BeforeAll
+	void setup() {
+		MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
+			.withCharset(UTF8)
+			.withPort(2215)
+			.withUser("test", "test1234!")
+			.withTimeZone("Asia/Seoul")
+			.build();
 
-    @AfterAll
-    void cleanup() {
-        embeddedMysql.stop();
-    }
+		embeddedMysql = anEmbeddedMysql(mysqlConfig)
+			.addSchema("test-devcourse", classPathScript("schema.sql"))
+			.start();
+	}
 
-    @Test
-    @DisplayName("고객을 추가할 수 있다.")
-    void testInsert() {
-        Customer newCustomer = new Customer(NEW_CUSTOMER_ID, "test-user", "test-user@gmail.com", LocalDateTime.now());
-        customerRepository.insert(newCustomer);
+	@AfterAll
+	void cleanup() {
+		embeddedMysql.stop();
+	}
 
-        Optional<Customer> retrievedCustomer = customerRepository.findById(newCustomer.getCustomerId());
-        List<Customer> all = customerRepository.findAll();
+	@Test
+	@DisplayName("고객을 추가할 수 있다.")
+	void testInsert() {
+		Customer newCustomer = new Customer(NEW_CUSTOMER_ID, "test-user", "test-user@gmail.com", LocalDateTime.now());
+		customerRepository.insert(newCustomer);
 
-        assertThat(all).hasSize(4);
-        assertThat(retrievedCustomer)
-                .isPresent()
-                .get()
-                .hasFieldOrPropertyWithValue("customerId", NEW_CUSTOMER_ID);
-    }
+		Optional<Customer> retrievedCustomer = customerRepository.findById(newCustomer.getCustomerId());
+		List<Customer> all = customerRepository.findAll();
 
-    @Test
-    @DisplayName("고객을 수정할 수 있다.")
-    void testUpdate() {
-        Customer updateCustomer = new Customer(EXISTING_CUSTOMER_ID, "update-user", "upodate-user@gmail.com", LocalDateTime.now());
-        customerRepository.update(updateCustomer);
+		assertThat(all).hasSize(4);
+		assertThat(retrievedCustomer)
+			.isPresent()
+			.get()
+			.hasFieldOrPropertyWithValue("customerId", NEW_CUSTOMER_ID);
+	}
 
-        Optional<Customer> retrievedCustomer = customerRepository.findById(updateCustomer.getCustomerId());
+	@Test
+	@DisplayName("고객을 수정할 수 있다.")
+	void testUpdate() {
+		Customer updateCustomer = new Customer(EXISTING_CUSTOMER_ID, "update-user", "upodate-user@gmail.com",
+			LocalDateTime.now());
+		customerRepository.update(updateCustomer);
 
-        assertThat(retrievedCustomer)
-                .isPresent()
-                .get()
-                .hasFieldOrPropertyWithValue("customerId", EXISTING_CUSTOMER_ID);
-    }
+		Optional<Customer> retrievedCustomer = customerRepository.findById(updateCustomer.getCustomerId());
 
-    @DisplayName("ID로 고객을 조회한다.")
-    @Test
-    void testFindById() {
-        Optional<Customer> foundCustomer = customerRepository.findById(EXISTING_CUSTOMER_ID);
+		assertThat(retrievedCustomer)
+			.isPresent()
+			.get()
+			.hasFieldOrPropertyWithValue("customerId", EXISTING_CUSTOMER_ID);
+	}
 
-        assertThat(foundCustomer).isPresent();
-    }
+	@DisplayName("ID로 고객을 조회한다.")
+	@Test
+	void testFindById() {
+		Optional<Customer> foundCustomer = customerRepository.findById(EXISTING_CUSTOMER_ID);
 
-    @Test
-    @DisplayName("이름으로 고객을 조회한다.")
-    void testFindByName() {
-        Optional<Customer> customer = customerRepository.findByName("test01");
-        assertThat(customer).isPresent();
+		assertThat(foundCustomer).isPresent();
+	}
 
-        Optional<Customer> unknown = customerRepository.findByName("unknown-user");
-        assertThat(unknown).isNotPresent();
-    }
+	@Test
+	@DisplayName("이름으로 고객을 조회한다.")
+	void testFindByName() {
+		Optional<Customer> customer = customerRepository.findByName("test01");
+		assertThat(customer).isPresent();
 
-    @DisplayName("이메일로 고객을 조회한다.")
-    @Test
-    void testFindByEmail() {
-        String email = "test01@gmail.com";
+		Optional<Customer> unknown = customerRepository.findByName("unknown-user");
+		assertThat(unknown).isNotPresent();
+	}
 
-        Optional<Customer> foundCustomer = customerRepository.findByEmail(email);
+	@DisplayName("이메일로 고객을 조회한다.")
+	@Test
+	void testFindByEmail() {
+		String email = "test01@gmail.com";
 
-        assertThat(foundCustomer).isPresent();
-    }
+		Optional<Customer> foundCustomer = customerRepository.findByEmail(email);
 
-    @Test
-    @DisplayName("전체 고객을 조회한다.")
-    void testFindAll() {
-        List<Customer> customers = customerRepository.findAll();
+		assertThat(foundCustomer).isPresent();
+	}
 
-        assertThat(customers).isNotEmpty();
-    }
+	@Test
+	@DisplayName("전체 고객을 조회한다.")
+	void testFindAll() {
+		List<Customer> customers = customerRepository.findAll();
 
-    @Configuration
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test-devcourse")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
+		assertThat(customers).isNotEmpty();
+	}
 
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
+	@Configuration
+	static class Config {
+		@Bean
+		public DataSource dataSource() {
+			return DataSourceBuilder.create()
+				.url("jdbc:mysql://localhost:2215/test-devcourse")
+				.username("test")
+				.password("test1234!")
+				.type(HikariDataSource.class)
+				.build();
+		}
 
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
+		@Bean
+		public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+			return new JdbcTemplate(dataSource);
+		}
 
-        @Bean
-        public CustomerRepository customerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-            return new CustomerNamedJDBCRepository(namedParameterJdbcTemplate);
-        }
-    }
+		@Bean
+		public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
+			return new NamedParameterJdbcTemplate(jdbcTemplate);
+		}
+
+		@Bean
+		public CustomerRepository customerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+			return new CustomerNamedJDBCRepository(namedParameterJdbcTemplate);
+		}
+	}
 }

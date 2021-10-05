@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
 	private static final int DENOMINATOR_FOR_PERCENT = 100;
-	private final static int MIN_PERCENT = 0;
-	private final static int MAX_PERCENT = 100;
+	private static final int MIN_PERCENT = 0;
+	private static final int MAX_PERCENT = 100;
 
 	private final UUID voucherId;
 	private final long amount;

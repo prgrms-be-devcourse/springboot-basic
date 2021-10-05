@@ -3,14 +3,12 @@ package com.prgrms.w3springboot.voucher;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
 
 import com.prgrms.w3springboot.order.Order;
 import com.prgrms.w3springboot.order.OrderItem;
@@ -27,7 +25,7 @@ class FixedAmountVoucherTest {
 		var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, VoucherType.FIXED, LocalDateTime.now());
 		var order = new Order(UUID.randomUUID(), customerId, orderItems, fixedAmountVoucher);
 
-		Assert.isTrue(order.totalAmount() == 90L, MessageFormat.format("totalAmount is not {0}", order.totalAmount()));
+		assertThat(order.totalAmount()).isEqualTo(90L);
 	}
 
 	@DisplayName("유효한 고정 할인 금액 적용을 확인한다.")

@@ -18,7 +18,7 @@ class VoucherFactoryTest {
 	void testCreateVoucher(VoucherType voucherType) {
 		Voucher voucher = VoucherFactory.getInstance().createVoucher(VOUCHER_ID, 10L, voucherType, LocalDateTime.now());
 
-		assertThat(voucherType).isEqualTo(voucher.getVoucherType());
-		assertThat(10L).isEqualTo(voucher.getAmount());
+		assertThat(voucher.getVoucherType()).isEqualTo(voucherType);
+		assertThat(voucher.getAmount()).isEqualTo(10L);
 	}
 }

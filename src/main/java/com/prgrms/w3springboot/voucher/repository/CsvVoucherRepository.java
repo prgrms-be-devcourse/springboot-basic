@@ -22,9 +22,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.prgrms.w3springboot.voucher.FixedAmountVoucher;
-import com.prgrms.w3springboot.voucher.PercentAmountVoucher;
 import com.prgrms.w3springboot.voucher.Voucher;
+import com.prgrms.w3springboot.voucher.VoucherFactory;
 import com.prgrms.w3springboot.voucher.VoucherType;
 
 @Repository
@@ -36,7 +35,9 @@ public class CsvVoucherRepository implements VoucherRepository {
 	private static final int INDEX_UUID = 0;
 	private static final int INDEX_AMOUNT = 1;
 	private static final int INDEX_TYPE = 2;
-	private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+	private static final Map<UUID, Voucher> STORAGE = new ConcurrentHashMap<>();
+
+	private final VoucherFactory VOUCHER_FACTORY = VoucherFactory.getInstance();
 
 	@PostConstruct
 	public void postConstruct() {
@@ -50,13 +51,8 @@ public class CsvVoucherRepository implements VoucherRepository {
 				long discountAmount = Long.parseLong(voucherInfo[INDEX_AMOUNT]);
 				VoucherType voucherType = VoucherType.of(voucherInfo[INDEX_TYPE].toLowerCase());
 
-				if (voucherType == VoucherType.FIXED) {
-					storage.put(csvVoucherId,
-						new FixedAmountVoucher(csvVoucherId, discountAmount, voucherType, LocalDateTime.now()));
-				} else if (voucherType == VoucherType.PERCENT) {
-					storage.put(csvVoucherId,
-						new PercentAmountVoucher(csvVoucherId, discountAmount, voucherType, LocalDateTime.now()));
-				}
+				STORAGE.put(csvVoucherId,
+					VOUCHER_FACTORY.createVoucher(csvVoucherId, discountAmount, voucherType, LocalDateTime.now()));
 			}
 		} catch (IOException e) {
 			logger.error("{} - 파일 읽기 중 오류가 발생했습니다.", e.getMessage());
@@ -69,7 +65,7 @@ public class CsvVoucherRepository implements VoucherRepository {
 
 		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_PATH.toFile()))) {
 			StringBuffer sb = new StringBuffer();
-			for (Voucher voucher : storage.values()) {
+			for (Voucher voucher : STORAGE.values()) {
 				sb.append(voucher.getVoucherId());
 				sb.append(",");
 				sb.append(voucher.getAmount());
@@ -87,28 +83,30 @@ public class CsvVoucherRepository implements VoucherRepository {
 
 	@Override
 	public Optional<Voucher> findById(UUID voucherId) {
-		return Optional.ofNullable(storage.get(voucherId));
+		return Optional.ofNullable(STORAGE.get(voucherId));
 	}
 
 	@Override
 	public Voucher insert(Voucher voucher) {
-		storage.put(voucher.getVoucherId(), voucher);
+		STORAGE.put(voucher.getVoucherId(), voucher);
 		return voucher;
 	}
 
 	@Override
 	public Voucher update(Voucher voucher) {
-		return null;
+		STORAGE.replace(voucher.getVoucherId(), voucher);
+
+		return voucher;
 	}
 
 	@Override
-	public void delete(UUID voucerId) {
-
+	public void delete(UUID voucherId) {
+		STORAGE.remove(voucherId);
 	}
 
 	@Override
 	public List<Voucher> findAll() {
-		return new ArrayList<>(storage.values());
+		return new ArrayList<>(STORAGE.values());
 	}
 
 	private void checkFileExist() {

@@ -39,10 +39,10 @@ class NamedJdbcWalletRepositoryTest {
 	private static final UUID EXISTING_CUSTOMER_ID = UUID.fromString("75810d66-19bb-11ec-9621-0242ac130002");
 	private static final UUID EXISTING_VOUCHER_ID = UUID.fromString("9cbb3d0a-158a-11ec-82a8-0242ac130003");
 
-	static EmbeddedMysql embeddedMysql;
+	private static EmbeddedMysql embeddedMysql;
 
 	@Autowired
-	WalletRepository walletRepository;
+	private WalletRepository walletRepository;
 
 	@BeforeAll
 	void setup() {
