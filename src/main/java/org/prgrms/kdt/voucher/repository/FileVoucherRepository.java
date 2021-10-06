@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private static final String COMMA = ",";
 
     private final Path filePath = Paths.get(System.getProperty("user.dir"), "voucher", "voucher.csv");
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
@@ -43,30 +44,34 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             List<String> lines = Files.readAllLines(filePath);
             parseLines(lines);
-        } catch (NumberFormatException | IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
     }
 
     private void parseLines(List<String> lines) {
         for (String line : lines) {
-            List<String> voucherInfo = Arrays.asList(line.split(","));
+            mapToStorage(line);
+        }
+    }
 
-            if (FixedAmountVoucher.class.getSimpleName().equals(voucherInfo.get(0))) {
-                Voucher parsedVoucher = new FixedAmountVoucher(
-                        UUID.fromString(voucherInfo.get(1)),
-                        Long.parseLong(voucherInfo.get(2)));
-                storage.put(parsedVoucher.getVoucherId(), parsedVoucher);
-            } else if (PercentDiscountVoucher.class.getSimpleName().equals(voucherInfo.get(0))) {
-                Voucher parsedVoucher = new PercentDiscountVoucher(
-                        UUID.fromString(voucherInfo.get(1)),
-                        Long.parseLong(voucherInfo.get(2)));
-                storage.put(parsedVoucher.getVoucherId(), parsedVoucher);
-            } else {
-                String errorMsg = "Not match any Voucher Class";
-                logger.error(errorMsg);
-                throw new IllegalArgumentException(errorMsg);
-            }
+    private void mapToStorage(String line) {
+        List<String> voucherInfo = Arrays.asList(line.split(COMMA));
+
+        if (FixedAmountVoucher.class.getSimpleName().equals(voucherInfo.get(0))) {
+            Voucher parsedVoucher = new FixedAmountVoucher(
+                    UUID.fromString(voucherInfo.get(1)),
+                    Long.parseLong(voucherInfo.get(2)));
+            storage.put(parsedVoucher.getVoucherId(), parsedVoucher);
+        } else if (PercentDiscountVoucher.class.getSimpleName().equals(voucherInfo.get(0))) {
+            Voucher parsedVoucher = new PercentDiscountVoucher(
+                    UUID.fromString(voucherInfo.get(1)),
+                    Long.parseLong(voucherInfo.get(2)));
+            storage.put(parsedVoucher.getVoucherId(), parsedVoucher);
+        } else {
+            String errorMsg = "Not match any Voucher Class";
+            logger.error(errorMsg);
+            throw new IllegalArgumentException(errorMsg);
         }
     }
 
@@ -75,8 +80,8 @@ public class FileVoucherRepository implements VoucherRepository {
             try {
                 Files.createDirectories(filePath.getParent());
                 Files.createFile(filePath);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                logger.error(e.getMessage());
             }
         }
 
