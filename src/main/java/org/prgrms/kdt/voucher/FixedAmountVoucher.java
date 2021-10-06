@@ -14,6 +14,13 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
+        validateAmount(amount);
+
+        this.voucherId = voucherId;
+        this.amount = amount;
+    }
+
+    public void validateAmount(long amount) {
         if (amount < MIN_VOUCHER_AMOUNT) {
             String errorMsg = "Amount should be positive";
             logger.error(errorMsg);
@@ -29,8 +36,6 @@ public class FixedAmountVoucher implements Voucher {
             logger.error(errorMsg);
             throw new IllegalArgumentException(errorMsg);
         }
-        this.voucherId = voucherId;
-        this.amount = amount;
     }
 
     @Override

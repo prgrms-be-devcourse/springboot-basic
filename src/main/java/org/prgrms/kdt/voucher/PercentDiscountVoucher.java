@@ -14,6 +14,13 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        validatePercent(percent);
+
+        this.voucherId = voucherId;
+        this.percent = percent;
+    }
+
+    public void validatePercent(long percent) {
         if (percent < MIN_VOUCHER_PERCENT) {
             String errorMsg = "Percent should be positive";
             logger.error(errorMsg);
@@ -29,8 +36,6 @@ public class PercentDiscountVoucher implements Voucher {
             logger.error(errorMsg);
             throw new IllegalArgumentException(errorMsg);
         }
-        this.voucherId = voucherId;
-        this.percent = percent;
     }
 
     public UUID getVoucherId() {

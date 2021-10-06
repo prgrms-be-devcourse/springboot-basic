@@ -28,7 +28,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
-
     private final Path filePath = Paths.get(System.getProperty("user.dir"), "voucher", "voucher.csv");
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
