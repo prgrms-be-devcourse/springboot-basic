@@ -8,17 +8,18 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
     private static final long MAX_VOUCHER_PERCENT = 100;
+    private static final long MIN_VOUCHER_PERCENT = 0;
 
     private final UUID voucherId;
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent < 0) {
+        if (percent < MIN_VOUCHER_PERCENT) {
             String errorMsg = "Percent should be positive";
             logger.error(errorMsg);
             throw new IllegalArgumentException(errorMsg);
         }
-        if (percent == 0) {
+        if (percent == MIN_VOUCHER_PERCENT) {
             String errorMsg = "Percent should not be zero";
             logger.error(errorMsg);
             throw new IllegalArgumentException(errorMsg);

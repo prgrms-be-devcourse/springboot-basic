@@ -5,7 +5,7 @@ import org.prgrms.kdt.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,6 +22,6 @@ public class CustomerService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 }
