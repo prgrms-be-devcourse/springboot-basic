@@ -14,15 +14,15 @@ public enum CommandType {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
 
-    private final String strCommand;
+    private final String commandName;
 
-    CommandType(String strCommand) {
-        this.strCommand = strCommand;
+    CommandType(String commandName) {
+        this.commandName = commandName;
     }
 
     public static CommandType findCommand(String inputCommandType) {
         return Arrays.stream(values())
-                .filter(commandType -> commandType.strCommand.equals(inputCommandType))
+                .filter(commandType -> commandType.commandName.equals(inputCommandType))
                 .findAny()
                 .orElseThrow(() -> {
                     String errorMessage = "Can't find command type";
