@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ListCommandService implements Command {
@@ -30,12 +29,12 @@ public class ListCommandService implements Command {
     @Override
     public boolean execute() {
         List<Voucher> vouchers = voucherService.getAllVoucher();
-        Stream<Voucher> voucherStream = vouchers.stream();
 
-        logger.info("Execute Voucher List : {}",
-                voucherStream
-                        .map(Voucher::toString)
-                        .collect(Collectors.joining()));
+        String voucherList = vouchers.stream()
+                .map(Voucher::toString)
+                .collect(Collectors.joining());
+
+        logger.info("Execute Voucher List : {}", voucherList);
 
         output.printVoucherList(vouchers);
 
