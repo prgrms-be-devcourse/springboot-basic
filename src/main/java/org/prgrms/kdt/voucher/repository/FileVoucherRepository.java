@@ -36,34 +36,41 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private void loadStorage() {
-        if (!Files.exists(filePath))
+        if (!Files.exists(filePath)) {
             return;
+        }
 
         try {
             List<String> lines = Files.readAllLines(filePath);
-            for (String line : lines) {
-                List<String> voucherInfo = Arrays.asList(line.split(","));
-
-                if (FixedAmountVoucher.class.getSimpleName().equals(voucherInfo.get(0))) {
-                    Voucher parsedVoucher = new FixedAmountVoucher(UUID.fromString(voucherInfo.get(1)), Long.parseLong(voucherInfo.get(2)));
-                    storage.put(parsedVoucher.getVoucherId(), parsedVoucher);
-                } else if (PercentDiscountVoucher.class.getSimpleName().equals(voucherInfo.get(0))) {
-                    Voucher parsedVoucher = new PercentDiscountVoucher(UUID.fromString(voucherInfo.get(1)), Long.parseLong(voucherInfo.get(2)));
-                    storage.put(parsedVoucher.getVoucherId(), parsedVoucher);
-                } else {
-                    String errorMsg = "Not match any Voucher Class";
-                    logger.error(errorMsg);
-                    throw new IllegalArgumentException(errorMsg);
-                }
-            }
+            parseLines(lines);
         } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
         }
     }
 
+    private void parseLines(List<String> lines) {
+        for (String line : lines) {
+            List<String> voucherInfo = Arrays.asList(line.split(","));
+
+            if (FixedAmountVoucher.class.getSimpleName().equals(voucherInfo.get(0))) {
+                Voucher parsedVoucher = new FixedAmountVoucher(
+                        UUID.fromString(voucherInfo.get(1)),
+                        Long.parseLong(voucherInfo.get(2)));
+                storage.put(parsedVoucher.getVoucherId(), parsedVoucher);
+            } else if (PercentDiscountVoucher.class.getSimpleName().equals(voucherInfo.get(0))) {
+                Voucher parsedVoucher = new PercentDiscountVoucher(
+                        UUID.fromString(voucherInfo.get(1)),
+                        Long.parseLong(voucherInfo.get(2)));
+                storage.put(parsedVoucher.getVoucherId(), parsedVoucher);
+            } else {
+                String errorMsg = "Not match any Voucher Class";
+                logger.error(errorMsg);
+                throw new IllegalArgumentException(errorMsg);
+            }
+        }
+    }
+
     private void saveFile(Voucher voucher) {
-        // 1. if not exist? -> create dir & file
-        // 2. else append
         if (!Files.exists(filePath)) {
             try {
                 Files.createDirectories(filePath.getParent());
