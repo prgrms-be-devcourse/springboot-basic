@@ -13,7 +13,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "kdt")
 public class OrderProperties implements InitializingBean {
 
-    private final static Logger logger = LoggerFactory.getLogger(OrderProperties.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderProperties.class);
 
     private String version;
 

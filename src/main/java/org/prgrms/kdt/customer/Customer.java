@@ -5,7 +5,7 @@ import java.util.UUID;
 public class Customer {
     private final UUID customerId;
     private final String customerName;
-    private boolean blacklist;
+    private final boolean blacklist;
 
     public Customer(final UUID customerId, final String customerName, final boolean blacklist) {
         this.customerId = customerId;
@@ -15,10 +15,6 @@ public class Customer {
 
     public UUID getCustomerId() {
         return customerId;
-    }
-
-    public void setBlacklist(final boolean blacklist) {
-        this.blacklist = blacklist;
     }
 
     @Override

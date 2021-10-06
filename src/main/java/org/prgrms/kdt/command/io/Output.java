@@ -3,6 +3,9 @@ package org.prgrms.kdt.command.io;
 import java.text.MessageFormat;
 
 public class Output {
+    private Output() {
+    }
+
     public static void commandChooseMessage() {
         System.out.println("=== Voucher Program ===");
         System.out.println("Type 'exit' for Exit.");

@@ -26,13 +26,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-
     private static final Path FILE_PATH = Paths.get(System.getProperty("user.dir"), "src/main/resources/voucher.csv");
     private static final String DELIMITER = ",";
     private static final int INDEX_TYPE = 0;
     private static final int INDEX_UUID = 1;
     private static final int INDEX_AMOUNT = 2;
-    private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private static final Map<UUID, Voucher> STORAGE = new ConcurrentHashMap<>();
 
     @PostConstruct
     public static void fileRead() {
@@ -47,9 +46,9 @@ public class FileVoucherRepository implements VoucherRepository {
                 final long discountAmount = Long.parseLong(voucherText[INDEX_AMOUNT]);
 
                 if (voucherType.equals("FixedAmountVoucher")) {
-                    storage.put(voucherId, new FixedAmountVoucher(voucherId, discountAmount));
+                    STORAGE.put(voucherId, new FixedAmountVoucher(voucherId, discountAmount));
                 } else if (voucherType.equals("PercentDiscountVoucher")) {
-                    storage.put(voucherId, new PercentDiscountVoucher(voucherId, discountAmount));
+                    STORAGE.put(voucherId, new PercentDiscountVoucher(voucherId, discountAmount));
                 }
             }
             System.out.println("Voucher File Read Complete!");
@@ -64,7 +63,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         try (final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_PATH.toFile()))) {
             final StringBuffer sb = new StringBuffer();
-            for (final Voucher voucher : storage.values()) {
+            for (final Voucher voucher : STORAGE.values()) {
                 sb.append(voucher.getVoucherType());
                 sb.append(",");
                 sb.append(voucher.getVoucherId());
@@ -75,7 +74,6 @@ public class FileVoucherRepository implements VoucherRepository {
                 sb.setLength(0);
             }
             bufferedWriter.flush();
-            bufferedWriter.close();
             System.out.println("File Write Complete!");
         } catch (final IOException e) {
             logger.error("{}", e.getMessage());
@@ -99,18 +97,18 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(final Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
+        STORAGE.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
     @Override
     public Optional<Voucher> findById(final UUID voucherId) {
-        return Optional.ofNullable(storage.get(voucherId));
+        return Optional.ofNullable(STORAGE.get(voucherId));
     }
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(storage.values());
+        return new ArrayList<>(STORAGE.values());
     }
 
 }

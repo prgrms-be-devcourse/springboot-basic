@@ -3,15 +3,15 @@ package org.prgrms.kdt.command;
 import org.prgrms.kdt.command.io.Output;
 
 public class ValueValidation {
+    private ValueValidation() {
+    }
+
     public static boolean voucherTypeValidation(final String voucherType) {
-        switch (voucherType) {
-            case "FixedAmountVoucher", "PercentDiscountVoucher" -> {
-                return true;
-            }
-            default -> {
-                Output.wrongVoucherTypeMessage(voucherType);
-                return false;
-            }
+        if (voucherType.equals("FixedAmountVoucher") || voucherType.equals("PercentDiscountVoucher")) {
+            return true;
+        } else {
+            Output.wrongVoucherTypeMessage(voucherType);
+            return false;
         }
     }
 

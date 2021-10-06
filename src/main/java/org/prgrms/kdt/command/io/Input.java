@@ -3,9 +3,12 @@ package org.prgrms.kdt.command.io;
 import java.util.Scanner;
 
 public class Input {
-    static Scanner scanner = new Scanner(System.in);
+    public static Scanner SCANNER = new Scanner(System.in);
+
+    private Input() {
+    }
 
     public static String input() {
-        return scanner.nextLine();
+        return SCANNER.nextLine();
     }
 }

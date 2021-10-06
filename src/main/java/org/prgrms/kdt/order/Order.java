@@ -13,15 +13,15 @@ public class Order {
     private final Optional<Voucher> voucher;
     private OrderStatus orderStatus = OrderStatus.ACCEPTED;
 
-    public Order(final UUID orderid, final UUID customerId, final List<OrderItem> orderItems) {
-        this.orderId = orderid;
+    public Order(final UUID orderId, final UUID customerId, final List<OrderItem> orderItems) {
+        this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.empty();
     }
 
-    public Order(final UUID orderid, final UUID customerId, final List<OrderItem> orderItems, final Voucher voucher) {
-        this.orderId = orderid;
+    public Order(final UUID orderId, final UUID customerId, final List<OrderItem> orderItems, final Voucher voucher) {
+        this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.of(voucher);
