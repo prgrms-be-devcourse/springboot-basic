@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public class CustomerService {
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
@@ -17,7 +17,7 @@ public class CustomerService {
     public List<Customer> getCustomersList() {
         return customerRepository.findAll();
     }
-    //@Transactional
+
     public void createCustomer(List<Customer> customers) {
         customers.forEach(customerRepository::insert);
     }
