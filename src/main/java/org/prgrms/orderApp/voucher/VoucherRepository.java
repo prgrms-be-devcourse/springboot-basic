@@ -11,7 +11,12 @@ import java.util.UUID;
 
 @Repository
 public interface VoucherRepository {
-    Optional<Voucher> findById(UUID voucherId);
-    int insert(Voucher voucher) throws IOException;
     List<Voucher> findAll() throws IOException, ParseException;
+    Optional<Voucher> findById(UUID voucherId);
+
+    int insert(Voucher voucher) throws IOException;
+    Voucher update(Voucher voucher);
+    void deleteAll();
+    int count();
+
 }
