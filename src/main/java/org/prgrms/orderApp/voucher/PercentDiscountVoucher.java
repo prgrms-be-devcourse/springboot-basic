@@ -1,5 +1,8 @@
 package org.prgrms.orderApp.voucher;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher{
@@ -7,6 +10,7 @@ public class PercentDiscountVoucher implements Voucher{
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        Assert.isTrue(percent > 0L && percent <= 100L , "Percent 바우처 할인은 0%이상 100% 이하만 가능합니다.");
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -16,7 +20,7 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount - (long)((float)beforeDiscount * ((float)percent / 100));
     }
 
     @Override
