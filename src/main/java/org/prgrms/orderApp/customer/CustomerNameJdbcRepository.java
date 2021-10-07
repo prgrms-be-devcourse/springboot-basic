@@ -5,12 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
@@ -20,7 +19,6 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
-@Profile("local")
 public class CustomerNameJdbcRepository implements CustomerRepository{
     private static final Logger logger = LoggerFactory.getLogger(CustomerNameJdbcRepository.class);
 
@@ -32,22 +30,13 @@ public class CustomerNameJdbcRepository implements CustomerRepository{
     private final String INSERT_SQL = "insert into customers(customer_id, name, email, created_at) value (UUID_TO_BIN(:customerId),:name,:email,:createdAt)";
     private final String UPDATE_BY_ID_SQL = "update customers set name =:name, last_login_at=:lastLoginAt where customer_id=UUID_TO_BIN(:customerId)";
     private final String DELETE_ALL_SQL = "delete from customers";
-    private final String COUNT_SQL = "select count(*) from customer";
+    private final String COUNT_SQL = "select count(*) from customers";
 
     private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
 
-    private Map<String, Object> toParameter(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
-            put("name", customer.getName());
-            put("email", customer.getEmail());
-            put("createdAt", customer.getCreatedAt());
-            put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
 
-        }};
-    }
     public CustomerNameJdbcRepository(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate){
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
@@ -77,32 +66,43 @@ public class CustomerNameJdbcRepository implements CustomerRepository{
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        try{
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL,Collections.singletonMap("customerId", customerId.toString().getBytes()), (resultSet, i) -> mapToCustomerByJdbcTemplate(resultSet)));
-        } catch (EmptyResultDataAccessException e){
-            logger.error("Got empty message: " + e);
-            return Optional.empty();
-        }
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        jdbcTemplate.query(
+                                SELECT_BY_ID_SQL,
+                                Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                                (resultSet, i) -> mapToCustomerByJdbcTemplate(resultSet)
+                        )
+                )
+        );
+
     }
 
     @Override
     public Optional<Customer> findByName(String name) {
-        try{
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_NAME_SQL, Collections.singletonMap("name",name), (resultSet, i) -> mapToCustomerByJdbcTemplate(resultSet)));
-        } catch (EmptyResultDataAccessException e){
-            logger.error("Got empty message: " + e);
-            return Optional.empty();
-        }
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        jdbcTemplate.query(
+                                SELECT_BY_NAME_SQL,
+                                Collections.singletonMap("name",name),
+                                (resultSet, i) -> mapToCustomerByJdbcTemplate(resultSet)
+                        )
+                )
+        );
+
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        try{
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL, Collections.singletonMap("email",email),(resultSet, i) -> mapToCustomerByJdbcTemplate(resultSet)));
-        } catch (EmptyResultDataAccessException e){
-            logger.error("Got empty message: " + e);
-            return Optional.empty();
-        }
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        jdbcTemplate.query(SELECT_BY_EMAIL,
+                                Collections.singletonMap("email",email),
+                                (resultSet, i) -> mapToCustomerByJdbcTemplate(resultSet)
+                        )
+                )
+        );
+
     }
 
     @Override
@@ -126,4 +126,14 @@ public class CustomerNameJdbcRepository implements CustomerRepository{
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     }
 
+    private Map<String, Object> toParameter(Customer customer) {
+        return new HashMap<>() {{
+            put("customerId", customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
+            put("name", customer.getName());
+            put("email", customer.getEmail());
+            put("createdAt", customer.getCreatedAt());
+            put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
+
+        }};
+    }
 }
