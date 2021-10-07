@@ -2,17 +2,19 @@ package org.prgrms.orderApp.voucher;
 
 import java.util.UUID;
 
-public class VoucherDto {
+
+// 마땅한 이름을 찾지 못하였습니다.
+public class VoucherTempEntity {
     private final UUID vouchcerId;
     private final long amount ;
     private String voucherType;
 
-    public VoucherDto(UUID vouchcerId, long amount){
+    public VoucherTempEntity(UUID vouchcerId, long amount){
         this.vouchcerId = vouchcerId;
         this.amount = amount;
     }
 
-    public VoucherDto(UUID vouchcerId, long amount, String voucherType){
+    public VoucherTempEntity(UUID vouchcerId, long amount, String voucherType){
         this.vouchcerId = vouchcerId;
         this.amount = amount;
         this.voucherType = voucherType;

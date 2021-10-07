@@ -12,14 +12,14 @@ public enum VoucherType {
 
     private final int menuNumber;
     private final long limit;
-    private final Function<VoucherDto, Voucher> voucher;
+    private final Function<VoucherTempEntity, Voucher> voucher;
     private final String voucherClassName ;
 
     public Voucher getVoucher(UUID voucherId, long amonut){
-        return voucher.apply(new VoucherDto(voucherId, amonut));
+        return voucher.apply(new VoucherTempEntity(voucherId, amonut));
     }
 
-    VoucherType(int menuNumber, long limit, Function<VoucherDto, Voucher> voucher, String voucherClassName) {
+    VoucherType(int menuNumber, long limit, Function<VoucherTempEntity, Voucher> voucher, String voucherClassName) {
         this.menuNumber = menuNumber;
         this.limit = limit;
         this.voucher = voucher;
