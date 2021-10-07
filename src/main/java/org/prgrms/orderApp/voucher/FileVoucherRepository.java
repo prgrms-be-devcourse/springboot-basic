@@ -8,6 +8,7 @@ import org.prgrms.orderApp.util.library.monguDb.DbWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
 public class FileVoucherRepository implements VoucherRepository {
     private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
@@ -25,6 +25,22 @@ public class FileVoucherRepository implements VoucherRepository {
         this.dbManagement = dbManagement;
     }
 
+    @Override
+    public List<Voucher> findAll() throws IOException, ParseException {
+        List findDataFromMonguDb;
+        findDataFromMonguDb = dbManagement.getConnection().DbConnection().getCollection("vouchers").find().stream().toList();
+
+        JSONObject dataOneParse ;
+        ArrayList voucher_list = new ArrayList();
+        for(Object dataOne : findDataFromMonguDb){
+            dataOneParse = (JSONObject) new JSONParser().parse(String.valueOf(dataOne));
+            voucher_list.add(VoucherType.getVoucherTypeByVoucherClassName((String)dataOneParse.get("voucherType"))
+                    .get().getVoucher(UUID.fromString((String)dataOneParse.get("voucherId")),
+                            (long) dataOneParse.get("voucherAmount")));
+
+        }
+        return voucher_list;
+    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -57,19 +73,17 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() throws IOException, ParseException {
-        List findDataFromMonguDb;
-        findDataFromMonguDb = dbManagement.getConnection().DbConnection().getCollection("vouchers").find().stream().toList();
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
 
-        JSONObject dataOneParse ;
-        ArrayList voucher_list = new ArrayList();
-        for(Object dataOne : findDataFromMonguDb){
-            dataOneParse = (JSONObject) new JSONParser().parse(String.valueOf(dataOne));
-            voucher_list.add(VoucherType.getVoucherTypeByVoucherClassName((String)dataOneParse.get("voucherType"))
-                    .get().getVoucher(UUID.fromString((String)dataOneParse.get("voucherId")),
-                            (long) dataOneParse.get("voucherAmount")));
+    @Override
+    public void deleteAll() {
 
-        }
-        return voucher_list;
+    }
+
+    @Override
+    public int count() {
+        return 0;
     }
 }

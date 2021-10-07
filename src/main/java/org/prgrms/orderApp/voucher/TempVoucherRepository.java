@@ -1,6 +1,7 @@
 package org.prgrms.orderApp.voucher;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,27 @@ public class TempVoucherRepository implements VoucherRepository {
 
     }
 
+
     @Override
     public List<Voucher> findAll() {
         return voucher_list;
     }
+
+
+    @Override
+    public void deleteAll() {
+        voucher_list.clear();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+
+    @Override
+    public int count() {
+        return 0;
+    }
+
 }
