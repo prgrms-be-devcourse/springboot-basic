@@ -26,6 +26,7 @@ public class VoucherRestApiController {
     private VoucherService voucherService;
 
 
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity getAllList(){
         return BasicResponse
