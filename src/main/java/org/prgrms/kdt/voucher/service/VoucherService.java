@@ -53,10 +53,6 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public void useVoucher(final Voucher voucher) {
-
-    }
-
     public Optional<List<Voucher>> getAllVoucherOfCustomer(final String email) {
         return voucherRepository.findByEmail(email);
     }
