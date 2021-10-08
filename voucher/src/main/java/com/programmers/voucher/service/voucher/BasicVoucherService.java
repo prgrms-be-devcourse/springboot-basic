@@ -6,8 +6,10 @@ import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +48,16 @@ public class BasicVoucherService implements VoucherService {
     }
 
     @Override
+    public List<Voucher> listAll(LocalDate from, LocalDate to) {
+        return jdbcVoucherRepository.listAllBetween(from, to);
+    }
+
+    @Override
+    public List<Voucher> listAll(LocalDate from, LocalDate to, Voucher.SearchCriteria searchCriteria, String keyword) {
+        return searchCriteria.getSearch().search(jdbcVoucherRepository, from, to, keyword);
+    }
+
+    @Override
     public Optional<Voucher> findById(long id) {
         return jdbcVoucherRepository.findById(id);
     }
@@ -53,6 +65,20 @@ public class BasicVoucherService implements VoucherService {
     @Override
     public Voucher update(Voucher voucher) {
         jdbcVoucherRepository.update(voucher);
+        return voucher;
+    }
+
+    @Override
+    public Voucher update(long voucherId, String name, DiscountType type, int amount, long ownerId) {
+        Voucher voucher = jdbcVoucherRepository.findById(voucherId).orElseThrow(() -> {
+            throw new IllegalArgumentException("Voucher with given id not found.");
+        });
+        voucher.update(new Voucher(name, new DiscountPolicy(amount, type), ownerId));
+        try {
+            jdbcVoucherRepository.update(voucher);
+        } catch (DataAccessException ex) {
+            throw new IllegalArgumentException("Check customer id.");
+        }
         return voucher;
     }
 

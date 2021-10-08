@@ -41,6 +41,34 @@ voucher:
         vouchers v
       WHERE
         v.voucher_id=? AND v.customer_id=?
+    between:
+      SELECT
+        *
+      FROM
+        vouchers
+      WHERE
+        created_at
+      BETWEEN
+        ? AND ?
+    byType:
+      SELECT
+        *
+      FROM
+        vouchers
+      WHERE
+        type=?
+    betweenByType:
+      SELECT
+        *
+      FROM
+        vouchers
+      WHERE
+        created_at
+      BETWEEN
+        ? AND ?
+      AND
+        type=?
+
 
   update:
     byId: >

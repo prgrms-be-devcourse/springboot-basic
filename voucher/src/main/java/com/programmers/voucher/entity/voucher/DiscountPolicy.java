@@ -8,6 +8,11 @@ public class DiscountPolicy implements Serializable {
     private int amount;
     private DiscountType type;
 
+    public DiscountPolicy(DiscountPolicy discountPolicy) {
+        this.amount = discountPolicy.amount;
+        this.type = discountPolicy.type;
+    }
+
     public DiscountPolicy(int amount, DiscountType type) {
         this.type = type;
         this.amount = type.constraint(amount);

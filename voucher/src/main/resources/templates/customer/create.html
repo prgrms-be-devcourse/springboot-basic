@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher Application</title>
+</head>
+<body>
+
+<h1>Create Customer.</h1>
+<h2>Fill required information of customer to create.</h2>
+
+<ul>
+    <li th:each="link: ${links}">
+        <a th:href="@{${link[1]}}" th:text="${link[0]}">Menu Text</a>
+    </li>
+</ul>
+
+<form th:action="@{/customer/create}" method="post">
+    <div>
+        <label for="customer-username">Username: </label>
+        <input id="customer-username" name="username" required placeholder="Username" th:value="${username == null ? '' : username}">
+    </div>
+    <div>
+        <label for="customer-alias">Alias: </label>
+        <input id="customer-alias" name="alias" required placeholder="Alias" th:value="${alias == null ? '' : alias}">
+    </div>
+    <input type="submit" value="Create">
+</form>
+
+<h3 th:text="${error}"></h3>
+
+</body>
+</html>

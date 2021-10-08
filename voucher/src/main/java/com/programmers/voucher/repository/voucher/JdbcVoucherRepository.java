@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,6 +19,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -74,6 +74,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> listAll() {
         log.debug("Find all vouchers");
         return jdbcTemplate.query(voucherQuery.getSelect().getAll(), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> listAllBetween(LocalDate from, LocalDate to) {
+        log.debug("Finding vouchers between {} to {}", from, to);
+        return jdbcTemplate.query(voucherQuery.getSelect().getBetween(), voucherRowMapper, from, to);
+    }
+
+    @Override
+    public List<Voucher> listAllByVoucherType(DiscountType type) {
+        log.debug("Finding vouchers by type {}", type);
+        return jdbcTemplate.query(voucherQuery.getSelect().getByType(), voucherRowMapper, type);
+    }
+
+    @Override
+    public List<Voucher> listAllBetweenByVoucherType(LocalDate from, LocalDate to, DiscountType type) {
+        log.debug("Finding vouchers by type {} between {} to {}", type, from, to);
+        return jdbcTemplate.query(voucherQuery.getSelect().getBetweenByType(), voucherRowMapper, from, to, type.toString());
     }
 
     @Override

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "voucher")
-@PropertySource(value = "voucher_query.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:/voucher_query.yml", factory = YamlPropertySourceFactory.class)
 public class VoucherQuery {
     private String create;
     private Select select;
@@ -52,6 +52,33 @@ public class VoucherQuery {
         private String all;
         private String byId;
         private String byCustomer;
+        private String between;
+        private String byType;
+        private String betweenByType;
+
+        public String getByType() {
+            return byType;
+        }
+
+        public void setByType(String byType) {
+            this.byType = byType;
+        }
+
+        public String getBetweenByType() {
+            return betweenByType;
+        }
+
+        public void setBetweenByType(String betweenByType) {
+            this.betweenByType = betweenByType;
+        }
+
+        public String getBetween() {
+            return between;
+        }
+
+        public void setBetween(String between) {
+            this.between = between;
+        }
         private String byIdAndCustomer;
 
         public String getAll() {

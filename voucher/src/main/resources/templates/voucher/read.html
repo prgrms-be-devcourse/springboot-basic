@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher Application</title>
+</head>
+<body>
+
+<h1>Read Voucher.</h1>
+<h2>Type voucher's id to read.</h2>
+
+<ul>
+    <li th:each="link: ${links}">
+        <a th:href="@{${link[1]}}" th:text="${link[0]}">Menu Text</a>
+    </li>
+</ul>
+
+<form th:action="@{/voucher/read}" method="get">
+    <label for="voucher-id">ID: </label>
+    <input id="voucher-id" type="number" name="id" required placeholder="1" min="1" th:value="${id}">
+    <input type="submit" value="Search">
+</form>
+
+<h3 th:text="${error}"></h3>
+
+<table style="border: 1px solid black">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Discount Type</th>
+        <th>Discount Amount</th>
+        <th>Created</th>
+        <th>Owner</th>
+        <th>EDIT</th>
+        <th>DELETE</th>
+    </tr>
+    <tr th:unless="${voucher == null}" th:object="${voucher}" style="background-color: aliceblue">
+        <td th:text="*{id}">ID</td>
+        <td th:text="*{name}">VOUCHER NAME</td>
+        <td th:text="*{discountPolicy.type}">DISCOUNT TYPE</td>
+        <td th:text="*{discountPolicy.amount}">0</td>
+        <td th:text="*{createdAt}">1970-01-01</td>
+        <td th:text="*{customerId}">CUSTOMER ID</td>
+        <td>
+            <a th:href="@{/voucher/update(id=*{id})}">EDIT</a>
+        </td>
+        <td>
+            <a th:href="@{/voucher/delete(id=*{id})}">DELETE</a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher Application</title>
+</head>
+<body>
+
+<h1>Welcome to Voucher Application.</h1>
+<h2>Supported operations are ...</h2>
+
+<ul>
+    <li th:each="link: ${links}">
+        <a th:href="@{${link[1]}}" th:text="${link[0]}">Menu Text</a>
+    </li>
+</ul>
+
+</body>
+</html>
