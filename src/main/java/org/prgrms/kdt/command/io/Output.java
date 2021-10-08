@@ -9,9 +9,31 @@ public class Output {
     public static void commandChooseMessage() {
         System.out.println("=== Voucher Program ===");
         System.out.println("Type 'exit' for Exit.");
-        System.out.println("Type 'create' to create a new voucher");
-        System.out.println("Type 'list' to list all vouchers");
+        System.out.println("Type 'customer' for customer menu");
+        System.out.println("Type 'voucher' for voucher menu");
+    }
+
+    public static void customerServiceMessage() {
+        System.out.println("=== Customer ===");
+        System.out.println("Type 'back' for going back.");
+        System.out.println("Type 'create' to create new customer");
+        System.out.println("Type 'list' to list all customers");
+        System.out.println("Type 'my_voucher_list' to list all vouchers of specific customer");
         System.out.println("Type 'blacklist' to list all blacklists");
+    }
+
+    public static void voucherServiceMessage() {
+        System.out.println("=== Voucher ===");
+        System.out.println("Type 'back' for going back.");
+        System.out.println("Type 'create' to create new voucher");
+        System.out.println("Type 'list' to list all vouchers");
+        System.out.println("Type 'find_customer' to find specific customers of voucher_id");
+    }
+
+    public static void voucherDeleteMessage() {
+        System.out.println("=== Voucher Delete ===");
+        System.out.println("Type 'back' for going back.");
+        System.out.println("Type 'delete' to delete specific voucher");
     }
 
     public static void inputTypeErrorMessage(final String commandInput) {

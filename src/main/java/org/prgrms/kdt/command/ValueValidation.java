@@ -2,6 +2,8 @@ package org.prgrms.kdt.command;
 
 import org.prgrms.kdt.command.io.Output;
 
+import java.util.regex.Pattern;
+
 public class ValueValidation {
     private ValueValidation() {
     }
@@ -45,6 +47,31 @@ public class ValueValidation {
             default:
                 System.out.println("잘못된 voucher type 입니다.");
                 return false;
+        }
+    }
+
+    public static boolean nameValidation(final String name) {
+        if (name.length() > 10) {
+            System.out.println("열 글자 이하로 작성해주세요.");
+            return false;
+        }
+        if (name.length() < 2) {
+            System.out.println("두 글자 이상으로 작성해주세요.");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean emailValidation(final String email) {
+        if (email.length() > 30) {
+            System.out.println("30글자 이하로 작성해주세요.");
+            return false;
+        }
+        if (Pattern.matches("\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b", email))
+            return true;
+        else {
+            System.out.println("email 형식으로 입력해주세요.");
+            return false;
         }
     }
 }
