@@ -1,0 +1,6 @@
+<div th:fragment="alert(status_css, status,message)">
+    <div th:class= "|alert alert-${status_css} alert-dismissible fade show|" >
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong th:text="${#strings.toUpperCase(status)}"></strong> <p th:text="${message}"></p>
+    </div>
+</div>

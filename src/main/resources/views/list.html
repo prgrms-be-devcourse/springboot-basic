@@ -3,37 +3,30 @@
 <head th:replace="common/header :: html-head(${title})" >
 </head>
 <body>
+<th:block th:if="${!#strings.equals(alert.status,'None')}"  >
+    <div th:replace="common/alert :: alert(${alert.alert_css},${alert.status},${alert.message})"></div>
+</th:block>
 
 <div class="card bg-info text-white">
-    <div class="card-body" th:text="${title}">SHOW LIST PAGE</div>
+    <div class="card-body" th:text="${title}"></div>
 </div>
 
 <div class="container">
-    <a type="button" class="btn btn-warning" href="create">CREATE</a>
+    <a type="button" class="btn btn-warning" th:href="@{/voucher/create}" style="float: right;">CREATE</a>
     <table class="table table-hover">
         <thead>
-        <tr>
-            <th><a th:href="${detail_location}+'id'">Firstname</a></th>
-            <th th:text="${detail_location}+'id'">Lastname</th>
-            <th>Email</th>
+        <tr >
+            <th th:each="column : ${column_list}" th:text="${column}">Nothing</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td><a href="details/id">John</a></td>
-            <td>Doe</td>
-            <td>john@example.com</td>
+        <tr th:each="data: ${data_list}" >
+            <td><a th:href="${detail_location}+${data.voucherId}"><p th:text="${data.name}">No Result</p></a></td>
+            <td th:text="${data.voucherType}">No Result</td>
+            <td th:text="${data.amount}+' %' " th:if="${data.voucherType}=='Percent'">No Result</td>
+            <td th:text="${data.amount}+' 원'" th:if="${data.voucherType}=='Fixed'">No Result</td>
         </tr>
-        <tr>
-            <td>Mary</td>
-            <td>Moe</td>
-            <td>mary@example.com</td>
-        </tr>
-        <tr>
-            <td>July</td>
-            <td>Dooley</td>
-            <td>july@example.com</td>
-        </tr>
+
         </tbody>
     </table>
 </div>

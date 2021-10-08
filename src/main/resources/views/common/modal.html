@@ -1,0 +1,30 @@
+<div class="container" th:fragment="modal">
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" th:text="${modal.title}" ></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" th:text="${modal.message}">
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-warning" form="modal_form" style="float: right;" value="YSE" />
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">NO</button>
+                </div>
+                <form role="form" method="post" id="modal_form" th:action="${location}">
+                    <input type="hidden" name="id" th:value="${data.voucherId}" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

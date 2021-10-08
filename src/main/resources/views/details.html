@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common/header :: html-head('test')" >
+<head th:replace="common/header :: html-head(${title})" >
 </head>
 <body>
 <div class="card bg-success text-white">
-    <div class="card-body" th:text="${title}">SHOW DETAIL PAGE</div>
+    <div class="card-body" th:text="${title}"></div>
 </div>
 <div class="container">
-    <table class="table">
+    <table class="table table-striped">
         <thead class="thead-light">
         <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
+            <th th:each="column : ${column_list}" th:text="${column}" >Nothing</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-        </tr>
-        <tr>
-            <td>Mary</td>
-            <td>Moe</td>
-            <td>mary@example.com</td>
-        </tr>
-        <tr>
-            <td>July</td>
-            <td>Dooley</td>
-            <td>july@example.com</td>
+            <td th:text="${data.name}">No Result</td>
+            <td th:text="${data.voucherType}">No Result</td>
+            <td th:text="${data.expireAt}">No Result</td>
+            <td th:text="${data.createdAt}">No Result</td>
+            <td th:text="${data.customerCount}">No Result</td>
+            <!-- <td><a type="button" class="btn btn-warning"  data-toggle="modal" data-target="#myModal" th:href="${delete_location}+${voucher_data.voucherId}" style="float: right;">Delete</a></td> -->
+            <td><a type="button" class="btn btn-warning"  data-toggle="modal" data-target="#myModal" style="float: right;">Delete</a></td>
         </tr>
         </tbody>
     </table>
+    <a type="button" class="btn btn-warning" th:href="@{/voucher/list}" style="float: right;">HOME</a>
+</div>
+
+<th:block th:include="common/modal" >
+</th:block>
+
 </div>
 </body>
 </html>

@@ -1,16 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="common/header :: html-head('test')" >
+<head th:replace="common/header :: html-head(${title})" >
 </head>
 <body>
 <div class="card bg-secondary text-white">
-    <div class="card-body" th:text="${title}">CREATE PAGE</div>
+    <div class="card-body" th:text="${title}"></div>
 </div>
 <div class="container">
-    <a type="button" class="btn btn-success" href="list">CANCEL</a>
+
 
     <form role="form" method="post" id="save_data" th:action="@{/voucher/create}">
-        <button type="summit" class="btn btn-warning" > SAVE </button>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th th:each="column : ${column_list}" th:text="${column}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Voucher Type</td>
+                <td>
+                    <select name="voucherType" style="width: 400px">
+                        <option value="Fixed">FIXED</option>
+                        <option value="Percent">PERCENT</option>
+                    </select>
+                </td>
+            </tr>
+            <tr th:each="column : ${input_column_list}">
+                <td th:text="${column.label}">Nothing</td>
+                <td><input th:type="${column.type}" th:name="${column.name}" required="required" th:placeholder="${column.placeholder}" style="width: 400px"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-primary" type="button">주의사항</button>
+            </div>
+            <input type="text" class="form-control" placeholder="VOUCHER 타입 중 PERCENT 타입을 선택하실 경우, 숫자 100을 넘지 마십시오. " readonly="readonly">
+        </div>
+        <button type="summit" class="btn btn-warning" style="float: right;"> SAVE </button>
+        <a type="button" class="btn btn-success" href="list" style="float: right;">CANCEL</a>
     </form>
 
 </div>
