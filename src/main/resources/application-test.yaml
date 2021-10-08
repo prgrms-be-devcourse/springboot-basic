@@ -7,13 +7,9 @@ spring:
     password: root1234!
   thymeleaf:
     prefix: "classpath:/views/"
-    suffix: .html
 server:
   servlet:
     context-path: /kdt
-  error:
-    whitelabel:
-      enabled: false
-    path: /error
+
 kdt:
   version: "v1.0"
