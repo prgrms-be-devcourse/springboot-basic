@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: html-head(${title})" >
+</head>
+<body>
+<div class="card bg-secondary text-white">
+    <div class="card-body" th:text="${title}"></div>
+</div>
+<br>
+<h3 th:text="${main_message}"></h3>
+<br>
+<p>발생일시: <strong th:text="${now_date}">No Reselt </strong> </p>
+<a type="button" class="btn btn-warning" th:href="@{/voucher/list}" style="float: right;">HOME</a>
+</body>
+</html>
