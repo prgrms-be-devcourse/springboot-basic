@@ -1,5 +1,6 @@
-package org.prgrms.kdt.command.service;
+package org.prgrms.kdt.command.service.voucher;
 
+import org.prgrms.kdt.command.service.CommandService;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Service;
@@ -7,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CommandListService implements CommandService {
+public class VoucherListService implements CommandService {
 
     private final VoucherService voucherService;
 
-    public CommandListService(final VoucherService voucherService) {
+    public VoucherListService(final VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 

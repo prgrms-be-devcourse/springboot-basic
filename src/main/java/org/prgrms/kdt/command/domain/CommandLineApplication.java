@@ -2,28 +2,24 @@ package org.prgrms.kdt.command.domain;
 
 import org.prgrms.kdt.command.io.Input;
 import org.prgrms.kdt.command.io.Output;
-import org.prgrms.kdt.command.service.CommandBlacklistService;
-import org.prgrms.kdt.command.service.CommandCreateService;
-import org.prgrms.kdt.command.service.CommandExitService;
-import org.prgrms.kdt.command.service.CommandListService;
+import org.prgrms.kdt.command.service.ExitService;
+import org.prgrms.kdt.command.service.customer.CustomerCommandService;
+import org.prgrms.kdt.command.service.voucher.VoucherCommandService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommandLineApplication implements Runnable {
-    private final CommandExitService exitService;
-    private final CommandCreateService createService;
-    private final CommandListService listService;
-    private final CommandBlacklistService blacklistService;
+    private final ExitService exitService;
+    private final CustomerCommandService customerService;
+    private final VoucherCommandService voucherService;
 
     public CommandLineApplication(
-            final CommandExitService exitService,
-            final CommandCreateService createService,
-            final CommandListService listService,
-            final CommandBlacklistService blacklistService) {
+            final ExitService exitService,
+            final CustomerCommandService customerService,
+            final VoucherCommandService voucherService) {
         this.exitService = exitService;
-        this.createService = createService;
-        this.listService = listService;
-        this.blacklistService = blacklistService;
+        this.customerService = customerService;
+        this.voucherService = voucherService;
     }
 
     @Override
@@ -38,9 +34,8 @@ public class CommandLineApplication implements Runnable {
                     exitService.commandRun();
                     programRunning = false;
                 }
-                case "create" -> createService.commandRun();
-                case "list" -> listService.commandRun();
-                case "blacklist" -> blacklistService.commandRun();
+                case "customer" -> customerService.commandRun();
+                case "voucher" -> voucherService.commandRun();
                 default -> Output.inputTypeErrorMessage(commandInput);
             }
         } while (programRunning);
