@@ -1,4 +1,8 @@
-kdt:
-  version: "v1.0.0"
-  minimum-order-amount: 1
-  support-vendors: default
+spring:
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/voucher_service
+    username: root
+    password: root1234!
