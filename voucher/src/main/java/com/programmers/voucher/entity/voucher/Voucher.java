@@ -2,6 +2,7 @@ package com.programmers.voucher.entity.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -48,7 +49,12 @@ public class Voucher implements Serializable {
         }
     }
 
-    public Voucher(Long id, String name, DiscountPolicy discountPolicy, LocalDate createdAt, long customerId) {
+    public Voucher(Long id,
+                   @NonNull String name,
+                   @NonNull DiscountPolicy discountPolicy,
+                   @NonNull LocalDate createdAt,
+                   long customerId) {
+        if(name.isBlank()) throw new IllegalArgumentException("Voucher name cannot be blank.");
         this.id = id;
         this.name = name;
         this.discountPolicy = discountPolicy;
@@ -56,7 +62,9 @@ public class Voucher implements Serializable {
         this.customerId = customerId;
     }
 
-    public Voucher(String name, DiscountPolicy discountPolicy, long customerId) {
+    public Voucher(@NonNull String name,
+                   @NonNull DiscountPolicy discountPolicy,
+                   long customerId) {
         this(null, name, discountPolicy, LocalDate.now(), customerId);
     }
 
@@ -72,7 +80,8 @@ public class Voucher implements Serializable {
         return name;
     }
 
-    public void updateName(String name) {
+    public void updateName(@NonNull String name) {
+        if(name.isBlank()) throw new IllegalArgumentException("Updated voucher name cannot be blank.");
         this.name = name;
     }
 
@@ -80,7 +89,7 @@ public class Voucher implements Serializable {
         return discountPolicy;
     }
 
-    public void replaceDiscountPolicy(DiscountPolicy discountPolicy) {
+    public void replaceDiscountPolicy(@NonNull DiscountPolicy discountPolicy) {
         this.discountPolicy = discountPolicy;
     }
 
@@ -103,6 +112,11 @@ public class Voucher implements Serializable {
     public void update(UpdatableField field, String value) {
         log.debug("Updating voucher({})'s field({}) to {}", name, field, value);
         field.update(this, value);
+    }
+
+    public void update(Voucher voucher) {
+        this.name = voucher.name;
+        this.discountPolicy = new DiscountPolicy(voucher.discountPolicy);
     }
 
     @Override

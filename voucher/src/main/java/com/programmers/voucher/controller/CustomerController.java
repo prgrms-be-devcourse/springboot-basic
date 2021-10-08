@@ -66,21 +66,17 @@ public class CustomerController {
     public String submitCreateCustomer(Customer.CreateRequest request,
                                        Model model) {
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-
-        if(request.getUsername().isBlank() || request.getAlias().isBlank()) {
-            model.addAttribute(USERNAME_MODEL_ATTRIBUTE, request.getUsername());
-            model.addAttribute(ALIAS_MODEL_ATTRIBUTE, request.getAlias());
-            model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Required field should not be empty.");
-            return TEMPLATE_CUSTOMER_CREATE;
-        }
+        model.addAttribute(USERNAME_MODEL_ATTRIBUTE, request.getUsername());
+        model.addAttribute(ALIAS_MODEL_ATTRIBUTE, request.getAlias());
 
         try {
             Customer customer = basicCustomerService.create(request.getUsername(), request.getAlias());
             return "redirect:/customer/read?id=" + customer.getId();
         } catch (DuplicateKeyException ex) {
-            model.addAttribute(USERNAME_MODEL_ATTRIBUTE, request.getUsername());
-            model.addAttribute(ALIAS_MODEL_ATTRIBUTE, request.getAlias());
             model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Duplicated username exists. Please try another username.");
+            return TEMPLATE_CUSTOMER_CREATE;
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute(ERROR_MODEL_ATTRIBUTE, ex.getMessage());
             return TEMPLATE_CUSTOMER_CREATE;
         }
     }

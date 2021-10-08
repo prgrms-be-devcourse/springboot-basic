@@ -1,13 +1,13 @@
 package com.programmers.voucher.entity.voucher.dto;
 
 public class VoucherUpdateRequest {
-    private final Long id;
+    private final long id;
     private final String name;
     private final String type;
     private final int amount;
     private final Long owner;
 
-    public VoucherUpdateRequest(Long id, String name, String type, int amount, Long owner) {
+    public VoucherUpdateRequest(long id, String name, String type, int amount, Long owner) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -15,7 +15,7 @@ public class VoucherUpdateRequest {
         this.owner = owner;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -31,7 +31,7 @@ public class VoucherUpdateRequest {
         return amount;
     }
 
-    public Long getOwner() {
+    public long getOwner() {
         return owner;
     }
 }

@@ -1,14 +1,17 @@
 package com.programmers.voucher.controller;
 
-import com.programmers.voucher.entity.voucher.dto.VoucherUpdateRequest;
-import com.programmers.voucher.entity.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.entity.voucher.DiscountType;
 import com.programmers.voucher.entity.voucher.Voucher;
-import com.programmers.voucher.service.customer.CustomerService;
+import com.programmers.voucher.entity.voucher.dto.VoucherCreateRequest;
+import com.programmers.voucher.entity.voucher.dto.VoucherUpdateRequest;
 import com.programmers.voucher.service.voucher.VoucherService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,6 @@ public class VoucherController {
 
     public static final String REDIRECT_TO = "redirect:";
     private final VoucherService voucherService;
-    private final CustomerService customerService;
 
     private static final List<String[]> links = new ArrayList<>();
     private static final String LINKS_MODEL_ATTRIBUTE = "links";
@@ -47,9 +49,8 @@ public class VoucherController {
     private static final DiscountType[] availableDiscountPolicies = DiscountType.values();
 
 
-    public VoucherController(VoucherService voucherService, CustomerService basicCustomerService) {
+    public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
-        this.customerService = basicCustomerService;
     }
 
     @GetMapping
@@ -70,30 +71,31 @@ public class VoucherController {
                                       Model model) {
         model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
         model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-        if (request.getName().isBlank() || request.getType().isBlank() || request.getOwner() == null) {
-            model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Required fields cannot be empty.");
-            return VIEW_CREATE_VOUCHER;
-        }
+
         String name = request.getName();
         DiscountType type = DiscountType.of(request.getType());
         int amount = request.getAmount();
         Long ownerId = request.getOwner();
 
-        model.addAttribute("name", name);
-        model.addAttribute("type", type);
         model.addAttribute("amount", amount);
         model.addAttribute("owner", ownerId);
-
-        Voucher voucher = voucherService.create(name, type, amount, ownerId);
-        // currently when DataAccessException, which is SQLIntegrityConstraintViolationException is thrown
-        // when customer id(foreign key) does not match constraint. And by repository implementation it returns
-        // voucher object with id set '-1'.
-        if (voucher.getId() < 0) {
+        try {
+            Voucher voucher = voucherService.create(name, type, amount, ownerId);
+            return "redirect:/voucher/read?id=" + voucher.getId();
+        } catch (DataAccessException exception) {
+            // currently when DataAccessException, which is SQLIntegrityConstraintViolationException is thrown
+            // when customer id(foreign key) does not match constraint. And by repository implementation it returns
+            // voucher object with id set '-1'.
+            model.addAttribute("name", name);
+            model.addAttribute("type", type);
             model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Couldn't create voucher. Please check your customer id.");
             return VIEW_CREATE_VOUCHER;
+        } catch (IllegalArgumentException exception) {
+            model.addAttribute("name", "");
+            model.addAttribute("type", "");
+            model.addAttribute(ERROR_MODEL_ATTRIBUTE, exception.getMessage());
+            return VIEW_CREATE_VOUCHER;
         }
-
-        return "redirect:/voucher/read?id=" + voucher.getId();
     }
 
     @GetMapping("/list")
@@ -133,33 +135,27 @@ public class VoucherController {
     @PostMapping("/update")
     public String submitUpdateVoucher(VoucherUpdateRequest request,
                                       Model model) {
-        Long id = request.getId();
-        Long ownerId = request.getOwner();
+        model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
+        model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
+
+        long id = request.getId();
+        long ownerId = request.getOwner();
         String name = request.getName();
         String type = request.getType();
         int amount = request.getAmount();
-        if (id == null || ownerId == null) return REDIRECT_TO + URL_LIST_VOUCHER;
         try {
-            Voucher updatedVoucher = voucherService.findById(id).orElseThrow(IllegalArgumentException::new);
-            model.addAttribute(LINKS_MODEL_ATTRIBUTE, links);
-            model.addAttribute(DISCOUNT_POLICIES_MODEL_ATTRIBUTE, availableDiscountPolicies);
-            model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, updatedVoucher);
-            if (name.isBlank() || type.isBlank()) {
-                model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Required fields cannot be empty.");
-                return VIEW_UPDATE_VOUCHER;
-            }
-
-            AtomicBoolean customerExists = new AtomicBoolean(false);
-            customerService.findById(ownerId).ifPresentOrElse(
-                    customer -> {
-                        customerExists.set(true);
-                        voucherService.update(updatedVoucher, name, DiscountType.of(type), amount, ownerId);
-                    },
-                    () -> model.addAttribute(ERROR_MODEL_ATTRIBUTE, "Customer not exists."));
-
-            return customerExists.get() ? REDIRECT_TO + URL_READ_VOUCHER + "?id=" + updatedVoucher.getId() : VIEW_UPDATE_VOUCHER;
+            voucherService.update(id, name, DiscountType.of(type), amount, ownerId);
+            return REDIRECT_TO + URL_READ_VOUCHER + "?id=" + id;
         } catch (IllegalArgumentException ex) {
-            return REDIRECT_TO + URL_LIST_VOUCHER;
+            AtomicBoolean voucherExists = new AtomicBoolean(true);
+            voucherService.findById(id).ifPresentOrElse(
+                    voucher -> {
+                        voucherExists.set(true);
+                        model.addAttribute(VOUCHER_MODEL_ATTRIBUTE, voucher);
+                    },
+                    () -> voucherExists.set(false));
+
+            return voucherExists.get() ? VIEW_UPDATE_VOUCHER : REDIRECT_TO + URL_LIST_VOUCHER;
         }
     }
 

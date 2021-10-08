@@ -6,6 +6,7 @@ import com.programmers.voucher.entity.voucher.Voucher;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -68,11 +69,16 @@ public class BasicVoucherService implements VoucherService {
     }
 
     @Override
-    public Voucher update(Voucher voucher, String name, DiscountType type, int amount, long ownerId) {
-        voucher.updateName(name);
-        voucher.replaceDiscountPolicy(new DiscountPolicy(amount, type));
-        voucher.updateCustomerId(ownerId);
-        jdbcVoucherRepository.update(voucher);
+    public Voucher update(long voucherId, String name, DiscountType type, int amount, long ownerId) {
+        Voucher voucher = jdbcVoucherRepository.findById(voucherId).orElseThrow(() -> {
+            throw new IllegalArgumentException("Voucher with given id not found.");
+        });
+        voucher.update(new Voucher(name, new DiscountPolicy(amount, type), ownerId));
+        try {
+            jdbcVoucherRepository.update(voucher);
+        } catch (DataAccessException ex) {
+            throw new IllegalArgumentException("Check customer id.");
+        }
         return voucher;
     }
 

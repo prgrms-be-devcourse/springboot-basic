@@ -1,5 +1,7 @@
 package com.programmers.voucher.entity.customer;
 
+import org.springframework.lang.NonNull;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +16,13 @@ public class Customer {
     private final LocalDate createdAt;
     private final List<Long> vouchers = new LinkedList<>();
 
-    public Customer(Long id, String username, String alias, boolean blacklisted, LocalDate createdAt) {
+    public Customer(Long id,
+                    @NonNull String username,
+                    @NonNull String alias,
+                    boolean blacklisted,
+                    @NonNull LocalDate createdAt) {
+        if(username.isBlank() || alias.isBlank())
+            throw new IllegalArgumentException("Username or alias cannot be blank.");
         this.id = id;
         this.username = username;
         this.alias = alias;
@@ -22,7 +30,8 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public Customer(String username, String alias) {
+    public Customer(@NonNull String username,
+                    @NonNull String alias) {
         this(null, username, alias, false, LocalDate.now());
     }
 
@@ -38,7 +47,8 @@ public class Customer {
         return username;
     }
 
-    public void updateUsername(String username) {
+    public void updateUsername(@NonNull String username) {
+        if(username.isBlank()) throw new IllegalArgumentException("Updated username cannot be blank.");
         this.username = username;
     }
 
@@ -46,7 +56,8 @@ public class Customer {
         return alias;
     }
 
-    public void updateAlias(String alias) {
+    public void updateAlias(@NonNull String alias) {
+        if(alias.isBlank()) throw new IllegalArgumentException("Updated alias cannot be blank.");
         this.alias = alias;
     }
 
