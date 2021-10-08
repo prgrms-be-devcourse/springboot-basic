@@ -1,48 +1,26 @@
-# Week 3 - SpringBoot Part 1
+# Week 4 - SpringBoot Part 2
 
-## INDEX
-- [[3W2D] Mission : Command-Line Application](#3w2d-mission)
-- [[3W3D] Mission : Component Scan & File Repository](#3w3d-mission)
-- [[3W4D] Mission : 고객 블랙리스트 명단 작성](#3w4d-mission)
-- [[3W5D] Mission : Logging & SpringBoot Migration](#3w5d-mission)
-<br/>
+## [4W] Mission
 
-## [3W2D] Mission
-바우처 관리 Command-line Application을 만들어본다. [[참고 링크]](https://dzone.com/articles/interactive-console-applications-in-java)
-- `CommandLineApplication` 클래스를 작성한다.
-- `AnnotationConfigApplicationContext` 를 이용해서 `IoC Container`를 생성하고 `Service`, `Repository`를 빈으로 등록한다.
-- 프로그램이 시작하면 다음과 같이 지원 가능한 명령어를 알려준다.
-  ```
-  === Voucher Program ===
-  Type exit to exit the program.
-  Type create to create a new voucher.
-  Type list to list all vouchers.
-  ```
-  
-- `create` / `list` 커맨드를 지원한다.
-  - `create` 커맨드를 통해 바우처를 생성할 수 있다. (`FixedAmountVoucher`, `PercentDiscountVoucher`)
-  - `list` 커맨드를 통해 만들어진 바우처를 조회할 수 있다.
-- 바우처를 메모리에서 관리하도록 설계한다. 다른 미션에서 영속성을 가지도록 변경한다.
-<br/>
+### 📌 기본 Mission - 바우처 관리 애플리케이션
 
-## [3W3D] Mission
-- `Component Scan`을 통해서 Bean이 등록되게 한다.
+- [X] 바우처 관리 애플리케이션에 **단위테스트를 작성**한다.
+    - 가능한 많은 단위 테스트 코드를 작성
+    - 엣지 케이스(예외 케이스)를 고려해서 작성
+    - Hamcrest matcher들을 다양하게 작성해보고 익숙해져 본다.
+- [X] 바우처 관리 애플리케이션에서도 과정에서 다루었던 **고객을 적용**한다.
+    - customers 테이블 정의 및 추가
+    - CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
+- [X] 바우처 정보를 **DB로 관리**한다. (W3에는 파일로 관리하게 했다.)
+    - 바우처 entity에 해당하는 vouchers 테이블 정의
+    - 바우처 repository를 만들어본다. (JdbcTemplate을 사용해서 구현)
+    - 기존 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 한다.
 
-- 메모리 관리가 아닌 **파일로 관리되는 Repository**를 만들어본다.
-  - 기존 메모리 Repository는 지우지 않는다.
-<br/>
+### 📌 심화 Mission - 바우처 지갑
 
-## [3W4D] Mission
-고객 블랙리스트 명단을 작성해본다.
-- `customer_blacklist.csv`파일을 만들고 Spring Application에서 해당 파일을 읽을 수 있고 블랙리스트를 조회할 수 있도록 설계한다.  
-  (추가할 필요는 없고, 블랙리스트는 파일로만 관리된다고 가정한다.)
+- [X] 특정 고객에게 바우처 할당
+- [X] 고객이 어떤 바우처를 보유하고 있는지 조회
+- [X] 고객이 보유한 바우처 제거
+- [X] 특정 바우처를 보유한 고객 조회
 
-- `YAML properties`를 만들고 어떤 설정을 만들 수 있을지 고민해 본다.
-- 바우처를 메모리에서 관리하는 Repository는 **개발 profile에서만 동작**하게 한다.
-<br/>
-
-## [3W5D] Mission
-- 적절한 Log를 기록하고 **LogBack** 설정을 해서 에러는 파일로 기록되어야 한다.
-- `SpringBoot Application`으로 변경한다.
-- 실행가능한 `jar`파일을 생성한다.
 ___
