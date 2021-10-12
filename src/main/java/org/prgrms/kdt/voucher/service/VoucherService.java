@@ -60,4 +60,7 @@ public class VoucherService {
     public void deleteVoucher(final UUID voucherId) {
         voucherRepository.delete(voucherId);
     }
+
+    public void useVoucher(Voucher voucher) {
+    }
 }
