@@ -5,7 +5,7 @@ import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.dto.VoucherSaveRequestDto;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -42,10 +42,10 @@ public class VoucherService {
 
         if(voucherSaveRequestDto.getVoucherType() == VoucherType.FIXED) {
             logger.info("VoucherType is FixedAmountVoucher");
-            return voucherRepository.save(new FixedAmountVoucher(uuid, voucherSaveRequestDto.getDiscount()));
+            return voucherRepository.save(new FixedAmountVoucher(voucherSaveRequestDto.getCustomerId(), uuid, voucherSaveRequestDto.getDiscount(), VoucherType.FIXED));
         } else {
             logger.info("VoucherType is PercentDiscountVoucher");
-            return voucherRepository.save(new PercentDiscountVoucher(uuid, voucherSaveRequestDto.getDiscount()));
+            return voucherRepository.save(new PercentDiscountVoucher(voucherSaveRequestDto.getCustomerId(), uuid, voucherSaveRequestDto.getDiscount(), VoucherType.DISCOUNT));
         }
     }
 
@@ -53,13 +53,23 @@ public class VoucherService {
         logger.info("Starts getVoucher(), UUID : {}", voucherId.toString());
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(()-> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+               .orElseThrow(()-> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
     public List<Voucher> getAllVouchers() {
         logger.info("Starts getAllVouchers()");
         return voucherRepository
                 .findAll();
+    }
+
+    public List<Voucher> getVouchersByCustomerId(UUID customerId) {
+        logger.info("Starts getVouchersByCustomerId()");
+        return voucherRepository
+                .findByVoucherId(customerId);
+    }
+
+    public void deleteVoucher(UUID customerId, UUID voucherId) {
+        voucherRepository.deleteVoucher(customerId, voucherId);
     }
 
     private boolean checkValidity(VoucherSaveRequestDto voucherSaveRequestDto, UUID uuid) {
@@ -70,7 +80,6 @@ public class VoucherService {
             return false;
         }
 
-        showEnterVoucherDiscount();
         if(voucherSaveRequestDto.getDiscount() < 0) {
             logger.warn("Fail to create a voucher.");
             showRetryMessage();

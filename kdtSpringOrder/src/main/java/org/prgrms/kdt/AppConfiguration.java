@@ -17,5 +17,4 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = {"application.yml", "application-dev.yml", "application-prod.yml"}, factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 public class AppConfiguration {
-
 }

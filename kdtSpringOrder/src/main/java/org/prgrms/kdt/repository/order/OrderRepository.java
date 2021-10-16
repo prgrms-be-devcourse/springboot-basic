@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.order;
 
 import org.prgrms.kdt.domain.order.Order;
 

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 //큰 프로젝트에서 프로퍼티를 그룹화 시켜서 타입, 클래스로 정의하고 사용하는 쪽에서 주입받을 수 있을 때 많이 쓴다.

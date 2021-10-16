@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.PercentDiscountVoucher;
@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +15,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,7 +24,6 @@ import static org.prgrms.kdt.utils.FileUtils.isExistFile;
 
 @Repository
 @Profile({"prod", "default"})
-@Primary
 public class FileVoucherRepository implements VoucherRepository, InitializingBean {
 
     private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -52,11 +51,20 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     }
 
     @Override
+    public List<Voucher> findByVoucherId(UUID customerId) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         logger.info("Started findAll()");
 
         loadStorage();
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public void deleteVoucher(UUID customerId, UUID voucherId) {
     }
 
     private void loadStorage() {
@@ -67,19 +75,20 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
             return;
         }
 
-        try {
-            List<String> lines = getReadAllLines(voucherFilePath);
-            for (String line : lines) {
-                List<String> voucherInfo = Arrays.asList(line.split(","));
-                if (VoucherType.FIXED.toString().equals(voucherInfo.get(1))) {
-                    storage.put(UUID.fromString(voucherInfo.get(0)), new FixedAmountVoucher(UUID.fromString(voucherInfo.get(0)), Integer.parseInt(voucherInfo.get(2))));
+
+        List<String> lines = getReadAllLines(voucherFilePath);
+        for (String line : lines) {
+            List<String> voucherInfoList = Arrays.asList(line.split(","));
+            try {
+                if (VoucherType.FIXED.toString().equals(voucherInfoList.get(2))) {
+                    storage.put(UUID.fromString(voucherInfoList.get(1)), new FixedAmountVoucher(UUID.fromString(voucherInfoList.get(0)), UUID.fromString(voucherInfoList.get(1)), Integer.parseInt(voucherInfoList.get(3)), VoucherType.FIXED));
                 } else {
-                    storage.put(UUID.fromString(voucherInfo.get(0)), new PercentDiscountVoucher(UUID.fromString(voucherInfo.get(0)), Integer.parseInt(voucherInfo.get(2))));
+                    storage.put(UUID.fromString(voucherInfoList.get(1)), new PercentDiscountVoucher(UUID.fromString(voucherInfoList.get(0)), UUID.fromString(voucherInfoList.get(1)), Integer.parseInt(voucherInfoList.get(3)), VoucherType.DISCOUNT));
                 }
+            }catch (NumberFormatException e) {
+                logger.error(MessageFormat.format("정수형 변환에 실패했습니다. voucherInfo : {0}, {1}, {2}, {3}, {4} ", voucherInfoList.get(0), voucherInfoList.get(1), voucherInfoList.get(2), voucherInfoList.get(3), e));
+                e.printStackTrace();
             }
-        } catch (NumberFormatException e) {
-            logger.error("Integer 자료형이 아닙니다.");
-            e.printStackTrace();
         }
     }
 
@@ -95,17 +104,17 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
             Files.createDirectory(voucherFilePath.getParent());
             Files.createFile(voucherFilePath.toAbsolutePath());
         } catch (IOException e) {
-            logger.error("IOException");
+            logger.error("IOException : " + e);
             e.printStackTrace();
         }
 
         try(FileWriter writer = new FileWriter(voucherFilePath.toFile(),true)){
             logger.info("Save Voucher Info , id : {}, type : {}, discount : {}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount());
-            String voucherInfo = String.format("%s,%s,%d%n", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount(), "\n");
+            String voucherInfo = String.format("%s,%s,%s,%d%n", voucher.getCustomerId(), voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount(), "\n");
             writer.write(voucherInfo);
             writer.flush();
         }catch (IOException e) {
-            logger.error("IOException");
+            logger.error("IOException : " + e);
             e.printStackTrace();
         }
     }

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
 
@@ -14,6 +14,9 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID voucherId);
 
+    List<Voucher> findByVoucherId(UUID customerId);
+
     List<Voucher> findAll();
 
+    void deleteVoucher(UUID customerId, UUID voucherId);
 }

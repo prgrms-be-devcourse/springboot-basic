@@ -2,7 +2,8 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.domain.order.OrderItem;
 import org.prgrms.kdt.domain.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,6 @@ import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
 
 @EnableAutoConfiguration
@@ -33,7 +33,7 @@ public class OrderTester {
         logger.warn("logger name => {}", logger.getName());
 
         var voucherRepository = applicationContext.getBean(VoucherRepository.class);
-        var voucher= voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 10L));
+        var voucher= voucherRepository.save(new FixedAmountVoucher(UUID.fromString("882452fe-3aed-4974-91bf-16074681060b"), UUID.randomUUID(), 10L, VoucherType.FIXED));
         var orderService = applicationContext.getBean(OrderService.class);
 
         var customerId = UUID.randomUUID();
