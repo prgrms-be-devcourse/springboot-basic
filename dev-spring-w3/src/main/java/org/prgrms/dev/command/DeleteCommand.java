@@ -6,7 +6,6 @@ import org.prgrms.dev.io.Output;
 import org.prgrms.dev.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.UUID;
 
 public class DeleteCommand implements Command {
@@ -17,7 +16,7 @@ public class DeleteCommand implements Command {
     public boolean execute(Input input, Output output, VoucherService voucherService) {
         try {
             String voucherId = (input.input("삭제를 원하는 바우처 아이디를 입력하세요. " + CURSOR));
-            voucherService.deleteVoucher(UUID.fromString(voucherId));
+            voucherService.removeVoucher(UUID.fromString(voucherId));
         } catch (NotFoundException e) {
             logger.error(e.getMessage());
             output.printNotFound(e.getMessage());

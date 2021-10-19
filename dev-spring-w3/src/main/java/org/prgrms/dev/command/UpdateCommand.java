@@ -9,7 +9,6 @@ import org.prgrms.dev.voucher.domain.dto.UpdateVoucherDto;
 import org.prgrms.dev.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.UUID;
 
 public class UpdateCommand implements Command {
@@ -22,7 +21,7 @@ public class UpdateCommand implements Command {
             String voucherId = (input.input("변경을 원하는 바우처 아이디를 입력하세요. " + CURSOR));
             long discount = Long.parseLong((input.input("변경할 할인정보를 입력하세요. " + CURSOR)));
             UpdateVoucherDto voucherDto = new UpdateVoucherDto(UUID.fromString(voucherId), discount);
-            voucherService.updateVoucherDiscount(voucherDto);
+            voucherService.modifyVoucher(voucherDto);
         } catch (NumberFormatException | InvalidArgumentException e) {
             logger.error(e.getMessage());
             output.printInvalidNumber(e.getMessage());

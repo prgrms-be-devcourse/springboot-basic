@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -24,45 +23,45 @@ public class VoucherController {
 
     @GetMapping("/vouchers")
     public String vouchersPage(Model model) {
-        List<Voucher> vouchers = voucherService.listVoucher();
+        List<Voucher> vouchers = voucherService.getVouchers();
         model.addAttribute("vouchers", vouchers);
         return "voucher/voucher-list";
     }
 
-    @GetMapping("/detail-voucher/{voucherId}")
-    public String detailVoucherPage(@PathVariable("voucherId") String voucherId, Model model) {
-        Voucher voucher = voucherService.getVoucher(UUID.fromString(voucherId));
+    @GetMapping("/detail-voucher/{id}")
+    public String detailVoucherPage(@PathVariable("id") String id, Model model) {
+        Voucher voucher = voucherService.getVoucher(UUID.fromString(id));
         model.addAttribute("voucher", voucher);
         return "voucher/detail-voucher";
     }
 
     @GetMapping("/new-voucher")
     public String newVoucherPage() {
-        return "new-voucher";
+        return "voucher/new-voucher";
     }
 
     @PostMapping("/voucher")
     public String newVoucher(InsertVoucherDto insertVoucherDto) {
-        voucherService.createVoucher(insertVoucherDto);
-        return "redirect:/voucher/vouchers";
+        voucherService.addVoucher(insertVoucherDto);
+        return "redirect:/vouchers";
     }
 
-    @GetMapping("/update-voucher/{voucherId}")
-    public String updateVoucherPage(@PathVariable("voucherId") String voucherId, Model model) {
-        Voucher voucher = voucherService.getVoucher(UUID.fromString(voucherId));
+    @GetMapping("/update-voucher/{id}")
+    public String updateVoucherPage(@PathVariable("id") String id, Model model) {
+        Voucher voucher = voucherService.getVoucher(UUID.fromString(id));
         model.addAttribute("voucher", voucher);
         return "voucher/update-voucher";
     }
 
     @PostMapping("/update-voucher")
     public String updateVoucher(UpdateVoucherDto updateVoucherDto) {
-        voucherService.updateVoucherDiscount(updateVoucherDto);
-        return "redirect:/voucher/detail-voucher/" + updateVoucherDto.getVoucherId();
+        voucherService.modifyVoucher(updateVoucherDto);
+        return "redirect:/detail-voucher/" + updateVoucherDto.getVoucherId();
     }
 
-    @GetMapping("/delete-voucher/{voucherId}")
-    public String deleteVoucher(@PathVariable("voucherId") String voucherId) {
-        voucherService.deleteVoucher(UUID.fromString(voucherId));
-        return "redirect:/voucher/vouchers";
+    @GetMapping("/delete-voucher/{id}")
+    public String deleteVoucher(@PathVariable("id") String voucherId) {
+        voucherService.removeVoucher(UUID.fromString(voucherId));
+        return "redirect:/vouchers";
     }
 }

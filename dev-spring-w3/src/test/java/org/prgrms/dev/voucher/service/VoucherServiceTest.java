@@ -49,7 +49,7 @@ class VoucherServiceTest {
     @ParameterizedTest
     @MethodSource("parametersProvider")
     void createVoucherByInvalidVoucherTypeTest(InsertVoucherDto insertVoucherDto) {
-        assertThatThrownBy(() -> voucherService.createVoucher(insertVoucherDto))
+        assertThatThrownBy(() -> voucherService.addVoucher(insertVoucherDto))
             .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -61,7 +61,7 @@ class VoucherServiceTest {
 
         when(voucherRepository.insert(any())).thenReturn(voucherType);
 
-        Voucher retrievedVoucher = voucherService.createVoucher(insertVoucherDto);
+        Voucher retrievedVoucher = voucherService.addVoucher(insertVoucherDto);
 
         assertThat(retrievedVoucher.getVoucherId()).isEqualTo(voucherType.getVoucherId());
 
@@ -76,7 +76,7 @@ class VoucherServiceTest {
         Voucher voucherType = VoucherType.getVoucherType(voucher.getVoucherType().toString(), voucher.getVoucherId(), updateVoucherDto.getDiscount(), voucher.getCreatedAt());
         when(voucherRepository.update(any())).thenReturn(voucherType);
 
-        Voucher retrievedVoucher = voucherService.updateVoucherDiscount(updateVoucherDto);
+        Voucher retrievedVoucher = voucherService.modifyVoucher(updateVoucherDto);
 
         assertThat(retrievedVoucher.getDiscountValue()).isEqualTo(updateVoucherDto.getDiscount());
 
@@ -88,7 +88,7 @@ class VoucherServiceTest {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L, LocalDateTime.now());
         when(voucherRepository.findById(any())).thenReturn(Optional.of(voucher));
 
-        voucherService.deleteVoucher(voucher.getVoucherId());
+        voucherService.removeVoucher(voucher.getVoucherId());
 
         verify(voucherRepository).deleteById(voucher.getVoucherId());
     }
@@ -117,7 +117,7 @@ class VoucherServiceTest {
     void listVoucherTest() {
         doReturn(voucherList()).when(voucherRepository).findAll();
 
-        final List<Voucher> voucherList = voucherService.listVoucher();
+        final List<Voucher> voucherList = voucherService.getVouchers();
 
         assertThat(voucherList).hasSize(6);
         verify(voucherRepository).findAll();

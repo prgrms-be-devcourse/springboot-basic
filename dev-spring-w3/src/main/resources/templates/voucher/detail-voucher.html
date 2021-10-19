@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -89,10 +89,10 @@
         </div>
         <div class="d-sm-flex m-lg-3 justify-content-md-end">
             <a class="btn btn-small btn-dark me-3" style="font-family: GowunBatang-Bold,serif"
-               th:href="@{'/update-voucher/' + *{voucherId}}"
+               th:href="@{'/update-voucher/' + *{id}}"
                type="button">수정</a>
             <a class="btn btn-small btn-secondary" style="font-family: GowunBatang-Bold,serif"
-               th:href="@{'/delete-voucher/' + *{voucherId}}"
+               th:href="@{'/delete-voucher/' + *{id}}"
                type="button">삭제</a>
         </div>
     </div>

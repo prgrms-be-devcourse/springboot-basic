@@ -20,7 +20,7 @@ public class CreateCommand implements Command {
             String voucherType = input.input(CURSOR);
             long discount = Long.parseLong((input.input("타입에 맞는 할인 정보를 입력하세요. " + CURSOR)));
             InsertVoucherDto insertVoucherDto = new InsertVoucherDto(voucherType, discount);
-            voucherService.createVoucher(insertVoucherDto);
+            voucherService.addVoucher(insertVoucherDto);
         } catch (NumberFormatException | InvalidArgumentException e) {
             logger.error(e.getMessage());
             output.printInvalidNumber(e.getMessage());
