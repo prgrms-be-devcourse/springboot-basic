@@ -1,7 +1,6 @@
 package org.prgrms.dev.voucher.domain;
 
 import org.prgrms.dev.exception.InvalidArgumentException;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -9,6 +8,7 @@ public class PercentDiscountVoucher implements Voucher {
     private static final int MAX_PERCENT = 100;
     private static final int ZERO_PERCENT = 0;
     private static final int PERCENTAGE = 100;
+    private static final VoucherType voucherType = VoucherType.PERCENT;
 
     private final UUID voucherId;
     private final long percent;
@@ -30,7 +30,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private void validatePercentIsZero(long percent) {
         if (percent == ZERO_PERCENT) {
-            throw new InvalidArgumentException("할일율은 0이 아니여야 합니다.");
+            throw new InvalidArgumentException("할인율은 0이 아니여야 합니다.");
         }
     }
 
@@ -58,7 +58,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public VoucherType getVoucherType() {
-        return VoucherType.PERCENT;
+        return voucherType;
     }
 
     @Override
@@ -74,9 +74,9 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public String toString() {
         return "percent{" +
-                "voucherId=" + voucherId +
-                ", percent=" + percent +
-                ", createdAt=" + createdAt +
-                '}';
+            "voucherId=" + voucherId +
+            ", percent=" + percent +
+            ", createdAt=" + createdAt +
+            '}';
     }
 }

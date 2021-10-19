@@ -1,13 +1,13 @@
 package org.prgrms.dev.voucher.domain;
 
 import org.prgrms.dev.exception.InvalidArgumentException;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private static final int MAX_AMOUNT = 10000;
     private static final int ZERO_AMOUNT = 0;
+    private static final VoucherType voucherType = VoucherType.FIXED;
 
     private final UUID voucherId;
     private final long amount;
@@ -57,7 +57,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public VoucherType getVoucherType() {
-        return VoucherType.FIXED;
+        return voucherType;
     }
 
     @Override
@@ -67,15 +67,19 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount < 0 ? 0 : beforeDiscount - amount;
+        return discountNotMinus(beforeDiscount, amount);
+    }
+
+    private long discountNotMinus(long beforeDiscount, long amount) {
+        return (beforeDiscount - amount) < 0 ? 0 : (beforeDiscount - amount);
     }
 
     @Override
     public String toString() {
         return "fixed" +
-                "voucherId=" + voucherId +
-                ", amount=" + amount +
-                ", createdAt=" + createdAt +
-                '}';
+            "voucherId=" + voucherId +
+            ", amount=" + amount +
+            ", createdAt=" + createdAt +
+            '}';
     }
 }
