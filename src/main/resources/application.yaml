@@ -1,0 +1,4 @@
+kdt:
+  version: "v1.0.0"
+  minimum-order-amount: 1
+  support-vendors: default
