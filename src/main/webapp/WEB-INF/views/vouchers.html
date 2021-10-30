@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <title>Voucher Home</title>
+</head>
+
+<body class="container-fluid">
+<h1>KDT Spring App</h1>
+<img th:src="@{/resources/bg.jpg}" class="img-fluid">
+<p th:text="'The time on the server is ' + ${serverTime}"> ---- </p>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <a th:href="@{/vouchers/new}" class="btn btn-primary me-md-2" type="button">Create Voucher</a>
+  <a th:href="@{/vouchers/delete}" class="btn btn-danger me-md-2" type="button">Delete All Voucher</a>
+</div>
+
+<div class="gap-3"> <br> </div>
+
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Type</td>
+    <td>Value</td>
+  </tr>
+  </thead>
+  <tbody>
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+      <td th:text="*{voucherId}"></td>
+      <td th:text="*{voucherStatus}"></td>
+      <td th:text="*{value}"></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <a th:href="@{customers/}" class="btn btn-info me-md-2" type="button">Go to customers service</a>
+</div>
+</body>
+
+</html>

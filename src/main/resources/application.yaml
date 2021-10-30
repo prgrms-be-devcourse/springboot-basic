@@ -1,0 +1,21 @@
+logging:
+  level:
+    root: info
+
+kdt:
+  black-list-file:
+    "customer_blacklist.csv"
+
+---
+kdt:
+  version: "v1.0-default"
+  minimum-order-amount: 7
+  support-vendors:
+    - default-a
+    - default-b
+    - default-c
+    - default-d
+  description: |
+    line 1 hello world
+    line 2 xxxx
+    line 3
