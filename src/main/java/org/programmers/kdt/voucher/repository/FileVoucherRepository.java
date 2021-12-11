@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,8 +27,8 @@ public class FileVoucherRepository implements VoucherRepository  {
     // TODO : 각 class 별로 로거를 두지 않고 AOP 적용
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
-    public FileVoucherRepository(String voucherDataFile) {
-         file = new File(voucherDataFile);
+    public FileVoucherRepository(String voucherListFile) {
+         file = new File(voucherListFile);
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -124,6 +125,11 @@ public class FileVoucherRepository implements VoucherRepository  {
     }
 
     @Override
+    public void releaseAllVoucherBelongsTo(Customer customer) {
+        // TODO: Implement
+    }
+
+    @Override
     public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
         // TODO: Implement
         return Optional.empty();
@@ -131,6 +137,12 @@ public class FileVoucherRepository implements VoucherRepository  {
 
     @Override
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
+        // TODO: Implement
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findVouchersBetween(Timestamp from, Timestamp to) {
         // TODO: Implement
         return null;
     }

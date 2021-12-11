@@ -27,8 +27,8 @@ public class FileCustomerRepository implements CustomerRepository {
     // TODO : 각 class마다 logger를 두지 않고 AOP 적용
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
-    public FileCustomerRepository(String customerList, String customerBlacklist) {
-        blacklistCSV = new File(customerBlacklist);
+    public FileCustomerRepository(String customerFile, String customerBlacklistFile) {
+        blacklistCSV = new File(customerBlacklistFile);
         if (!blacklistCSV.exists()) {
             try {
                 blacklistCSV.createNewFile();
@@ -38,7 +38,7 @@ public class FileCustomerRepository implements CustomerRepository {
             }
         }
 
-        customersCSV = new File(customerList);
+        customersCSV = new File(customerFile);
         if (!customersCSV.exists()) {
             try {
                 customersCSV.createNewFile();
@@ -61,7 +61,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 LocalDateTime lastLoginAt = LocalDateTime.parse(records[3]);
                 LocalDateTime createdAt = LocalDateTime.parse(records[4]);
 
-                cache4Blacklist.put(customerId, new Customer(customerId, name, email, lastLoginAt, createdAt));
+                cache4Blacklist.put(customerId, new Customer.Builder(customerId, email, createdAt).name(name).lastLoginAt(lastLoginAt).build());
             }
         } catch (CsvValidationException e) {
             logger.error("CSV file is damaged! -> {}", e.getMessage());
@@ -84,7 +84,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 LocalDateTime lastLoginAt = LocalDateTime.parse(records[3]);
                 LocalDateTime createdAt = LocalDateTime.parse(records[4]);
 
-                cache4Customers.put(customerId, new Customer(customerId, name, email, lastLoginAt, createdAt));
+                cache4Customers.put(customerId, new Customer.Builder(customerId, email, createdAt).name(name).lastLoginAt(lastLoginAt).build());
             }
         } catch (FileNotFoundException e) {
             logger.error("CSV file for customer list does not exist! -> {}", e.getMessage());
@@ -130,6 +130,12 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         return new ArrayList<>(cache4Customers.values());
+    }
+
+    @Override
+    public Optional<Customer> updateName(UUID customerId, String newString) {
+        // TODO: Implement
+        return Optional.empty();
     }
 
     @Override

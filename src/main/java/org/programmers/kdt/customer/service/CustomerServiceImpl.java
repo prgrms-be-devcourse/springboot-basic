@@ -6,7 +6,6 @@ import org.programmers.kdt.voucher.Voucher;
 import org.programmers.kdt.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -17,21 +16,21 @@ import java.util.UUID;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-    private final CustomerRepository customerRepository;
     private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
-    @Autowired
-    private VoucherService voucherService;
+    private final CustomerRepository customerRepository;
+    private final VoucherService voucherService;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, VoucherService voucherService) {
         this.customerRepository = customerRepository;
+        this.voucherService = voucherService;
     }
 
     @Override
     public Customer signUp(UUID customerId, String name, String email) {
         LocalDateTime now = LocalDateTime.now();
-        Customer customer = new Customer(customerId, name, email, now, now);
+        Customer customer = new Customer.Builder(customerId, email, now).name(name).lastLoginAt(now).build();
         customerRepository.insert(customer);
-        logger.info("New Customer has been successfully added to customer list");
+        logger.info("New Customer has been successfully added to customer list. Customer ID: {}", customerId);
         return customer;
     }
 
@@ -107,5 +106,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Voucher> getAllVoucherOf(Customer customer) {
         return voucherService.getAllVouchersBelongsToCustomer(customer);
+    }
+
+    @Override
+    public Customer changeCustomerName(UUID customerId, String newName) {
+        Optional<Customer> customerNameChanged = customerRepository.updateName(customerId, newName);
+        if (customerNameChanged.isEmpty()) {
+            logger.error("Wrong customer ID input for update");
+            throw new RuntimeException("No such customer exist. (Given customer ID : %s".formatted(customerId.toString()));
+        }
+
+        return customerNameChanged.get();
     }
 }

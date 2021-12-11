@@ -17,6 +17,8 @@ import static org.programmers.kdt.utils.UuidUtils.toUUID;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
+	private final int NUMBER_OF_ROWS_UPDATED_CORRECTLY = 1;
+
 	// TODO : AOP 적용
 	private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 	private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -30,6 +32,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	private static String SQL_SELECT_CUSTOMER_BY_NAME = "SELECT * FROM %s WHERE name = :name";
 	private static String SQL_SELECT_CUSTOMER_BY_EMAIL = "SELECT * FROM %s WHERE email = :email";
 	private static String SQL_SELECT_ALL = "SELECT * FROM %s";
+	private static String SQL_UPDATE_NAME_BY_ID = "UPDATE %s SET name = :name WHERE customer_id = UUID_TO_BIN(:%customer_id)";
 
 	public JdbcCustomerRepository(DataSource dataSource, String customerTable, String customerBlacklistTable) {
 		jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -39,11 +42,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public Customer insert(Customer customer) {
-		int update = jdbcTemplate.update(SQL_INSERT_CUSTOMER.formatted(customerTable), toParamMap(customer)
+		int numberOfRowsAffected = jdbcTemplate.update(SQL_INSERT_CUSTOMER.formatted(customerTable), toParamMap(customer)
 		);
 
-		if (update != 1) {
-			logger.error("[FAILED] Insert a new customer : Already Exists");
+		if (numberOfRowsAffected != NUMBER_OF_ROWS_UPDATED_CORRECTLY) {
+			logger.info("Attempt to create a duplicate customer has been detected. Customer Information -> {}", customer);
+			throw new RuntimeException("Try to create a duplicate customer!");
 		}
 
 		return customer;
@@ -68,7 +72,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 					Collections.singletonMap("customer_id", customerId.toString().getBytes()),
 					rowMapper));
 		} catch (EmptyResultDataAccessException e) {
-			logger.error("No Such Customer(ID: {0}) Exists. -> {}", customerId, e);
+			logger.error("No Such Customer(ID: {}) Exists. -> {}", customerId, e.getMessage());
 			return Optional.empty();
 		}
 	}
@@ -95,6 +99,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public List<Customer> findAll() {
 		return jdbcTemplate.query(SQL_SELECT_ALL.formatted(customerTable), rowMapper);
+	}
+
+	@Override
+	public Optional<Customer> updateName(UUID customerId, String newName) {
+		jdbcTemplate.update(SQL_UPDATE_NAME_BY_ID.formatted(customerTable),
+				Map.of(
+						"name", newName,
+						"customer_id", customerId
+				));
+		return findById(customerId);
 	}
 
 	@Override
@@ -132,18 +146,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 			LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
 					resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
 			LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-			return new Customer(customerId, name, email, lastLoginAt, createdAt);
+			return new Customer.Builder(customerId, email, createdAt).name(name).lastLoginAt(lastLoginAt).build();
 		};
 
 	private Map<String, Object> toParamMap(Customer customer) {
-		return new HashMap<>() {
-			{
-				put("customer_id", customer.getCustomerId().toString().getBytes());
-				put("name", customer.getName());
-				put("email", customer.getEmail());
-				put("last_login_at", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-				put("created_at", customer.getCreatedAt());
-			}
-		};
+		return Map.of(
+				"customer_id", customer.getCustomerId().toString().getBytes(),
+				"name", customer.getName(),
+				"email", customer.getEmail(),
+				"last_login_at", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
+				"created_at", customer.getCreatedAt()
+		);
 	}
 }

@@ -5,6 +5,7 @@ import org.programmers.kdt.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,6 +52,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void releaseAllVoucherBelongsTo(Customer customer) {
+        // TODO: Implement
+    }
+
+    @Override
     public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
         // TODO: Implement
         return Optional.empty();
@@ -58,6 +64,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
+        // TODO: Implement
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findVouchersBetween(Timestamp from, Timestamp to) {
         // TODO: Implement
         return null;
     }

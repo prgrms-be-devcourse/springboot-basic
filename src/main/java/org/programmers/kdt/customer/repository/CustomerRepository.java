@@ -18,6 +18,10 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
 
     List<Customer> findAll();
+    default Optional<Customer> updateName(Customer customer, String newName) {
+        return updateName(customer.getCustomerId(), newName);
+    }
+    Optional<Customer> updateName(UUID customerId, String newName);
 
     Customer registerToBlacklist(Customer customer);
     List<Customer> findAllBlacklistCustomer();

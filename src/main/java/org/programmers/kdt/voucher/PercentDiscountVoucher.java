@@ -14,15 +14,18 @@ public class PercentDiscountVoucher implements Voucher {
     private VoucherStatus status;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        validate(percent);
         this.voucherId = voucherId;
-        if (percent < MINIMUM_DISCOUNT_PERCENT || percent > MAXIMUM_DISCOUNT_PERCENT) {
-            throw new RuntimeException(MessageFormat.format("Invalid Discount Percentage! Valid Range : [{0}, {1}]",
-                    MINIMUM_DISCOUNT_PERCENT, MAXIMUM_DISCOUNT_PERCENT));
-        }
         this.percent = percent;
         status = VoucherStatus.VALID;
     }
 
+    private void validate(long percent) {
+        if (percent < MINIMUM_DISCOUNT_PERCENT || percent > MAXIMUM_DISCOUNT_PERCENT) {
+            throw new RuntimeException(MessageFormat.format("Invalid Discount Percentage! Valid Range : [{0}, {1}]",
+                    MINIMUM_DISCOUNT_PERCENT, MAXIMUM_DISCOUNT_PERCENT));
+        }
+    }
 
     @Override
     public UUID getVoucherId() {
@@ -40,8 +43,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long getDiscountAmount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+    public long getDiscountedPrice(long beforeDiscount) {
+        return (long) (beforeDiscount * (1.0 - (percent / 100)));
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 
 public enum VoucherType {
-    FIXED("fixed"), PERCENT("percent");
+    FIXED("fixed"), PERCENT("percent"), ALL("all"), NONE("none");
 
     private final String voucherType;
 

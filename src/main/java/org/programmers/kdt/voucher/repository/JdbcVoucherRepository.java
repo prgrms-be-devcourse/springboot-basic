@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import static org.programmers.kdt.utils.UuidUtils.toUUID;
@@ -26,8 +27,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	private static String SQL_SELECT_VOUCHER_NO_OWNER = "SELECT * FROM %s WHERE customer_id IS null";
 	private static String SQL_SELECT_ALL = "SELECT * FROM %s";
 	private static String SQL_DELETE_VOCUHER_BY_ID = "DELETE FROM %s WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
-	private static String SQL_DELETE_VOUCHER_BY_ID_AND_OWNER = "DELETE FROM %s WHERE customer_Id = UUID_TO_BIN(:customer_id) and voucher_id = UUID_TO_BIN(:voucher_id)";
+	private static String SQL_DEALLOCATE_VOUCHER_BY_ID_AND_OWNER_ID = "UPDATE %s SET customer_id = null WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+	private static String SQL_DEALLOCATE_ALL_VOUCHER_BY_OWNER_ID = "UPDATE %s SET customer_id = null WHERE customer_id = UUID_TO_BIN(:customer_id)";
 	private static String SQL_UPDATE_OWNER = "UPDATE %s SET customer_id = UUID_TO_BIN(:customer_id) WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+	private static String SQL_SELECT_VOUCHER_BY_DATE = "SELECT * FROM %s WHERE created_at BETWEEN :from and :to";
 
 	public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate, String voucherTable) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -88,7 +91,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public void removeOwner(Customer customer, UUID voucherId) {
-		jdbcTemplate.update(SQL_DELETE_VOUCHER_BY_ID_AND_OWNER.formatted(voucherTable), voucherOwnerMap(customer, voucherId));
+		jdbcTemplate.update(SQL_DEALLOCATE_VOUCHER_BY_ID_AND_OWNER_ID.formatted(voucherTable), voucherOwnerMap(customer, voucherId));
+	}
+
+	@Override
+	public void releaseAllVoucherBelongsTo(Customer customer) {
+		jdbcTemplate.update(SQL_DEALLOCATE_ALL_VOUCHER_BY_OWNER_ID.formatted(voucherTable),
+				Collections.singletonMap(
+						"customer_id", customer.getCustomerId().toString().getBytes()
+				));
 	}
 
 	@Override
@@ -102,6 +113,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	public List<Voucher> findVouchersByCustomerId(UUID customerId) {
 		return jdbcTemplate.query(SQL_SELECT_VOUCHER_BY_OWNER.formatted(voucherTable),
 				Collections.singletonMap("customer_id", customerId.toString().getBytes()),
+				voucherMapper);
+	}
+
+	@Override
+	public List<Voucher> findVouchersBetween(Timestamp from, Timestamp to) {
+		Map<String, Timestamp> timeMap = new HashMap<>();
+		timeMap.put("from", from);
+		timeMap.put("to", to);
+
+		return jdbcTemplate.query(SQL_SELECT_VOUCHER_BY_DATE.formatted(voucherTable, from, to),
+				timeMap,
 				voucherMapper);
 	}
 
@@ -131,12 +153,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	};
 
 	private Map<String, Object> toParamMap(Voucher voucher) {
-		return new HashMap<>() {
-			{
-				put("voucher_id", voucher.getVoucherId().toString().getBytes());
-				put("type", voucher.getVoucherType().toString());
-				put("amount", voucher.getDiscount());
-			}
-		};
+		return Map.of(
+				"voucher_id", voucher.getVoucherId().toString().getBytes(),
+				"type", voucher.getVoucherType().toString(),
+				"amount", voucher.getDiscount()
+		);
 	}
 }

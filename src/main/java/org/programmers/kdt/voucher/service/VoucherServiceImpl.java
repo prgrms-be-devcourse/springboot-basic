@@ -1,15 +1,14 @@
 package org.programmers.kdt.voucher.service;
 
 import org.programmers.kdt.customer.Customer;
-import org.programmers.kdt.voucher.Voucher;
-import org.programmers.kdt.voucher.VoucherStatus;
-import org.programmers.kdt.voucher.VoucherType;
+import org.programmers.kdt.voucher.*;
 import org.programmers.kdt.voucher.factory.VoucherFactory;
 import org.programmers.kdt.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +17,11 @@ import java.util.UUID;
 @Service
 public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
-    private VoucherFactory voucherFactory;
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherServiceImpl.class);
 
-    public VoucherServiceImpl(VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+    public VoucherServiceImpl(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.voucherFactory = voucherFactory;
     }
 
     @Override
@@ -47,7 +44,7 @@ public class VoucherServiceImpl implements VoucherService {
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long discount) {
         Voucher voucher;
         try {
-            voucher = voucherFactory.createVoucher(voucherType, voucherId, discount);
+            voucher = VoucherFactory.createVoucher(voucherType, voucherId, discount);
         } catch (RuntimeException e) {
             logger.error("Failed to created a voucher : {}", e.getMessage());
             throw e;
@@ -87,6 +84,11 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public void releaseAllVoucherBelongsTo(Customer customer) {
+        voucherRepository.releaseAllVoucherBelongsTo(customer);
+    }
+
+    @Override
     public Optional<UUID> findCustomerIdHoldingVoucherOf(UUID voucherId) {
         return voucherRepository.findCustomerIdByVoucherId(voucherId);
     }
@@ -101,5 +103,72 @@ public class VoucherServiceImpl implements VoucherService {
         return MessageFormat.format("<< {0} Discount Voucher >>\nID : {1}\nDiscount: {2}",
                 voucher.getVoucherType(), voucher.getVoucherId(),
                 voucher.getVoucherType() == VoucherType.FIXED ? "$" + voucher.getDiscount() : voucher.getDiscount() + "%");
+    }
+
+    @Override
+    public List<Voucher> getVouchersBetween(Timestamp from, Timestamp to) {
+        return voucherRepository.findVouchersBetween(from, to);
+    }
+
+    @Override
+    public List<Voucher> getVouchersWithConditions(String voucherType, String dateFrom, String dateTo) {
+        // 날짜 범위 검색 조건
+        Timestamp from = Timestamp.valueOf(dateFrom + " 00:00:00");
+        Timestamp to = Timestamp.valueOf(dateTo + " 23:59:59");
+        List<Voucher> vouchers = getVouchersBetween(from, to);
+
+        // Voucher Type 검색 조건이 지정되었을 경우
+        if (!VoucherType.of(voucherType).equals(VoucherType.ALL)) {
+            VoucherType type = VoucherType.of(voucherType);
+            vouchers = vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
+        }
+
+        return vouchers;
+    }
+
+    @Override
+    public List<Voucher> getVouchersWithConditions(Optional<String> voucherId, String voucherType, String dateFrom, String dateTo) {
+        // 날짜 범위 검색 조건
+        Timestamp from = Timestamp.valueOf(dateFrom + " 00:00:00");
+        Timestamp to = Timestamp.valueOf(dateTo + " 23:59:59");
+        List<Voucher> vouchers = getVouchersBetween(from, to);
+
+        // Voucher Type 검색 조건이 지정되었을 경우
+        if (!VoucherType.of(voucherType).equals(VoucherType.ALL)) {
+            VoucherType type = VoucherType.of(voucherType);
+            vouchers = vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
+        }
+
+        // Voucher ID 검색 조건이 지정되었을 경우
+        if (voucherId.isPresent()) {
+            vouchers = List.of(vouchers.stream()
+                    .filter(voucher -> voucher.getVoucherId().equals(UUID.fromString(voucherId.get())))
+                    .findAny().get());
+        }
+
+        return vouchers;
+    }
+
+    @Override
+    public List<Voucher> filteringWithId(List<Voucher> vouchers, String voucherId) {
+        return vouchers.stream().filter(voucher -> voucher.getVoucherId().equals(UUID.fromString(voucherId))).toList();
+    }
+
+    @Override
+    public List<Voucher> filteringWithType(List<Voucher> vouchers, String voucherType) {
+        VoucherType type = VoucherType.of(voucherType);
+        return vouchers.stream().filter(voucher -> voucher.getVoucherType().equals(type)).toList();
+    }
+
+    @Override
+    public VoucherDetailDto getDetailInfoOf(UUID voucherId) {
+        VoucherDetailDto result = VoucherConverter.convertToVoucherDetailDto(getVoucher(voucherId));
+
+        Optional<UUID> foundOwnerId = findCustomerIdHoldingVoucherOf(UUID.fromString(result.getVoucherId()));
+        if (foundOwnerId.isPresent()) {
+            result.updateOwnerId(foundOwnerId.toString());
+        }
+
+        return result;
     }
 }

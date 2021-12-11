@@ -1,6 +1,5 @@
 package org.programmers.kdt.voucher;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -33,8 +32,9 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long getDiscountAmount(long beforeDiscount) {
-        return Math.min(amount, beforeDiscount);
+    public long getDiscountedPrice(long beforeDiscount) {
+        long discounted = beforeDiscount - amount;
+        return discounted >= 0 ? discounted : 0;
     }
 
     @Override
