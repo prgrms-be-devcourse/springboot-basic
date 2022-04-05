@@ -1,10 +1,19 @@
 package org.prgrms.spring_week1.models;
 
-public class FixedAmountVoucher implements Voucher{
-    private long amount;
+import java.util.UUID;
 
-    public FixedAmountVoucher(long amount) {
+public class FixedAmountVoucher implements Voucher{
+    private UUID vocherId;
+    private long amount;
+    private VoucherStatus voucherStatus = VoucherStatus.VALID;
+
+    public FixedAmountVoucher(UUID vocherId, long amount) {
+        this.vocherId = vocherId;
         this.amount = amount;
+    }
+
+    public void setVoucherStatus(VoucherStatus voucherStatus) {
+        this.voucherStatus = voucherStatus;
     }
 
     @Override

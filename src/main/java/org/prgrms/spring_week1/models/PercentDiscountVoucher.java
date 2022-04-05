@@ -1,10 +1,19 @@
 package org.prgrms.spring_week1.models;
 
-public class PercentDiscountVoucher implements Voucher{
-    private long percent;
+import java.util.UUID;
 
-    public PercentDiscountVoucher(int percent) {
+public class PercentDiscountVoucher implements Voucher{
+    private UUID voucerId;
+    private long percent;
+    private VoucherStatus voucherStatus = VoucherStatus.VALID;
+
+    public PercentDiscountVoucher(UUID voucerId, long percent) {
+        this.voucerId = voucerId;
         this.percent = percent;
+    }
+
+    public void setVoucherStatus(VoucherStatus voucherStatus) {
+        this.voucherStatus = voucherStatus;
     }
 
     @Override
