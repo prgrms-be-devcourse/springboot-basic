@@ -47,8 +47,9 @@ SpringBoot Part1 Weekly Mission
     - [ ] Text-IO 이용해 UI 구현하기
 - 핵심 로직
     - [ ] Voucher 엔티티 만들기
-        - [ ] FixedAmountVoucher
-        - [ ] PercentDiscountVoucher
+        - [X] FixedAmountVoucher
+        - [X] PercentDiscountVoucher
+          - [ ] PercentDiscountVoucher 할인 계산 정확하게 구현하기
     - [ ] MemoryVoucherRepository 만들기
         - [ ] Voucher 저장
         - [ ] Voucher 조회
