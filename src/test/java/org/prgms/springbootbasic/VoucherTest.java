@@ -17,11 +17,11 @@ public class VoucherTest {
     @DisplayName("바우처 등록 테스트")
     void addVoucherTest() {
         UUID uuid = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(uuid, 100L);
+        Voucher voucher = new FixedAmountVoucher(uuid, 100L, "fixedAmountVoucher");
         assertEquals(uuid, voucher.getVoucherId());
 
         uuid = UUID.randomUUID();
-        voucher = new PercentAmountVoucher(uuid, 10L);
+        voucher = new PercentAmountVoucher(uuid, 10L, "percentAmountVoucher");
         assertEquals(uuid, voucher.getVoucherId());
     }
 
@@ -30,8 +30,8 @@ public class VoucherTest {
     void getListOfVoucherTest() {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         var memoryVoucherRepository = applicationContext.getBean(MemoryVoucherRepository.class);
-        memoryVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 100L));
-        memoryVoucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(), 10L));
+        memoryVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 100L, "fixedAmountVoucher"));
+        memoryVoucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(), 10L, "percentAmountVoucher"));
         var voucherMap = memoryVoucherRepository.getAll();
         assertEquals(2, voucherMap.size());
     }

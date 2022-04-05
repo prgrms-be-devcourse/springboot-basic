@@ -10,7 +10,7 @@
 - [ ]  바우처 관리 Command-line Application을 만들어본다.
     - 참고: [https://dzone.com/articles/interactive-console-applications-in-java](https://dzone.com/articles/interactive-console-applications-in-java)
     - [x]  스프링부트 애플리케이션으로 만든다. (Web기능이 없이만듭니다. 즉, 서버가 띄지 않고 커맨드라인 애플리케이션으로 동작해야한다.)
-    - [ ]  프로그램이 시작하면 다음과 같이 지원가능한 명령어를 알려준다.
+    - [x]  프로그램이 시작하면 다음과 같이 지원가능한 명령어를 알려준다.
 
    ```bash
    === Voucher Program ===
@@ -19,7 +19,7 @@
    Type **list** to list all vouchers.
    ```
 
-    - [ ]  create / list 커맨드를 지원한다.
+    - [x]  create / list 커맨드를 지원한다.
         - create 커맨드를 통해 바우처를 생성할수 있다. (FixedAmountVoucher, PercentDiscountVoucher)
         - list 커맨드를 통해 만들어진 바우처를 조회할 수 있다.
         - 바우처 정보를 매모리에 관리한다. 어플리케이션이 종료가 되어 데이터가 모두 사라져도 괜찮습니다. (나중에 영속성을 가지도록 변경할거에요 걱정마세요!)
