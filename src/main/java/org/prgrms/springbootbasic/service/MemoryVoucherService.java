@@ -1,8 +1,10 @@
 package org.prgrms.springbootbasic.service;
 
+import java.util.List;
 import java.util.UUID;
 import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
+import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.repository.VoucherRepository;
 
 public class MemoryVoucherService {
@@ -19,5 +21,9 @@ public class MemoryVoucherService {
 
     public void createPercentAmountVoucher(int percent) {
         voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), percent));
+    }
+
+    public List<Voucher> findAll() {
+        return voucherRepository.findAll();
     }
 }
