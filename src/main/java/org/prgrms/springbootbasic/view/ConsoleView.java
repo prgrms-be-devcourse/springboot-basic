@@ -38,9 +38,10 @@ public class ConsoleView {
         terminal.println();
     }
 
-    void inputMenu() {
-        String menu = textIO.newStringInputReader()
-            .withPossibleValues("exit", "create", "list")
-            .read();
+    public Menu inputMenu() {
+        Menu menu = textIO.newEnumInputReader(Menu.class)
+            .read("select menu");
+        return menu;
     }
+
 }
