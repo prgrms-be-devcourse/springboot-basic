@@ -50,7 +50,7 @@ SpringBoot Part1 Weekly Mission
         - [X] FixedAmountVoucher
         - [X] PercentDiscountVoucher
           - [ ] PercentDiscountVoucher 할인 계산 정확하게 구현하기
-    - [ ] MemoryVoucherRepository 만들기
+    - [X] MemoryVoucherRepository 만들기
         - [X] Voucher 저장
         - [X] Voucher 전체 조회
     - [ ] MemoryVoucherService 만들기
