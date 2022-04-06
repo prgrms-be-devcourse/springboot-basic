@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.entity;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
+
     private final UUID voucherId;
     private final int percent;
 
@@ -19,5 +20,9 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - (beforeDiscount * percent) / 100;
+    }
+
+    public int getPercent() {
+        return percent;
     }
 }

@@ -1,8 +1,14 @@
 package org.prgrms.springbootbasic.view;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
+import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
+import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.service.VoucherType;
 
 public class ConsoleView {
@@ -23,6 +29,16 @@ public class ConsoleView {
                 int percent = consoleView.selectPercent();
                 System.out.println("percent= " + percent);
             }
+        }
+        if (menu == Menu.LIST) {
+            List<Voucher> vouchers = new ArrayList<>();
+            vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), 10L));
+            vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), 10));
+
+            consoleView.printList(vouchers);
+        }
+        if (menu == Menu.EXIT) {
+            System.out.println(menu);
         }
     }
 
@@ -76,6 +92,26 @@ public class ConsoleView {
             .read("select percent");
         textIO.getTextTerminal().println();
         return percent;
+    }
+
+    public void printList(List<Voucher> vouchers) {
+        TextTerminal<?> terminal = textIO.getTextTerminal();
+        terminal.println("==Voucher List==");
+        terminal.println();
+
+        for (Voucher voucher : vouchers) {
+            if (voucher.getClass() == FixedAmountVoucher.class) {
+                var fixedAmountVoucher = (FixedAmountVoucher) voucher;
+                terminal.println("voucherId= " + fixedAmountVoucher.getVoucherId() + ", amount= "
+                    + fixedAmountVoucher.getAmount());
+            }
+            if (voucher.getClass() == PercentDiscountVoucher.class) {
+                var percentDiscountVoucher = (PercentDiscountVoucher) voucher;
+                terminal.println("voucherId= " + voucher.getVoucherId() + ", percent= "
+                    + percentDiscountVoucher.getPercent());
+            }
+        }
+        terminal.println();
     }
 
 }

@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.entity;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
+
     private final UUID voucherId;
     private final long amount;
 
@@ -19,5 +20,9 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
+    }
+
+    public long getAmount() {
+        return amount;
     }
 }

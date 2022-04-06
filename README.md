@@ -47,7 +47,7 @@ SpringBoot Part1 Weekly Mission
     - [ ] Text-IO 이용해 UI 구현하기
       - [X] 메뉴 출력 기능 개발
       - [X] 바우처 생성 커맨드 개발
-      - [ ] 바우처 조회 커맨드 개발
+      - [X] 바우처 조회 커맨드 개발
 - 핵심 로직
     - [ ] Voucher 엔티티 만들기
         - [X] FixedAmountVoucher
