@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum VoucherTypes {
-    FIXED_AMOUNT("1", "FixedAmountVoucher"),
-    PERCENTAGE_DISCOUNT("2", "PercentDiscountVoucher");
+    FIXED_AMOUNT("1", "FIXED_AMOUNT"),
+    PERCENTAGE_DISCOUNT("2", "PERCENTAGE_DISCOUNT");
 
     private final String voucherTypeId;
     private final String typeName;

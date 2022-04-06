@@ -1,5 +1,6 @@
 package org.prgms.voucheradmin.domain.voucher.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,7 +9,7 @@ import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
-import org.prgms.voucheradmin.domain.voucher.repository.VoucherRepository;
+import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,13 +20,13 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherInputDto voucherInputDto) {
+    public Voucher createVoucher(VoucherInputDto voucherInputDto) throws IOException {
         Voucher voucher = getVoucherInstance(voucherInputDto);
 
         return voucherRepository.save(voucher);
     }
 
-    public List<Voucher> getVouchers() {
+    public List<Voucher> getVouchers() throws IOException{
         return voucherRepository.getAll();
     }
 

@@ -50,7 +50,6 @@ public class VoucherConsole {
                         keepRun = false;
                         break;
                 }
-
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

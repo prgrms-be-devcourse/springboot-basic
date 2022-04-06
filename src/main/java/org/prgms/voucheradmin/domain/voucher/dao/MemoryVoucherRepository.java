@@ -1,4 +1,4 @@
-package org.prgms.voucheradmin.domain.voucher.repository;
+package org.prgms.voucheradmin.domain.voucher.dao;
 
 import java.util.List;
 import java.util.Map;

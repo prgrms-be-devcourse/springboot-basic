@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes.FIXED_AMOUNT;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes.PERCENTAGE_DISCOUNT;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
-import org.prgms.voucheradmin.domain.voucher.repository.VoucherRepository;
+import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
@@ -32,14 +33,18 @@ class VoucherServiceTest {
         VoucherInputDto voucherInputDto = new VoucherInputDto(FIXED_AMOUNT, 10L);
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
 
-        // when
-        when(voucherRepository.save(any())).thenReturn(voucher);
+        try {
+            // when
+            when(voucherRepository.save(any())).thenReturn(voucher);
 
-        // given
-        Voucher savedVoucher = voucherService.createVoucher(voucherInputDto);
+            // given
+            Voucher savedVoucher = voucherService.createVoucher(voucherInputDto);
 
-        // then
-        assertThat(savedVoucher.discount(120L)).isEqualTo(110L);
+            // then
+            assertThat(savedVoucher.discount(120L)).isEqualTo(110L);
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -47,13 +52,17 @@ class VoucherServiceTest {
         VoucherInputDto voucherInputDto = new VoucherInputDto(PERCENTAGE_DISCOUNT, 10L);
         Voucher voucher = new PercentageDiscountVoucher(UUID.randomUUID(), 10L);
 
-        // when
-        when(voucherRepository.save(any())).thenReturn(voucher);
+        try {
+            // when
+            when(voucherRepository.save(any())).thenReturn(voucher);
 
-        // given
-        Voucher savedVoucher = voucherService.createVoucher(voucherInputDto);
+            // given
+            Voucher savedVoucher = voucherService.createVoucher(voucherInputDto);
 
-        // then
-        assertThat(savedVoucher.discount(100L)).isEqualTo(90L);
+            // then
+            assertThat(savedVoucher.discount(100L)).isEqualTo(90L);
+        }catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
