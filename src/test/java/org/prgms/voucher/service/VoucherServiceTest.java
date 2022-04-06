@@ -12,7 +12,6 @@ import org.prgms.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucher.entity.PercentDiscountVoucher;
 import org.prgms.voucher.entity.Voucher;
 import org.prgms.voucher.entity.VoucherType;
-import org.prgms.voucher.exception.WrongCommandInputException;
 import org.prgms.voucher.exception.WrongDiscountAmountException;
 import org.prgms.voucher.exception.WrongDiscountPercentException;
 import org.prgms.voucher.repository.VoucherRepository;
@@ -40,7 +39,6 @@ class VoucherServiceTest {
     @Test
     void create_FixedAmountVoucherType_ReturnFixedAmountVoucher() throws
         WrongDiscountPercentException,
-        WrongCommandInputException,
         WrongDiscountAmountException {
 
         Voucher voucher = voucherService.create(VoucherType.FIXED_AMOUNT, 10L);
@@ -53,7 +51,6 @@ class VoucherServiceTest {
     @Test
     void create_PercentDiscountType_ReturnPercentDiscountVoucher() throws
         WrongDiscountPercentException,
-        WrongCommandInputException,
         WrongDiscountAmountException {
         Voucher voucher = voucherService.create(VoucherType.PERCENT_DISCOUNT, 10L);
 
@@ -64,7 +61,7 @@ class VoucherServiceTest {
     @DisplayName("모든 바우처를 반환한다.")
     @Test
     void findAll_ReturnAllVoucher() {
-        List<Voucher> vouchers = voucherService.getVouchers();
+        List<Voucher> vouchers = voucherService.findAllVoucher();
 
         assertThat(vouchers).hasSize(2);
     }

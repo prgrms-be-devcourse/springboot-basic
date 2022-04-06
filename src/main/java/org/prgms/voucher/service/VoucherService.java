@@ -7,7 +7,6 @@ import org.prgms.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucher.entity.PercentDiscountVoucher;
 import org.prgms.voucher.entity.Voucher;
 import org.prgms.voucher.entity.VoucherType;
-import org.prgms.voucher.exception.WrongCommandInputException;
 import org.prgms.voucher.exception.WrongDiscountAmountException;
 import org.prgms.voucher.exception.WrongDiscountPercentException;
 import org.prgms.voucher.repository.VoucherRepository;
@@ -24,25 +23,22 @@ public class VoucherService {
 
     public Voucher create(VoucherType voucherType, long value) throws
         WrongDiscountAmountException,
-        WrongDiscountPercentException, WrongCommandInputException {
+        WrongDiscountPercentException {
         Voucher voucher = getVoucher(voucherType, value);
         return repository.insert(voucher);
     }
 
     private Voucher getVoucher(VoucherType voucherType, long value) throws
         WrongDiscountAmountException,
-        WrongDiscountPercentException, WrongCommandInputException {
-        switch (voucherType) {
-            case FIXED_AMOUNT:
-                return new FixedAmountVoucher(UUID.randomUUID(), value);
-            case PERCENT_DISCOUNT:
-                return new PercentDiscountVoucher(UUID.randomUUID(), value);
-            default:
-                throw new WrongCommandInputException();
+        WrongDiscountPercentException {
+        if (voucherType == VoucherType.FIXED_AMOUNT) {
+            return new FixedAmountVoucher(UUID.randomUUID(), value);
         }
+
+        return new PercentDiscountVoucher(UUID.randomUUID(), value);
     }
 
-    public List<Voucher> getVouchers() {
+    public List<Voucher> findAllVoucher() {
         return repository.findAll();
     }
 }
