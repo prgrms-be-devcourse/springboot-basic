@@ -22,17 +22,14 @@ public class PercentageDiscountVoucher implements Voucher {
         return voucherId;
     }
 
+    @Override
     public VoucherType getVoucherType() {
         return voucherType;
     }
 
-    public long getPercent() {
-        return percent;
-    }
-
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - (beforeDiscount * (percent / 100));
+        return beforeDiscount - (beforeDiscount / 100 * percent);
     }
 
     @Override

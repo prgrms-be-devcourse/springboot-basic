@@ -22,12 +22,9 @@ public class FixedAmountVoucher implements Voucher {
         return voucherId;
     }
 
+    @Override
     public VoucherType getVoucherType() {
         return voucherType;
-    }
-
-    public long getAmount() {
-        return amount;
     }
 
     @Override
