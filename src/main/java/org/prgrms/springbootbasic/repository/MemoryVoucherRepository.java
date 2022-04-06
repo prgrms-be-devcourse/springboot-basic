@@ -5,27 +5,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.springbootbasic.entity.Voucher;
 
-public class MemoryVoucherRepository {
+public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> store = new HashMap<>();
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
+    @Override
     public void save(Voucher voucher) {
-        store.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getVoucherId(), voucher);
     }
 
+    @Override
     public Optional<List<Voucher>> findAll() {
-        return Optional.ofNullable(store.values()
+        return Optional.ofNullable(storage.values()
             .stream()
             .toList());
     }
 
+    @Override
     public Integer getVoucherTotalNumber() {
-        return store.size();
+        return storage.size();
     }
 
+    @Override
     public void removeAll() {
-        store.clear();
+        storage.clear();
     }
 }
