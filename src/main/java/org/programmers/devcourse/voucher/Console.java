@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.MenuSelection;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
@@ -70,6 +72,19 @@ public class Console implements Input, Output {
   @Override
   public void print(String data) {
     System.out.println(data);
+  }
+
+  @Override
+  public void printAllVouchers(Map<UUID, Voucher> voucherMap) {
+    if (voucherMap.isEmpty()) {
+      System.out.println("EMPTY!");
+      return;
+    }
+    var voucherString = new StringBuilder();
+    voucherString.append("=== VoucherList ===\n");
+    voucherMap.values().forEach(voucher -> voucherString.append(voucher).append("\n"));
+
+    System.out.println(voucherString);
   }
 
 

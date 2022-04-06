@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Optional;
 import java.util.UUID;
+import org.programmers.devcourse.voucher.engine.exception.NoSuchOptionException;
+import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher;
@@ -31,41 +33,45 @@ public class Demo {
 
       while (true) {
         Optional<MenuSelection> optionalSelection = input.getSelection();
-        if (optionalSelection.isEmpty()) {
-          output.print("Wrong command");
-          continue;
+        try {
+          switch (optionalSelection.orElseThrow(
+              NoSuchOptionException::new)) {
+            case EXIT:
+              output.print("Good Bye");
+              return;
+            case CREATE:
+              createVoucher();
+              break;
+            case LIST:
+              showAllVouchers();
+          }
+
+        } catch (VoucherException e) {
+          output.print(e.getMessage());
         }
-
-        switch (optionalSelection.get()) {
-          case EXIT:
-            output.print("Good Bye");
-            return;
-          case CREATE:
-            createVoucher();
-            break;
-          case LIST:
-            output.print("LIST!");
-        }
-
-
       }
-
     } catch (Exception e) {
+      // VoucherException 외 치명적 오류 (파일로 보관 예정)
       e.printStackTrace();
-      output.print("Error! terminating application");
+      output.print("[ERROR]: terminating application");
     }
 
   }
 
-  private void createVoucher() throws IOException {
+  private void showAllVouchers() {
+    output.printAllVouchers(voucherService.getAllVouchers());
+
+
+  }
+
+  private void createVoucher() throws IOException, VoucherException, ReflectiveOperationException {
     // 사용자로 부터 바우처 타입을 입력 받는다.
     Voucher.Type voucherType = input.getVoucherType();
     long voucherDiscountData = input.getVoucherDiscountData(voucherType);
 
-    // 바우처 타입이 증가할 때 마다 어떻게 받지?
-    // 바우처 타입에 따라 콘솔에 출력할 값이 다르다?
-
     UUID voucherId = voucherService.create(voucherType, voucherDiscountData);
     output.print(MessageFormat.format("CREATE SUCCESS! VoucherID : {0}", voucherId));
+
+
   }
 }

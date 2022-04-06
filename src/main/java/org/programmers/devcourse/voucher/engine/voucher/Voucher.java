@@ -1,48 +1,48 @@
 package org.programmers.devcourse.voucher.engine.voucher;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public interface Voucher {
 
   UUID getVoucherId();
 
-  String getType();
 
   long discount(long beforeDiscount);
 
   enum Type {
-    FIXED_AMOUNT("1", FixedAmountVoucher::from, "$"), PERCENT_DISCOUNT("2",
-        PercentDiscountVoucher::from, "%");
+    FIXED_AMOUNT("1", FixedAmountVoucher.class, "$"), PERCENT_DISCOUNT("2",
+        PercentDiscountVoucher.class, "%");
 
+    private static final Map<String, Type> mapper = Collections.unmodifiableMap(
+        Stream.of(values()).collect(Collectors.toMap(value -> value.id, value -> value)));
     private final String id;
-    private final Function<Long, Voucher> factory;
+    private final Class<? extends Voucher> voucherClass;
     private final String unit;
 
 
-    Type(String id, Function<Long, Voucher> factory, String unit) {
+    Type(String id, Class<? extends Voucher> voucherClass, String unit) {
       this.id = id;
-      this.factory = factory;
+      this.voucherClass = voucherClass;
       this.unit = unit;
     }
 
     public static Optional<Type> from(String candidate) {
-      for (var type : Type.values()) {
-        if (type.id.equals(candidate)) {
-          return Optional.of(type);
-        }
-      }
 
-      return Optional.empty();
+      return Optional.ofNullable(mapper.get(candidate));
     }
 
-    public Voucher createVoucher(long amount) {
-      return factory.apply(amount);
-    }
 
     public String getUnit() {
       return unit;
+    }
+
+    public Class<? extends Voucher> getVoucherClass() {
+      return voucherClass;
     }
   }
 

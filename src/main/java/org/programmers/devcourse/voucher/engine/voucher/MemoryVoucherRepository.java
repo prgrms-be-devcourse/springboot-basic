@@ -1,5 +1,6 @@
 package org.programmers.devcourse.voucher.engine.voucher;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,4 +25,11 @@ public class MemoryVoucherRepository implements
 
     return Optional.ofNullable(storage.get(voucherId));
   }
+
+  @Override
+  public Map<UUID, Voucher> getAllVouchers() {
+    return Collections.unmodifiableMap(storage);
+  }
+
+
 }
