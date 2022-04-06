@@ -1,12 +1,16 @@
 ## SpringBoot Part1 Weekly Mission
 
+### 미션 내용
+
 (기본) **바우처 관리 애플리케이션**
 
-- [x] Maven / Gradle 로 프로젝트를 실제로 구성하고 이때 Spring Boot CLI를 개발PC에 설치해서 명령어들을 사용해보고 프로젝트를 만든다. 그리고 IDE (IntelliJ)에서 실행시켜 본다.
+- [x] Maven / Gradle 로 프로젝트를 실제로 구성하고 이때 Spring Boot CLI를 개발PC에 설치해서 명령어들을 사용해보고 프로젝트를 만든다. 그리고 IDE (IntelliJ)에서 실행시켜
+  본다.
 
 - [ ] 바우처 관리 Command-line Application을 만들어본다.
 
-    - 참고: [https://dzone.com/articles/interactive-console-applications-in-java](https://dzone.com/articles/interactive-console-applications-in-java)
+    -
+  참고: [https://dzone.com/articles/interactive-console-applications-in-java](https://dzone.com/articles/interactive-console-applications-in-java)
     - [ ] 스프링부트 애플리케이션으로 만든다. (Web기능이 없이만듭니다. 즉, 서버가 띄지 않고 커맨드라인 애플리케이션으로 동작해야한다.)
     - [ ] 프로그램이 시작하면 다음과 같이 지원가능한 명령어를 알려준다.
 
@@ -33,3 +37,25 @@
 - [ ] 고객 블랙 리스트 명단을 작성한다.
 - customer_blacklist.csv 파일을 만들고 스프링 애플리케이션에서 해당 파일을 읽을 수 있고 블랙 리스트조회 할 수있다 (추가할 필요는 없어요. 블랙리스트는 파일로만 관리된다고 가정합니다.)
 - [ ] YAML 프라퍼티를 만들고 어떤 설정을 만들수 있을지 고민해본다.
+
+### 구현해야 할 기능 목록
+
+- [ ] 입력
+    - [ ] 메뉴 커맨드
+        - [ ] Enum으로 관리
+            - [ ] create 커맨드
+                - [x] FixedAmountVoucher
+                    - [x] 할인 금액
+                        - [x] 0일 경우 예외 발생
+                - [ ] PercentDiscountVoucher
+                    - [ ] 할인 퍼센트
+                        - [ ] 0일 경우 예외 발생
+        - [ ] 입력이 잘못되면 예외 발생
+
+- [ ] 출력
+    - [ ] 바우처 조회
+
+- [ ] 바우처
+    - [ ] 원하는 바우처로 생성
+        - [ ] 
+    - [ ] 바우처 정보 저장
