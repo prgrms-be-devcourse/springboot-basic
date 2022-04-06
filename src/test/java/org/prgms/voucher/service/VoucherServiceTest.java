@@ -20,7 +20,7 @@ class VoucherServiceTest {
 
     VoucherService voucherService = new VoucherService(new VoucherRepository() {
         @Override
-        public Voucher insert(Voucher voucher) {
+        public Voucher save(Voucher voucher) {
             return voucher;
         }
 

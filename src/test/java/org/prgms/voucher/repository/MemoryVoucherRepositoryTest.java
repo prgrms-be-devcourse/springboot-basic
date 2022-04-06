@@ -18,11 +18,11 @@ class MemoryVoucherRepositoryTest {
 
     @DisplayName("Voucher를 저장한다.")
     @Test
-    void insert_Voucher() throws WrongDiscountAmountException {
+    void save_Voucher() throws WrongDiscountAmountException {
         // given
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
         // when
-        Voucher insertVoucher = repository.insert(voucher);
+        Voucher insertVoucher = repository.save(voucher);
         // then
         assertThat(voucher).isEqualTo(insertVoucher);
         assertThat(repository.findAll()).hasSize(1)
@@ -36,8 +36,8 @@ class MemoryVoucherRepositoryTest {
         Voucher voucherOne = new FixedAmountVoucher(UUID.randomUUID(), 20);
         Voucher voucherTwo = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         // when
-        repository.insert(voucherOne);
-        repository.insert(voucherTwo);
+        repository.save(voucherOne);
+        repository.save(voucherTwo);
         // then
         assertThat(repository.findAll()).hasSize(2)
             .contains(voucherOne, voucherTwo);

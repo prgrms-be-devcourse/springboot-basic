@@ -25,7 +25,7 @@ public class VoucherService {
         WrongDiscountAmountException,
         WrongDiscountPercentException {
         Voucher voucher = getVoucher(voucherType, value);
-        return repository.insert(voucher);
+        return repository.save(voucher);
     }
 
     private Voucher getVoucher(VoucherType voucherType, long value) throws
