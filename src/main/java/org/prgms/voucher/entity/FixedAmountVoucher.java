@@ -31,4 +31,9 @@ public class FixedAmountVoucher implements Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
+
+    @Override
+    public String toString() {
+        return String.format("FixedAmountVoucher : voucherId=%s, discountAmount=%d", voucherId, discountAmount);
+    }
 }

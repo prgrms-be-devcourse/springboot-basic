@@ -32,4 +32,9 @@ public class PercentDiscountVoucher implements Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
+
+    @Override
+    public String toString() {
+        return String.format("PercentDiscountVoucher : voucherId=%s, discountPercent=%d", voucherId, discountPercent);
+    }
 }
