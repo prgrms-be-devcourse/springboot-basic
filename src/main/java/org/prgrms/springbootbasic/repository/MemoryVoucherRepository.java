@@ -1,9 +1,7 @@
 package org.prgrms.springbootbasic.repository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.springbootbasic.entity.Voucher;
@@ -18,10 +16,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<List<Voucher>> findAll() {
-        return Optional.ofNullable(storage.values()
+    public List<Voucher> findAll() {
+        return storage.values()
             .stream()
-            .toList());
+            .toList();
     }
 
     @Override

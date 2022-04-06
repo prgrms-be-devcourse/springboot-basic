@@ -1,9 +1,8 @@
 package org.prgrms.springbootbasic.repository;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,10 +43,10 @@ class MemoryVoucherRepositoryTest {
         memoryVoucherRepository.save(voucher2);
 
         //when
-        Optional<List<Voucher>> vouchers = memoryVoucherRepository.findAll();
+        List<Voucher> vouchers = memoryVoucherRepository.findAll();
 
         //then
-        assertThat(vouchers.orElse(null))
+        assertThat(vouchers)
             .containsExactlyInAnyOrder(voucher1, voucher2);
     }
 }
