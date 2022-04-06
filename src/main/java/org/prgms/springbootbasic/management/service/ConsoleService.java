@@ -4,12 +4,15 @@ import org.prgms.springbootbasic.management.entity.FixedAmountVoucher;
 import org.prgms.springbootbasic.management.entity.PercentAmountVoucher;
 import org.prgms.springbootbasic.management.repository.MemoryVoucherRepository;
 import org.prgms.springbootbasic.management.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.Scanner;
 import java.util.UUID;
 
 public class ConsoleService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Scanner sc = new Scanner(System.in);
     private final VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
@@ -26,7 +29,8 @@ public class ConsoleService {
             } else if (command.equals("list")) {
                 getVoucherList();
             } else {
-                throw new IllegalArgumentException();
+                logger.error("wrong input");
+                // throw new IllegalArgumentException();
             }
         }
     }
