@@ -7,7 +7,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.prgms.voucher.entity.Voucher;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
