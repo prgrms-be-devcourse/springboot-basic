@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.view;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+import org.prgrms.springbootbasic.service.VoucherType;
 
 public class ConsoleView {
 
@@ -11,7 +12,18 @@ public class ConsoleView {
     public static void main(String[] args) {
         ConsoleView consoleView = new ConsoleView();
         consoleView.printMenu();
-        consoleView.inputMenu();
+        Menu menu = consoleView.inputMenu();
+
+        if (menu == Menu.CREATE) {
+            VoucherType voucherType = consoleView.selectVoucherType();
+            if (voucherType == VoucherType.FIXED) {
+                long amount = consoleView.selectAmount();
+                System.out.println("amount= " + amount);
+            } else {
+                int percent = consoleView.selectPercent();
+                System.out.println("percent= " + percent);
+            }
+        }
     }
 
     public void printMenu() {
@@ -44,4 +56,18 @@ public class ConsoleView {
         return menu;
     }
 
+    public VoucherType selectVoucherType() {
+        return textIO.newEnumInputReader(VoucherType.class)
+            .read("select voucher type");
+    }
+
+    public long selectAmount() {
+        return textIO.newLongInputReader()
+            .read("select amount");
+    }
+
+    public int selectPercent() {
+        return textIO.newIntInputReader()
+            .read("select percent");
+    }
 }
