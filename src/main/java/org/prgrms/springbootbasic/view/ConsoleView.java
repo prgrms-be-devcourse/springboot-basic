@@ -53,21 +53,29 @@ public class ConsoleView {
     public Menu inputMenu() {
         Menu menu = textIO.newEnumInputReader(Menu.class)
             .read("select menu");
+        textIO.getTextTerminal().println();
         return menu;
     }
 
     public VoucherType selectVoucherType() {
-        return textIO.newEnumInputReader(VoucherType.class)
+        VoucherType voucherType = textIO.newEnumInputReader(VoucherType.class)
             .read("select voucher type");
+        textIO.getTextTerminal().println();
+        return voucherType;
     }
 
     public long selectAmount() {
-        return textIO.newLongInputReader()
+        long amount = textIO.newLongInputReader()
             .read("select amount");
+        textIO.getTextTerminal().println();
+        return amount;
     }
 
     public int selectPercent() {
-        return textIO.newIntInputReader()
+        int percent = textIO.newIntInputReader()
             .read("select percent");
+        textIO.getTextTerminal().println();
+        return percent;
     }
+
 }
