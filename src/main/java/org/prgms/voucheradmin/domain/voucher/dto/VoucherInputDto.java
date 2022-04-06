@@ -1,18 +1,18 @@
 package org.prgms.voucheradmin.domain.voucher.dto;
 
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
 
 public class VoucherInputDto {
-    private VoucherType voucherType;
+    private VoucherTypes voucherTypes;
     private long amount;
 
-    public VoucherInputDto(VoucherType voucherType, long amount) {
-        this.voucherType = voucherType;
+    public VoucherInputDto(VoucherTypes voucherTypes, long amount) {
+        this.voucherTypes = voucherTypes;
         this.amount = amount;
     }
 
-    public VoucherType getVoucherType() {
-        return voucherType;
+    public VoucherTypes getVoucherType() {
+        return voucherTypes;
     }
 
     public long getAmount() {

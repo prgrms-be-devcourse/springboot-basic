@@ -7,7 +7,7 @@ import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
 import org.prgms.voucheradmin.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +30,10 @@ public class VoucherService {
     }
 
     private Voucher getVoucherInstance(VoucherInputDto voucherInputDto) {
-        VoucherType voucherType = voucherInputDto.getVoucherType();
+        VoucherTypes voucherTypes = voucherInputDto.getVoucherType();
         UUID voucherId = UUID.randomUUID();
 
-        switch (voucherType) {
+        switch (voucherTypes) {
             case FIXED_AMOUNT:
                 long amount = voucherInputDto.getAmount();
                 return new FixedAmountVoucher(voucherId, amount);

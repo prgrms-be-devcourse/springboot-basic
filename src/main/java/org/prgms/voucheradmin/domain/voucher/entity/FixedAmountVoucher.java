@@ -1,19 +1,19 @@
 package org.prgms.voucheradmin.domain.voucher.entity;
 
-import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.FIXED_AMOUNT;
+import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes.FIXED_AMOUNT;
 
 import java.util.UUID;
 
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final VoucherType voucherType;
+    private final VoucherTypes voucherTypes;
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
-        this.voucherType = FIXED_AMOUNT;
+        this.voucherTypes = FIXED_AMOUNT;
         this.amount = amount;
     }
 
@@ -23,8 +23,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return voucherType;
+    public VoucherTypes getVoucherType() {
+        return voucherTypes;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public String toString() {
         StringBuilder voucherInfoBuilder = new StringBuilder();
-        voucherInfoBuilder.append(voucherId).append("\t").append(voucherType).append("\t").append(amount);
+        voucherInfoBuilder.append(voucherId).append("\t").append(voucherTypes.getTypeName()).append("\t").append(amount);
         return voucherInfoBuilder.toString();
     }
 }
