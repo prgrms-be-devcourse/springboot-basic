@@ -4,11 +4,13 @@ import org.prgrms.spring_week1.models.Order;
 import org.prgrms.spring_week1.models.OrderItem;
 import org.prgrms.spring_week1.models.Voucher;
 import org.prgrms.spring_week1.repositories.OrderRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class OrderService {
     OrderRepository orderRepository;
     VoucherService voucherService;

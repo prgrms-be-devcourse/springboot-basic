@@ -5,9 +5,11 @@ import org.prgrms.spring_week1.models.PercentDiscountVoucher;
 import org.prgrms.spring_week1.models.Voucher;
 import org.prgrms.spring_week1.models.VoucherStatus;
 import org.prgrms.spring_week1.repositories.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private VoucherRepository voucherRepository;
 
