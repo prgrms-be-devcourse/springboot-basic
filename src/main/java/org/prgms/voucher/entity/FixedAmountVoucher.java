@@ -2,22 +2,23 @@ package org.prgms.voucher.entity;
 
 import java.util.UUID;
 
-import org.prgms.voucher.exception.ZeroDiscountAmountException;
+import org.prgms.voucher.exception.WrongDiscountAmountException;
 
 public class FixedAmountVoucher implements Voucher {
+    public static final int MIN_AMOUNT = 1;
 
     private final UUID voucherId;
     private final long discountAmount;
 
-    public FixedAmountVoucher(UUID voucherId, long discountAmount) throws ZeroDiscountAmountException {
+    public FixedAmountVoucher(UUID voucherId, long discountAmount) throws WrongDiscountAmountException {
         validateDiscountAmount(discountAmount);
         this.voucherId = voucherId;
         this.discountAmount = discountAmount;
     }
 
-    private void validateDiscountAmount(long discountAmount) throws ZeroDiscountAmountException {
-        if (discountAmount == 0) {
-            throw new ZeroDiscountAmountException();
+    private void validateDiscountAmount(long discountAmount) throws WrongDiscountAmountException {
+        if (discountAmount < MIN_AMOUNT) {
+            throw new WrongDiscountAmountException();
         }
     }
 
