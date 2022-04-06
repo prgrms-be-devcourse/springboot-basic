@@ -8,11 +8,11 @@ public class Order {
     UUID orderId;
     UUID customerId;
     private List<OrderItem> orderItemList;
-    private Optional<Voucher> voucher;
+    private Optional<Voucher> voucher; // 없을 수도 있음
     private OrderStatus orderStatus = OrderStatus.ACCEPTED;
 
     // 바우처 없는 경우
-    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItemList, Optional<Voucher> voucher, OrderStatus orderStatus) {
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItemList, Optional<Voucher> voucher) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItemList = orderItemList;
@@ -21,7 +21,7 @@ public class Order {
     }
 
     // 바우처 있는경우
-    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItemList, OrderStatus orderStatus) {
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItemList) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItemList = orderItemList;

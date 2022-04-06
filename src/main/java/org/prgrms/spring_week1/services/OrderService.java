@@ -19,14 +19,16 @@ public class OrderService {
     }
 
     // voucher 없는 경우
-    void createOrder(UUID customerId, List<OrderItem> orderItems){
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems){
         Order order = new Order(UUID.randomUUID(), customerId, orderItems, Optional.empty());
         orderRepository.insert(order);
+        return order;
     }
 
     // voucher 있는 경우
-    void createOrder(UUID customerId, List<OrderItem> orderItems, Voucher voucher){
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems, Voucher voucher){
         Order order = new Order(UUID.randomUUID(), customerId, orderItems, Optional.of(voucher));
         orderRepository.insert(order);
+        return order;
     }
 }

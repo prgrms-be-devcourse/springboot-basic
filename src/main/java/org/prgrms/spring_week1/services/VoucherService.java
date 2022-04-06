@@ -19,14 +19,16 @@ public class VoucherService {
         return voucherRepository.findById(voucherId);
     }
 
-    public void createFixedVoucher(long amount){
+    public Voucher createFixedVoucher(long amount){
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
         voucherRepository.insert(voucher);
+        return voucher;
     }
 
-    public void createPercentVoucher(long percent){
+    public Voucher createPercentVoucher(long percent){
         Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
         voucherRepository.insert(voucher);
+        return voucher;
     }
 
 
