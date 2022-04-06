@@ -17,26 +17,32 @@ public class ConsoleService {
     private final VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
     public void run() {
+        System.out.println("=== Voucher Program ===");
+        label:
         while (true) {
             initMessage();
-
+            System.out.print("Enter a command: ");
             String command = sc.next();
 
-            if (command.equals("exit")) {
-                break;
-            } else if (command.equals("create")) {
-                createVoucher();
-            } else if (command.equals("list")) {
-                getVoucherList();
-            } else {
-                logger.error("wrong input");
-                // throw new IllegalArgumentException();
+            switch (command) {
+                case "exit":
+                    break label;
+                case "create":
+                    createVoucher();
+                    break;
+                case "list":
+                    getVoucherList();
+                    break;
+                default:
+                    logger.error(MessageFormat.format
+                            ("wrong input at input command -> {0}", command));
+                    System.out.println();
+                    break;
             }
         }
     }
 
     private void initMessage() {
-        System.out.println("=== Voucher Program ===");
         System.out.println("Type **exit** to exit the program.");
         System.out.println("Type **create** to create a new voucher.");
         System.out.println("Type **list** to list all vouchers.");
@@ -46,31 +52,65 @@ public class ConsoleService {
     private void createVoucher() {
         System.out.println();
         System.out.println("***VoucherType VoucherName DiscountNum***");
+        System.out.println("Enter the voucher information.");
 
-        sc.nextLine();
-        String[] voucher = sc.nextLine().split(" ");
+        System.out.print("VoucherType(1 <- FixedAmountVoucher, 2 <- PercentAmountVoucher): ");
+        String voucherType = sc.next();
 
-        if (voucher.length != 3 || !voucher[2].matches("[0-9]"))
-            throw new IllegalArgumentException();
+        if (voucherType.equals("1")) voucherType = "FixedAmountVoucher";
+        else if (voucherType.equals("2")) voucherType = "PercentDiscountVoucher";
+        else {
+            logger.error(MessageFormat.format
+                    ("wrong input at voucherType -> {0}", voucherType));
+            System.out.println();
+            return;
+        }
+        System.out.println();
 
-        String voucherType = voucher[0];
-        String voucherName = voucher[1];
-        int discountNum = Integer.parseInt(voucher[2]);
+        System.out.print("VoucherName: ");
+        String voucherName = sc.next();
+
+        if (voucherName.length() == 0) {
+            logger.error("empty input at voucherName");
+            System.out.println();
+            return;
+        }
+        System.out.println();
+
+        System.out.print("DiscountNum: ");
+        String temp = sc.next();
+        if (!temp.matches("[0-9]")) {
+            logger.error(MessageFormat.format
+                    ("wrong input at discountNum -> {0}", temp));
+            System.out.println();
+            return;
+        }
+
+        int discountNum = Integer.parseInt(temp);
+        System.out.println();
 
         if (voucherType.equalsIgnoreCase("FixedAmountVoucher")) {
-            if (discountNum < 0) throw new IllegalArgumentException();
+            if (discountNum < 1) {
+                logger.error(MessageFormat.format
+                        ("wrong input at discountNum -> {0}", discountNum));
+                System.out.println();
+                return;
+            }
             voucherRepository.save(
                     new FixedAmountVoucher(
                             UUID.randomUUID(), discountNum, voucherName
                     ));
-        } else if (voucherType.equalsIgnoreCase("PercentDiscountVoucher")) {
-            if (discountNum < 1 || discountNum > 100) throw new IllegalArgumentException();
+        } else {
+            if (discountNum < 1 || discountNum > 100) {
+                logger.error(MessageFormat.format
+                        ("wrong input at discountNum -> {0}", discountNum));
+                System.out.println();
+                return;
+            }
             voucherRepository.save(
                     new PercentAmountVoucher(
                             UUID.randomUUID(), discountNum, voucherName
                     ));
-        } else {
-            throw new IllegalArgumentException();
         }
         System.out.println("Voucher Created");
         System.out.println();
