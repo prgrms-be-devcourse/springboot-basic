@@ -11,8 +11,8 @@
 
     -
   참고: [https://dzone.com/articles/interactive-console-applications-in-java](https://dzone.com/articles/interactive-console-applications-in-java)
-    - [ ] 스프링부트 애플리케이션으로 만든다. (Web기능이 없이만듭니다. 즉, 서버가 띄지 않고 커맨드라인 애플리케이션으로 동작해야한다.)
-    - [ ] 프로그램이 시작하면 다음과 같이 지원가능한 명령어를 알려준다.
+    - [x] 스프링부트 애플리케이션으로 만든다. (Web기능이 없이만듭니다. 즉, 서버가 띄지 않고 커맨드라인 애플리케이션으로 동작해야한다.)
+    - [x] 프로그램이 시작하면 다음과 같이 지원가능한 명령어를 알려준다.
 
   ```bash
   === Voucher Program ===
@@ -21,7 +21,7 @@
   Type **list** to list all vouchers.
   ```
 
-    - [ ] create / list 커맨드를 지원한다.
+    - [x] create / list 커맨드를 지원한다.
         - create 커맨드를 통해 바우처를 생성할수 있다. (FixedAmountVoucher, PercentDiscountVoucher)
         - list 커맨드를 통해 만들어진 바우처를 조회할 수 있다.
         - 바우처 정보를 매모리에 관리한다. 어플리케이션이 종료가 되어 데이터가 모두 사라져도 괜찮습니다. (나중에 영속성을 가지도록 변경할거에요 걱정마세요!)
@@ -40,22 +40,21 @@
 
 ### 구현해야 할 기능 목록
 
-- [ ] 입력
-    - [ ] 메뉴 커맨드
-        - [ ] Enum으로 관리
-            - [ ] create 커맨드
+- [x] 입력
+    - [x] 메뉴 커맨드
+        - [x] Enum으로 관리
+            - [x] create 커맨드
                 - [x] FixedAmountVoucher
                     - [x] 할인 금액
+                        - [x] 0이하일 경우
+                - [x] PercentDiscountVoucher
+                    - [x] 할인 퍼센트
                         - [x] 0일 경우 예외 발생
-                - [ ] PercentDiscountVoucher
-                    - [ ] 할인 퍼센트
-                        - [ ] 0일 경우 예외 발생
-        - [ ] 입력이 잘못되면 예외 발생
+        - [x] 입력이 잘못되면 예외 발생
 
-- [ ] 출력
-    - [ ] 바우처 조회
+- [x] 출력
+    - [x] 바우처 조회
 
-- [ ] 바우처
-    - [ ] 원하는 바우처로 생성
-        - [ ] 
-    - [ ] 바우처 정보 저장
+- [x] 바우처
+    - [x] 원하는 바우처로 생성
+    - [x] 바우처 정보 저장
