@@ -23,4 +23,5 @@ public class VoucherService {
     public void useVoucher(Voucher voucher) {
 
     }
+
 }

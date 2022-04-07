@@ -1,9 +1,11 @@
 package org.prgrms.deukyun.voucherapp;
 
+import org.prgrms.deukyun.voucherapp.context.OrderContext;
 import org.prgrms.deukyun.voucherapp.entity.FixedAmountVoucher;
 import org.prgrms.deukyun.voucherapp.entity.Order;
 import org.prgrms.deukyun.voucherapp.entity.OrderItem;
 import org.prgrms.deukyun.voucherapp.entity.Voucher;
+import org.prgrms.deukyun.voucherapp.service.OrderService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +13,7 @@ import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,14 +27,13 @@ public class VoucherAppApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		UUID customerId = UUID.randomUUID();
-		List<OrderItem> orderItems = new ArrayList<>() {{
-			add(new OrderItem(UUID.randomUUID(), 100L, 1));
-		}};
 
-		Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+		OrderContext orderContext = new OrderContext();
+		OrderService orderService = orderContext.orderService();
 
-		Order order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
+		List<OrderItem> orderItems = Arrays.asList(new OrderItem(UUID.randomUUID(), 100L, 1));
+		Order order = orderService.createOrder(customerId, orderItems);
 
-		Assert.isTrue(order.totalAmount() == 90L, MessageFormat.format("totalAmount {0}", order.totalAmount()));
+		Assert.isTrue(order.totalAmount() == 100L, MessageFormat.format("totalAmount {0}", order.totalAmount()));
 	}
 }
