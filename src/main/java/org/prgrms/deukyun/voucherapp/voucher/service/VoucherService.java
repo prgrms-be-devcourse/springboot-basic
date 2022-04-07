@@ -22,8 +22,4 @@ public class VoucherService {
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public void useVoucher(Voucher voucher) {
-
-    }
-
 }

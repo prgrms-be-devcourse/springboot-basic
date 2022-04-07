@@ -21,7 +21,6 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-
     public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
         Order order = new Order(UUID.randomUUID(), customerId, orderItems);
         return orderRepository.insert(order);
@@ -31,7 +30,6 @@ public class OrderService {
         Voucher voucher = voucherService.getVoucher(voucherId);
         Order order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
         orderRepository.insert(order);
-        voucherService.useVoucher(voucher);
         return order;
     }
 }
