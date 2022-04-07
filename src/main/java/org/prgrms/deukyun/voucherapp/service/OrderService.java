@@ -4,10 +4,12 @@ import org.prgrms.deukyun.voucherapp.entity.Order;
 import org.prgrms.deukyun.voucherapp.entity.OrderItem;
 import org.prgrms.deukyun.voucherapp.entity.Voucher;
 import org.prgrms.deukyun.voucherapp.repository.OrderRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OrderService {
 
     private final VoucherService voucherService;
@@ -21,8 +23,7 @@ public class OrderService {
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
         Order order = new Order(UUID.randomUUID(), customerId, orderItems);
-        orderRepository.insert(order);
-        return order;
+        return orderRepository.insert(order);
     }
 
     public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {

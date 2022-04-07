@@ -26,6 +26,10 @@ public class Order {
         this.voucher =Optional.empty();
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }

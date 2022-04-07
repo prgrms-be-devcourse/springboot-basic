@@ -2,10 +2,12 @@ package org.prgrms.deukyun.voucherapp.service;
 
 import org.prgrms.deukyun.voucherapp.entity.Voucher;
 import org.prgrms.deukyun.voucherapp.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
