@@ -1,24 +1,18 @@
 package org.prgrms.vouchermanager.console;
 
+import org.springframework.stereotype.Component;
+
 import java.io.*;
 
+@Component
 public class Console implements Input, Output {
 
     private final BufferedReader br;
     private final BufferedWriter bw;
-    private boolean initialized = false;
 
     public Console(InputStream is, PrintStream ps) {
         this.br = new BufferedReader(new InputStreamReader(is));
         this.bw = new BufferedWriter(new OutputStreamWriter(ps));
-        init();
-    }
-
-    private void init() {
-        if (initialized) return;
-        String message = "Initialize message..";
-        print(message);
-        initialized = true;
     }
 
     @Override
@@ -35,6 +29,7 @@ public class Console implements Input, Output {
     public void print(String message) {
         try {
             bw.write(message);
+            bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

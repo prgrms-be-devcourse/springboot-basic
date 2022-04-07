@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanager.voucher;
 
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends AbstractVoucher {
@@ -7,7 +8,7 @@ public class PercentDiscountVoucher extends AbstractVoucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        super(voucherId);
+        super(voucherId, VoucherType.PERCENT);
         this.percent = percent;
     }
 
@@ -20,6 +21,7 @@ public class PercentDiscountVoucher extends AbstractVoucher {
     public String toString() {
         return "PercentDiscountVoucher{" +
                 "voucherId+" + getVoucherId() +
+                "voucherType" + getVoucherType() +
                 "percent=" + percent +
                 '}';
     }

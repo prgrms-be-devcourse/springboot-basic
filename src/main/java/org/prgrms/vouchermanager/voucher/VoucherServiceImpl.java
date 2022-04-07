@@ -1,8 +1,11 @@
 package org.prgrms.vouchermanager.voucher;
 
+import org.springframework.stereotype.Service;
+
 import java.text.MessageFormat;
 import java.util.UUID;
 
+@Service
 public class VoucherServiceImpl implements VoucherService {
 
     private final VoucherRepository voucherRepository;
@@ -12,7 +15,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Voucher createVoucher(String type, long amount) {
+    public Voucher createVoucher(VoucherType type, long amount) {
         Voucher voucher = VoucherFactory.getVoucher(type, amount);
         voucherRepository.insert(voucher);
         return voucher;
