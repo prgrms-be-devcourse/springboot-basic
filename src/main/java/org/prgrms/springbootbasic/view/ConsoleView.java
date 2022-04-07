@@ -1,8 +1,23 @@
 package org.prgrms.springbootbasic.view;
 
-import java.util.ArrayList;
+import static org.prgrms.springbootbasic.view.ConstantString.AMOUNT;
+import static org.prgrms.springbootbasic.view.ConstantString.CREATE;
+import static org.prgrms.springbootbasic.view.ConstantString.EXIT;
+import static org.prgrms.springbootbasic.view.ConstantString.LIST;
+import static org.prgrms.springbootbasic.view.ConstantString.PERCENT;
+import static org.prgrms.springbootbasic.view.ConstantString.SELECT_AMOUNT;
+import static org.prgrms.springbootbasic.view.ConstantString.SELECT_MENU;
+import static org.prgrms.springbootbasic.view.ConstantString.SELECT_PERCENT;
+import static org.prgrms.springbootbasic.view.ConstantString.SELECT_VOUCHER_TYPE;
+import static org.prgrms.springbootbasic.view.ConstantString.TO_CREATE_A_NEW_VOUCHER;
+import static org.prgrms.springbootbasic.view.ConstantString.TO_EXIT_THE_PROGRAM;
+import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_VOUCHERS;
+import static org.prgrms.springbootbasic.view.ConstantString.TYPE;
+import static org.prgrms.springbootbasic.view.ConstantString.VOUCHER_ID;
+import static org.prgrms.springbootbasic.view.ConstantString.VOUCHER_LIST;
+import static org.prgrms.springbootbasic.view.ConstantString.VOUCHER_PROGRAM;
+
 import java.util.List;
-import java.util.UUID;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -17,103 +32,81 @@ public class ConsoleView {
 
     private final TextIO textIO = TextIoFactory.getTextIO();
 
-    public static void main(String[] args) {
-        ConsoleView consoleView = new ConsoleView();
-        consoleView.printMenu();
-        Menu menu = consoleView.inputMenu();
-
-        if (menu == Menu.CREATE) {
-            VoucherType voucherType = consoleView.selectVoucherType();
-            if (voucherType == VoucherType.FIXED) {
-                long amount = consoleView.selectAmount();
-                System.out.println("amount= " + amount);
-            } else {
-                int percent = consoleView.selectPercent();
-                System.out.println("percent= " + percent);
-            }
-        }
-        if (menu == Menu.LIST) {
-            List<Voucher> vouchers = new ArrayList<>();
-            vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), 10L));
-            vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), 10));
-
-            consoleView.printList(vouchers);
-        }
-        if (menu == Menu.EXIT) {
-            System.out.println(menu);
-        }
-    }
-
     public void printMenu() {
         TextTerminal<?> terminal = textIO.getTextTerminal();
-        terminal.println("=== Voucher Program ===");
-        terminal.print("Type ");
+        terminal.println(VOUCHER_PROGRAM);
+        terminal.print(TYPE);
         terminal.executeWithPropertiesConfigurator(
             props -> props.setPromptBold(true),
-            t -> t.print("exit"));
-        terminal.println(" to exit the program.");
+            t -> t.print(EXIT));
+        terminal.println(TO_EXIT_THE_PROGRAM);
 
-        terminal.print("Type ");
+        terminal.print(TYPE);
         terminal.executeWithPropertiesConfigurator(
             props -> props.setPromptBold(true),
-            t -> t.print("create"));
-        terminal.println(" to create a new voucher.");
+            t -> t.print(CREATE));
+        terminal.println(TO_CREATE_A_NEW_VOUCHER);
 
-        terminal.print("Type ");
+        terminal.print(TYPE);
         terminal.executeWithPropertiesConfigurator(
             props -> props.setPromptBold(true),
-            t -> t.print("list"));
-        terminal.println(" to list all vouchers.");
+            t -> t.print(LIST));
+        terminal.println(TO_LIST_ALL_VOUCHERS);
 
         terminal.println();
     }
 
     public Menu inputMenu() {
         Menu menu = textIO.newEnumInputReader(Menu.class)
-            .read("select menu");
+            .read(SELECT_MENU);
         textIO.getTextTerminal().println();
         return menu;
     }
 
     public VoucherType selectVoucherType() {
         VoucherType voucherType = textIO.newEnumInputReader(VoucherType.class)
-            .read("select voucher type");
+            .read(SELECT_VOUCHER_TYPE);
         textIO.getTextTerminal().println();
         return voucherType;
     }
 
     public long selectAmount() {
         long amount = textIO.newLongInputReader()
-            .read("select amount");
+            .read(SELECT_AMOUNT);
         textIO.getTextTerminal().println();
         return amount;
     }
 
     public int selectPercent() {
         int percent = textIO.newIntInputReader()
-            .read("select percent");
+            .withMaxVal(100)
+            .read(SELECT_PERCENT);
         textIO.getTextTerminal().println();
         return percent;
     }
 
     public void printList(List<Voucher> vouchers) {
         TextTerminal<?> terminal = textIO.getTextTerminal();
-        terminal.println("==Voucher List==");
+        terminal.println(VOUCHER_LIST);
         terminal.println();
 
         for (Voucher voucher : vouchers) {
-            if (voucher.getClass() == FixedAmountVoucher.class) {
-                var fixedAmountVoucher = (FixedAmountVoucher) voucher;
-                terminal.println("voucherId= " + fixedAmountVoucher.getVoucherId() + ", amount= "
-                    + fixedAmountVoucher.getAmount());
-            }
-            if (voucher.getClass() == PercentDiscountVoucher.class) {
-                var percentDiscountVoucher = (PercentDiscountVoucher) voucher;
-                terminal.println("voucherId= " + voucher.getVoucherId() + ", percent= "
-                    + percentDiscountVoucher.getPercent());
-            }
+            printVoucher(terminal, voucher);
         }
         terminal.println();
+    }
+
+    private void printVoucher(TextTerminal<?> terminal, Voucher voucher) {
+        terminal.print(VOUCHER_ID + voucher.getVoucherId());
+
+        if (voucher.getClass() == FixedAmountVoucher.class) {
+            var fixedAmountVoucher = (FixedAmountVoucher) voucher;
+            terminal.println(AMOUNT + fixedAmountVoucher.getAmount());
+        }
+        if (voucher.getClass() == PercentDiscountVoucher.class) {
+            var percentDiscountVoucher = (PercentDiscountVoucher) voucher;
+            terminal.println(PERCENT + percentDiscountVoucher.getPercent());
+        }
     }
 
 }
