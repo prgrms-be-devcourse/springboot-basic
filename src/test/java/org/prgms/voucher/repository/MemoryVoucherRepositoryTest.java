@@ -14,7 +14,7 @@ import org.prgms.voucher.exception.WrongDiscountPercentException;
 
 class MemoryVoucherRepositoryTest {
 
-    VoucherRepository repository = new MemoryVoucherRepository();
+    VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
     @DisplayName("Voucher를 저장한다.")
     @Test
@@ -22,10 +22,10 @@ class MemoryVoucherRepositoryTest {
         // given
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
         // when
-        Voucher insertVoucher = repository.save(voucher);
+        Voucher saveVoucher = voucherRepository.save(voucher);
         // then
-        assertThat(voucher).isEqualTo(insertVoucher);
-        assertThat(repository.findAll()).hasSize(1)
+        assertThat(saveVoucher).isEqualTo(voucher);
+        assertThat(voucherRepository.findAll()).hasSize(1)
             .contains(voucher);
     }
 
@@ -36,10 +36,10 @@ class MemoryVoucherRepositoryTest {
         Voucher voucherOne = new FixedAmountVoucher(UUID.randomUUID(), 20);
         Voucher voucherTwo = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         // when
-        repository.save(voucherOne);
-        repository.save(voucherTwo);
+        voucherRepository.save(voucherOne);
+        voucherRepository.save(voucherTwo);
         // then
-        assertThat(repository.findAll()).hasSize(2)
+        assertThat(voucherRepository.findAll()).hasSize(2)
             .contains(voucherOne, voucherTwo);
     }
 }
