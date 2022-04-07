@@ -6,7 +6,9 @@ import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;

@@ -10,7 +10,9 @@ import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.service.VoucherType;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleView {
 
     private final TextIO textIO = TextIoFactory.getTextIO();

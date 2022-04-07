@@ -6,7 +6,9 @@ import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.service.VoucherType;
 import org.prgrms.springbootbasic.view.ConsoleView;
 import org.prgrms.springbootbasic.view.Menu;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class VoucherController {
 
     private final VoucherService voucherService;
