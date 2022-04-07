@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@ComponentScan(basePackages = {"org.prgrms.deukyun.voucherapp.repository", "org.prgrms.deukyun.voucherapp.service"})
+@ComponentScan(basePackages = {"org.prgrms.deukyun.voucherapp.order", "org.prgrms.deukyun.voucherapp.voucher", "org.prgrms.deukyun.voucherapp.config"})
 @PropertySource("application.properties")
 public class AppConfig {
 }

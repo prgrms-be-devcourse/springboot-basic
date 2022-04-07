@@ -11,7 +11,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
@@ -22,24 +24,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Configuration
+@ComponentScan(basePackages = {"org.prgrms.deukyun.voucherapp.order", "org.prgrms.deukyun.voucherapp.voucher", "org.prgrms.deukyun.voucherapp.config"})
 @SpringBootApplication
-public class VoucherAppApplication implements CommandLineRunner {
+public class VoucherAppApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(VoucherAppApplication.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-        Environment environment = ac.getEnvironment();
-        String version = environment.getProperty("kdt.version");
-        List supportVendors = environment.getProperty("kdt.support-vendors", List.class);
-        Integer minimumOrderAmount = environment.getProperty("kdt.minimum-order-amount", Integer.class);
-        System.out.println(MessageFormat.format("version -> {0}", version));
-        System.out.println(MessageFormat.format("supportVendors -> {0}", supportVendors));
-        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", minimumOrderAmount));
-
+        ApplicationContext ac = SpringApplication.run(VoucherAppApplication.class, args);
         UUID customerId = UUID.randomUUID();
 
         VoucherRepository voucherRepository = ac.getBean(VoucherRepository.class);
