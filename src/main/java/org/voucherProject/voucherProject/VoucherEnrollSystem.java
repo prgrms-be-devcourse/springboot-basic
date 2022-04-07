@@ -1,0 +1,81 @@
+package org.voucherProject.voucherProject;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.voucherProject.voucherProject.controller.VoucherController;
+import org.voucherProject.voucherProject.entity.voucher.Voucher;
+import org.voucherProject.voucherProject.entity.voucher.VoucherType;
+import org.voucherProject.voucherProject.io.Console;
+import org.voucherProject.voucherProject.service.InputCommend;
+import java.util.List;
+import java.util.Optional;
+
+
+@Slf4j
+@RequiredArgsConstructor
+@Component
+public class VoucherEnrollSystem implements Runnable {
+
+    private final Console console;
+    private final VoucherController voucherController;
+
+    @Override
+    public void run() {
+        while (true) {
+            String inputString = console.input("\nType exit to exit the program.\n" +
+                    "Type create to create a new voucher.\n" +
+                    "Type list to list all vouchers");
+            try {
+                if (exitSystem(inputString)) break;
+                if (createVoucher(inputString)) continue;
+                showAllVoucherList(inputString);
+            } catch (RuntimeException e) {
+                console.errorMessage();
+                continue;
+            }
+        }
+    }
+
+    private boolean exitSystem(String inputString) {
+        if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.EXIT)))) {
+            console.endMessage();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean createVoucher(String inputString) {
+        if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.CREATE)))) {
+            String inputVoucherType = console.input("\n1. FixedAmountVoucher\n2. PercentDiscountVoucher");
+            Optional<VoucherType> voucherType = voucherType(inputVoucherType);
+            long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
+            // 여기서 할인 수치에 대한 검증?
+            // Fixed와 Percent에 영향이 다르므로 각자의 Entity에서 직접 검증을 하는게 좋지 않을까?
+            // ex) @MIN, @MAX?
+            voucherController.createVoucher(voucherType.get(), inputDiscountAmount);
+            console.completeMessage();
+        }
+        return false;
+    }
+
+    private void showAllVoucherList(String inputString) {
+        if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.LIST)))) {
+            List<Voucher> vouchers = voucherController.findAll();
+            vouchers.forEach(voucher -> System.out.println("voucher = " + voucher));
+        }
+    }
+
+    private Optional<VoucherType> voucherType(String inputVoucherType) {
+        Optional<VoucherType> voucherType = Optional.empty();
+        int inputVoucherTypeInt = Integer.parseInt(inputVoucherType);
+
+        if (inputVoucherTypeInt == VoucherType.FIXED.getNumber()) {
+            voucherType = Optional.of(VoucherType.FIXED);
+        }
+        if (inputVoucherTypeInt == VoucherType.PERCENT.getNumber()) {
+            voucherType = Optional.of(VoucherType.PERCENT);
+        }
+        return voucherType;
+    }
+}
