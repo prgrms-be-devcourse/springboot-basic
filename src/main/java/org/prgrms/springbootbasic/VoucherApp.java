@@ -6,8 +6,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class VoucherApp {
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-            VoucherConfig.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(VoucherConfig.class);
+        context.getEnvironment().setActiveProfiles("dev");
+        context.refresh();
+
         context.getBean(VoucherController.class).run();
         context.close();
     }
