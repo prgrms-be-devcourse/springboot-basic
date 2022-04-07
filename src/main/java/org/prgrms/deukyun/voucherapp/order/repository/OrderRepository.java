@@ -7,5 +7,6 @@ import org.prgrms.deukyun.voucherapp.order.entity.Order;
  */
 //TODO findAll 메서드 추가, 테스트 코드
 public interface OrderRepository {
+
     Order insert(Order order);
 }

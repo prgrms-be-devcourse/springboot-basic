@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Component
 public class VoucherAppRunner {
+
     private final OrderService orderService;
     private final VoucherService voucherService;
     private final List<Menu> menus;

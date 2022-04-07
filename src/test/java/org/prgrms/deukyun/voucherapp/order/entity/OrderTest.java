@@ -18,6 +18,7 @@ class OrderTest {
 
     @Nested
     class constructorTest {
+
         @Test
         void givenTwoOrderItemsAnyVoucher_whenConstructOrder_thenOrderCreated() {
             //setup
@@ -34,7 +35,7 @@ class OrderTest {
         }
 
         @Test
-        void givenNullVoucher_whenConstructOrder_thenOrderCreated(){
+        void givenNullVoucher_whenConstructOrder_thenOrderCreated() {
             //setup
             List<OrderItem> orderItems = new ArrayList<>();
             Voucher voucher = null;
@@ -60,10 +61,10 @@ class OrderTest {
     }
 
     @Nested
-    class totalPriceTest{
+    class totalPriceTest {
 
         @Test
-        void givenEmptyOrderItemsNoVoucher_whenCallTotalPrice_thenReturnsZero(){
+        void givenEmptyOrderItemsNoVoucher_whenCallTotalPrice_thenReturnsZero() {
             //setup
             Order order = new Order(customerId, new ArrayList<>(), mock(Voucher.class));
 
@@ -75,7 +76,7 @@ class OrderTest {
         }
 
         @Test
-        void givenOneOrderItemNullVoucher_whenCallTotalPrice_thenReturnsTotalPriceOfGivenOrderItems(){
+        void givenOneOrderItemNullVoucher_whenCallTotalPrice_thenReturnsTotalPriceOfGivenOrderItems() {
             //setup
             List<OrderItem> orderItems = new ArrayList<>();
             OrderItem orderItem = mock(OrderItem.class);

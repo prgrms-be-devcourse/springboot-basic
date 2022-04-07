@@ -21,16 +21,16 @@ public class VoucherApp {
         logger.info("app launched");
         boolean isBreak = false;
         do {
-            try{
+            try {
                 voucherAppRunner.run();
                 isBreak = voucherAppRunner.isExit();
-            }catch (RuntimeException ex){
+            } catch (RuntimeException ex) {
                 System.out.println(ex.getMessage());
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 System.out.println("알 수 없는 에러 발생. 프로그램 종료");
                 isBreak = true;
             }
-        }while(!isBreak);
+        } while (!isBreak);
     }
 
 

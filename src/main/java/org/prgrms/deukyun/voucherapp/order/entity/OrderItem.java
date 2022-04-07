@@ -16,7 +16,7 @@ public class OrderItem {
     public OrderItem(UUID productId, long productPrice, int quantity) {
         checkArgument(productId != null, "productId must be provided.");
         checkArgument(
-                productPrice > 0 && productPrice< 10_000_000,
+                productPrice > 0 && productPrice < 10_000_000,
                 "productPrice must be between 0 and 10_000_000 exclusive."
         );
         checkArgument(

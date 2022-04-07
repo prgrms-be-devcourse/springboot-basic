@@ -31,10 +31,9 @@ public class FixedAmountDiscountVoucher implements Voucher {
         return beforeDiscountPrice - amount;
     }
 
-    private void checkDiscountApplicable(long beforeDiscountPrice){
-        if(beforeDiscountPrice - amount < 0){
+    private void checkDiscountApplicable(long beforeDiscountPrice) {
+        if (beforeDiscountPrice - amount < 0) {
             throw new IllegalArgumentException("discounted price must be positive");
         }
     }
-
 }

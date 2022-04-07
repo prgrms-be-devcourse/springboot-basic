@@ -12,11 +12,12 @@ import static com.google.common.base.Preconditions.checkArgument;
  * 주문
  */
 public class Order {
+
     private final UUID id;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
-    private Optional<Voucher> voucher;
-    private OrderStatus orderStatus;
+    private final Optional<Voucher> voucher;
+    private final OrderStatus orderStatus;
 
     public Order(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
         checkArgument(customerId != null, "customerId must be provided.");

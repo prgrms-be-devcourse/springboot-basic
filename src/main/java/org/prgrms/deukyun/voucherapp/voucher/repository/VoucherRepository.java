@@ -10,6 +10,7 @@ import java.util.UUID;
  */
 //TODO findAll 메서드 추가, 테스트 코드
 public interface VoucherRepository {
+
     Optional<Voucher> findById(UUID voucherId);
 
     Voucher insert(Voucher voucher);

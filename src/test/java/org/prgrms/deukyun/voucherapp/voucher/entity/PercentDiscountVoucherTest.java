@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class PercentDiscountVoucherTest {
 
-
     @Test
     void givenPercent20_whenConstructPDV_thenIsCreated() {
         //setup
@@ -47,5 +46,4 @@ class PercentDiscountVoucherTest {
         //assert
         assertThat(discountedPrice).isEqualTo(800L);
     }
-
 }
