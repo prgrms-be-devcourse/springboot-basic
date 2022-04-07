@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 주문 서비스
+ */
 @Service
 public class OrderService {
 
@@ -21,11 +24,26 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
+
+    /**
+     * 주문 생성 바우처가 없는 경우
+     *
+     * @param customerId
+     * @param orderItems
+     * @return 주문객체
+     */
     public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
-        Order order = new Order(UUID.randomUUID(), customerId, orderItems);
-        return orderRepository.insert(order);
+        return createOrder(customerId, orderItems, null);
     }
 
+    /**
+     * 주문 생성 바우처를 가진 경우
+     *
+     * @param customerId
+     * @param orderItems
+     * @param voucherId
+     * @return 주문객체
+     */
     public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
         Voucher voucher = voucherService.getVoucher(voucherId);
         Order order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);

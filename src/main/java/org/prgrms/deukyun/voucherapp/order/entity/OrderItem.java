@@ -2,6 +2,9 @@ package org.prgrms.deukyun.voucherapp.order.entity;
 
 import java.util.UUID;
 
+/**
+ * 주문 상품
+ */
 public class OrderItem {
 
     private final UUID productId;

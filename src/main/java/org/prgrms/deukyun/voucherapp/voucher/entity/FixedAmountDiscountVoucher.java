@@ -2,12 +2,15 @@ package org.prgrms.deukyun.voucherapp.voucher.entity;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+/**
+ * 정액 할인 바우처
+ */
+public class FixedAmountDiscountVoucher implements Voucher {
 
     private final UUID id;
     public final long amount;
 
-    public FixedAmountVoucher(UUID id, long amount) {
+    public FixedAmountDiscountVoucher(UUID id, long amount) {
         this.id = id;
         this.amount = amount;
     }

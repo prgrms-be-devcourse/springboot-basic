@@ -8,6 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 메모리 바우처 리포지토리
+ */
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 

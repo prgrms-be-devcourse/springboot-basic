@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 메모리 주문 리포지토리
+ */
 @Repository
 public class MemoryOrderRepository implements OrderRepository {
 

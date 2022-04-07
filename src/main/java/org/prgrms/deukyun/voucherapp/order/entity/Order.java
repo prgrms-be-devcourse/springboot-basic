@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * 주문
+ */
 public class Order {
     private final UUID id;
     private final UUID customerId;
@@ -21,22 +24,14 @@ public class Order {
         this.orderStatus = OrderStatus.ACCEPTED;
     }
 
-    public Order(UUID id, UUID customerId, List<OrderItem> orderItems) {
-        this.id = id;
-        this.customerId = customerId;
-        this.orderItems = orderItems;
-        this.voucher = Optional.empty();
-    }
-
     public UUID getId() {
         return id;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public long totalAmount() {
+    /**
+     * @return 주문의 전체 가격
+     */
+    public long totalPrice() {
         Long beforeDiscount = orderItems.stream()
                 .map(oi -> oi.getProductPrice() * oi.getQuantity())
                 .reduce(0L, Long::sum);

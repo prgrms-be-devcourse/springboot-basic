@@ -2,6 +2,9 @@ package org.prgrms.deukyun.voucherapp.voucher.entity;
 
 import java.util.UUID;
 
+/**
+ * 정률 할인 바우처
+ */
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID id;
