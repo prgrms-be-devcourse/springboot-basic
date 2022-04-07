@@ -11,7 +11,7 @@ import org.programmers.devcourse.voucher.engine.MenuSelection;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher.Type;
+import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,14 +35,14 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public Type getVoucherType() throws IOException {
-    Optional<Type> voucherType;
+  public VoucherType getVoucherType() throws IOException {
+    Optional<VoucherType> voucherType;
     while (true) {
       System.out.println("== Create ==");
       System.out.println("Select type of voucher");
       System.out.println("FixedAmountVoucher --> type 1");
       System.out.println("PercentDiscountVoucher --> type 2");
-      voucherType = Voucher.Type.from(br.readLine());
+      voucherType = VoucherType.from(br.readLine());
       if (voucherType.isPresent()) {
         return voucherType.get();
       }
@@ -51,7 +51,7 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public long getVoucherDiscountData(Type voucherType) throws IOException {
+  public long getVoucherDiscountData(VoucherType voucherType) throws IOException {
     long discountData = Long.MIN_VALUE;
     while (discountData == Long.MIN_VALUE) {
       System.out.print(
@@ -63,7 +63,7 @@ public class Console implements Input, Output {
         }
 
       } catch (NumberFormatException e) {
-        System.out.println("Only positive long accepted");
+        System.out.println("Only positive integer accepted");
       }
     }
     return discountData;

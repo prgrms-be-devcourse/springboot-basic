@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher.Type;
+import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherType;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +18,7 @@ public class VoucherService {
     this.voucherRepository = voucherRepository;
   }
 
-  public UUID create(Type voucherType, long voucherDiscountData)
+  public UUID create(VoucherType voucherType, long voucherDiscountData)
       throws VoucherException, ReflectiveOperationException {
     var voucherClass = voucherType.getVoucherClass();
 

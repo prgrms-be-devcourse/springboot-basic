@@ -8,13 +8,17 @@ import org.programmers.devcourse.voucher.engine.exception.NoSuchOptionException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher;
+import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherType;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherService;
+import org.programmers.devcourse.voucher.util.ExceptionFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Demo {
 
+  private static final Logger logger = LoggerFactory.getLogger(Demo.class);
   private final Input input;
   private final Output output;
   private final VoucherService voucherService;
@@ -28,7 +32,7 @@ public class Demo {
 
 
   public void start() {
-
+    logger.info("User started application");
     try (input; output) {
 
       while (true) {
@@ -37,7 +41,8 @@ public class Demo {
           switch (optionalSelection.orElseThrow(
               NoSuchOptionException::new)) {
             case EXIT:
-              output.print("Good Bye");
+              logger.info("User shut down application");
+              output.print("=====Good Bye=====");
               return;
             case CREATE:
               createVoucher();
@@ -52,8 +57,9 @@ public class Demo {
       }
     } catch (Exception e) {
       // VoucherException 외 치명적 오류 (파일로 보관 예정)
-      e.printStackTrace();
-      output.print("[ERROR]: terminating application");
+      logger.error(
+          ExceptionFormatter.formatExceptionForLogger(e));
+      output.print("ERROR : Terminating Process");
     }
 
   }
@@ -66,7 +72,7 @@ public class Demo {
 
   private void createVoucher() throws IOException, VoucherException, ReflectiveOperationException {
     // 사용자로 부터 바우처 타입을 입력 받는다.
-    Voucher.Type voucherType = input.getVoucherType();
+    VoucherType voucherType = input.getVoucherType();
     long voucherDiscountData = input.getVoucherDiscountData(voucherType);
 
     UUID voucherId = voucherService.create(voucherType, voucherDiscountData);

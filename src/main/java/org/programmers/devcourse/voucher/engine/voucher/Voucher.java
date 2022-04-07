@@ -14,24 +14,24 @@ public interface Voucher {
 
   long discount(long beforeDiscount);
 
-  enum Type {
+  enum VoucherType {
     FIXED_AMOUNT("1", FixedAmountVoucher.class, "$"), PERCENT_DISCOUNT("2",
         PercentDiscountVoucher.class, "%");
 
-    private static final Map<String, Type> mapper = Collections.unmodifiableMap(
+    private static final Map<String, VoucherType> mapper = Collections.unmodifiableMap(
         Stream.of(values()).collect(Collectors.toMap(value -> value.id, value -> value)));
     private final String id;
     private final Class<? extends Voucher> voucherClass;
     private final String unit;
 
 
-    Type(String id, Class<? extends Voucher> voucherClass, String unit) {
+    VoucherType(String id, Class<? extends Voucher> voucherClass, String unit) {
       this.id = id;
       this.voucherClass = voucherClass;
       this.unit = unit;
     }
 
-    public static Optional<Type> from(String candidate) {
+    public static Optional<VoucherType> from(String candidate) {
 
       return Optional.ofNullable(mapper.get(candidate));
     }
