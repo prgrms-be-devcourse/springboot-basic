@@ -19,7 +19,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public String getVouchersLists() {
+    public String allVouchersToString() {
         StringBuilder sb = new StringBuilder();
         voucherRepository.getAll().forEach(v -> sb.append(sb).append("\n"));
         return sb.toString();
