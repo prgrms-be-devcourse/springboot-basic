@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * 주문
  */
@@ -17,10 +19,13 @@ public class Order {
     private OrderStatus orderStatus;
 
     public Order(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+        checkArgument(customerId != null, "customerId must be provided.");
+        checkArgument(orderItems != null, "orderItems must be provided.");
+
         this.id = UUID.randomUUID();
         this.customerId = customerId;
         this.orderItems = orderItems;
-        this.voucher = Optional.of(voucher);
+        this.voucher = Optional.ofNullable(voucher);
         this.orderStatus = OrderStatus.ACCEPTED;
     }
 
@@ -33,8 +38,12 @@ public class Order {
      */
     public long totalPrice() {
         Long beforeDiscount = orderItems.stream()
-                .map(oi -> oi.getProductPrice() * oi.getQuantity())
+                .map(OrderItem::getTotalPrice)
                 .reduce(0L, Long::sum);
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 }
