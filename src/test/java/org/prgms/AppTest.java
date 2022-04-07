@@ -1,15 +1,17 @@
 package org.prgms;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
+import org.prgms.user.User;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.Voucher;
 
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
+import java.util.Objects;
 import java.util.UUID;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for simple App.
@@ -46,8 +48,8 @@ public class AppTest
         File[] list = folder.listFiles();
         String pattern = "*.obj";
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
-        for(File filename : list){
-            if(matcher.matches(filename.toPath().getFileName())){
+        for (File filename : Objects.requireNonNull(list)) {
+            if (matcher.matches(filename.toPath().getFileName())) {
                 FileInputStream fis = new FileInputStream(filename);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 Object obj = ois.readObject();
@@ -55,5 +57,10 @@ public class AppTest
                 System.out.println(voucher.getVoucherId());
             }
         }
+    }
+
+    @Test
+    public void userTest() {
+        User user = new User("근오", "남", 30);
     }
 }

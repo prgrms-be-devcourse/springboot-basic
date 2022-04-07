@@ -1,43 +1,47 @@
 package org.prgms;
 
+import org.prgms.reader.CustomCsvReader;
+import org.prgms.reader.Reader;
 import org.prgms.service.VoucherService;
-import org.prgms.voucher.FixedAmountVoucher;
-import org.prgms.voucher.PercentDiscountVoucher;
+import org.prgms.user.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 /**
  * Hello world!
- *
  */
-public class CommandLineApplication
-{
-    private static Scanner scanner = new Scanner(System.in);
-    public static void main( String[] args )
-    {
+public class CommandLineApplication {
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         VoucherService service = context.getBean(VoucherService.class);
-        while(true){
-            printMessage();
-            String inputText = input();
-            if(inputText.equals("exit")){
-                return;
-            }
-            else if(inputText.equals("create")){
-                String num = inputVoucher();
-                if(num.equals("1")){
-                    service.createVoucher(new FixedAmountVoucher(10L, UUID.randomUUID()));
-                }
-                else{
-                    service.createVoucher(new PercentDiscountVoucher(10L, UUID.randomUUID()));
-                }
-            }
-            else if(inputText.equals("list")){
-                service.listVoucher();
-            }
-        }
+//        while(true){
+//            printMessage();
+//            String inputText = input();
+//            if(inputText.equals("exit")){
+//                return;
+//            }
+//            else if(inputText.equals("create")){
+//                String num = inputVoucher();
+//                if(num.equals("1")){
+//                    service.createVoucher(new FixedAmountVoucher(10L, UUID.randomUUID()));
+//                }
+//                else{
+//                    service.createVoucher(new PercentDiscountVoucher(10L, UUID.randomUUID()));
+//                }
+//            }
+//            else if(inputText.equals("list")){
+//                service.listVoucher();
+//            }
+//        }
+        Reader fileReader = new CustomCsvReader();
+        List<User> users = fileReader.readFile(context.getResource("customer_blacklist.csv").getFile());
+        System.out.println(users);
+
+
     }
     public static void printMessage(){
         System.out.println("=== Voucher Program ===");
