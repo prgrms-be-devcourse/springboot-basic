@@ -35,6 +35,6 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return String.format("PercentDiscountVoucher : voucherId=%s, discountPercent=%d", voucherId, discountPercent);
+        return String.format("%s\t%s\t%d%%", VoucherType.FIXED_AMOUNT.getVoucherName(), voucherId, discountPercent);
     }
 }

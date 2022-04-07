@@ -34,6 +34,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return String.format("FixedAmountVoucher : voucherId=%s, discountAmount=%d", voucherId, discountAmount);
+        return String.format("%s\t%s\t%d", VoucherType.FIXED_AMOUNT.getVoucherName(), voucherId, discountAmount);
     }
 }
