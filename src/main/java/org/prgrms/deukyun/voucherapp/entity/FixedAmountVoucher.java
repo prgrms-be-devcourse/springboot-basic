@@ -2,7 +2,7 @@ package org.prgrms.deukyun.voucherapp.entity;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher {
 
     private final UUID id;
     public final long amount;
@@ -18,7 +18,7 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public long discount(long beforeDiscount){
+    public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }
 

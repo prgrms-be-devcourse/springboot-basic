@@ -23,7 +23,7 @@ public class Order {
         this.id = id;
         this.customerId = customerId;
         this.orderItems = orderItems;
-        this.voucher =Optional.empty();
+        this.voucher = Optional.empty();
     }
 
     public UUID getId() {
@@ -34,9 +34,9 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public long totalAmount(){
-         Long beforeDiscount = orderItems.stream()
-                .map(oi-> oi.getProductPrice() * oi.getQuantity())
+    public long totalAmount() {
+        Long beforeDiscount = orderItems.stream()
+                .map(oi -> oi.getProductPrice() * oi.getQuantity())
                 .reduce(0L, Long::sum);
         return voucher.map(value -> value.discount(beforeDiscount)).orElse(beforeDiscount);
     }
