@@ -45,4 +45,8 @@ public class Order {
         }
 
     }
+
+    public UUID getOrderId() {
+        return orderId;
+    }
 }
