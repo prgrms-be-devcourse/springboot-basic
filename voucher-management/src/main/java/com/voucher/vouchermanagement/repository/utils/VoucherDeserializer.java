@@ -1,6 +1,5 @@
 package com.voucher.vouchermanagement.repository.utils;
 
-import com.voucher.vouchermanagement.model.voucher.FixedAmountVoucher;
 import com.voucher.vouchermanagement.model.voucher.Voucher;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
 import java.time.LocalDateTime;
@@ -10,10 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Component("fixedAmountVoucherDeserializer")
-public class FixedAmountVoucherDeserializer implements CsvDeserializer<Voucher> {
+@Component("voucherDeserializer")
+public class VoucherDeserializer implements CsvDeserializer {
 
-  private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucherDeserializer.class);
+  private final VoucherFactory voucherFactory;
+  private static final Logger logger = LoggerFactory.getLogger(VoucherDeserializer.class);
+
+  public VoucherDeserializer(VoucherFactory voucherFactory) {
+    this.voucherFactory = voucherFactory;
+  }
 
   @Override
   public Voucher deserialize(String csvLine) {
@@ -27,6 +31,6 @@ public class FixedAmountVoucherDeserializer implements CsvDeserializer<Voucher> 
 
     logger.info("{} -> [{}] [{}] [{}] [{}]", csvLine, type, id, value, createdAt);
 
-    return new FixedAmountVoucher(id, value, createdAt);
+    return voucherFactory.createVoucher(id, value, type);
   }
 }
