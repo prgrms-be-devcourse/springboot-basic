@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.order;
+package org.prgrms.deukyun.voucherapp.order.entity;
 
 import java.util.UUID;
 

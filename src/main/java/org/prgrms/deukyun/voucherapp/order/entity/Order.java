@@ -1,6 +1,6 @@
-package org.prgrms.deukyun.voucherapp.order;
+package org.prgrms.deukyun.voucherapp.order.entity;
 
-import org.prgrms.deukyun.voucherapp.voucher.Voucher;
+import org.prgrms.deukyun.voucherapp.voucher.entity.Voucher;
 
 import java.util.List;
 import java.util.Optional;

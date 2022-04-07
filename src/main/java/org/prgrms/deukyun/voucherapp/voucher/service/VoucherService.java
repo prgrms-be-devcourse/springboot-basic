@@ -1,5 +1,7 @@
-package org.prgrms.deukyun.voucherapp.voucher;
+package org.prgrms.deukyun.voucherapp.voucher.service;
 
+import org.prgrms.deukyun.voucherapp.voucher.entity.Voucher;
+import org.prgrms.deukyun.voucherapp.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
