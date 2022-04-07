@@ -10,8 +10,8 @@ public class FixedAmountDiscountVoucher implements Voucher {
     private final UUID id;
     public final long amount;
 
-    public FixedAmountDiscountVoucher(UUID id, long amount) {
-        this.id = id;
+    public FixedAmountDiscountVoucher(long amount) {
+        this.id = UUID.randomUUID();
         this.amount = amount;
     }
 

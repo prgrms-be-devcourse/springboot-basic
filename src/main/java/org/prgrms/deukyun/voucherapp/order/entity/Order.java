@@ -16,8 +16,8 @@ public class Order {
     private Optional<Voucher> voucher;
     private OrderStatus orderStatus;
 
-    public Order(UUID id, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
-        this.id = id;
+    public Order(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+        this.id = UUID.randomUUID();
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.of(voucher);
