@@ -13,13 +13,13 @@ public class Console implements Input, Output{
 
     @Override
     public String input(String input) {
-        log.info(input);
+        System.out.println(input);
         return scanner.nextLine();
     }
 
     @Override
     public void errorMessage() {
-        log.info("잘못된 입력입니다.");
+        log.error("잘못된 입력입니다.");
     }
 
     @Override

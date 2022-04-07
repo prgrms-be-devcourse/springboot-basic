@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.service;
+package org.voucherProject.voucherProject;
 
 public enum InputCommend {
     EXIT,

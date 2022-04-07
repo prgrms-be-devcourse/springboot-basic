@@ -1,0 +1,15 @@
+logging:
+#  pattern:
+#    console: "%-5level %d{yyyy-MM-dd HH:mm:ss}[%thread] %logger[%method:%line] - %msg%n"
+#    file: "%-4relative [%thread] %-5level %logger{35} - %msg%n"
+#  logback:
+#    rollingpolicy:
+#      file-name-pattern: "${LOG_FILE}.%d{yyyy-MM-dd}_%i.zip"
+
+#  file:
+#    name: logs
+#    max-history: 7
+#    max-size: 5KB
+#    total-size-cap: 1MB
+#  level:
+#    org.voucherProject.voucherProject: warn

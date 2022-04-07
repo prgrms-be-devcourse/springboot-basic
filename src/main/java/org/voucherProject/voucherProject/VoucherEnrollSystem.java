@@ -7,8 +7,12 @@ import org.voucherProject.voucherProject.controller.VoucherController;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 import org.voucherProject.voucherProject.io.Console;
-import org.voucherProject.voucherProject.service.InputCommend;
+import org.voucherProject.voucherProject.io.Input;
+import org.yaml.snakeyaml.util.EnumUtils;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 
@@ -23,9 +27,11 @@ public class VoucherEnrollSystem implements Runnable {
     @Override
     public void run() {
         while (true) {
-            String inputString = console.input("\nType exit to exit the program.\n" +
+            String inputString = console.input("Type exit to exit the program.\n" +
                     "Type create to create a new voucher.\n" +
                     "Type list to list all vouchers");
+            long count = Arrays.stream(InputCommend.values()).filter(v -> v.equals(inputString.toUpperCase())).count();
+            System.out.println("count = " + count);
             try {
                 if (exitSystem(inputString)) break;
                 if (createVoucher(inputString)) continue;
@@ -47,7 +53,7 @@ public class VoucherEnrollSystem implements Runnable {
 
     private boolean createVoucher(String inputString) {
         if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.CREATE)))) {
-            String inputVoucherType = console.input("\n1. FixedAmountVoucher\n2. PercentDiscountVoucher");
+            String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
             Optional<VoucherType> voucherType = voucherType(inputVoucherType);
             long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
             // 여기서 할인 수치에 대한 검증?
