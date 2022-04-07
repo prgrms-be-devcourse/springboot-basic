@@ -20,27 +20,42 @@ public class VoucherController {
     }
 
     public void run() {
-        while (true) {
-            consoleView.printMenu();
-            Menu menu = consoleView.inputMenu();
+        while (process())
+            ;
+    }
 
-            if (menu == Menu.EXIT) {
-                break;
-            }
-            if (menu == Menu.CREATE) {
-                VoucherType voucherType = consoleView.selectVoucherType();
-                if (voucherType == VoucherType.FIXED) {
-                    long amount = consoleView.selectAmount();
-                    voucherService.createFixedAmountVoucher(amount);
-                } else {
-                    int percent = consoleView.selectPercent();
-                    voucherService.createPercentAmountVoucher(percent);
-                }
-            }
-            if (menu == Menu.LIST) {
-                List<Voucher> vouchers = voucherService.findAll();
-                consoleView.printList(vouchers);
-            }
+    private boolean process() {
+        consoleView.printMenu();
+        Menu menu = consoleView.inputMenu();
+
+        if (menu.isExit()) {
+            return false;
+        }
+
+        if (menu.isCreate()) {
+            createVoucher();
+        }
+
+        if (menu.isList()) {
+            showList();
+        }
+
+        return true;
+    }
+
+    private void showList() {
+        List<Voucher> vouchers = voucherService.findAll();
+        consoleView.printList(vouchers);
+    }
+
+    private void createVoucher() {
+        VoucherType voucherType = consoleView.selectVoucherType();
+        if (voucherType == VoucherType.FIXED) {
+            long amount = consoleView.selectAmount();
+            voucherService.createFixedAmountVoucher(amount);
+        } else {
+            int percent = consoleView.selectPercent();
+            voucherService.createPercentAmountVoucher(percent);
         }
     }
 }
