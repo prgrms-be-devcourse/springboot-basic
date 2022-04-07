@@ -60,6 +60,6 @@ SpringBoot Part1 Weekly Mission
         - [X] Voucher 생성 & 저장
         - [X] Voucher 조회
     - [X] VoucherController 만들기
-    - [ ] FileVoucherRepository 만들기
+    - [X] FileVoucherRepository 만들기
       - [X] Voucher 저장
-      - [ ] Voucher 전체 조회
+      - [X] Voucher 전체 조회

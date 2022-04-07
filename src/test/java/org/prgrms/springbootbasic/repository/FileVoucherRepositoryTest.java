@@ -1,7 +1,11 @@
 package org.prgrms.springbootbasic.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
 import java.util.UUID;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +34,26 @@ class FileVoucherRepositoryTest {
         fileVoucherRepository.save(percentAmountVoucher);
 
         //then
-        Assertions.assertThat(fileVoucherRepository.getVoucherTotalNumber()).isEqualTo(2);
+        assertThat(fileVoucherRepository.getVoucherTotalNumber()).isEqualTo(2);
+    }
+
+    @DisplayName("find All 테스트")
+    @Test
+    void finaAll() {
+        //given
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+
+        fileVoucherRepository.save(fixedAmountVoucher);
+        fileVoucherRepository.save(percentAmountVoucher);
+
+        //when
+        List<Voucher> vouchers = fileVoucherRepository.findAll();
+
+        //then
+        assertAll(
+            () -> assertEquals(fixedAmountVoucher.getVoucherId(), vouchers.get(0).getVoucherId()),
+            () -> assertEquals(percentAmountVoucher.getVoucherId(), vouchers.get(1).getVoucherId())
+        );
     }
 }
