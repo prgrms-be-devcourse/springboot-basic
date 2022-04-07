@@ -5,7 +5,7 @@ import java.util.UUID;
 import static com.google.common.base.Preconditions.checkArgument;
 
 /**
- * 주문 상품
+ * 주문 상품 - Note. 아직 엔티티 아님
  */
 public class OrderItem {
 

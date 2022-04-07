@@ -2,6 +2,8 @@ package org.prgrms.deukyun.voucherapp.voucher.entity;
 
 import java.util.UUID;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * 정액 할인 바우처
  */
@@ -11,6 +13,8 @@ public class FixedAmountDiscountVoucher implements Voucher {
     public final long amount;
 
     public FixedAmountDiscountVoucher(long amount) {
+        checkArgument(amount > 0, "amount must be positive.");
+
         this.id = UUID.randomUUID();
         this.amount = amount;
     }
@@ -22,7 +26,15 @@ public class FixedAmountDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
+        checkDiscountApplicable(beforeDiscount);
+
         return beforeDiscount - amount;
+    }
+
+    private void checkDiscountApplicable(long beforeDiscount){
+        if(beforeDiscount - amount < 0){
+            throw new IllegalArgumentException("discounted price must be positive");
+        }
     }
 
 }
