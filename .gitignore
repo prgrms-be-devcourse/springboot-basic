@@ -44,3 +44,7 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+
+### file DV ###
+FixedVoucherDB.ser
+PercentVoucherDB.ser
