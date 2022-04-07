@@ -3,7 +3,6 @@ package org.prgms.voucher.entity;
 import java.util.Arrays;
 
 import org.prgms.voucher.exception.WrongInputVoucherCommandException;
-import org.prgms.voucher.exception.WrongVoucherNameException;
 
 public enum VoucherType {
     FIXED_AMOUNT("1", "FIXED_AMOUNT"),
@@ -22,13 +21,6 @@ public enum VoucherType {
             .filter(type -> type.command.equals(command))
             .findFirst()
             .orElseThrow(WrongInputVoucherCommandException::new);
-    }
-
-    public static VoucherType findByName(String voucherName) throws WrongVoucherNameException {
-        return Arrays.stream(VoucherType.values())
-            .filter(type -> type.voucherName.equals(voucherName))
-            .findFirst()
-            .orElseThrow(WrongVoucherNameException::new);
     }
 
     public String getVoucherName() {
