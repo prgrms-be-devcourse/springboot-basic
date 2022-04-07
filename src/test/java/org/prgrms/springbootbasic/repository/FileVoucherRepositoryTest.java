@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
@@ -17,8 +18,13 @@ class FileVoucherRepositoryTest {
 
     FileVoucherRepository fileVoucherRepository = new FileVoucherRepository();
 
-    @AfterEach
+    @BeforeEach
     void init() {
+        fileVoucherRepository.removeAll();
+    }
+
+    @AfterEach
+    void clean() {
         fileVoucherRepository.removeAll();
     }
 
