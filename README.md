@@ -59,4 +59,4 @@ SpringBoot Part1 Weekly Mission
     - [X] MemoryVoucherService 만들기
         - [X] Voucher 생성 & 저장
         - [X] Voucher 조회
-    - [ ] VoucherController 만들기
+    - [X] VoucherController 만들기
