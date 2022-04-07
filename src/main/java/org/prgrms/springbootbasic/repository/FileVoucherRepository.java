@@ -1,8 +1,8 @@
 package org.prgrms.springbootbasic.repository;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,7 +12,11 @@ import java.util.List;
 import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static Integer fixedVoucherCount = 0;
@@ -51,35 +55,61 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
 
-        try (final FileInputStream fixedVoucherFileStream = new FileInputStream(
-            fixedVoucherStorage);
-            final FileInputStream percentVoucherFileStream = new FileInputStream(
-                percentVoucherStorage)
-        ) {
-            for (int i = 0; i < fixedVoucherCount; ++i) {
+        try (FileInputStream fixedVoucherFileStream = new FileInputStream(
+            fixedVoucherStorage)) {
+            while (true) {
                 ObjectInputStream stream = new ObjectInputStream(fixedVoucherFileStream);
                 FixedAmountVoucher voucher = (FixedAmountVoucher) stream.readObject();
                 vouchers.add(voucher);
             }
+        } catch (EOFException of) {
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
 
-            for (int i = 0; i < percentVoucherCount; ++i) {
+        try (FileInputStream percentVoucherFileStream = new FileInputStream(
+            percentVoucherStorage)) {
+            while (true) {
                 ObjectInputStream stream = new ObjectInputStream(percentVoucherFileStream);
                 PercentDiscountVoucher voucher = (PercentDiscountVoucher) stream.readObject();
                 vouchers.add(voucher);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (EOFException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
         }
+
         return vouchers;
     }
 
     @Override
     public Integer getVoucherTotalNumber() {
-        return fixedVoucherCount + percentVoucherCount;
+        int voucherCount = 0;
+
+        try (FileInputStream fixedVoucherFileStream = new FileInputStream(
+            fixedVoucherStorage)) {
+            while (true) {
+                ObjectInputStream stream = new ObjectInputStream(fixedVoucherFileStream);
+                FixedAmountVoucher voucher = (FixedAmountVoucher) stream.readObject();
+                ++voucherCount;
+            }
+        } catch (EOFException of) {
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+        try (FileInputStream percentVoucherFileStream = new FileInputStream(
+            percentVoucherStorage)) {
+            while (true) {
+                ObjectInputStream stream = new ObjectInputStream(percentVoucherFileStream);
+                PercentDiscountVoucher voucher = (PercentDiscountVoucher) stream.readObject();
+                ++voucherCount;
+            }
+        } catch (EOFException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return voucherCount;
     }
 
     @Override
