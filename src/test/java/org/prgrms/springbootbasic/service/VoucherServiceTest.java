@@ -9,15 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.repository.MemoryVoucherRepository;
 
-class MemoryVoucherServiceTest {
+class VoucherServiceTest {
 
-    MemoryVoucherService memoryVoucherService;
+    VoucherService voucherService;
     MemoryVoucherRepository memoryVoucherRepository;
 
     @BeforeEach
     void init() {
         memoryVoucherRepository = new MemoryVoucherRepository();
-        memoryVoucherService = new MemoryVoucherService(memoryVoucherRepository);
+        voucherService = new VoucherService(memoryVoucherRepository);
     }
 
     @DisplayName("FixedAmountVoucher 만들기 테스트")
@@ -27,7 +27,7 @@ class MemoryVoucherServiceTest {
         long amount = 10L;
 
         //when
-        memoryVoucherService.createFixedAmountVoucher(amount);
+        voucherService.createFixedAmountVoucher(amount);
 
         //then
         assertThat(memoryVoucherRepository.getVoucherTotalNumber())
@@ -43,7 +43,7 @@ class MemoryVoucherServiceTest {
         int percent = 10;
 
         //when
-        memoryVoucherService.createPercentAmountVoucher(percent);
+        voucherService.createPercentAmountVoucher(percent);
 
         //then
         assertThat(memoryVoucherRepository.getVoucherTotalNumber())
@@ -56,11 +56,11 @@ class MemoryVoucherServiceTest {
     @Test
     void findAll() {
         //given
-        memoryVoucherService.createFixedAmountVoucher(10L);
-        memoryVoucherService.createPercentAmountVoucher(10);
+        voucherService.createFixedAmountVoucher(10L);
+        voucherService.createPercentAmountVoucher(10);
 
         //when
-        List<Voucher> vouchers = memoryVoucherService.findAll();
+        List<Voucher> vouchers = voucherService.findAll();
 
         //then
         assertThat(vouchers.size())

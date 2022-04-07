@@ -7,11 +7,11 @@ import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.repository.VoucherRepository;
 
-public class MemoryVoucherService {
+public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public MemoryVoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
