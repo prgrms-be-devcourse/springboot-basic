@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.entity;
+package org.prgrms.deukyun.voucherapp.order;
 
 public enum OrderStatus {
     ACCEPTED,

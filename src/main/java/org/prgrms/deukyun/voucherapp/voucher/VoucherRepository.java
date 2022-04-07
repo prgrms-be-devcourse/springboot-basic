@@ -1,6 +1,4 @@
-package org.prgrms.deukyun.voucherapp.repository;
-
-import org.prgrms.deukyun.voucherapp.entity.Voucher;
+package org.prgrms.deukyun.voucherapp.voucher;
 
 import java.util.Optional;
 import java.util.UUID;

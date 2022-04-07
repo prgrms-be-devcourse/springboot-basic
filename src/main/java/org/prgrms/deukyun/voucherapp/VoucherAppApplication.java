@@ -1,12 +1,12 @@
 package org.prgrms.deukyun.voucherapp;
 
 import org.prgrms.deukyun.voucherapp.config.AppConfig;
-import org.prgrms.deukyun.voucherapp.entity.FixedAmountVoucher;
-import org.prgrms.deukyun.voucherapp.entity.Order;
-import org.prgrms.deukyun.voucherapp.entity.OrderItem;
-import org.prgrms.deukyun.voucherapp.entity.Voucher;
-import org.prgrms.deukyun.voucherapp.repository.VoucherRepository;
-import org.prgrms.deukyun.voucherapp.service.OrderService;
+import org.prgrms.deukyun.voucherapp.voucher.FixedAmountVoucher;
+import org.prgrms.deukyun.voucherapp.order.Order;
+import org.prgrms.deukyun.voucherapp.order.OrderItem;
+import org.prgrms.deukyun.voucherapp.voucher.Voucher;
+import org.prgrms.deukyun.voucherapp.voucher.VoucherRepository;
+import org.prgrms.deukyun.voucherapp.order.OrderService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

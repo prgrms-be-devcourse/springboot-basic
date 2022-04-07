@@ -1,9 +1,7 @@
-package org.prgrms.deukyun.voucherapp.service;
+package org.prgrms.deukyun.voucherapp.order;
 
-import org.prgrms.deukyun.voucherapp.entity.Order;
-import org.prgrms.deukyun.voucherapp.entity.OrderItem;
-import org.prgrms.deukyun.voucherapp.entity.Voucher;
-import org.prgrms.deukyun.voucherapp.repository.OrderRepository;
+import org.prgrms.deukyun.voucherapp.voucher.Voucher;
+import org.prgrms.deukyun.voucherapp.voucher.VoucherService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

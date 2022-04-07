@@ -1,6 +1,5 @@
-package org.prgrms.deukyun.voucherapp.repository;
+package org.prgrms.deukyun.voucherapp.order;
 
-import org.prgrms.deukyun.voucherapp.entity.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
