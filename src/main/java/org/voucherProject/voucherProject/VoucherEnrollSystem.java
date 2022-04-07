@@ -30,9 +30,8 @@ public class VoucherEnrollSystem implements Runnable {
             String inputString = console.input("Type exit to exit the program.\n" +
                     "Type create to create a new voucher.\n" +
                     "Type list to list all vouchers");
-            long count = Arrays.stream(InputCommend.values()).filter(v -> v.equals(inputString.toUpperCase())).count();
-            System.out.println("count = " + count);
             try {
+                validateInput(inputString);
                 if (exitSystem(inputString)) break;
                 if (createVoucher(inputString)) continue;
                 showAllVoucherList(inputString);
@@ -40,6 +39,13 @@ public class VoucherEnrollSystem implements Runnable {
                 console.errorMessage();
                 continue;
             }
+        }
+    }
+
+    private void validateInput(String inputString) {
+        boolean validateInputString = Arrays.stream(InputCommend.values()).map(String::valueOf).anyMatch(v -> v.equals(inputString.toUpperCase()));
+        if (!validateInputString) {
+            throw new RuntimeException();
         }
     }
 
