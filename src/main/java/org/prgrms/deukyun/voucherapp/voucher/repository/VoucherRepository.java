@@ -8,6 +8,7 @@ import java.util.UUID;
 /**
  * 바우처 리포지토리
  */
+//TODO findAll 메서드 추가, 테스트 코드
 public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
 
