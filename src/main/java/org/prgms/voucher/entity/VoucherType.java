@@ -3,21 +3,35 @@ package org.prgms.voucher.entity;
 import java.util.Arrays;
 
 import org.prgms.voucher.exception.WrongInputVoucherCommandException;
+import org.prgms.voucher.exception.WrongVoucherNameException;
 
 public enum VoucherType {
-    FIXED_AMOUNT("1"),
-    PERCENT_DISCOUNT("2");
+    FIXED_AMOUNT("1", "FIXED_AMOUNT"),
+    PERCENT_DISCOUNT("2", "PERCENT_DISCOUNT");
 
     private final String command;
+    private final String voucherName;
 
-    VoucherType(String command) {
+    VoucherType(String command, String voucherName) {
         this.command = command;
+        this.voucherName = voucherName;
     }
 
-    public static VoucherType of(String command) throws WrongInputVoucherCommandException {
+    public static VoucherType findByCommand(String command) throws WrongInputVoucherCommandException {
         return Arrays.stream(VoucherType.values())
             .filter(type -> type.command.equals(command))
             .findFirst()
             .orElseThrow(WrongInputVoucherCommandException::new);
+    }
+
+    public static VoucherType findByName(String voucherName) throws WrongVoucherNameException {
+        return Arrays.stream(VoucherType.values())
+            .filter(type -> type.voucherName.equals(voucherName))
+            .findFirst()
+            .orElseThrow(WrongVoucherNameException::new);
+    }
+
+    public String getVoucherName() {
+        return voucherName;
     }
 }

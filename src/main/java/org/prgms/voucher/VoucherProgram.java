@@ -53,7 +53,7 @@ public class VoucherProgram {
 
     private VoucherType inputVoucherCommand() {
         try {
-            return VoucherType.of(inputView.inputVoucherCommand());
+            return VoucherType.findByCommand(inputView.inputVoucherCommand());
         } catch (Exception e) {
             outputView.printError(e.getMessage());
         }
