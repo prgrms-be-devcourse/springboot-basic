@@ -44,7 +44,7 @@ SpringBoot Part1 Weekly Mission
 
 ### 구현할 기능 목록
 - UI
-    - [ ] Text-IO 이용해 UI 구현하기
+    - [X] Text-IO 이용해 UI 구현하기
       - [X] 메뉴 출력 기능 개발
       - [X] 바우처 생성 커맨드 개발
       - [X] 바우처 조회 커맨드 개발
@@ -52,7 +52,6 @@ SpringBoot Part1 Weekly Mission
     - [ ] Voucher 엔티티 만들기
         - [X] FixedAmountVoucher
         - [X] PercentDiscountVoucher
-          - [ ] PercentDiscountVoucher 할인 계산 정확하게 구현하기
     - [X] MemoryVoucherRepository 만들기
         - [X] Voucher 저장
         - [X] Voucher 전체 조회
