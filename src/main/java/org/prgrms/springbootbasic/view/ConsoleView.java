@@ -48,32 +48,21 @@ public class ConsoleView {
 
     public void printMenu() {
         TextTerminal<?> terminal = textIO.getTextTerminal();
+
         terminal.println(VOUCHER_PROGRAM);
-        terminal.print(TYPE);
-        terminal.executeWithPropertiesConfigurator(
-            props -> props.setPromptBold(true),
-            t -> t.print(EXIT));
-        terminal.println(TO_EXIT_THE_PROGRAM);
-
-        terminal.print(TYPE);
-        terminal.executeWithPropertiesConfigurator(
-            props -> props.setPromptBold(true),
-            t -> t.print(CREATE));
-        terminal.println(TO_CREATE_A_NEW_VOUCHER);
-
-        terminal.print(TYPE);
-        terminal.executeWithPropertiesConfigurator(
-            props -> props.setPromptBold(true),
-            t -> t.print(LIST));
-        terminal.println(TO_LIST_ALL_VOUCHERS);
-
-        terminal.print(TYPE);
-        terminal.executeWithPropertiesConfigurator(
-            props -> props.setPromptBold(true),
-            t -> t.print(BLACKLIST));
-        terminal.println(TO_LIST_ALL_CUSTOMER_BLACK_LIST);
-
+        printLine(terminal, EXIT, TO_EXIT_THE_PROGRAM);
+        printLine(terminal, CREATE, TO_CREATE_A_NEW_VOUCHER);
+        printLine(terminal, LIST, TO_LIST_ALL_VOUCHERS);
+        printLine(terminal, BLACKLIST, TO_LIST_ALL_CUSTOMER_BLACK_LIST);
         terminal.println();
+    }
+
+    private void printLine(TextTerminal<?> terminal, String menu, String explain) {
+        terminal.print(TYPE);
+        terminal.executeWithPropertiesConfigurator(
+            props -> props.setPromptBold(true),
+            t -> t.print(menu));
+        terminal.println(explain);
     }
 
     public Menu inputMenu() {
@@ -110,9 +99,7 @@ public class ConsoleView {
         terminal.println(VOUCHER_LIST);
         terminal.println();
 
-        for (Voucher voucher : vouchers) {
-            printVoucher(terminal, voucher);
-        }
+        vouchers.forEach(voucher -> printVoucher(terminal, voucher));
         terminal.println();
     }
 
