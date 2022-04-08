@@ -7,8 +7,9 @@ public class FixedAmountVoucher extends AbstractVoucher {
 
     private final long amount;
 
-    protected FixedAmountVoucher(UUID voucherId, long amount) {
-        super(voucherId, VoucherType.FIXED);
+    // UUID를 생성자로 입력받지 않고 내부에서 생성하도록 작성
+    protected FixedAmountVoucher(long amount) {
+        super(UUID.randomUUID(), VoucherType.FIXED);
         this.amount = amount;
     }
 
@@ -16,7 +17,6 @@ public class FixedAmountVoucher extends AbstractVoucher {
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }
-
 
     @Override
     public String toString() {

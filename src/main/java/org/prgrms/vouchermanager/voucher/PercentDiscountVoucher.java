@@ -7,8 +7,9 @@ public class PercentDiscountVoucher extends AbstractVoucher {
 
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        super(voucherId, VoucherType.PERCENT);
+    // UUID를 생성자로 입력받지 않고 내부에서 생성하도록 작성
+    public PercentDiscountVoucher(long percent) {
+        super(UUID.randomUUID(), VoucherType.PERCENT);
         this.percent = percent;
     }
 

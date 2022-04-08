@@ -41,7 +41,7 @@ public class CommandLineApplication implements VoucherManagerShell {
     }
 
     private Command getCommand() {
-        return Command.findCommand(console.read()).orElse(Command.INVALID_COMMAND);
+        return Command.findCommand(console.read());
     }
 
     private void init() {
@@ -56,20 +56,27 @@ public class CommandLineApplication implements VoucherManagerShell {
     }
 
     private void createVoucher() {
-        console.println("voucher type 입력");
         VoucherType voucherType = getInputVoucherType();
-        console.println("할인율 입력");
-        Long discountAmount = getInputAmount();
+        Long discountAmount = readDiscountAmount();
         voucherService.createVoucher(voucherType, discountAmount);
     }
 
     private VoucherType getInputVoucherType() {
-        return VoucherType.findVoucherType(console.read())
-                .orElse(VoucherType.INVALID);
+        while (true) {
+            console.println("voucher type 입력");
+            VoucherType voucherType = VoucherType.findVoucherType(console.read());
+            if (voucherType == VoucherType.INVALID) continue;
+            return voucherType;
+        }
     }
 
-    private Long getInputAmount() {
-        return console.readLong();
+    private Long readDiscountAmount() {
+        while (true) {
+            console.println("1~100 사이의 할인율을 입력하세요.");
+            Long amount = console.readLong();
+            if (amount <= 0 || amount > 100) continue;
+            return amount;
+        }
     }
 
     private void printVoucherLists() {

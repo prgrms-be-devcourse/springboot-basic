@@ -1,6 +1,5 @@
 package org.prgrms.vouchermanager.shell;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -12,9 +11,9 @@ public enum Command {
     CREATE,
     LIST;
 
-    public static Optional<Command> findCommand(String command) {
+    public static Command findCommand(String command) {
         return Stream.of(values())
                 .filter(v -> command.equalsIgnoreCase(v.toString()))
-                .findFirst();
+                .findFirst().orElse(INVALID_COMMAND);
     }
 }
