@@ -3,7 +3,7 @@ package org.voucherProject.voucherProject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.voucherProject.voucherProject.controller.VoucherController;
+import org.voucherProject.voucherProject.controller.VoucherControllerImpl;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 import org.voucherProject.voucherProject.io.Console;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class VoucherEnrollSystem implements Runnable {
 
     private final Console console;
-    private final VoucherController voucherController;
+    private final VoucherControllerImpl voucherController;
 
     @Override
     public void run() {
