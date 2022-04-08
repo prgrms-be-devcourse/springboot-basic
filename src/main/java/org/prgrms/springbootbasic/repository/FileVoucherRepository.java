@@ -12,6 +12,8 @@ import java.util.List;
 import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Repository;
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static Integer fixedVoucherCount = 0;
     private static Integer percentVoucherCount = 0;
     private final File fixedVoucherStorage = new File("FixedVoucherDB.ser");
@@ -26,6 +29,8 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
+
+        logger.info("FileVoucherRepository.save() called");
 
         if (voucher.getClass() == FixedAmountVoucher.class) {
             FixedAmountVoucher fixedAmountVoucher = (FixedAmountVoucher) voucher;
@@ -53,6 +58,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
+
+        logger.info("FileVoucherRepository.findAll() called");
+
         List<Voucher> vouchers = new ArrayList<>();
 
         try (FileInputStream fixedVoucherFileStream = new FileInputStream(

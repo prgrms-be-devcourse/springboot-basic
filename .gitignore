@@ -48,3 +48,6 @@ buildNumber.properties
 ### file DV ###
 FixedVoucherDB.ser
 PercentVoucherDB.ser
+
+### LOG ###
+logs/
