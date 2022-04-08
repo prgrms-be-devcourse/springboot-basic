@@ -21,7 +21,7 @@ public class VoucherMemoryRepository implements VoucherRepository{
 
     @Override
     public Voucher findById(UUID voucherId) {
-        return null;
+        return voucherHashMap.get(voucherId);
     }
 
     @Override
