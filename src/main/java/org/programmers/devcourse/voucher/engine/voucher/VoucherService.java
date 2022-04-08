@@ -3,7 +3,6 @@ package org.programmers.devcourse.voucher.engine.voucher;
 import java.util.Map;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherMapper;
 import org.programmers.devcourse.voucher.engine.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ public class VoucherService {
   public UUID create(VoucherMapper voucherMapper, long voucherDiscountData)
       throws VoucherException {
     var voucher = voucherMapper.getFactory().create(UUID.randomUUID(), voucherDiscountData);
-
+    voucherRepository.insert(voucher);
     return voucher.getVoucherId();
 
   }

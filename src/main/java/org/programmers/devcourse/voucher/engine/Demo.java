@@ -11,7 +11,7 @@ import org.programmers.devcourse.voucher.engine.exception.NoSuchOptionException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherMapper;
+import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherService;
 import org.programmers.devcourse.voucher.util.ExceptionFormatter;
 import org.slf4j.Logger;

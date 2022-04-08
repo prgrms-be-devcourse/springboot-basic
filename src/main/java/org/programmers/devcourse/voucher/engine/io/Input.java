@@ -4,7 +4,7 @@ package org.programmers.devcourse.voucher.engine.io;
 import java.io.IOException;
 import java.util.Optional;
 import org.programmers.devcourse.voucher.engine.MenuSelection;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherMapper;
+import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
 
 public interface Input extends AutoCloseable {
 

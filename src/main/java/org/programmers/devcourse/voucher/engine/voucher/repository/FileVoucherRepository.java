@@ -18,7 +18,7 @@ import org.programmers.devcourse.voucher.configuration.FileDBProperties;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherMapper;
+import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
