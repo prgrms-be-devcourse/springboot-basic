@@ -1,10 +1,9 @@
 package org.prgrms.springbootbasic.entity;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,9 +20,7 @@ class PercentDiscountVoucherTest {
         var voucher = new PercentDiscountVoucher(voucherId, percent);
 
         //then
-        Assertions.assertAll(
-            () -> Assertions.assertEquals(voucherId, voucher.getVoucherId()),
-            () -> Assertions.assertEquals(90L, voucher.discount(100L))
-        );
+        assertThat(voucher.getVoucherId()).isEqualTo(voucherId);
+        assertThat(voucher.getPercent()).isEqualTo(percent);
     }
 }

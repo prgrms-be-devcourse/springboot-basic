@@ -22,33 +22,29 @@ import org.springframework.stereotype.Repository;
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-    private static Integer fixedVoucherCount = 0;
-    private static Integer percentVoucherCount = 0;
-    private final File fixedVoucherStorage = new File("FixedVoucherDB.ser");
-    private final File percentVoucherStorage = new File("PercentVoucherDB.ser");
+    private static final String FIXED_VOUCHER_DB_SER = "filedb/FixedVoucherDB.ser";
+    private static final String PERCENT_VOUCHER_DB_SER = "filedb/PercentVoucherDB.ser";
+    private final File fixedVoucherStorage = new File(FIXED_VOUCHER_DB_SER);
+    private final File percentVoucherStorage = new File(PERCENT_VOUCHER_DB_SER);
 
     @Override
     public void save(Voucher voucher) {
 
         logger.info("FileVoucherRepository.save() called");
 
-        if (voucher.getClass() == FixedAmountVoucher.class) {
-            FixedAmountVoucher fixedAmountVoucher = (FixedAmountVoucher) voucher;
+        if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
             try (ObjectOutputStream stream = new ObjectOutputStream(
                 new FileOutputStream(fixedVoucherStorage, true))) {
                 stream.writeObject(fixedAmountVoucher);
-                ++fixedVoucherCount;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        if (voucher.getClass() == PercentDiscountVoucher.class) {
-            PercentDiscountVoucher percentDiscountVoucher = (PercentDiscountVoucher) voucher;
+        if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
             try (ObjectOutputStream stream = new ObjectOutputStream(
                 new FileOutputStream(percentVoucherStorage, true))) {
                 stream.writeObject(percentDiscountVoucher);
-                ++percentVoucherCount;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -94,26 +90,23 @@ public class FileVoucherRepository implements VoucherRepository {
     public Integer getVoucherTotalNumber() {
         int voucherCount = 0;
 
-        try (FileInputStream fixedVoucherFileStream = new FileInputStream(
+        voucherCount += countVoucherNumber(fixedVoucherStorage);
+        voucherCount += countVoucherNumber(percentVoucherStorage);
+
+        return voucherCount;
+    }
+
+    private int countVoucherNumber(File fixedVoucherStorage) {
+        int voucherCount = 0;
+
+        try (FileInputStream fileInputStream = new FileInputStream(
             fixedVoucherStorage)) {
             while (true) {
-                ObjectInputStream stream = new ObjectInputStream(fixedVoucherFileStream);
-                FixedAmountVoucher voucher = (FixedAmountVoucher) stream.readObject();
+                ObjectInputStream stream = new ObjectInputStream(fileInputStream);
+                stream.readObject();
                 ++voucherCount;
             }
         } catch (EOFException of) {
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-
-        try (FileInputStream percentVoucherFileStream = new FileInputStream(
-            percentVoucherStorage)) {
-            while (true) {
-                ObjectInputStream stream = new ObjectInputStream(percentVoucherFileStream);
-                PercentDiscountVoucher voucher = (PercentDiscountVoucher) stream.readObject();
-                ++voucherCount;
-            }
-        } catch (EOFException ex) {
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -125,8 +118,6 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             new FileOutputStream(fixedVoucherStorage).close();
             new FileOutputStream(percentVoucherStorage).close();
-            fixedVoucherCount = 0;
-            percentVoucherCount = 0;
         } catch (IOException e) {
             e.printStackTrace();
         }

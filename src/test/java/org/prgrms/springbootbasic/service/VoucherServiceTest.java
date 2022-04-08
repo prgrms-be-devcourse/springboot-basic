@@ -32,8 +32,6 @@ class VoucherServiceTest {
         //then
         assertThat(memoryVoucherRepository.getVoucherTotalNumber())
             .isEqualTo(1);
-        assertThat(memoryVoucherRepository.findAll().get(0).discount(100L))
-            .isEqualTo(90L);
     }
 
     @DisplayName("PercentAmountVoucher 만들기 테스트")
@@ -48,8 +46,6 @@ class VoucherServiceTest {
         //then
         assertThat(memoryVoucherRepository.getVoucherTotalNumber())
             .isEqualTo(1);
-        assertThat(memoryVoucherRepository.findAll().get(0).discount(100L))
-            .isEqualTo(90L);
     }
 
     @DisplayName("Voucher 전체 조회 테스트")
