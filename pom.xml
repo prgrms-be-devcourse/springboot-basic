@@ -18,6 +18,13 @@
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
+<!--		자바 페이커 추가-->
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>0.12</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
