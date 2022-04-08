@@ -1,7 +1,8 @@
 package org.voucherProject.voucherProject.repository;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.entity.voucher.FixedAmountVoucher;
@@ -12,27 +13,33 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class VoucherRepositoryFileImplTest {
+class VoucherRepositoryImplTest {
 
     @Autowired
-    VoucherRepositoryFileImpl voucherRepoFile;
+    VoucherRepository voucherRepository;
 
     @Test
-    public void saveAndFindById() throws Exception {
+    public void saveAndFind() throws Exception {
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
+        Voucher saveVoucher = voucherRepository.save(voucher);
 
-        // save
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3);
-        Voucher saveVoucher = voucherRepoFile.save(voucher);
+        UUID saveVoucherId = saveVoucher.getVoucherId();
+        Voucher findVoucher = voucherRepository.findById(saveVoucherId).get();
 
-        UUID voucherId = saveVoucher.getVoucherId();
+        assertThat(findVoucher).isEqualTo(saveVoucher);
+    }
 
-        Voucher findVoucher = voucherRepoFile.findById(voucherId).get();
+    @Test
+    public void saveSame() throws Exception {
 
-        assertThat(findVoucher.getVoucherId()).isEqualTo(voucherId);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
+        Voucher saveVoucher = voucherRepository.save(voucher);
 
+        assertThrows(IOException.class, () -> voucherRepository.save(voucher));
     }
 
     @Test
@@ -41,27 +48,21 @@ class VoucherRepositoryFileImplTest {
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3);
         Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2);
         Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1);
-        voucherRepoFile.save(voucher1);
-        voucherRepoFile.save(voucher2);
-        voucherRepoFile.save(voucher3);
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
 
-        List<Voucher> findAllVoucher = voucherRepoFile.findAll();
+        List<Voucher> findAllVoucher = voucherRepository.findAll();
 
-        boolean result1 = findAllVoucher.stream().anyMatch(v -> v.getVoucherId().equals(voucher1.getVoucherId()));
-        boolean result2 = findAllVoucher.stream().anyMatch(v -> v.getVoucherId().equals(voucher2.getVoucherId()));
-        boolean result3 = findAllVoucher.stream().anyMatch(v -> v.getVoucherId().equals(voucher3.getVoucherId()));
+        boolean result1 = findAllVoucher.contains(voucher1);
+        boolean result2 = findAllVoucher.contains(voucher2);
+        boolean result3 = findAllVoucher.contains(voucher3);
 
         assertThat(result1).isTrue();
         assertThat(result2).isTrue();
         assertThat(result3).isTrue();
-    }
 
-    @Test
-    public void saveSameVoucherId() throws Exception {
 
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3);
-        Voucher saveVoucher1 = voucherRepoFile.save(voucher);
-        Assertions.assertThrows(IOException.class, () -> voucherRepoFile.save(voucher));
     }
 
 }

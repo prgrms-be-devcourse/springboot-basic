@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Primary
+//@Primary
 public class VoucherRepositoryFileImpl implements VoucherRepository {
 
     private final FileWriter fileWriter = new FileWriter("voucherRepository.txt", true);
