@@ -35,8 +35,6 @@ public class FileVoucherRepository implements
 
   public FileVoucherRepository() throws IOException {
 
-    // 처음에 시도 했던 것
-
     String rootPath = System.getProperty("user.dir");
     var dbFile = Path.of(rootPath, "/voucher-db.txt").toFile();
 
@@ -45,10 +43,7 @@ public class FileVoucherRepository implements
     dbReader = new BufferedReader(new InputStreamReader(new FileInputStream(dbFile)));
 
     dbReader.lines().forEach(line -> {
-      System.out.println(line);
       var record = line.split(DELIMITER_REGEX);
-
-      System.out.println(record[0]);
       var voucherId = UUID.fromString(record[0]);
       var voucherType = VoucherMapper.fromClassName(record[1]);
       if (voucherType.isEmpty()) {

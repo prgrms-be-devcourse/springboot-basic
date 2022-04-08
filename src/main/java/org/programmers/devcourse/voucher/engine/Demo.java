@@ -2,8 +2,11 @@ package org.programmers.devcourse.voucher.engine;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.programmers.devcourse.voucher.engine.blacklist.BlackList;
+import org.programmers.devcourse.voucher.engine.blacklist.BlackListService;
 import org.programmers.devcourse.voucher.engine.exception.NoSuchOptionException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.io.Input;
@@ -22,12 +25,16 @@ public class Demo {
   private final Input input;
   private final Output output;
   private final VoucherService voucherService;
+  private final BlackListService blackListService;
 
   public Demo(Input input, Output output,
-      VoucherService voucherService) {
+      VoucherService voucherService,
+      BlackListService blackListService) {
     this.input = input;
     this.output = output;
     this.voucherService = voucherService;
+
+    this.blackListService = blackListService;
   }
 
 
@@ -49,6 +56,10 @@ public class Demo {
               break;
             case LIST:
               showAllVouchers();
+              break;
+            case BLACKLIST:
+              showBlacklist();
+              break;
           }
 
         } catch (VoucherException e) {
@@ -62,6 +73,12 @@ public class Demo {
       output.print("ERROR : Terminating Process");
     }
 
+  }
+
+  private void showBlacklist() {
+    List<BlackList> list = blackListService.getBlackList();
+   
+    output.printBlackList(list);
   }
 
   private void showAllVouchers() {

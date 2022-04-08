@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.MenuSelection;
+import org.programmers.devcourse.voucher.engine.blacklist.BlackList;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher;
@@ -17,10 +19,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class Console implements Input, Output {
 
-  private static final String MENU_STRING = "=== Voucher Program ===\n"
+  private static final String MENU_STRING = "\n=== Voucher Program ===\n"
       + "Type exit to exit the program.\n"
       + "Type create to create a new voucher.\n"
-      + "Type list to list all vouchers.";
+      + "Type list to list all vouchers.\n"
+      + "Type blacklist to check blacklist";
   private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
   private Console() {
@@ -85,6 +88,22 @@ public class Console implements Input, Output {
     voucherMap.values().forEach(voucher -> voucherString.append(voucher).append("\n"));
 
     System.out.println(voucherString);
+  }
+
+  @Override
+  public void printBlackList(List<BlackList> list) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("\n");
+    sb.append("=========BLACKLIST==========\n");
+    if (list.size() == 0) {
+      sb.append("EMPTY\n");
+    } else {
+      list.forEach(blackList -> sb.append(blackList.toString()).append("\n"));
+
+    }
+    sb.append("============================\n");
+    System.out.println(sb);
+
   }
 
 
