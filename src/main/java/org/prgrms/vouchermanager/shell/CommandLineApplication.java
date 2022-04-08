@@ -3,18 +3,22 @@ package org.prgrms.vouchermanager.shell;
 import org.prgrms.vouchermanager.console.Console;
 import org.prgrms.vouchermanager.voucher.VoucherService;
 import org.prgrms.vouchermanager.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class VoucherManagerShellImpl implements VoucherManagerShell {
+public class CommandLineApplication implements VoucherManagerShell {
+
+    private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     private final Console console;
     private final VoucherService voucherService;
     private boolean initialized = false;
 
-    public VoucherManagerShellImpl(Console console, VoucherService voucherService) {
+    public CommandLineApplication(Console console, VoucherService voucherService) {
         this.console = console;
         this.voucherService = voucherService;
     }
@@ -27,7 +31,10 @@ public class VoucherManagerShellImpl implements VoucherManagerShell {
         while (true) {
             String command = console.read();
             if (command.equalsIgnoreCase("exit")) return;
-            if (command.equalsIgnoreCase("create")) createVoucher();
+            if (command.equalsIgnoreCase("create")) {
+                createVoucher();
+                continue;
+            }
             if (command.equalsIgnoreCase("list")) printVoucherLists();
         }
     }
