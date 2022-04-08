@@ -8,6 +8,7 @@ import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 import org.voucherProject.voucherProject.io.Console;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -33,9 +34,8 @@ public class VoucherEnrollSystem implements Runnable {
                 if (exitSystem(inputString)) break;
                 if (createVoucher(inputString)) continue;
                 showAllVoucherList(inputString);
-            } catch (RuntimeException e) {
+            } catch (RuntimeException | IOException e) {
                 console.errorMessage();
-                continue;
             }
         }
     }
@@ -55,7 +55,7 @@ public class VoucherEnrollSystem implements Runnable {
         return false;
     }
 
-    private boolean createVoucher(String inputString) {
+    private boolean createVoucher(String inputString) throws IOException {
         if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.CREATE)))) {
             String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
 
@@ -70,7 +70,7 @@ public class VoucherEnrollSystem implements Runnable {
         return false;
     }
 
-    private void showAllVoucherList(String inputString) {
+    private void showAllVoucherList(String inputString) throws IOException {
         if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.LIST)))) {
             List<Voucher> vouchers = voucherController.findAll();
             vouchers.forEach(voucher -> System.out.println("voucher = " + voucher));

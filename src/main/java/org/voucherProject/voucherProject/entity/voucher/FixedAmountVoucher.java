@@ -12,15 +12,28 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
+
     private final long amount;
+
     @Nullable
-    private final VoucherType voucherType;
+    private final VoucherType voucherType = VoucherType.FIXED;
+
     @Nullable
     private VoucherStatus voucherStatus = VoucherStatus.VALID;
 
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
+    }
+
+    @Override
+    public long getHowMuch() {
+        return this.amount;
+    }
+
+    @Override
+    public VoucherStatus getVoucherStatus() {
+        return this.voucherStatus;
     }
 
     @Override

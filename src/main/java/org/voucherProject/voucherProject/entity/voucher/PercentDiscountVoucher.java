@@ -16,7 +16,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     @Nullable
-    private final VoucherType voucherType;
+    private final VoucherType voucherType = VoucherType.PERCENT;
 
     @Nullable
     private VoucherStatus voucherStatus = VoucherStatus.VALID;
@@ -24,6 +24,16 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (1 - percent / 100);
+    }
+
+    @Override
+    public long getHowMuch() {
+        return this.percent;
+    }
+
+    @Override
+    public VoucherStatus getVoucherStatus() {
+        return this.voucherStatus;
     }
 
     @Override

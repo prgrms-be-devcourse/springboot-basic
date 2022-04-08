@@ -10,6 +10,10 @@ public interface Voucher {
 
     VoucherType getVoucherType();
 
+    long getHowMuch();
+
+    VoucherStatus getVoucherStatus();
+
     void useVoucher();
 
     void cancelVoucher();

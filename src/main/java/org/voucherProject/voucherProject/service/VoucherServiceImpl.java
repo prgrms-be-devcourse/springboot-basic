@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.repository.VoucherRepository;
+
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
@@ -21,12 +23,12 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<Voucher> findAll() throws IOException {
         return voucherRepository.findAll();
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher save(Voucher voucher) throws IOException {
         voucherRepository.save(voucher);
         return voucher;
     }

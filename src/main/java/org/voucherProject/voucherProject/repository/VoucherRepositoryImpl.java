@@ -1,6 +1,7 @@
 package org.voucherProject.voucherProject.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 
@@ -9,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @RequiredArgsConstructor
+//@Primary
 public class VoucherRepositoryImpl implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
