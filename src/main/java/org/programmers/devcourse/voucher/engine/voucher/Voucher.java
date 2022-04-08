@@ -9,31 +9,51 @@ import java.util.stream.Stream;
 
 public interface Voucher {
 
-  UUID getVoucherId();
+  long getDiscountDegree();
 
+  UUID getVoucherId();
 
   long discount(long beforeDiscount);
 
-  enum VoucherType {
-    FIXED_AMOUNT("1", FixedAmountVoucher.class, "$"), PERCENT_DISCOUNT("2",
-        PercentDiscountVoucher.class, "%");
 
-    private static final Map<String, VoucherType> mapper = Collections.unmodifiableMap(
+  enum VoucherMapper {
+    FIXED_AMOUNT("1",
+        FixedAmountVoucher.class, "$", FixedAmountVoucher.factory),
+    PERCENT_DISCOUNT("2",
+        PercentDiscountVoucher.class, "%", PercentDiscountVoucher.factory);
+
+    private static final Map<String, VoucherMapper> mapper = Collections.unmodifiableMap(
         Stream.of(values()).collect(Collectors.toMap(value -> value.id, value -> value)));
     private final String id;
     private final Class<? extends Voucher> voucherClass;
     private final String unit;
+    private final VoucherFactory factory;
 
 
-    VoucherType(String id, Class<? extends Voucher> voucherClass, String unit) {
+    VoucherMapper(String id, Class<? extends Voucher> voucherClass, String unit,
+        VoucherFactory factory) {
       this.id = id;
       this.voucherClass = voucherClass;
       this.unit = unit;
+      this.factory = factory;
     }
 
-    public static Optional<VoucherType> from(String candidate) {
+    public static Optional<VoucherMapper> from(String candidate) {
 
       return Optional.ofNullable(mapper.get(candidate));
+    }
+
+    public static Optional<VoucherMapper> fromClassName(String className) {
+
+      for (VoucherMapper voucherMapper : VoucherMapper.values()) {
+
+        if (voucherMapper.voucherClass.getSimpleName().equals(className)) {
+          return Optional.of(voucherMapper);
+        }
+
+      }
+
+      return Optional.empty();
     }
 
 
@@ -43,6 +63,10 @@ public interface Voucher {
 
     public Class<? extends Voucher> getVoucherClass() {
       return voucherClass;
+    }
+
+    public VoucherFactory getFactory() {
+      return factory;
     }
   }
 

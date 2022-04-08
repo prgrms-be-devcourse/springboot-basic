@@ -7,6 +7,7 @@ import java.util.UUID;
 public class FixedAmountVoucher implements
     Voucher {
 
+  public static final VoucherFactory factory = FixedAmountVoucher::new;
   private final UUID voucherId;
   private final long discountAmount;
 
@@ -19,6 +20,11 @@ public class FixedAmountVoucher implements
     return new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
   }
 
+
+  @Override
+  public long getDiscountDegree() {
+    return discountAmount;
+  }
 
   @Override
   public UUID getVoucherId() {
@@ -37,6 +43,8 @@ public class FixedAmountVoucher implements
         voucherId,
         discountAmount);
   }
+
+
 }
 
 

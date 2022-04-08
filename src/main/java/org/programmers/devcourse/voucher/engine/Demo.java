@@ -8,7 +8,7 @@ import org.programmers.devcourse.voucher.engine.exception.NoSuchOptionException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherType;
+import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherMapper;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherService;
 import org.programmers.devcourse.voucher.util.ExceptionFormatter;
 import org.slf4j.Logger;
@@ -72,10 +72,10 @@ public class Demo {
 
   private void createVoucher() throws IOException, VoucherException, ReflectiveOperationException {
     // 사용자로 부터 바우처 타입을 입력 받는다.
-    VoucherType voucherType = input.getVoucherType();
-    long voucherDiscountData = input.getVoucherDiscountData(voucherType);
+    VoucherMapper voucherMapper = input.getVoucherType();
+    long voucherDiscountData = input.getVoucherDiscountData(voucherMapper);
 
-    UUID voucherId = voucherService.create(voucherType, voucherDiscountData);
+    UUID voucherId = voucherService.create(voucherMapper, voucherDiscountData);
     output.print(MessageFormat.format("CREATE SUCCESS! VoucherID : {0}", voucherId));
 
 

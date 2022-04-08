@@ -11,7 +11,7 @@ import org.programmers.devcourse.voucher.engine.MenuSelection;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherType;
+import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,14 +35,14 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public VoucherType getVoucherType() throws IOException {
-    Optional<VoucherType> voucherType;
+  public VoucherMapper getVoucherType() throws IOException {
+    Optional<VoucherMapper> voucherType;
     while (true) {
       System.out.println("== Create ==");
       System.out.println("Select type of voucher");
       System.out.println("FixedAmountVoucher --> type 1");
       System.out.println("PercentDiscountVoucher --> type 2");
-      voucherType = VoucherType.from(br.readLine());
+      voucherType = VoucherMapper.from(br.readLine());
       if (voucherType.isPresent()) {
         return voucherType.get();
       }
@@ -51,11 +51,11 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public long getVoucherDiscountData(VoucherType voucherType) throws IOException {
+  public long getVoucherDiscountData(VoucherMapper voucherMapper) throws IOException {
     long discountData = Long.MIN_VALUE;
     while (discountData == Long.MIN_VALUE) {
       System.out.print(
-          MessageFormat.format("Type amount of discount(unit: {0}) >> ", voucherType.getUnit()));
+          MessageFormat.format("Type amount of discount(unit: {0}) >> ", voucherMapper.getUnit()));
       try {
         discountData = Long.parseLong(br.readLine());
         if (discountData <= 0) {

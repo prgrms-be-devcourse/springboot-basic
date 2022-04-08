@@ -7,6 +7,7 @@ import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeE
 public class PercentDiscountVoucher implements
     Voucher {
 
+  public final static VoucherFactory factory = PercentDiscountVoucher::new;
   private final UUID voucherId;
   private final long discountPercent;
 
@@ -24,6 +25,10 @@ public class PercentDiscountVoucher implements
     return new PercentDiscountVoucher(UUID.randomUUID(), discountPercent);
   }
 
+  @Override
+  public long getDiscountDegree() {
+    return discountPercent;
+  }
 
   @Override
   public UUID getVoucherId() {

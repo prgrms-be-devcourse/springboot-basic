@@ -9,8 +9,14 @@ public class VoucherApplication {
 
 
   public static void main(String[] args) {
-    var context = SpringApplication.run(VoucherApplication.class, args);
+    var app = new SpringApplication(VoucherApplication.class);
+    app.setAdditionalProfiles("dev");
+
+    var context = app.run(args);
+
     context.getBean(Demo.class).start();
+
+
   }
 
 
