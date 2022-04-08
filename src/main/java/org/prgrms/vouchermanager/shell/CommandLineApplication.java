@@ -7,11 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class CommandLineApplication implements VoucherManagerShell {
 
+    // 아직 사용하지 않는 로거
     private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     private final Console console;
@@ -27,16 +26,22 @@ public class CommandLineApplication implements VoucherManagerShell {
     public void run() {
 
         init();
-        // TODO: command, CommandType으로 변경
+
         while (true) {
-            String command = console.read();
-            if (command.equalsIgnoreCase("exit")) return;
-            if (command.equalsIgnoreCase("create")) {
-                createVoucher();
-                continue;
+            switch (getCommand()) {
+                case EXIT -> {
+                    return;
+                }
+                case CREATE -> createVoucher();
+                case LIST -> printVoucherLists();
+                case INVALID_COMMAND -> console.println("잘못된 커맨드, 다시 입력받기");
             }
-            if (command.equalsIgnoreCase("list")) printVoucherLists();
         }
+
+    }
+
+    private Command getCommand() {
+        return Command.findCommand(console.read()).orElse(Command.INVALID_COMMAND);
     }
 
     private void init() {
@@ -51,14 +56,16 @@ public class CommandLineApplication implements VoucherManagerShell {
     }
 
     private void createVoucher() {
+        console.println("voucher type 입력");
         VoucherType voucherType = getInputVoucherType();
+        console.println("할인율 입력");
         Long discountAmount = getInputAmount();
         voucherService.createVoucher(voucherType, discountAmount);
     }
 
     private VoucherType getInputVoucherType() {
-        Optional<VoucherType> voucherType = VoucherType.findVoucherType(console.read());
-        return voucherType.orElse(VoucherType.FIXED);
+        return VoucherType.findVoucherType(console.read())
+                .orElse(VoucherType.INVALID);
     }
 
     private Long getInputAmount() {

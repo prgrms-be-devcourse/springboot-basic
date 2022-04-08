@@ -2,7 +2,6 @@ package org.prgrms.vouchermanager.voucher;
 
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
 import java.util.UUID;
 
 @Service
@@ -15,10 +14,10 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Voucher createVoucher(VoucherType type, long amount) {
+    public void createVoucher(VoucherType type, Long amount) {
+        if(type.equals(VoucherType.INVALID)) return;
         Voucher voucher = VoucherFactory.getVoucher(type, amount);
         voucherRepository.insert(voucher);
-        return voucher;
     }
 
     @Override
@@ -29,12 +28,13 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher findVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+                .orElseThrow();
     }
 
+    // 아직 구현하지 않은 기능입니다.
     @Override
     public void useVoucher(Voucher voucher) {
 

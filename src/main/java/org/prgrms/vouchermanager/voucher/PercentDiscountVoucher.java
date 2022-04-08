@@ -7,7 +7,6 @@ public class PercentDiscountVoucher extends AbstractVoucher {
 
     private final long percent;
 
-    //TODO:
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         super(voucherId, VoucherType.PERCENT);
         this.percent = percent;
