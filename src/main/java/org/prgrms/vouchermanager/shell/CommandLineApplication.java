@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
 public class CommandLineApplication implements VoucherManagerShell {
 
@@ -28,6 +30,7 @@ public class CommandLineApplication implements VoucherManagerShell {
         init();
 
         while (true) {
+            console.print("커맨드를 입력하세요: ");
             switch (getCommand()) {
                 case EXIT -> {
                     return;
@@ -63,7 +66,8 @@ public class CommandLineApplication implements VoucherManagerShell {
 
     private VoucherType getInputVoucherType() {
         while (true) {
-            console.println("voucher type 입력");
+            printAvailableVoucherType();
+            console.print("voucher type 입력 : ");
             VoucherType voucherType = VoucherType.findVoucherType(console.read());
             if (voucherType == VoucherType.INVALID) continue;
             return voucherType;
@@ -77,6 +81,12 @@ public class CommandLineApplication implements VoucherManagerShell {
             if (amount <= 0 || amount > 100) continue;
             return amount;
         }
+    }
+
+    private void printAvailableVoucherType() {
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(VoucherType.values()).filter(v -> v != VoucherType.INVALID).forEach(v -> sb.append(v).append(", "));
+        console.println(" 현재 가능한 타입 : " + sb);
     }
 
     private void printVoucherLists() {

@@ -6,12 +6,11 @@ package org.prgrms.vouchermanager.voucher;
 public class VoucherFactory {
 
     public static Voucher getVoucher(VoucherType type, long amount) {
-        Voucher voucher = null;
         switch (type){
-            case FIXED -> voucher = new FixedAmountVoucher(amount);
-            case PERCENT -> voucher = new PercentDiscountVoucher(amount);
+            case FIXED -> {return new FixedAmountVoucher(amount);}
+            case PERCENT -> {return new PercentDiscountVoucher(amount);}
         }
-        return voucher;
+        return new FixedAmountVoucher(amount);
     }
 
 }

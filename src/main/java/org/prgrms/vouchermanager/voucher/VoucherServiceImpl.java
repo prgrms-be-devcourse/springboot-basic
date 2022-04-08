@@ -23,7 +23,7 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public String allVouchersToString() {
         StringBuilder sb = new StringBuilder();
-        voucherRepository.getAll().forEach(v -> sb.append(sb).append("\n"));
+        voucherRepository.getAll().forEach(v -> sb.append(v).append("\n"));
         return sb.toString();
     }
 
