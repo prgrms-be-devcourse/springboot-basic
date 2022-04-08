@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 
+/**
+ * 터미널 역할을 하는 콘솔 클래스
+ */
 @Component
 public class Console implements Input, Output {
 

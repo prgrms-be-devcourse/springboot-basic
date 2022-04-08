@@ -1,6 +1,5 @@
 package org.prgrms.vouchermanager;
 
-
 import org.prgrms.vouchermanager.configuration.AppConfiguration;
 import org.prgrms.vouchermanager.shell.VoucherManagerShell;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

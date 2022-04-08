@@ -23,7 +23,7 @@ public class VoucherManagerShellImpl implements VoucherManagerShell {
     public void run() {
 
         init();
-
+        // TODO: command, CommandType으로 변경
         while (true) {
             String command = console.read();
             if (command.equalsIgnoreCase("exit")) return;

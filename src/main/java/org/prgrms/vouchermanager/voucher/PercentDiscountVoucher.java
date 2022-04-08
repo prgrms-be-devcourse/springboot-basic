@@ -7,6 +7,7 @@ public class PercentDiscountVoucher extends AbstractVoucher {
 
     private final long percent;
 
+    //TODO:
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         super(voucherId, VoucherType.PERCENT);
         this.percent = percent;
@@ -19,6 +20,7 @@ public class PercentDiscountVoucher extends AbstractVoucher {
 
     @Override
     public String toString() {
+        //TODO: 후에 출력 양식 정하면 StringBuilder나 Message Format으로 바꿀 것
         return "PercentDiscountVoucher{" +
                 "voucherId+" + getVoucherId() +
                 "voucherType" + getVoucherType() +
