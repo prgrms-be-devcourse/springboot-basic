@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +22,10 @@ public class VoucherRepositoryImpl implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher save(Voucher voucher) throws IOException {
+        if (findById(voucher.getVoucherId()).isPresent()) {
+            throw new IOException();
+        }
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }

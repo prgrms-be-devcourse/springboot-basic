@@ -12,7 +12,7 @@ public class VoucherProjectApplication {
 		SpringApplication.run(VoucherProjectApplication.class, args);
 	}
 
-	@Bean
+//	@Bean
 	public CommandLineRunner run(VoucherEnrollSystem voucherEnrollSystem) {
 		return args -> voucherEnrollSystem.run();
 	}

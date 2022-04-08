@@ -28,6 +28,9 @@ public class VoucherRepositoryFileImpl implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) throws IOException {
+        if (findById(voucher.getVoucherId()).isPresent()) {
+            throw new IOException();
+        }
         try {
             String saveFile = voucher.getVoucherId() + "," + voucher.getHowMuch() + "," + voucher.getVoucherType() + "," + voucher.getVoucherStatus();
             bufferedWriter.write(saveFile);
