@@ -2,6 +2,8 @@ package org.programmers.kdt.weekly.customer.repository;
 
 import org.programmers.kdt.weekly.customer.Customer;
 import org.programmers.kdt.weekly.voucher.repository.FileBuffer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -9,6 +11,7 @@ import java.util.UUID;
 
 @Repository
 public class BlackListRepository implements CustomerRepository {
+    private final static Logger logger = LoggerFactory.getLogger(BlackListRepository.class);
     private final File FILE = new File("customer_blacklist.csv");
     private final BufferedWriter BUFFER_WRITER = FileBuffer.getBufferWriter(FILE);
     private BufferedReader bufferedReader;
@@ -33,6 +36,7 @@ public class BlackListRepository implements CustomerRepository {
                 size++;
             }
         } catch (FileNotFoundException e) {
+            logger.error("file not found");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
