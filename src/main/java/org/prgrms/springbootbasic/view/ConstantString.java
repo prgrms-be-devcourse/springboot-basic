@@ -18,4 +18,6 @@ public class ConstantString {
     public static final String VOUCHER_ID = "voucherId= ";
     public static final String AMOUNT = ", amount= ";
     public static final String PERCENT = ", percent= ";
+    public static final String BLACKLIST = "blacklist";
+    public static final String TO_LIST_ALL_CUSTOMER_BLACK_LIST = " to list all customer black list.";
 }

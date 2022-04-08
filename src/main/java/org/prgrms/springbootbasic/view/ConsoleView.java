@@ -1,6 +1,7 @@
 package org.prgrms.springbootbasic.view;
 
 import static org.prgrms.springbootbasic.view.ConstantString.AMOUNT;
+import static org.prgrms.springbootbasic.view.ConstantString.BLACKLIST;
 import static org.prgrms.springbootbasic.view.ConstantString.CREATE;
 import static org.prgrms.springbootbasic.view.ConstantString.EXIT;
 import static org.prgrms.springbootbasic.view.ConstantString.LIST;
@@ -11,12 +12,17 @@ import static org.prgrms.springbootbasic.view.ConstantString.SELECT_PERCENT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_VOUCHER_TYPE;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_CREATE_A_NEW_VOUCHER;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_EXIT_THE_PROGRAM;
+import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_CUSTOMER_BLACK_LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_VOUCHERS;
 import static org.prgrms.springbootbasic.view.ConstantString.TYPE;
 import static org.prgrms.springbootbasic.view.ConstantString.VOUCHER_ID;
 import static org.prgrms.springbootbasic.view.ConstantString.VOUCHER_LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.VOUCHER_PROGRAM;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -25,12 +31,20 @@ import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.service.VoucherType;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ConsoleView {
 
+    private static final String FILE_CUSTOMER_BLACKLIST_CSV = "file:customer_blacklist.csv";
     private final TextIO textIO = TextIoFactory.getTextIO();
+    private final File customerBlackList;
+
+    public ConsoleView(ApplicationContext applicationContext) throws IOException {
+        this.customerBlackList = applicationContext.getResource(FILE_CUSTOMER_BLACKLIST_CSV)
+            .getFile();
+    }
 
     public void printMenu() {
         TextTerminal<?> terminal = textIO.getTextTerminal();
@@ -52,6 +66,12 @@ public class ConsoleView {
             props -> props.setPromptBold(true),
             t -> t.print(LIST));
         terminal.println(TO_LIST_ALL_VOUCHERS);
+
+        terminal.print(TYPE);
+        terminal.executeWithPropertiesConfigurator(
+            props -> props.setPromptBold(true),
+            t -> t.print(BLACKLIST));
+        terminal.println(TO_LIST_ALL_CUSTOMER_BLACK_LIST);
 
         terminal.println();
     }
@@ -106,6 +126,24 @@ public class ConsoleView {
         if (voucher.getClass() == PercentDiscountVoucher.class) {
             var percentDiscountVoucher = (PercentDiscountVoucher) voucher;
             terminal.println(PERCENT + percentDiscountVoucher.getPercent());
+        }
+    }
+
+    public void printCustomerBlackList() {
+        TextTerminal<?> terminal = textIO.getTextTerminal();
+
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new FileReader(customerBlackList));
+            String line = "";
+
+            terminal.println("=== CUSTOMER_BLACK_LIST ===");
+            while ((line = br.readLine()) != null) {
+                terminal.println(line);
+            }
+            terminal.println();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

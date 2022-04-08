@@ -1,7 +1,5 @@
 package org.prgrms.springbootbasic.controller;
 
-import java.util.List;
-import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.service.VoucherType;
 import org.prgrms.springbootbasic.view.ConsoleView;
@@ -41,18 +39,14 @@ public class VoucherController {
         }
 
         if (menu.isList()) {
-            showList();
+            consoleView.printList(voucherService.findAll());
+        }
+
+        if (menu.isBlackList()) {
+            consoleView.printCustomerBlackList();
         }
 
         return true;
-    }
-
-    private void showList() {
-
-        logger.info("VoucherController.showList() called");
-
-        List<Voucher> vouchers = voucherService.findAll();
-        consoleView.printList(vouchers);
     }
 
     private void createVoucher() {

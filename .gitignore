@@ -51,3 +51,6 @@ PercentVoucherDB.ser
 
 ### LOG ###
 logs/
+
+### customer black list file ###
+customer_blacklist.csv

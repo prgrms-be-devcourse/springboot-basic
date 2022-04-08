@@ -1,7 +1,7 @@
 package org.prgrms.springbootbasic.view;
 
 public enum Menu {
-    CREATE, LIST, EXIT;
+    CREATE, LIST, EXIT, BLACKLIST;
 
     public boolean isExit() {
         return this == EXIT;
@@ -13,5 +13,9 @@ public enum Menu {
 
     public boolean isList() {
         return this == LIST;
+    }
+
+    public boolean isBlackList() {
+        return this == BLACKLIST;
     }
 }
