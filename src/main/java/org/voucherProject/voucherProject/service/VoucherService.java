@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface VoucherService {
 
-    Voucher getVoucher(UUID voucherId);
+    Voucher getVoucher(UUID voucherId) throws IOException;
 
     List<Voucher> findAll() throws IOException;
 

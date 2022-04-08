@@ -61,8 +61,7 @@ public class VoucherEnrollSystem implements Runnable {
 
             Optional<VoucherType> voucherType = checkVoucherType(inputVoucherType);
             long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
-            // 여기서 할인 수치에 대한 검증?
-            // Fixed와 Percent에 영향이 다르므로 각자의 Entity에서 직접 검증을 하는게 좋지 않을까?
+            // 여기서 할인 수치에 대한 검증은 어느단계에서 하는게 옳은가?
             // ex) @MIN, @MAX?
             voucherController.createVoucher(voucherType.get(), inputDiscountAmount);
             console.completeMessage();

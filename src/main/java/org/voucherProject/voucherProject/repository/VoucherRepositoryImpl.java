@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @RequiredArgsConstructor
-//@Primary
+@Primary
 public class VoucherRepositoryImpl implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();

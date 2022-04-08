@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface VoucherRepository {
 
-    Optional<Voucher> findById(UUID voucherId);
+    Optional<Voucher> findById(UUID voucherId) throws IOException;
 
     Voucher save(Voucher voucher) throws IOException;
 

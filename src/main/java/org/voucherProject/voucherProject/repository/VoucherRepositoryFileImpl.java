@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Repository
-@Primary
+//@Primary
 public class VoucherRepositoryFileImpl implements VoucherRepository {
 
     private final FileWriter fileWriter = new FileWriter("voucherRepository.txt", true);
@@ -26,8 +27,9 @@ public class VoucherRepositoryFileImpl implements VoucherRepository {
      * 일단 추후 구현
      */
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+    public Optional<Voucher> findById(UUID voucherId) throws IOException {
+        List<Voucher> vouchers = getVouchers();
+        return vouchers.stream().filter(v -> v.getVoucherId().equals(voucherId)).limit(1).findFirst();
     }
 
     @Override
@@ -45,6 +47,11 @@ public class VoucherRepositoryFileImpl implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() throws IOException {
+        List<Voucher> vouchers = getVouchers();
+        return vouchers;
+    }
+
+    private List<Voucher> getVouchers() throws IOException {
         List<Voucher> vouchers = new ArrayList<>();
         String readLine = null;
         while ((readLine = bufferedReader.readLine()) != null) {

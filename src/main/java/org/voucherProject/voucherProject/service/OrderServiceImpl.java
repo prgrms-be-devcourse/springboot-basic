@@ -6,6 +6,8 @@ import org.voucherProject.voucherProject.entity.order.Order;
 import org.voucherProject.voucherProject.entity.order.OrderItem;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.repository.OrderRepository;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order createOrder(UUID userId, List<OrderItem> orderItems, UUID voucherId) {
+    public Order createOrder(UUID userId, List<OrderItem> orderItems, UUID voucherId) throws IOException {
         Voucher voucher = voucherService.getVoucher(voucherId);
         Order order = orderRepository.save(new Order(UUID.randomUUID(), userId, orderItems, voucher));
         voucher.useVoucher();

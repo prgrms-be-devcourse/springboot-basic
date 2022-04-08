@@ -3,6 +3,7 @@ package org.voucherProject.voucherProject.entity.voucher;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.springframework.boot.convert.DataSizeUnit;
 import org.springframework.lang.Nullable;
 import java.util.UUID;
 
