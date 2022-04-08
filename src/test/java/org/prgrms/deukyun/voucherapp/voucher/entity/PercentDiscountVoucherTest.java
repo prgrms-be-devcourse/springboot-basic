@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * PDV - abbreviation of PercentDiscountVoucher
@@ -35,7 +34,7 @@ class PercentDiscountVoucherTest {
     }
 
     @Test
-    void givenAnyBeforeDiscountPrice_whenDiscount_thenReturnPercentDiscountedPrice(){
+    void givenAnyBeforeDiscountPrice_whenDiscount_thenReturnPercentDiscountedPrice() {
         //setup
         Voucher voucher = new PercentDiscountVoucher(20L);
         long beforeDiscountPrice = 1000L;

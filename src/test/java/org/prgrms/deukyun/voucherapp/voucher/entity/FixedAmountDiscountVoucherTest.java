@@ -2,7 +2,8 @@ package org.prgrms.deukyun.voucherapp.voucher.entity;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * FDV - abbreviation of FixedAmountDiscountVoucher
@@ -29,22 +30,10 @@ class FixedAmountDiscountVoucherTest {
         //assert throws
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new FixedAmountDiscountVoucher(amount));
-
     }
 
     @Test
-    void givenBeforeDiscountPriceGreaterThanAmountOfFDV_whenDiscount_thenThrowsIllegalArgumentException(){
-        //setup
-        Voucher voucher = new FixedAmountDiscountVoucher(1000L);
-        long beforeDiscountPrice = 500L;
-
-        //assert throws
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> voucher.discount(beforeDiscountPrice));
-    }
-
-    @Test
-    void givenBeforeDiscountPriceSmallerThanAmountOfFDV_whenDiscount_thenReturnFixedAmountDiscountedPrice(){
+    void givenBeforeDiscountPriceSmallerThanAmountOfFDV_whenDiscount_thenReturnFixedAmountDiscountedPrice() {
         //setup
         long amount = 500L;
         Voucher voucher = new FixedAmountDiscountVoucher(amount);
@@ -55,5 +44,16 @@ class FixedAmountDiscountVoucherTest {
 
         //assert
         assertThat(discountedPrice).isEqualTo(beforeDiscountPrice - amount);
+    }
+
+    @Test
+    void givenBeforeDiscountPriceGreaterThanAmountOfFDV_whenDiscount_thenThrowsIllegalArgumentException() {
+        //setup
+        Voucher voucher = new FixedAmountDiscountVoucher(1000L);
+        long beforeDiscountPrice = 500L;
+
+        //assert throws
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> voucher.discount(beforeDiscountPrice));
     }
 }

@@ -26,14 +26,8 @@ public class FixedAmountDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscountPrice) {
-        checkDiscountApplicable(beforeDiscountPrice);
+        checkArgument(beforeDiscountPrice - amount >= 0, "discounted price must be positive");
 
         return beforeDiscountPrice - amount;
-    }
-
-    private void checkDiscountApplicable(long beforeDiscountPrice) {
-        if (beforeDiscountPrice - amount < 0) {
-            throw new IllegalArgumentException("discounted price must be positive");
-        }
     }
 }

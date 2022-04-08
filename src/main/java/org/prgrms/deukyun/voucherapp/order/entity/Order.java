@@ -22,12 +22,17 @@ public class Order {
     public Order(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
         checkArgument(customerId != null, "customerId must be provided.");
         checkArgument(orderItems != null, "orderItems must be provided.");
+        checkArgument(!orderItems.isEmpty(), "orderItems must contain at least one OrderItem.");
 
         this.id = UUID.randomUUID();
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.voucher = Optional.ofNullable(voucher);
         this.orderStatus = OrderStatus.ACCEPTED;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public UUID getId() {
@@ -46,5 +51,40 @@ public class Order {
 
     public OrderStatus getOrderStatus() {
         return orderStatus;
+    }
+
+    public static class Builder {
+        private UUID customerId;
+        private List<OrderItem> orderItems;
+        private Voucher voucher;
+        private OrderStatus orderStatus;
+
+        public Builder() {
+        }
+
+        public Builder customerId(UUID customerId) {
+            this.customerId = customerId;
+            return this;
+        }
+
+        public Builder orderItems(List<OrderItem> orderItems) {
+            this.orderItems = orderItems;
+            return this;
+        }
+
+        public Builder voucher(Voucher voucher) {
+            this.voucher = voucher;
+            return this;
+        }
+
+        public Builder orderStatus(OrderStatus orderStatus) {
+            this.orderStatus = orderStatus;
+            return this;
+        }
+
+
+        public Order build() {
+            return new Order(customerId, orderItems, voucher);
+        }
     }
 }

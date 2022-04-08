@@ -31,8 +31,13 @@ public class OrderService {
      * @param orderItems
      * @return 주문객체
      */
-    public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
-        return createOrder(customerId, orderItems, null);
+    public Order createOrderWithoutVoucher(UUID customerId, List<OrderItem> orderItems) {
+        Order order = Order.builder()
+                .customerId(customerId)
+                .orderItems(orderItems)
+                .build();
+
+        return insert(order);
     }
 
     /**
@@ -43,10 +48,18 @@ public class OrderService {
      * @param voucherId
      * @return 주문객체
      */
-    public Order createOrder(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
+    public Order createOrderWithVoucher(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
         Voucher voucher = voucherService.getVoucher(voucherId);
-        Order order = new Order(customerId, orderItems, voucher);
-        orderRepository.insert(order);
-        return order;
+        Order order = Order.builder()
+                .customerId(customerId)
+                .orderItems(orderItems)
+                .voucher(voucher)
+                .build();
+
+        return insert(order);
+    }
+
+    private Order insert(Order order) {
+        return orderRepository.insert(order);
     }
 }

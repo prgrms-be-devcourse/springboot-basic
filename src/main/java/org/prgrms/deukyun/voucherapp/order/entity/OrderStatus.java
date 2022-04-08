@@ -5,12 +5,12 @@ package org.prgrms.deukyun.voucherapp.order.entity;
  */
 public enum OrderStatus {
 
-    ACCEPTED,
-    PAYMENT_REQUIRED,
-    PAYMENT_CONFIRMED,
-    PAYMENT_REJECTED,
-    READY_FOR_DELIVERY,
-    SHIPPED,
-    SETTLED,
-    CANCELLED
+    ACCEPTED,               //주문 수락 상태
+    PAYMENT_REQUIRED,       //구매 필요 상태
+    PAYMENT_CONFIRMED,      //구매 확인 상태
+    PAYMENT_REJECTED,       //구매 거절 상태
+    READY_FOR_DELIVERY,     //배송 대기 상태
+    SHIPPED,                //배송 완료 상태
+    SETTLED,                //주문 완료 상태
+    CANCELLED               //주문 취소 상태
 }
