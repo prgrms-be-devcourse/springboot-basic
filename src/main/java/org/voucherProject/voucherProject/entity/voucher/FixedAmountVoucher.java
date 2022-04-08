@@ -22,6 +22,7 @@ public class FixedAmountVoucher implements Voucher {
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }
+
     @Override
     public void useVoucher() {
         this.voucherStatus = VoucherStatus.EXPIRED;

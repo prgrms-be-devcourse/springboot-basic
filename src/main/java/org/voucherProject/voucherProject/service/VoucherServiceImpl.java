@@ -27,7 +27,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Voucher save(Voucher voucher) {
-        Voucher save = voucherRepository.save(voucher);
+        voucherRepository.save(voucher);
         return voucher;
     }
 

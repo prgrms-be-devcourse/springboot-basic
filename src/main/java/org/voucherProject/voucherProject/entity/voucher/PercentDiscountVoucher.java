@@ -12,9 +12,12 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
+
     private final long percent;
+
     @Nullable
     private final VoucherType voucherType;
+
     @Nullable
     private VoucherStatus voucherStatus = VoucherStatus.VALID;
 
@@ -31,7 +34,6 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public void cancelVoucher() {
         this.voucherStatus = VoucherStatus.VALID;
-
     }
 
 

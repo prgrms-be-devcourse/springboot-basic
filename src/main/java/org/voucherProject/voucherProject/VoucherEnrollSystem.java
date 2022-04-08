@@ -7,12 +7,9 @@ import org.voucherProject.voucherProject.controller.VoucherController;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 import org.voucherProject.voucherProject.io.Console;
-import org.voucherProject.voucherProject.io.Input;
-import org.yaml.snakeyaml.util.EnumUtils;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 
@@ -27,7 +24,8 @@ public class VoucherEnrollSystem implements Runnable {
     @Override
     public void run() {
         while (true) {
-            String inputString = console.input("Type exit to exit the program.\n" +
+            String inputString = console.input(
+                    "Type exit to exit the program.\n" +
                     "Type create to create a new voucher.\n" +
                     "Type list to list all vouchers");
             try {
@@ -60,7 +58,8 @@ public class VoucherEnrollSystem implements Runnable {
     private boolean createVoucher(String inputString) {
         if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.CREATE)))) {
             String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
-            Optional<VoucherType> voucherType = voucherType(inputVoucherType);
+
+            Optional<VoucherType> voucherType = checkVoucherType(inputVoucherType);
             long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
             // 여기서 할인 수치에 대한 검증?
             // Fixed와 Percent에 영향이 다르므로 각자의 Entity에서 직접 검증을 하는게 좋지 않을까?
@@ -78,7 +77,7 @@ public class VoucherEnrollSystem implements Runnable {
         }
     }
 
-    private Optional<VoucherType> voucherType(String inputVoucherType) {
+    private Optional<VoucherType> checkVoucherType(String inputVoucherType) {
         Optional<VoucherType> voucherType = Optional.empty();
         int inputVoucherTypeInt = Integer.parseInt(inputVoucherType);
 
@@ -88,6 +87,8 @@ public class VoucherEnrollSystem implements Runnable {
         if (inputVoucherTypeInt == VoucherType.PERCENT.getNumber()) {
             voucherType = Optional.of(VoucherType.PERCENT);
         }
+        if (voucherType.isEmpty()) throw new RuntimeException();
+
         return voucherType;
     }
 }
