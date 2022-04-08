@@ -48,6 +48,7 @@ SpringBoot Part1 Weekly Mission
       - [X] 메뉴 출력 기능 개발
       - [X] 바우처 생성 커맨드 개발
       - [X] 바우처 조회 커맨드 개발
+      - [X] 블랙 리스트 조회 커맨드 개발
 - 핵심 로직
     - [X] Voucher 엔티티 만들기
         - [X] FixedAmountVoucher
