@@ -54,10 +54,12 @@ public class VoucherController {
     private void createVoucher() {
 
         VoucherType voucherType = consoleView.selectVoucherType();
-        if (voucherType == VoucherType.FIXED) {
+        if (voucherType.isFixed()) {
             long amount = consoleView.selectAmount();
             voucherService.createFixedAmountVoucher(amount);
-        } else {
+        }
+
+        if (voucherType.isPercent()) {
             int percent = consoleView.selectPercent();
             voucherService.createPercentAmountVoucher(percent);
         }
