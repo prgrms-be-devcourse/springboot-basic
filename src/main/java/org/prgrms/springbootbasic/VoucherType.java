@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.service;
+package org.prgrms.springbootbasic;
 
 public enum VoucherType {
     FIXED, PERCENT;

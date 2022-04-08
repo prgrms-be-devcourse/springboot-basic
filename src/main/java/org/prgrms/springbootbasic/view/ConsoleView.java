@@ -27,10 +27,11 @@ import java.util.List;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+import org.prgrms.springbootbasic.Menu;
+import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
-import org.prgrms.springbootbasic.service.VoucherType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 

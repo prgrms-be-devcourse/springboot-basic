@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.view;
+package org.prgrms.springbootbasic;
 
 public enum Menu {
     CREATE, LIST, EXIT, BLACKLIST;

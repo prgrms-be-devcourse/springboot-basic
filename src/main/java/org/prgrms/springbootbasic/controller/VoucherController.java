@@ -1,9 +1,9 @@
 package org.prgrms.springbootbasic.controller;
 
+import org.prgrms.springbootbasic.Menu;
+import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.service.VoucherService;
-import org.prgrms.springbootbasic.service.VoucherType;
 import org.prgrms.springbootbasic.view.ConsoleView;
-import org.prgrms.springbootbasic.view.Menu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
