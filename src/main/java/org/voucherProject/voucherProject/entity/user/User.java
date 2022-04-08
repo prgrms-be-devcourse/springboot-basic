@@ -9,4 +9,8 @@ import java.util.UUID;
 public class User {
 
     private final UUID userId;
+
+    private final String userName;
+
+    private final String userLoginId;
 }

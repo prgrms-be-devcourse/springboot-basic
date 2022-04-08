@@ -55,7 +55,7 @@ public class VoucherRepositoryFileImpl implements VoucherRepository {
         while ((readLine = bufferedReader.readLine()) != null) {
             String[] readLineSplit = readLine.split(",");
             Optional<Voucher> voucher = Optional.empty();
-            // 새로 바우처 생성
+            // file 정보 기반으로 새 바우처 생성
             voucher = getVoucher(readLineSplit, voucher);
             // 초기 바우처는 상태가 valid이므로 사용되었으면 EXPIRED 변경
             checkVoucherStatus(readLineSplit, voucher);
