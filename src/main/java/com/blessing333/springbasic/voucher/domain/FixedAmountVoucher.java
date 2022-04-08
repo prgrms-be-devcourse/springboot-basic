@@ -1,16 +1,16 @@
 package com.blessing333.springbasic.voucher.domain;
 
 public class FixedAmountVoucher extends Voucher{
-    private final long amount;
+    private final long discountAmount;
 
-    public FixedAmountVoucher(long amount){
+    public FixedAmountVoucher(long discountAmount){
         super();
-        this.amount = amount;
+        this.discountAmount = discountAmount;
     }
 
     @Override
     long discount(long beforePrice) {
-        long discountedPrice = beforePrice - amount;
+        long discountedPrice = beforePrice - discountAmount;
         return discountedPrice > 0 ? discountedPrice : 0;
     }
 }
