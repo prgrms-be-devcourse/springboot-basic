@@ -22,7 +22,6 @@ public class VoucherRepositoryFileImpl implements VoucherRepository {
     public VoucherRepositoryFileImpl() throws IOException {
     }
 
-
     /**
      * 일단 추후 구현
      */

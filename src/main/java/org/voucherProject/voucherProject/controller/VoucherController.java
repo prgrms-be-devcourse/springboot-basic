@@ -10,6 +10,7 @@ import org.voucherProject.voucherProject.service.VoucherService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -20,10 +21,10 @@ public class VoucherController {
 
     public void createVoucher(VoucherType voucherType, long number) throws IOException {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = null;
-        if (voucherType.equals(VoucherType.PERCENT)) voucher = new PercentDiscountVoucher(voucherId, number);
-        if (voucherType.equals(VoucherType.FIXED)) voucher = new FixedAmountVoucher(voucherId, number);
-        voucherService.save(voucher);
+        Optional<Voucher> voucher = Optional.empty();
+        if (voucherType.equals(VoucherType.PERCENT)) voucher = Optional.of(new PercentDiscountVoucher(voucherId, number));
+        if (voucherType.equals(VoucherType.FIXED)) voucher = Optional.of(new FixedAmountVoucher(voucherId, number));
+        voucherService.save(voucher.get());
     }
 
     public List<Voucher> findAll() throws IOException {

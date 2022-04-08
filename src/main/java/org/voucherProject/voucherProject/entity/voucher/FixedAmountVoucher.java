@@ -12,12 +12,9 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
-
     private final long amount;
-
     @Nullable
     private final VoucherType voucherType = VoucherType.FIXED;
-
     @Nullable
     private VoucherStatus voucherStatus = VoucherStatus.VALID;
 

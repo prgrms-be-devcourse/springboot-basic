@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class VoucherProjectApplication {
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(VoucherProjectApplication.class, args);
 	}
