@@ -27,6 +27,8 @@ public class VoucherController {
 
     private boolean process() {
 
+        logger.info("VoucherController.process() called");
+
         consoleView.printMenu();
         Menu menu = consoleView.inputMenu();
 
@@ -50,8 +52,6 @@ public class VoucherController {
     }
 
     private void createVoucher() {
-
-        logger.info("VoucherController.createVoucher() called");
 
         VoucherType voucherType = consoleView.selectVoucherType();
         if (voucherType == VoucherType.FIXED) {
