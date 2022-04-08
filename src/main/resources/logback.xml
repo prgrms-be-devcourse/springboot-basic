@@ -24,7 +24,7 @@
 <!--    </appender>-->
 
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/access.log</file>
+        <file>logs/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
@@ -34,7 +34,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.programmers.kdt" level="debug">
+    <logger name="org.programmers.kdt" level="error">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
