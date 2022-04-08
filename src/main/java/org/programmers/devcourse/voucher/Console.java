@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Console implements Input, Output {
 
+
   private static final String MENU_STRING = "\n=== Voucher Program ===\n"
       + "Type exit to exit the program.\n"
       + "Type create to create a new voucher.\n"
@@ -95,7 +96,7 @@ public class Console implements Input, Output {
     StringBuilder sb = new StringBuilder();
     sb.append("\n");
     sb.append("=========BLACKLIST==========\n");
-    if (list.size() == 0) {
+    if (list.isEmpty()) {
       sb.append("EMPTY\n");
     } else {
       list.forEach(blackList -> sb.append(blackList.toString()).append("\n"));

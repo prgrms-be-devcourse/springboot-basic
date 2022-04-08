@@ -8,10 +8,10 @@ import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeE
 public class FixedAmountVoucher implements
     Voucher {
 
+  private static final long MAX_AMOUNT = 1000000;
   public static final VoucherFactory factory = FixedAmountVoucher::new;
   private final UUID voucherId;
   private final long discountAmount;
-  private final long MAX_AMOUNT = 1000000;
 
   private FixedAmountVoucher(UUID voucherId, long discountAmount)
       throws VoucherDataOutOfRangeException {

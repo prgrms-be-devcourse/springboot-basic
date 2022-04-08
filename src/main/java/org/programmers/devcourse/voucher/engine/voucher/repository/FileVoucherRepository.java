@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import org.programmers.devcourse.voucher.configuration.FileDBProperties;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher;
@@ -28,39 +29,39 @@ import org.springframework.stereotype.Repository;
 public class FileVoucherRepository implements
     VoucherRepository, AutoCloseable {
 
+  private static final String DELIMITER_REGEX = "\\|\\|";
+  private static final String DELIMITER = "||";
   // 바우처를 로드했을 때 먼저 파일 스트림을 연다.
   private final BufferedWriter dbWriter;
   private final BufferedReader dbReader;
   private final Map<UUID, Voucher> memoryStorage = new LinkedHashMap<>();
-  private final String DELIMITER_REGEX = "\\|\\|";
-  private final String DELIMITER = "||";
   private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
 
-  public FileVoucherRepository() throws IOException {
-
+  public FileVoucherRepository(
+      FileDBProperties fileDBProperties) throws IOException {
     String rootPath = System.getProperty("user.dir");
-    var dbFile = Path.of(rootPath, "/voucher-db.txt").toFile();
+    var dbFile = Path.of(rootPath, fileDBProperties.getFilename()).toFile();
 
     dbWriter = new BufferedWriter(
         new OutputStreamWriter(new FileOutputStream(dbFile, true)));
     dbReader = new BufferedReader(new InputStreamReader(new FileInputStream(dbFile)));
 
     dbReader.lines().forEach(line -> {
-      var record = line.split(DELIMITER_REGEX);
-      var voucherId = UUID.fromString(record[0]);
-      var voucherType = VoucherMapper.fromSimpleClassName(record[1]);
-      if (voucherType.isEmpty()) {
+      var fields = line.split(DELIMITER_REGEX);
+      var voucherId = UUID.fromString(fields[0]);
+      var voucherMapper = VoucherMapper.fromSimpleClassName(fields[1]);
+      if (voucherMapper.isEmpty()) {
         return;
       }
 
-      var discountDegree = Long.parseLong(record[2].replace(",", ""));
+      var discountDegree = Long.parseLong(fields[2].replace(",", ""));
 
       try {
         memoryStorage.put(voucherId,
-            voucherType.get().getFactory().create(voucherId, discountDegree));
+            voucherMapper.get().getFactory().create(voucherId, discountDegree));
       } catch (VoucherDataOutOfRangeException e) {
-        logger.error(voucherId + " : Not valid voucher");
+        logger.error(MessageFormat.format("{0} : Not valid voucher", voucherId));
       }
 
     });
@@ -100,4 +101,5 @@ public class FileVoucherRepository implements
     dbReader.close();
     dbWriter.close();
   }
+
 }

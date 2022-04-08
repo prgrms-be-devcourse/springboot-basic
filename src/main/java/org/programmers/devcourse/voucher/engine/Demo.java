@@ -42,30 +42,8 @@ public class Demo {
     logger.info("User started application");
     try (input; output) {
 
-      while (true) {
-        Optional<MenuSelection> optionalSelection = input.getSelection();
-        try {
-          switch (optionalSelection.orElseThrow(
-              NoSuchOptionException::new)) {
-            case EXIT:
-              logger.info("User shut down application");
-              output.print("=====Good Bye=====");
-              return;
-            case CREATE:
-              createVoucher();
-              break;
-            case LIST:
-              showAllVouchers();
-              break;
-            case BLACKLIST:
-              showBlacklist();
-              break;
-          }
+      runMainProcess();
 
-        } catch (VoucherException e) {
-          output.print(e.getMessage());
-        }
-      }
     } catch (Exception e) {
       // VoucherException 외 치명적 오류 (파일로 보관 예정)
       logger.error(
@@ -75,9 +53,36 @@ public class Demo {
 
   }
 
+  private void runMainProcess() throws IOException {
+    while (true) {
+      Optional<MenuSelection> optionalSelection = input.getSelection();
+      try {
+        switch (optionalSelection.orElseThrow(
+            NoSuchOptionException::new)) {
+          case EXIT:
+            logger.info("User shut down application");
+            output.print("=====Good Bye=====");
+            return;
+          case CREATE:
+            createVoucher();
+            break;
+          case LIST:
+            showAllVouchers();
+            break;
+          case BLACKLIST:
+            showBlacklist();
+            break;
+        }
+
+      } catch (VoucherException e) {
+        output.print(e.getMessage());
+      }
+    }
+  }
+
   private void showBlacklist() {
     List<BlackList> list = blackListService.getBlackList();
-   
+
     output.printBlackList(list);
   }
 
@@ -87,7 +92,7 @@ public class Demo {
 
   }
 
-  private void createVoucher() throws IOException, VoucherException, ReflectiveOperationException {
+  private void createVoucher() throws IOException, VoucherException {
     // 사용자로 부터 바우처 타입을 입력 받는다.
     VoucherMapper voucherMapper = input.getVoucherType();
     long voucherDiscountData = input.getVoucherDiscountData(voucherMapper);
