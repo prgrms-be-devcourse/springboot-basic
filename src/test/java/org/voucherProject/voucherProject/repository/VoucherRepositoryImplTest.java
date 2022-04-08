@@ -1,8 +1,6 @@
 package org.voucherProject.voucherProject.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.entity.voucher.FixedAmountVoucher;

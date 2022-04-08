@@ -2,7 +2,6 @@ package org.voucherProject.voucherProject.repository;
 
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.user.User;
-import org.voucherProject.voucherProject.entity.voucher.Voucher;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
