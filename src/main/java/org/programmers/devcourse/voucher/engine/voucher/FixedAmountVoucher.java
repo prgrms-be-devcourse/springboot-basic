@@ -2,6 +2,7 @@ package org.programmers.devcourse.voucher.engine.voucher;
 
 import java.text.MessageFormat;
 import java.util.UUID;
+import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 
 
 public class FixedAmountVoucher implements
@@ -10,14 +11,16 @@ public class FixedAmountVoucher implements
   public static final VoucherFactory factory = FixedAmountVoucher::new;
   private final UUID voucherId;
   private final long discountAmount;
+  private final long MAX_AMOUNT = 1000000;
 
-  private FixedAmountVoucher(UUID voucherId, long discountAmount) {
+  private FixedAmountVoucher(UUID voucherId, long discountAmount)
+      throws VoucherDataOutOfRangeException {
+    if (discountAmount >= MAX_AMOUNT) {
+      throw new VoucherDataOutOfRangeException(
+          MessageFormat.format("discount amount must be lower than {0}", MAX_AMOUNT));
+    }
     this.voucherId = voucherId;
     this.discountAmount = discountAmount;
-  }
-
-  public static FixedAmountVoucher from(long discountAmount) {
-    return new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
   }
 
 

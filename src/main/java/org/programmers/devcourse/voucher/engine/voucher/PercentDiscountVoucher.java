@@ -11,19 +11,15 @@ public class PercentDiscountVoucher implements
   private final UUID voucherId;
   private final long discountPercent;
 
-  private PercentDiscountVoucher(UUID voucherId, long discountPercent) {
-    this.voucherId = voucherId;
-    this.discountPercent = discountPercent;
-  }
-
-  public static PercentDiscountVoucher from(long discountPercent)
+  private PercentDiscountVoucher(UUID voucherId, long discountPercent)
       throws VoucherDataOutOfRangeException {
     if (discountPercent > 100 || discountPercent < 0) {
       throw new VoucherDataOutOfRangeException("Discount percent out of range(0-100)");
     }
-
-    return new PercentDiscountVoucher(UUID.randomUUID(), discountPercent);
+    this.voucherId = voucherId;
+    this.discountPercent = discountPercent;
   }
+
 
   @Override
   public long getDiscountDegree() {

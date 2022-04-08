@@ -43,7 +43,7 @@ public interface Voucher {
       return Optional.ofNullable(mapper.get(candidate));
     }
 
-    public static Optional<VoucherMapper> fromClassName(String className) {
+    public static Optional<VoucherMapper> fromSimpleClassName(String className) {
 
       for (VoucherMapper voucherMapper : VoucherMapper.values()) {
 
@@ -61,9 +61,6 @@ public interface Voucher {
       return unit;
     }
 
-    public Class<? extends Voucher> getVoucherClass() {
-      return voucherClass;
-    }
 
     public VoucherFactory getFactory() {
       return factory;

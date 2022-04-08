@@ -14,9 +14,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +34,7 @@ public class FileVoucherRepository implements
   private final Map<UUID, Voucher> memoryStorage = new LinkedHashMap<>();
   private final String DELIMITER_REGEX = "\\|\\|";
   private final String DELIMITER = "||";
+  private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
 
   public FileVoucherRepository() throws IOException {
@@ -45,15 +49,19 @@ public class FileVoucherRepository implements
     dbReader.lines().forEach(line -> {
       var record = line.split(DELIMITER_REGEX);
       var voucherId = UUID.fromString(record[0]);
-      var voucherType = VoucherMapper.fromClassName(record[1]);
+      var voucherType = VoucherMapper.fromSimpleClassName(record[1]);
       if (voucherType.isEmpty()) {
         return;
       }
 
       var discountDegree = Long.parseLong(record[2].replace(",", ""));
 
-      memoryStorage.put(voucherId,
-          voucherType.get().getFactory().create(voucherId, discountDegree));
+      try {
+        memoryStorage.put(voucherId,
+            voucherType.get().getFactory().create(voucherId, discountDegree));
+      } catch (VoucherDataOutOfRangeException e) {
+        logger.error(voucherId + " : Not valid voucher");
+      }
 
     });
   }

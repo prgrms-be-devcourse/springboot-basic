@@ -1,9 +1,7 @@
 package org.programmers.devcourse.voucher.engine.voucher;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.UUID;
-import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher.VoucherMapper;
 import org.programmers.devcourse.voucher.engine.voucher.repository.VoucherRepository;
@@ -20,20 +18,10 @@ public class VoucherService {
   }
 
   public UUID create(VoucherMapper voucherMapper, long voucherDiscountData)
-      throws VoucherException, ReflectiveOperationException {
-    var voucherClass = voucherMapper.getVoucherClass();
+      throws VoucherException {
+    var voucher = voucherMapper.getFactory().create(UUID.randomUUID(), voucherDiscountData);
 
-    try {
-      var voucher = (Voucher) voucherClass.getMethod("from", long.class)
-          .invoke(voucherClass, voucherDiscountData);
-      return voucherRepository.insert(voucher);
-    } catch (InvocationTargetException e) {
-      if (e.getCause() instanceof VoucherDataOutOfRangeException) {
-        throw (VoucherDataOutOfRangeException) e.getCause();
-      }
-
-    }
-    throw new VoucherException("Voucher Creation Failed");
+    return voucher.getVoucherId();
 
   }
 
