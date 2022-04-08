@@ -13,10 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class VoucherMemoryRepository implements VoucherRepository{
     ConcurrentHashMap<UUID,Voucher> voucherHashMap = new ConcurrentHashMap<>();
 
-    public VoucherMemoryRepository(ConcurrentHashMap<UUID, Voucher> voucherHashMap) {
-        this.voucherHashMap = voucherHashMap;
-    }
-
 
     @Override
     public void insert(Voucher voucher) {
@@ -26,5 +22,10 @@ public class VoucherMemoryRepository implements VoucherRepository{
     @Override
     public Voucher findById(UUID voucherId) {
         return null;
+    }
+
+    @Override
+    public void showAll() {
+
     }
 }

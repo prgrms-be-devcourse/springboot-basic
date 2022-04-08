@@ -13,9 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class OrderMemoryRepository implements OrderRepository{
     ConcurrentHashMap<UUID, Order> orderHashMap = new ConcurrentHashMap<>();
 
-    public OrderMemoryRepository(ConcurrentHashMap<UUID, Order> voucherHashMap) {
-        this.orderHashMap = voucherHashMap;
-    }
 
     @Override
     public void insert(Order order) {
