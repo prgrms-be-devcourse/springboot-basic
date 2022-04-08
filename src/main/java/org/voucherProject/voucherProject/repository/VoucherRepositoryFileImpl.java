@@ -9,23 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Repository
-//@Primary
+@Primary
 public class VoucherRepositoryFileImpl implements VoucherRepository {
 
     private final FileWriter fileWriter = new FileWriter("voucherRepository.txt", true);
     private final BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-    private final FileReader fileReader = new FileReader("voucherRepository.txt");
-    private final BufferedReader bufferedReader = new BufferedReader(fileReader);
 
     public VoucherRepositoryFileImpl() throws IOException {
     }
 
-    /**
-     * 일단 추후 구현
-     */
     @Override
     public Optional<Voucher> findById(UUID voucherId) throws IOException {
         List<Voucher> vouchers = getVouchers();
@@ -52,6 +46,7 @@ public class VoucherRepositoryFileImpl implements VoucherRepository {
     }
 
     private List<Voucher> getVouchers() throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("voucherRepository.txt"));
         List<Voucher> vouchers = new ArrayList<>();
         String readLine = null;
         while ((readLine = bufferedReader.readLine()) != null) {
