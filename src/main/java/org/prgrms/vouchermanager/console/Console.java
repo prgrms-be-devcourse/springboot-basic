@@ -39,4 +39,13 @@ public class Console implements Input, Output {
             e.printStackTrace();
         }
     }
+
+    public void close() {
+        try {
+            br.close();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

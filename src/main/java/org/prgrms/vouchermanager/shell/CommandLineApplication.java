@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PreDestroy;
 import java.util.Arrays;
 
 @Component
@@ -24,8 +25,13 @@ public class CommandLineApplication implements VoucherManagerShell {
         this.voucherService = voucherService;
     }
 
+    @PreDestroy
+    public void closeStream(){
+        console.close();
+    }
+
     @Override
-    public void run() {
+    public void run(String... args) {
 
         init();
 
