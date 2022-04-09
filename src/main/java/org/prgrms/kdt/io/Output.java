@@ -13,4 +13,8 @@ public class Output {
             System.out.println(MessageFormat.format("Type {0}{1}.", function.name(), function.getExplain()));
         }
     }
+
+    public void printInputFunctionError() {
+        System.out.println("Type right command");
+    }
 }
