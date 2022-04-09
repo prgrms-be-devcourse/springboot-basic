@@ -2,10 +2,13 @@ package org.programmers.kdtspring.ConsoleIO;
 
 import org.programmers.kdtspring.entity.voucher.Voucher;
 import org.programmers.kdtspring.repository.voucher.VoucherRepository;
+import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class Console implements Input, Output {
 
     private final VoucherRepository voucherRepository;
@@ -48,8 +51,13 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void showAllVoucher() {
+    public void showAllVoucher() throws IOException {
         List<Voucher> voucherList = voucherRepository.findAll();
         voucherList.forEach(System.out::println);
+    }
+
+    @Override
+    public void errorMessage() {
+        System.out.println("다시 입력해주세요. 잘못 입력했습니다.");
     }
 }

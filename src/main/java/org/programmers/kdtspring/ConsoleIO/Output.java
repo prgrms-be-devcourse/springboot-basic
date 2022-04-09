@@ -1,9 +1,13 @@
 package org.programmers.kdtspring.ConsoleIO;
 
+import java.io.IOException;
+
 public interface Output {
 
-    void voucherCreated();
+    void voucherCreated() throws IOException;
 
-    void showAllVoucher();
+    void showAllVoucher() throws IOException;
+
+    void errorMessage();
 
 }
