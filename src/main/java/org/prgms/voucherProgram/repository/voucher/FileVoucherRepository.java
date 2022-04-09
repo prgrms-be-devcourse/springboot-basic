@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Primary
 public class FileVoucherRepository implements VoucherRepository {
 
-    public static final String FILE_LOCATION = "./src/main/java/org/prgms/voucher/repository/filedata";
+    public static final String FILE_LOCATION = "./src/main/java/org/prgms/voucherProgram/repository/filedata";
     public static final String FILE_NAME = FILE_LOCATION + "/voucherData.txt";
     private static final String ERROR_WRONG_FILE = "[ERROR] 올바른 파일이 아닙니다.";
 
