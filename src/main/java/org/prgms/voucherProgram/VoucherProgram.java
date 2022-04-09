@@ -3,6 +3,8 @@ package org.prgms.voucherProgram;
 import org.prgms.voucherProgram.entity.MenuType;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
 import org.prgms.voucherProgram.entity.voucher.VoucherType;
+import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
+import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 import org.prgms.voucherProgram.service.UserService;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
@@ -34,7 +36,7 @@ public class VoucherProgram {
                     isNotEndProgram = false;
                     break;
                 case LIST:
-                    outputView.printAllVoucher(voucherService.findAllVoucher());
+                    printVouchers();
                     break;
                 case CREATE:
                     VoucherType voucherType = inputVoucherCommand();
@@ -42,8 +44,24 @@ public class VoucherProgram {
                     outputView.printVoucher(voucher);
                     break;
                 case BLACKLIST:
-                    outputView.printAllUser(userService.findBlackList());
+                    printBlackList();
             }
+        }
+    }
+
+    private void printBlackList() {
+        try {
+            outputView.printAllUser(userService.findBlackList());
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+        }
+    }
+
+    private void printVouchers() {
+        try {
+            outputView.printAllVoucher(voucherService.findAllVoucher());
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
         }
     }
 
@@ -52,7 +70,7 @@ public class VoucherProgram {
             try {
                 long discountValue = inputView.inputDiscountValue(voucherType);
                 return voucherService.create(voucherType, discountValue);
-            } catch (Exception e) {
+            } catch (WrongDiscountPercentException | WrongDiscountAmountException e) {
                 outputView.printError(e.getMessage());
             }
         }

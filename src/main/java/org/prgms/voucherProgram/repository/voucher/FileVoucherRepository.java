@@ -3,7 +3,6 @@ package org.prgms.voucherProgram.repository.voucher;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,7 +20,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     public static final String FILE_LOCATION = "./src/main/java/org/prgms/voucherProgram/repository/filedata";
     public static final String FILE_NAME = FILE_LOCATION + "/voucherData.txt";
-    private static final String ERROR_WRONG_FILE = "[ERROR] 올바른 파일이 아닙니다.";
+    private static final String ERROR_WRONG_FILE = "[ERROR] 올바른 voucher 파일이 아닙니다.";
 
     static {
         File file = new File(FILE_LOCATION);
@@ -56,7 +55,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 Voucher voucher = (Voucher)objectInputStream.readObject();
                 vouchers.add(voucher);
             }
-        } catch (EOFException | FileNotFoundException e) {
+        } catch (EOFException e) {
             return vouchers;
         } catch (IOException | ClassNotFoundException e) {
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
