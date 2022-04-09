@@ -1,6 +1,4 @@
-package org.prgrms.part1.io;
-
-import org.prgrms.part1.Voucher;
+package org.prgrms.part1.engine;
 
 import java.util.UUID;
 
@@ -15,9 +13,18 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
     }
 
+    public Long getDiscount() {
+        return percent;
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PercentDiscount;
     }
 
     @Override

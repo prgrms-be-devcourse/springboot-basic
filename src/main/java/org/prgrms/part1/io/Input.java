@@ -1,5 +1,6 @@
 package org.prgrms.part1.io;
 
 public interface Input {
-    public void print();
+    String select();
+    String question(String question);
 }

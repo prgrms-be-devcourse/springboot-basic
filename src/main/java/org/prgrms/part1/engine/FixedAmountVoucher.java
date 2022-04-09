@@ -1,4 +1,4 @@
-package org.prgrms.part1;
+package org.prgrms.part1.engine;
 
 import java.util.UUID;
 
@@ -12,9 +12,18 @@ public class FixedAmountVoucher implements Voucher{
         this.amount = amount;
     }
 
+    public Long getDiscount() {
+        return amount;
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.FixedAmount;
     }
 
     @Override
