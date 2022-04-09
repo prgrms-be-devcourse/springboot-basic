@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryVoucherRepositoryTest {
 
-    VoucherRepository voucherRepository = new MemoryVoucherRepository();
+    MemoryVoucherRepository voucherRepository = new MemoryVoucherRepository();
 
     @DisplayName("저장 테스트")
     @Test

@@ -1,3 +1,7 @@
 logging:
   level:
     com.mountain.voucherApp: debug
+
+file-repository:
+  dir: "vouchers"
+  file-name: "list.txt"

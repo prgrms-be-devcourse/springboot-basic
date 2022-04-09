@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-
 @SpringBootApplication
 public class VoucherAppApplication {
 
@@ -14,4 +13,5 @@ public class VoucherAppApplication {
 		ExecuteEngine engine = context.getBean(ExecuteEngine.class);
 		engine.run();
 	}
+
 }
