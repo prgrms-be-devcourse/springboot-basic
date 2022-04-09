@@ -54,7 +54,13 @@ public class CommandLineApplication {
 
     private void showPresentVoucherList(ConsoleOutput output, VoucherService voucherService) {
         List<Voucher> vouchers = voucherService.getVouchers();
-        output.output("바우처 리스트");
+
+        if (vouchers.isEmpty()) {
+            output.output("메모리에 저장된 Voucher 가 없습니다.");
+            return;
+        }
+
+        output.output("Voucher 리스트");
         for (Voucher voucher : vouchers) {
             output.output(voucher.toString());
         }
