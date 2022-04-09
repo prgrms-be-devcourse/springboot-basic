@@ -5,9 +5,9 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher{
 
     private final UUID voucherId;
-    private final long amount;
+    private final Long amount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(UUID voucherId, Long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
     }
@@ -18,12 +18,12 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public long getValue() {
+    public Long getValue() {
         return amount;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public Long discount(Long beforeDiscount) {
         return beforeDiscount - amount;
     }
 }
