@@ -2,6 +2,7 @@ package org.prgrms.vouchermanager.console;
 
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PreDestroy;
 import java.io.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -18,6 +19,11 @@ public class Console implements Input, Output {
     public Console(InputStream is, PrintStream ps) {
         this.br = new BufferedReader(new InputStreamReader(is, UTF_8));
         this.bw = new BufferedWriter(new OutputStreamWriter(ps, UTF_8));
+    }
+
+    @PreDestroy
+     private void closeStream(){
+        close();
     }
 
     @Override
@@ -40,7 +46,7 @@ public class Console implements Input, Output {
         }
     }
 
-    public void close() {
+    private void close() {
         try {
             br.close();
             bw.close();
