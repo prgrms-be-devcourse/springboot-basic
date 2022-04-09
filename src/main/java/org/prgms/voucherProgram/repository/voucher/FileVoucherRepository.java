@@ -1,7 +1,6 @@
 package org.prgms.voucherProgram.repository.voucher;
 
 import java.io.EOFException;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,14 +18,8 @@ import org.springframework.stereotype.Repository;
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
-    public static final String FILE_LOCATION = "./src/main/java/org/prgms/voucherProgram/repository/filedata";
-    public static final String FILE_NAME = FILE_LOCATION + "/voucherData.txt";
+    public static final String FILE_NAME = "src/main/resources/file/voucherData.txt";
     private static final String ERROR_WRONG_FILE = "[ERROR] 올바른 voucher 파일이 아닙니다.";
-
-    static {
-        File file = new File(FILE_LOCATION);
-        file.mkdirs();
-    }
 
     @Override
     public Voucher save(Voucher voucher) {
