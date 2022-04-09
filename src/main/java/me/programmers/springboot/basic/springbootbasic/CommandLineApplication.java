@@ -8,6 +8,8 @@ import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmount
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.UUID;
 
 public class CommandLineApplication {
 
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     public static void main(String[] args) {
         new CommandLineApplication().run();
@@ -42,6 +45,7 @@ public class CommandLineApplication {
                     showPresentVoucherList(console, voucherService);
                     break;
                 default:
+                    logger.error("잘못된 메뉴 명령어 입력: {}", cmd);
                     break;
             }
             console.output("\n");
@@ -68,6 +72,7 @@ public class CommandLineApplication {
                 voucherService.save(new PercentAmountVoucher(UUID.randomUUID(), 50));
                 break;
             default:
+                logger.error("잘못된 바우처 타입 입력: {}", cmd);
                 break;
         }
     }
