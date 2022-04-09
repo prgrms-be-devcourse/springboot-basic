@@ -18,16 +18,15 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public UUID save(VoucherType voucherType, long discount) {
-        UUID uuid = UUID.randomUUID();
+    public void save(VoucherType voucherType, long discount) {
+        UUID voucherId = UUID.randomUUID();
         if(voucherType == VoucherType.FIXED_AMOUNT){
-            Voucher voucher = new FixedAmountVoucher(uuid, discount);
+            Voucher voucher = new FixedAmountVoucher(voucherId, discount);
             voucherRepository.save(voucher);
         } else if(voucherType == VoucherType.PERCENT_DISCOUNT){
-            Voucher voucher = new PercentDiscountVoucher(uuid, (int) discount);
+            Voucher voucher = new PercentDiscountVoucher(voucherId, (int) discount);
             voucherRepository.save(voucher);
         }
-        return uuid;
     }
 
     public List<Voucher> findAll() {
