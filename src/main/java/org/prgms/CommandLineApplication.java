@@ -1,61 +1,66 @@
 package org.prgms;
 
-import org.prgms.reader.CustomCsvReader;
-import org.prgms.reader.Reader;
-import org.prgms.service.VoucherService;
-import org.prgms.user.User;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.prgms.customer.Customer;
+import org.prgms.io.FileReader;
+import org.prgms.io.InOut;
+import org.prgms.voucher.FixedAmountVoucher;
+import org.prgms.voucher.PercentDiscountVoucher;
+import org.prgms.voucher.service.VoucherService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
+import java.util.UUID;
 
-/**
- * Hello world!
- */
+@Component
 public class CommandLineApplication {
-    private static final Scanner scanner = new Scanner(System.in);
+    private final VoucherService service;
+    private final InOut console;
+    private final FileReader fileReader;
+    private final List<Customer> blackList;
 
-    public static void main(String[] args) throws Exception {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        VoucherService service = context.getBean(VoucherService.class);
-//        while(true){
-//            printMessage();
-//            String inputText = input();
-//            if(inputText.equals("exit")){
-//                return;
-//            }
-//            else if(inputText.equals("create")){
-//                String num = inputVoucher();
-//                if(num.equals("1")){
-//                    service.createVoucher(new FixedAmountVoucher(10L, UUID.randomUUID()));
-//                }
-//                else{
-//                    service.createVoucher(new PercentDiscountVoucher(10L, UUID.randomUUID()));
-//                }
-//            }
-//            else if(inputText.equals("list")){
-//                service.listVoucher();
-//            }
-//        }
-        Reader fileReader = new CustomCsvReader();
-        List<User> users = fileReader.readFile(context.getResource("customer_blacklist.csv").getFile());
-        System.out.println(users);
+    @Autowired
+    private ApplicationContext context;
 
-
-    }
-    public static void printMessage(){
-        System.out.println("=== Voucher Program ===");
-        System.out.println("Type exit to exit the program");
-        System.out.println("Type create to create a new voucher");
-        System.out.println("Type list to list all vouchers");
+    public CommandLineApplication(VoucherService service, InOut console, FileReader fileReader) {
+        this.service = service;
+        this.console = console;
+        this.fileReader = fileReader;
+        this.blackList = new ArrayList<>();
     }
 
-    public static String input(){
-        return scanner.nextLine();
+    public void execute() {
+        while (true) {
+            console.optionMessage();
+            String inputText = console.input();
+            try {
+                switch (inputText) {
+                    case "exit":
+                        return;
+                    case "create":
+                        switch (console.chooseVoucher()) {
+                            case 1 -> service.createVoucher(new FixedAmountVoucher(10L, UUID.randomUUID()));
+                            case 2 -> service.createVoucher(new PercentDiscountVoucher(10L, UUID.randomUUID()));
+                            default -> throw new IllegalArgumentException();
+                        }
+                        break;
+                    case "list":
+                        service.listVoucher();
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
+                }
+            } catch (InputMismatchException | IllegalArgumentException e) {
+                console.inputError();
+            }
+        }
     }
 
-    public static String inputVoucher(){
-        System.out.println("which one to create : 1. FixedAmountVoucher,  2. PercentDiscountVoucher");
-        return scanner.nextLine();
+    public void readBlackList(String path) throws Exception {
+        blackList.addAll(fileReader.readFile(context.getResource(path).getFile()));
+        System.out.println(blackList);
     }
 }

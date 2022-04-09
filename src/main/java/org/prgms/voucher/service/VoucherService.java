@@ -1,9 +1,7 @@
-package org.prgms.service;
+package org.prgms.voucher.service;
 
-import org.prgms.repository.MemoryVoucherRepository;
-import org.prgms.repository.VoucherRepository;
 import org.prgms.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.prgms.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(@Qualifier("file") VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

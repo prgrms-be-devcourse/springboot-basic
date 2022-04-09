@@ -1,7 +1,7 @@
-package org.prgms.repository;
+package org.prgms.voucher.repository;
 
 import org.prgms.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Repository
-@Qualifier("file")
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository{
     @Override
     public void save(Voucher voucher) {

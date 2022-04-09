@@ -1,7 +1,6 @@
 package org.prgms;
 
 import org.junit.Test;
-import org.prgms.user.User;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.Voucher;
 
@@ -59,8 +58,4 @@ public class AppTest
         }
     }
 
-    @Test
-    public void userTest() {
-        User user = new User("근오", "남", 30);
-    }
 }

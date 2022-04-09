@@ -1,4 +1,4 @@
-package org.prgms.repository;
+package org.prgms.voucher.repository;
 
 import org.prgms.voucher.Voucher;
 

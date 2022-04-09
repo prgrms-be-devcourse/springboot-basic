@@ -1,14 +1,14 @@
-package org.prgms.repository;
+package org.prgms.voucher.repository;
 
 import org.prgms.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Qualifier("memory")
+@Profile({"local", "default"})
 public class MemoryVoucherRepository implements VoucherRepository{
     private final List<Voucher> db = new ArrayList<>();
 
