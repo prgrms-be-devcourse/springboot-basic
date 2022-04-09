@@ -14,10 +14,14 @@ import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
 import org.prgms.voucheradmin.domain.voucher.exception.WrongInputException;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherConsole {
+    private final static Logger logger = LoggerFactory.getLogger(VoucherConsole.class);
+
     private final VoucherService voucherService;
 
     public VoucherConsole(VoucherService voucherService) {
@@ -51,7 +55,8 @@ public class VoucherConsole {
                         break;
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
+                System.out.println("[error] "+e.getMessage());
             }
         }
     }

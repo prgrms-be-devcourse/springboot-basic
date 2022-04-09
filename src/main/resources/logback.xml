@@ -1,0 +1,17 @@
+<configuration>
+    <property name="FILE_LOG_PATTERN" value ="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+
+    <appender name="ROLLING_FILE_ERROR_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/error-%d{yyyy-MM-dd}.log</fileNamePattern>>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.prgms.voucheradmin" level="error">
+        <appender-ref ref="ROLLING_FILE_ERROR_LOG"/>
+    </logger>
+</configuration>

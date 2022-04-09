@@ -1,10 +1,12 @@
 package org.prgms.voucheradmin.domain.voucher.dao;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
@@ -32,9 +34,8 @@ public class FileVoucherRepository implements VoucherRepository{
     public List<Voucher> getAll() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(STORAGE_FILE_PATH));
         List<Voucher> vouchers = new ArrayList<>();
-        String record = null;
 
-        while((record = br.readLine()) != null) {
+        for(String record : br.lines().collect(Collectors.toList())) {
             StringTokenizer st = new StringTokenizer(record,"\t");
 
             UUID voucherId = UUID.fromString(st.nextToken());
