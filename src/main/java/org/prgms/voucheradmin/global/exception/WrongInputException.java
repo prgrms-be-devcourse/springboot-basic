@@ -1,8 +1,6 @@
-package org.prgms.voucheradmin.domain.voucher.exception;
+package org.prgms.voucheradmin.global.exception;
 
-import org.prgms.voucheradmin.global.error.ErrorMessage;
-
-import static org.prgms.voucheradmin.global.error.ErrorMessage.WRONG_INPUT_EXCEPTION;
+import static org.prgms.voucheradmin.global.exception.ErrorMessage.WRONG_INPUT_EXCEPTION;
 
 public class WrongInputException extends RuntimeException{
     public WrongInputException() {

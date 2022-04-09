@@ -1,4 +1,4 @@
-package org.prgms.voucheradmin.global.error;
+package org.prgms.voucheradmin.global.exception;
 
 public enum ErrorMessage {
     WRONG_INPUT_EXCEPTION("wrong input");

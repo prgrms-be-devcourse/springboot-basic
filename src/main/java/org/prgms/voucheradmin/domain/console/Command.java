@@ -1,13 +1,13 @@
 package org.prgms.voucheradmin.domain.console;
 
-import org.prgms.voucheradmin.domain.voucher.exception.WrongInputException;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.prgms.voucheradmin.global.exception.WrongInputException;
 
 public enum Command {
     EXIT("exit"), CREATE("create"), LIST("list"), BLACKLIST("blacklist");

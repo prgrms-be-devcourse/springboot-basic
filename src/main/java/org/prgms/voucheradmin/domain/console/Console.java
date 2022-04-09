@@ -14,7 +14,7 @@ import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
-import org.prgms.voucheradmin.domain.voucher.exception.WrongInputException;
+import org.prgms.voucheradmin.global.exception.WrongInputException;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,14 +1,14 @@
 package org.prgms.voucheradmin.domain.customer.dao;
 
-import org.prgms.voucheradmin.domain.customer.entity.Customer;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Repository;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.prgms.voucheradmin.domain.customer.entity.Customer;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class BlacklistCustomerRepository implements CustomerRepository {

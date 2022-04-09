@@ -1,12 +1,12 @@
 package org.prgms.voucheradmin.domain.customer.service;
 
-import org.prgms.voucheradmin.domain.customer.dao.CustomerRepository;
-import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.prgms.voucheradmin.domain.customer.dao.CustomerRepository;
+import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
