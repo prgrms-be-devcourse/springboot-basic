@@ -1,6 +1,9 @@
 package org.prgrms.kdt.domain.voucher.service;
 
+import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
+import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
+import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +18,21 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public UUID save(Voucher voucher) {
-        return voucherRepository.save(voucher);
+    public UUID save(VoucherType voucherType, long discount) {
+        UUID uuid = UUID.randomUUID();
+        if(voucherType == VoucherType.FIXED_AMOUNT){
+            Voucher voucher = new FixedAmountVoucher(uuid, discount);
+            voucherRepository.save(voucher);
+        } else if(voucherType == VoucherType.PERCENT_DISCOUNT){
+            Voucher voucher = new PercentDiscountVoucher(uuid, (int) discount);
+            voucherRepository.save(voucher);
+        }
+        return uuid;
     }
 
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
+
+
 }
