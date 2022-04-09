@@ -8,13 +8,13 @@
 		<version>2.6.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>org.prgrms</groupId>
-	<artifactId>kdt</artifactId>
+	<groupId>org.programmers</groupId>
+	<artifactId>kdt-spring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>kdt</name>
+	<name>kdt-spring</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>16</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -1,13 +1,13 @@
-package org.prgrms.kdt;
+package org.programmers.kdtspring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KdtApplication {
+public class KdtSpringApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KdtApplication.class, args);
+		SpringApplication.run(KdtSpringApplication.class, args);
 	}
 
 }
