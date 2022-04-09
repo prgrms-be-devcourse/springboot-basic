@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VoucherManagementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VoucherManagementApplication.class, args);
+		SpringApplication springApplication = new SpringApplication(VoucherManagementApplication.class);
+		springApplication.setAdditionalProfiles("local"); // Active Profile 설정
+		springApplication.run(args);
 	}
 
 }
