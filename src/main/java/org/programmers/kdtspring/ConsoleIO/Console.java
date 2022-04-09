@@ -38,7 +38,7 @@ public class Console implements Input, Output {
     @Override
     public String chooseVoucher() {
         System.out.println("==== Choose the Voucher you wanna create ====");
-        System.out.println("1. FixedVoucher");
+        System.out.println("1. FixedAmountVoucher");
         System.out.println("2. PercentDiscountVoucher");
         System.out.print("Your Choice is ... = ");
 
