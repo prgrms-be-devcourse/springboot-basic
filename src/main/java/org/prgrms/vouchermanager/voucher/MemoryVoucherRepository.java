@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemoryVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-    // TODO: 아주 만약 UUID가 겹친다면?
+    // TODO: 아주 만약 UUID가 겹친다면 예외처리?
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
