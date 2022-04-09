@@ -8,6 +8,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final int percent;
 
     public PercentDiscountVoucher(UUID voucherId, int percent) {
+        if(percent > 100) throw new IllegalArgumentException("할인율은 100퍼센트를 초과할 수 없습니다.");
         this.voucherId = voucherId;
         this.percent = percent;
     }
