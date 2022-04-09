@@ -5,9 +5,7 @@ import com.mountain.voucherApp.voucher.PercentDiscountVoucher;
 import com.mountain.voucherApp.voucher.Voucher;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Profile;
 
-@Profile("local")
 class FileVoucherRepositoryTest {
 
     // TODO properties 파일 읽어서 테스트하는 방법
