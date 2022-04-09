@@ -26,6 +26,8 @@ public class CommandLineApplication {
     }
 
     public void run() {
+        logger.info("CommandLineApplication Start");
+
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
         VoucherService voucherService = context.getBean(VoucherService.class);
@@ -39,6 +41,7 @@ public class CommandLineApplication {
             switch (command) {
                 case EXIT:
                     isExit = true;
+                    logger.info("CommandLineApplication Terminate");
                     break;
                 case CREATE:
                     createVoucher(console, console, voucherService);

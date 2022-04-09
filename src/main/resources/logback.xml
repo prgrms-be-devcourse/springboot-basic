@@ -16,7 +16,7 @@
         </encoder>
     </appender>
 
-    <logger name="me.programmers.springboot.basic.springbootbasic" level="warn">
+    <logger name="me.programmers.springboot.basic.springbootbasic" level="info">
         <appender-ref ref="FILE"/>
     </logger>
 
