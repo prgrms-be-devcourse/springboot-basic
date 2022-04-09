@@ -1,12 +1,15 @@
 package com.mountain.voucherApp.repository;
 
-import com.mountain.voucherApp.properties.FileProperties;
+import com.mountain.voucherApp.properties.FileRepositoryProperties;
 import com.mountain.voucherApp.voucher.FixedAmountVoucher;
 import com.mountain.voucherApp.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +19,15 @@ import java.util.UUID;
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final FileProperties fileProperties;
+    private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
+
+    private final FileRepositoryProperties fileRepositoryProperties;
     private final File listFile;
     private List<Voucher> list = null;
 
-    public FileVoucherRepository(FileProperties fileProperties) {
-        this.fileProperties = fileProperties;
-         this.listFile = new FileSystemResource(getFullPath()).getFile();
+    public FileVoucherRepository(FileRepositoryProperties fileRepositoryProperties) {
+        this.fileRepositoryProperties = fileRepositoryProperties;
+        this.listFile = new FileSystemResource(getFullPath()).getFile();
     }
 
     @Override
@@ -46,7 +51,9 @@ public class FileVoucherRepository implements VoucherRepository {
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("file insert error");
+            String msg = "file insert error";
+            log.error(msg);
+            throw new RuntimeException(e.getMessage());
         }
         return voucher;
     }
@@ -55,7 +62,6 @@ public class FileVoucherRepository implements VoucherRepository {
         if (list == null) {
             list = new ArrayList<>();
             try {
-                makeFile();
                 BufferedReader inFile = new BufferedReader(new FileReader(getFullPath()));
                 String line = null;
                 while ((line = inFile.readLine()) != null) {
@@ -67,7 +73,9 @@ public class FileVoucherRepository implements VoucherRepository {
                 inFile.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("file read error");
+                String msg = "file read error";
+                log.error(msg);
+                throw new RuntimeException(e.getMessage());
             }
         }
     }
@@ -77,15 +85,16 @@ public class FileVoucherRepository implements VoucherRepository {
         return new FixedAmountVoucher(UUID.fromString(uuid), amount);
     }
 
-    private void makeFile() throws IOException {
+    private String getFullPath() {
+        return fileRepositoryProperties.getDir() + "/" + fileRepositoryProperties.getFileName();
+    }
+
+    @PostConstruct
+    public void postConstruct() throws IOException {
         if (!listFile.exists()) {
             listFile.getParentFile().mkdir();
             listFile.createNewFile();
-            System.out.println("create new file");
+            log.info("create new file {}", listFile.getName());
         }
-    }
-
-    private String getFullPath() {
-        return fileProperties.getDir() + "/" + fileProperties.getFileName();
     }
 }

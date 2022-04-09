@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "file-repository")
-public class FileProperties {
+public class FileRepositoryProperties {
 
     private String dir;
     private String fileName;
