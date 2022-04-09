@@ -1,0 +1,2 @@
+config:
+  profile: dev  # dev 선택 시 file로 저장
