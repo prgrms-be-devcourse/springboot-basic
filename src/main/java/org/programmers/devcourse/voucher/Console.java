@@ -25,7 +25,7 @@ public class Console implements Input, Output {
       + "Type create to create a new voucher.\n"
       + "Type list to list all vouchers.\n"
       + "Type blacklist to check blacklist";
-  private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  private final BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
   private Console() {
   }
@@ -35,20 +35,20 @@ public class Console implements Input, Output {
     System.out.println(MENU_STRING);
     System.out.print(">> ");
 
-    return MenuSelection.from(br.readLine());
+    return MenuSelection.from(consoleReader.readLine());
   }
 
   @Override
-  public VoucherMapper getVoucherType() throws IOException {
-    Optional<VoucherMapper> voucherType;
+  public VoucherMapper getVoucherMapper() throws IOException {
+    Optional<VoucherMapper> voucherMapper;
     while (true) {
       System.out.println("== Create ==");
       System.out.println("Select type of voucher");
       System.out.println("FixedAmountVoucher --> type 1");
       System.out.println("PercentDiscountVoucher --> type 2");
-      voucherType = VoucherMapper.from(br.readLine());
-      if (voucherType.isPresent()) {
-        return voucherType.get();
+      voucherMapper = VoucherMapper.from(consoleReader.readLine());
+      if (voucherMapper.isPresent()) {
+        return voucherMapper.get();
       }
       System.out.println("Wrong input, please try again");
     }
@@ -61,7 +61,7 @@ public class Console implements Input, Output {
       System.out.print(
           MessageFormat.format("Type amount of discount(unit: {0}) >> ", voucherMapper.getUnit()));
       try {
-        discountData = Long.parseLong(br.readLine());
+        discountData = Long.parseLong(consoleReader.readLine());
         if (discountData <= 0) {
           throw new NumberFormatException();
         }
@@ -93,23 +93,23 @@ public class Console implements Input, Output {
 
   @Override
   public void printBlackList(List<BlackList> list) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("\n");
-    sb.append("=========BLACKLIST==========\n");
+    StringBuilder buffer = new StringBuilder();
+    buffer.append("\n");
+    buffer.append("=========BLACKLIST==========\n");
     if (list.isEmpty()) {
-      sb.append("EMPTY\n");
+      buffer.append("EMPTY\n");
     } else {
-      list.forEach(blackList -> sb.append(blackList.toString()).append("\n"));
+      list.forEach(blackList -> buffer.append(blackList.toString()).append("\n"));
 
     }
-    sb.append("============================\n");
-    System.out.println(sb);
+    buffer.append("============================\n");
+    System.out.println(buffer.toString());
 
   }
 
 
   @Override
   public void close() throws IOException {
-    br.close();
+    consoleReader.close();
   }
 }

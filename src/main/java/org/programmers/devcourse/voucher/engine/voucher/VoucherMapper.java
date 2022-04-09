@@ -12,9 +12,11 @@ public enum VoucherMapper {
   PERCENT_DISCOUNT("2",
       PercentDiscountVoucher.class, "%", PercentDiscountVoucher.factory);
 
-  private static final Map<String, VoucherMapper> mapper = Collections.unmodifiableMap(
+  private static final Map<String, VoucherMapper> idToMapperStorage = Collections.unmodifiableMap(
       Stream.of(VoucherMapper.values())
           .collect(Collectors.toMap(value -> value.id, value -> value)));
+
+
   private final String id;
   private final Class<? extends Voucher> voucherClass;
   private final String unit;
@@ -31,19 +33,16 @@ public enum VoucherMapper {
 
   public static Optional<VoucherMapper> from(String candidate) {
 
-    return Optional.ofNullable(mapper.get(candidate));
+    return Optional.ofNullable(idToMapperStorage.get(candidate));
   }
 
   public static Optional<VoucherMapper> fromSimpleClassName(String className) {
 
     for (VoucherMapper voucherMapper : VoucherMapper.values()) {
-
       if (voucherMapper.voucherClass.getSimpleName().equals(className)) {
         return Optional.of(voucherMapper);
       }
-
     }
-
     return Optional.empty();
   }
 

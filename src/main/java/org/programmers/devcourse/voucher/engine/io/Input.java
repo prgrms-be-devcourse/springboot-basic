@@ -10,7 +10,7 @@ public interface Input extends AutoCloseable {
 
   Optional<MenuSelection> getSelection() throws IOException;
 
-  VoucherMapper getVoucherType() throws IOException;
+  VoucherMapper getVoucherMapper() throws IOException;
 
   long getVoucherDiscountData(VoucherMapper voucherMapper) throws IOException;
 }

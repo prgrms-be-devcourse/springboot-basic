@@ -1,8 +1,12 @@
-package org.programmers.devcourse.voucher.util;
+package org.programmers.devcourse.voucher.engine.exception;
 
 import java.util.Arrays;
 
 public class ExceptionFormatter {
+
+  private ExceptionFormatter() {
+  }
+
 
   public static String formatExceptionForLogger(Exception e) {
     return e.getMessage() + Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString)

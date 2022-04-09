@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
@@ -15,27 +17,30 @@ import org.springframework.stereotype.Repository;
 public class FileBlackListRepository implements
     BlackListRepository {
 
+  private static final Logger logger = LoggerFactory.getLogger(FileBlackListRepository.class);
   private final List<BlackList> cache = new ArrayList<>();
 
 
-  public FileBlackListRepository(ApplicationContext ctx) {
-    var blackListResource = ctx.getResource("customer_blacklist.csv");
+  public FileBlackListRepository(ApplicationContext applicationContext) {
+    var blackListResource = applicationContext.getResource("customer_blacklist.csv");
     BufferedReader blackListReader;
 
     try {
-      var is = blackListResource.getInputStream();
+      var inputStream = blackListResource.getInputStream();
       blackListReader = new BufferedReader(
-          new InputStreamReader(is));
+          new InputStreamReader(inputStream));
 
       blackListReader.lines().forEach(line -> {
-        var arr = Arrays.stream(line.split(",")).map(String::trim).toArray(String[]::new);
-        var name = arr[0];
-        var reason = arr[1];
+        var fields = Arrays.stream(line.split(",")).map(String::trim).toArray(String[]::new);
+        var name = fields[0];
+        var reason = fields[1];
         cache.add(new BlackList(name, reason));
       });
       blackListReader.close();
     } catch (IOException ignored) {
+      logger.error("Blacklist File loading failed");
     }
+
 
   }
 

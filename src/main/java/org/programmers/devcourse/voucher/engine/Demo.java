@@ -13,7 +13,7 @@ import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherService;
-import org.programmers.devcourse.voucher.util.ExceptionFormatter;
+import org.programmers.devcourse.voucher.engine.exception.ExceptionFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -33,7 +33,6 @@ public class Demo {
     this.input = input;
     this.output = output;
     this.voucherService = voucherService;
-
     this.blackListService = blackListService;
   }
 
@@ -94,7 +93,7 @@ public class Demo {
 
   private void createVoucher() throws IOException, VoucherException {
     // 사용자로 부터 바우처 타입을 입력 받는다.
-    VoucherMapper voucherMapper = input.getVoucherType();
+    VoucherMapper voucherMapper = input.getVoucherMapper();
     long voucherDiscountData = input.getVoucherDiscountData(voucherMapper);
 
     UUID voucherId = voucherService.create(voucherMapper, voucherDiscountData);

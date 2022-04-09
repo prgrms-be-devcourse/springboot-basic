@@ -32,8 +32,8 @@ public class FileVoucherRepository implements
   private static final String DELIMITER_REGEX = "\\|\\|";
   private static final String DELIMITER = "||";
   // 바우처를 로드했을 때 먼저 파일 스트림을 연다.
-  private final BufferedWriter dbWriter;
-  private final BufferedReader dbReader;
+  private final BufferedWriter fileWriter;
+  private final BufferedReader fileReader;
   private final Map<UUID, Voucher> memoryStorage = new LinkedHashMap<>();
   private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
@@ -43,11 +43,11 @@ public class FileVoucherRepository implements
     String rootPath = System.getProperty("user.dir");
     var dbFile = Path.of(rootPath, fileDBProperties.getFilename()).toFile();
 
-    dbWriter = new BufferedWriter(
+    fileWriter = new BufferedWriter(
         new OutputStreamWriter(new FileOutputStream(dbFile, true)));
-    dbReader = new BufferedReader(new InputStreamReader(new FileInputStream(dbFile)));
+    fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(dbFile)));
 
-    dbReader.lines().forEach(line -> {
+    fileReader.lines().forEach(line -> {
       var fields = line.split(DELIMITER_REGEX);
       var voucherId = UUID.fromString(fields[0]);
       var voucherMapper = VoucherMapper.fromSimpleClassName(fields[1]);
@@ -72,13 +72,13 @@ public class FileVoucherRepository implements
     String template = "{1}{0}{2}{0}{3}";
 
     try {
-      dbWriter.append(
+      fileWriter.append(
           MessageFormat.format(template, DELIMITER,
               voucher.getVoucherId(),
               voucher.getClass().getSimpleName(),
               voucher.getDiscountDegree()));
-      dbWriter.newLine();
-      dbWriter.flush();
+      fileWriter.newLine();
+      fileWriter.flush();
     } catch (IOException e) {
       throw new VoucherException("Repository insertion failed by IOException");
     }
@@ -98,8 +98,8 @@ public class FileVoucherRepository implements
 
   @Override
   public void close() throws Exception {
-    dbReader.close();
-    dbWriter.close();
+    fileReader.close();
+    fileWriter.close();
   }
 
 }
