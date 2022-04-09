@@ -16,7 +16,7 @@ public class PercentDiscountVoucher implements Voucher {
         this.voucherId = voucherId;
         this.discountPercent = discountPercent;
     }
-    
+
     private void validateDiscountPercent(long discountPercent) throws WrongDiscountPercentException {
         if (MAX_PERCENT < discountPercent || discountPercent < MIN_PERCENT) {
             throw new WrongDiscountPercentException();
@@ -35,6 +35,6 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s\t%d%%", VoucherType.PERCENT_DISCOUNT.getVoucherName(), voucherId, discountPercent);
+        return String.format("%s\t%s\t%d%%", VoucherType.PERCENT_DISCOUNT, voucherId, discountPercent);
     }
 }

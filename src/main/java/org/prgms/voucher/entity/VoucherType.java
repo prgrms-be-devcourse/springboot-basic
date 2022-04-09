@@ -5,15 +5,13 @@ import java.util.Arrays;
 import org.prgms.voucher.exception.WrongInputVoucherCommandException;
 
 public enum VoucherType {
-    FIXED_AMOUNT("1", "FIXED_AMOUNT"),
-    PERCENT_DISCOUNT("2", "PERCENT_DISCOUNT");
+    FIXED_AMOUNT("1"),
+    PERCENT_DISCOUNT("2");
 
     private final String command;
-    private final String voucherName;
 
-    VoucherType(String command, String voucherName) {
+    VoucherType(String command) {
         this.command = command;
-        this.voucherName = voucherName;
     }
 
     public static VoucherType findByCommand(String command) throws WrongInputVoucherCommandException {
@@ -21,9 +19,5 @@ public enum VoucherType {
             .filter(type -> type.command.equals(command))
             .findFirst()
             .orElseThrow(WrongInputVoucherCommandException::new);
-    }
-
-    public String getVoucherName() {
-        return voucherName;
     }
 }
