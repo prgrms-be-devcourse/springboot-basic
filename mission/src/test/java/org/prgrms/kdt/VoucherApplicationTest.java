@@ -35,6 +35,10 @@ public class VoucherApplicationTest {
     }
 
     @Test
+    @DisplayName("바우처 목록이 비어있을 경우")
+    public void voucherListEmptyTest(){}
+
+    @Test
     @DisplayName("PercentDistcoutVoucher에 0미만 100초과 입력시 실패")
     public void percentInputTest(){}
 
