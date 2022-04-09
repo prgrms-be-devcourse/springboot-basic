@@ -11,10 +11,12 @@ import me.programmers.springboot.basic.springbootbasic.voucher.service.VoucherSe
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
+@Component
 public class CommandLineApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
