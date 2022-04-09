@@ -51,7 +51,7 @@ public class VoucherProgram {
 
     private void printBlackList() {
         try {
-            outputView.printAllUser(userService.findBlackList());
+            outputView.printUsers(userService.findBlackList());
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
         }
@@ -59,7 +59,7 @@ public class VoucherProgram {
 
     private void printVouchers() {
         try {
-            outputView.printAllVoucher(voucherService.findAllVoucher());
+            outputView.printVouchers(voucherService.findAllVoucher());
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
         }

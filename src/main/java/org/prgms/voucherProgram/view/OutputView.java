@@ -9,9 +9,9 @@ public interface OutputView {
 
     void printVoucher(Voucher voucher);
 
-    void printAllVoucher(List<Voucher> vouchers);
+    void printVouchers(List<Voucher> vouchers);
 
-    void printAllUser(List<User> users);
+    void printUsers(List<User> users);
 
     void printError(String message);
 }

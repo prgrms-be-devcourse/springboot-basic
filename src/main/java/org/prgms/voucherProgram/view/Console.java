@@ -60,7 +60,7 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public void printAllVoucher(List<Voucher> vouchers) {
+    public void printVouchers(List<Voucher> vouchers) {
         if (vouchers.isEmpty()) {
             System.out.printf("\n%s%n\n", EMPTY_VOUCHERS);
             return;
@@ -74,7 +74,7 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public void printAllUser(List<User> users) {
+    public void printUsers(List<User> users) {
         if (users.isEmpty()) {
             System.out.printf("\n%s%n\n", EMPTY_USERS);
             return;
