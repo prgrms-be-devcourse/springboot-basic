@@ -15,6 +15,9 @@ import org.prgms.voucheradmin.global.properties.VoucherAdminProperties;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+/**
+ * 생성된 바우처를 파일에 저장하거나 파일에 저장된 바우처 목록의 반환을 담당하는 클래스입니다.
+ **/
 @Repository
 @Primary
 public class FileVoucherRepository implements VoucherRepository{
@@ -24,6 +27,9 @@ public class FileVoucherRepository implements VoucherRepository{
         this.voucherAdminProperties = voucherAdminProperties;
     }
 
+    /**
+     * 생성된 바우처를 파일에 저장하는 메서드 입니다.
+     **/
     @Override
     public Voucher save(Voucher voucher) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(voucherAdminProperties.getVoucherFilePath(),true));
@@ -34,6 +40,9 @@ public class FileVoucherRepository implements VoucherRepository{
         return voucher;
     }
 
+    /**
+     * 바우처들 파일에서 읽어와 각각 종류에 맞는 entity에 매핑해준 후 바우처 목록을 반환하는 메서드입니다.
+     **/
     @Override
     public List<Voucher> getAll() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(voucherAdminProperties.getVoucherFilePath()));

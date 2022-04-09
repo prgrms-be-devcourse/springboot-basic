@@ -6,6 +6,9 @@ import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
 
+/**
+ * FixedAmountVoucher entity 클래스입니다. 바우처 id와, 바우처 종류, 할인 amount를 필드로 가집니다.
+ **/
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final VoucherTypes voucherTypes;

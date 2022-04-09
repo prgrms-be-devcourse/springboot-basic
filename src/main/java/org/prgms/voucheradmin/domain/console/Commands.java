@@ -9,15 +9,15 @@ import java.util.stream.Stream;
 
 import org.prgms.voucheradmin.global.exception.WrongInputException;
 
-public enum Command {
+public enum Commands {
     EXIT("exit"), CREATE("create"), LIST("list"), BLACKLIST("blacklist");
 
     private final String command;
-    private static final Map<String, Command> commands =
+    private static final Map<String, Commands> commands =
             Collections.unmodifiableMap(Stream.of(values())
-                    .collect(Collectors.toMap(Command::getCommand, Function.identity())));
+                    .collect(Collectors.toMap(Commands::getCommand, Function.identity())));
 
-    Command(String command) {
+    Commands(String command) {
         this.command = command;
     }
 
@@ -25,7 +25,7 @@ public enum Command {
         return command;
     }
 
-    public static Command findCommand(String command) throws WrongInputException {
+    public static Commands findCommand(String command) throws WrongInputException {
         return Optional.ofNullable(commands.get(command)).orElseThrow(WrongInputException::new);
     }
 }
