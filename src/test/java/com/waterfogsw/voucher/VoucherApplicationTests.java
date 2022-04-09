@@ -66,7 +66,13 @@ class VoucherApplicationTests {
     }
 
     @Test
-    @DisplayName("percent || amount 입력")
+    @DisplayName("percent 입력")
+    public void inputPercent() {
+
+    }
+
+    @Test
+    @DisplayName("amount 입력")
     public void inputAmount() {
 
     }
