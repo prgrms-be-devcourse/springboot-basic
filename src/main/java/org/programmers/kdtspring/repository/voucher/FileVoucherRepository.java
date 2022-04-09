@@ -21,8 +21,10 @@ public class FileVoucherRepository implements VoucherRepository {
 
 
     private final String fileName = "voucherList.txt";
-    private final FileWriter fileWriter = new FileWriter(fileName, true);
-    private final BufferedWriter bf = new BufferedWriter(fileWriter);
+    private final FileWriter fw = new FileWriter(fileName, true);
+    private final BufferedWriter bf = new BufferedWriter(fw);
+    private final FileReader fr = new FileReader(fileName);
+    private final BufferedReader br = new BufferedReader(fr);
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     public FileVoucherRepository() throws IOException {
@@ -51,36 +53,20 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() throws IOException {
 
         logger.info("[FileVoucherRepository] findAll() called");
-
-        List<Voucher> vouchers = getVouchers();
-        return vouchers;
-    }
-
-    private List<Voucher> getVouchers() throws IOException {
-        logger.info("[FileVoucherRepository] getVouchers() called");
-
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
         List<Voucher> vouchers = new ArrayList<>();
         String readLine = null;
         while ((readLine = br.readLine()) != null) {
             String[] readLineSplit = readLine.split(",");
-            Optional<Voucher> voucher = Optional.empty();
-            voucher = getVoucher(readLineSplit, voucher);
-            vouchers.add(voucher.get());
+            if (readLineSplit[2].equalsIgnoreCase(String.valueOf(VoucherType.FixedAmountVoucher))) {
+                vouchers.add(new FixedAmountVoucher(UUID.fromString(readLineSplit[0]), Long.parseLong(readLineSplit[1].trim())));
+            } else {
+                vouchers.add(new PercentDiscountVoucher(UUID.fromString(readLineSplit[0]), Long.parseLong(readLineSplit[1].trim())));
+            }
         }
+
+
         return vouchers;
     }
 
-    private Optional<Voucher> getVoucher(String[] readLineSplit, Optional<Voucher> voucher) {
 
-        logger.info("[FileVoucherRepository] getVoucher(String[] readLineSplit, Optional<Voucher> voucher) called");
-
-        if (readLineSplit[2].equalsIgnoreCase(String.valueOf(VoucherType.FixedAmountVoucher))) {
-            voucher = Optional.of(new FixedAmountVoucher(UUID.fromString(readLineSplit[0]), Long.parseLong(readLineSplit[1])));
-        }
-        if (readLineSplit[2].equalsIgnoreCase(String.valueOf(VoucherType.PercentDiscountVoucher))) {
-            voucher = Optional.of(new PercentDiscountVoucher(UUID.fromString(readLineSplit[0]), Long.parseLong(readLineSplit[1])));
-        }
-        return voucher;
-    }
 }
