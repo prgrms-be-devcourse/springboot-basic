@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.entity.user.User;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class FileUserRepository implements UserRepository {
     public static final String FILE_LOCATION = "./src/main/java/org/prgms/voucherProgram/repository/filedata";
     public static final String FILE_NAME = FILE_LOCATION + "/customer_blacklist.csv";

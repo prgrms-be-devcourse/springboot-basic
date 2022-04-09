@@ -7,7 +7,8 @@ import org.prgms.voucherProgram.exception.WrongInputMenuException;
 public enum MenuType {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    BLACKLIST("blacklist");
 
     private final String command;
 

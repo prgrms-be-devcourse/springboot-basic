@@ -3,6 +3,7 @@ package org.prgms.voucherProgram;
 import org.prgms.voucherProgram.entity.MenuType;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
 import org.prgms.voucherProgram.entity.voucher.VoucherType;
+import org.prgms.voucherProgram.service.UserService;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
 import org.prgms.voucherProgram.view.InputView;
@@ -12,11 +13,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherProgram {
     private final VoucherService voucherService;
+    private final UserService userService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public VoucherProgram(VoucherService voucherService, Console console) {
+    public VoucherProgram(VoucherService voucherService, UserService userService, Console console) {
         this.voucherService = voucherService;
+        this.userService = userService;
         this.inputView = console;
         this.outputView = console;
     }
@@ -37,6 +40,9 @@ public class VoucherProgram {
                     VoucherType voucherType = inputVoucherCommand();
                     Voucher voucher = createVoucher(voucherType);
                     outputView.printVoucher(voucher);
+                    break;
+                case BLACKLIST:
+                    outputView.printAllUser(userService.findBlackList());
             }
         }
     }
