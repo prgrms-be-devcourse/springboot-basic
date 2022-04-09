@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.repository;
+package org.voucherProject.voucherProject.repository.order;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

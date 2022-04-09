@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.service;
+package org.voucherProject.voucherProject.service.voucher;
 
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import java.io.IOException;

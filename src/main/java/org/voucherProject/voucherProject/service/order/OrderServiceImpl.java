@@ -1,11 +1,12 @@
-package org.voucherProject.voucherProject.service;
+package org.voucherProject.voucherProject.service.order;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.voucherProject.voucherProject.entity.order.Order;
 import org.voucherProject.voucherProject.entity.order.OrderItem;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
-import org.voucherProject.voucherProject.repository.OrderRepository;
+import org.voucherProject.voucherProject.repository.order.OrderRepository;
+import org.voucherProject.voucherProject.service.voucher.VoucherService;
 
 import java.io.IOException;
 import java.util.List;

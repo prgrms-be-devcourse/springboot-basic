@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.controller;
+package org.voucherProject.voucherProject.controller.voucher;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -6,7 +6,7 @@ import org.voucherProject.voucherProject.entity.voucher.FixedAmountVoucher;
 import org.voucherProject.voucherProject.entity.voucher.PercentDiscountVoucher;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
-import org.voucherProject.voucherProject.service.VoucherService;
+import org.voucherProject.voucherProject.service.voucher.VoucherService;
 
 import java.io.IOException;
 import java.util.List;

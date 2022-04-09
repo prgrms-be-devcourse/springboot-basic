@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.repository;
+package org.voucherProject.voucherProject.repository.voucher;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;

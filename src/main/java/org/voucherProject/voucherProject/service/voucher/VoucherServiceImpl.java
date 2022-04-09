@@ -1,9 +1,9 @@
-package org.voucherProject.voucherProject.service;
+package org.voucherProject.voucherProject.service.voucher;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
-import org.voucherProject.voucherProject.repository.VoucherRepository;
+import org.voucherProject.voucherProject.repository.voucher.VoucherRepository;
 
 import java.io.IOException;
 import java.text.MessageFormat;

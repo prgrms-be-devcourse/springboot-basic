@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.service;
+package org.voucherProject.voucherProject.service.order;
 
 import org.voucherProject.voucherProject.entity.order.Order;
 import org.voucherProject.voucherProject.entity.order.OrderItem;

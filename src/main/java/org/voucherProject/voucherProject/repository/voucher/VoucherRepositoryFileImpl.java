@@ -1,6 +1,5 @@
-package org.voucherProject.voucherProject.repository;
+package org.voucherProject.voucherProject.repository.voucher;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.voucher.*;
 

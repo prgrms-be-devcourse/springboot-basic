@@ -3,7 +3,7 @@ package org.voucherProject.voucherProject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.voucherProject.voucherProject.controller.VoucherControllerImpl;
+import org.voucherProject.voucherProject.controller.voucher.VoucherControllerImpl;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 import org.voucherProject.voucherProject.io.Console;

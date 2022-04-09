@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.entity.voucher.FixedAmountVoucher;
 import org.voucherProject.voucherProject.entity.voucher.PercentDiscountVoucher;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
+import org.voucherProject.voucherProject.service.voucher.VoucherService;
 
 import java.io.IOException;
 import java.util.List;
