@@ -16,7 +16,7 @@ public class PercentDiscountVoucher implements Voucher {
         this.voucherId = voucherId;
         this.discountPercent = discountPercent;
     }
-
+    
     private void validateDiscountPercent(long discountPercent) throws WrongDiscountPercentException {
         if (MAX_PERCENT < discountPercent || discountPercent < MIN_PERCENT) {
             throw new WrongDiscountPercentException();

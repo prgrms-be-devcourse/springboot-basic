@@ -42,30 +42,33 @@ public class VoucherProgram {
     }
 
     private Voucher createVoucher(VoucherType voucherType) {
-        try {
-            long discountValue = inputView.inputDiscountValue(voucherType);
-            return voucherService.create(voucherType, discountValue);
-        } catch (Exception e) {
-            outputView.printError(e.getMessage());
+        while (true) {
+            try {
+                long discountValue = inputView.inputDiscountValue(voucherType);
+                return voucherService.create(voucherType, discountValue);
+            } catch (Exception e) {
+                outputView.printError(e.getMessage());
+            }
         }
-        return createVoucher(voucherType);
     }
 
     private VoucherType inputVoucherCommand() {
-        try {
-            return VoucherType.findByCommand(inputView.inputVoucherCommand());
-        } catch (Exception e) {
-            outputView.printError(e.getMessage());
+        while (true) {
+            try {
+                return VoucherType.findByCommand(inputView.inputVoucherCommand());
+            } catch (Exception e) {
+                outputView.printError(e.getMessage());
+            }
         }
-        return inputVoucherCommand();
     }
 
     private MenuType inputMenu() {
-        try {
-            return MenuType.of(inputView.inputMenu());
-        } catch (Exception e) {
-            outputView.printError(e.getMessage());
+        while (true) {
+            try {
+                return MenuType.of(inputView.inputMenu());
+            } catch (Exception e) {
+                outputView.printError(e.getMessage());
+            }
         }
-        return inputMenu();
     }
 }

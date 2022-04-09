@@ -25,9 +25,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     static {
         File file = new File(FILE_LOCATION);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+        file.mkdirs();
     }
 
     @Override
