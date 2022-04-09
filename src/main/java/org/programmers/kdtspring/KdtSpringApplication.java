@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 public class KdtSpringApplication {
 
     public static void main(String[] args) {
-        ApplicationContext ac = SpringApplication.run(VoucherManagement.class, args);
+        ApplicationContext ac = SpringApplication.run(KdtSpringApplication.class, args);
         ac.getBean(VoucherManagement.class).run();
     }
 

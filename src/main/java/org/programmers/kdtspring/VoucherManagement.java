@@ -19,7 +19,7 @@ import java.util.UUID;
 @Component
 public class VoucherManagement implements Runnable {
 
-    private final VoucherRepository voucherRepository;
+
     private final VoucherService voucherService;
     private final Input input;
     private final Output output;
@@ -27,8 +27,7 @@ public class VoucherManagement implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(VoucherManagement.class);
     private final Scanner scanner = new Scanner(System.in);
 
-    public VoucherManagement(VoucherRepository voucherRepository, VoucherService voucherService, Input input, Output output) {
-        this.voucherRepository = voucherRepository;
+    public VoucherManagement(VoucherService voucherService, Input input, Output output) {
         this.voucherService = voucherService;
         this.input = input;
         this.output = output;
@@ -67,13 +66,12 @@ public class VoucherManagement implements Runnable {
         String chosenVoucher = input.chooseVoucher();
         if (chosenVoucher.equalsIgnoreCase(String.valueOf(VoucherType.FixedAmountVoucher))) {
             long amount = scanner.nextLong();
-            Voucher voucher = voucherService.createFixedAmountVoucher(amount);
-            voucherRepository.save(voucher);
+            voucherService.createFixedAmountVoucher(amount);
         }
         if (chosenVoucher.equalsIgnoreCase(String.valueOf(VoucherType.PercentDiscountVoucher))) {
             long percent = scanner.nextLong();
-            Voucher voucher = voucherService.createPercentDiscountVoucher(percent);
-            voucherRepository.save(voucher);
+            voucherService.createPercentDiscountVoucher(percent);
+
         }
     }
 }
