@@ -7,11 +7,11 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher{
 
     private final UUID voucherId;
-    private final Long amount;
+    private final Long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, Long amount) {
+    public PercentDiscountVoucher(UUID voucherId, Long percent) {
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.percent = percent;
     }
 
     @Override
@@ -21,11 +21,11 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public Long getValue() {
-        return amount;
+        return percent;
     }
 
     @Override
     public Long discount(Long beforeDiscount) {
-        return beforeDiscount * (amount/100);
+        return beforeDiscount * (percent/100);
     }
 }
