@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 
 public class PercentDiscountVoucher implements Voucher {
-    public static final long MIN_PERCENT = 1;
-    public static final long MAX_PERCENT = 100;
+    private static final long MIN_PERCENT = 1;
+    private static final long MAX_PERCENT = 100;
 
     private final UUID voucherId;
     private final long discountPercent;

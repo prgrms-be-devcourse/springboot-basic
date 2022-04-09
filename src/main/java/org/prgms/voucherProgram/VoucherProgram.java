@@ -49,11 +49,13 @@ public class VoucherProgram {
         }
     }
 
-    private void printBlackList() {
-        try {
-            outputView.printUsers(userService.findBlackList());
-        } catch (IllegalArgumentException e) {
-            outputView.printError(e.getMessage());
+    private MenuType inputMenu() {
+        while (true) {
+            try {
+                return MenuType.of(inputView.inputMenu());
+            } catch (Exception e) {
+                outputView.printError(e.getMessage());
+            }
         }
     }
 
@@ -62,6 +64,16 @@ public class VoucherProgram {
             outputView.printVouchers(voucherService.findAllVoucher());
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
+        }
+    }
+
+    private VoucherType inputVoucherCommand() {
+        while (true) {
+            try {
+                return VoucherType.findByCommand(inputView.inputVoucherCommand());
+            } catch (Exception e) {
+                outputView.printError(e.getMessage());
+            }
         }
     }
 
@@ -76,23 +88,11 @@ public class VoucherProgram {
         }
     }
 
-    private VoucherType inputVoucherCommand() {
-        while (true) {
-            try {
-                return VoucherType.findByCommand(inputView.inputVoucherCommand());
-            } catch (Exception e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-    }
-
-    private MenuType inputMenu() {
-        while (true) {
-            try {
-                return MenuType.of(inputView.inputMenu());
-            } catch (Exception e) {
-                outputView.printError(e.getMessage());
-            }
+    private void printBlackList() {
+        try {
+            outputView.printUsers(userService.findBlackList());
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
         }
     }
 }

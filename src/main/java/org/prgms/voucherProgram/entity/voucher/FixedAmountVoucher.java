@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
 
 public class FixedAmountVoucher implements Voucher {
-    public static final int MIN_AMOUNT = 1;
+    private static final int MIN_AMOUNT = 1;
 
     private final UUID voucherId;
     private final long discountAmount;

@@ -18,6 +18,7 @@ public class Console implements InputView, OutputView {
     private static final String EMPTY_VOUCHERS = "Empty Vouchers";
     private static final String EMPTY_USERS = "Empty Users";
     private static final String ERROR_INPUT_NUMBER_TYPE = "[ERROR] 정수만 입력가능합니다.";
+    
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
