@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain.voucher.model;
+package org.prgrms.kdt.domain.voucher.types;
 
 import java.util.Arrays;
 

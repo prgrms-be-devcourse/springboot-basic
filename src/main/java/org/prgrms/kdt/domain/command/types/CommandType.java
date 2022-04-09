@@ -1,22 +1,26 @@
-package org.prgrms.kdt.domain.command;
+package org.prgrms.kdt.domain.command.types;
 
 import java.util.Arrays;
 
-public enum Command {
+public enum CommandType {
     EXIT("exit"),
     CREATE("create"),
     LIST("list");
 
     private final String command;
 
-    Command(String command) {
+    CommandType(String command) {
         this.command = command;
     }
 
-    public static Command findCommand(String command) {
+    public static CommandType findCommand(String command) {
         return Arrays.stream(values())
                 .filter(value -> value.command.equals(command))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 명령어입니다."));
+    }
+
+    public static boolean isExit(String command) {
+        return command.equals(EXIT.command);
     }
 }
