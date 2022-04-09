@@ -2,9 +2,11 @@ package org.programmer.kdtspringboot;
 
 import org.programmer.kdtspringboot.io.Input;
 import org.programmer.kdtspringboot.io.Output;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
+@Component
 public class Console implements Input, Output {
     private final Scanner scanner = new Scanner(System.in);
     @Override
@@ -29,5 +31,10 @@ public class Console implements Input, Output {
     @Override
     public void exit() {
         System.out.println("종료합니다");
+    }
+
+    @Override
+    public void choice() {
+        System.out.println("1. Amount\n2. Percent");
     }
 }
