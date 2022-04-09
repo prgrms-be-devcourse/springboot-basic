@@ -1,4 +1,4 @@
-package org.prgms.voucheradmin.domain.voucher.console;
+package org.prgms.voucheradmin.domain.console;
 
 import org.prgms.voucheradmin.domain.voucher.exception.WrongInputException;
 
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum Command {
-    EXIT("exit"), CREATE("create"), LIST("list");
+    EXIT("exit"), CREATE("create"), LIST("list"), BLACKLIST("blacklist");
 
     private final String command;
     private static final Map<String, Command> commands =

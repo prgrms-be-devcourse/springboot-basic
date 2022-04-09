@@ -1,6 +1,6 @@
-package org.prgms.voucheradmin.domain.voucher.console;
+package org.prgms.voucheradmin.domain.console;
 
-import static org.prgms.voucheradmin.domain.voucher.console.Command.*;
+import static org.prgms.voucheradmin.domain.console.Command.*;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes.*;
 
 import java.io.BufferedReader;
@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
+import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
+import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
@@ -19,13 +21,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VoucherConsole {
-    private final static Logger logger = LoggerFactory.getLogger(VoucherConsole.class);
+public class Console {
+    private final static Logger logger = LoggerFactory.getLogger(Console.class);
 
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public VoucherConsole(VoucherService voucherService) {
+    public Console(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     public void run() {
@@ -50,6 +54,12 @@ public class VoucherConsole {
                             System.out.println(voucher);
                         }
                         break;
+                    case BLACKLIST:
+                        List<CustomerDto> blackListedCustomers = customerService.getBlackList();
+                        for(CustomerDto blackListedCustomer : blackListedCustomers) {
+                            System.out.println(blackListedCustomer);
+                        }
+                        break;
                     default:
                         keepRun = false;
                         break;
@@ -64,7 +74,12 @@ public class VoucherConsole {
     private void showCommandList() {
         StringBuilder commandListBuilder = new StringBuilder();
 
-        commandListBuilder.append("\n=== Voucher Program ===\n").append("Type exit to exit the program.\n").append("Type create to create a new voucher.\n").append("Type list to list all vouchers.\n");
+        commandListBuilder
+                .append("\n=== Voucher Program ===\n")
+                .append("Type exit to exit the program.\n")
+                .append("Type create to create a new voucher.\n")
+                .append("Type list to list all vouchers.\n")
+                .append("Type blackList to list all blacklisted customers.\n");
 
         System.out.println(commandListBuilder);
         System.out.print("command> ");
