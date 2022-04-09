@@ -8,6 +8,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long percent;
+    private final VoucherType voucherType = VoucherType.PercentDiscountVoucher;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
@@ -22,5 +23,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 }

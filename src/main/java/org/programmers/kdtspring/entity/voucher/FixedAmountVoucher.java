@@ -8,6 +8,7 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long amount;
+    private final VoucherType voucherType = VoucherType.FixedAmountVoucher;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -22,5 +23,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 }
