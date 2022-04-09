@@ -36,7 +36,7 @@ class VoucherEnrollSystemTest {
         Faker faker = new Faker();
         for (int i = 0; i < 100; i++) {
             String name = faker.name().fullName();
-            Assertions.assertThrows(RuntimeException.class, () -> voucherEnrollSystem.validateInput(name));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> voucherEnrollSystem.validateInput(name));
         }
     }
 
@@ -71,7 +71,7 @@ class VoucherEnrollSystemTest {
             if (inputNum == 1 || inputNum == 2) {
                 continue;
             }
-            Assertions.assertThrows(RuntimeException.class,
+            Assertions.assertThrows(IllegalArgumentException.class,
                     () -> voucherEnrollSystem.checkVoucherType(String.valueOf(inputNum)));
         }
     }

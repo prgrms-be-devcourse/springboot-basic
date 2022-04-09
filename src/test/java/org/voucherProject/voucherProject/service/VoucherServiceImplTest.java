@@ -43,7 +43,7 @@ class VoucherServiceImplTest {
     @Test
     public void findNull() throws Exception {
 
-        assertThrows(RuntimeException.class, () -> voucherService.getVoucher(UUID.randomUUID()));
+        assertThrows(IllegalArgumentException.class, () -> voucherService.getVoucher(UUID.randomUUID()));
 
     }
 

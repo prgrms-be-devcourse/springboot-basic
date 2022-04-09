@@ -34,7 +34,7 @@ public class VoucherEnrollSystem implements Runnable {
                 if (exitSystem(inputString)) break;
                 if (createVoucher(inputString)) continue;
                 showAllVoucherList(inputString);
-            } catch (RuntimeException | IOException e) {
+            } catch (IllegalArgumentException | IOException e) {
                 console.errorMessage();
             }
         }
@@ -43,7 +43,7 @@ public class VoucherEnrollSystem implements Runnable {
     protected void validateInput(String inputString) {
         boolean validateInputString = Arrays.stream(InputCommend.values()).map(String::valueOf).anyMatch(v -> v.equals(inputString.toUpperCase()));
         if (!validateInputString) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
     }
 
@@ -85,7 +85,7 @@ public class VoucherEnrollSystem implements Runnable {
         if (inputVoucherTypeInt == VoucherType.PERCENT.getNumber()) {
             voucherType = Optional.of(VoucherType.PERCENT);
         }
-        if (voucherType.isEmpty()) throw new RuntimeException();
+        if (voucherType.isEmpty()) throw new IllegalArgumentException();
 
         return voucherType;
     }

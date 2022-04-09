@@ -19,7 +19,7 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public Voucher getVoucher(UUID voucherId) throws IOException {
         return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can't find a voucher for {0}", voucherId)));
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Can't find a voucher for {0}", voucherId)));
     }
 
     @Override
