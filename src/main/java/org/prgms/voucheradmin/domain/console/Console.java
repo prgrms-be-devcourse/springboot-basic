@@ -79,7 +79,7 @@ public class Console {
                 .append("Type exit to exit the program.\n")
                 .append("Type create to create a new voucher.\n")
                 .append("Type list to list all vouchers.\n")
-                .append("Type blackList to list all blacklisted customers.\n");
+                .append("Type blacklist to list all blacklisted customers.\n");
 
         System.out.println(commandListBuilder);
         System.out.print("command> ");

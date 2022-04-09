@@ -11,17 +11,22 @@ import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
+import org.prgms.voucheradmin.global.properties.VoucherAdminProperties;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Primary
 public class FileVoucherRepository implements VoucherRepository{
-    private static final String STORAGE_FILE_PATH = "src/main/java/org/prgms/voucheradmin/global/filedata/voucher.txt";
+    private final VoucherAdminProperties voucherAdminProperties;
+
+    public FileVoucherRepository(VoucherAdminProperties voucherAdminProperties) {
+        this.voucherAdminProperties = voucherAdminProperties;
+    }
 
     @Override
     public Voucher save(Voucher voucher) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(STORAGE_FILE_PATH,true));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(voucherAdminProperties.getVoucherFilePath(),true));
         bw.write(voucher.toString());
         bw.newLine();
         bw.flush();
@@ -31,7 +36,7 @@ public class FileVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> getAll() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(STORAGE_FILE_PATH));
+        BufferedReader br = new BufferedReader(new FileReader(voucherAdminProperties.getVoucherFilePath()));
         List<Voucher> vouchers = new ArrayList<>();
 
         for(String record : br.lines().collect(Collectors.toList())) {

@@ -1,1 +1,3 @@
-
+voucher-admin:
+  voucher-file-path: "src/main/java/org/prgms/voucheradmin/global/filedata/voucher.txt"
+  blacklist-file-path: "classpath:customer_blacklist.csv"

@@ -6,23 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
+import org.prgms.voucheradmin.global.properties.VoucherAdminProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class BlacklistCustomerRepository implements CustomerRepository {
-    private static final String FILE_LOCATION = "classpath:customer_blacklist.csv";
-
+    private final VoucherAdminProperties voucherAdminProperties;
     private final ResourceLoader resourceLoader;
 
-    public BlacklistCustomerRepository(ResourceLoader resourceLoader) {
+    public BlacklistCustomerRepository(VoucherAdminProperties voucherAdminProperties, ResourceLoader resourceLoader) {
+        this.voucherAdminProperties = voucherAdminProperties;
         this.resourceLoader = resourceLoader;
     }
 
     @Override
     public List<Customer> getAll() throws IOException {
-        Resource resource = resourceLoader.getResource(FILE_LOCATION);
+        Resource resource = resourceLoader.getResource(voucherAdminProperties.getBlacklistFilePath());
         List<String> records = Files.readAllLines(resource.getFile().toPath());
 
         List<Customer> customers = new ArrayList<>();
