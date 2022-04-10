@@ -3,8 +3,6 @@ package com.prgrms.vouchermanagement.io;
 import com.prgrms.vouchermanagement.Member;
 import com.prgrms.vouchermanagement.StringUtils;
 import com.prgrms.vouchermanagement.voucher.Voucher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.InputMismatchException;
@@ -14,19 +12,21 @@ import java.util.Scanner;
 @Component
 public class Console implements Input, Output{
 
-    private final static Logger log = LoggerFactory.getLogger(Console.class);
-
     private final Scanner sc = new Scanner(System.in);
 
+    /**
+     * 추가할 voucher 의 번호를 입력 받는다.
+     */
     @Override
     public int inputVoucherType() throws InputMismatchException{
         System.out.println();
-        System.out.println("Select voucher type to add");
+        System.out.println("Select voucher type number to add");
         System.out.println("1. FixedAmountVoucher");
         System.out.println("2. PercentDiscountVoucher");
         System.out.print("input type: ");
         String input = sc.nextLine();
 
+        // 숫자가 아닌 문자가 입력되면 예외를 던진다.
         if (!StringUtils.isNumber(input)) {
             throw new InputMismatchException();
         }
@@ -34,11 +34,15 @@ public class Console implements Input, Output{
         return Integer.parseInt(input);
     }
 
+    /**
+     * FixedDiscount 인 경우 할인 금액, PercentDiscount 인 경우 할인율을 입력 받는다.
+     */
     @Override
     public int inputDiscount() throws InputMismatchException {
         System.out.print("input discount: ");
         String input = sc.nextLine();
 
+        // 숫자가 아닌 문자가 입력되면 예외를 던진다.
         if (!StringUtils.isNumber(input)) {
             throw new InputMismatchException();
         }
@@ -62,7 +66,7 @@ public class Console implements Input, Output{
     }
 
     @Override
-    public void printList(List<Voucher> vouchers) {
+    public void printVoucherList(List<Voucher> vouchers) {
         if (vouchers == null || vouchers.isEmpty()) {
             return;
         }
@@ -74,9 +78,9 @@ public class Console implements Input, Output{
     }
 
     @Override
-    public void printMessage(String errorMessage) {
+    public void printMessage(String message) {
         System.out.println();
-        System.out.println(errorMessage);
+        System.out.println(message);
         System.out.println();
     }
 

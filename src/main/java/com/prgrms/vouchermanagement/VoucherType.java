@@ -11,6 +11,9 @@ public enum VoucherType {
         this.order = order;
     }
 
+    /**
+     * 메뉴에서 입력받은 voucher 번호와 일치하는 VoucherType 을 반환한다.
+     */
     public static VoucherType getVoucherType(int order) throws IllegalArgumentException {
         return Arrays.stream(VoucherType.values())
                 .filter(v -> v.order == order)

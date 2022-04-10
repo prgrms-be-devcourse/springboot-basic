@@ -10,7 +10,7 @@ public interface Output {
 
     void printMessage(String errorMessage);
 
-    void printList(List<Voucher> vouchers);
+    void printVoucherList(List<Voucher> vouchers);
 
     void printBlackList(List<Member> blackList);
 }

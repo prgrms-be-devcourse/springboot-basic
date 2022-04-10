@@ -44,7 +44,7 @@ public class VoucherManagement {
                     executeCreateVoucher();
                     break;
                 case LIST_COMMAND:
-                    executeVoucherList();
+                    showVoucherList();
                     break;
                 case EXIT_COMMAND:
                     return;
@@ -72,7 +72,7 @@ public class VoucherManagement {
         output.printMessage(INPUT_ERROR);
     }
 
-    private void executeVoucherList() {
+    private void showVoucherList() {
         List<Voucher> vouchers = voucherService.findAllVouchers();
 
         if (vouchers == null || vouchers.isEmpty()) {
@@ -82,7 +82,7 @@ public class VoucherManagement {
         }
 
         log.info("find all vouchers. size={}", vouchers.size());
-        output.printList(vouchers);
+        output.printVoucherList(vouchers);
     }
 
     private void executeCreateVoucher() {
@@ -105,6 +105,9 @@ public class VoucherManagement {
         output.printMessage(SAVE_VOUCHER);
     }
 
+    /**
+     * 입력 받은 voucher 번호와 할인액을 입력 받아 Voucher 인스턴스를 생성하고 반환한다.
+     */
     private Voucher createVoucher(int voucherOrder, int discount) throws IllegalArgumentException {
         VoucherType voucherType = VoucherType.getVoucherType(voucherOrder);
         return Voucher.createVoucher(voucherType, discount);
