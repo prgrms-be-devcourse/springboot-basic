@@ -36,5 +36,6 @@ public class Console implements Input, Output {
     @Override
     public void choice() {
         System.out.println("1. Amount\n2. Percent");
+        System.out.println("Please type word");
     }
 }
