@@ -6,10 +6,11 @@ import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Console implements Runnable {
+public class Console implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
     private final Input input;
     private final Output output;
@@ -22,8 +23,8 @@ public class Console implements Runnable {
     }
 
     @Override
-    public void run() {
-        while(true) {
+    public void run(String... args) throws Exception {
+        while (true) {
             System.out.print(output.printCommand());
             try {
                 String inputCommand = input.readLine();
@@ -31,7 +32,7 @@ public class Console implements Runnable {
                 logger.info("SELECT {}", parse);
                 chooseMenu(parse);
             } catch (RuntimeException e) {
-                logger.error("{}: {}",e.getClass(),e.getMessage());
+                logger.warn("{}:{}", e.getClass(), e.getMessage());
             }
         }
     }
@@ -46,10 +47,10 @@ public class Console implements Runnable {
                 System.out.print(voucherType.getINTRO());
                 String inputAmount = input.readLine();
                 long amount = voucherType.isValid(inputAmount);
-                voucherService.createVoucher(voucherType,amount);
+                voucherService.createVoucher(voucherType, amount);
                 break;
             case LIST:
-                System.out.println("list = ");
+                System.out.println(voucherService.findAll());
                 break;
             case EXIT:
                 System.exit(0);

@@ -11,6 +11,6 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(e -> e.name().equals(input.toUpperCase()))
                 .findAny()
-                .orElseThrow(()-> new NoSuchElementException("잘못된 명령어입니다."));
+                .orElseThrow(()-> new NoSuchElementException("없는 명령어입니다."));
     }
 }

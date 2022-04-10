@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class VoucherApplication {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ApplicationContext applicationContext = SpringApplication.run(VoucherApplication.class, args);
         applicationContext.getBean(Console.class).run();
     }

@@ -4,13 +4,19 @@ import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long percent;
+    private final long amount;
     private final VoucherType voucherType;
 
-    public PercentAmountVoucher(long percent) {
+    public PercentAmountVoucher(UUID voucherId, long amount) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+        this.voucherType = VoucherType.PERCENT;
+    }
+
+    public PercentAmountVoucher(long amount) {
         this.voucherId = UUID.randomUUID();
-        this.percent = percent;
-        this.voucherType=VoucherType.PERCENT;
+        this.amount = amount;
+        this.voucherType = VoucherType.PERCENT;
     }
 
     @Override
@@ -19,15 +25,25 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
+    public VoucherType getVoucherType() {
+        return this.voucherType;
+    }
+
+    @Override
+    public long getAmount() {
+        return this.amount;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (amount / 100);
     }
 
     @Override
     public String toString() {
         return "PercentAmountVoucher{" +
                 "voucherId=" + voucherId +
-                ", percent=" + percent +
+                ", amount=" + amount +
                 ", voucherType=" + voucherType +
                 '}';
     }
