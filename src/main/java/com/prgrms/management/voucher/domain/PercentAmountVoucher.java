@@ -7,10 +7,10 @@ public class PercentAmountVoucher implements Voucher {
     private final long percent;
     private final VoucherType voucherType;
 
-    public PercentAmountVoucher(UUID voucherId, long percent,VoucherType voucherType) {
-        this.voucherId = voucherId;
+    public PercentAmountVoucher(long percent) {
+        this.voucherId = UUID.randomUUID();
         this.percent = percent;
-        this.voucherType=voucherType;
+        this.voucherType=VoucherType.PERCENT;
     }
 
     @Override

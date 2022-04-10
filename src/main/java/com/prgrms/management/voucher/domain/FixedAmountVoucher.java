@@ -7,10 +7,10 @@ public class FixedAmountVoucher implements Voucher{
     private final long amount;
     private final VoucherType voucherType;
 
-    public FixedAmountVoucher(UUID voucherId, long amount,VoucherType voucherType) {
-        this.voucherId = voucherId;
+    public FixedAmountVoucher(long amount) {
+        this.voucherId = UUID.randomUUID();
         this.amount = amount;
-        this.voucherType=voucherType;
+        this.voucherType=VoucherType.FIXED;
     }
 
     @Override
@@ -20,6 +20,6 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        return beforeDiscount - amount < 0 ? 0 : beforeDiscount - amount;
     }
 }
