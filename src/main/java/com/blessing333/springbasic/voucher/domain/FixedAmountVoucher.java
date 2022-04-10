@@ -9,7 +9,7 @@ public class FixedAmountVoucher extends Voucher{
     }
 
     @Override
-    long discount(long beforePrice) {
+    public long discount(long beforePrice) {
         long discountedPrice = beforePrice - discountAmount;
         return discountedPrice > 0 ? discountedPrice : 0;
     }

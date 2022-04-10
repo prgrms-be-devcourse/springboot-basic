@@ -7,9 +7,12 @@ import java.util.UUID;
 @Getter
 public abstract class Voucher {
     private final UUID voucherId;
+
     protected Voucher(){
         this.voucherId = UUID.randomUUID();
     }
 
-    abstract long discount(long beforePrice);
+    public abstract long discount(long beforePrice);
+
+
 }

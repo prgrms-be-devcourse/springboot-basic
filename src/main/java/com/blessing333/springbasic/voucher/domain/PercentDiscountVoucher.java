@@ -9,7 +9,7 @@ public class PercentDiscountVoucher extends Voucher{
     }
 
     @Override
-    long discount(long beforePrice) {
+    public long discount(long beforePrice) {
         double discountRate = (100 - percent) / 100.0;
         return Math.round(beforePrice * discountRate);
     }
