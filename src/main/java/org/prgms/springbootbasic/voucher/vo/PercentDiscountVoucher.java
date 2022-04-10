@@ -22,6 +22,12 @@ public class PercentDiscountVoucher implements Voucher {
 		return this.voucherId;
 	}
 
+	/**
+	 * 기존 가격에서 할인율을 곱한 가격을 제외한 나머지 가격을 반환한다.
+	 *
+	 * @param beforeDiscount
+	 * @return beforeDiscount - beforeDiscount * discountPercent / 100
+	 */
 	@Override
 	public long discount(long beforeDiscount) {
 		checkArgument(beforeDiscount >= 0, "beforeDiscount는 음수이면 안됩니다. beforeDiscount = {0}", beforeDiscount);

@@ -25,6 +25,12 @@ public class FixedAmountVoucher implements Voucher {
 		return this.voucherId;
 	}
 
+	/**
+	 *  기존 금액에서 할인 금액을 제외한 금액을 반환하는 메서드
+	 *
+	 * @param beforeDiscount
+	 * @return beforeDiscount - discountAmount
+	 */
 	@Override
 	public long discount(long beforeDiscount) {
 		checkArgument(beforeDiscount >= 0, "beforeAmount는 양수여야 합니다. beforeAmount = {0}", beforeDiscount);
