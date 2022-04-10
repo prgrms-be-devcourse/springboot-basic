@@ -2,20 +2,26 @@ package org.programmer.kdtspringboot.user;
 
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class UserService {
 
-    private final BlackListUserRepository blackListUserRepository;
+    private final UserRepository UserRepository;
 
 
-    public UserService(BlackListUserRepository blackListUserRepository) {
-        this.blackListUserRepository = blackListUserRepository;
+    public UserService(org.programmer.kdtspringboot.user.UserRepository userRepository) {
+        UserRepository = userRepository;
     }
 
     public void createBlackListUser(UUID userId, String userName) {
-        BlackListUser blackListUser = new BlackListUser(userId, userName);
-        blackListUserRepository.saveUser(blackListUser);
+        User user = new BlackListUser(userId, userName);
+        UserRepository.saveUser(user);
+    }
+
+    public List<User> findAllUsers() throws IOException {
+        return UserRepository.findAll();
     }
 }
