@@ -11,6 +11,11 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
     }
 
+    public PercentDiscountVoucher(UUID voucherId, Integer percent) {
+        this.voucherId = voucherId;
+        this.percent = percent;
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
@@ -24,6 +29,11 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public Long discount(Long beforeDiscount) {
         return beforeDiscount * ((100 - percent) / 100);
+    }
+
+    @Override
+    public String getStringForCSV() {
+        return this.getClass().getCanonicalName() + "," + voucherId + "," + percent;
     }
 
     @Override
