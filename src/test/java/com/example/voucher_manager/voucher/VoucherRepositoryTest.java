@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,16 +32,16 @@ public class VoucherRepositoryTest {
     @DisplayName("고정 할인 값을 갖는 바우처를 저장한다")
     public void createFixedVoucherTest() {
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L);
-        Voucher result = memoryVoucherRepository.insert(fixedAmountVoucher);
-        assertThat(fixedAmountVoucher).isEqualTo(result);
+        Optional<Voucher> result = memoryVoucherRepository.insert(fixedAmountVoucher);
+        assertThat(fixedAmountVoucher).isEqualTo(result.get());
     }
 
     @Test
     @DisplayName("일정 할인율을 갖는 바우처를 저장한다")
     public void createPercentVoucherTest() {
         Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20L);
-        Voucher result = memoryVoucherRepository.insert(percentAmountVoucher);
-        assertThat(percentAmountVoucher).isEqualTo(result);
+        Optional<Voucher> result = memoryVoucherRepository.insert(percentAmountVoucher);
+        assertThat(percentAmountVoucher).isEqualTo(result.get());
     }
 
     @Test

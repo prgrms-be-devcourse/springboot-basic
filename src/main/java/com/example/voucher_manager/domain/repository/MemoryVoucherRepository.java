@@ -14,12 +14,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
-        memory.put(voucher.getVoucherId(), voucher);
-        return voucher;
+    public Optional<Voucher> insert(Voucher voucher) {
+        try {
+            memory.put(voucher.getVoucherId(), voucher);
+        } catch (RuntimeException e){
+            return Optional.empty();
+        }
+        return Optional.of(voucher);
     }
 
-    @Override
     public void clear() {
         memory.clear();
     }
