@@ -18,6 +18,9 @@ public class FileVoucherRepository implements VoucherRepository {
     private String csvPath;
     @Value("${csv.voucher.file-name}")
     private String fileName;
+    private static final int TYPE_INDEX = 0;
+    private static final int ID_INDEX = 1;
+    private static final int DISCOUNT_INDEX = 2;
 
     @Override
     public UUID save(Voucher voucher) {
@@ -45,9 +48,9 @@ public class FileVoucherRepository implements VoucherRepository {
     private List<Voucher> parseCsvToList(List<List<String>> csvData) {
         List<Voucher> vouchers = new ArrayList<>();
         for (List<String> row : csvData) {
-            VoucherType voucherType = VoucherType.findVoucherType(row.get(0));
-            UUID voucherId = UUID.fromString(row.get(1));
-            String discount = row.get(2);
+            VoucherType voucherType = VoucherType.findVoucherType(row.get(TYPE_INDEX));
+            UUID voucherId = UUID.fromString(row.get(ID_INDEX));
+            String discount = row.get(DISCOUNT_INDEX);
             if(voucherType == VoucherType.FIXED_AMOUNT){
                 vouchers.add(new FixedAmountVoucher(voucherId, Long.parseLong(discount)));
             } else if(voucherType == VoucherType.PERCENT_DISCOUNT) {
