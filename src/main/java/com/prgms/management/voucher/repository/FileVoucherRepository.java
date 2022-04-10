@@ -4,6 +4,7 @@ import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.PercentDiscountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.exception.VoucherException;
+import com.prgms.management.voucher.exception.VoucherListEmptyException;
 import com.prgms.management.voucher.exception.VoucherNotFoundException;
 import com.prgms.management.voucher.exception.VoucherNotSaveException;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,7 @@ import java.util.UUID;
 public class FileVoucherRepository implements VoucherRepository {
     private final File file;
 
-    public FileVoucherRepository(@Value("${database.filename}") String filename) {
+    public FileVoucherRepository(@Value("${database.file.voucher}") String filename) {
         file = new File(filename);
     }
 
@@ -41,14 +42,14 @@ public class FileVoucherRepository implements VoucherRepository {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new VoucherNotFoundException();
         } finally {
             try {
                 if (bufferedReader != null) {
                     bufferedReader.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new VoucherNotFoundException();
             }
         }
         throw new VoucherNotFoundException();
@@ -73,14 +74,14 @@ public class FileVoucherRepository implements VoucherRepository {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new VoucherListEmptyException();
         } finally {
             try {
                 if (bufferedReader != null) {
                     bufferedReader.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+               throw new VoucherListEmptyException();
             }
         }
         return vouchers;
@@ -102,7 +103,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     bufferedWriter.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new VoucherNotSaveException();
             }
         }
         return voucher;
