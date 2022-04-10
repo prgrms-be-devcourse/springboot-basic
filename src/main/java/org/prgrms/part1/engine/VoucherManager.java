@@ -1,5 +1,6 @@
 package org.prgrms.part1.engine;
 
+import org.prgrms.part1.exception.FileException;
 import org.prgrms.part1.exception.InputException;
 import org.prgrms.part1.exception.VoucherException;
 import org.prgrms.part1.io.Input;
@@ -97,6 +98,9 @@ public class VoucherManager implements Runnable{
             } catch (VoucherException ex) {
                 logger.error("Voucher Error!");
                 output.printError("Voucher Manager is Broken. Please Call Developer");
+            } catch (FileException ex) {
+                logger.error("Voucher File Error!");
+                output.printError("Voucher File is Broken. Please Call Developer");
             }
         }
     }

@@ -3,6 +3,7 @@ package org.prgrms.part1.engine;
 import org.prgrms.part1.exception.VoucherException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
