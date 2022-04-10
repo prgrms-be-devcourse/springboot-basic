@@ -18,6 +18,7 @@ public class Console implements OutputConsole, InputConsole {
         System.out.println("Type **exit** to exit the program.");
         System.out.println("Type **create** to create a new voucher.");
         System.out.println("Type **list** to list all vouchers.");
+        System.out.println();
 
         return scanner.nextLine();
     }
@@ -25,6 +26,8 @@ public class Console implements OutputConsole, InputConsole {
     @Override
     public long getVoucherValue(String message) {
         System.out.println(message);
+        System.out.println();
+
         return Long.valueOf(scanner.nextLine());
     }
 
@@ -32,16 +35,19 @@ public class Console implements OutputConsole, InputConsole {
     public String getVoucherType() {
         System.out.println("Select **VoucherType**");
         for (VoucherType type : VoucherType.values()) {
-            System.out.println(type.getName());
+            System.out.println(MessageFormat.format("- {0}", type.getName()));
         }
+        System.out.println();
+
         return scanner.nextLine();
     }
 
     @Override
     public void voucherList(List<Voucher> voucherList) {
         for (Voucher voucher : voucherList) {
-            System.out.println(MessageFormat.format("Voucher {0} is {1}", voucher.getVoucherId(), voucher.toString()));
             //UUID, VoucherTypeName
+            System.out.println(MessageFormat.format("Voucher {0} is {1}", voucher.getVoucherId(), voucher.toString()));
         }
+        System.out.println();
     }
 }
