@@ -1,0 +1,27 @@
+spring:
+  config:
+    activate:
+      on-profile: default
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+database:
+  filename: "voucher_simple_db.csv"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod

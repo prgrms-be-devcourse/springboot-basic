@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private UUID voucherId;
-    private final Long percent;
+    private final Integer percent;
 
-    public PercentDiscountVoucher(Long percent) {
+    public PercentDiscountVoucher(Integer percent) {
         this.voucherId = UUID.randomUUID();
         this.percent = percent;
     }
@@ -28,7 +28,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "PercentDiscountVoucher {" +
+        return "Percent Discount Voucher {" +
                 "voucherId=" + voucherId +
                 ", percent=" + percent +
                 '}';
