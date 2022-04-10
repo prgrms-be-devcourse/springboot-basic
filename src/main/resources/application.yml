@@ -1,3 +1,6 @@
+spring:
+  profiles:
+    active: local
 csv:
   voucher:
     file-name: voucherList.csv
