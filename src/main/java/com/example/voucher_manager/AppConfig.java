@@ -1,5 +1,8 @@
 package com.example.voucher_manager;
 
+import com.example.voucher_manager.domain.repository.MemoryVoucherRepository;
+import com.example.voucher_manager.domain.repository.VoucherRepository;
+import com.example.voucher_manager.domain.service.VoucherService;
 import com.example.voucher_manager.io.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +26,18 @@ public class AppConfig {
     }
 
     @Bean
-    public CommandOperator commandOperator() {
-        return new CommandOperator();
+    public VoucherRepository memoryVoucherRepository() {
+        return new MemoryVoucherRepository();
+    }
+
+    @Bean
+    public VoucherService voucherService() {
+        return new VoucherService(memoryVoucherRepository());
+    }
+
+    @Bean
+    public CommandOperator commandOperator(VoucherService voucherService) {
+        return new CommandOperator(voucherService);
     }
 
     @Bean
