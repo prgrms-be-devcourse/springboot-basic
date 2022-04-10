@@ -49,6 +49,9 @@ public class VoucherManagement implements Runnable {
                 if (selectedOption.equalsIgnoreCase(String.valueOf(CommandType.LIST))) {
                     output.showAllVoucher();
                 }
+                if(selectedOption.equalsIgnoreCase(String.valueOf(CommandType.APPEND))) {
+
+                }
                 if (selectedOption.equalsIgnoreCase(String.valueOf(CommandType.EXIT))) {
                     break;
                 }

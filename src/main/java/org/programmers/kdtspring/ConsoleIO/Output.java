@@ -8,6 +8,9 @@ public interface Output {
 
     void showAllVoucher() throws IOException;
 
+    void showBlackList();
+
     void errorMessage();
+
 
 }

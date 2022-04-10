@@ -1,6 +1,7 @@
 package org.programmers.kdtspring.ConsoleIO;
 
 import org.programmers.kdtspring.entity.voucher.Voucher;
+import org.programmers.kdtspring.repository.user.BlackListUserRepository;
 import org.programmers.kdtspring.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +13,11 @@ import java.util.Scanner;
 public class Console implements Input, Output {
 
     private final VoucherRepository voucherRepository;
+    private final BlackListUserRepository blackListUserRepository;
 
-    public Console(VoucherRepository voucherRepository) {
+    public Console(VoucherRepository voucherRepository, BlackListUserRepository blackListUserRepository) {
         this.voucherRepository = voucherRepository;
+        this.blackListUserRepository = blackListUserRepository;
     }
 
 
@@ -26,6 +29,7 @@ public class Console implements Input, Output {
         System.out.println("Type 'exit' to exit the program");
         System.out.println("Type 'create' to create a new voucher");
         System.out.println("Type 'list' to list a new voucher");
+        System.out.println("Type 'append' to append blackListUser");
         System.out.println();
 
         System.out.print("Your command => ");
@@ -54,6 +58,12 @@ public class Console implements Input, Output {
     public void showAllVoucher() throws IOException {
         List<Voucher> voucherList = voucherRepository.findAll();
         voucherList.forEach(System.out::println);
+    }
+
+    @Override
+    public void showBlackList() {
+        List<String[]> blackList = blackListUserRepository.findAll();
+        blackList.stream().map(Object::toString).forEach(System.out::println);
     }
 
     @Override
