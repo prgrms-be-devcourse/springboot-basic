@@ -1,11 +1,10 @@
 package com.prgrms.management.command;
 
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.NoSuchElementException;
 
 public enum Command {
-    CREATE,LIST,EXIT;
+    CREATE,LIST,BLACKLIST,EXIT;
 
     public static Command of(String input) {
         return Arrays.stream(Command.values())

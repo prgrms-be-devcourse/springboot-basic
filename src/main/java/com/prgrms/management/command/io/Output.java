@@ -10,7 +10,7 @@ public class Output {
 
     public String printCommand() {
         return "=== Voucher Program ===\nType exit to exit the program.\n" +
-                "Type create to create a new voucher.\nType list to list all vouchers.\nINPUT:";
+                "Type create to create a new voucher.\nType list to list all vouchers.\nType blacklist to list all black list customer.\nINPUT:";
     }
 
     public String printVoucher() {

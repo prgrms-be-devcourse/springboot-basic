@@ -34,7 +34,7 @@ public class FileVoucherRepository implements VoucherRepository {
         List<Voucher> voucherList = new ArrayList<>();
         //try-with-resource
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(VOUCHER_FILE_NAME))) {
-            String reader = "";
+            String reader;
             while ((reader = bufferedReader.readLine()) != null) {
                 String[] voucherInfo = reader.split(",");
                 VoucherType type = VoucherType.of(voucherInfo[2]);

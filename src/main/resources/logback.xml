@@ -23,7 +23,7 @@
     <logger name="com.prgrms.management" level="warn">
         <appender-ref ref="FILE"/>
     </logger>
-    <root level="warn">
+    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>

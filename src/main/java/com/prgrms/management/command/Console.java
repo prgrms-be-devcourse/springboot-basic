@@ -2,6 +2,7 @@ package com.prgrms.management.command;
 
 import com.prgrms.management.command.io.Input;
 import com.prgrms.management.command.io.Output;
+import com.prgrms.management.customer.service.CustomerService;
 import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -15,11 +16,13 @@ public class Console implements CommandLineRunner {
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public Console(Input input, Output output, VoucherService voucherService) {
+    public Console(Input input, Output output, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @Override
@@ -52,6 +55,8 @@ public class Console implements CommandLineRunner {
             case LIST:
                 System.out.println(voucherService.findAll());
                 break;
+            case BLACKLIST:
+                output.printResult(customerService.findBlackList().toString());
             case EXIT:
                 System.exit(0);
         }
