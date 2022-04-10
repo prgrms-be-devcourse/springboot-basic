@@ -2,7 +2,7 @@ package org.programmer.kdtspringboot.voucher;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -14,22 +14,17 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher getVoucher(UUID voucherId){
-        return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new RuntimeException("Can not find a voucher for {0}"+ voucherId));
+    public void createFixedAmountVoucher(UUID voucherId, long amount) {
+        Voucher voucher = new FixedAmountVoucher(voucherId, amount);
+        voucherRepository.insert(voucher);
     }
 
-    public Voucher createFixedAmountVoucher(UUID voucherId,long amount ){
-        Voucher voucher = new FixedAmountVoucher(voucherId,amount);
-        return voucherRepository.insert(voucher);
+    public void createPercentDiscountVoucher(UUID voucherId, long percent) {
+        Voucher voucher = new PercentDiscountVoucher(voucherId, percent);
+        voucherRepository.insert(voucher);
     }
 
-    public Voucher createPercentDiscountVoucher(UUID voucherId,long percent){
-        Voucher voucher = new PercentDiscountVoucher(voucherId,percent);
-        return voucherRepository.insert(voucher);
-    }
-
-    public Map<UUID,Voucher> findAllVouchers(){
+    public List<Voucher> findAllVouchers() {
         return voucherRepository.findAll();
     }
 }
