@@ -12,4 +12,16 @@ public class Voucher {
         this.value = value;
         this.type = type;
     }
+
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public VoucherType getType() {
+        return type;
+    }
 }
