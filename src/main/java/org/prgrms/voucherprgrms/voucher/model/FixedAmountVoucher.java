@@ -1,4 +1,4 @@
-package org.prgrms.voucherprgrms.voucher.entity;
+package org.prgrms.voucherprgrms.voucher.model;
 
 import java.util.UUID;
 
@@ -15,5 +15,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public String toString() {
+        return VoucherType.FIXEDAMOUNT.getName();
     }
 }
