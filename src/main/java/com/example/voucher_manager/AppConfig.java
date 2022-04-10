@@ -1,14 +1,28 @@
 package com.example.voucher_manager;
 
-import com.example.voucher_manager.domain.repository.MemoryVoucherRepository;
-import com.example.voucher_manager.domain.repository.VoucherRepository;
+import com.example.voucher_manager.domain.repository.*;
+import com.example.voucher_manager.domain.service.CustomerService;
 import com.example.voucher_manager.domain.service.VoucherService;
+import com.example.voucher_manager.domain.voucher.Voucher;
 import com.example.voucher_manager.io.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
+@ComponentScan(basePackages = "com.example.voucher_manager")
 public class AppConfig {
+
+    @Bean
+    public CustomerRepository csvBlacklistCustomerRepository() {
+        return new CsvBlacklistCustomerRepository();
+    }
+
+    @Bean
+    public CustomerService customerService() {
+        return new CustomerService(csvBlacklistCustomerRepository());
+    }
 
     @Bean
     public Input consoleInput() {
@@ -31,13 +45,19 @@ public class AppConfig {
     }
 
     @Bean
-    public VoucherService voucherService() {
-        return new VoucherService(memoryVoucherRepository());
+    @Profile("dev")
+    public VoucherRepository fileVoucherRepository() {
+        return new FileVoucherRepository();
     }
 
     @Bean
-    public CommandOperator commandOperator(VoucherService voucherService) {
-        return new CommandOperator(voucherService);
+    public VoucherService voucherService(VoucherRepository voucherRepository) {
+        return new VoucherService(voucherRepository);
+    }
+
+    @Bean
+    public CommandOperator commandOperator(VoucherService voucherService, CustomerService customerService) {
+        return new CommandOperator(voucherService, customerService);
     }
 
     @Bean

@@ -28,6 +28,7 @@ public class Console {
             case CREATE -> inputVoucherType();
             case LIST -> printVoucherList();
             case EXIT -> shutdownConsole();
+            case BLACKLIST -> printBlackList();
             case ERROR -> output.printError();
         }
 
@@ -86,6 +87,7 @@ public class Console {
                Type **exit** to exit the program.
                Type **create** to create a new voucher.
                Type **list** to list all vouchers.
+               Type **blacklist** to list all blacklist Customers.
                 """);
     }
 
@@ -109,6 +111,10 @@ public class Console {
                 === Input Discount Percent ===
                 Enter a value between 0 and 100 (0 <= number <= 100)
                 """);
+    }
+
+    private void printBlackList() {
+        output.printItems(commandOperator.getBlacklist());
     }
 
     private void printVoucherList() {

@@ -9,6 +9,7 @@ public enum CommandType {
     CREATE("create"),
     LIST("list"),
     EXIT("exit"),
+    BLACKLIST("blacklist"),
     ERROR("error");
 
     private final String command;
