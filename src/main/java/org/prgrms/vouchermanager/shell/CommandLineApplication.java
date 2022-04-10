@@ -1,14 +1,16 @@
 package org.prgrms.vouchermanager.shell;
 
 import org.prgrms.vouchermanager.console.Console;
-import org.prgrms.vouchermanager.voucher.VoucherService;
-import org.prgrms.vouchermanager.voucher.VoucherType;
+import org.prgrms.vouchermanager.voucher.domain.VoucherType;
+import org.prgrms.vouchermanager.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+
+//TODO: SpringbootShell 알아보고 적용해보기
 @Component
 public class CommandLineApplication implements VoucherManagerShell {
 
