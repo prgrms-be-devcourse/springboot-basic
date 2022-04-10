@@ -1,10 +1,10 @@
 package org.prgrms.springbootbasic.view;
 
+import static org.prgrms.springbootbasic.controller.Menu.BLACKLIST;
+import static org.prgrms.springbootbasic.controller.Menu.CREATE;
+import static org.prgrms.springbootbasic.controller.Menu.EXIT;
+import static org.prgrms.springbootbasic.controller.Menu.LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.AMOUNT;
-import static org.prgrms.springbootbasic.view.ConstantString.BLACKLIST;
-import static org.prgrms.springbootbasic.view.ConstantString.CREATE;
-import static org.prgrms.springbootbasic.view.ConstantString.EXIT;
-import static org.prgrms.springbootbasic.view.ConstantString.LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.PERCENT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_AMOUNT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_MENU;
@@ -51,10 +51,10 @@ public class ConsoleView {
         TextTerminal<?> terminal = textIO.getTextTerminal();
 
         terminal.println(VOUCHER_PROGRAM);
-        printLine(terminal, EXIT, TO_EXIT_THE_PROGRAM);
-        printLine(terminal, CREATE, TO_CREATE_A_NEW_VOUCHER);
-        printLine(terminal, LIST, TO_LIST_ALL_VOUCHERS);
-        printLine(terminal, BLACKLIST, TO_LIST_ALL_CUSTOMER_BLACK_LIST);
+        printLine(terminal, EXIT.name(), TO_EXIT_THE_PROGRAM);
+        printLine(terminal, CREATE.name(), TO_CREATE_A_NEW_VOUCHER);
+        printLine(terminal, LIST.name(), TO_LIST_ALL_VOUCHERS);
+        printLine(terminal, BLACKLIST.name(), TO_LIST_ALL_CUSTOMER_BLACK_LIST);
         terminal.println();
     }
 

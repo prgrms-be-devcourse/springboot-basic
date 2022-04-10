@@ -70,4 +70,4 @@ SpringBoot Part1 Weekly Mission
 - [X] 개행도 일관성있게 사용하기
 - [X] Voucher serializable 이유
 - [X] FileVoucherRepository 메서드 1depth로 줄여보기
-- [ ] ConstantString 관리 생각하기
+- [X] ConstantString 관리 생각하기
