@@ -1,5 +1,7 @@
 package org.programmer.kdtspringboot;
 
+import org.programmer.kdtspringboot.user.User;
+import org.programmer.kdtspringboot.user.UserService;
 import org.programmer.kdtspringboot.voucher.Voucher;
 import org.programmer.kdtspringboot.voucher.VoucherService;
 import org.slf4j.Logger;
@@ -15,11 +17,13 @@ public class VoucherSystem {
 
     private final Console console;
     private final VoucherService voucherService;
+    private final UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(VoucherSystem.class);
 
-    public VoucherSystem(Console console, VoucherService voucherService) {
+    public VoucherSystem(Console console, VoucherService voucherService, UserService userService) {
         this.console = console;
         this.voucherService = voucherService;
+        this.userService = userService;
     }
 
     public void run() {
@@ -40,6 +44,9 @@ public class VoucherSystem {
                         logger.info("create 입력");
                         createVoucher();
                         break;
+                    case "blacklist":
+                        logger.info("blacklist 입력");
+                        showBlackUserList();
                     default:
                         logger.warn("메뉴 잘못 입력");
                         console.print("제대로 입력해주세요.");
@@ -49,6 +56,16 @@ public class VoucherSystem {
             logger.error("입출력 오류");
         }
         
+    }
+
+    private void showBlackUserList() throws IOException {
+        List<User> list = userService.findAllUsers();
+        if (!list.isEmpty()) {
+            for (int i = 0; i < list.size(); i++) {
+                User user = list.get(i);
+                console.print(user.getUserId() + ", " + user.getUserName());
+            }
+        }
     }
 
     private void showVoucherList() throws IOException {
