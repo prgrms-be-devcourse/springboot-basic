@@ -3,6 +3,7 @@ package org.prgrms.kdt.domain.voucher.service;
 import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
+import org.prgrms.kdt.domain.voucher.repository.FileVoucherRepository;
 import org.prgrms.kdt.domain.voucher.types.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
