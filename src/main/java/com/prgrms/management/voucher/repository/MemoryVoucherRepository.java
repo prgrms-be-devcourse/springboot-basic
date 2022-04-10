@@ -4,10 +4,12 @@ import com.prgrms.management.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -21,5 +23,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(),voucher);
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return storage.values()
+                .stream()
+                .collect(Collectors.toList());
     }
 }

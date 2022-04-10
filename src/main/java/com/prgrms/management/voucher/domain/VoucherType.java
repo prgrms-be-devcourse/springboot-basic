@@ -32,12 +32,12 @@ public enum VoucherType {
         return amount;
     }
 
-    private boolean validPercent(long amount) {
+    private boolean validFixed(long amount) {
         if (amount < 0 || amount > 10000) throw new IllegalArgumentException();
         return true;
     }
 
-    private boolean validFixed(long amount) {
+    private boolean validPercent(long amount) {
         if (amount < 0 || amount > 100) throw new IllegalArgumentException();
         return true;
     }

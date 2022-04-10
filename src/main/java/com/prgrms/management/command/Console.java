@@ -45,8 +45,8 @@ public class Console implements Runnable {
                 logger.info("SELECT {}", voucherType);
                 System.out.print(voucherType.getINTRO());
                 String inputAmount = input.readLine();
-                voucherType.isValid(inputAmount);
-                voucherService.createVoucher(voucherType,);
+                long amount = voucherType.isValid(inputAmount);
+                voucherService.createVoucher(voucherType,amount);
                 break;
             case LIST:
                 System.out.println("list = ");
