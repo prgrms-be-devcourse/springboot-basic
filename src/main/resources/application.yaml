@@ -1,5 +1,13 @@
-log:
-  config:
-    level: "error"
-    path: "logs"
-    filename: "log"
+spring.config.activate.on-profile: local-file
+voucher:
+  path: src/main/resources/filedb
+  blacklist: blacklist.csv
+  name: voucher.csv
+
+---
+
+spring.config.activate.on-profile: local-memory
+
+---
+
+spring.config.activate.on-profile: dev

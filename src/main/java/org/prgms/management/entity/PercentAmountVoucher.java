@@ -6,16 +6,23 @@ public class PercentAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
     private final String voucherName;
+    private final String voucherType;
 
-    public PercentAmountVoucher(UUID voucherId, long percent, String voucherName) {
+    public PercentAmountVoucher(UUID voucherId, long percent, String voucherName, String voucherType) {
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherName = voucherName;
+        this.voucherType = voucherType;
     }
 
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public String getVoucherType() {
+        return voucherType;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.prgms.management.service;
 
 import org.prgms.management.entity.Voucher;
-import org.prgms.management.repository.VoucherMemoryRepository;
 import org.prgms.management.repository.VoucherRepository;
 import org.prgms.management.entity.FixedAmountVoucher;
 import org.prgms.management.entity.PercentAmountVoucher;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -17,7 +17,11 @@ import java.util.UUID;
 public class ConsoleService implements VoucherService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Scanner sc = new Scanner(System.in);
-    private final VoucherRepository voucherRepository = new VoucherMemoryRepository();
+    private final VoucherRepository voucherRepository;
+
+    public ConsoleService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }
 
     @Override
     public void run() {
@@ -93,16 +97,16 @@ public class ConsoleService implements VoucherService {
                         ("wrong input at discountNum -> {0}", discountNum));
                 return;
             }
-            voucher = new FixedAmountVoucher(
-                    UUID.randomUUID(), discountNum, voucherName);
+            voucher = new FixedAmountVoucher(UUID.randomUUID(), discountNum,
+                    voucherName, "FixedAmountVoucher");
         } else {
             if (discountNum < 1 || discountNum > 100) {
                 getErrorMsg(MessageFormat.format
                         ("Wrong input at discountNum -> {0}", discountNum));
                 return;
             }
-            voucher = new PercentAmountVoucher(
-                    UUID.randomUUID(), discountNum, voucherName);
+            voucher = new PercentAmountVoucher(UUID.randomUUID(), discountNum,
+                    voucherName, "PercentAmountVoucher");
         }
 
         if (voucherRepository.save(voucher)) {
@@ -117,14 +121,17 @@ public class ConsoleService implements VoucherService {
     public void getVoucherList() {
         System.out.println();
         System.out.println("=== Voucher list ===");
-        voucherRepository.getAll()
-                .forEach((k, v) -> System.out.println(MessageFormat
-                        .format("{0} {1} {2}",
-                                v.getVoucherId(),
-                                v.getVoucherName(),
-                                v.getDiscountNum()
-                        )
-                ));
+        Map<UUID, Voucher> map = voucherRepository.getAll();
+        if (!map.isEmpty()) {
+            map.forEach((k, v) -> System.out.println(MessageFormat
+                    .format("{0} {1} {2} {3}",
+                            v.getVoucherId(),
+                            v.getVoucherType(),
+                            v.getVoucherName(),
+                            v.getDiscountNum()
+                    )
+            ));
+        }
         System.out.println();
     }
 
