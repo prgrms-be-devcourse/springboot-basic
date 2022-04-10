@@ -30,7 +30,7 @@ public class FileUserRepository implements UserRepository {
     public List<User> findBlackUsers() {
         List<User> users = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(userResource.getInputStream()))) {
-            addUsers(users, bufferedReader);
+            addBlackUsers(users, bufferedReader);
         } catch (IOException e) {
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
@@ -38,7 +38,7 @@ public class FileUserRepository implements UserRepository {
         return users;
     }
 
-    private void addUsers(List<User> users, BufferedReader bufferedReader) throws IOException {
+    private void addBlackUsers(List<User> users, BufferedReader bufferedReader) throws IOException {
         String line;
         while ((line = bufferedReader.readLine()) != null) {
             String[] splitLine = line.split(DELIMITER);
