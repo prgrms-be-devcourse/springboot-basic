@@ -8,8 +8,8 @@ import java.util.UUID;
 import com.google.common.base.Preconditions;
 
 public class FixedAmountVoucher implements Voucher {
-	private UUID voucherId = UUID.randomUUID();
-	private long discountAmount;
+	private final UUID voucherId = UUID.randomUUID();
+	private final long discountAmount;
 
 	public FixedAmountVoucher(long discountAmount) {
 		checkArgument(discountAmount >= 0,

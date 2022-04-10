@@ -7,8 +7,8 @@ import java.util.UUID;
 import com.google.common.base.Preconditions;
 
 public class PercentDiscountVoucher implements Voucher {
-	private UUID voucherId = UUID.randomUUID();
-	private int discountPercent;
+	private final UUID voucherId = UUID.randomUUID();
+	private final int discountPercent;
 
 	public PercentDiscountVoucher(int discountPercent) {
 		checkArgument(discountPercent >= 0 && discountPercent <= 100
