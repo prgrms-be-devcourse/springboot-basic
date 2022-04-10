@@ -25,8 +25,8 @@ public class Order {
             this.orderItemList = orderItemList;
         }
 
-        public Builder setVoucher(Voucher voucher) {
-            this.voucher = Optional.ofNullable(voucher);
+        public Builder setVoucher(Optional<Voucher> voucher) {
+            this.voucher = voucher;
             return this;
         }
 
@@ -50,4 +50,8 @@ public class Order {
             return beforeDiscount;
         }
     }
+
+    public UUID getOrderId() {return orderId;}
+
+    public void setOrderStatus(OrderStatus orderStatus) {this.orderStatus = orderStatus;}
 }
