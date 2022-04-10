@@ -50,7 +50,7 @@ public class ApacheCliUserInterface implements UserInterface {
     }
 
     @Override
-    public void printVoucherCreateSuccess() {
+    public void printVoucherCreateSuccessMessage() {
         printMessage("바우쳐 생성이 완료되었습니다.");
     }
 

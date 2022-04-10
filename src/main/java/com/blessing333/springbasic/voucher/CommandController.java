@@ -6,18 +6,22 @@ import com.blessing333.springbasic.ui.exception.CommandNotSupportedException;
 import com.blessing333.springbasic.voucher.converter.Converter;
 import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
+import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import com.blessing333.springbasic.voucher.service.VoucherService;
 import com.blessing333.springbasic.voucher.validator.VoucherFormValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CommandController {
     private final VoucherFormValidator validator;
     private final VoucherService voucherService;
     private final UserInterface userInterface;
     private final Converter converter;
+
     public boolean parseCommand(String command){
         boolean isQuit = false;
         try {
@@ -29,7 +33,7 @@ public class CommandController {
                 default -> userInterface.showHelpText();
             }
         } catch (CommandNotSupportedException e) {
-            userInterface.printMessage(e.getMessage());
+            log.error(e.getMessage());
             userInterface.showHelpText();
         }
         return isQuit;
@@ -41,9 +45,9 @@ public class CommandController {
             validator.validVoucherCreateForm(form);
             ConvertedVoucherCreateForm convertedForm = converter.convert(form);
             voucherService.createNewVoucher(convertedForm);
-            userInterface.printVoucherCreateSuccess();
+            userInterface.printVoucherCreateSuccessMessage();
         } catch (VoucherCreateFailException e){
-            userInterface.printMessage(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 }
