@@ -61,6 +61,7 @@ public class VoucherManagement {
         try {
             List<Member> blackList = blackListRepository.findAll();
             output.printBlackList(blackList);
+            log.info("find all blackList. size={}", blackList.size());
         } catch (IOException e) {
             output.printMessage(BLACK_LIST_ERROR);
             log.error("black_list.csv 를 읽어 오는데 실패하였습니다.", e);
@@ -75,10 +76,12 @@ public class VoucherManagement {
         List<Voucher> vouchers = voucherService.findAllVouchers();
 
         if (vouchers == null || vouchers.isEmpty()) {
+            log.info("failed to find all vouchers : null or empty");
             output.printMessage(EMPTY_LIST);
             return;
         }
 
+        log.info("find all vouchers. size={}", vouchers.size());
         output.printList(vouchers);
     }
 
@@ -91,8 +94,10 @@ public class VoucherManagement {
             voucherOrder = input.inputVoucherType();
             discount = input.inputDiscount();
             voucher = createVoucher(voucherOrder, discount);
+            log.info("created voucher = {}", voucher);
         } catch (IllegalArgumentException | InputMismatchException e) {
             output.printMessage(INPUT_ERROR);
+            log.info("failed to create voucher", e);
             return;
         }
 
