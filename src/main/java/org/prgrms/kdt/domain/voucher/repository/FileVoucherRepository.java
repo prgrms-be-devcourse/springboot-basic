@@ -14,9 +14,9 @@ import java.util.*;
 @Repository
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
-    @Value("${csv.path}")
+    @Value("${csv.voucher.path}")
     private String csvPath;
-    @Value("${csv.file-name}")
+    @Value("${csv.voucher.file-name}")
     private String fileName;
 
     @Override
