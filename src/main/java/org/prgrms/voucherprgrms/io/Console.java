@@ -1,6 +1,7 @@
 package org.prgrms.voucherprgrms.io;
 
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
+import org.prgrms.voucherprgrms.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -25,6 +26,15 @@ public class Console implements OutputConsole, InputConsole {
     public long getVoucherValue(String message) {
         System.out.println(message);
         return Long.valueOf(scanner.nextLine());
+    }
+
+    @Override
+    public String getVoucherType() {
+        System.out.println("Select **VoucherType**");
+        for (VoucherType type : VoucherType.values()) {
+            System.out.println(type.getName());
+        }
+        return scanner.nextLine();
     }
 
     @Override

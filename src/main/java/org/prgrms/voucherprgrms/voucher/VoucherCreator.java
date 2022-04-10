@@ -17,7 +17,8 @@ public class VoucherCreator {
         this.inputConsole = inputConsole;
     }
 
-    public Voucher create(VoucherType type) {
+    public Voucher create() {
+        VoucherType type = VoucherType.getType(inputConsole.getVoucherType());
         UUID voucherId = UUID.randomUUID();
         switch (type) {
             case FIXEDAMOUNT:

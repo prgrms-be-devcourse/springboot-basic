@@ -1,6 +1,5 @@
 package org.prgrms.voucherprgrms.voucher;
 
-import org.prgrms.voucherprgrms.voucher.model.VoucherType;
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import org.prgrms.voucherprgrms.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,8 @@ public class VoucherService {
     /**
      * create Voucher
      */
-    public Voucher createVoucher(VoucherType type) {
-        Voucher voucher = voucherCreator.create(type);
+    public Voucher createVoucher() {
+        Voucher voucher = voucherCreator.create();
         return voucherRepository.insert(voucher);
     }
 
