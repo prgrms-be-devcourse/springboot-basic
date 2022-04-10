@@ -18,9 +18,13 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     private void validateDiscountPercent(long discountPercent) throws WrongDiscountPercentException {
-        if (MAX_PERCENT < discountPercent || discountPercent < MIN_PERCENT) {
+        if (isWrongPercent(discountPercent)) {
             throw new WrongDiscountPercentException();
         }
+    }
+
+    private boolean isWrongPercent(long discountPercent) {
+        return MAX_PERCENT < discountPercent || discountPercent < MIN_PERCENT;
     }
 
     @Override

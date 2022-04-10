@@ -17,9 +17,13 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     private void validateDiscountAmount(long discountAmount) throws WrongDiscountAmountException {
-        if (discountAmount < MIN_AMOUNT) {
+        if (isUnderMinAmount(discountAmount)) {
             throw new WrongDiscountAmountException();
         }
+    }
+
+    private boolean isUnderMinAmount(long discountAmount) {
+        return discountAmount < MIN_AMOUNT;
     }
 
     @Override

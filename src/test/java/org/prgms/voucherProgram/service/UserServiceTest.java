@@ -16,7 +16,7 @@ class UserServiceTest {
 
     @DisplayName("모든 유저를 반환한다.")
     @Test
-    void findAll_ReturnAllVoucher() {
+    void findBlackList_ReturnBlackUsers() {
         assertThat(userService.findBlackList()).hasSize(3)
             .extracting("name").contains("hwan", "jin", "pobi");
     }

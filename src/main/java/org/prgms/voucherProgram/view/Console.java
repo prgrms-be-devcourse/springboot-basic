@@ -6,8 +6,6 @@ import java.util.Scanner;
 import org.prgms.voucherProgram.entity.user.User;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
 import org.prgms.voucherProgram.entity.voucher.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +19,6 @@ public class Console implements InputView, OutputView {
     private static final String EMPTY_USERS = "Empty Users";
     private static final String ERROR_INPUT_NUMBER_TYPE = "[ERROR] 정수만 입력가능합니다.";
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Scanner scanner = new Scanner(System.in);
 
     @Override

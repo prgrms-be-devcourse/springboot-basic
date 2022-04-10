@@ -60,7 +60,7 @@ class VoucherServiceTest {
 
     @DisplayName("모든 바우처를 반환한다.")
     @Test
-    void findAll_ReturnAllVoucher() {
+    void findAllVoucher_ReturnAllVoucher() {
         List<Voucher> vouchers = voucherService.findAllVoucher();
 
         assertThat(vouchers).hasSize(2);

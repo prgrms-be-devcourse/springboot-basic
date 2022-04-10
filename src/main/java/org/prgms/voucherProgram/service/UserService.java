@@ -19,7 +19,7 @@ public class UserService {
 
     public List<User> findBlackList() {
         List<User> blackUsers = userRepository.findBlackUsers();
-        logger.info("BlackUsers find at repository => {}", blackUsers);
+        logger.info("BlackUsers find at repository => {}", blackUsers.size());
         return blackUsers;
     }
 }

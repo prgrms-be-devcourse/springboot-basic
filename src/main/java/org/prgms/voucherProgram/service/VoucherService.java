@@ -27,12 +27,12 @@ public class VoucherService {
     public Voucher create(VoucherType voucherType, long value) throws
         WrongDiscountAmountException,
         WrongDiscountPercentException {
-        Voucher voucher = getVoucher(voucherType, value);
+        Voucher voucher = createVoucher(voucherType, value);
         logger.info("Voucher create => {}", voucher);
         return repository.save(voucher);
     }
 
-    private Voucher getVoucher(VoucherType voucherType, long value) throws
+    private Voucher createVoucher(VoucherType voucherType, long value) throws
         WrongDiscountAmountException,
         WrongDiscountPercentException {
         if (voucherType == VoucherType.FIXED_AMOUNT) {
@@ -44,7 +44,7 @@ public class VoucherService {
 
     public List<Voucher> findAllVoucher() {
         List<Voucher> vouchers = repository.findAll();
-        logger.info("Vouchers find at Repository => {}", vouchers);
+        logger.info("Vouchers find at Repository => {}", vouchers.size());
         return vouchers;
     }
 }
