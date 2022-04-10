@@ -13,12 +13,7 @@ public class KdtApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(KdtApplication.class, args);
 		VoucherController voucherController = context.getBean(VoucherController.class);
-		Config config = context.getBean(Config.class);
 		CommandType commandType;
-
-		if(config.getProfile().equals("dev")){
-			context.getEnvironment().setActiveProfiles("dev");
-		}
 
 		do {
 			String commandInput = Console.inputCommand();
