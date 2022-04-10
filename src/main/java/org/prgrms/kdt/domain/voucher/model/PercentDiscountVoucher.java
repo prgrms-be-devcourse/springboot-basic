@@ -11,7 +11,9 @@ public class PercentDiscountVoucher implements Voucher {
     private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
 
     public PercentDiscountVoucher(UUID voucherId, int percent) {
-        if(percent > 100) throw new IllegalArgumentException("할인율은 100퍼센트를 초과할 수 없습니다.");
+        if(percent > 100 || percent < 0){
+            throw new IllegalArgumentException("할인율은 0퍼센트 미만이거나 100퍼센트를 초과할 수 없습니다.");
+        }
         this.voucherId = voucherId;
         this.discountRate = percent;
     }
@@ -33,7 +35,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (discountRate / 100);
+        return beforeDiscount * (1 - (discountRate / 100));
     }
 
     @Override
