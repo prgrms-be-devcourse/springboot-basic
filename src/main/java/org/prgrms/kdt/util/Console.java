@@ -46,6 +46,9 @@ public class Console{
     }
 
     public static void printAllVouchers(List<Voucher> vouchers) {
+        if(vouchers.isEmpty()){
+            System.out.println("저장된 바우처가 없습니다.");
+        }
         vouchers.forEach(System.out::println);
     }
 }
