@@ -1,8 +1,20 @@
 package com.example.voucher_manager.io;
 
 import com.example.voucher_manager.domain.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 public class InputValidator {
+    // log info
+    private static final Logger log = LoggerFactory.getLogger(InputValidator.class);
+    private static final String INVALID_VOUCHER_TYPE_ERROR = "I/O ERROR : Invalid Voucher Type Error";
+    private static final String INVALID_COMMAND_ERROR = "I/O ERROR : Invalid Command Error";
+    private static final String IS_NOT_INTEGER = "I/O ERROR : Input is not Integer Error";
+    private static final String PERCENT_OUT_OF_RANGE = "I/O ERROR : Percent Out of range Error";
+    private static final String IS_NOT_POSITIVE_NUMBER = "I/O ERROR : Input is not Positive Number";
+
     // about percent voucher
     private static final Long MIN_PERCENT = 1L;
     private static final Long MAX_PERCENT = 100L;
@@ -17,6 +29,7 @@ public class InputValidator {
         if (VoucherType.isValidated(type)) {
             return VoucherType.of(type);
         }
+        log.error(INVALID_VOUCHER_TYPE_ERROR);
         return VoucherType.ERROR;
     }
 
@@ -24,6 +37,7 @@ public class InputValidator {
         if (CommandType.isValidated(command)){
             return CommandType.of(command);
         }
+        log.error(INVALID_COMMAND_ERROR);
         return CommandType.ERROR;
     }
 
@@ -31,6 +45,7 @@ public class InputValidator {
         if (input.matches(INTEGER_PATTERN)) {
             return true;
         }
+        log.error(IS_NOT_INTEGER);
         return false;
     }
 
@@ -38,6 +53,7 @@ public class InputValidator {
         if (percent >= MIN_PERCENT && percent <= MAX_PERCENT) {
             return true;
         }
+        log.error(PERCENT_OUT_OF_RANGE);
         return false;
     }
 
@@ -45,6 +61,7 @@ public class InputValidator {
         if (amount >= MIN_DISCOUNT_AMOUNT) {
             return true;
         }
+        log.error(IS_NOT_POSITIVE_NUMBER);
         return false;
     }
 }
