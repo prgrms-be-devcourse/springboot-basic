@@ -4,7 +4,7 @@ import java.util.List;
 
 public class FileVoucherRepository implements VoucherRepository {
     @Override
-    public void save() {
+    public void save(Voucher voucher) {
 
     }
 
