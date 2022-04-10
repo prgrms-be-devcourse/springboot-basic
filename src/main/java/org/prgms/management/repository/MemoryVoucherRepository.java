@@ -1,11 +1,13 @@
-package org.prgms.springbootbasic.management.repository;
+package org.prgms.management.repository;
 
-import org.prgms.springbootbasic.management.entity.Voucher;
+import org.prgms.management.entity.Voucher;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMap = new HashMap<>();
 

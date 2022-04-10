@@ -1,28 +1,33 @@
-package org.prgms.springbootbasic.management.service;
+package org.prgms.management.service;
 
-import org.prgms.springbootbasic.management.entity.FixedAmountVoucher;
-import org.prgms.springbootbasic.management.entity.PercentAmountVoucher;
-import org.prgms.springbootbasic.management.repository.MemoryVoucherRepository;
-import org.prgms.springbootbasic.management.repository.VoucherRepository;
+import org.prgms.management.repository.MemoryVoucherRepository;
+import org.prgms.management.repository.VoucherRepository;
+import org.prgms.management.entity.FixedAmountVoucher;
+import org.prgms.management.entity.PercentAmountVoucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class ConsoleService {
+@Service
+public class ConsoleService implements VoucherService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Scanner sc = new Scanner(System.in);
     private final VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
-    public void run() {
+    @Override
+    public void run(String command) {
         System.out.println("=== Voucher Program ===");
         label:
         while (true) {
-            initMessage();
+            System.out.println("Type **exit** to exit the program.");
+            System.out.println("Type **create** to create a new voucher.");
+            System.out.println("Type **list** to list all vouchers.");
+            System.out.println();
             System.out.print("Enter a command: ");
-            String command = sc.next();
 
             switch (command) {
                 case "exit":
@@ -42,14 +47,8 @@ public class ConsoleService {
         }
     }
 
-    private void initMessage() {
-        System.out.println("Type **exit** to exit the program.");
-        System.out.println("Type **create** to create a new voucher.");
-        System.out.println("Type **list** to list all vouchers.");
-        System.out.println();
-    }
-
-    private void createVoucher() {
+    @Override
+    public void createVoucher() {
         System.out.println();
         System.out.println("***VoucherType VoucherName DiscountNum***");
         System.out.println("Enter the voucher information.");
@@ -79,6 +78,7 @@ public class ConsoleService {
 
         System.out.print("DiscountNum: ");
         String temp = sc.next();
+
         if (!temp.matches("[0-9]")) {
             logger.error(MessageFormat.format
                     ("wrong input at discountNum -> {0}", temp));
@@ -116,7 +116,8 @@ public class ConsoleService {
         System.out.println();
     }
 
-    private void getVoucherList() {
+    @Override
+    public void getVoucherList() {
         System.out.println();
         System.out.println("=== Voucher List ===");
         voucherRepository.getAll()

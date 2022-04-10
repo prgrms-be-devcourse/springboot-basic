@@ -1,11 +1,12 @@
-package org.prgms.springbootbasic;
+package org.prgms;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.springbootbasic.management.entity.FixedAmountVoucher;
-import org.prgms.springbootbasic.management.entity.PercentAmountVoucher;
-import org.prgms.springbootbasic.management.entity.Voucher;
-import org.prgms.springbootbasic.management.repository.MemoryVoucherRepository;
+import org.prgms.management.AppConfiguration;
+import org.prgms.management.entity.FixedAmountVoucher;
+import org.prgms.management.entity.PercentAmountVoucher;
+import org.prgms.management.entity.Voucher;
+import org.prgms.management.repository.MemoryVoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.UUID;

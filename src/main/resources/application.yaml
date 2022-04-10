@@ -1,0 +1,5 @@
+log:
+  config:
+    level: "error"
+    path: "logs"
+    filename: "log"

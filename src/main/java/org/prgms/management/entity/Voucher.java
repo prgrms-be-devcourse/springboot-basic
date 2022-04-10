@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.management.entity;
+package org.prgms.management.entity;
 
 import java.util.UUID;
 

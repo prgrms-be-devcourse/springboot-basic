@@ -1,15 +1,15 @@
-package org.prgms.springbootbasic.management.entity;
+package org.prgms.management.entity;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class PercentAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long amount;
+    private final long percent;
     private final String voucherName;
 
-    public FixedAmountVoucher(UUID voucherId, long amount, String voucherName) {
+    public PercentAmountVoucher(UUID voucherId, long percent, String voucherName) {
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.percent = percent;
         this.voucherName = voucherName;
     }
 
@@ -25,6 +25,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long getDiscountNum() {
-        return amount;
+        return percent;
     }
 }
