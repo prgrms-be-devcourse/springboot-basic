@@ -29,7 +29,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-
         logger.info("FileVoucherRepository.save() called");
 
         if (voucher instanceof FixedAmountVoucher) {
@@ -54,7 +53,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-
         logger.info("FileVoucherRepository.findAll() called");
 
         List<Voucher> vouchers = new ArrayList<>();

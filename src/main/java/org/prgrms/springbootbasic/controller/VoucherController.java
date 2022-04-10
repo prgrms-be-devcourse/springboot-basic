@@ -25,7 +25,6 @@ public class VoucherController {
     }
 
     private boolean process() {
-
         logger.info("VoucherController.process() called");
 
         consoleView.printMenu();
@@ -34,8 +33,8 @@ public class VoucherController {
     }
 
     public void createVoucher() {
-
         VoucherType voucherType = consoleView.selectVoucherType();
+
         if (voucherType.isFixed()) {
             long amount = consoleView.selectAmount();
             voucherService.createFixedAmountVoucher(amount);

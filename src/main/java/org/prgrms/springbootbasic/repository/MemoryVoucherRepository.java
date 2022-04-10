@@ -20,7 +20,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-
         logger.info("MemoryVoucherRepository.save() called");
 
         storage.put(voucher.getVoucherId(), voucher);
@@ -28,7 +27,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-
         logger.info("MemoryVoucherRepository.findAll() called");
 
         return new ArrayList<>(storage.values());
