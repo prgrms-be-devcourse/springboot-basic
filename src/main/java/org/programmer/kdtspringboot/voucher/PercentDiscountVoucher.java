@@ -1,10 +1,8 @@
 package org.programmer.kdtspringboot.voucher;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final Long percent;
@@ -26,6 +24,6 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public Long discount(Long beforeDiscount) {
-        return beforeDiscount * (percent/100);
+        return beforeDiscount * (percent / 100);
     }
 }
