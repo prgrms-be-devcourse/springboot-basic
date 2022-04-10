@@ -19,8 +19,4 @@ public enum CommandType {
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 명령어입니다."));
     }
-
-    public static boolean isExit(String command) {
-        return command.equals(EXIT.command);
-    }
 }
