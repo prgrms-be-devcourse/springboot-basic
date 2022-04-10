@@ -2,27 +2,26 @@ package com.pppp0722.vouchermanagement.voucher.repository;
 
 
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
-    private List<Voucher> storage = new LinkedList<>();
+
+    private final List<Voucher> voucherList = new ArrayList<>();
 
     @Override
-    public Voucher insert(Voucher voucher) {
-        storage.add(voucher);
-        return null;
+    public void insert(Voucher voucher) {
+        voucherList.add(voucher);
     }
 
     @Override
     public List<Voucher> getVoucherList() {
-        return storage;
+        return voucherList;
     }
 
 }

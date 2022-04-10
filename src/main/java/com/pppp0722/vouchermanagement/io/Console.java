@@ -1,5 +1,6 @@
 package com.pppp0722.vouchermanagement.io;
 
+import com.pppp0722.vouchermanagement.member.model.Member;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import org.springframework.context.annotation.Bean;
 
@@ -20,6 +21,7 @@ public class Console implements Input, Output {
     public void printMenu() {
         System.out.println("Type create to create a new voucher.\n" +
                 "Type list to list all vouchers.\n" +
+                "Type black to print a blacklist.\n" +
                 "Type exit to exit the program.");
     }
 
@@ -35,8 +37,8 @@ public class Console implements Input, Output {
 
     @Override
     public void printVoucherTypeInputRequest() {
-        System.out.println("Type f to create a new fixed amount voucher.\n" +
-                "Type p to create a new percent discount voucher.");
+        System.out.println("Type fixed to create a new fixed amount voucher.\n" +
+                "Type percent to create a new percent discount voucher.");
     }
 
     @Override
@@ -52,9 +54,22 @@ public class Console implements Input, Output {
     @Override
     public void printVoucherList(List<Voucher> voucherList) {
         for(Voucher voucher : voucherList) {
-            System.out.println("voucher type: " + voucher.getVoucherType() +
-                    ", voucher id : " + voucher.getVoucherId() +
+            System.out.println("voucher id : " + voucher.getVoucherId() +
+                    ", voucher type: " + voucher.getVoucherType() +
                     ", amount : " + voucher.getAmount());
+        }
+    }
+
+    @Override
+    public void printBlackListEmpty() {
+        System.out.println("Blacklist is empty.");
+    }
+
+    @Override
+    public void printBlackList(List<Member> blackList) {
+        for(Member member : blackList) {
+            System.out.println("member id: " + member.getMemberId() +
+                    ", name : " + member.getName());
         }
     }
 

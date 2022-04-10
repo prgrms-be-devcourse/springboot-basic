@@ -1,13 +1,12 @@
 package com.pppp0722.vouchermanagement.voucher.model;
 
-import com.pppp0722.vouchermanagement.voucher.model.Voucher;
-
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long amount;
+    private final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
 
     public PercentDiscountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -25,7 +24,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherType() {
-        return "percent discount";
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 }

@@ -1,7 +1,10 @@
 package com.pppp0722.vouchermanagement;
 
 import com.pppp0722.vouchermanagement.io.Console;
+import com.pppp0722.vouchermanagement.member.model.Member;
+import com.pppp0722.vouchermanagement.member.service.MemberService;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
+import com.pppp0722.vouchermanagement.voucher.model.VoucherType;
 import com.pppp0722.vouchermanagement.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +19,14 @@ public class CommandLineApplication {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
     private final Console console = new Console();
     private final VoucherService voucherService;
+    private final MemberService memberService;
 
-    public CommandLineApplication(VoucherService voucherService) {
+    public CommandLineApplication(VoucherService voucherService, MemberService memberService) {
         this.voucherService = voucherService;
+        this.memberService = memberService;
     }
 
+    // 프로그램 실행
     public void run() {
         logger.info("Start voucher management application");
         console.printLogo();
@@ -29,15 +35,18 @@ public class CommandLineApplication {
         while(!isExit) {
             console.printMenu();
             String command = console.getCommand("Input : ");
-            switch(command) {
-                case "create":
+            CommandType commandType = CommandType.getCommandType(command);
+            switch(commandType) {
+                case CREATE:
                     createVoucher();
                     break;
-                case "list":
+                case LIST:
                     printVoucherList();
                     break;
-
-                case "exit":
+                case BLACK:
+                    printBlackList();
+                    break;
+                case EXIT:
                     isExit = true;
                     break;
                 default:
@@ -50,25 +59,29 @@ public class CommandLineApplication {
         logger.info("Terminate voucher management application");
     }
 
+    // voucher 생성
     public void createVoucher() {
-        String voucherType = "";
+        // voucher type 예외처리
+        VoucherType voucherType;
         while(true) {
             console.printVoucherTypeInputRequest();
-            voucherType = console.getCommand("Input : ");
+            voucherType = VoucherType.getVoucherType(console.getCommand("Input : "));
 
-            if(!voucherType.equals("f") && !voucherType.equals("p")){
-                logger.error("Invalid voucher type -> {}", voucherType);
+            if(!voucherType.equals(VoucherType.FIXED_AMOUNT) &&
+                    !voucherType.equals(VoucherType.PERCENT_DISCOUNT)){
+                logger.error("Invalid voucher type.");
                 console.printInputError();
             }
             else break;
         }
 
-        long discountAmount = 0;
+        // voucher amount 예외처리
+        long discountAmount;
         while(true) {
             console.printAmountInputRequest();
             discountAmount = Long.parseLong(console.getCommand("Input : "));
-            if ((voucherType.equals("f") && discountAmount < 1) ||
-                    (voucherType.equals("p") && (discountAmount < 1 || discountAmount > 100))) {
+            if ((voucherType.equals(VoucherType.FIXED_AMOUNT) && discountAmount < 1) ||
+                    (voucherType.equals(VoucherType.PERCENT_DISCOUNT) && (discountAmount < 1 || discountAmount > 100))) {
                 logger.error("Invalid amount -> {}", discountAmount);
                 console.printInputError();
             } else break;
@@ -77,13 +90,25 @@ public class CommandLineApplication {
         voucherService.createVoucher(voucherType, UUID.randomUUID(), discountAmount);
     }
 
+    // voucher 조회
     public void printVoucherList() {
-        Optional<List<Voucher>> voucherList = voucherService.getVouchers();
+        Optional<List<Voucher>> voucherList = voucherService.getOptionalVoucherList();
 
         if(voucherList.isEmpty()) {
             logger.error("Voucher is Empty");
             console.printVoucherEmpty();
         }
         else console.printVoucherList(voucherList.get());
+    }
+
+    // blacklist 조회
+    public void printBlackList() {
+        Optional<List<Member>> blackList = memberService.getOptionalBlackList();
+
+        if(blackList.isEmpty()) {
+            logger.error("Blacklist is Empty");
+            console.printBlackListEmpty();
+        }
+        else console.printBlackList(blackList.get());
     }
 }
