@@ -13,4 +13,13 @@ public class PercentDiscountVoucher extends Voucher{
         double discountRate = (100 - percent) / 100.0;
         return Math.round(beforePrice * discountRate);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        return sb.append("바우처 아이디 : ").append(this.getVoucherId().toString()).append("\n")
+                .append("바우처 타입 : 비율 할인\n")
+                .append("할인 비율 : ").append(this.percent).append("\n")
+                .toString();
+    }
 }

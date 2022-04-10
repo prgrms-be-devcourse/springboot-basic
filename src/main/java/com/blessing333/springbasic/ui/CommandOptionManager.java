@@ -1,6 +1,5 @@
 package com.blessing333.springbasic.ui;
 
-import org.apache.commons.cli.Options;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -21,7 +20,4 @@ public class CommandOptionManager {
         return supportedCommandOptions;
     }
 
-    public Options getOptions(){
-        return supportedCommandOptions.getOptions();
-    }
 }

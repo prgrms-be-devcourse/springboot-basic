@@ -34,10 +34,10 @@ public enum CommandOptionType {
     }
 
     public static CommandOptionType find(String target) throws CommandNotSupportedException {
-        CommandOptionType ret = availableCommandOptionType.get(target);
-        if (ret == null)
+        CommandOptionType type = availableCommandOptionType.get(target);
+        if (type == null)
             throw new CommandNotSupportedException();
         else
-            return ret;
+            return type;
     }
 }

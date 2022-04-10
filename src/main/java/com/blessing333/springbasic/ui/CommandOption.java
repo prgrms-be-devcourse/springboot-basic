@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.apache.commons.cli.Option;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter()
+@Getter
 @Setter(AccessLevel.PRIVATE)
 public class CommandOption {
     private Option option;
