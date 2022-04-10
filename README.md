@@ -63,3 +63,10 @@ SpringBoot Part1 Weekly Mission
     - [X] FileVoucherRepository 만들기
       - [X] Voucher 저장
       - [X] Voucher 전체 조회
+
+### 1차 피드백
+- [ ] java 11로 변경
+- [ ] menu에 전략패턴 도입 생각해보기
+- [ ] Voucher serializable 이유
+- [ ] FileVoucherRepository 메서드 1depth로 줄여보기
+- [ ] ConstantString 관리 생각하기
