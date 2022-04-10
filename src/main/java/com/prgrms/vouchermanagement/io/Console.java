@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanagement.io;
 
+import com.prgrms.vouchermanagement.Member;
 import com.prgrms.vouchermanagement.StringUtils;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import org.slf4j.Logger;
@@ -57,13 +58,18 @@ public class Console implements Input, Output{
         System.out.println("Type exit to exit the program.");
         System.out.println("Type create to create a new voucher.");
         System.out.println("Type list to list all vouchers.");
+        System.out.println("Type blacklist to list all black lists");
     }
 
     @Override
     public void printList(List<Voucher> vouchers) {
+        if (vouchers == null || vouchers.isEmpty()) {
+            return;
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append("\n").append("=== Voucher List ===").append("\n");
-        vouchers.forEach(v -> sb.append(v).append("\n"));
+        vouchers.forEach(v -> sb.append("- ").append(v).append("\n"));
         System.out.println(sb);
     }
 
@@ -72,5 +78,17 @@ public class Console implements Input, Output{
         System.out.println();
         System.out.println(errorMessage);
         System.out.println();
+    }
+
+    @Override
+    public void printBlackList(List<Member> blackList) {
+        if (blackList == null || blackList.isEmpty()) {
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n").append("=== Black List ===").append("\n");
+        blackList.forEach(member -> sb.append("- ").append(member.getName()).append("\n"));
+        System.out.println(sb);
     }
 }

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -19,13 +20,15 @@ public class VoucherManagement {
     private static final Logger log = LoggerFactory.getLogger(VoucherManagement.class);
 
     private final VoucherService voucherService;
+    private final BlackListRepository blackListRepository;
     private final Input input;
     private final Output output;
 
-    private final String CREATE_COMMAND = "create", LIST_COMMAND = "list", EXIT_COMMAND = "exit";
+    private final String CREATE_COMMAND = "create", LIST_COMMAND = "list", EXIT_COMMAND = "exit", BLACK_LIST_COMMAND = "blacklist";
 
-    public VoucherManagement(VoucherService voucherService, Input input, Output output) {
+    public VoucherManagement(VoucherService voucherService, BlackListRepository blackListRepository, Input input, Output output) {
         this.voucherService = voucherService;
+        this.blackListRepository = blackListRepository;
         this.input = input;
         this.output = output;
     }
@@ -45,9 +48,22 @@ public class VoucherManagement {
                     break;
                 case EXIT_COMMAND:
                     return;
+                case BLACK_LIST_COMMAND:
+                    showBlackList();
+                    break;
                 default:
                     printCommandError();
             }
+        }
+    }
+
+    private void showBlackList() {
+        try {
+            List<Member> blackList = blackListRepository.findAll();
+            output.printBlackList(blackList);
+        } catch (IOException e) {
+            output.printMessage(BLACK_LIST_ERROR);
+            log.error("black_list.csv 를 읽어 오는데 실패하였습니다.", e);
         }
     }
 
