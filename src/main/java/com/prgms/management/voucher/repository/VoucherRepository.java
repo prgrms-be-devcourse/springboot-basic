@@ -11,5 +11,5 @@ public interface VoucherRepository {
 
     List<Voucher> findAll() throws VoucherException;
 
-    Voucher save(Voucher voucher);
+    Voucher save(Voucher voucher) throws VoucherException;
 }
