@@ -1,9 +1,10 @@
-package org.prgrms.voucherprgrms;
+package org.prgrms.voucherprgrms.voucher.repository;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import org.prgrms.voucherprgrms.voucher.entity.Voucher;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class MemoryVoucherRepository implements VoucherRepository {
 
@@ -17,5 +18,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         return storage.put(voucher.getVoucherId(), voucher);
+    }
+
+    public List<Voucher> findAll() {
+        return storage.values().stream().collect(Collectors.toCollection(ArrayList::new));
     }
 }
