@@ -1,5 +1,7 @@
 package com.waterfogsw.voucher.member;
 
+import java.util.List;
+
 public interface MemberService {
-    String readBlackList();
+    List<String> readBlackList();
 }
