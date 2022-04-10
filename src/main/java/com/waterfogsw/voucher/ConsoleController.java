@@ -1,11 +1,12 @@
 package com.waterfogsw.voucher;
 
 import com.waterfogsw.voucher.member.MemberService;
+import com.waterfogsw.voucher.voucher.Voucher;
 import com.waterfogsw.voucher.voucher.VoucherService;
 
 import java.util.List;
 
-public class ConsoleController {
+public class ConsoleController implements ApplicationController {
     private final VoucherService voucherService;
     private final MemberService memberService;
 
@@ -18,8 +19,8 @@ public class ConsoleController {
 
     }
 
-    public void listVoucher() {
-
+    public List<Voucher> listVoucher() {
+        return null;
     }
 
     public List<String> printBlackList() {
