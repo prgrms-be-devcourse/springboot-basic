@@ -7,7 +7,7 @@ public interface UserInterface {
     void showVoucherTypeSelectText();
     void showHelpText();
     void printMessage(String message);
-    void printVoucherCreateSuccess();
+    void printVoucherCreateSuccessMessage();
     VoucherCreateForm requestVoucherInformation();
     String inputMessage();
 }

@@ -1,15 +1,14 @@
 package com.blessing333.springbasic.voucher.validator;
 
-import com.blessing333.springbasic.voucher.VoucherCreateFailException;
 import com.blessing333.springbasic.voucher.VoucherType;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
+import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
 public class VoucherFormValidator {
-
     public void validVoucherCreateForm(VoucherCreateForm form) throws VoucherCreateFailException{
         validAmountIsDigit(form.getDiscountAmount());
         Optional<VoucherType> voucherType = VoucherType.fromString(form.getVoucherType());
