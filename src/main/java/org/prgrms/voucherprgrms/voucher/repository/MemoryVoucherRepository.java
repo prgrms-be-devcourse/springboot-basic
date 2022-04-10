@@ -20,6 +20,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return storage.put(voucher.getVoucherId(), voucher);
     }
 
+    @Override
     public List<Voucher> findAll() {
         return storage.values().stream().collect(Collectors.toCollection(ArrayList::new));
     }

@@ -4,6 +4,8 @@ import org.prgrms.voucherprgrms.voucher.entity.VoucherType;
 import org.prgrms.voucherprgrms.voucher.entity.Voucher;
 import org.prgrms.voucherprgrms.voucher.repository.VoucherRepository;
 
+import java.util.List;
+
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
@@ -21,6 +23,13 @@ public class VoucherService {
     public Voucher createVoucher(VoucherType type) {
         Voucher voucher = voucherCreator.create(type);
         return voucherRepository.insert(voucher);
+    }
+
+    /**
+     *
+     */
+    public List<Voucher> findAllVoucher() {
+        return voucherRepository.findAll();
     }
 
 
