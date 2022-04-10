@@ -26,6 +26,15 @@ public class Console implements Input, Output {
         close();
     }
 
+    private void close() {
+        try {
+            br.close();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public String read() {
         try {
@@ -41,15 +50,6 @@ public class Console implements Input, Output {
         try {
             bw.write(message);
             bw.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void close() {
-        try {
-            br.close();
-            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -15,7 +15,7 @@ public class FixedAmountVoucher extends AbstractVoucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        return beforeDiscount - amount < 0 ? 0 : beforeDiscount - amount;
     }
 
     @Override
