@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanagement;
+package com.prgrms.vouchermanagement.util;
 
 public final class Messages {
 

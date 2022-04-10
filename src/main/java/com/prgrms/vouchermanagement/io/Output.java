@@ -1,6 +1,6 @@
 package com.prgrms.vouchermanagement.io;
 
-import com.prgrms.vouchermanagement.Member;
+import com.prgrms.vouchermanagement.dto.Member;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanagement;
+package com.prgrms.vouchermanagement.util;
 
 public class StringUtils {
     public static boolean isNumber(String s) {

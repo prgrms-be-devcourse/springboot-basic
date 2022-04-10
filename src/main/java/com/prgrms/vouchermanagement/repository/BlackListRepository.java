@@ -1,5 +1,6 @@
-package com.prgrms.vouchermanagement;
+package com.prgrms.vouchermanagement.repository;
 
+import com.prgrms.vouchermanagement.dto.Member;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;

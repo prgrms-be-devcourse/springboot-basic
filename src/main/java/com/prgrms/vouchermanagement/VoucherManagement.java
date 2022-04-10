@@ -1,9 +1,12 @@
 package com.prgrms.vouchermanagement;
 
+import com.prgrms.vouchermanagement.dto.Member;
 import com.prgrms.vouchermanagement.io.Input;
 import com.prgrms.vouchermanagement.io.Output;
+import com.prgrms.vouchermanagement.repository.BlackListRepository;
 import com.prgrms.vouchermanagement.service.VoucherService;
 import com.prgrms.vouchermanagement.voucher.Voucher;
+import com.prgrms.vouchermanagement.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -12,7 +15,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 
-import static com.prgrms.vouchermanagement.Messages.*;
+import static com.prgrms.vouchermanagement.util.Messages.*;
 
 @Component
 public class VoucherManagement {

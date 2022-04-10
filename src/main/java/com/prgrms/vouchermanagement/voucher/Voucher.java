@@ -1,10 +1,8 @@
 package com.prgrms.vouchermanagement.voucher;
 
-import com.prgrms.vouchermanagement.VoucherType;
-
 import java.util.UUID;
 
-import static com.prgrms.vouchermanagement.VoucherType.*;
+import static com.prgrms.vouchermanagement.voucher.VoucherType.*;
 
 public interface Voucher {
     long discount(long beforeDiscountPrice);
