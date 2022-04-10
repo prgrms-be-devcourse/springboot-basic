@@ -6,7 +6,7 @@ import org.prgms.management.AppConfiguration;
 import org.prgms.management.entity.FixedAmountVoucher;
 import org.prgms.management.entity.PercentAmountVoucher;
 import org.prgms.management.entity.Voucher;
-import org.prgms.management.repository.MemoryVoucherRepository;
+import org.prgms.management.repository.VoucherMemoryRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.UUID;
@@ -30,7 +30,7 @@ public class VoucherTest {
     @DisplayName("바우처 목록 조회 테스트")
     void getListOfVoucherTest() {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        var memoryVoucherRepository = applicationContext.getBean(MemoryVoucherRepository.class);
+        var memoryVoucherRepository = applicationContext.getBean(VoucherMemoryRepository.class);
         memoryVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 100L, "fixedAmountVoucher"));
         memoryVoucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(), 10L, "percentAmountVoucher"));
         var voucherMap = memoryVoucherRepository.getAll();

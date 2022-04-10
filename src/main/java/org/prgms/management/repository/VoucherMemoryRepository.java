@@ -8,13 +8,16 @@ import java.util.Map;
 import java.util.UUID;
 
 @Repository
-public class MemoryVoucherRepository implements VoucherRepository {
+public class VoucherMemoryRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMap = new HashMap<>();
 
     @Override
-    public void save(Voucher voucher) {
-        if (!voucherMap.containsKey(voucher.getVoucherId()))
+    public boolean save(Voucher voucher) {
+        if (!voucherMap.containsKey(voucher.getVoucherId())) {
             voucherMap.put(voucher.getVoucherId(), voucher);
+            return true;
+        }
+        return false;
     }
 
     @Override
