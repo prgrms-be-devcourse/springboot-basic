@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -47,10 +47,11 @@ public class VoucherSystem {
     }
 
     private void showVoucherList() {
-        Map<UUID, Voucher> map = voucherService.findAllVouchers();
-        if (!map.isEmpty()) {
-            for (UUID id : map.keySet()) {
-                console.print(map.get(id).getVoucherId() + "," + map.get(id).getValue());
+        List<Voucher> list = voucherService.findAllVouchers();
+        if (!list.isEmpty()) {
+            for (int i = 0; i < list.size(); i++) {
+                Voucher voucher = list.get(i);
+                console.print(voucher.getVoucherId() + ", " + voucher.getValue());
             }
         }
     }
@@ -71,14 +72,14 @@ public class VoucherSystem {
 
         Voucher voucher;
         if (inputString.equals("amount")) {
-            voucher = voucherService.createFixedAmountVoucher(UUID.randomUUID(), discount);
+            voucherService.createFixedAmountVoucher(UUID.randomUUID(), discount);
         } else if (inputString.equals("percent")) {
-            voucher = voucherService.createPercentDiscountVoucher(UUID.randomUUID(), discount);
+            voucherService.createPercentDiscountVoucher(UUID.randomUUID(), discount);
         } else {
             console.print("잘못입력하셨습니다. 처음부터 다시 해주세요");
             return;
         }
-        logger.info("voucher 생성(" + voucher.getVoucherId() + "," + voucher.getValue() + ")");
+
     }
 
     private boolean isNumber(String str) {
