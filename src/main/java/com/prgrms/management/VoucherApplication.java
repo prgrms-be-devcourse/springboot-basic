@@ -1,6 +1,6 @@
 package com.prgrms.management;
 
-import com.prgrms.management.command.CommandService;
+import com.prgrms.management.command.service.CommandService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

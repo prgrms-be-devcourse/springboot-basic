@@ -1,4 +1,4 @@
-package com.prgrms.management.command;
+package com.prgrms.management.command.service;
 
 import com.prgrms.management.command.domain.Command;
 import com.prgrms.management.command.io.Input;
