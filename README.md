@@ -69,5 +69,5 @@ SpringBoot Part1 Weekly Mission
 - [X] menu에 전략패턴 도입 생각해보기
 - [X] 개행도 일관성있게 사용하기
 - [X] Voucher serializable 이유
-- [ ] FileVoucherRepository 메서드 1depth로 줄여보기
+- [X] FileVoucherRepository 메서드 1depth로 줄여보기
 - [ ] ConstantString 관리 생각하기

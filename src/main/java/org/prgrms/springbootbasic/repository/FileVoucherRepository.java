@@ -32,23 +32,21 @@ public class FileVoucherRepository implements VoucherRepository {
         logger.info("FileVoucherRepository.save() called");
 
         if (voucher instanceof FixedAmountVoucher) {
-            try (ObjectOutputStream stream = new ObjectOutputStream(
-                new FileOutputStream(fixedVoucherStorage, true))) {
-                stream.writeObject(voucher);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            saveVoucherToFile(fixedVoucherStorage, voucher);
         }
 
         if (voucher instanceof PercentDiscountVoucher) {
-            try (ObjectOutputStream stream = new ObjectOutputStream(
-                new FileOutputStream(percentVoucherStorage, true))) {
-                stream.writeObject(voucher);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            saveVoucherToFile(percentVoucherStorage, voucher);
         }
+    }
 
+    private void saveVoucherToFile(File file, Voucher voucher) {
+        try (ObjectOutputStream stream = new ObjectOutputStream(
+            new FileOutputStream(file, true))) {
+            stream.writeObject(voucher);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -59,11 +57,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         try (FileInputStream fixedVoucherFileStream = new FileInputStream(
             fixedVoucherStorage)) {
-            while (true) {
-                ObjectInputStream stream = new ObjectInputStream(fixedVoucherFileStream);
-                FixedAmountVoucher voucher = (FixedAmountVoucher) stream.readObject();
-                vouchers.add(voucher);
-            }
+            readFixedAmountVoucher(vouchers, fixedVoucherFileStream);
         } catch (EOFException of) {
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -71,11 +65,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         try (FileInputStream percentVoucherFileStream = new FileInputStream(
             percentVoucherStorage)) {
-            while (true) {
-                ObjectInputStream stream = new ObjectInputStream(percentVoucherFileStream);
-                PercentDiscountVoucher voucher = (PercentDiscountVoucher) stream.readObject();
-                vouchers.add(voucher);
-            }
+            readPercentAmountVoucher(vouchers, percentVoucherFileStream);
         } catch (EOFException ex) {
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -84,31 +74,29 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
-    @Override
-    public Integer getVoucherTotalNumber() {
-        int voucherCount = 0;
-
-        voucherCount += countVoucherNumber(fixedVoucherStorage);
-        voucherCount += countVoucherNumber(percentVoucherStorage);
-
-        return voucherCount;
+    private void readPercentAmountVoucher(List<Voucher> vouchers,
+        FileInputStream percentVoucherFileStream)
+        throws IOException, ClassNotFoundException {
+        while (true) {
+            ObjectInputStream stream = new ObjectInputStream(percentVoucherFileStream);
+            PercentDiscountVoucher voucher = (PercentDiscountVoucher) stream.readObject();
+            vouchers.add(voucher);
+        }
     }
 
-    private int countVoucherNumber(File fixedVoucherStorage) {
-        int voucherCount = 0;
-
-        try (FileInputStream fileInputStream = new FileInputStream(
-            fixedVoucherStorage)) {
-            while (true) {
-                ObjectInputStream stream = new ObjectInputStream(fileInputStream);
-                stream.readObject();
-                ++voucherCount;
-            }
-        } catch (EOFException of) {
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
+    private void readFixedAmountVoucher(List<Voucher> vouchers,
+        FileInputStream fixedVoucherFileStream)
+        throws IOException, ClassNotFoundException {
+        while (true) {
+            ObjectInputStream stream = new ObjectInputStream(fixedVoucherFileStream);
+            FixedAmountVoucher voucher = (FixedAmountVoucher) stream.readObject();
+            vouchers.add(voucher);
         }
-        return voucherCount;
+    }
+
+    @Override
+    public Integer getVoucherTotalNumber() {
+        return findAll().size();
     }
 
     @Override
