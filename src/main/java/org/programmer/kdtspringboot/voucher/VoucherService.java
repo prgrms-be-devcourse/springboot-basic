@@ -17,12 +17,12 @@ public class VoucherService {
 
     public void createFixedAmountVoucher(UUID voucherId, long amount) {
         Voucher voucher = new FixedAmountVoucher(voucherId, amount);
-        voucherRepository.insert(voucher);
+        voucherRepository.saveVoucher(voucher);
     }
 
     public void createPercentDiscountVoucher(UUID voucherId, long percent) {
         Voucher voucher = new PercentDiscountVoucher(voucherId, percent);
-        voucherRepository.insert(voucher);
+        voucherRepository.saveVoucher(voucher);
     }
 
     public List<Voucher> findAllVouchers() throws IOException {

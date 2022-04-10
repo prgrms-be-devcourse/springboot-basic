@@ -21,13 +21,13 @@ public class FileVoucherRepository implements VoucherRepository {
     private final FileReader fileReader = new FileReader(fileName);
     private final BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     public FileVoucherRepository() throws IOException {
     }
 
     @Override
-    public void insert(Voucher voucher) {
+    public void saveVoucher(Voucher voucher) {
 
         String content = voucher.getVoucherId() + "," + voucher.getValue() + "," + voucher.getType();
         try {
@@ -46,13 +46,11 @@ public class FileVoucherRepository implements VoucherRepository {
         String content = null;
         while ((content = bufferedReader.readLine()) != null) {
             String[] contents = content.split(",");
-            UUID voucherId = UUID.fromString(contents[0]);
             if (contents[2].equals("FixedAmountVoucher")) {
                 list.add(new FixedAmountVoucher(UUID.fromString(contents[0]), Long.parseLong(contents[1])));
             } else if (contents[2].equals("PercentDiscountVoucher")) {
                 list.add(new PercentDiscountVoucher(UUID.fromString(contents[0]), Long.parseLong(contents[1])));
             }
-
         }
         logger.info("File list 반환 성공");
         return list;

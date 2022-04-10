@@ -4,6 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface VoucherRepository {
-    void insert(Voucher voucher);
+    void saveVoucher(Voucher voucher);
     List<Voucher> findAll() throws IOException;
 }
