@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain.command.controller;
+package org.prgrms.kdt.domain.voucher.controller;
 
 import org.prgrms.kdt.domain.command.types.CommandType;
 import org.prgrms.kdt.util.Console;
@@ -10,21 +10,20 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class CommandController {
+public class VoucherController {
     private final VoucherService voucherService;
 
-    public CommandController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
-    public void processCommand(String commandInput){
-        CommandType command = CommandType.findCommand(commandInput);
-        if(command == CommandType.CREATE){
+    public void processCommand(CommandType commandType){
+        if(commandType == CommandType.CREATE){
             String voucherInput = Console.inputVoucherType();
             createVoucher(voucherInput);
-        } else if(command == CommandType.LIST) {
+        } else if(commandType == CommandType.LIST) {
             findStoredVouchers();
-        } else if(command == CommandType.EXIT) {
+        } else if(commandType == CommandType.EXIT) {
             Console.printExit();
         }
     }
