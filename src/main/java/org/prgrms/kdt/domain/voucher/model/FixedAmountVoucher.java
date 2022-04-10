@@ -1,14 +1,17 @@
 package org.prgrms.kdt.domain.voucher.model;
 
+import org.prgrms.kdt.domain.voucher.types.VoucherType;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher{
     private final UUID voucherId;
-    private final long discount;
+    private final long discountPrice;
+    private static final VoucherType voucherType = VoucherType.FIXED_AMOUNT;
 
     public FixedAmountVoucher(UUID voucherId, long discount) {
         this.voucherId = voucherId;
-        this.discount = discount;
+        this.discountPrice = discount;
     }
 
     @Override
@@ -17,15 +20,25 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
+
+    @Override
+    public long getDiscountValue() {
+        return discountPrice;
+    }
+
+    @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - discount;
+        return beforeDiscount - discountPrice;
     }
 
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
                 "voucherId=" + voucherId +
-                ", discount=" + discount +
+                ", discountPrice=" + discountPrice +
                 '}';
     }
 }
