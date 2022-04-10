@@ -1,6 +1,5 @@
 package org.prgrms.springbootbasic.controller;
 
-import org.prgrms.springbootbasic.Menu;
 import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.view.ConsoleView;
@@ -31,27 +30,10 @@ public class VoucherController {
 
         consoleView.printMenu();
         Menu menu = consoleView.inputMenu();
-
-        if (menu.isExit()) {
-            return false;
-        }
-
-        if (menu.isCreate()) {
-            createVoucher();
-        }
-
-        if (menu.isList()) {
-            consoleView.printList(voucherService.findAll());
-        }
-
-        if (menu.isBlackList()) {
-            consoleView.printCustomerBlackList();
-        }
-
-        return true;
+        return menu.apply(this);
     }
 
-    private void createVoucher() {
+    public void createVoucher() {
 
         VoucherType voucherType = consoleView.selectVoucherType();
         if (voucherType.isFixed()) {
@@ -63,5 +45,13 @@ public class VoucherController {
             int percent = consoleView.selectPercent();
             voucherService.createPercentAmountVoucher(percent);
         }
+    }
+
+    public void printList() {
+        consoleView.printList(voucherService.findAll());
+    }
+
+    public void printBlackList() {
+        consoleView.printCustomerBlackList();
     }
 }
