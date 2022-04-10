@@ -32,19 +32,19 @@ public class FileVoucherRepository implements VoucherRepository {
 
         logger.info("FileVoucherRepository.save() called");
 
-        if (voucher instanceof FixedAmountVoucher fixedAmountVoucher) {
+        if (voucher instanceof FixedAmountVoucher) {
             try (ObjectOutputStream stream = new ObjectOutputStream(
                 new FileOutputStream(fixedVoucherStorage, true))) {
-                stream.writeObject(fixedAmountVoucher);
+                stream.writeObject(voucher);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        if (voucher instanceof PercentDiscountVoucher percentDiscountVoucher) {
+        if (voucher instanceof PercentDiscountVoucher) {
             try (ObjectOutputStream stream = new ObjectOutputStream(
                 new FileOutputStream(percentVoucherStorage, true))) {
-                stream.writeObject(percentDiscountVoucher);
+                stream.writeObject(voucher);
             } catch (IOException e) {
                 e.printStackTrace();
             }

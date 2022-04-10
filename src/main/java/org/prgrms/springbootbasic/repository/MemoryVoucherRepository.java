@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -30,9 +31,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
         logger.info("MemoryVoucherRepository.findAll() called");
 
-        return storage.values()
-            .stream()
-            .toList();
+        return new ArrayList<>(storage.values());
     }
 
     @Override
