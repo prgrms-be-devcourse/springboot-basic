@@ -3,6 +3,7 @@ package com.waterfogsw.voucher;
 import com.waterfogsw.voucher.member.MemberService;
 import com.waterfogsw.voucher.voucher.Voucher;
 import com.waterfogsw.voucher.voucher.VoucherService;
+import com.waterfogsw.voucher.voucher.VoucherType;
 
 import java.util.List;
 
@@ -15,7 +16,8 @@ public class ConsoleController implements ApplicationController {
         this.memberService = memberService;
     }
 
-    public void createVoucher() {
+    @Override
+    public void createVoucher(VoucherType type, Double value) {
 
     }
 
