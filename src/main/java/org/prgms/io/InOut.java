@@ -5,7 +5,7 @@ public interface InOut {
 
     String input();
 
-    void inputError();
+    void inputError(String inputText);
 
     int chooseVoucher();
 }

@@ -6,6 +6,8 @@ import org.prgms.io.InOut;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.PercentDiscountVoucher;
 import org.prgms.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ public class CommandLineApplication {
     private final InOut console;
     private final FileReader fileReader;
     private final List<Customer> blackList;
+    private final static Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     @Autowired
     private ApplicationContext context;
@@ -41,26 +44,27 @@ public class CommandLineApplication {
                     case "exit":
                         return;
                     case "create":
-                        switch (console.chooseVoucher()) {
+                        int opt = console.chooseVoucher();
+                        switch (opt) {
                             case 1 -> service.createVoucher(new FixedAmountVoucher(10L, UUID.randomUUID()));
                             case 2 -> service.createVoucher(new PercentDiscountVoucher(10L, UUID.randomUUID()));
-                            default -> throw new IllegalArgumentException();
+                            default -> throw new IllegalArgumentException(String.valueOf(opt));
                         }
                         break;
                     case "list":
                         service.listVoucher();
                         break;
                     default:
-                        throw new IllegalArgumentException();
+                        throw new IllegalArgumentException(inputText);
                 }
             } catch (InputMismatchException | IllegalArgumentException e) {
-                console.inputError();
+                console.inputError(e.getMessage());
             }
         }
     }
 
     public void readBlackList(String path) throws Exception {
         blackList.addAll(fileReader.readFile(context.getResource(path).getFile()));
-        System.out.println(blackList);
+        logger.info("고객 블랙리스트 : {}", blackList);
     }
 }
