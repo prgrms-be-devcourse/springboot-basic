@@ -28,21 +28,22 @@ public enum VoucherType {
         long amount = toLong(inputAmount);
         //FIXED일 경우 최대 10000원 할인 가정.
         //PERCENT일 경우 0~100 입력받아야 함.
-        boolean valid = (VoucherType.FIXED.equals(this)) ? validFixed(amount) : validPercent(amount);
+        if (VoucherType.FIXED.equals(this))
+            validFixed(amount);
+        else
+            validPercent(amount);
         return amount;
     }
 
-    private boolean validFixed(long amount) {
+    private void validFixed(long amount) {
         if (amount < 0 || amount > 10000) throw new IllegalArgumentException();
-        return true;
     }
 
-    private boolean validPercent(long amount) {
+    private void validPercent(long amount) {
         if (amount < 0 || amount > 100) throw new IllegalArgumentException();
-        return true;
     }
 
-    private long toLong(String amount) {
+    private static long toLong(String amount) {
         try {
             return Long.parseLong(amount);
         } catch (NumberFormatException e) {
