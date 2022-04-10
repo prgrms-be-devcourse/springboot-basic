@@ -41,8 +41,8 @@ public class VoucherSystem {
                         createVoucher();
                         break;
                     default:
-                        logger.warn("잘못 입력");
-                        console.print("제대로 입력해주세요");
+                        logger.warn("메뉴 잘못 입력");
+                        console.print("제대로 입력해주세요.");
                 }
             }
         }catch (IOException e){
@@ -66,22 +66,24 @@ public class VoucherSystem {
 
         String inputString = console.input("선택: ").toLowerCase();
         logger.info("Voucher 종류 선택: " + inputString);
+
         String discountString = console.input("할인값: ");
         if (!isNumber(discountString)) {
-            console.print("할인값을 잘못 입력하셨습니다");
+            console.print("할인값을 잘못 입력하셨습니다.");
             logger.warn("할인값 잘못 입력");
             return;
         }
+
         int discount = Integer.parseInt(discountString);
         logger.info("할인값 입력: " + discountString);
 
-        Voucher voucher;
         if (inputString.equals("amount")) {
             voucherService.createFixedAmountVoucher(UUID.randomUUID(), discount);
         } else if (inputString.equals("percent")) {
             voucherService.createPercentDiscountVoucher(UUID.randomUUID(), discount);
         } else {
-            console.print("잘못입력하셨습니다. 처음부터 다시 해주세요");
+            console.print("Voucher 잘못 입력하셨습니다. 처음부터 다시 해주세요.");
+            logger.warn("Voucher 종류 잘못 입력");
             return;
         }
 
@@ -95,5 +97,4 @@ public class VoucherSystem {
         }
         return true;
     }
-
 }
