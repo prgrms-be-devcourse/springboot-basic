@@ -54,7 +54,6 @@ public class Console implements InputView, OutputView {
         try {
             return Long.parseLong(input);
         } catch (NumberFormatException e) {
-            logger.error(e.getMessage());
             throw new IllegalArgumentException(ERROR_INPUT_NUMBER_TYPE);
         }
     }
