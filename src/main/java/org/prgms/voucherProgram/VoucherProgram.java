@@ -3,6 +3,8 @@ package org.prgms.voucherProgram;
 import org.prgms.voucherProgram.entity.MenuType;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
 import org.prgms.voucherProgram.entity.voucher.VoucherType;
+import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
+import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 import org.prgms.voucherProgram.service.UserService;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
@@ -65,6 +67,7 @@ public class VoucherProgram {
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage());
             outputView.printError(e.getMessage());
+            System.exit(0);
         }
     }
 
@@ -84,7 +87,11 @@ public class VoucherProgram {
             try {
                 long discountValue = inputView.inputDiscountValue(voucherType);
                 return voucherService.create(voucherType, discountValue);
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
+                logger.error(e.getMessage());
+                outputView.printError(e.getMessage());
+                System.exit(0);
+            } catch (WrongDiscountPercentException | WrongDiscountAmountException e) {
                 logger.error(e.getMessage());
                 outputView.printError(e.getMessage());
             }
@@ -97,6 +104,7 @@ public class VoucherProgram {
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage());
             outputView.printError(e.getMessage());
+            System.exit(0);
         }
     }
 }
