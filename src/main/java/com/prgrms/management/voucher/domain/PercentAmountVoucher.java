@@ -5,10 +5,12 @@ import java.util.UUID;
 public class PercentAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
+    private final VoucherType voucherType;
 
-    public PercentAmountVoucher(UUID voucherId, long percent) {
+    public PercentAmountVoucher(UUID voucherId, long percent,VoucherType voucherType) {
         this.voucherId = voucherId;
         this.percent = percent;
+        this.voucherType=voucherType;
     }
 
     @Override
