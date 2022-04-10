@@ -11,7 +11,7 @@ class FileUserRepositoryTest {
     @DisplayName("파일에 저장되어 있는 모든 User를 List형으로 반환한다.")
     @Test
     void findAll_ReturnAllUser() {
-        Assertions.assertThat(fileUserRepository.findAll()).hasSize(3)
+        Assertions.assertThat(fileUserRepository.findBlackUsers()).hasSize(3)
             .extracting("name").contains("hwan", "jin", "pobi");
     }
 }

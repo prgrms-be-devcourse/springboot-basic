@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.entity.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,7 +20,9 @@ public class FileUserRepository implements UserRepository {
     private static final int USER_ID_INDEX = 0;
     private static final int USER_NAME_INDEX = 1;
 
-    public List<User> findAll() {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public List<User> findBlackUsers() {
         List<User> users = new ArrayList<>();
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME))) {
@@ -26,6 +30,7 @@ public class FileUserRepository implements UserRepository {
         } catch (IOException e) {
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
+        logger.info("BlackUsers read at File => {}", users);
         return users;
     }
 

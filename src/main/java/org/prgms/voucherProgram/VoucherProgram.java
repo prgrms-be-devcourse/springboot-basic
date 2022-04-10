@@ -3,17 +3,19 @@ package org.prgms.voucherProgram;
 import org.prgms.voucherProgram.entity.MenuType;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
 import org.prgms.voucherProgram.entity.voucher.VoucherType;
-import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
-import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 import org.prgms.voucherProgram.service.UserService;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
 import org.prgms.voucherProgram.view.InputView;
 import org.prgms.voucherProgram.view.OutputView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherProgram {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final VoucherService voucherService;
     private final UserService userService;
     private final InputView inputView;
@@ -31,20 +33,17 @@ public class VoucherProgram {
 
         while (isNotEndProgram) {
             MenuType menuType = inputMenu();
+            logger.info("{} menu select", menuType);
             switch (menuType) {
-                case EXIT:
-                    isNotEndProgram = false;
-                    break;
-                case LIST:
-                    printVouchers();
-                    break;
-                case CREATE:
+                case EXIT -> isNotEndProgram = false;
+                case LIST -> printVouchers();
+                case CREATE -> {
                     VoucherType voucherType = inputVoucherCommand();
+                    logger.info("{} select", voucherType);
                     Voucher voucher = createVoucher(voucherType);
                     outputView.printVoucher(voucher);
-                    break;
-                case BLACKLIST:
-                    printBlackList();
+                }
+                case BLACKLIST -> printBlackList();
             }
         }
     }
@@ -54,6 +53,7 @@ public class VoucherProgram {
             try {
                 return MenuType.of(inputView.inputMenu());
             } catch (Exception e) {
+                logger.error(e.getMessage());
                 outputView.printError(e.getMessage());
             }
         }
@@ -63,6 +63,7 @@ public class VoucherProgram {
         try {
             outputView.printVouchers(voucherService.findAllVoucher());
         } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
             outputView.printError(e.getMessage());
         }
     }
@@ -72,6 +73,7 @@ public class VoucherProgram {
             try {
                 return VoucherType.findByCommand(inputView.inputVoucherCommand());
             } catch (Exception e) {
+                logger.error(e.getMessage());
                 outputView.printError(e.getMessage());
             }
         }
@@ -82,7 +84,8 @@ public class VoucherProgram {
             try {
                 long discountValue = inputView.inputDiscountValue(voucherType);
                 return voucherService.create(voucherType, discountValue);
-            } catch (WrongDiscountPercentException | WrongDiscountAmountException e) {
+            } catch (Exception e) {
+                logger.error(e.getMessage());
                 outputView.printError(e.getMessage());
             }
         }
@@ -92,6 +95,7 @@ public class VoucherProgram {
         try {
             outputView.printUsers(userService.findBlackList());
         } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
             outputView.printError(e.getMessage());
         }
     }

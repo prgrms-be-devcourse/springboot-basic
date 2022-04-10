@@ -10,11 +10,14 @@ import org.prgms.voucherProgram.entity.voucher.VoucherType;
 import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
 import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 import org.prgms.voucherProgram.repository.voucher.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VoucherService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final VoucherRepository repository;
 
     public VoucherService(VoucherRepository repository) {
@@ -25,6 +28,7 @@ public class VoucherService {
         WrongDiscountAmountException,
         WrongDiscountPercentException {
         Voucher voucher = getVoucher(voucherType, value);
+        logger.info("Voucher create => {}", voucher);
         return repository.save(voucher);
     }
 
@@ -39,6 +43,8 @@ public class VoucherService {
     }
 
     public List<Voucher> findAllVoucher() {
-        return repository.findAll();
+        List<Voucher> vouchers = repository.findAll();
+        logger.info("Vouchers find at Repository => {}", vouchers);
+        return vouchers;
     }
 }
