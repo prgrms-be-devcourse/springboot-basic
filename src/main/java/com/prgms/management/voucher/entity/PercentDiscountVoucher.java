@@ -3,7 +3,7 @@ package com.prgms.management.voucher.entity;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    private final UUID voucherId;
+    private UUID voucherId;
     private final Long percent;
 
     public PercentDiscountVoucher(Long percent) {
@@ -14,6 +14,11 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public void resetVoucherId() {
+        voucherId = UUID.randomUUID();
     }
 
     @Override
