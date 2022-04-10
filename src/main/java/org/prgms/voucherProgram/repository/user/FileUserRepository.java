@@ -29,11 +29,8 @@ public class FileUserRepository implements UserRepository {
 
     public List<User> findBlackUsers() {
         List<User> users = new ArrayList<>();
-
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(userResource.getInputStream()));
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(userResource.getInputStream()))) {
             addUsers(users, bufferedReader);
-            bufferedReader.close();
         } catch (IOException e) {
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
