@@ -1,2 +1,7 @@
-config:
-  profile: dev  # dev 선택 시 file로 저장
+csv:
+  voucher:
+    file-name: voucherList.csv
+    path:
+  member:
+    file-name: customer_blacklist.csv
+    path:
