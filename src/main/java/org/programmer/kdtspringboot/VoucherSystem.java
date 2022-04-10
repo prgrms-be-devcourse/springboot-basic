@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,36 +23,40 @@ public class VoucherSystem {
     }
 
     public void run() {
-
-        while (true) {
-            console.menu();
-            String inputString = console.input("선택: ").toLowerCase();
-            switch (inputString) {
-                case "exit":
-                    logger.info("exit 입력");
-                    console.exit();
-                    return;
-                case "list":
-                    logger.info("list 입력");
-                    showVoucherList();
-                    break;
-                case "create":
-                    logger.info("create 입력");
-                    createVoucher();
-                    break;
-                default:
-                    logger.warn("잘못 입력");
-                    console.print("제대로 입력해주세요");
+        try{
+            while (true) {
+                console.menu();
+                String inputString = console.input("선택: ").toLowerCase();
+                switch (inputString) {
+                    case "exit":
+                        logger.info("exit 입력");
+                        console.exit();
+                        return;
+                    case "list":
+                        logger.info("list 입력");
+                        showVoucherList();
+                        break;
+                    case "create":
+                        logger.info("create 입력");
+                        createVoucher();
+                        break;
+                    default:
+                        logger.warn("잘못 입력");
+                        console.print("제대로 입력해주세요");
+                }
             }
+        }catch (IOException e){
+            logger.error("입출력 오류");
         }
+        
     }
 
-    private void showVoucherList() {
+    private void showVoucherList() throws IOException {
         List<Voucher> list = voucherService.findAllVouchers();
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 Voucher voucher = list.get(i);
-                console.print(voucher.getVoucherId() + ", " + voucher.getValue());
+                console.print(voucher.getVoucherId() + ", " + voucher.getValue()+", "+voucher.getType());
             }
         }
     }
