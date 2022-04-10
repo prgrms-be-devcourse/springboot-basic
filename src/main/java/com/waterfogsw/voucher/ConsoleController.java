@@ -1,0 +1,28 @@
+package com.waterfogsw.voucher;
+
+import com.waterfogsw.voucher.member.MemberService;
+import com.waterfogsw.voucher.voucher.VoucherService;
+
+import java.util.List;
+
+public class ConsoleController {
+    private final VoucherService voucherService;
+    private final MemberService memberService;
+
+    public ConsoleController(VoucherService voucherService, MemberService memberService) {
+        this.voucherService = voucherService;
+        this.memberService = memberService;
+    }
+
+    public void createVoucher() {
+
+    }
+
+    public void listVoucher() {
+
+    }
+
+    public List<String> printBlackList() {
+        return null;
+    }
+}
