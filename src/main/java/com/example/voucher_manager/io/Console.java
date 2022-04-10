@@ -1,6 +1,12 @@
 package com.example.voucher_manager.io;
 
+import com.example.voucher_manager.domain.voucher.Voucher;
+import com.example.voucher_manager.domain.voucher.VoucherType;
+
+import java.util.Optional;
+
 public class Console {
+
     private final Input input;
     private final Output output;
     private final InputValidator inputValidator;
@@ -16,24 +22,62 @@ public class Console {
     public CommandType inputCommand() {
         printMenu();
         String userInput = input.input(" >> ");
-        CommandType command = inputValidator.validate(userInput);
-
-        // ERROR인지 체크하고
-        // ERROR라면 조기 리턴해서 다시 작업 수행
-        if (command.equals(CommandType.ERROR)){
-            output.printError();
-            return command;
-        }
-
-        // ERROR가 아니라면 CommandOperator에게 넘겨서 메뉴별로 작업 분기
+        CommandType command = inputValidator.validateCommandType(userInput);
 
         switch (command) {
-            case CREATE -> commandOperator.create();
-            case LIST -> commandOperator.getList();
-            case EXIT -> output.exit();
+            case CREATE -> inputVoucherType();
+            case LIST -> printVoucherList();
+            case EXIT -> shutdownConsole();
+            case ERROR -> output.printError();
         }
 
         return command;
+    }
+
+    private void inputVoucherType() {
+        printVoucherType();
+        String userInput = input.input(" >> ");
+        VoucherType voucherType = inputValidator.validateVoucherType(userInput);
+
+        if (voucherType.equals(VoucherType.ERROR)){
+            output.printError();
+            return;
+        }
+
+        Optional<Long> discountNumber = inputDiscountInformation(voucherType);
+
+        if (discountNumber.isEmpty()){
+            output.printError();
+            return;
+        }
+
+        Voucher voucher = commandOperator.create(voucherType, discountNumber.get());
+        output.print(voucher.toString());
+    }
+
+    private Optional<Long> inputDiscountInformation(VoucherType voucherType) {
+        switch (voucherType) {
+            case FIXED -> printFixedVoucherRange();
+            case PERCENT -> printPercentVoucherRange();
+        }
+
+        String userInput = input.input(" >> ");
+        if (!inputValidator.isInteger(userInput)){
+            return Optional.empty();
+        }
+
+        Long discountNumber = input.parseLong(userInput);
+        boolean validDiscountNumber = switch (voucherType) {
+            case FIXED -> inputValidator.isPositiveNumber(discountNumber);
+            case PERCENT -> inputValidator.isCorrectRangeOfPercent(discountNumber);
+            default -> throw new IllegalStateException("Unexpected value: " + voucherType);
+        };
+
+        if (!validDiscountNumber) {
+            return Optional.empty();
+        }
+
+        return Optional.of(discountNumber);
     }
 
     private void printMenu() {
@@ -43,5 +87,35 @@ public class Console {
                Type **create** to create a new voucher.
                Type **list** to list all vouchers.
                 """);
+    }
+
+    private void printVoucherType() {
+        output.print("""
+                === Select Voucher Type ===
+                Type **fixed** to quantitative discount the price.
+                Type **percent** to proportionally discount the price.
+                """);
+    }
+
+    private void printFixedVoucherRange() {
+        output.print("""
+                === Input Discount Amount ===
+                Enter Positive Number (number > 0)
+                """);
+    }
+
+    private void printPercentVoucherRange() {
+        output.print("""
+                === Input Discount Percent ===
+                Enter a value between 0 and 100 (0 <= number <= 100)
+                """);
+    }
+
+    private void printVoucherList() {
+        output.printItems(commandOperator.getVoucherList());
+    }
+
+    private void shutdownConsole() {
+        output.exit();
     }
 }

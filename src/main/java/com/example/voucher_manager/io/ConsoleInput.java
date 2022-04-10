@@ -10,4 +10,9 @@ public class ConsoleInput implements Input{
         System.out.print(displayString);
         return scanner.nextLine();
     }
+
+    @Override
+    public Long parseLong(String input) {
+        return Long.parseLong(input);
+    }
 }
