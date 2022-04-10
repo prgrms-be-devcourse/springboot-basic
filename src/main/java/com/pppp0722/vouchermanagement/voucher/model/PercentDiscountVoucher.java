@@ -13,13 +13,19 @@ public class PercentDiscountVoucher implements Voucher {
         this.voucherId = voucherId;
         this.amount = amount;
     }
+
     @Override
     public UUID getVoucherId() {
-        return null;
+        return voucherId;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return 0;
+    public long getAmount() {
+        return amount;
+    }
+
+    @Override
+    public String getVoucherType() {
+        return "percent discount";
     }
 }

@@ -5,6 +5,7 @@ import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
+
     private final UUID voucherId;
     private final long amount;
 
@@ -13,13 +14,19 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = amount;
     }
 
+
     @Override
     public UUID getVoucherId() {
-        return null;
+        return voucherId;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return 0;
+    public long getAmount() {
+        return amount;
+    }
+
+    @Override
+    public String getVoucherType() {
+        return "fixed amount";
     }
 }
