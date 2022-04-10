@@ -5,7 +5,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Output {
     public void printResult(String output) {
-        System.out.println(output);
+        if(output.length()<=2) System.out.println("리스트가 비어 있습니다.");
+        else System.out.println(output);
     }
 
     public String printCommand() {

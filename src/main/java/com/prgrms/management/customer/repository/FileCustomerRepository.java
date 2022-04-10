@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Profile("local")
+@Profile({"local","dev"})
 public class FileCustomerRepository implements CustomerRepository {
     private final String BLACK_LIST_FILE_NAME = "src/main/resources/customer_blacklist.csv";
 

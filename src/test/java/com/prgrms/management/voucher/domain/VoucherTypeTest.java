@@ -1,13 +1,9 @@
 package com.prgrms.management.voucher.domain;
 
-import com.prgrms.management.command.Command;
-import com.prgrms.management.customer.domain.CustomerType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherTypeTest {
 
@@ -65,9 +61,9 @@ class VoucherTypeTest {
         VoucherType percentType = VoucherType.PERCENT;
         //then
         Assertions.assertThatThrownBy(() -> percentType.isValid(inputAmount))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NumberFormatException.class);
         Assertions.assertThatThrownBy(() -> percentType.isValid(inputAmountTwo))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NumberFormatException.class);
     }
 
 }

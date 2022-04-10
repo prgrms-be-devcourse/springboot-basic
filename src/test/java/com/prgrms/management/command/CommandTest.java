@@ -1,5 +1,6 @@
 package com.prgrms.management.command;
 
+import com.prgrms.management.command.domain.Command;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

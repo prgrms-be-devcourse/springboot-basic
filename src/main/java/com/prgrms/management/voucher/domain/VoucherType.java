@@ -17,7 +17,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(e -> e.name().equals(input.toUpperCase()))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException("잘못된 명령어입니다."));
+                .orElseThrow(() -> new NoSuchElementException(VoucherType.class + ":잘못된 입력 값입니다."));
     }
 
     public String getINTRO() {
@@ -36,18 +36,18 @@ public enum VoucherType {
     }
 
     private void validFixed(long amount) {
-        if (amount < 0 || amount > 10000) throw new IllegalArgumentException();
+        if (amount < 0 || amount > 10000) throw new NumberFormatException(VoucherType.class + ":0~10000 이내로 입력하세요");
     }
 
     private void validPercent(long amount) {
-        if (amount < 0 || amount > 100) throw new IllegalArgumentException();
+        if (amount < 0 || amount > 100) throw new NumberFormatException(VoucherType.class + ":0~100 이내로 입력하세요");
     }
 
     private static long toLong(String amount) {
         try {
             return Long.parseLong(amount);
         } catch (NumberFormatException e) {
-            throw new NumberFormatException("올바른 숫자 형식이 아닙니다.");
+            throw new NumberFormatException(VoucherType.class + ":올바른 숫자 형식이 아닙니다.");
         }
     }
 }

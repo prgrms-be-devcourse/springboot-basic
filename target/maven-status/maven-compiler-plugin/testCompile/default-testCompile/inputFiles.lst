@@ -1,0 +1,11 @@
+/Users/dhkstn/management/src/test/java/com/prgrms/management/voucher/repository/FileVoucherRepositoryTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/voucher/repository/MemoryVoucherRepositoryTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/voucher/service/VoucherServiceTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/customer/service/CustomerServiceTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/customer/domain/CustomerTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/command/CommandTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/voucher/domain/PercentAmountVoucherTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/customer/domain/CustomerTypeTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/voucher/domain/FixedAmountVoucherTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/customer/repository/FileCustomerRepositoryTest.java
+/Users/dhkstn/management/src/test/java/com/prgrms/management/voucher/domain/VoucherTypeTest.java

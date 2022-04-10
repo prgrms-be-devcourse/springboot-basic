@@ -1,0 +1,11 @@
+com/prgrms/management/customer/domain/CustomerTypeTest.class
+com/prgrms/management/voucher/service/VoucherServiceTest.class
+com/prgrms/management/command/CommandTest.class
+com/prgrms/management/customer/service/CustomerServiceTest.class
+com/prgrms/management/voucher/domain/PercentAmountVoucherTest.class
+com/prgrms/management/voucher/domain/VoucherTypeTest.class
+com/prgrms/management/customer/domain/CustomerTest.class
+com/prgrms/management/voucher/repository/MemoryVoucherRepositoryTest.class
+com/prgrms/management/voucher/domain/FixedAmountVoucherTest.class
+com/prgrms/management/voucher/repository/FileVoucherRepositoryTest.class
+com/prgrms/management/customer/repository/FileCustomerRepositoryTest.class
