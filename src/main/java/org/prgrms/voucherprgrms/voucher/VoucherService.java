@@ -1,11 +1,13 @@
 package org.prgrms.voucherprgrms.voucher;
 
-import org.prgrms.voucherprgrms.voucher.entity.VoucherType;
-import org.prgrms.voucherprgrms.voucher.entity.Voucher;
+import org.prgrms.voucherprgrms.voucher.model.VoucherType;
+import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import org.prgrms.voucherprgrms.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;

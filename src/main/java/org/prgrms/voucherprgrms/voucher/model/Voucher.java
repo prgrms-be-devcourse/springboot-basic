@@ -1,4 +1,4 @@
-package org.prgrms.voucherprgrms.voucher.entity;
+package org.prgrms.voucherprgrms.voucher.model;
 
 import java.util.UUID;
 
