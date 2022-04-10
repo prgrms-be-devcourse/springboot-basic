@@ -1,6 +1,7 @@
 package com.prgms.management.command.io;
 
 import com.prgms.management.command.exception.CommandLineException;
+import com.prgms.management.customer.entity.Customer;
 import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.PercentDiscountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
@@ -20,6 +21,7 @@ public class Console implements Input, Output<Voucher> {
         textIO.getTextTerminal().println("Type **exit** to exit the program.");
         textIO.getTextTerminal().println("Type **create** to create a new voucher.");
         textIO.getTextTerminal().println("Type **list** to list all vouchers.");
+        textIO.getTextTerminal().println("Type **blacklist** to list all black customers.");
         textIO.getTextTerminal().println();
 
         String command = textIO.newStringInputReader()
@@ -33,6 +35,8 @@ public class Console implements Input, Output<Voucher> {
                 return CommandType.CREATE;
             case "exit":
                 return CommandType.EXIT;
+            case "blacklist":
+                return CommandType.BLACKLIST;
             default:
                 throw new CommandLineException();
         }
@@ -66,14 +70,21 @@ public class Console implements Input, Output<Voucher> {
     }
 
     @Override
-    public void printList(List<Voucher> list) {
+    public void printListCustomer(List<Customer> list) {
+        for (Customer customer : list) {
+            textIO.getTextTerminal().println(customer.toString());
+        }
+    }
+
+    @Override
+    public void printListVoucher(List<Voucher> list) {
         for (Voucher voucher : list) {
             textIO.getTextTerminal().println(voucher.toString());
         }
     }
 
     @Override
-    public void printOneItem(Voucher voucher) {
+    public void printOneVoucher(Voucher voucher) {
         textIO.getTextTerminal().println("CREATE >> " + voucher.toString());
     }
 

@@ -11,6 +11,11 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = amount;
     }
 
+    public FixedAmountVoucher(UUID voucherId, Long amount) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
@@ -24,6 +29,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public Long discount(Long beforeDiscount) {
         return beforeDiscount - amount;
+    }
+
+    @Override
+    public String getStringForCSV() {
+        return this.getClass().getCanonicalName() + "," + voucherId + "," + amount;
     }
 
     @Override

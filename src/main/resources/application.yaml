@@ -2,6 +2,10 @@ spring:
   config:
     activate:
       on-profile: default
+database:
+  file:
+    voucher: "voucher_simple_db.csv"
+    black-list: "customer_blacklist.csv"
 
 ---
 
@@ -10,7 +14,9 @@ spring:
     activate:
       on-profile: local
 database:
-  filename: "voucher_simple_db.csv"
+  file:
+    voucher: "voucher_simple_db.csv"
+    black-list: "customer_blacklist.csv"
 
 ---
 
@@ -18,6 +24,9 @@ spring:
   config:
     activate:
       on-profile: dev
+database:
+  file:
+    voucher: "voucher_simple_db.csv"
 
 ---
 
@@ -25,3 +34,6 @@ spring:
   config:
     activate:
       on-profile: prod
+database:
+  file:
+    voucher: "voucher_simple_db.csv"
