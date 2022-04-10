@@ -2,7 +2,6 @@ package org.programmer.kdtspringboot.user;
 
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,7 +9,6 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository UserRepository;
-
 
     public UserService(org.programmer.kdtspringboot.user.UserRepository userRepository) {
         UserRepository = userRepository;
@@ -21,7 +19,7 @@ public class UserService {
         UserRepository.saveUser(user);
     }
 
-    public List<User> findAllUsers() throws IOException {
+    public List<User> findAllUsers() {
         return UserRepository.findAll();
     }
 }

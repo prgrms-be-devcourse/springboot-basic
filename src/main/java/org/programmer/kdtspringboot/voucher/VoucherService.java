@@ -2,7 +2,6 @@ package org.programmer.kdtspringboot.voucher;
 
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +24,7 @@ public class VoucherService {
         voucherRepository.saveVoucher(voucher);
     }
 
-    public List<Voucher> findAllVouchers() throws IOException {
+    public List<Voucher> findAllVouchers() {
         return voucherRepository.findAll();
     }
 }

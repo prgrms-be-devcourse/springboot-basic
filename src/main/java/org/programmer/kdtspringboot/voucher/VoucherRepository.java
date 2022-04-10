@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface VoucherRepository {
     void saveVoucher(Voucher voucher);
-    List<Voucher> findAll() throws IOException;
+    List<Voucher> findAll();
 }
