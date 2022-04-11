@@ -5,14 +5,12 @@ import org.prgrms.vouchermanager.voucher.domain.VoucherType;
 import org.prgrms.vouchermanager.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 
 //TODO: SpringbootShell 알아보고 적용해보기
-@Component
-public class CommandLineApplication implements VoucherManagerShell {
+public class CommandLineApplication {
 
     // 아직 사용하지 않는 로거
     private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
@@ -26,7 +24,6 @@ public class CommandLineApplication implements VoucherManagerShell {
         this.voucherService = voucherService;
     }
 
-    @Override
     public void run(String... args) {
 
         init();

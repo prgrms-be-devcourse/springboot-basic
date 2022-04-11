@@ -1,7 +1,5 @@
 package org.prgrms.vouchermanager.console;
 
-import org.springframework.stereotype.Component;
-
 import javax.annotation.PreDestroy;
 import java.io.*;
 
@@ -10,7 +8,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 /**
  * 터미널 역할을 하는 콘솔 클래스
  */
-@Component
 public class Console implements Input, Output {
 
     private final BufferedReader br;

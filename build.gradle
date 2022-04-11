@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.6'
+    id 'org.springframework.boot' version '2.5.9'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
@@ -18,6 +18,7 @@ dependencies {
     implementation 'org.slf4j:jcl-over-slf4j'
     implementation 'ch.qos.logback:logback-classic'
     implementation 'ch.qos.logback:logback-core'
+    implementation 'org.springframework.shell:spring-shell-starter:2.0.1.RELEASE'
 }
 
 tasks.named('test') {

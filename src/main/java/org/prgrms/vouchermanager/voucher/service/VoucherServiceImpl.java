@@ -4,11 +4,9 @@ import org.prgrms.vouchermanager.voucher.domain.Voucher;
 import org.prgrms.vouchermanager.voucher.domain.VoucherFactory;
 import org.prgrms.vouchermanager.voucher.domain.VoucherType;
 import org.prgrms.vouchermanager.voucher.repository.VoucherRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
 public class VoucherServiceImpl implements VoucherService {
 
     private final VoucherRepository voucherRepository;
