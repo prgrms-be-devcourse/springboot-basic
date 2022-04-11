@@ -1,7 +1,5 @@
 package org.prgrms.kdt.blacklist.domain;
 
-import java.util.UUID;
-
 public class Blacklist {
     private final String customerId;
     private final String name;

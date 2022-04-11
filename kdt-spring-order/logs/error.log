@@ -1,3 +1,3 @@
-06:45:53.766 [main] ERROR org.prgrms.kdt.command.CreateCommand - There is no 'precent'. 
-06:45:54.780 [main] ERROR org.prgrms.kdt.command.CreateCommand - There is no '90'. 
-06:45:55.924 [main] ERROR org.prgrms.kdt.command.CreateCommand - There is no 'list'. 
+07:08:31.479 [main] ERROR org.prgrms.kdt.CommandLine - There is no 'crate'. 
+07:08:42.809 [main] ERROR org.prgrms.kdt.CommandLine - There is no 'percent'. 
+07:08:44.070 [main] ERROR org.prgrms.kdt.CommandLine - There is no '30'. 

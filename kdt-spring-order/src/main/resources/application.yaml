@@ -6,4 +6,4 @@ datasource:
 
 spring:
   profiles:
-    active: local
+    active: dev

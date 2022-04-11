@@ -36,26 +36,7 @@ public class FileVoucherRepository implements VoucherRepository {
                              + voucher.getDiscountRate() + "\n";
             bw.write(toWrite);
             bw.close();
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
-            // output.?();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            // output.?();
-        }
-    }
-
-    public void list() {
-        String line = "";
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            while ((line = br.readLine()) != null) {
-                String[] voucherInfo = line.split(",");
-                String voucherId = voucherInfo[0];
-                String voucherType = voucherInfo[1];
-                String discountRate = voucherInfo[3];
-                output.printFileVoucherRepo(voucherId, voucherType, discountRate);
-            }
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
     }

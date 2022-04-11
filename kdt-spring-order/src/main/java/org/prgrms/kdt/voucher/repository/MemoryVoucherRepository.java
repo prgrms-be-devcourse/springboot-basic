@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @Repository
-@Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository{
 
     public HashMap<UUID, Voucher> voucherHashMap = new HashMap<UUID, Voucher>();
