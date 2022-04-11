@@ -91,7 +91,8 @@ public class ConsoleView {
 
     public int selectPercent() {
         int percent = textIO.newIntInputReader()
-            .withMaxVal(100)
+            .withMinVal(PercentDiscountVoucher.MIN_RANGE)
+            .withMaxVal(PercentDiscountVoucher.MAX_RANGE)
             .read(SELECT_PERCENT);
         textIO.getTextTerminal().println();
         return percent;
