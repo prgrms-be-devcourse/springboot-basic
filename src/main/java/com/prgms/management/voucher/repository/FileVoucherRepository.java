@@ -27,12 +27,10 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher findById(UUID voucherId) throws VoucherException {
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-            String item;
-            while ((item = bufferedReader.readLine()) != null) {
-                String[] array = item.split(",");
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] array = line.split(",");
                 if (voucherId.equals(UUID.fromString(array[1]))) {
                     if (array[0].equals(PercentDiscountVoucher.class.getCanonicalName())) {
                         return new PercentDiscountVoucher(UUID.fromString(array[1]), Integer.parseInt(array[2]));
@@ -43,14 +41,6 @@ public class FileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             throw new VoucherNotFoundException();
-        } finally {
-            try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-            } catch (IOException e) {
-                throw new VoucherNotFoundException();
-            }
         }
         throw new VoucherNotFoundException();
     }
@@ -58,13 +48,10 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() throws VoucherException {
         List<Voucher> vouchers = new ArrayList<>();
-        BufferedReader bufferedReader = null;
-
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-            String item;
-            while ((item = bufferedReader.readLine()) != null) {
-                String[] array = item.split(",");
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] array = line.split(",");
                 if (array[0].equals(PercentDiscountVoucher.class.getCanonicalName())) {
                     vouchers.add(new PercentDiscountVoucher(UUID.fromString(array[1]), Integer.parseInt(array[2])));
                 } else if (array[0].equals(FixedAmountVoucher.class.getCanonicalName())) {
@@ -75,36 +62,17 @@ public class FileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             throw new VoucherListEmptyException();
-        } finally {
-            try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-            } catch (IOException e) {
-               throw new VoucherListEmptyException();
-            }
         }
         return vouchers;
     }
 
     @Override
     public Voucher save(Voucher voucher) throws VoucherException {
-        BufferedWriter bufferedWriter = null;
-        try {
-            bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
             bufferedWriter.write(voucher.getStringForCSV());
             bufferedWriter.newLine();
         } catch (IOException e) {
             throw new VoucherNotSaveException();
-        } finally {
-            try {
-                if (bufferedWriter != null) {
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                }
-            } catch (IOException e) {
-                throw new VoucherNotSaveException();
-            }
         }
         return voucher;
     }

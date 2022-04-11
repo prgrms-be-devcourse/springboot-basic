@@ -7,10 +7,7 @@ import com.prgms.management.customer.exception.CustomerListEmptyException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,10 +23,8 @@ public class FileBlackCustomerRepository implements BlackCustomerRepository {
     @Override
     public List<Customer> findAll() throws CustomerException {
         List<Customer> customers = new ArrayList<>();
-        BufferedReader bufferedReader = null;
 
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String item;
             while ((item = bufferedReader.readLine()) != null) {
                 String[] array = item.split(",");
@@ -37,14 +32,6 @@ public class FileBlackCustomerRepository implements BlackCustomerRepository {
             }
         } catch (IOException e) {
             throw new CustomerListEmptyException();
-        } finally {
-            try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         return customers;
     }
