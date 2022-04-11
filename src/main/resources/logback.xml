@@ -1,0 +1,40 @@
+<configuration>
+
+    <!-- pattern 정의    -->
+    <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <!-- CONSOLE 기록 log    -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- FILE 기록 error log  -->
+    <appender name="FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/error.log</file>
+        <!--  날짜 별 파일 생성      -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+
+        <append>false</append>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+
+    <logger name="org.prgrms.voucherprgrms" level="error">
+        <appender-ref ref="FILE_LOG"/>
+    </logger>
+
+<!--    <logger name="org.prgrms.voucherprgrms.Application" level="DEBUG">-->
+<!--        <appender-ref ref="STDOUT"/>-->
+<!--    </logger>-->
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
