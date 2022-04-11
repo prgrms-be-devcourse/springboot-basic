@@ -12,10 +12,15 @@ public class VoucherControllerTest {
 
     @Test
     @DisplayName("PercentDiscountVoucher의 할인율이 100을 넘는다면 예외가 발생합니다.")
-    public void saveWithInvalidValue(){
+    public void saveWithInvalidValue1(){
 
     }
 
+    @Test
+    @DisplayName("PercentDiscountVoucher의 할인 금액이 마이너스라면 예외가 발생합니다.")
+    public void saveWithInvalidValue2(){
+
+    }
 
     @Test
     @DisplayName("바우처 전체 조회를 테스트합니다.")
