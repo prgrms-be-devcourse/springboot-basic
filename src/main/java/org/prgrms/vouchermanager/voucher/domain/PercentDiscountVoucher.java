@@ -1,16 +1,12 @@
 package org.prgrms.vouchermanager.voucher.domain;
 
-
-import java.util.UUID;
-
 public class PercentDiscountVoucher extends AbstractVoucher {
 
     private final long percent;
 
-    // UUID를 생성자로 입력받지 않고 내부에서 생성하도록 작성
     public PercentDiscountVoucher(long percent) {
-        super(UUID.randomUUID(), VoucherType.PERCENT);
-        //TODO: 생성자 내부에서 amount validate 할 것.
+        super(VoucherType.PERCENT);
+        if (percent <= 0 || percent > 100) throw new IllegalArgumentException("Percent should be between 0 and 100");
         this.percent = percent;
     }
 

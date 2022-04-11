@@ -4,11 +4,10 @@ import java.util.UUID;
 
 public abstract class AbstractVoucher implements Voucher {
 
-    private final UUID voucherId;
+    private final UUID voucherId = UUID.randomUUID();
     private final VoucherType type;
 
-    public AbstractVoucher(UUID voucherId, VoucherType type) {
-        this.voucherId = voucherId;
+    public AbstractVoucher(VoucherType type) {
         this.type = type;
     }
 

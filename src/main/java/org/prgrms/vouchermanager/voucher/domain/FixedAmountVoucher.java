@@ -1,16 +1,16 @@
 package org.prgrms.vouchermanager.voucher.domain;
 
-
-import java.util.UUID;
-
 public class FixedAmountVoucher extends AbstractVoucher {
-
+    private static final long MAX_VOUCHER_AMOUNT = 10000;
     private final long amount;
 
-    // UUID를 생성자로 입력받지 않고 내부에서 생성하도록 작성
     public FixedAmountVoucher(long amount) {
-        super(UUID.randomUUID(), VoucherType.FIXED);
-        //TODO: 생성자 내부에서 amount validate 할 것.
+        super(VoucherType.FIXED);
+        if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
+        if (amount == 0) throw new IllegalArgumentException("Amount should be positive");
+        if (amount > MAX_VOUCHER_AMOUNT) {
+            throw new IllegalArgumentException("Amount should be less than %d".formatted(MAX_VOUCHER_AMOUNT));
+        }
         this.amount = amount;
     }
 
