@@ -14,6 +14,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public FixedAmountVoucher(long amount) {
+        if (amount < 0 || amount > 10000) throw new NumberFormatException(VoucherType.class + ":0~10000 이내로 입력하세요");
         this.voucherId = UUID.randomUUID();
         this.amount = amount;
         this.voucherType = VoucherType.FIXED;

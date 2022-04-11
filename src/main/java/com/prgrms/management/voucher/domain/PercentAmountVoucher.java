@@ -14,6 +14,7 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     public PercentAmountVoucher(long amount) {
+        if (amount < 0 || amount > 100) throw new NumberFormatException(VoucherType.class + ":0~100 이내로 입력하세요");
         this.voucherId = UUID.randomUUID();
         this.amount = amount;
         this.voucherType = VoucherType.PERCENT;

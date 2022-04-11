@@ -5,11 +5,11 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 public enum VoucherType {
-    FIXED("할인 금액을 입력하세요.\nINPUT:",(amount)-> new FixedAmountVoucher(amount)),
-    PERCENT("할인율을 입력하세요.\nINPUT:",(amount)-> new PercentAmountVoucher(amount));
+    FIXED("할인 금액을 입력하세요.\nINPUT:", (amount) -> new FixedAmountVoucher(amount)),
+    PERCENT("할인율을 입력하세요.\nINPUT:", (amount) -> new PercentAmountVoucher(amount));
 
     private final String INTRO;
-    private final Function<Long,Voucher> voucher;
+    private final Function<Long, Voucher> voucher;
 
     VoucherType(String intro, Function<Long, Voucher> voucher) {
         INTRO = intro;
@@ -27,32 +27,14 @@ public enum VoucherType {
         return INTRO;
     }
 
-    public long isValid(String inputAmount) {
-        long amount = toLong(inputAmount);
-        //FIXED일 경우 최대 10000원 할인 가정.
-        //PERCENT일 경우 0~100 입력받아야 함.
-        if (VoucherType.FIXED.equals(this))
-            validFixed(amount);
-        else
-            validPercent(amount);
-        return amount;
-    }
-
-    private void validFixed(long amount) {
-        if (amount < 0 || amount > 10000) throw new NumberFormatException(VoucherType.class + ":0~10000 이내로 입력하세요");
-    }
-
-    private void validPercent(long amount) {
-        if (amount < 0 || amount > 100) throw new NumberFormatException(VoucherType.class + ":0~100 이내로 입력하세요");
-    }
-
-    private static long toLong(String amount) {
+    public static long toLong(String amount) {
         try {
             return Long.parseLong(amount);
         } catch (NumberFormatException e) {
             throw new NumberFormatException(VoucherType.class + ":올바른 숫자 형식이 아닙니다.");
         }
     }
+
     public Voucher createVoucher(Long amount) {
         return voucher.apply(amount);
     }

@@ -50,8 +50,7 @@ public class CommandService implements CommandLineRunner {
                 logger.info("SELECT {}", voucherType);
                 System.out.print(voucherType.getINTRO());
                 String inputAmount = input.readLine();
-                long amount = voucherType.isValid(inputAmount);
-                voucherService.createVoucher(voucherType, amount);
+                voucherService.createVoucher(voucherType, voucherType.toLong(inputAmount));
                 break;
             case LIST:
                 output.printResult(voucherService.findAll().toString());
