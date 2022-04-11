@@ -20,4 +20,19 @@ public enum VoucherType {
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("order와 매칭되는 VoucherType이 없습니다."));
     }
+
+    /**
+     * 클래스명과 일치하는 VoucherType 을 반환한다.
+     */
+    public static VoucherType getVoucherType(String className) throws IllegalArgumentException {
+        if(className.equals(FixedAmountVoucher.class.getSimpleName())) {
+            return FIXED_DISCOUNT;
+        }
+
+        if (className.equals(PercentDiscountVoucher.class.getSimpleName())) {
+            return PERCENT_DISCOUNT;
+        }
+
+        throw new IllegalArgumentException("className과 일치하는 VouhcerType이 없습니다.");
+    }
 }

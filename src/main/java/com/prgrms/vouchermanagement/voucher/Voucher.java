@@ -9,19 +9,24 @@ public interface Voucher {
 
     UUID getId();
 
+    long getAmount();
+
     /**
      * VoucherType 에 해당하는 Voucher 인스턴스를 생성하여 반환한다.
-     * @throws IllegalArgumentException : Voucher 타입이 PercentDiscount 인 경우 0~100% 의 범위를 벗어나는 수가 입력되면 예외를 던진다.
      */
     static Voucher createVoucher(VoucherType type, long amount) throws IllegalArgumentException {
+        return createVoucher(UUID.randomUUID(), type, amount);
+    }
+
+    static Voucher createVoucher(UUID voucherId, VoucherType type, long amount) throws IllegalArgumentException {
         checkAmountRightRange(type, amount);
 
         if (type == FIXED_DISCOUNT) {
-            return new FixedAmountVoucher(amount);
+            return new FixedAmountVoucher(voucherId, amount);
         }
 
         if (type == PERCENT_DISCOUNT) {
-            return new PercentDiscountVoucher(amount);
+            return new PercentDiscountVoucher(voucherId, amount);
         }
 
         throw new IllegalArgumentException();

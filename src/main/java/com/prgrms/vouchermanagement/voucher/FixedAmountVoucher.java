@@ -7,8 +7,8 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long discountPrice;
 
-    public FixedAmountVoucher(long discountPrice) {
-        this.voucherId = UUID.randomUUID();
+    public FixedAmountVoucher(UUID voucherId, long discountPrice) {
+        this.voucherId = voucherId;
         this.discountPrice = discountPrice;
     }
 
@@ -20,6 +20,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public UUID getId() {
         return voucherId;
+    }
+
+    @Override
+    public long getAmount() {
+        return discountPrice;
     }
 
     @Override
