@@ -1,0 +1,11 @@
+14:59:26.181 [main] ERROR o.p.k.b.service.BlackListService - Have not any vouchers in list => []
+16:04:33.786 [main] ERROR o.p.k.CommandLineApplication - Not correct input voucher type....
+16:06:14.368 [main] INFO  o.p.k.KdtSpringVoucherApplication - Starting KdtSpringVoucherApplication using Java 17.0.2 on LAPTOP-648BLN9I with PID 5212 (D:\devProject\springboot-basic\kdt-spring-voucher\target\classes started by dkskt in D:\devProject\springboot-basic\kdt-spring-voucher)
+16:06:14.370 [main] INFO  o.p.k.KdtSpringVoucherApplication - The following 1 profile is active: "prod"
+16:06:14.804 [main] INFO  o.p.k.KdtSpringVoucherApplication - Started KdtSpringVoucherApplication in 0.774 seconds (JVM running for 1.615)
+16:06:18.861 [main] INFO  o.prgms.kdtspringvoucher.io.Console - Input command type String => list
+16:06:18.864 [main] INFO  o.p.k.CommandLineApplication - Correct input command type => LIST
+16:06:18.866 [main] INFO  o.p.k.v.r.FileVoucherRepository - Find All Saved vouchers
+16:06:18.871 [main] INFO  o.p.k.voucher.service.VoucherService - Succeed show all vouchers in repository
+16:06:22.786 [main] INFO  o.prgms.kdtspringvoucher.io.Console - Input command type String => exit
+16:06:22.786 [main] INFO  o.p.k.CommandLineApplication - Correct input command type => EXIT
