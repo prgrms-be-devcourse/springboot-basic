@@ -22,11 +22,8 @@ public class VoucherMemoryRepository implements VoucherRepository{
     }
 
     @Override
-    public void showAll() {
-
+    public ConcurrentHashMap<UUID,Voucher> getAllVoucher() {
+            return voucherHashMap;
     }
 
-    public int size(){
-        return voucherHashMap.size();
-    }
 }

@@ -1,5 +1,10 @@
 package org.prgrms.spring_week1.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import org.prgrms.spring_week1.Main;
 import org.prgrms.spring_week1.models.FixedAmountVoucher;
 import org.prgrms.spring_week1.models.PercentDiscountVoucher;
@@ -36,6 +41,12 @@ public class VoucherService {
         Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
         voucherRepository.insert(voucher);
         return voucher;
+    }
+
+    public List<Voucher> getAllVoucher(){
+//        return voucherRepository.getAllVoucher().values().stream().map(Object::toString).collect(Collectors.toList());
+        return new ArrayList<>(voucherRepository.getAllVoucher().values());
+
     }
 
 

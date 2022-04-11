@@ -68,7 +68,7 @@ public class Main {
                 }
 
             } else if(opt.equals("list")){  // 조회
-
+                System.out.println(vs.getAllVoucher());
 
             } else if(opt.equals("exit")){  // 종료
                 exit(0);
