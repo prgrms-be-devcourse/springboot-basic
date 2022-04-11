@@ -22,8 +22,7 @@ public class VoucherControllerImpl implements VoucherController {
     public Voucher createVoucher(VoucherType voucherType, long number){
         UUID voucherId = UUID.randomUUID();
         Optional<Voucher> voucher = Optional.empty();
-        if (voucherType.equals(VoucherType.PERCENT))
-            voucher = Optional.of(new PercentDiscountVoucher(voucherId, number));
+        if (voucherType.equals(VoucherType.PERCENT)) voucher = Optional.of(new PercentDiscountVoucher(voucherId, number));
         if (voucherType.equals(VoucherType.FIXED)) voucher = Optional.of(new FixedAmountVoucher(voucherId, number));
         return voucherService.save(voucher.get());
     }
