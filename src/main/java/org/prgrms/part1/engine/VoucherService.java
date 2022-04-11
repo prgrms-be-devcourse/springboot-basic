@@ -3,7 +3,6 @@ package org.prgrms.part1.engine;
 import org.prgrms.part1.exception.VoucherException;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +20,7 @@ public class VoucherService {
         } else if(type.equals(VoucherType.PercentDiscount)) {
             return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value));
         } else {
-            throw new VoucherException();
+            throw new VoucherException("Invalid voucher type detected. Please call developer.");
         }
     }
 

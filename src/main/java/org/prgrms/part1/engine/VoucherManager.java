@@ -7,24 +7,27 @@ import org.prgrms.part1.io.Input;
 import org.prgrms.part1.io.Output;
 import org.slf4j.Logger;
 
-import java.text.MessageFormat;
-import java.util.regex.Pattern;
-
 public class VoucherManager implements Runnable{
-    private final VoucherService voucherService;
     private final Input input;
     private final Output output;
     private final Logger logger;
+    private final VoucherCreator voucherCreator;
+    private final VoucherPoster voucherPoster;
 
     public VoucherManager(VoucherService voucherService, Input input, Output output, Logger logger) {
-        this.voucherService = voucherService;
         this.input = input;
         this.output = output;
         this.logger = logger;
+        this.voucherCreator = new VoucherCreator(voucherService, input, output, logger);
+        this.voucherPoster = new VoucherPoster(voucherService, output, logger);
     }
+
 
     @Override
     public void run() {
+        final String SELECT_EXIT = "exit";
+        final String SELECT_CREATE = "create";
+        final String SELECT_LIST = "list";
         output.print("=== Voucher Program ===");
         logger.debug("Voucher program On");
         main:
@@ -35,82 +38,33 @@ public class VoucherManager implements Runnable{
                 output.print("Type list to list all vouchers.");
                 var selection = input.select();
                 switch (selection) {
-                    case "exit":
+                    case SELECT_EXIT:
                         logger.debug("User select exit");
                         logger.debug("Voucher program Off");
                         break main;
-                    case ("create"):
+                    case SELECT_CREATE:
                         logger.debug("User select create");
-                        create:
-                        while (true) {
-                            VoucherType type;
-                            output.print("Select type of Voucher");
-                            output.print("1. Fixed Amount Voucher");
-                            output.print("2. Percent Amount Voucher");
-                            output.print("3. Back to Main");
-                            var num = input.select();
-
-                            switch (num) {
-                                case "1":
-                                    logger.debug("User select fixed amount Voucher");
-                                    type = VoucherType.FixedAmount;
-                                    break;
-                                case "2":
-                                    logger.debug("User select percent discount voucher");
-                                    type = VoucherType.PercentDiscount;
-                                    break;
-                                case "3":
-                                    logger.debug("User select back to main");
-                                    break create;
-                                default:
-                                    logger.warn("User select invalid voucher");
-                                    output.printError("Please Type Valid Number");
-                                    continue;
-                            }
-                            var inputValue = input.question("Type discount amount(percent) of Voucher : ");
-                            int value = parseValue(inputValue);
-                            Voucher voucher = voucherService.createVoucher(type, value);
-                            logger.info(MessageFormat.format("Create Voucher.\nVoucher Id: {0}\nVoucher Type: {1}\nVoucher Discount: {2}", voucher.getVoucherId(), voucher.getVoucherType()), voucher.getDiscount());
-                        }
+                        voucherCreator.run();
                         break;
-                    case "list":
+                    case SELECT_LIST:
                         logger.debug("User select list");
-                        if (voucherService.getAllVouchers().isEmpty()) {
-                            output.print("Voucher List is empty!");
-                            continue;
-                        }
-
-                        output.print("Show Voucher List\n");
-                        voucherService.getAllVouchers().forEach(v -> {
-                            output.print("Voucher Id : " + v.getVoucherId());
-                            output.print("Voucher Type : " + v.getVoucherType());
-                            output.print("Discount Amount : " + v.getDiscount());
-                            output.print("");
-
-                        });
+                        voucherPoster.run();
                         break;
                     default:
-                        logger.warn("User select invalid menu");
-                        throw new InputException();
+                        throw new InputException("Please select valid menu.");
                 }
             } catch (InputException ex) {
-                output.printError("Please Type Valid Value");
+                logger.warn("Input Error! Print to User : " + ex.getMessage());
+                output.printError(ex.getMessage());
             } catch (VoucherException ex) {
-                logger.error("Voucher Error!");
-                output.printError("Voucher Manager is Broken. Please Call Developer");
+                logger.error("Voucher Error! Print to User : " + ex.getMessage());
+                output.printError(ex.getMessage());
             } catch (FileException ex) {
-                logger.error("Voucher File Error!");
-                output.printError("Voucher File is Broken. Please Call Developer");
+                logger.error("Voucher File Error! Print to User : " + ex.getMessage());
+                output.printError(ex.getMessage());
             }
         }
     }
 
-    private int parseValue(String inputValue) {
-        if (Pattern.matches("[\\d]+", inputValue)) {
-            return Integer.parseInt(inputValue);
-        } else {
-            logger.warn("User type invalid Number");
-            throw new InputException();
-        }
-    }
+
 }

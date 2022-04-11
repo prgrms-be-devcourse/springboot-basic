@@ -15,7 +15,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public String question(String question) {
+    public String inputQuestion(String question) {
         System.out.println(question);
         return scanner.nextLine();
     }

@@ -7,7 +7,5 @@ public interface Voucher {
 
     VoucherType getVoucherType();
 
-    Long getDiscount();
-
-    long discount(long beforeDiscount);
+    Long getValue();
 }

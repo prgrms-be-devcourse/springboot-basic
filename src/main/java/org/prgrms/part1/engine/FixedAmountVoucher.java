@@ -12,7 +12,8 @@ public class FixedAmountVoucher implements Voucher{
         this.amount = amount;
     }
 
-    public Long getDiscount() {
+    @Override
+    public Long getValue() {
         return amount;
     }
 
@@ -24,10 +25,5 @@ public class FixedAmountVoucher implements Voucher{
     @Override
     public VoucherType getVoucherType() {
         return VoucherType.FixedAmount;
-    }
-
-    @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
     }
 }

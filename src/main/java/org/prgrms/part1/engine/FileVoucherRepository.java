@@ -1,35 +1,31 @@
 package org.prgrms.part1.engine;
 
 import org.prgrms.part1.exception.FileException;
-import org.prgrms.part1.exception.VoucherException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Primary
 public class FileVoucherRepository implements VoucherRepository{
-    private final String path = new File("").getAbsolutePath() + "\\vouchers\\";
-    private final List<UUID> vouchers = new ArrayList<>();
+    private final String path = "vouchers" + File.separator;
 
     @Override
     public Voucher insert(Voucher voucher) {
         File dir = new File(path);
         if(!dir.exists()) {
-            dir.mkdir();
+            dir.mkdirs();
         }
         try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + voucher.getVoucherId() + ".txt"))) {
             bos.write(voucher.getVoucherId().toString().getBytes());
             bos.write("\n".getBytes());
             bos.write(voucher.getVoucherType().toString().getBytes());
             bos.write("\n".getBytes());
-            bos.write(voucher.getDiscount().toString().getBytes());
+            bos.write(voucher.getValue().toString().getBytes());
         } catch (IOException ex) {
-            throw new FileException();
+            throw new FileException("Voucher file creation problem. Please call developer");
         }
         return voucher;
     }
@@ -47,23 +43,31 @@ public class FileVoucherRepository implements VoucherRepository{
                 for (File file:files) {
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     UUID voucherId = UUID.fromString(br.readLine());
-                    String type = br.readLine();
-                    int discount = Integer.parseInt(br.readLine());
-                    if (type.equals("FixedAmount")) {
-                        vouchers.add(new FixedAmountVoucher(voucherId, discount));
-                    } else if (type.equals("PercentDiscount")) {
-                        vouchers.add(new PercentDiscountVoucher(voucherId, discount));
-                    } else {
-                        br.close();
-                        throw new FileException();
-                    }
+                    VoucherType type = VoucherType.valueOf(br.readLine());
+                    int value = Integer.parseInt(br.readLine());
                     br.close();
+                    Optional<Voucher> voucher = convertFileToVoucher(voucherId, type, value);
+                    if (voucher.isEmpty()) {
+                        throw new FileException("Invalid voucher type detected. Please call developer");
+                    } else {
+                        vouchers.add(voucher.get());
+                    }
                 }
             }
         } catch(Exception ex) {
-            throw new FileException();
+            throw new FileException("Broken voucher file problem. Please call developer");
         }
 
         return vouchers;
+    }
+
+    private Optional<Voucher> convertFileToVoucher(UUID voucherId, VoucherType voucherType, int value) {
+        if (voucherType.equals(VoucherType.FixedAmount)) {
+            return Optional.of(new FixedAmountVoucher(voucherId, value));
+        } else if (voucherType.equals(VoucherType.PercentDiscount)) {
+            return Optional.of(new PercentDiscountVoucher(voucherId, value));
+        } else {
+            return Optional.empty();
+        }
     }
 }
