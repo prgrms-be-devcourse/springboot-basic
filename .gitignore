@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Log Files and etc. ###
+logs/
+storage/
