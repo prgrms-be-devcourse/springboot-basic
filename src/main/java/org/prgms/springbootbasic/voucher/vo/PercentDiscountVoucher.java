@@ -24,7 +24,7 @@ public class PercentDiscountVoucher implements Voucher {
 
 	@Override
 	public String getVoucherType() {
-		return this.getClass().getName();
+		return this.getClass().getSimpleName();
 	}
 
 	/**

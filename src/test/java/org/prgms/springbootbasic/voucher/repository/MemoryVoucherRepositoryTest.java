@@ -67,8 +67,8 @@ class MemoryVoucherRepositoryTest {
 
 		Map<String, List<Voucher>> voucherList1 = voucherRepository.getVoucherList();
 		//then
-		assertEquals(2, voucherList1.get(FixedAmountVoucher.class.getName()).size());
-		assertEquals(1, voucherList1.get(PercentDiscountVoucher.class.getName()).size());
+		assertEquals(2, voucherList1.get(FixedAmountVoucher.class.getSimpleName()).size());
+		assertEquals(1, voucherList1.get(PercentDiscountVoucher.class.getSimpleName()).size());
 
 	}
 }
