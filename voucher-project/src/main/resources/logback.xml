@@ -1,0 +1,31 @@
+<configuration>
+
+    <property name="BASIC_LOG_PATTERN" value="%highlight([%thread]) %d{yyyy-MM-dd HH:mm:ss} %green(%-5level) %C{10} %cyan(%10M [%-3L]) | %msg%n"/>
+    <property name="FILE_LOG_PATTERN" value="[%thread] %d{yyyy-MM-dd HH:mm:ss} %-5level %C{10} %10M [%-3L] | %msg%n"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${BASIC_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <file>logs/error_log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/error_log-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <logger name="com.example.voucherproject" level="warn" additivity="false">
+        <appender-ref ref="ROLLING_FILE" />
+    </logger>
+
+</configuration>
