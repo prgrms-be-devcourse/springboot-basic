@@ -4,9 +4,11 @@ import org.prgrms.vouchermanager.voucher.domain.Voucher;
 import org.prgrms.vouchermanager.voucher.domain.VoucherFactory;
 import org.prgrms.vouchermanager.voucher.domain.VoucherType;
 import org.prgrms.vouchermanager.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class VoucherServiceImpl implements VoucherService {
 
     private final VoucherRepository voucherRepository;
@@ -16,9 +18,10 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public void createVoucher(VoucherType type, Long amount) {
-        if(type.equals(VoucherType.INVALID)) return;
-        Voucher voucher = VoucherFactory.getVoucher(type, amount);
+    public void createVoucher(String type, Long amount) {
+        VoucherType voucherType = VoucherType.findVoucherType(type);
+        if (voucherType == VoucherType.INVALID) throw new IllegalArgumentException();
+        Voucher voucher = VoucherFactory.getVoucher(voucherType, amount);
         voucherRepository.insert(voucher);
     }
 

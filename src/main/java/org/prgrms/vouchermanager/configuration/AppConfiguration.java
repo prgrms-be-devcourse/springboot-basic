@@ -9,15 +9,5 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"org.prgrms.vouchermanager"})
 @Configuration
 public class AppConfiguration {
-//
-//    @Bean
-//    InputStream inputStream(){
-//        return System.in;
-//    }
-//
-//    @Bean
-//    PrintStream printStream(){
-//        return System.out;
-//    }
 
 }
