@@ -19,6 +19,7 @@ public class VoucherCreator {
 
     public Voucher create() {
         VoucherType type = VoucherType.getType(inputConsole.getVoucherType());
+
         UUID voucherId = UUID.randomUUID();
         switch (type) {
             case FIXEDAMOUNT:
@@ -27,7 +28,7 @@ public class VoucherCreator {
                 return getPercentDiscountVoucher(voucherId);
             default:
                 //Exception
-                return null;
+                throw new IllegalArgumentException();
         }
     }
 
@@ -40,5 +41,4 @@ public class VoucherCreator {
         long amount = inputConsole.getVoucherValue("Type **amount** to create FixedAmountVoucher");
         return new FixedAmountVoucher(voucherId, amount);
     }
-
 }

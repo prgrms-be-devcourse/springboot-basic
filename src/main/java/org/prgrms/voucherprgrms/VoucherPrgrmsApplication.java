@@ -26,19 +26,23 @@ public class VoucherPrgrmsApplication implements Runnable {
         boolean runnableFlag = true;
         while (runnableFlag) {
             String input = inputConsole.commandInput();
-            switch (input) {
-                case "exit":
-                    runnableFlag = false;
-                    break;
-                case "create":
-                    voucherService.createVoucher();
-                    break;
-                case "list":
-                    List<Voucher> list = voucherService.findAllVoucher();
-                    outputConsole.voucherList(list);
-                    break;
-                default:
-                    outputConsole.commandErrorMessage();
+            try {
+                switch (input) {
+                    case "exit":
+                        runnableFlag = false;
+                        break;
+                    case "create":
+                        voucherService.createVoucher();
+                        break;
+                    case "list":
+                        List<Voucher> list = voucherService.findAllVoucher();
+                        outputConsole.voucherList(list);
+                        break;
+                    default:
+                        outputConsole.commandErrorMessage();
+                }
+            } catch (IllegalArgumentException e) {
+                outputConsole.commandErrorMessage();
             }
         }
     }

@@ -26,7 +26,7 @@ public class VoucherService {
     /**
      * create Voucher
      */
-    public Voucher createVoucher() {
+    public Voucher createVoucher() throws IllegalArgumentException{
         Voucher voucher = voucherCreator.create();
         logger.info(MessageFormat.format("CREATE Voucher({0})", voucher.getVoucherId()));
         return voucherRepository.insert(voucher);
