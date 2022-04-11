@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class BlackListRepository {
+    public static final String BLACK_LIST_FILE_NAME = "customer_black_list.csv";
     private final ApplicationContext ac;
 
     public BlackListRepository(ApplicationContext ac) {
@@ -20,10 +21,10 @@ public class BlackListRepository {
     }
 
     /**
-     * black_list.csv 파일을 읽어서 Member 타입의 List 로 변환하여 반환한다.
+     * customer_black_list.csv 파일을 읽어서 Member 타입의 List 로 변환하여 반환한다.
      */
     public List<Member> findAll() throws IOException {
-        Resource resource = ac.getResource("file:black_list.csv");
+        Resource resource = ac.getResource("classpath:" + BLACK_LIST_FILE_NAME);
         File file = resource.getFile();
         return Files.readAllLines(file.toPath()).stream().
                 map(Member::new).collect(Collectors.toList());
