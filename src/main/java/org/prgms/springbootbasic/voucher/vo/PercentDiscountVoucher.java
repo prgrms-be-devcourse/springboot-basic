@@ -22,6 +22,11 @@ public class PercentDiscountVoucher implements Voucher {
 		return this.voucherId;
 	}
 
+	@Override
+	public String getVoucherType() {
+		return this.getClass().getName();
+	}
+
 	/**
 	 * 기존 가격에서 할인율을 곱한 가격을 제외한 나머지 가격을 반환한다.
 	 *

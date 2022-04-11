@@ -3,6 +3,7 @@ package org.prgms.springbootbasic.voucher.repository;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,20 +52,23 @@ class MemoryVoucherRepositoryTest {
 		// 아무것도 저장되어있지 않을 때 0
 		assertEquals(0, voucherRepository.getVoucherList().size());
 
+		// Voucher의 종류 test
 		//given
 		voucherRepository.save(new FixedAmountVoucher(10L));
 		voucherRepository.save(new PercentDiscountVoucher(20));
 		//when
-		List<Voucher> voucherList = voucherRepository.getVoucherList();
+		Map<String, List<Voucher>> voucherList = voucherRepository.getVoucherList();
 		//then
 		assertEquals(2, voucherList.size());
 
 		//given
 		voucherRepository.save(new FixedAmountVoucher(30L));
 		//when
-		List<Voucher> voucherList2 = voucherRepository.getVoucherList();
+
+		Map<String, List<Voucher>> voucherList1 = voucherRepository.getVoucherList();
 		//then
-		assertEquals(3, voucherList2.size());
+		assertEquals(2, voucherList1.get(FixedAmountVoucher.class.getName()).size());
+		assertEquals(1, voucherList1.get(PercentDiscountVoucher.class.getName()).size());
 
 	}
 }

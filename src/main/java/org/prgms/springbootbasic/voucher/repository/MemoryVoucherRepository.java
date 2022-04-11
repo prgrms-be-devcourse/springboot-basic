@@ -10,7 +10,7 @@ import org.prgms.springbootbasic.voucher.vo.Voucher;
 
 import com.google.common.base.Preconditions;
 
-public class MemoryVoucherRepository implements VoucherRepository{
+public class MemoryVoucherRepository implements VoucherRepository {
 	private final Map<UUID, Voucher> memory = new ConcurrentHashMap<>();
 
 	/**
@@ -28,14 +28,15 @@ public class MemoryVoucherRepository implements VoucherRepository{
 	}
 
 	/**
-	 * 저장된 Voucher들을 조회하는 메서드
+	 * 저장된 Voucher들을 Voucher의 종류에 따라 조회하는 메서드
 	 *
-	 * @return Voucher 리스트
+	 * @return Map<String, List<Voucher>>
 	 */
 	@Override
-	public List<Voucher> getVoucherList() {
+	public Map<String, List<Voucher>> getVoucherList() {
 		return memory.entrySet().stream()
 			.map(e -> e.getValue())
-			.collect(Collectors.toList());
+			.collect(Collectors.groupingBy(Voucher::getVoucherType));
 	}
+
 }

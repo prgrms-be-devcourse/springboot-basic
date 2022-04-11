@@ -25,6 +25,11 @@ public class FixedAmountVoucher implements Voucher {
 		return this.voucherId;
 	}
 
+	@Override
+	public String getVoucherType() {
+		return this.getClass().getName();
+	}
+
 	/**
 	 *  기존 금액에서 할인 금액을 제외한 금액을 반환하는 메서드
 	 *
