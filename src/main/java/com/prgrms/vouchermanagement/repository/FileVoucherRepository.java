@@ -1,7 +1,6 @@
 package com.prgrms.vouchermanagement.repository;
 
 import com.prgrms.vouchermanagement.voucher.Voucher;
-import com.prgrms.vouchermanagement.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -10,61 +9,63 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+/**
+ * 직렬화를 사용하여 voucher 리스트를 저장하고 조회한다.
+ */
 @Repository
 @Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
 
+    public static final String VOUCHERS_FILE_NAME = "vouchers.ser";
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public void save(Voucher voucher) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter("vouchers.csv", true))){
-            pw.println(getCsvStr(voucher));
-            log.info("voucher is saved  to vouchers.csv file - {}", voucher);
-        } catch (IOException e) {
-            log.error("vouchers.csv 파일을 열 수 없습니다.", e);
-        }
-    }
+        List<Voucher> vouchers = findAll();
 
-    private String getCsvStr(Voucher voucher) {
-        String className = voucher.getClass().getSimpleName();
-        return className + "," + voucher.getId() + "," + voucher.getAmount();
+        try (
+                FileOutputStream fos = new FileOutputStream(VOUCHERS_FILE_NAME);
+                BufferedOutputStream bos = new BufferedOutputStream(fos);
+                ObjectOutputStream oos =new ObjectOutputStream(bos);
+        ) {
+            vouchers.add(voucher);
+            oos.writeObject(vouchers);
+            log.info("voucher is saved to file - {}", voucher);
+        } catch (IOException e) {
+            log.error("failed to create {}", VOUCHERS_FILE_NAME, e);
+        }
     }
 
     /**
-     * vouchers.csv 파일을 삭제합니다.
+     * 파일을 삭제합니다.
      * 테스트 실행시 초기화 용으로 사용
      */
     public void clear() {
-        File file = new File("vouchers.csv");
+        File file = new File(VOUCHERS_FILE_NAME);
         file.delete();
     }
 
+    /**
+     * 역직렬화를 통해 voucher 리스트를 가져온다.
+     * 저장된 바우처가 없어 파일이 존재하지 않는 경우 비어있는 리스트를 반환한다.
+     */
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> vouchers = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader("vouchers.csv"))){
-            String voucherStr = null;
-
-            while ((voucherStr = br.readLine()) != null) {
-                String[] split = voucherStr.split(",");
-
-                String className = split[0];
-                UUID id = UUID.fromString(split[1]);
-                long amount = Long.parseLong(split[2]);
-                VoucherType voucherType = VoucherType.getVoucherType(className);
-
-                vouchers.add(Voucher.createVoucher(id, voucherType, amount));
-            }
-
+        try (
+                FileInputStream fis = new FileInputStream(VOUCHERS_FILE_NAME);
+                BufferedInputStream bis =new BufferedInputStream(fis);
+                ObjectInputStream ois = new ObjectInputStream(bis);
+        ){
+            List<Voucher> vouchers = (List<Voucher>) ois.readObject();
             log.info("find all vouchers from file. size={}", vouchers.size());
+            return vouchers;
         } catch (IOException e) {
-            log.error("vouchers.scv 파일을 읽어오는데 실패하였습니다.", e);
+            log.info("not found vouchers.scv");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
-        return vouchers;
+        return new ArrayList<>();
     }
 }

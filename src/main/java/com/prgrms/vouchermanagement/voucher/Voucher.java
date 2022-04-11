@@ -9,8 +9,6 @@ public interface Voucher {
 
     UUID getId();
 
-    long getAmount();
-
     /**
      * VoucherType 에 해당하는 Voucher 인스턴스를 생성하여 반환한다.
      */

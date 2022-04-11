@@ -1,8 +1,10 @@
 package com.prgrms.vouchermanagement.voucher;
 
+import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher implements Voucher, Serializable {
 
     private final UUID voucherId;
     private final long discountPrice;
@@ -23,12 +25,20 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long getAmount() {
-        return discountPrice;
+    public String toString() {
+        return "Id=" + getId() + ", Type=FixedAmount, discountPrice="+ discountPrice +"won";
     }
 
     @Override
-    public String toString() {
-        return "Id=" + getId() + ", Type=FixedAmount, discountPrice="+ discountPrice +"won";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FixedAmountVoucher that = (FixedAmountVoucher) o;
+        return discountPrice == that.discountPrice && Objects.equals(voucherId, that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, discountPrice);
     }
 }
