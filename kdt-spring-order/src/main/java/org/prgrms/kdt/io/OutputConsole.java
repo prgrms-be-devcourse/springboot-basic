@@ -55,7 +55,7 @@ public class OutputConsole implements Output{
     public void printInvalidCmd(String msg) { System.out.println(msg + "Please try again."); }
 
     @Override
-    public void printBlackList(HashMap<UUID, Blacklist> blacklistMap) {
+    public void printBlackList(HashMap<String, Blacklist> blacklistMap) {
         blacklistMap.forEach((key, value) -> { System.out.println(value.toString()); });
     }
 

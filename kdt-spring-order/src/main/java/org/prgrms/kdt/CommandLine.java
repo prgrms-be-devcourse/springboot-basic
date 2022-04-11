@@ -31,6 +31,8 @@ public class CommandLine implements Runnable {
     public void run() {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
         BlacklistService blacklistService = applicationContext.getBean(BlacklistService.class);
+        blacklistService.setBlacklistRepository();
+
         while(true) {
             try { /* Voucher Application Running */
                 output.init();

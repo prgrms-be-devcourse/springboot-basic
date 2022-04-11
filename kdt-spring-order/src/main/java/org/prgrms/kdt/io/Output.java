@@ -21,6 +21,6 @@ public interface Output {
 
     void printInvalidCmd(String msg);
 
-    void printBlackList(HashMap<UUID, Blacklist> blacklistMap);
+    void printBlackList(HashMap<String, Blacklist> blacklistMap);
 
 }

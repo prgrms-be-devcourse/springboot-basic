@@ -11,6 +11,10 @@ public class BlacklistService {
         this.blacklistRepository = blacklistRepository;
     }
 
+    public void setBlacklistRepository() {
+        blacklistRepository.initBlacklistRepository();
+    }
+
     public BlacklistRepository getBlacklistRepository() {
         return blacklistRepository;
     }

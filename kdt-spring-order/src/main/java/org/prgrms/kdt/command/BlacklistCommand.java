@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class BlacklistCommand implements Command{
     public boolean execute(Input input, Output output, VoucherService voucherService, BlacklistService blacklistService) {
-        HashMap<UUID, Blacklist> map = blacklistService.getBlacklistRepository().blacklistHashMap;
+        HashMap<String, Blacklist> map = blacklistService.getBlacklistRepository().blacklistHashMap;
         if(map.isEmpty()){
             output.emptyVoucherList();
         } else output.printBlackList(map);
