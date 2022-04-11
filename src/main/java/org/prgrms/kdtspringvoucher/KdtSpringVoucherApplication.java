@@ -1,17 +1,14 @@
 package org.prgrms.kdtspringvoucher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgrms.kdtspringvoucher.cmdapp.CMDApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class KdtSpringVoucherApplication {
-
-	private static final Logger logger = LoggerFactory.getLogger(KdtSpringVoucherApplication.class);
 	public static void main(String[] args) {
-		SpringApplication.run(KdtSpringVoucherApplication.class, args);
-		logger.info("hihi");
+		ApplicationContext applicationContext = SpringApplication.run(KdtSpringVoucherApplication.class, args);
+		applicationContext.getBean(CMDApplication.class).run();
 	}
-
 }
