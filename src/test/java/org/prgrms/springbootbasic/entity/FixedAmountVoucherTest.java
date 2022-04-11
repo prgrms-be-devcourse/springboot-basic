@@ -35,7 +35,8 @@ class FixedAmountVoucherTest {
         //when
         //then
         assertThatThrownBy(() -> new FixedAmountVoucher(UUID.randomUUID(), amount))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining(FixedAmountVoucher.AMOUNT_MIN_RANGE_EXP_MSG);
     }
 
     @DisplayName("amount 최대값 초과")
@@ -45,7 +46,7 @@ class FixedAmountVoucherTest {
         //when
         //then
         assertThatThrownBy(() -> new FixedAmountVoucher(UUID.randomUUID(), 100000))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining(FixedAmountVoucher.AMOUNT_MAX_RANGE_EXP_MSG);
     }
-
 }
