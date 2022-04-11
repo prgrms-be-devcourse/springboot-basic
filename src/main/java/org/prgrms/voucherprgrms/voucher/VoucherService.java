@@ -2,12 +2,17 @@ package org.prgrms.voucherprgrms.voucher;
 
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import org.prgrms.voucherprgrms.voucher.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 @Service
 public class VoucherService {
+
+    private static Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
     private final VoucherRepository voucherRepository;
     private final VoucherCreator voucherCreator;
@@ -17,12 +22,12 @@ public class VoucherService {
         this.voucherCreator = voucherCreator;
     }
 
-
     /**
      * create Voucher
      */
     public Voucher createVoucher() {
         Voucher voucher = voucherCreator.create();
+        logger.info(MessageFormat.format("CREATE Voucher({1})", voucher.getVoucherId()));
         return voucherRepository.insert(voucher);
     }
 

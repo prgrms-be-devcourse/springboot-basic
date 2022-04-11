@@ -2,6 +2,8 @@ package org.prgrms.voucherprgrms.io;
 
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import org.prgrms.voucherprgrms.voucher.model.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -10,6 +12,7 @@ import java.util.Scanner;
 
 @Component
 public class Console implements OutputConsole, InputConsole {
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -53,6 +56,7 @@ public class Console implements OutputConsole, InputConsole {
 
     @Override
     public void commandErrorMessage() {
+        logger.info("COMMAND ERROR");
         System.out.println("잘못된 입력입니다.");
     }
 }

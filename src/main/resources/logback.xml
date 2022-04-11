@@ -24,15 +24,10 @@
         </encoder>
     </appender>
 
-
-
-    <logger name="org.prgrms.voucherprgrms" level="error">
-        <appender-ref ref="FILE_LOG"/>
+    <logger name="org.prgrms.voucherprgrms" level="debug" additivility="false">
+        <appender-ref ref="STDOUT"/>
     </logger>
 
-<!--    <logger name="org.prgrms.voucherprgrms.Application" level="DEBUG">-->
-<!--        <appender-ref ref="STDOUT"/>-->
-<!--    </logger>-->
     <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
