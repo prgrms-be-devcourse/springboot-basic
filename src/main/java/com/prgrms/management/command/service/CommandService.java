@@ -1,19 +1,15 @@
 package com.prgrms.management.command.service;
 
 import com.prgrms.management.command.domain.Command;
-import com.prgrms.management.command.domain.GuideMessageType;
+import com.prgrms.management.command.domain.GuideType;
 import com.prgrms.management.command.io.Input;
 import com.prgrms.management.command.io.Output;
 import com.prgrms.management.customer.service.CustomerService;
-import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class CommandService {
@@ -32,32 +28,31 @@ public class CommandService {
 
     public void run() {
         while (true) {
-            output.print(GuideMessageType.COMMAND.getGUIDE());
+            output.printGuide(GuideType.COMMAND.getMESSAGE());
             try {
                 String inputCommand = input.readLine();
-                Command parse = Command.of(inputCommand);
-                excute(parse);
+                Command command = Command.of(inputCommand);
+                execute(command);
             } catch (RuntimeException e) {
                 logger.warn("{}:{}",e.getClass(),e.getMessage());
             }
         }
     }
 
-    private void excute(Command command) {
+    private void execute(Command command) {
         switch (command) {
             case CREATE:
-                output.print(GuideMessageType.VOUCHER.getGUIDE());
+                output.printGuide(GuideType.VOUCHER.getMESSAGE());
                 String inputVoucherType = input.readLine();
-                output.print(GuideMessageType.DISCOUNT.getGUIDE());
+                output.printGuide(GuideType.DISCOUNT.getMESSAGE());
                 String inputAmount = input.readLine();
-                VoucherType voucherType = VoucherType.of(inputVoucherType);
-                voucherService.createVoucher(voucherType, voucherType.toLong(inputAmount));
+                voucherService.createVoucher(inputVoucherType, inputAmount);
                 break;
             case LIST:
-                output.print(voucherService.findAll());
+                output.printList(voucherService.findAll());
                 break;
             case BLACKLIST:
-                output.print(customerService.findBlackList().toString());
+                output.printList(customerService.findBlackList());
                 break;
             case EXIT:
                 System.exit(0);

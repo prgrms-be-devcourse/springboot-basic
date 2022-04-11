@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -35,7 +34,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<List<Voucher>> findAll() {
+    public List<Voucher> findAll() {
         List<Voucher> voucherList = new ArrayList<>();
         //try-with-resource
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(VOUCHER_FILE_NAME))) {
@@ -51,6 +50,6 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        return Optional.ofNullable(voucherList);
+        return voucherList;
     }
 }

@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface VoucherRepository {
     Voucher insert(Voucher voucher);
 
-    Optional<List<Voucher>> findAll();
+    List<Voucher> findAll();
 }
