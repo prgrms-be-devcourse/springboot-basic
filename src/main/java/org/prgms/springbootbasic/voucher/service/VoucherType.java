@@ -31,13 +31,13 @@ public enum VoucherType {
 	/**
 	 * button을 입력받고 그에 맞는 VoucherType을 반환하는 메서드
 	 *
-	 * @param choice
+	 * @param button
 	 * @return button에 맞는 VoucherType
 	 * @throws IllegalArgumentException
 	 */
-	public static VoucherType getVoucherType(String choice) {
+	public static VoucherType getVoucherType(String button) {
 		return Arrays.stream(VoucherType.values())
-			.filter(type -> type.button.equals(choice))
+			.filter(type -> type.button.equals(button))
 			.findAny()
 			.orElseThrow(() -> new IllegalArgumentException());
 	}

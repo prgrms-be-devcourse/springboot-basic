@@ -1,4 +1,5 @@
 package org.prgms.springbootbasic.voucher.io;
 
-public class Input {
+public interface Input {
+	String enter();
 }
