@@ -1,0 +1,17 @@
+black-list:
+  csv-file-name: customer_blacklist.csv
+  path: D:\devProject\springboot-basic\kdt-spring-voucher\src\main\resources\customer_blacklist.csv
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+voucher:
+  file-name : vouchers.csv
+  path: D:\devProject\springboot-basic\kdt-spring-voucher\src\main\resources\vouchers.csv
+
+
+---
