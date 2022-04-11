@@ -1,6 +1,7 @@
 package org.prgrms.spring_week1.repositories;
 
 import org.prgrms.spring_week1.models.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Profile("local")
 public class VoucherMemoryRepository implements VoucherRepository{
     ConcurrentHashMap<UUID,Voucher> voucherHashMap = new ConcurrentHashMap<>();
 
@@ -20,12 +22,11 @@ public class VoucherMemoryRepository implements VoucherRepository{
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
-        return voucherHashMap.get(voucherId);
-    }
-
-    @Override
     public void showAll() {
 
+    }
+
+    public int size(){
+        return voucherHashMap.size();
     }
 }
