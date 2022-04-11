@@ -34,6 +34,7 @@ public class Application implements Runnable {
             try {
                 runApplication();
             } catch (Exception e) {
+                console.errorMessage(e);
                 log.error("program restart...");
                 runApplication();
             }

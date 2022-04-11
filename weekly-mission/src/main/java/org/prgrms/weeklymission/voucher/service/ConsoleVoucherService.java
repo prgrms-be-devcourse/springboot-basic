@@ -34,7 +34,7 @@ public class ConsoleVoucherService implements VoucherService {
                 .orElseThrow(() -> new RuntimeException(NO_VOUCHER));
     }
 
-    public Voucher createVoucher(String option, String discount) {
+    public Voucher createVoucher(String option, String discount) throws RuntimeException {
         checkOptionValueAndDoAction(option, discount);
 
         repository.save(voucher);
