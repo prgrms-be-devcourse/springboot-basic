@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public interface Voucher extends Serializable {
-    Long discount(Long beforeDiscount);
+    Long apply(Long beforeDiscount);
 
     UUID getVoucherId();
 }
