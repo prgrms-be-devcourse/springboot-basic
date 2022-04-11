@@ -50,4 +50,9 @@ public class Console implements OutputConsole, InputConsole {
         }
         System.out.println();
     }
+
+    @Override
+    public void commandErrorMessage() {
+        System.out.println("잘못된 입력입니다.");
+    }
 }

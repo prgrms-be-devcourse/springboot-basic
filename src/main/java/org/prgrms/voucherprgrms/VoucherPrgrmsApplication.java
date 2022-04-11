@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class VoucherPrgrmsApplication implements Runnable{
+public class VoucherPrgrmsApplication implements Runnable {
 
     private final VoucherService voucherService;
     private final InputConsole inputConsole;
@@ -23,7 +23,7 @@ public class VoucherPrgrmsApplication implements Runnable{
 
     @Override
     public void run() {
-        boolean runnableFlag=true;
+        boolean runnableFlag = true;
         while (runnableFlag) {
             String input = inputConsole.commandInput();
             switch (input) {
@@ -38,7 +38,7 @@ public class VoucherPrgrmsApplication implements Runnable{
                     outputConsole.voucherList(list);
                     break;
                 default:
-
+                    outputConsole.commandErrorMessage();
             }
         }
     }
