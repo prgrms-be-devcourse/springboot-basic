@@ -28,7 +28,41 @@ class FileVoucherRepositoryTest {
         fileVoucherRepository.removeAll();
     }
 
-    @DisplayName("save 테스트")
+    @DisplayName("FixedAmountVoucher 저장")
+    @Test
+    void saveFixedAmountVoucher() {
+        //given
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20L);
+
+        //when
+        fileVoucherRepository.save(voucher1);
+        fileVoucherRepository.save(voucher2);
+
+        //then
+        assertThat(fileVoucherRepository.findAll())
+            .extracting(Voucher::getVoucherId)
+            .containsExactlyInAnyOrder(voucher1.getVoucherId(), voucher2.getVoucherId());
+    }
+
+    @DisplayName("PercentAmountVoucher 저장")
+    @Test
+    void savePercentAmountVoucher() {
+        //given
+        Voucher voucher1 = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+
+        //when
+        fileVoucherRepository.save(voucher1);
+        fileVoucherRepository.save(voucher2);
+
+        //then
+        assertThat(fileVoucherRepository.findAll())
+            .extracting(Voucher::getVoucherId)
+            .containsExactlyInAnyOrder(voucher1.getVoucherId(), voucher2.getVoucherId());
+    }
+
+    @DisplayName("FixedAmountVoucher, PercentAmountVoucher 저장")
     @Test
     void save() {
         //given
@@ -40,7 +74,10 @@ class FileVoucherRepositoryTest {
         fileVoucherRepository.save(percentAmountVoucher);
 
         //then
-        assertThat(fileVoucherRepository.getVoucherTotalNumber()).isEqualTo(2);
+        assertThat(fileVoucherRepository.findAll())
+            .extracting(Voucher::getVoucherId)
+            .containsExactlyInAnyOrder(fixedAmountVoucher.getVoucherId(),
+                percentAmountVoucher.getVoucherId());
     }
 
     @DisplayName("find All 테스트")
