@@ -8,7 +8,6 @@ import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 import org.voucherProject.voucherProject.service.voucher.VoucherService;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,7 +19,7 @@ public class VoucherControllerImpl implements VoucherController {
     private final VoucherService voucherService;
 
     @Override
-    public Voucher createVoucher(VoucherType voucherType, long number) throws IOException {
+    public Voucher createVoucher(VoucherType voucherType, long number){
         UUID voucherId = UUID.randomUUID();
         Optional<Voucher> voucher = Optional.empty();
         if (voucherType.equals(VoucherType.PERCENT))
@@ -30,12 +29,12 @@ public class VoucherControllerImpl implements VoucherController {
     }
 
     @Override
-    public List<Voucher> findAll() throws IOException {
+    public List<Voucher> findAll(){
         return voucherService.findAll();
     }
 
     @Override
-    public Voucher findById(UUID voucherId) throws IOException {
+    public Voucher findById(UUID voucherId){
         return voucherService.getVoucher(voucherId);
     }
 }

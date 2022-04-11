@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.voucherProject.voucherProject.controller.voucher.VoucherController;
-import org.voucherProject.voucherProject.controller.voucher.VoucherControllerImpl;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 import org.voucherProject.voucherProject.io.Console;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +33,7 @@ public class VoucherEnrollSystem implements Runnable {
                 if (exitSystem(inputString)) break;
                 if (createVoucher(inputString)) continue;
                 showAllVoucherList(inputString);
-            } catch (IllegalArgumentException | IOException e) {
+            } catch (IllegalArgumentException e) {
                 console.errorMessage();
             }
         }
@@ -56,7 +54,7 @@ public class VoucherEnrollSystem implements Runnable {
         return false;
     }
 
-    protected boolean createVoucher(String inputString) throws IOException {
+    protected boolean createVoucher(String inputString){
         if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.CREATE)))) {
             String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
 
@@ -68,7 +66,7 @@ public class VoucherEnrollSystem implements Runnable {
         return false;
     }
 
-    protected void showAllVoucherList(String inputString) throws IOException {
+    protected void showAllVoucherList(String inputString){
         if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.LIST)))) {
             List<Voucher> vouchers = voucherController.findAll();
             vouchers.forEach(voucher -> System.out.println("voucher = " + voucher));

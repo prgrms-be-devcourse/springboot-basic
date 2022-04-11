@@ -1,5 +1,7 @@
 package org.voucherProject.voucherProject.repository.voucher;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.voucher.*;
 
@@ -10,7 +12,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-//@Primary
+@Slf4j
+@Primary
 public class VoucherRepositoryFileImpl implements VoucherRepository {
 
     private final FileWriter fileWriter = new FileWriter("voucherRepository.txt", true);
@@ -20,48 +23,61 @@ public class VoucherRepositoryFileImpl implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) throws IOException {
+    public Optional<Voucher> findById(UUID voucherId) {
         List<Voucher> vouchers = getVouchers();
         return vouchers.stream().filter(v -> v.getVoucherId().equals(voucherId)).limit(1).findFirst();
     }
 
     @Override
-    public Voucher save(Voucher voucher) throws IOException {
-        if (findById(voucher.getVoucherId()).isPresent()) {
-            throw new IOException();
-        }
+    public Voucher save(Voucher voucher) {
         try {
+            validSameId(voucher);
             String saveFile = voucher.getVoucherId() + "," + voucher.getHowMuch() + "," + voucher.getVoucherType() + "," + voucher.getVoucherStatus();
             bufferedWriter.write(saveFile);
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
-            throw new IOException();
+            e.printStackTrace();
         }
         return voucher;
     }
 
+
+    private void validSameId(Voucher voucher){
+        if (findById(voucher.getVoucherId()).isPresent()) {
+            throw new RuntimeException("동일한 아이디가 존재합니다.");
+        }
+    }
+
     @Override
-    public List<Voucher> findAll() throws IOException {
+    public List<Voucher> findAll() {
         List<Voucher> vouchers = getVouchers();
         return vouchers;
     }
 
-    private List<Voucher> getVouchers() throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("voucherRepository.txt"));
+    private List<Voucher> getVouchers() {
+
         List<Voucher> vouchers = new ArrayList<>();
-        String readLine = null;
-        while ((readLine = bufferedReader.readLine()) != null) {
-            String[] readLineSplit = readLine.split(",");
-            Optional<Voucher> voucher = Optional.empty();
-            // file 정보 기반으로 새 바우처 생성
-            voucher = getVoucher(readLineSplit, voucher);
-            // 초기 바우처는 상태가 valid이므로 사용되었으면 EXPIRED 변경
-            checkVoucherStatus(readLineSplit, voucher);
-            vouchers.add(voucher.get());
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("voucherRepository.txt"));
+            String readLine = null;
+            while ((readLine = bufferedReader.readLine()) != null) {
+                String[] readLineSplit = readLine.split(",");
+                Optional<Voucher> voucher = Optional.empty();
+                // file 정보 기반으로 새 바우처 생성
+                voucher = getVoucher(readLineSplit, voucher);
+                // 초기 바우처는 상태가 valid이므로 사용되었으면 EXPIRED 변경
+                checkVoucherStatus(readLineSplit, voucher);
+                vouchers.add(voucher.get());
+            }
+
+        } catch (IOException e) {
+            log.error("잘못된 입력입니다.");
         }
         return vouchers;
+
     }
+
 
     private void checkVoucherStatus(String[] readLineSplit, Optional<Voucher> voucher) {
         if (readLineSplit[3].equalsIgnoreCase(String.valueOf(VoucherStatus.EXPIRED))) {
