@@ -30,13 +30,13 @@ class VoucherServiceTest {
         //given
         FixedAmountVoucher voucher = new FixedAmountVoucher(1000);
         PercentAmountVoucher voucherTwo = new PercentAmountVoucher(10);
-        List<Voucher> voucherList = Arrays.asList(voucher, voucherTwo);
+        String voucherList = Arrays.asList(voucher, voucherTwo).toString();
         //즉시 인스턴스 객체 반환
         when(voucherService.findAll()).thenReturn(voucherList);
         //when
-        List<Voucher> vouchers = voucherService.findAll();
+        String vouchers = voucherService.findAll();
         //then
-        Assertions.assertThat(vouchers.size()).isEqualTo(2);
+        Assertions.assertThat(vouchers).isEqualTo(voucherService.findAll());
     }
 
     @Test
@@ -44,10 +44,10 @@ class VoucherServiceTest {
         //given
         List<Voucher> voucherList = new ArrayList<>();
         //즉시 인스턴스 객체 반환
-        when(memoryVoucherRepository.findAll()).thenReturn(voucherList);
+        when(memoryVoucherRepository.findAll().orElse(null)).thenReturn(voucherList);
         //when
-        List<Voucher> vouchers = voucherService.findAll();
+        String vouchers = voucherService.findAll();
         //then
-        Assertions.assertThat(vouchers.size()).isEqualTo(0);
+        Assertions.assertThat(vouchers).isEqualTo(voucherService.findAll());
     }
 }

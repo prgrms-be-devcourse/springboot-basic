@@ -6,7 +6,8 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
     private final VoucherType voucherType;
-
+    private static final Long MAX_DISCOUNT = 10000L;
+    private static final Long MIN_DISCOUNT = 0L;
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
@@ -14,7 +15,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public FixedAmountVoucher(long amount) {
-        if (amount < 0 || amount > 10000) throw new NumberFormatException(VoucherType.class + ":0~10000 이내로 입력하세요");
+        if (amount < MIN_DISCOUNT || amount > MAX_DISCOUNT)
+            throw new NumberFormatException(VoucherType.class + ":0~10000 이내로 입력하세요");
         this.voucherId = UUID.randomUUID();
         this.amount = amount;
         this.voucherType = VoucherType.FIXED;

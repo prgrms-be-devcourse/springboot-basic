@@ -1,5 +1,1 @@
-23:54:59.756 [main] WARN c.p.m.command.CommandService - class java.util.NoSuchElementException:class com.prgrms.management.command.domain.Command:없는 명령어입니다.
-23:55:23.295 [main] WARN c.p.m.command.CommandService - class java.util.NoSuchElementException:class com.prgrms.management.command.domain.Command:없는 명령어입니다.
-23:55:28.211 [main] WARN c.p.m.command.CommandService - class java.util.NoSuchElementException:class com.prgrms.management.voucher.domain.VoucherType:잘못된 입력 값입니다.
-23:55:39.745 [main] WARN c.p.m.command.CommandService - class java.lang.NumberFormatException:class com.prgrms.management.voucher.domain.VoucherType:0~10000 이내로 입력하세요
-23:55:53.232 [main] WARN c.p.m.command.CommandService - class java.lang.NumberFormatException:class com.prgrms.management.voucher.domain.VoucherType:0~100 이내로 입력하세요
+23:50:06.826 [main] WARN c.p.m.command.service.CommandService - class java.lang.NullPointerException:null

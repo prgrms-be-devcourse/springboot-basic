@@ -6,6 +6,8 @@ public class PercentAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
     private final VoucherType voucherType;
+    private static final Long MAX_DISCOUNT = 100L;
+    private static final Long MIN_DISCOUNT = 0L;
 
     public PercentAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -14,7 +16,8 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     public PercentAmountVoucher(long amount) {
-        if (amount < 0 || amount > 100) throw new NumberFormatException(VoucherType.class + ":0~100 이내로 입력하세요");
+        if (amount < MIN_DISCOUNT || amount > MAX_DISCOUNT)
+            throw new NumberFormatException(VoucherType.class + ":0~100 이내로 입력하세요");
         this.voucherId = UUID.randomUUID();
         this.amount = amount;
         this.voucherType = VoucherType.PERCENT;

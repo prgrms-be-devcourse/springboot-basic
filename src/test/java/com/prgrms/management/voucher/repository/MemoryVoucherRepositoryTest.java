@@ -30,6 +30,6 @@ class MemoryVoucherRepositoryTest {
         Voucher insert = voucherRepository.insert(voucher);
         Voucher insertTwo = voucherRepository.insert(voucherTwo);
         //then
-        Assertions.assertThat(voucherRepository.findAll().size()).isEqualTo(2);
+        Assertions.assertThat(voucherRepository.findAll().get().size()).isEqualTo(2);
     }
 }

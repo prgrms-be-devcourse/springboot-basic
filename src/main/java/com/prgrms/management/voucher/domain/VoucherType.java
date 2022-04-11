@@ -5,14 +5,12 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 public enum VoucherType {
-    FIXED("할인 금액을 입력하세요.\nINPUT:", (amount) -> new FixedAmountVoucher(amount)),
-    PERCENT("할인율을 입력하세요.\nINPUT:", (amount) -> new PercentAmountVoucher(amount));
+    FIXED((amount) -> new FixedAmountVoucher(amount)),
+    PERCENT((amount) -> new PercentAmountVoucher(amount));
 
-    private final String INTRO;
     private final Function<Long, Voucher> voucher;
 
-    VoucherType(String intro, Function<Long, Voucher> voucher) {
-        INTRO = intro;
+    VoucherType(Function<Long, Voucher> voucher) {
         this.voucher = voucher;
     }
 
@@ -23,9 +21,6 @@ public enum VoucherType {
                 .orElseThrow(() -> new NoSuchElementException(VoucherType.class + ":잘못된 입력 값입니다."));
     }
 
-    public String getINTRO() {
-        return INTRO;
-    }
 
     public static long toLong(String amount) {
         try {

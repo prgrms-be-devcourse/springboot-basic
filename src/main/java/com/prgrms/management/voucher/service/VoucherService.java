@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VoucherService {
@@ -24,7 +25,8 @@ public class VoucherService {
         return voucherRepository.insert(voucher);
     }
 
-    public List<Voucher> findAll() {
-        return voucherRepository.findAll();
+    public String findAll() {
+        List<Voucher> vouchers = voucherRepository.findAll().orElse(null);
+        return (vouchers.isEmpty()) ? "": vouchers.toString();
     }
 }
