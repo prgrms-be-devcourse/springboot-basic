@@ -66,5 +66,12 @@ public class Console implements Input, Output {
         bw.flush();
     }
 
+    @Override
+    public void emptyBlackList() throws IOException {
+        bw.write(Message.EMPTY_BLACKLIST.getMessage());
+        bw.newLine();
+        bw.flush();
+    }
+
 
 }
