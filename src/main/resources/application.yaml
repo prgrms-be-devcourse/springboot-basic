@@ -1,3 +1,22 @@
+spring:
+  profiles:
+    active: local
+
+---
+
+spring:
+  profiles: dev
+
 file:
   path:
     blacklist: customer_blacklist.csv
+
+---
+
+spring:
+  profiles: local
+
+file:
+  path:
+    blacklist: customer_blacklist.csv
+    voucher: voucher_db.txt
