@@ -32,14 +32,21 @@ public class CommandLineApplication implements VoucherManagerShell {
         init();
 
         while (true) {
+            logger.error("로깅 에러메세지 테스트 ");
             console.print("커맨드를 입력하세요: ");
             switch (getCommand()) {
                 case EXIT -> {
                     return;
                 }
-                case CREATE -> createVoucher();
-                case LIST -> printVoucherLists();
-                case INVALID_COMMAND -> console.println("잘못된 커맨드, 다시 입력받기");
+                case CREATE -> {
+                    createVoucher();
+                }
+                case LIST -> {
+                    printVoucherLists();
+                }
+                case INVALID_COMMAND -> {
+                    console.println("잘못된 커맨드, 다시 입력받기");
+                }
             }
         }
 

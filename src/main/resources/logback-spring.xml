@@ -1,5 +1,7 @@
 <configuration>
-    <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+    <property name="LOG_PATTERN" value="%clr(%d{HH:mm:ss.SSS}){yellow} [%thread] %-5level %logger{36} - %msg%n"/>
 
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
