@@ -8,7 +8,7 @@ public interface Output {
     void init();
     void printInvalidCmd(String msg);
     void selectVoucherType();
-    void selectDiscount();
+    void setVoucherDiscount();
     void printInvalidNum(String msg);
     void printInvalidVoucherType(String msg);
 

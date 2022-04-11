@@ -3,6 +3,7 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.config.AppConfiguration;
 import org.prgrms.kdt.io.InputConsole;
 import org.prgrms.kdt.io.OutputConsole;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -11,6 +12,7 @@ public class VoucherApplication {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         InputConsole inputConsole = new InputConsole();
         OutputConsole outputConsole = new OutputConsole();
+
         new CommandLine(applicationContext, inputConsole, outputConsole).run();
     }
 }

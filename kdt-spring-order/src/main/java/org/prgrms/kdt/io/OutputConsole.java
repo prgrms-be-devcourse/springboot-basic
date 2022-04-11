@@ -27,8 +27,14 @@ public class OutputConsole implements Output{
     }
 
     @Override
-    public void selectDiscount() {
-
+    public void setVoucherDiscount() {
+        String message = ("""
+                \nType discount rate of voucher.
+                Example : if you typed 10,
+                * FixedAmountVoucher : -10$ discount
+                * PercentDiscountVoucher : 10% discount
+                """
+        ); System.out.print(message);
     }
 
     @Override
