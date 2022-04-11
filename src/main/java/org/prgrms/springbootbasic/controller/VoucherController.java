@@ -24,7 +24,7 @@ public class VoucherController {
         }
     }
 
-    private boolean process() {
+    public boolean process() {
         logger.info("VoucherController.process() called");
 
         consoleView.printMenu();
