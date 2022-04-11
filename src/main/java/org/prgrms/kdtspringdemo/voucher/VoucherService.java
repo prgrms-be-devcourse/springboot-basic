@@ -22,6 +22,7 @@ public class VoucherService {
         this.voucherStorage = voucherStorage;
     }
 
+    // Voucher 생성 로직(타입과 할인금액을 입력받는다)
     public void createVoucher(VoucherType voucherType, int amount) {
 
         switch (voucherType) {
@@ -37,10 +38,11 @@ public class VoucherService {
     }
 
 
+    // List 작성 시 모든 데이터를 모여주는 로직
     public void showAllVoucher() {
         Map<UUID, Voucher> storage = voucherStorage.getStorage();
         storage.entrySet().stream().forEach(s -> System.out.println(
-                        "id : " + s.getKey() +
+                "id : " + s.getKey() +
                         "\nVoucher type : " + s.getValue().getAmount() +
                         "\nDiscount amount : " + s.getValue().getAmount()));
     }

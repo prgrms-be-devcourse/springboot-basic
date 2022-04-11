@@ -23,10 +23,11 @@ public class AppProgram {
     }
 
     public void startApp() {
+        // while 문 탈출을 workingCondition 으로 제어
         boolean workingCondition = true;
 
         while (workingCondition) {
-
+            // 초기 메뉴 선택
             System.out.println(output.initMessage());
             Menu menu = input.inputMenu();
 
@@ -34,6 +35,7 @@ public class AppProgram {
                 case CREATE -> {
                     System.out.println(output.createListMessage());
                     VoucherType voucherType = input.inputVoucherType();
+                    // CREATE 선택 후 타입 지정(ERROR 의 경우 workingCondition false 반환)
                     workingCondition = createWithVoucherType(workingCondition, voucherType);
 
                 }
@@ -54,8 +56,10 @@ public class AppProgram {
             }
             case PERCENT -> {
                 int amount = input.inputAmount(voucherType);
+                // 타입 선택 후 입력받은 할인 금액 처리(ERROR 의 경우 workingCondition false 반환)
                 workingCondition = CreateVoucherAndInsertIntoStorage(amount, workingCondition, VoucherType.PERCENT);
             }
+            // 에러의 경우 workingCondition false 반환
             case ERROR -> workingCondition = false;
         }
 
@@ -68,6 +72,7 @@ public class AppProgram {
         if (fixedAmount == -1) {
             workingCondition = false;
         } else {
+            // 선택 타입과 할인 금액을 통해 Voucher 생성 및 메모리 저장
             voucherService.createVoucher(fixed, fixedAmount);
         }
 

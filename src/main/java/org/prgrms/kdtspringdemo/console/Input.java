@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Input {
     Scanner scanner = new Scanner(System.in);
 
+    // menu 입력을 받는다
     public Menu inputMenu() {
         String inputMenu = scanner.nextLine();
 
@@ -18,6 +19,7 @@ public class Input {
         return menu;
     }
 
+    // Voucher Type 을 입력 받는다.
     public VoucherType inputVoucherType() {
         String inputVoucherType = scanner.nextLine();
 
@@ -26,6 +28,7 @@ public class Input {
         return voucherType;
     }
 
+    // Menu Enum 과 비교하여 입력값을 비교하고 ERROR 경우도 처리해준다.
     private VoucherType compareInputValueToVoucherTypeEnum(String inputVoucherType, List<VoucherType> voucherTypes) {
         for (VoucherType type : voucherTypes) {
             String typeName = type.getTypeName();
@@ -41,10 +44,12 @@ public class Input {
                 return type;
             }
         }
+        // 전체 경우에 해당하지 않는 경우 ERROR 로 처리
         return VoucherType.ERROR;
     }
 
 
+    // Menu 선택을 Menu eunm 과 비교하여 입렵값을 비교하고 ERROR 경우도 처리해 준다.
     private Menu compareInputValueToMenuEnum(String inputMenu, List<Menu> menus) {
         for (Menu menu : menus) {
             String menuName = menu.getMenuName();
@@ -59,15 +64,18 @@ public class Input {
                 return menu;
             }
         }
+        // 전체 경우에 해당하지 않는 경우 ERROR 로 처리
         return Menu.ERROR;
     }
 
-    public int inputAmount(VoucherType voucherType){
-        switch (voucherType){
+    // Voucher 타입 선택 후 discount 금액 을 입력받습니다.
+    public int inputAmount(VoucherType voucherType) {
+        switch (voucherType) {
             case FIXED -> System.out.println("할인 금액을 적으시오(0보다 큰 정수값만 적으시오)");
             case PERCENT -> System.out.println("할인 퍼센트를 적으시오(0 과 100 사이의 정수)");
         }
 
+        // discount 금액을 반환하기 위해서 ERROR 처리를 -1로 처리한다.
         int discountNumber = -1;
 
         try {
