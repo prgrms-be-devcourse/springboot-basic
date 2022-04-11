@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Profile("default")
+@Profile("default") // default Profile
 public class FileVoucherRepository implements VoucherRepository, FileInput, FileOutput {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);

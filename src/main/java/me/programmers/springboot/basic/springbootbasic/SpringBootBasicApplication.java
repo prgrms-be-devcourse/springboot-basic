@@ -8,7 +8,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class SpringBootBasicApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(SpringBootBasicApplication.class, args);
+		SpringApplication springApplication = new SpringApplication(SpringBootBasicApplication.class);
+		springApplication.setAdditionalProfiles("default");
+		ConfigurableApplicationContext context = springApplication.run(args);
 		context.getBean(CommandLineApplication.class).run();
 	}
 

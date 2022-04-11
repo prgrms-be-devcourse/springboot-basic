@@ -1,12 +1,14 @@
 package me.programmers.springboot.basic.springbootbasic.voucher.repository;
 
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final List<Voucher> voucherList = new ArrayList<>();
