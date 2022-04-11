@@ -2,15 +2,18 @@ package com.prgrms.management.voucher.domain;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 public enum VoucherType {
-    FIXED("할인 금액을 입력하세요.\nINPUT:"),
-    PERCENT("할인율을 입력하세요.\nINPUT:");
+    FIXED("할인 금액을 입력하세요.\nINPUT:",(amount)-> new FixedAmountVoucher(amount)),
+    PERCENT("할인율을 입력하세요.\nINPUT:",(amount)-> new PercentAmountVoucher(amount));
 
     private final String INTRO;
+    private final Function<Long,Voucher> voucher;
 
-    VoucherType(String intro) {
+    VoucherType(String intro, Function<Long, Voucher> voucher) {
         INTRO = intro;
+        this.voucher = voucher;
     }
 
     public static VoucherType of(String input) {
@@ -49,5 +52,8 @@ public enum VoucherType {
         } catch (NumberFormatException e) {
             throw new NumberFormatException(VoucherType.class + ":올바른 숫자 형식이 아닙니다.");
         }
+    }
+    public Voucher createVoucher(Long amount) {
+        return voucher.apply(amount);
     }
 }

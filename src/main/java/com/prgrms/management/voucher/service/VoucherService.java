@@ -20,9 +20,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType voucherType, long amount) {
-        Voucher voucher;
-        if (VoucherType.FIXED.equals(voucherType)) voucher = new FixedAmountVoucher(amount);
-        else voucher = new PercentAmountVoucher(amount);
+        Voucher voucher = voucherType.createVoucher(amount);
         return voucherRepository.insert(voucher);
     }
 

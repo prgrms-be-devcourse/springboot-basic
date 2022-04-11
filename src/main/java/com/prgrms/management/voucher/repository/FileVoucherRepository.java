@@ -1,9 +1,12 @@
 package com.prgrms.management.voucher.repository;
 
+import com.prgrms.management.customer.repository.FileCustomerRepository;
 import com.prgrms.management.voucher.domain.FixedAmountVoucher;
 import com.prgrms.management.voucher.domain.PercentAmountVoucher;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +19,7 @@ import java.util.UUID;
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
     private final String VOUCHER_FILE_NAME = "src/main/resources/voucher.csv";
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     @Override
     public Voucher insert(Voucher voucher) {
@@ -24,7 +28,7 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return voucher;
     }
@@ -44,7 +48,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     voucherList.add(new PercentAmountVoucher(UUID.fromString(voucherInfo[0]), Long.parseLong(voucherInfo[1])));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return voucherList;
     }

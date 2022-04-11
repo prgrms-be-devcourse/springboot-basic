@@ -1,7 +1,10 @@
 package com.prgrms.management.customer.repository;
 
+import com.prgrms.management.command.service.CommandService;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +16,7 @@ import java.util.List;
 @Profile({"local","dev"})
 public class FileCustomerRepository implements CustomerRepository {
     private final String BLACK_LIST_FILE_NAME = "src/main/resources/customer_blacklist.csv";
+    private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
     @Override
     public Customer insert(Customer customer) {
@@ -20,7 +24,7 @@ public class FileCustomerRepository implements CustomerRepository {
             bufferedWriter.write(customer.getCustomerId() + "," + customer.getCustomerType());
             bufferedWriter.newLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return customer;
     }
@@ -38,7 +42,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 if (type.equals(CustomerType.BLACKLIST)) blackCustomerList.add(new Customer(CustomerType.BLACKLIST));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return blackCustomerList;
     }
