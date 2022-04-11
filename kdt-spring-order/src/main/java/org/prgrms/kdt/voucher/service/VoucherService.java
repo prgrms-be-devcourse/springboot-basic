@@ -20,4 +20,7 @@ public class VoucherService {
         voucherRepository.insert(voucher);
     }
 
+    public VoucherRepository getVoucherRepository() {
+        return voucherRepository;
+    }
 }

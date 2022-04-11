@@ -1,5 +1,9 @@
 package org.prgrms.kdt.io;
 
+import org.prgrms.kdt.voucher.domain.Voucher;
+
+import java.util.HashMap;
+
 public class OutputConsole implements Output{
     @Override
     public void init() {
@@ -12,9 +16,6 @@ public class OutputConsole implements Output{
                 """
         ); System.out.print(message);
     }
-
-    @Override
-    public void printInvalidCmd(String msg) { System.out.println(msg + "Please try again."); }
 
     @Override
     public void selectVoucherType() {
@@ -38,15 +39,18 @@ public class OutputConsole implements Output{
     }
 
     @Override
-    public void printInvalidNum(String msg) {
-
+    public void printVoucherList(HashMap<String, Voucher> voucherRepo) {
+        voucherRepo.forEach((key, value) -> { System.out.println(value.toString()); });
     }
-
-
 
     @Override
-    public void printInvalidVoucherType(String msg) {
-
+    public void emptyVoucherList(){
+        System.out.println("You don't have any vouchers.");
     }
+
+    @Override
+    public void printInvalidCmd(String msg) { System.out.println(msg + "Please try again."); }
+
+
 
 }

@@ -9,9 +9,9 @@ import java.util.Map;
 
 @Repository
 public class VoucherRepository {
-    private HashMap<String, Voucher> voucherRepository = new HashMap<String, Voucher>();
+    public HashMap<String, Voucher> voucherHashmap = new HashMap<String, Voucher>();
 
     public void insert(Voucher voucher){
-        voucherRepository.put(voucher.getVoucherId().toString(), voucher);
+        voucherHashmap.put(voucher.getVoucherId().toString(), voucher);
     };
 }
