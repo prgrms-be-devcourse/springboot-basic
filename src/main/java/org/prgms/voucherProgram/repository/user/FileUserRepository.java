@@ -19,23 +19,23 @@ public class FileUserRepository implements UserRepository {
     private static final String ERROR_WRONG_FILE = "[ERROR] 올바른 유저 파일이 아닙니다.";
     private static final int USER_ID_INDEX = 0;
     private static final int USER_NAME_INDEX = 1;
+    private static final List<User> blackUsers = new ArrayList<>();
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Resource userResource;
 
     public FileUserRepository(Resource userResource) {
         this.userResource = userResource;
+        readBlackUsers();
     }
 
-    public List<User> findBlackUsers() {
-        List<User> users = new ArrayList<>();
+    private void readBlackUsers() {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(userResource.getInputStream()))) {
-            addBlackUsers(users, bufferedReader);
+            addBlackUsers(blackUsers, bufferedReader);
         } catch (IOException e) {
             logger.error(e.getMessage());
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
-        return users;
     }
 
     private void addBlackUsers(List<User> users, BufferedReader bufferedReader) throws IOException {
@@ -46,5 +46,9 @@ public class FileUserRepository implements UserRepository {
             String userName = splitLine[USER_NAME_INDEX].trim();
             users.add(new User(userId, userName));
         }
+    }
+
+    public List<User> findBlackUsers() {
+        return blackUsers;
     }
 }
