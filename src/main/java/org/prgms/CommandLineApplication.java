@@ -64,7 +64,7 @@ public class CommandLineApplication {
     }
 
     public void readBlackList(String path) throws Exception {
-        blackList.addAll(fileReader.readFile(context.getResource(path).getFile()));
+        blackList.addAll(fileReader.readFile());
         logger.info("고객 블랙리스트 : {}", blackList);
     }
 }

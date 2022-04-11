@@ -13,7 +13,11 @@ import java.util.Objects;
 
 @Repository
 @Profile("dev")
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
+    public static final File objectFolder = new File("./objects");
+    public static final String objPattern = "*.obj";
+    private final PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + objPattern);
+
     @Override
     public void save(Voucher voucher) {
         String filename = String.format("./objects/%s.obj", voucher.hashCode());
@@ -27,10 +31,7 @@ public class FileVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findAll() {
-        File folder = new File("./objects");
-        File[] list = folder.listFiles();
-        String pattern = "*.obj";
-        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
+        File[] list = objectFolder.listFiles();
         List<Voucher> vouchers = new ArrayList<>();
         for (File filename : Objects.requireNonNull(list)) {
             if (matcher.matches(filename.toPath().getFileName())) {
@@ -44,5 +45,15 @@ public class FileVoucherRepository implements VoucherRepository{
             }
         }
         return vouchers;
+    }
+
+    @Override
+    public void deleteAll() {
+        File[] list = objectFolder.listFiles();
+        for (File filename : Objects.requireNonNull(list)) {
+            if (matcher.matches(filename.toPath().getFileName())) {
+                filename.delete();
+            }
+        }
     }
 }
