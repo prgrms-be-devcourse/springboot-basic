@@ -15,10 +15,17 @@ public interface VoucherRepository {
 	Voucher save(Voucher voucher);
 
 	/**
-	 * Voucher 리스트를 Voucher의 종류에 따라 조회하는 메서드
+	 * Voucher 리스트를 Voucher의 종류에 따 조회하는 메서드
 	 *
 	 * @return Map<String, List<Voucher>>
 	 */
-	Map<String,List<Voucher>> getVoucherList();
+	Map<String,List<Voucher>> getVoucherListByType();
+
+	/**
+	 * 저장된 Voucher의 총 개수를 반환하는 메서드
+	 *
+	 * @return Voucher의 개수
+	 */
+	int getTotalVoucherCount();
 
 }

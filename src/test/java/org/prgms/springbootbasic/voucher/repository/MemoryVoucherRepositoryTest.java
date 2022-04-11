@@ -50,14 +50,14 @@ class MemoryVoucherRepositoryTest {
 	@Test
 	void get_Voucher_pass_test() {
 		// 아무것도 저장되어있지 않을 때 0
-		assertEquals(0, voucherRepository.getVoucherList().size());
+		assertEquals(0, voucherRepository.getVoucherListByType().size());
 
 		// Voucher의 종류 test
 		//given
 		voucherRepository.save(new FixedAmountVoucher(10L));
 		voucherRepository.save(new PercentDiscountVoucher(20));
 		//when
-		Map<String, List<Voucher>> voucherList = voucherRepository.getVoucherList();
+		Map<String, List<Voucher>> voucherList = voucherRepository.getVoucherListByType();
 		//then
 		assertEquals(2, voucherList.size());
 
@@ -65,7 +65,7 @@ class MemoryVoucherRepositoryTest {
 		voucherRepository.save(new FixedAmountVoucher(30L));
 		//when
 
-		Map<String, List<Voucher>> voucherList1 = voucherRepository.getVoucherList();
+		Map<String, List<Voucher>> voucherList1 = voucherRepository.getVoucherListByType();
 		//then
 		assertEquals(2, voucherList1.get(FixedAmountVoucher.class.getSimpleName()).size());
 		assertEquals(1, voucherList1.get(PercentDiscountVoucher.class.getSimpleName()).size());

@@ -33,10 +33,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	 * @return Map<String, List<Voucher>>
 	 */
 	@Override
-	public Map<String, List<Voucher>> getVoucherList() {
+	public Map<String, List<Voucher>> getVoucherListByType() {
 		return memory.entrySet().stream()
 			.map(e -> e.getValue())
 			.collect(Collectors.groupingBy(Voucher::getVoucherType));
+	}
+
+	@Override
+	public int getTotalVoucherCount() {
+		return memory.size();
 	}
 
 }

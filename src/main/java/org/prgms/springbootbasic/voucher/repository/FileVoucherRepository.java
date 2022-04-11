@@ -12,8 +12,13 @@ public class FileVoucherRepository implements VoucherRepository{
 	}
 
 	@Override
-	public Map<String,List<Voucher>> getVoucherList() {
+	public Map<String,List<Voucher>> getVoucherListByType() {
 		return null;
+	}
+
+	@Override
+	public int getTotalVoucherCount() {
+		return 0;
 	}
 
 }
