@@ -51,7 +51,11 @@ public class Order {
         }
     }
 
-    public UUID getOrderId() {return orderId;}
+    public UUID getOrderId( ) {
+        return orderId;
+    }
 
-    public void setOrderStatus(OrderStatus orderStatus) {this.orderStatus = orderStatus;}
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }

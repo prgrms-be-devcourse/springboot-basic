@@ -2,7 +2,7 @@ package org.prgrms.kdt.shop.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 
