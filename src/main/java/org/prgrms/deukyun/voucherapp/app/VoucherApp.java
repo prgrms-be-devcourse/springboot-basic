@@ -1,5 +1,6 @@
 package org.prgrms.deukyun.voucherapp.app;
 
+import org.prgrms.deukyun.voucherapp.domain.common.repository.NoIdFieldException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,9 @@ public class VoucherApp {
             try {
                 voucherAppRunner.run();
                 isBreak = voucherAppRunner.isExit();
+            } catch (NoIdFieldException ex){
+                System.out.println(ex.getMessage());
+                isBreak = true;
             } catch (RuntimeException ex) {
                 System.out.println(ex.getMessage());
             } catch (Exception ex) {
