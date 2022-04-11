@@ -5,10 +5,14 @@ import com.prgms.management.command.io.Console;
 import com.prgms.management.customer.service.CustomerService;
 import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommandLineApplication implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private final Console console;
@@ -29,6 +33,7 @@ public class CommandLineApplication implements Runnable {
                     case EXIT:
                         flag = false;
                         console.close();
+                        logger.info("Voucher Application is terminated...");
                         break;
                     case LIST:
                         console.printListVoucher(voucherService.getAllVouchers());
@@ -43,6 +48,7 @@ public class CommandLineApplication implements Runnable {
                 }
             } catch (Exception e) {
                 console.printString(e.getMessage());
+                logger.error(e.getMessage());
             }
             console.printString("");
         }
