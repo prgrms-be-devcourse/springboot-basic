@@ -8,4 +8,7 @@ public interface Voucher {
 
     String getInfo();
 
+    VoucherType getVoucherType();
+
+    Long getValue();
 }
