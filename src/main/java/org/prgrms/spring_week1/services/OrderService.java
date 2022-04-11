@@ -4,6 +4,8 @@ import org.prgrms.spring_week1.models.Order;
 import org.prgrms.spring_week1.models.OrderItem;
 import org.prgrms.spring_week1.models.Voucher;
 import org.prgrms.spring_week1.repositories.OrderRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.UUID;
 
 @Service
 public class OrderService {
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class); // 모든 인스턴스가 공유(static) 변경불가(final)
+
     OrderRepository orderRepository;
     VoucherService voucherService;
 
