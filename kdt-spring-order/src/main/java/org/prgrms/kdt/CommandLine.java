@@ -1,5 +1,6 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.blacklist.service.BlacklistService;
 import org.prgrms.kdt.command.CmdList;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.InputConsole;
@@ -29,13 +30,14 @@ public class CommandLine implements Runnable {
     @Override
     public void run() {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+        BlacklistService blacklistService = applicationContext.getBean(BlacklistService.class);
         while(true) {
             try { /* Voucher Application Running */
                 output.init();
                 String inputCommand = input.input("> ");
-                if(!CmdList.execute(inputCommand, input, output, voucherService)) break;
+                if(!CmdList.execute(inputCommand, input, output, voucherService, blacklistService)) break;
             } catch(Exception e) {
-                // logger.error(e.getMessage());
+                logger.error(e.getMessage());
                 output.printInvalidCmd(e.getMessage());
             }
         }

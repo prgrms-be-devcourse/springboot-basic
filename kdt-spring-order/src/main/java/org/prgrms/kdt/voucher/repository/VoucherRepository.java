@@ -6,12 +6,13 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class VoucherRepository {
-    public HashMap<String, Voucher> voucherHashmap = new HashMap<String, Voucher>();
+    public HashMap<UUID, Voucher> voucherHashMap = new HashMap<UUID, Voucher>();
 
     public void insert(Voucher voucher){
-        voucherHashmap.put(voucher.getVoucherId().toString(), voucher);
+        voucherHashMap.put(voucher.getVoucherId(), voucher);
     };
 }

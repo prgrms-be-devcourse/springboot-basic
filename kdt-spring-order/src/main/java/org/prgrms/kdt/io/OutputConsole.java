@@ -1,8 +1,10 @@
 package org.prgrms.kdt.io;
 
+import org.prgrms.kdt.blacklist.domain.Blacklist;
 import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class OutputConsole implements Output{
     @Override
@@ -13,6 +15,7 @@ public class OutputConsole implements Output{
                 Type 'exit' to exit the program.
                 Type 'create' to create a new voucher.
                 Type 'list' to list all vouchers.
+                Type 'blacklist' to list all blacklist customers.
                 """
         ); System.out.print(message);
     }
@@ -39,8 +42,8 @@ public class OutputConsole implements Output{
     }
 
     @Override
-    public void printVoucherList(HashMap<String, Voucher> voucherRepo) {
-        voucherRepo.forEach((key, value) -> { System.out.println(value.toString()); });
+    public void printVoucherList(HashMap<UUID, Voucher> voucherMap) {
+        voucherMap.forEach((key, value) -> { System.out.println(value.toString()); });
     }
 
     @Override
@@ -51,6 +54,10 @@ public class OutputConsole implements Output{
     @Override
     public void printInvalidCmd(String msg) { System.out.println(msg + "Please try again."); }
 
+    @Override
+    public void printBlackList(HashMap<UUID, Blacklist> blacklistMap) {
+        blacklistMap.forEach((key, value) -> { System.out.println(value.toString()); });
+    }
 
 
 }

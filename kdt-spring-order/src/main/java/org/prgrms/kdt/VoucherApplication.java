@@ -1,15 +1,16 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.config.AppConfiguration;
 import org.prgrms.kdt.io.InputConsole;
 import org.prgrms.kdt.io.OutputConsole;
-import org.prgrms.kdt.voucher.service.VoucherService;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class VoucherApplication {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        ApplicationContext applicationContext = SpringApplication.run(VoucherApplication.class, args);
         InputConsole inputConsole = new InputConsole();
         OutputConsole outputConsole = new OutputConsole();
 

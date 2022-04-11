@@ -1,5 +1,6 @@
 package org.prgrms.kdt.command;
 
+import org.prgrms.kdt.blacklist.service.BlacklistService;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.voucher.service.VoucherService;
@@ -10,7 +11,8 @@ import java.util.function.Supplier;
 public enum CmdList {
     EXIT("exit", ExitCommand::new),
     CREATE("create", CreateCommand::new),
-    LIST("list", ListCommand::new);
+    LIST("list", ListCommand::new),
+    BLACKLIST("blacklist", BlacklistCommand::new);
 
     private final String command;
     private final Supplier<Command> supplier;
@@ -19,13 +21,14 @@ public enum CmdList {
         this.supplier = supplier;
     }
 
-    public static boolean execute(String inputCommand, Input input, Output output, VoucherService voucherService) {
+    public static boolean execute(String inputCommand, Input input, Output output,
+                                  VoucherService voucherService, BlacklistService blacklistService) {
 
         CmdList cmdList = Arrays.stream(CmdList.values())
                 .filter(cmd -> cmd.command.equalsIgnoreCase(inputCommand))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("There is no '" + inputCommand + "'. "));
 
-        return cmdList.supplier.get().execute(input, output, voucherService);
+        return cmdList.supplier.get().execute(input, output, voucherService, blacklistService);
     }
 }
