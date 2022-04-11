@@ -7,11 +7,8 @@ import com.prgrms.vouchermanagement.repository.BlackListRepository;
 import com.prgrms.vouchermanagement.service.VoucherService;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -19,8 +16,6 @@ import static com.prgrms.vouchermanagement.util.Messages.*;
 
 @Component
 public class VoucherManagement {
-
-    private static final Logger log = LoggerFactory.getLogger(VoucherManagement.class);
 
     private final VoucherService voucherService;
     private final BlackListRepository blackListRepository;
@@ -61,13 +56,12 @@ public class VoucherManagement {
     }
 
     private void showBlackList() {
-        try {
-            List<Member> blackList = blackListRepository.findAll();
+        List<Member> blackList = blackListRepository.findAll();
+
+        if (blackList.isEmpty()) {
+            output.printMessage(BLACK_LIST_EMPTY);
+        } else {
             output.printBlackList(blackList);
-            log.info("find all blackList. size={}", blackList.size());
-        } catch (IOException e) {
-            output.printMessage(BLACK_LIST_ERROR);
-            log.error("black_list.csv 를 읽어 오는데 실패하였습니다.", e);
         }
     }
 
@@ -79,12 +73,10 @@ public class VoucherManagement {
         List<Voucher> vouchers = voucherService.findAllVouchers();
 
         if (vouchers == null || vouchers.isEmpty()) {
-            log.info("failed to find all vouchers : null or empty");
             output.printMessage(EMPTY_LIST);
             return;
         }
 
-        log.info("find all vouchers. size={}", vouchers.size());
         output.printVoucherList(vouchers);
     }
 
@@ -97,10 +89,8 @@ public class VoucherManagement {
             voucherOrder = input.inputVoucherType();
             discount = input.inputDiscount();
             voucher = createVoucher(voucherOrder, discount);
-            log.info("created voucher = {}", voucher);
         } catch (IllegalArgumentException | InputMismatchException e) {
             output.printMessage(INPUT_ERROR);
-            log.info("failed to create voucher", e);
             return;
         }
 
