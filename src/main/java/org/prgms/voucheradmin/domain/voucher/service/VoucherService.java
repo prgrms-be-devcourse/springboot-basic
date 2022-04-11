@@ -8,7 +8,7 @@ import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -43,10 +43,10 @@ public class VoucherService {
      * 바우처의 종류에 따라 알맞은 Voucehr를 반환 하는 메서드입니다.
      **/
     private Voucher getVoucherInstance(VoucherInputDto voucherInputDto) {
-        VoucherTypes voucherTypes = voucherInputDto.getVoucherType();
+        VoucherType voucherType = voucherInputDto.getVoucherType();
         UUID voucherId = UUID.randomUUID();
 
-        switch (voucherTypes) {
+        switch (voucherType) {
             case FIXED_AMOUNT:
                 long amount = voucherInputDto.getAmount();
                 return new FixedAmountVoucher(voucherId, amount);

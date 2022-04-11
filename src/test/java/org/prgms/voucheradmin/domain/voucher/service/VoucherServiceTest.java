@@ -3,8 +3,8 @@ package org.prgms.voucheradmin.domain.voucher.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes.FIXED_AMOUNT;
-import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes.PERCENTAGE_DISCOUNT;
+import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.FIXED_AMOUNT;
+import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.PERCENTAGE_DISCOUNT;
 
 import java.io.IOException;
 import java.util.UUID;

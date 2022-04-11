@@ -1,7 +1,7 @@
 package org.prgms.voucheradmin.domain.console;
 
-import static org.prgms.voucheradmin.domain.console.Commands.*;
-import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes.*;
+import static org.prgms.voucheradmin.domain.console.Command.*;
+import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.global.exception.WrongInputException;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -29,6 +29,7 @@ public class Console {
 
     private final VoucherService voucherService;
     private final CustomerService customerService;
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public Console(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
@@ -39,17 +40,15 @@ public class Console {
     * 어플리케이션을 시작하는 메서드입니다.
     **/
     public void run() {
-        boolean keepRun = true;
-
-        while (keepRun) {
+        while (true) {
             try {
                 showCommandList();
-                Commands commands = selectCommand();
+                Command command = selectCommand();
 
-                switch (commands) {
+                switch (command) {
                     case CREATE:
                         showVoucherType();
-                        VoucherTypes voucherType = selectVoucherType();
+                        VoucherType voucherType = selectVoucherType();
                         VoucherInputDto voucherInputDto = inputAmount(voucherType);
                         Voucher createdVoucher = voucherService.createVoucher(voucherInputDto);
                         System.out.println(createdVoucher+" created");
@@ -67,8 +66,7 @@ public class Console {
                         }
                         break;
                     default:
-                        keepRun = false;
-                        break;
+                        return;
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage());
@@ -99,13 +97,15 @@ public class Console {
      * findCommand 메서드를 통하여 옳바른 입력인지 검증하고 옳바른 입력일 경우 Commands를 반환합니다.
      * 만약 옳바른 입력이 아닌 경우 WrongInputException을 발생시킵니다.
      **/
-    private Commands selectCommand() throws IOException, WrongInputException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String selectedCommand = br.readLine().trim();
+    private Command selectCommand() throws IOException, WrongInputException {
+        String selectedCommand = br.readLine().trim().toUpperCase();
 
-        Commands command = findCommand(selectedCommand);
-
-        return command;
+        try{
+            Command command =  Command.valueOf(selectedCommand);
+            return command;
+        }catch (IllegalArgumentException illegalArgumentException) {
+            throw new WrongInputException();
+        }
     }
 
     /**
@@ -115,7 +115,7 @@ public class Console {
         StringBuilder voucherTypeStrBuilder = new StringBuilder();
 
         voucherTypeStrBuilder.append("\n");
-        Arrays.stream(VoucherTypes.values()).forEach(voucherType -> voucherTypeStrBuilder.append(voucherType.toString()).append("\n"));
+        Arrays.stream(VoucherType.values()).forEach(voucherType -> voucherTypeStrBuilder.append(voucherType.toString()).append("\n"));
         voucherTypeStrBuilder.append("\nvoucher type> ");
 
         System.out.print(voucherTypeStrBuilder);
@@ -125,8 +125,7 @@ public class Console {
      * 사용자가 생성할 바우처의 종류를 선택하는 메서드입니다.
      * 옳바른 입력일 경우 VoucherTypes를 반환하지만 그렇지 않은 경우 WrongInputException을 발생시킵니다.
      **/
-    private VoucherTypes selectVoucherType() throws IOException, WrongInputException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private VoucherType selectVoucherType() throws IOException, WrongInputException {
         String selectedVoucherTypeId = br.readLine().trim();
         System.out.println();
 
@@ -137,11 +136,10 @@ public class Console {
      * 사용자가 생성할 바우처의 할인 amount 또는 percent를 입력하는 메서드입니다.
      * 정상적으로 입력이 이루어진 경우 VoucherInputDto 반환하지만 그렇지 않은 경우 WrongInputException을 발생시킵니다.
      **/
-    private VoucherInputDto inputAmount(VoucherTypes voucherType) throws IOException, WrongInputException {
+    private VoucherInputDto inputAmount(VoucherType voucherType) throws IOException, WrongInputException {
         System.out.print(voucherType == FIXED_AMOUNT ? "amount> " : "percent> ");
 
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             return new VoucherInputDto(voucherType, Long.parseLong(br.readLine().trim()));
         }catch (NumberFormatException numberFormatException) {
             throw new WrongInputException();

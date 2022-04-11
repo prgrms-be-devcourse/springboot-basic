@@ -1,22 +1,22 @@
 package org.prgms.voucheradmin.domain.voucher.entity;
 
-import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes.PERCENTAGE_DISCOUNT;
+import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.PERCENTAGE_DISCOUNT;
 
 import java.util.UUID;
 
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 
 /**
  * PercentageDiscountVoucher entity 클래스입니다. 바우처 id와, 바우처 종류, 할인 percent를 필드로 가집니다.
  **/
 public class PercentageDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final VoucherTypes voucherTypes;
+    private final VoucherType voucherType;
     private final long percent;
 
     public PercentageDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
-        this.voucherTypes = PERCENTAGE_DISCOUNT;
+        this.voucherType = PERCENTAGE_DISCOUNT;
         this.percent = percent;
     }
 
@@ -26,8 +26,8 @@ public class PercentageDiscountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherTypes getVoucherType() {
-        return voucherTypes;
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class PercentageDiscountVoucher implements Voucher {
     @Override
     public String toString() {
         StringBuilder voucherInfoBuilder = new StringBuilder();
-        voucherInfoBuilder.append(voucherId).append("\t").append(voucherTypes.getTypeName()).append("\t").append(percent);
+        voucherInfoBuilder.append(voucherId).append("\t").append(voucherType.getTypeName()).append("\t").append(percent);
         return voucherInfoBuilder.toString();
     }
 }

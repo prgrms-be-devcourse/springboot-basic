@@ -2,12 +2,12 @@ package org.prgms.voucheradmin.domain.voucher.entity;
 
 import java.util.UUID;
 
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 
 public interface Voucher {
     UUID getVoucherId();
 
-    VoucherTypes getVoucherType();
+    VoucherType getVoucherType();
 
     long discount(long beforeDiscount);
 

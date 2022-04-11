@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherTypes;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.global.properties.VoucherAdminProperties;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -52,7 +52,7 @@ public class FileVoucherRepository implements VoucherRepository{
             StringTokenizer st = new StringTokenizer(record,"\t");
 
             UUID voucherId = UUID.fromString(st.nextToken());
-            VoucherTypes voucherType = VoucherTypes.valueOf(st.nextToken());
+            VoucherType voucherType = VoucherType.valueOf(st.nextToken());
             long amount = Long.parseLong(st.nextToken());
 
             switch (voucherType) {

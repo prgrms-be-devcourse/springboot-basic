@@ -1,10 +1,11 @@
 package org.prgms.voucheradmin.global.exception;
 
-import static org.prgms.voucheradmin.global.exception.ErrorMessage.WRONG_INPUT_EXCEPTION;
-
 public class WrongInputException extends RuntimeException{
+    private static final String WRONG_INPUT_EXCEPTION = "wrong input";
+
+
     public WrongInputException() {
-        super(WRONG_INPUT_EXCEPTION.getMessage());
+        super(WRONG_INPUT_EXCEPTION);
     }
 
     public WrongInputException(String message) {
