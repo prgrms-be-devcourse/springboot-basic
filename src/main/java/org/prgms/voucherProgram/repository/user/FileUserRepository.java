@@ -32,9 +32,9 @@ public class FileUserRepository implements UserRepository {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(userResource.getInputStream()))) {
             addBlackUsers(users, bufferedReader);
         } catch (IOException e) {
+            logger.error(e.getMessage());
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
-        logger.info("BlackUsers read at File => {}", users);
         return users;
     }
 

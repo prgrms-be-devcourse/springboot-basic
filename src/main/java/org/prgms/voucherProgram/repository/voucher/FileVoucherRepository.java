@@ -27,7 +27,6 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         saveVoucherAtFile(voucher);
-        logger.info("Voucher save at file => {}", voucher);
         return voucher;
     }
 
@@ -35,6 +34,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_NAME, true))) {
             objectOutputStream.writeObject(voucher);
         } catch (IOException e) {
+            logger.error(e.getMessage());
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
     }
@@ -49,9 +49,9 @@ public class FileVoucherRepository implements VoucherRepository {
                 vouchers.add(voucher);
             }
         } catch (EOFException | FileNotFoundException e) {
-            logger.info("Voucher read at file => {}", vouchers);
             return vouchers;
         } catch (IOException | ClassNotFoundException e) {
+            logger.error(e.getMessage());
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
     }
