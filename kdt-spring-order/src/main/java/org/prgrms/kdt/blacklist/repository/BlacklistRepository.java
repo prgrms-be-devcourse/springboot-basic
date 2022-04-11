@@ -1,6 +1,7 @@
 package org.prgrms.kdt.blacklist.repository;
 
 import org.prgrms.kdt.blacklist.domain.Blacklist;
+// import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -8,7 +9,10 @@ import java.util.*;
 
 @Repository
 public class BlacklistRepository {
-    private final File file = new File("src/main/resources/datasource/customer_blacklist.csv");
+    // @Value("${datasource.blacklist.path}")
+    // private String path;
+    private final String path = "src/main/resources/datasource/customer_blacklist.csv";
+    private final File file = new File(path);
     public HashMap<String, Blacklist> blacklistHashMap = new HashMap<String, Blacklist>();
 
     public void initBlacklistRepository() {

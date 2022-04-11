@@ -59,5 +59,10 @@ public class OutputConsole implements Output{
         blacklistMap.forEach((key, value) -> { System.out.println(value.toString()); });
     }
 
+    @Override
+    public void printFileVoucherRepo(String voucherId, String voucherType, String discountRate) {
+        System.out.println(voucherType + ":" + discountRate + "($/%) discount");
+    }
+
 
 }

@@ -22,5 +22,6 @@ public interface Output {
     void printInvalidCmd(String msg);
 
     void printBlackList(HashMap<String, Blacklist> blacklistMap);
+    void printFileVoucherRepo(String voucherId, String voucherType, String discountRate);
 
 }

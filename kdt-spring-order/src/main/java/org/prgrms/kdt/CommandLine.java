@@ -6,9 +6,8 @@ import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.InputConsole;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.io.OutputConsole;
-// import org.prgrms.kdt.command.CommandType;
-// import org.prgrms.kdt.voucher.service.VoucherService;
 
+import org.prgrms.kdt.voucher.service.MemoryVoucherService;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,7 @@ public class CommandLine implements Runnable {
 
     @Override
     public void run() {
-        VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+        MemoryVoucherService memoryVoucherService = applicationContext.getBean(MemoryVoucherService.class);
         BlacklistService blacklistService = applicationContext.getBean(BlacklistService.class);
         blacklistService.setBlacklistRepository();
 
@@ -37,7 +36,7 @@ public class CommandLine implements Runnable {
             try { /* Voucher Application Running */
                 output.init();
                 String inputCommand = input.input("> ");
-                if(!CmdList.execute(inputCommand, input, output, voucherService, blacklistService)) break;
+                if(!CmdList.execute(inputCommand, input, output, memoryVoucherService, blacklistService)) break;
             } catch(Exception e) {
                 logger.error(e.getMessage());
                 output.printInvalidCmd(e.getMessage());

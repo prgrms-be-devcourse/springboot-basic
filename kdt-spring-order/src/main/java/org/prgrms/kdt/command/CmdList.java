@@ -3,6 +3,7 @@ package org.prgrms.kdt.command;
 import org.prgrms.kdt.blacklist.service.BlacklistService;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
+import org.prgrms.kdt.voucher.service.MemoryVoucherService;
 import org.prgrms.kdt.voucher.service.VoucherService;
 
 import java.util.Arrays;
@@ -22,13 +23,13 @@ public enum CmdList {
     }
 
     public static boolean execute(String inputCommand, Input input, Output output,
-                                  VoucherService voucherService, BlacklistService blacklistService) {
+                                  MemoryVoucherService memoryVoucherService, BlacklistService blacklistService) {
 
         CmdList cmdList = Arrays.stream(CmdList.values())
                 .filter(cmd -> cmd.command.equalsIgnoreCase(inputCommand))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("There is no '" + inputCommand + "'. "));
 
-        return cmdList.supplier.get().execute(input, output, voucherService, blacklistService);
+        return cmdList.supplier.get().execute(input, output, memoryVoucherService, blacklistService);
     }
 }

@@ -1,10 +1,9 @@
+datasource:
+  blacklist:
+    path: src/main/resources/datasource/customer_blacklist.csv
+  voucher:
+    path: src/main/resources/datasource/voucher_db.csv
+
 spring:
   profiles:
-    active: dev
-
-datasource:
-  path: src/main/resources/datasource
-  voucher:
-    data_name: voucher_db.csv
-  blacklist:
-    data_name: customer_blacklist.csv
+    active: local
