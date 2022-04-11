@@ -3,7 +3,9 @@ package com.example.voucher_manager.io;
 import com.example.voucher_manager.domain.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InputValidator {
     // log info
     private static final Logger log = LoggerFactory.getLogger(InputValidator.class);

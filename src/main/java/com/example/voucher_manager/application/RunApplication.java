@@ -1,8 +1,11 @@
-package com.example.voucher_manager;
+package com.example.voucher_manager.application;
 
+import com.example.voucher_manager.application.ApplicationStatus;
 import com.example.voucher_manager.io.CommandType;
 import com.example.voucher_manager.io.Console;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RunApplication implements Runnable{
     private final Console console;
     private ApplicationStatus status = ApplicationStatus.IDLE;

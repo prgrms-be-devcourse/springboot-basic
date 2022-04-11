@@ -4,6 +4,7 @@ import com.example.voucher_manager.domain.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -12,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public class CsvBlacklistCustomerRepository implements CustomerRepository{
     private static final Logger log = LoggerFactory.getLogger(CsvBlacklistCustomerRepository.class);
     private final ClassLoader classLoader = getClass().getClassLoader();

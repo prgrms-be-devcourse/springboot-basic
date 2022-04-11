@@ -1,7 +1,10 @@
 package com.example.voucher_manager.io;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class ConsoleOutput implements Output{
 
     @Override

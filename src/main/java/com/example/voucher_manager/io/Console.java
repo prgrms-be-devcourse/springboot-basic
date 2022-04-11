@@ -2,9 +2,11 @@ package com.example.voucher_manager.io;
 
 import com.example.voucher_manager.domain.voucher.Voucher;
 import com.example.voucher_manager.domain.voucher.VoucherType;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class Console {
 
     private final Input input;

@@ -5,9 +5,11 @@ import com.example.voucher_manager.domain.service.CustomerService;
 import com.example.voucher_manager.domain.service.VoucherService;
 import com.example.voucher_manager.domain.voucher.Voucher;
 import com.example.voucher_manager.domain.voucher.VoucherType;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CommandOperator {
     private final VoucherService voucherService;
     private final CustomerService customerService;

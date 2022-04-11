@@ -5,10 +5,12 @@ import com.example.voucher_manager.domain.voucher.FixedAmountVoucher;
 import com.example.voucher_manager.domain.voucher.PercentDiscountVoucher;
 import com.example.voucher_manager.domain.voucher.Voucher;
 import com.example.voucher_manager.domain.voucher.VoucherType;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
