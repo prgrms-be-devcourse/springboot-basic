@@ -10,7 +10,8 @@ import java.util.UUID;
 import org.prgms.voucherProgram.entity.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,18 +23,19 @@ public class FileUserRepository implements UserRepository {
     private static final List<User> blackUsers = new ArrayList<>();
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final Resource userResource;
+    private final String userFilePath;
 
-    public FileUserRepository(Resource userResource) {
-        this.userResource = userResource;
+    public FileUserRepository(@Value("${file.path.blacklist}") String userFilePath) {
+        this.userFilePath = userFilePath;
         readBlackUsers();
     }
 
     private void readBlackUsers() {
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(userResource.getInputStream()))) {
+        try (BufferedReader bufferedReader = new BufferedReader(
+            new InputStreamReader(new ClassPathResource(userFilePath).getInputStream()))) {
             addBlackUsers(blackUsers, bufferedReader);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.error("Fail to find a blacklist file");
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
     }
