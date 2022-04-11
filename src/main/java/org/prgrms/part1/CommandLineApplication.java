@@ -10,6 +10,8 @@ public class CommandLineApplication {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
     public static void main(String[] args) {
         var applicationContext = new AnnotationConfigApplicationContext(CommandLineAppConfiguration.class);
+        var voucherProperties = applicationContext.getBean(VoucherProperties.class);
+        logger.info("environment => {}", voucherProperties.getEnvironment());
         var voucherService = applicationContext.getBean(VoucherService.class);
         var console = new Console();
 

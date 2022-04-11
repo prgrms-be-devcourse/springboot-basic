@@ -1,14 +1,14 @@
 package org.prgrms.part1.engine;
 
 import org.prgrms.part1.exception.FileException;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.*;
 
 @Repository
-@Primary
+@Profile("default")
 public class FileVoucherRepository implements VoucherRepository{
     private final String path = "vouchers" + File.separator;
 

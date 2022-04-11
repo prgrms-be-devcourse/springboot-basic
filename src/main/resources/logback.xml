@@ -1,4 +1,6 @@
 <configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
     <property name = "FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
 
     <appender name="ACCESS_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -27,6 +29,10 @@
 
     <logger name="org.prgrms.part1.CommandLineApplication" level="warn">
         <appender-ref ref="ERROR_LOG" />
+    </logger>
+
+    <logger name="org.prgrms.part1.VoucherProperties" level="debug">
+        <appender-ref ref="CONSOLE" />
     </logger>
 
     <root level="debug">
