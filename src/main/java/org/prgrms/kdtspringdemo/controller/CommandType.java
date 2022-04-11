@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.controller;
 
 public enum CommandType {
     EXIT,

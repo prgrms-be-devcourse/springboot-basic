@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo;
+package org.prgrms.kdtspringdemo.controller;
 
 import org.prgrms.kdtspringdemo.domain.voucher.Voucher;
 import org.prgrms.kdtspringdemo.domain.voucher.VoucherType;
