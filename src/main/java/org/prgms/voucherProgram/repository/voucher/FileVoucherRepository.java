@@ -29,7 +29,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_NAME, true))) {
             objectOutputStream.writeObject(voucher);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.error("Fail to find a voucher file");
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
         return voucher;
@@ -47,7 +47,7 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (EOFException | FileNotFoundException e) {
             return vouchers;
         } catch (IOException | ClassNotFoundException e) {
-            logger.error(e.getMessage());
+            logger.error("Fail to find a voucher file");
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
     }
