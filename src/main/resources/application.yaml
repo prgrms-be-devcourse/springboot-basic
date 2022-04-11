@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: file, console
+
+voucher:
+  file: src/main/resources/vouchers.csv
