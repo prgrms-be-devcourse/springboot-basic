@@ -13,13 +13,13 @@ import java.util.UUID;
 
 @Repository
 @Slf4j
-@Primary
-public class VoucherRepositoryFileImpl implements VoucherRepository {
+//@Primary
+public class FileVoucherRepository implements VoucherRepository {
 
     private final FileWriter fileWriter = new FileWriter("voucherRepository.txt", true);
     private final BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-    public VoucherRepositoryFileImpl() throws IOException {
+    public FileVoucherRepository() throws IOException {
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.entity.voucher.FixedAmountVoucher;
 import org.voucherProject.voucherProject.entity.voucher.PercentDiscountVoucher;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
-import org.voucherProject.voucherProject.repository.voucher.VoucherRepositoryFileImpl;
+import org.voucherProject.voucherProject.repository.voucher.FileVoucherRepository;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class VoucherRepositoryFileImplTest {
 
     @Autowired
-    VoucherRepositoryFileImpl voucherRepoFile;
+    FileVoucherRepository voucherRepoFile;
 
     @Test
     public void saveAndFindById() throws Exception {
