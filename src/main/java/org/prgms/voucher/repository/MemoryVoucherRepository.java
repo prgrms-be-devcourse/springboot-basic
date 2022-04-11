@@ -9,14 +9,21 @@ import java.util.List;
 
 @Repository
 @Profile({"local", "default"})
-public class MemoryVoucherRepository implements VoucherRepository{
+public class MemoryVoucherRepository implements VoucherRepository {
     private final List<Voucher> db = new ArrayList<>();
 
-    public void save(Voucher voucher){
+    public void save(Voucher voucher) {
         db.add(voucher);
     }
 
-    public List<Voucher> findAll(){
+    public List<Voucher> findAll() {
         return db;
+    }
+
+    @Override
+    public void deleteAll() {
+        while (!db.isEmpty()) {
+            db.remove(0);
+        }
     }
 }

@@ -8,4 +8,6 @@ public interface VoucherRepository {
     void save(Voucher voucher);
 
     List<Voucher> findAll();
+
+    void deleteAll();
 }

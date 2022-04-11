@@ -14,12 +14,15 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(Voucher voucher){
+    public void createVoucher(Voucher voucher) {
         voucherRepository.save(voucher);
     }
 
-    public void listVoucher(){
-        List<Voucher> vouchers = voucherRepository.findAll();
-        vouchers.forEach(System.out::println);
+    public List<Voucher> listVoucher() {
+        return voucherRepository.findAll();
+    }
+
+    public void deleteAllVouchers() {
+        voucherRepository.deleteAll();
     }
 }
