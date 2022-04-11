@@ -29,7 +29,13 @@ public class VoucherController {
 
         consoleView.printMenu();
         Menu menu = consoleView.inputMenu();
-        return menu.apply(this);
+
+        try {
+            return menu.apply(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true;
+        }
     }
 
     public void createVoucher() {
