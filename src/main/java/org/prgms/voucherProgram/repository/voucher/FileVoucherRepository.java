@@ -26,17 +26,13 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        saveVoucherAtFile(voucher);
-        return voucher;
-    }
-
-    private void saveVoucherAtFile(Voucher voucher) {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_NAME, true))) {
             objectOutputStream.writeObject(voucher);
         } catch (IOException e) {
             logger.error(e.getMessage());
             throw new IllegalArgumentException(ERROR_WRONG_FILE);
         }
+        return voucher;
     }
 
     @Override
