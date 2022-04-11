@@ -51,11 +51,11 @@ public class VoucherManager implements Runnable {
                 else {
                     System.out.println("메뉴를 다시 선택해 주세요.");
                 }
-            }
-            catch(IllegalArgumentException e) {
+            } catch (NumberFormatException e) {
+                System.out.println("잘못된 입력입니다. 알맞은 수를 입력하세요.");
+            } catch(IllegalArgumentException e) {
                 System.out.println(e.getMessage());
-            }
-            finally {
+            } finally {
                 System.out.println();
             }
         }

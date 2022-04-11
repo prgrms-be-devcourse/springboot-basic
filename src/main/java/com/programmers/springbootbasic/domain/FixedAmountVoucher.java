@@ -14,6 +14,10 @@ public class FixedAmountVoucher implements Voucher, Serializable {
 
     public FixedAmountVoucher(UUID voucherId, Long fixedAmount) {
         this.voucherId = voucherId;
+
+        if (fixedAmount <= 0 || fixedAmount >= FixedAmountVoucher.FIXED_AMOUNT_UPPER_LIMIT)
+            throw new IllegalArgumentException("유효한 값이 아닙니다.");
+
         this.fixedAmount = fixedAmount;
         timestamp = new Timestamp(System.currentTimeMillis());
     }
@@ -25,7 +29,8 @@ public class FixedAmountVoucher implements Voucher, Serializable {
 
     @Override
     public Long discount(Long beforeDiscount) {
-        return beforeDiscount - fixedAmount;
+        long totalAmount = beforeDiscount - fixedAmount;
+        return totalAmount < 0 ? 0 : totalAmount;
     }
 
     public Long getFixedAmount() {

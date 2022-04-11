@@ -24,25 +24,22 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType type) {
+    public Voucher createVoucher(VoucherType type) throws NumberFormatException {
         Voucher voucher;
 
         switch (type) {
             case FIXED_AMOUNT:
                 System.out.print("할인 금액을 입력하세요 ==> ");
-                Long fixedAmount = sc.nextLong();
-                if (fixedAmount <= 0 || fixedAmount >= FixedAmountVoucher.FIXED_AMOUNT_UPPER_LIMIT)
-                    throw new IllegalArgumentException("유효한 값이 아닙니다.");
-                voucher = new FixedAmountVoucher(UUID.randomUUID(), fixedAmount);
+                String fixedAmount = sc.next();
+                voucher = new FixedAmountVoucher(UUID.randomUUID(), Long.valueOf(fixedAmount));
                 break;
             default:
                 System.out.print("할인율을 입력하세요 ==> ");
-                double percent = sc.nextDouble();
-                if (percent <= 0.0 || percent > 100.0)
-                    throw new IllegalArgumentException("유효한 값이 아닙니다.");
-                voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+                String percent = sc.next();
+                voucher = new PercentDiscountVoucher(UUID.randomUUID(), Double.valueOf(percent));
                 break;
         }
+
         System.out.println("할인권이 정상적으로 생성 및 저장되었습니다. " +
                 "(생성된 할인권 ID: " + voucher.getVoucherId() + ")");
         voucherRepository.insert(voucher);

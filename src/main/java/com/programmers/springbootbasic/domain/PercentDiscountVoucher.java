@@ -12,6 +12,10 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
 
     public PercentDiscountVoucher(UUID voucherId, Double discountPercent) {
         this.voucherId = voucherId;
+
+        if (discountPercent <= 0.0 || discountPercent > 100.0)
+            throw new IllegalArgumentException("유효한 값이 아닙니다.");
+
         this.discountPercent = discountPercent;
         timestamp = new Timestamp(System.currentTimeMillis());
     }
