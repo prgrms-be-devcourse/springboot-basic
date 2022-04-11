@@ -39,3 +39,6 @@ out/
 ### log ###
 ./logs/
 logs/
+
+### filedb ###
+src/main/resources/filedb/

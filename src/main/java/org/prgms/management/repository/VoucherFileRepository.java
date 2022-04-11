@@ -13,17 +13,17 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile({"local-file", "default"})
 public class VoucherFileRepository implements VoucherRepository {
-    @Value("${voucher.path}")
+    @Value("${filedb.path}")
     private String path;
-    @Value("${voucher.name}")
+    @Value("${filedb.voucher}")
     private String name;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private File file;
@@ -44,7 +44,7 @@ public class VoucherFileRepository implements VoucherRepository {
             return true;
         } catch (Throwable e) {
             logger.error(MessageFormat.format
-                    ("{0} can't save file voucher", e.getMessage()));
+                    ("{0} can't save voucher file", e.getMessage()));
         }
         return false;
     }
@@ -55,23 +55,24 @@ public class VoucherFileRepository implements VoucherRepository {
             file = new File(MessageFormat.format("{0}/{1}", path, name));
             file.createNewFile();
             List<String> lines = Files.readAllLines(Path.of(file.getPath()));
-            Map<UUID, Voucher> map = new HashMap<>();
+            Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
-            for (int i = 0; i < lines.size(); i++) {
-                String[] str = lines.get(i).split(",");
+            for (String line : lines) {
+                String[] str = line.split(",");
                 UUID uuid = UUID.fromString(str[0]);
                 String type = str[1];
                 String name = str[2];
                 int discountNum = Integer.parseInt(str[3]);
                 Voucher voucher = type.equals("FixedAmountVoucher") ?
-                        new FixedAmountVoucher(uuid, discountNum, name, type) :
+                        FixedAmountVoucher.getFixedAmountVoucher(
+                                uuid, discountNum, name, type) :
                         new PercentAmountVoucher(uuid, discountNum, name, type);
                 map.put(uuid, voucher);
             }
             return map;
         } catch (Throwable e) {
             logger.error(MessageFormat.format
-                    ("{0} can't read file voucher", e.getMessage()));
+                    ("{0} can't read voucher file", e.getMessage()));
             return null;
         }
     }

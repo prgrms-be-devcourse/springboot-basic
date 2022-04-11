@@ -1,8 +1,8 @@
 spring.config.activate.on-profile: local-file
-voucher:
+filedb:
   path: src/main/resources/filedb
   blacklist: blacklist.csv
-  name: voucher.csv
+  voucher: voucher.csv
 
 ---
 

@@ -4,11 +4,11 @@ import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long percent;
+    private final int percent;
     private final String voucherName;
     private final String voucherType;
 
-    public PercentAmountVoucher(UUID voucherId, long percent, String voucherName, String voucherType) {
+    public PercentAmountVoucher(UUID voucherId, int percent, String voucherName, String voucherType) {
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherName = voucherName;
