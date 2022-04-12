@@ -5,7 +5,8 @@ import java.util.Arrays;
 public enum CommandType {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    BLACKLIST("blacklist");
 
     private final String type;
 
@@ -17,6 +18,6 @@ public enum CommandType {
         return Arrays.stream(values())
                 .filter(i -> i.type.equals(type))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 타입 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("This command type is not supported."));
     }
 }
