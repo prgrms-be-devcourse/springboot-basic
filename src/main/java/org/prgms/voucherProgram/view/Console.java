@@ -75,15 +75,15 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public void printCustomers(List<Customer> users) {
-        if (users.isEmpty()) {
+    public void printCustomers(List<Customer> customers) {
+        if (customers.isEmpty()) {
             System.out.printf("\n%s%n\n", EMPTY_CUSTOMERS);
             return;
         }
 
         System.out.println();
-        for (Customer user : users) {
-            System.out.println(user);
+        for (Customer customer : customers) {
+            System.out.println(customer);
         }
         System.out.println();
     }
