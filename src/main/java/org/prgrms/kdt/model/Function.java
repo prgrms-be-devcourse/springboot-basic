@@ -1,11 +1,42 @@
 package org.prgrms.kdt.model;
 
+import org.prgrms.kdt.io.Input;
+import org.prgrms.kdt.io.Output;
+import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.util.Utility;
+
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
 
 public enum Function {
-    exit(" to exit the program"),
-    create(" to create a new voucher"),
-    list(" to list all vouchers");
+    exit(" to exit the program") {
+        @Override
+        public Voucher doFunction(VoucherService voucherService) {
+
+            return null;
+        }
+    },
+    create(" to create a new voucher") {
+        @Override
+        public Optional<Voucher> doFunction(VoucherService voucherService) {
+            Function.getOutput().printVoucherType();
+            Input input = Function.getInput();
+            Optional<Voucher> voucher = null;
+            try {
+                voucher = createVoucherByVoucherType(input.voucherType(), input.amount(), voucherService);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return voucher;
+        }
+    },
+    list(" to list all vouchers") {
+        @Override
+        public Function doFunction(VoucherService voucherService) {
+            return null;
+        }
+    };
 
     private String explain;
 
@@ -17,8 +48,28 @@ public enum Function {
         return explain;
     }
 
-    public static boolean hasFunction(String funciton) {
+    public static boolean hasFunction(String function) {
         return Arrays.stream(Function.values())
-                .anyMatch(f -> f.name().equals(funciton.trim()));
+                .anyMatch(f -> f.name().equals(function));
+    }
+
+    public abstract <T> T doFunction(VoucherService voucherService);
+
+    private static Input getInput() {
+        return new Input();
+    }
+
+    private static Output getOutput() {
+        return new Output();
+    }
+
+    private static Optional<Voucher> createVoucherByVoucherType(String voucherType, String discountAmount, VoucherService voucherService) {
+        if (!VoucherType.hasVoucherType(voucherType)) {
+            throw new IllegalArgumentException("Type right VoucherType number");
+        }
+        return Optional.ofNullable(
+                voucherService.createVoucher(UUID.randomUUID(),
+                        Utility.toInt(voucherType),
+                        Utility.toInt(discountAmount)));
     }
 }

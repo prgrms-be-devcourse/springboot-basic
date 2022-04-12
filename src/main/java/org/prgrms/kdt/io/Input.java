@@ -1,24 +1,28 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.model.Function;
-import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 import java.util.Scanner;
 
-@Component
 public class Input {
     private final Scanner sc;
 
-    Input() {
+    public Input() {
         this.sc = new Scanner(System.in);
     }
 
-    public Optional<String> inputFunction() {
-        String inputString = sc.nextLine();
-        if (Function.hasFunction(inputString)) {
-            return Optional.of(inputString.trim());
-        }
-        return Optional.empty();
+    public String inputFunction() {
+        return sc.nextLine();
+    }
+
+    public String voucherType() {
+        return sc.nextLine();
+    }
+
+    public String amount() {
+        System.out.print("Type amount : ");
+        return sc.nextLine();
+    }
+
+    public Scanner getSc() {
+        return sc;
     }
 }
