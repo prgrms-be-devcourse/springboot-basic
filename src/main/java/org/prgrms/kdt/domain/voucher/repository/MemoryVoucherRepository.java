@@ -4,10 +4,7 @@ import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -19,6 +16,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public UUID save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher.getVoucherId();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
