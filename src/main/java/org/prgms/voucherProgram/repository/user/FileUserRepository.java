@@ -53,6 +53,7 @@ public class FileUserRepository implements UserRepository {
         }
     }
 
+    @Override
     public List<User> findBlackUsers() {
         return new ArrayList<>(storage.values());
     }
