@@ -1,4 +1,4 @@
-package com.prgms.management.customer.entity;
+package com.prgms.management.customer.model;
 
 import java.util.UUID;
 

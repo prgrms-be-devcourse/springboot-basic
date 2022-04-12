@@ -1,7 +1,7 @@
 package com.prgms.management.command.io;
 
 import com.prgms.management.command.exception.CommandLineException;
-import com.prgms.management.customer.entity.Customer;
+import com.prgms.management.customer.model.Customer;
 import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.PercentDiscountVoucher;
 import com.prgms.management.voucher.entity.Voucher;

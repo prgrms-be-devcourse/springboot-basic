@@ -1,7 +1,6 @@
 package com.prgms.management.customer.service;
 
-import com.prgms.management.customer.entity.Customer;
-import com.prgms.management.customer.exception.CustomerException;
+import com.prgms.management.customer.model.Customer;
 import com.prgms.management.customer.repository.BlackCustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,7 @@ public class SimpleCustomerService implements CustomerService {
     }
 
     @Override
-    public List<Customer> getAllCustomers() throws CustomerException {
+    public List<Customer> getAllCustomers() {
         return blackCustomerRepository.findAll();
     }
 }

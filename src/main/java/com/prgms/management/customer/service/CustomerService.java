@@ -1,10 +1,9 @@
 package com.prgms.management.customer.service;
 
-import com.prgms.management.customer.entity.Customer;
-import com.prgms.management.customer.exception.CustomerException;
+import com.prgms.management.customer.model.Customer;
 
 import java.util.List;
 
 public interface CustomerService {
-    List<Customer> getAllCustomers() throws CustomerException;
+    List<Customer> getAllCustomers();
 }
