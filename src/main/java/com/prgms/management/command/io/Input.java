@@ -4,7 +4,7 @@ import com.prgms.management.command.exception.CommandLineException;
 import com.prgms.management.voucher.entity.Voucher;
 
 public interface Input {
-    CommandType getCommandType();
+    String getCommand();
 
     Voucher getVoucher() throws CommandLineException;
 }

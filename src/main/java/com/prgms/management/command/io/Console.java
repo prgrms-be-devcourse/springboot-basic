@@ -16,7 +16,7 @@ public class Console implements Input, Output<Voucher> {
     private final TextIO textIO = TextIoFactory.getTextIO();
 
     @Override
-    public CommandType getCommandType() {
+    public String getCommand() {
         textIO.getTextTerminal().println("=========== Voucher Program ===========");
         textIO.getTextTerminal().println("Type **exit** to exit the program.");
         textIO.getTextTerminal().println("Type **create** to create a new voucher.");
@@ -24,11 +24,9 @@ public class Console implements Input, Output<Voucher> {
         textIO.getTextTerminal().println("Type **blacklist** to list all black customers.");
         textIO.getTextTerminal().println();
 
-        String command = textIO.newStringInputReader()
+        return textIO.newStringInputReader()
                 .withDefaultValue("list")
                 .read("Command");
-
-        return CommandType.of(command);
     }
 
     @Override

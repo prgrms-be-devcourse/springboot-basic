@@ -25,14 +25,13 @@ public class CommandLineApplication implements Runnable {
 
     @Override
     public void run() {
-        boolean flag = true;
-        while (flag) {
+        while (true) {
             try {
-                CommandType command = console.getCommandType();
-                switch (command) {
+                String command = console.getCommand();
+                switch (CommandType.of(command)) {
                     case EXIT:
-                        flag = false;
                         console.close();
+                        System.exit(0);
                         break;
                     case LIST:
                         console.printListVoucher(voucherService.getAllVouchers());
