@@ -5,11 +5,14 @@ import org.prgrms.kdtspringdemo.console.Menu;
 import org.prgrms.kdtspringdemo.console.Output;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
 import org.prgrms.kdtspringdemo.voucher.voucherdetail.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AppProgram {
+    private static final Logger logger = LoggerFactory.getLogger(Input.class);
     private final Output output = new Output();
     private final Input input = new Input();
 
@@ -26,19 +29,19 @@ public class AppProgram {
 
         while (workingCondition) {
             // 초기 메뉴 선택
-            System.out.println(output.initMessage());
+            logger.info(output.initMessage());
             Menu menu = input.inputMenu();
 
             switch (menu) {
                 case CREATE -> {
-                    System.out.println(output.createListMessage());
+                    logger.info(output.createListMessage());
                     VoucherType voucherType = input.inputVoucherType();
                     // CREATE 선택 후 타입 지정(ERROR 의 경우 workingCondition false 반환)
                     workingCondition = createWithVoucherType(workingCondition, voucherType);
 
                 }
                 case LIST -> {
-                    System.out.println(output.showAllMessage());
+                    logger.info(output.showAllMessage());
                     voucherService.showAllVoucher();
                 }
                 case EXIT, ERROR -> workingCondition = false;
