@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -19,7 +18,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
-    public Map<UUID, Voucher> getStorage() {
+    @Override
+    public Map getVoucherList() {
         return storage;
     }
 }

@@ -6,6 +6,7 @@ import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.util.Utility;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,8 +34,10 @@ public enum Function {
     },
     list(" to list all vouchers") {
         @Override
-        public Function doFunction(VoucherService voucherService) {
-            return null;
+        public Map<UUID, Voucher> doFunction(VoucherService voucherService) {
+            Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
+            Function.printVoucherList(voucherList);
+            return voucherList;
         }
     };
 
@@ -71,5 +74,16 @@ public enum Function {
                 voucherService.createVoucher(UUID.randomUUID(),
                         Utility.toInt(voucherType),
                         Utility.toInt(discountAmount)));
+    }
+
+    private static void printVoucherList(Map<UUID, Voucher> voucherList) {
+        if (voucherList.isEmpty()) {
+            getOutput().printVoucherListEmptyError();
+            return;
+        }
+        for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
+            Voucher voucher = entry.getValue();
+            System.out.println(voucher.toString());
+        }
     }
 }

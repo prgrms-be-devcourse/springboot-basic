@@ -1,6 +1,5 @@
 package org.prgrms.kdt.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,7 @@ import org.prgrms.kdt.model.Voucher;
 import org.prgrms.kdt.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.repository.VoucherRepository;
 
+import java.util.Map;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -29,8 +29,6 @@ class VoucherServiceTest {
                 () -> assertThat(new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 1, 100).getClass(), is(FixedAmountVoucher.class)),
                 () -> assertThat(new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 2, 100).getClass(), is(PercentDiscountVoucher.class))
         );
-
-
     }
 
     @DisplayName("유효한 discountAmount로만 생성 할 수 있다.")
@@ -42,9 +40,7 @@ class VoucherServiceTest {
                 () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 2, -100)),
                 () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 2, 0)),
                 () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 2, 110))
-
         );
-
     }
 
 
@@ -72,5 +68,29 @@ class VoucherServiceTest {
         assertThat(voucher.getDiscountAmount(), is(100L));
         assertThat(voucher, notNullValue());
     }
+
+    @DisplayName("바우처 리스트가 출력되어야 한다.")
+    @Test
+    void printVoucherList() {
+        VoucherRepository voucherRepository = mock(MemoryVoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepository);
+
+        voucherService.createVoucher(UUID.randomUUID(), 1, 100);
+        voucherService.getVoucherList();
+
+        verify(voucherRepository).getVoucherList();
+    }
+
+    @DisplayName("등록된 바우처가 없으면 바우처리스트가 출력되지 않는다.")
+    @Test
+    void printEmptyVoucherList() {
+        VoucherRepository voucherRepository = mock(MemoryVoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepository);
+
+        voucherService.getVoucherList();
+
+        assertThat((Map<UUID, Voucher>) voucherRepository.getVoucherList(), anEmptyMap());
+    }
+
 
 }

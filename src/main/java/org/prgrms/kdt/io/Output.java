@@ -23,4 +23,8 @@ public class Output {
             System.out.println(MessageFormat.format("{0} : {1}", voucherType.name(), voucherType.getTypeNumber()));
         }
     }
+
+    public void printVoucherListEmptyError() {
+        System.out.println("voucher list is empty");
+    }
 }
