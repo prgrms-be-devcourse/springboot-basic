@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.*;
 
-import static org.prgrms.weeklymission.utils.Path.VOUCHER_FILE_DB_PATH;
+import static org.prgrms.weeklymission.utils.FilePath.VOUCHER_FILE_DB_PATH;
 
 @Repository
 @Profile("dev")
 @Slf4j
 public class FileVoucherRepository implements VoucherRepository {
-    private static final String path = VOUCHER_FILE_DB_PATH;
+    private static final String path = VOUCHER_FILE_DB_PATH.getPath();
     private final File file = new File(path);
     private final BufferedWriter output = new BufferedWriter(new FileWriter(file));
     private final BufferedReader input = new BufferedReader(new FileReader(file));
