@@ -16,6 +16,10 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(i -> i.type.equals(type))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 바우처 타입 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("This voucher type is not supported."));
+    }
+
+    public String getType () {
+        return type;
     }
 }
