@@ -1,6 +1,6 @@
 package com.prgrms.vouchermanagement.io;
 
-import com.prgrms.vouchermanagement.dto.Member;
+import com.prgrms.vouchermanagement.customer.Member;
 import com.prgrms.vouchermanagement.util.StringUtils;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import org.springframework.stereotype.Component;

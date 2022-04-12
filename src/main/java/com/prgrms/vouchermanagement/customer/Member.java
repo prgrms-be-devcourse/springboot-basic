@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanagement.dto;
+package com.prgrms.vouchermanagement.customer;
 
 public class Member {
 

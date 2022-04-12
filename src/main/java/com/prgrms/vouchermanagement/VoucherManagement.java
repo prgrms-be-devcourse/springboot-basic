@@ -1,10 +1,10 @@
 package com.prgrms.vouchermanagement;
 
-import com.prgrms.vouchermanagement.dto.Member;
+import com.prgrms.vouchermanagement.customer.Member;
 import com.prgrms.vouchermanagement.io.Input;
 import com.prgrms.vouchermanagement.io.Output;
-import com.prgrms.vouchermanagement.repository.BlackListRepository;
-import com.prgrms.vouchermanagement.service.VoucherService;
+import com.prgrms.vouchermanagement.customer.BlackListRepository;
+import com.prgrms.vouchermanagement.voucher.service.VoucherService;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,5 @@
-package com.prgrms.vouchermanagement.repository;
+package com.prgrms.vouchermanagement.customer;
 
-import com.prgrms.vouchermanagement.dto.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;

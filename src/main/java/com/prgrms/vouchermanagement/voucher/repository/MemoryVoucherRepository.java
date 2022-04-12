@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanagement.repository;
+package com.prgrms.vouchermanagement.voucher.repository;
 
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import org.slf4j.Logger;
