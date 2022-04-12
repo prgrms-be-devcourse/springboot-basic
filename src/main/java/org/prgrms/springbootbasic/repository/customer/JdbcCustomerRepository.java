@@ -16,6 +16,7 @@ public class JdbcCustomerRepository {
 
     private final String SELECT_ALL_SQL = "select * from customers";
     private final String INSERT_SQL = "insert into customers(customer_id, name, email) values(UUID_TO_BIN(?), ?, ?)";
+    private final String DELETE_ALL_SQL = "delete from customers";
 
     public static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
@@ -57,6 +58,18 @@ public class JdbcCustomerRepository {
             logger.error("error in save()", throwables);
         }
         return customer.getCustomerId();
+    }
+
+    public void removeAll() {
+        try (
+            var connection = DriverManager.getConnection("jdbc:mysql://localhost/springboot_basic",
+                "hyuk", "hyuk1234!");
+            var statement = connection.prepareStatement(DELETE_ALL_SQL);
+        ) {
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            logger.error("error in removeAll()", throwables);
+        }
     }
 
 }
