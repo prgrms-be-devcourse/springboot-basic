@@ -58,7 +58,7 @@ public class VoucherManagement {
     private void showBlackList() {
         List<Member> blackList = blackListRepository.findAll();
 
-        if (blackList.isEmpty()) {
+        if (blackList == null || blackList.isEmpty()) {
             output.printMessage(BLACK_LIST_EMPTY);
         } else {
             output.printBlackList(blackList);
@@ -73,7 +73,7 @@ public class VoucherManagement {
         List<Voucher> vouchers = voucherService.findAllVouchers();
 
         if (vouchers == null || vouchers.isEmpty()) {
-            output.printMessage(EMPTY_LIST);
+            output.printMessage(VOUCHER_LIST_EMPTY);
             return;
         }
 
