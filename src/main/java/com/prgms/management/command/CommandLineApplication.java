@@ -33,7 +33,6 @@ public class CommandLineApplication implements Runnable {
                     case EXIT:
                         flag = false;
                         console.close();
-                        logger.info("Voucher Application is terminated...");
                         break;
                     case LIST:
                         console.printListVoucher(voucherService.getAllVouchers());
@@ -44,6 +43,9 @@ public class CommandLineApplication implements Runnable {
                         break;
                     case BLACKLIST:
                         console.printListCustomer(customerService.getAllCustomers());
+                        break;
+                    default:
+                        console.printString("잘못된 명령어를 입력하셨습니다.");
                         break;
                 }
             } catch (Exception e) {

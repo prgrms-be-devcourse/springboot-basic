@@ -16,7 +16,7 @@ public class Console implements Input, Output<Voucher> {
     private final TextIO textIO = TextIoFactory.getTextIO();
 
     @Override
-    public CommandType getCommandType() throws CommandLineException {
+    public CommandType getCommandType() {
         textIO.getTextTerminal().println("=========== Voucher Program ===========");
         textIO.getTextTerminal().println("Type **exit** to exit the program.");
         textIO.getTextTerminal().println("Type **create** to create a new voucher.");
@@ -28,18 +28,7 @@ public class Console implements Input, Output<Voucher> {
                 .withDefaultValue("list")
                 .read("Command");
 
-        switch (command.toLowerCase()) {
-            case "list":
-                return CommandType.LIST;
-            case "create":
-                return CommandType.CREATE;
-            case "exit":
-                return CommandType.EXIT;
-            case "blacklist":
-                return CommandType.BLACKLIST;
-            default:
-                throw new CommandLineException();
-        }
+        return CommandType.of(command);
     }
 
     @Override
@@ -79,8 +68,12 @@ public class Console implements Input, Output<Voucher> {
 
     @Override
     public void printListVoucher(List<Voucher> list) {
-        for (Voucher voucher : list) {
-            textIO.getTextTerminal().println(voucher.toString());
+        if (list.isEmpty()) {
+            textIO.getTextTerminal().println("저장된 데이터가 없습니다.");
+        } else {
+            for (Voucher voucher : list) {
+                textIO.getTextTerminal().println(voucher.toString());
+            }
         }
     }
 
