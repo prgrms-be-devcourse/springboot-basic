@@ -6,38 +6,40 @@ import com.prgms.management.voucher.exception.VoucherException;
 import com.prgms.management.voucher.service.VoucherService;
 
 public enum CommandType {
-    CREATE {
+    CREATE("create", "to create a new voucher.") {
         @Override
         public void execute(VoucherService voucherService, CustomerService customerService, Console console) throws VoucherException {
             Voucher voucher = voucherService.saveVoucher(console.getVoucher());
             console.printOneVoucher(voucher);
         }
     },
-    LIST {
+    LIST("list", "to list all vouchers.") {
         @Override
         public void execute(VoucherService voucherService, CustomerService customerService, Console console) throws VoucherException {
             console.printListVoucher(voucherService.getAllVouchers());
         }
     },
-    EXIT {
+    EXIT("exit", "to exit the program.") {
         @Override
         public void execute(VoucherService voucherService, CustomerService customerService, Console console) {
             console.close();
             System.exit(0);
         }
     },
-    BLACKLIST {
+    BLACKLIST("blacklist", "to list all black customers.") {
         @Override
         public void execute(VoucherService voucherService, CustomerService customerService, Console console) {
             console.printListCustomer(customerService.getAllCustomers());
         }
-    },
-    NONE {
-        @Override
-        public void execute(VoucherService voucherService, CustomerService customerService, Console console) {
-            console.printString("잘못된 명령어를 입력하셨습니다.");
-        }
     };
+
+    private final String command;
+    private final String description;
+
+    CommandType(String command, String description) {
+        this.command = command;
+        this.description = description;
+    }
 
     public static CommandType of(String command) {
         switch (command.toLowerCase()) {
@@ -50,8 +52,12 @@ public enum CommandType {
             case "blacklist":
                 return BLACKLIST;
             default:
-                return NONE;
+                return null;
         }
+    }
+
+    public String getScript() {
+        return "Type **" + command + "** " + description;
     }
 
     public abstract void execute(VoucherService voucherService, CustomerService customerService, Console console) throws VoucherException;

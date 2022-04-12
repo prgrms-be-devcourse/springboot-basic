@@ -8,6 +8,7 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -16,13 +17,9 @@ public class Console implements Input, Output<Voucher> {
 
     @Override
     public String getCommand() {
-        textIO.getTextTerminal().println("=========== Voucher Program ===========");
-        textIO.getTextTerminal().println("Type **exit** to exit the program.");
-        textIO.getTextTerminal().println("Type **create** to create a new voucher.");
-        textIO.getTextTerminal().println("Type **list** to list all vouchers.");
-        textIO.getTextTerminal().println("Type **blacklist** to list all black customers.");
-        textIO.getTextTerminal().println();
-
+        printString("=========== Voucher Program ===========");
+        Arrays.stream(CommandType.values()).forEach(value -> printString(value.getScript()));
+        printString("");
         return textIO.newStringInputReader()
                 .withDefaultValue("list")
                 .read("Command");
@@ -30,10 +27,10 @@ public class Console implements Input, Output<Voucher> {
 
     @Override
     public Voucher getVoucher() {
-        textIO.getTextTerminal().println("=================== Create Voucher ===================");
-        textIO.getTextTerminal().println("Type **percent** to create a percent discount voucher.");
-        textIO.getTextTerminal().println("Type **fixed** to create a fixed amount voucher.");
-        textIO.getTextTerminal().println();
+        printString("=================== Create Voucher ===================");
+        printString("Type **percent** to create a percent discount voucher.");
+        printString("Type **fixed** to create a fixed amount voucher.");
+        printString("");
 
         String command = textIO.newStringInputReader()
                 .withDefaultValue("fixed")
@@ -59,24 +56,24 @@ public class Console implements Input, Output<Voucher> {
     @Override
     public void printListCustomer(List<Customer> list) {
         for (Customer customer : list) {
-            textIO.getTextTerminal().println(customer.toString());
+            printString(customer.toString());
         }
     }
 
     @Override
     public void printListVoucher(List<Voucher> list) {
         if (list.isEmpty()) {
-            textIO.getTextTerminal().println("저장된 데이터가 없습니다.");
+            printString("저장된 데이터가 없습니다.");
         } else {
             for (Voucher voucher : list) {
-                textIO.getTextTerminal().println(voucher.toString());
+                printString(voucher.toString());
             }
         }
     }
 
     @Override
     public void printOneVoucher(Voucher voucher) {
-        textIO.getTextTerminal().println("CREATE >> " + voucher.toString());
+        printString("CREATE >> " + voucher.toString());
     }
 
     @Override

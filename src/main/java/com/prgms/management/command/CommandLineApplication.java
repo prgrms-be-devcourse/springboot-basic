@@ -26,8 +26,12 @@ public class CommandLineApplication implements Runnable {
     public void run() {
         while (true) {
             try {
-                String command = console.getCommand();
-                CommandType.of(command).execute(voucherService, customerService, console);
+                CommandType command = CommandType.of(console.getCommand());
+                if (command == null) {
+                    console.printString("잘못된 명령어를 입력하셨습니다.");
+                } else {
+                    command.execute(voucherService, customerService, console);
+                }
             } catch (Exception e) {
                 console.printString(e.getMessage());
                 logger.error(e.getMessage());
