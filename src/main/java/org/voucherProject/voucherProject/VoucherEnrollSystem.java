@@ -40,8 +40,8 @@ public class VoucherEnrollSystem implements Runnable {
     }
 
     protected void validateInput(String inputString) {
-        boolean validateInputString = Arrays.stream(InputCommend.values()).map(String::valueOf).anyMatch(v -> v.equals(inputString.toUpperCase()));
-        if (!validateInputString) {
+        boolean validInputString = Arrays.stream(InputCommend.values()).map(String::valueOf).anyMatch(v -> v.equals(inputString.toUpperCase()));
+        if (!validInputString) {
             throw new IllegalArgumentException();
         }
     }
