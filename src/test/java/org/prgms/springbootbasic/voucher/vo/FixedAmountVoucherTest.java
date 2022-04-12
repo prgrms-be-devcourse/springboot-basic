@@ -8,19 +8,36 @@ import org.junit.jupiter.api.Test;
 
 class FixedAmountVoucherTest {
 
-	@DisplayName("FixedAmountVoucher 생성 테스트")
+	@DisplayName("FixedAmountVoucher 생성 성공 테스트")
 	@Test
 	void FixedAmountVoucher_create_test() {
 		// 생성 성공 테스트
 		Voucher voucher = new FixedAmountVoucher(2000L);
 		assertNotNull(voucher.getVoucherId());
 
-		// 생성 실패 테스트
-		// Null은 생성자가 하나이므로 컴파일 타임에 체크?
-		// 할인 금액이 음수이면 안됨
+		Voucher voucher1 = new FixedAmountVoucher(2000L);
+		assertNotNull(voucher1.getVoucherId());
+
+	}
+
+	@DisplayName("discountAmount(할인금액)은 0원에서 1000만원의 범위를 가진다..")
+	@Test
+	void discountAmount_must_be_positive() {
+		// 음수 체크
 		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(-100L));
-		// 할인 금액의 최소 단위는 10원 이어야 함
-		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(-1L));
+		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(-1000000L));
+
+		// 1000만원 이상 체크
+		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(10_000_001L));
+		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(20_000_000L));
+	}
+
+	@DisplayName("discountAmount(할인금액)의 최소 단위는 100원이다")
+	@Test
+	void name() {
+		assertDoesNotThrow(() -> new FixedAmountVoucher(100L));
+		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(11L));
+		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(3050L));
 
 	}
 

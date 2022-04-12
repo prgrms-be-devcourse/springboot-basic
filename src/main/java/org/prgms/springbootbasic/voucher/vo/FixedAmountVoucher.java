@@ -12,10 +12,10 @@ public class FixedAmountVoucher implements Voucher {
 	private final long discountAmount;
 
 	public FixedAmountVoucher(long discountAmount) {
-		checkArgument(discountAmount >= 0,
+		checkArgument(discountAmount >= 0 && discountAmount <= 10_000_000,
 			MessageFormat.format("discountAmount는 음수이면 안됩니다. discountAmount = {0}", discountAmount));
-		checkArgument(discountAmount % 10 == 0,
-			MessageFormat.format("discountAmount의 최소 단위는 10원 이어야 합니다. discountAmount = {0}", discountAmount));
+		checkArgument(discountAmount % 100 == 0,
+			MessageFormat.format("discountAmount의 최소 단위는 100원 이어야 합니다. discountAmount = {0}", discountAmount));
 
 		this.discountAmount = discountAmount;
 	}
