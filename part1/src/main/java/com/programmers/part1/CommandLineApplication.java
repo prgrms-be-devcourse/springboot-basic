@@ -1,6 +1,7 @@
 package com.programmers.part1;
 
 
+import com.programmers.part1.ui.Client;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
