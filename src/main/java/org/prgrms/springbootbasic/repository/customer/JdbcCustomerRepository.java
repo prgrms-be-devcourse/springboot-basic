@@ -15,6 +15,7 @@ public class JdbcCustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 
     private final String SELECT_ALL_SQL = "select * from customers";
+    private final String INSERT_SQL = "insert into customers(customer_id, name, email) values(UUID_TO_BIN(?), ?, ?)";
 
     public static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
@@ -36,10 +37,26 @@ public class JdbcCustomerRepository {
                 var email = resultSet.getString("email");
                 customers.add(new Customer(customerId, name, email));
             }
-        } catch (SQLException e) {
-            logger.error("error in findAll()", e);
+        } catch (SQLException throwables) {
+            logger.error("error in findAll()", throwables);
         }
         return customers;
+    }
+
+    public UUID save(Customer customer) {
+        try (
+            var connection = DriverManager.getConnection("jdbc:mysql://localhost/springboot_basic",
+                "hyuk", "hyuk1234!");
+            var statement = connection.prepareStatement(INSERT_SQL);
+        ) {
+            statement.setBytes(1, customer.getCustomerId().toString().getBytes());
+            statement.setString(2, customer.getName());
+            statement.setString(3, customer.getEmail());
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            logger.error("error in save()", throwables);
+        }
+        return customer.getCustomerId();
     }
 
 }
