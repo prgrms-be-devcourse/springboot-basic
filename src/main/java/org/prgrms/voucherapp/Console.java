@@ -21,7 +21,7 @@ public class Console implements Input, Output {
         System.out.println(prompt);
         return Command
                 .getMenu(scanner.nextLine())
-                .orElseThrow(() -> (new WrongInputException("존재하지 않는 메뉴입니다.")));
+                .orElseThrow(() -> (new WrongInputException("존재하지 않는 명령어를 입력하였습니다.")));
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Console implements Input, Output {
         System.out.println(prompt);
         return VoucherType
                 .getType(scanner.nextLine())
-                .orElseThrow(() -> (new WrongInputException("존재하지 않는 바우처 타입입니다.")));
+                .orElseThrow(() -> (new WrongInputException("존재하지 않는 바우처 타입을 입력하였습니다.")));
     }
 
     @Override
@@ -39,9 +39,9 @@ public class Console implements Input, Output {
         try {
             discountAmount = scanner.nextLong();
             if (discountAmount <= 0 || discountAmount > voucherType.getMaxDiscountAmount())
-                throw new WrongAmountException("잘못된 할인 금액입니다.");
+                throw new WrongAmountException("잘못된 할인 금액을 입력하였습니다.");
         } catch (InputMismatchException e) {
-            throw new WrongInputException("정수를 입력해주세요.");
+            throw new WrongInputException("양식에 맞지 않는 할인 금액을 입력하였습니다. 정수를 입력해주세요.");
         } finally {
             scanner.nextLine(); //버퍼비우기
         }
