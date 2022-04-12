@@ -30,7 +30,7 @@ public class VoucherService {
         return voucherRepository.insert(voucher);
     }
 
-    public String printVoucherList(){
+    public String getVoucherListByStr(){
         StringBuilder sb = new StringBuilder();
         for(Voucher voucher : voucherRepository.getVoucherAll()){
             sb.append(voucher.toString()).append("\n");

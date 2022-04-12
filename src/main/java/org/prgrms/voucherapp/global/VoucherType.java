@@ -37,5 +37,7 @@ public enum VoucherType {
                 .findFirst();
     }
 
-
+    public String getOption() {
+        return option;
+    }
 }
