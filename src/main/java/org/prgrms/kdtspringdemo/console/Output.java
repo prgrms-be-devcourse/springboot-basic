@@ -1,7 +1,6 @@
 package org.prgrms.kdtspringdemo.console;
 
 public class Output {
-
     public String initMessage() {
         String message = "=== Voucher Program ===\n" +
                 "Type exit to exit the program.\n" +

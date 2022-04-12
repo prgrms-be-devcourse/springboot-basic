@@ -4,8 +4,6 @@ import org.prgrms.kdtspringdemo.console.Input;
 import org.prgrms.kdtspringdemo.console.Menu;
 import org.prgrms.kdtspringdemo.console.Output;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
-import org.prgrms.kdtspringdemo.voucher.storage.VoucherMemoryStorage;
-import org.prgrms.kdtspringdemo.voucher.storage.VoucherStorage;
 import org.prgrms.kdtspringdemo.voucher.voucherdetail.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

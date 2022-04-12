@@ -13,4 +13,5 @@ public interface VoucherStorage {
 
     Map<UUID, Voucher> getStorage();
 
+
 }
