@@ -18,8 +18,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(String inputVoucherType, String inputAmount) {
-        VoucherType voucherType = VoucherType.of(inputVoucherType);
-        Voucher voucher = voucherType.createVoucher(voucherType.toLong(inputAmount));
+        Voucher voucher = VoucherType.of(inputVoucherType).createVoucher(inputAmount);
         return voucherRepository.insert(voucher);
     }
 

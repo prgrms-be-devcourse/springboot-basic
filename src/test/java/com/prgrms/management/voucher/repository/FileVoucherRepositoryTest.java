@@ -6,9 +6,14 @@ import com.prgrms.management.voucher.domain.Voucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 class FileVoucherRepositoryTest {
 
     FileVoucherRepository voucherRepository = new FileVoucherRepository();
+
+    FileVoucherRepositoryTest() throws IOException {
+    }
 
     @Test
     void Voucher_File에_저장() {

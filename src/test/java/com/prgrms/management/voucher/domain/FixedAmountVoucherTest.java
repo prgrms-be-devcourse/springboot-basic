@@ -1,13 +1,21 @@
 package com.prgrms.management.voucher.domain;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class FixedAmountVoucherTest {
+
+    @BeforeEach
+    void setUp() {
+        //given
+        final long inputAmount = 1000L;
+        //when
+        FixedAmountVoucher voucher =new  FixedAmountVoucher(inputAmount);
+    }
 
     @Test
     void Fixed_Voucher_주입() {

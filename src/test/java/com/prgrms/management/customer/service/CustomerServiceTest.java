@@ -32,7 +32,6 @@ class CustomerServiceTest {
         //given
         Customer customerOne = new Customer(CustomerType.BLACKLIST);
         Customer customerTwo = new Customer(CustomerType.BLACKLIST);
-        Customer customerThree = new Customer(CustomerType.NORMAL);
         List<Customer> customerList = Arrays.asList(customerOne,customerTwo);
         //즉시 인스턴스 객체 반환
         when(customerRepository.findBlackList()).thenReturn(customerList);

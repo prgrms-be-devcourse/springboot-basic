@@ -10,18 +10,30 @@ import java.util.NoSuchElementException;
 class CommandTest {
 
     @Test
-    void Command_입력() {
+    void CREATE_Command_입력() {
         //given
         String inputCommand = "create";
-        String inputCommandTwo = "list";
-        String inputCommandThree = "blacklist";
         //when
         Command command = Command.of(inputCommand);
-        Command commandTwo = Command.of(inputCommandTwo);
-        Command commandThree = Command.of(inputCommandThree);
         //then
         Assertions.assertThat(command).isEqualTo(Command.CREATE);
-        Assertions.assertThat(commandTwo).isEqualTo(Command.LIST);
+    }
+    @Test
+    void LIST_Command_입력() {
+        //given
+        String inputCommand = "list";
+        //when
+        Command command = Command.of(inputCommand);
+        //then
+        Assertions.assertThat(command).isEqualTo(Command.LIST);
+    }
+    @Test
+    void BLACKLIST_Command_입력() {
+        //given
+        String inputCommandThree = "blacklist";
+        //when
+        Command commandThree = Command.of(inputCommandThree);
+        //then
         Assertions.assertThat(commandThree).isEqualTo(Command.BLACKLIST);
     }
 

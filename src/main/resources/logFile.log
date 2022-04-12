@@ -1,1 +1,0 @@
-23:50:06.826 [main] WARN c.p.m.command.service.CommandService - class java.lang.NullPointerException:null

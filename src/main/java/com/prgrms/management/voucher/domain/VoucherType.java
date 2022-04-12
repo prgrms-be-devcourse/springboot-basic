@@ -1,5 +1,7 @@
 package com.prgrms.management.voucher.domain;
 
+import com.prgrms.management.config.ErrorMessage;
+
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
@@ -18,19 +20,16 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(e -> e.name().equals(input.toUpperCase()))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException(VoucherType.class + ":잘못된 입력 값입니다."));
+                .orElseThrow(() -> new NoSuchElementException(VoucherType.class + ErrorMessage.NOT_VOUCHER_TYPE.getMessage()));
     }
-
-
-    public static long toLong(String amount) {
+    
+    public Voucher createVoucher(String inputAmount) {
+        long amount;
         try {
-            return Long.parseLong(amount);
+            amount = Long.parseLong(inputAmount);
         } catch (NumberFormatException e) {
-            throw new NumberFormatException(VoucherType.class + ":올바른 숫자 형식이 아닙니다.");
+            throw new NumberFormatException(VoucherType.class + ErrorMessage.INCORRECT_NUMBER_FORMAT.getMessage());
         }
-    }
-
-    public Voucher createVoucher(Long amount) {
         return voucher.apply(amount);
     }
 }

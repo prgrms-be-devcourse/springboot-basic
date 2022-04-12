@@ -1,6 +1,6 @@
 package com.prgrms.management.voucher.repository;
 
-import com.prgrms.management.customer.repository.FileCustomerRepository;
+import com.prgrms.management.config.ErrorMessage;
 import com.prgrms.management.voucher.domain.FixedAmountVoucher;
 import com.prgrms.management.voucher.domain.PercentAmountVoucher;
 import com.prgrms.management.voucher.domain.Voucher;
@@ -18,17 +18,23 @@ import java.util.UUID;
 @Repository
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
-    private final String VOUCHER_FILE_NAME = "src/main/resources/voucher.csv";
+    private static final String VOUCHER_FILE_NAME = "src/main/resources/voucher.csv";
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private final BufferedWriter writer;
+    private final BufferedReader reader;
+
+    public FileVoucherRepository() throws IOException {
+        this.writer = new BufferedWriter(new FileWriter(VOUCHER_FILE_NAME, true));
+        this.reader = new BufferedReader(new FileReader(VOUCHER_FILE_NAME));
+    }
 
     @Override
     public Voucher insert(Voucher voucher) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(VOUCHER_FILE_NAME, true))) {
             bufferedWriter.write(voucher.getVoucherId() + "," + voucher.getAmount() + "," + voucher.getVoucherType());
             bufferedWriter.newLine();
-            bufferedWriter.flush();
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.warn("{}:{}",e.getClass(), ErrorMessage.IO_EXCEPTION.getMessage());
         }
         return voucher;
     }
@@ -48,7 +54,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     voucherList.add(new PercentAmountVoucher(UUID.fromString(voucherInfo[0]), Long.parseLong(voucherInfo[1])));
             }
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.warn("{}:{}",e.getClass(), ErrorMessage.IO_EXCEPTION.getMessage());
         }
         return voucherList;
     }

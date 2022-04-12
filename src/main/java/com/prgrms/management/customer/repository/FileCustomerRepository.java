@@ -1,6 +1,6 @@
 package com.prgrms.management.customer.repository;
 
-import com.prgrms.management.command.service.CommandService;
+import com.prgrms.management.config.ErrorMessage;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerType;
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Profile({"local","dev"})
+@Profile({"local", "dev"})
 public class FileCustomerRepository implements CustomerRepository {
     private final String BLACK_LIST_FILE_NAME = "src/main/resources/customer_blacklist.csv";
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
@@ -21,10 +21,12 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(BLACK_LIST_FILE_NAME, true))) {
-            bufferedWriter.write(customer.getCustomerId() + "," + customer.getCustomerType());
-            bufferedWriter.newLine();
+            if(customer.getCustomerType().equals(CustomerType.BLACKLIST)) {
+                bufferedWriter.write(customer.getCustomerId() + "," + customer.getCustomerType());
+                bufferedWriter.newLine();
+            }
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.warn("{}:{}",e.getClass(), ErrorMessage.IO_EXCEPTION.getMessage());
         }
         return customer;
     }
@@ -42,7 +44,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 if (type.equals(CustomerType.BLACKLIST)) blackCustomerList.add(new Customer(CustomerType.BLACKLIST));
             }
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.warn("{}:{}",e.getClass(), ErrorMessage.IO_EXCEPTION.getMessage());
         }
         return blackCustomerList;
     }
