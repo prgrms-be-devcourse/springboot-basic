@@ -65,7 +65,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printWrongInput(String input) {
+    public void printWrongInput() {
         changeColor(ERR_COLOR);
         textTerminal.println(WRONG_INPUT);
     }
@@ -89,4 +89,11 @@ public class Console implements Input, Output {
         repository.stream()
                 .forEach((voucher) -> textTerminal.println(voucher.toString()));
     }
+
+    @Override
+    public void printException(Exception e) {
+        changeColor(ERR_COLOR);
+        textTerminal.println(e.getMessage());
+    }
+
 }

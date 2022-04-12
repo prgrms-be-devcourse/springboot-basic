@@ -3,6 +3,7 @@ package com.mountain.voucherApp.repository;
 import com.mountain.voucherApp.voucher.PercentDiscountVoucher;
 import com.mountain.voucherApp.voucher.Voucher;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,7 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryVoucherRepositoryTest {
 
-    MemoryVoucherRepository voucherRepository = new MemoryVoucherRepository();
+    MemoryVoucherRepository voucherRepository;
+
+    @BeforeEach
+    void init() {
+        voucherRepository = new MemoryVoucherRepository();
+        voucherRepository.clear();
+    }
 
     @DisplayName("저장 테스트")
     @Test
@@ -33,12 +40,13 @@ class MemoryVoucherRepositoryTest {
     @Test
     public void findAllTest() throws Exception {
         //given
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             Voucher voucher = new PercentDiscountVoucher(i);
-            Voucher saved = voucherRepository.insert(voucher);
+            voucherRepository.insert(voucher);
         }
         //when
         List<Voucher> all = voucherRepository.findAll();
+        System.out.println(all);
         //then
         Assertions.assertEquals(10, all.size());
     }

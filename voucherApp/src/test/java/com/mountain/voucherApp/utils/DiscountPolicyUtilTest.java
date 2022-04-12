@@ -21,7 +21,7 @@ class DiscountPolicyUtilTest {
 
     @DisplayName("DiscountPolicy 객체를 기준으로 만든 Map 조회")
     @Test
-    public void testPolicyMap() throws Exception {
+    public void testPolicyMap() {
         //given
         Map<Integer, DiscountPolicy> discountPolicyMap = getDiscountPolicyMap();
         //when
@@ -35,7 +35,7 @@ class DiscountPolicyUtilTest {
 
     @DisplayName("Voucher_정보_잘_가져오는지_테스트_FIXED")
     @Test
-    public void fixedVoucherTest() throws Exception {
+    public void fixedVoucherTest() {
         //given
         int fixedSeq = 1;
         int amount = 3000;
@@ -48,7 +48,7 @@ class DiscountPolicyUtilTest {
 
     @DisplayName("Voucher_정보_잘_가져오는지_테스트_percent")
     @Test
-    public void percentVoucherTest() throws Exception {
+    public void percentVoucherTest() {
         //given
         int percentSeq = 2;
         int percentAmount = 15;

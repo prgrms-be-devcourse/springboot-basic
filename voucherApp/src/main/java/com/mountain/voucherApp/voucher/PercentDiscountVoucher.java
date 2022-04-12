@@ -6,15 +6,21 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long percent;
+    private static final long MAX_VOUCHER_AMOUNT = 100;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        if (percent <= 0)
+            throw new IllegalArgumentException("Amount should be positive");
+        if (percent > MAX_VOUCHER_AMOUNT)
+            throw new IllegalArgumentException("Amount should be less than " + MAX_VOUCHER_AMOUNT);
         this.voucherId = voucherId;
         this.percent = percent;
     }
 
     public PercentDiscountVoucher(long percent) {
-        this.voucherId = UUID.randomUUID();
-        this.percent = percent;
+        PercentDiscountVoucher instance = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+        this.voucherId = instance.getVoucherId();
+        this.percent = instance.getAmount();
     }
 
     @Override
@@ -24,7 +30,9 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        double discountAmount = Math.round(percent * 0.01 * beforeDiscount);
+        long result = beforeDiscount - (long)discountAmount;
+        return result;
     }
 
     @Override

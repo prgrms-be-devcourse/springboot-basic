@@ -19,7 +19,7 @@ import java.util.UUID;
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     private final FileRepositoryProperties fileRepositoryProperties;
     private final File listFile;
@@ -66,7 +66,6 @@ public class FileVoucherRepository implements VoucherRepository {
                 String line = null;
                 while ((line = inFile.readLine()) != null) {
                     // TODO 하드코딩을 사용하지 않고 VOUCHER 인스턴스를 생성하고 List 추가하기.
-                    // System.out.print(line);
                     String[] data = line.split(",");
                     list.add(makeVoucher(data[0], Long.valueOf(data[1])));
                 }

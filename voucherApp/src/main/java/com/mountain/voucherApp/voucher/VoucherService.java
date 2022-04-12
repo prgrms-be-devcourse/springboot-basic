@@ -17,9 +17,10 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(int seq, long amount) {
+    public Voucher createVoucher(int seq, long amount) {
         Voucher voucher = DiscountPolicyUtil.getVoucher(seq, amount);
         voucherRepository.insert(voucher);
+        return voucher;
     }
 
     public List<Voucher> findAll() {

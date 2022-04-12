@@ -10,9 +10,9 @@ public enum DiscountPolicy {
     FIXED(1, "고정 할인", (amount) -> new FixedAmountVoucher(amount)),
     PERCENT(2, "비율 할인", (amount) -> new PercentDiscountVoucher(amount));
 
-    int ordinal;
-    String description;
-    Function<Long, Voucher> function;
+    private final int ordinal;
+    private final String description;
+    private final Function<Long, Voucher> function;
 
     DiscountPolicy(int ordinal, String description, Function<Long, Voucher> function) {
         this.ordinal = ordinal;

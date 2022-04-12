@@ -12,16 +12,19 @@ class BlackListServiceTest {
 
     BlackListService blackListService = new BlackListService();
 
-    @Description("csv파일_읽기_테스트_콘솔출력_확인")
+    @Description("csv파일_읽기_테스트")
     @Test
     public void readCsvFileTest() throws Exception {
         //given
         blackListService.postConstruct();
         //when
-        List<List<String>> lists = blackListService.readCSVFile();
+        List<BlackListFileFormat> list = blackListService.readCSVFile();
         //then
-        lists.stream()
+        list.stream()
                 .forEach(System.out::println);
+
+        Assertions.assertEquals(6, list.size());
+        Assertions.assertEquals("UUID1", list.get(0).getId());
     }
 
 }

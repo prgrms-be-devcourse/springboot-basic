@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface Output {
     void printManual();
-    void printWrongInput(String input);
+    void printWrongInput();
     void choiceDiscountPolicy();
     void printAmount();
     void printAllList(List<Voucher> repository);
+    void printException(Exception e);
 }

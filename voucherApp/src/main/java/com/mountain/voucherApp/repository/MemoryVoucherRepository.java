@@ -15,22 +15,26 @@ import java.util.stream.Collectors;
 @Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
 
-   private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
-   public Optional<Voucher> findById(UUID voucherId) {
-       return Optional.ofNullable(storage.get(voucherId));
-   }
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(storage.get(voucherId));
+    }
 
-   @Override
-   public List<Voucher> findAll() {
-      return storage.values()
-              .stream()
-              .collect(Collectors.toList());
-   }
+    @Override
+    public List<Voucher> findAll() {
+        return storage.values()
+                .stream()
+                .collect(Collectors.toList());
+    }
 
-   @Override
+    @Override
     public Voucher insert(Voucher voucher) {
-       storage.put(voucher.getVoucherId(), voucher);
-       return voucher;
-   }
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    public void clear() {
+        storage.clear();
+    }
 }
