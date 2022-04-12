@@ -3,7 +3,7 @@ package kdt.vouchermanagement;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class ConsoleControllerTest {
+public class VoucherConsoleControllerTest {
 
     @Test
     @DisplayName("입력된 메뉴가 공백이면_실패")
@@ -62,12 +62,6 @@ public class ConsoleControllerTest {
     @Test
     @DisplayName("바우처 목록 조회 요청_성공")
     void Request_to_find_vouchers() {
-
-    }
-
-    @Test
-    @DisplayName("블랙 리스트 멤버 조회 요청_성공")
-    void Request_to_find_black_customers() {
 
     }
 }

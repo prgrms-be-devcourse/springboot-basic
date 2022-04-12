@@ -3,7 +3,7 @@ package kdt.vouchermanagement;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class InputTest {
+public class ConsoleTest {
 
     @Test
     @DisplayName("콘솔 메뉴 입력_성공")
