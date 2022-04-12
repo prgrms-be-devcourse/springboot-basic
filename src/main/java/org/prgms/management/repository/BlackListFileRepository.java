@@ -4,9 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
@@ -19,25 +23,25 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile({"local-file", "default"})
 public class BlackListFileRepository implements BlackListRepository {
     @Value("${filedb.blacklist}")
-    private String filePath;
-
+    private Resource resource;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private File file;
 
     @Override
     public Map<UUID, String> getAll() {
         try {
-            file = new ClassPathResource(filePath).getFile();
-            file.createNewFile();
-            List<String> lines = Files.readAllLines(Path.of(file.getPath()));
+            InputStream inputStream = resource.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             Map<UUID, String> map = new ConcurrentHashMap<>();
 
-            for (String line : lines) {
-                String[] str = line.split(",");
-                UUID uuid = UUID.fromString(str[0]);
-                String username = str[1];
-                map.put(uuid, filePath);
-            }
+            bufferedReader.lines().forEach(
+                    line -> {
+                        String[] str = line.split(",");
+                        UUID uuid = UUID.fromString(str[0]);
+                        String username = str[1];
+                        map.put(uuid, username);
+                    }
+            );
+
             return map;
         } catch (Throwable e) {
             logger.error(MessageFormat.format

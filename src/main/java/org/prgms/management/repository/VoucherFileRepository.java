@@ -67,6 +67,7 @@ public class VoucherFileRepository implements VoucherRepository {
                         map.put(uuid, voucher);
                     }
             );
+
             return map;
         } catch (Throwable e) {
             logger.error(MessageFormat.format
