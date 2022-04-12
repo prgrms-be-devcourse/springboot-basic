@@ -42,8 +42,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private Optional<Voucher> writeDataToFile(Voucher voucher) {
         Resource resource = resourceLoader.getResource(filePath);
-        try {
-            FileOutputStream fileOut = new FileOutputStream(resource.getFile(), true);
+        try (FileOutputStream fileOut = new FileOutputStream(resource.getFile(), true)){
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(voucher);
         } catch (IOException e) {
@@ -57,8 +56,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private List<Voucher> readAllDataFromFile() {
         List<Voucher> voucherList = new ArrayList<>();
         Resource resource = resourceLoader.getResource(filePath);
-        try {
-            FileInputStream fileInputStream = new FileInputStream(resource.getFile());
+        try (FileInputStream fileInputStream = new FileInputStream(resource.getFile());) {
             while (Objects.requireNonNull(fileInputStream).available() > 0) {
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream); // 스트림 헤더 객체마다 갱신
                 Voucher voucher = (Voucher) objectInputStream.readObject();
