@@ -1,9 +1,9 @@
 package com.prgms.management.command.exception;
 
-public class CommandLineException extends Exception{
-    private static final long serialVersionUID = 4534666096718341325L;
+public class CommandLineException extends RuntimeException {
+    private static final String DEFAULT_MESSAGE = "잘못된 입력입니다.";
 
     public CommandLineException() {
-        super("잘못된 입력입니다.");
+        super(DEFAULT_MESSAGE);
     }
 }

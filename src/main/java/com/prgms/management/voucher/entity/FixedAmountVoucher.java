@@ -5,16 +5,16 @@ import com.prgms.management.voucher.exception.InvalidVoucherParameterException;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
-    public final static Long MAX_AMOUNT = 10000L;
-    public final static Long MIN_AMOUNT = 0L;
-    private final Long amount;
+    public final static Integer MAX_AMOUNT = 10000;
+    public final static Integer MIN_AMOUNT = 0;
+    private final Integer amount;
     private UUID voucherId;
 
-    public FixedAmountVoucher(Long amount) {
+    public FixedAmountVoucher(Integer amount) {
         this(UUID.randomUUID(), amount);
     }
 
-    public FixedAmountVoucher(UUID voucherId, Long amount) {
+    public FixedAmountVoucher(UUID voucherId, Integer amount) {
         if (amount <= MIN_AMOUNT || amount > MAX_AMOUNT) {
             throw new InvalidVoucherParameterException(MIN_AMOUNT + "과 " + MAX_AMOUNT + "사이의 값을 입력해주세요.");
         }

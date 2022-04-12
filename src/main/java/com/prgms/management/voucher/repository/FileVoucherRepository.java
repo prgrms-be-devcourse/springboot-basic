@@ -38,7 +38,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     if (array[0].equals(PercentDiscountVoucher.class.getCanonicalName())) {
                         return new PercentDiscountVoucher(UUID.fromString(array[1]), Integer.parseInt(array[2]));
                     } else if (array[0].equals(FixedAmountVoucher.class.getCanonicalName())) {
-                        return new FixedAmountVoucher(UUID.fromString(array[1]), Long.parseLong(array[2]));
+                        return new FixedAmountVoucher(UUID.fromString(array[1]), Integer.parseInt(array[2]));
                     }
                 }
             }
@@ -58,7 +58,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 if (array[0].equals(PercentDiscountVoucher.class.getCanonicalName())) {
                     vouchers.add(new PercentDiscountVoucher(UUID.fromString(array[1]), Integer.parseInt(array[2])));
                 } else if (array[0].equals(FixedAmountVoucher.class.getCanonicalName())) {
-                    vouchers.add(new FixedAmountVoucher(UUID.fromString(array[1]), Long.parseLong(array[2])));
+                    vouchers.add(new FixedAmountVoucher(UUID.fromString(array[1]), Integer.parseInt(array[2])));
                 } else {
                     throw new VoucherNotFoundException();
                 }

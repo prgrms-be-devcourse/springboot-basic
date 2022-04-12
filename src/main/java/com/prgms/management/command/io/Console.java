@@ -1,9 +1,10 @@
 package com.prgms.management.command.io;
 
+import com.prgms.management.command.exception.CommandLineException;
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.voucher.entity.FixedAmountVoucher;
-import com.prgms.management.voucher.entity.PercentDiscountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
+import com.prgms.management.voucher.entity.VoucherType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
@@ -28,29 +29,25 @@ public class Console implements Input, Output<Voucher> {
     @Override
     public Voucher getVoucher() {
         printString("=================== Create Voucher ===================");
-        printString("Type **percent** to create a percent discount voucher.");
-        printString("Type **fixed** to create a fixed amount voucher.");
+        Arrays.stream(VoucherType.values()).forEach(value -> printString(value.getScript()));
         printString("");
 
         String command = textIO.newStringInputReader()
                 .withDefaultValue("fixed")
-                .read("Voucher type");
-        switch (command.toLowerCase()) {
-            case "fixed":
-                Long amount = textIO.newLongInputReader()
-                        .withMinVal(FixedAmountVoucher.MIN_AMOUNT)
-                        .withMaxVal(FixedAmountVoucher.MAX_AMOUNT)
-                        .read("Amount");
-                return new FixedAmountVoucher(amount);
-            case "percent":
-                Integer percent = textIO.newIntInputReader()
-                        .withMinVal(PercentDiscountVoucher.MIN_PERCENT)
-                        .withMaxVal(PercentDiscountVoucher.MAX_PERCENT)
-                        .read("Percent");
-                return new PercentDiscountVoucher(percent);
-            default:
-                return null;
+                .read("Voucher type").toLowerCase();
+
+        VoucherType voucherType = VoucherType.of(command);
+
+        if (voucherType == null) {
+            throw new CommandLineException();
         }
+
+        Integer paramNum = textIO.newIntInputReader()
+                .withMinVal(FixedAmountVoucher.MIN_AMOUNT)
+                .withMaxVal(FixedAmountVoucher.MAX_AMOUNT)
+                .read(voucherType.getNextCommand());
+
+        return voucherType.createVoucher(paramNum);
     }
 
     @Override
