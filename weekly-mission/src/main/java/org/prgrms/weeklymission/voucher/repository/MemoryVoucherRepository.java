@@ -13,13 +13,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new HashMap<>();
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(storage.get(voucherId));
+    public void save(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
-    public void save(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
@@ -28,7 +28,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int getStorageSize() {
+    public int countStorageSize() {
         return storage.size();
     }
 

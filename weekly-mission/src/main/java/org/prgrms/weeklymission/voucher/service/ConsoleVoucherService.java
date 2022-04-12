@@ -28,12 +28,6 @@ public class ConsoleVoucherService implements VoucherService {
         this.console = console;
     }
 
-    @Override
-    public Voucher findVoucherById(UUID voucherId) {
-        return repository.findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(NO_VOUCHER.getMessage()));
-    }
-
     public Voucher createVoucher(String option, String discount) throws RuntimeException {
         checkOptionValueAndDoAction(option, discount);
 
@@ -43,10 +37,14 @@ public class ConsoleVoucherService implements VoucherService {
     }
 
     @Override
-    public void printAllVouchers() throws RuntimeException {
-        StringBuilder sb = new StringBuilder();
-        searchAllVouchers().forEach(v -> sb.append(v.toString()).append("\n"));
-        console.printData(sb.toString());
+    public Voucher findVoucherById(UUID voucherId) {
+        return repository.findById(voucherId)
+                .orElseThrow(() -> new RuntimeException(NO_VOUCHER.getMessage()));
+    }
+
+    @Override
+    public List<Voucher> searchAllVouchers() throws RuntimeException {
+        return checkVouchersAndReturn();
     }
 
     @Override
@@ -58,13 +56,15 @@ public class ConsoleVoucherService implements VoucherService {
     }
 
     @Override
-    public void clearRepo() {
-        repository.clear();
+    public void printAllVouchers() throws RuntimeException {
+        StringBuilder sb = new StringBuilder();
+        searchAllVouchers().forEach(v -> sb.append(v.toString()).append("\n"));
+        console.printData(sb.toString());
     }
 
     @Override
-    public List<Voucher> searchAllVouchers() throws RuntimeException {
-        return checkVouchersAndReturn();
+    public void clearRepo() {
+        repository.clear();
     }
 
     private void checkOptionValueAndDoAction(String option, String discount) throws RuntimeException {

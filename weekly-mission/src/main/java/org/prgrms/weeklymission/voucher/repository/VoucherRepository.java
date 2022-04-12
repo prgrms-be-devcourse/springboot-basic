@@ -7,9 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
-    Optional<Voucher> findById(UUID voucherId);
     void save(Voucher voucher);
+    Optional<Voucher> findById(UUID voucherId);
     List<Voucher> findAll();
-    int getStorageSize();
+    int countStorageSize();
     void clear();
 }

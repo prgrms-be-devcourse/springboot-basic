@@ -53,13 +53,8 @@ public class BlackCustomerRepository implements CustomerRepository {
         return customers;
     }
 
-    private void fileReadAndAddCustomer(String fileCustomer) {
-        String customerId = fileCustomer.split(" ")[3];
-        customers.add(storage.get(customerId));
-    }
-
     @Override
-    public int getStorageSize() {
+    public int countStorageSize() {
         return storage.size();
     }
 
@@ -68,5 +63,10 @@ public class BlackCustomerRepository implements CustomerRepository {
         file.delete();
         storage.clear();
         customers.clear();
+    }
+
+    private void fileReadAndAddCustomer(String fileCustomer) {
+        String customerId = fileCustomer.split(" ")[3];
+        customers.add(storage.get(customerId));
     }
 }

@@ -4,6 +4,7 @@ public enum CustomerType {
     BLACK("black"), NORMAL("normal");
 
     private final String value;
+
     CustomerType(String value) {
         this.value = value;
     }

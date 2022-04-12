@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface VoucherService {
-    Voucher findVoucherById(UUID voucherId);
     Voucher createVoucher(String option, String discount);
+    Voucher findVoucherById(UUID voucherId);
     List<Voucher> searchAllVouchers();
     void printAllVouchers();
     void printCreateVoucher();

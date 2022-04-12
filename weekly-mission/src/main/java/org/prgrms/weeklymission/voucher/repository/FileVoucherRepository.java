@@ -25,11 +25,6 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(storage.get(voucherId.toString()));
-    }
-
-    @Override
     public void save(Voucher voucher) {
         String template = voucher.toString() + "\n";
         try {
@@ -39,6 +34,11 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             log.error("IOException: {}", e.getMessage());
         }
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(storage.get(voucherId.toString()));
     }
 
     @Override
@@ -55,13 +55,8 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
-    private void fileReadAndAddVoucher(String fileVoucher) {
-        String voucherId = fileVoucher.split(" ")[3];
-        vouchers.add(storage.get(voucherId));
-    }
-
     @Override
-    public int getStorageSize() {
+    public int countStorageSize() {
         return storage.size();
     }
 
@@ -70,5 +65,10 @@ public class FileVoucherRepository implements VoucherRepository {
         file.delete();
         storage.clear();
         vouchers.clear();
+    }
+
+    private void fileReadAndAddVoucher(String fileVoucher) {
+        String voucherId = fileVoucher.split(" ")[3];
+        vouchers.add(storage.get(voucherId));
     }
 }

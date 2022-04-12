@@ -25,9 +25,20 @@ public class BlackCustomerService {
         this.console = console;
     }
 
+    public Customer registerBlackCustomer(String customerId, String name) {
+        var blackCustomer = Customer.blackCustomer(customerId, name);
+        repository.save(blackCustomer);
+
+        return blackCustomer;
+    }
+
     public Customer findBlackCustomerById(String customerId) {
         return repository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException(NO_CUSTOMER.getMessage()));
+    }
+
+    public int countBlackCustomer() {
+        return repository.countStorageSize();
     }
 
     public void printCreateBlackCustomer() {
@@ -36,27 +47,15 @@ public class BlackCustomerService {
         console.saveSuccessMessage();
     }
 
-    public Customer registerBlackCustomer(String customerId, String name) {
-        var blackCustomer = Customer.blackCustomer(customerId, name);
-        repository.save(blackCustomer);
-
-        return blackCustomer;
-    }
-
     public void printAllBlackCustomers() throws RuntimeException {
         StringBuilder sb = new StringBuilder();
         checkCustomersAndReturn().forEach(c -> sb.append(c.toString()).append("\n"));
         console.printData(sb.toString());
     }
 
-    public int getBlackCustomerCount() {
-        return repository.getStorageSize();
-    }
-
     public void deleteData() {
         repository.clear();
     }
-
 
     private List<Customer> checkCustomersAndReturn() throws RuntimeException {
         List<Customer> blackCustomers = repository.findAll();
