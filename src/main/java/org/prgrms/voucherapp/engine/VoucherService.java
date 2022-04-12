@@ -26,11 +26,17 @@ public class VoucherService {
     public Voucher createVoucher(VoucherType type, UUID uuid, long amount){
         //TODO : validate amount
         //TODO : validate uuid
-        return VoucherType.createVoucher(type, uuid, amount);
+        Voucher voucher = VoucherType.createVoucher(type, uuid, amount);
+        return voucherRepository.insert(voucher);
     }
 
-    public ArrayList<Voucher> getVoucherAll(){
-
+    public String printVoucherList(){
+        StringBuilder sb = new StringBuilder();
+        for(Voucher voucher : voucherRepository.getVoucherAll()){
+            sb.append(voucher.toString()).append("\n");
+        }
+        sb.deleteCharAt(sb.lastIndexOf("\n"));
+        return sb.toString();
     }
 
 }
