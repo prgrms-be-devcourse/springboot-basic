@@ -7,9 +7,10 @@ public enum FilePath {
 
     private final String path;
 
-    private FilePath(String path) {
+    FilePath(String path) {
         this.path = path;
     }
+
     public String getPath() {
         return this.path;
     }

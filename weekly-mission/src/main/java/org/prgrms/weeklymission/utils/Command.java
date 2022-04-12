@@ -5,6 +5,7 @@ public enum Command {
     BLACK_REGISTER("register"), BLACK_LIST("blacks");
 
     private final String value;
+
     Command(String value) {
         this.value = value;
     }
