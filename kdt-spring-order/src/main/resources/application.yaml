@@ -4,7 +4,7 @@ spring:
 
 file:
   voucher:
-    path: "src/main/resources/file-voucher-list.csv"
+    path: "src/main/resources/csv/file-voucher-list.csv"
   member:
     blacklist:
-      path: "src/main/resources/customer-blacklist.csv"
+      path: "src/main/resources/csv/customer-blacklist.csv"
