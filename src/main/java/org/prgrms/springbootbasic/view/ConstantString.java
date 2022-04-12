@@ -19,6 +19,7 @@ public class ConstantString {
     public static final String TO_CREATE_A_NEW_CUSTOMER = " to create a new customer.";
     public static final String SELECT_CUSTOMER_NAME = "Select customer name";
     public static final String SELECT_CUSTOMER_EMAIL = "Select customer email";
+    public static final String TO_LIST_ALL_CUSTOMERS = " to list all customers.";
 
     //인스턴스 목적의 클래스가 아닙니다.
     private ConstantString() {

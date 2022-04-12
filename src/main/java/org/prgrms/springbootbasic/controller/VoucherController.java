@@ -69,4 +69,8 @@ public class VoucherController {
         var email = consoleView.selectEmail();
         customerService.createCustomer(name, email);
     }
+
+    public void printAllCustomers() {
+        consoleView.printAllCustomers(customerService.findAllCustomers());
+    }
 }

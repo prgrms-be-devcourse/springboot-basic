@@ -20,6 +20,10 @@ public enum Menu {
     CREATECUSTOMER("createCustomer", voucherController -> {
         voucherController.createCustomer();
         return true;
+    }),
+    LISTCUSTOMER("listCustomer", voucherController -> {
+        voucherController.printAllCustomers();
+        return true;
     });
 
     private final String textName;
