@@ -2,7 +2,6 @@ package org.prgms.springbootbasic.voucher.vo;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +21,7 @@ class FixedAmountVoucherTest {
 
 	@DisplayName("discountAmount(할인금액)은 0원에서 1000만원의 범위를 가진다..")
 	@Test
-	void discountAmount_must_be_positive() {
+	void discountAmount_must_be_between_0_10000000() {
 		// 음수 체크
 		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(-100L));
 		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(-1000000L));

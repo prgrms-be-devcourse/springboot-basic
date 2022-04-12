@@ -7,9 +7,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.prgms.springbootbasic.voucher.vo.Voucher;
+import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;
 
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 	private final Map<UUID, Voucher> memory = new ConcurrentHashMap<>();
 
@@ -20,17 +22,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	 * @return 저장된 Voucher
 	 */
 	@Override
-	public Voucher save(Voucher voucher) {
+	public UUID save(Voucher voucher) {
 		Preconditions.checkArgument(voucher != null, "voucher은 null이면 안됩니다!");
 
 		memory.put(voucher.getVoucherId(), voucher);
-		return voucher;
+		return voucher.getVoucherId();
 	}
 
 	/**
 	 * 저장된 Voucher들을 Voucher의 종류에 따라 조회하는 메서드
 	 *
-	 * @return Map<String, List<Voucher>>
+	 * @return Map<String, List < Voucher>>
 	 */
 	@Override
 	public Map<String, List<Voucher>> getVoucherListByType() {
@@ -42,6 +44,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	@Override
 	public int getTotalVoucherCount() {
 		return memory.size();
+	}
+
+	@Override
+	public Voucher findById(UUID voucherId) {
+		return memory.entrySet().stream()
+			.filter(e -> e.getKey().equals(voucherId))
+			.map(e -> e.getValue())
+			.findAny()
+			.orElseThrow(() -> new IllegalArgumentException());
 	}
 
 }
