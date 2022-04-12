@@ -5,7 +5,7 @@ import org.prgms.voucherProgram.entity.voucher.Voucher;
 import org.prgms.voucherProgram.entity.voucher.VoucherType;
 import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
 import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
-import org.prgms.voucherProgram.service.UserService;
+import org.prgms.voucherProgram.service.CustomerService;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
 import org.prgms.voucherProgram.view.InputView;
@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherProgram {
     private final VoucherService voucherService;
-    private final UserService userService;
+    private final CustomerService customerService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public VoucherProgram(VoucherService voucherService, UserService userService, Console console) {
+    public VoucherProgram(VoucherService voucherService, CustomerService customerService, Console console) {
         this.voucherService = voucherService;
-        this.userService = userService;
+        this.customerService = customerService;
         this.inputView = console;
         this.outputView = console;
     }
@@ -89,7 +89,7 @@ public class VoucherProgram {
 
     private void printBlackList() {
         try {
-            outputView.printUsers(userService.findBlackList());
+            outputView.printCustomers(customerService.findBlackList());
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
             System.exit(0);

@@ -2,7 +2,7 @@ package org.prgms.voucherProgram.view;
 
 import java.util.List;
 
-import org.prgms.voucherProgram.entity.user.User;
+import org.prgms.voucherProgram.entity.customer.Customer;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
 
 public interface OutputView {
@@ -11,7 +11,7 @@ public interface OutputView {
 
     void printVouchers(List<Voucher> vouchers);
 
-    void printUsers(List<User> users);
+    void printCustomers(List<Customer> users);
 
     void printError(String message);
 }

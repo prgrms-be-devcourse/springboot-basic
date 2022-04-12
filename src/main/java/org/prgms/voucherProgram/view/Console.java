@@ -3,7 +3,7 @@ package org.prgms.voucherProgram.view;
 import java.util.List;
 import java.util.Scanner;
 
-import org.prgms.voucherProgram.entity.user.User;
+import org.prgms.voucherProgram.entity.customer.Customer;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
 import org.prgms.voucherProgram.entity.voucher.VoucherType;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class Console implements InputView, OutputView {
     private static final String REQUEST_INPUT_DISCOUNT_AMOUNT = "\nInput voucher discount amount : ";
     private static final String REQUEST_INPUT_DISCOUNT_PERCENTAGE = "\nInput voucher discount percentage : ";
     private static final String EMPTY_VOUCHERS = "Empty Vouchers";
-    private static final String EMPTY_USERS = "Empty Users";
+    private static final String EMPTY_CUSTOMERS = "Empty Customers";
     private static final String ERROR_INPUT_NUMBER_TYPE = "[ERROR] 정수만 입력가능합니다.";
 
     private final Scanner scanner = new Scanner(System.in);
@@ -75,14 +75,14 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public void printUsers(List<User> users) {
+    public void printCustomers(List<Customer> users) {
         if (users.isEmpty()) {
-            System.out.printf("\n%s%n\n", EMPTY_USERS);
+            System.out.printf("\n%s%n\n", EMPTY_CUSTOMERS);
             return;
         }
 
         System.out.println();
-        for (User user : users) {
+        for (Customer user : users) {
             System.out.println(user);
         }
         System.out.println();
