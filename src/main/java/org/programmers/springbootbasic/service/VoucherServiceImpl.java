@@ -5,11 +5,12 @@ import org.programmers.springbootbasic.repository.VoucherRepository;
 import org.programmers.springbootbasic.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class VoucherServiceImpl implements VoucherService{
+public class VoucherServiceImpl implements VoucherService {
 
     private final VoucherRepository voucherRepository;
 
@@ -33,5 +34,10 @@ public class VoucherServiceImpl implements VoucherService{
     @Override
     public void useVoucher(UUID voucherId) {
         voucherRepository.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> getAllVouchers() {
+        return voucherRepository.findAll();
     }
 }

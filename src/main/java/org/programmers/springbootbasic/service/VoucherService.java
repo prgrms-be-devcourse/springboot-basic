@@ -2,6 +2,7 @@ package org.programmers.springbootbasic.service;
 
 import org.programmers.springbootbasic.voucher.Voucher;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface VoucherService {
@@ -10,4 +11,5 @@ public interface VoucherService {
     Voucher getVoucher(UUID voucherId);
     long applyVoucher(long beforeDiscount, Voucher voucher);
     void useVoucher(UUID voucherId);
+    List<Voucher> getAllVouchers();
 }

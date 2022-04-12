@@ -17,4 +17,9 @@ public class TestVoucher implements Voucher {
     public UUID getId() {
         return id;
     }
+
+    @Override
+    public long getAmount() {
+        return 0;
+    }
 }

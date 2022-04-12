@@ -19,8 +19,8 @@ class DrawerTest {
         Model model = new Model();
         model.addAttributes("userName1", "test user");
         model.addAttributes("userName2", "programmer who reading this");
-
+        ModelAndView modelAndView = new ModelAndView(model, "test-template.txt", ConsoleResponseCode.OK);
         Drawer drawer = new Drawer();
-        drawer.draw(model, "test-template.txt");
+        drawer.draw(modelAndView);
     }
 }

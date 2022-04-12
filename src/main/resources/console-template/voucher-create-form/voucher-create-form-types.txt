@@ -1,3 +1,0 @@
-=====Voucher Creation======
-Select type of voucher:
-${voucherTypes}

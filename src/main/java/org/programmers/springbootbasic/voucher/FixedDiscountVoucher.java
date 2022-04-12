@@ -20,4 +20,9 @@ public class FixedDiscountVoucher implements Voucher {
         return id;
     }
 
+    @Override
+    public long getAmount() {
+        return amount;
+    }
+
 }
