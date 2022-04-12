@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: dev
+
+file:
+  voucher:
+    path: "src/main/resources/file-voucher-list.csv"
+  member:
+    blacklist:
+      path: "src/main/resources/customer-blacklist.csv"
