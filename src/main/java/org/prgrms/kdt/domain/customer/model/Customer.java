@@ -1,12 +1,12 @@
-package org.prgrms.kdt.domain.member.model;
+package org.prgrms.kdt.domain.customer.model;
 
 import java.util.UUID;
 
-public class Member {
+public class Customer {
     private final UUID customerId;
     private final String name;
 
-    public Member(UUID customerId, String name) {
+    public Customer(UUID customerId, String name) {
         this.customerId = customerId;
         this.name = name;
     }
