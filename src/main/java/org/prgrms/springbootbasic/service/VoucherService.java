@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
-import org.prgrms.springbootbasic.repository.VoucherRepository;
+import org.prgrms.springbootbasic.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

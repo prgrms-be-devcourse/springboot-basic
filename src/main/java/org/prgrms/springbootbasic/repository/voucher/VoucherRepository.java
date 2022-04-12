@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.repository;
+package org.prgrms.springbootbasic.repository.voucher;
 
 import java.util.List;
 import org.prgrms.springbootbasic.entity.Voucher;

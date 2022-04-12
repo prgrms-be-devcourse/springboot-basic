@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
+import org.prgrms.springbootbasic.repository.voucher.FileVoucherRepository;
 
 class FileVoucherRepositoryTest {
 
