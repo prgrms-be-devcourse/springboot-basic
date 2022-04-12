@@ -37,6 +37,7 @@ public class VoucherService {
         for (Voucher voucher : voucherRepository.getVoucherAll()) {
             sb.append(voucher.toString()).append("\n");
         }
+        if(sb.isEmpty()) return "Voucher Repository is empty.";
         sb.deleteCharAt(sb.lastIndexOf("\n"));
         return sb.toString();
     }

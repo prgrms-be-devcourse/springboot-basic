@@ -36,7 +36,7 @@ public class Navigator implements Runnable {
                         logger.info("User chose create command.");
                         output.informVoucherTypeFormat();
                         VoucherType voucherType = input.voucherTypeInput("Type a voucher type's number : ");
-                        long discountAmount = input.discountAmountInput(voucherType, "Type discount amount(0 < x < %d) : ".formatted(voucherType.getMaxDiscountAmount()));
+                        long discountAmount = input.discountAmountInput(voucherType, "Type discount amount(0 < x <= %d) : ".formatted(voucherType.getMaxDiscountAmount()));
                         voucherService.createVoucher(voucherType, UUID.randomUUID(), discountAmount);
                         continue;
                     }
