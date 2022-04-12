@@ -11,8 +11,8 @@ public class PercentDiscountVoucher extends AbstractVoucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+    public Long discount(long beforeDiscount) {
+        return Math.round(beforeDiscount * (100 - percent) / 100.0);
     }
 
     @Override

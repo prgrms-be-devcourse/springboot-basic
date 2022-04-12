@@ -5,5 +5,5 @@ import java.util.UUID;
 public interface Voucher {
     UUID getVoucherId();
     VoucherType getVoucherType();
-    long discount(long beforeDiscount);
+    Long discount(long beforeDiscount);
 }

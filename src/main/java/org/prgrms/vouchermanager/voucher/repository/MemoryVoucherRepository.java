@@ -9,10 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("default")
-public class MemoryVoucherRepository implements VoucherRepository{
+public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-    // TODO: 아주 만약 UUID가 겹친다면 예외처리?
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -21,6 +20,8 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher insert(Voucher voucher) {
+        if (storage.getOrDefault(voucher.getVoucherId(), null) != null)
+            throw new IllegalArgumentException("이미 존재하는 voucherId 입니다.");
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }

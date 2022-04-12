@@ -8,18 +8,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class PercentDiscountVoucherTest {
 
     @Test
-    @DisplayName("할인 금액은 마이너스가 될 수 없다.")
-    void testWithMinus() {
-        assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(-100));
+    @DisplayName("퍼센트로 금액을 할인한다")
+    void testWithPercentDiscount() {
+        //given
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(10);
+
+        //when
+        long discounted = percentDiscountVoucher.discount(100);
+
+        //then
+        assertEquals(90, discounted);
+
     }
 
     @Test
-    @DisplayName("디스카운트 된 금액은 마이너스가 될 수 없다.")
-    void testMinusDiscountedAmount() {
-        PercentDiscountVoucher PercentDiscountVoucher = new PercentDiscountVoucher(1000L);
-        long discount = PercentDiscountVoucher.discount(100);
-
-        assertEquals(discount, 0);
+    @DisplayName("할인 금액은 마이너스가 될 수 없다.")
+    void testWithMinus() {
+        assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(-100));
     }
 
     @Test

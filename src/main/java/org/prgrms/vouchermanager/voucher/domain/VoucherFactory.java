@@ -10,7 +10,7 @@ public class VoucherFactory {
             case FIXED -> {return new FixedAmountVoucher(amount);}
             case PERCENT -> {return new PercentDiscountVoucher(amount);}
         }
-        return new FixedAmountVoucher(amount);
+        throw new IllegalArgumentException("잘못된 type 값 argument");
     }
 
 }
