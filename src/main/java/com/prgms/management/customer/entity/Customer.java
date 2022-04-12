@@ -8,15 +8,11 @@ public class Customer {
     private final String name;
 
     public Customer(String name) {
-        this.name = name;
-        this.type = CustomerType.WHITE;
-        this.customerId = UUID.randomUUID();
+        this(CustomerType.WHITE, name);
     }
 
     public Customer(CustomerType type, String name) {
-        this.type = type;
-        this.name = name;
-        this.customerId = UUID.randomUUID();
+        this(type, UUID.randomUUID(), name);
     }
 
     public Customer(CustomerType type, UUID customerId, String name) {
@@ -27,10 +23,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer {" +
-                "customerId=" + customerId +
-                ", name='" + name + '\'' +
-                '}';
+        return "Customer {" + "customerId=" + customerId + ", name='" + name + '\'' + '}';
     }
 
     public String getStringForCSV() {
