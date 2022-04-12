@@ -5,12 +5,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.models.Voucher;
 import org.prgrms.kdt.repository.VoucherMemoryRepository;
+import org.prgrms.kdt.repository.VoucherRepository;
 
 import java.util.List;
 
+import static org.mockito.Mockito.mock;
+
 public class VoucherServiceTest {
 
-    VoucherService voucherService = new VoucherService(new VoucherMemoryRepository());
+    VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+    VoucherService voucherService = new VoucherService(voucherRepositoryMock);
 
     @Test
     @DisplayName("FixedAmountVoucher 생성기능")
