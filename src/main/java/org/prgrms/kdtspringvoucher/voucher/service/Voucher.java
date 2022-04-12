@@ -5,6 +5,6 @@ import java.util.UUID;
 public interface Voucher {
     UUID getVoucherId();
     void resetVoucherId();
-    Long discount(Long beforeDiscount);
+    long discount(long beforeDiscount);
     String getStringForCSV();
 }

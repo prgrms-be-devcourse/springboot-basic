@@ -4,14 +4,13 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private UUID voucherId;
-    private final Long amount;
+    private final long amount;
+    private static final long MAX_VOUCHER_AMOUNT = 10000;
 
-    public FixedAmountVoucher(Long amount) {
-        this.voucherId = UUID.randomUUID();
-        this.amount = amount;
-    }
-
-    public FixedAmountVoucher(UUID voucherId, Long amount) {
+    public FixedAmountVoucher(UUID voucherId, long amount) {
+        if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
+        if (amount == 0) throw new IllegalArgumentException("Amount should not be zero");
+        if (amount > MAX_VOUCHER_AMOUNT) throw new IllegalArgumentException("Amount should be less than %d".formatted(MAX_VOUCHER_AMOUNT));
         this.voucherId = voucherId;
         this.amount = amount;
     }
@@ -27,8 +26,9 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public Long discount(Long beforeDiscount) {
-        return beforeDiscount - amount;
+    public long discount(long beforeDiscount) {
+        var discountedAmount = beforeDiscount - amount;
+        return (discountedAmount < 0) ? 0 : discountedAmount;
     }
 
     @Override

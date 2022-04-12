@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 @Component
 public class Console implements Input, Output {
@@ -41,7 +42,7 @@ public class Console implements Input, Output {
             System.out.print("Input Fixed Voucher Discount Amount: ");
             long amount = sc.nextLong();
 
-            return new FixedAmountVoucher(amount);
+            return new FixedAmountVoucher(UUID.randomUUID(), amount);
 
         } else if (voucherType.equals("2")) {
             System.out.print("Input Percentage Voucher Discount Percentage: ");
