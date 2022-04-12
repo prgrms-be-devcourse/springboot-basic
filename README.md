@@ -100,12 +100,15 @@
 ### 구현 기능 목록
 - [X] JDBC 연결
 - [X] customers table 만들기
-- [ ] vouchers table 만들기
-- [ ] JdbcCustomerRepository 만들기
+- [X] JdbcCustomerRepository 만들기
   - [X] 회원 저장 기능 개발
   - [X] 회원 전체 조회 기능 개발
   - [X] 회원 전체 삭제 개발
   - [X] 회원 이름 수정 기능 개발
-- [ ] Customer 엔티티 개발
+- [X] Customer 엔티티 개발
 - [ ] CustomerService 개발
+  - [ ] 회원 추가 기능 개발
+  - [ ] 회원 조회 기능 개발
 - [ ] ConsoleView에 기능 추가
+  - [ ] 회원 조회 기능 추가
+- [ ] vouchers table 만들기
