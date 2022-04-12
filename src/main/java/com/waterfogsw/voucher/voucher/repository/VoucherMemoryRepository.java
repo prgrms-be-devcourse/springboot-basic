@@ -1,0 +1,27 @@
+package com.waterfogsw.voucher.voucher.repository;
+
+import com.waterfogsw.voucher.voucher.domain.Voucher;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class VoucherMemoryRepository implements VoucherRepository {
+    private final Map<UUID, Voucher> voucherStore = new ConcurrentHashMap<>();
+
+    @Override
+    public void save(Voucher voucher) {
+
+    }
+
+    @Override
+    public Voucher findById(UUID id) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return null;
+    }
+}
