@@ -1,5 +1,6 @@
 package org.prgms.kdt.application.io;
 
+import org.prgms.kdt.application.Member.domain.Member;
 import org.prgms.kdt.application.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ public class OutputConsole implements Output{
         System.out.println("Type exit to exit the program");
         System.out.println("Type create to create a new voucher");
         System.out.println("Type list to list all vouchers");
+        System.out.println("Type blacklist to list all customer blacklist");
     }
 
     @Override
@@ -36,5 +38,21 @@ public class OutputConsole implements Output{
     @Override
     public void printExit() {
         System.out.println("\nApplication Exit\n");
+    }
+
+    @Override
+    public void printBlackList(List<Member> blacklist) {
+        System.out.print("\n");
+        if (blacklist.isEmpty()) {
+            System.out.println("blacklist is Empty");
+            return;
+        }
+        blacklist.forEach(System.out::println);
+        System.out.print("\n");
+    }
+
+    @Override
+    public void printError(Exception e) {
+        System.out.println("\n\u001B[31m"+e.toString()+"\u001B[0m\n");
     }
 }
