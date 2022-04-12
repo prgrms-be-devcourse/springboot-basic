@@ -1,11 +1,14 @@
 package org.prgrms.kdt.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.model.FixedAmountVoucher;
 import org.prgrms.kdt.model.PercentDiscountVoucher;
 import org.prgrms.kdt.model.Voucher;
+import org.prgrms.kdt.repository.MemoryVoucherRepository;
+import org.prgrms.kdt.repository.VoucherRepository;
 
 import java.util.UUID;
 
@@ -21,10 +24,10 @@ class VoucherServiceTest {
     @Test
     void createVoucherByValidateVoucherType() {
         assertAll(
-                () -> assertThrows(Exception.class, () -> new VoucherService().createVoucher(UUID.randomUUID(), 0, 100)),
-                () -> assertThrows(Exception.class, () -> new VoucherService().createVoucher(UUID.randomUUID(), 3, 100)),
-                () -> assertThat(new VoucherService().createVoucher(UUID.randomUUID(), 1, 100).getClass(), is(FixedAmountVoucher.class)),
-                () -> assertThat(new VoucherService().createVoucher(UUID.randomUUID(), 2, 100).getClass(), is(PercentDiscountVoucher.class))
+                () -> assertThrows(Exception.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 0, 100)),
+                () -> assertThrows(Exception.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 3, 100)),
+                () -> assertThat(new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 1, 100).getClass(), is(FixedAmountVoucher.class)),
+                () -> assertThat(new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 2, 100).getClass(), is(PercentDiscountVoucher.class))
         );
 
 
@@ -34,11 +37,11 @@ class VoucherServiceTest {
     @Test
     void createVoucherByValidateDiscountAmount() {
         assertAll(
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService().createVoucher(UUID.randomUUID(), 1, -100)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService().createVoucher(UUID.randomUUID(), 1, 0)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService().createVoucher(UUID.randomUUID(), 2, -100)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService().createVoucher(UUID.randomUUID(), 2, 0)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService().createVoucher(UUID.randomUUID(), 2, 110))
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 1, -100)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 1, 0)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 2, -100)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 2, 0)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository()).createVoucher(UUID.randomUUID(), 2, 110))
 
         );
 
@@ -48,7 +51,7 @@ class VoucherServiceTest {
     @DisplayName("바우처가 생성되어야 한다.")
     @Test
     void createVoucher() {
-        VoucherService voucherService = new VoucherService();
+        VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
 
         Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), 1, 100);
 
