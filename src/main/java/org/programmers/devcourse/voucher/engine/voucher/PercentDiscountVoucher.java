@@ -13,8 +13,8 @@ public class PercentDiscountVoucher implements
 
   private PercentDiscountVoucher(UUID voucherId, long discountPercent)
       throws VoucherDataOutOfRangeException {
-    if (discountPercent > 100 || discountPercent < 0) {
-      throw new VoucherDataOutOfRangeException("Discount percent out of range(0-100)");
+    if (discountPercent > 100 || discountPercent <= 0) {
+      throw new VoucherDataOutOfRangeException("Discount percent out of range(1-100)");
     }
     this.voucherId = voucherId;
     this.discountPercent = discountPercent;

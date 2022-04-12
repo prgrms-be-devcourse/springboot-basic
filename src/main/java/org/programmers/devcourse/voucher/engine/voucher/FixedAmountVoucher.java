@@ -19,6 +19,9 @@ public class FixedAmountVoucher implements
       throw new VoucherDataOutOfRangeException(
           MessageFormat.format("discount amount must be lower than {0}", MAX_AMOUNT));
     }
+    if (discountAmount <= 0) {
+      throw new VoucherDataOutOfRangeException("discount amount must have positive value");
+    }
     this.voucherId = voucherId;
     this.discountAmount = discountAmount;
   }
@@ -37,7 +40,8 @@ public class FixedAmountVoucher implements
 
   @Override
   public long discount(long beforeDiscount) {
-    return beforeDiscount - discountAmount;
+    return beforeDiscount > this.discountAmount ? beforeDiscount
+        - this.discountAmount : 0;
   }
 
   @Override
