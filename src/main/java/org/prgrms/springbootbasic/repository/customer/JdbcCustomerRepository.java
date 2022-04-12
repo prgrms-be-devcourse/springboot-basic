@@ -9,7 +9,9 @@ import java.util.UUID;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JdbcCustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);

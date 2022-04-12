@@ -16,6 +16,10 @@ public enum Menu {
     BLACKLIST("blacklist", voucherController -> {
         voucherController.printBlackList();
         return true;
+    }),
+    CREATECUSTOMER("createCustomer", voucherController -> {
+        voucherController.createCustomer();
+        return true;
     });
 
     private final String textName;

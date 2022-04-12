@@ -2,14 +2,18 @@ package org.prgrms.springbootbasic.view;
 
 import static org.prgrms.springbootbasic.controller.Menu.BLACKLIST;
 import static org.prgrms.springbootbasic.controller.Menu.CREATE;
+import static org.prgrms.springbootbasic.controller.Menu.CREATECUSTOMER;
 import static org.prgrms.springbootbasic.controller.Menu.EXIT;
 import static org.prgrms.springbootbasic.controller.Menu.LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.AMOUNT;
 import static org.prgrms.springbootbasic.view.ConstantString.PERCENT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_AMOUNT;
+import static org.prgrms.springbootbasic.view.ConstantString.SELECT_CUSTOMER_EMAIL;
+import static org.prgrms.springbootbasic.view.ConstantString.SELECT_CUSTOMER_NAME;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_MENU;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_PERCENT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_VOUCHER_TYPE;
+import static org.prgrms.springbootbasic.view.ConstantString.TO_CREATE_A_NEW_CUSTOMER;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_CREATE_A_NEW_VOUCHER;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_EXIT_THE_PROGRAM;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_CUSTOMER_BLACK_LIST;
@@ -55,6 +59,7 @@ public class ConsoleView {
         printLine(terminal, CREATE.name(), TO_CREATE_A_NEW_VOUCHER);
         printLine(terminal, LIST.name(), TO_LIST_ALL_VOUCHERS);
         printLine(terminal, BLACKLIST.name(), TO_LIST_ALL_CUSTOMER_BLACK_LIST);
+        printLine(terminal, CREATECUSTOMER.name(), TO_CREATE_A_NEW_CUSTOMER);
         terminal.println();
     }
 
@@ -138,4 +143,13 @@ public class ConsoleView {
         }
     }
 
+    public String selectName() {
+        return textIO.newStringInputReader()
+            .read(SELECT_CUSTOMER_NAME);
+    }
+
+    public String selectEmail() {
+        return textIO.newStringInputReader()
+            .read(SELECT_CUSTOMER_EMAIL);
+    }
 }

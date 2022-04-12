@@ -16,6 +16,9 @@ public class ConstantString {
     public static final String AMOUNT = ", amount= ";
     public static final String PERCENT = ", percent= ";
     public static final String TO_LIST_ALL_CUSTOMER_BLACK_LIST = " to list all customer black list.";
+    public static final String TO_CREATE_A_NEW_CUSTOMER = " to create a new customer.";
+    public static final String SELECT_CUSTOMER_NAME = "Select customer name";
+    public static final String SELECT_CUSTOMER_EMAIL = "Select customer email";
 
     //인스턴스 목적의 클래스가 아닙니다.
     private ConstantString() {

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,7 +13,12 @@ import org.prgrms.springbootbasic.entity.Customer;
 
 class JdbcCustomerRepositoryTest {
 
-    JdbcCustomerRepository jdbcCustomerRepository = new JdbcCustomerRepository();
+    static JdbcCustomerRepository jdbcCustomerRepository = new JdbcCustomerRepository();
+
+    @BeforeAll
+    static void init() {
+        jdbcCustomerRepository.removeAll();
+    }
 
     @AfterEach
     void clean() {

@@ -1,6 +1,7 @@
 package org.prgrms.springbootbasic.controller;
 
 import org.prgrms.springbootbasic.VoucherType;
+import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.view.ConsoleView;
 import org.slf4j.Logger;
@@ -13,10 +14,13 @@ public class VoucherController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
     private final ConsoleView consoleView;
+    private final CustomerService customerService;
 
-    public VoucherController(VoucherService voucherService, ConsoleView consoleView) {
+    public VoucherController(VoucherService voucherService, ConsoleView consoleView,
+        CustomerService customerService) {
         this.voucherService = voucherService;
         this.consoleView = consoleView;
+        this.customerService = customerService;
     }
 
     public void run() {
@@ -58,5 +62,11 @@ public class VoucherController {
 
     public void printBlackList() {
         consoleView.printCustomerBlackList();
+    }
+
+    public void createCustomer() {
+        var name = consoleView.selectName();
+        var email = consoleView.selectEmail();
+        customerService.createCustomer(name, email);
     }
 }
