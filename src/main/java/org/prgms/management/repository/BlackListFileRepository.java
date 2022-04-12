@@ -24,9 +24,10 @@ public class BlackListFileRepository implements BlackListRepository {
 
     @Override
     public Map<UUID, String> getAll() {
-        try {
-            InputStream inputStream = resource.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        try (
+                InputStream inputStream = resource.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))
+        ) {
             Map<UUID, String> map = new ConcurrentHashMap<>();
 
             bufferedReader.lines().forEach(
@@ -37,7 +38,6 @@ public class BlackListFileRepository implements BlackListRepository {
                         map.put(uuid, username);
                     }
             );
-
             return map;
         } catch (Throwable e) {
             logger.error("{} can't read blacklist file", e.getMessage());
