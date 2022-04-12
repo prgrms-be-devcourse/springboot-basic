@@ -3,6 +3,7 @@ package org.prgrms.spring_week1.models;
 import java.util.UUID;
 
 public class OrderItem {
+
     private final UUID productId;
     private final long productPrice;
     private final long quantity;

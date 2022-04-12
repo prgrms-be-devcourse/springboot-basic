@@ -1,12 +1,5 @@
 package org.prgrms.spring_week1;
 
-import org.prgrms.spring_week1.repositories.OrderMemoryRepository;
-import org.prgrms.spring_week1.repositories.OrderRepository;
-import org.prgrms.spring_week1.repositories.VoucherMemoryRepository;
-import org.prgrms.spring_week1.repositories.VoucherRepository;
-import org.prgrms.spring_week1.services.OrderService;
-import org.prgrms.spring_week1.services.VoucherService;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +13,7 @@ public class AppConfig {
 //    }
 //
 //    @Bean
-//    public OrderRepository oerderRepository(){
+//    public OrderRepository orderRepository(){
 //        return new OrderMemoryRepository();
 //    }
 //

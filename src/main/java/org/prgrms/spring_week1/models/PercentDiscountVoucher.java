@@ -2,7 +2,8 @@ package org.prgrms.spring_week1.models;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher implements Voucher {
+
     private UUID voucherId;
     private long percent;
     private VoucherStatus voucherStatus = VoucherStatus.VALID;
@@ -25,7 +26,6 @@ public class PercentDiscountVoucher implements Voucher{
     public UUID getVoucherId() {
         return voucherId;
     }
-
 
 
     @Override

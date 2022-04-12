@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class VoucherService {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class); // 모든 인스턴스가 공유(static) 변경불가(final)
+
+    private static final Logger logger = LoggerFactory
+        .getLogger(VoucherService.class); // 모든 인스턴스가 공유(static) 변경불가(final)
 
     private VoucherRepository voucherRepository;
 
@@ -24,19 +26,19 @@ public class VoucherService {
 //        return voucherRepository.findById(voucherId);
 //    }
 
-    public Voucher createFixedVoucher(long amount){
+    public Voucher createFixedVoucher(long amount) {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
         voucherRepository.insert(voucher);
         return voucher;
     }
 
-    public Voucher createPercentVoucher(long percent){
+    public Voucher createPercentVoucher(long percent) {
         Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
         voucherRepository.insert(voucher);
         return voucher;
     }
 
-    public List<String> getAllVoucher(){
+    public List<String> getAllVoucher() {
 //        return voucherRepository.getAllVoucher().values().stream().map(Object::toString).collect(Collectors.toList());
         return voucherRepository.getAllVoucher();
 

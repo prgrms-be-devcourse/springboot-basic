@@ -14,7 +14,9 @@ import java.util.UUID;
 
 @Service
 public class OrderService {
-    private static final Logger logger = LoggerFactory.getLogger(OrderService.class); // 모든 인스턴스가 공유(static) 변경불가(final)
+
+    private static final Logger logger = LoggerFactory
+        .getLogger(OrderService.class); // 모든 인스턴스가 공유(static) 변경불가(final)
 
     OrderRepository orderRepository;
     VoucherService voucherService;
@@ -25,14 +27,14 @@ public class OrderService {
     }
 
     // voucher 없는 경우
-    public Order createOrder(UUID customerId, List<OrderItem> orderItems){
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
         Order order = new Order(UUID.randomUUID(), customerId, orderItems, Optional.empty());
         orderRepository.insert(order);
         return order;
     }
 
     // voucher 있는 경우
-    public Order createOrder(UUID customerId, List<OrderItem> orderItems, Voucher voucher){
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
         Order order = new Order(UUID.randomUUID(), customerId, orderItems, Optional.of(voucher));
         orderRepository.insert(order);
         return order;

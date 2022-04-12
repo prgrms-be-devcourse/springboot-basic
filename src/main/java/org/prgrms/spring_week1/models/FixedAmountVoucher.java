@@ -2,7 +2,8 @@ package org.prgrms.spring_week1.models;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher {
+
     private UUID voucherId;
     private long amount;
     private VoucherStatus voucherStatus = VoucherStatus.VALID;
@@ -18,7 +19,7 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount-amount;
+        return beforeDiscount - amount;
     }
 
 

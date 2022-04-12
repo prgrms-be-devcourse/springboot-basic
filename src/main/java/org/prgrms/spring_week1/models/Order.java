@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class Order {
+
     UUID orderId;
     UUID customerId;
     private List<OrderItem> orderItemList;
@@ -12,7 +13,8 @@ public class Order {
     private OrderStatus orderStatus = OrderStatus.ACCEPTED;
 
     // 바우처 없는 경우
-    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItemList, Optional<Voucher> voucher) {
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItemList,
+        Optional<Voucher> voucher) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItemList = orderItemList;
@@ -32,13 +34,13 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public long totalPrice(){
+    public long totalPrice() {
         Long beforeDiscount = orderItemList
-                                    .stream()
-                                    .map( i -> i.getProductPrice() * i.getQuantity())
-                                    .reduce(0L, Long::sum);
+            .stream()
+            .map(i -> i.getProductPrice() * i.getQuantity())
+            .reduce(0L, Long::sum);
 
-        if(voucher.isPresent()){
+        if (voucher.isPresent()) {
             return voucher.get().discount(beforeDiscount);
         } else {
             return beforeDiscount;
