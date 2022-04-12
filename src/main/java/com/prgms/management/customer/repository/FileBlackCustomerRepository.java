@@ -5,6 +5,8 @@ import com.prgms.management.customer.entity.CustomerType;
 import com.prgms.management.customer.exception.CustomerException;
 import com.prgms.management.customer.exception.CustomerListEmptyException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -14,17 +16,18 @@ import java.util.UUID;
 
 @Repository
 public class FileBlackCustomerRepository implements BlackCustomerRepository {
-    private final File file;
+    private final Resource resource;
 
     public FileBlackCustomerRepository(@Value("${database.file.black-list}") String filename) {
-        this.file = new File(filename);
+        DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
+        this.resource = defaultResourceLoader.getResource(filename);
     }
 
     @Override
     public List<Customer> findAll() throws CustomerException {
         List<Customer> customers = new ArrayList<>();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
             String item;
             while ((item = bufferedReader.readLine()) != null) {
                 String[] array = item.split(",");

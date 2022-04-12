@@ -9,6 +9,8 @@ import com.prgms.management.voucher.exception.VoucherNotFoundException;
 import com.prgms.management.voucher.exception.VoucherNotSaveException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -19,15 +21,16 @@ import java.util.UUID;
 @Repository
 @Profile({"local", "default"})
 public class FileVoucherRepository implements VoucherRepository {
-    private final File file;
+    private final Resource resource;
 
     public FileVoucherRepository(@Value("${database.file.voucher}") String filename) {
-        file = new File(filename);
+        DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
+        this.resource = defaultResourceLoader.getResource(filename);
     }
 
     @Override
     public Voucher findById(UUID voucherId) throws VoucherException {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] array = line.split(",");
@@ -48,7 +51,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() throws VoucherException {
         List<Voucher> vouchers = new ArrayList<>();
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] array = line.split(",");
@@ -68,7 +71,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) throws VoucherException {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(resource.getFile(), true))) {
             bufferedWriter.write(voucher.getStringForCSV());
             bufferedWriter.newLine();
         } catch (IOException e) {
