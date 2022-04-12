@@ -1,5 +1,7 @@
 package com.programmers.part1.order.voucher.entity;
 
+import com.programmers.part1.error.voucher.FixedAmountException;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -9,6 +11,8 @@ public class FixedAmountVoucher implements Voucher {
 
     public FixedAmountVoucher(UUID voucherID, long amount) {
         this.voucherID = voucherID;
+        if(amount <= 0)
+            throw new FixedAmountException("고정 금액 할인은 0원보다 크게 입력해야합니다.\n");
         this.amount = amount;
     }
 
@@ -24,8 +28,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "FixedAmountVoucher{" +
-                "amount=" + amount +
-                '}';
+        return String.format("%-20s %-6d", "FixedAmountVoucher", this.amount);
     }
 }

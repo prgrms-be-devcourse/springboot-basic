@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 추후 로직이 추가 될 것을 고려해
+ * Controller와 Service 계층을 나누어 진행하였습니다.
+ * **/
+
 @Service
 public class VoucherService {
 
