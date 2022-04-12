@@ -24,7 +24,7 @@ public class VoucherController {
         logger.info("Process Command Start");
         if(commandType == CommandType.CREATE){
             String voucherInput = Console.inputVoucherType();
-            createVoucher(voucherInput);
+            saveVoucher(voucherInput);
         } else if(commandType == CommandType.LIST) {
             findStoredVouchers();
         } else if(commandType == CommandType.EXIT) {
@@ -33,7 +33,7 @@ public class VoucherController {
         logger.info("Process Command End");
     }
 
-    private void createVoucher(String voucherInput) {
+    private void saveVoucher(String voucherInput) {
         logger.info("Create voucher using input: {}", voucherInput);
         VoucherType voucherType = VoucherType.findVoucherType(voucherInput);
         long discount = Console.inputDiscount();
