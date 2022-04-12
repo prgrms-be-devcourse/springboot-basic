@@ -19,8 +19,4 @@ public class VoucherService {
     public List<Voucher> voucherList() {
         return null;
     }
-
-    public void voucherClear() {
-
-    }
 }
