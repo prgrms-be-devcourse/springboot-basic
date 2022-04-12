@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,17 +18,16 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile({"local-file", "default"})
 public class BlackListFileRepository implements BlackListRepository {
-    @Value("${filedb.path}")
-    private String path;
     @Value("${filedb.blacklist}")
-    private String name;
+    private String filePath;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private File file;
 
     @Override
     public Map<UUID, String> getAll() {
         try {
-            file = new File(MessageFormat.format("{0}/{1}", path, name));
+            file = new ClassPathResource(filePath).getFile();
             file.createNewFile();
             List<String> lines = Files.readAllLines(Path.of(file.getPath()));
             Map<UUID, String> map = new ConcurrentHashMap<>();
@@ -37,7 +36,7 @@ public class BlackListFileRepository implements BlackListRepository {
                 String[] str = line.split(",");
                 UUID uuid = UUID.fromString(str[0]);
                 String username = str[1];
-                map.put(uuid, name);
+                map.put(uuid, filePath);
             }
             return map;
         } catch (Throwable e) {

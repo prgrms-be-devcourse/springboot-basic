@@ -36,7 +36,7 @@ public class ConsoleOutput implements Output {
     @Override
     public void voucherList(Map<UUID, Voucher> voucherList) {
         System.out.println("\n=== Voucher list ===");
-        if (!voucherList.isEmpty()) {
+        if (voucherList != null && !voucherList.isEmpty()) {
             voucherList.forEach((k, v) -> System.out.println(MessageFormat
                     .format("{0} {1} {2} {3}",
                             v.getVoucherId(),

@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.prgms.management.entity", "org.prgms.management.repository",
-        "org.prgms.management.service", "org.prgms.management.io"})
 public class VoucherManagementApplication {
     public static void main(String[] args) {
         var applicationContext = SpringApplication.run(

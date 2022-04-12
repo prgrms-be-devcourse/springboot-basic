@@ -72,7 +72,7 @@ public class ConsoleManagementService implements ManagementService {
 
         String temp = input.getInput("DiscountNum: ");
 
-        if (!temp.matches("[0-9]")) {
+        if (!temp.matches("[0-9]+")) {
             getErrorMsg(MessageFormat.format
                     ("Wrong input at discountNum -> {0}", temp));
             return;

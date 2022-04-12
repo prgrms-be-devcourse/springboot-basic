@@ -7,13 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,26 +20,24 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile({"local-file", "default"})
 public class VoucherFileRepository implements VoucherRepository {
-    @Value("${filedb.path}")
-    private String path;
     @Value("${filedb.voucher}")
-    private String name;
+    private Resource resource;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private File file;
 
     @Override
     public boolean save(Voucher voucher) {
         try {
-            file = new File(MessageFormat.format("{0}/{1}", path, name));
-            file.createNewFile();
-            System.out.println(file.getName());
             String voucherStr = MessageFormat.format("{0},{1},{2},{3}\r\n",
                     voucher.getVoucherId(), voucher.getVoucherType(),
                     voucher.getVoucherName(), voucher.getDiscountNum());
-            BufferedWriter bufferedWriter =
-                    new BufferedWriter(new FileWriter(file, true));
-            bufferedWriter.write(voucherStr);
-            bufferedWriter.flush();
+
+            FileOutputStream fileOutputStream = new FileOutputStream(resource.getFile());
+
+            fileOutputStream.write(voucherStr.getBytes());
+            fileOutputStream.close();
+            fileOutputStream.flush();
+
             return true;
         } catch (Throwable e) {
             logger.error(MessageFormat.format
@@ -52,28 +49,36 @@ public class VoucherFileRepository implements VoucherRepository {
     @Override
     public Map<UUID, Voucher> getAll() {
         try {
-            file = new File(MessageFormat.format("{0}/{1}", path, name));
-            file.createNewFile();
-            List<String> lines = Files.readAllLines(Path.of(file.getPath()));
+            InputStream inputStream = resource.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
-            for (String line : lines) {
-                String[] str = line.split(",");
-                UUID uuid = UUID.fromString(str[0]);
-                String type = str[1];
-                String name = str[2];
-                int discountNum = Integer.parseInt(str[3]);
-                Voucher voucher = type.equals("FixedAmountVoucher") ?
-                        FixedAmountVoucher.getFixedAmountVoucher(
-                                uuid, discountNum, name, type) :
-                        new PercentAmountVoucher(uuid, discountNum, name, type);
-                map.put(uuid, voucher);
-            }
+            bufferedReader.lines().forEach(
+                    line -> {
+                        String[] str = line.split(",");
+                        UUID uuid = UUID.fromString(str[0]);
+                        String type = str[1];
+                        String name = str[2];
+                        int discountNum = Integer.parseInt(str[3]);
+                        Voucher voucher = type.equals("FixedAmountVoucher") ?
+                                FixedAmountVoucher.getFixedAmountVoucher(
+                                        uuid, discountNum, name, type) :
+                                new PercentAmountVoucher(uuid, discountNum, name, type);
+                        map.put(uuid, voucher);
+                    }
+            );
             return map;
         } catch (Throwable e) {
             logger.error(MessageFormat.format
                     ("{0} can't read voucher file", e.getMessage()));
             return null;
         }
+    }
+
+    private void createFile(ClassPathResource classPathResource) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(classPathResource.getPath(), false));
+        bufferedWriter.write("");
+        bufferedWriter.flush();
+        bufferedWriter.close();
     }
 }

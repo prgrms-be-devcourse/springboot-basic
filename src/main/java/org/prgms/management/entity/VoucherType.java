@@ -47,7 +47,7 @@ public enum VoucherType {
                 .filter(s -> s.type.equalsIgnoreCase(inputType))
                 .findFirst();
         if (voucherType.isEmpty()) return null;
-        return voucherType.get().create(uuid, discountNum, voucherName, inputType);
+        return voucherType.get().create(uuid, discountNum, voucherName, voucherType.get().name());
     }
 
     public abstract Voucher create(UUID uuid, int discountNum,
