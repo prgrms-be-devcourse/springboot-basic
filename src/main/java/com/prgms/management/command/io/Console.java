@@ -55,7 +55,8 @@ public class Console implements Input, Output<Voucher> {
         switch (command.toLowerCase()) {
             case "fixed":
                 Long amount = textIO.newLongInputReader()
-                        .withMinVal(0L)
+                        .withMinVal(FixedAmountVoucher.getMinAmount())
+                        .withMaxVal(FixedAmountVoucher.getMaxAmount())
                         .read("Amount");
                 return new FixedAmountVoucher(amount);
             case "percent":
