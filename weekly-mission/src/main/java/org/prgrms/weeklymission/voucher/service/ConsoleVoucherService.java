@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
-import static org.prgrms.weeklymission.utils.Error.*;
+import static org.prgrms.weeklymission.utils.ErrorMessage.*;
 
 @Service
 @Slf4j
@@ -31,7 +31,7 @@ public class ConsoleVoucherService implements VoucherService {
     @Override
     public Voucher findVoucherById(UUID voucherId) {
         return repository.findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(NO_VOUCHER));
+                .orElseThrow(() -> new RuntimeException(NO_VOUCHER.getMessage()));
     }
 
     public Voucher createVoucher(String option, String discount) throws RuntimeException {
@@ -76,7 +76,7 @@ public class ConsoleVoucherService implements VoucherService {
             createPercentVoucher(longDiscount);
         } else {
             log.error("Exception Option: {}", option);
-            throw new RuntimeException(OPTION_ERROR);
+            throw new RuntimeException(OPTION_ERROR.getMessage());
         }
     }
 
@@ -85,7 +85,7 @@ public class ConsoleVoucherService implements VoucherService {
             return Long.parseLong(discount);
         } catch (NumberFormatException e) {
             log.error("Long type parsing error: {}", discount);
-            throw new NumberFormatException(PARSING_ERROR);
+            throw new NumberFormatException(PARSING_ERROR.getMessage());
         }
     }
 
@@ -101,7 +101,7 @@ public class ConsoleVoucherService implements VoucherService {
         List<Voucher> vouchers = repository.findAll();
         if(vouchers.isEmpty()) {
             log.error("repository is empty");
-            throw new RuntimeException(NO_VOUCHER);
+            throw new RuntimeException(NO_VOUCHER.getMessage());
         }
 
         return vouchers;

@@ -36,3 +36,4 @@ mvnw
 mvnw.cmd
 weekly-mission.iml
 db/
+logs/

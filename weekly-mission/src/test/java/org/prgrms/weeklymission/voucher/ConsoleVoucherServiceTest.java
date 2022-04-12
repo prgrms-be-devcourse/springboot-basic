@@ -3,7 +3,6 @@ package org.prgrms.weeklymission.voucher;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.weeklymission.config.AppConfig;
 import org.prgrms.weeklymission.voucher.domain.FixedAmountVoucher;
 import org.prgrms.weeklymission.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.weeklymission.voucher.domain.Voucher;
@@ -11,8 +10,6 @@ import org.prgrms.weeklymission.voucher.repository.VoucherRepository;
 import org.prgrms.weeklymission.voucher.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -20,8 +17,8 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.prgrms.weeklymission.utils.Error.NO_VOUCHER;
-import static org.prgrms.weeklymission.utils.Error.OPTION_ERROR;
+import static org.prgrms.weeklymission.utils.ErrorMessage.NO_VOUCHER;
+import static org.prgrms.weeklymission.utils.ErrorMessage.OPTION_ERROR;
 
 @SpringBootTest
 @ActiveProfiles("local")
@@ -70,7 +67,7 @@ class ConsoleVoucherServiceTest {
         option = "abc";
         String message = assertThrows(RuntimeException.class, () -> service.createVoucher(option, discount)).getMessage();
 
-        assertThat(message).isEqualTo(OPTION_ERROR);
+        assertThat(message).isEqualTo(OPTION_ERROR.getMessage());
     }
 
     @Test
@@ -100,7 +97,7 @@ class ConsoleVoucherServiceTest {
     void test_search_exception() {
         String message = assertThrows(RuntimeException.class, () -> service.searchAllVouchers()).getMessage();
 
-        assertThat(message).isEqualTo(NO_VOUCHER);
+        assertThat(message).isEqualTo(NO_VOUCHER.getMessage());
     }
 
     @Test

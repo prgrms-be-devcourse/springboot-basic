@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static org.prgrms.weeklymission.utils.Error.NO_CUSTOMER;
+import static org.prgrms.weeklymission.utils.ErrorMessage.NO_CUSTOMER;
 
 @Service
 @Profile(value = {"local", "dev"})
@@ -27,7 +27,7 @@ public class BlackCustomerService {
 
     public Customer findBlackCustomerById(String customerId) {
         return repository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException(NO_CUSTOMER));
+                .orElseThrow(() -> new RuntimeException(NO_CUSTOMER.getMessage()));
     }
 
     public void printCreateBlackCustomer() {
@@ -62,7 +62,7 @@ public class BlackCustomerService {
         List<Customer> blackCustomers = repository.findAll();
         if(blackCustomers.isEmpty()) {
             log.error("repository is empty");
-            throw new RuntimeException(NO_CUSTOMER);
+            throw new RuntimeException(NO_CUSTOMER.getMessage());
         }
 
         return blackCustomers;
