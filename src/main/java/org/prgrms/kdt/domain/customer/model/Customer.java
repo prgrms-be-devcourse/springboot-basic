@@ -18,4 +18,12 @@ public class Customer {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
