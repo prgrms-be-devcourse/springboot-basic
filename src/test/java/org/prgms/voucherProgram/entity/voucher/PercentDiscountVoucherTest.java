@@ -12,10 +12,19 @@ import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 
 class PercentDiscountVoucherTest {
 
-    @DisplayName("할인퍼센트가 1미만이거나 100초과이면 예외를 발생한다.")
+    @DisplayName("할인퍼센트가 1미만이면 예외를 발생한다.")
     @ParameterizedTest
     @ValueSource(longs = {-1, 0, 140, 1000})
-    void percentDiscount_PercentIsOverHundredOrLessOne_ThrowsException(long discountPercent) {
+    void percentDiscount_PercentIsLessOne_ThrowsException(long discountPercent) {
+        assertThatThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), discountPercent))
+            .isInstanceOf(WrongDiscountPercentException.class)
+            .hasMessage("[ERROR] 올바른 할인퍼센트가 아닙니다.");
+    }
+
+    @DisplayName("할인퍼센트가 100초과면 예외를 발생한다.")
+    @ParameterizedTest
+    @ValueSource(longs = {101, 200, 140, 1000})
+    void percentDiscount_PercentIsOverHundred_ThrowsException(long discountPercent) {
         assertThatThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), discountPercent))
             .isInstanceOf(WrongDiscountPercentException.class)
             .hasMessage("[ERROR] 올바른 할인퍼센트가 아닙니다.");
@@ -30,5 +39,4 @@ class PercentDiscountVoucherTest {
         long discountPrice = voucher.discount(beforeDiscount);
         assertThat(discountPrice).isEqualTo(result);
     }
-
 }
