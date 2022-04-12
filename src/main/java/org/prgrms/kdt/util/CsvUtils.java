@@ -34,7 +34,6 @@ public class CsvUtils {
                 csvFile.createNewFile();
             }
             BufferedWriter csvWriter = new BufferedWriter(new FileWriter(csvFile, true));
-            System.out.println(data);
             csvWriter.write(data);
             csvWriter.newLine();
             csvWriter.close();
