@@ -27,4 +27,8 @@ public class Output {
     public void printVoucherListEmptyError() {
         System.out.println("voucher list is empty");
     }
+
+    public void printExitMessage() {
+        System.out.println("exit program ! bye :)");
+    }
 }

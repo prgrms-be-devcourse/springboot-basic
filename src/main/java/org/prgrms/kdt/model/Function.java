@@ -7,41 +7,38 @@ import org.prgrms.kdt.util.Utility;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 public enum Function {
     exit(" to exit the program") {
         @Override
-        public Voucher doFunction(VoucherService voucherService) {
-
-            return null;
+        public Boolean doFunction(VoucherService voucherService) {
+            Function.getOutput().printExitMessage();
+            return true;
         }
     },
     create(" to create a new voucher") {
         @Override
-        public Optional<Voucher> doFunction(VoucherService voucherService) {
+        public Boolean doFunction(VoucherService voucherService) {
             Function.getOutput().printVoucherType();
             Input input = Function.getInput();
-            Optional<Voucher> voucher = null;
             try {
-                voucher = createVoucherByVoucherType(input.voucherType(), input.amount(), voucherService);
+                createVoucherByVoucherType(input.voucherType(), input.amount(), voucherService);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return voucher;
+            return false;
         }
     },
     list(" to list all vouchers") {
         @Override
-        public Map<UUID, Voucher> doFunction(VoucherService voucherService) {
-            Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
-            Function.printVoucherList(voucherList);
-            return voucherList;
+        public Boolean doFunction(VoucherService voucherService) {
+            Function.printVoucherList(voucherService.getVoucherList());
+            return false;
         }
     };
 
-    private String explain;
+    private final String explain;
 
     Function(String explain) {
         this.explain = explain;
@@ -56,7 +53,7 @@ public enum Function {
                 .anyMatch(f -> f.name().equals(function));
     }
 
-    public abstract <T> T doFunction(VoucherService voucherService);
+    public abstract Boolean doFunction(VoucherService voucherService);
 
     private static Input getInput() {
         return new Input();
@@ -66,14 +63,13 @@ public enum Function {
         return new Output();
     }
 
-    private static Optional<Voucher> createVoucherByVoucherType(String voucherType, String discountAmount, VoucherService voucherService) {
+    private static void createVoucherByVoucherType(String voucherType, String discountAmount, VoucherService voucherService) {
         if (!VoucherType.hasVoucherType(voucherType)) {
             throw new IllegalArgumentException("Type right VoucherType number");
         }
-        return Optional.ofNullable(
-                voucherService.createVoucher(UUID.randomUUID(),
-                        Utility.toInt(voucherType),
-                        Utility.toInt(discountAmount)));
+        voucherService.createVoucher(UUID.randomUUID(),
+                Utility.toInt(voucherType),
+                Utility.toInt(discountAmount));
     }
 
     private static void printVoucherList(Map<UUID, Voucher> voucherList) {

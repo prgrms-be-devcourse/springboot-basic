@@ -18,7 +18,6 @@ public class VoucherProgram implements Runnable {
 
     @Override
     public void run() {
-
         while (true) {
             output.printFunctions();
             String inputFunction = input.inputFunction();
@@ -26,14 +25,14 @@ public class VoucherProgram implements Runnable {
                 output.printInputFunctionError();
                 continue;
             }
-            doFunction(inputFunction);
+            if ((Boolean) doFunction(inputFunction)) {
+                return;
+            }
         }
-
     }
 
-    public void doFunction(String function) {
-        FunctionMapping.getFunction(function).doFunction(voucherService);
+    public Object doFunction(String function) {
+        return FunctionMapping.getFunction(function).doFunction(voucherService);
+
     }
-
-
 }
