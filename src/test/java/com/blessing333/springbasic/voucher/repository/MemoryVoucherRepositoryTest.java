@@ -1,8 +1,10 @@
 package com.blessing333.springbasic.voucher.repository;
 
+import com.blessing333.springbasic.voucher.VoucherType;
 import com.blessing333.springbasic.voucher.domain.FixedAmountVoucher;
 import com.blessing333.springbasic.voucher.domain.PercentDiscountVoucher;
 import com.blessing333.springbasic.voucher.domain.Voucher;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MemoryVoucherRepositoryTest {
     MemoryVoucherRepository repository = new MemoryVoucherRepository();
+
+    @AfterEach
+    void resetRepository(){
+        repository.deleteAll();
+    }
 
     @DisplayName("존재하지 않는 바우쳐에 조회를 시도")
     @Test
@@ -88,7 +95,4 @@ class MemoryVoucherRepositoryTest {
         };
     }
 
-    enum VoucherType{
-        FIXED,PERCENT
-    }
 }

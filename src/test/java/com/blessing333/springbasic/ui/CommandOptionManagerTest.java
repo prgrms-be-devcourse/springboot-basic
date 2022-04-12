@@ -12,7 +12,7 @@ class CommandOptionManagerTest {
     @ParameterizedTest
     @EnumSource(CommandOptionType.class)
     void test(CommandOptionType definedOptionType){
-        CommandOptions commandOptions = optionManager.getSupportedOptions();
-        assertTrue(commandOptions.hasOption(definedOptionType.getOptionName()));
+        CommandOptions supportedCommandOptions = optionManager.getSupportedOptions();
+        assertTrue(supportedCommandOptions.hasOption(definedOptionType.getOptionName()));
     }
 }
