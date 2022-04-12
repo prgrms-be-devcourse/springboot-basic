@@ -98,9 +98,9 @@
 
 
 ### 구현 기능 목록
-- [ ] JDBC 연결
-  - [ ] Customer table 만들기
-  - [ ] Voucher table 만들기
+- [X] JDBC 연결
+- [X] Customer table 만들기
+- [ ] Voucher table 만들기
 - [ ] JdbcCustomerRepository 만들기
   - [ ] 회원 저장 기능 개발
   - [ ] 회원 이름 조회 기능
