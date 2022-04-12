@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +41,7 @@ public class CsvBlacklistCustomerRepository implements CustomerRepository{
             }
         } catch (IOException e) {
             log.error(IO_EXCEPTION);
-            return Collections.emptyList();
+            return List.of();
         }
         return customerList;
     }

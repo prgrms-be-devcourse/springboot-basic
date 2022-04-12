@@ -65,12 +65,11 @@ public class FileVoucherRepository implements VoucherRepository {
                 voucherList.add(voucher);
             }
         } catch (IOException e) {
-            e.printStackTrace();
             log.error(READING_ERROR);
-            return Collections.emptyList();
+            return List.of();
         } catch (ClassNotFoundException e) {
             log.error(CLASS_NOT_FOUND_ERROR);
-            return Collections.emptyList();
+            return List.of();
         }
         return voucherList;
     }
