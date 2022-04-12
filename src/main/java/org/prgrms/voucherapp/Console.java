@@ -1,5 +1,6 @@
 package org.prgrms.voucherapp;
 
+import org.prgrms.voucherapp.exception.WrongAmountException;
 import org.prgrms.voucherapp.exception.WrongInputException;
 import org.prgrms.voucherapp.global.Command;
 import org.prgrms.voucherapp.global.VoucherType;
@@ -9,6 +10,8 @@ import org.prgrms.voucherapp.io.Output;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+//TODO : discountAmount에 대한 예외처리를 discountAmount를 입력받았을 때 하는게 좋은지, discountAmount를 가지고 voucher를 생성하려고 할때 하는게 좋은지?
+// 현재는 전자인데, 다른 input 메소드들은 input 받은 값들에 대한 책임을 지고 예외처리를 하고 있어서 discountAmountInput도 amount의 유효성에 대한 책임까지 지는게 일관성있다고 생각함.
 public class Console implements Input, Output {
 
     private final Scanner scanner = new Scanner(System.in);
@@ -18,7 +21,7 @@ public class Console implements Input, Output {
         System.out.println(prompt);
         return Command
                 .getMenu(scanner.nextLine())
-                .orElseThrow(()->(new WrongInputException("존재하지 않는 메뉴입니다.")));
+                .orElseThrow(() -> (new WrongInputException("존재하지 않는 메뉴입니다.")));
     }
 
     @Override
@@ -26,28 +29,30 @@ public class Console implements Input, Output {
         System.out.println(prompt);
         return VoucherType
                 .getType(scanner.nextLine())
-                .orElseThrow(()->(new WrongInputException("존재하지 않는 바우처 타입입니다.")));
+                .orElseThrow(() -> (new WrongInputException("존재하지 않는 바우처 타입입니다.")));
     }
 
     @Override
-    public long discountAmountInput(String prompt) throws WrongInputException {
+    public long discountAmountInput(VoucherType voucherType, String prompt) throws WrongInputException, WrongAmountException {
         System.out.println(prompt);
-        long discountAmount = -1;
-        try{
+        long discountAmount;
+        try {
             discountAmount = scanner.nextLong();
-        }catch(InputMismatchException e){
-            throw new WrongInputException("숫자를 입력해주세요.");
-        }finally {
+            if (discountAmount <= 0 || discountAmount > voucherType.getMaxDiscountAmount())
+                throw new WrongAmountException("잘못된 할인 금액입니다.");
+        } catch (InputMismatchException e) {
+            throw new WrongInputException("정수를 입력해주세요.");
+        } finally {
             scanner.nextLine(); //버퍼비우기
         }
         return discountAmount;
     }
 
     @Override
-    public void introProgram() {
+    public void introMessage() {
         StringBuilder sb = new StringBuilder();
         sb.append("=== Voucher Program ===\n");
-        for(Command command : Command.values()){
+        for (Command command : Command.values()) {
             sb.append("Type %s to %s.\n".formatted(command.getCommand(), command.getAction()));
         }
         System.out.print(sb);
@@ -67,7 +72,7 @@ public class Console implements Input, Output {
     public void informVoucherTypeFormat() {
         StringBuilder sb = new StringBuilder();
         sb.append("--- Voucher Type ---\n");
-        for(VoucherType type : VoucherType.values()){
+        for (VoucherType type : VoucherType.values()) {
             sb.append("%s. %s\n".formatted(type.getOption(), type.toString()));
         }
         System.out.print(sb);

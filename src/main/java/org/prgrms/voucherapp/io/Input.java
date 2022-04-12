@@ -1,5 +1,6 @@
 package org.prgrms.voucherapp.io;
 
+import org.prgrms.voucherapp.exception.WrongAmountException;
 import org.prgrms.voucherapp.exception.WrongInputException;
 import org.prgrms.voucherapp.global.Command;
 import org.prgrms.voucherapp.global.VoucherType;
@@ -10,5 +11,5 @@ import java.util.InputMismatchException;
 public interface Input {
     Command commandInput(String s) throws WrongInputException;
     VoucherType voucherTypeInput(String s) throws WrongInputException;
-    long discountAmountInput(String s) throws WrongInputException;
+    long discountAmountInput(VoucherType type, String s) throws WrongInputException, WrongAmountException;
 }
