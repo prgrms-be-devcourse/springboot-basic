@@ -5,3 +5,4 @@ spring:
 file:
   path:
     blacklist: file/customer_blacklist.csv
+    voucher: ./voucherData.txt
