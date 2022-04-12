@@ -2,7 +2,6 @@ package org.voucherProject.voucherProject.io;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import java.util.Scanner;
 
 @Slf4j

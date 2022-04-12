@@ -3,7 +3,6 @@ package org.voucherProject.voucherProject.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.user.User;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

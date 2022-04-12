@@ -8,7 +8,6 @@ import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

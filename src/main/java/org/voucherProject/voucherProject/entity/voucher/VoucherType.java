@@ -3,9 +3,7 @@ package org.voucherProject.voucherProject.entity.voucher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cglib.core.internal.Function;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j

@@ -27,27 +27,31 @@ public class VoucherEnrollSystem implements Runnable {
                     "Type list to list all vouchers");
             try {
                 InputCommend inputCommend = InputCommend.is(inputString);
-
-                switch (inputCommend) {
-                    case EXIT:
-                        console.endMessage();
-                        System.exit(0);
-                        break;
-                    case LIST:
-                        List<Voucher> vouchers = voucherController.findAll();
-                        vouchers.forEach(voucher -> System.out.println("voucher = " + voucher));
-                        break;
-                    case CREATE:
-                        String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
-                        VoucherType voucherType = VoucherType.getVoucherType(Integer.parseInt(inputVoucherType));
-                        long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
-                        voucherController.createVoucher(voucherType.createVoucher(inputDiscountAmount));
-                        console.completeMessage();
-                        break;
-                }
+                executeSystem(inputCommend);
             } catch (IllegalArgumentException e) {
                 console.errorMessage();
             }
+        }
+    }
+
+    private void executeSystem(InputCommend inputCommend) {
+        switch (inputCommend) {
+            case EXIT:
+                console.endMessage();
+                System.exit(0);
+                break;
+            case LIST:
+                List<Voucher> vouchers = voucherController.findAll();
+                vouchers.forEach(voucher -> System.out.println("voucher = " + voucher));
+                break;
+            case CREATE:
+                String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
+                VoucherType voucherType = VoucherType.getVoucherType(Integer.parseInt(inputVoucherType));
+
+                long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
+                voucherController.createVoucher(voucherType.createVoucher(inputDiscountAmount));
+                console.completeMessage();
+                break;
         }
     }
 }
