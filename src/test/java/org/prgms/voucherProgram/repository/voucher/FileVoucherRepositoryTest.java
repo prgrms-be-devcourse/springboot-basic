@@ -16,11 +16,11 @@ import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 
 class FileVoucherRepositoryTest {
 
-    VoucherRepository voucherRepository = new FileVoucherRepository();
+    VoucherRepository voucherRepository;
 
     @AfterEach
     void tearDown() {
-        File file = new File(FileVoucherRepository.FILE_NAME);
+        File file = new File("./voucherData.txt");
         file.delete();
     }
 
@@ -28,6 +28,7 @@ class FileVoucherRepositoryTest {
     @Test
     void save_Voucher_File() throws WrongDiscountAmountException {
         // given
+        voucherRepository = new FileVoucherRepository("./voucherData.txt");
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
         // when
         Voucher saveVoucher = voucherRepository.save(voucher);
@@ -42,6 +43,7 @@ class FileVoucherRepositoryTest {
     @Test
     void findAll_ReturnAllVoucher() throws WrongDiscountAmountException, WrongDiscountPercentException {
         // given
+        voucherRepository = new FileVoucherRepository("./voucherData.txt");
         Voucher voucherOne = new FixedAmountVoucher(UUID.randomUUID(), 20L);
         Voucher voucherTwo = new PercentDiscountVoucher(UUID.randomUUID(), 20L);
         // when
@@ -50,5 +52,23 @@ class FileVoucherRepositoryTest {
         // then
         assertThat(voucherRepository.findAll()).hasSize(2)
             .extracting("voucherId").contains(voucherOne.getVoucherId(), voucherTwo.getVoucherId());
+    }
+
+    @DisplayName("Voucher를 저장할 시 잘못된 파일경로일 경우 예외를 발생한다.")
+    @Test
+    void saveVoucher_WrongFilePath_ThrowException() {
+        voucherRepository = new FileVoucherRepository("./");
+        assertThatThrownBy(() -> voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 10L)))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 올바른 voucher 파일이 아닙니다.");
+    }
+
+    @DisplayName("Voucher를 찾을 시 잘못된 파일경로일 경우 예외를 발생한다.")
+    @Test
+    void findAllVoucher_WrongFilePath_ThrowException() {
+        voucherRepository = new FileVoucherRepository("./");
+        assertThatThrownBy(() -> voucherRepository.findAll())
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 올바른 voucher 파일이 아닙니다.");
     }
 }
