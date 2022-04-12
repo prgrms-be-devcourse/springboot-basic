@@ -55,14 +55,14 @@ public class Console implements Input, Output<Voucher> {
         switch (command.toLowerCase()) {
             case "fixed":
                 Long amount = textIO.newLongInputReader()
-                        .withMinVal(FixedAmountVoucher.getMinAmount())
-                        .withMaxVal(FixedAmountVoucher.getMaxAmount())
+                        .withMinVal(FixedAmountVoucher.MIN_AMOUNT)
+                        .withMaxVal(FixedAmountVoucher.MAX_AMOUNT)
                         .read("Amount");
                 return new FixedAmountVoucher(amount);
             case "percent":
                 Integer percent = textIO.newIntInputReader()
-                        .withMinVal(0)
-                        .withMaxVal(100)
+                        .withMinVal(PercentDiscountVoucher.MIN_PERCENT)
+                        .withMaxVal(PercentDiscountVoucher.MAX_PERCENT)
                         .read("Percent");
                 return new PercentDiscountVoucher(percent);
             default:

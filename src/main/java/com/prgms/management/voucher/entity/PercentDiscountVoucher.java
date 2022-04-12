@@ -1,17 +1,23 @@
 package com.prgms.management.voucher.entity;
 
+import com.prgms.management.voucher.exception.InvalidVoucherParameterException;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    private UUID voucherId;
+    public final static Integer MIN_PERCENT = 0;
+    public final static Integer MAX_PERCENT = 100;
     private final Integer percent;
+    private UUID voucherId;
 
     public PercentDiscountVoucher(Integer percent) {
-        this.voucherId = UUID.randomUUID();
-        this.percent = percent;
+        this(UUID.randomUUID(), percent);
     }
 
     public PercentDiscountVoucher(UUID voucherId, Integer percent) {
+        if (percent < 0 || percent > 100) {
+            throw new InvalidVoucherParameterException(MIN_PERCENT + "과 " + MAX_PERCENT + "사이의 값을 입력해주세요.");
+        }
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -38,9 +44,6 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "Percent Discount Voucher {" +
-                "voucherId=" + voucherId +
-                ", percent=" + percent +
-                '}';
+        return "Percent Discount Voucher {" + "voucherId=" + voucherId + ", percent=" + percent + '}';
     }
 }
