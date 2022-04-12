@@ -20,9 +20,9 @@
 
 ## diagram
 
-|          간략한 다이어그램          |
-| :---------------------------------: |
-| ![class diagram](class_diagram.png) |
+|                                         간략한 다이어그램                                         |
+| :-----------------------------------------------------------------------------------------------: |
+| ![class diagram](https://github.com/jki503/springboot-basic/blob/main/class_diagram.png?raw=true) |
 
 </br>
 
