@@ -1,6 +1,6 @@
 package org.prgrms.weeklymission.voucher;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.weeklymission.voucher.domain.FixedAmountVoucher;
@@ -23,20 +23,16 @@ import static org.prgrms.weeklymission.utils.ErrorMessage.OPTION_ERROR;
 @SpringBootTest
 @ActiveProfiles("local")
 class ConsoleVoucherServiceTest {
-    private final VoucherService service;
-    private final VoucherRepository repository;
+    @Autowired
+    private VoucherService service;
+    @Autowired
+    private VoucherRepository repository;
 
     private final String discount = "10";
     private String option;
 
-    @Autowired
-    ConsoleVoucherServiceTest(VoucherService service, VoucherRepository repository) {
-        this.service = service;
-        this.repository = repository;
-    }
-
-    @AfterEach
-    public void afterEach() {
+    @BeforeEach
+    public void beforeEach() {
         repository.clear();
     }
 

@@ -1,5 +1,6 @@
 package org.prgrms.weeklymission.voucher.repository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.weeklymission.voucher.domain.PercentDiscountVoucher;
@@ -18,12 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @ActiveProfiles("dev")
 class FileVoucherRepositoryTest {
-    private final VoucherRepository repo;
+    @Autowired
+    private VoucherRepository repo;
     private final Voucher voucher = new PercentDiscountVoucher(randomUUID(), 10);
 
-    @Autowired
-    FileVoucherRepositoryTest(VoucherRepository repo) {
-        this.repo = repo;
+    @BeforeEach
+    public void beforeEach() {
+        repo.clear();
     }
 
     @Test
@@ -31,7 +33,7 @@ class FileVoucherRepositoryTest {
     void test_file_save() {
         repo.save(voucher);
 
-        assertThat(repo.getStorageSize()).isEqualTo(1);
+        assertThat(repo.countStorageSize()).isEqualTo(1);
     }
 
     @Test

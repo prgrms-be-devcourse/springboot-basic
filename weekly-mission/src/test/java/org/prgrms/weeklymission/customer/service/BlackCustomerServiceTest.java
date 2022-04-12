@@ -1,6 +1,5 @@
 package org.prgrms.weeklymission.customer.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.weeklymission.customer.domain.Customer;
@@ -17,22 +16,17 @@ import static org.prgrms.weeklymission.customer.domain.CustomerType.BLACK;
 class BlackCustomerServiceTest {
     private final String customerId = "abc123";
     private final String name = "kim";
-    private final BlackCustomerService service;
-
     @Autowired
-    BlackCustomerServiceTest(BlackCustomerService service) {
-        this.service = service;
-    }
+    private BlackCustomerService service;
 
     @Test
     @DisplayName("블랙 회원 저장")
     void test_black_save() {
-        System.out.println("hello");
         Customer customer = service.registerBlackCustomer(customerId, name);
 
         assertThat(customer).isNotNull();
         assertThat(customer.getCustomerType()).isEqualTo(BLACK);
-        assertThat(service.getBlackCustomerCount()).isEqualTo(1);
+        assertThat(service.countBlackCustomer()).isEqualTo(1);
     }
 
     @Test
@@ -56,6 +50,6 @@ class BlackCustomerServiceTest {
     void test_afterClear_countZero() {
         service.registerBlackCustomer(customerId, name);
         service.deleteData();
-        assertThat(service.getBlackCustomerCount()).isEqualTo(0);
+        assertThat(service.countBlackCustomer()).isEqualTo(0);
     }
 }
