@@ -1,6 +1,7 @@
 package org.prgms.voucherProgram.repository.voucher;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -24,6 +25,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
+        if (storage.isEmpty()) {
+            return Collections.emptyList();
+        }
         return new ArrayList<>(storage.values());
     }
 }

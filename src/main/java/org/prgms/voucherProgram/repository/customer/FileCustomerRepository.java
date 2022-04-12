@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -63,6 +64,10 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findBlackCustomers() {
+        if (storage.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         return new ArrayList<>(storage.values());
     }
 }
