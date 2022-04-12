@@ -3,7 +3,6 @@ package com.prgms.management.command;
 import com.prgms.management.command.io.CommandType;
 import com.prgms.management.command.io.Console;
 import com.prgms.management.customer.service.CustomerService;
-import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,25 +27,7 @@ public class CommandLineApplication implements Runnable {
         while (true) {
             try {
                 String command = console.getCommand();
-                switch (CommandType.of(command)) {
-                    case EXIT:
-                        console.close();
-                        System.exit(0);
-                        break;
-                    case LIST:
-                        console.printListVoucher(voucherService.getAllVouchers());
-                        break;
-                    case CREATE:
-                        Voucher voucher = voucherService.saveVoucher(console.getVoucher());
-                        console.printOneVoucher(voucher);
-                        break;
-                    case BLACKLIST:
-                        console.printListCustomer(customerService.getAllCustomers());
-                        break;
-                    default:
-                        console.printString("잘못된 명령어를 입력하셨습니다.");
-                        break;
-                }
+                CommandType.of(command).execute(voucherService, customerService, console);
             } catch (Exception e) {
                 console.printString(e.getMessage());
                 logger.error(e.getMessage());

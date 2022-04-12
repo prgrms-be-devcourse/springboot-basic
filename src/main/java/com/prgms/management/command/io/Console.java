@@ -1,6 +1,5 @@
 package com.prgms.management.command.io;
 
-import com.prgms.management.command.exception.CommandLineException;
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.PercentDiscountVoucher;
@@ -30,7 +29,7 @@ public class Console implements Input, Output<Voucher> {
     }
 
     @Override
-    public Voucher getVoucher() throws CommandLineException {
+    public Voucher getVoucher() {
         textIO.getTextTerminal().println("=================== Create Voucher ===================");
         textIO.getTextTerminal().println("Type **percent** to create a percent discount voucher.");
         textIO.getTextTerminal().println("Type **fixed** to create a fixed amount voucher.");
@@ -53,7 +52,7 @@ public class Console implements Input, Output<Voucher> {
                         .read("Percent");
                 return new PercentDiscountVoucher(percent);
             default:
-                throw new CommandLineException();
+                return null;
         }
     }
 
