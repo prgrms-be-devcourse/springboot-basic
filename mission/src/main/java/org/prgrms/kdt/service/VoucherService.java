@@ -6,6 +6,7 @@ import org.prgrms.kdt.repository.VoucherRepository;
 import java.util.List;
 
 public class VoucherService {
+
     private final VoucherRepository repository;
 
     public VoucherService(VoucherRepository repository) {

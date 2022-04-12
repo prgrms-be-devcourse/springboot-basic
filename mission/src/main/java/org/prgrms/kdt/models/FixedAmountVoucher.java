@@ -3,6 +3,7 @@ package org.prgrms.kdt.models;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
+
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {

@@ -3,6 +3,7 @@ package org.prgrms.kdt.models;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
+
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {

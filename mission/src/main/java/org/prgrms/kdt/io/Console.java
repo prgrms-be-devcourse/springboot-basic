@@ -1,6 +1,7 @@
 package org.prgrms.kdt.io;
 
 public class Console implements Input, Output {
+
     @Override
     public void inputMenuType() {
 
