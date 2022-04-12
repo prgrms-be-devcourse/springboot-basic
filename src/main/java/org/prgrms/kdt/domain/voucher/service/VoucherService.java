@@ -23,16 +23,9 @@ public class VoucherService {
     }
 
     public void save(VoucherType voucherType, long discount) {
-        UUID voucherId = UUID.randomUUID();
-        if(voucherType == VoucherType.FIXED_AMOUNT){
-            Voucher voucher = new FixedAmountVoucher(voucherId, discount);
-            voucherRepository.save(voucher);
-            logger.info("save Fixed Amount Voucher: {}", voucher);
-        } else if(voucherType == VoucherType.PERCENT_DISCOUNT){
-            Voucher voucher = new PercentDiscountVoucher(voucherId, (int) discount);
-            voucherRepository.save(voucher);
-            logger.info("save Percent Discount Voucher: {}", voucher);
-        }
+        Voucher voucher = createVoucher(voucherType, discount);
+        voucherRepository.save(voucher);
+        logger.info("save Fixed Amount Voucher: {}", voucher);
     }
 
     public Optional<Voucher> findById(UUID voucherId) {
@@ -45,6 +38,15 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAll();
         logger.info("find All Voucher {}", vouchers);
         return vouchers;
+    }
+
+    private Voucher createVoucher(VoucherType voucherType, long discount) {
+        UUID voucherId = UUID.randomUUID();
+        if(voucherType == VoucherType.FIXED_AMOUNT){
+            return new FixedAmountVoucher(voucherId, discount);
+        } else {
+            return new PercentDiscountVoucher(voucherId, (int) discount);
+        }
     }
 
 }
