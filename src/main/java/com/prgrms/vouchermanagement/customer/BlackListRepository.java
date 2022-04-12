@@ -18,13 +18,13 @@ public class BlackListRepository {
     /**
      * customer_black_list.csv 파일을 읽어서 Member 타입의 List 로 변환하여 반환한다.
      */
-    public List<Member> findAll() {
-        List<Member> blackList = new ArrayList<>();
+    public List<Customer> findAll() {
+        List<Customer> blackList = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(BLACK_LIST_FILE_NAME))) {
             String name = null;
             while ((name = br.readLine()) != null) {
-                blackList.add(new Member(name));
+                blackList.add(new Customer(name));
             }
             log.info("find all blackList. size={}", blackList.size());
         } catch (IOException e) {

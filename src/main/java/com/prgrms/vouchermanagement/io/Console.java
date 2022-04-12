@@ -1,6 +1,6 @@
 package com.prgrms.vouchermanagement.io;
 
-import com.prgrms.vouchermanagement.customer.Member;
+import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.util.StringUtils;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import org.springframework.stereotype.Component;
@@ -85,7 +85,7 @@ public class Console implements Input, Output{
     }
 
     @Override
-    public void printBlackList(List<Member> blackList) {
+    public void printBlackList(List<Customer> blackList) {
         if (blackList == null || blackList.isEmpty()) {
             return;
         }

@@ -1,6 +1,6 @@
 package com.prgrms.vouchermanagement;
 
-import com.prgrms.vouchermanagement.customer.Member;
+import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.io.Input;
 import com.prgrms.vouchermanagement.io.Output;
 import com.prgrms.vouchermanagement.customer.BlackListRepository;
@@ -56,7 +56,7 @@ public class VoucherManagement {
     }
 
     private void showBlackList() {
-        List<Member> blackList = blackListRepository.findAll();
+        List<Customer> blackList = blackListRepository.findAll();
 
         if (blackList == null || blackList.isEmpty()) {
             output.printMessage(BLACK_LIST_EMPTY);

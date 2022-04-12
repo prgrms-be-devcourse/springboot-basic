@@ -1,10 +1,10 @@
 package com.prgrms.vouchermanagement.customer;
 
-public class Member {
+public class Customer {
 
     private String name;
 
-    public Member(String name) {
+    public Customer(String name) {
         this.name = name;
     }
 
