@@ -32,4 +32,9 @@ public class MemoryVoucherRepository implements VoucherRepository{
     public void delete(UUID uuid) {
         voucherStore.remove(uuid);
     }
+
+    @Override
+    public void deleteAll() {
+        voucherStore.clear();
+    }
 }

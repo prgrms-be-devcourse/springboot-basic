@@ -1,5 +1,8 @@
 package com.blessing333.springbasic.voucher.domain;
 
+import lombok.Getter;
+
+@Getter
 public class FixedAmountVoucher extends Voucher{
     private final long discountAmount;
 
