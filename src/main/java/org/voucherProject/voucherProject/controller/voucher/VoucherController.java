@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface VoucherController {
 
-    Voucher createVoucher(VoucherType voucherType, long number);
+    Voucher createVoucher(Voucher voucher);
 
     List<Voucher> findAll();
 

@@ -18,10 +18,12 @@ import java.util.UUID;
 @Slf4j
 public class BlackListRepository {
 
+    private final String BLACKLIST_LIST_PATH = "src/main/resources/customer_blacklist.csv";
+
     private List<User> getVouchers(){
         List<User> blackList = new ArrayList<>();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("customer_blacklist.csv"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(BLACKLIST_LIST_PATH));
             String readLine = null;
             while ((readLine = bufferedReader.readLine()) != null) {
                 String[] readLineSplit = readLine.split(",");

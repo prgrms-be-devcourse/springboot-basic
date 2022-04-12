@@ -58,9 +58,10 @@ public class VoucherEnrollSystem implements Runnable {
         if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.CREATE)))) {
             String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
 
-            Optional<VoucherType> voucherType = checkVoucherType(inputVoucherType);
+            VoucherType.validateVoucherType(Integer.parseInt(inputVoucherType));
             long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
-            voucherController.createVoucher(voucherType.get(), inputDiscountAmount);
+            Voucher voucher = VoucherType.createVoucher(Integer.parseInt(inputVoucherType), inputDiscountAmount);
+            voucherController.createVoucher(voucher);
             console.completeMessage();
         }
         return false;
@@ -71,20 +72,5 @@ public class VoucherEnrollSystem implements Runnable {
             List<Voucher> vouchers = voucherController.findAll();
             vouchers.forEach(voucher -> System.out.println("voucher = " + voucher));
         }
-    }
-
-    protected Optional<VoucherType> checkVoucherType(String inputVoucherType) {
-        Optional<VoucherType> voucherType = Optional.empty();
-        int inputVoucherTypeInt = Integer.parseInt(inputVoucherType);
-
-        if (inputVoucherTypeInt == VoucherType.FIXED.getNumber()) {
-            voucherType = Optional.of(VoucherType.FIXED);
-        }
-        if (inputVoucherTypeInt == VoucherType.PERCENT.getNumber()) {
-            voucherType = Optional.of(VoucherType.PERCENT);
-        }
-        if (voucherType.isEmpty()) throw new IllegalArgumentException();
-
-        return voucherType;
     }
 }

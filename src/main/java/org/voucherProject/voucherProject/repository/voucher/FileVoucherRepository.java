@@ -1,6 +1,8 @@
 package org.voucherProject.voucherProject.repository.voucher;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.voucher.*;
@@ -13,7 +15,7 @@ import java.util.UUID;
 
 @Repository
 @Slf4j
-@Primary
+//@Primary
 public class FileVoucherRepository implements VoucherRepository {
 
     private final String FILE_VOUCHER_REPO_PATH = "src/main/resources/voucherRepository.txt";
@@ -45,7 +47,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
 
-    private void validSameId(Voucher voucher){
+    private void validSameId(Voucher voucher) {
         if (findById(voucher.getVoucherId()).isPresent()) {
             throw new RuntimeException("동일한 아이디가 존재합니다.");
         }
@@ -88,10 +90,10 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Optional<Voucher> getVoucher(String[] readLineSplit, Optional<Voucher> voucher) {
-        if (readLineSplit[2].equalsIgnoreCase(String.valueOf(VoucherType.FIXED)) ) {
+        if (readLineSplit[2].equalsIgnoreCase(String.valueOf(VoucherType.FIXED))) {
             voucher = Optional.of(new FixedAmountVoucher(UUID.fromString(readLineSplit[0]), Long.parseLong(readLineSplit[1])));
         }
-        if (readLineSplit[2].equalsIgnoreCase(String.valueOf(VoucherType.PERCENT)) ) {
+        if (readLineSplit[2].equalsIgnoreCase(String.valueOf(VoucherType.PERCENT))) {
             voucher = Optional.of(new PercentDiscountVoucher(UUID.fromString(readLineSplit[0]), Long.parseLong(readLineSplit[1])));
         }
         return voucher;

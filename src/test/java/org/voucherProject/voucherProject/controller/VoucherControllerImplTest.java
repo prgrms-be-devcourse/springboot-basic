@@ -8,6 +8,7 @@ import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,20 +20,18 @@ class VoucherControllerImplTest {
 
     @Test
     public void createVoucher() throws Exception {
-        VoucherType voucherType = VoucherType.FIXED;
-        long howMuchDiscount = 10;
-        Voucher createVoucher = voucherController.createVoucher(voucherType, howMuchDiscount);
+        Voucher voucher = VoucherType.createVoucher(1, 1);
+        Voucher createVoucher = voucherController.createVoucher(voucher);
 
-        assertThat(createVoucher.getVoucherType()).isEqualTo(voucherType);
-        assertThat(createVoucher.getHowMuch()).isEqualTo(howMuchDiscount);
+        assertThat(createVoucher.getVoucherType()).isEqualTo(voucher.getVoucherType());
+        assertThat(createVoucher.getHowMuch()).isEqualTo(voucher.getHowMuch());
     }
 
     @Test
     public void findById() throws Exception {
 
-        VoucherType voucherType = VoucherType.FIXED;
-        long howMuchDiscount = 10;
-        Voucher createVoucher = voucherController.createVoucher(voucherType, howMuchDiscount);
+        Voucher voucher = VoucherType.createVoucher(1, 1);
+        Voucher createVoucher = voucherController.createVoucher(voucher);
 
         Voucher findVoucher = voucherController.findById(createVoucher.getVoucherId());
 
@@ -42,11 +41,13 @@ class VoucherControllerImplTest {
     @Test
     public void findAll() throws Exception {
 
-        VoucherType voucherType = VoucherType.FIXED;
-        long howMuchDiscount = 10;
-        Voucher createVoucher1 = voucherController.createVoucher(voucherType, howMuchDiscount);
-        Voucher createVoucher2 = voucherController.createVoucher(voucherType, howMuchDiscount);
-        Voucher createVoucher3 = voucherController.createVoucher(voucherType, howMuchDiscount);
+        Voucher voucher = VoucherType.createVoucher(1, 1);
+        Voucher voucher2 = VoucherType.createVoucher(1, 1);
+        Voucher voucher3 = VoucherType.createVoucher(1, 1);
+
+        Voucher createVoucher1 = voucherController.createVoucher(voucher);
+        Voucher createVoucher2 = voucherController.createVoucher(voucher2);
+        Voucher createVoucher3 = voucherController.createVoucher(voucher3);
 
         List<Voucher> vouchers = voucherController.findAll();
         assertThat(vouchers.contains(createVoucher1)).isTrue();
