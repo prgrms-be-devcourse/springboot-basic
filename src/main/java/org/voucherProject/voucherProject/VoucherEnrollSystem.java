@@ -7,10 +7,7 @@ import org.voucherProject.voucherProject.controller.voucher.VoucherController;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 import org.voucherProject.voucherProject.io.Console;
-
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 
 @Slf4j
@@ -29,48 +26,28 @@ public class VoucherEnrollSystem implements Runnable {
                     "Type create to create a new voucher.\n" +
                     "Type list to list all vouchers");
             try {
-                validateInput(inputString);
-                if (exitSystem(inputString)) break;
-                if (createVoucher(inputString)) continue;
-                showAllVoucherList(inputString);
+                InputCommend inputCommend = InputCommend.is(inputString);
+
+                switch (inputCommend) {
+                    case EXIT:
+                        console.endMessage();
+                        System.exit(0);
+                        break;
+                    case LIST:
+                        List<Voucher> vouchers = voucherController.findAll();
+                        vouchers.forEach(voucher -> System.out.println("voucher = " + voucher));
+                        break;
+                    case CREATE:
+                        String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
+                        VoucherType voucherType = VoucherType.getVoucherType(Integer.parseInt(inputVoucherType));
+                        long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
+                        voucherController.createVoucher(voucherType.createVoucher(inputDiscountAmount));
+                        console.completeMessage();
+                        break;
+                }
             } catch (IllegalArgumentException e) {
                 console.errorMessage();
             }
-        }
-    }
-
-    protected void validateInput(String inputString) {
-        boolean validInputString = Arrays.stream(InputCommend.values()).map(String::valueOf).anyMatch(v -> v.equals(inputString.toUpperCase()));
-        if (!validInputString) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    protected boolean exitSystem(String inputString) {
-        if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.EXIT)))) {
-            console.endMessage();
-            return true;
-        }
-        return false;
-    }
-
-    protected boolean createVoucher(String inputString){
-        if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.CREATE)))) {
-            String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
-
-            VoucherType.validateVoucherType(Integer.parseInt(inputVoucherType));
-            long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
-            Voucher voucher = VoucherType.createVoucher(Integer.parseInt(inputVoucherType), inputDiscountAmount);
-            voucherController.createVoucher(voucher);
-            console.completeMessage();
-        }
-        return false;
-    }
-
-    protected void showAllVoucherList(String inputString){
-        if ((inputString.equalsIgnoreCase(String.valueOf(InputCommend.LIST)))) {
-            List<Voucher> vouchers = voucherController.findAll();
-            vouchers.forEach(voucher -> System.out.println("voucher = " + voucher));
         }
     }
 }

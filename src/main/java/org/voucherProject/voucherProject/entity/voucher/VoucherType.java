@@ -30,21 +30,15 @@ public enum VoucherType {
     }
 
     public static Voucher createVoucher(int inputVoucherTypeInt, long amount) {
-        Optional<VoucherType> voucherType = Arrays.stream(VoucherType.values())
+        VoucherType voucherType = getVoucherType(inputVoucherTypeInt);
+        return voucherType.createVoucher(amount);
+    }
+
+    public static VoucherType getVoucherType(int inputVoucherTypeInt) {
+        VoucherType voucherType = Arrays.stream(VoucherType.values())
                 .filter(v -> v.getNumber() == inputVoucherTypeInt)
-                .findFirst();
-
-        if (voucherType.isEmpty()) throw new IllegalArgumentException();
-        return voucherType.get().createVoucher(amount);
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+        return voucherType;
     }
-
-    public static void validateVoucherType(int input) {
-        if (!Arrays.stream(VoucherType.values())
-                .mapToInt(v -> v.getNumber())
-                .anyMatch(v -> v == input)) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-
 }
