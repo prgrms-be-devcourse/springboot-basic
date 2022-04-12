@@ -1,6 +1,8 @@
 package org.prgrms.kdt.domain.voucher.controller;
 
 import org.prgrms.kdt.domain.command.types.CommandType;
+import org.prgrms.kdt.domain.customer.model.Customer;
+import org.prgrms.kdt.domain.customer.service.CustomerService;
 import org.prgrms.kdt.util.Console;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.types.VoucherType;
@@ -15,9 +17,11 @@ import java.util.List;
 public class VoucherController {
     private final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     public void processCommand(CommandType commandType){
@@ -29,6 +33,8 @@ public class VoucherController {
             findStoredVouchers();
         } else if(commandType == CommandType.EXIT) {
             Console.printExit();
+        } else if(commandType == CommandType.BLACKLIST) {
+            findBlackCustomers();
         }
         logger.info("Process Command End");
     }
@@ -43,5 +49,10 @@ public class VoucherController {
     private void findStoredVouchers() {
         List<Voucher> vouchers = voucherService.findAll();
         Console.printAllVouchers(vouchers);
+    }
+
+    private void findBlackCustomers() {
+        List<Customer> blackListCustomers = customerService.findBlackListCustomers();
+        Console.printAllCustomers(blackListCustomers);
     }
 }

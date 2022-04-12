@@ -5,7 +5,8 @@ import java.util.Arrays;
 public enum CommandType {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    BLACKLIST("blackList");
 
     private final String command;
 

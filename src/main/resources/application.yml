@@ -1,10 +1,10 @@
 spring:
   profiles:
-    active: local
+    active: dev
 csv:
   voucher:
-    file-name: voucherList.csv
-    path:
+    file-name: voucherList_sample.csv
+    path: src\\main\\resources
   member:
-    file-name: customer_blacklist.csv
-    path:
+    file-name: customer_blacklist_sample.csv
+    path: src\\main\\resources
