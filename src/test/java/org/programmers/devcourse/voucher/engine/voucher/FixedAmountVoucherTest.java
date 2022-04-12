@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 
 
-@DisplayName("FixedAmountVoucher는 ")
 class FixedAmountVoucherTest {
 
 

@@ -11,7 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 
-@DisplayName("PercentDiscountVoucher는 ")
 class PercentDiscountVoucherTest {
 
   @DisplayName("등록되어 있는 비율 만큼 가격을 할인해야 한다.")
