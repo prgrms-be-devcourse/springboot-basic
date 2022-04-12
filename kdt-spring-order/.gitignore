@@ -48,4 +48,4 @@ buildNumber.properties
 logs/
 
 ### resources/csv ###
-.src/main/resources/csv/
+src/main/resources/csv/
