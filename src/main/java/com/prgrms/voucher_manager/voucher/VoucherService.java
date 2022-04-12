@@ -20,9 +20,24 @@ public class VoucherService {
     }
 
     public void getFindAllVoucher(){
-        if(voucherRepository.getRepositorySize() == 0) throw new EmptyVoucherException("");
-        voucherRepository.findAll();
+        try{
+            voucherRepository.findAll();
+        }catch (EmptyVoucherException e){
+            logger.info("{}", e.getMessage());
+        }
     }
+
+    public void createVoucher(String type, Long value){
+        try{
+            VoucherType voucherType = VoucherType.getVoucherType(type);
+            voucherRepository.save(voucherType.create(value));
+        }catch (IllegalArgumentException e){
+            logger.info("Voucher Type을 잘못 입력 했습니다 {}", type);
+        }catch (WrongVoucherValueException we){
+            logger.info("범위가 다릅니다. {}",we.getMessage());
+        }
+    }
+
 
     public Optional<Voucher> createFixedAmountVoucher(long amount){
         if(amount < 0){

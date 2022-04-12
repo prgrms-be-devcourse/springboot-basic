@@ -1,32 +1,47 @@
 package com.prgrms.voucher_manager.repository;
 
 import com.prgrms.voucher_manager.exception.WrongVoucherValueException;
-import com.prgrms.voucher_manager.voucher.Voucher;
-import com.prgrms.voucher_manager.voucher.VoucherService;
+import com.prgrms.voucher_manager.voucher.FixedAmountVoucher;
+import com.prgrms.voucher_manager.voucher.PercentDiscountVoucher;
 import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
 import java.util.UUID;
 
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherRepositoryTest {
 
-    private VoucherRepository voucherRepository;
-    private VoucherService voucherService;
+    private static final Logger logger = LoggerFactory.getLogger(VoucherRepositoryTest.class);
 
     @BeforeEach
-    void setRepository(){
-        voucherRepository = new MemoryVoucherRepository();
-        voucherService = new VoucherService(voucherRepository);
+    void setup(){
     }
 
     @Test
-    @DisplayName("새로운 voucher 저장시 제대로된 value를 가지고 저장이 되는지 확인하는 테스트")
-    void saveVoucher(){
-        Assertions.assertEquals(Optional.empty(), voucherService.createFixedAmountVoucher(-1));
-        Assertions.assertEquals(Optional.empty(), voucherService.createPercentDiscountVoucher(110));
-        Assertions.assertEquals(Optional.class,voucherService.createFixedAmountVoucher(10).getClass());
+    @DisplayName("기본적인 voucher save 테스트")
+    void saveVoucher() {
+        assertThat(true,is(new FixedAmountVoucher(UUID.randomUUID(),10).getValue() == 10));
+    }
+
+
+    @Test
+    @DisplayName("할인 금액은 마이너스가 될 수 없음.")
+    void saveVoucherWithMinus() {
+        assertThrows(WrongVoucherValueException.class,()-> new FixedAmountVoucher(UUID.randomUUID(),-3));
+        assertThrows(WrongVoucherValueException.class,()-> new PercentDiscountVoucher(UUID.randomUUID(),-3));
+        logger.info("할인 금액으로 마이너스가 들어온 경우 안됨");
+    }
+
+    @Test
+    @DisplayName("할인 금액은 최대값을 넘을 수 없다.")
+    void saveVoucherWithMAX(){
+        assertThrows(WrongVoucherValueException.class,()-> new FixedAmountVoucher(UUID.randomUUID(),10001));
+        assertThrows(WrongVoucherValueException.class,()-> new PercentDiscountVoucher(UUID.randomUUID(),101));
+        logger.info("할인 금액으로 최대값을 넘은 수가 들어온 경우 안됨");
     }
 
 

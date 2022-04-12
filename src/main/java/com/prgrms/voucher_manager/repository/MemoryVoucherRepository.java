@@ -1,5 +1,6 @@
 package com.prgrms.voucher_manager.repository;
 
+import com.prgrms.voucher_manager.exception.EmptyVoucherException;
 import com.prgrms.voucher_manager.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void findAll() {
+        if(storage.isEmpty()) throw new EmptyVoucherException("MemoryVoucherRepository 가 비어있습니다.");
         logger.info("MemoryVoucherRepository - findAll");
         storage.forEach(((uuid, voucher) -> {
             System.out.println(voucher.getInfo());

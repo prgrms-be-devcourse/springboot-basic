@@ -1,5 +1,6 @@
 package com.prgrms.voucher_manager.voucher;
 
+import com.prgrms.voucher_manager.exception.WrongVoucherValueException;
 import com.prgrms.voucher_manager.io.Message;
 import lombok.Builder;
 
@@ -13,7 +14,12 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
     private final VoucherType type = VoucherType.FixedAmountVoucher;
 
+    private static final long MAX_AMOUNT = 10000L;
+    private static final long MIN_AMOUNT = 0L;
+
     public FixedAmountVoucher(UUID id, long amount) {
+        if(amount > MAX_AMOUNT || amount < MIN_AMOUNT)
+            throw new WrongVoucherValueException("0 ~ 10,000 사이의 수를 입력해야 합니다.");
         this.id = id;
         this.amount = amount;
     }

@@ -1,5 +1,6 @@
 package com.prgrms.voucher_manager.repository;
 
+import com.prgrms.voucher_manager.exception.EmptyVoucherException;
 import com.prgrms.voucher_manager.voucher.FixedAmountVoucher;
 import com.prgrms.voucher_manager.voucher.PercentDiscountVoucher;
 import com.prgrms.voucher_manager.voucher.Voucher;
@@ -23,7 +24,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        logger.info("FileVoucherRepository Save");
+        logger.info("FileVoucherRepository - save");
         try{
             bw.write(voucher.getVoucherType()
                     + "," + voucher.getVoucherID()
@@ -32,14 +33,13 @@ public class FileVoucherRepository implements VoucherRepository {
             bw.flush();
 //            bw.close();
         } catch (IOException e) {
-            logger.error("FileVoucherRepository Save Error");
+            logger.error("FileVoucherRepository - save Error");
             e.printStackTrace();
         }
     }
 
     @Override
     public void findAll() {
-        logger.info("FileVoucherRepository findAll");
         String lineString = "";
         try{
             br = getBufferReader(file);
@@ -61,9 +61,10 @@ public class FileVoucherRepository implements VoucherRepository {
                 }
             }
         } catch (IOException e) {
-            logger.error("FileVoucher FindAll Error");
-            e.printStackTrace();
+            throw new EmptyVoucherException("MemoryVoucherRepository 가 비어있습니다.");
+           // e.printStackTrace();
         }
+        logger.info("FileVoucherRepository - findAll");
     }
 
     @Override
