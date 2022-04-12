@@ -9,16 +9,16 @@ import org.prgrms.kdt.models.Voucher;
 import java.util.List;
 import java.util.UUID;
 
-public class MemoryVoucherRepositoryTest {
+public class VoucherMemoryRepositoryTest {
 
-    VoucherRepository repository = new MemoryVoucherRepository();
+    VoucherRepository repository = new VoucherMemoryRepository();
 
     @Test
     @DisplayName("해시맵에 바우처 저장 기능")
-    public void saveTest(){
+    public void saveTest() {
 
         //given
-        Voucher voucher1 =  new FixedAmountVoucher(UUID.randomUUID(), 100);
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 100);
 
         //when
         Voucher checkVoucher = repository.save(voucher1);
@@ -29,7 +29,7 @@ public class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("해시맵 findAll 테스트")
-    public void findAllTest(){
+    public void findAllTest() {
 
         //given
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1);

@@ -2,9 +2,17 @@ package org.prgrms.kdt.models;
 
 import java.util.UUID;
 
-public interface Voucher {
+public abstract class Voucher {
+    protected UUID voucherId;
 
-    UUID getVoucherId();
 
-    long discount();
+    public UUID getVoucherId() {
+        return null;
+    }
+
+    public void setVoucherId(UUID voucherId) {
+        return;
+    }
+
+    abstract public long discount();
 }

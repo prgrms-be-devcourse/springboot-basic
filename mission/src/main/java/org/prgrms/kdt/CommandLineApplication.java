@@ -1,8 +1,20 @@
 package org.prgrms.kdt;
 
-public class CommandLineApplication {
+import org.prgrms.kdt.controller.Controller;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 
-    public boolean checkInput(String inputString){
+
+public class CommandLineApplication implements ApplicationRunner {
+
+    Controller controller;
+
+    public boolean checkInput(String inputString) {
         return true;
+    }
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+
     }
 }

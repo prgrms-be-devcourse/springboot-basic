@@ -4,7 +4,7 @@ import org.prgrms.kdt.models.Voucher;
 
 import java.util.List;
 
-public class MemoryVoucherRepository implements VoucherRepository {
+public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {

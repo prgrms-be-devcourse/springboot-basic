@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @SpringBootApplication
 public class VoucherApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(VoucherApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(VoucherApplication.class, args);
+    }
 }

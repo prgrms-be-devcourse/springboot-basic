@@ -1,4 +1,4 @@
 package org.prgrms.kdt.exception;
 
-public class InputException extends Exception{
+public class InputException extends Exception {
 }

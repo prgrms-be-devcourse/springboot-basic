@@ -12,11 +12,15 @@ public class VoucherService {
         this.repository = repository;
     }
 
-    public Voucher create(long value, String type){
+    public Voucher create(long value, String type) {
         return null;
     }
 
-    public List<Voucher> voucherList(){
+    public List<Voucher> voucherList() {
         return null;
+    }
+
+    public void voucherClear() {
+
     }
 }

@@ -4,17 +4,17 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.models.Voucher;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
+import org.prgrms.kdt.repository.VoucherMemoryRepository;
 
 import java.util.List;
 
 public class VoucherServiceTest {
 
-    VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
+    VoucherService voucherService = new VoucherService(new VoucherMemoryRepository());
 
     @Test
     @DisplayName("FixedAmountVoucher 생성기능")
-    public  void fixedAmountVoucherCreateTest(){
+    public void fixedAmountVoucherCreateTest() {
 
         //given
 
@@ -28,7 +28,7 @@ public class VoucherServiceTest {
 
     @Test
     @DisplayName("PercentDiscountVoucher 생성기능")
-    public  void percentDiscountVoucherCreateTest(){
+    public void percentDiscountVoucherCreateTest() {
 
         //given
 
@@ -42,7 +42,7 @@ public class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처 목록 조회 확인")
-    public void voucherListTest(){
+    public void voucherListTest() {
 
         //given
         Voucher voucher1 = voucherService.create(10, "fixed");
@@ -59,7 +59,7 @@ public class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처 목록이 비어있을 경우")
-    public void voucherListEmptyTest(){
+    public void voucherListEmptyTest() {
 
         //given
 

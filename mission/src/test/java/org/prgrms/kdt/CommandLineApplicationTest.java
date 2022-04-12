@@ -4,17 +4,17 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.exception.InputException;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
+import org.prgrms.kdt.repository.VoucherMemoryRepository;
 import org.prgrms.kdt.service.VoucherService;
 
 public class CommandLineApplicationTest {
 
-    VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
+    VoucherService voucherService = new VoucherService(new VoucherMemoryRepository());
     CommandLineApplication commandLineApplication = new CommandLineApplication();
 
     @Test
     @DisplayName("PercentDistcoutVoucher에 0미만 100초과 입력시 실패")
-    public void percentInputTest(){
+    public void percentInputTest() {
 
         //given
         int inputPercent = 111;
@@ -23,14 +23,14 @@ public class CommandLineApplicationTest {
 
         //then
         Assertions.assertThatThrownBy(() -> {
-            voucherService.create(inputPercent, "percent");
-        }).isInstanceOf(InputException.class)
+                    voucherService.create(inputPercent, "percent");
+                }).isInstanceOf(InputException.class)
                 .hasMessageContaining("Invalid Input...");
     }
 
     @Test
     @DisplayName("FixedAmountVoucher 생성시 Amount에 음수 입력시 실패")
-    public void amountInputTest(){
+    public void amountInputTest() {
 
         //given
         int inputAmount = -1;
@@ -46,7 +46,7 @@ public class CommandLineApplicationTest {
 
     @Test
     @DisplayName("메뉴 입력시 유효하지 않은 명령어 ,유효한 명령어 = (create, list, exit)")
-    public void menuInputTest(){
+    public void menuInputTest() {
 
         //given
         String inputMenu = "aaaaa";
@@ -62,7 +62,7 @@ public class CommandLineApplicationTest {
 
     @Test
     @DisplayName("유효하지 않은 바우처 타입 선택, 유효한 선택 (1, 2)")
-    public void selectVoucherTest(){
+    public void selectVoucherTest() {
 
         //given
         String SelectVoucherType = "3";
