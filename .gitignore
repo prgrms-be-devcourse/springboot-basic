@@ -115,3 +115,4 @@ buildNumber.properties
 # FileSystemPrivacy
 logs
 voucher-db.txt
+application-jdbc.yaml

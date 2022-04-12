@@ -1,0 +1,4 @@
+jdbc:
+  user: "name of database user"
+  password: "password of database user"
+  url: "jdbc:mysql://host/schema"
