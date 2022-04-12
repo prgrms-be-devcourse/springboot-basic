@@ -31,8 +31,8 @@ public class FixedAmountVoucher implements Voucher{
     public String toString() {
         return "FixedAmountVoucher{" +
             "voucherId=" + voucherId +
-            ", amount=" + amount +
-            ", voucherStatus=" + voucherStatus +
+            "/ amount=" + amount +
+            "/ voucherStatus=" + voucherStatus +
             '}';
     }
 }
