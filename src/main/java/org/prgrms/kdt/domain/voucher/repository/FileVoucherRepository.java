@@ -32,8 +32,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return findAll().stream()
-                .filter(voucher -> voucher.getVoucherId() == voucherId)
+        List<Voucher> vouchers = parseCsvToList(CsvUtils.readCsv(csvPath, fileName));
+        return vouchers.stream()
+                .filter(voucher -> voucher.getVoucherId().equals(voucherId))
                 .findAny();
     }
 
