@@ -1,10 +1,9 @@
 package org.prgrms.weeklymission.console;
 
+import java.util.List;
+
 public interface Output {
     void initMessage();
-    void saveSuccessMessage();
     void errorMessage(Exception e);
-    void exitMessage();
-    void printData(String vouchers);
-    void createVoucherMessage();
+    <T> void printData(List<T> data);
 }
