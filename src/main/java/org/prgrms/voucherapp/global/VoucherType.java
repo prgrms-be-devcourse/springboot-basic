@@ -5,6 +5,8 @@ import org.prgrms.voucherapp.engine.PercentDiscountVoucher;
 import org.prgrms.voucherapp.engine.Voucher;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -28,5 +30,12 @@ public enum VoucherType {
     public static Voucher createVoucher(VoucherType type, UUID uuid, long amount){
         return type.createInstance.apply(uuid, amount);
     }
+
+    public static Optional<VoucherType> getType(String option) {
+        return Arrays.stream(values())
+                .filter(m -> m.option.equals(option))
+                .findFirst();
+    }
+
 
 }
