@@ -1,4 +1,4 @@
-package com.prgrms.management.command.domain;
+package com.prgrms.management.config;
 
 public enum GuideType {
     COMMAND("=== Voucher Program ===\nType exit to exit the program.\n"+

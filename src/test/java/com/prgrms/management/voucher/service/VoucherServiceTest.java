@@ -28,9 +28,9 @@ class VoucherServiceTest {
     @Test
     void 바우처_리스트_조회() {
         //given
-        FixedAmountVoucher voucher = new FixedAmountVoucher(1000);
-        PercentAmountVoucher voucherTwo = new PercentAmountVoucher(10);
-        List<Voucher> voucherList = Arrays.asList(voucher, voucherTwo);
+        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(1000);
+        PercentAmountVoucher percentVoucher = new PercentAmountVoucher(10);
+        List<Voucher> voucherList = Arrays.asList(fixedVoucher, percentVoucher);
         //즉시 인스턴스 객체 반환
         when(voucherService.findAll()).thenReturn(voucherList);
         //when

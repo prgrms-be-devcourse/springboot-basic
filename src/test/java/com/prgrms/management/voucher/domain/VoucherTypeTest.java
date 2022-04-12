@@ -8,16 +8,23 @@ import java.util.NoSuchElementException;
 class VoucherTypeTest {
 
     @Test
-    void Voucher_Type_입력() {
+    void Fixed_Voucher_Type_입력() {
         //given
-        String inputVoucherType = "fixed";
-        String inputVoucherTypeTwo = "percent";
+        String fixedType = "fixed";
         //when
-        VoucherType voucherType = VoucherType.of(inputVoucherType);
-        VoucherType voucherTypeTwo = VoucherType.of(inputVoucherTypeTwo);
+        VoucherType voucherType = VoucherType.of(fixedType);
         //then
         Assertions.assertThat(voucherType).isEqualTo(VoucherType.FIXED);
-        Assertions.assertThat(voucherTypeTwo).isEqualTo(VoucherType.PERCENT);
+    }
+
+    @Test
+    void Percent_Voucher_Type_입력() {
+        //given
+        String percentType = "percent";
+        //when
+        VoucherType voucherType = VoucherType.of(percentType);
+        //then
+        Assertions.assertThat(voucherType).isEqualTo(VoucherType.PERCENT);
     }
 
     @Test

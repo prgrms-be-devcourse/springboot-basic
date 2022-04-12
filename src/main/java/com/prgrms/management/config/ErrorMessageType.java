@@ -1,6 +1,6 @@
 package com.prgrms.management.config;
 
-public enum ErrorMessage {
+public enum ErrorMessageType {
     NOT_COMMAND_TYPE(":존재하지 않는 명령어 타입입니다."),
     NOT_CUSTOMER_TYPE(":존재하지 않는 손님 타입입니다."),
     NOT_VOUCHER_TYPE(":존재하지 않는 바우처 타입입니다."),
@@ -12,7 +12,7 @@ public enum ErrorMessage {
 
     private final String Message;
 
-    ErrorMessage(String message) {
+    ErrorMessageType(String message) {
         Message = message;
     }
 

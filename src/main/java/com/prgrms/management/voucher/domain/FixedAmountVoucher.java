@@ -1,6 +1,6 @@
 package com.prgrms.management.voucher.domain;
 
-import com.prgrms.management.config.ErrorMessage;
+import com.prgrms.management.config.ErrorMessageType;
 
 import java.util.UUID;
 
@@ -12,7 +12,7 @@ public class FixedAmountVoucher implements Voucher {
     private static final Long MIN_DISCOUNT = 0L;
     public FixedAmountVoucher(UUID voucherId, long amount) {
         if (amount < MIN_DISCOUNT || amount > MAX_DISCOUNT)
-            throw new NumberFormatException(VoucherType.class + ErrorMessage.OUT_OF_RANGE_FIXED_NUMBER.getMessage());
+            throw new NumberFormatException(VoucherType.class + ErrorMessageType.OUT_OF_RANGE_FIXED_NUMBER.getMessage());
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherType = VoucherType.FIXED;
@@ -20,7 +20,7 @@ public class FixedAmountVoucher implements Voucher {
 
     public FixedAmountVoucher(long amount) {
         if (amount < MIN_DISCOUNT || amount > MAX_DISCOUNT)
-            throw new NumberFormatException(VoucherType.class + ErrorMessage.OUT_OF_RANGE_FIXED_NUMBER.getMessage());
+            throw new NumberFormatException(VoucherType.class + ErrorMessageType.OUT_OF_RANGE_FIXED_NUMBER.getMessage());
         this.voucherId = UUID.randomUUID();
         this.amount = amount;
         this.voucherType = VoucherType.FIXED;

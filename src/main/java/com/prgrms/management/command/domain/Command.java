@@ -1,7 +1,6 @@
 package com.prgrms.management.command.domain;
 
-import com.prgrms.management.config.ErrorMessage;
-import com.prgrms.management.customer.domain.CustomerType;
+import com.prgrms.management.config.ErrorMessageType;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
@@ -13,6 +12,6 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(e -> e.name().equals(input.toUpperCase()))
                 .findAny()
-                .orElseThrow(()-> new NoSuchElementException(Command.class+ ErrorMessage.NOT_COMMAND_TYPE.getMessage()));
+                .orElseThrow(()-> new NoSuchElementException(Command.class+ ErrorMessageType.NOT_COMMAND_TYPE.getMessage()));
     }
 }

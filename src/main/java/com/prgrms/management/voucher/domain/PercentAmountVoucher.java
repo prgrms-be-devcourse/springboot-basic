@@ -1,6 +1,6 @@
 package com.prgrms.management.voucher.domain;
 
-import com.prgrms.management.config.ErrorMessage;
+import com.prgrms.management.config.ErrorMessageType;
 
 import java.util.UUID;
 
@@ -13,7 +13,7 @@ public class PercentAmountVoucher implements Voucher {
 
     public PercentAmountVoucher(UUID voucherId, long amount) {
         if (amount < MIN_DISCOUNT || amount > MAX_DISCOUNT)
-            throw new NumberFormatException(VoucherType.class + ErrorMessage.OUT_OF_RANGE_PERCENT_NUMBER.getMessage());
+            throw new NumberFormatException(VoucherType.class + ErrorMessageType.OUT_OF_RANGE_PERCENT_NUMBER.getMessage());
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherType = VoucherType.PERCENT;
@@ -21,7 +21,7 @@ public class PercentAmountVoucher implements Voucher {
 
     public PercentAmountVoucher(long amount) {
         if (amount < MIN_DISCOUNT || amount > MAX_DISCOUNT)
-            throw new NumberFormatException(VoucherType.class + ErrorMessage.OUT_OF_RANGE_PERCENT_NUMBER.getMessage());
+            throw new NumberFormatException(VoucherType.class + ErrorMessageType.OUT_OF_RANGE_PERCENT_NUMBER.getMessage());
         this.voucherId = UUID.randomUUID();
         this.amount = amount;
         this.voucherType = VoucherType.PERCENT;

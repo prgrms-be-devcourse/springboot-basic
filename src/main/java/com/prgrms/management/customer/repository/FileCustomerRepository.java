@@ -1,6 +1,6 @@
 package com.prgrms.management.customer.repository;
 
-import com.prgrms.management.config.ErrorMessage;
+import com.prgrms.management.config.ErrorMessageType;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerType;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 bufferedWriter.newLine();
             }
         } catch (IOException e) {
-            logger.warn("{}:{}",e.getClass(), ErrorMessage.IO_EXCEPTION.getMessage());
+            logger.warn("{}:{}",e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
         }
         return customer;
     }
@@ -44,7 +44,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 if (type.equals(CustomerType.BLACKLIST)) blackCustomerList.add(new Customer(CustomerType.BLACKLIST));
             }
         } catch (IOException e) {
-            logger.warn("{}:{}",e.getClass(), ErrorMessage.IO_EXCEPTION.getMessage());
+            logger.warn("{}:{}",e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
         }
         return blackCustomerList;
     }
