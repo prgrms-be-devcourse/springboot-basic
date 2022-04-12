@@ -13,10 +13,12 @@ import java.util.UUID;
 
 @Repository
 @Slf4j
-//@Primary
+@Primary
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final FileWriter fileWriter = new FileWriter("voucherRepository.txt", true);
+    private final String FILE_VOUCHER_REPO_PATH = "src/main/resources/voucherRepository.txt";
+
+    private final FileWriter fileWriter = new FileWriter(FILE_VOUCHER_REPO_PATH, true);
     private final BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
     public FileVoucherRepository() throws IOException {
@@ -59,7 +61,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         List<Voucher> vouchers = new ArrayList<>();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("voucherRepository.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_VOUCHER_REPO_PATH));
             String readLine = null;
             while ((readLine = bufferedReader.readLine()) != null) {
                 String[] readLineSplit = readLine.split(",");
