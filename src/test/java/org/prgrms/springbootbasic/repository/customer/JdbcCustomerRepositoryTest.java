@@ -58,4 +58,21 @@ class JdbcCustomerRepositoryTest {
         //then
         assertThat(jdbcCustomerRepository.findAll().size()).isEqualTo(0);
     }
+
+    @DisplayName("이름 변경 기능 테스트")
+    @Test
+    void changeName() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
+
+        String newName = "newTest";
+
+        //when
+        jdbcCustomerRepository.changeName(customer.getCustomerId(), newName);
+
+        //then
+        var customers = jdbcCustomerRepository.findAll();
+        assertThat(customers.get(0).getName()).isEqualTo(newName);
+    }
 }
