@@ -71,7 +71,7 @@ class VoucherControllerTest {
     @ParameterizedTest
     @ValueSource(doubles = {-1, 0, 101})
     @DisplayName("Percent 바우처 생성테스트 - Percent 범위 밖이면 실패")
-    public void inValidPercentVoucherCreation(Double percent){
+    public void inValidPercentVoucherCreation(Double percent) {
         // given
         VoucherType type = VoucherType.PERCENT_DISCOUNT;
         when(mockedVoucherService.createVoucher(type, percent))
@@ -97,7 +97,7 @@ class VoucherControllerTest {
     @ParameterizedTest
     @ValueSource(doubles = {-1, 0})
     @DisplayName("Percent 바우처 생성테스트 - Fixed 범위 밖이면 실패")
-    public void inValidFixedVoucherCreation(Double percent){
+    public void inValidFixedVoucherCreation(Double percent) {
         // given
         VoucherType type = VoucherType.PERCENT_DISCOUNT;
         when(mockedVoucherService.createVoucher(type, percent))

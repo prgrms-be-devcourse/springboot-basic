@@ -1,7 +1,5 @@
 package com.waterfogsw.voucher.member.service;
 
-import com.waterfogsw.voucher.member.util.FileUtil;
-
 import java.io.FileNotFoundException;
 import java.util.List;
 

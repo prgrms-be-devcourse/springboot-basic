@@ -5,7 +5,6 @@ import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
@@ -14,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VoucherRepositoryTests {
 
     private VoucherRepository repository = new VoucherMemoryRepository();
-    
-    @Test 
+
+    @Test
     @DisplayName("바우처 조회")
     public void saveVoucher() throws Exception {
         // given

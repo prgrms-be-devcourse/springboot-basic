@@ -75,7 +75,7 @@ class ConsoleTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"-1","0", "102"})
+    @ValueSource(strings = {"-1", "0", "102"})
     @DisplayName("percent 입력 - 범위 밖이면 실패")
     public void inputOutOfRangePercent(String consoleStringInput) {
         //given
