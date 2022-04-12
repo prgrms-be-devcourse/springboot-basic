@@ -27,7 +27,7 @@ public class VoucherCreator implements Runnable {
     public void run() {
         while (true) {
             var num = selectVoucherType();
-            Optional<VoucherType> voucherType = matchVoucerType(num);
+            Optional<VoucherType> voucherType = VoucherType.findMatchingCode(num);
             if (voucherType.isEmpty()) {
                 logger.debug("User select back to main");
                 return;
@@ -53,9 +53,5 @@ public class VoucherCreator implements Runnable {
         } else {
             throw new VoucherException("Please type invalid number.");
         }
-    }
-
-    private Optional<VoucherType> matchVoucerType(String num) {
-        return VoucherType.findMatchingCode(num);
     }
 }
