@@ -2,13 +2,11 @@ package org.prgrms.voucherapp;
 
 import lombok.AllArgsConstructor;
 import org.prgrms.voucherapp.engine.VoucherService;
-import org.prgrms.voucherapp.exception.WrongAmountException;
 import org.prgrms.voucherapp.global.Command;
 import org.prgrms.voucherapp.global.VoucherType;
 import org.prgrms.voucherapp.io.Input;
 import org.prgrms.voucherapp.io.Output;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
@@ -21,6 +19,9 @@ public class Navigator implements Runnable {
     private final Logger logger;
 
     //    TODO : 지금은 모든 exception에 대해서 프로그램 초기부터 시작함. create에서 예외 발생시, create부터 다시 시작할 수 있도록 변경해보자.
+    //    TODO : 테스트 코드 작성
+    //    TODO : 고객리스트 심화 과제
+    //    TODO : properties yaml 외부 설정 주입
     @Override
     public void run() {
         while (true) {

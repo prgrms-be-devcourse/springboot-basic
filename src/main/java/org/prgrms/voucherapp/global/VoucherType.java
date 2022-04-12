@@ -9,11 +9,16 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
-//    TODO : voucherType의 createVoucher를 voucherService에서만 접근 가능하도록 할 수 있나.
-//    TODO : Yaml파일로 VoucherType enum 값들을 설정할 수는 없을까?
-//    TODO : 기존 Voucher 생성자 안에서 예외처리하던 것을 Enum 내로 옮김으로써 Voucher의 종류가 늘어날때마다 같은 예외처리를 하게 되는
-//     코드 중복을 없애려고 했는데 괜찮은 시도인건지?
 
+/*
+* VoucherType : 바우처 타입을 ENUM으로 관리합니다.
+* Q. voucherType의 createVoucher를 voucherService에서만 접근 가능하도록 할 수 있나요?
+* Service에서 VoucherType의 createVoucher를 사용하는데,VoucherType의 createVoucher 메소드가 public이다보니 Navigator에서도 접근이 가능합니다.
+* Navigator에서 VoucherType의 createVoucher에 접근 못하도록 강제할 수 있는 방법이 있을까요? 아니면 접근 되도 상관 없는 문제인가요? Layer를 지키고 싶은 느낌이 듭니다.
+* Q. Yaml 파일로 VoucherType의 enum 값들을 설정하도록 하고 싶은데 좋은 방향일까요?
+* Q. maxDiscountAmount가 원래는 Voucher 구현체 안에서 static final 변수로 있었는데, 클래스마다 다른 '상수'인 것 같아 enum으로 추출했습니다만, 찜찜합니다.
+* static final 안으로 두면 클래스를 정의할 때마다 작성해야하는 코드 중복이 생겨서 enum에 정의한 것인데, 괜찮은 판단일까요?
+* */
 public enum VoucherType {
 
     FIX("1", FixedAmountVoucher::new, 10000),

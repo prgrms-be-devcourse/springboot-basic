@@ -10,8 +10,12 @@ import org.prgrms.voucherapp.io.Output;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-//TODO : discountAmount에 대한 예외처리를 discountAmount를 입력받았을 때 하는게 좋은지, discountAmount를 가지고 voucher를 생성하려고 할때 하는게 좋은지?
-// 현재는 전자인데, 다른 input 메소드들은 input 받은 값들에 대한 책임을 지고 예외처리를 하고 있어서 discountAmountInput도 amount의 유효성에 대한 책임까지 지는게 일관성있다고 생각함.
+/*
+* Console : 입출력을 관리하는 클래스
+* Q. discountAmount에 대한 예외처리를 discountAmount를 입력받았을 때 하는게 좋은지, discountAmount를 가지고 voucher를 생성하려고 할때 하는게 좋은지?
+* 현재 코드는 전자인데, 다른 input 메소드들은 input 받은 값들에 대한 책임을 지고 예외처리를 하고 있어서 discountAmountInput메소드가 amount의 유효성에 대한 책임까지 지는게 일관성있다고 생각했음.
+* 위 생각이 괜찮은 논리인건지 궁금합니다.
+* */
 public class Console implements Input, Output {
 
     private final Scanner scanner = new Scanner(System.in);

@@ -3,6 +3,9 @@ package org.prgrms.voucherapp.global;
 import java.util.Arrays;
 import java.util.Optional;
 
+/*
+* Command : 커맨드를 enum으로 관리합니다.
+* */
 public enum Command {
     EXIT("exit", "exit the program"),
     CREATE("create", "create a new voucher"),

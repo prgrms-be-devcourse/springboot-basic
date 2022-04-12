@@ -8,8 +8,6 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
-    // TODO : MAX_VOUCHER_AMOUNT YAML 파일로 외부 설정으로 주입하기
-//    private static final long MAX_VOUCHER_AMOUNT = 100000;
     private final UUID voucherId;
     private final long discountAmount;
 
