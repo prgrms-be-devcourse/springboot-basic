@@ -1,11 +1,14 @@
 package org.prgrms.weeklymission.customer.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.weeklymission.customer.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,10 +17,15 @@ import static org.prgrms.weeklymission.customer.domain.CustomerType.BLACK;
 @SpringBootTest
 @ActiveProfiles("local")
 class BlackCustomerServiceTest {
-    private final String customerId = "abc123";
+    private final UUID customerId = UUID.randomUUID();
     private final String name = "kim";
     @Autowired
     private BlackCustomerService service;
+
+    @BeforeEach
+    void beforeEach() {
+        service.deleteData();
+    }
 
     @Test
     @DisplayName("블랙 회원 저장")
@@ -41,7 +49,7 @@ class BlackCustomerServiceTest {
     @Test
     @DisplayName("존재하지 않는 블랙 회원 찾을 경우")
     void test_black_not_found() {
-        assertThrows(RuntimeException.class, () -> service.findBlackCustomerById("no_id"));
+        assertThrows(RuntimeException.class, () -> service.findBlackCustomerById(UUID.randomUUID()));
 
     }
 

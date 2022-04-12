@@ -16,14 +16,14 @@ public class BlackCustomerRepository implements CustomerRepository {
     private final File file = new File(path);
     private final BufferedWriter output = new BufferedWriter(new FileWriter(file));
     private final BufferedReader input = new BufferedReader(new FileReader(file));
-    private final Map<String, Customer> storage = new LinkedHashMap<>();
+    private final Map<UUID, Customer> storage = new LinkedHashMap<>();
     private final List<Customer> customers = new ArrayList<>();
 
     private BlackCustomerRepository() throws IOException {
     }
 
     @Override
-    public Optional<Customer> findById(String customerId) {
+    public Optional<Customer> findById(UUID customerId) {
         return Optional.ofNullable(storage.get(customerId));
     }
 
@@ -67,6 +67,6 @@ public class BlackCustomerRepository implements CustomerRepository {
 
     private void fileReadAndAddCustomer(String fileCustomer) {
         String customerId = fileCustomer.split(" ")[3];
-        customers.add(storage.get(customerId));
+        customers.add(storage.get(UUID.nameUUIDFromBytes(customerId.getBytes())));
     }
 }

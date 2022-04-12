@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.prgrms.weeklymission.utils.ErrorMessage.NO_CUSTOMER;
 
@@ -25,14 +26,14 @@ public class BlackCustomerService {
         this.console = console;
     }
 
-    public Customer registerBlackCustomer(String customerId, String name) {
+    public Customer registerBlackCustomer(UUID customerId, String name) {
         var blackCustomer = Customer.blackCustomer(customerId, name);
         repository.save(blackCustomer);
 
         return blackCustomer;
     }
 
-    public Customer findBlackCustomerById(String customerId) {
+    public Customer findBlackCustomerById(UUID customerId) {
         return repository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException(NO_CUSTOMER.getMessage()));
     }
@@ -42,15 +43,15 @@ public class BlackCustomerService {
     }
 
     public void printCreateBlackCustomer() {
-        String[] idAndName = console.inputForRegisterCustomer();
-        registerBlackCustomer(idAndName[0], idAndName[1]);
-        console.saveSuccessMessage();
+        String name = console.takeInput();
+        registerBlackCustomer(UUID.randomUUID(), name);
+
     }
 
     public void printAllBlackCustomers() throws RuntimeException {
         StringBuilder sb = new StringBuilder();
-        checkCustomersAndReturn().forEach(c -> sb.append(c.toString()).append("\n"));
-        console.printData(sb.toString());
+        console.printData(checkCustomersAndReturn());
+
     }
 
     public void deleteData() {
