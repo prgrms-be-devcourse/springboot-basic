@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -43,7 +44,8 @@ public class VoucherController {
         logger.info("Create voucher using input: {}", voucherInput);
         VoucherType voucherType = VoucherType.findVoucherType(voucherInput);
         long discount = Console.inputDiscount();
-        voucherService.save(voucherType, discount);
+        UUID voucherId = voucherService.save(voucherType, discount);
+        logger.info("Created Voucher is {}", voucherId);
     }
 
     private void findStoredVouchers() {

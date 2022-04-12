@@ -22,10 +22,11 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void save(VoucherType voucherType, long discount) {
+    public UUID save(VoucherType voucherType, long discount) {
         Voucher voucher = createVoucher(voucherType, discount);
-        voucherRepository.save(voucher);
+        UUID voucherId = voucherRepository.save(voucher);
         logger.info("save Fixed Amount Voucher: {}", voucher);
+        return voucherId;
     }
 
     public Optional<Voucher> findById(UUID voucherId) {
