@@ -1,6 +1,6 @@
-package com.example.demo.voucher;
+package com.kdt.commandLineApp.voucher;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,5 +9,5 @@ public interface VoucherRepository {
 
     public Optional<Voucher> get(UUID id);
 
-    public Optional<ArrayList<Voucher>> getAll();
+    public List<Voucher> getAll();
 }

@@ -1,4 +1,4 @@
-package com.example.demo.exception;
+package com.kdt.commandLineApp.exception;
 
 public class ExitException extends Exception {
 }

@@ -1,9 +1,9 @@
-package com.example.demo.customer;
+package com.kdt.commandLineApp.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -14,7 +14,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public void showCustomer() throws IOException {
-        customerRepository.getAll().stream().forEach(System.out::println);
+    public List<Customer> getCustomers() throws Exception {
+        return customerRepository.getAll();
     }
 }
