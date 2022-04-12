@@ -1,21 +1,14 @@
 package org.prgrms.spring_week1.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import org.prgrms.spring_week1.Main;
+import java.util.UUID;
 import org.prgrms.spring_week1.models.FixedAmountVoucher;
 import org.prgrms.spring_week1.models.PercentDiscountVoucher;
 import org.prgrms.spring_week1.models.Voucher;
-import org.prgrms.spring_week1.models.VoucherStatus;
 import org.prgrms.spring_week1.repositories.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -43,9 +36,9 @@ public class VoucherService {
         return voucher;
     }
 
-    public List<Voucher> getAllVoucher(){
+    public List<String> getAllVoucher(){
 //        return voucherRepository.getAllVoucher().values().stream().map(Object::toString).collect(Collectors.toList());
-        return new ArrayList<>(voucherRepository.getAllVoucher().values());
+        return voucherRepository.getAllVoucher();
 
     }
 

@@ -21,9 +21,20 @@ public class VoucherMemoryRepository implements VoucherRepository{
         voucherHashMap.put(voucher.getVoucherId(), voucher);
     }
 
+//    @Override
+//    public ConcurrentHashMap<UUID,Voucher> getAllVoucher() {
+//            return voucherHashMap;
+//    }
+
     @Override
-    public ConcurrentHashMap<UUID,Voucher> getAllVoucher() {
-            return voucherHashMap;
+    public List<String> getAllVoucher(){
+        List<String> vouchers = new ArrayList<>();
+        for(Voucher v : voucherHashMap.values()){
+            vouchers.add(v.toString());
+        }
+        return vouchers;
     }
+
+
 
 }
