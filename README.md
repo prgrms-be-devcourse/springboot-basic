@@ -106,9 +106,9 @@
   - [X] 회원 전체 삭제 개발
   - [X] 회원 이름 수정 기능 개발
 - [X] Customer 엔티티 개발
-- [ ] CustomerService 개발
+- [X] CustomerService 개발
   - [X] 회원 추가 기능 개발
-  - [ ] 회원 조회 기능 개발
+  - [X] 회원 조회 기능 개발
 - [ ] ConsoleView에 기능 추가
   - [ ] 회원 조회 기능 추가
 - [ ] vouchers table 만들기

@@ -45,4 +45,22 @@ class CustomerServiceTest {
         assertThatThrownBy(() -> customerService.createCustomer("test01", email))
             .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @DisplayName("모든 회원 조회 테스트")
+    @Test
+    void findAllCustomers() {
+        //given
+        var customer1 = new Customer(UUID.randomUUID(), "test1", "test1@gmail.com");
+        var customer2 = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com");
+        jdbcCustomerRepository.save(customer1);
+        jdbcCustomerRepository.save(customer2);
+
+        //when
+        var customers = customerService.findAllCustomers();
+
+        //then
+        assertThat(customers)
+            .extracting(Customer::getCustomerId)
+            .containsExactlyInAnyOrder(customer1.getCustomerId(), customer2.getCustomerId());
+    }
 }

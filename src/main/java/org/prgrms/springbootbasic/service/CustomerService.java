@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic.service;
 
+import java.util.List;
 import java.util.UUID;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.repository.customer.JdbcCustomerRepository;
@@ -32,5 +33,11 @@ public class CustomerService {
         if (customers.size() != 0) {
             throw new IllegalArgumentException("이메일이 중복되었습니다.");
         }
+    }
+
+    public List<Customer> findAllCustomers() {
+        logger.info("findAllCustomers() called");
+
+        return jdbcCustomerRepository.findAll();
     }
 }
