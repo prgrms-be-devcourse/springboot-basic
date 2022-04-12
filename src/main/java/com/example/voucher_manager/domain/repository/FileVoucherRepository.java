@@ -18,10 +18,10 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final ResourceLoader resourceLoader;
 
-    private static final String SUCCESSFULLY_WRITE_OBJECT_TO_FILE = "INFO : Successfully write object to file.";
-    private static final String READING_ERROR = "I/O ERROR : Error occured during reading voucher data.";
-    private static final String WRITING_ERROR = "I/O ERROR : Error occured during writing voucher to file.";
-    private static final String CLASS_NOT_FOUND_ERROR = "RUNTIME ERROR : reading data From File is Not A Type of Voucher.";
+    private final String SUCCESSFULLY_WRITE_OBJECT_TO_FILE = "INFO : Successfully write object to file.";
+    private final String READING_ERROR = "I/O ERROR : Error occured during reading voucher data.";
+    private final String WRITING_ERROR = "I/O ERROR : Error occured during writing voucher to file.";
+    private final String CLASS_NOT_FOUND_ERROR = "RUNTIME ERROR : reading data From File is Not A Type of Voucher.";
 
     @Value("${file.path.voucher}")
     private String filePath;

@@ -17,7 +17,7 @@ public class CsvBlacklistCustomerRepository implements CustomerRepository{
     private static final Logger log = LoggerFactory.getLogger(CsvBlacklistCustomerRepository.class);
     private final ClassLoader classLoader = getClass().getClassLoader();
 
-    private static final String IO_EXCEPTION = "I/O ERROR : Error occured during reading blacklist csv file.";
+    private final String IO_EXCEPTION_MESSAGE = "I/O ERROR : Error occured during reading blacklist csv file.";
 
     @Value("${file.path.blacklist}")
     private String blacklistFileName;
@@ -40,7 +40,7 @@ public class CsvBlacklistCustomerRepository implements CustomerRepository{
                 customerList.add(new Customer(UUID.fromString(customerInformation[0]), customerInformation[1]));
             }
         } catch (IOException e) {
-            log.error(IO_EXCEPTION);
+            log.error(IO_EXCEPTION_MESSAGE);
             return List.of();
         }
         return customerList;
