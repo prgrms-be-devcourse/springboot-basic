@@ -18,6 +18,7 @@ public class JdbcCustomerRepository {
     private final String INSERT_SQL = "insert into customers(customer_id, name, email) values(UUID_TO_BIN(?), ?, ?)";
     private final String DELETE_ALL_SQL = "delete from customers";
     private final String UPDATE_BY_ID_SQL = "update customers set name = ? where customer_id = UUID_TO_BIN(?)";
+    private final String SELECT_BY_EMAIL = "select * from customers where email = ?";
 
     public static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
@@ -87,4 +88,28 @@ public class JdbcCustomerRepository {
         }
     }
 
+    public List<Customer> findByEmail(String email) {
+        List<Customer> customers = new ArrayList<>();
+
+        try (
+            var connection = DriverManager.getConnection("jdbc:mysql://localhost/springboot_basic",
+                "hyuk", "hyuk1234!");
+            var statement = connection.prepareStatement(SELECT_BY_EMAIL);
+        ) {
+            statement.setString(1, email);
+            try (
+                var resultSet = statement.executeQuery()
+            ) {
+                while (resultSet.next()) {
+                    var customerId = toUUID(resultSet.getBytes("customer_id"));
+                    var name = resultSet.getString("name");
+                    var customerEmail = resultSet.getString("email");
+                    customers.add(new Customer(customerId, name, customerEmail));
+                }
+            }
+        } catch (SQLException throwables) {
+            logger.error("Exception in findByEmail()", throwables);
+        }
+        return customers;
+    }
 }

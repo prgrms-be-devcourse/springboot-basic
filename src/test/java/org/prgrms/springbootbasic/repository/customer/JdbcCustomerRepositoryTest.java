@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.prgrms.springbootbasic.entity.Customer;
 
 class JdbcCustomerRepositoryTest {
@@ -74,5 +76,19 @@ class JdbcCustomerRepositoryTest {
         //then
         var customers = jdbcCustomerRepository.findAll();
         assertThat(customers.get(0).getName()).isEqualTo(newName);
+    }
+
+    @DisplayName("이메일로 회원 조회 테스트")
+    @ParameterizedTest
+    @CsvSource(value = {"test@gmail.com, 1", "test2@gmail.com, 0"})
+    void findByEmail(String email, int expected) {
+        //given
+        jdbcCustomerRepository.save(new Customer(UUID.randomUUID(), "test", "test@gmail.com"));
+
+        //when
+        int actual = jdbcCustomerRepository.findByEmail(email).size();
+
+        //then
+        assertThat(actual).isEqualTo(expected);
     }
 }
