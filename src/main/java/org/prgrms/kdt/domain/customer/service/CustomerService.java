@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -21,5 +22,11 @@ public class CustomerService {
         List<Customer> blackCustomers = customerRepository.findAll();
         logger.info("find Black List Customers {}", blackCustomers);
         return blackCustomers;
+    }
+
+    public UUID save(Customer customer) {
+        UUID customerId = customerRepository.save(customer);
+        logger.info("save Customer {}", customer);
+        return customerId;
     }
 }

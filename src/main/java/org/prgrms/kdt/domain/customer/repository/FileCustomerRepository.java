@@ -1,6 +1,8 @@
 package org.prgrms.kdt.domain.customer.repository;
 
 import org.prgrms.kdt.domain.customer.model.Customer;
+import org.prgrms.kdt.domain.voucher.model.Voucher;
+import org.prgrms.kdt.domain.voucher.types.VoucherType;
 import org.prgrms.kdt.util.CsvUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -24,6 +26,13 @@ public class FileCustomerRepository implements CustomerRepository {
         return parseCsvToList(csvData);
     }
 
+    @Override
+    public UUID save(Customer customer) {
+        String data = createCsvData(customer);
+        CsvUtils.writeCsv(csvPath, fileName, data);
+        return customer.getCustomerId();
+    }
+
     private List<Customer> parseCsvToList(List<List<String>> csvData) {
         List<Customer> members = new ArrayList<>();
         for (List<String> row : csvData) {
@@ -32,5 +41,12 @@ public class FileCustomerRepository implements CustomerRepository {
             members.add(new Customer(customerId, name));
         }
         return members;
+    }
+
+    private String createCsvData(Customer customer) {
+        StringBuilder data = new StringBuilder(customer.getCustomerId().toString())
+                .append(",")
+                .append(customer.getName());
+        return data.toString();
     }
 }
