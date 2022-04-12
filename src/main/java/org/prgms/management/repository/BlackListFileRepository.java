@@ -8,13 +8,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,8 +40,7 @@ public class BlackListFileRepository implements BlackListRepository {
 
             return map;
         } catch (Throwable e) {
-            logger.error(MessageFormat.format
-                    ("{0} can't read blacklist file", e.getMessage()));
+            logger.error("{} can't read blacklist file", e.getMessage());
             return null;
         }
     }

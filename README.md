@@ -7,7 +7,7 @@
 (기본) **바우처 관리 애플리케이션**
 
 - [x]  Maven / Gradle 로 프로젝트를 실제로 구성하고 이때 Spring Boot CLI를 개발PC에 설치해서 명령어들을 사용해보고 프로젝트를 만든다. 그리고 IDE (IntelliJ)에서 실행시켜 본다.
-- [ ]  바우처 관리 Command-line Application을 만들어본다.
+- [x]  바우처 관리 Command-line Application을 만들어본다.
     - 참고: [https://dzone.com/articles/interactive-console-applications-in-java](https://dzone.com/articles/interactive-console-applications-in-java)
     - [x]  스프링부트 애플리케이션으로 만든다. (Web기능이 없이만듭니다. 즉, 서버가 띄지 않고 커맨드라인 애플리케이션으로 동작해야한다.)
     - [x]  프로그램이 시작하면 다음과 같이 지원가능한 명령어를 알려준다.

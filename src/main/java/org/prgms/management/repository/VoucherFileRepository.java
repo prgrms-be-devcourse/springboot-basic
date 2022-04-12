@@ -7,10 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
-
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.Map;
@@ -40,8 +38,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
             return true;
         } catch (Throwable e) {
-            logger.error(MessageFormat.format
-                    ("{0} can't save voucher file", e.getMessage()));
+            logger.error("{} can't save voucher file", e.getMessage());
         }
         return false;
     }
@@ -70,16 +67,8 @@ public class VoucherFileRepository implements VoucherRepository {
 
             return map;
         } catch (Throwable e) {
-            logger.error(MessageFormat.format
-                    ("{0} can't read voucher file", e.getMessage()));
+            logger.error("{} can't read voucher file", e.getMessage());
             return null;
         }
-    }
-
-    private void createFile(ClassPathResource classPathResource) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(classPathResource.getPath(), false));
-        bufferedWriter.write("");
-        bufferedWriter.flush();
-        bufferedWriter.close();
     }
 }

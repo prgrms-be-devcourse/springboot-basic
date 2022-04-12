@@ -6,12 +6,9 @@ import org.prgms.management.io.Input;
 import org.prgms.management.io.Output;
 import org.prgms.management.repository.BlackListRepository;
 import org.prgms.management.repository.VoucherRepository;
-import org.prgms.management.validator.PercentAmountVoucherValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.text.MessageFormat;
 import java.util.Map;
 import java.util.UUID;
 
@@ -54,8 +51,7 @@ public class ConsoleManagementService implements ManagementService {
                     getBlackList();
                     break;
                 default:
-                    getErrorMsg(MessageFormat.format
-                            ("wrong input at input command -> {0}\n", command));
+                    logger.error("wrong input at input command -> {}\n", command);
                     break;
             }
         }
@@ -73,8 +69,7 @@ public class ConsoleManagementService implements ManagementService {
         String temp = input.getInput("DiscountNum: ");
 
         if (!temp.matches("[0-9]+")) {
-            getErrorMsg(MessageFormat.format
-                    ("Wrong input at discountNum -> {0}", temp));
+            logger.error("Wrong input at discountNum -> {}", temp);
             return;
         }
 
@@ -99,10 +94,5 @@ public class ConsoleManagementService implements ManagementService {
     public void getBlackList() {
         Map<UUID, String> blackList = blackListRepository.getAll();
         output.blackList(blackList);
-    }
-
-    private void getErrorMsg(String errorMsg) {
-        logger.error(errorMsg);
-        System.out.println(errorMsg);
     }
 }
