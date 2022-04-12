@@ -85,7 +85,13 @@ public class ConsoleService {
         System.out.print(voucherType == FIXED_AMOUNT ? "amount> " : "percent> ");
 
         try {
-            return new VoucherInputDto(voucherType, Long.parseLong(br.readLine().trim()));
+            long input = Long.parseLong(br.readLine().trim());
+
+            if(input < 0 || (voucherType == PERCENTAGE_DISCOUNT && input > 100)) {
+                throw new WrongInputException();
+            }
+
+            return new VoucherInputDto(voucherType, input);
         }catch (NumberFormatException numberFormatException) {
             throw new WrongInputException();
         }
