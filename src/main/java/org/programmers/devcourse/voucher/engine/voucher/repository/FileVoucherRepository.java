@@ -1,20 +1,15 @@
 package org.programmers.devcourse.voucher.engine.voucher.repository;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.file.Path;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import org.programmers.devcourse.voucher.configuration.FileDBProperties;
+import java.util.function.Function;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.Voucher;
@@ -27,27 +22,27 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Profile("dev")
 public class FileVoucherRepository implements
-    VoucherRepository, AutoCloseable {
+    VoucherRepository {
 
   private static final String DELIMITER_REGEX = "\\|\\|";
   private static final String DELIMITER = "||";
+  public static final Function<Voucher, String> serializer = (Voucher voucher) -> {
+    String template = "{1}{0}{2}{0}{3}";
+    return MessageFormat.format(template, DELIMITER,
+        voucher.getVoucherId(),
+        voucher.getClass().getSimpleName(),
+        voucher.getDiscountDegree());
+  };
   // 바우처를 로드했을 때 먼저 파일 스트림을 연다.
-  private final BufferedWriter fileWriter;
-  private final BufferedReader fileReader;
   private final Map<UUID, Voucher> memoryStorage = new LinkedHashMap<>();
   private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-
+  private final FileChannel fileChannel;
 
   public FileVoucherRepository(
-      FileDBProperties fileDBProperties) throws IOException {
-    String rootPath = System.getProperty("user.dir");
-    var dbFile = Path.of(rootPath, fileDBProperties.getFilename()).toFile();
+      FileChannel fileChannel) {
+    this.fileChannel = fileChannel;
 
-    fileWriter = new BufferedWriter(
-        new OutputStreamWriter(new FileOutputStream(dbFile, true)));
-    fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(dbFile)));
-
-    fileReader.lines().forEach(line -> {
+    Arrays.stream(fileChannel.readAllLines()).forEach(line -> {
       var fields = line.split(DELIMITER_REGEX);
       var voucherId = UUID.fromString(fields[0]);
       var voucherMapper = VoucherMapper.fromSimpleClassName(fields[1]);
@@ -68,19 +63,14 @@ public class FileVoucherRepository implements
   }
 
   @Override
-  public UUID insert(Voucher voucher) throws VoucherException {
-    String template = "{1}{0}{2}{0}{3}";
+  public UUID save(Voucher voucher) throws VoucherException {
 
     try {
-      fileWriter.append(
-          MessageFormat.format(template, DELIMITER,
-              voucher.getVoucherId(),
-              voucher.getClass().getSimpleName(),
-              voucher.getDiscountDegree()));
-      fileWriter.newLine();
-      fileWriter.flush();
+      fileChannel.save(voucher, serializer);
     } catch (IOException e) {
-      throw new VoucherException("Repository insertion failed by IOException");
+      throw new VoucherException(
+          MessageFormat.format("Saving Voucher({0}) failed because of IOException",
+              voucher.getVoucherId()));
     }
     memoryStorage.put(voucher.getVoucherId(), voucher);
     return voucher.getVoucherId();
@@ -92,14 +82,9 @@ public class FileVoucherRepository implements
   }
 
   @Override
-  public Map<UUID, Voucher> getAllVouchers() {
-    return Collections.unmodifiableMap(memoryStorage);
+  public Collection<Voucher> getAllVouchers() {
+    return Collections.unmodifiableCollection(memoryStorage.values());
   }
 
-  @Override
-  public void close() throws Exception {
-    fileReader.close();
-    fileWriter.close();
-  }
 
 }

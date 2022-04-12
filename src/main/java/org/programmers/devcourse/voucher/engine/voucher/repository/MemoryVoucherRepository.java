@@ -1,5 +1,6 @@
 package org.programmers.devcourse.voucher.engine.voucher.repository;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class MemoryVoucherRepository implements
   private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
 
   @Override
-  public UUID insert(Voucher voucher) {
+  public UUID save(Voucher voucher) {
     UUID voucherId = voucher.getVoucherId();
     storage.put(voucherId, voucher);
     return voucherId;
@@ -30,8 +31,8 @@ public class MemoryVoucherRepository implements
   }
 
   @Override
-  public Map<UUID, Voucher> getAllVouchers() {
-    return Collections.unmodifiableMap(storage);
+  public Collection<Voucher> getAllVouchers() {
+    return Collections.unmodifiableCollection(storage.values());
   }
 
 

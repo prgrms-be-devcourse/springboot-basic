@@ -4,8 +4,8 @@ import java.text.MessageFormat;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 
-public class PercentDiscountVoucher implements
-    Voucher {
+public class PercentDiscountVoucher extends
+    AbstractVoucher {
 
   public static final VoucherFactory factory = PercentDiscountVoucher::new;
   private final UUID voucherId;

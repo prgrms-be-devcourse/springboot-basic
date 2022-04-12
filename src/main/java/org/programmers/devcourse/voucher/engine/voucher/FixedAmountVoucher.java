@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 
 
-public class FixedAmountVoucher implements
-    Voucher {
+public class FixedAmountVoucher extends
+    AbstractVoucher {
 
   private static final long MAX_AMOUNT = 1000000;
   public static final VoucherFactory factory = FixedAmountVoucher::new;
