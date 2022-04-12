@@ -12,7 +12,9 @@ class FileCustomerRepositoryTest {
     void findBlackCustomers_ReturnBlackCustomers() {
         FileCustomerRepository fileCustomerRepository = new FileCustomerRepository("file/customer_blacklist.csv");
         assertThat(fileCustomerRepository.findBlackCustomers()).hasSize(3)
-            .extracting("name").contains("hwan", "jin", "pobi");
+            .extracting("name", "email").contains(tuple("hwan", "hwan@gmail.com"),
+                tuple("pobi", "pobi@gmail.com"),
+                tuple("jin", "jin@gmail.com"));
     }
 
     @DisplayName("잘못된 파일일 경우 예외를 발생한다.")

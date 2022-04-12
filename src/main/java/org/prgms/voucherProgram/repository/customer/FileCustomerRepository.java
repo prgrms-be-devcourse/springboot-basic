@@ -3,6 +3,8 @@ package org.prgms.voucherProgram.repository.customer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +21,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
     private static final String DELIMITER = ",";
+    private static final int CUSTOMER_ID_INDEX = 0;
+    private static final int CUSTOMER_NAME_INDEX = 1;
+    private static final int CUSTOMER_EMAIL_INDEX = 2;
+    private static final int CUSTOMER_LAST_LOGIN_TIME_INDEX = 3;
+    private static final int CUSTOMER_CREATED_TIME_INDEX = 4;
     private static final String ERROR_WRONG_FILE = "[ERROR] 올바른 고객 파일이 아닙니다.";
-    private static final int USER_ID_INDEX = 0;
-    private static final int USER_NAME_INDEX = 1;
-
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final String customerFilePath;
@@ -47,9 +52,12 @@ public class FileCustomerRepository implements CustomerRepository {
         String line;
         while ((line = bufferedReader.readLine()) != null) {
             String[] splitLine = line.split(DELIMITER);
-            UUID userId = UUID.fromString(splitLine[USER_ID_INDEX].trim());
-            String userName = splitLine[USER_NAME_INDEX].trim();
-            storage.put(userId, new Customer(userId, userName));
+            UUID customerId = UUID.fromString(splitLine[CUSTOMER_ID_INDEX].trim());
+            String name = splitLine[CUSTOMER_NAME_INDEX].trim();
+            String email = splitLine[CUSTOMER_EMAIL_INDEX].trim();
+            LocalDateTime lastLoginTime = LocalDateTime.parse(splitLine[CUSTOMER_LAST_LOGIN_TIME_INDEX], formatter);
+            LocalDateTime createdTime = LocalDateTime.parse(splitLine[CUSTOMER_CREATED_TIME_INDEX], formatter);
+            storage.put(customerId, new Customer(customerId, name, email, lastLoginTime, createdTime));
         }
     }
 

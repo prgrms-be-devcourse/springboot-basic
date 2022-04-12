@@ -28,14 +28,17 @@ class CustomerServiceTest {
     @DisplayName("모든 블랙리스트를 반환한다.")
     @Test
     void findBlackList_ReturnBlackCustomers() {
-        List<Customer> mockBlackCustomers = Arrays.asList(new Customer(UUID.randomUUID(), "jin"),
-            new Customer(UUID.randomUUID(), "hwan"),
-            new Customer(UUID.randomUUID(), "pobi"));
+        List<Customer> mockBlackCustomers = Arrays.asList(new Customer(UUID.randomUUID(), "jin", "jin@gmail.com", null,
+                null),
+            new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", null, null),
+            new Customer(UUID.randomUUID(), "pobi", "pobi@gmail.com", null, null));
 
         given(customerRepository.findBlackCustomers()).willReturn(mockBlackCustomers);
 
         assertThat(customerService.findBlackList()).hasSize(3)
-            .extracting("name").contains("hwan", "jin", "pobi");
+            .extracting("name", "email").contains(tuple("hwan", "hwan@gmail.com"),
+                tuple("pobi", "pobi@gmail.com"),
+                tuple("jin", "jin@gmail.com"));
         then(customerRepository).should(times(1)).findBlackCustomers();
     }
 }
