@@ -1,6 +1,5 @@
 package org.prgrms.kdt.domain.customer.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,10 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.repository.CustomerRepository;
-import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
-import org.prgrms.kdt.domain.voucher.model.Voucher;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
