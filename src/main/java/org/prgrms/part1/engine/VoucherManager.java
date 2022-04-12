@@ -1,7 +1,5 @@
 package org.prgrms.part1.engine;
 
-import org.prgrms.part1.exception.FileException;
-import org.prgrms.part1.exception.InputException;
 import org.prgrms.part1.exception.VoucherException;
 import org.prgrms.part1.io.Input;
 import org.prgrms.part1.io.Output;
@@ -13,13 +11,15 @@ public class VoucherManager implements Runnable{
     private final Logger logger;
     private final VoucherCreator voucherCreator;
     private final VoucherPoster voucherPoster;
+    private final CsvReader csvReader;
 
     public VoucherManager(VoucherService voucherService, Input input, Output output, Logger logger) {
         this.input = input;
         this.output = output;
         this.logger = logger;
         this.voucherCreator = new VoucherCreator(voucherService, input, output, logger);
-        this.voucherPoster = new VoucherPoster(voucherService, output, logger);
+        this.voucherPoster = new VoucherPoster(voucherService, output);
+        this.csvReader = new CsvReader(output);
     }
 
 
@@ -28,15 +28,13 @@ public class VoucherManager implements Runnable{
         final String SELECT_EXIT = "exit";
         final String SELECT_CREATE = "create";
         final String SELECT_LIST = "list";
+        final String SELECT_SHOW_BLACKLIST = "black";
         output.print("=== Voucher Program ===");
         logger.debug("Voucher program On");
         main:
         while (true) {
             try {
-                output.print("Type exit to exit the program.");
-                output.print("Type create to create a new voucher.");
-                output.print("Type list to list all vouchers.");
-                var selection = input.select();
+                var selection = selectMainMenu();
                 switch (selection) {
                     case SELECT_EXIT:
                         logger.debug("User select exit");
@@ -50,20 +48,26 @@ public class VoucherManager implements Runnable{
                         logger.debug("User select list");
                         voucherPoster.run();
                         break;
+                    case SELECT_SHOW_BLACKLIST:
+                        logger.debug("User select show blacklist");
+                        csvReader.run();
+                        break;
                     default:
-                        throw new InputException("Please select valid menu.");
+                        throw new VoucherException("Please select valid menu.");
                 }
-            } catch (InputException ex) {
-                logger.warn("Input Error! Print to User : " + ex.getMessage());
-                output.printError(ex.getMessage());
             } catch (VoucherException ex) {
                 logger.error("Voucher Error! Print to User : " + ex.getMessage());
                 output.printError(ex.getMessage());
-            } catch (FileException ex) {
-                logger.error("Voucher File Error! Print to User : " + ex.getMessage());
-                output.printError(ex.getMessage());
             }
         }
+    }
+
+    private String selectMainMenu() {
+        output.print("Type exit to exit the program.");
+        output.print("Type create to create a new voucher.");
+        output.print("Type list to list all vouchers.");
+        output.print("Type black to show blacklist.");
+        return input.select();
     }
 
 

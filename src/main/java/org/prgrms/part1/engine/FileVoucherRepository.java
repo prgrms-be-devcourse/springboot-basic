@@ -1,6 +1,6 @@
 package org.prgrms.part1.engine;
 
-import org.prgrms.part1.exception.FileException;
+import org.prgrms.part1.exception.VoucherException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +25,7 @@ public class FileVoucherRepository implements VoucherRepository{
             bos.write("\n".getBytes());
             bos.write(voucher.getValue().toString().getBytes());
         } catch (IOException ex) {
-            throw new FileException("Voucher file creation problem. Please call developer");
+            throw new VoucherException("Voucher file creation problem. Please call developer");
         }
         return voucher;
     }
@@ -44,30 +44,15 @@ public class FileVoucherRepository implements VoucherRepository{
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     UUID voucherId = UUID.fromString(br.readLine());
                     VoucherType type = VoucherType.valueOf(br.readLine());
-                    int value = Integer.parseInt(br.readLine());
+                    Long value = Long.parseLong(br.readLine());
                     br.close();
-                    Optional<Voucher> voucher = convertFileToVoucher(voucherId, type, value);
-                    if (voucher.isEmpty()) {
-                        throw new FileException("Invalid voucher type detected. Please call developer");
-                    } else {
-                        vouchers.add(voucher.get());
-                    }
+                    Voucher voucher = type.createVoucher(voucherId, value);
+                    vouchers.add(voucher);
                 }
             }
         } catch(Exception ex) {
-            throw new FileException("Broken voucher file problem. Please call developer");
+            throw new VoucherException("Broken voucher file problem. Please call developer");
         }
-
         return vouchers;
-    }
-
-    private Optional<Voucher> convertFileToVoucher(UUID voucherId, VoucherType voucherType, int value) {
-        if (voucherType.equals(VoucherType.FixedAmount)) {
-            return Optional.of(new FixedAmountVoucher(voucherId, value));
-        } else if (voucherType.equals(VoucherType.PercentDiscount)) {
-            return Optional.of(new PercentDiscountVoucher(voucherId, value));
-        } else {
-            return Optional.empty();
-        }
     }
 }

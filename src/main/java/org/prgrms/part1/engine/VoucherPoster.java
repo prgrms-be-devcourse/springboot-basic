@@ -6,12 +6,10 @@ import org.slf4j.Logger;
 public class VoucherPoster implements Runnable{
     private final VoucherService voucherService;
     private final Output output;
-    private final Logger logger;
 
-    public VoucherPoster(VoucherService voucherService, Output output, Logger logger) {
+    public VoucherPoster(VoucherService voucherService, Output output) {
         this.voucherService = voucherService;
         this.output = output;
-        this.logger = logger;
     }
 
     @Override

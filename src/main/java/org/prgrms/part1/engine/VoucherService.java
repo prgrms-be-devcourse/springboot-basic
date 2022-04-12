@@ -14,14 +14,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType type, int value) {
-        if (type.equals(VoucherType.FixedAmount)) {
-            return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), value));
-        } else if(type.equals(VoucherType.PercentDiscount)) {
-            return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), value));
-        } else {
-            throw new VoucherException("Invalid voucher type detected. Please call developer.");
-        }
+    public Voucher createVoucher(Voucher voucher) {
+        return voucherRepository.insert(voucher);
     }
 
     public List<Voucher> getAllVouchers() {
