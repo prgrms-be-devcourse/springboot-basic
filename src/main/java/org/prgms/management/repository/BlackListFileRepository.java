@@ -4,13 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
-
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.MessageFormat;
+import java.io.FileReader;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,14 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile({"local-file", "default"})
 public class BlackListFileRepository implements BlackListRepository {
     @Value("${filedb.blacklist}")
-    private Resource resource;
+    private String filePath;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public Map<UUID, String> getAll() {
         try (
-                InputStream inputStream = resource.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))
         ) {
             Map<UUID, String> map = new ConcurrentHashMap<>();
 

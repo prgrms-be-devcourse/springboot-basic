@@ -1,13 +1,13 @@
 spring:
-  profiles:
-    active: local-file
-
+  config:
+    activate:
+      on-profile: local-file
 ---
 
 spring.config.activate.on-profile: local-file
 filedb:
-  blacklist: filedb/blacklist.csv
-  voucher: filedb/voucher.csv
+  blacklist: "src/main/resources/filedb/blacklist.csv"
+  voucher: "src/main/resources/filedb/voucher.csv"
 
 ---
 

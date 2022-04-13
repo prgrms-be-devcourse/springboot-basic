@@ -61,8 +61,8 @@ public class ConsoleManagementService implements ManagementService {
     public void createVoucher() {
         output.chooseVoucherType();
 
-        String voucherType = input.getInput("VoucherType(1 <- FixedAmountVoucher, " +
-                "2 <- PercentAmountVoucher): ");
+        String voucherType = input.getInput("VoucherType(fixed <- FixedAmountVoucher, " +
+                "percent <- PercentAmountVoucher): ");
 
         String voucherName = input.getInput("\nVoucherName: ");
 

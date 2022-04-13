@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public enum VoucherType {
-    FIXED("1") {
+    FIXED("fixed") {
         @Override
         public Voucher create(UUID uuid, int discountNum,
                               String voucherName, String voucherType) {
@@ -21,7 +21,7 @@ public enum VoucherType {
                     voucherName, voucherType);
         }
     },
-    PERCENT("2") {
+    PERCENT("percent") {
         @Override
         public Voucher create(UUID uuid, int discountNum,
                               String voucherName, String voucherType) {

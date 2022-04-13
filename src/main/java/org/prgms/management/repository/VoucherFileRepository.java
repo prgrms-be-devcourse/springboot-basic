@@ -1,13 +1,11 @@
 package org.prgms.management.repository;
 
-import org.prgms.management.entity.FixedAmountVoucher;
-import org.prgms.management.entity.PercentAmountVoucher;
 import org.prgms.management.entity.Voucher;
+import org.prgms.management.entity.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.text.MessageFormat;
@@ -19,23 +17,22 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile({"local-file", "default"})
 public class VoucherFileRepository implements VoucherRepository {
     @Value("${filedb.voucher}")
-    private Resource resource;
+    private String filePath;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public boolean save(Voucher voucher) {
-        try {
+        try (
+                BufferedWriter bufferedWriter = new BufferedWriter(
+                        new FileWriter(filePath, true)
+                );
+        ) {
             String voucherStr = MessageFormat.format("{0},{1},{2},{3}\r\n",
                     voucher.getVoucherId(), voucher.getVoucherType(),
                     voucher.getVoucherName(), voucher.getDiscountNum());
 
-            FileOutputStream fileOutputStream = new FileOutputStream(resource.getFile());
-
-            fileOutputStream.write(voucherStr.getBytes());
-            fileOutputStream.close();
-            fileOutputStream.flush();
-
+            bufferedWriter.write(voucherStr);
             return true;
         } catch (Throwable e) {
             logger.error("{} can't save voucher file", e.getMessage());
@@ -45,9 +42,10 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public Map<UUID, Voucher> getAll() {
-        try {
-            InputStream inputStream = resource.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        try (
+                BufferedReader bufferedReader = new BufferedReader(
+                        new FileReader(filePath));
+        ) {
             Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
             bufferedReader.lines().forEach(
@@ -57,10 +55,8 @@ public class VoucherFileRepository implements VoucherRepository {
                         String type = str[1];
                         String name = str[2];
                         int discountNum = Integer.parseInt(str[3]);
-                        Voucher voucher = type.equals("FixedAmountVoucher") ?
-                                FixedAmountVoucher.getFixedAmountVoucher(
-                                        uuid, discountNum, name, type) :
-                                new PercentAmountVoucher(uuid, discountNum, name, type);
+                        Voucher voucher = VoucherType.createVoucher(
+                                uuid, discountNum, name, type);
                         map.put(uuid, voucher);
                     }
             );
