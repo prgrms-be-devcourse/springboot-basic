@@ -24,7 +24,7 @@ class VoucherServiceTest {
     @Test
     void createFixedAmountVoucher() {
         //given
-        long amount = 10L;
+        int amount = 10;
 
         //when
         voucherService.createFixedAmountVoucher(amount);
@@ -36,8 +36,8 @@ class VoucherServiceTest {
 
     @DisplayName("FixedAmountVoucher 만들기 실패")
     @ParameterizedTest
-    @ValueSource(longs = {0, -1, 100000})
-    void createFixedAmountVoucherFail(long amount) {
+    @ValueSource(ints = {0, -1, 100000})
+    void createFixedAmountVoucherFail(int amount) {
         //given
         //when
         //then
@@ -74,7 +74,7 @@ class VoucherServiceTest {
     @Test
     void findAll() {
         //given
-        voucherService.createFixedAmountVoucher(10L);
+        voucherService.createFixedAmountVoucher(10);
         voucherService.createPercentAmountVoucher(10);
 
         //when

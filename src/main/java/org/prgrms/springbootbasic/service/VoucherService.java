@@ -20,7 +20,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createFixedAmountVoucher(long amount) {
+    public void createFixedAmountVoucher(int amount) {
         logger.info("VoucherService.createFixedAmountVoucher() called");
 
         voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), amount));

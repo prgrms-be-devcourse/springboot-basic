@@ -17,7 +17,7 @@ class FixedAmountVoucherTest {
     void normalCase() {
         //given
         UUID voucherId = UUID.randomUUID();
-        long amount = 10L;
+        int amount = 10;
 
         //when
         var voucher = new FixedAmountVoucher(voucherId, amount);
@@ -29,8 +29,8 @@ class FixedAmountVoucherTest {
 
     @DisplayName("amount 값이 0보다 작거나 같은 경우 예외 테스트")
     @ParameterizedTest
-    @ValueSource(longs = {0L, -1L})
-    void amountLessThanOrEqualZero(long amount) {
+    @ValueSource(ints = {0, -1})
+    void amountLessThanOrEqualZero(int amount) {
         //given
         //when
         //then

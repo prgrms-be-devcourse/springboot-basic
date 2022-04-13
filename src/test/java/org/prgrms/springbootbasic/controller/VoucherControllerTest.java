@@ -45,7 +45,7 @@ class VoucherControllerTest {
         var voucherServiceMock = mock(VoucherService.class);
         var customerServiceMock = mock(CustomerService.class);
         when(consoleViewMock.inputMenu()).thenReturn(Menu.LIST);
-        List<Voucher> vouchers = List.of(new FixedAmountVoucher(UUID.randomUUID(), 10L));
+        List<Voucher> vouchers = List.of(new FixedAmountVoucher(UUID.randomUUID(), 10));
         when(voucherServiceMock.findAll()).thenReturn(vouchers);
 
         var voucherController = new VoucherController(voucherServiceMock, consoleViewMock,
@@ -70,7 +70,7 @@ class VoucherControllerTest {
         var customerServiceMock = mock(CustomerService.class);
         when(consoleViewMock.inputMenu()).thenReturn(Menu.CREATE);
         when(consoleViewMock.selectVoucherType()).thenReturn(VoucherType.FIXED);
-        long amount = 10L;
+        int amount = 10;
         when(consoleViewMock.selectAmount()).thenReturn(amount);
 
         var voucherController = new VoucherController(voucherServiceMock, consoleViewMock,

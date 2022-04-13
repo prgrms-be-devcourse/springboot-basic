@@ -34,8 +34,8 @@ class FileVoucherRepositoryTest {
     @Test
     void saveFixedAmountVoucher() {
         //given
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10L);
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20L);
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20);
 
         //when
         fileVoucherRepository.save(voucher1);
@@ -68,7 +68,7 @@ class FileVoucherRepositoryTest {
     @Test
     void save() {
         //given
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
         Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
         //when
@@ -86,7 +86,7 @@ class FileVoucherRepositoryTest {
     @Test
     void finaAll() {
         //given
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
         Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
         fileVoucherRepository.save(fixedAmountVoucher);

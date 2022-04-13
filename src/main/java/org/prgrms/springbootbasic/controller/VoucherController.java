@@ -46,7 +46,7 @@ public class VoucherController {
         VoucherType voucherType = consoleView.selectVoucherType();
 
         if (voucherType.isFixed()) {
-            long amount = consoleView.selectAmount();
+            int amount = consoleView.selectAmount();
             voucherService.createFixedAmountVoucher(amount);
         }
 
