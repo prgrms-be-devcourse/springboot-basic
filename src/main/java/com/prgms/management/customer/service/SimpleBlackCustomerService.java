@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SimpleCustomerService implements CustomerService {
+public class SimpleBlackCustomerService implements BlackCustomerService {
     private final BlackCustomerRepository blackCustomerRepository;
 
-    public SimpleCustomerService(BlackCustomerRepository blackCustomerRepository) {
+    public SimpleBlackCustomerService(BlackCustomerRepository blackCustomerRepository) {
         this.blackCustomerRepository = blackCustomerRepository;
     }
 
