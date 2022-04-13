@@ -58,7 +58,7 @@ public class FileCustomerRepository implements CustomerRepository {
             String email = splitLine[CUSTOMER_EMAIL_INDEX].trim();
             LocalDateTime lastLoginTime = LocalDateTime.parse(splitLine[CUSTOMER_LAST_LOGIN_TIME_INDEX], formatter);
             LocalDateTime createdTime = LocalDateTime.parse(splitLine[CUSTOMER_CREATED_TIME_INDEX], formatter);
-            storage.put(customerId, new Customer(customerId, name, email, lastLoginTime, createdTime));
+            storage.put(customerId, new Customer(customerId, name, email, createdTime, lastLoginTime));
         }
     }
 
