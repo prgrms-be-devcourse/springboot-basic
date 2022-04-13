@@ -1,7 +1,13 @@
 package org.prgrms.springbootbasic;
 
 public enum VoucherType {
-    FIXED, PERCENT;
+    FIXED("fixed"), PERCENT("percent");
+
+    private final String textType;
+
+    VoucherType(final String textType) {
+        this.textType = textType;
+    }
 
     public boolean isFixed() {
         return this == FIXED;
@@ -9,5 +15,10 @@ public enum VoucherType {
 
     public boolean isPercent() {
         return this == PERCENT;
+    }
+
+    @Override
+    public String toString() {
+        return textType;
     }
 }
