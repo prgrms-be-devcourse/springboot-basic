@@ -1,6 +1,5 @@
 package com.prgms.management.command.io;
 
-import com.prgms.management.command.exception.CommandLineException;
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.entity.VoucherType;
@@ -28,7 +27,9 @@ public class Console implements Input, Output<Voucher> {
     @Override
     public Voucher getVoucher() {
         printString("=================== Create Voucher ===================");
-        Arrays.stream(VoucherType.values()).forEach(value -> printString(value.getScript()));
+        Arrays.stream(VoucherType.values())
+                .filter(v -> v != VoucherType.ERROR)
+                .forEach(value -> printString(value.getScript()));
         printString("");
 
         String command = textIO.newStringInputReader()
@@ -36,15 +37,7 @@ public class Console implements Input, Output<Voucher> {
                 .read("Voucher type").toLowerCase();
 
         VoucherType voucherType = VoucherType.of(command);
-
-        if (voucherType == null) {
-            throw new CommandLineException();
-        }
-
-        Integer paramNum = textIO.newIntInputReader()
-                .read(voucherType.getNextCommand());
-
-        return voucherType.createVoucher(paramNum);
+        return voucherType.createVoucher(textIO).orElseThrow();
     }
 
     @Override

@@ -1,16 +1,30 @@
 package com.prgms.management.voucher.entity;
 
+import org.beryx.textio.TextIO;
+
+import java.util.Optional;
+
 public enum VoucherType {
     PERCENT("percent", "to create a percent discount voucher.", "Percent") {
         @Override
-        public Voucher createVoucher(Integer num) {
-            return new PercentDiscountVoucher(num);
+        public Optional<Voucher> createVoucher(TextIO textIO) {
+            Integer paramNum = textIO.newIntInputReader()
+                    .read(getNextCommand());
+            return Optional.of(new PercentDiscountVoucher(paramNum));
         }
     },
     FIXED("fixed", "to create a fixed amount voucher.", "Amount") {
         @Override
-        public Voucher createVoucher(Integer num) {
-            return new FixedAmountVoucher(num);
+        public Optional<Voucher> createVoucher(TextIO textIO) {
+            Integer paramNum = textIO.newIntInputReader()
+                    .read(getNextCommand());
+            return Optional.of(new FixedAmountVoucher(paramNum));
+        }
+    },
+    ERROR("error", "this is error command", "none") {
+        @Override
+        public Optional<Voucher> createVoucher(TextIO textIO) {
+            return Optional.empty();
         }
     };
 
@@ -31,7 +45,7 @@ public enum VoucherType {
             case "percent":
                 return PERCENT;
             default:
-                return null;
+                return ERROR;
         }
     }
 
@@ -43,5 +57,5 @@ public enum VoucherType {
         return nextCommand;
     }
 
-    public abstract Voucher createVoucher(Integer num);
+    public abstract Optional<Voucher> createVoucher(TextIO textIO);
 }
