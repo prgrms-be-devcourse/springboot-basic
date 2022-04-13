@@ -1,0 +1,28 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.9'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'org.prgrms'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '16'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.slf4j:jcl-over-slf4j'
+    implementation 'ch.qos.logback:logback-classic'
+    implementation 'ch.qos.logback:logback-core'
+    implementation 'org.springframework.shell:spring-shell-starter:2.0.1.RELEASE'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
