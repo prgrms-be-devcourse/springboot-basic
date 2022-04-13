@@ -10,4 +10,11 @@ public class BlackListCustomer implements Customer{
         this.customerId = customerId;
         this.customerName = customerName;
     }
+
+    @Override
+    public String toString() {
+        return "BlackListCustomer" +
+                " customerId= " + customerId +
+                " customerName= " + customerName;
+    }
 }
