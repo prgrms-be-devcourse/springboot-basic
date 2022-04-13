@@ -31,7 +31,7 @@ public class App {
 	public CommandLineRunner commandLineRunner(ApplicationContext applicationContext) {
 		logger.info("voucher management system start !");
 		return args -> {
-			voucherController.start();
+			voucherController.run();
 		};
 	}
 }

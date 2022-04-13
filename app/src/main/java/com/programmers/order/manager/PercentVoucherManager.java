@@ -27,12 +27,10 @@ public class PercentVoucherManager implements VoucherManager {
 
 	private final Input input;
 	private final Output output;
-	private final StoreManager storeManager;
 
-	public PercentVoucherManager(Input input, Output output, StoreManager storeManager) {
+	public PercentVoucherManager(Input input, Output output) {
 		this.input = input;
 		this.output = output;
-		this.storeManager = storeManager;
 	}
 
 	@Override
@@ -45,10 +43,8 @@ public class PercentVoucherManager implements VoucherManager {
 				continue;
 			}
 
-			PercentDiscountVoucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(),
+			return new PercentDiscountVoucher(UUID.randomUUID(),
 					Long.parseLong(percent));
-
-			return storeManager.saveVoucher(percentVoucher);
 		}
 	}
 

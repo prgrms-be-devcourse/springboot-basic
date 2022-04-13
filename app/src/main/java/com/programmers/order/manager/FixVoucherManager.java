@@ -27,12 +27,10 @@ public class FixVoucherManager implements VoucherManager {
 
 	private final Input input;
 	private final Output output;
-	private final StoreManager storeManager;
 
-	public FixVoucherManager(Input input, Output output, StoreManager storeManager) {
+	public FixVoucherManager(Input input, Output output) {
 		this.input = input;
 		this.output = output;
-		this.storeManager = storeManager;
 	}
 
 	@Override
@@ -45,9 +43,7 @@ public class FixVoucherManager implements VoucherManager {
 				continue;
 			}
 
-			FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(fixPrice));
-
-			return storeManager.saveVoucher(fixedVoucher);
+			return new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(fixPrice));
 		}
 	}
 

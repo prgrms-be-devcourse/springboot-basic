@@ -8,5 +8,5 @@ public interface Voucher {
 
 	LocalDateTime getCreated();
 
-	long discount(long beforeDiscount);
+	String show();
 }

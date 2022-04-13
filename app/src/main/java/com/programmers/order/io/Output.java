@@ -7,4 +7,6 @@ public interface Output {
 	void write(BasicMessage message);
 
 	void write(ErrorMessage message);
+
+	void write(String meesage);
 }
