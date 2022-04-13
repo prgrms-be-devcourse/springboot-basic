@@ -8,7 +8,6 @@ import org.voucherProject.voucherProject.entity.voucher.PercentDiscountVoucher;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.repository.voucher.VoucherRepository;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,16 +33,14 @@ class VoucherRepositoryImplTest {
 
     @Test
     public void saveSame() throws Exception {
-
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
-        Voucher saveVoucher = voucherRepository.save(voucher);
+        voucherRepository.save(voucher);
 
-        assertThrows(IOException.class, () -> voucherRepository.save(voucher));
+        assertThrows(RuntimeException.class, () -> voucherRepository.save(voucher));
     }
 
     @Test
     public void findAll() throws Exception {
-
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3);
         Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2);
         Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1);
@@ -60,8 +57,5 @@ class VoucherRepositoryImplTest {
         assertThat(result1).isTrue();
         assertThat(result2).isTrue();
         assertThat(result3).isTrue();
-
-
     }
-
 }

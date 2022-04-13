@@ -33,6 +33,4 @@ public class BlackListRepository {
         }
         return blackList;
     }
-
-
 }

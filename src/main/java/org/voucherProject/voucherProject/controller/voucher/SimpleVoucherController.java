@@ -29,7 +29,6 @@ public class SimpleVoucherController implements VoucherController {
         return vouchers.stream()
                 .map(v -> new VoucherDto(v.getVoucherType(), v.getHowMuch(), v.getVoucherStatus()))
                 .toList();
-
     }
 
     @Override

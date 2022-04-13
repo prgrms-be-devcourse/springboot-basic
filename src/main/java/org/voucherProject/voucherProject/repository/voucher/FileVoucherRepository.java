@@ -71,14 +71,11 @@ public class FileVoucherRepository implements VoucherRepository {
                 checkVoucherStatus(readLineSplit, voucher);
                 vouchers.add(voucher.get());
             }
-
         } catch (IOException e) {
             log.error("잘못된 입력입니다.");
         }
         return vouchers;
-
     }
-
 
     private void checkVoucherStatus(String[] readLineSplit, Optional<Voucher> voucher) {
         if (readLineSplit[3].equalsIgnoreCase(String.valueOf(VoucherStatus.EXPIRED))) {

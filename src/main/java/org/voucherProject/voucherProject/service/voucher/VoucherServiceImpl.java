@@ -31,5 +31,4 @@ public class VoucherServiceImpl implements VoucherService {
         voucherRepository.save(voucher);
         return voucher;
     }
-
 }

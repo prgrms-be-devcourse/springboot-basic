@@ -18,7 +18,6 @@ public class FixedAmountVoucher implements Voucher {
     private final int MIN_DISCOUNT_AMOUNT = 0;
     private final int MAX_DISCOUNT_AMOUNT = 10000;
 
-
     public FixedAmountVoucher(UUID voucherId, long amount) {
         if (amount < MIN_DISCOUNT_AMOUNT || amount > MAX_DISCOUNT_AMOUNT || amount == 0) {
             throw new IllegalArgumentException();

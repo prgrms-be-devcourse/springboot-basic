@@ -3,8 +3,6 @@ package org.voucherProject.voucherProject.entity.voucher;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @Builder
 public class VoucherDto {

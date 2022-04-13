@@ -50,6 +50,4 @@ public class PercentDiscountVoucher implements Voucher {
     public void cancelVoucher() {
         this.voucherStatus = VoucherStatus.VALID;
     }
-
-
 }

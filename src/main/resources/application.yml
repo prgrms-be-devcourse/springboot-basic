@@ -13,6 +13,3 @@
 #    total-size-cap: 1MB
 #  level:
 #    org.voucherProject.voucherProject: warn
-
-custom:
-  FILE_VOUCHER_REPO_PATH: "src/main/resources/voucherRepository.txt"

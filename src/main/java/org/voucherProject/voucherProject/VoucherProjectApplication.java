@@ -11,5 +11,4 @@ public class VoucherProjectApplication {
 		ApplicationContext ac = SpringApplication.run(VoucherProjectApplication.class, args);
 		ac.getBean(VoucherEnrollSystem.class).run();
 	}
-
 }

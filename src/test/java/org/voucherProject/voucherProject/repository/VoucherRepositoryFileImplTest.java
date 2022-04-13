@@ -9,7 +9,6 @@ import org.voucherProject.voucherProject.entity.voucher.PercentDiscountVoucher;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.repository.voucher.FileVoucherRepository;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +22,6 @@ class VoucherRepositoryFileImplTest {
 
     @Test
     public void saveAndFindById() throws Exception {
-
-        // save
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3);
         Voucher saveVoucher = voucherRepoFile.save(voucher);
 
@@ -33,12 +30,10 @@ class VoucherRepositoryFileImplTest {
         Voucher findVoucher = voucherRepoFile.findById(voucherId).get();
 
         assertThat(findVoucher.getVoucherId()).isEqualTo(voucherId);
-
     }
 
     @Test
     public void findAll() throws Exception {
-
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3);
         Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2);
         Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1);
@@ -59,10 +54,9 @@ class VoucherRepositoryFileImplTest {
 
     @Test
     public void saveSameVoucherId() throws Exception {
-
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3);
         voucherRepoFile.save(voucher);
-        Assertions.assertThrows(IOException.class, () -> voucherRepoFile.save(voucher));
+        Assertions.assertThrows(RuntimeException.class, () -> voucherRepoFile.save(voucher));
     }
 
 }

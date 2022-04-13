@@ -23,10 +23,8 @@ class VoucherServiceImplTest {
 
     @Test
     public void saveAndGet() throws Exception {
-
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
         Voucher saveVoucher = voucherService.save(voucher);
-
 
         Voucher getVoucher = voucherService.getVoucher(saveVoucher.getVoucherId());
         assertThat(saveVoucher).isEqualTo(getVoucher);
@@ -34,23 +32,19 @@ class VoucherServiceImplTest {
 
     @Test
     public void saveSame() throws Exception {
-
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
         voucherService.save(voucher);
 
-        assertThrows(IOException.class, () -> voucherService.save(voucher));
+        assertThrows(RuntimeException.class, () -> voucherService.save(voucher));
     }
 
     @Test
     public void findNull() throws Exception {
-
         assertThrows(IllegalArgumentException.class, () -> voucherService.getVoucher(UUID.randomUUID()));
-
     }
 
     @Test
     public void findAll() throws Exception {
-
         Voucher saveVoucher1 = voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 11));
         Voucher saveVoucher2 = voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 12));
         Voucher saveVoucher3 = voucherService.save(new PercentDiscountVoucher(UUID.randomUUID(), 13));
