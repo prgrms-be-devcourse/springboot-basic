@@ -3,7 +3,7 @@ package org.prgrms.voucherapplication.exception;
 import java.text.MessageFormat;
 import java.util.UUID;
 
-public class NoSuchVoucherException extends RuntimeException{
+public class NoSuchVoucherException extends RuntimeException {
     public NoSuchVoucherException() {
         super(ErrorType.NO_SUCH_VOUCHER.getMessage());
     }

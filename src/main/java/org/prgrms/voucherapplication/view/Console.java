@@ -10,7 +10,9 @@ import org.prgrms.voucherapplication.view.io.Output;
 import org.prgrms.voucherapplication.view.io.VoucherType;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * 콘솔로 입출력하는 class
@@ -54,7 +56,7 @@ public class Console implements Input, Output {
         }
 
         String input = scanner.nextLine();
-        return Long.valueOf(input) ;
+        return Long.valueOf(input);
     }
 
     @Override

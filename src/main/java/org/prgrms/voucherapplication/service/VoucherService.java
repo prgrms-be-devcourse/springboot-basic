@@ -25,11 +25,11 @@ public class VoucherService {
         voucherRepository.insert(voucher);
     }
 
-    public Voucher getVoucher(UUID voucherId) throws IOException{
+    public Voucher getVoucher(UUID voucherId) throws IOException {
         return voucherRepository.findById(voucherId).orElseThrow(() -> new NoSuchVoucherException(voucherId));
     }
 
-    public List<Voucher> getAllVoucher() throws IOException{
+    public List<Voucher> getAllVoucher() throws IOException {
         return voucherRepository.findAll();
     }
 

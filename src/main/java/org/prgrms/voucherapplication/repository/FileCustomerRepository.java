@@ -2,7 +2,6 @@ package org.prgrms.voucherapplication.repository;
 
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
 import org.prgrms.voucherapplication.entity.Customer;
-import org.prgrms.voucherapplication.entity.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class FileCustomerRepository implements CustomerRepository{
+public class FileCustomerRepository implements CustomerRepository {
     private static final String PATH = "data/customer_blacklist.csv";
 
     @Override

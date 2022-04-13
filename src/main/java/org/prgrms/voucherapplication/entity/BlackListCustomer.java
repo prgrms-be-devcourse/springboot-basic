@@ -1,6 +1,6 @@
 package org.prgrms.voucherapplication.entity;
 
-public record BlackListCustomer(long id, String name) implements Customer{
+public record BlackListCustomer(long id, String name) implements Customer {
     @Override
     public long getCustomerId() {
         return id;

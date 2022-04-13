@@ -1,6 +1,6 @@
 package org.prgrms.voucherapplication.exception;
 
-public class InvalidVoucherTypeException extends RuntimeException{
+public class InvalidVoucherTypeException extends RuntimeException {
     public InvalidVoucherTypeException() {
         super(ErrorType.INVALID_VOUCHER_TYPE.getMessage());
     }

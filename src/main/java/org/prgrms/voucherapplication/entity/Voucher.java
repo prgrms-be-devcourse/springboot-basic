@@ -6,6 +6,7 @@ public interface Voucher {
 
     /**
      * VoucherId 반환
+     *
      * @return: VoucherId
      */
     UUID getVoucherId();

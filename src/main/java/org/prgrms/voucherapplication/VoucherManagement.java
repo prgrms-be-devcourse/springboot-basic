@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class VoucherManagement implements Runnable{
+public class VoucherManagement implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherManagement.class);
 

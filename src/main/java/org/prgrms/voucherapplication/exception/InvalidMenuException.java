@@ -1,6 +1,6 @@
 package org.prgrms.voucherapplication.exception;
 
-public class InvalidMenuException extends RuntimeException{
+public class InvalidMenuException extends RuntimeException {
     public InvalidMenuException() {
         super(ErrorType.INVALID_MENU.getMessage());
     }

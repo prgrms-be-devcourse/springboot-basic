@@ -3,8 +3,6 @@ package org.prgrms.voucherapplication.view.io;
 import org.prgrms.voucherapplication.exception.InvalidMenuException;
 
 import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.Optional;
 
 /**
  * 메뉴 옵션을 정의한 enum class

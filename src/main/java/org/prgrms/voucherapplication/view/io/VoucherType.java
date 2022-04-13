@@ -3,7 +3,6 @@ package org.prgrms.voucherapplication.view.io;
 import org.prgrms.voucherapplication.exception.InvalidVoucherTypeException;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * 바우처 옵션을 정의한 enum class
