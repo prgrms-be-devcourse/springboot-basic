@@ -1,6 +1,6 @@
-package org.prgrms.part1.engine;
+package org.prgrms.part1.engine.repository;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.prgrms.part1.engine.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,6 @@
-package org.prgrms.part1.engine;
+package org.prgrms.part1.engine.repository;
+
+import org.prgrms.part1.engine.domain.Voucher;
 
 import java.util.List;
 

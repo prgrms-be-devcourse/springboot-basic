@@ -1,15 +1,18 @@
-package org.prgrms.part1.engine;
+package org.prgrms.part1.engine.repository;
 
+import org.prgrms.part1.engine.domain.Voucher;
+import org.prgrms.part1.engine.enumtype.VoucherType;
 import org.prgrms.part1.exception.VoucherException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
 @Profile("default")
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
     private final String path = "vouchers" + File.separator;
 
     @Override
@@ -19,11 +22,7 @@ public class FileVoucherRepository implements VoucherRepository{
             dir.mkdirs();
         }
         try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + voucher.getVoucherId() + ".txt"))) {
-            bos.write(voucher.getVoucherId().toString().getBytes());
-            bos.write("\n".getBytes());
-            bos.write(voucher.getVoucherType().toString().getBytes());
-            bos.write("\n".getBytes());
-            bos.write(voucher.getValue().toString().getBytes());
+            bos.write(voucher.toFileString().getBytes());
         } catch (IOException ex) {
             throw new VoucherException("Voucher file creation problem. Please call developer");
         }
@@ -45,8 +44,9 @@ public class FileVoucherRepository implements VoucherRepository{
                     UUID voucherId = UUID.fromString(br.readLine());
                     VoucherType type = VoucherType.valueOf(br.readLine());
                     Long value = Long.parseLong(br.readLine());
+                    LocalDateTime createdAt = LocalDateTime.parse(br.readLine());
                     br.close();
-                    Voucher voucher = type.createVoucher(voucherId, value);
+                    Voucher voucher = type.createVoucher(voucherId, value, createdAt);
                     vouchers.add(voucher);
                 }
             }

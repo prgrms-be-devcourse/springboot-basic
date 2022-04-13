@@ -1,7 +1,7 @@
 package org.prgrms.part1;
 
 import org.prgrms.part1.engine.VoucherManager;
-import org.prgrms.part1.engine.VoucherService;
+import org.prgrms.part1.engine.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

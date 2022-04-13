@@ -1,6 +1,7 @@
 package org.prgrms.part1.engine;
 
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.exception.VoucherException;
 import org.prgrms.part1.io.Output;
 
@@ -17,27 +18,23 @@ public class CsvReader implements Runnable{
 
     @Override
     public void run() {
-        //ToDo - CSV로 블랙리스트 입력 받아 출력하기
-        List<User> blackList = getBlackList();
+        List<Customer> blackList = getBlackList();
         printBlackList(blackList);
     }
 
-    private List<User> getBlackList() {
+    private List<Customer> getBlackList() {
         try {
-            return new CsvToBeanBuilder<User>(new FileReader("blacklist.csv"))
-                    .withType(User.class)
+            return new CsvToBeanBuilder<Customer>(new FileReader("blacklist.csv"))
+                    .withType(Customer.class)
                     .build()
                     .parse();
         } catch (FileNotFoundException e) {
-            throw new VoucherException("There is no blacklist!");
+            throw new VoucherException("There is no blacklist File!");
         }
     }
 
-    private void printBlackList(List<User> blackList) {
+    private void printBlackList(List<Customer> blackList) {
         output.print("Show BlackList\n");
-        blackList.forEach(u -> {
-            output.print("name : " + u.getName());
-            output.print("age : " + u.getAge() + "\n");
-                });
+        blackList.forEach(u -> output.print(u.toString()));
     }
 }

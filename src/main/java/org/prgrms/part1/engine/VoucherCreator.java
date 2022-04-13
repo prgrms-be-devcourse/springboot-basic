@@ -1,11 +1,15 @@
 package org.prgrms.part1.engine;
 
+import org.prgrms.part1.engine.domain.Voucher;
+import org.prgrms.part1.engine.enumtype.VoucherType;
+import org.prgrms.part1.engine.service.VoucherService;
 import org.prgrms.part1.exception.VoucherException;
 import org.prgrms.part1.io.Input;
 import org.prgrms.part1.io.Output;
 import org.slf4j.Logger;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -34,8 +38,8 @@ public class VoucherCreator implements Runnable {
             }
             var inputValue = input.inputQuestion("Type discount amount(percent) of Voucher : ");
             long value = parseValue(inputValue);
-            Voucher voucher = voucherService.createVoucher(voucherType.get().createVoucher(UUID.randomUUID(), value));
-            logger.info(MessageFormat.format("Create Voucher.\nVoucher Id: {0}\nVoucher Type: {1}\nVoucher Discount: {2}", voucher.getVoucherId(), voucher.getVoucherType()), voucher.getValue());
+            Voucher voucher = voucherService.insertVoucher(voucherType.get().createVoucher(UUID.randomUUID(), value, LocalDateTime.now().withNano(0)));
+            logger.info(MessageFormat.format("Create Voucher.\n{0}", voucher.toString()));
         }
     }
 

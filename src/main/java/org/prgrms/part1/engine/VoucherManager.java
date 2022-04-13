@@ -1,5 +1,6 @@
 package org.prgrms.part1.engine;
 
+import org.prgrms.part1.engine.service.VoucherService;
 import org.prgrms.part1.exception.VoucherException;
 import org.prgrms.part1.io.Input;
 import org.prgrms.part1.io.Output;

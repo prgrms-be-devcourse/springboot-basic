@@ -1,10 +1,10 @@
-package org.prgrms.part1.engine;
+package org.prgrms.part1.engine.service;
 
-import org.prgrms.part1.exception.VoucherException;
+import org.prgrms.part1.engine.domain.Voucher;
+import org.prgrms.part1.engine.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -14,7 +14,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(Voucher voucher) {
+    public Voucher insertVoucher(Voucher voucher) {
         return voucherRepository.insert(voucher);
     }
 
