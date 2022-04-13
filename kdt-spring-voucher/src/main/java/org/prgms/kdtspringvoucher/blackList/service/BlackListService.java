@@ -20,7 +20,7 @@ public class BlackListService {
     public void showAllBlackList() {
         List<BlackList> blackList = blackListRepository.findAll();
         if (blackList.isEmpty()) {
-            logger.error("Have not any vouchers in list => {}", blackList);
+            logger.error("Have not any blackList in list => {}", blackList);
             System.out.println("No blackList.....\n");
         } else {
             logger.info("Succeed show all blackList in repository");
