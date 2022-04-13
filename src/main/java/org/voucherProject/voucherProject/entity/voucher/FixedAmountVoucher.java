@@ -1,12 +1,10 @@
 package org.voucherProject.voucherProject.entity.voucher;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 @Getter
 @ToString(exclude = {"voucherId", "voucherType"})
 public class FixedAmountVoucher implements Voucher {
@@ -17,6 +15,17 @@ public class FixedAmountVoucher implements Voucher {
     private final VoucherType voucherType = VoucherType.FIXED;
     @Nullable
     private VoucherStatus voucherStatus = VoucherStatus.VALID;
+    private final int MIN_DISCOUNT_AMOUNT = 0;
+    private final int MAX_DISCOUNT_AMOUNT = 10000;
+
+
+    public FixedAmountVoucher(UUID voucherId, long amount) {
+        if (amount <= MIN_DISCOUNT_AMOUNT || amount > MAX_DISCOUNT_AMOUNT) {
+            throw new IllegalArgumentException();
+        }
+        this.voucherId = voucherId;
+        this.amount = amount;
+    }
 
     @Override
     public long discount(long beforeDiscount) {
