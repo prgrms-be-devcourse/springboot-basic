@@ -15,6 +15,7 @@ repositories {
 dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.mockito.mockito-core:3.1.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.slf4j:jcl-over-slf4j'
     implementation 'ch.qos.logback:logback-classic'

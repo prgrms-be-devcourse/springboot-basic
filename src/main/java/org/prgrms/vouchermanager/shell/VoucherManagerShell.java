@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+import java.text.MessageFormat;
+
 @ShellComponent
 public class VoucherManagerShell {
 
@@ -17,12 +19,13 @@ public class VoucherManagerShell {
     }
 
     @ShellMethod("create a voucher")
-    public void create(String type, long amount) {
+    public String create(String type, long amount) {
         try {
             voucherService.createVoucher(type, amount);
         } catch (RuntimeException e) {
             log.error(e.getMessage());
         }
+        return MessageFormat.format("{0} voucher created.", type);
     }
 
     @ShellMethod("show voucher list")
