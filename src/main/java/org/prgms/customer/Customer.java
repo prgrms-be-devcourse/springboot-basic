@@ -1,4 +1,6 @@
 package org.prgms.customer;
 
-public record Customer(String name, Gender gender, int age) {
+import java.util.UUID;
+
+public record Customer(UUID customerId, String name, String email) {
 }

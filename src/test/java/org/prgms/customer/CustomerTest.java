@@ -33,6 +33,5 @@ class CustomerTest {
         MatcherAssert.assertThat(customers.get(0).name(), Matchers.is("홍길동"));
         MatcherAssert.assertThat(customers.get(1).name(), Matchers.is("박철수"));
         MatcherAssert.assertThat(customers.get(2).name(), Matchers.is("김지영"));
-        MatcherAssert.assertThat(customers.get(2).gender(), Matchers.is(Gender.FEMALE));
     }
 }
