@@ -1,11 +1,11 @@
-package org.prgms.voucheradmin.domain.customer.dao;
+package org.prgms.voucheradmin.domain.customer.dao.blacklist;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.global.properties.VoucherAdminProperties;
@@ -20,11 +20,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * customer_blacklist.csv에 저장된 블랙리스트 고객들을 반환하는 클래스 입니다.
  */
 @Repository
-public class BlacklistCustomerRepository implements CustomerRepository {
+public class FileBlacklistRepository implements BlackListRepository {
     private final VoucherAdminProperties voucherAdminProperties;
     private final ResourceLoader resourceLoader;
 
-    public BlacklistCustomerRepository(VoucherAdminProperties voucherAdminProperties, ResourceLoader resourceLoader) {
+    public FileBlacklistRepository(VoucherAdminProperties voucherAdminProperties, ResourceLoader resourceLoader) {
         this.voucherAdminProperties = voucherAdminProperties;
         this.resourceLoader = resourceLoader;
     }
@@ -41,7 +41,7 @@ public class BlacklistCustomerRepository implements CustomerRepository {
         List<Customer> customers = new ArrayList<>();
         for(String record : records) {
             String[] columns = record.split(",");
-            customers.add(new Customer(Long.parseLong(columns[0]), columns[1]));
+            customers.add(new Customer(UUID.fromString(columns[0]), columns[1]));
         }
 
         return customers;

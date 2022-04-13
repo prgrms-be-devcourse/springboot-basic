@@ -1,14 +1,14 @@
 package org.prgms.voucheradmin.domain.voucher.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.FIXED_AMOUNT;
-import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.PERCENTAGE_DISCOUNT;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
-import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
 
@@ -29,38 +28,32 @@ class VoucherServiceTest {
     VoucherRepository voucherRepository;
 
     @Test
-    void 고정_바우처_테스트() {
-        VoucherInputDto voucherInputDto = new VoucherInputDto(FIXED_AMOUNT, 10L);
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
-
+    @DisplayName("바우처 생성 테스트")
+    void testVoucherCreation() {
         try {
             // when
-            when(voucherRepository.save(any())).thenReturn(voucher);
+            Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+            when(voucherRepository.save(any(Voucher.class))).thenReturn(voucher);
 
             // given
-            Voucher savedVoucher = voucherService.createVoucher(voucherInputDto);
+            voucherService.createVoucher(new VoucherInputDto(FIXED_AMOUNT, 10L));
 
             // then
-            assertThat(savedVoucher.discount(120L)).isEqualTo(110L);
+            verify(voucherRepository).save(any());
         }catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
     @Test
-    void 퍼센트_바우처_테스트() {
-        VoucherInputDto voucherInputDto = new VoucherInputDto(PERCENTAGE_DISCOUNT, 10L);
-        Voucher voucher = new PercentageDiscountVoucher(UUID.randomUUID(), 10L);
-
+    @DisplayName("바우서 조회 테스트")
+    void testGetVouchers() {
         try {
-            // when
-            when(voucherRepository.save(any())).thenReturn(voucher);
+            when(voucherRepository.getAll()).thenReturn(new ArrayList<Voucher>());
 
-            // given
-            Voucher savedVoucher = voucherService.createVoucher(voucherInputDto);
+            voucherService.getVouchers();
 
-            // then
-            assertThat(savedVoucher.discount(100L)).isEqualTo(90L);
+            verify(voucherRepository).getAll();
         }catch(IOException e) {
             System.out.println(e.getMessage());
         }

@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.voucheradmin.domain.administrator.Administrator;
-import org.prgms.voucheradmin.domain.customer.dao.CustomerRepository;
+import org.prgms.voucheradmin.domain.customer.dao.blacklist.BlackListRepository;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
@@ -35,14 +35,14 @@ public class VoucherAdminContextTest {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
         CustomerService customerService = applicationContext.getBean(CustomerService.class);
         VoucherRepository voucherRepository = applicationContext.getBean(VoucherRepository.class);
-        CustomerRepository customerRepository = applicationContext.getBean(CustomerRepository.class);
+        BlackListRepository blackListRepository = applicationContext.getBean(BlackListRepository.class);
         VoucherAdminProperties voucherAdminProperties = applicationContext.getBean(VoucherAdminProperties.class);
 
         assertThat(administrator, notNullValue());
         assertThat(voucherService, notNullValue());
         assertThat(customerService, notNullValue());
         assertThat(voucherRepository, notNullValue());
-        assertThat(customerRepository, notNullValue());
+        assertThat(blackListRepository, notNullValue());
         assertThat(voucherAdminProperties, notNullValue());
     }
 }
