@@ -3,12 +3,35 @@
  */
 package com.programmers.order;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-    }
+import com.programmers.order.controller.VoucherController;
+
+@SpringBootApplication
+public class App {
+	private static final Logger logger = LoggerFactory.getLogger(App.class);
+
+	private final VoucherController voucherController;
+
+	public App(VoucherController voucherController) {
+		this.voucherController = voucherController;
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(App.class, args);
+	}
+
+	@Bean
+	public CommandLineRunner commandLineRunner(ApplicationContext applicationContext) {
+		logger.info("voucher management system start !");
+		return args -> {
+			voucherController.start();
+		};
+	}
 }
