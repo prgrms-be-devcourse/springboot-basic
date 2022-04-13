@@ -89,27 +89,30 @@ class JdbcCustomerRepositoryTest {
         jdbcCustomerRepository.save(customer);
 
         String newName = "newTest";
+        customer.changeName(newName);
 
         //when
-        jdbcCustomerRepository.changeName(customer.getCustomerId(), newName);
+        var updatedCustomerId = jdbcCustomerRepository.changeName(customer);
 
         //then
-        var customers = jdbcCustomerRepository.findAll();
-        assertThat(customers.get(0).getName()).isEqualTo(newName);
+        var customers = jdbcCustomerRepository.findById(customer.getCustomerId());
+        assertThat(customers.get().getName())
+            .isEqualTo(newName);
     }
 
     @DisplayName("이메일로 회원 조회 테스트")
     @ParameterizedTest
-    @CsvSource(value = {"test@gmail.com, 1", "test2@gmail.com, 0"})
-    void findByEmail(String email, int expected) {
+    @CsvSource(value = {"test@gmail.com, true", "test2@gmail.com, false"})
+    void findByEmail(String email, boolean expected) {
         //given
-        jdbcCustomerRepository.save(new Customer(UUID.randomUUID(), "test", "test@gmail.com"));
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
 
         //when
-        int actual = jdbcCustomerRepository.findByEmail(email).size();
+        var findCustomer = jdbcCustomerRepository.findByEmail(email);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(findCustomer.isPresent()).isEqualTo(expected);
     }
 
     @Configuration

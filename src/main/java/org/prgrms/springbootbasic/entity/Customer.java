@@ -5,8 +5,8 @@ import java.util.UUID;
 public class Customer {
 
     private final UUID customerId;
-    private final String name;
     private final String email;
+    private String name;
 
     public Customer(UUID customerId, String name, String email) {
         this.customerId = customerId;
@@ -24,5 +24,9 @@ public class Customer {
 
     public String getEmail() {
         return email;
+    }
+
+    public void changeName(String newName) {
+        name = newName;
     }
 }

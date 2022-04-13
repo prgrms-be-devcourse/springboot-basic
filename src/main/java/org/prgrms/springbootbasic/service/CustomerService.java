@@ -32,7 +32,7 @@ public class CustomerService {
     private void validateDuplicateEmail(String email) {
         var customers = jdbcCustomerRepository.findByEmail(email);
 
-        if (customers.size() != 0) {
+        if (customers.isPresent()) {
             throw new IllegalArgumentException("이메일이 중복되었습니다.");
         }
     }
