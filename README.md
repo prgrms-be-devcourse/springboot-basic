@@ -114,3 +114,4 @@
   - [X] 회원 조회 기능 추가
 - [ ] 테스트 추가 & 전체적으로 리팩토링 (예외처리 등..)
 - [ ] vouchers table 만들기
+- [ ] voucher repository 만들기
