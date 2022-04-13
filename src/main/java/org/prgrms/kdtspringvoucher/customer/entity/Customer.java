@@ -1,11 +1,12 @@
 package org.prgrms.kdtspringvoucher.customer.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
     private final CustomerType type;
     private final UUID customerId;
-    private final String name;
+    private String name;
 
     public Customer(CustomerType type, UUID customerId, String name) {
         this.type = type;
