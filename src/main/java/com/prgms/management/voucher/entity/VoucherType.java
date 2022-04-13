@@ -1,30 +1,29 @@
 package com.prgms.management.voucher.entity;
 
+import com.prgms.management.command.exception.WrongCommandException;
 import org.beryx.textio.TextIO;
-
-import java.util.Optional;
 
 public enum VoucherType {
     PERCENT("percent", "to create a percent discount voucher.", "Percent") {
         @Override
-        public Optional<Voucher> createVoucherFromConsole(TextIO textIO) {
+        public Voucher createVoucherFromConsole(TextIO textIO) {
             Integer paramNum = textIO.newIntInputReader()
                     .read(getNextCommand());
-            return Optional.of(new PercentDiscountVoucher(paramNum));
+            return new PercentDiscountVoucher(paramNum);
         }
     },
     FIXED("fixed", "to create a fixed amount voucher.", "Amount") {
         @Override
-        public Optional<Voucher> createVoucherFromConsole(TextIO textIO) {
+        public Voucher createVoucherFromConsole(TextIO textIO) {
             Integer paramNum = textIO.newIntInputReader()
                     .read(getNextCommand());
-            return Optional.of(new FixedAmountVoucher(paramNum));
+            return new FixedAmountVoucher(paramNum);
         }
     },
     ERROR("error", "this is error command", "none") {
         @Override
-        public Optional<Voucher> createVoucherFromConsole(TextIO textIO) {
-            return Optional.empty();
+        public Voucher createVoucherFromConsole(TextIO textIO) {
+            throw new WrongCommandException();
         }
     };
 
@@ -57,5 +56,5 @@ public enum VoucherType {
         return nextCommand;
     }
 
-    public abstract Optional<Voucher> createVoucherFromConsole(TextIO textIO);
+    public abstract Voucher createVoucherFromConsole(TextIO textIO);
 }

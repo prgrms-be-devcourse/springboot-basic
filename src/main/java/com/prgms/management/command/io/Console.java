@@ -40,7 +40,7 @@ public class Console implements Input, Output<Voucher> {
                 .read("Voucher type").toLowerCase();
 
         VoucherType voucherType = VoucherType.of(command);
-        return voucherType.createVoucherFromConsole(textIO).orElseThrow();
+        return voucherType.createVoucherFromConsole(textIO);
     }
 
     @Override
