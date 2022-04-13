@@ -6,8 +6,10 @@ import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.exception.NoSuchVoucherException;
 import org.prgrms.voucherapplication.repository.VoucherRepository;
 import org.prgrms.voucherapplication.view.io.VoucherType;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,19 +17,19 @@ import java.util.UUID;
 public class VoucherService {
     private VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(@Qualifier("fileVoucherRepository") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
-    public void saveVoucher(Voucher voucher) {
+    public void saveVoucher(Voucher voucher) throws IOException {
         voucherRepository.insert(voucher);
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher getVoucher(UUID voucherId) throws IOException{
         return voucherRepository.findById(voucherId).orElseThrow(() -> new NoSuchVoucherException(voucherId));
     }
 
-    public List<Voucher> getAllVoucher() {
+    public List<Voucher> getAllVoucher() throws IOException{
         return voucherRepository.findAll();
     }
 
