@@ -15,8 +15,14 @@ public enum BasicMessage {
 		this.message = message;
 	}
 
+	public String send() {
+		return this.message;
+	}
+
 	@Override
 	public String toString() {
-		return this.message;
+		return "BasicMessage{" +
+				"message='" + message + '\'' +
+				'}';
 	}
 }

@@ -5,5 +5,6 @@ import com.programmers.order.message.ErrorMessage;
 
 public interface Output {
 	void write(BasicMessage message);
+
 	void write(ErrorMessage message);
 }

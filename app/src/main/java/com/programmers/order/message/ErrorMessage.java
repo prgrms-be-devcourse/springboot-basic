@@ -13,8 +13,15 @@ public enum ErrorMessage {
 		this.message = message;
 	}
 
+	public String send(){
+		return "'" + this.message + "'\n";
+	}
+
 	@Override
 	public String toString() {
-		return "'" + this.message + "'\n";
+		return "ErrorMessage{" +
+				"status='" + status + '\'' +
+				", message='" + message + '\'' +
+				'}';
 	}
 }

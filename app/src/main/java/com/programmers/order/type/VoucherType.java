@@ -3,7 +3,7 @@ package com.programmers.order.type;
 import java.util.Arrays;
 
 public enum VoucherType {
-	FIX_VOUCHER(1), PERCENT_VOUCHER(2), NONE(0);
+	NONE(0), FIX_VOUCHER(1), PERCENT_VOUCHER(2);
 
 	private final int key;
 

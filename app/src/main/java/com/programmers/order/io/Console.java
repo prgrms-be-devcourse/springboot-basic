@@ -13,7 +13,6 @@ import com.programmers.order.message.ErrorMessage;
 public class Console implements Input, Output {
 
 	private static final Scanner input = new Scanner(System.in);
-	private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
 	@Override
 	public String read(BasicMessage message){
@@ -23,11 +22,11 @@ public class Console implements Input, Output {
 
 	@Override
 	public void write(BasicMessage message){
-		System.out.println(message.toString());
+		System.out.println(message.send());
 	}
 
 	@Override
 	public void write(ErrorMessage message){
-		System.out.println(message.toString());
+		System.out.println(message.send());
 	}
 }
