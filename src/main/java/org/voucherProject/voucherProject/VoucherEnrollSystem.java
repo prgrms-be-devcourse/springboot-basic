@@ -5,9 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.voucherProject.voucherProject.controller.voucher.VoucherController;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
+import org.voucherProject.voucherProject.entity.voucher.VoucherDto;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
 import org.voucherProject.voucherProject.io.Console;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -41,15 +45,17 @@ public class VoucherEnrollSystem implements Runnable {
                 System.exit(0);
                 break;
             case LIST:
-                List<Voucher> vouchers = voucherController.findAll();
-                vouchers.forEach(voucher -> System.out.println("voucher = " + voucher));
+                voucherController.printAll();
                 break;
             case CREATE:
+                VoucherDto voucherDto = new VoucherDto();
                 String inputVoucherType = console.input("1. FixedAmountVoucher\n2. PercentDiscountVoucher");
-                VoucherType voucherType = VoucherType.getVoucherType(Integer.parseInt(inputVoucherType));
 
-                long inputDiscountAmount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
-                voucherController.createVoucher(voucherType.createVoucher(inputDiscountAmount));
+                VoucherType voucherType = VoucherType.getVoucherType(Integer.parseInt(inputVoucherType));
+                voucherDto.setVoucherType(voucherType);
+                long amount = Long.parseLong(console.input("할인 수치를 입력해주세요"));
+                voucherDto.setAmount(amount);
+                voucherController.createVoucher(voucherDto);
                 console.completeMessage();
                 break;
         }
