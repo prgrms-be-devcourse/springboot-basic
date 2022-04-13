@@ -1,10 +1,8 @@
 package com.programmers.order.io;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Scanner;
 
 import org.springframework.stereotype.Component;
 
@@ -14,27 +12,22 @@ import com.programmers.order.message.ErrorMessage;
 @Component
 public class Console implements Input, Output {
 
-	/**
-	 * worries: 여러개의 스레드로 사용해도 될런지...?
-	 */
-	private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	private static final Scanner input = new Scanner(System.in);
 	private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
 	@Override
-	public String read(BasicMessage message) throws IOException {
+	public String read(BasicMessage message){
 		this.write(message);
-		return reader.readLine();
+		return input.nextLine();
 	}
 
 	@Override
-	public void write(BasicMessage message) throws IOException {
-		writer.write(message.toString());
-		writer.flush();
+	public void write(BasicMessage message){
+		System.out.println(message.toString());
 	}
 
 	@Override
-	public void write(ErrorMessage message) throws IOException {
-		writer.write(message.toString());
-		writer.flush();
+	public void write(ErrorMessage message){
+		System.out.println(message.toString());
 	}
 }
