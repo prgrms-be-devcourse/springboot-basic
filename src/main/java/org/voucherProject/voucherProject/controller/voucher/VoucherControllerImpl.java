@@ -24,17 +24,21 @@ public class VoucherControllerImpl implements VoucherController {
     }
 
     @Override
-    public List<Voucher> findAll(){
-        return voucherService.findAll();
+    public List<VoucherDto> findAll() {
+        List<Voucher> vouchers = voucherService.findAll();
+        return vouchers.stream()
+                .map(v -> new VoucherDto(v.getVoucherType(), v.getHowMuch(), v.getVoucherStatus()))
+                .toList();
+
     }
 
     @Override
-    public Voucher findById(UUID voucherId){
-        return voucherService.getVoucher(voucherId);
-    }
-
-    @Override
-    public void printAll() {
-        voucherService.findAll().forEach(voucher -> System.out.println("voucher = " + voucher));
+    public VoucherDto findById(UUID voucherId) {
+        Voucher voucher = voucherService.getVoucher(voucherId);
+        return VoucherDto.builder()
+                .voucherType(voucher.getVoucherType())
+                .voucherStatus(voucher.getVoucherStatus())
+                .amount(voucher.getHowMuch())
+                .build();
     }
 }

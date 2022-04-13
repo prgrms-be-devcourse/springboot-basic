@@ -45,7 +45,7 @@ public class VoucherEnrollSystem implements Runnable {
                 System.exit(0);
                 break;
             case LIST:
-                voucherController.printAll();
+                voucherController.findAll().stream().forEach(System.out::println);
                 break;
             case CREATE:
                 VoucherDto voucherDto = new VoucherDto();

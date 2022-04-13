@@ -1,12 +1,26 @@
 package org.voucherProject.voucherProject.entity.voucher;
 
+import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
+@Builder
 public class VoucherDto {
 
-    VoucherType voucherType;
+    private VoucherType voucherType;
 
-    long amount;
+    private long amount;
 
+    private VoucherStatus voucherStatus;
+
+    public VoucherDto() {
+    }
+
+    public VoucherDto(VoucherType voucherType, long amount, VoucherStatus voucherStatus) {
+        this.voucherType = voucherType;
+        this.amount = amount;
+        this.voucherStatus = voucherStatus;
+    }
 }
