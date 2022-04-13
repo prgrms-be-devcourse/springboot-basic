@@ -113,5 +113,9 @@
   - [X] 회원 생성 기능 추가
   - [X] 회원 조회 기능 추가
 - [ ] 테스트 추가 & 전체적으로 리팩토링 (예외처리 등..)
-- [ ] vouchers table 만들기
-- [ ] voucher repository 만들기
+- [X] vouchers table 만들기 (비정규화 방식으로 만듬)
+- [ ] JdbcVoucherRepository 만들기
+  - [ ] Voucher 전체 조회
+  - [ ] Voucher 저장
+  - [ ] Voucher 전체 삭제
+  - [ ] Voucher Id로 조회
