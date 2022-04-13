@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.programmers.order.domain.Voucher;
+import com.programmers.order.exception.NotSupportedException;
 import com.programmers.order.factory.VoucherFactory;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
@@ -66,17 +67,16 @@ public class VoucherController {
 		while (true) {
 			String voucher = input.read(BasicMessage.VOUCHER_SELECT);
 
-			if (this.isNotValidVoucher(voucher)) {
+			try {
+				VoucherType voucherType = VoucherType.getVoucherType(voucher);
+				VoucherManager voucherManager = voucherFactory.getVoucherManager(voucherType);
+				storeManager.saveVoucher(voucherManager.create());
+				break;
+			} catch (NotSupportedException exception) {
 				output.write(ErrorMessage.CLIENT_ERROR);
 				logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
-				continue;
+				logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
 			}
-
-			VoucherType voucherType = VoucherType.getVoucherType(voucher);
-			VoucherManager voucherManager = voucherFactory.getVoucherManager(voucherType);
-
-			storeManager.saveVoucher(voucherManager.create());
-			break;
 		}
 	}
 
@@ -87,10 +87,6 @@ public class VoucherController {
 				.collect(Collectors.joining("\n"));
 
 		output.write(vouchers);
-	}
-
-	private boolean isNotValidVoucher(String voucher) {
-		return VoucherType.NONE.name().equals(voucher);
 	}
 
 }
