@@ -8,18 +8,7 @@ import org.prgrms.vouchermanager.voucher.domain.VoucherType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-class MockVoucher extends AbstractVoucher {
-
-    public MockVoucher(VoucherType type, Long amount) {
-        super(type);
-    }
-
-    @Override
-    public Long discount(long beforeDiscount) {
-        return null;
-    }
-}
+import static org.mockito.Mockito.mock;
 
 class MemoryVoucherRepositoryTest {
 
@@ -28,7 +17,7 @@ class MemoryVoucherRepositoryTest {
     void testWithInsert() {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        Voucher voucher = new MockVoucher(VoucherType.PERCENT, 10L);
+        Voucher voucher = mock(Voucher.class);
 
         //when
         Voucher inserted = voucherRepository.insert(voucher);
@@ -42,10 +31,10 @@ class MemoryVoucherRepositoryTest {
     void testWithFindById() {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        Voucher voucher = new MockVoucher(VoucherType.FIXED, 10L);
-        voucherRepository.insert(voucher);
+        Voucher voucher = mock(Voucher.class);
 
         //when
+        voucherRepository.insert(voucher);
         Voucher findVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
 
         //then
@@ -57,7 +46,7 @@ class MemoryVoucherRepositoryTest {
     void testWithDuplicatedInsert() {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        Voucher voucher = new MockVoucher(VoucherType.FIXED, 10L);
+        Voucher voucher = mock(Voucher.class);
         voucherRepository.insert(voucher);
 
         //then
