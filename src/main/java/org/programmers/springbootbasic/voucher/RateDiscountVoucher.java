@@ -15,10 +15,6 @@ public class RateDiscountVoucher implements Voucher {
         return beforeDiscount * (100 - percent) / 100;
     }
 
-    public static void tset() {
-
-    }
-
     @Override
     public UUID getId() {
         return id;

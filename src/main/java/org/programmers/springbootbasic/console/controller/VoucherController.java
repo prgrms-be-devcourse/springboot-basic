@@ -32,7 +32,7 @@ import static org.programmers.springbootbasic.console.command.RedirectCommand.CR
 public class VoucherController implements Controller {
 
     private final VoucherService voucherService;
-    private static final String redirectViewPath = "create/";
+    private static final String REDIRECT_VIEW_PATH = "create/";
     private static final Map<String, Command> commandList = new ConcurrentHashMap<>();
 
     @PostConstruct
@@ -47,8 +47,8 @@ public class VoucherController implements Controller {
     @Override
     public ModelAndView process(Command command, Model model) {
         log.info("processing command {} at Controller", command);
-        return (command instanceof InputCommand) ?
-                processInputCommand((InputCommand) command, model) :
+        return (command instanceof InputCommand inputCommand) ?
+                processInputCommand(inputCommand, model) :
                 processRedirectCommand((RedirectCommand) command, model);
     }
 
@@ -97,7 +97,7 @@ public class VoucherController implements Controller {
         model.setRedirectLink("create-amount");
         model.setInputEnvironment("type", "create");
 
-        return new ModelAndView(model, redirectViewPath + command.getName(), INPUT);
+        return new ModelAndView(model, REDIRECT_VIEW_PATH + command.getName(), INPUT);
     }
 
     private ModelAndView createAmount(RedirectCommand command, Model model) {
@@ -109,7 +109,7 @@ public class VoucherController implements Controller {
         model.setRedirectLink("create-complete");
         model.setInputEnvironment("amount", "create-amount");
 
-        return new ModelAndView(model, redirectViewPath + command.getName(), INPUT);
+        return new ModelAndView(model, REDIRECT_VIEW_PATH + command.getName(), INPUT);
     }
 
     private ModelAndView createComplete(RedirectCommand command, Model model) {
@@ -136,7 +136,7 @@ public class VoucherController implements Controller {
         model.setNoRedirectLink();
         model.clear();
 
-        return new ModelAndView(model, redirectViewPath + command.getName(), PROCEED);
+        return new ModelAndView(model, REDIRECT_VIEW_PATH + command.getName(), PROCEED);
     }
 
     private ModelAndView list(InputCommand command, Model model) {

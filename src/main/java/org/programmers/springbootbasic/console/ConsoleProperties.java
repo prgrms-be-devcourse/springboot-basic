@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -14,13 +13,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class ConsoleProperties implements InitializingBean {
+public class ConsoleProperties {
 
     @Value("${console.error.detail}")
     private boolean detailErrorMessage;
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-
-    }
 }

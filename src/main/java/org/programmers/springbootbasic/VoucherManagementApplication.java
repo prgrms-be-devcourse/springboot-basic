@@ -23,16 +23,17 @@ public class VoucherManagementApplication implements ApplicationRunner {
     private final Model model;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         Input input = new Input();
         ConsoleResponseCode code = dispatcher.service("home", model);
         while (code != STOP) {
-            if (code != INPUT && !model.hasRedirectLink())
+            if (code != INPUT && !model.hasRedirectLink()) {
                 dispatcher.service(WAIT_FOR_INPUT.getName(), model);
-            code = dispatcher.service(input.readLine(), model);
+                code = dispatcher.service(input.readLine(), model);
+            }
 
             if (code == INPUT) {
-                log.debug("Input Attribute {}", model.getInputSignature());
+                log.debug("Input \"{}\" attribute", model.getInputSignature());
                 model.addAttributes(model.getInputSignature(), input.readLine());
             }
 

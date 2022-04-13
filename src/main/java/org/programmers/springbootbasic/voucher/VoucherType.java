@@ -20,7 +20,6 @@ public enum VoucherType {
     private final int ordinal;
     private final String description;
 
-    //TODO 빌더 패턴 적용
     VoucherType(String name, Class<? extends Voucher> type, String discountUnitName, String description) {
         this.name = name;
         this.type = type;
@@ -41,7 +40,7 @@ public enum VoucherType {
                 "Illegal ordinal value. No corresponding voucherType found. ordinal=" + ordinal);
     }
 
-    public static VoucherType findTypeByClass(Class clazz) throws IllegalArgumentException {
+    public static VoucherType findTypeByClass(Class<? extends Voucher> clazz) throws IllegalArgumentException {
         for (var voucherType : VoucherType.values()) {
             if (clazz == voucherType.getType()) {
                 return voucherType;
@@ -54,39 +53,39 @@ public enum VoucherType {
     }
 
     public static String dataOfVoucher(Voucher voucher) throws IllegalStateException {
-        var stringBuffer = new StringBuffer();
+        var stringBuilder = new StringBuilder();
         var voucherTypes = VoucherType.values();
         for (VoucherType voucherType : voucherTypes) {
             if (voucher.getClass() == (voucherType.getType())) {
-                stringBuffer.append("바우처 일련번호: ");
-                stringBuffer.append(voucher.getId());
-                stringBuffer.append("\n    ");
-                stringBuffer.append("종류: ");
-                stringBuffer.append(voucherType.getName());
-                stringBuffer.append("\n    ");
-                stringBuffer.append(voucherType.getDiscountUnitName());
-                stringBuffer.append(": ");
-                stringBuffer.append(voucher.getAmount());
-                stringBuffer.append("\n    ");
-                return stringBuffer.toString();
+                stringBuilder.append("바우처 일련번호: ");
+                stringBuilder.append(voucher.getId());
+                stringBuilder.append("\n    ");
+                stringBuilder.append("종류: ");
+                stringBuilder.append(voucherType.getName());
+                stringBuilder.append("\n    ");
+                stringBuilder.append(voucherType.getDiscountUnitName());
+                stringBuilder.append(": ");
+                stringBuilder.append(voucher.getAmount());
+                stringBuilder.append("\n    ");
+                return stringBuilder.toString();
             }
         }
-        stringBuffer.append("바우처 일련번호: ");
-        stringBuffer.append(voucher.getId());
-        stringBuffer.append("\n    ");
-        stringBuffer.append("해당 종류 바우처가 정의되어 있지 않습니다: 유효하지 않은 바우처");
-        return stringBuffer.toString();
+        stringBuilder.append("바우처 일련번호: ");
+        stringBuilder.append(voucher.getId());
+        stringBuilder.append("\n    ");
+        stringBuilder.append("해당 종류 바우처가 정의되어 있지 않습니다: 유효하지 않은 바우처");
+        return stringBuilder.toString();
     }
 
     public String explainThisType() {
-        var stringBuffer = new StringBuffer();
+        var stringBuilder = new StringBuilder();
 
-        stringBuffer.append(this.getName());
-        stringBuffer.append("\n    ");
-        stringBuffer.append(this.getDescription());
-        stringBuffer.append("\n    ");
+        stringBuilder.append(this.getName());
+        stringBuilder.append("\n    ");
+        stringBuilder.append(this.getDescription());
+        stringBuilder.append("\n    ");
 
-        return stringBuffer.toString();
+        return stringBuilder.toString();
     }
 
     @RequiredArgsConstructor

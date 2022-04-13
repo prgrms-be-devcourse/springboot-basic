@@ -50,8 +50,8 @@ public class CliController implements Controller {
     @Override
     public ModelAndView process(Command command, Model model) {
         log.info("processing command {} at Controller", command);
-        return (command instanceof InputCommand) ?
-                processInputCommand((InputCommand) command, model) :
+        return (command instanceof InputCommand inputCommand) ?
+                processInputCommand(inputCommand, model) :
                 processRedirectCommand((RedirectCommand) command, model);
     }
 

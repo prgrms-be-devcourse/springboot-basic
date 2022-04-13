@@ -18,9 +18,7 @@ public class Drawer {
 
     private final ConsoleProperties consoleProperties;
 
-    //TODO 동시성 문제 고려
-    //TODO 로깅
-    private static final StringBuffer viewAssembler = new StringBuffer();
+    private static final StringBuilder viewAssembler = new StringBuilder();
 
     private static final String BASIC_RESOURCE_PATH = "/console-template/";
     private static final String BASIC_RESOURCE_TYPE = ".txt";
@@ -84,19 +82,19 @@ public class Drawer {
     }
 
     private String convertModelAttributeToStringView(Object modelAttribute) {
-        if (modelAttribute instanceof String) {
-            return (String) modelAttribute;
+        if (modelAttribute instanceof String modelAttributeToString) {
+            return modelAttributeToString;
         } else if (modelAttribute instanceof Iterable<?>) {
-            var stringBuffer = new StringBuffer();
+            var stringBuilder = new StringBuilder();
             int sequence = 0;
             for (Object each : (Iterable) modelAttribute) {
-                stringBuffer.append(++sequence);
-                stringBuffer.append(". ");
-                stringBuffer.append(each.toString());
-                stringBuffer.append("\n");
+                stringBuilder.append(++sequence);
+                stringBuilder.append(". ");
+                stringBuilder.append(each.toString());
+                stringBuilder.append("\n");
             }
-            stringBuffer.delete(stringBuffer.length() - 1, stringBuffer.length());
-            return stringBuffer.toString();
+            stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+            return stringBuilder.toString();
         }
         return modelAttribute.toString();
     }
