@@ -23,21 +23,21 @@ class PercentDiscountVoucherTest {
     }
 
     @Test
-    @DisplayName("percent는 0이 될 수 없다.")
+    @DisplayName("Amount는 0이 될 수 없다.")
     void testVoucherCreationWithZeroPercent() {
         assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(0));
     }
 
     @Test
-    @DisplayName("percent는 마이너스가 될 수 없다.")
+    @DisplayName("Amount는 마이너스가 될 수 없다.")
     void testVoucherCreationWithMinusPercent() {
         assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(-100));
     }
 
     @Test
-    @DisplayName("Percent는 100을 초과할 수 없다.")
+    @DisplayName("Amount는 MAX_VOUCHER_AMOUNT을 초과할 수 없다.")
     void testVoucherCreationWithOverHundredPercent() {
-        assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(101));
+        assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(100001));
     }
 
 }

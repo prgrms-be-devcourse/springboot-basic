@@ -1,7 +1,8 @@
 package org.prgrms.vouchermanager.voucher.domain;
 
 public class FixedAmountVoucher extends AbstractVoucher {
-    private static final long MAX_VOUCHER_AMOUNT = 10000;
+
+    private final long MAX_VOUCHER_AMOUNT = 10000;
     private final long amount;
 
     public FixedAmountVoucher(long amount) {
