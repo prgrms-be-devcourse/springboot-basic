@@ -18,14 +18,6 @@ public class Console implements Input, Output {
 
     @Override
     public CommandType inputCommandType() {
-        prompt.append("=== Voucher Program ===\n")
-                .append("Type ** exit ** to exit the program\n")
-                .append("Type ** create ** to create a new voucher\n")
-                .append("Type ** list ** to all vouchers.\n")
-                .append("Type ** black ** to all blackList\n");
-        System.out.println(prompt);
-        prompt.delete(0, prompt.length());
-
         String inputCommandType = scanner.nextLine();
         logger.info("Input command type String => {}", inputCommandType);
         return Arrays.stream(CommandType.values())
@@ -36,12 +28,6 @@ public class Console implements Input, Output {
 
     @Override
     public VoucherType inputVoucherType() {
-        prompt.append("=== Choose Voucher Type ===\n")
-                .append("Type ** fixed ** to create a new FixedAmountVoucher\n")
-                .append("Type ** percent ** to create a new PercentDiscountVoucher\n");
-        System.out.println(prompt);
-        prompt.delete(0, prompt.length());
-
         String inputVoucherType = scanner.nextLine();
         logger.info("Input voucher type String => {}", inputVoucherType);
         return Arrays.stream(VoucherType.values())
@@ -55,8 +41,27 @@ public class Console implements Input, Output {
         prompt.append("=== Insert Discount Amount Or Percent ===\n");
         System.out.println(prompt);
         prompt.delete(0, prompt.length());
-
         return Long.valueOf(scanner.nextLine());
+    }
+
+    @Override
+    public void infoCommandTypeInputPrompt() {
+        prompt.append("=== Voucher Program ===\n")
+                .append("Type ** exit ** to exit the program\n")
+                .append("Type ** create ** to create a new voucher\n")
+                .append("Type ** list ** to all vouchers.\n")
+                .append("Type ** black ** to all blackList\n");
+        System.out.println(prompt);
+        prompt.delete(0, prompt.length());
+    }
+
+    @Override
+    public void infoVoucherTypeInputPrompt() {
+        prompt.append("=== Choose Voucher Type ===\n")
+                .append("Type ** fixed ** to create a new FixedAmountVoucher\n")
+                .append("Type ** percent ** to create a new PercentDiscountVoucher\n");
+        System.out.println(prompt);
+        prompt.delete(0, prompt.length());
     }
 
     @Override
