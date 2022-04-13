@@ -1,5 +1,6 @@
 package org.programmers.springbootbasic.console;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,10 @@ import static org.programmers.springbootbasic.console.ConsoleResponseCode.*;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class Drawer {
+
+    private final ConsoleProperties consoleProperties;
 
     //TODO 동시성 문제 고려
     //TODO 로깅
@@ -23,11 +27,18 @@ public class Drawer {
     private static final String START_SYMBOL_OF_ARGUMENT = "${";
     private static final String END_SYMBOL_OF_ARGUMENT = "}";
 
-    ConsoleResponseCode draw(ModelAndView modelAndView) throws IOException {
+    ConsoleResponseCode draw(ModelAndView modelAndView) {
         String view = modelAndView.getView();
-
-        var viewTemplate = readTemplateFile(view);
-        viewAssembler.append(viewTemplate);
+        try {
+            var viewTemplate = readTemplateFile(view);
+            viewAssembler.append(viewTemplate);
+        } catch (IOException e) {
+            Model model = modelAndView.getModel();
+            model.addAttributes("errorData",
+                    (consoleProperties.isDetailErrorMessage())? e : new ErrorData("파일 읽기 오류", ""));
+            model.setRedirectLink("error");
+            return PROCEED;
+        }
 
         var model = modelAndView.getModel();
         applyArgument(model);

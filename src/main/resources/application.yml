@@ -1,0 +1,10 @@
+console:
+  error:
+    detail: false
+voucher:
+  fixed:
+    minimumAmount: 100
+    maximumAmount: 100000
+  rate:
+    minimumAmount: 5
+    maximumAmount: 80

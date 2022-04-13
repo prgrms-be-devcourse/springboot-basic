@@ -7,14 +7,17 @@ import org.programmers.springbootbasic.console.command.InputCommand;
 import org.programmers.springbootbasic.console.command.RedirectCommand;
 import org.programmers.springbootbasic.console.controller.CliController;
 import org.programmers.springbootbasic.console.controller.Controller;
+import org.programmers.springbootbasic.console.controller.ErrorController;
 import org.programmers.springbootbasic.console.controller.VoucherController;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.programmers.springbootbasic.console.ConsoleResponseCode.PROCEED;
 import static org.programmers.springbootbasic.console.command.InputCommand.HELP;
 
 @Slf4j
@@ -23,11 +26,15 @@ import static org.programmers.springbootbasic.console.command.InputCommand.HELP;
 public class Dispatcher {
 
     private static final Map<String, Command> commandList = new ConcurrentHashMap<>();
+    private static final List<Controller> controllerList = new ArrayList<>();
+
     private Controller controller;
     private final CliController cliController;
     private final VoucherController voucherController;
-    private static final Map<String, Controller> controllerList = new ConcurrentHashMap<>();
+    private final ErrorController errorController;
+
     private final Drawer drawer;
+    private final ConsoleProperties consoleProperties;
 
     @PostConstruct
     void init() {
@@ -45,41 +52,52 @@ public class Dispatcher {
     }
 
     private void initControllerList() {
-        controllerList.put("cli", cliController);
-        controllerList.put("voucher", voucherController);
+        controllerList.add(cliController);
+        controllerList.add(voucherController);
+        controllerList.add(errorController);
     }
 
     public ConsoleResponseCode service(String input, Model model) {
+
         log.debug("processing input {} at dispatcher", input);
 
         var command = readCommand(input);
-        controller = searchProperController(command);
-
-        ModelAndView modelAndView = this.controller.process(command, model);
-
-        ConsoleResponseCode responseCode;
         try {
-            responseCode = drawer.draw(modelAndView);
-        } catch (IOException e) {
-            //TODO ERROR page 처리 : IOException
-            responseCode = ConsoleResponseCode.ERROR;
+            this.controller = searchProperController(command);
+
+            ModelAndView modelAndView = this.controller.process(command, model);
+            return drawer.draw(modelAndView);
+
+        } catch (Exception e) {
+            handleException(e, model);
+            model.setRedirectLink("error");
+            return PROCEED;
         }
-        return responseCode;
+    }
+    private void handleException(Exception e, Model model) {
+        if (e instanceof IllegalStateException) {
+            model.addAttributes("errorData",
+                    (consoleProperties.isDetailErrorMessage()) ? e :
+                            new ErrorData("프로그램 내부 연결 오류", ""));
+        } else if (e instanceof IllegalArgumentException) {
+            model.addAttributes("errorData",
+                    (consoleProperties.isDetailErrorMessage()) ? e :
+                            new ErrorData("잘못된 값을 입력하셨습니다.",
+                                    "처음부터 다시 작업을 시도해주시고, 적절한 값을 입력해주세요."));
+        }
     }
 
     private Controller searchProperController(Command command) {
-        for (Controller eachController : controllerList.values()) {
+        for (var eachController : controllerList) {
             if (eachController.supports(command)) {
                 return eachController;
             }
         }
-        /*일반적으로 발생할 수 없는 상황입니다.
-         * 커맨드를 찾지 못한 경우 일괄적으로 단축키를 찾는 요청인 HELP 명령어가 자동 요청되기 때문입니다.
-         * 아래와 같은 상황이 발생한 경우 "아무 커맨드도 찾지 못했을 때 기본적으로 주어지는 커맨드와
-         * 그 커맨드에 대한 컨트롤러 연결을 확인해 봐야 합니다.
-         */
-        //TODO 컨트롤러 찾지 못했을 때 예외 처리
-        return null;
+
+        log.error("No controller handling command {} exist.", command);
+        throw new IllegalStateException(
+                "해당하는 컨트롤러가 없습니다. 어떤 명령어도 해당되지 않을 경우 기본적으로 HELP 명령어로 전환되기에," +
+                        "기본 컨트롤러 설정을 다시 살펴보십시오.");
     }
 
     Command readCommand(String input) {

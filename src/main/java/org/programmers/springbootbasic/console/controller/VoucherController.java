@@ -29,7 +29,6 @@ import static org.programmers.springbootbasic.console.command.RedirectCommand.CR
 @Slf4j
 @Component
 @RequiredArgsConstructor
-//TODO: 컨트롤러 분리
 public class VoucherController implements Controller{
 
     private final VoucherService voucherService;
@@ -69,8 +68,9 @@ public class VoucherController implements Controller{
             case LIST:
                 return list(LIST, model);
         }
-        //TODO 커맨드 에러 처리
-        return null;
+        log.error("No controller handling command {} exist.", command);
+        throw new IllegalStateException(
+                "컨트롤러가 해당 커맨드를 처리하지 못 합니다. 컨트롤러 매핑이 잘못되었는지 확인해주세요.");
     }
 
     private ModelAndView processRedirectCommand(RedirectCommand command, Model model) {
@@ -80,8 +80,9 @@ public class VoucherController implements Controller{
             case CREATE_COMPLETE:
                 return createComplete(CREATE_COMPLETE, model);
         }
-        //TODO 커맨드 에러 처리
-        return null;
+        log.error("No controller handling command {} exist.", command);
+        throw new IllegalStateException(
+                "컨트롤러가 해당 커맨드를 처리하지 못 합니다. 컨트롤러 매핑이 잘못되었는지 확인해주세요.");
     }
 
     private ModelAndView create(InputCommand command, Model model) {
@@ -135,7 +136,7 @@ public class VoucherController implements Controller{
         model.setNoRedirectLink();
         model.clear();
 
-        return new ModelAndView(model, "create/" + command.getName(), OK);
+        return new ModelAndView(model, "create/" + command.getName(), PROCEED);
     }
 
     private ModelAndView list(InputCommand command, Model model) {
@@ -148,6 +149,6 @@ public class VoucherController implements Controller{
 
         model.addAttributes("allVouchersInformation", allVouchersInformation);
 
-        return new ModelAndView(model, command.getName(), OK);
+        return new ModelAndView(model, command.getName(), PROCEED);
     }
 }
