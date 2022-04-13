@@ -2,12 +2,17 @@ package org.programmers.springbootbasic;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.console.*;
+import org.programmers.springbootbasic.console.ConsoleResponseCode;
+import org.programmers.springbootbasic.console.Dispatcher;
+import org.programmers.springbootbasic.console.Input;
+import org.programmers.springbootbasic.console.Model;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import static org.programmers.springbootbasic.console.ConsoleResponseCode.*;
+import static org.programmers.springbootbasic.console.ConsoleResponseCode.INPUT;
+import static org.programmers.springbootbasic.console.ConsoleResponseCode.STOP;
+import static org.programmers.springbootbasic.console.command.RedirectCommand.WAIT_FOR_INPUT;
 
 @Slf4j
 @Component
@@ -16,21 +21,19 @@ public class VoucherManagementApplication implements ApplicationRunner {
 
     private final Dispatcher dispatcher;
     private final Model model;
-    private final ConsoleProperties consoleProperties;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("console.error.detail = {}", consoleProperties.isDetailErrorMessage());
         Input input = new Input();
         ConsoleResponseCode code = dispatcher.service("home", model);
         while (code != STOP) {
             if (code != INPUT && !model.hasRedirectLink())
-                code = dispatcher.service(input.readLine(), model);
+                dispatcher.service(WAIT_FOR_INPUT.getName(), model);
+            code = dispatcher.service(input.readLine(), model);
 
             if (code == INPUT) {
-                log.info("ATTRIBUTE INPUTTING");
+                log.debug("Input Attribute {}", model.getInputSignature());
                 model.addAttributes(model.getInputSignature(), input.readLine());
-                log.info("REDIRECT: {}", model.hasRedirectLink());
             }
 
             if (model.hasRedirectLink()) {

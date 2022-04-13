@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum RedirectCommand implements Command {
     CREATE_AMOUNT("create-amount"),
     CREATE_COMPLETE("create-complete"),
-    ERROR("error");
+    ERROR("error"),
+    WAIT_FOR_INPUT("wait-for-input");
 
     private final String name;
 

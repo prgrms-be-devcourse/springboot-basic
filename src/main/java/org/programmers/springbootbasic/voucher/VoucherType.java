@@ -29,7 +29,7 @@ public enum VoucherType {
         this.description = description;
     }
 
-    public static VoucherType findTypeByOrdinal(int ordinal) {
+    public static VoucherType findTypeByOrdinal(int ordinal) throws IllegalArgumentException {
         ordinal -= 1;     //ordinal 0부터 시작하기 때문
         for (var voucherType : VoucherType.values()) {
             if (voucherType.getOrdinal() == ordinal) {
@@ -41,15 +41,22 @@ public enum VoucherType {
                 "Illegal ordinal value. No corresponding voucherType found. ordinal=" + ordinal);
     }
 
+    public static VoucherType findTypeByClass(Class clazz) throws IllegalArgumentException {
+        for (var voucherType : VoucherType.values()) {
+            if (clazz == voucherType.getType()) {
+                return voucherType;
+            }
+        }
+        log.error("Illegal type of voucher." +
+                "No corresponding registered voucherType found. this voucher's class={}", clazz);
+        throw new IllegalArgumentException(
+                "Illegal type of voucher. this voucher's class=" + clazz);
+    }
+
     public static String dataOfVoucher(Voucher voucher) throws IllegalStateException {
         var stringBuffer = new StringBuffer();
         var voucherTypes = VoucherType.values();
         for (VoucherType voucherType : voucherTypes) {
-            log.info("vouchers={}", voucherType);
-        }
-        log.info("voucher's class={}", voucher.getClass());
-        for (VoucherType voucherType : voucherTypes) {
-            log.info("voucherType={}", voucherType.getType());
             if (voucher.getClass() == (voucherType.getType())) {
                 stringBuffer.append("바우처 일련번호: ");
                 stringBuffer.append(voucher.getId());

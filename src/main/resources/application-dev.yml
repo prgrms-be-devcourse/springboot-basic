@@ -2,3 +2,6 @@ spring.config.activate.on-profile: dev
 console:
   error:
     detail: true
+logging:
+  level:
+    root: info

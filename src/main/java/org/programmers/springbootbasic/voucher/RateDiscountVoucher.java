@@ -8,11 +8,11 @@ import java.util.UUID;
 public class RateDiscountVoucher implements Voucher {
 
     private final UUID id;
-    private final long percent;
+    private final int percent;
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (100-percent) / 100;
+        return beforeDiscount * (100 - percent) / 100;
     }
 
     public static void tset() {
@@ -25,7 +25,7 @@ public class RateDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long getAmount() {
+    public int getAmount() {
         return percent;
     }
 

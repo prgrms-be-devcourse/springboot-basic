@@ -19,7 +19,7 @@ public class TestVoucher implements Voucher {
     }
 
     @Override
-    public long getAmount() {
+    public int getAmount() {
         return 0;
     }
 }

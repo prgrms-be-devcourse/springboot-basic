@@ -8,7 +8,7 @@ import java.util.UUID;
 public class FixedDiscountVoucher implements Voucher {
 
     private final UUID id;
-    private final long amount;
+    private final int amount;
 
     @Override
     public long discount(long beforeDiscount) {
@@ -21,7 +21,7 @@ public class FixedDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long getAmount() {
+    public int getAmount() {
         return amount;
     }
 

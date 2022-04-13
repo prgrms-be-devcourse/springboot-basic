@@ -58,8 +58,9 @@ public class Dispatcher {
     }
 
     public ConsoleResponseCode service(String input, Model model) {
-
-        log.debug("processing input {} at dispatcher", input);
+        input = input.toLowerCase();
+        //TODO: 악의적으로 REDIRECT 링크로 접속할 시 차단하기
+        log.info("processing input {} at dispatcher", input);
 
         var command = readCommand(input);
         try {
@@ -74,6 +75,7 @@ public class Dispatcher {
             return PROCEED;
         }
     }
+
     private void handleException(Exception e, Model model) {
         if (e instanceof IllegalStateException) {
             model.addAttributes("errorData",
@@ -82,8 +84,8 @@ public class Dispatcher {
         } else if (e instanceof IllegalArgumentException) {
             model.addAttributes("errorData",
                     (consoleProperties.isDetailErrorMessage()) ? e :
-                            new ErrorData("잘못된 값을 입력하셨습니다.",
-                                    "처음부터 다시 작업을 시도해주시고, 적절한 값을 입력해주세요."));
+                            new ErrorData("잘못된 값을 입력",
+                                    "적절한 값을 입력해주세요."));
         }
     }
 

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public interface Controller {
     void initCommandList();
+
     boolean supports(Command command);
+
     ModelAndView process(Command command, Model model);
 }

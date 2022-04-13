@@ -35,7 +35,7 @@ public class Drawer {
         } catch (IOException e) {
             Model model = modelAndView.getModel();
             model.addAttributes("errorData",
-                    (consoleProperties.isDetailErrorMessage())? e : new ErrorData("파일 읽기 오류", ""));
+                    (consoleProperties.isDetailErrorMessage()) ? e : new ErrorData("파일 읽기 오류", ""));
             model.setRedirectLink("error");
             return PROCEED;
         }
@@ -48,7 +48,7 @@ public class Drawer {
         viewAssembler.delete(0, viewAssembler.length());
         var responseCode = modelAndView.getResponseCode();
 
-        if (responseCode!= INPUT) {
+        if (responseCode != INPUT) {
             log.info("Clear model's attributes because attributes are used.");
             model.clear();
         }

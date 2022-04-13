@@ -67,6 +67,6 @@ class MemoryVoucherRepositoryTest {
 
         List<Voucher> vouchers = voucherRepository.findAll();
 
-        assertTrue(vouchers.size()==expected.size());
+        assertTrue(vouchers.size() == expected.size());
     }
 }

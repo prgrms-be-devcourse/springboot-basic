@@ -29,9 +29,10 @@ import static org.programmers.springbootbasic.console.command.RedirectCommand.CR
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class VoucherController implements Controller{
+public class VoucherController implements Controller {
 
     private final VoucherService voucherService;
+    private static final String redirectViewPath = "create/";
     private static final Map<String, Command> commandList = new ConcurrentHashMap<>();
 
     @PostConstruct
@@ -55,6 +56,7 @@ public class VoucherController implements Controller{
     public boolean supports(Command command) {
         for (var supportingCommand : commandList.values()) {
             if (command == supportingCommand) {
+                log.trace("Controller: {} supports command: {}.", this, command);
                 return true;
             }
         }
@@ -93,9 +95,9 @@ public class VoucherController implements Controller{
 
         model.addAttributes("allVoucherTypes", voucherTypesInformation);
         model.setRedirectLink("create-amount");
-        model.setInputSignature("type");
+        model.setInputEnvironment("type", "create");
 
-        return new ModelAndView(model, "create/" + command.getName(), INPUT);
+        return new ModelAndView(model, redirectViewPath + command.getName(), INPUT);
     }
 
     private ModelAndView createAmount(RedirectCommand command, Model model) {
@@ -105,29 +107,27 @@ public class VoucherController implements Controller{
 
         model.addAttributes("amount", VoucherType.findTypeByOrdinal(ordinal).getDiscountUnitName());
         model.setRedirectLink("create-complete");
-        model.setInputSignature("amount");
+        model.setInputEnvironment("amount", "create-amount");
 
-        return new ModelAndView(model, "create/" + command.getName(), INPUT);
+        return new ModelAndView(model, redirectViewPath + command.getName(), INPUT);
     }
 
     private ModelAndView createComplete(RedirectCommand command, Model model) {
         Voucher voucher;
 
-        //TODO: 컨버터 개발하여 아래 로직 대체하기
+        //TODO: 컨버터 개발하여 아래 로직 대체하기2
         String ordinalString = (String) model.getAttributes("type");
         int ordinal = Integer.parseInt(ordinalString);
         String amountString = (String) model.getAttributes("amount");
-        long amount = Long.parseLong(amountString);
+        int amount = Integer.parseInt(amountString);
 
         Class<? extends Voucher> type = VoucherType.findTypeByOrdinal(ordinal).getType();
 
         if (type.equals(FixedDiscountVoucher.class)) {
             voucher = new FixedDiscountVoucher(UUID.randomUUID(), amount);
-        }
-        else if (type.equals(RateDiscountVoucher.class)) {
+        } else if (type.equals(RateDiscountVoucher.class)) {
             voucher = new RateDiscountVoucher(UUID.randomUUID(), amount);
-        }
-        else {
+        } else {
             log.info("Illegal type of voucher. No corresponding voucher type exist.");
             throw new IllegalArgumentException("Illegal type of voucher. No corresponding voucher type exist.");
         }
@@ -136,11 +136,15 @@ public class VoucherController implements Controller{
         model.setNoRedirectLink();
         model.clear();
 
-        return new ModelAndView(model, "create/" + command.getName(), PROCEED);
+        return new ModelAndView(model, redirectViewPath + command.getName(), PROCEED);
     }
 
     private ModelAndView list(InputCommand command, Model model) {
         List<Voucher> vouchers = voucherService.getAllVouchers();
+        if (vouchers.isEmpty()) {
+            model.addAttributes("allVouchersInformation", "저장된 바우처가 없습니다.");
+            return new ModelAndView(model, command.getName(), PROCEED);
+        }
         List<String> allVouchersInformation = new ArrayList<>(vouchers.size());
 
         for (Voucher voucher : vouchers) {

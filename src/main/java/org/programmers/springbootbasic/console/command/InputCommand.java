@@ -18,11 +18,11 @@ public enum InputCommand implements Command {
 
     @Override
     public String getCommandInformation() {
-        var stringBuffer = new StringBuffer();
-        stringBuffer.append("명령어: ");
-        stringBuffer.append(this.getName());
-        stringBuffer.append(" | ");
-        stringBuffer.append(this.getDescription());
-        return stringBuffer.toString();
+        var stringBuilder = new StringBuilder();
+        stringBuilder.append("명령어: ");
+        stringBuilder.append(this.getName());
+        stringBuilder.append(" | ");
+        stringBuilder.append(this.getDescription());
+        return stringBuilder.toString();
     }
 }

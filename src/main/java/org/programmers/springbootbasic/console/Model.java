@@ -11,9 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class Model {
     private final Map<String, Object> attributes = new ConcurrentHashMap<>();
-    private RedirectData redirectData = new RedirectData();
-    @Getter @Setter
+    private final RedirectData redirectData = new RedirectData();
+    @Getter
     private String inputSignature;
+    @Getter
+    private String previousInputLink;
 
     public void addAttributes(String name, Object attribute) {
         attributes.put(name, attribute);
@@ -42,6 +44,11 @@ public class Model {
     public void setRedirectLink(String redirectLink) {
         this.redirectData.setRedirectLink(redirectLink);
         this.redirectData.setHavingRedirectLink(true);
+    }
+
+    public void setInputEnvironment(String inputSignature, String previousInputLink) {
+        this.inputSignature = inputSignature;
+        this.previousInputLink = previousInputLink;
     }
 
     @Getter(AccessLevel.PRIVATE)

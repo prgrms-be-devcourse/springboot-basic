@@ -2,3 +2,8 @@ spring.config.activate.on-profile: prod
 console:
   error:
     detail: false
+logging:
+  level:
+    root: error
+  file:
+    path: logs

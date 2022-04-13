@@ -8,7 +8,10 @@ import java.util.UUID;
 
 public interface VoucherRepository {
     Voucher insert(Voucher voucher);
+
     Optional<Voucher> findById(UUID voucherId);
+
     List<Voucher> findAll();
+
     void remove(UUID voucherId);
 }
