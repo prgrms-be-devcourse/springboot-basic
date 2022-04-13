@@ -1,0 +1,3 @@
+path:
+  blacklist: data/customer_blacklist.csv
+  voucherlist: data/voucher_list.csv
