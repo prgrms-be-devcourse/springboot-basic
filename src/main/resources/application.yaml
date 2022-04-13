@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: error
+
+spring:
+  profiles:
+    active: local
