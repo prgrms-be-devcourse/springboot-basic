@@ -2,21 +2,35 @@ package org.prgrms.springbootbasic.repository.customer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.zaxxer.hikari.HikariDataSource;
 import java.util.UUID;
+import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.prgrms.springbootbasic.entity.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+@SpringJUnitConfig
+@TestInstance(Lifecycle.PER_CLASS)
 class JdbcCustomerRepositoryTest {
 
-    static JdbcCustomerRepository jdbcCustomerRepository = new JdbcCustomerRepository();
+    @Autowired
+    JdbcCustomerRepository jdbcCustomerRepository;
 
     @BeforeAll
-    static void init() {
+    void init() {
         jdbcCustomerRepository.removeAll();
     }
 
@@ -96,5 +110,27 @@ class JdbcCustomerRepositoryTest {
 
         //then
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Configuration
+    @ComponentScan(
+        basePackages = {"org.prgrms.springbootbasic.repository.customer"}
+    )
+    static class Config {
+
+        @Bean
+        public DataSource dataSource() {
+            return DataSourceBuilder.create()
+                .url("jdbc:mysql://localhost/springboot_basic")
+                .username("hyuk")
+                .password("hyuk1234!")
+                .type(HikariDataSource.class)
+                .build();
+        }
+
+        @Bean
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
+        }
     }
 }

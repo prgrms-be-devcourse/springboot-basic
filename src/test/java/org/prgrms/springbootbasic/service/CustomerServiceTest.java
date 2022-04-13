@@ -3,16 +3,26 @@ package org.prgrms.springbootbasic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.zaxxer.hikari.HikariDataSource;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.repository.customer.JdbcCustomerRepository;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 
 class CustomerServiceTest {
 
-    JdbcCustomerRepository jdbcCustomerRepository = new JdbcCustomerRepository();
+    JdbcCustomerRepository jdbcCustomerRepository =
+        new JdbcCustomerRepository(new JdbcTemplate(DataSourceBuilder.create()
+            .url("jdbc:mysql://localhost/springboot_basic")
+            .username("hyuk")
+            .password("hyuk1234!")
+            .type(HikariDataSource.class)
+            .build()));
     CustomerService customerService = new CustomerService(jdbcCustomerRepository);
 
     @AfterEach
