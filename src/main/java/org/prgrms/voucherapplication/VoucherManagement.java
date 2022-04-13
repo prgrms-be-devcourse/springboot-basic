@@ -1,7 +1,8 @@
 package org.prgrms.voucherapplication;
 
+import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.entity.Voucher;
-import org.prgrms.voucherapplication.exception.InvalidMenuException;
+import org.prgrms.voucherapplication.service.CustomerService;
 import org.prgrms.voucherapplication.service.VoucherService;
 import org.prgrms.voucherapplication.view.Console;
 import org.prgrms.voucherapplication.view.io.Menu;
@@ -19,10 +20,12 @@ public class VoucherManagement implements Runnable{
 
     private final Console console;
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public VoucherManagement(Console console, VoucherService voucherService) {
+    public VoucherManagement(Console console, VoucherService voucherService, CustomerService customerService) {
         this.console = console;
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @Override
@@ -41,6 +44,10 @@ public class VoucherManagement implements Runnable{
                     case LIST -> {
                         List<Voucher> allVoucher = voucherService.getAllVoucher();
                         console.printVoucherList(allVoucher);
+                    }
+                    case BLACKLIST -> {
+                        List<Customer> customerList = customerService.getAllCustomer();
+                        console.printBlackList(customerList);
                     }
                     default -> logger.error("Invalid Menu type in switch state");
                 }
