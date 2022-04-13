@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 @Getter(AccessLevel.PACKAGE)
-class ModelAndView {
+public class ModelAndView {
     private final ConsoleResponseCode responseCode;
     private final String view;
     private final Model model;

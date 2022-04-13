@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum RedirectCommand implements Command {
     WAIT_FOR_INPUT("wait-for-input"),
     CREATE_AMOUNT("create-amount"),
-    CREATE_COMPLETE("create-complete");
+    CREATE_COMPLETE("create-complete"),
+    INVALID_INPUT("invalid-input");//TODO 컨트롤러 연결하기
 
     private final String name;
 

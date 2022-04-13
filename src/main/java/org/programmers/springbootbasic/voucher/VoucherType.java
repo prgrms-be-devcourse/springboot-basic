@@ -20,6 +20,7 @@ public enum VoucherType {
     private final int ordinal;
     private final String description;
 
+    //TODO 빌더 패턴 적용
     VoucherType(String name, Class<? extends Voucher> type, String discountUnitName, String description) {
         this.name = name;
         this.type = type;
@@ -29,7 +30,7 @@ public enum VoucherType {
     }
 
     public static VoucherType findTypeByOrdinal(int ordinal) {
-        ordinal-=1;     //ordinal 0부터 시작하기 때문
+        ordinal -= 1;     //ordinal 0부터 시작하기 때문
         for (var voucherType : VoucherType.values()) {
             if (voucherType.getOrdinal() == ordinal) {
                 return voucherType;
