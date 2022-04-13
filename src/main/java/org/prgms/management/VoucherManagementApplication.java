@@ -1,17 +1,17 @@
 package org.prgms.management;
 
-import org.prgms.management.service.ManagementService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+
+import java.io.IOException;
 
 @SpringBootApplication
 public class VoucherManagementApplication {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         var applicationContext = SpringApplication.run(
                 VoucherManagementApplication.class, args);
-        var voucherService = applicationContext.getBean(ManagementService.class);
-        voucherService.run();
+        var consoleApplication = applicationContext.getBean(ConsoleApplication.class);
+        consoleApplication.run();
         applicationContext.close();
     }
 }

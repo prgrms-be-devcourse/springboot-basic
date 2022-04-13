@@ -2,12 +2,11 @@ package org.prgms;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.management.entity.FixedAmountVoucher;
-import org.prgms.management.entity.PercentAmountVoucher;
-import org.prgms.management.entity.Voucher;
-import org.prgms.management.repository.VoucherMemoryRepository;
-import org.prgms.management.repository.VoucherRepository;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.prgms.management.voucher.entity.FixedAmountVoucher;
+import org.prgms.management.voucher.entity.PercentAmountVoucher;
+import org.prgms.management.voucher.entity.Voucher;
+import org.prgms.management.voucher.repository.VoucherMemoryRepository;
+import org.prgms.management.voucher.repository.VoucherRepository;
 
 import java.util.UUID;
 
@@ -23,7 +22,7 @@ public class VoucherTest {
         assertEquals(uuid, voucher.getVoucherId());
 
         uuid = UUID.randomUUID();
-        voucher = new PercentAmountVoucher(uuid, 10,
+        voucher = PercentAmountVoucher.getPercentAmountVoucher(uuid, 10,
                 "percentAmountVoucher", "PercentAmountVoucher");
         assertEquals(uuid, voucher.getVoucherId());
     }
@@ -36,7 +35,7 @@ public class VoucherTest {
                 FixedAmountVoucher.getFixedAmountVoucher(UUID.randomUUID(), 100,
                         "fixedAmountVoucher", "PercentAmountVoucher"));
         voucherRepository.save(
-                new PercentAmountVoucher(UUID.randomUUID(), 10,
+                PercentAmountVoucher.getPercentAmountVoucher(UUID.randomUUID(), 10,
                         "percentAmountVoucher", "PercentAmountVoucher"));
 
         var voucherMap = voucherRepository.getAll();

@@ -1,8 +1,9 @@
-package org.prgms.management.repository;
+package org.prgms.management.voucher.repository;
 
-import org.prgms.management.entity.Voucher;
+import org.prgms.management.voucher.entity.Voucher;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 

@@ -1,7 +1,4 @@
-package org.prgms.management.entity;
-
-import org.prgms.management.validator.FixedAmountVoucherValidator;
-import org.prgms.management.validator.PercentAmountVoucherValidator;
+package org.prgms.management.voucher.entity;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -12,11 +9,6 @@ public enum VoucherType {
         @Override
         public Voucher create(UUID uuid, int discountNum,
                               String voucherName, String voucherType) {
-            FixedAmountVoucherValidator validator =
-                    new FixedAmountVoucherValidator();
-
-            if (!validator.validate(voucherName, discountNum)) return null;
-
             return FixedAmountVoucher.getFixedAmountVoucher(uuid, discountNum,
                     voucherName, voucherType);
         }
@@ -25,12 +17,7 @@ public enum VoucherType {
         @Override
         public Voucher create(UUID uuid, int discountNum,
                               String voucherName, String voucherType) {
-            PercentAmountVoucherValidator validator =
-                    new PercentAmountVoucherValidator();
-
-            if (!validator.validate(voucherName, discountNum)) return null;
-
-            return new PercentAmountVoucher(uuid, discountNum,
+            return PercentAmountVoucher.getPercentAmountVoucher(uuid, discountNum,
                     voucherName, voucherType);
         }
     };
@@ -41,13 +28,13 @@ public enum VoucherType {
         this.type = type;
     }
 
-    public static Voucher createVoucher(UUID uuid, int discountNum,
-                                        String voucherName, String inputType) {
+    public static Optional<Voucher> createVoucher(UUID uuid, int discountNum,
+                                                  String voucherName, String inputType) {
         Optional<VoucherType> voucherType = Arrays.stream(VoucherType.values())
                 .filter(s -> s.type.equalsIgnoreCase(inputType))
                 .findFirst();
-        if (voucherType.isEmpty()) return null;
-        return voucherType.get().create(uuid, discountNum, voucherName, voucherType.get().name());
+        if (voucherType.isEmpty()) return Optional.empty();
+        return Optional.ofNullable(voucherType.get().create(uuid, discountNum, voucherName, voucherType.get().name()));
     }
 
     public abstract Voucher create(UUID uuid, int discountNum,
