@@ -8,12 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * 아직 미구현
- */
 @Repository
 @Profile("option")
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();

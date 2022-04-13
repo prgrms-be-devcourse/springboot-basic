@@ -22,10 +22,11 @@ public class VoucherManagerShell {
     public String create(String type, long amount) {
         try {
             voucherService.createVoucher(type, amount);
+            return MessageFormat.format("{0} voucher created.", type);
         } catch (RuntimeException e) {
             log.error(e.getMessage());
         }
-        return MessageFormat.format("{0} voucher created.", type);
+        return "fail to create a voucher.";
     }
 
     @ShellMethod("show voucher list")
