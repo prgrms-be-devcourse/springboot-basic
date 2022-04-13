@@ -6,9 +6,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.List;
 
 import org.prgms.voucheradmin.domain.console.Command;
+import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
+import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.global.exception.WrongInputException;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,40 @@ public class ConsoleService {
     }
 
     /**
+     * 생성할 수 있는 바우처의 종류들을 사용자에게 보여주는 메서드입니다.
+     **/
+    public void showVoucherType() {
+        StringBuilder voucherTypeStrBuilder = new StringBuilder();
+
+        voucherTypeStrBuilder.append("\n");
+        Arrays.stream(VoucherType.values()).forEach(voucherType -> voucherTypeStrBuilder.append(voucherType.toString()).append("\n"));
+        voucherTypeStrBuilder.append("\nvoucher type> ");
+
+        System.out.print(voucherTypeStrBuilder);
+    }
+
+    /**
+     * 셍성된 바우처의 정보를 보여주는 메서드입니다.
+     */
+    public void showVoucherCreated(Voucher createdVoucher) {
+        System.out.println(createdVoucher+" created");
+    }
+
+    /**
+     * 바우처 목록을 보여주는 메서드입니다.
+     */
+    public void showVoucherList(List<Voucher> vouchers) {
+        vouchers.forEach(voucher -> System.out.println(voucher));
+    }
+
+    /**
+     * 블랙리스트 목록을 보여주는 메서드입니다.
+     */
+    public void showBlacklist(List<CustomerDto> blackListedCustomers) {
+        blackListedCustomers.forEach(blackListedCustomer -> System.out.println(blackListedCustomer));
+    }
+
+    /**
      * 사용자가 명령을 입력하는 메서드입니다.
      * findCommand 메서드를 통하여 옳바른 입력인지 검증하고 옳바른 입력일 경우 Commands를 반환합니다.
      * 만약 옳바른 입력이 아닌 경우 WrongInputException을 발생시킵니다.
@@ -51,19 +88,6 @@ public class ConsoleService {
         }catch (IllegalArgumentException illegalArgumentException) {
             throw new WrongInputException();
         }
-    }
-
-    /**
-     * 생성할 수 있는 바우처의 종류들을 사용자에게 보여주는 메서드입니다.
-     **/
-    public void showVoucherType() {
-        StringBuilder voucherTypeStrBuilder = new StringBuilder();
-
-        voucherTypeStrBuilder.append("\n");
-        Arrays.stream(VoucherType.values()).forEach(voucherType -> voucherTypeStrBuilder.append(voucherType.toString()).append("\n"));
-        voucherTypeStrBuilder.append("\nvoucher type> ");
-
-        System.out.print(voucherTypeStrBuilder);
     }
 
     /**

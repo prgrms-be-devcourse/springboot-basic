@@ -46,19 +46,15 @@ public class Administrator {
                         VoucherType voucherType = consoleService.selectVoucherType();
                         VoucherInputDto voucherInputDto = consoleService.inputAmount(voucherType);
                         Voucher createdVoucher = voucherService.createVoucher(voucherInputDto);
-                        System.out.println(createdVoucher+" created");
+                        consoleService.showVoucherCreated(createdVoucher);
                         break;
                     case LIST:
                         List<Voucher> vouchers = voucherService.getVouchers();
-                        for(Voucher voucher : vouchers) {
-                            System.out.println(voucher);
-                        }
+                        consoleService.showVoucherList(vouchers);
                         break;
                     case BLACKLIST:
                         List<CustomerDto> blackListedCustomers = customerService.getBlackList();
-                        for(CustomerDto blackListedCustomer : blackListedCustomers) {
-                            System.out.println(blackListedCustomer);
-                        }
+                        consoleService.showBlacklist(blackListedCustomers);
                         break;
                     default:
                         return;
