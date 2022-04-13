@@ -1,7 +1,10 @@
 package org.programmers.springbootbasic.console;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Scanner;
 
+@Component
 public class Input {
 
     private final Scanner scanner = new Scanner(System.in);

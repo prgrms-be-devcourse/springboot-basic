@@ -21,10 +21,10 @@ public class VoucherManagementApplication implements ApplicationRunner {
 
     private final Dispatcher dispatcher;
     private final Model model;
+    private final Input input;
 
     @Override
     public void run(ApplicationArguments args) {
-        Input input = new Input();
         ConsoleResponseCode code = dispatcher.service("home", model);
         while (code != STOP) {
             if (code != INPUT && !model.hasRedirectLink()) {
