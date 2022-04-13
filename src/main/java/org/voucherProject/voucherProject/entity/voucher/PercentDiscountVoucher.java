@@ -19,7 +19,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final int MAX_DISCOUNT_PERCENT = 100;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent <= MIN_DISCOUNT_PERCENT || percent > MAX_DISCOUNT_PERCENT) {
+        if (percent < MIN_DISCOUNT_PERCENT || percent > MAX_DISCOUNT_PERCENT || percent == 0) {
             throw new IllegalArgumentException();
         }
         this.voucherId = voucherId;

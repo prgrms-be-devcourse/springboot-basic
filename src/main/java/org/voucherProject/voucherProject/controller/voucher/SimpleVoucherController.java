@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class VoucherControllerImpl implements VoucherController {
+public class SimpleVoucherController implements VoucherController {
 
     private final VoucherService voucherService;
 

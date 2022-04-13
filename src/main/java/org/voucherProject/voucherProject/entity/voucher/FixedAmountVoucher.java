@@ -20,7 +20,7 @@ public class FixedAmountVoucher implements Voucher {
 
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
-        if (amount <= MIN_DISCOUNT_AMOUNT || amount > MAX_DISCOUNT_AMOUNT) {
+        if (amount < MIN_DISCOUNT_AMOUNT || amount > MAX_DISCOUNT_AMOUNT || amount == 0) {
             throw new IllegalArgumentException();
         }
         this.voucherId = voucherId;
