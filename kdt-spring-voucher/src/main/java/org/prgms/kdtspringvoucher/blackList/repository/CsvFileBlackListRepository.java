@@ -33,19 +33,17 @@ public class CsvFileBlackListRepository implements BlackListRepository {
     @Override
     public List<BlackList> findAll() {
         try {
-            Resource blackListResource = applicationContext.getResource(FILENAME);
+            Resource blackListResource = applicationContext.getResource("file:" + PATH);
             logger.info("Store save blackList data from {}", PATH);
             return Files.readAllLines(blackListResource.getFile().toPath())
                     .stream()
                     .map(this::getBlackListDataFromFile)
                     .toList();
-
         } catch (IOException e) {
             logger.error("Don't have the {}", FILENAME);
             e.printStackTrace();
             return null;
         }
-
     }
 
     private BlackList getBlackListDataFromFile(String readLine) {

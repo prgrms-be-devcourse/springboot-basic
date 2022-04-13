@@ -14,17 +14,13 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
-
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     private final ApplicationContext applicationContext;
-
-    private Map<UUID, Voucher> store = new ConcurrentHashMap<>();
 
     @Value("${voucher.file-name}")
     private String FILENAME;
@@ -48,41 +44,64 @@ public class FileVoucherRepository implements VoucherRepository {
             logger.error("Fail save Voucher Data => {}", voucher);
             e.printStackTrace();
         }
-        store.put(voucher.getVoucherID(), voucher);
         logger.info("Succeed save Voucher Data => {}", voucher);
         return voucher;
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(store.get(voucherId));
+        List<Voucher> vouchers = new ArrayList<>();
+        findVoucherByVoucherIdFromFile(voucherId, vouchers);
+        return Optional.ofNullable(vouchers.get(0));
     }
 
     @Override
     public List<Voucher> findAll() {
+        List<Voucher> vouchers = new ArrayList<>();
         logger.info("Find All Saved vouchers");
+        findAllVoucherDataFromFile(vouchers);
+        return vouchers;
+    }
+
+    private void findAllVoucherDataFromFile(List<Voucher> list) {
         try {
-            Resource resource = applicationContext.getResource(FILENAME);
-            Files.readAllLines(resource.getFile().toPath()).forEach(this::getDataByVoucherFile);
+            Resource resource = applicationContext.getResource("file:" + PATH);
+            Files.readAllLines(resource.getFile().toPath())
+                    .forEach(readLine -> getDataByVoucherFile(list, readLine));
         } catch (IOException e) {
             logger.error("Don't have the {}", FILENAME);
             e.printStackTrace();
         }
-        return store.keySet()
-                .stream()
-                .map(key -> store.get(key))
-                .toList();
     }
 
-    private void getDataByVoucherFile(String readLine) {
+    private void findVoucherByVoucherIdFromFile(UUID voucherId, List<Voucher> findByIdList) {
+        try {
+            Resource resource = applicationContext.getResource("file:" + PATH);
+            Files.readAllLines(resource.getFile().toPath())
+                    .stream()
+                    .filter(readLine -> {
+                        String[] splitReadLine = readLine.split(",");
+                        String readVoucherId = splitReadLine[1];
+                        return UUID.fromString(readVoucherId).equals(voucherId);
+                    })
+                    .forEach(readLine -> getDataByVoucherFile(findByIdList, readLine));
+        } catch (IOException e) {
+            logger.error("Don't have the {}", FILENAME);
+            e.printStackTrace();
+        }
+    }
+
+    private void getDataByVoucherFile(List<Voucher> list,String readLine) {
         String[] splitReadLine = readLine.split(",");
         String voucherType = splitReadLine[0];
         String voucherId = splitReadLine[1];
         String amount = splitReadLine[2];
+
         if (voucherType.equals("FixedAmountVoucher")) {
-            store.put(UUID.fromString(voucherId), new FixedAmountVoucher(UUID.fromString(voucherId), Long.parseLong(amount)));
-        } else {
-            store.put(UUID.fromString(voucherId), new PercentDiscountVoucher(UUID.fromString(voucherId), Long.parseLong(amount)));
+            list.add(new FixedAmountVoucher(UUID.fromString(voucherId), Long.parseLong(amount)));
+        }
+        else {
+            list.add(new PercentDiscountVoucher(UUID.fromString(voucherId), Long.parseLong(amount)));
         }
     }
 }
