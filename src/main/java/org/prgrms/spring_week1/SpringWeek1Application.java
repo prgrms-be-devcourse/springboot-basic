@@ -21,13 +21,11 @@ public class SpringWeek1Application {
     public static void main(String[] args) {
         ConfigurableApplicationContext ac = SpringApplication
             .run(SpringWeek1Application.class, args);
-        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
+        // AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
 
         VoucherService vs = ac.getBean(VoucherService.class);
         OrderService os = ac.getBean(OrderService.class);
         ConsoleService cs = ac.getBean(ConsoleService.class);
-
-        logger.info("complete bean setting");
 
         while (true) {
             cs.mainMenu();
