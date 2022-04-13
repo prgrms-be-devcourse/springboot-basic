@@ -61,7 +61,6 @@ public class Administrator {
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage());
-                System.out.println("[error] "+e.getMessage());
             }
         }
     }
