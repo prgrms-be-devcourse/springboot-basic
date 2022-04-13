@@ -14,6 +14,11 @@ public record PercentDiscountVoucher(UUID voucherID, long percent) implements Vo
     }
 
     @Override
+    public long getDiscountValue() {
+        return percent;
+    }
+
+    @Override
     public String toString() {
         return "[PercentDiscountVoucher] ID: %32s, Percent: %2d".formatted(voucherID, percent);
     }

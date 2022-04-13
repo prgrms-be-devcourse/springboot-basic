@@ -14,6 +14,11 @@ public record FixedAmountVoucher(UUID voucherID, long amount) implements Voucher
     }
 
     @Override
+    public long getDiscountValue() {
+        return amount;
+    }
+
+    @Override
     public String toString() {
         return "[  FixedAmountVoucher  ] ID: %32s, Amount: %3d".formatted(voucherID, amount);
     }

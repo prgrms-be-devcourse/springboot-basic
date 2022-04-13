@@ -10,5 +10,7 @@ public interface Voucher {
      */
     UUID getVoucherId();
 
+    long getDiscountValue();
+
     String toString();
 }
