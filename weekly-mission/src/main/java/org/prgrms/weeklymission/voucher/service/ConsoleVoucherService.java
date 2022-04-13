@@ -5,6 +5,7 @@ import org.prgrms.weeklymission.console.Console;
 import org.prgrms.weeklymission.voucher.domain.FixedAmountVoucher;
 import org.prgrms.weeklymission.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.weeklymission.voucher.domain.Voucher;
+import org.prgrms.weeklymission.voucher.domain.VoucherType;
 import org.prgrms.weeklymission.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,17 +50,15 @@ public class ConsoleVoucherService implements VoucherService {
 
     @Override
     public void printCreateVoucher() throws RuntimeException {
-        console.createVoucherMessage();
-        String[] values = console.inputForCreateVoucher();
-        createVoucher(values[0], values[1]);
-        console.saveSuccessMessage();
+        console.printVoucherOption();
+        String command = console.takeInput();
     }
 
     @Override
     public void printAllVouchers() throws RuntimeException {
-        StringBuilder sb = new StringBuilder();
-        searchAllVouchers().forEach(v -> sb.append(v.toString()).append("\n"));
-        console.printData(sb.toString());
+        console.printData(checkVouchersAndReturn());
+
+        createVoucher();
     }
 
     @Override
@@ -67,16 +66,24 @@ public class ConsoleVoucherService implements VoucherService {
         repository.clear();
     }
 
+//    private void validateOption(String option) {
+//        try {
+//            VoucherType type = VoucherType.valueOf(option);
+//        } catch (IllegalAr)
+//
+//    }
+
     private void checkOptionValueAndDoAction(String option, String discount) throws RuntimeException {
         long longDiscount = validateDiscountValue(discount);
 
-        if (option.equals("1")) {
-            createFixedVoucher(longDiscount);
-        } else if (option.equals("2")) {
-            createPercentVoucher(longDiscount);
-        } else {
-            log.error("Exception Option: {}", option);
-            throw new RuntimeException(OPTION_ERROR.getMessage());
+        option = option.toUpperCase();
+        switch (VoucherType.valueOf(option)) {
+            case FIXED:
+                createFixedVoucher(longDiscount);
+            case PERCENT:
+                createPercentVoucher(longDiscount);
+            default:
+                throw new RuntimeException(OPTION_ERROR.getMessage());
         }
     }
 
@@ -85,6 +92,7 @@ public class ConsoleVoucherService implements VoucherService {
             return Long.parseLong(discount);
         } catch (NumberFormatException e) {
             log.error("Long type parsing error: {}", discount);
+
             throw new NumberFormatException(PARSING_ERROR.getMessage());
         }
     }

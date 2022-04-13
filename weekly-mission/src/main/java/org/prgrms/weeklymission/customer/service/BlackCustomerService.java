@@ -45,13 +45,10 @@ public class BlackCustomerService {
     public void printCreateBlackCustomer() {
         String name = console.takeInput();
         registerBlackCustomer(UUID.randomUUID(), name);
-
     }
 
     public void printAllBlackCustomers() throws RuntimeException {
-        StringBuilder sb = new StringBuilder();
         console.printData(checkCustomersAndReturn());
-
     }
 
     public void deleteData() {
@@ -62,6 +59,7 @@ public class BlackCustomerService {
         List<Customer> blackCustomers = repository.findAll();
         if(blackCustomers.isEmpty()) {
             log.error("repository is empty");
+
             throw new RuntimeException(NO_CUSTOMER.getMessage());
         }
 

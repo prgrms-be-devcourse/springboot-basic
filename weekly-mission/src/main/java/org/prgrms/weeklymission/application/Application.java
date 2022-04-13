@@ -64,9 +64,8 @@ public class Application implements Runnable {
     }
 
     private void exit() {
-        console.exitMessage();
         voucherService.clearRepo();
-        log.info("program exit...");
+        log.info("program exit");
         isRun = false;
     }
 }

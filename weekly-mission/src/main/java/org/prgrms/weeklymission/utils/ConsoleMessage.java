@@ -9,7 +9,7 @@ public enum ConsoleMessage {
                 Type register to register black customer.
                 Type blacks to list all black customers.
                 """),
-    VOUCHER_TYPE_LIST("""
+    VOUCHER_OPTION_LIST("""
                 === Voucher Program ===
                 Type fixed to make fixed voucher.
                 Type percent to make percent voucher.
