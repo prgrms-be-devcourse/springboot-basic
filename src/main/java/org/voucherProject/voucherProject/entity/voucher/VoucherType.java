@@ -1,6 +1,5 @@
 package org.voucherProject.voucherProject.entity.voucher;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cglib.core.internal.Function;
 
 import java.util.Arrays;
@@ -24,11 +23,6 @@ public enum VoucherType {
 
     public Voucher createVoucher(long amount) {
         return createVoucherExpression.apply(amount);
-    }
-
-    public static Voucher createVoucher(int inputVoucherTypeInt, long amount) {
-        VoucherType voucherType = getVoucherType(inputVoucherTypeInt);
-        return voucherType.createVoucher(amount);
     }
 
     public static VoucherType getVoucherType(int inputVoucherTypeInt) {
