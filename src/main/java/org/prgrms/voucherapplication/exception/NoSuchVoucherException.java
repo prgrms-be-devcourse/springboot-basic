@@ -3,6 +3,9 @@ package org.prgrms.voucherapplication.exception;
 import java.text.MessageFormat;
 import java.util.UUID;
 
+/**
+ * 잘못된 voucherId로 voucher를 찾을 때 발생하는 Exception
+ */
 public class NoSuchVoucherException extends RuntimeException {
     public NoSuchVoucherException() {
         super(ErrorType.NO_SUCH_VOUCHER.getMessage());

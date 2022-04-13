@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 바우처 애플리케이션을 실행할 수 있는 class
+ */
 @Component
 public class VoucherManagement implements Runnable {
 

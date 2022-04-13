@@ -13,5 +13,10 @@ public interface Output {
      */
     void printVoucherList(List<Voucher> vouchers);
 
+    /**
+     * 블랙리스트의 고객 정보 출력
+     *
+     * @param customers
+     */
     void printBlackList(List<Customer> customers);
 }

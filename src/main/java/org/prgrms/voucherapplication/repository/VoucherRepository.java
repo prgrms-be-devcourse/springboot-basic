@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * 바우처 데이터를 관리하는 레포지터리
+ */
 public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID voucherId) throws IOException;

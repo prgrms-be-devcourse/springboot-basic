@@ -1,5 +1,8 @@
 package org.prgrms.voucherapplication.exception;
 
+/**
+ * 잘못된 바우처 타입 입력 시 발생하는 Exception
+ */
 public class InvalidVoucherTypeException extends RuntimeException {
     public InvalidVoucherTypeException() {
         super(ErrorType.INVALID_VOUCHER_TYPE.getMessage());

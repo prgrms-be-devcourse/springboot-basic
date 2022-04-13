@@ -13,10 +13,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * 바우처 데이터를 파일로 관리하는 레포지터체
+ */
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
     private static final String PATH = "data/voucher_list.csv";
 
+    /**
+     * 바우처 id로 바우처를 찾는 메소드
+     *
+     * @param voucherId
+     * @return Voucher 객체를 반환하고, 해당하는 바우처가 없으면 Optional로 감싼 null 반환
+     * @throws IOException
+     */
     @Override
     public Optional<Voucher> findById(UUID voucherId) throws IOException {
         return Optional.of(
@@ -27,6 +37,13 @@ public class FileVoucherRepository implements VoucherRepository {
         );
     }
 
+    /**
+     * 파일에 바우처를 추가
+     *
+     * @param voucher
+     * @return
+     * @throws IOException
+     */
     @Override
     public Voucher insert(Voucher voucher) throws IOException {
         File file = new File(PATH);
@@ -46,6 +63,12 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
+    /**
+     * 파일에 저장된 모든 바우처 정보를 반환
+     *
+     * @return
+     * @throws IOException
+     */
     @Override
     public List<Voucher> findAll() throws IOException {
         File file = new File(PATH);
@@ -62,6 +85,14 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
+    /**
+     * 파일에 있는 바우처 정보를 Voucher 객체로 복구해서 반환
+     *
+     * @param type           바우처 타입
+     * @param id             바우처 id
+     * @param discountAmount 할인가 또는 할인액
+     * @return
+     */
     private Voucher restoreVoucher(String type, String id, String discountAmount) {
         if (type.equals(VoucherType.FixedAmount.name())) {
             return new FixedAmountVoucher(UUID.fromString(id), Long.valueOf(discountAmount));

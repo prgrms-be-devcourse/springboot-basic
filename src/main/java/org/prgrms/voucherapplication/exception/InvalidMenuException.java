@@ -1,5 +1,8 @@
 package org.prgrms.voucherapplication.exception;
 
+/**
+ * 잘못된 메뉴 입력 시 발생하는 Exception
+ */
 public class InvalidMenuException extends RuntimeException {
     public InvalidMenuException() {
         super(ErrorType.INVALID_MENU.getMessage());
