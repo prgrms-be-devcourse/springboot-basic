@@ -31,6 +31,12 @@ public enum CommandType {
         public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
             console.printListCustomer(customerService.getAllCustomers());
         }
+    },
+    ERROR("error", "this is error command.") {
+        @Override
+        public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
+            console.printString("잘못된 명령어를 입력하셨습니다.");
+        }
     };
 
     private final String command;
@@ -52,11 +58,11 @@ public enum CommandType {
             case "blacklist":
                 return BLACKLIST;
             default:
-                return null;
+                return ERROR;
         }
     }
 
-    public String getScript() {
+    public String getConsoleScript() {
         return "Type **" + command + "** " + description;
     }
 

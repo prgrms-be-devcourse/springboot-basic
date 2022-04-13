@@ -17,8 +17,11 @@ public class Console implements Input, Output<Voucher> {
     @Override
     public String getCommand() {
         printString("=========== Voucher Program ===========");
-        Arrays.stream(CommandType.values()).forEach(value -> printString(value.getScript()));
+        Arrays.stream(CommandType.values())
+                .filter(c -> c != CommandType.ERROR)
+                .forEach(value -> printString(value.getConsoleScript()));
         printString("");
+
         return textIO.newStringInputReader()
                 .withDefaultValue("list")
                 .read("Command");
@@ -29,7 +32,7 @@ public class Console implements Input, Output<Voucher> {
         printString("=================== Create Voucher ===================");
         Arrays.stream(VoucherType.values())
                 .filter(v -> v != VoucherType.ERROR)
-                .forEach(value -> printString(value.getScript()));
+                .forEach(value -> printString(value.getConsoleScript()));
         printString("");
 
         String command = textIO.newStringInputReader()
@@ -37,7 +40,7 @@ public class Console implements Input, Output<Voucher> {
                 .read("Voucher type").toLowerCase();
 
         VoucherType voucherType = VoucherType.of(command);
-        return voucherType.createVoucher(textIO).orElseThrow();
+        return voucherType.createVoucherFromConsole(textIO).orElseThrow();
     }
 
     @Override
