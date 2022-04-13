@@ -89,7 +89,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 customer.getCustomerId().toString().getBytes()
         );
         if (update < 1) {
-            throw new RuntimeException("Noting was updated");
+            throw new VoucherException("Noting was updated");
         }
         return customer;
     }

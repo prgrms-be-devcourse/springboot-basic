@@ -1,6 +1,7 @@
 package org.prgrms.part1.engine.domain;
 
 import org.prgrms.part1.engine.enumtype.VoucherType;
+import org.prgrms.part1.exception.VoucherException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,6 +14,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final LocalDateTime createdAt;
 
     public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
+        validateValue(percent);
         this.voucherId = voucherId;
         this.percent = percent;
         this.createdAt = createdAt;
@@ -29,7 +31,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public void changeValue(Long value) {
+    public void changeValue(long value) {
+        validateValue(value);
         this.percent = value;
     }
 
@@ -56,5 +59,15 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    private void validateValue(Long percent) {
+        if (percent < 0) {
+            throw new VoucherException("Amount should be positive");
+        } else if (percent == 0) {
+            throw new VoucherException("Amount shouldn't be zero");
+        } else if (percent > 100) {
+            throw new VoucherException("Amount should be less than 100");
+        }
     }
 }
