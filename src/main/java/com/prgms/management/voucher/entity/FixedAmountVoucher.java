@@ -5,8 +5,8 @@ import com.prgms.management.voucher.exception.InvalidVoucherParameterException;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
-    public final static Integer MAX_AMOUNT = 10000;
-    public final static Integer MIN_AMOUNT = 0;
+    private final static Integer MAX_AMOUNT = 10000;
+    private final static Integer MIN_AMOUNT = 0;
     private final Integer amount;
     private UUID voucherId;
 

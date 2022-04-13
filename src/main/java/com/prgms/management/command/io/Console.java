@@ -2,7 +2,6 @@ package com.prgms.management.command.io;
 
 import com.prgms.management.command.exception.CommandLineException;
 import com.prgms.management.customer.model.Customer;
-import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.entity.VoucherType;
 import org.beryx.textio.TextIO;
@@ -43,8 +42,6 @@ public class Console implements Input, Output<Voucher> {
         }
 
         Integer paramNum = textIO.newIntInputReader()
-                .withMinVal(FixedAmountVoucher.MIN_AMOUNT)
-                .withMaxVal(FixedAmountVoucher.MAX_AMOUNT)
                 .read(voucherType.getNextCommand());
 
         return voucherType.createVoucher(paramNum);
