@@ -7,7 +7,9 @@ import org.prgms.kdtspringvoucher.voucher.domain.VoucherType;
 import org.prgms.kdtspringvoucher.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CommandLineApplication implements Runnable{
 
     private final Input input;
@@ -26,6 +28,7 @@ public class CommandLineApplication implements Runnable{
     @Override
     public void run() {
         while (true) {
+            output.infoCommandTypeInputPrompt();
             CommandType command = input.inputCommandType();
             if (!isCorrectCommandType(command)) continue;
 
@@ -37,6 +40,7 @@ public class CommandLineApplication implements Runnable{
                 case BLACK -> blackListService.showAllBlackList();
 
                 case CREAT -> {
+                    output.infoVoucherTypeInputPrompt();
                     VoucherType voucherType = input.inputVoucherType();
                     if (!isCorrectVoucherType(voucherType)) continue;
 
