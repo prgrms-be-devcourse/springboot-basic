@@ -1,6 +1,6 @@
 black-list:
   csv-file-name: customer_blacklist.csv
-  path: D:\devProject\springboot-basic\kdt-spring-voucher\src\main\resources\customer_blacklist.csv
+  path: src\main\resources\customer_blacklist.csv
 
 ---
 
@@ -11,7 +11,7 @@ spring:
 
 voucher:
   file-name : vouchers.csv
-  path: D:\devProject\springboot-basic\kdt-spring-voucher\src\main\resources\vouchers.csv
+  path: src\main\resources\vouchers.csv
 
 
 ---
