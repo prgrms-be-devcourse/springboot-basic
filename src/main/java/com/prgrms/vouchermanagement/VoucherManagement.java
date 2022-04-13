@@ -1,12 +1,12 @@
 package com.prgrms.vouchermanagement;
 
+import com.prgrms.vouchermanagement.customer.BlackListRepository;
 import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.io.Input;
 import com.prgrms.vouchermanagement.io.Output;
-import com.prgrms.vouchermanagement.customer.BlackListRepository;
-import com.prgrms.vouchermanagement.voucher.service.VoucherService;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
+import com.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.InputMismatchException;
@@ -30,10 +30,10 @@ public class VoucherManagement {
         this.input = input;
         this.output = output;
     }
-
     public void run() {
+        boolean isRunning = true;
 
-        while (true) {
+        while (isRunning) {
             output.printMenu();
             String command = input.inputCommand();
 
@@ -45,7 +45,8 @@ public class VoucherManagement {
                     showVoucherList();
                     break;
                 case EXIT_COMMAND:
-                    return;
+                    isRunning = false;
+                    break;
                 case BLACK_LIST_COMMAND:
                     showBlackList();
                     break;
@@ -81,28 +82,15 @@ public class VoucherManagement {
     }
 
     private void executeCreateVoucher() {
-        int voucherOrder = 0;
-        int discount = 0;
-        Voucher voucher = null;
-
         try {
-            voucherOrder = input.inputVoucherType();
-            discount = input.inputDiscount();
-            voucher = createVoucher(voucherOrder, discount);
+            VoucherType voucherType = VoucherType.getVoucherType(input.inputVoucherType());
+            long discount = input.inputDiscount();
+
+            voucherService.addVoucher(voucherType, discount);
+
+            output.printMessage(SAVE_VOUCHER);
         } catch (IllegalArgumentException | InputMismatchException e) {
             output.printMessage(INPUT_ERROR);
-            return;
         }
-
-        voucherService.addVoucher(voucher);
-        output.printMessage(SAVE_VOUCHER);
-    }
-
-    /**
-     * 입력 받은 voucher 번호와 할인액을 입력 받아 Voucher 인스턴스를 생성하고 반환한다.
-     */
-    private Voucher createVoucher(int voucherOrder, int discount) throws IllegalArgumentException {
-        VoucherType voucherType = VoucherType.getVoucherType(voucherOrder);
-        return Voucher.createVoucher(voucherType, discount);
     }
 }

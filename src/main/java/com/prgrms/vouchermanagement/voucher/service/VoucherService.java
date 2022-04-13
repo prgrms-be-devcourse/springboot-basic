@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanagement.voucher.service;
 
 import com.prgrms.vouchermanagement.voucher.Voucher;
+import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,13 @@ public class VoucherService {
         this.repository = repository;
     }
 
-    public void addVoucher(Voucher voucher) {
-        repository.save(voucher);
+    public void addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException {
+        Voucher newVoucher = Voucher.createVoucher(voucherType, amount);
+        repository.save(newVoucher);
     }
 
     public List<Voucher> findAllVouchers() {
         return repository.findAll();
     }
+
 }
