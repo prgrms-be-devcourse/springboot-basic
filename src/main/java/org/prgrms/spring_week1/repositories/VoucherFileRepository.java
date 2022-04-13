@@ -9,9 +9,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import org.prgrms.spring_week1.models.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -19,8 +21,10 @@ import org.springframework.stereotype.Repository;
 @Profile("dev")
 public class VoucherFileRepository implements VoucherRepository {
 
+    @Value("${file.voucher.path}")
+    private String path;
+
     private static final Logger logger = LoggerFactory.getLogger(VoucherFileRepository.class);
-    private static final File file = new File("../vouchers.csv");
 
     @Override
     public void insert(Voucher voucher) {
@@ -28,7 +32,7 @@ public class VoucherFileRepository implements VoucherRepository {
         BufferedWriter bw = null;
 
         try {
-            bw = new BufferedWriter(new FileWriter("vouchers.csv", true));
+            bw = new BufferedWriter(new FileWriter(path, true));
 
             // UUID,voucher.toString() 형식으로 작성
             sb.append(voucher.getVoucherId());
@@ -38,9 +42,9 @@ public class VoucherFileRepository implements VoucherRepository {
             bw.newLine(); // 개행
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error("Got error while opening file ", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Got error while writing in file ", e);
 
         } finally {
             try {
@@ -48,7 +52,7 @@ public class VoucherFileRepository implements VoucherRepository {
                     bw.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Got error while closing file ", e);
             }
         }
     }
@@ -61,23 +65,23 @@ public class VoucherFileRepository implements VoucherRepository {
         List<String> vouchers = new ArrayList<>();
 
         try {
-            br = new BufferedReader(new FileReader("vouchers.csv"));
+            br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null) {
                 String[] strings = line.split(",");
                 vouchers.add(strings[1]); // voucher.toString()만 slicing
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error("Got error while opening file ", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Got error while reading file ", e);
         } finally {
             try {
                 if (br != null) {
                     br.close(); // 사용 후 BufferedReader를 닫기
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Got error while closing file ", e);
             }
 
         }
