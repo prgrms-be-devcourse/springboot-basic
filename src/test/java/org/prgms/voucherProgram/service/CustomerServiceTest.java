@@ -16,13 +16,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.voucherProgram.entity.customer.Customer;
 import org.prgms.voucherProgram.entity.customer.Email;
 import org.prgms.voucherProgram.entity.customer.Name;
-import org.prgms.voucherProgram.repository.customer.CustomerRepository;
+import org.prgms.voucherProgram.repository.customer.BlackListRepository;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
 
     @Mock
-    private CustomerRepository customerRepository;
+    private BlackListRepository fileCustomerRepository;
 
     @InjectMocks
     private CustomerService customerService;
@@ -35,12 +35,12 @@ class CustomerServiceTest {
             new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", null, null),
             new Customer(UUID.randomUUID(), "pobi", "pobi@gmail.com", null, null));
 
-        given(customerRepository.findBlackCustomers()).willReturn(mockBlackCustomers);
+        given(fileCustomerRepository.findBlackCustomers()).willReturn(mockBlackCustomers);
 
         assertThat(customerService.findBlackList()).hasSize(3)
             .extracting("name", "email").contains(tuple(new Name("hwan"), new Email("hwan@gmail.com")),
                 tuple(new Name("pobi"), new Email("pobi@gmail.com")),
                 tuple(new Name("jin"), new Email("jin@gmail.com")));
-        then(customerRepository).should(times(1)).findBlackCustomers();
+        then(fileCustomerRepository).should(times(1)).findBlackCustomers();
     }
 }

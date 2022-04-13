@@ -20,7 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class FileCustomerRepository implements CustomerRepository {
+public class BlackListRepository {
     private static final String DELIMITER = ",";
     private static final int CUSTOMER_ID_INDEX = 0;
     private static final int CUSTOMER_NAME_INDEX = 1;
@@ -34,7 +34,7 @@ public class FileCustomerRepository implements CustomerRepository {
     private final String customerFilePath;
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
 
-    public FileCustomerRepository(@Value("${file.path.blacklist}") String customerFilePath) {
+    public BlackListRepository(@Value("${file.path.blacklist}") String customerFilePath) {
         this.customerFilePath = customerFilePath;
         readBlackCustomers();
     }
@@ -62,7 +62,6 @@ public class FileCustomerRepository implements CustomerRepository {
         }
     }
 
-    @Override
     public List<Customer> findBlackCustomers() {
         if (storage.isEmpty()) {
             return Collections.emptyList();
