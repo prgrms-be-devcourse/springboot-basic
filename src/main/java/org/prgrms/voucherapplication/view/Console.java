@@ -1,5 +1,6 @@
 package org.prgrms.voucherapplication.view;
 
+import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.exception.InvalidMenuException;
 import org.prgrms.voucherapplication.exception.InvalidVoucherTypeException;
@@ -21,7 +22,8 @@ public class Console implements Input, Output {
     private static final String MENU_INPUT_TEXT = "=== Voucher Program ===\n"
             + "Type exit to exit the program.\n"
             + "Type create to create a new voucher.\n"
-            + "Type list to list all vouchers.\n";
+            + "Type list to list all vouchers.\n"
+            + "Type blacklist to list blacklist.\n";
     private static final String VOUCHER_TYPE_INPUT_TEXT = "Type 1 to select fixed amount voucher.\n"
             + "Type 2 to select percent discount voucher.";
     private static final String VOUCHER_DISCOUNT_PERCENT_INPUT_TEXT = "Type discount rate."
@@ -58,6 +60,11 @@ public class Console implements Input, Output {
     @Override
     public void printVoucherList(List<Voucher> vouchers) {
         vouchers.stream().forEach(voucher -> System.out.println(voucher.toString()));
+    }
+
+    @Override
+    public void printBlackList(List<Customer> customers) {
+        customers.stream().forEach(customer -> System.out.println(customer.toString()));
     }
 
 }
