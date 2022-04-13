@@ -6,7 +6,6 @@ import org.springframework.cglib.core.internal.Function;
 import java.util.Arrays;
 import java.util.UUID;
 
-@Slf4j
 public enum VoucherType {
     FIXED(1, amount -> new FixedAmountVoucher(UUID.randomUUID(), amount)),
     PERCENT(2, amount -> new PercentDiscountVoucher(UUID.randomUUID(), amount));
