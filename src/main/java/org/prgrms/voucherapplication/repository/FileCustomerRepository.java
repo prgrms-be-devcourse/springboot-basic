@@ -1,5 +1,6 @@
 package org.prgrms.voucherapplication.repository;
 
+import org.prgrms.voucherapplication.configutarion.FilePathConfiguration;
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
 import org.prgrms.voucherapplication.entity.Customer;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,12 @@ import java.util.List;
  */
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
-    private static final String PATH = "data/customer_blacklist.csv";
+    private final FilePathConfiguration configuration;
+
+    public FileCustomerRepository(FilePathConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
 
     /**
      * 블랙리스트에 있는 모든 고객을 반환
@@ -26,7 +32,7 @@ public class FileCustomerRepository implements CustomerRepository {
      */
     @Override
     public List<Customer> findAll() throws IOException {
-        File file = new File(PATH);
+        File file = new File(configuration.getBlacklist());
         BufferedReader reader = new BufferedReader(new FileReader(file));
         List<Customer> customerList = new ArrayList<>();
 

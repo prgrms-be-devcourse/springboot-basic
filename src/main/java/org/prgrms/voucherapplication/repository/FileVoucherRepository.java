@@ -1,5 +1,6 @@
 package org.prgrms.voucherapplication.repository;
 
+import org.prgrms.voucherapplication.configutarion.FilePathConfiguration;
 import org.prgrms.voucherapplication.entity.FixedAmountVoucher;
 import org.prgrms.voucherapplication.entity.PercentDiscountVoucher;
 import org.prgrms.voucherapplication.entity.Voucher;
@@ -18,7 +19,11 @@ import java.util.UUID;
  */
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
-    private static final String PATH = "data/voucher_list.csv";
+    private final FilePathConfiguration configuration;
+
+    public FileVoucherRepository(FilePathConfiguration configuration) {
+        this.configuration = configuration;
+    }
 
     /**
      * 바우처 id로 바우처를 찾는 메소드
@@ -46,7 +51,7 @@ public class FileVoucherRepository implements VoucherRepository {
      */
     @Override
     public Voucher insert(Voucher voucher) throws IOException {
-        File file = new File(PATH);
+        File file = new File(configuration.getVoucherlist());
         BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
         String voucherType;
         if (voucher instanceof FixedAmountVoucher) {
@@ -71,7 +76,7 @@ public class FileVoucherRepository implements VoucherRepository {
      */
     @Override
     public List<Voucher> findAll() throws IOException {
-        File file = new File(PATH);
+        File file = new File(configuration.getVoucherlist());
         BufferedReader reader = new BufferedReader(new FileReader(file));
         List<Voucher> vouchers = new ArrayList<>();
 
