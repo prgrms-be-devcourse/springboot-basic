@@ -32,8 +32,6 @@ public class VoucherService {
 		VoucherType voucherType = VoucherType.getVoucherType(button);
 		Voucher voucher = voucherType.createVoucher(VoucherParam);
 		voucherRepository.save(voucher);
-		System.out.println("Voucher created 완료");
-
 	}
 
 	/**

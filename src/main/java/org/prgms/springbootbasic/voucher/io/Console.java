@@ -36,12 +36,15 @@ public class Console implements Input, Output{
 	@Override
 	public void printCreateVoucherManual() {
 		StringBuilder builder = new StringBuilder();
+		builder.append("create Voucher");
 		builder.append("생성하고 싶은 바우처를 선택하고 할인양 또는 할인율을 입력해주세요. (쉼표 ',' 를 사용하여 구분해주세요)\n");
-		builder.append("1. Fixed Amount Voucher\n");
-		builder.append("2. PercentDiscount Voucher\n");
-		builder.append("ex) 입력 예시 create 1 1000 또는 create 2 20\n");
+		builder.append("1. Fixed Amount Voucher, 2. PercentDiscount Voucher\n");
+		builder.append("ex) 입력 예시 create 1 1000 또는 create 2 20\n\n");
 
-		print(builder.toString());
+		builder.append("만약 생성된 모든 Voucher를 조회하고  싶으시다면 list를 입력해주세요");
+		builder.append("ex) list");
+
+		System.out.println(builder.toString());
 	}
 
 	@Override
