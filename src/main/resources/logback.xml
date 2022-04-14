@@ -16,7 +16,7 @@
     </appender>
 
     <appender name="ACCESS_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/access.log</file>
+        <file>logs/access/access.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
@@ -26,7 +26,7 @@
     </appender>
 
     <appender name="ERROR_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/error.log</file>
+        <file>logs/error/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/error-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
