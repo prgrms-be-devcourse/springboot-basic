@@ -40,6 +40,7 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers.stream().filter(voucher -> voucher.getVoucherId().equals(voucherId)).findFirst();
     }
 
+    //
     @Override
     public Voucher insert(Voucher voucher) {
         String savePath = new StringBuilder().append(voucherFilePath).append(File.separator).append(voucher.getVoucherId()).toString();
@@ -53,6 +54,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         } catch (IOException e) {
             log.error(savePath + " " + voucher);
+            // RuntimeException 중에서 의미가 적절한게 없는 것 같아서 RuntimeException을 상속받는 예외 정의하였습니다.
             throw new IllegalResourceAccessException();
         }
 

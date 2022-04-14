@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// mockito를 사용했을 때, file 저장 부분에서 문제가 있는지 잘 안되서 따로 Mock클래스를 정의하여 사용하였습니다.
 class MockVoucher extends AbstractVoucher {
     public MockVoucher(VoucherType type) {
         super(type);

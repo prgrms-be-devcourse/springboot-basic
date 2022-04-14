@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 @ShellComponent
 public class VoucherManagerShell {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
+    private final Logger log = LoggerFactory.getLogger(VoucherManagerShell.class);
     private final VoucherService voucherService;
 
     public VoucherManagerShell(VoucherService voucherService) {
