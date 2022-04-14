@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Primary
 public class FileVoucherRepository implements VoucherRepository{
 	@Override
 	public UUID save(Voucher voucher) {

@@ -1,5 +1,6 @@
 package org.prgms.springbootbasic.voucher.service;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -39,7 +40,8 @@ public enum VoucherType {
 		return Arrays.stream(VoucherType.values())
 			.filter(type -> type.button.equals(button))
 			.findAny()
-			.orElseThrow(() -> new IllegalArgumentException());
+			.orElseThrow(() -> new IllegalArgumentException(
+				MessageFormat.format("button은 1, 2 둘중 하나를 입력해야 합니다. button : {0}", button)));
 	}
 
 	/**

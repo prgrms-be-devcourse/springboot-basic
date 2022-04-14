@@ -4,8 +4,6 @@ import static com.google.common.base.Preconditions.*;
 
 import java.util.UUID;
 
-import com.google.common.base.Preconditions;
-
 public class PercentDiscountVoucher implements Voucher {
 	private final UUID voucherId = UUID.randomUUID();
 	private final int discountPercent;
@@ -40,4 +38,11 @@ public class PercentDiscountVoucher implements Voucher {
 		return beforeDiscount - beforeDiscount * discountPercent / 100;
 	}
 
+	@Override
+	public String toString() {
+		return "PercentDiscountVoucher{" +
+			"voucherId=" + voucherId +
+			", discountPercent=" + discountPercent +
+			'}';
+	}
 }

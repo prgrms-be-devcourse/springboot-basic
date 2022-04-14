@@ -8,19 +8,18 @@ import org.prgms.springbootbasic.voucher.io.Input;
 import org.prgms.springbootbasic.voucher.io.Output;
 import org.prgms.springbootbasic.voucher.repository.VoucherRepository;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VoucherService {
+	private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
 	private final VoucherRepository voucherRepository;
-	private final Input input;
-	private final Output output;
 
 	public VoucherService(VoucherRepository voucherRepository) {
 		this.voucherRepository = voucherRepository;
-		input = new Console();
-		output = new Console();
 	}
 
 	/**
@@ -30,19 +29,18 @@ public class VoucherService {
 	 * @param VoucherParam
 	 */
 	public void create(String button, long VoucherParam) {
-		output.printCreateVoucherManual();
 		VoucherType voucherType = VoucherType.getVoucherType(button);
 		Voucher voucher = voucherType.createVoucher(VoucherParam);
 		voucherRepository.save(voucher);
+		System.out.println("Voucher created 완료");
 
 	}
 
 	/**
 	 * 생성된 리스트 전부를 보여주는 메서드
 	 */
-	public void list() {
-		final Map<String, List<Voucher>> voucherList = voucherRepository.getVoucherListByType();
-		output.printVoucherList(voucherList);
+	public Map<String, List<Voucher>> list() {
+		return voucherRepository.getVoucherListByType();
 	}
 
 }
