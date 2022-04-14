@@ -1,6 +1,7 @@
 package org.prgrms.springbootbasic.controller;
 
 import org.prgrms.springbootbasic.VoucherType;
+import org.prgrms.springbootbasic.exception.ServiceException;
 import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.view.ConsoleView;
@@ -36,9 +37,14 @@ public class VoucherController {
 
         try {
             return menu.apply(this);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ServiceException exception) {
+            logger.info("Got service exception");
+
+            consoleView.printError(exception.getMessage());
             return true;
+        } catch (Exception exception) {
+            logger.error("Got system exception", exception);
+            return false;
         }
     }
 

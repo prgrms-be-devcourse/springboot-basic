@@ -169,4 +169,16 @@ public class ConsoleView {
         terminal.println();
     }
 
+    public void printError(String message) {
+        TextTerminal<?> terminal = textIO.getTextTerminal();
+
+        terminal.println("=== FAIL ===");
+        terminal.executeWithPropertiesConfigurator(
+            props -> {
+                props.setPromptColor("red");
+                props.setPromptBold(true);
+            },
+            t -> t.print(message));
+        terminal.println();
+    }
 }
