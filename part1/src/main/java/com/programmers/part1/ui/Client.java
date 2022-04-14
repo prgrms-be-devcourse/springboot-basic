@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static java.lang.System.exit;
+
 
 /**
  * Author : Jung
@@ -17,7 +19,7 @@ import java.io.IOException;
  * 2. VoucherController, MemberController 외에도 추가적으로 매핑 받을 수 있게 하였으나,
  * 제가 handler 처리에 미숙해서 리팩터에 실패하였습니다. -> 조언을 받고 싶습니다.
  * 3. Controller 및 도메인에서 에러를 던져서 받았는데 exception 처리 책임이 잘 나뉘어졌는지 궁금합니다.
- * */
+ */
 @Component
 public class Client implements Runnable {
 
@@ -44,66 +46,78 @@ public class Client implements Runnable {
             String request = console.readLine();
             CommandType requestCommandType = CommandType.getCommandType(request);
 
-            if (requestCommandType == CommandType.EXIT)
+            /**
+             * switch문 밖으로 빼서 처리하는게 일관성을 깨트리는 것같습니다...
+             * switch문 안에서 처리할 때 exit() 함수로 강제종료 시키는 방법도 있지만
+             * 적합하지 않은 방법이라 적용하지 않았습니다...
+             * **/
+            if (requestCommandType == CommandType.EXIT) {
+                exitApp();
                 break;
+            }
 
             switch (requestCommandType) {
-                case CREATE -> {
-                    // 1. voucher type 입력
-                    console.write(message.getVOUCHER_PROMPT());
-                    VoucherType requestVoucherType = VoucherType.NONE;
-
-                    try {
-                        requestVoucherType = VoucherType.getVoucherType(console.readLine());
-                    }
-                    catch (RuntimeException e){
-                        // voucher type이 잘못 입력 되었을때
-                        console.write(e.getMessage());
-                    }
-
-                    // 2. amount 입력
-                    console.write(message.getAMOUNT_PROMPT());
-                    long amount = Long.parseLong(console.readLine());
-
-                    try {
-                        voucherController.create(requestVoucherType, amount);
-                        console.write(message.getCREATE_SUCCESS());
-                    }
-                    catch (RuntimeException e){
-                        /*
-                         * 1. voucherType 검증
-                         * 2. Fixed 일 경우 0보다 큰값이 입력 되었는지
-                         * 3. Percent일 경우 amount <=0, 100 < amount 퍼센트 검증
-                         * **/
-                        console.write(e.getMessage());
-                    }
-                }
-
-                case LIST -> {
-                    try {
-                        voucherController.list()
-                                .iterator()
-                                .forEachRemaining(System.out::println);
-                    } catch (RuntimeException e) {
-                        // list 정보가 없을 경우
-                        console.write(e.getMessage());
-                    }
-                }
-
-                case BLACKLIST -> {
-                    try {
-                        memberController.list()
-                                .iterator()
-                                .forEachRemaining(System.out::println);
-                    } catch (RuntimeException e) {
-                        console.write(e.getMessage());
-                    } catch (IOException e) {
-                        //list 정보가 없을 경우
-                        e.printStackTrace();
-                    }
-                }
-                case NONE -> console.write(message.getRE_INPUT());
+                case CREATE -> createVoucher(voucherController);
+                case LIST -> getAllVoucher(voucherController);
+                case BLACKLIST -> getAllBlackMembers(memberController);
+                case NONE -> reInputCommand();
             }
         }
     }
+
+    private void exitApp() {
+        console.write(message.getEXIT());
+    }
+
+    private void reInputCommand(){
+        console.write(message.getRE_INPUT());
+    }
+
+    private void createVoucher(VoucherController voucherController) {
+        // 1. voucher type 입력
+        console.write(message.getVOUCHER_PROMPT());
+        VoucherType requestVoucherType = VoucherType.NONE;
+
+        try {
+            requestVoucherType = VoucherType.getVoucherType(console.readLine());
+            console.write(message.getAMOUNT_PROMPT());
+            long amount = Long.parseLong(console.readLine());
+            voucherController.create(requestVoucherType, amount);
+            console.write(message.getCREATE_SUCCESS());
+        } catch (RuntimeException e) {
+            /**
+             * 1. voucher type이 잘못 입력 되었을때
+             * 2. voucherType 검증
+             * 3. Fixed 일 경우 0보다 큰값이 입력 되었는지
+             * 4. Percent일 경우 amount <=0, 100 < amount 퍼센트 검증
+             * **/
+            console.write(e.getMessage());
+        }
+    }
+
+    private void getAllVoucher(VoucherController voucherController) {
+        try {
+            voucherController.list()
+                    .iterator()
+                    .forEachRemaining(System.out::println);
+        } catch (RuntimeException e) {
+            // list 정보가 없을 경우
+            console.write(e.getMessage());
+        }
+    }
+
+    private void getAllBlackMembers(MemberController memberController){
+        try {
+            memberController.list()
+                    .iterator()
+                    .forEachRemaining(System.out::println);
+        } catch (RuntimeException e) {
+            console.write(e.getMessage());
+        } catch (IOException e) {
+            //list 정보가 없을 경우
+            e.printStackTrace();
+        }
+    }
+
+
 }

@@ -25,5 +25,6 @@ public class Message {
     private final String AMOUNT_PROMPT = "할인 금액이나 비율 값을 입력하시오.\n";
     private final String RE_INPUT = "올바른 명령어가 아닙니다. 다시 입력해주세요\n";
     private final String CREATE_SUCCESS = "바우처를 생성 완료했습니다\n";
+    private final String EXIT = "프로그램을 종료합니다.\n";
 
 }
