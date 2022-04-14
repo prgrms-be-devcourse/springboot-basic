@@ -19,7 +19,6 @@ import java.util.UUID;
 @Profile("default")
 public class FileVoucherRepository implements VoucherRepository {
 
-
     private final String fileName = "voucherList.txt";
     private final FileWriter fw = new FileWriter(fileName, true);
     private final BufferedWriter bf = new BufferedWriter(fw);
@@ -29,7 +28,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     public FileVoucherRepository() throws IOException {
     }
-
 
     @Override
     public void save(Voucher voucher) {
@@ -63,8 +61,6 @@ public class FileVoucherRepository implements VoucherRepository {
                 vouchers.add(new PercentDiscountVoucher(UUID.fromString(readLineSplit[0]), Long.parseLong(readLineSplit[1].trim())));
             }
         }
-
-
         return vouchers;
     }
 

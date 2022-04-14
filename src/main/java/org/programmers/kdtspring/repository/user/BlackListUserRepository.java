@@ -20,8 +20,8 @@ import java.util.UUID;
 public class BlackListUserRepository implements UserRepository {
 
 
-    Logger logger = LoggerFactory.getLogger(BlackListUserRepository.class);
-    String csvFile = "customer_blacklist.csv";
+    private static final Logger logger = LoggerFactory.getLogger(BlackListUserRepository.class);
+    private static final String csvFile = "customer_blacklist.csv";
 
     @Override
     public void saveBlackUser(User user) {

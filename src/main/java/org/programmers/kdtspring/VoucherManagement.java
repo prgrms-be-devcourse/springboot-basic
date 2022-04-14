@@ -19,7 +19,6 @@ import java.util.UUID;
 @Component
 public class VoucherManagement implements Runnable {
 
-
     private final VoucherService voucherService;
     private final Input input;
     private final Output output;

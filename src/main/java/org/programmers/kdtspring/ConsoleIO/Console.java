@@ -34,9 +34,7 @@ public class Console implements Input, Output {
 
         System.out.print("Your command => ");
 
-        String input;
-        input = scanner.nextLine();
-        return input;
+        return scanner.nextLine();
     }
 
     @Override

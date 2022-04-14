@@ -8,7 +8,13 @@ import java.util.UUID;
 
 public interface UserRepository {
 
-    void saveBlackUser(User user);
+    default void save(User user) {
+    }
+
+
+    default void saveBlackUser(User user) {
+    }
+
 
     List<String[]> findAll();
 
