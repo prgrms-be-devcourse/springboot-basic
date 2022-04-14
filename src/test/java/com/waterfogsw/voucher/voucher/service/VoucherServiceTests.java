@@ -3,7 +3,6 @@ package com.waterfogsw.voucher.voucher.service;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
