@@ -1,12 +1,13 @@
 package org.prgrms.kdt.domain.customer.repository;
 
 import org.prgrms.kdt.domain.customer.model.Customer;
-import org.prgrms.kdt.domain.voucher.model.Voucher;
-import org.prgrms.kdt.domain.voucher.types.VoucherType;
 import org.prgrms.kdt.util.CsvUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -17,19 +18,31 @@ public class FileCustomerRepository implements CustomerRepository {
     private String csvPath;
     @Value("${csv.member.file-name}")
     private String fileName;
+    private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final int UUID_INDEX = 0;
     private static final int NAME_INDEX = 1;
 
     @Override
     public List<Customer> findAll() {
-        List<List<String>> csvData = CsvUtils.readCsv(csvPath, fileName);
+        List<List<String>> csvData;
+        try {
+            csvData = CsvUtils.readCsv(csvPath, fileName);
+        } catch (IOException e) {
+            logger.error("Save file voucher error, {}", e.getMessage());
+            throw new IllegalArgumentException("파일의 경로 혹은 이름을 확인해주세요.");
+        }
         return parseCsvToList(csvData);
     }
 
     @Override
     public UUID save(Customer customer) {
         String data = createCsvData(customer);
-        CsvUtils.writeCsv(csvPath, fileName, data);
+        try {
+            CsvUtils.writeCsv(csvPath, fileName, data);
+        } catch (IOException e) {
+            logger.error("Save file voucher error, {}", e.getMessage());
+            throw new IllegalArgumentException("파일의 경로 혹은 이름을 확인해주세요.");
+        }
         return customer.getCustomerId();
     }
 

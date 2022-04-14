@@ -3,12 +3,17 @@ package org.prgrms.kdt.domain.voucher.repository;
 import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
+import org.prgrms.kdt.domain.voucher.service.VoucherService;
 import org.prgrms.kdt.domain.voucher.types.VoucherType;
 import org.prgrms.kdt.util.CsvUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 @Repository
@@ -18,6 +23,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private String csvPath;
     @Value("${csv.voucher.file-name}")
     private String fileName;
+    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final int TYPE_INDEX = 0;
     private static final int ID_INDEX = 1;
     private static final int DISCOUNT_INDEX = 2;
@@ -26,13 +32,24 @@ public class FileVoucherRepository implements VoucherRepository {
     public UUID save(Voucher voucher) {
         VoucherType voucherType = voucher.getVoucherType();
         String data = createCsvData(voucher, voucherType);
-        CsvUtils.writeCsv(csvPath, fileName, data);
+        try {
+            CsvUtils.writeCsv(csvPath, fileName, data);
+        } catch (IOException e) {
+            logger.error("Save file voucher error, {}", e.getMessage());
+            throw new IllegalArgumentException("파일의 경로 혹은 이름을 확인해주세요.");
+        }
         return voucher.getVoucherId();
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        List<Voucher> vouchers = parseCsvToList(CsvUtils.readCsv(csvPath, fileName));
+        List<Voucher> vouchers;
+        try {
+            vouchers = parseCsvToList(CsvUtils.readCsv(csvPath, fileName));
+        } catch (IOException e) {
+            logger.error("Find file voucher Id error, {}", e.getMessage());
+            throw new IllegalArgumentException("파일의 경로 혹은 이름을 확인해주세요.");
+        }
         return vouchers.stream()
                 .filter(voucher -> voucher.getVoucherId().equals(voucherId))
                 .findAny();
@@ -40,7 +57,13 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        List<List<String>> csvData = CsvUtils.readCsv(csvPath, fileName);
+        List<List<String>> csvData;
+        try {
+            csvData = CsvUtils.readCsv(csvPath, fileName);
+        } catch (IOException e) {
+            logger.error("Find file all voucher error, {}", e.getMessage());
+            throw new IllegalArgumentException("파일의 경로 혹은 이름을 확인해주세요.");
+        }
         return parseCsvToList(csvData);
     }
 

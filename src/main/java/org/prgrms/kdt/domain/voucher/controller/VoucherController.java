@@ -45,7 +45,7 @@ public class VoucherController {
         VoucherType voucherType = VoucherType.findVoucherType(voucherInput);
         long discount = Console.inputDiscount();
         UUID voucherId = voucherService.save(voucherType, discount);
-        logger.info("Created Voucher is {}", voucherId);
+        logger.info("Voucher created id:{}", voucherId);
     }
 
     private void findStoredVouchers() {
