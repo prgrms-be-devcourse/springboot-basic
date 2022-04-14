@@ -8,8 +8,8 @@ import java.util.UUID;
 
 public class VoucherFileRepository implements VoucherRepository {
     @Override
-    public void save(Voucher voucher) {
-
+    public Voucher save(Voucher voucher) {
+        return null;
     }
 
     @Override
