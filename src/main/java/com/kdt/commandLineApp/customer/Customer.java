@@ -2,6 +2,7 @@ package com.kdt.commandLineApp.customer;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
@@ -46,5 +47,18 @@ public class Customer {
                 " age: " + age +
                 " sex: " + sex +
                 " description: " + description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return age == customer.age && Objects.equals(name, customer.name) && Objects.equals(description, customer.description) && sex == customer.sex;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, description, sex);
     }
 }
