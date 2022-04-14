@@ -1,4 +1,4 @@
-package com.programmers.part1.error.member;
+package com.programmers.part1.exception.member;
 
 /**
  * black member가 없을 경우

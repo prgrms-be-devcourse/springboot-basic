@@ -1,4 +1,4 @@
-package com.programmers.part1.error.voucher;
+package com.programmers.part1.exception.voucher;
 
 /**
  * 고정 바우처일때 금액이 0원 이하 처리

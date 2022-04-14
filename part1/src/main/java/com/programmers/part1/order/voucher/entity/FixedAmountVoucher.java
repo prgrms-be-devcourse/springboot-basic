@@ -1,6 +1,6 @@
 package com.programmers.part1.order.voucher.entity;
 
-import com.programmers.part1.error.voucher.FixedAmountException;
+import com.programmers.part1.exception.voucher.FixedAmountException;
 
 import java.util.UUID;
 
@@ -9,7 +9,7 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherID;
     private final long amount;
 
-    public FixedAmountVoucher(UUID voucherID, long amount) {
+    public FixedAmountVoucher(UUID voucherID, long amount) throws FixedAmountException{
         this.voucherID = voucherID;
         if(amount <= 0)
             throw new FixedAmountException("고정 금액 할인은 0원보다 크게 입력해야합니다.\n");

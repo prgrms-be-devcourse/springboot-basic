@@ -1,4 +1,4 @@
-package com.programmers.part1.error.voucher;
+package com.programmers.part1.exception.voucher;
 
 /**
  * Client가 다른 voucher type을 요구하거나 올바르지 않은 입력을 했을 경우

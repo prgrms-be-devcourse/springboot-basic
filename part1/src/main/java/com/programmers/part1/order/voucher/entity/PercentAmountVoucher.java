@@ -1,6 +1,6 @@
 package com.programmers.part1.order.voucher.entity;
 
-import com.programmers.part1.error.voucher.PercentErrorException;
+import com.programmers.part1.exception.voucher.PercentErrorException;
 
 import java.util.UUID;
 
@@ -9,7 +9,7 @@ public class PercentAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
 
-    public PercentAmountVoucher(UUID voucherId, long percent) {
+    public PercentAmountVoucher(UUID voucherId, long percent) throws PercentErrorException{
         this.voucherId = voucherId;
         if(percent > 100)
             throw new PercentErrorException("비율은 100%를 넘길 수 없습니다.\n");

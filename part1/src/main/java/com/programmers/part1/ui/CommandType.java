@@ -8,8 +8,8 @@ public enum CommandType {
     LIST,
     BLACKLIST;
 
-    public static CommandType getCommandType(String input) {
-        return switch (input) {
+    public static CommandType getCommandType(String command) {
+        return switch (command) {
             case "exit" -> EXIT;
             case "create" -> CREATE;
             case "list" -> LIST;

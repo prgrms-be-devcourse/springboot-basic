@@ -1,7 +1,7 @@
 package com.programmers.part1.order.voucher;
 
-import com.programmers.part1.error.voucher.VoucherListEmptyException;
-import com.programmers.part1.error.voucher.VoucherTypeMissingException;
+import com.programmers.part1.exception.voucher.VoucherListEmptyException;
+import com.programmers.part1.exception.voucher.VoucherTypeMissingException;
 import com.programmers.part1.order.voucher.entity.FixedAmountVoucher;
 import com.programmers.part1.order.voucher.entity.PercentAmountVoucher;
 import com.programmers.part1.order.voucher.entity.Voucher;
@@ -24,23 +24,25 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void create(VoucherType voucherType, long amount){
+    public void create(VoucherType voucherType, long amount) throws VoucherTypeMissingException{
 
         Voucher voucher;
-        if(voucherType == VoucherType.FIXED) {
-            voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
-            voucherService.saveVoucher(voucher);
-        }
-        else if(voucherType == VoucherType.PERCENT) {
-            voucher = new PercentAmountVoucher(UUID.randomUUID(), amount);
-            voucherService.saveVoucher(voucher);
-        }
-        else{
-            throw new VoucherTypeMissingException("Voucher Type이 잘못 입력 되었습니다\n");
+
+        switch (voucherType){
+            case NONE -> throw new VoucherTypeMissingException("Voucher Type이 잘못 입력 되었습니다\n");
+            case FIXED -> {
+                voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
+                voucherService.saveVoucher(voucher);
+            }
+            case PERCENT -> {
+                voucher = new PercentAmountVoucher(UUID.randomUUID(), amount);
+                voucherService.saveVoucher(voucher);
+            }
+
         }
     }
 
-    public List<Voucher> list(){
+    public List<Voucher> list() throws VoucherListEmptyException{
         List<Voucher> vouchers = voucherService.getAllVoucher();
         if(vouchers.isEmpty())
             throw new VoucherListEmptyException("바우처가 존재 하지 않습니다.\n");

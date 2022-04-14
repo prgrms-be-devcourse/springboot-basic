@@ -1,7 +1,6 @@
 package com.programmers.part1.member;
 
-import com.programmers.part1.error.member.BlackListEmptyException;
-import com.programmers.part1.member.entity.Member;
+import com.programmers.part1.exception.member.BlackListEmptyException;
 import com.programmers.part1.member.entity.MemberDto;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public List<MemberDto> list() throws IOException {
+    public List<MemberDto> list() throws IOException, BlackListEmptyException {
         List<MemberDto> blacks = memberService.getAllBlackMembers();
         if(blacks.isEmpty())
             throw new BlackListEmptyException("블랙 회원이 없습니다.\n");

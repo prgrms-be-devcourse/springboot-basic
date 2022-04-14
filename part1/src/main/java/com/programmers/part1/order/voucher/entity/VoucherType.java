@@ -1,6 +1,6 @@
 package com.programmers.part1.order.voucher.entity;
 
-import com.programmers.part1.error.voucher.VoucherTypeMissingException;
+import com.programmers.part1.exception.voucher.VoucherTypeMissingException;
 
 public enum VoucherType {
 

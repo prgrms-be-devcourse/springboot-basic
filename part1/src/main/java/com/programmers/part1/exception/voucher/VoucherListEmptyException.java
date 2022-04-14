@@ -1,4 +1,4 @@
-package com.programmers.part1.error.voucher;
+package com.programmers.part1.exception.voucher;
 
 public class VoucherListEmptyException extends RuntimeException{
 
