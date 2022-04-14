@@ -107,11 +107,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Integer getVoucherTotalNumber() {
-        return null;
-    }
-
-    @Override
     public void removeAll() {
         logger.info("removeAll() called");
 

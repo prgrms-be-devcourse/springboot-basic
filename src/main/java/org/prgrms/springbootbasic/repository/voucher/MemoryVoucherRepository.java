@@ -33,11 +33,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Integer getVoucherTotalNumber() {
-        return storage.size();
-    }
-
-    @Override
     public void removeAll() {
         storage.clear();
     }

@@ -9,8 +9,6 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    Integer getVoucherTotalNumber();
-
     void removeAll();
 
 }

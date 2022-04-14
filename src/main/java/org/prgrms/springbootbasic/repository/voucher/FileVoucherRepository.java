@@ -95,11 +95,6 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Integer getVoucherTotalNumber() {
-        return findAll().size();
-    }
-
-    @Override
     public void removeAll() {
         try {
             new FileOutputStream(fixedVoucherStorage).close();
