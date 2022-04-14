@@ -7,6 +7,7 @@ import static com.wix.mysql.distribution.Version.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import javax.sql.DataSource;
@@ -37,9 +38,6 @@ class JdbcCustomerRepositoryTest {
     private static EmbeddedMysql embeddedMysql;
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
     private JdbcCustomerRepository jdbcCustomerRepository;
 
     @BeforeAll
@@ -68,7 +66,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("고객을 저장한다.")
     @Test
-    void Should_ReturnCustomer_When_nonDuplicateCustomer() {
+    void should_ReturnCustomer_When_nonDuplicateCustomer() {
         // given
         Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
         // when
@@ -78,6 +76,48 @@ class JdbcCustomerRepositoryTest {
             .extracting("customerId", "name", "email")
             .contains(tuple(customer.getCustomerId(), customer.getName(), customer.getEmail()));
         assertThat(saveCustomer).isEqualTo(customer);
+    }
+
+    @DisplayName("저장하려는 고객의 이메일이 중복된다면 예외를 발생한다.")
+    @Test
+    void should_ThrowException_When_DuplicateCustomerEmail() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        jdbcCustomerRepository.save(customer);
+        // when
+        // then
+        assertThatThrownBy(() -> jdbcCustomerRepository.save(customer))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 중복된 이메일이 존재합니다.");
+    }
+
+    @DisplayName("모든 고객을 조회한다.")
+    @Test
+    void should_ReturnAllCustomers() {
+        // given
+        Customer customerOne = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        Customer customerTwo = new Customer(UUID.randomUUID(), "pobi", "pobi@gmail.com", LocalDateTime.now());
+        jdbcCustomerRepository.save(customerOne);
+        jdbcCustomerRepository.save(customerTwo);
+        // when
+        List<Customer> findCustomer = jdbcCustomerRepository.findAll();
+        // then
+        assertThat(findCustomer).hasSize(2)
+            .extracting("customerId", "name", "email")
+            .contains(tuple(customerOne.getCustomerId(), customerOne.getName(), customerOne.getEmail())
+                , tuple(customerTwo.getCustomerId(), customerTwo.getName(), customerTwo.getEmail()));
+    }
+
+    @DisplayName("모든 고객을 삭제한다.")
+    @Test
+    void should_DeleteAllCustomer() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        jdbcCustomerRepository.save(customer);
+        // when
+        jdbcCustomerRepository.deleteAll();
+        // then
+        assertThat(jdbcCustomerRepository.findAll()).isEmpty();
     }
 
     @Configuration
