@@ -112,10 +112,10 @@
 - [X] ConsoleView에 기능 추가
   - [X] 회원 생성 기능 추가
   - [X] 회원 조회 기능 추가
-- [ ] 테스트 추가 & 전체적으로 리팩토링 (예외처리 등..)
 - [X] vouchers table 만들기 (비정규화 방식으로 만듬)
 - [ ] JdbcVoucherRepository 만들기
   - [X] Voucher 전체 조회
   - [X] Voucher 저장
   - [X] Voucher 전체 삭제
   - [X] Voucher Id로 조회
+- [ ] 테스트 추가 & 전체적으로 리팩토링 (예외처리 등..)
