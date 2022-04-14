@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.prgms.voucherProgram.entity.customer.Email;
 import org.prgms.voucherProgram.entity.customer.Name;
 
-class FileCustomerRepositoryTest {
+class BlackListRepositoryTest {
 
     @DisplayName("파일에 저장되어 있는 블랙리스트를 반환한다.")
     @Test
