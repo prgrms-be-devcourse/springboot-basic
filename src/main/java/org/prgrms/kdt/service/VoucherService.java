@@ -1,7 +1,8 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.model.Voucher;
-import org.prgrms.kdt.model.VoucherTypeMapping;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherType;
+import org.prgrms.kdt.model.voucher.VoucherTypeMapping;
 import org.prgrms.kdt.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,17 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(UUID voucherId, int voucherType, int discountAmount) {
-        Voucher voucher = VoucherTypeMapping.getVoucherType(voucherType).createVoucherByType(voucherId, discountAmount);
+    public Voucher createVoucher(UUID voucherId, int voucherTypeNumber, int discountAmount) {
+        Voucher voucher = getVoucherTypeByNumber(voucherTypeNumber).newVoucher(voucherId, discountAmount);
         voucherRepository.insert(voucher);
         return voucher;
     }
+
     public Map getVoucherList() {
         return voucherRepository.getVoucherList();
+    }
+
+    private VoucherType getVoucherTypeByNumber(int voucherTypeNumber) {
+        return VoucherTypeMapping.valueOf(voucherTypeNumber);
     }
 }

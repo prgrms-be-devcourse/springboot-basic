@@ -18,7 +18,7 @@ public class Utility {
     public static int toInt(String inputString) {
         if (!isNumber(inputString)) {
             logger.error("inputString -> {}", inputString);
-            throw new IllegalArgumentException("숫자를 입력하세요.");
+            throw new IllegalArgumentException("WRONG : Please input right Number");
         }
         return Integer.parseInt(inputString);
     }

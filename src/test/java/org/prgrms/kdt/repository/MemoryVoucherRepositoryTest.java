@@ -2,14 +2,11 @@ package org.prgrms.kdt.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.model.Voucher;
+import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.service.VoucherService;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
 class MemoryVoucherRepositoryTest {

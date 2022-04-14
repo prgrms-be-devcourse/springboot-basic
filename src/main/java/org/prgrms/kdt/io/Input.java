@@ -1,28 +1,11 @@
 package org.prgrms.kdt.io;
 
-import java.util.Scanner;
+public interface Input {
 
-public class Input {
-    private final Scanner sc;
+    String function();
 
-    public Input() {
-        this.sc = new Scanner(System.in);
-    }
+    String voucherType();
 
-    public String inputFunction() {
-        return sc.nextLine();
-    }
+    String amount();
 
-    public String voucherType() {
-        return sc.nextLine();
-    }
-
-    public String amount() {
-        System.out.print("Type amount : ");
-        return sc.nextLine();
-    }
-
-    public Scanner getSc() {
-        return sc;
-    }
 }

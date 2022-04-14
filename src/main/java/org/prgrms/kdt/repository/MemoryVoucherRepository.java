@@ -1,6 +1,6 @@
 package org.prgrms.kdt.repository;
 
-import org.prgrms.kdt.model.Voucher;
+import org.prgrms.kdt.model.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

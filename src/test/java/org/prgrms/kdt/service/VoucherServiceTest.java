@@ -3,9 +3,9 @@ package org.prgrms.kdt.service;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.model.FixedAmountVoucher;
-import org.prgrms.kdt.model.PercentDiscountVoucher;
-import org.prgrms.kdt.model.Voucher;
+import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
+import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.repository.VoucherRepository;
 
