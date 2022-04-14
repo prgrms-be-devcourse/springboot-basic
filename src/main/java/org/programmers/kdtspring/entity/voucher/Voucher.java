@@ -2,14 +2,14 @@ package org.programmers.kdtspring.entity.voucher;
 
 import java.util.UUID;
 
-public interface Voucher {
+public abstract class Voucher {
 
-    UUID getVoucherId();
+    public abstract UUID getVoucherId();
 
-    long discount(long beforeDiscount);
+    public abstract long discount(long beforeDiscount);
 
-    long getDiscount();
+    public abstract long getDiscount();
 
-    VoucherType getVoucherType();
+    public abstract VoucherType getVoucherType();
 
 }
