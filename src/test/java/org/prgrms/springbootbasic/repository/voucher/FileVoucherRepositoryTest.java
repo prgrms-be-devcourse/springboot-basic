@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.repository;
+package org.prgrms.springbootbasic.repository.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
-import org.prgrms.springbootbasic.repository.voucher.FileVoucherRepository;
 
 class FileVoucherRepositoryTest {
 
