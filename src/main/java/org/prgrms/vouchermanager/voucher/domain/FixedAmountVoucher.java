@@ -12,6 +12,7 @@ public class FixedAmountVoucher extends AbstractVoucher {
         if (amount > MAX_VOUCHER_AMOUNT) {
             throw new IllegalArgumentException("Amount should be less than %d".formatted(MAX_VOUCHER_AMOUNT));
         }
+
         this.amount = amount;
     }
 
@@ -22,11 +23,10 @@ public class FixedAmountVoucher extends AbstractVoucher {
 
     @Override
     public String toString() {
-        //TODO : 후에 출력 양식 정하면 StringBuilder나 Message Format으로 바꿀 것
         return "FixedAmountVoucher{" +
                 "voucherId=" + getVoucherId() +
-                "voucherType=" + getVoucherType() +
-                "amount=" + amount +
+                ", voucherType=" + getVoucherType() +
+                ", amount=" + amount +
                 '}';
     }
 }

@@ -10,21 +10,16 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.text.MessageFormat;
 import java.util.*;
 
 @Repository
 @Profile("option")
 public class FileVoucherRepository implements VoucherRepository {
-    @Value("${voucher.path}")
-    private String voucherFilePath;
-    private File[] files;
+    private final String voucherFilePath;
+
     private final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 
-    public FileVoucherRepository() {
-    }
-
-    public FileVoucherRepository(String voucherFilePath) {
+    public FileVoucherRepository( @Value("${voucher.path}") String voucherFilePath){
         this.voucherFilePath = voucherFilePath;
     }
 
@@ -49,6 +44,8 @@ public class FileVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         String savePath = new StringBuilder().append(voucherFilePath).append(File.separator).append(voucher.getVoucherId()).toString();
 
+        if(new File(savePath).exists()) throw new IllegalArgumentException();
+
         try (FileOutputStream fileOutputStream = new FileOutputStream(savePath);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
 
@@ -64,17 +61,17 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private List<Voucher> getVouchers() {
         List<Voucher> vouchers = new ArrayList<>();
-        files = new File(voucherFilePath).listFiles();
+        File[] files = new File(voucherFilePath).listFiles();
 
         if (files == null) return vouchers;
 
         Arrays.stream(files).forEach(file -> {
             try (FileInputStream fileInputStream = new FileInputStream(file.getPath());
                  ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-
                 vouchers.add((Voucher) objectInputStream.readObject());
 
             } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
                 throw new IllegalResourceAccessException();
             }
         });

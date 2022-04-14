@@ -2,15 +2,11 @@ package org.prgrms.vouchermanager.voucher.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FixedAmountVoucherTest {
-
-    @Value("${voucher.MAX_VOUCHER_AMOUNT}")
-    private Long MAX_VOUCHER_AMOUNT;
 
     @Test
     @DisplayName("고정 금액을 디스카운트한다.")
@@ -37,7 +33,7 @@ class FixedAmountVoucherTest {
     }
 
     @Test
-    @DisplayName("할인액은 minus가 될 수 없다.")
+    @DisplayName("할인액은 0이 될 수 없다.")
     void testVoucherCreationWithZeroAmount() {
         assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(0));
     }

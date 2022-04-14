@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * created
+ */
 class PercentDiscountVoucherTest {
 
     @Test
@@ -19,7 +22,6 @@ class PercentDiscountVoucherTest {
 
         //then
         assertEquals(90, discounted);
-
     }
 
     @Test

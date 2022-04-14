@@ -2,13 +2,14 @@ package org.prgrms.vouchermanager.voucher.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.vouchermanager.voucher.domain.AbstractVoucher;
 import org.prgrms.vouchermanager.voucher.domain.Voucher;
-import org.prgrms.vouchermanager.voucher.domain.VoucherType;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class MemoryVoucherRepositoryTest {
 
@@ -20,6 +21,7 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher = mock(Voucher.class);
 
         //when
+        when(voucher.getVoucherId()).thenReturn(UUID.randomUUID());
         Voucher inserted = voucherRepository.insert(voucher);
 
         //then
@@ -34,6 +36,7 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher = mock(Voucher.class);
 
         //when
+        when(voucher.getVoucherId()).thenReturn(UUID.randomUUID());
         voucherRepository.insert(voucher);
         Voucher findVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
 
@@ -47,6 +50,7 @@ class MemoryVoucherRepositoryTest {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
         Voucher voucher = mock(Voucher.class);
+        when(voucher.getVoucherId()).thenReturn(UUID.randomUUID());
         voucherRepository.insert(voucher);
 
         //then

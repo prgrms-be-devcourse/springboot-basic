@@ -1,59 +1,130 @@
 package org.prgrms.vouchermanager.voucher.repository;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.vouchermanager.exception.IllegalResourceAccessException;
 import org.prgrms.vouchermanager.voucher.domain.AbstractVoucher;
 import org.prgrms.vouchermanager.voucher.domain.Voucher;
 import org.prgrms.vouchermanager.voucher.domain.VoucherType;
-import org.springframework.beans.factory.annotation.Value;
+
+import java.io.File;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+
+class MockVoucher extends AbstractVoucher {
+    public MockVoucher(VoucherType type) {
+        super(type);
+    }
+
+    @Override
+    public Long discount(long beforeDiscount) {
+        return null;
+    }
+}
 
 class FileVoucherRepositoryTest {
 
-    class MockVoucher extends AbstractVoucher {
-        public MockVoucher(VoucherType type) {
-            super(type);
-        }
+    private static final String SAVE_PATH = "C:\\save\\test";
 
-        @Override
-        public Long discount(long beforeDiscount) {
-            return null;
-        }
+    @BeforeAll
+    static void makeFolder() {
+        File folderPath = new File(SAVE_PATH);
+        if (!folderPath.exists()) folderPath.mkdirs();
+    }
+
+    @AfterAll
+    static void deleteVouchers() {
+        File save_path = new File(SAVE_PATH);
+        File[] files = save_path.listFiles();
+        if (files != null)
+            for (File file : files) {
+                file.delete();
+            }
+        save_path.delete();
     }
 
     @Test
-    @DisplayName("파일로 voucher를 저장한다.")
+    @DisplayName("insert를 하면 파일로 voucher가 로컬에 저장된다.")
     void insert() {
         //given
-        VoucherRepository voucherRepository = new FileVoucherRepository("C:\\save");
+        FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
         Voucher voucher = new MockVoucher(VoucherType.FIXED);
 
         //when
-        Voucher inserted = voucherRepository.insert(voucher);
+        // insert 실패시, exception 던지도록 작성했으므로 exception이 발생하지 않으면 성공했다고 판단한다?
+        Voucher inserted = fileVoucherRepository.insert(voucher);
 
         //then
         assertEquals(voucher, inserted);
     }
 
     @Test
-    @DisplayName("파일에서 voucherId로 조회한다.")
+    @DisplayName("voucherId로 저장된 voucher를 찾아서 반환한다.")
     void findById() {
         //given
-        VoucherRepository voucherRepository = new FileVoucherRepository();
+        FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
         Voucher voucher = new MockVoucher(VoucherType.FIXED);
+
         //when
-        voucherRepository.insert(voucher);
+        fileVoucherRepository.insert(voucher);
 
         //then
-        assertEquals(voucher, voucherRepository.findById(voucher.getVoucherId()));
+        assertEquals(voucher, fileVoucherRepository.findById(voucher.getVoucherId()).get());
     }
 
     @Test
-    @DisplayName("파일에서 저장된 모든 voucher의 list를 반환한다.")
+    @DisplayName("FileRepository에 저장된 모튼 voucher를 List로 반환한다.")
     void getAll() {
+        //given
+        FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
+        List<Voucher> mockVouchers = List.of(new MockVoucher(VoucherType.FIXED), new MockVoucher(VoucherType.FIXED));
 
+        //when
+        mockVouchers.forEach(fileVoucherRepository::insert);
+        List<Voucher> findVouchers = fileVoucherRepository.getAll();
+
+        //then
+        assertTrue((mockVouchers.size() == findVouchers.size()) && findVouchers.containsAll(mockVouchers) && mockVouchers.containsAll(findVouchers));
+    }
+
+    @Test
+    @DisplayName("저장할 FilePath가 적절하지 않은 경우 IllgalResourceException을 던진다")
+    void testWithInsertException() {
+        //given
+        FileVoucherRepository fileVoucherRepository = new FileVoucherRepository("not_path");
+        Voucher voucher = new MockVoucher(VoucherType.FIXED);
+
+        //then
+        assertThrows(IllegalResourceAccessException.class, () -> fileVoucherRepository.insert(voucher));
+    }
+
+    @Test
+    @DisplayName("삽입하려는 voucher가 이미 존재하는 경우 IllgalResourceException을 던진다.")
+    void testWithDeplicatedInsertion() {
+        //given
+        FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
+        Voucher voucher = new MockVoucher(VoucherType.FIXED);
+
+        //when
+        fileVoucherRepository.insert(voucher);
+
+        //then
+        assertThrows(IllegalArgumentException.class, () -> fileVoucherRepository.insert(voucher));
+    }
+
+    @Test
+    @DisplayName("findById의 voucher가 존재하지 않는 경우 Optional.empty를 반환한다.")
+    void testWithFindById_NoVoucherID() {
+        //given
+        FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
+
+        //then
+        assertEquals(Optional.empty(), fileVoucherRepository.findById(UUID.randomUUID()));
     }
 
 }
