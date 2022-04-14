@@ -56,10 +56,10 @@ public class CreateVoucherService implements ConsoleService {
     }
 
     private VoucherType validateVoucherType(String command) {
-        VoucherType voucherType = VoucherType.FIXED;
+        VoucherType voucherType;
 
         try {
-            VoucherType.valueOf(command.toUpperCase());
+            voucherType = VoucherType.valueOf(command.toUpperCase());
         } catch (IllegalArgumentException e) {
             log.error("Got non existent command: {}", command);
             throw new NonExistentCommand(COMMAND_ERROR.getMessage());
