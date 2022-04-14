@@ -3,8 +3,10 @@ package org.programmers.devcourse.voucher;
 import org.programmers.devcourse.voucher.engine.Demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+
 public class VoucherApplication {
 
   public static void main(String[] args) {

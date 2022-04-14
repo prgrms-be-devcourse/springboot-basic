@@ -1,56 +1,151 @@
 package org.programmers.devcourse.voucher.engine.customer;
 
 
+import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.CREATED_AT;
+import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.CUSTOMER_ID;
+import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.EMAIL;
+import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.LAST_LOGIN_AT;
+import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.NAME;
+
+import com.zaxxer.hikari.HikariDataSource;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.configuration.JdbcProperties;
-import org.programmers.devcourse.voucher.engine.exception.ExceptionFormatter;
 import org.programmers.devcourse.voucher.util.UUIDMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JdbcCustomerRepository {
+@Profile("dev")
+public class JdbcCustomerRepository implements CustomerRepository {
 
-  private static final String SELECT_BY_ID =
-      "SELECT customer_id, name, email, last_login_at, created_at FROM customers WHERE customer_id = ?";
   private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
-  private final JdbcProperties databaseProperties;
+  private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-  public JdbcCustomerRepository(
-      JdbcProperties databaseProperties) {
-    this.databaseProperties = databaseProperties;
+  private final RowMapper<Customer> customerMapper = (resultSet, index) -> {
+    UUID customerId = null;
+    try {
+      customerId = UUIDMapper.fromBytes(resultSet.getBinaryStream("customer_id").readAllBytes());
+    } catch (IOException e) {
+      throw new SQLException("Getting UUID from binaryStream failed");
+    }
+    var name = resultSet.getString("name");
+    var email = resultSet.getString("email");
+    var lastLoginAt = resultSet.getTimestamp("last_login_at") == null ? null
+        : resultSet.getTimestamp("last_login_at").toLocalDateTime();
+    var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+    return new Customer(customerId, name, email, lastLoginAt, createdAt);
+  };
+
+  public JdbcCustomerRepository(JdbcProperties jdbcProperties) {
+    var datasource = DataSourceBuilder.create().type(HikariDataSource.class)
+        .username(jdbcProperties.getUser()).password(jdbcProperties.getPassword())
+        .url(jdbcProperties.getUrl())
+        .build();
+    this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(datasource));
   }
 
-
+  @Override
   public Optional<Customer> getById(UUID customerId) {
 
-    try (
-        var connection = createConnection();
-        var statement = connection.prepareStatement(SELECT_BY_ID)) {
-      statement.setBytes(1, UUIDMapper.toBytes(customerId));
-      try (var resultSet = statement.executeQuery()) {
-        return Customer.from(resultSet);
-      }
+    try {
+      var customer = namedParameterJdbcTemplate.queryForObject(
+          "SELECT customer_id, name, email, last_login_at, created_at FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+          Map.of("customerId", customerId.toString().getBytes(StandardCharsets.UTF_8)),
+          customerMapper
+      );
+      return Optional.ofNullable(customer);
+    } catch (DataAccessException exception) {
+      logger.error("DataAccessException", exception);
+      return Optional.empty();
 
-
-    } catch (SQLException | IOException throwable) {
-      logger.error(ExceptionFormatter.formatExceptionForLogger(throwable));
     }
 
+  }
+
+  private Map<String, Object> toParamMap(Customer customer) {
+    var map = new HashMap<String, Object>();
+
+    map.put(CUSTOMER_ID.toString(),
+        customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
+    map.put(NAME.toString(), customer.getName());
+    map.put(EMAIL.toString(), customer.getEmail());
+    map.put(CREATED_AT.toString(), Timestamp.valueOf(customer.getCreatedAt()));
+    map.put(LAST_LOGIN_AT.toString(), Timestamp.valueOf(customer.getLastLoginAt().orElse(null)));
+
+    return map;
+  }
+
+  @Override
+  public Optional<Customer> getByName(String name) {
     return Optional.empty();
   }
 
-  public Connection createConnection() throws SQLException {
+  @Override
+  public Optional<Customer> getByEmail(String email) {
+    return Optional.empty();
+  }
 
-    return DriverManager.getConnection(databaseProperties.getUrl(), databaseProperties.getUser(),
-        databaseProperties.getPassword());
+  @Override
+  public Customer insert(Customer customer) {
+    int result = namedParameterJdbcTemplate.update(
+        "insert into customers(customer_id, name, email, last_login_at, created_at) values(UNHEX(REPLACE(:customerId,'-','')),:name,:email,:lastLoginAt,:createdAt)",
+        toParamMap(customer));
+    if (result != 1) {
+      return null;
+    }
+    return customer;
+  }
 
+  @Override
+  public List<Customer> getAll() {
+    return null;
+  }
+
+  @Override
+  public int deleteAll() {
+    return namedParameterJdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+
+  }
+
+  @Override
+  public int delete(Customer customer) {
+    return 0;
+  }
+
+  @Override
+  public int update(Customer customer) {
+    return 0;
+  }
+
+  enum CustomerParam {
+    CUSTOMER_ID("customerId"), NAME("name"), EMAIL("email"), LAST_LOGIN_AT(
+        "lastLoginAt"), CREATED_AT("createdAt");
+    private final String value;
+
+    CustomerParam(String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
   }
 
 
