@@ -20,7 +20,7 @@ public class BlackCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> storage = new LinkedHashMap<>();
     private final List<Customer> customers = new ArrayList<>();
 
-    private BlackCustomerRepository() throws IOException {
+    public BlackCustomerRepository() throws IOException {
     }
 
     @Override

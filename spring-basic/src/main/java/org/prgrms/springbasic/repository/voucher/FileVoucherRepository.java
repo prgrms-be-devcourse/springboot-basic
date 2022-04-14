@@ -22,12 +22,13 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
     private final List<Voucher> vouchers = new ArrayList<>();
 
-    private FileVoucherRepository() throws IOException {
+    FileVoucherRepository() throws IOException {
     }
 
     @Override
     public void save(Voucher voucher) {
         String template = voucher.toString();
+        storage.put(voucher.getVoucherId(), voucher);
 
         try {
             output.write(template);
