@@ -1,6 +1,6 @@
 package com.prgrms.vouchermanagement.customer;
 
-import com.prgrms.vouchermanagement.FilePathProperties;
+import com.prgrms.vouchermanagement.util.FilePathProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
