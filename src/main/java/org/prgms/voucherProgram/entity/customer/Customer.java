@@ -6,7 +6,6 @@ import java.util.UUID;
 public class Customer {
     private final UUID customerId;
     private final LocalDateTime createdTime;
-
     private Name name;
     private Email email;
     private LocalDateTime lastLoginTime;
@@ -34,5 +33,25 @@ public class Customer {
 
     public void login() {
         this.lastLoginTime = LocalDateTime.now();
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public LocalDateTime getLastLoginTime() {
+        return lastLoginTime;
     }
 }
