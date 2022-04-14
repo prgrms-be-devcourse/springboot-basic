@@ -17,7 +17,7 @@ public enum VoucherType {
     public static VoucherType getVoucherType(int order) throws IllegalArgumentException {
         return Arrays.stream(VoucherType.values())
                 .filter(v -> v.order == order)
-                .findAny()
+                .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("order와 매칭되는 VoucherType이 없습니다."));
     }
 }
