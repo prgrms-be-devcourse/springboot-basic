@@ -9,9 +9,20 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long discountPrice;
 
-    public FixedAmountVoucher(UUID voucherId, long discountPrice) {
+    private FixedAmountVoucher(UUID voucherId, long discountPrice) {
         this.voucherId = voucherId;
         this.discountPrice = discountPrice;
+    }
+
+    public static Voucher of(long discountPrice) throws IllegalArgumentException{
+        return of(UUID.randomUUID(), discountPrice);
+    }
+
+    public static Voucher of(UUID voucherId, long discountPrice) throws IllegalArgumentException {
+        if (discountPrice < 0){
+            throw new IllegalArgumentException("0보다 작은 값은 입력할 수 없습니다.");
+        }
+        return new FixedAmountVoucher(voucherId, discountPrice);
     }
 
     @Override
