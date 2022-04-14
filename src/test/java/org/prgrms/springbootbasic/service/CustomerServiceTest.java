@@ -2,44 +2,51 @@ package org.prgrms.springbootbasic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.when;
 
-import com.zaxxer.hikari.HikariDataSource;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.springbootbasic.entity.Customer;
-import org.prgrms.springbootbasic.repository.customer.JdbcCustomerRepository;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.prgrms.springbootbasic.exception.DuplicateCustomerEmailException;
+import org.prgrms.springbootbasic.repository.customer.CustomerRepository;
 
 
+@ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
 
-    JdbcCustomerRepository jdbcCustomerRepository =
-        new JdbcCustomerRepository(new JdbcTemplate(DataSourceBuilder.create()
-            .url("jdbc:mysql://localhost/springboot_basic")
-            .username("hyuk")
-            .password("hyuk1234!")
-            .type(HikariDataSource.class)
-            .build()));
-    CustomerService customerService = new CustomerService(jdbcCustomerRepository);
+    @Mock
+    CustomerRepository customerRepository;
 
-    @AfterEach
-    void clean() {
-        jdbcCustomerRepository.removeAll();
+    CustomerService customerService;
+
+    @BeforeEach
+    void init() {
+        customerService = new CustomerService(customerRepository);
     }
 
     @DisplayName("회원 생성 테스트 - 정상")
     @Test
     void creatCustomer() {
         //given
+        String email = "test@gmail.com";
+        when(customerRepository.findByEmail(email)).thenReturn(Optional.empty());
+
         //when
-        var customerId = customerService.createCustomer("test", "test@gmail.com");
+        customerService.createCustomer("test", email);
 
         //then
-        assertThat(jdbcCustomerRepository.findAll().get(0).getCustomerId())
-            .isEqualTo(customerId);
+        var inOrder = inOrder(customerRepository);
+        inOrder.verify(customerRepository).findByEmail(email);
+        inOrder.verify(customerRepository).save(any(Customer.class));
     }
 
     @DisplayName("회원 생성 테스트 - 이메일 중복")
@@ -47,30 +54,30 @@ class CustomerServiceTest {
     void createCustomerException() {
         //given
         String email = "test@gmail.com";
-        var customerId = jdbcCustomerRepository.save(
-            new Customer(UUID.randomUUID(), "test", email));
+        when(customerRepository.findByEmail(email))
+            .thenReturn(Optional.of(new Customer(UUID.randomUUID(), "a", email)));
 
         //when
         //then
-        assertThatThrownBy(() -> customerService.createCustomer("test01", email))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> customerService.createCustomer("test", email))
+            .isInstanceOf(DuplicateCustomerEmailException.class);
     }
 
     @DisplayName("모든 회원 조회 테스트")
     @Test
     void findAllCustomers() {
         //given
-        var customer1 = new Customer(UUID.randomUUID(), "test1", "test1@gmail.com");
-        var customer2 = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com");
-        jdbcCustomerRepository.save(customer1);
-        jdbcCustomerRepository.save(customer2);
+        var customer1 = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        var customer2 = new Customer(UUID.randomUUID(), "test01", "test01@gmail.com");
+
+        List<Customer> customers = List.of(customer1, customer2);
+        when(customerRepository.findAll()).thenReturn(customers);
 
         //when
-        var customers = customerService.findAllCustomers();
+        var allCustomers = customerService.findAllCustomers();
 
         //then
-        assertThat(customers)
-            .extracting(Customer::getCustomerId)
-            .containsExactlyInAnyOrder(customer1.getCustomerId(), customer2.getCustomerId());
+        assertThat(allCustomers)
+            .containsExactlyInAnyOrder(customer1, customer2);
     }
 }
