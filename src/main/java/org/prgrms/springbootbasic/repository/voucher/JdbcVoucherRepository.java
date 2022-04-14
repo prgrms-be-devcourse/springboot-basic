@@ -23,10 +23,14 @@ import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@Profile("dev2")
 public class JdbcVoucherRepository implements VoucherRepository {
 
     public static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
