@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.sql.DataSource;
@@ -118,6 +119,21 @@ class JdbcCustomerRepositoryTest {
         jdbcCustomerRepository.deleteAll();
         // then
         assertThat(jdbcCustomerRepository.findAll()).isEmpty();
+    }
+
+    @DisplayName("이메일을 통해 고객을 조회한다.")
+    @Test
+    void should_ReturnCustomer_When_EmailIsExist() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        jdbcCustomerRepository.save(customer);
+        // when
+        Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail().getEmail());
+        // then
+        assertThat(findCustomer).isNotEmpty();
+        assertThat(jdbcCustomerRepository.findAll()).hasSize(1)
+            .extracting("customerId", "name", "email")
+            .contains(tuple(customer.getCustomerId(), customer.getName(), customer.getEmail()));
     }
 
     @Configuration

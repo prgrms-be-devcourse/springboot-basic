@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.prgms.voucherProgram.entity.customer.Customer;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         return new Customer(customerId, name, email, createdTime, lastLoginTime);
     };
+
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
@@ -67,7 +69,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        return Optional.empty();
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = ?",
+                customerRowMapper, email));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
