@@ -1,10 +1,18 @@
 package org.prgrms.springbootbasic.repository.customer;
 
+import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
+import static com.wix.mysql.ScriptResolver.classPathScript;
+import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.Charset;
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.UUID;
 import javax.sql.DataSource;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +27,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -29,17 +38,32 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     JdbcCustomerRepository jdbcCustomerRepository;
 
+    EmbeddedMysql embeddedMysql;
+
     @BeforeAll
+    void setup() {
+        var mysqldConfig = aMysqldConfig(v8_0_11)
+            .withCharset(Charset.UTF8)
+            .withPort(2215)
+            .withUser("test", "test1234!")
+            .withTimeZone("Asia/Seoul")
+            .build();
+        embeddedMysql = anEmbeddedMysql(mysqldConfig)
+            .addSchema("test_springboot_basic", classPathScript("schema.sql"))
+            .start();
+    }
+
+    @AfterAll
+    void clean() {
+        embeddedMysql.stop();
+    }
+
+    @AfterEach
     void init() {
         jdbcCustomerRepository.removeAll();
     }
 
-    @AfterEach
-    void clean() {
-        jdbcCustomerRepository.removeAll();
-    }
-
-    @DisplayName("모든 회원 조회 테스트")
+    @DisplayName("모든 회원 조회 테스트 - 회원 존재하는 경우")
     @Test
     void findAll() {
         //given
@@ -54,7 +78,18 @@ class JdbcCustomerRepositoryTest {
         assertThat(customers.size()).isEqualTo(3);
     }
 
-    @DisplayName("회원 저장 기능 테스트")
+    @DisplayName("모든 회원 조회 테스트 - 회원 존재하지 않는 경우")
+    @Test
+    void findAllEmpty() {
+        //given
+        //when
+        var customers = jdbcCustomerRepository.findAll();
+
+        //then
+        assertThat(customers).isEmpty();
+    }
+
+    @DisplayName("회원 저장 기능 테스트 - 성공")
     @Test
     void save() {
         //given
@@ -67,7 +102,20 @@ class JdbcCustomerRepositoryTest {
         assertThat(saveCustomerId).isEqualTo(customer.getCustomerId());
     }
 
-    @DisplayName("전체 회원 삭제 테스트")
+    @DisplayName("회원 저장 기능 테스트 - 실패(이메일 중복)")
+    @Test
+    void saveFail() {
+        //given
+        jdbcCustomerRepository.save(new Customer(UUID.randomUUID(), "test", "test@gmail.com"));
+
+        //when
+        //then
+        assertThatThrownBy(() -> jdbcCustomerRepository.save(
+            new Customer(UUID.randomUUID(), "test1", "test@gmail.com")))
+            .isInstanceOf(DataAccessException.class);
+    }
+
+    @DisplayName("전체 회원 삭제 테스트 - 회원이 존재하는 경우")
     @Test
     void removeAll() {
         //given
@@ -79,6 +127,17 @@ class JdbcCustomerRepositoryTest {
 
         //then
         assertThat(jdbcCustomerRepository.findAll().size()).isEqualTo(0);
+    }
+
+    @DisplayName("전체 회원 삭제 테스트 - 회원이 존재하지 않는 경우")
+    @Test
+    void removeAllWhenEmpty() {
+        //given
+        //when
+        jdbcCustomerRepository.removeAll();
+
+        //then
+        assertThat(true).isTrue();
     }
 
     @DisplayName("이름 변경 기능 테스트")
@@ -124,9 +183,9 @@ class JdbcCustomerRepositoryTest {
         @Bean
         public DataSource dataSource() {
             return DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost/springboot_basic")
-                .username("hyuk")
-                .password("hyuk1234!")
+                .url("jdbc:mysql://localhost:2215/test_springboot_basic")
+                .username("test")
+                .password("test1234!")
                 .type(HikariDataSource.class)
                 .build();
         }

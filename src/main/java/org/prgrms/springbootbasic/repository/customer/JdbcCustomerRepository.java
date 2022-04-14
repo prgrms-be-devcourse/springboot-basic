@@ -1,5 +1,17 @@
 package org.prgrms.springbootbasic.repository.customer;
 
+import static org.prgrms.springbootbasic.repository.DBErrorMsg.GOT_EMPTY_RESULT_MSG;
+import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_INSERTED_EXP_MSG;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.COLUMN_CUSTOMER_ID;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.COLUMN_EMAIL;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.COLUMN_NAME;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.DELETE_ALL_SQL;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.INSERT_SQL;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_ALL_SQL;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_BY_EMAIL;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_BY_ID;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.UPDATE_BY_ID_SQL;
+
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -18,13 +30,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
-    private final String SELECT_BY_ID = "select * from customers where customer_id = UUID_TO_BIN(?)";
-    private final String SELECT_ALL_SQL = "select * from customers";
-    private final String INSERT_SQL = "insert into customers(customer_id, name, email) values(UUID_TO_BIN(?), ?, ?)";
-    private final String DELETE_ALL_SQL = "delete from customers";
-    private final String UPDATE_BY_ID_SQL = "update customers set name = ? where customer_id = UUID_TO_BIN(?)";
-    private final String SELECT_BY_EMAIL = "select * from customers where email = ?";
-
     public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -39,9 +44,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
         logger.info("findAll() called");
 
         return jdbcTemplate.query(SELECT_ALL_SQL, (resultSet, i) -> {
-            var customerId = toUUID(resultSet.getBytes("customer_id"));
-            var name = resultSet.getString("name");
-            var email = resultSet.getString("email");
+            var customerId = toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID));
+            var name = resultSet.getString(COLUMN_NAME);
+            var email = resultSet.getString(COLUMN_EMAIL);
             return new Customer(customerId, name, email);
         });
     }
@@ -55,7 +60,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             customer.getName(),
             customer.getEmail());
         if (insert != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG);
         }
         return customer.getCustomerId();
     }
@@ -75,7 +80,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             customer.getName(),
             customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
         if (update != 1) {
-            throw new RuntimeException("Nothing was updated");
+            throw new RuntimeException(GOT_EMPTY_RESULT_MSG);
         }
         return customer.getCustomerId();
     }
@@ -86,9 +91,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID, (resultSet, i) -> {
-                var id = toUUID(resultSet.getBytes("customer_id"));
-                var name = resultSet.getString("name");
-                var email = resultSet.getString("email");
+                var id = toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID));
+                var name = resultSet.getString(COLUMN_NAME);
+                var email = resultSet.getString(COLUMN_EMAIL);
                 return new Customer(id, name, email);
             }, customerId.toString().getBytes(StandardCharsets.UTF_8)));
         } catch (EmptyResultDataAccessException e) {
@@ -104,9 +109,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(
                 jdbcTemplate.queryForObject(SELECT_BY_EMAIL, (resultSet, i) -> {
-                    var customerId = toUUID(resultSet.getBytes("customer_id"));
-                    var name = resultSet.getString("name");
-                    var customerEmail = resultSet.getString("email");
+                    var customerId = toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID));
+                    var name = resultSet.getString(COLUMN_NAME);
+                    var customerEmail = resultSet.getString(COLUMN_EMAIL);
                     return new Customer(customerId, name, customerEmail);
                 }, email));
         } catch (EmptyResultDataAccessException e) {
