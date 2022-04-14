@@ -13,18 +13,20 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FileVoucherRepositoryTest {
 
-    private static final VoucherRepository voucherRepository = new FileVoucherRepository();
-    private static final String csvPath = "src\\test\\resources";
-    private static final String fileName = "voucherList_sample.csv";
+    FileVoucherRepository voucherRepository = new FileVoucherRepository();
+    String csvPath = "src\\test\\resources";
+    String fileName = "voucherList_sample.csv";
 
     /**
      * 리플렉션을 통해 csvPath, fileName을 설정해준다.
      */
-    @BeforeAll
-    public static void setCsvFile() {
+    @BeforeEach
+    public void setCsvFile() {
         ReflectionTestUtils.setField(voucherRepository, "csvPath", csvPath);
         ReflectionTestUtils.setField(voucherRepository, "fileName", fileName);
     }
@@ -83,5 +85,43 @@ class FileVoucherRepositoryTest {
         UUID savedVoucherId = voucherRepository.save(voucher);
         //then
         assertThat(savedVoucherId).isEqualTo(voucherId);
+    }
+
+    @Test
+    @DisplayName("바우처 전체조회 시 저장된 파일을 읽지 못할 경우 예외가 발생한다.")
+    public void exception_findAll(){
+        //given
+        ReflectionTestUtils.setField(voucherRepository, "csvPath", "");
+        //when
+        //then
+        assertThatThrownBy(() -> voucherRepository.findAll())
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("파일의 경로 혹은 이름을 확인해주세요.");
+    }
+
+    @Test
+    @DisplayName("바우처 ID로 조회 시 저장된 파일을 읽지 못할 경우 예외가 발생한다.")
+    public void exception_findById(){
+        //given
+        ReflectionTestUtils.setField(voucherRepository, "csvPath", "");
+        //when
+        //then
+        assertThatThrownBy(() -> voucherRepository.findById(UUID.randomUUID()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("파일의 경로 혹은 이름을 확인해주세요.");
+    }
+
+    @Test
+    @DisplayName("바우처 저장 시 파일을 읽지 못할 경우 예외가 발생한다.")
+    public void exception_saveVoucher(){
+        //given
+        UUID fixedVoucherId = UUID.randomUUID();
+        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000);
+        ReflectionTestUtils.setField(voucherRepository, "csvPath", "");
+        //when
+        //then
+        assertThatThrownBy(() -> voucherRepository.save(fixedVoucher))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("파일의 경로 혹은 이름을 확인해주세요.");
     }
 }

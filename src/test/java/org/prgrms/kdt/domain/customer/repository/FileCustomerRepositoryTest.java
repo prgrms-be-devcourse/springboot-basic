@@ -1,10 +1,6 @@
 package org.prgrms.kdt.domain.customer.repository;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -13,17 +9,21 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FileCustomerRepositoryTest {
 
-    private static final CustomerRepository customerRepository = new FileCustomerRepository();
-    private static final String csvPath = "src\\test\\resources";
-    private static final String fileName = "customer_blacklist_sample.csv";
+    CustomerRepository customerRepository = new FileCustomerRepository();
+    String csvPath = "src\\test\\resources";
+    String fileName = "customer_blacklist_sample.csv";
 
     /**
      * 리플렉션을 통해 csvPath, fileName을 설정해준다.
      */
-    @BeforeAll
-    public static void setCsvFile() {
+    @BeforeEach
+    public void setCsvFile() {
         ReflectionTestUtils.setField(customerRepository, "csvPath", csvPath);
         ReflectionTestUtils.setField(customerRepository, "fileName", fileName);
     }
@@ -47,6 +47,31 @@ class FileCustomerRepositoryTest {
         //when
         List<Customer> customers = customerRepository.findAll();
         //then
-        Assertions.assertThat(customers.size()).isEqualTo(2);
+        assertThat(customers.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("고객 저장 시 파일을 읽지 못할 경우 예외가 발생한다.")
+    public void exception_saveCustomer(){
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "park");
+        ReflectionTestUtils.setField(customerRepository, "csvPath", "");
+        //when
+        //then
+        assertThatThrownBy(() -> customerRepository.save(customer))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("파일의 경로 혹은 이름을 확인해주세요.");
+    }
+
+    @Test
+    @DisplayName("고객 전체 조회시 파일을 읽지 못할 경우 예외가 발생한다.")
+    public void exception_findAllCustomer(){
+        //given
+        ReflectionTestUtils.setField(customerRepository, "csvPath", "");
+        //when
+        //then
+        assertThatThrownBy(() -> customerRepository.findAll())
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("파일의 경로 혹은 이름을 확인해주세요.");
     }
 }
