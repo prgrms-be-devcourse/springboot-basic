@@ -6,6 +6,7 @@ import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +35,9 @@ class VoucherServiceTests {
         VoucherType type = VoucherType.FIXED_AMOUNT;
         Double value = 1000d;
 
+        ArgumentCaptor<Voucher> captor = ArgumentCaptor.forClass(Voucher.class);
+        when(mockedVoucherRepository.save(captor.capture())).thenReturn(captor.getValue());
+
         // when
         var voucher = voucherService.createVoucher(type, value);
 
@@ -46,6 +51,9 @@ class VoucherServiceTests {
         // given
         VoucherType type = VoucherType.PERCENT_DISCOUNT;
         Double value = 1000d;
+
+        ArgumentCaptor<Voucher> captor = ArgumentCaptor.forClass(Voucher.class);
+        when(mockedVoucherRepository.save(captor.capture())).thenReturn(captor.getValue());
 
         // when
         var voucher = voucherService.createVoucher(type, value);
