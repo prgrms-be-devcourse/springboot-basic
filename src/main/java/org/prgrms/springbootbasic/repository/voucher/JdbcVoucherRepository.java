@@ -101,7 +101,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 mapToVoucher,
                 id.toString().getBytes(StandardCharsets.UTF_8)));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(GOT_EMPTY_RESULT_MSG, e);
+            logger.info(GOT_EMPTY_RESULT_MSG);
             return Optional.empty();
         }
     }
