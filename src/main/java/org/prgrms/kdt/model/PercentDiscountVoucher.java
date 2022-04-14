@@ -1,5 +1,9 @@
 package org.prgrms.kdt.model;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -7,12 +11,15 @@ public class PercentDiscountVoucher implements Voucher {
     private UUID voucherId;
     private long discountPercent;
     private static final int MAX_DISCOUNT_PERCENT = 100;
+    private final static Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
     public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
         if (discountPercent <= 0) {
+            logger.info("input [discountPercent] -> {}", discountPercent);
             throw new IllegalArgumentException("discountPercent should be over 0");
         }
         if (discountPercent > MAX_DISCOUNT_PERCENT) {
+            logger.info("input [discountPercent] -> {}", discountPercent);
             throw new IllegalArgumentException("Max discountPercent is 100");
         }
         this.voucherId = voucherId;

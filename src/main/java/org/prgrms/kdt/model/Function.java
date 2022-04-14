@@ -4,6 +4,8 @@ import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.util.Utility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -25,6 +27,7 @@ public enum Function {
             try {
                 createVoucherByVoucherType(input.voucherType(), input.amount(), voucherService);
             } catch (Exception e) {
+                logger.info("error -> {}", e);
                 e.printStackTrace();
             }
             return false;
@@ -39,6 +42,8 @@ public enum Function {
     };
 
     private final String explain;
+
+    private final static Logger logger = LoggerFactory.getLogger(Function.class);
 
     Function(String explain) {
         this.explain = explain;
@@ -65,6 +70,7 @@ public enum Function {
 
     private static void createVoucherByVoucherType(String voucherType, String discountAmount, VoucherService voucherService) {
         if (!VoucherType.hasVoucherType(voucherType)) {
+            logger.info("input voucherType -> {}", voucherType);
             throw new IllegalArgumentException("Type right VoucherType number");
         }
         voucherService.createVoucher(UUID.randomUUID(),

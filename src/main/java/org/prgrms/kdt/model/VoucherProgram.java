@@ -3,12 +3,15 @@ package org.prgrms.kdt.model;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VoucherProgram implements Runnable {
 
     Input input;
     Output output;
     VoucherService voucherService;
+    private final static Logger logger = LoggerFactory.getLogger(VoucherProgram.class);
 
     public VoucherProgram(Input input, Output output, VoucherService voucherService) {
         this.input = input;
@@ -22,6 +25,7 @@ public class VoucherProgram implements Runnable {
             output.printFunctions();
             String inputFunction = input.inputFunction();
             if (!Function.hasFunction(inputFunction)) {
+                logger.info("input [Function] -> {}", inputFunction);
                 output.printInputFunctionError();
                 continue;
             }
