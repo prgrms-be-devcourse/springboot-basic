@@ -62,7 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
             if(voucherType == VoucherType.FIXED_AMOUNT){
                 vouchers.add(new FixedAmountVoucher(voucherId, Long.parseLong(discount)));
             } else if(voucherType == VoucherType.PERCENT_DISCOUNT) {
-                vouchers.add(new PercentDiscountVoucher(voucherId, Integer.parseInt(discount)));
+                vouchers.add(new PercentDiscountVoucher(voucherId, Long.parseLong(discount)));
             }
         }
         return vouchers;

@@ -7,10 +7,10 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final int discountRate;
+    private final long discountRate;
     private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
 
-    public PercentDiscountVoucher(UUID voucherId, int discountRate) {
+    public PercentDiscountVoucher(UUID voucherId, long discountRate) {
         validateDiscountRate(discountRate);
         this.voucherId = voucherId;
         this.discountRate = discountRate;
@@ -44,7 +44,7 @@ public class PercentDiscountVoucher implements Voucher {
                 '}';
     }
 
-    private void validateDiscountRate(int discountRate) {
+    private void validateDiscountRate(long discountRate) {
         if(discountRate > 100 || discountRate <= 0){
             throw new IllegalArgumentException("할인율은 0퍼센트 이하이거나 100퍼센트를 초과할 수 없습니다.");
         }

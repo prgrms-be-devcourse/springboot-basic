@@ -46,7 +46,7 @@ public class VoucherService {
         if(voucherType == VoucherType.FIXED_AMOUNT){
             return new FixedAmountVoucher(voucherId, discount);
         } else {
-            return new PercentDiscountVoucher(voucherId, (int) discount);
+            return new PercentDiscountVoucher(voucherId, discount);
         }
     }
 
