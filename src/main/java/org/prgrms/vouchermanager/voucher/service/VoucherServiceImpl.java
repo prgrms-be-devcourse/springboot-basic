@@ -27,6 +27,7 @@ public class VoucherServiceImpl implements VoucherService {
     public String allVouchersToString() {
         StringBuilder sb = new StringBuilder();
         voucherRepository.getAll().forEach(v -> sb.append(v).append("\n"));
+
         return sb.toString();
     }
 
@@ -40,6 +41,5 @@ public class VoucherServiceImpl implements VoucherService {
     // 아직 구현하지 않은 기능입니다.
     @Override
     public void useVoucher(Voucher voucher) {
-
     }
 }

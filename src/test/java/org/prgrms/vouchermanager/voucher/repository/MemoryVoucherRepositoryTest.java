@@ -56,5 +56,4 @@ class MemoryVoucherRepositoryTest {
         //then
         assertThrows(IllegalArgumentException.class, () -> voucherRepository.insert(voucher));
     }
-
 }

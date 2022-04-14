@@ -75,5 +75,4 @@ class VoucherServiceImplTest {
         //then
         assertThrows(IllegalArgumentException.class, () -> voucherService.findVoucher(UUID.randomUUID()));
     }
-
 }

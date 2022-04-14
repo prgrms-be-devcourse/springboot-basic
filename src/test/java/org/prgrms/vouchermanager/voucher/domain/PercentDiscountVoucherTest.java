@@ -38,5 +38,4 @@ class PercentDiscountVoucherTest {
     void testVoucherCreationWithOverHundredPercent() {
         assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(100001));
     }
-
 }

@@ -19,14 +19,15 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 
-    public FileVoucherRepository( @Value("${voucher.path}") String voucherFilePath){
+    public FileVoucherRepository(@Value("${voucher.path}") String voucherFilePath) {
         this.voucherFilePath = voucherFilePath;
     }
 
     @PostConstruct
     public void init() {
         File filePath = new File(voucherFilePath);
-        if (!filePath.exists()) filePath.mkdirs();
+        if (!filePath.exists())
+            filePath.mkdirs();
     }
 
     @Override
@@ -36,16 +37,18 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        List<Voucher> vouchers = getVouchers();
-        return vouchers.stream().filter(voucher -> voucher.getVoucherId().equals(voucherId)).findFirst();
+        return getVouchers().stream()
+                .filter(voucher -> voucher.getVoucherId().equals(voucherId))
+                .findFirst();
     }
 
-    //
+
     @Override
     public Voucher insert(Voucher voucher) {
         String savePath = new StringBuilder().append(voucherFilePath).append(File.separator).append(voucher.getVoucherId()).toString();
 
-        if(new File(savePath).exists()) throw new IllegalArgumentException();
+        if (new File(savePath).exists())
+            throw new IllegalArgumentException();
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(savePath);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
@@ -68,17 +71,17 @@ public class FileVoucherRepository implements VoucherRepository {
         if (files == null) return vouchers;
 
         Arrays.stream(files).forEach(file -> {
+
             try (FileInputStream fileInputStream = new FileInputStream(file.getPath());
                  ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+
                 vouchers.add((Voucher) objectInputStream.readObject());
 
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
                 throw new IllegalResourceAccessException();
             }
         });
 
         return vouchers;
     }
-
 }

@@ -127,5 +127,4 @@ class FileVoucherRepositoryTest {
         //then
         assertEquals(Optional.empty(), fileVoucherRepository.findById(UUID.randomUUID()));
     }
-
 }

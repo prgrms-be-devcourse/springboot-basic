@@ -7,11 +7,12 @@ public class FixedAmountVoucher extends AbstractVoucher {
 
     public FixedAmountVoucher(long amount) {
         super(VoucherType.FIXED);
+
         if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
         if (amount == 0) throw new IllegalArgumentException("Amount should be positive");
-        if (amount > MAX_VOUCHER_AMOUNT) {
+        if (amount > MAX_VOUCHER_AMOUNT)
             throw new IllegalArgumentException("Amount should be less than %d".formatted(MAX_VOUCHER_AMOUNT));
-        }
+
 
         this.amount = amount;
     }

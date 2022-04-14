@@ -24,7 +24,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
             throw new IllegalArgumentException("이미 존재하는 voucherId 입니다.");
 
         storage.put(voucher.getVoucherId(), voucher);
-
         return voucher;
     }
 

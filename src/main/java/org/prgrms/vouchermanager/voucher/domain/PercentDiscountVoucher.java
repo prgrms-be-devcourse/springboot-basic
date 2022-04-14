@@ -6,7 +6,9 @@ public class PercentDiscountVoucher extends AbstractVoucher {
 
     public PercentDiscountVoucher(long percent) {
         super(VoucherType.PERCENT);
+
         if (percent <= 0 || percent > 100) throw new IllegalArgumentException("Percent should be between 0 and 100");
+
         this.percent = percent;
     }
 

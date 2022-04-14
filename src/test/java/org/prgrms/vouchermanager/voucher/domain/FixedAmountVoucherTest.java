@@ -20,7 +20,6 @@ class FixedAmountVoucherTest {
 
         //then
         assertEquals(90, discounted);
-
     }
 
     @Test
@@ -49,5 +48,4 @@ class FixedAmountVoucherTest {
     void testVoucherCreationWithOverMaxAmount() {
         assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(100000));
     }
-
 }
