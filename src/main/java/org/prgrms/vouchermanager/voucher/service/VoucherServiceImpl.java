@@ -19,9 +19,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public void createVoucher(String type, Long amount) {
-        VoucherType voucherType = VoucherType.findVoucherType(type)
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 type 입력입니다."));
-        Voucher voucher = VoucherFactory.getVoucher(voucherType, amount);
+        Voucher voucher = VoucherFactory.getVoucher(VoucherType.valueOf(type.toUpperCase()), amount);
         voucherRepository.insert(voucher);
     }
 
@@ -29,6 +27,7 @@ public class VoucherServiceImpl implements VoucherService {
     public String allVouchersToString() {
         StringBuilder sb = new StringBuilder();
         voucherRepository.getAll().forEach(v -> sb.append(v).append("\n"));
+
         return sb.toString();
     }
 
@@ -36,12 +35,11 @@ public class VoucherServiceImpl implements VoucherService {
     public Voucher findVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 voucherId 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("저장되지 않은 voucherId 입니다."));
     }
 
     // 아직 구현하지 않은 기능입니다.
     @Override
     public void useVoucher(Voucher voucher) {
-
     }
 }

@@ -9,7 +9,10 @@ import java.util.UUID;
  */
 public interface VoucherService {
     void createVoucher(String type, Long amount);
+
     String allVouchersToString();
+
     Voucher findVoucher(UUID voucherId);
+
     void useVoucher(Voucher voucher);
 }

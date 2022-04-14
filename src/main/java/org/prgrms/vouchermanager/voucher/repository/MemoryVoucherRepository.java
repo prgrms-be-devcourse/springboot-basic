@@ -22,6 +22,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         if (storage.getOrDefault(voucher.getVoucherId(), null) != null)
             throw new IllegalArgumentException("이미 존재하는 voucherId 입니다.");
+
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }

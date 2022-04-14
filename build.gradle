@@ -20,6 +20,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic'
     implementation 'ch.qos.logback:logback-core'
     implementation 'org.springframework.shell:spring-shell-starter:2.0.1.RELEASE'
+    testImplementation 'org.mockito.mockito-core:3.1.0'
 }
 
 tasks.named('test') {

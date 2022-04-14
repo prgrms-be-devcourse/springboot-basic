@@ -9,5 +9,4 @@ class VoucherManagerApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

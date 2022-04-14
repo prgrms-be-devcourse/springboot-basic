@@ -1,5 +1,0 @@
-logging:
-  file:
-    path: logs/logging.log
-  level:
-    root: info
