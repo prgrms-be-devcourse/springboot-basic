@@ -7,6 +7,9 @@
             <level>ERROR</level>
             <onMatch>DENY</onMatch>
             <onMismatch>DENY</onMismatch>
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
