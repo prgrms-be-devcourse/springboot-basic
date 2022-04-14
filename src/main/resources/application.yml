@@ -1,7 +1,4 @@
 spring:
-  config:
-    activate:
-      on-profile: "dev2"
   datasource:
     url: "jdbc:mysql://localhost/springboot_basic"
     username: "hyuk"
