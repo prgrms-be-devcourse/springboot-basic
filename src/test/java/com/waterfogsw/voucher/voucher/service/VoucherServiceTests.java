@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -22,12 +23,9 @@ class VoucherServiceTests {
 
     @Mock
     private VoucherRepository mockedVoucherRepository;
-    private VoucherService voucherService;
 
-    @BeforeEach
-    void setup() {
-        this.voucherService = new VoucherServiceImpl(mockedVoucherRepository);
-    }
+    @InjectMocks
+    private VoucherService voucherService;
 
     @Test
     @DisplayName("바우처 생성 - fixedAmountVoucher 가 저장되고, 조회 되면 성공")

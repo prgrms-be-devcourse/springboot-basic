@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.UUID;
@@ -22,12 +23,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class VoucherControllerTest {
     @Mock
     VoucherService mockedVoucherService;
-    VoucherController voucherController;
 
-    @BeforeEach
-    void setup() {
-        this.voucherController = new VoucherController(mockedVoucherService);
-    }
+    @InjectMocks
+    VoucherController voucherController;
 
     @ParameterizedTest
     @EnumSource(VoucherType.class)
