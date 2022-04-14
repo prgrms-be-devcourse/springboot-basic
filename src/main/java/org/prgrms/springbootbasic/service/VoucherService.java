@@ -21,19 +21,19 @@ public class VoucherService {
     }
 
     public void createFixedAmountVoucher(int amount) {
-        logger.info("VoucherService.createFixedAmountVoucher() called");
+        logger.info("createFixedAmountVoucher() called");
 
         voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), amount));
     }
 
     public void createPercentAmountVoucher(int percent) {
-        logger.info("VoucherService.createPercentAmountVoucher called");
+        logger.info("createPercentAmountVoucher() called");
 
         voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), percent));
     }
 
     public List<Voucher> findAll() {
-        logger.info("VoucherService.findAll called");
+        logger.info("findAll() called");
 
         return voucherRepository.findAll();
     }

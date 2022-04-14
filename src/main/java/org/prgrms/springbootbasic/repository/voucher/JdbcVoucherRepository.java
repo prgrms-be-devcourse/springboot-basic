@@ -58,6 +58,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
+        logger.info("save() called");
+
         if (voucher instanceof FixedAmountVoucher) {
             var insert = jdbcTemplate.update(
                 INSERT_SQL,
@@ -85,10 +87,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
+        logger.info("findAll() called");
+
         return jdbcTemplate.query(SELECT_ALL_SQL, mapToVoucher);
     }
 
     public Optional<Voucher> findById(UUID id) {
+        logger.info("findById() called");
+
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                 SELECT_BY_ID_SQL,
@@ -107,6 +113,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void removeAll() {
+        logger.info("removeAll() called");
+
         jdbcTemplate.update(DELETE_ALL_SQL);
     }
 

@@ -29,7 +29,7 @@ public class VoucherController {
     }
 
     public boolean process() {
-        logger.info("VoucherController.process() called");
+        logger.info("process() called");
 
         consoleView.printMenu();
         Menu menu = consoleView.inputMenu();
@@ -43,6 +43,8 @@ public class VoucherController {
     }
 
     public void createVoucher() {
+        logger.info("createVoucher() called");
+
         VoucherType voucherType = consoleView.selectVoucherType();
 
         if (voucherType.isFixed()) {
@@ -57,20 +59,28 @@ public class VoucherController {
     }
 
     public void printList() {
+        logger.info("printList() called");
+
         consoleView.printList(voucherService.findAll());
     }
 
     public void printBlackList() {
+        logger.info("printBlackList() called");
+
         consoleView.printCustomerBlackList();
     }
 
     public void createCustomer() {
+        logger.info("createCustomer() called");
+
         var name = consoleView.selectName();
         var email = consoleView.selectEmail();
         customerService.createCustomer(name, email);
     }
 
     public void printAllCustomers() {
+        logger.info("printAllCustomers() called");
+
         consoleView.printAllCustomers(customerService.findAllCustomers());
     }
 }

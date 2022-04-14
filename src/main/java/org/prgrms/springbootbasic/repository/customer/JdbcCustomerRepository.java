@@ -36,6 +36,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
+        logger.info("findAll() called");
+
         return jdbcTemplate.query(SELECT_ALL_SQL, (resultSet, i) -> {
             var customerId = toUUID(resultSet.getBytes("customer_id"));
             var name = resultSet.getString("name");
@@ -46,6 +48,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public UUID save(Customer customer) {
+        logger.info("save() called");
+
         var insert = jdbcTemplate.update(INSERT_SQL,
             customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8),
             customer.getName(),
@@ -58,11 +62,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void removeAll() {
+        logger.info("removeAll() called");
+
         jdbcTemplate.update(DELETE_ALL_SQL);
     }
 
     @Override
     public UUID changeName(Customer customer) {
+        logger.info("changeName() called");
+
         var update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
             customer.getName(),
             customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
@@ -74,6 +82,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
+        logger.info("findById() called");
+
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID, (resultSet, i) -> {
                 var id = toUUID(resultSet.getBytes("customer_id"));
@@ -82,13 +92,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 return new Customer(id, name, email);
             }, customerId.toString().getBytes(StandardCharsets.UTF_8)));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.info("findById() Got empty result");
             return Optional.empty();
         }
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
+        logger.info("findByEmail() called");
+
         try {
             return Optional.ofNullable(
                 jdbcTemplate.queryForObject(SELECT_BY_EMAIL, (resultSet, i) -> {
@@ -98,7 +110,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     return new Customer(customerId, name, customerEmail);
                 }, email));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.info("findByEmail() Got empty result");
             return Optional.empty();
         }
     }
