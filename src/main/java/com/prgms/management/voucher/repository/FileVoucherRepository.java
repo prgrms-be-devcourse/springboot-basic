@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-@Profile({"local", "default"})
+@Profile({"local"})
 public class FileVoucherRepository implements VoucherRepository {
     private final Resource resource;
 
