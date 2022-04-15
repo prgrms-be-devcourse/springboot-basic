@@ -1,11 +1,11 @@
 package org.prgms.customer.repository;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.TestConfig;
+import org.prgms.TestContextInitializer;
 import org.prgms.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -13,32 +13,13 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.List;
 import java.util.UUID;
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.Charset.UTF8;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_11;
-
-@SpringJUnitConfig(value = TestConfig.class)
+@SpringJUnitConfig(value = TestConfig.class, initializers = TestContextInitializer.class)
 class CustomerRepositoryTest {
 
     @Autowired
     private CustomerRepository jdbcCustomerRepository;
 
     private final Customer newCustomer = new Customer(UUID.randomUUID(), "user-test", "user-test@gmail.com");
-
-    @BeforeAll
-    static void setup() {
-        var config = aMysqldConfig(v8_0_11)
-                .withCharset(UTF8)
-                .withPort(2215)
-                .withUser("test-user", "test111!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        var mysqld = anEmbeddedMysql(config)
-                .addSchema("order_mgmt", classPathScript("schema.sql"))
-                .start();
-    }
 
     @BeforeEach
     void deleteAll() {
