@@ -1,14 +1,16 @@
 package org.programmers.kdt.weekly.customer.repository;
 
 
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 import org.programmers.kdt.weekly.customer.Customer;
 
-import java.util.UUID;
-
 public interface CustomerRepository {
-    void insert(UUID customerId, Customer customer);
 
-    int getSize();
+    void insert(UUID customerId, Customer customer) throws IOException;
 
-    void showAll();
+    int count() throws IOException;
+
+    List<Customer> findAll();
 }

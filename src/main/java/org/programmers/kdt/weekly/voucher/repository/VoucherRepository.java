@@ -1,13 +1,13 @@
 package org.programmers.kdt.weekly.voucher.repository;
 
+import java.util.List;
 import org.programmers.kdt.weekly.voucher.model.Voucher;
 
-import java.util.UUID;
-
 public interface VoucherRepository {
-    void insert(UUID voucherId, Voucher voucher);
 
-    int getSize();
+    void insert(Voucher voucher);
 
-    void showAll();
+    int count();
+
+    List<Voucher> findAll();
 }
