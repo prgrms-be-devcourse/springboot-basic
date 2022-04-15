@@ -9,6 +9,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
+import org.prgrms.springbootbasic.exception.PercentRangeMaxException;
+import org.prgrms.springbootbasic.exception.PercentRangeMinException;
 
 class PercentDiscountVoucherTest {
 
@@ -35,8 +38,7 @@ class PercentDiscountVoucherTest {
         //when
         //then
         assertThatThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), percent))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining(PercentDiscountVoucher.PERCENT_MIN_RANGE_EXP_MSG);
+            .isInstanceOf(PercentRangeMinException.class);
     }
 
     @DisplayName("percent 100보다 큰 케이스")
@@ -46,8 +48,7 @@ class PercentDiscountVoucherTest {
         //when
         //then
         assertThatThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), 101))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining(PercentDiscountVoucher.PERCENT_MAX_RANGE_EXP_MSG);
+            .isInstanceOf(PercentRangeMaxException.class);
     }
 
 }

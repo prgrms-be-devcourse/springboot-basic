@@ -1,7 +1,7 @@
 package org.prgrms.springbootbasic.repository.voucher;
 
 import java.util.List;
-import org.prgrms.springbootbasic.entity.Voucher;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
 
 public interface VoucherRepository {
 

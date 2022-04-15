@@ -9,6 +9,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
+import org.prgrms.springbootbasic.exception.AmountRangeMaxException;
+import org.prgrms.springbootbasic.exception.AmountRangeMinException;
 
 class FixedAmountVoucherTest {
 
@@ -35,8 +38,7 @@ class FixedAmountVoucherTest {
         //when
         //then
         assertThatThrownBy(() -> new FixedAmountVoucher(UUID.randomUUID(), amount))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining(FixedAmountVoucher.AMOUNT_MIN_RANGE_EXP_MSG);
+            .isInstanceOf(AmountRangeMinException.class);
     }
 
     @DisplayName("amount 최대값 초과")
@@ -46,7 +48,6 @@ class FixedAmountVoucherTest {
         //when
         //then
         assertThatThrownBy(() -> new FixedAmountVoucher(UUID.randomUUID(), 100000))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining(FixedAmountVoucher.AMOUNT_MAX_RANGE_EXP_MSG);
+            .isInstanceOf(AmountRangeMaxException.class);
     }
 }

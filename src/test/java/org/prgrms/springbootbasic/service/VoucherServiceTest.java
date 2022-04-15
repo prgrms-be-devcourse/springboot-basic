@@ -16,9 +16,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
-import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
-import org.prgrms.springbootbasic.entity.Voucher;
+import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
+import org.prgrms.springbootbasic.exception.ServiceException;
 import org.prgrms.springbootbasic.repository.voucher.VoucherRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,7 +53,7 @@ class VoucherServiceTest {
         //when
         //then
         assertThatThrownBy(() -> voucherService.createFixedAmountVoucher(amount))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(ServiceException.class);
     }
 
     @DisplayName("PercentAmountVoucher 만들기 테스트")
@@ -74,7 +75,7 @@ class VoucherServiceTest {
         //when
         //then
         assertThatThrownBy(() -> voucherService.createPercentAmountVoucher(percent))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(ServiceException.class);
     }
 
     @DisplayName("Voucher 전체 조회 테스트")

@@ -2,9 +2,9 @@ package org.prgrms.springbootbasic.service;
 
 import java.util.List;
 import java.util.UUID;
-import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
-import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
-import org.prgrms.springbootbasic.entity.Voucher;
+import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.prgrms.springbootbasic.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

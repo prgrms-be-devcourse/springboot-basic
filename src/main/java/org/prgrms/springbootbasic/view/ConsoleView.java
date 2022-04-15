@@ -37,9 +37,9 @@ import org.beryx.textio.TextTerminal;
 import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.controller.Menu;
 import org.prgrms.springbootbasic.entity.Customer;
-import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
-import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
-import org.prgrms.springbootbasic.entity.Voucher;
+import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
