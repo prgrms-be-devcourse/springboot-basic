@@ -22,6 +22,7 @@ import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
+import org.prgrms.springbootbasic.exception.AlreadyAssignedVoucherException;
 import org.prgrms.springbootbasic.exception.InvalidCustomerIdException;
 import org.prgrms.springbootbasic.exception.InvalidVoucherIdException;
 import org.prgrms.springbootbasic.exception.ServiceException;
@@ -156,6 +157,24 @@ class VoucherServiceTest {
         assertThatThrownBy(
             () -> voucherService.assignVoucherToCustomer(voucher.getVoucherId(), customerId))
             .isInstanceOf(InvalidCustomerIdException.class);
+    }
+
+    @DisplayName("voucher를 customer에게 할당 기능 - 이미 할당된 바우쳐")
+    @Test
+    void assignVoucherToCustomerAlreadyAssignedVoucher() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        voucher.assignCustomer(customer);
+
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+
+        //when
+        //then
+        assertThatThrownBy(
+            () -> voucherService.assignVoucherToCustomer(voucher.getVoucherId(),
+                customer.getCustomerId()))
+            .isInstanceOf(AlreadyAssignedVoucherException.class);
     }
 
 }

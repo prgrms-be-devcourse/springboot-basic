@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
+import org.prgrms.springbootbasic.exception.AlreadyAssignedVoucherException;
 import org.prgrms.springbootbasic.exception.InvalidCustomerIdException;
 import org.prgrms.springbootbasic.exception.InvalidVoucherIdException;
 import org.prgrms.springbootbasic.repository.customer.CustomerRepository;
@@ -52,17 +53,22 @@ public class VoucherService {
     public void assignVoucherToCustomer(UUID voucherId, UUID customerId) {
         logger.info("assignVoucherToCustomer() called");
 
-        var voucher = voucherRepository.findById(voucherId);
-        if (voucher.isEmpty()) {
-            throw new InvalidVoucherIdException();
-        }
+        var voucher = voucherRepository.findById(voucherId)
+            .orElseThrow(InvalidVoucherIdException::new);
 
-        var customer = customerRepository.findById(customerId);
-        if (customer.isEmpty()) {
-            throw new InvalidCustomerIdException();
-        }
+        validateAssignedVoucher(voucher);
 
-        voucher.get().assignCustomer(customer.get());
-        voucherRepository.updateCustomerId(voucher.get());
+        var customer = customerRepository.findById(customerId)
+            .orElseThrow(InvalidCustomerIdException::new);
+
+        voucher.assignCustomer(customer);
+        voucherRepository.updateCustomerId(voucher);
     }
+
+    private void validateAssignedVoucher(Voucher voucher) {
+        if (voucher.getCustomerId().isPresent()) {
+            throw new AlreadyAssignedVoucherException();
+        }
+    }
+
 }
