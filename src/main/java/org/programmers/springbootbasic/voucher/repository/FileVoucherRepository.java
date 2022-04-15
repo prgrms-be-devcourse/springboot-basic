@@ -20,22 +20,42 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     private final File file = new File("voucher_file_database.csv");
-    private BufferedWriter bufferedWriter = getBufferWriter(file);
-    private BufferedReader bufferedReader;
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        String line;
+        try (
+                FileReader fileReader = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ) {
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] voucherInfo = line.split(" ");
+                if (voucherInfo[2].equals(voucherId.toString())) {
+                    if (voucherInfo[0].equals("FixedAmountVoucher")) {
+                        return Optional.of(new FixedAmountVoucher(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4])));
+                    }
+                    if (voucherInfo[0].equals("PercentDiscountVoucher")) {
+                        return Optional.of(new PercentDiscountVoucher(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4])));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            logger.error("{0} findAll IO exception error", e);
+        }
         return Optional.empty();
     }
 
     @Override
     public Voucher insert(Voucher voucher) {
-        try {
+        try (
+                FileWriter fileWriter = new FileWriter(file, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        ) {
             bufferedWriter.write(voucher.toString());
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
-            logger.error("insert IO exception error");
+            logger.error("{0} insert IO exception error", e);
         }
         return voucher;
     }
@@ -45,8 +65,10 @@ public class FileVoucherRepository implements VoucherRepository {
         List<Voucher> voucherList = new ArrayList<>();
 
         String line;
-        try {
-            bufferedReader = getBufferedReader(file);
+        try (
+                FileReader fileReader = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ) {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] voucherInfo = line.split(" ");
                 if (voucherInfo[0].equals("FixedAmountVoucher")) {
@@ -60,27 +82,9 @@ public class FileVoucherRepository implements VoucherRepository {
                 }
             }
         } catch (IOException e) {
-            logger.error("find IO exception error");
+            logger.error("{0} findAll IO exception error", e);
         }
         return voucherList;
-    }
-
-    private BufferedReader getBufferedReader(File file) {
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
-            logger.error("FileNotFoundException error");
-        }
-        return bufferedReader;
-    }
-
-    private BufferedWriter getBufferWriter(File file) {
-        try {
-            bufferedWriter = new BufferedWriter(new FileWriter(file, true));
-        } catch (IOException e) {
-            logger.error("IO exception error");
-        }
-        return bufferedWriter;
     }
 }
 
