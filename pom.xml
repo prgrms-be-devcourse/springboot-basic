@@ -16,6 +16,7 @@
   <properties>
     <java.version>11</java.version>
     <commons-lang3.version>3.12.0</commons-lang3.version>
+    <supercsv.version>2.4.0</supercsv.version>
   </properties>
   <dependencies>
     <dependency>
@@ -33,6 +34,12 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sf.supercsv</groupId>
+      <artifactId>super-csv</artifactId>
+      <version>${supercsv.version}</version>
     </dependency>
   </dependencies>
 
