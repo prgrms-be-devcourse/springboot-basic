@@ -2,7 +2,7 @@ package org.programmers.springbootbasic;
 
 import org.programmers.springbootbasic.customer.service.CustomerService;
 import org.programmers.springbootbasic.io.Console;
-import org.programmers.springbootbasic.voucher.model.Voucher;
+import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,38 +34,21 @@ public class CommandLineApplication implements CommandLineRunner {
 			switch (choice) {
 				case "exit" -> exitProgram = true;
 				case "create" -> {
-					long value = validLong(console.input("Type value"));
-					if (value <= 0) {
-						break;
-					}
-					String type = console.input("Type Voucher\n 1.FixedAmountVoucher\n 2.PercentDiscountVoucher");
 					try {
-						Voucher voucher = voucherService.createVoucher(value, type);
-						if (voucher == null) {
-							logger.error("wrong voucher type input error");
-							break;
-						}
-						voucherService.saveVoucher(voucher);
+						long value = Long.parseLong(console.input("Type value"));
+						VoucherType voucherType = VoucherType.findByNumber(Integer.parseInt(console.input("Type Voucher number\n 1. FixedAmountVoucher\n 2. PercentDiscountVoucher")));
+						voucherService.createVoucher(voucherType, value);
 						console.printSuccessMessage();
-					} catch (IllegalArgumentException exception) {
-						logger.error("wrong number input error");
+					} catch (NumberFormatException e) {
+						logger.error("wrong long type input error", e);
+					} catch (IllegalArgumentException e) {
+						logger.error("creat voucher IllegalArgumentException error", e);
 					}
 				}
-				case "list" -> voucherService.findAll().forEach(System.out::println);
+				case "list" -> voucherService.getVoucherList().forEach(System.out::println);
 				case "blacklist" -> customerService.findAll().forEach(System.out::println);
-				default -> logger.error("wrong input error");
+				default -> logger.error("wrong console choice error");
 			}
 		}
-	}
-
-	private long validLong (String input) {
-		long value = -1L;
-		try {
-			value = Long.parseLong(input);
-		}
-		catch (NumberFormatException exception) {
-			logger.error("wrong long type input error");
-		}
-		return value;
 	}
 }
