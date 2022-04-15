@@ -1,11 +1,9 @@
 package com.voucher.vouchermanagement.manager.io;
 
-import java.io.IOException;
-
 public interface VoucherManagerOutput {
-  void println(String string) throws IOException;
+  void println(String string);
 
-  void printMenu() throws IOException;
+  void printMenu();
 
-  void printVoucherType() throws IOException;
+  void printVoucherType();
 }

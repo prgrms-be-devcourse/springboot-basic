@@ -2,7 +2,6 @@ package com.voucher.vouchermanagement.service;
 
 import com.voucher.vouchermanagement.model.customer.Customer;
 import com.voucher.vouchermanagement.repository.blacklist.BlacklistRepository;
-import java.io.IOException;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,7 @@ public class BlacklistService {
     this.blackListRepository = blackListRepository;
   }
 
-  public List<Customer> findAll() throws IOException {
+  public List<Customer> findAll() {
     List<Customer> foundBlacklist = blackListRepository.findAll();
 
     return foundBlacklist;

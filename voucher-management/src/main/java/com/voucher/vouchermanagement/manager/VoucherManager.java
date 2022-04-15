@@ -8,7 +8,6 @@ import com.voucher.vouchermanagement.model.voucher.Voucher;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
 import com.voucher.vouchermanagement.service.BlacklistService;
 import com.voucher.vouchermanagement.service.VoucherService;
-import java.io.IOException;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ public class VoucherManager {
     this.output = output;
   }
 
-  public void run() throws IOException {
+  public void run() {
     while (true) {
       try {
         output.printMenu();
@@ -60,22 +59,23 @@ public class VoucherManager {
     }
   }
 
-  private void createVoucher() throws IOException {
+  private void createVoucher() {
     try {
       output.println("=== [Create Voucher] ===");
       output.printVoucherType();
       int voucherTypeNumberInput = Integer.parseInt(input.input("Input voucher type : "));
       VoucherType voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumberInput);
-      long voucherValue = Long.parseLong(input.input("Input voucher value"));
+      long voucherValue = Long.parseLong(input.input("Input voucher value : "));
 
       voucherService.insertVoucher(voucherType, voucherValue);
       output.println("Voucher Creation Completed.");
     } catch (IllegalArgumentException e) {
       logger.error(e.getMessage());
+      output.println(e.getMessage());
     }
   }
 
-  private void printVouchers() throws IOException {
+  private void printVouchers() {
     output.println("=== [Voucher List] ===");
     List<Voucher> vouchers = voucherService.findAll();
 
@@ -84,7 +84,7 @@ public class VoucherManager {
     }
   }
 
-  private void printBlacklist() throws IOException {
+  private void printBlacklist() {
     output.println("===  [Blacklist]  ===");
     List<Customer> blacklist = blackListService.findAll();
 

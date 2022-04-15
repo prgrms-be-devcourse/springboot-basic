@@ -5,6 +5,7 @@ import com.voucher.vouchermanagement.repository.io.FileInput;
 import com.voucher.vouchermanagement.repository.io.FileOutput;
 import com.voucher.vouchermanagement.repository.utils.CsvDeserializer;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -34,23 +35,33 @@ public class VoucherFileRepository implements VoucherRepository {
   }
 
   @Override
-  public void insert(Voucher voucher) throws IOException {
-    String voucherCsvData = String.join(",", voucher.getClass().getSimpleName(),
-        voucher.getVoucherId().toString(),
-        voucher.getValue().toString(),
-        voucher.getCreatedAt().toString());
+  public void insert(Voucher voucher) {
+    try {
+      String voucherCsvData = String.join(",", voucher.getClass().getSimpleName(),
+          voucher.getVoucherId().toString(),
+          voucher.getValue().toString(),
+          voucher.getCreatedAt().toString());
 
-    output.writeln(voucherDb.getFile(), voucherCsvData);
+      output.writeln(voucherDb.getFile(), voucherCsvData);
+    } catch (IOException e) {
+      logger.error(e.getMessage());
+    }
   }
 
   @Override
-  public List<Voucher> findAll() throws IOException {
-    List<String> foundDataStrings = input.readAllLine(voucherDb.getFile());
+  public List<Voucher> findAll() {
+    try {
+      List<String> foundDataStrings = input.readAllLine(voucherDb.getFile());
 
-    return foundDataStrings
-        .stream()
-        .map(voucherDeserializer::deserialize)
-        .collect(Collectors.toList());
+      return foundDataStrings
+          .stream()
+          .map(voucherDeserializer::deserialize)
+          .collect(Collectors.toList());
+    } catch (IOException e) {
+      logger.error(e.getMessage());
+    }
+
+    return Collections.emptyList();
   }
 
 }

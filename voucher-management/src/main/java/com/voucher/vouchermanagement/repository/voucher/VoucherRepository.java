@@ -1,12 +1,11 @@
 package com.voucher.vouchermanagement.repository.voucher;
 
 import com.voucher.vouchermanagement.model.voucher.Voucher;
-import java.io.IOException;
 import java.util.List;
 
 public interface VoucherRepository {
 
-  void insert(Voucher voucher) throws IOException;
+  void insert(Voucher voucher);
 
-  List<Voucher> findAll() throws IOException;
+  List<Voucher> findAll();
 }
