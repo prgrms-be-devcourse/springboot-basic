@@ -2,29 +2,31 @@ package org.prgrms.VoucherManagement.voucher.voucher;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
-  private final UUID voucherId;
-  private final long amount;
+public class FixedAmountVoucher extends Voucher {
 
-  public FixedAmountVoucher(UUID voucherId, long amount) {
-    this.voucherId = voucherId;
-    this.amount = amount;
+  private static final long MAX_REDUCTION = 1_000_000L;
+
+  public FixedAmountVoucher(UUID voucherId, long reduction) {
+    super(voucherId, reduction);
   }
 
   @Override
-  public UUID getVoucherID() {
-    return voucherId;
+  public long discount(long beforeDiscount) {
+    long discountResult = beforeDiscount - super.getReduction();
+    return 0 < discountResult? discountResult : 0L;
   }
 
-  public long discount(long beforeDiscount) {
-    return beforeDiscount - amount;
+  static boolean checkReduction(long reduction) {
+    if(MAX_REDUCTION < reduction || reduction <= 0) return false;
+    return true;
   }
+
 
   @Override
   public String toString() {
     return "FixedAmountVoucher{" +
-      "voucherId=" + voucherId +
-      ", amount=" + amount +
+      "voucherId=" + super.getVoucherID() +
+      ", amount=" + super.getReduction() +
       '}';
   }
 }

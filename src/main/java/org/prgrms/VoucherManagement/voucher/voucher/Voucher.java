@@ -2,9 +2,27 @@ package org.prgrms.VoucherManagement.voucher.voucher;
 
 import java.util.UUID;
 
-public interface Voucher {
+public abstract class Voucher {
+  private final UUID voucherId;
+  private long reduction;
 
-  UUID getVoucherID();
+  protected Voucher(UUID voucherId, long amount) {
+    this.voucherId = voucherId;
+    this.reduction = amount;
+  }
 
-  long discount(long beforeDiscount);
+  public UUID getVoucherID() {
+    return this.voucherId;
+  }
+
+  public long getReduction() {
+    return reduction;
+  }
+
+  public void setReduction(long reduction) {
+    this.reduction = reduction;
+  }
+
+  abstract long discount(long beforeDiscount);
+
 }
