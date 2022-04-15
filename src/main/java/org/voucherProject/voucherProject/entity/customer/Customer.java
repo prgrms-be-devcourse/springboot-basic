@@ -34,6 +34,14 @@ public class Customer {
         this.createdAt = LocalDateTime.now();
     }
 
+    public Customer(UUID customerId, String customerName, String customerEmail, String password) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.password = password;
+        this.createdAt = LocalDateTime.now();
+    }
+
     public Customer(UUID customerId, String customerName, String customerEmail, String password, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
         this.customerId = customerId;
         this.customerName = customerName;
