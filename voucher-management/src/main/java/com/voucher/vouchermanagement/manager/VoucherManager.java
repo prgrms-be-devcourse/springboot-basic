@@ -93,14 +93,22 @@ public class VoucherManager {
 
   private boolean printVouchers() throws IOException {
     output.println("=== [Voucher List] ===");
-    findVoucherService.findAll().stream().forEach(throwingConsumerWrapper((voucher) -> output.println(voucher.toString())));
+    List<Voucher> vouchers = voucherService.findAll();
+
+    for (Voucher voucher : vouchers) {
+      output.println(voucher.toString());
+    }
 
     return true;
   }
 
   private boolean printBlacklist() throws IOException {
     output.println("===  [Blacklist]  ===");
-    blackListService.findAll().stream().forEach(throwingConsumerWrapper((voucher) -> output.println(voucher.toString())));
+    List<User> blacklist = blackListService.findAll();
+
+    for (User user : blacklist) {
+      output.println(user.toString());
+    }
 
     return true;
   }
