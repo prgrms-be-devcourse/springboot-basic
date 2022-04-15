@@ -13,6 +13,7 @@ import org.supercsv.io.ICsvMapReader;
 import org.supercsv.io.ICsvMapWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,7 +32,7 @@ import static org.apache.commons.lang3.math.NumberUtils.toLong;
 public class CsvVoucherRepository implements VoucherRepository {
 
     private static final String CSV_FILENAME = "voucher.csv";
-    private static final String CSV_PATH = System.getProperty("user.dir");
+    private static final String CSV_PATH = System.getProperty("java.class.path");
     private static final String[] CSV_HEADER = {"voucherId", "voucherValue", "voucherClassSimpleName"};
 
     private static final Logger logger = LoggerFactory.getLogger(CsvVoucherRepository.class);
@@ -72,6 +73,8 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     public String getPathCsvFile() {
-        return Path.of(CSV_PATH, CSV_FILENAME).toString();
+        File file = new File(CSV_PATH);
+        String path = file.getParentFile().getPath();
+        return Path.of(path, CSV_FILENAME).toString();
     }
 }

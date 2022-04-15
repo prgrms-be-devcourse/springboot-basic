@@ -8,6 +8,7 @@ import org.supercsv.io.CsvMapReader;
 import org.supercsv.io.ICsvMapReader;
 import org.supercsv.prefs.CsvPreference;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -20,7 +21,7 @@ import java.util.UUID;
 public class CsvBlackListCustomerRepository {
 
     private static final String CSV_FILENAME = "customer_blacklist.csv";
-    private static final String CSV_PATH = System.getProperty("user.dir");
+    private static final String CSV_PATH = System.getProperty("java.class.path");
     private static final String[] CSV_HEADER = {"customerId", "customerName"};
 
     private static final Logger logger = LoggerFactory.getLogger(CsvBlackListCustomerRepository.class);
@@ -43,6 +44,8 @@ public class CsvBlackListCustomerRepository {
     }
 
     public String getPathCsvFile() {
-        return Path.of(CSV_PATH, CSV_FILENAME).toString();
+        File file = new File(CSV_PATH);
+        String path = file.getParentFile().getPath();
+        return Path.of(path, CSV_FILENAME).toString();
     }
 }
