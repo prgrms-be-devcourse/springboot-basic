@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
-  private UUID id;
+  private final UUID id;
   private Long value;
-  private LocalDateTime createdAt;
+  private final LocalDateTime createdAt;
 
   public FixedAmountVoucher(UUID id, Long value, LocalDateTime createdAt) {
     this.id = id;

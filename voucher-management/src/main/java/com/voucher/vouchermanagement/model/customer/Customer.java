@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Customer {
 
-  private UUID id;
+  private final UUID id;
   private String name;
 
   public Customer(UUID id, String name) {
