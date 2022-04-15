@@ -28,6 +28,16 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public int getVoucherFigure() {
+        return percent;
+    }
+
+    @Override
+    public String getVoucherType() {
+        return "percent";
+    }
+
+    @Override
     public void resetVoucherId() {
         voucherId = UUID.randomUUID();
     }

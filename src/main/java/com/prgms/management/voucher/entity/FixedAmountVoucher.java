@@ -28,6 +28,16 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public int getVoucherFigure() {
+        return amount;
+    }
+
+    @Override
+    public String getVoucherType() {
+        return "fixed";
+    }
+
+    @Override
     public void resetVoucherId() {
         voucherId = UUID.randomUUID();
     }
