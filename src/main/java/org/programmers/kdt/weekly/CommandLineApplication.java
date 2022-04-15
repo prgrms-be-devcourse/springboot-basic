@@ -1,77 +1,80 @@
 package org.programmers.kdt.weekly;
 
-import org.programmers.kdt.weekly.customer.repository.CustomerRepository;
-import org.programmers.kdt.weekly.io.Input;
-import org.programmers.kdt.weekly.io.InputErrorType;
-import org.programmers.kdt.weekly.io.Output;
-import org.programmers.kdt.weekly.voucher.repository.VoucherRepository;
-import org.programmers.kdt.weekly.voucher.service.VoucherCreateService;
-import org.springframework.stereotype.Component;
-
 import java.util.Optional;
+import org.programmers.kdt.weekly.customer.CustomerService;
+import org.programmers.kdt.weekly.io.Console;
+import org.programmers.kdt.weekly.io.InputErrorType;
+import org.programmers.kdt.weekly.voucher.model.VoucherType;
+import org.programmers.kdt.weekly.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CommandLineApplication {
+
+    private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+
     final String CREATE = "create";
     final String LIST = "list";
     final String EXIT = "exit";
     final String BLACK_LIST = "list -b";
 
-    private Input input;
-    private Output output;
-    private VoucherCreateService voucherCreateService;
-    private VoucherRepository voucherRepository;
-    private CustomerRepository customerRepository;
+    private final VoucherService voucherService;
+    private final CustomerService customerService;
+    private final Console console;
 
-    public CommandLineApplication(Input input, Output output, VoucherCreateService voucherCreateService, VoucherRepository voucherRepository, CustomerRepository customerRepository) {
-        this.input = input;
-        this.output = output;
-        this.voucherCreateService = voucherCreateService;
-        this.voucherRepository = voucherRepository;
-        this.customerRepository = customerRepository;
+    public CommandLineApplication(
+        VoucherService voucherService,
+        CustomerService customerService, Console console) {
+        this.voucherService = voucherService;
+        this.customerService = customerService;
+        this.console = console;
     }
 
     public void start() {
         var programExit = false;
 
         while (!programExit) {
-            output.startMessage();
-            Optional<String> command = Optional.ofNullable(input.getUserInput());
-            if (command.isEmpty()) {
-                output.inputErrorMessage(InputErrorType.INVALID);
-            } else {
-                switch (command.get().toLowerCase()) {
-                    case CREATE :
-                        voucherCreateService.create();
-                        break;
-                    case LIST:
-                        if (voucherRepository.getSize() < 1) {
-                            output.inputErrorMessage(InputErrorType.VOUCHER_EMPTY);
-                        } else {
-                            voucherRepository.showAll();
-                        }
-                        break;
+            console.startMessage();
+            String command = console.getUserInput();
+            logger.info("user input -> {}", command);
 
-                    case BLACK_LIST:
-                        if (customerRepository.getSize() > 1) {
-                            customerRepository.showAll();
-                        } else {
-                            output.inputErrorMessage(InputErrorType.BLACK_LIST_EMPTY);
-                        }
-                        break;
-
-                    case EXIT:
-                        System.out.println(EXIT);
-                        programExit = true;
-                        break;
-
-                    default:
-                        output.inputErrorMessage(InputErrorType.COMMAND);
-                        break;
-                }
+            switch (command.toLowerCase()) {
+                case CREATE:
+                    console.voucherSelectMessage();
+                    try {
+                        int selectVoucherType = Integer.parseInt(console.getUserInput());
+                        logger.info("user voucher select input -> {}", selectVoucherType);
+                        VoucherType voucherType = VoucherType.findByNumber(selectVoucherType);
+                        console.voucherDiscountMessage();
+                        voucherService.createVoucher(voucherType,
+                            Integer.parseInt(console.getUserInput()));
+                        console.voucherCreateSucceedMessage();
+                    } catch (IllegalArgumentException e) {
+                        logger.error("number voucher type input error");
+                        console.inputErrorMessage(InputErrorType.INVALID);
+                    }
+                    break;
+                case LIST:
+                    Optional.ofNullable(voucherService.voucherList())
+                        .ifPresentOrElse((vouchers -> console.voucherListPrint(vouchers.get())),
+                            () -> console.inputErrorMessage(InputErrorType.VOUCHER_EMPTY));
+                    break;
+                case BLACK_LIST:
+                    Optional.ofNullable(customerService.BlackList())
+                        .ifPresentOrElse((customer -> console.customerListPrint(customer.get())),
+                            () -> console.inputErrorMessage(InputErrorType.BLACK_LIST_EMPTY));
+                    break;
+                case EXIT:
+                    console.programExitMessage();
+                    programExit = true;
+                    break;
+                default:
+                    console.inputErrorMessage(InputErrorType.COMMAND);
+                    break;
             }
-            System.out.println();
+            console.newLinePrint();
         }
     }
-
 }
