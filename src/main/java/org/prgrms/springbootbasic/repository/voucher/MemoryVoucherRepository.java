@@ -36,4 +36,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void removeAll() {
         storage.clear();
     }
+
+    @Override
+    public Voucher updateCustomerId(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
+    }
 }

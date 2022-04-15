@@ -115,6 +115,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(DELETE_ALL_SQL);
     }
 
+    @Override
     public Voucher updateCustomerId(Voucher voucher) {
         logger.info("updateCustomerId() called");
 

@@ -103,4 +103,9 @@ public class FileVoucherRepository implements VoucherRepository {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Voucher updateCustomerId(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
+    }
 }

@@ -11,4 +11,5 @@ public interface VoucherRepository {
 
     void removeAll();
 
+    Voucher updateCustomerId(Voucher voucher);
 }
