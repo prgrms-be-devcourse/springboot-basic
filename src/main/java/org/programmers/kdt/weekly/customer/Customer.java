@@ -1,15 +1,15 @@
 package org.programmers.kdt.weekly.customer;
 
 
-import lombok.Getter;
-
 import java.util.UUID;
+import lombok.Getter;
 
 @Getter
 public class Customer {
-    private UUID customerId;
-    private String customerName;
-    private CustomerType customerType;
+
+    private final UUID customerId;
+    private final String customerName;
+    private final CustomerType customerType;
 
     public Customer(UUID customerId, String customerName, CustomerType customerType) {
         this.customerId = customerId;
@@ -17,4 +17,11 @@ public class Customer {
         this.customerType = customerType;
     }
 
+    @Override
+    public String toString() {
+        return
+            "customerId= " + customerId +
+                ", customerName= " + customerName +
+                ", customerType= " + customerType;
+    }
 }
