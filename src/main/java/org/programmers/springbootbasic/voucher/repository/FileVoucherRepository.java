@@ -1,8 +1,7 @@
 package org.programmers.springbootbasic.voucher.repository;
 
-import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
-import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.voucher.model.Voucher;
+import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -20,6 +19,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     private final File file = new File("voucher_file_database.csv");
+    VoucherType voucherType;
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -31,16 +31,12 @@ public class FileVoucherRepository implements VoucherRepository {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] voucherInfo = line.split(" ");
                 if (voucherInfo[2].equals(voucherId.toString())) {
-                    if (voucherInfo[0].equals("FixedAmountVoucher")) {
-                        return Optional.of(new FixedAmountVoucher(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4])));
-                    }
-                    if (voucherInfo[0].equals("PercentDiscountVoucher")) {
-                        return Optional.of(new PercentDiscountVoucher(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4])));
-                    }
+                    voucherType = VoucherType.findByType(voucherInfo[0]);
+                    return Optional.of(voucherType.createWithUUID(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4])));
                 }
             }
         } catch (IOException e) {
-            logger.error("{0} findAll IO exception error", e);
+            logger.error("아이디로 찾기 IOException 에러입니다. {0}", e);
         }
         return Optional.empty();
     }
@@ -55,7 +51,7 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
-            logger.error("{0} insert IO exception error", e);
+            logger.error("입력 IOException 에러입니다. {0}", e);
         }
         return voucher;
     }
@@ -71,18 +67,11 @@ public class FileVoucherRepository implements VoucherRepository {
         ) {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] voucherInfo = line.split(" ");
-                if (voucherInfo[0].equals("FixedAmountVoucher")) {
-                    FixedAmountVoucher voucher =
-                            new FixedAmountVoucher(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]));
-                    voucherList.add(voucher);
-                } else if (voucherInfo[0].equals("PercentDiscountVoucher")) {
-                    PercentDiscountVoucher voucher =
-                            new PercentDiscountVoucher(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]));
-                    voucherList.add(voucher);
-                }
+                voucherType = VoucherType.findByType(voucherInfo[0]);
+                voucherList.add(voucherType.createWithUUID(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4])));
             }
         } catch (IOException e) {
-            logger.error("{0} findAll IO exception error", e);
+            logger.error("모두 찾기 IOException 에러입니다. {0}r", e);
         }
         return voucherList;
     }
