@@ -14,11 +14,11 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher insertVoucher(Voucher voucher) {
-        return voucherRepository.insert(voucher);
-    }
-
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
+    }
+
+    public Voucher insertVoucher(Voucher voucher) {
+        return voucherRepository.insert(voucher);
     }
 }

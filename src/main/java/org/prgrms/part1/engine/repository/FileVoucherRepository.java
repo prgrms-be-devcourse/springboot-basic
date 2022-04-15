@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
-@Profile("default")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
     private final String path = "vouchers" + File.separator;
 

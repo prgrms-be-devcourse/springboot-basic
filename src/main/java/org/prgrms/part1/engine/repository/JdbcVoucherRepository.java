@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
-@Profile("test")
+@Profile({"test", "default"})
 public class JdbcVoucherRepository implements VoucherRepository{
 
     private final NamedParameterJdbcTemplate jdbcTemplate;

@@ -1,6 +1,7 @@
 package org.prgrms.part1;
 
 import org.prgrms.part1.engine.VoucherManager;
+import org.prgrms.part1.engine.service.CustomerService;
 import org.prgrms.part1.engine.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +19,10 @@ public class Part1Application {
         var voucherProperties = applicationContext.getBean(VoucherProperties.class);
         logger.info("environment => {}", voucherProperties.getEnvironment());
         var voucherService = applicationContext.getBean(VoucherService.class);
+        var customerService = applicationContext.getBean(CustomerService.class);
         var console = new Console();
 
-        new VoucherManager(voucherService, console, console, logger).run();
+        new VoucherManager(voucherService, customerService, console, console, logger).run();
 
     }
 }

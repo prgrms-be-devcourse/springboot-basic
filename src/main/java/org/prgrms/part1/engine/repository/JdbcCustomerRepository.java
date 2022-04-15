@@ -2,6 +2,7 @@ package org.prgrms.part1.engine.repository;
 
 import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.exception.VoucherException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,6 +13,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
+@Profile({"test", "default"})
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
