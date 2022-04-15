@@ -13,7 +13,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         checkArgument(voucherId != null, "voucherId must be provided.");
-        checkArgument(percent > 0, "percent must be greater than 0");
+        checkArgument(percent > 0 && percent <= 100, "percent must be greater than 0 and less than or equal to 100");
 
         this.voucherId = voucherId;
         this.percent = percent;
