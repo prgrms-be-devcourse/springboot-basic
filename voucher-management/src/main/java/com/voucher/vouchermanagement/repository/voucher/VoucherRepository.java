@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface VoucherRepository {
 
-  void save(Voucher voucher) throws IOException;
+  void insert(Voucher voucher) throws IOException;
 
   List<Voucher> findAll() throws IOException;
 }
