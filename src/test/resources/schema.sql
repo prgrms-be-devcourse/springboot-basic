@@ -11,8 +11,10 @@ create table customers
 create table vouchers
 (
     voucher_id BINARY(16) PRIMARY KEY,
+    customer_id BINARY(16),
     type ENUM('fixed', 'percent') NOT NULL,
     amount INT,
     percent INT,
-    created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+    created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
