@@ -43,8 +43,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
             jdbcTemplate.update(
                 "INSERT INTO customers(customer_id, name, email, created_at) VALUES(UUID_TO_BIN(?), ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
-                customer.getName().getName(),
-                customer.getEmail().getEmail(),
+                customer.getName(),
+                customer.getEmail(),
                 Timestamp.valueOf(customer.getCreatedTime()));
         } catch (DuplicateKeyException e) {
             throw new IllegalArgumentException("[ERROR] 중복된 이메일이 존재합니다.");
@@ -54,7 +54,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        return null;
+        jdbcTemplate.update(
+            "UPDATE customers SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
+            customer.getName(),
+            customer.getEmail(),
+            customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
+            customer.getCustomerId().toString().getBytes());
+
+        return customer;
     }
 
     @Override

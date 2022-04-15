@@ -128,12 +128,30 @@ class JdbcCustomerRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.save(customer);
         // when
-        Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail().getEmail());
+        Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail());
         // then
         assertThat(findCustomer).isNotEmpty();
         assertThat(jdbcCustomerRepository.findAll()).hasSize(1)
             .extracting("customerId", "name", "email")
             .contains(tuple(customer.getCustomerId(), customer.getName(), customer.getEmail()));
+    }
+
+    @DisplayName("고객 정보를 수정한다.")
+    @Test
+    void should_updateCustomer_When_nonDuplicateCustomer() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        jdbcCustomerRepository.save(customer);
+        // when
+        customer.login();
+        customer.changeName("spancer");
+        customer.changeEmail("spancer@gmail.com");
+        jdbcCustomerRepository.update(customer);
+        // then
+        Optional<Customer> updateCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail());
+        assertThat(updateCustomer).isNotEmpty();
+        assertThat(updateCustomer.get()).usingRecursiveComparison()
+            .isEqualTo(customer);
     }
 
     @Configuration
