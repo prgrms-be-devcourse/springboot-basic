@@ -20,4 +20,9 @@ public class PercentDiscountVoucher implements Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
+
+    @Override
+    public long getDiscountAmount() {
+        return discountPercent;
+    }
 }
