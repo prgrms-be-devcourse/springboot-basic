@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import com.prgrms.vouchermanagement.commons.CodeMappable;
+import com.prgrms.vouchermanagement.voucher.io.VoucherConsole;
 
 @Controller
 public class VoucherController {
@@ -103,7 +104,6 @@ public class VoucherController {
 	}
 
 	private <T extends Enum<?> & CodeMappable> Optional<T> findMappingOne(Class<T> clazz, String target) {
-
 		return Arrays.stream(clazz.getEnumConstants())
 			.filter(type -> type.isMappedType(target))
 			.findAny();
@@ -122,7 +122,6 @@ public class VoucherController {
 
 		@Override
 		public boolean isMappedType(String menu) {
-
 			return code.equalsIgnoreCase(menu);
 		}
 	}
