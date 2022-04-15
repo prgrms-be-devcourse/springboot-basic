@@ -104,9 +104,9 @@ public class VoucherManager {
 
   private boolean printBlacklist() throws IOException {
     output.println("===  [Blacklist]  ===");
-    List<User> blacklist = blackListService.findAll();
+    List<Customer> blacklist = blackListService.findAll();
 
-    for (User user : blacklist) {
+    for (Customer user : blacklist) {
       output.println(user.toString());
     }
 

@@ -1,6 +1,6 @@
 package com.voucher.vouchermanagement.service;
 
-import com.voucher.vouchermanagement.model.user.User;
+import com.voucher.vouchermanagement.model.customer.Customer;
 import com.voucher.vouchermanagement.repository.blacklist.BlacklistRepository;
 import java.io.IOException;
 import java.util.List;
@@ -15,8 +15,8 @@ public class BlacklistService {
     this.blackListRepository = blackListRepository;
   }
 
-  public List<User> findAll() throws IOException {
-    List<User> foundBlacklist = blackListRepository.findAll();
+  public List<Customer> findAll() throws IOException {
+    List<Customer> foundBlacklist = blackListRepository.findAll();
 
     return foundBlacklist;
   }
