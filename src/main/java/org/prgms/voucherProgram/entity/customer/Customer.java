@@ -43,12 +43,12 @@ public class Customer {
         return createdTime;
     }
 
-    public Name getName() {
-        return name;
+    public String getName() {
+        return name.getName();
     }
 
-    public Email getEmail() {
-        return email;
+    public String getEmail() {
+        return email.getEmail();
     }
 
     public LocalDateTime getLastLoginTime() {

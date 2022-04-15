@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.voucherProgram.entity.customer.Email;
-import org.prgms.voucherProgram.entity.customer.Name;
 
 class BlackListRepositoryTest {
 
@@ -14,9 +12,9 @@ class BlackListRepositoryTest {
     void findBlackCustomers_ReturnBlackCustomers() {
         BlackListRepository blackListRepository = new BlackListRepository("file/customer_blacklist.csv");
         assertThat(blackListRepository.findBlackCustomers()).hasSize(3)
-            .extracting("name", "email").contains(tuple(new Name("hwan"), new Email("hwan@gmail.com")),
-                tuple(new Name("pobi"), new Email("pobi@gmail.com")),
-                tuple(new Name("jin"), new Email("jin@gmail.com")));
+            .extracting("name", "email").contains(tuple("hwan", "hwan@gmail.com"),
+                tuple("pobi", "pobi@gmail.com"),
+                tuple("jin", "jin@gmail.com"));
     }
 
     @DisplayName("잘못된 파일일 경우 예외를 발생한다.")
