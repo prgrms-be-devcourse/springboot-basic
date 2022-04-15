@@ -121,6 +121,7 @@
 - [X] 테스트 추가 & 전체적으로 리팩토링 (예외처리 등..)
 
 ### 구현 기능 모록 (심화 요구사항)
+- [X] AOP 사용해 보기 (Logger)
 - [X] vouchers table 수정 (참조키로 customers table와 연결)
 - [X] 특정 고객에게 바우처 할당 기능
   - [X] vouchers table의 외래키 값 변경 (Repository)
