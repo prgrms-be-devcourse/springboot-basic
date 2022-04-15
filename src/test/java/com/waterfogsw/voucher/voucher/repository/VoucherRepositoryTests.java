@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VoucherRepositoryTests {
 
-    private VoucherRepository repository = new VoucherMemoryRepository();
+    private VoucherRepository repository;
 
     @Test
     @DisplayName("바우처 저장 - 저장되면 성공")
