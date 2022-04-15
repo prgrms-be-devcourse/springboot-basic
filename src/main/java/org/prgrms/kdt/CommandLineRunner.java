@@ -17,11 +17,6 @@ public class CommandLineRunner implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineRunner.class);
 
-    private static final String EXIT = "exit";
-    private static final String CREATE = "create";
-    private static final String LIST = "list";
-    private static final String BLACK_LIST = "black-list";
-
     private final ApplicationContext applicationContext;
     private final Input input;
     private final Output output;
@@ -43,7 +38,7 @@ public class CommandLineRunner implements Runnable {
             output.printCommandManual();
 
             String command = input.input();
-            switch (command) {
+            switch (CommandType.getCommandType(command)) {
                 case EXIT:
                     isRunning = false;
                     output.printShutDownSystem();
@@ -68,8 +63,8 @@ public class CommandLineRunner implements Runnable {
                 case LIST:
                     output.printMessage(
                         voucherService.findAll().stream()
-                        .map(Object::toString)
-                        .collect(Collectors.joining(",\n"))
+                            .map(Object::toString)
+                            .collect(Collectors.joining(",\n"))
                     );
                     break;
                 case BLACK_LIST:
