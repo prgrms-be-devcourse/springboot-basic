@@ -1,0 +1,28 @@
+spring:
+  config:
+    activate:
+      on-profile: default
+database:
+  file:
+    voucher: "voucher_simple_db.csv"
+    black-list: "customer_blacklist.csv"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+database:
+  file:
+    black-list: "customer_blacklist.csv"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+database:
+  file:
+    black-list: "customer_blacklist.csv"
