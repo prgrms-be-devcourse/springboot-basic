@@ -39,4 +39,4 @@
     ```
 ### Class Diagram
 
-![](C:\Users\82102\Desktop\데브코스\과제\springboot-basic\Untitled-2022-03-29-1415.png)
+![Untitled-2022-03-29-1415](https://user-images.githubusercontent.com/37391733/163552243-7c7b42fb-3fb1-49b1-b612-9cce565bef8b.png)
