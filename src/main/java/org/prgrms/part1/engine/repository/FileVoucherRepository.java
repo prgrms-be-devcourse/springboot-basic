@@ -30,6 +30,16 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
         try {
@@ -54,5 +64,20 @@ public class FileVoucherRepository implements VoucherRepository {
             throw new VoucherException("Broken voucher file problem. Please call developer");
         }
         return vouchers;
+    }
+
+    @Override
+    public int count() {
+        return 0;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return null;
     }
 }
