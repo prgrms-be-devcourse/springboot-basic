@@ -1,7 +1,6 @@
 package com.voucher.vouchermanagement.repository.voucher;
 
 import com.voucher.vouchermanagement.model.voucher.Voucher;
-import com.voucher.vouchermanagement.model.voucher.VoucherType;
 import com.voucher.vouchermanagement.repository.io.FileInput;
 import com.voucher.vouchermanagement.repository.io.FileOutput;
 import com.voucher.vouchermanagement.repository.utils.CsvDeserializer;
@@ -36,25 +35,17 @@ public class VoucherFileRepository implements VoucherRepository {
 
   @Override
   public void save(Voucher voucher) throws IOException {
-    logger.info("save voucher() = {}", voucher.toString());
-
     String dataString = voucher.getVoucherType() + ", " +
         voucher.getVoucherId() + "," +
         voucher.getValue() + "," +
         voucher.getCreatedAt();
 
     output.writeln(voucherDb, dataString);
-
-    logger.info("save complete");
   }
 
   @Override
   public List<Voucher> findAll() throws IOException {
-    logger.info("findAll()");
     List<String> foundDataStrings = input.readAllLine(voucherDb);
-
-    logger.info("found all fixedAmountVoucher data");
-    foundDataStrings.stream().forEach(logger::info);
 
     return foundDataStrings
         .stream()

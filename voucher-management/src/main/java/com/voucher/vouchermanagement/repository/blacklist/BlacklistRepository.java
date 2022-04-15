@@ -20,7 +20,6 @@ public class BlacklistRepository {
   private final FileInput input;
   private final FileOutput output;
   private final CsvDeserializer<User> csvDeserializer;
-  private static final Logger logger = LoggerFactory.getLogger(BlacklistRepository.class);
 
   public BlacklistRepository(@Qualifier("blacklistDb") File blacklistDb, FileInput input, FileOutput output,
       @Qualifier("blacklistDeserializer") CsvDeserializer<User> csvDeserializer) {
@@ -31,18 +30,6 @@ public class BlacklistRepository {
   }
 
   public List<User> findAll() throws IOException {
-    logger.info("findAll()");
-
-    List<User> foundBlacklist = input
-        .readAllLine(blacklistDb)
-        .stream().map(csvDeserializer::deserialize)
-        .collect(Collectors.toList());
-
-    logger.info("found blacklist data");
-    foundBlacklist
-        .stream()
-        .forEach(user -> logger.info(user.toString()));
-
     return input
         .readAllLine(blacklistDb)
         .stream().map(csvDeserializer::deserialize)
