@@ -1,8 +1,7 @@
 package org.programmers.springbootbasic.voucher.service;
 
-import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
-import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.voucher.model.Voucher;
+import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +11,6 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-    static final String FixedAmountVoucher = "1";
-    static final String PercentDiscountVoucher = "2";
-
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -25,29 +21,15 @@ public class VoucherService {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException
-                        (MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+                        (MessageFormat.format("바우처를 찾을 수 없습니다. {0}", voucherId)));
     }
 
-    public Voucher saveVoucher(Voucher voucher) {
-        voucherRepository.insert(voucher);
-        return voucher;
-    }
-
-    public List<Voucher> findAll() {
+    public List<Voucher> getVoucherList() {
         return voucherRepository.findAll();
     }
 
-    public Voucher createVoucher(long amount, String type) {
-        switch (type) {
-            case FixedAmountVoucher -> {
-                return new FixedAmountVoucher(UUID.randomUUID(), amount);
-            }
-            case PercentDiscountVoucher -> {
-                return new PercentDiscountVoucher(UUID.randomUUID(), amount);
-            }
-            default -> {
-                return null;
-            }
-        }
+    public Voucher createVoucher(VoucherType voucherType, Long value) {
+        var voucher = voucherType.create(value);
+        return voucherRepository.insert(voucher);
     }
 }
