@@ -3,7 +3,7 @@ package me.programmers.springboot.basic.springbootbasic;
 import me.programmers.springboot.basic.springbootbasic.io.Console;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
-import me.programmers.springboot.basic.springbootbasic.voucher.VoucherStatus;
+import me.programmers.springboot.basic.springbootbasic.voucher.VoucherType;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
@@ -37,23 +37,29 @@ public class CommandLineApplication {
         while (!isExit) {
             showMenu(console);
             String cmd = inputCommand(console);
-            CommandStatus command = CommandStatus.getCommand(cmd);
-            switch (command) {
-                case EXIT:
-                    isExit = true;
-                    logger.info("CommandLineApplication Terminate");
-                    break;
-                case CREATE:
-                    createVoucher(console, console, voucherService);
-                    break;
-                case LIST:
-                    showPresentVoucherList(console, voucherService);
-                    break;
-                default:
-                    logger.error("잘못된 메뉴 명령어 입력: {}", cmd);
-                    break;
+            try {
+                CommandStatus command = CommandStatus.getCommand(cmd);
+
+                switch (command) {
+                    case EXIT:
+                        isExit = true;
+                        logger.info("CommandLineApplication Terminate");
+                        break;
+                    case CREATE:
+                        createVoucher(console, console, voucherService);
+                        break;
+                    case LIST:
+                        showPresentVoucherList(console, voucherService);
+                        break;
+                    default:
+                        logger.error("잘못된 메뉴 명령어 입력: {}", cmd);
+                        break;
+                }
+                console.output("\n");
+            } catch (IllegalArgumentException e) {
+                logger.error(e.getMessage());
             }
-            console.output("\n");
+
         }
     }
 
@@ -74,17 +80,21 @@ public class CommandLineApplication {
     private void createVoucher(ConsoleInput input, ConsoleOutput output, VoucherService voucherService) {
         String cmd = input.inputCommand("Type fixed or percent: ");
 
-        VoucherStatus voucherStatus = VoucherStatus.getVoucherStatus(cmd);
-        switch (voucherStatus) {
-            case FIXED:
-                voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 100));
-                break;
-            case PERCENT:
-                voucherService.save(new PercentAmountVoucher(UUID.randomUUID(), 50));
-                break;
-            default:
-                logger.error("잘못된 바우처 타입 입력: {}", cmd);
-                break;
+        try {
+            VoucherType voucherStatus = VoucherType.getVoucherStatus(cmd);
+            switch (voucherStatus) {
+                case FIXED:
+                    voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 100));
+                    break;
+                case PERCENT:
+                    voucherService.save(new PercentAmountVoucher(UUID.randomUUID(), 50));
+                    break;
+                default:
+                    logger.error("잘못된 바우처 타입 입력: {}", cmd);
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
         }
     }
 

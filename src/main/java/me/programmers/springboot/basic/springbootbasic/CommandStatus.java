@@ -1,21 +1,14 @@
 package me.programmers.springboot.basic.springbootbasic;
 
-public enum CommandStatus {
-    EXIT,
-    CREATE,
-    LIST,
-    WRONG_COMMAND;
+import java.util.Arrays;
 
-    public static CommandStatus getCommand(String s) {
-        switch (s) {
-            case "exit":
-                return EXIT;
-            case "create":
-                return CREATE;
-            case "list":
-                return LIST;
-            default:
-                return WRONG_COMMAND;
-        }
+public enum CommandStatus {
+    EXIT, CREATE, LIST;
+
+    public static CommandStatus getCommand(String menuCommand) {
+        return Arrays.stream(CommandStatus.values())
+                .filter(e -> e.name().equals(menuCommand.toUpperCase()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 메뉴 명령어"));
     }
 }
