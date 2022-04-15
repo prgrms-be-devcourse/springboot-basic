@@ -2,7 +2,7 @@ package org.voucherProject.voucherProject.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import org.voucherProject.voucherProject.entity.user.User;
+import org.voucherProject.voucherProject.entity.customer.Customer;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,14 +19,14 @@ public class BlackListRepository {
 
     private final String BLACKLIST_LIST_PATH = "src/main/resources/customer_blacklist.csv";
 
-    private List<User> getVouchers(){
-        List<User> blackList = new ArrayList<>();
+    private List<Customer> getVouchers(){
+        List<Customer> blackList = new ArrayList<>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(BLACKLIST_LIST_PATH));
             String readLine = null;
             while ((readLine = bufferedReader.readLine()) != null) {
                 String[] readLineSplit = readLine.split(",");
-                blackList.add(new User(UUID.fromString(readLineSplit[0]), readLineSplit[1], readLineSplit[2]));
+                blackList.add(new Customer(UUID.fromString(readLineSplit[0]), readLineSplit[1], readLineSplit[2]));
             }
         } catch (IOException e) {
             e.printStackTrace();

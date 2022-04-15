@@ -3,6 +3,8 @@ package org.voucherProject.voucherProject.entity.voucher;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -14,7 +16,9 @@ public class FixedAmountVoucher implements Voucher {
     @Nullable
     private final VoucherType voucherType = VoucherType.FIXED;
     @Nullable
-    private VoucherStatus voucherStatus = VoucherStatus.VALID;
+    private VoucherStatus voucherStatus;
+    private final LocalDateTime createdAt;
+
     private final int MIN_DISCOUNT_AMOUNT = 0;
     private final int MAX_DISCOUNT_AMOUNT = 10000;
 
@@ -24,6 +28,15 @@ public class FixedAmountVoucher implements Voucher {
         }
         this.voucherId = voucherId;
         this.amount = amount;
+        this.voucherStatus = VoucherStatus.VALID;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public FixedAmountVoucher(UUID voucherId, long amount, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+        this.voucherStatus = voucherStatus;
+        this.createdAt = createdAt;
     }
 
     @Override

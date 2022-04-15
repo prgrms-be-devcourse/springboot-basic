@@ -1,5 +1,6 @@
 package org.voucherProject.voucherProject.entity.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
@@ -13,6 +14,8 @@ public interface Voucher {
     long getHowMuch();
 
     VoucherStatus getVoucherStatus();
+
+    LocalDateTime getCreatedAt();
 
     void useVoucher();
 
