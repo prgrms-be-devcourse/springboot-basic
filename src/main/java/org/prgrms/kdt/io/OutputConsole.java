@@ -1,5 +1,7 @@
 package org.prgrms.kdt.io;
 
+import org.prgrms.kdt.model.voucher.VoucherType;
+
 public class OutputConsole implements Output {
 
     @Override
@@ -38,8 +40,14 @@ public class OutputConsole implements Output {
     }
 
     @Override
-    public void printVoucherValue() {
-        printMessage("바우처 값을 입력해주세요.");
+    public void printVoucherValue(VoucherType voucherType) {
+        StringBuilder stringBuilder = new StringBuilder("바우처 값을 입력해주세요.\n");
+        if (voucherType == VoucherType.FIXED_AMOUNT) {
+            stringBuilder.append("(0 초과로 입력해주세요.)");
+        } else if (voucherType == VoucherType.PERCENT_DISCOUNT) {
+            stringBuilder.append("(0 초과, 100이하로 입력해주세요.)");
+        }
+        printMessage(stringBuilder.toString());
     }
 
     @Override
