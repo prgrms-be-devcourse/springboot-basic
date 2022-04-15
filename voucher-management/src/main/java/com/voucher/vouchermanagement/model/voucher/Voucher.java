@@ -5,11 +5,11 @@ import java.util.UUID;
 
 public interface Voucher {
 
-  long discount(long beforeDiscount);
+    long discount(long beforeDiscount);
 
-  UUID getVoucherId();
+    UUID getVoucherId();
 
-  Long getValue();
+    Long getValue();
 
-  LocalDateTime getCreatedAt();
+    LocalDateTime getCreatedAt();
 }

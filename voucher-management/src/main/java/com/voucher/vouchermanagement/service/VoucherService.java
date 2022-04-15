@@ -3,8 +3,9 @@ package com.voucher.vouchermanagement.service;
 import com.voucher.vouchermanagement.model.voucher.Voucher;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
 import com.voucher.vouchermanagement.repository.voucher.VoucherRepository;
-import java.util.List;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class VoucherService {

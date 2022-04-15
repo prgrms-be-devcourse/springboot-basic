@@ -8,89 +8,90 @@ import com.voucher.vouchermanagement.model.voucher.Voucher;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
 import com.voucher.vouchermanagement.service.BlacklistService;
 import com.voucher.vouchermanagement.service.VoucherService;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class VoucherManager {
 
-  private final VoucherService voucherService;
-  private final BlacklistService blackListService;
-  private final VoucherManagerInput input;
-  private final VoucherManagerOutput output;
-  private static final Logger logger = LoggerFactory.getLogger(VoucherManager.class);
+    private final VoucherService voucherService;
+    private final BlacklistService blackListService;
+    private final VoucherManagerInput input;
+    private final VoucherManagerOutput output;
+    private static final Logger logger = LoggerFactory.getLogger(VoucherManager.class);
 
-  public VoucherManager(VoucherService voucherService, BlacklistService blackListService,
-      VoucherManagerInput input, VoucherManagerOutput output) {
-    this.voucherService = voucherService;
-    this.blackListService = blackListService;
-    this.input = input;
-    this.output = output;
-  }
+    public VoucherManager(VoucherService voucherService, BlacklistService blackListService,
+                          VoucherManagerInput input, VoucherManagerOutput output) {
+        this.voucherService = voucherService;
+        this.blackListService = blackListService;
+        this.input = input;
+        this.output = output;
+    }
 
-  public void run() {
-    while (true) {
-      try {
-        output.printMenu();
-        CommandType commandType = CommandType.getCommandTypeByName(input.input("input command : "));
-        switch (commandType) {
-          case CREATE: {
-            createVoucher();
-            break;
-          }
-          case LIST: {
-            printVouchers();
-            break;
-          }
-          case BLACKLIST: {
-            printBlacklist();
-            break;
-          }
-          case EXIT: {
-            return;
-          }
+    public void run() {
+        while (true) {
+            try {
+                output.printMenu();
+                CommandType commandType = CommandType.getCommandTypeByName(input.input("input command : "));
+                switch (commandType) {
+                    case CREATE: {
+                        createVoucher();
+                        break;
+                    }
+                    case LIST: {
+                        printVouchers();
+                        break;
+                    }
+                    case BLACKLIST: {
+                        printBlacklist();
+                        break;
+                    }
+                    case EXIT: {
+                        return;
+                    }
+                }
+            } catch (IllegalArgumentException e) {
+                logger.error(e.getMessage());
+                output.println(e.getMessage());
+            }
         }
-      } catch (IllegalArgumentException e) {
-        logger.error(e.getMessage());
-        output.println(e.getMessage());
-      }
     }
-  }
 
-  private void createVoucher() {
-    try {
-      output.println("=== [Create Voucher] ===");
-      output.printVoucherType();
-      int voucherTypeNumberInput = Integer.parseInt(input.input("Input voucher type : "));
-      VoucherType voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumberInput);
-      long voucherValue = Long.parseLong(input.input("Input voucher value : "));
+    private void createVoucher() {
+        try {
+            output.println("=== [Create Voucher] ===");
+            output.printVoucherType();
+            int voucherTypeNumberInput = Integer.parseInt(input.input("Input voucher type : "));
+            VoucherType voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumberInput);
+            long voucherValue = Long.parseLong(input.input("Input voucher value : "));
 
-      voucherService.insertVoucher(voucherType, voucherValue);
-      output.println("Voucher Creation Completed.");
-    } catch (IllegalArgumentException e) {
-      logger.error(e.getMessage());
-      output.println(e.getMessage());
+            voucherService.insertVoucher(voucherType, voucherValue);
+            output.println("Voucher Creation Completed.");
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+            output.println(e.getMessage());
+        }
     }
-  }
 
-  private void printVouchers() {
-    output.println("=== [Voucher List] ===");
-    List<Voucher> vouchers = voucherService.findAll();
+    private void printVouchers() {
+        output.println("=== [Voucher List] ===");
+        List<Voucher> vouchers = voucherService.findAll();
 
-    for (Voucher voucher : vouchers) {
-      output.println(voucher.toString());
+        for (Voucher voucher : vouchers) {
+            output.println(voucher.toString());
+        }
     }
-  }
 
-  private void printBlacklist() {
-    output.println("===  [Blacklist]  ===");
-    List<Customer> blacklist = blackListService.findAll();
+    private void printBlacklist() {
+        output.println("===  [Blacklist]  ===");
+        List<Customer> blacklist = blackListService.findAll();
 
-    for (Customer user : blacklist) {
-      output.println(user.toString());
+        for (Customer user : blacklist) {
+            output.println(user.toString());
+        }
     }
-  }
 
 }
