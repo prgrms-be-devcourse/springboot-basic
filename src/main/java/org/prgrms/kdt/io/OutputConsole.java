@@ -27,4 +27,23 @@ public class OutputConsole implements Output {
         printMessage("시스템이 종료되었습니다.");
     }
 
+    @Override
+    public void printVoucherManual() {
+        printMessage(
+            "바우처 타입을 선택해주세요.\n" +
+            "Type fixed to create a new FixedAmountVoucher\n" +
+            "Type percent to create a new PercentDiscountVoucher."
+        );
+    }
+
+    @Override
+    public void printVoucherValue() {
+        printMessage("바우처 값을 입력해주세요.");
+    }
+
+    @Override
+    public void printVoucherCreateSuccess(String voucherInfo) {
+        printMessage("바우처 생성에 성공하였습니다. Voucher: " + voucherInfo);
+    }
+
 }

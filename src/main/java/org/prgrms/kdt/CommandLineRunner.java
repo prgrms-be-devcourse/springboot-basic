@@ -2,9 +2,15 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherType;
+import org.prgrms.kdt.service.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CommandLineRunner implements Runnable {
 
@@ -26,6 +32,8 @@ public class CommandLineRunner implements Runnable {
 
     @Override
     public void run() {
+        VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+
         boolean isRunning = true;
 
         while (isRunning) {
@@ -38,10 +46,27 @@ public class CommandLineRunner implements Runnable {
                     output.printShutDownSystem();
                     break;
                 case CREATE:
-                    logger.info("execute create command");
+                    output.printVoucherManual();
+
+                    try {
+                        VoucherType voucherType = VoucherType.getVoucherType(input.input());
+
+                        output.printVoucherValue();
+                        long voucherValue = input.inputLongBiggerThanZero();
+
+                        Voucher voucher = voucherService.insert(UUID.randomUUID(), voucherValue, voucherType);
+                        output.printVoucherCreateSuccess(voucher.toString());
+                    } catch (IllegalArgumentException e) {
+                        output.printMessage(e.getMessage());
+                    }
+
                     break;
                 case LIST:
-                    logger.info("execute list command");
+                    output.printMessage(
+                        voucherService.findAll().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(",\n"))
+                    );
                     break;
                 default:
                     output.printInvalidCommand();

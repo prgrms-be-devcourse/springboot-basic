@@ -5,4 +5,7 @@ public interface Output {
     void printCommandManual();
     void printInvalidCommand();
     void printShutDownSystem();
+    void printVoucherManual();
+    void printVoucherValue();
+    void printVoucherCreateSuccess(String voucherInfo);
 }
