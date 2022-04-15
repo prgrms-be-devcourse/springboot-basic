@@ -4,7 +4,6 @@ import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.exception.VoucherException;
 import com.prgms.management.voucher.exception.VoucherListEmptyException;
 import com.prgms.management.voucher.exception.VoucherNotFoundException;
-import com.prgms.management.voucher.exception.VoucherNotSaveException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -34,12 +33,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) throws VoucherException {
+    public Voucher save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
-        try {
-            return findById(voucher.getVoucherId());
-        } catch (VoucherException e) {
-            throw new VoucherNotSaveException();
-        }
+        return voucher;
     }
 }

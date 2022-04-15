@@ -2,7 +2,7 @@ package com.prgms.management.command;
 
 import com.prgms.management.command.io.CommandType;
 import com.prgms.management.command.io.Console;
-import com.prgms.management.customer.service.CustomerService;
+import com.prgms.management.customer.service.BlackCustomerService;
 import com.prgms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +13,10 @@ public class CommandLineApplication implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     private final VoucherService voucherService;
-    private final CustomerService customerService;
+    private final BlackCustomerService customerService;
     private final Console console;
 
-    public CommandLineApplication(VoucherService voucherService, CustomerService customerService, Console console) {
+    public CommandLineApplication(VoucherService voucherService, BlackCustomerService customerService, Console console) {
         this.voucherService = voucherService;
         this.customerService = customerService;
         this.console = console;
@@ -27,11 +27,7 @@ public class CommandLineApplication implements Runnable {
         while (true) {
             try {
                 CommandType command = CommandType.of(console.getCommand());
-                if (command == null) {
-                    console.printString("잘못된 명령어를 입력하셨습니다.");
-                } else {
-                    command.execute(voucherService, customerService, console);
-                }
+                command.execute(voucherService, customerService, console);
             } catch (Exception e) {
                 console.printString(e.getMessage());
                 logger.error(e.getMessage());

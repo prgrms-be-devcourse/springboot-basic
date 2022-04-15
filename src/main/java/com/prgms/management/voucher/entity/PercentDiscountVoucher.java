@@ -5,8 +5,8 @@ import com.prgms.management.voucher.exception.InvalidVoucherParameterException;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    public final static Integer MIN_PERCENT = 0;
-    public final static Integer MAX_PERCENT = 100;
+    private final static Integer MIN_PERCENT = 0;
+    private final static Integer MAX_PERCENT = 100;
     private final Integer percent;
     private UUID voucherId;
 
