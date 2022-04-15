@@ -10,6 +10,8 @@ import java.io.*;
 import java.nio.file.*;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,7 +25,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        String filename = String.format("./objects/%s.obj", voucher.hashCode());
+        String filename = String.format("./objects/%s.obj", voucher.getVoucherId().toString());
         try (FileOutputStream fos = new FileOutputStream(filename);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(voucher);
@@ -41,14 +43,32 @@ public class FileVoucherRepository implements VoucherRepository {
                         try {
                             Object obj = new ObjectInputStream(new FileInputStream(path.toString())).readObject();
                             return (Voucher) obj;
-                        } catch (IOException | ClassNotFoundException e) {
+                        } catch (IOException e) {
                             throw new RuntimeException(
                                     MessageFormat.format(
                                             "해당하는 파일이 존재하지 않습니다. msg : {0}", e.getMessage()));
+                        } catch (ClassNotFoundException e) {
+                            throw new RuntimeException(MessageFormat.format("deserialization에서 문제가 발생했습니다.. msg : {0}", e.getMessage()));
                         }
                     }).collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(MessageFormat.format("해당하는 폴더가 존재하지 않습니다. msg : {0}", e.getMessage()));
+        }
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        try (Stream<Path> fileStream = Files.list(Paths.get(objectFolder.getPath()))) {
+            var targetPath = fileStream
+                    .filter(path -> matcher.matches(path.getFileName()))
+                    .filter(path -> path.startsWith(voucherId.toString())).findFirst();
+            if (targetPath.isEmpty())
+                return Optional.empty();
+            return Optional.of((Voucher) new ObjectInputStream(new FileInputStream(targetPath.get().toString())).readObject());
+        } catch (IOException e) {
+            throw new RuntimeException(MessageFormat.format("해당하는 폴더가 존재하지 않습니다. msg : {0}", e.getMessage()));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(MessageFormat.format("deserialization에서 문제가 발생했습니다.. msg : {0}", e.getMessage()));
         }
     }
 

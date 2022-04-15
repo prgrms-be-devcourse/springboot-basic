@@ -5,6 +5,7 @@ import org.prgms.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -24,5 +25,13 @@ public class VoucherService {
 
     public void deleteAllVouchers() {
         voucherRepository.deleteAll();
+    }
+
+    public long useVoucher(long beforeDiscount, UUID voucherId) {
+        var voucher = voucherRepository.findById(voucherId);
+        if (voucher.isEmpty())
+            return beforeDiscount;
+
+        return voucher.get().apply(beforeDiscount);
     }
 }

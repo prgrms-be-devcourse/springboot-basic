@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Profile({"local", "default"})
@@ -18,6 +20,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     public List<Voucher> findAll() {
         return db;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return db.stream().filter(voucher -> voucher.getVoucherId() == voucherId).findFirst();
     }
 
     @Override
