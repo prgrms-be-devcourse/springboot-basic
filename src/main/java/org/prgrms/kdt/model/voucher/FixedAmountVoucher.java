@@ -5,11 +5,16 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.UUID;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
+        checkArgument(voucherId != null, "voucherId must be provided.");
+        checkArgument(amount > 0, "amount must be greater than 0");
+
         this.voucherId = voucherId;
         this.amount = amount;
     }
