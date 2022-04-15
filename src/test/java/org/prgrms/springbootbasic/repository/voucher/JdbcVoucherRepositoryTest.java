@@ -18,9 +18,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
+import org.prgrms.springbootbasic.repository.customer.JdbcCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +37,9 @@ class JdbcVoucherRepositoryTest {
 
     @Autowired
     JdbcVoucherRepository jdbcVoucherRepository;
+
+    @Autowired
+    JdbcCustomerRepository jdbcCustomerRepository;
 
     EmbeddedMysql embeddedMysql;
 
@@ -118,6 +123,27 @@ class JdbcVoucherRepositoryTest {
         assertThat(foundVoucher.get().getClass()).isEqualTo(voucher.getClass());
     }
 
+    @DisplayName("customer_id 수정 테스트")
+    @Test
+    void updateCustomerId() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        jdbcVoucherRepository.save(voucher);
+
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
+
+        voucher.assignCustomer(customer);
+
+        //when
+        jdbcVoucherRepository.updateCustomerId(voucher);
+
+        //then
+        var updatedVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
+        assertThat(updatedVoucher.get().getCustomerId())
+            .isEqualTo(voucher.getCustomerId());
+    }
+
     @Configuration
     @ComponentScan
     static class Config {
@@ -140,6 +166,11 @@ class JdbcVoucherRepositoryTest {
         @Bean
         public JdbcVoucherRepository jdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
             return new JdbcVoucherRepository(jdbcTemplate);
+        }
+
+        @Bean
+        public JdbcCustomerRepository jdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
+            return new JdbcCustomerRepository(jdbcTemplate);
         }
     }
 }

@@ -123,5 +123,6 @@
 ### 구현 기능 모록 (심화 요구사항)
 - [X] vouchers table 수정 (참조키로 customers table와 연결)
 - [ ] 특정 고객에게 바우처 할당 기능
-  - [ ] vouchers table의 외래키 값 변경 (Repository)
+  - [X] vouchers table의 외래키 값 변경 (Repository)
+  - [ ] service 계층 개발
   - [ ] ConsoleView, Controller 에 기능 추가

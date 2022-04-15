@@ -38,12 +38,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
         var type = resultSet.getString(COLUMN_TYPE);
         var voucherId = toUUID(resultSet.getBytes(COLUMN_VOUCHER_ID));
+        var customerId = resultSet.getBytes("customer_id") != null ?
+            toUUID(resultSet.getBytes("customer_id")) : null;
         if (type.equals(FIXED.toString())) {
             var amount = resultSet.getInt(COLUMN_AMOUNT);
-            return new FixedAmountVoucher(voucherId, amount);
+            return new FixedAmountVoucher(voucherId, customerId, amount);
         } else {
             var percent = resultSet.getInt(COLUMN_PERCENT);
-            return new PercentDiscountVoucher(voucherId, percent);
+            return new PercentDiscountVoucher(voucherId, customerId, percent);
         }
     };
 
@@ -111,6 +113,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
         logger.info("removeAll() called");
 
         jdbcTemplate.update(DELETE_ALL_SQL);
+    }
+
+    public Voucher updateCustomerId(Voucher voucher) {
+        logger.info("updateCustomerId() called");
+
+        var update = jdbcTemplate.update(
+            "update vouchers set customer_id = uuid_to_bin(?) where voucher_id = uuid_to_bin(?)",
+            voucher.getCustomerId().orElseGet(null).toString().getBytes(StandardCharsets.UTF_8),
+            voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
+        if (update != 1) {
+            throw new RuntimeException("Noting was updated");
+        }
+        return voucher;
     }
 
 }

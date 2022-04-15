@@ -18,6 +18,13 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
+    public FixedAmountVoucher(UUID voucherId, UUID customerId, int amount) {
+        super(voucherId, customerId);
+
+        validateAmountRange(amount);
+        this.amount = amount;
+    }
+
     private void validateAmountRange(int amount) {
         if (amount <= MIN_RANGE) {
             throw new AmountRangeMinException();

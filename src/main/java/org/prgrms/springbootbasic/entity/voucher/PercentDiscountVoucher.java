@@ -18,6 +18,13 @@ public class PercentDiscountVoucher extends Voucher {
         this.percent = percent;
     }
 
+    public PercentDiscountVoucher(UUID voucherId, UUID customerId, int percent) {
+        super(voucherId, customerId);
+
+        validatePercentRange(percent);
+        this.percent = percent;
+    }
+
     private void validatePercentRange(int percent) {
         if (percent <= MIN_RANGE) {
             throw new PercentRangeMinException();
