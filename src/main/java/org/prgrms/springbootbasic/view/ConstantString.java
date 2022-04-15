@@ -20,6 +20,9 @@ public class ConstantString {
     public static final String SELECT_CUSTOMER_NAME = "Select customer name";
     public static final String SELECT_CUSTOMER_EMAIL = "Select customer email";
     public static final String TO_LIST_ALL_CUSTOMERS = " to list all customers.";
+    public static final String TO_ASSIGN_VOUCHER_TO_CUSTOMER = " to assign voucher to customer.";
+    public static final String SELECT_VOUCHER_ID = "Select voucher id";
+    public static final String SELECT_CUSTOMER_ID = "Select customer id";
 
     //인스턴스 목적의 클래스가 아닙니다.
     private ConstantString() {

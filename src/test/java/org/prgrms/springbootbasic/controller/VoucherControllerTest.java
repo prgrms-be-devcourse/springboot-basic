@@ -1,12 +1,14 @@
 package org.prgrms.springbootbasic.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -134,6 +136,24 @@ class VoucherControllerTest {
         inOrder.verify(consoleView).selectName();
         inOrder.verify(consoleView).selectEmail();
         inOrder.verify(customerService).createCustomer(anyString(), anyString());
+    }
+
+    @DisplayName("assignVoucher 테스트 - 정상")
+    @Test
+    void assignVoucher() {
+        //given
+        when(consoleView.inputMenu()).thenReturn(Menu.ASSIGNVOUCHER);
+        when(consoleView.selectVoucherId()).thenReturn(UUID.randomUUID());
+        when(consoleView.selectCustomerId()).thenReturn(UUID.randomUUID());
+
+        //when
+        voucherController.process();
+
+        //then
+        var inOrder = inOrder(consoleView, voucherService);
+        inOrder.verify(consoleView).selectVoucherId();
+        inOrder.verify(consoleView).selectCustomerId();
+        inOrder.verify(voucherService).assignVoucherToCustomer(any(UUID.class), any(UUID.class));
     }
 
 }

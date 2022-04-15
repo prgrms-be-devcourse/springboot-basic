@@ -24,6 +24,10 @@ public enum Menu {
     LISTCUSTOMER("listCustomer", voucherController -> {
         voucherController.printAllCustomers();
         return true;
+    }),
+    ASSIGNVOUCHER("assignVoucher", voucherController -> {
+        voucherController.assignVoucher();
+        return true;
     });
 
     private final String textName;

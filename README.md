@@ -125,4 +125,4 @@
 - [ ] 특정 고객에게 바우처 할당 기능
   - [X] vouchers table의 외래키 값 변경 (Repository)
   - [X] service 계층 개발
-  - [ ] ConsoleView, Controller 에 기능 추가
+  - [X] ConsoleView, Controller 기능 추가

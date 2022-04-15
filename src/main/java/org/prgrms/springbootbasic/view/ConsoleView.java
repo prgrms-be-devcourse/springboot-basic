@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic.view;
 
+import static org.prgrms.springbootbasic.controller.Menu.ASSIGNVOUCHER;
 import static org.prgrms.springbootbasic.controller.Menu.BLACKLIST;
 import static org.prgrms.springbootbasic.controller.Menu.CREATE;
 import static org.prgrms.springbootbasic.controller.Menu.CREATECUSTOMER;
@@ -10,10 +11,13 @@ import static org.prgrms.springbootbasic.view.ConstantString.AMOUNT;
 import static org.prgrms.springbootbasic.view.ConstantString.PERCENT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_AMOUNT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_CUSTOMER_EMAIL;
+import static org.prgrms.springbootbasic.view.ConstantString.SELECT_CUSTOMER_ID;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_CUSTOMER_NAME;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_MENU;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_PERCENT;
+import static org.prgrms.springbootbasic.view.ConstantString.SELECT_VOUCHER_ID;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_VOUCHER_TYPE;
+import static org.prgrms.springbootbasic.view.ConstantString.TO_ASSIGN_VOUCHER_TO_CUSTOMER;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_CREATE_A_NEW_CUSTOMER;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_CREATE_A_NEW_VOUCHER;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_EXIT_THE_PROGRAM;
@@ -31,6 +35,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.UUID;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -40,6 +45,7 @@ import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
+import org.prgrms.springbootbasic.exception.InvalidateUUIDFormat;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -65,6 +71,7 @@ public class ConsoleView {
         printLine(terminal, BLACKLIST.name(), TO_LIST_ALL_CUSTOMER_BLACK_LIST);
         printLine(terminal, CREATECUSTOMER.name(), TO_CREATE_A_NEW_CUSTOMER);
         printLine(terminal, LISTCUSTOMER.name(), TO_LIST_ALL_CUSTOMERS);
+        printLine(terminal, ASSIGNVOUCHER.name(), TO_ASSIGN_VOUCHER_TO_CUSTOMER);
         terminal.println();
     }
 
@@ -180,5 +187,27 @@ public class ConsoleView {
             },
             t -> t.print(message));
         terminal.println();
+    }
+
+    public UUID selectVoucherId() {
+        var voucherId = textIO.newStringInputReader()
+            .read(SELECT_VOUCHER_ID);
+        validateUUIDFormat(voucherId);
+        return UUID.fromString(voucherId);
+    }
+
+    public UUID selectCustomerId() {
+        var customerId = textIO.newStringInputReader()
+            .read(SELECT_CUSTOMER_ID);
+        validateUUIDFormat(customerId);
+        return UUID.fromString(customerId);
+    }
+
+    private void validateUUIDFormat(String uuid) {
+        try {
+            UUID.fromString(uuid);
+        } catch (IllegalStateException exception) {
+            throw new InvalidateUUIDFormat();
+        }
     }
 }

@@ -89,4 +89,12 @@ public class VoucherController {
 
         consoleView.printAllCustomers(customerService.findAllCustomers());
     }
+
+    public void assignVoucher() {
+        logger.info("assignVoucher() called");
+
+        var voucherId = consoleView.selectVoucherId();
+        var customerId = consoleView.selectCustomerId();
+        voucherService.assignVoucherToCustomer(voucherId, customerId);
+    }
 }
