@@ -1,5 +1,6 @@
 package com.voucher.vouchermanagement.model.voucher;
 
+import com.voucher.vouchermanagement.service.CreateVoucherDto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -8,12 +9,17 @@ public class PercentDiscountVoucher implements Voucher {
   private UUID id;
   private Long value;
   private LocalDateTime createdAt;
-  private final VoucherType vouchertype = VoucherType.PercentDiscountVoucher;
-  
+
   public PercentDiscountVoucher(UUID id, Long value, LocalDateTime createdAt) {
     this.id = id;
     this.value = value;
     this.createdAt = createdAt;
+  }
+
+  public static Voucher createVoucher(CreateVoucherDto createVoucherDto) {
+    return new PercentDiscountVoucher(createVoucherDto.getId(),
+        createVoucherDto.getValue(),
+        createVoucherDto.getCreatedAt());
   }
 
   @Override
@@ -29,11 +35,6 @@ public class PercentDiscountVoucher implements Voucher {
   @Override
   public Long getValue() {
     return value;
-  }
-
-  @Override
-  public VoucherType getVoucherType() {
-    return vouchertype;
   }
 
   @Override

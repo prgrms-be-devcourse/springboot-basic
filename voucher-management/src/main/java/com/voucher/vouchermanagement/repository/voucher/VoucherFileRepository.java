@@ -34,13 +34,13 @@ public class VoucherFileRepository implements VoucherRepository {
   }
 
   @Override
-  public void save(Voucher voucher) throws IOException {
-    String dataString = voucher.getVoucherType() + ", " +
-        voucher.getVoucherId() + "," +
-        voucher.getValue() + "," +
-        voucher.getCreatedAt();
+  public void insert(Voucher voucher) throws IOException {
+    String voucherCsvData = String.join(",", voucher.getClass().getSimpleName(),
+        voucher.getVoucherId().toString(),
+        voucher.getValue().toString(),
+        voucher.getCreatedAt().toString());
 
-    output.writeln(voucherDb, dataString);
+    output.writeln(voucherDb, voucherCsvData);
   }
 
   @Override

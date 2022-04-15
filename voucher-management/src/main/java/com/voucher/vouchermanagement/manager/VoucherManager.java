@@ -68,25 +68,18 @@ public class VoucherManager {
     }
   }
 
-  private void createVoucherByType(int voucherType, long value) throws IOException {
-    if (voucherType == 1) {
-      addVoucherService.addFixedAmountVoucher(value);
-    } else if (voucherType == 2) {
-      addVoucherService.addPercentDiscountVoucher(value);
-    }
-  }
-
   private boolean createVoucher() throws IOException {
-    output.println("=== [Create Voucher] ===");
-    output.printVoucherType();
-    int voucherType = Integer.parseInt(input.input("Input voucher type : "));
-    if (voucherType >= 3) {
-      logger.error("createCommand() : wrong input {}", voucherType);
-      throw new IllegalArgumentException("잘못된 Voucher 타입입니다.");
+    try {
+      output.println("=== [Create Voucher] ===");
+      output.printVoucherType();
+      int voucherTypeNumberInput = Integer.parseInt(input.input("Input voucher type : "));
+      VoucherType voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumberInput);
+      long voucherValue = Long.parseLong(input.input("Input voucher value"));
+      voucherService.insertVoucher(voucherType, voucherValue);
+      output.println("Voucher Creation Completed.");
+    } catch (IllegalArgumentException e) {
+      logger.error(e.getMessage());
     }
-    long value = Long.parseLong(input.input("Input value : "));
-    createVoucherByType(voucherType, value);
-    output.println("Voucher Creation Completed.");
 
     return true;
   }

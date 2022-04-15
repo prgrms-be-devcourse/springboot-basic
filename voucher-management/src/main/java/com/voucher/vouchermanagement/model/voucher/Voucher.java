@@ -11,7 +11,5 @@ public interface Voucher {
 
   Long getValue();
 
-  VoucherType getVoucherType();
-
   LocalDateTime getCreatedAt();
 }
