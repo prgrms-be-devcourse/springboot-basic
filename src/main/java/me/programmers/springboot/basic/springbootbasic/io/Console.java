@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class Console implements ConsoleInput, ConsoleOutput {
 
-    Scanner sc = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
     @Override
     public String inputCommand(String s) {
         System.out.print(s + " ");
-        return sc.nextLine().toLowerCase();
+        return scanner.nextLine().toLowerCase();
     }
 
     @Override
