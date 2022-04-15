@@ -94,6 +94,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query(SELECT_ALL_SQL, mapToVoucher);
     }
 
+    @Override
     public Optional<Voucher> findById(UUID id) {
         logger.info("findById() called");
 

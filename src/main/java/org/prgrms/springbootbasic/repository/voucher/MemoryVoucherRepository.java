@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.repository.voucher;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
@@ -39,6 +40,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher updateCustomerId(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
         throw new AssertionError("아직 개발 안함");
     }
 }
