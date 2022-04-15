@@ -1,21 +1,22 @@
 package org.programmers.kdt.weekly.voucher.model;
 
 
-import lombok.Builder;
+import java.util.UUID;
 import lombok.Getter;
 
-import java.util.UUID;
-
 @Getter
-@Builder
 public final class PercentDiscountVoucher implements Voucher {
-    private UUID voucherId;
-    private final VoucherType voucherType = VoucherType.PercentDiscountVoucher;
-    private int value;
 
-    public PercentDiscountVoucher(UUID voucherId, int percent) {
+    private final UUID voucherId;
+    private final VoucherType voucherType = VoucherType.PercentDiscountVoucher;
+    private final int value;
+
+    public PercentDiscountVoucher(UUID voucherId, int value) {
+        if (value <= 0 || value >= 100) {
+            throw new IllegalArgumentException("잘못된 입력입니다.");
+        }
         this.voucherId = voucherId;
-        this.value = percent;
+        this.value = value;
     }
 
     @Override
@@ -31,8 +32,8 @@ public final class PercentDiscountVoucher implements Voucher {
     @Override
     public String toString() {
         return "Voucher Type: " + voucherType +
-                ", voucherId: " + voucherId  +
-                ", percent: " + value + "%";
+            ", voucherId: " + voucherId +
+            ", percent: " + value + "%";
     }
 
 }

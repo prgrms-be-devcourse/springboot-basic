@@ -1,20 +1,21 @@
 package org.programmers.kdt.weekly.voucher.model;
 
-import lombok.Builder;
+import java.util.UUID;
 import lombok.Getter;
 
-import java.util.UUID;
-
 @Getter
-@Builder
 public final class FixedAmountVoucher implements Voucher {
-    private UUID voucherId;
-    private final VoucherType voucherType = VoucherType.FixedVoucherRepository;
-    private int value;
 
-    public FixedAmountVoucher(UUID voucherId, int amount) {
+    private final UUID voucherId;
+    private final VoucherType voucherType = VoucherType.FixedAmountVoucher;
+    private final int value;
+
+    public FixedAmountVoucher(UUID voucherId, int value) {
+        if (value <= 0) {
+            throw new IllegalArgumentException("잘못된 입력입니다.");
+        }
         this.voucherId = voucherId;
-        this.value = amount;
+        this.value = value;
     }
 
     @Override
@@ -30,8 +31,8 @@ public final class FixedAmountVoucher implements Voucher {
     @Override
     public String toString() {
         return "Voucher Type: " + voucherType +
-                ", voucherId: " + voucherId  +
-                ", percent: " + value;
+            ", voucherId: " + voucherId +
+            ", amount: " + value;
     }
 
 }
