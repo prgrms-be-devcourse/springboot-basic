@@ -13,11 +13,7 @@ public class InputConsole implements Input {
     }
 
     @Override
-    public long inputLongBiggerThanZero() {
-        long input = toLong(scanner.nextLine());
-        if (input <= 0) {
-            throw new IllegalArgumentException("바우처 값은 0 초과로 입력해주세요.");
-        }
-        return input;
+    public long inputLong() {
+        return toLong(scanner.nextLine());
     }
 }

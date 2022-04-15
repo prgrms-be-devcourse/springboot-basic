@@ -4,5 +4,5 @@ public interface Input {
 
     String input();
 
-    long inputLongBiggerThanZero();
+    long inputLong();
 }

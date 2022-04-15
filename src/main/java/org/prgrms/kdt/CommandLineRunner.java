@@ -50,7 +50,7 @@ public class CommandLineRunner implements Runnable {
                         VoucherType voucherType = VoucherType.getVoucherType(input.input());
 
                         output.printVoucherValue();
-                        long voucherValue = input.inputLongBiggerThanZero();
+                        long voucherValue = input.inputLong();
 
                         Voucher voucher = voucherService.insert(UUID.randomUUID(), voucherValue, voucherType);
                         output.printVoucherCreateSuccess(voucher.toString());
