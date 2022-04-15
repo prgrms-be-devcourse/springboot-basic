@@ -7,3 +7,11 @@ CREATE TABLE customers
     created_at    DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     CONSTRAINT unique_user_email UNIQUE (email)
 );
+
+CREATE TABLE vouchers
+(
+    voucher_id   BINARY(16) PRIMARY KEY,
+    amount       BIGINT      DEFAULT 0,
+    voucher_kind VARCHAR(20) NOT NULL,
+    created_at   DATETIME(6) default CURRENT_TIMESTAMP(6)
+);
