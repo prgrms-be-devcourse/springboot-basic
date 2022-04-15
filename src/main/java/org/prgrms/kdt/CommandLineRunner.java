@@ -57,6 +57,7 @@ public class CommandLineRunner implements Runnable {
                         Voucher voucher = voucherService.insert(UUID.randomUUID(), voucherValue, voucherType);
                         output.printVoucherCreateSuccess(voucher.toString());
                     } catch (IllegalArgumentException e) {
+                        logger.warn("[Voucher] create error: {}", e.getMessage(), e);
                         output.printMessage(e.getMessage());
                     }
 
