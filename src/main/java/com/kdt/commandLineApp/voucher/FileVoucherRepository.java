@@ -24,7 +24,7 @@ public class FileVoucherRepository implements VoucherRepository {
             this.fileName = fileName;
             loadFile(fileName);
         }
-        catch (Exception e) {
+        catch (Exception ignored) {
         }
     }
 
@@ -42,6 +42,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public void savefile() throws IOException {
+        System.out.println("df");
         List<Voucher> vouchers = map.values().stream().collect(toCollection(ArrayList::new));
 
         try {
@@ -58,9 +59,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public void add(Voucher voucher) {
         map.put(voucher.getId(), voucher);
         try {
+            //DisposableBean을 이용한 빈 객체 소멸 전 저장 메소드 호출이 안되네요..
             savefile();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
     }
 

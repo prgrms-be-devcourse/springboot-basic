@@ -1,5 +1,7 @@
 package com.kdt.commandLineApp.voucher;
 
+import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -49,7 +51,7 @@ public enum VoucherType {
         return type;
     }
 
-    public static VoucherType fromString(String type) {
-        return Optional.ofNullable(vouchertypeMap.get(type)).get();
+    public static VoucherType fromString(String type) throws WrongVoucherParamsException {
+        return Optional.ofNullable(vouchertypeMap.get(type)).orElseThrow(() -> new WrongVoucherParamsException());
     }
 }

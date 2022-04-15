@@ -1,11 +1,14 @@
 package com.kdt.commandLineApp.voucher;
 
+import com.kdt.commandLineApp.exception.CanNotDiscountException;
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.Map;
 import java.util.UUID;
 
+@Getter
 public class Voucher implements Serializable {
     private final UUID id;
     private VoucherType type;
@@ -28,11 +31,14 @@ public class Voucher implements Serializable {
         return "id: " + id + "\ntype: " + type.toString() + "\namount: " + discountAmount.toString() +"\n" ;
     }
 
-    public Float discount(Integer currentPrice) {
-        return this.type.discount(currentPrice, discountAmount);
+    public Float discount(Integer currentPrice) throws CanNotDiscountException {
+        if (currentPrice < this.discountAmount) {
+            throw new CanNotDiscountException();
+        }
+        return type.discount(currentPrice, discountAmount);
     }
 
-    public UUID getId() {
-        return id;
+    public String getType() {
+        return type.toString();
     }
 }

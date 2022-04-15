@@ -38,3 +38,5 @@
     name: moon age: 26 sex: woman description: X
     ```
 ### Class Diagram
+
+![](C:\Users\82102\Desktop\데브코스\과제\springboot-basic\Untitled-2022-03-29-1415.png)
