@@ -4,22 +4,16 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgms.TestConfig;
 import org.prgms.io.FileReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
 
-@SpringJUnitConfig
+@SpringJUnitConfig(value = TestConfig.class)
 class CustomerTest {
-    @Configuration
-    @ComponentScan(basePackages = "org.prgms.io")
-    static class Config {
-    }
-
     @Autowired
     private FileReader fileReader;
 

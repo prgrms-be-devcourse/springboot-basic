@@ -4,11 +4,10 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgms.TestConfig;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
@@ -16,14 +15,8 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@SpringJUnitConfig
+@SpringJUnitConfig(value = TestConfig.class)
 class VoucherRepositoryTest {
-
-    @Configuration
-    @ComponentScan(basePackages = {"org.prgms.voucher"})
-    static class Config {
-    }
-
     @Autowired
     private VoucherRepository voucherRepository;
 
