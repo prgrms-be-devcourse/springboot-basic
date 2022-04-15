@@ -15,4 +15,16 @@ public class VoucherFactory {
 
         return voucher;
     }
+
+    public static Voucher create(UUID voucherId, long value, String classSimpleName) {
+        Voucher voucher = null;
+
+        if (FixedAmountVoucher.class.getSimpleName().equals(classSimpleName)) {
+            voucher = new FixedAmountVoucher(voucherId, value);
+        } else if (PercentDiscountVoucher.class.getSimpleName().equals(classSimpleName)) {
+            voucher = new PercentDiscountVoucher(voucherId, value);
+        }
+
+        return voucher;
+    }
 }

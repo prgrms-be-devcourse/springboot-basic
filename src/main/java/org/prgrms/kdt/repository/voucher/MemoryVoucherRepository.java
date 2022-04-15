@@ -1,6 +1,8 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+
+@Qualifier("memory")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
