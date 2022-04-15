@@ -76,7 +76,7 @@ public class VoucherManager {
     }
   }
 
-  private boolean createCommand() throws IOException {
+  private boolean createVoucher() throws IOException {
     output.println("=== [Create Voucher] ===");
     output.printVoucherType();
     int voucherType = Integer.parseInt(input.input("Input voucher type : "));
@@ -91,14 +91,14 @@ public class VoucherManager {
     return true;
   }
 
-  private boolean listCommand() throws IOException {
+  private boolean printVouchers() throws IOException {
     output.println("=== [Voucher List] ===");
     findVoucherService.findAll().stream().forEach(throwingConsumerWrapper((voucher) -> output.println(voucher.toString())));
 
     return true;
   }
 
-  private boolean blacklistCommand() throws IOException {
+  private boolean printBlacklist() throws IOException {
     output.println("===  [Blacklist]  ===");
     blackListService.findAll().stream().forEach(throwingConsumerWrapper((voucher) -> output.println(voucher.toString())));
 
