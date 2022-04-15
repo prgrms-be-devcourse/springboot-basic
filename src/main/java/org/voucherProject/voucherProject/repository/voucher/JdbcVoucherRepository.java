@@ -1,5 +1,6 @@
 package org.voucherProject.voucherProject.repository.voucher;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,9 +16,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//@Repository
-//@Slf4j
+@Repository
+@Slf4j
 //@Primary
+@RequiredArgsConstructor
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final String SELECT_ALL_SQL = "select * from voucher";
@@ -25,10 +27,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String SAVE_SQL = "insert into voucher(voucher_id, amount, voucher_type, voucher_status, created_at) values (UUID_TO_BIN(:voucherId), :amount, :voucherType, :voucherStatus)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

@@ -36,7 +36,6 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     public PercentDiscountVoucher(UUID voucherId, long percent, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt) {
-        validatePercent(percent);
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherStatus = voucherStatus;
