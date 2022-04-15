@@ -7,10 +7,14 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
 
   private final UUID id;
-  private Long value;
+  private long value;
   private final LocalDateTime createdAt;
 
+  private static final long MAX_PERCENT = 100;
+  private static final long MIN_PERCENT = 1;
+
   public PercentDiscountVoucher(UUID id, Long value, LocalDateTime createdAt) {
+    validateValue(value);
     this.id = id;
     this.value = value;
     this.createdAt = createdAt;
@@ -23,7 +27,7 @@ public class PercentDiscountVoucher implements Voucher {
   }
 
   @Override
-  public Long discount(Long beforeDiscount) {
+  public long discount(long beforeDiscount) {
     return beforeDiscount * (1 - (value / 100));
   }
 
@@ -45,5 +49,20 @@ public class PercentDiscountVoucher implements Voucher {
   @Override
   public String toString() {
     return "voucher id = " + id + ", percent = " + value + "%, createdAt = " + createdAt;
+  }
+
+  private void validateValue(long value) {
+    validateValueIsOverMax(value);
+    validateValueIsUnderMin(value);
+  }
+
+  private void validateValueIsOverMax (long value) {
+    if (value > MAX_PERCENT)
+      throw new IllegalArgumentException("100%를 초과할 수 없습니다.");
+  }
+
+  private void validateValueIsUnderMin(long value) {
+    if (value < MIN_PERCENT)
+      throw new IllegalArgumentException("1% 미만일 수 없습니다.");
   }
 }

@@ -7,10 +7,13 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 
   private final UUID id;
-  private Long value;
+  private long value;
   private final LocalDateTime createdAt;
 
+  private static final long MIN_PERCENT = 1;
+
   public FixedAmountVoucher(UUID id, Long value, LocalDateTime createdAt) {
+    validateValue(value);
     this.id = id;
     this.value = value;
     this.createdAt = createdAt;
@@ -23,7 +26,10 @@ public class FixedAmountVoucher implements Voucher {
   }
 
   @Override
-  public Long discount(Long beforeDiscount) {
+  public long discount(long beforeDiscount) {
+    if (beforeDiscount - value < 0) {
+      return 0;
+    }
     return beforeDiscount - value;
   }
 
@@ -44,6 +50,16 @@ public class FixedAmountVoucher implements Voucher {
 
   @Override
   public String toString() {
-    return "voucher id = " + id + ", amount = " + value +", createdAt = " + createdAt;
+    return "voucher id = " + id + ", amount = " + value + ", createdAt = " + createdAt;
+  }
+
+  private void validateValue(long value) {
+    validateValueIsUnderMin(value);
+  }
+
+  private void validateValueIsUnderMin(long value) {
+    if (value < MIN_PERCENT) {
+      throw new IllegalArgumentException("할인 금액이 1원 미만일 수 없습니다.");
+    }
   }
 }
