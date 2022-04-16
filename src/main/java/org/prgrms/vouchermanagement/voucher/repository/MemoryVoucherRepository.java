@@ -1,14 +1,6 @@
-package org.prgrms.VoucherManagement.voucher.repository;
+package org.prgrms.vouchermanagement.voucher.repository;
 
-import org.prgrms.VoucherManagement.voucher.voucher.Voucher;
-import org.springframework.stereotype.Repository;
-
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-@Repository
+/*@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
   private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
@@ -23,7 +15,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     return voucher;
   }
 
-  @Override
+//  @Override
   public String findAll() {
     StringBuffer stringBuffer = new StringBuffer();
 
@@ -33,4 +25,4 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     return stringBuffer.toString();
   }
-}
+}*/

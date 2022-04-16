@@ -1,7 +1,8 @@
-package org.prgrms.VoucherManagement.voucher.repository;
+package org.prgrms.vouchermanagement.voucher.repository;
 
-import org.prgrms.VoucherManagement.voucher.voucher.Voucher;
+import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,5 +11,8 @@ public interface VoucherRepository {
 
   Voucher insert(Voucher voucher);
 
-  String findAll();
+  List<Voucher> findAll();
+
+  public int count();
+//  String findAll();
 }

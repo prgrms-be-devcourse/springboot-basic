@@ -20,6 +20,7 @@ public enum VoucherType {
     return simpleClassName;
   }
 
+  // check
   public static VoucherType fromString(String className) {
     for(VoucherType type: values()) {
       if(type.getSimpleClassName().equals(className)) return type;
@@ -27,6 +28,10 @@ public enum VoucherType {
     throw new RuntimeException("[VoucherTypeException] 존재하지 않는 클래스입니다");
   }
 
+  /**
+   *
+   * @param voucher
+   * @return db에 저장될 voucher의 타입입   */
   public static int toDbValue(Voucher voucher) {
     for(VoucherType type: values()) {
       if(type.getSimpleClassName().equals(voucher.getClass().getSimpleName())) return type.selectedNumber;
