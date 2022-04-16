@@ -18,7 +18,7 @@ public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
 
     @Override
-    public Voucher getVoucher(UUID voucherId){
+    public Voucher findById(UUID voucherId){
         return voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Can't find a voucher for {0}", voucherId)));
     }
@@ -38,6 +38,13 @@ public class VoucherServiceImpl implements VoucherService {
     public Voucher updateVoucher(Voucher voucher) {
         voucherRepository.update(voucher);
         return voucher;
+    }
+
+    @Override
+    public void deleteOneVoucherByCustomer(Customer customer, Voucher voucher) {
+        UUID customerId = customer.getCustomerId();
+        UUID voucherId = voucher.getVoucherId();
+        voucherRepository.deleteOneByCustomerId(customerId,voucherId);
     }
 
     @Override

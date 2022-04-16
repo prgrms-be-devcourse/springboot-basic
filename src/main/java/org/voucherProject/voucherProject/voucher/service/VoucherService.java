@@ -9,12 +9,14 @@ public interface VoucherService {
 
     Voucher save(Voucher voucher);
 
-    Voucher getVoucher(UUID voucherId);
+    Voucher findById(UUID voucherId);
 
     List<Voucher> findByCustomer(Customer customer);
 
     List<Voucher> findAll();
 
     Voucher updateVoucher(Voucher voucher);
+
+    void deleteOneVoucherByCustomer(Customer customer, Voucher voucher);
 
 }

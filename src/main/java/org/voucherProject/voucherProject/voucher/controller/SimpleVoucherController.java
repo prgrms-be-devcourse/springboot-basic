@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
-import org.voucherProject.voucherProject.customer.service.CustomerService;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
 
 import java.util.List;
@@ -39,14 +38,14 @@ public class SimpleVoucherController implements VoucherController {
 
     @Override
     public void useVoucher(VoucherDto voucherDto) {
-        Voucher voucher = voucherService.getVoucher(voucherDto.getVoucherId());
+        Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
         voucher.useVoucher();
         voucherService.updateVoucher(voucher);
     }
 
     @Override
     public VoucherDto findById(VoucherDto voucherDto) {
-        Voucher voucher = voucherService.getVoucher(voucherDto.getVoucherId());
+        Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
         return VoucherDto.builder()
                 .voucherType(voucher.getVoucherType())
                 .voucherStatus(voucher.getVoucherStatus())

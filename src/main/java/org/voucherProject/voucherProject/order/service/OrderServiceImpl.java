@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order createOrder(UUID userId, List<OrderItem> orderItems, UUID voucherId){
-        Voucher voucher = voucherService.getVoucher(voucherId);
+        Voucher voucher = voucherService.findById(voucherId);
         Order order = orderRepository.save(new Order(UUID.randomUUID(), userId, orderItems, voucher));
         voucher.useVoucher();
         return order;

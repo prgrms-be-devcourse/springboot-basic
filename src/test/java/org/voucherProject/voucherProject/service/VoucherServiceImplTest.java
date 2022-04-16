@@ -1,6 +1,8 @@
 package org.voucherProject.voucherProject.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,7 +48,7 @@ class VoucherServiceImplTest {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
         Voucher saveVoucher = voucherService.save(voucher);
 
-        Voucher getVoucher = voucherService.getVoucher(saveVoucher.getVoucherId());
+        Voucher getVoucher = voucherService.findById(saveVoucher.getVoucherId());
         assertThat(saveVoucher.getVoucherId()).isEqualTo(getVoucher.getVoucherId());
     }
 
@@ -60,7 +62,7 @@ class VoucherServiceImplTest {
 
     @Test
     public void findNull() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> voucherService.getVoucher(UUID.randomUUID()));
+        assertThrows(IllegalArgumentException.class, () -> voucherService.findById(UUID.randomUUID()));
     }
 
     @Test
@@ -85,5 +87,23 @@ class VoucherServiceImplTest {
 
         List<Voucher> byCustomer = voucherService.findByCustomer(saveCustomer);
         assertThat(byCustomer.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("고객이 가진 바우처 한개 제거")
+    public void deleteOneVoucherByCustomer() throws Exception {
+
+        Customer customer = new Customer(UUID.randomUUID(), "aaa", "a@naver.com", "1234");
+        Customer saveCustomer = customerService.save(customer);
+        Voucher voucher = VoucherType.FIXED.createVoucher(10, customer.getCustomerId());
+        Voucher voucher2 = VoucherType.FIXED.createVoucher(20, customer.getCustomerId());
+        Voucher saveVoucher1 = voucherService.save(voucher);
+        Voucher saveVoucher2 = voucherService.save(voucher2);
+
+        voucherService.deleteOneVoucherByCustomer(saveCustomer, saveVoucher1);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> voucherService.findById(saveVoucher1.getVoucherId()));
+
+
     }
 }
