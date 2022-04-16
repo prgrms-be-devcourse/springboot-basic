@@ -57,6 +57,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
     public void deleteAll() {
         try {
             new FileOutputStream(FILE_VOUCHER_REPO_PATH);

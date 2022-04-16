@@ -6,10 +6,12 @@ import java.util.UUID;
 
 public interface VoucherService {
 
+    Voucher save(Voucher voucher);
+
     Voucher getVoucher(UUID voucherId);
 
     List<Voucher> findAll();
 
-    Voucher save(Voucher voucher);
+    Voucher updateVoucher(Voucher voucher);
 
 }

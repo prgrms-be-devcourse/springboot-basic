@@ -43,6 +43,13 @@ public class SimpleVoucherController implements VoucherController {
     }
 
     @Override
+    public void useVoucher(VoucherDto voucherDto) {
+        Voucher voucher = voucherService.getVoucher(voucherDto.getVoucherId());
+        voucher.useVoucher();
+        voucherService.updateVoucher(voucher);
+    }
+
+    @Override
     public VoucherDto findById(VoucherDto voucherDto) {
         Voucher voucher = voucherService.getVoucher(voucherDto.getVoucherId());
         return VoucherDto.builder()

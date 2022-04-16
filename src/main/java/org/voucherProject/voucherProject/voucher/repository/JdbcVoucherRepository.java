@@ -27,6 +27,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String INSERT_SQL = "insert into voucher(voucher_id, amount, voucher_type, voucher_status, created_at) " +
             "values (UUID_TO_BIN(:voucherId), :amount, :voucherType, :voucherStatus, :createdAt)";
     private final String DELETE_ALL_SQL = "delete from voucher";
+    private final String UPDATE_SQL = "update voucher set voucher_type = :voucherType, voucher_status = :voucherStatus, amount = :amount where customer_id = UUID_TO_BIN(:customerId)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -55,6 +56,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query(SELECT_ALL_SQL, customerRowMapper());
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+
+        int update = jdbcTemplate.update(UPDATE_SQL,
+                toParamMap(voucher));
+        if (update != 1) {
+            throw new RuntimeException("No Update");
+        }
+        return voucher;
     }
 
     @Override

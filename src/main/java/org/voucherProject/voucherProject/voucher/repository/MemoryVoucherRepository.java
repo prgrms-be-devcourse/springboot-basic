@@ -33,6 +33,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    @Override
     public void deleteAll() {
         storage.clear();
     }

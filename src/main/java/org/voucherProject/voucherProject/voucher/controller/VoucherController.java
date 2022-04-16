@@ -8,8 +8,10 @@ public interface VoucherController {
 
     Voucher createVoucher(VoucherDto voucherDto);
 
+    VoucherDto findById(VoucherDto voucherDto);
+
     List<VoucherDto> findAll();
 
-    VoucherDto findById(VoucherDto voucherDto);
+    void useVoucher(VoucherDto voucherDto);
 
 }

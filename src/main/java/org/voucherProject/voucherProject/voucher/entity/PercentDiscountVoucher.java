@@ -67,5 +67,4 @@ public class PercentDiscountVoucher implements Voucher {
             throw new IllegalArgumentException();
         }
     }
-
 }
