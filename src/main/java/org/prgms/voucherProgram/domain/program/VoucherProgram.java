@@ -1,6 +1,6 @@
 package org.prgms.voucherProgram.domain.program;
 
-import org.prgms.voucherProgram.domain.MenuType;
+import org.prgms.voucherProgram.domain.menu.VoucherMenuType;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.exception.WrongFileException;
@@ -29,8 +29,8 @@ public class VoucherProgram {
         boolean isNotEndProgram = true;
 
         while (isNotEndProgram) {
-            MenuType menuType = inputMenu();
-            switch (menuType) {
+            VoucherMenuType voucherMenuType = inputMenu();
+            switch (voucherMenuType) {
                 case EXIT -> isNotEndProgram = false;
                 case LIST -> printVouchers();
                 case CREATE -> createVoucher();
@@ -45,10 +45,10 @@ public class VoucherProgram {
         outputView.printVoucher(voucher);
     }
 
-    private MenuType inputMenu() {
+    private VoucherMenuType inputMenu() {
         while (true) {
             try {
-                return MenuType.from(inputView.inputVoucherMenu());
+                return VoucherMenuType.from(inputView.inputVoucherMenu());
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

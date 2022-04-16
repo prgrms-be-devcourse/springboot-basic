@@ -1,8 +1,8 @@
-package org.prgms.voucherProgram.domain;
+package org.prgms.voucherProgram.domain.menu;
 
 import java.util.Arrays;
 
-public enum MenuType {
+public enum VoucherMenuType {
     EXIT("exit"),
     CREATE("create"),
     LIST("list"),
@@ -12,12 +12,12 @@ public enum MenuType {
 
     private final String command;
 
-    MenuType(String command) {
+    VoucherMenuType(String command) {
         this.command = command;
     }
 
-    public static MenuType from(String command) {
-        return Arrays.stream(MenuType.values())
+    public static VoucherMenuType from(String command) {
+        return Arrays.stream(VoucherMenuType.values())
             .filter(type -> type.command.equals(command))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException(ERROR_WRONG_INPUT_MENU_MESSAGE));
