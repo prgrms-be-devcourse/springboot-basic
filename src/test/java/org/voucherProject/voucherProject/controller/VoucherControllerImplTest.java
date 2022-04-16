@@ -9,6 +9,9 @@ import org.voucherProject.voucherProject.voucher.controller.VoucherController;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
+
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -48,7 +51,7 @@ class VoucherControllerImplTest {
 
     @Test
     public void findAll() throws Exception {
-        long count = voucherController.findAll().stream().count();
-        assertThat(count).isEqualTo(1);
+        List<VoucherDto> all = voucherController.findAll();
+        assertThat(all.size()).isEqualTo(1);
     }
 }

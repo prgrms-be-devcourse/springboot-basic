@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
-@AllArgsConstructor
 @ToString
 public class Customer {
 
@@ -20,8 +19,6 @@ public class Customer {
     private final String customerEmail;
 
     private String password;
-
-    private List<UUID> vouchers = new ArrayList<>();
 
     private final LocalDateTime createdAt;
 

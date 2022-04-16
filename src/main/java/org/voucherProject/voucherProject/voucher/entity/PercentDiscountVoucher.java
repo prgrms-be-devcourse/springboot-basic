@@ -17,24 +17,27 @@ public class PercentDiscountVoucher implements Voucher {
     @Nullable
     private VoucherStatus voucherStatus;
     private final LocalDateTime createdAt;
+    private UUID customerId;
 
     private final int MIN_DISCOUNT_PERCENT = 0;
     private final int MAX_DISCOUNT_PERCENT = 100;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public PercentDiscountVoucher(UUID voucherId, long percent, UUID customerId) {
         validatePercent(percent);
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherStatus = VoucherStatus.VALID;
         this.createdAt = LocalDateTime.now();
+        this.customerId = customerId;
     }
 
-    public PercentDiscountVoucher(UUID voucherId, long percent, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt) {
+    public PercentDiscountVoucher(UUID voucherId, long percent, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt, UUID customerId) {
         validatePercent(percent);
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherStatus = voucherStatus;
         this.createdAt = createdAt;
+        this.customerId = customerId;
     }
 
     @Override

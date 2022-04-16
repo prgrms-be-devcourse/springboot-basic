@@ -18,7 +18,4 @@ public class CustomerDto {
 
     private String password;
 
-    @Singular
-    private List<UUID> vouchers = new ArrayList<>();
-
 }

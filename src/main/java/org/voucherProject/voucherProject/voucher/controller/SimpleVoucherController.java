@@ -2,30 +2,25 @@ package org.voucherProject.voucherProject.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
 import org.voucherProject.voucherProject.customer.service.CustomerService;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
 public class SimpleVoucherController implements VoucherController {
 
     private final VoucherService voucherService;
-    private final CustomerService customerService;
 
     @Override
     public Voucher createVoucher(VoucherDto voucherDto){
+        UUID customerId = voucherDto.getCustomerId();
         long amount = voucherDto.getAmount();
-        Voucher voucher = voucherDto.getVoucherType().createVoucher(amount);
-
-        //customer에 voucher 추가
-        Customer customer = customerService.findById(voucherDto.getCustomerId());
-        customer.getVouchers().add(voucher.getVoucherId());
-        customerService.save(customer);
+        Voucher voucher = voucherDto.getVoucherType().createVoucher(amount, customerId);
 
         return voucherService.save(voucher);
     }

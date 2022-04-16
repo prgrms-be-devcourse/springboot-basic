@@ -31,19 +31,19 @@ class SimpleCustomerServiceTest {
     @Test
     void findById() {
         Customer byId = customerService.findById(customerId);
-        assertThat(byId).isEqualTo(saveCustomer);
+        assertThat(byId.getCustomerId()).isEqualTo(saveCustomer.getCustomerId());
     }
 
     @Test
     void findByName() {
         Customer byName = customerService.findByName("aaa");
-        assertThat(byName).isEqualTo(saveCustomer);
+        assertThat(byName.getCustomerId()).isEqualTo(saveCustomer.getCustomerId());
     }
 
     @Test
     void findByEmail() {
         Customer byEmail = customerService.findByEmail("aaa@.com");
-        assertThat(byEmail).isEqualTo(saveCustomer);
+        assertThat(byEmail.getCustomerId()).isEqualTo(saveCustomer.getCustomerId());
     }
 
     @Test

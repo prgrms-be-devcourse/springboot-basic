@@ -22,7 +22,9 @@ class VoucherRepositoryFileImplTest {
 
     @Test
     public void saveAndFindById() throws Exception {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3, UUID.randomUUID());
+        voucher.toString();
+        System.out.println("voucher = " + voucher);
         Voucher saveVoucher = voucherRepoFile.save(voucher);
 
         UUID voucherId = saveVoucher.getVoucherId();
@@ -34,9 +36,9 @@ class VoucherRepositoryFileImplTest {
 
     @Test
     public void findAll() throws Exception {
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3);
-        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2);
-        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1);
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3, UUID.randomUUID());
+        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2, UUID.randomUUID());
+        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
         voucherRepoFile.save(voucher1);
         voucherRepoFile.save(voucher2);
         voucherRepoFile.save(voucher3);
@@ -54,7 +56,7 @@ class VoucherRepositoryFileImplTest {
 
     @Test
     public void saveSameVoucherId() throws Exception {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3, UUID.randomUUID());
         voucherRepoFile.save(voucher);
         Assertions.assertThrows(RuntimeException.class, () -> voucherRepoFile.save(voucher));
     }

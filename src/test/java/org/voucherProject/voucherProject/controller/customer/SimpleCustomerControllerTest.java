@@ -30,14 +30,14 @@ class SimpleCustomerControllerTest {
     @BeforeEach
     void setUp() {
         customerService.deleteAll();
-        Voucher voucher = VoucherType.FIXED.createVoucher(10);
+        Customer aaa = new Customer(UUID.randomUUID(), "aaa", "a@.com");
+        Voucher voucher = VoucherType.FIXED.createVoucher(10, aaa.getCustomerId());
         UUID voucherId = voucher.getVoucherId();
         customerDto = CustomerDto.builder()
                 .customerId(UUID.randomUUID())
                 .customerName("aaa")
                 .customerEmail("aaa@.com")
                 .password("1234")
-                .voucher(voucherId)
                 .build();
         customer = customerController.createCustomer(customerDto);
     }
@@ -54,7 +54,6 @@ class SimpleCustomerControllerTest {
         assertThat(byId.getCustomerId()).isEqualTo(customerDto.getCustomerId());
         assertThat(byId.getCustomerName()).isEqualTo(customerDto.getCustomerName());
         assertThat(byId.getCustomerEmail()).isEqualTo(customerDto.getCustomerEmail());
-        assertThat(byId.getVouchers()).isEqualTo(customerDto.getVouchers());
     }
 
     @Test
@@ -63,7 +62,6 @@ class SimpleCustomerControllerTest {
         assertThat(byName.getCustomerId()).isEqualTo(customerDto.getCustomerId());
         assertThat(byName.getCustomerName()).isEqualTo(customerDto.getCustomerName());
         assertThat(byName.getCustomerEmail()).isEqualTo(customerDto.getCustomerEmail());
-        assertThat(byName.getVouchers()).isEqualTo(customerDto.getVouchers());
     }
 
     @Test
@@ -72,6 +70,5 @@ class SimpleCustomerControllerTest {
         assertThat(byEmail.getCustomerId()).isEqualTo(customerDto.getCustomerId());
         assertThat(byEmail.getCustomerName()).isEqualTo(customerDto.getCustomerName());
         assertThat(byEmail.getCustomerEmail()).isEqualTo(customerDto.getCustomerEmail());
-        assertThat(byEmail.getVouchers()).isEqualTo(customerDto.getVouchers());
     }
 }

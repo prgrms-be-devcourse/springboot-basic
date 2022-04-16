@@ -29,7 +29,7 @@ class VoucherRepositoryImplTest {
 
     @Test
     public void saveAndFind() throws Exception {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
         Voucher saveVoucher = voucherRepository.save(voucher);
 
         UUID saveVoucherId = saveVoucher.getVoucherId();
@@ -41,7 +41,7 @@ class VoucherRepositoryImplTest {
     @Test
 //    @Disabled
     public void saveSame() throws Exception {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
         voucherRepository.save(voucher);
 
         assertThrows(RuntimeException.class, () -> voucherRepository.save(voucher));
@@ -50,9 +50,9 @@ class VoucherRepositoryImplTest {
     @Test
 //    @Disabled
     public void findAll() throws Exception {
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3);
-        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2);
-        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1);
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3, UUID.randomUUID());
+        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2, UUID.randomUUID());
+        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
         voucherRepository.save(voucher3);

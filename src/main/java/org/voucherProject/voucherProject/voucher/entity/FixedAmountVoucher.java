@@ -17,24 +17,27 @@ public class FixedAmountVoucher implements Voucher {
     @Nullable
     private VoucherStatus voucherStatus;
     private final LocalDateTime createdAt;
+    private UUID customerId;
 
     private final int MIN_DISCOUNT_AMOUNT = 0;
     private final int MAX_DISCOUNT_AMOUNT = 10000;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(UUID voucherId, long amount, UUID customerId) {
         validateAmount(amount);
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherStatus = VoucherStatus.VALID;
         this.createdAt = LocalDateTime.now();
+        this.customerId = customerId;
     }
 
-    public FixedAmountVoucher(UUID voucherId, long amount, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt) {
+    public FixedAmountVoucher(UUID voucherId, long amount, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt, UUID customerId) {
         validateAmount(amount);
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherStatus = voucherStatus;
         this.createdAt = createdAt;
+        this.customerId = customerId;
     }
 
     @Override

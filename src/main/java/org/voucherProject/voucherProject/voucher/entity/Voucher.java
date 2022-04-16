@@ -17,6 +17,8 @@ public interface Voucher {
 
     LocalDateTime getCreatedAt();
 
+    UUID getCustomerId();
+
     void useVoucher();
 
     void cancelVoucher();

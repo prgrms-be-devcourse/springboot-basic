@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.voucher.entity.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +35,8 @@ public class FileVoucherRepository implements VoucherRepository {
     public Voucher save(Voucher voucher) {
         try {
             validSameId(voucher);
-            String saveFile = voucher.getVoucherId() + "," + voucher.getHowMuch() + "," + voucher.getVoucherType() + "," + voucher.getVoucherStatus();
+            String saveFile = voucher.getVoucherId() + "," + voucher.getHowMuch() + "," + voucher.getVoucherType()
+                    + "," + voucher.getVoucherStatus() + "," + voucher.getCreatedAt() + "," + voucher.getCustomerId();
             bufferedWriter.write(saveFile);
             bufferedWriter.newLine();
             bufferedWriter.flush();
@@ -77,12 +80,9 @@ public class FileVoucherRepository implements VoucherRepository {
             String readLine = null;
             while ((readLine = bufferedReader.readLine()) != null) {
                 String[] readLineSplit = readLine.split(",");
-                Optional<Voucher> voucher = Optional.empty();
                 // file 정보 기반으로 새 바우처 생성
-                voucher = getVoucher(readLineSplit, voucher);
-                // 초기 바우처는 상태가 valid이므로 사용되었으면 EXPIRED 변경
-                checkVoucherStatus(readLineSplit, voucher);
-                vouchers.add(voucher.get());
+                Voucher voucher = getVoucher(readLineSplit);
+                vouchers.add(voucher);
             }
         } catch (IOException e) {
             log.error("잘못된 입력입니다.");
@@ -90,19 +90,14 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
-    private void checkVoucherStatus(String[] readLineSplit, Optional<Voucher> voucher) {
-        if (readLineSplit[3].equalsIgnoreCase(String.valueOf(VoucherStatus.EXPIRED))) {
-            voucher.get().useVoucher();
-        }
-    }
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 
-    private Optional<Voucher> getVoucher(String[] readLineSplit, Optional<Voucher> voucher) {
-        if (readLineSplit[2].equalsIgnoreCase(String.valueOf(VoucherType.FIXED))) {
-            voucher = Optional.of(new FixedAmountVoucher(UUID.fromString(readLineSplit[0]), Long.parseLong(readLineSplit[1])));
-        }
-        if (readLineSplit[2].equalsIgnoreCase(String.valueOf(VoucherType.PERCENT))) {
-            voucher = Optional.of(new PercentDiscountVoucher(UUID.fromString(readLineSplit[0]), Long.parseLong(readLineSplit[1])));
-        }
-        return voucher;
+    private Voucher getVoucher(String[] readLineSplit) {
+        VoucherType voucherType = VoucherType.valueOf(readLineSplit[2].toUpperCase());
+        return voucherType.createVoucher(UUID.fromString(readLineSplit[0]),
+                Long.parseLong(readLineSplit[1]),
+                VoucherStatus.valueOf(readLineSplit[3].toUpperCase()),
+                LocalDateTime.parse(readLineSplit[4], formatter),
+                UUID.fromString(readLineSplit[5]));
     }
 }

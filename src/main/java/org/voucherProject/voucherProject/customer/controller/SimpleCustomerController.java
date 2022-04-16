@@ -26,7 +26,6 @@ public class SimpleCustomerController implements CustomerController {
                 .map(c -> CustomerDto.builder()
                         .customerName(c.getCustomerName())
                         .customerEmail(c.getCustomerEmail())
-                        .vouchers(c.getVouchers())
                         .build()
                 ).toList();
     }
@@ -38,7 +37,6 @@ public class SimpleCustomerController implements CustomerController {
                 .customerId(customer.getCustomerId())
                 .customerName(customer.getCustomerName())
                 .customerEmail(customerDto.getCustomerEmail())
-                .vouchers(customerDto.getVouchers())
                 .build();
     }
 
@@ -49,7 +47,6 @@ public class SimpleCustomerController implements CustomerController {
                 .customerId(customer.getCustomerId())
                 .customerName(customer.getCustomerName())
                 .customerEmail(customerDto.getCustomerEmail())
-                .vouchers(customerDto.getVouchers())
                 .build();
     }
 
@@ -60,7 +57,6 @@ public class SimpleCustomerController implements CustomerController {
                 .customerId(customer.getCustomerId())
                 .customerName(customer.getCustomerName())
                 .customerEmail(customerDto.getCustomerEmail())
-                .vouchers(customerDto.getVouchers())
                 .build();
     }
 

@@ -19,13 +19,6 @@ class JdbcVoucherRepositoryTest {
     @Test
     public void save() throws Exception {
 
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10, VoucherStatus.VALID, LocalDateTime.now());
-        voucherRepository.save(fixedAmountVoucher);
-        //given
-
-        //when
-
-        //then
 
     }
 }

@@ -22,7 +22,7 @@ class VoucherServiceImplTest {
 
     @Test
     public void saveAndGet() throws Exception {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
         Voucher saveVoucher = voucherService.save(voucher);
 
         Voucher getVoucher = voucherService.getVoucher(saveVoucher.getVoucherId());
@@ -31,7 +31,7 @@ class VoucherServiceImplTest {
 
     @Test
     public void saveSame() throws Exception {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
         voucherService.save(voucher);
 
         assertThrows(RuntimeException.class, () -> voucherService.save(voucher));
@@ -44,10 +44,10 @@ class VoucherServiceImplTest {
 
     @Test
     public void findAll() throws Exception {
-        Voucher saveVoucher1 = voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 11));
-        Voucher saveVoucher2 = voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 12));
-        Voucher saveVoucher3 = voucherService.save(new PercentDiscountVoucher(UUID.randomUUID(), 13));
-        Voucher saveVoucher4 = voucherService.save(new PercentDiscountVoucher(UUID.randomUUID(), 14));
+        Voucher saveVoucher1 = voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 11, UUID.randomUUID()));
+        Voucher saveVoucher2 = voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 12, UUID.randomUUID()));
+        Voucher saveVoucher3 = voucherService.save(new PercentDiscountVoucher(UUID.randomUUID(), 13, UUID.randomUUID()));
+        Voucher saveVoucher4 = voucherService.save(new PercentDiscountVoucher(UUID.randomUUID(), 14, UUID.randomUUID()));
 
         List<Voucher> findAllVoucher = voucherService.findAll();
         assertThat(findAllVoucher.contains(saveVoucher1)).isTrue();
