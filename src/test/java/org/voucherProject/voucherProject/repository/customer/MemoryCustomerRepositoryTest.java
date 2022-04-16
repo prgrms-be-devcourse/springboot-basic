@@ -4,7 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.voucherProject.voucherProject.entity.customer.Customer;
+import org.voucherProject.voucherProject.customer.entity.Customer;
+import org.voucherProject.voucherProject.customer.repository.CustomerRepository;
 
 import java.util.List;
 import java.util.Optional;

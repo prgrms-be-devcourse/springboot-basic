@@ -1,17 +1,16 @@
 package org.voucherProject.voucherProject.service.customer;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.voucherProject.voucherProject.entity.customer.Customer;
+import org.voucherProject.voucherProject.customer.entity.Customer;
+import org.voucherProject.voucherProject.customer.service.CustomerService;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SimpleCustomerServiceTest {

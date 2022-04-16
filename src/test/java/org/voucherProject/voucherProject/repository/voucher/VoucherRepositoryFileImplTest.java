@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.voucherProject.voucherProject.entity.voucher.FixedAmountVoucher;
-import org.voucherProject.voucherProject.entity.voucher.PercentDiscountVoucher;
-import org.voucherProject.voucherProject.entity.voucher.Voucher;
-import org.voucherProject.voucherProject.repository.voucher.FileVoucherRepository;
+import org.voucherProject.voucherProject.voucher.entity.FixedAmountVoucher;
+import org.voucherProject.voucherProject.voucher.entity.PercentDiscountVoucher;
+import org.voucherProject.voucherProject.voucher.entity.Voucher;
+import org.voucherProject.voucherProject.voucher.repository.FileVoucherRepository;
 
 import java.util.List;
 import java.util.UUID;

@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.voucherProject.voucherProject.controller.voucher.VoucherController;
-import org.voucherProject.voucherProject.entity.voucher.Voucher;
-import org.voucherProject.voucherProject.entity.voucher.VoucherDto;
-import org.voucherProject.voucherProject.entity.voucher.VoucherType;
+import org.voucherProject.voucherProject.voucher.controller.VoucherController;
+import org.voucherProject.voucherProject.voucher.entity.Voucher;
+import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
