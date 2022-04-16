@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.voucherProgram.domain.customer.Customer;
+import org.prgms.voucherProgram.domain.customer.Email;
 import org.prgms.voucherProgram.dto.CustomerDto;
 import org.prgms.voucherProgram.repository.customer.BlackListRepository;
 import org.prgms.voucherProgram.repository.customer.JdbcCustomerRepository;
@@ -68,7 +69,7 @@ class CustomerServiceTest {
         Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
         given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
         //when
-        CustomerDto customerDto = customerService.findByEmail(customer.getEmail());
+        CustomerDto customerDto = customerService.findByEmail(new Email(customer.getEmail()));
         //then
         assertThat(customerDto).usingRecursiveComparison().isEqualTo(CustomerDto.from(customer));
         then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
@@ -82,9 +83,9 @@ class CustomerServiceTest {
         given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
         //when
         //then
-        assertThatThrownBy(() -> customerService.findByEmail(customer.getEmail()))
+        assertThatThrownBy(() -> customerService.findByEmail(new Email(customer.getEmail())))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("[ERROR} 해당 이메일로 저장된 고객이 없습니다.");
+            .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
         then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
     }
 
@@ -120,7 +121,7 @@ class CustomerServiceTest {
         //then
         assertThatThrownBy(() -> customerService.update(CustomerDto.from(customer)))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("[ERROR} 이미 해당 이메일로 저장된 고객이 있습니다.");
+            .hasMessage("[ERROR] 이미 해당 이메일로 저장된 고객이 있습니다.");
         then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
         then(jdbcCustomerRepository).should(times(0)).update(any(Customer.class));
     }
@@ -148,7 +149,7 @@ class CustomerServiceTest {
         // then
         assertThatThrownBy(() -> customerService.delete(email))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("[ERROR} 해당 이메일로 저장된 고객이 없습니다.");
+            .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
         then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
         then(jdbcCustomerRepository).should(times(0)).deleteByEmail(any(String.class));
     }
