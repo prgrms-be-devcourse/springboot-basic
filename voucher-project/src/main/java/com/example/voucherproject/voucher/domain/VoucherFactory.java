@@ -2,16 +2,16 @@ package com.example.voucherproject.voucher.domain;
 
 import com.example.voucherproject.common.enums.VoucherType;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+
 import java.util.UUID;
 
-import static com.example.voucherproject.common.enums.VoucherType.*;
+import static com.example.voucherproject.common.enums.VoucherType.FIXED;
+import static com.example.voucherproject.common.enums.VoucherType.PERCENT;
 
 @Slf4j
-@Component
 public class VoucherFactory {
     public Voucher create(VoucherType type){
-        log.info("create " + type + " type voucher");
+        log.debug("create " + type + " type voucher");
         switch(type){
             case FIXED:
                 return new FixedDiscountVoucher(UUID.randomUUID(), FIXED);
