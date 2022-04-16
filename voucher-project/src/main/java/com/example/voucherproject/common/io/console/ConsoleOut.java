@@ -16,6 +16,11 @@ public class ConsoleOut implements Output {
     }
 
     @Override
+    public void home() {
+        System.out.println("Return to Main Menu\n");
+    }
+
+    @Override
     public void error() {
         System.out.println("잘못된 입력값 입니다\n");
     }

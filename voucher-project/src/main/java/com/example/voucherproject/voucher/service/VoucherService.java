@@ -30,7 +30,7 @@ public class VoucherService implements Runnable{
                     output.vouchers(voucherRepository.getList());
                     break;
                 case HOME:
-                    output.exit();
+                    output.home();
                     return;
                 default:
                     output.error();
