@@ -1,4 +1,3 @@
-
 package com.programmers.order.type;
 
 import java.util.Arrays;

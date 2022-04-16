@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.programmers.order.domain.Voucher;
 
-public interface StoreManager {
+public interface VoucherStoreManager {
 	Voucher saveVoucher(Voucher voucher);
 
 	List<Voucher> getVouchers();

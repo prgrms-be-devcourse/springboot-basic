@@ -1,5 +1,6 @@
 package com.programmers.order.controller;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -12,7 +13,7 @@ import com.programmers.order.factory.VoucherFactory;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.manager.VoucherManager;
-import com.programmers.order.manager.store.StoreManager;
+import com.programmers.order.manager.store.VoucherStoreManager;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.MenuType;
@@ -25,19 +26,20 @@ public class VoucherController {
 	private final Input input;
 	private final Output output;
 	private final VoucherFactory voucherFactory;
-	private final StoreManager storeManager;
+	private final VoucherStoreManager voucherStoreManager;
 
-	public VoucherController(Input input, Output output, VoucherFactory voucherFactory, StoreManager storeManager) {
+	public VoucherController(Input input, Output output, VoucherFactory voucherFactory,
+			VoucherStoreManager voucherStoreManager) {
 		this.input = input;
 		this.output = output;
 		this.voucherFactory = voucherFactory;
-		this.storeManager = storeManager;
+		this.voucherStoreManager = voucherStoreManager;
 	}
 
 	public void run() {
 		while (true) {
 			String menu = input.read(BasicMessage.INIT);
-			MenuType menuType = MenuType.getMenuType(menu);
+			MenuType menuType = MenuType.getMenuType(menu); // note : of 말고 이 네이밍이 더 좋아보임
 
 			switch (menuType) {
 				case CREATE -> {
@@ -70,22 +72,32 @@ public class VoucherController {
 			try {
 				VoucherType voucherType = VoucherType.getVoucherType(voucher);
 				VoucherManager voucherManager = voucherFactory.getVoucherManager(voucherType);
-				storeManager.saveVoucher(voucherManager.create());
+
+				voucherStoreManager.saveVoucher(voucherManager.create());
+
 				break;
 			} catch (NotSupportedException exception) {
 				output.write(ErrorMessage.CLIENT_ERROR);
-				logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
 				logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
 			}
 		}
 	}
 
 	private void showVouchers() {
-		String vouchers = storeManager.getVouchers()
+		output.write(BasicMessage.NEW_LINE);
+
+		List<Voucher> vouchers1 = voucherStoreManager.getVouchers();
+
+		if (vouchers1.isEmpty()) {
+			output.write(BasicMessage.NOT_EXIST_DATE);
+
+			return;
+		}
+
+		String vouchers = vouchers1
 				.stream()
 				.map(Voucher::show)
 				.collect(Collectors.joining("\n"));
-
 		output.write(vouchers);
 	}
 

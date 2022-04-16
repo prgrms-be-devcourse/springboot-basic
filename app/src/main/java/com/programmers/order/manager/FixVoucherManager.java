@@ -11,7 +11,6 @@ import com.programmers.order.domain.FixedAmountVoucher;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
-import com.programmers.order.manager.store.StoreManager;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.VoucherType;
@@ -38,8 +37,9 @@ public class FixVoucherManager implements VoucherManager {
 		while (true) {
 			String fixPrice = input.read(BasicMessage.FIX_VOUCHER_SELECT_MESSAGE);
 
-			if (this.isValidPrice(fixPrice)) {
+			if (!this.isValidPrice(fixPrice)) {
 				log.info("error : {}", ErrorMessage.CLIENT_ERROR);
+				output.write(ErrorMessage.CLIENT_ERROR);
 				continue;
 			}
 

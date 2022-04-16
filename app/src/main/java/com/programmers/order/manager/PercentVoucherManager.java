@@ -11,7 +11,6 @@ import com.programmers.order.domain.PercentDiscountVoucher;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
-import com.programmers.order.manager.store.StoreManager;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.VoucherType;
@@ -36,10 +35,11 @@ public class PercentVoucherManager implements VoucherManager {
 	@Override
 	public Voucher create() {
 		while (true) {
-			String percent = input.read(BasicMessage.FIX_VOUCHER_SELECT_MESSAGE);
+			String percent = input.read(BasicMessage.PERCENT_VOUCHER_SELECT_MESSAGE);
 
 			if (!this.isValidPercent(percent)) {
 				log.info("error : {}", ErrorMessage.CLIENT_ERROR);
+				output.write(ErrorMessage.CLIENT_ERROR);
 				continue;
 			}
 

@@ -3,15 +3,17 @@ package com.programmers.order.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.programmers.order.type.VoucherType;
+
 public class FixedAmountVoucher implements Voucher {
 	private final UUID voucherId;
 	private final long amount;
-	private final LocalDateTime created;
+	private final LocalDateTime createdAt;
 
 	public FixedAmountVoucher(UUID voucherId, long amount) {
 		this.voucherId = voucherId;
 		this.amount = amount;
-		this.created = LocalDateTime.now();
+		this.createdAt = LocalDateTime.now();
 	}
 
 	@Override
@@ -20,13 +22,23 @@ public class FixedAmountVoucher implements Voucher {
 	}
 
 	@Override
-	public LocalDateTime getCreated() {
-		return created;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	@Override
+	public String getVoucherType() {
+		return VoucherType.FIX_VOUCHER.name();
+	}
+
+	@Override
+	public String getDiscountValue() {
+		return String.valueOf(this.amount);
 	}
 
 	@Override
 	public String show() {
-		return "amount : " + amount;
+		return "voucher type : " + this.getVoucherType() + ", amount : " + amount;
 	}
 
 	@Override
@@ -34,7 +46,7 @@ public class FixedAmountVoucher implements Voucher {
 		return "FixedAmountVoucher{" +
 				"voucherId=" + voucherId +
 				", amount=" + amount +
-				", created=" + created +
+				", created=" + createdAt +
 				'}';
 	}
 }

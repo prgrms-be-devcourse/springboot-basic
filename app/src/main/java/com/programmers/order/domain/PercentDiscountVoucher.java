@@ -3,15 +3,17 @@ package com.programmers.order.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.programmers.order.type.VoucherType;
+
 public class PercentDiscountVoucher implements Voucher {
 	private final UUID voucherId;
 	private final long percent;
-	private final LocalDateTime created;
+	private final LocalDateTime createdAt;
 
 	public PercentDiscountVoucher(UUID voucherId, long percent) {
 		this.voucherId = voucherId;
 		this.percent = percent;
-		this.created = LocalDateTime.now();
+		this.createdAt = LocalDateTime.now();
 	}
 
 	@Override
@@ -20,13 +22,23 @@ public class PercentDiscountVoucher implements Voucher {
 	}
 
 	@Override
-	public LocalDateTime getCreated() {
-		return created;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	@Override
+	public String getVoucherType() {
+		return VoucherType.PERCENT_VOUCHER.name();
+	}
+
+	@Override
+	public String getDiscountValue() {
+		return String.valueOf(this.percent);
 	}
 
 	@Override
 	public String show() {
-		return "percent : " + percent;
+		return "voucher type : " + getVoucherType() + ", percent : " + percent;
 	}
 
 	@Override
@@ -34,7 +46,7 @@ public class PercentDiscountVoucher implements Voucher {
 		return "PercentDiscountVoucher{" +
 				"voucherId=" + voucherId +
 				", percent=" + percent +
-				", created=" + created +
+				", created=" + createdAt +
 				'}';
 	}
 }

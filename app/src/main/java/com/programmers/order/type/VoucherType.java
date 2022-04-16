@@ -12,6 +12,7 @@ public enum VoucherType {
 	}
 
 	public static VoucherType getVoucherType(String input) {
+		// bug : input 숫자형인지 판단하는 것이 필요함 (NumberFormat exception occured.. )
 		return Arrays.stream(VoucherType.values())
 				.filter(voucherType -> voucherType.key == Integer.parseInt(input))
 				.findAny()

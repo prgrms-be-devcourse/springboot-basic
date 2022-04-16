@@ -13,7 +13,7 @@ public enum ErrorMessage {
 		this.message = message;
 	}
 
-	public String send(){
+	public String send() {
 		return "'" + this.message + "'\n";
 	}
 

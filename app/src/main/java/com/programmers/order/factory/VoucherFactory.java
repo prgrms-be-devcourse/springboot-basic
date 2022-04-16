@@ -18,9 +18,9 @@ public class VoucherFactory {
 		this.managers = managers;
 	}
 
-	public VoucherManager getVoucherManager(VoucherType voucherType){
+	public VoucherManager getVoucherManager(VoucherType voucherType) {
 		return managers.stream()
-				.filter(manager -> manager.getType()==voucherType)
+				.filter(manager -> manager.getType() == voucherType)
 				.findAny()
 				.orElseThrow(() -> new NotSupportedException(ErrorMessage.CLIENT_ERROR));
 	}
