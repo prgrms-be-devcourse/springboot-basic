@@ -33,7 +33,10 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
 
-    // jackson jsr : LocalDateTime type
+    // java faker
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+
+    // jackson jsr : LocalDateTime type converting
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
     // Use JUnit Jupiter for testing.
