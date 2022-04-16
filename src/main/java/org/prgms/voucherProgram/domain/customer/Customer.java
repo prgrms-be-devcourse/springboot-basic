@@ -24,7 +24,7 @@ public class Customer {
     }
 
     public boolean isNotSameCustomer(Customer customer) {
-        return this.customerId != customer.customerId;
+        return !this.customerId.equals(customer.customerId);
     }
 
     public void changeName(String name) {
