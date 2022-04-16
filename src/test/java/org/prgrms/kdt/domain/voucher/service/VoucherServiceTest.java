@@ -12,6 +12,7 @@ import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -62,9 +63,10 @@ class VoucherServiceTest {
     @DisplayName("저장된 모든 바우처를 조회할 수 있다.")
     public void findAllVouchers(){
         //given
+        LocalDateTime now = LocalDateTime.now();
         List<Voucher> savedVouchers = Arrays.asList(
-                new FixedAmountVoucher(UUID.randomUUID(), 10000),
-                new PercentDiscountVoucher(UUID.randomUUID(), 10));
+                new FixedAmountVoucher(UUID.randomUUID(), 10000, now, now),
+                new PercentDiscountVoucher(UUID.randomUUID(), 10, now, now));
         //when
         when(voucherRepository.findAll()).thenReturn(savedVouchers);
         List<Voucher> vouchers = voucherService.findAll();
@@ -78,8 +80,9 @@ class VoucherServiceTest {
         //given
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(fixedVoucherId, 10000);
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(percentVoucherId, 20);
+        LocalDateTime now = LocalDateTime.now();
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(fixedVoucherId, 10000, now, now);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(percentVoucherId, 20, now, now);
         //when
         when(voucherRepository.findById(fixedVoucherId)).thenReturn(Optional.of(fixedAmountVoucher));
         when(voucherRepository.findById(percentVoucherId)).thenReturn(Optional.of(percentDiscountVoucher));

@@ -3,6 +3,7 @@ package org.prgrms.kdt.domain.voucher.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +18,8 @@ class PercentDiscountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         long discountRate = 20;
         //when
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, discountRate);
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(
+                voucherId, discountRate, LocalDateTime.now(), LocalDateTime.now());
         //then
         assertThat(percentDiscountVoucher)
                 .extracting(PercentDiscountVoucher::getVoucherId)
@@ -34,12 +36,13 @@ class PercentDiscountVoucherTest {
         UUID voucherId = UUID.randomUUID();
         long underDiscountRate = 0;
         long overDiscountRate = 101;
+        LocalDateTime now = LocalDateTime.now();
         //when
         //then
-        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId,underDiscountRate))
+        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId,underDiscountRate, now, now))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("할인율은 0퍼센트 이하이거나 100퍼센트를 초과할 수 없습니다.");
-        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId,overDiscountRate))
+        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId,overDiscountRate, now, now))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("할인율은 0퍼센트 이하이거나 100퍼센트를 초과할 수 없습니다.");
     }

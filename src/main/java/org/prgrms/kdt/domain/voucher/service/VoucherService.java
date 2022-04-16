@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,10 +44,11 @@ public class VoucherService {
 
     private Voucher createVoucher(VoucherType voucherType, long discount) {
         UUID voucherId = UUID.randomUUID();
+        LocalDateTime now = LocalDateTime.now();
         if(voucherType == VoucherType.FIXED_AMOUNT){
-            return new FixedAmountVoucher(voucherId, discount);
+            return new FixedAmountVoucher(voucherId, discount, now, now);
         } else {
-            return new PercentDiscountVoucher(voucherId, discount);
+            return new PercentDiscountVoucher(voucherId, discount, now, now);
         }
     }
 

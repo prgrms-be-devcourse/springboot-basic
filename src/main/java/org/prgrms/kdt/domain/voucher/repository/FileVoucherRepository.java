@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -80,10 +81,11 @@ public class FileVoucherRepository implements VoucherRepository {
             VoucherType voucherType = VoucherType.findVoucherType(row.get(TYPE_INDEX));
             UUID voucherId = UUID.fromString(row.get(ID_INDEX));
             String discount = row.get(DISCOUNT_INDEX);
+            LocalDateTime now = LocalDateTime.now();
             if(voucherType == VoucherType.FIXED_AMOUNT){
-                vouchers.add(new FixedAmountVoucher(voucherId, Long.parseLong(discount)));
+                vouchers.add(new FixedAmountVoucher(voucherId, Long.parseLong(discount), now, now));
             } else if(voucherType == VoucherType.PERCENT_DISCOUNT) {
-                vouchers.add(new PercentDiscountVoucher(voucherId, Long.parseLong(discount)));
+                vouchers.add(new PercentDiscountVoucher(voucherId, Long.parseLong(discount), now, now));
             }
         }
         return vouchers;

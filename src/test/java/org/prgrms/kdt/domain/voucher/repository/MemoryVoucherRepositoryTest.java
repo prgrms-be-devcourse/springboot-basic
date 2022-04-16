@@ -6,6 +6,7 @@ import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,8 +23,9 @@ class MemoryVoucherRepositoryTest {
         //given
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
-        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000);
-        Voucher percentVoucher = new PercentDiscountVoucher(percentVoucherId, 50);
+        LocalDateTime now = LocalDateTime.now();
+        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000, now, now);
+        Voucher percentVoucher = new PercentDiscountVoucher(percentVoucherId, 50, now, now);
         voucherRepository.save(fixedVoucher);
         voucherRepository.save(percentVoucher);
         //when
@@ -39,7 +41,8 @@ class MemoryVoucherRepositoryTest {
     public void saveVoucher(){
         //given
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, 10000);
+        LocalDateTime now = LocalDateTime.now();
+        Voucher voucher = new FixedAmountVoucher(voucherId, 10000, now, now);
         //when
         UUID savedVoucherId = voucherRepository.save(voucher);
         //then
@@ -52,8 +55,9 @@ class MemoryVoucherRepositoryTest {
         //given
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
-        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000);
-        Voucher percentVoucher = new PercentDiscountVoucher(percentVoucherId, 30);
+        LocalDateTime now = LocalDateTime.now();
+        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000, now, now);
+        Voucher percentVoucher = new PercentDiscountVoucher(percentVoucherId, 30, now, now);
         voucherRepository.save(fixedVoucher);
         voucherRepository.save(percentVoucher);
         //when

@@ -1,17 +1,18 @@
 package org.prgrms.kdt.domain.voucher.model;
 
+import org.prgrms.kdt.domain.base.BaseEntity;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher extends BaseEntity implements Voucher{
     private final UUID voucherId;
     private final long discountPrice;
     private UUID customerId;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
     private static final VoucherType voucherType = VoucherType.FIXED_AMOUNT;
 
-    public FixedAmountVoucher(UUID voucherId, long discountPrice) {
+    public FixedAmountVoucher(UUID voucherId, long discountPrice, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+        super(createdDate, modifiedDate);
         validateDiscountPrice(discountPrice);
         this.voucherId = voucherId;
         this.discountPrice = discountPrice;
