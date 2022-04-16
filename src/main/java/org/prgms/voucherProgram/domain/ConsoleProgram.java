@@ -1,6 +1,8 @@
-package org.prgms.voucherProgram.domain.program;
+package org.prgms.voucherProgram.domain;
 
-import org.prgms.voucherProgram.domain.ConsoleMenuType;
+import org.prgms.voucherProgram.domain.menu.ConsoleMenuType;
+import org.prgms.voucherProgram.domain.program.CustomerProgram;
+import org.prgms.voucherProgram.domain.program.VoucherProgram;
 import org.prgms.voucherProgram.view.Console;
 import org.prgms.voucherProgram.view.InputView;
 import org.prgms.voucherProgram.view.OutputView;
