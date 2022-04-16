@@ -6,12 +6,14 @@ import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
+import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
 
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
+import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -24,8 +26,8 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import javax.sql.DataSource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.StreamSupport;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -80,8 +82,8 @@ class JdbcVoucherRepositoryTest {
         embeddedMysql.stop();
     }
 
-
     @Test
+    @Order(1)
     @DisplayName("바우처 생성 확인")
     void testCreationVoucher() throws Throwable{
         jdbcVoucherRepository.create(voucher);
@@ -90,4 +92,26 @@ class JdbcVoucherRepositoryTest {
 
         assertThat(vouchers.size(), is(1));
     }
+
+    @Test
+    @Order(2)
+    @DisplayName("바우처 수정 확인")
+    void testUpdateVoucher() throws Throwable{
+        jdbcVoucherRepository.update(new PercentageDiscountVoucher(voucher.getVoucherId(), 20));
+
+        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+
+        assertThat(vouchers.get(0).getAmount(), is(20L));
+        assertThat(vouchers.get(0).getVoucherType(), is(PERCENTAGE_DISCOUNT));
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("바우처 id 조회 확인")
+    void testFindById() throws Throwable{
+        Optional<Voucher> retrievedVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
+
+        assertThat(retrievedVoucher, not(is(Optional.empty())));
+    }
+
 }

@@ -6,6 +6,7 @@ import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+
+import static org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher.*;
 
 /**
  * 로직 수행을 위해 필요한 메서드를 호출하는 클래스 입니다.
@@ -63,18 +67,35 @@ public class Administrator {
         }
     }
 
+    /**
+     * 바우처에서 선택된 추가 명령에 따라 필요한 메서드 실행을 담당하는 메서드입니다.
+     **/
     private void doCommandAboutVoucher(CommandAboutVoucher commandAboutVoucher) throws IOException {
         switch (commandAboutVoucher) {
             case CREATE:
                 consoleService.showVoucherType();
-                VoucherType voucherType = consoleService.selectVoucherType();
-                VoucherCreateReqDto voucherCreateReqDto = consoleService.inputAmount(voucherType);
-                Voucher createdVoucher = voucherService.createVoucher(voucherCreateReqDto);
-                consoleService.showVoucherCreated(createdVoucher);
+                VoucherType voucherTypeForCreate = consoleService.selectVoucherType();
+                long amountForCreate = consoleService.inputAmount(voucherTypeForCreate);
+
+                Voucher createdVoucher = voucherService.createVoucher(new VoucherCreateReqDto(voucherTypeForCreate, amountForCreate));
+                consoleService.showVoucher(createdVoucher, CREATE);
                 break;
             case READ:
                 List<Voucher> vouchers = voucherService.getVouchers();
                 consoleService.showVoucherList(vouchers);
+                break;
+            case UPDATE:
+                UUID voucherID = consoleService.inputVoucherId();
+                Voucher voucher = voucherService.getVoucherById(voucherID);
+                consoleService.showVoucher(voucher, READ);
+
+                consoleService.showVoucherType();
+                VoucherType voucherTypeForUpdate = consoleService.selectVoucherType();
+                long amountForUpdate = consoleService.inputAmount(voucherTypeForUpdate);
+
+                Voucher updatedVoucher = voucherService.updateVoucher(new VoucherUpdateReqDto(voucher.getVoucherId(), voucherTypeForUpdate, amountForUpdate));
+                consoleService.showVoucher(updatedVoucher, UPDATE);
+                break;
         }
     }
 

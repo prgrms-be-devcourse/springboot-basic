@@ -2,6 +2,8 @@ package org.prgms.voucheradmin.domain.voucher.dao;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 
@@ -10,7 +12,11 @@ public interface VoucherRepository {
 
     List<Voucher> findAll() throws IOException;
 
-    default Voucher update(){
+    default Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    default Voucher update(Voucher voucher){
         return null;
     }
 
