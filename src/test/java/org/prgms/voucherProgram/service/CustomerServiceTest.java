@@ -153,6 +153,25 @@ class CustomerServiceTest {
         then(jdbcCustomerRepository).should(times(0)).deleteByEmail(any(String.class));
     }
 
+    @DisplayName("모든 고객을 반환한다.")
+    @Test
+    void Should_ReturnCustomers() {
+        //given
+        Customer customerOne = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        Customer customerTwo = new Customer(UUID.randomUUID(), "pobi", "pobi@gmail.com", LocalDateTime.now());
+        List<Customer> customers = List.of(customerOne, customerTwo);
+        given(jdbcCustomerRepository.findAll()).willReturn(customers);
+
+        //when
+        List<CustomerDto> customerDtos = customerService.findCustomers();
+
+        //then
+        assertThat(customerDtos).hasSize(2)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+            .contains(CustomerDto.from(customerOne), CustomerDto.from(customerTwo));
+        then(jdbcCustomerRepository).should(times(1)).findAll();
+    }
+
     @DisplayName("모든 블랙리스트를 반환한다.")
     @Test
     void findBlackList_ReturnBlackCustomers() {

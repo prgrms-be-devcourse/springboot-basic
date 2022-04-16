@@ -1,5 +1,7 @@
 package org.prgms.voucherProgram.service;
 
+import static java.util.stream.Collectors.*;
+
 import java.util.List;
 
 import org.prgms.voucherProgram.domain.customer.Customer;
@@ -35,15 +37,6 @@ public class CustomerService {
             });
     }
 
-    public CustomerDto findByEmail(String email) {
-        Customer customer = jdbcCustomerRepository.findByEmail(email)
-            .orElseThrow(() -> {
-                throw new IllegalArgumentException(ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE);
-            });
-
-        return CustomerDto.from(customer);
-    }
-
     public CustomerDto update(CustomerDto customerDto) {
         Customer customer = customerDto.toEntity();
         jdbcCustomerRepository.findByEmail(customer.getEmail())
@@ -64,6 +57,22 @@ public class CustomerService {
             () -> {
                 throw new IllegalArgumentException(ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE);
             });
+    }
+
+    public CustomerDto findByEmail(String email) {
+        Customer customer = jdbcCustomerRepository.findByEmail(email)
+            .orElseThrow(() -> {
+                throw new IllegalArgumentException(ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE);
+            });
+
+        return CustomerDto.from(customer);
+    }
+
+    public List<CustomerDto> findCustomers() {
+        return jdbcCustomerRepository.findAll()
+            .stream()
+            .map(CustomerDto::from)
+            .collect(toList());
     }
 
     public List<Customer> findBlackList() {
