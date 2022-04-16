@@ -8,6 +8,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.repository.CustomerRepository;
+
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -27,8 +29,9 @@ class CustomerServiceTest {
     @DisplayName("블랙리스트 고객들을 조회할 수 있다.")
     public void findBlackList(){
         //given
-        Customer customerPark = new Customer.Builder(UUID.randomUUID(), "a@naver.com").name("park").build();
-        Customer customerKim = new Customer.Builder(UUID.randomUUID(), "b@gmail.com").name("kim").build();
+        LocalDateTime now = LocalDateTime.now();
+        Customer customerPark = new Customer(UUID.randomUUID(), "park", "a@naver.com", now, now);
+        Customer customerKim = new Customer(UUID.randomUUID(),"kim" , "b@gmail.com", now, now);
         List<Customer> savedBlackCustomers = Arrays.asList(customerPark, customerKim);
         //when
         when(customerRepository.findAll()).thenReturn(savedBlackCustomers);

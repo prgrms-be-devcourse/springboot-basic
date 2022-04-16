@@ -2,6 +2,7 @@ package org.prgrms.kdt.domain.customer.model;
 
 import org.prgrms.kdt.domain.base.BaseEntity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,33 +11,24 @@ public class Customer extends BaseEntity {
     private final UUID customerId;
     private String name;
     private final String email;
-    private CustomerType customerType;
+    private CustomerType customerType = CustomerType.NORMAL;
     private static final String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
-    public static class Builder {
-        private final UUID customerId;
-        private final String email;
-        private String name;
-        private CustomerType customerType = CustomerType.NORMAL;
+    public Customer(UUID customerId, String name, String email, CustomerType customerType, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+        super(createdDate, modifiedDate);
+        validateEmail(email);
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.customerType = customerType;
+    }
 
-        public Builder(UUID customerId, String email) {
-            this.customerId = customerId;
-            this.email = email;
-        }
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder customerType(CustomerType customerType) {
-            this.customerType = customerType;
-            return this;
-        }
-
-        public Customer build() {
-            return new Customer(this);
-        }
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+        super(createdDate, modifiedDate);
+        validateEmail(email);
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
     }
 
     public UUID getCustomerId() {
@@ -53,22 +45,6 @@ public class Customer extends BaseEntity {
 
     public CustomerType getCustomerType() {
         return customerType;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
-    }
-
-    private Customer(Builder builder) {
-        validateEmail(builder.email);
-        customerId = builder.customerId;
-        name = builder.name;
-        email = builder.email;
-        customerType = builder.customerType;
     }
 
     private void validateEmail(String email) {

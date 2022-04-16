@@ -6,6 +6,11 @@ public abstract class BaseEntity {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
+    public BaseEntity(LocalDateTime createdDate, LocalDateTime modifiedDate) {
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
