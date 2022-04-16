@@ -36,8 +36,8 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         List<Voucher> list = new ArrayList<>();
         try {
-            FileReader fileReader = new FileReader(fileName);;
-            BufferedReader bufferedReader = new BufferedReader(fileReader);;
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
             String content = null;
             while ((content = bufferedReader.readLine()) != null) {
                 String[] contents = content.split(",");
