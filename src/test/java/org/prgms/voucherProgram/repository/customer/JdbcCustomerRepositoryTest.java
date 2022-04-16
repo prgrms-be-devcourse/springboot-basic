@@ -136,6 +136,17 @@ class JdbcCustomerRepositoryTest {
             .isEqualTo(customer);
     }
 
+    @DisplayName("저장되지 않은 이메일로 조회 시 empty를 리턴한다.")
+    @Test
+    void should_ReturnEmpty_When_EmailIsNotExist() {
+        //given
+        String email = "asd@gmail.com";
+        //when
+        Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(email);
+        //then
+        assertThat(findCustomer).isEmpty();
+    }
+
     @DisplayName("고객 정보를 수정한다.")
     @Test
     void should_updateCustomer_When_nonDuplicateCustomer() {
@@ -182,6 +193,17 @@ class JdbcCustomerRepositoryTest {
         assertThat(findCustomer).isNotEmpty();
         assertThat(findCustomer.get()).usingRecursiveComparison()
             .isEqualTo(customer);
+    }
+
+    @DisplayName("저장되지 않은 ID로 조회 시 empty를 리턴한다.")
+    @Test
+    void should_ReturnEmpty_When_IdIsNotExist() {
+        // given
+        UUID id = UUID.randomUUID();
+        // when
+        Optional<Customer> findCustomer = jdbcCustomerRepository.findById(id);
+        // then
+        assertThat(findCustomer).isEmpty();
     }
 
     @Configuration
