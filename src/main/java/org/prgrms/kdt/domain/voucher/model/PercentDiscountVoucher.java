@@ -1,13 +1,14 @@
 package org.prgrms.kdt.domain.voucher.model;
 
-import org.prgrms.kdt.domain.base.BaseEntity;
-
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class PercentDiscountVoucher extends BaseEntity implements Voucher{
+public class PercentDiscountVoucher implements Voucher{
     private final UUID voucherId;
     private final long discountRate;
     private UUID customerId;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
     private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
 
     public PercentDiscountVoucher(UUID voucherId, long discountRate) {
