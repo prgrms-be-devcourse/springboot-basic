@@ -48,7 +48,10 @@ public class ConsoleDispatcherTest {
         //given
         String inputMenu = "create";
 
-        //when, then
-        assertThat(consoleDispatcher.findMenu(inputMenu), is(Menu.CREATE_VOUCHER));
+        //when
+        Menu menu = consoleDispatcher.findMenu(inputMenu);
+
+        // then
+        assertThat(menu, is(Menu.CREATE_VOUCHER));
     }
 }
