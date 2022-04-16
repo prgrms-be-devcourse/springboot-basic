@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.entity.customer.Customer;
+import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -47,20 +48,23 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 customer.getEmail(),
                 Timestamp.valueOf(customer.getCreatedTime()));
         } catch (DuplicateKeyException e) {
-            throw new IllegalArgumentException("[ERROR] 중복된 이메일이 존재합니다.");
+            throw new DuplicateEmailException();
         }
         return customer;
     }
 
     @Override
     public Customer update(Customer customer) {
-        jdbcTemplate.update(
-            "UPDATE customers SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
-            customer.getName(),
-            customer.getEmail(),
-            customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
-            customer.getCustomerId().toString().getBytes());
-
+        try {
+            jdbcTemplate.update(
+                "UPDATE customers SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
+                customer.getName(),
+                customer.getEmail(),
+                customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
+                customer.getCustomerId().toString().getBytes());
+        } catch (DuplicateKeyException e) {
+            throw new DuplicateEmailException();
+        }
         return customer;
     }
 
