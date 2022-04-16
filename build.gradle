@@ -16,6 +16,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.assertj:assertj-core:3.22.0'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.6'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.slf4j:jcl-over-slf4j'
     implementation 'ch.qos.logback:logback-classic'
