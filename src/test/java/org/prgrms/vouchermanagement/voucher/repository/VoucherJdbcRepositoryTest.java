@@ -2,10 +2,7 @@ package org.prgrms.vouchermanagement.voucher.repository;
 
 import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
@@ -20,6 +17,9 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -33,6 +33,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherJdbcRepositoryTest {
 
@@ -71,6 +72,9 @@ class VoucherJdbcRepositoryTest {
 
   EmbeddedMysql embeddedMysql;
 
+  Voucher voucher1 = VoucherFactory.createVoucher(1, 100L, LocalDateTime.now());
+  Voucher voucher2 = VoucherFactory.createVoucher(2, 10L, LocalDateTime.now());
+
   @BeforeAll
   void setUp() {
     var mysqlConfig = aMysqldConfig(v8_0_11)
@@ -84,22 +88,53 @@ class VoucherJdbcRepositoryTest {
       .start();
   }
 
+  @AfterAll
+  void cleanup() {
+    embeddedMysql.stop();
+  }
+
   @Test
+  @Disabled
   @DisplayName("voucherJdbcRepository가 null이면 안 된다")
   void repositoryIsNotNull() {
     assertThat(voucherJdbcRepository, is(notNullValue()));
   }
 
   @Test
+  @Order(1)
   @DisplayName("voucherJdbcRepository에 Voucher 인스턴스를 저장할 수 있다")
-  void insertTest() {
-    Voucher voucher1 = VoucherFactory.createVoucher(1, 100L, LocalDateTime.now());
+  void testInsert() {
     voucherJdbcRepository.insert(voucher1);
     assertThat(voucherJdbcRepository.count(), is(1));
 
-    Voucher voucher2 = VoucherFactory.createVoucher(2, 10L, LocalDateTime.now());
     voucherJdbcRepository.insert(voucher2);
     assertThat(voucherJdbcRepository.count(), is(not(1)));
     assertThat(voucherJdbcRepository.count(), is(2));
+  }
+
+
+  @Test
+  @Order(2)
+  void testfindAll() {
+    List<Voucher> dbVoucherList = voucherJdbcRepository.findAll();
+    List<Voucher> voucherList = new ArrayList<>(){{
+      add(voucher1);
+      add(voucher2);
+    }};
+
+
+
+  }
+
+
+
+  @Test
+  @Order(3)
+  @DisplayName("deleteAll로 모든 데이터를 삭제할 수 있다")
+  void testDeleteAll() {
+    // deleteAll을 test 하기 위해서는 db가 비어있으면 안 됨
+    assertThat(voucherJdbcRepository.count(), is(not(0)));
+    voucherJdbcRepository.deleteAll();
+    assertThat(voucherJdbcRepository.count(), is(0));
   }
 }

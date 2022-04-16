@@ -47,17 +47,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
   @Override
   public Voucher insert(Voucher voucher) {
-//    Map paramMap = new HashMap<String, Object>(){{
-//      put("voucherId", voucher.getVoucherID().toString().getBytes());
-//      put("reduction", voucher.getReduction());
-//      put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
-//      put("voucherType", VoucherType.toDbValue(voucher));
-//    }};
-
     var update = jdbcTemplate.update(
       "insert into vouchers(voucher_id, reduction, created_at, voucher_type) values (uuid_to_bin(:voucherId), :reduction, :createdAt, :voucherType)",
       toParamMap(voucher));
-
     if(update != 1) {
       throw new RuntimeException("Nothing was inserted");
     }
@@ -66,12 +58,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
   @Override
   public List<Voucher> findAll() {
-    return jdbcTemplate.query("select * from customers", voucherRowMapper);
+    return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
   }
 
   @Override
   public int count() {
-    return jdbcTemplate.queryForObject("select count(*) from vouchers", Collections.emptyMap(),Integer.class);
+    return jdbcTemplate.queryForObject("select count(*) from vouchers", Collections.emptyMap(), Integer.class);
+  }
+
+  @Override
+  public void deleteAll() {
+    jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
   }
 
 
@@ -83,6 +80,4 @@ public class VoucherJdbcRepository implements VoucherRepository {
       put("voucherType", VoucherType.toDbValue(voucher));
     }};
   }
-
-
 }

@@ -14,5 +14,6 @@ public interface VoucherRepository {
   List<Voucher> findAll();
 
   public int count();
-//  String findAll();
+
+  public void deleteAll();
 }
