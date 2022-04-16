@@ -1,32 +1,40 @@
 package com.prgms.management.customer.model;
 
+import lombok.Getter;
+import lombok.ToString;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
+@ToString
 public class Customer {
-    private final CustomerType type;
-    private final UUID customerId;
+    private final UUID id;
     private final String name;
+    private final CustomerType type;
+    private final String email;
+    private final Timestamp lastLoginAt;
+    private final Timestamp createdAt;
 
-    public Customer(String name) {
-        this(CustomerType.WHITE, name);
+    public Customer(CustomerType type, UUID id, String name) {
+        this(id, name, type, "demo", Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()));
     }
 
-    public Customer(CustomerType type, String name) {
-        this(type, UUID.randomUUID(), name);
+    public Customer(String name, CustomerType type, String email) {
+        this(UUID.randomUUID(), name, type, email, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()));
     }
 
-    public Customer(CustomerType type, UUID customerId, String name) {
-        this.type = type;
-        this.customerId = customerId;
+    public Customer(UUID id, String name, CustomerType type, String email, Timestamp lastLoginAt, Timestamp createdAt) {
+        this.id = id;
         this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Customer {" + "customerId=" + customerId + ", name='" + name + '\'' + '}';
+        this.type = type;
+        this.email = email;
+        this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
     }
 
     public String getStringForCSV() {
-        return customerId + "," + name;
+        return id + "," + name;
     }
 }
