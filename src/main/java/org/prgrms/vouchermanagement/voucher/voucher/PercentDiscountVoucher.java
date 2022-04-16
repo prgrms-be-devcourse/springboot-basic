@@ -1,4 +1,4 @@
-package org.prgrms.VoucherManagement.voucher.voucher;
+package org.prgrms.vouchermanagement.voucher.voucher;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package org.prgrms.VoucherManagement.voucher.voucher;
+package org.prgrms.vouchermanagement.voucher.voucher;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,11 +15,15 @@ public abstract class Voucher {
   }
 
   public UUID getVoucherID() {
-    return this.voucherId;
+    return voucherId;
   }
 
   public long getReduction() {
     return reduction;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
   }
 
   public void setReduction(long reduction) {
