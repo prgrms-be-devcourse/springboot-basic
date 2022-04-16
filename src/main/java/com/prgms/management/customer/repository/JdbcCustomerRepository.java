@@ -9,10 +9,7 @@ import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
@@ -50,22 +47,28 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer findById(UUID id) {
-        return null;
+        return jdbcTemplate.queryForObject("SELECT * from customer WHERE id = UNHEX(REPLACE(:id, '-', ''))",
+                Collections.singletonMap("id", id.toString()),
+                (rs, rowNum) -> mapToCustomer(rs));
     }
 
     @Override
     public Customer findByEmail(String email) {
-        return null;
+        return jdbcTemplate.queryForObject("SELECT * from customer WHERE email = :email",
+                Collections.singletonMap("email", email),
+                (rs, rowNum) -> mapToCustomer(rs));
     }
 
     @Override
     public List<Customer> findByType(CustomerType type) {
-        return null;
+        return jdbcTemplate.query("SELECT * from customer WHERE type = '" + type.toString() + "'",
+                (rs, rowNum) -> mapToCustomer(rs));
     }
 
     @Override
     public List<Customer> findAll() {
-        return null;
+        return jdbcTemplate.query("SELECT * from customer",
+                (rs, rowNum) -> mapToCustomer(rs));
     }
 
     @Override
