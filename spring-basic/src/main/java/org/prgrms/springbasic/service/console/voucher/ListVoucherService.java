@@ -2,7 +2,7 @@ package org.prgrms.springbasic.service.console.voucher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.springbasic.domain.console.Console;
+import org.prgrms.springbasic.utils.io.console.Console;
 import org.prgrms.springbasic.domain.voucher.Voucher;
 import org.prgrms.springbasic.repository.voucher.VoucherRepository;
 import org.prgrms.springbasic.service.console.ConsoleService;
@@ -24,7 +24,7 @@ public class ListVoucherService implements ConsoleService {
     @Override
     public void execute() {
         var vouchers = validateVouchers(repository.findAll());
-        console.printData(vouchers);
+        vouchers.forEach(console::printToConsole);
     }
 
     private List<Voucher> validateVouchers(List<Voucher> vouchers) {

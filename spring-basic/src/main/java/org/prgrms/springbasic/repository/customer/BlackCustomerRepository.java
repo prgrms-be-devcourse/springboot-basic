@@ -2,7 +2,7 @@ package org.prgrms.springbasic.repository.customer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.customer.Customer;
-import org.prgrms.springbasic.utils.converter.FileManager;
+import org.prgrms.springbasic.utils.io.converter.FileManager;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

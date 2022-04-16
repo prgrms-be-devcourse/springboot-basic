@@ -2,7 +2,7 @@ package org.prgrms.springbasic.service.console.voucher;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.springbasic.domain.console.Console;
+import org.prgrms.springbasic.utils.io.console.Console;
 import org.prgrms.springbasic.domain.voucher.VoucherType;
 import org.prgrms.springbasic.repository.voucher.MemoryVoucherRepository;
 import org.prgrms.springbasic.service.console.ConsoleService;

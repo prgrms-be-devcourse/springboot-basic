@@ -2,7 +2,7 @@ package org.prgrms.springbasic.service.console.customer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.springbasic.domain.console.Console;
+import org.prgrms.springbasic.utils.io.console.Console;
 import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.repository.customer.CustomerRepository;
 import org.prgrms.springbasic.service.console.ConsoleService;
@@ -25,7 +25,7 @@ public class ListBlackService implements ConsoleService {
     @Override
     public void execute() {
         var customers = validateCustomers(repository.findAll());
-        console.printData(customers);
+        customers.forEach(console::printToConsole);
     }
 
     private List<Customer> validateCustomers(List<Customer> vouchers) {

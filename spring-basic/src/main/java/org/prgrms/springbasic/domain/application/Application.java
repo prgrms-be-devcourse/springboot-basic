@@ -2,14 +2,14 @@ package org.prgrms.springbasic.domain.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.springbasic.domain.console.Console;
+import org.prgrms.springbasic.utils.io.console.Console;
 import org.prgrms.springbasic.service.console.ConsoleService;
 import org.prgrms.springbasic.utils.exception.NonExistentCommand;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+import static org.prgrms.springbasic.utils.enumm.ConsoleMessage.INIT_MESSAGE;
 import static org.prgrms.springbasic.utils.enumm.ErrorMessage.COMMAND_ERROR;
 
 @Component
@@ -25,13 +25,13 @@ public class Application implements Runnable {
         log.info("program start");
 
         while (true) {
-            console.printInitMessage();
+            console.printToConsole(INIT_MESSAGE.getMessage());
 
             try {
                 ConsoleService service = findService(console.takeInput());
                 service.execute();
             } catch (Exception e) {
-                console.printErrorMessage(e);
+                console.printToConsole(e);
             }
         }
     }

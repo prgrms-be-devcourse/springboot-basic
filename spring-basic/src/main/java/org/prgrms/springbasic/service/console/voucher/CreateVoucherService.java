@@ -2,7 +2,7 @@ package org.prgrms.springbasic.service.console.voucher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.springbasic.domain.console.Console;
+import org.prgrms.springbasic.utils.io.console.Console;
 import org.prgrms.springbasic.domain.voucher.FixedAmountVoucher;
 import org.prgrms.springbasic.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.springbasic.domain.voucher.Voucher;
@@ -14,6 +14,7 @@ import org.prgrms.springbasic.utils.exception.NotValidatedType;
 import org.springframework.stereotype.Service;
 
 import static java.util.UUID.randomUUID;
+import static org.prgrms.springbasic.utils.enumm.ConsoleMessage.*;
 import static org.prgrms.springbasic.utils.enumm.ErrorMessage.COMMAND_ERROR;
 import static org.prgrms.springbasic.utils.enumm.ErrorMessage.PARSING_ERROR;
 
@@ -28,9 +29,9 @@ public class CreateVoucherService implements ConsoleService {
 
     @Override
     public void execute() {
-        console.printVoucherType();
+        console.printToConsole(VOUCHER_COMMAND_LIST.getMessage());
         var voucherType = validateVoucherType(console.takeInput());
-        console.printDiscountInput(voucherType);
+        showDiscountInput(voucherType);
         var discount = validateDiscountInfo(console.takeInput());
         createVoucher(voucherType, discount);
     }
@@ -74,5 +75,18 @@ public class CreateVoucherService implements ConsoleService {
         }
 
         return discount;
+    }
+
+    private void showDiscountInput(VoucherType type) {
+        switch(type) {
+            case FIXED:
+                console.printToConsole(CREATE_FIXED_VOUCHER.getMessage());
+                break;
+            case PERCENT:
+                console.printToConsole(CREATE_PERCENT_VOUCHER.getMessage());
+                break;
+            default:
+                break;
+        }
     }
 }

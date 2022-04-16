@@ -2,7 +2,7 @@ package org.prgrms.springbasic.repository.voucher;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.voucher.Voucher;
-import org.prgrms.springbasic.utils.converter.FileManager;
+import org.prgrms.springbasic.utils.io.converter.FileManager;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package org.prgrms.springbasic.utils.converter;
+package org.prgrms.springbasic.utils.io.converter;
 
 import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.domain.customer.CustomerType;

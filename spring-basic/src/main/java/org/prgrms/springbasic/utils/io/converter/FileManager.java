@@ -1,4 +1,4 @@
-package org.prgrms.springbasic.utils.converter;
+package org.prgrms.springbasic.utils.io.converter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.utils.exception.NotExistEnumType;
