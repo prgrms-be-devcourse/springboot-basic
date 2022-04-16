@@ -1,8 +1,8 @@
 package com.example.voucher_manager.io;
 
 import com.example.voucher_manager.domain.customer.Customer;
-import com.example.voucher_manager.domain.service.CustomerService;
-import com.example.voucher_manager.domain.service.VoucherService;
+import com.example.voucher_manager.domain.customer.CustomerService;
+import com.example.voucher_manager.domain.voucher.VoucherService;
 import com.example.voucher_manager.domain.voucher.Voucher;
 import com.example.voucher_manager.domain.voucher.VoucherType;
 import org.springframework.stereotype.Component;

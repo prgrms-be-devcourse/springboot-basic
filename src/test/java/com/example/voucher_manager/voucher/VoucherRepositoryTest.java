@@ -1,7 +1,7 @@
 package com.example.voucher_manager.voucher;
 
-import com.example.voucher_manager.domain.repository.MemoryVoucherRepository;
-import com.example.voucher_manager.domain.repository.VoucherRepository;
+import com.example.voucher_manager.domain.voucher.MemoryVoucherRepository;
+import com.example.voucher_manager.domain.voucher.VoucherRepository;
 import com.example.voucher_manager.domain.voucher.FixedAmountVoucher;
 import com.example.voucher_manager.domain.voucher.PercentDiscountVoucher;
 import com.example.voucher_manager.domain.voucher.Voucher;

@@ -1,10 +1,5 @@
-package com.example.voucher_manager.domain.service;
+package com.example.voucher_manager.domain.voucher;
 
-import com.example.voucher_manager.domain.repository.VoucherRepository;
-import com.example.voucher_manager.domain.voucher.FixedAmountVoucher;
-import com.example.voucher_manager.domain.voucher.PercentDiscountVoucher;
-import com.example.voucher_manager.domain.voucher.Voucher;
-import com.example.voucher_manager.domain.voucher.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

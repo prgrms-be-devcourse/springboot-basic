@@ -1,7 +1,5 @@
-package com.example.voucher_manager.domain.service;
+package com.example.voucher_manager.domain.customer;
 
-import com.example.voucher_manager.domain.customer.Customer;
-import com.example.voucher_manager.domain.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
