@@ -36,7 +36,12 @@ public enum Menu {
     DELETECUSTOMERVOUCHER("deleteCustomerVoucher", voucherController -> {
         voucherController.deleteCustomerVoucher();
         return true;
-    });
+    }),
+    LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE("listCustomerHavingSpecificVoucherType",
+        voucherController -> {
+            voucherController.listCustomerHavingSpecificVoucherType();
+            return true;
+        });
 
     private final String textName;
     private final Function<VoucherController, Boolean> function;

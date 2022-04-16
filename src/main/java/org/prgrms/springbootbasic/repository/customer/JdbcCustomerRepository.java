@@ -10,6 +10,7 @@ import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstStri
 import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_ALL_SQL;
 import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_BY_EMAIL;
 import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_BY_ID;
+import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_BY_VOUCHER_TYPE_SQL;
 import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.UPDATE_BY_ID_SQL;
 
 import java.nio.ByteBuffer;
@@ -17,11 +18,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,6 +32,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Customer> mapToCustomer = (resultSet, i) -> {
+        var customerId = toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID));
+        var name = resultSet.getString(COLUMN_NAME);
+        var email = resultSet.getString(COLUMN_EMAIL);
+        return new Customer(customerId, name, email);
+    };
 
     public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -43,12 +52,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public List<Customer> findAll() {
         logger.info("findAll() called");
 
-        return jdbcTemplate.query(SELECT_ALL_SQL, (resultSet, i) -> {
-            var customerId = toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID));
-            var name = resultSet.getString(COLUMN_NAME);
-            var email = resultSet.getString(COLUMN_EMAIL);
-            return new Customer(customerId, name, email);
-        });
+        return jdbcTemplate.query(SELECT_ALL_SQL, mapToCustomer);
     }
 
     @Override
@@ -90,12 +94,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
         logger.info("findById() called");
 
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID, (resultSet, i) -> {
-                var id = toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID));
-                var name = resultSet.getString(COLUMN_NAME);
-                var email = resultSet.getString(COLUMN_EMAIL);
-                return new Customer(id, name, email);
-            }, customerId.toString().getBytes(StandardCharsets.UTF_8)));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID,
+                mapToCustomer,
+                customerId.toString().getBytes(StandardCharsets.UTF_8)));
         } catch (EmptyResultDataAccessException e) {
             logger.info("findById() Got empty result");
             return Optional.empty();
@@ -108,15 +109,21 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         try {
             return Optional.ofNullable(
-                jdbcTemplate.queryForObject(SELECT_BY_EMAIL, (resultSet, i) -> {
-                    var customerId = toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID));
-                    var name = resultSet.getString(COLUMN_NAME);
-                    var customerEmail = resultSet.getString(COLUMN_EMAIL);
-                    return new Customer(customerId, name, customerEmail);
-                }, email));
+                jdbcTemplate.queryForObject(SELECT_BY_EMAIL,
+                    mapToCustomer,
+                    email));
         } catch (EmptyResultDataAccessException e) {
             logger.info("findByEmail() Got empty result");
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Customer> findByVoucherType(VoucherType type) {
+        logger.info("findByVoucherType() called");
+
+        return jdbcTemplate.query(SELECT_BY_VOUCHER_TYPE_SQL,
+            mapToCustomer,
+            type.name());
     }
 }

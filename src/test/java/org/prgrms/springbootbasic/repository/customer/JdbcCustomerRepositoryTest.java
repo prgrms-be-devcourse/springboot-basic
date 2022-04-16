@@ -21,7 +21,11 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
+import org.prgrms.springbootbasic.repository.voucher.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +41,9 @@ class JdbcCustomerRepositoryTest {
 
     @Autowired
     JdbcCustomerRepository jdbcCustomerRepository;
+
+    @Autowired
+    JdbcVoucherRepository jdbcVoucherRepository;
 
     EmbeddedMysql embeddedMysql;
 
@@ -60,6 +67,7 @@ class JdbcCustomerRepositoryTest {
 
     @AfterEach
     void init() {
+        jdbcVoucherRepository.removeAll();
         jdbcCustomerRepository.removeAll();
     }
 
@@ -174,6 +182,89 @@ class JdbcCustomerRepositoryTest {
         assertThat(findCustomer.isPresent()).isEqualTo(expected);
     }
 
+    @DisplayName("특정 바우처를 가진 회원 조회 - fixed, 손님이 존재하는 케이스")
+    @Test
+    void findByVoucherTypeFixed() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        jdbcVoucherRepository.save(voucher);
+
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
+
+        voucher.assignCustomer(customer);
+        jdbcVoucherRepository.updateCustomerId(voucher);
+
+        //when
+        var customers = jdbcCustomerRepository.findByVoucherType(VoucherType.FIXED);
+
+        //then
+        assertThat(customers).isNotEmpty();
+        assertThat(customers).containsExactlyInAnyOrder(customer);
+    }
+
+    @DisplayName("특정 바우처를 가진 회원 조회 - fixed, 손님이 존재하지 않는 케이스")
+    @Test
+    void findByVoucherTypeFixedEmpty() {
+        //given
+        var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+        jdbcVoucherRepository.save(voucher);
+
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
+
+        voucher.assignCustomer(customer);
+        jdbcVoucherRepository.updateCustomerId(voucher);
+
+        //when
+        var customers = jdbcCustomerRepository.findByVoucherType(VoucherType.FIXED);
+
+        //then
+        assertThat(customers).isEmpty();
+    }
+
+    @DisplayName("특정 바우처를 가진 회원 조회 - percent, 손님이 존재하는 케이스")
+    @Test
+    void findByVoucherTypePercent() {
+        //given
+        var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+        jdbcVoucherRepository.save(voucher);
+
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
+
+        voucher.assignCustomer(customer);
+        jdbcVoucherRepository.updateCustomerId(voucher);
+
+        //when
+        var customers = jdbcCustomerRepository.findByVoucherType(VoucherType.PERCENT);
+
+        //then
+        assertThat(customers).isNotEmpty();
+        assertThat(customers).containsExactlyInAnyOrder(customer);
+    }
+
+    @DisplayName("특정 바우처를 가진 회원 조회 - percent, 손님이 존재하지 않는 케이스")
+    @Test
+    void findByVoucherTypePercentEmpty() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
+        jdbcVoucherRepository.save(voucher);
+
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
+
+        voucher.assignCustomer(customer);
+        jdbcVoucherRepository.updateCustomerId(voucher);
+
+        //when
+        var customers = jdbcCustomerRepository.findByVoucherType(VoucherType.PERCENT);
+
+        //then
+        assertThat(customers).isEmpty();
+    }
+
+
     @Configuration
     @ComponentScan(
         basePackages = {"org.prgrms.springbootbasic.repository.customer"}
@@ -193,6 +284,11 @@ class JdbcCustomerRepositoryTest {
         @Bean
         public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
+        }
+
+        @Bean
+        public JdbcVoucherRepository jdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
+            return new JdbcVoucherRepository(jdbcTemplate);
         }
     }
 }

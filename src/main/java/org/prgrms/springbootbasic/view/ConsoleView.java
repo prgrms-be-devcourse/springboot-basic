@@ -8,8 +8,11 @@ import static org.prgrms.springbootbasic.controller.Menu.DELETECUSTOMERVOUCHER;
 import static org.prgrms.springbootbasic.controller.Menu.EXIT;
 import static org.prgrms.springbootbasic.controller.Menu.LIST;
 import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMER;
+import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE;
 import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMERVOUCHER;
 import static org.prgrms.springbootbasic.view.ConstantString.AMOUNT;
+import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_LIST;
+import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_LIST_PATTERN;
 import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_S_VOUCHER_LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.PERCENT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_AMOUNT;
@@ -28,6 +31,7 @@ import static org.prgrms.springbootbasic.view.ConstantString.TO_EXIT_THE_PROGRAM
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_CUSTOMERS;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_CUSTOMER_BLACK_LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_VOUCHERS;
+import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_CUSTOMERS_HAVING_SPECIFIC_VOUCHER_TYPE;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_CUSTOMER_S_VOUCHER;
 import static org.prgrms.springbootbasic.view.ConstantString.TYPE;
 import static org.prgrms.springbootbasic.view.ConstantString.VOUCHER_ID;
@@ -79,6 +83,8 @@ public class ConsoleView {
         printLine(terminal, ASSIGNVOUCHER.name(), TO_ASSIGN_VOUCHER_TO_CUSTOMER);
         printLine(terminal, LISTCUSTOMERVOUCHER.name(), TO_LIST_CUSTOMER_S_VOUCHER);
         printLine(terminal, DELETECUSTOMERVOUCHER.name(), TO_DELETE_CUSTOMER_S_VOUCHER);
+        printLine(terminal, LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE.name(),
+            TO_LIST_CUSTOMERS_HAVING_SPECIFIC_VOUCHER_TYPE);
         terminal.println();
     }
 
@@ -174,11 +180,11 @@ public class ConsoleView {
 
     public void printAllCustomers(List<Customer> customers) {
         TextTerminal<?> terminal = textIO.getTextTerminal();
-        terminal.println("=== CUSTOMER LIST ===");
+        terminal.println(CUSTOMER_LIST);
         terminal.println();
 
         customers.forEach(customer -> terminal.println(
-            MessageFormat.format("UUID = {0}, name = {1}, email = {2}",
+            MessageFormat.format(CUSTOMER_LIST_PATTERN,
                 customer.getCustomerId(), customer.getName(), customer.getEmail())));
         terminal.println();
     }

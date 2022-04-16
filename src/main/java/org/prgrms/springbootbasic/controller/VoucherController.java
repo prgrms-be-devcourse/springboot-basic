@@ -112,4 +112,12 @@ public class VoucherController {
         var voucherId = consoleView.selectVoucherId();
         customerService.deleteVoucher(customerId, voucherId);
     }
+
+    public void listCustomerHavingSpecificVoucherType() {
+        logger.info("listCustomerHavingSpecificVoucherType() called");
+
+        var voucherType = consoleView.selectVoucherType();
+        consoleView.printAllCustomers(
+            customerService.findCustomerHavingSpecificVoucherType(voucherType));
+    }
 }

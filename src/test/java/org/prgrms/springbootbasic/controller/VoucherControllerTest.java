@@ -192,4 +192,23 @@ class VoucherControllerTest {
         inOrder.verify(consoleView).selectVoucherId();
         inOrder.verify(customerService).deleteVoucher(any(UUID.class), any(UUID.class));
     }
+
+    @DisplayName("listCustomerHavingSpecificVoucherType 테스트")
+    @Test
+    void listCustomerHavingSpecificVoucherType() {
+        //given
+        when(consoleView.inputMenu()).thenReturn(Menu.LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE);
+        when(consoleView.selectVoucherType()).thenReturn(VoucherType.FIXED);
+        when(customerService.findCustomerHavingSpecificVoucherType(VoucherType.FIXED))
+            .thenReturn(Collections.emptyList());
+
+        //when
+        voucherController.process();
+
+        //then
+        var inOrder = inOrder(consoleView, customerService);
+        inOrder.verify(consoleView).selectVoucherType();
+        inOrder.verify(customerService).findCustomerHavingSpecificVoucherType(VoucherType.FIXED);
+        inOrder.verify(consoleView).printAllCustomers(anyList());
+    }
 }

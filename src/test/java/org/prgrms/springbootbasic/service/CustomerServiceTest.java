@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -14,8 +15,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
@@ -139,5 +143,17 @@ class CustomerServiceTest {
         assertThatThrownBy(
             () -> customerService.deleteVoucher(customer.getCustomerId(), UUID.randomUUID()))
             .isInstanceOf(InvalidVoucherIdException.class);
+    }
+
+    @DisplayName("특정 바우처를 갖고 있는 회원 조회")
+    @ParameterizedTest
+    @EnumSource(VoucherType.class)
+    void findCustomerHavingSpecificVoucherType(VoucherType voucherType) {
+        //given
+        //when
+        customerService.findCustomerHavingSpecificVoucherType(voucherType);
+
+        //then
+        verify(customerRepository).findByVoucherType(voucherType);
     }
 }

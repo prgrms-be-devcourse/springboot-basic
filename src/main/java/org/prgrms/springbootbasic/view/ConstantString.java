@@ -26,6 +26,9 @@ public class ConstantString {
     public static final String TO_LIST_CUSTOMER_S_VOUCHER = " to list customer's voucher.";
     public static final String CUSTOMER_S_VOUCHER_LIST = "=== CUSTOMER'S VOUCHER LIST ===";
     public static final String TO_DELETE_CUSTOMER_S_VOUCHER = " to delete customer's voucher.";
+    public static final String TO_LIST_CUSTOMERS_HAVING_SPECIFIC_VOUCHER_TYPE = " to list customers having specific voucher type.";
+    public static final String CUSTOMER_LIST = "=== CUSTOMER LIST ===";
+    public static final String CUSTOMER_LIST_PATTERN = "UUID = {0}, name = {1}, email = {2}";
 
 
     //인스턴스 목적의 클래스가 아닙니다.
