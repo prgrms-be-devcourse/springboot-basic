@@ -73,12 +73,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void removeById(UUID id) {
-
+        int result = jdbcTemplate.update("DELETE FROM customer WHERE id = UNHEX(REPLACE(:id, '-', ''))",
+                new HashMap<>() {{
+                    put("id", id.toString());
+                }});
+        if (result != 1) {
+            throw new RuntimeException("고객 정보 삭제에 실패하였습니다.");
+        }
     }
 
     @Override
     public void removeAll() {
-
+        jdbcTemplate.update("DELETE FROM customer WHERE id is not null", Collections.emptyMap());
     }
 
     private UUID toUUID(byte[] bytes) {
