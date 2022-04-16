@@ -26,7 +26,7 @@ public class VoucherRepositoryTests {
         final Voucher voucher1_copy = new Voucher(UUID.fromString(key1), VoucherType.FIXED_AMOUNT, 1000d);
         final Voucher voucher2 = new Voucher(UUID.fromString(key2), VoucherType.FIXED_AMOUNT, 1000d);
 
-        @DisplayName("중복되는 기본키가 저장되지 않으면")
+        @DisplayName("저장할 바우처의 기본키가 중복되지 않으면")
         class Context_not_duplicate_prime_key {
 
             @Test
@@ -40,7 +40,7 @@ public class VoucherRepositoryTests {
             }
         }
 
-        @DisplayName("중복되는 기본키가 저장되면")
+        @DisplayName("저장할 바우처의 기본키가 중복되면")
         class Context_duplicate_prime_key {
 
             @Test
