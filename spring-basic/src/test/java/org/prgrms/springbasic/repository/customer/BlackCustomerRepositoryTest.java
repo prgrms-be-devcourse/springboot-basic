@@ -17,9 +17,6 @@ class BlackCustomerRepositoryTest {
     BlackCustomerRepository repository = new BlackCustomerRepository();
     Customer customer = Customer.blackCustomer(UUID.randomUUID(), "new_customer");
 
-    BlackCustomerRepositoryTest() throws IOException {
-    }
-
     @BeforeEach
     void init() {
         repository.clear();

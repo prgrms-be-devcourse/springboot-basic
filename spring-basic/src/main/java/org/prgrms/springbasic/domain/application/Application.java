@@ -1,5 +1,6 @@
 package org.prgrms.springbasic.domain.application;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.console.Console;
 import org.prgrms.springbasic.service.console.ConsoleService;
@@ -13,16 +14,11 @@ import static org.prgrms.springbasic.utils.enumm.ErrorMessage.COMMAND_ERROR;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class Application implements Runnable {
 
     private final Map<String, ConsoleService> services;
     private final Console console;
-
-    @Autowired
-    public Application(Map<String, ConsoleService> services, Console console) {
-        this.services = services;
-        this.console = console;
-    }
 
     @Override
     public void run() {

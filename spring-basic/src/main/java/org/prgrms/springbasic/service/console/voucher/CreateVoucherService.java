@@ -1,5 +1,6 @@
 package org.prgrms.springbasic.service.console.voucher;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.console.Console;
 import org.prgrms.springbasic.domain.voucher.FixedAmountVoucher;
@@ -10,7 +11,6 @@ import org.prgrms.springbasic.repository.voucher.VoucherRepository;
 import org.prgrms.springbasic.service.console.ConsoleService;
 import org.prgrms.springbasic.utils.exception.NonExistentCommand;
 import org.prgrms.springbasic.utils.exception.NotValidatedType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static java.util.UUID.randomUUID;
@@ -19,17 +19,12 @@ import static org.prgrms.springbasic.utils.enumm.ErrorMessage.PARSING_ERROR;
 
 @Service("create")
 @Slf4j
+@RequiredArgsConstructor
 public class CreateVoucherService implements ConsoleService {
 
     private final VoucherRepository repository;
     private final Console console;
     private Voucher voucher;
-
-    @Autowired
-    public CreateVoucherService(VoucherRepository repository, Console console) {
-        this.repository = repository;
-        this.console = console;
-    }
 
     @Override
     public void execute() {
