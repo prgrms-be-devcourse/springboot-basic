@@ -33,9 +33,9 @@ class CustomerServiceTest {
     @InjectMocks
     private CustomerService customerService;
 
-    @DisplayName("이메일이 중복되지 않은 고객이라면 고객을 저장한다.")
+    @DisplayName("저장시 이메일이 중복되지 않은 고객이라면 고객을 저장한다.")
     @Test
-    void Should_ReturnCustomer_When_NonDuplicateEmail() {
+    void Should_ReturnCustomer_When_saveCustomer() {
         // given
         CustomerDto customerDto = new CustomerDto(UUID.randomUUID(), "hwan", "hwan@gmail.com");
         given(jdbcCustomerRepository.save(any(Customer.class))).willReturn(customerDto.toEntity());
@@ -48,16 +48,16 @@ class CustomerServiceTest {
         then(jdbcCustomerRepository).should(times(1)).findByEmail(anyString());
     }
 
-    @DisplayName("이메일이 중복되는 고객이라면 예외가 발생한다.")
+    @DisplayName("저장시 이메일이 중복되는 고객이라면 예외가 발생한다.")
     @Test
-    void Should_ThrowException_When_DuplicateEmail() {
+    void Should_ThrowException_When_saveDuplicateCustomer() {
         // given
         CustomerDto customerDto = new CustomerDto(UUID.randomUUID(), "hwan", "hwan@gmail.com");
         given(jdbcCustomerRepository.findByEmail(anyString())).willReturn(Optional.ofNullable(customerDto.toEntity()));
         // when
         assertThatThrownBy(() -> customerService.save(customerDto))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("[ERROR] 이미 존재하는 고객입니다.");
+            .hasMessage("[ERROR] 이미 해당 이메일로 저장된 고객이 있습니다.");
         then(jdbcCustomerRepository).should(times(1)).findByEmail(anyString());
         then(jdbcCustomerRepository).should(times(0)).save(any(Customer.class));
     }
@@ -126,6 +126,24 @@ class CustomerServiceTest {
             .hasMessage("[ERROR] 이미 해당 이메일로 저장된 고객이 있습니다.");
         then(jdbcCustomerRepository).should(times(2)).findByEmail(any(String.class));
         then(jdbcCustomerRepository).should(times(0)).update(any(Customer.class));
+    }
+
+    @DisplayName("수정시 해당하는 이메일을 가진 고객이 없다면 예외를 발생한다.")
+    @Test
+    void Should_ThrowException_When_UpdateNotExistsCustomer() {
+        //given
+        Email email = new Email("before@gmail.com");
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        given(jdbcCustomerRepository.findByEmail(email.getEmail())).willReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(() -> customerService.update(email, CustomerDto.from(customer)))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
+        then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
+        then(jdbcCustomerRepository).should(times(0)).update(any(Customer.class));
+
     }
 
     @DisplayName("고객을 삭제한다.")

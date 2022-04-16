@@ -7,6 +7,8 @@ import java.util.List;
 import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.domain.customer.Email;
 import org.prgms.voucherProgram.dto.CustomerDto;
+import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
+import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.prgms.voucherProgram.repository.customer.BlackListRepository;
 import org.prgms.voucherProgram.repository.customer.JdbcCustomerRepository;
 import org.springframework.stereotype.Service;
@@ -34,14 +36,14 @@ public class CustomerService {
     private void validateDuplicateCustomer(Customer customer) {
         jdbcCustomerRepository.findByEmail(customer.getEmail())
             .ifPresent(duplicateCustomer -> {
-                throw new IllegalArgumentException(ERROR_DUPLICATE_CUSTOMER_MESSAGE);
+                throw new DuplicateEmailException();
             });
     }
 
     public CustomerDto update(Email email, CustomerDto customerDto) {
         Customer customer = jdbcCustomerRepository.findByEmail(email.getEmail())
             .orElseThrow(() -> {
-                throw new IllegalArgumentException(ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE);
+                throw new CustomerIsNotExistsException();
             });
 
         customer.changeName(customerDto.getName());
@@ -56,7 +58,7 @@ public class CustomerService {
 
     private void validateDuplicateEmail(Customer customer, Customer findCustomer) {
         if (customer.isNotSameCustomer(findCustomer)) {
-            throw new IllegalArgumentException(ERROR_CUSTOMER_IS_EXISTS_MESSAGE);
+            throw new DuplicateEmailException();
         }
     }
 
@@ -64,14 +66,14 @@ public class CustomerService {
         jdbcCustomerRepository.findByEmail(email).ifPresentOrElse(
             customer -> jdbcCustomerRepository.deleteByEmail(email),
             () -> {
-                throw new IllegalArgumentException(ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE);
+                throw new CustomerIsNotExistsException();
             });
     }
 
     public CustomerDto findByEmail(Email email) {
         Customer customer = jdbcCustomerRepository.findByEmail(email.getEmail())
             .orElseThrow(() -> {
-                throw new IllegalArgumentException(ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE);
+                throw new CustomerIsNotExistsException();
             });
 
         return CustomerDto.from(customer);
