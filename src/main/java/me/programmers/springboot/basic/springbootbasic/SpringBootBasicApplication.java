@@ -11,7 +11,10 @@ public class SpringBootBasicApplication {
 		SpringApplication springApplication = new SpringApplication(SpringBootBasicApplication.class);
 		springApplication.setAdditionalProfiles("default");
 		ConfigurableApplicationContext context = springApplication.run(args);
-		context.getBean(CommandLineApplication.class).run();
+		CommandLineApplication app = context.getBean(CommandLineApplication.class);
+
+		ApplicationController controller = new ApplicationController(app);
+		controller.runCommandLineApp();
 	}
 
 

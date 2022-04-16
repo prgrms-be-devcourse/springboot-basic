@@ -21,10 +21,6 @@ public class CommandLineApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
-    public static void main(String[] args) {
-        new CommandLineApplication().run();
-    }
-
     public void run() {
         logger.info("CommandLineApplication Start");
 
@@ -67,7 +63,7 @@ public class CommandLineApplication {
         List<Voucher> vouchers = voucherService.getVouchers();
 
         if (vouchers.isEmpty()) {
-            output.output("메모리에 저장된 Voucher 가 없습니다.");
+            output.output("저장된 Voucher 가 없습니다.");
             return;
         }
 
