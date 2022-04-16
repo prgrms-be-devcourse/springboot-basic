@@ -33,6 +33,15 @@ public class CustomerService {
             });
     }
 
+    public CustomerDto findByEmail(String email) {
+        Customer customer = jdbcCustomerRepository.findByEmail(email)
+            .orElseThrow(() -> {
+                throw new IllegalArgumentException("[ERROR} 해당 이메일로 저장된 고객이 없습니다.");
+            });
+
+        return CustomerDto.from(customer);
+    }
+
     public List<Customer> findBlackList() {
         return blackListRepository.findBlackCustomers();
     }

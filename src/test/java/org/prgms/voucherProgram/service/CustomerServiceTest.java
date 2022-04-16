@@ -3,6 +3,7 @@ package org.prgms.voucherProgram.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,7 @@ class CustomerServiceTest {
     @InjectMocks
     private CustomerService customerService;
 
-    @DisplayName("중복되지 않은 고객이라면 고객을 저장한다.")
+    @DisplayName("이메일이 중복되지 않은 고객이라면 고객을 저장한다.")
     @Test
     void Should_ReturnCustomer_When_NonDuplicateEmail() {
         // given
@@ -46,7 +47,7 @@ class CustomerServiceTest {
         then(jdbcCustomerRepository).should(times(1)).findByEmail(anyString());
     }
 
-    @DisplayName("중복되는 고객이라면 예외가 발생한다.")
+    @DisplayName("이메일이 중복되는 고객이라면 예외가 발생한다.")
     @Test
     void Should_ThrowException_When_DuplicateEmail() {
         // given
@@ -57,6 +58,33 @@ class CustomerServiceTest {
             .isInstanceOf(IllegalArgumentException.class);
         then(jdbcCustomerRepository).should(times(1)).findByEmail(anyString());
         then(jdbcCustomerRepository).should(times(0)).save(any(Customer.class));
+    }
+
+    @DisplayName("이메일을 통해 고객을 찾는다.")
+    @Test
+    void Should_ReturnCustomerDto_When_CustomerIsExists() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+        //when
+        CustomerDto customerDto = customerService.findByEmail(customer.getEmail());
+        //then
+        assertThat(customerDto).usingRecursiveComparison().isEqualTo(CustomerDto.from(customer));
+        then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
+    }
+
+    @DisplayName("해당하는 이메일을 가진 고객이 없다면 예외를 발생한다.")
+    @Test
+    void Should_ThrowException_When_CustomerIsNotExists() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
+        //when
+        //then
+        assertThatThrownBy(() -> customerService.findByEmail(customer.getEmail()))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR} 해당 이메일로 저장된 고객이 없습니다.");
+        then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
     }
 
     @DisplayName("모든 블랙리스트를 반환한다.")
