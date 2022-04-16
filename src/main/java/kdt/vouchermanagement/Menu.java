@@ -4,7 +4,7 @@ public enum Menu {
     EXIT_PROGRAM("exit"),
     CREATE_VOUCHER("create"),
     LIST_VOUCHERS("list"),
-    LIST_BLACK_CUSTOMERS("black");
+    BLACKLIST("black");
 
     private String menu;
 
@@ -12,7 +12,7 @@ public enum Menu {
         this.menu = menu;
     }
 
-    public static Menu getMenu(String input) {
+    public static Menu from(String input) {
         return null;
     }
 }
