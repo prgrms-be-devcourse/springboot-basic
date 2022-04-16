@@ -37,7 +37,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
   private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-  private final RowMapper<Customer> customerMapper = (resultSet, index) -> {
+  private final RowMapper<Customer> mapToCustomer = (resultSet, index) -> {
     UUID customerId = null;
     try {
       customerId = UUIDMapper.fromBytes(resultSet.getBinaryStream("customer_id").readAllBytes());
@@ -67,7 +67,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
       var customer = namedParameterJdbcTemplate.queryForObject(
           "SELECT customer_id, name, email, last_login_at, created_at FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
           Map.of("customerId", customerId.toString().getBytes(StandardCharsets.UTF_8)),
-          customerMapper
+          mapToCustomer
       );
       return Optional.ofNullable(customer);
     } catch (DataAccessException exception) {
@@ -78,7 +78,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
   }
 
-  private Map<String, Object> toParamMap(Customer customer) {
+  private Map<String, Object> mapToParameter(Customer customer) {
     var map = new HashMap<String, Object>();
 
     map.put(CUSTOMER_ID.toString(),
@@ -86,7 +86,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     map.put(NAME.toString(), customer.getName());
     map.put(EMAIL.toString(), customer.getEmail());
     map.put(CREATED_AT.toString(), Timestamp.valueOf(customer.getCreatedAt()));
-    map.put(LAST_LOGIN_AT.toString(), Timestamp.valueOf(customer.getLastLoginAt().orElse(null)));
+    var lastLoginAt =
+        customer.getLastLoginAt().isPresent() ? Timestamp.valueOf(customer.getLastLoginAt().get())
+            : null;
+    map.put(LAST_LOGIN_AT.toString(), lastLoginAt);
 
     return map;
   }
@@ -104,8 +107,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
   @Override
   public Customer insert(Customer customer) {
     int result = namedParameterJdbcTemplate.update(
-        "insert into customers(customer_id, name, email, last_login_at, created_at) values(UNHEX(REPLACE(:customerId,'-','')),:name,:email,:lastLoginAt,:createdAt)",
-        toParamMap(customer));
+        "insert into customers(customer_id, name, email, last_login_at, created_at) values(UUID_TO_BIN(:customerId),:name,:email,:lastLoginAt,:createdAt)",
+        mapToParameter(customer));
     if (result != 1) {
       return null;
     }

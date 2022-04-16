@@ -3,7 +3,6 @@ package org.programmers.devcourse.voucher.engine.customer;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import com.github.javafaker.Faker;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -33,11 +32,11 @@ class JdbcCustomerRepositoryTest {
           UUID.randomUUID(),
           UUID.randomUUID());
   private static final List<Customer> customers = List.of(
-      new Customer(uuids.get(0), new Faker().funnyName().name(), new Faker().name() + "@gmail.com",
+      new Customer(uuids.get(0), "kms", "lol@gmail.com",
           LocalDateTime.now(), LocalDateTime.now()),
-      new Customer(uuids.get(1), new Faker().funnyName().name(), new Faker().name() + "@gmail.com",
+      new Customer(uuids.get(1), "minsu", "minsu@gmail.com",
           LocalDateTime.now(), LocalDateTime.now().minusDays(4)),
-      new Customer(uuids.get(2), new Faker().funnyName().name(), new Faker().name() + "@gmail.com",
+      new Customer(uuids.get(2), "faker", "faker@gmail.com",
           LocalDateTime.now(), LocalDateTime.now().minusDays(10)));
   @Container
   public static MySQLContainer mysql = new MySQLContainer<>(
@@ -53,8 +52,7 @@ class JdbcCustomerRepositoryTest {
   private static JdbcCustomerRepository repository;
 
   static Stream<Arguments> uuidSource() {
-    return Stream.of(arguments(uuids
-    ));
+    return Stream.of(arguments(uuids));
   }
 
   static Stream<Arguments> customerSource() {

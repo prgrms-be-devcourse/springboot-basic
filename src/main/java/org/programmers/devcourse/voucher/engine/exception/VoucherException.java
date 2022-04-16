@@ -2,7 +2,7 @@ package org.programmers.devcourse.voucher.engine.exception;
 
 import java.text.MessageFormat;
 
-public class VoucherException extends Exception {
+public class VoucherException extends RuntimeException {
 
 
   public VoucherException(String message) {

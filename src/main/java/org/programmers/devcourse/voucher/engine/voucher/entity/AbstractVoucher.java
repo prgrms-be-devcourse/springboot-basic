@@ -1,4 +1,4 @@
-package org.programmers.devcourse.voucher.engine.voucher;
+package org.programmers.devcourse.voucher.engine.voucher.entity;
 
 public abstract class AbstractVoucher implements Voucher {
 

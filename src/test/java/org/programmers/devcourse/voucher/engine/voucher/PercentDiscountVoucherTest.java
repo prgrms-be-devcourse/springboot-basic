@@ -2,14 +2,14 @@ package org.programmers.devcourse.voucher.engine.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
+import org.programmers.devcourse.voucher.engine.voucher.entity.PercentDiscountVoucher;
+import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 class PercentDiscountVoucherTest {
 

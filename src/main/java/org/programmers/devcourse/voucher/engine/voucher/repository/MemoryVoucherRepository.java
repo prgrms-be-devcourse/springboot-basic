@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher;
+import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

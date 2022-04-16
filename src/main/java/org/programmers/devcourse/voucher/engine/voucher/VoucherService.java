@@ -3,6 +3,7 @@ package org.programmers.devcourse.voucher.engine.voucher;
 import java.util.Collection;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
+import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.programmers.devcourse.voucher.engine.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 

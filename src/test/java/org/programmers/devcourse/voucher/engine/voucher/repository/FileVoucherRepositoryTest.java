@@ -15,9 +15,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
-import org.programmers.devcourse.voucher.engine.voucher.FixedAmountVoucher;
-import org.programmers.devcourse.voucher.engine.voucher.PercentDiscountVoucher;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher;
+import org.programmers.devcourse.voucher.engine.voucher.entity.FixedAmountVoucher;
+import org.programmers.devcourse.voucher.engine.voucher.entity.PercentDiscountVoucher;
+import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 class FileVoucherRepositoryTest {
 

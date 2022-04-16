@@ -5,12 +5,16 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.programmers.devcourse.voucher.engine.exception.VoucherException;
+import org.programmers.devcourse.voucher.engine.voucher.entity.FixedAmountVoucher;
+import org.programmers.devcourse.voucher.engine.voucher.entity.PercentDiscountVoucher;
+import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 public enum VoucherMapper {
   FIXED_AMOUNT("1",
-      FixedAmountVoucher.class, "$", FixedAmountVoucher.factory),
+      "$", FixedAmountVoucher.factory),
   PERCENT_DISCOUNT("2",
-      PercentDiscountVoucher.class, "%", PercentDiscountVoucher.factory);
+      "%", PercentDiscountVoucher.factory);
 
   private static final Map<String, VoucherMapper> idToMapperStorage = Collections.unmodifiableMap(
       Stream.of(VoucherMapper.values())
@@ -18,15 +22,13 @@ public enum VoucherMapper {
 
 
   private final String id;
-  private final Class<? extends Voucher> voucherClass;
   private final String unit;
   private final VoucherFactory factory;
 
 
-  VoucherMapper(String id, Class<? extends Voucher> voucherClass, String unit,
+  VoucherMapper(String id, String unit,
       VoucherFactory factory) {
     this.id = id;
-    this.voucherClass = voucherClass;
     this.unit = unit;
     this.factory = factory;
   }
@@ -36,14 +38,14 @@ public enum VoucherMapper {
     return Optional.ofNullable(idToMapperStorage.get(candidate));
   }
 
-  public static Optional<VoucherMapper> fromSimpleClassName(String className) {
-
-    for (VoucherMapper voucherMapper : VoucherMapper.values()) {
-      if (voucherMapper.voucherClass.getSimpleName().equals(className)) {
-        return Optional.of(voucherMapper);
-      }
+  public static String mapToId(Voucher voucher) {
+    // 바우처의 타입을 확인한다.
+    if (FixedAmountVoucher.class.equals(voucher.getClass())) {
+      return FIXED_AMOUNT.id;
+    } else if (PercentDiscountVoucher.class.equals(voucher.getClass())) {
+      return PERCENT_DISCOUNT.id;
     }
-    return Optional.empty();
+    throw new VoucherException("No corresponding voucher type");
   }
 
 

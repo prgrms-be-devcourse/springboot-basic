@@ -11,8 +11,8 @@ import org.programmers.devcourse.voucher.engine.MenuSelection;
 import org.programmers.devcourse.voucher.engine.blacklist.BlackList;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
+import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.springframework.stereotype.Component;
 
 @Component

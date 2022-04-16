@@ -1,8 +1,9 @@
-package org.programmers.devcourse.voucher.engine.voucher;
+package org.programmers.devcourse.voucher.engine.voucher.entity;
 
 import java.text.MessageFormat;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
+import org.programmers.devcourse.voucher.engine.voucher.VoucherFactory;
 
 public class PercentDiscountVoucher extends
     AbstractVoucher {
@@ -36,6 +37,7 @@ public class PercentDiscountVoucher extends
   public long discount(long beforeDiscount) {
     return beforeDiscount * (100 - discountPercent) / 100;
   }
+
 
   @Override
   public String toString() {

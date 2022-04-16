@@ -1,8 +1,9 @@
-package org.programmers.devcourse.voucher.engine.voucher;
+package org.programmers.devcourse.voucher.engine.voucher.entity;
 
 import java.text.MessageFormat;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
+import org.programmers.devcourse.voucher.engine.voucher.VoucherFactory;
 
 
 public class FixedAmountVoucher extends
@@ -43,6 +44,7 @@ public class FixedAmountVoucher extends
     return beforeDiscount > this.discountAmount ? beforeDiscount
         - this.discountAmount : 0;
   }
+
 
   @Override
   public String toString() {

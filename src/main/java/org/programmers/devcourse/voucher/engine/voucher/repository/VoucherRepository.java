@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
-import org.programmers.devcourse.voucher.engine.voucher.Voucher;
+import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 public interface VoucherRepository {
 
