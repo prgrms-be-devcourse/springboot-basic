@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.exception.NotSupportedException;
-import com.programmers.order.factory.VoucherFactory;
+import com.programmers.order.factory.VoucherManagerFactory;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.manager.VoucherManager;
@@ -25,14 +25,14 @@ public class VoucherController {
 
 	private final Input input;
 	private final Output output;
-	private final VoucherFactory voucherFactory;
+	private final VoucherManagerFactory voucherManagerFactory;
 	private final VoucherStoreManager voucherStoreManager;
 
-	public VoucherController(Input input, Output output, VoucherFactory voucherFactory,
+	public VoucherController(Input input, Output output, VoucherManagerFactory voucherManagerFactory,
 			VoucherStoreManager voucherStoreManager) {
 		this.input = input;
 		this.output = output;
-		this.voucherFactory = voucherFactory;
+		this.voucherManagerFactory = voucherManagerFactory;
 		this.voucherStoreManager = voucherStoreManager;
 	}
 
@@ -71,7 +71,7 @@ public class VoucherController {
 
 			try {
 				VoucherType voucherType = VoucherType.of(voucher);
-				VoucherManager voucherManager = voucherFactory.getVoucherManager(voucherType);
+				VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(voucherType);
 
 				voucherStoreManager.saveVoucher(voucherManager.create());
 
