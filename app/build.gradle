@@ -30,6 +30,12 @@ dependencies {
     //jackson csv
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.2'
 
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
+
+    // jackson jsr : LocalDateTime type
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 
