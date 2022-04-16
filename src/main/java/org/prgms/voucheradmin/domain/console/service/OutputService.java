@@ -1,13 +1,13 @@
 package org.prgms.voucheradmin.domain.console.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class OutputService {

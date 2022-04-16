@@ -1,18 +1,18 @@
 package org.prgms.voucheradmin.domain.console.service;
 
-import org.prgms.voucheradmin.domain.console.service.enums.Command;
-import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
-import org.prgms.voucheradmin.global.exception.WrongInputException;
-import org.springframework.stereotype.Service;
+import static org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher.findCommandAboutVoucher;
+import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
-import static org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher.findCommandAboutVoucher;
-import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
+import org.prgms.voucheradmin.domain.console.service.enums.Command;
+import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
+import org.prgms.voucheradmin.global.exception.WrongInputException;
+import org.springframework.stereotype.Service;
 
 @Service
 public class InputService {

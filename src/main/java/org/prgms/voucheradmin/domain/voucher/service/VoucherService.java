@@ -2,7 +2,6 @@ package org.prgms.voucheradmin.domain.voucher.service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
@@ -41,18 +40,24 @@ public class VoucherService {
     }
 
     /**
-     * 바우처 목록을 조회하는 메서드 입니다
+     * 바우처 목록을 조회하는 메서드 입니다.
      **/
     @Transactional(readOnly = true)
     public List<Voucher> getVouchers() throws IOException{
         return voucherRepository.findAll();
     }
 
+    /**
+     * id를 사용하여 바우처를 조회합니다.
+     **/
     @Transactional(readOnly = true)
     public Voucher getVoucherById(UUID voucherId){
         return voucherRepository.findById(voucherId).orElseThrow(() -> new VoucherNotFoundException(voucherId));
     }
 
+    /**
+     * 바우처의 type, amount(percent)를 수정하는 메서드입니다.
+     **/
     @Transactional
     public Voucher updateVoucher(VoucherUpdateReqDto voucherUpdateReqDto) {
         Voucher voucher = getVoucherInstance(
@@ -63,6 +68,9 @@ public class VoucherService {
         return voucherRepository.update(voucher);
     }
 
+    /**
+     * 바우처를 삭제하는 메서드입니다.
+     **/
     @Transactional
     public void deleteVoucher(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> new VoucherNotFoundException(voucherId));
