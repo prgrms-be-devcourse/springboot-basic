@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface VoucherRepository {
     void clear();
-    String save(Voucher voucher);
+    Voucher save(Voucher voucher);
     List<Voucher> findAll();
 }

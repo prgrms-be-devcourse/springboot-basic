@@ -5,10 +5,10 @@ import org.prgrms.kdtspringdemo.domain.voucher.VoucherType;
 
 import java.util.List;
 
-public class VoucherServiceImpl implements VoucherService{
+public class VoucherServiceImpl implements VoucherService {
 
     @Override
-    public String save(VoucherType voucherType, long value) {
+    public Voucher save(VoucherType voucherType, long discountAmount) {
         return null;
     }
 

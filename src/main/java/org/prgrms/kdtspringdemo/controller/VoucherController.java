@@ -12,12 +12,12 @@ public class VoucherController {
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
-    public String save(VoucherType voucherType, long value){
+
+    public Voucher save(VoucherType voucherType, long discountAmount) {
         return null;
     }
 
-    public List<Voucher> findAll(){
+    public List<Voucher> findAll() {
         return null;
     }
-
 }
