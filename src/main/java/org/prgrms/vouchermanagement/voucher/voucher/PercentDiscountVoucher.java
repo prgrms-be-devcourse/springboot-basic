@@ -17,7 +17,7 @@ public class PercentDiscountVoucher extends Voucher {
     return (long) (beforeDiscount - discountedCost);
   }
 
-  static boolean checkReduction(long reduction) {
+  public static boolean checkReduction(long reduction) {
     if(MAX_REDUCTION < reduction || reduction <= 0) return false;
     return true;
   }

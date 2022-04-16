@@ -146,6 +146,15 @@ class VoucherJdbcRepositoryTest {
   }
 
   @Test
+  @Order(5)
+  @DisplayName("voucherId를 사용하여 reduction을 수정할 수 있다")
+  void testUpdateById() {
+    assertThat(voucherJdbcRepository.findById(fixedAmountVoucher1.getVoucherID()).get().getReduction(), is(100L));
+    voucherJdbcRepository.updateById(fixedAmountVoucher1.getVoucherID(), 200L);
+    assertThat(voucherJdbcRepository.findById(fixedAmountVoucher1.getVoucherID()).get().getReduction(), is(200L));
+  }
+
+  @Test
   @Disabled
   @Order(3)
   @DisplayName("deleteAll로 모든 데이터를 삭제할 수 있다")

@@ -17,7 +17,7 @@ public class FixedAmountVoucher extends Voucher {
     return 0 < discountResult? discountResult : 0L;
   }
 
-  static boolean checkReduction(long reduction) {
+  public static boolean checkReduction(long reduction) {
     if(MAX_REDUCTION < reduction || reduction <= 0) return false;
     return true;
   }

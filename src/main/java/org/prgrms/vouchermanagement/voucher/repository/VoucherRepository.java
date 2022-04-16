@@ -20,7 +20,7 @@ public interface VoucherRepository {
 
   public void deleteById(UUID voucherId);
 
-  public void updateById(UUID voucherId);
+  public void updateById(UUID voucherId, long reduction);
 
   public int count();
 }

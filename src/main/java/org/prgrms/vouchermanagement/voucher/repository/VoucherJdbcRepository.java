@@ -1,8 +1,6 @@
 package org.prgrms.vouchermanagement.voucher.repository;
 
-import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
-import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
-import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
+import org.prgrms.vouchermanagement.voucher.voucher.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -87,12 +85,27 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
   @Override
   public void deleteById(UUID voucherId) {
-
+    try {
+      jdbcTemplate.update("delete from vouchers where voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+    } catch (Exception e) {
+      log.error("No such voucherId", e);
+    }
   }
 
   @Override
-  public void updateById(UUID voucherId) {
+  public void updateById(UUID voucherId, long reduction) {
+    Optional<Voucher> voucher = findById(voucherId);
+    if(voucher.isEmpty()) log.error("No such voucher");
+    Voucher oldVoucher = voucher.get();
 
+    if((VoucherType.fromInstance(oldVoucher) == VoucherType.FIXED_AMOUNT && FixedAmountVoucher.checkReduction(reduction)) ||
+      (VoucherType.fromInstance(oldVoucher) == VoucherType.PERCENT_DISCOUNT && PercentDiscountVoucher.checkReduction(reduction))) {
+      jdbcTemplate.update("update vouchers set reduction = :reduction where voucher_id = uuid_to_bin(:voucherId)",
+        new Hashtable<>(){{
+          put("voucherId", voucherId.toString().getBytes());
+          put("reduction", reduction);
+        }});
+    }
   }
 
   private Map<String, Object> toParamMap(Voucher voucher) {
