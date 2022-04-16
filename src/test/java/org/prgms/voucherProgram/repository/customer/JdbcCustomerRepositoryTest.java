@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.voucherProgram.entity.customer.Customer;
+import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -71,12 +72,10 @@ class JdbcCustomerRepositoryTest {
         // given
         Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
         // when
-        Customer saveCustomer = jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.save(customer);
         // then
-        assertThat(jdbcCustomerRepository.findAll()).hasSize(1)
-            .extracting("customerId", "name", "email")
-            .contains(tuple(customer.getCustomerId(), customer.getName(), customer.getEmail()));
-        assertThat(saveCustomer).isEqualTo(customer);
+        assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail()).get()).usingRecursiveComparison()
+            .isEqualTo(customer);
     }
 
     @DisplayName("저장하려는 고객의 이메일이 중복된다면 예외를 발생한다.")
@@ -88,7 +87,7 @@ class JdbcCustomerRepositoryTest {
         // when
         // then
         assertThatThrownBy(() -> jdbcCustomerRepository.save(customer))
-            .isInstanceOf(IllegalArgumentException.class)
+            .isInstanceOf(DuplicateEmailException.class)
             .hasMessage("[ERROR] 중복된 이메일이 존재합니다.");
     }
 
@@ -104,9 +103,11 @@ class JdbcCustomerRepositoryTest {
         List<Customer> findCustomer = jdbcCustomerRepository.findAll();
         // then
         assertThat(findCustomer).hasSize(2)
-            .extracting("customerId", "name", "email")
-            .contains(tuple(customerOne.getCustomerId(), customerOne.getName(), customerOne.getEmail())
-                , tuple(customerTwo.getCustomerId(), customerTwo.getName(), customerTwo.getEmail()));
+            .extracting("customerId", "name", "email", "createdTime")
+            .contains(tuple(customerOne.getCustomerId(), customerOne.getName(), customerOne.getEmail(),
+                    customerOne.getCreatedTime())
+                , tuple(customerTwo.getCustomerId(), customerTwo.getName(), customerTwo.getEmail(),
+                    customerTwo.getCreatedTime()));
     }
 
     @DisplayName("모든 고객을 삭제한다.")
@@ -131,9 +132,8 @@ class JdbcCustomerRepositoryTest {
         Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail());
         // then
         assertThat(findCustomer).isNotEmpty();
-        assertThat(jdbcCustomerRepository.findAll()).hasSize(1)
-            .extracting("customerId", "name", "email")
-            .contains(tuple(customer.getCustomerId(), customer.getName(), customer.getEmail()));
+        assertThat(findCustomer.get()).usingRecursiveComparison()
+            .isEqualTo(customer);
     }
 
     @DisplayName("고객 정보를 수정한다.")
@@ -152,6 +152,22 @@ class JdbcCustomerRepositoryTest {
         assertThat(updateCustomer).isNotEmpty();
         assertThat(updateCustomer.get()).usingRecursiveComparison()
             .isEqualTo(customer);
+    }
+
+    @DisplayName("수정하려는 고객의 이메일이 중복된다면 에러를 발생한다.")
+    @Test
+    void should_ThrowException_When_DuplicateCustomer() {
+        // given
+        Customer customerOne = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        Customer customerTwo = new Customer(UUID.randomUUID(), "pobi", "pobi@gmail.com", LocalDateTime.now());
+        jdbcCustomerRepository.save(customerOne);
+        jdbcCustomerRepository.save(customerTwo);
+        // when
+        // then
+        customerTwo.changeEmail(customerOne.getEmail());
+        assertThatThrownBy(() -> jdbcCustomerRepository.update(customerTwo))
+            .isInstanceOf(DuplicateEmailException.class)
+            .hasMessage("[ERROR] 중복된 이메일이 존재합니다.");
     }
 
     @Configuration
