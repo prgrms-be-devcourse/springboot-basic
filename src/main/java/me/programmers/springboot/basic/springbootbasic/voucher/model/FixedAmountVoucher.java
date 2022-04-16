@@ -2,7 +2,7 @@ package me.programmers.springboot.basic.springbootbasic.voucher.model;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
 
     private final long amount;
     private final UUID voucherId;
@@ -10,11 +10,6 @@ public class FixedAmountVoucher implements Voucher {
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
     }
 
     @Override

@@ -2,7 +2,7 @@ package me.programmers.springboot.basic.springbootbasic.voucher.model;
 
 import java.util.UUID;
 
-public class PercentAmountVoucher implements Voucher {
+public class PercentAmountVoucher extends Voucher {
 
     private final long percent;
     private final UUID voucherId;
@@ -13,14 +13,9 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
     public long discount(long beforeDiscount) {
-        double discountPercentage = percent / 100;
-        long discountedPrice = beforeDiscount - (long) (beforeDiscount * discountPercentage);
+        double discountRange = percent / 100;
+        long discountedPrice = beforeDiscount - (long) (beforeDiscount * discountRange);
         return discountedPrice;
     }
 

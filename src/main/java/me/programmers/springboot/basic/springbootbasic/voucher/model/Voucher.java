@@ -3,8 +3,19 @@ package me.programmers.springboot.basic.springbootbasic.voucher.model;
 import java.io.Serializable;
 import java.util.UUID;
 
-public interface Voucher extends Serializable {
+public abstract class Voucher implements Serializable {
 
-    UUID getVoucherId();
-    long discount(long beforeDiscount);
+    private UUID voucherId;
+
+    protected Voucher() {}
+
+    protected Voucher(UUID voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    public abstract long discount(long beforeDiscount);
 }
