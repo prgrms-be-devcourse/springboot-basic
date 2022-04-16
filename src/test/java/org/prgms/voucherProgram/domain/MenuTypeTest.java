@@ -12,14 +12,14 @@ class MenuTypeTest {
     @ParameterizedTest
     @CsvSource(value = {"create,CREATE", "list,LIST", "exit,EXIT"})
     void of_MenuCommand_ReturnMenuType(String command, MenuType menuType) {
-        assertThat(MenuType.of(command)).isEqualTo(menuType);
+        assertThat(MenuType.from(command)).isEqualTo(menuType);
     }
 
     @DisplayName("올바르지 않은 command은 예외를 발생한다.")
     @ParameterizedTest
     @ValueSource(strings = {"asd", "", "  ", "lists"})
     void of_WrongMenuCommand_ThrowsException(String command) {
-        assertThatThrownBy(() -> MenuType.of(command))
+        assertThatThrownBy(() -> MenuType.from(command))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 올바른 메뉴 입력이 아닙니다.");
     }

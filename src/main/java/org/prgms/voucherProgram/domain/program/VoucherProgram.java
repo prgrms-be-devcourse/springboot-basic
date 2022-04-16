@@ -1,4 +1,4 @@
-package org.prgms.voucherProgram;
+package org.prgms.voucherProgram.domain.program;
 
 import org.prgms.voucherProgram.domain.MenuType;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
@@ -33,20 +33,22 @@ public class VoucherProgram {
             switch (menuType) {
                 case EXIT -> isNotEndProgram = false;
                 case LIST -> printVouchers();
-                case CREATE -> {
-                    VoucherType voucherType = inputVoucherCommand();
-                    Voucher voucher = createVoucher(voucherType);
-                    outputView.printVoucher(voucher);
-                }
+                case CREATE -> createVoucher();
                 case BLACKLIST -> printBlackList();
             }
         }
     }
 
+    private void createVoucher() {
+        VoucherType voucherType = inputVoucherCommand();
+        Voucher voucher = createVoucher(voucherType);
+        outputView.printVoucher(voucher);
+    }
+
     private MenuType inputMenu() {
         while (true) {
             try {
-                return MenuType.of(inputView.inputMenu());
+                return MenuType.from(inputView.inputVoucherMenu());
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

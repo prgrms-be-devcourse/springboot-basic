@@ -16,7 +16,7 @@ public enum MenuType {
         this.command = command;
     }
 
-    public static MenuType of(String command) {
+    public static MenuType from(String command) {
         return Arrays.stream(MenuType.values())
             .filter(type -> type.command.equals(command))
             .findFirst()

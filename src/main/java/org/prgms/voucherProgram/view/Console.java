@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Console implements InputView, OutputView {
     private static final String PROMPT = "> ";
-    private static final String REQUEST_INPUT_COMMAND = "=== Voucher Program ===\nType \"exit\" to exit the program.\nType \"create\" to create a new voucher.\nType \"list\" to list all vouchers.\nType \"blacklist\" to list all black customer.";
+    private static final String REQUEST_INPUT_CONSOLE_COMMAND = "\n=== Console Program ===\nType \"exit\" to exit the program.\nType \"voucher\" run Voucher program.\nType \"customer\" run Customer program.";
+    private static final String REQUEST_INPUT_VOUCHER_COMMAND = "\n=== Voucher Program ===\nType \"exit\" to exit the Voucher program.\nType \"create\" to create a new voucher.\nType \"list\" to list all vouchers.\nType \"blacklist\" to list all black customer.";
     private static final String REQUEST_INPUT_VOUCHER_TYPE = "\nSelect a voucher type\nType \"1\" to create a new FixedAmountVoucher\nType \"2\" to create a new PercentDiscountVoucher";
     private static final String REQUEST_INPUT_DISCOUNT_AMOUNT = "\nInput voucher discount amount : ";
     private static final String REQUEST_INPUT_DISCOUNT_PERCENTAGE = "\nInput voucher discount percentage : ";
@@ -22,8 +23,15 @@ public class Console implements InputView, OutputView {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public String inputMenu() {
-        System.out.println(REQUEST_INPUT_COMMAND);
+    public String inputConsoleMenu() {
+        System.out.println(REQUEST_INPUT_CONSOLE_COMMAND);
+        System.out.print(PROMPT);
+        return scanner.nextLine().trim();
+    }
+
+    @Override
+    public String inputVoucherMenu() {
+        System.out.println(REQUEST_INPUT_VOUCHER_COMMAND);
         System.out.print(PROMPT);
         return scanner.nextLine().trim().toLowerCase();
     }
