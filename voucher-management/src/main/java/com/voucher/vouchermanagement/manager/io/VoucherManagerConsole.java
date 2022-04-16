@@ -53,13 +53,9 @@ public class VoucherManagerConsole implements VoucherManagerInput, VoucherManage
 
     @Override
     public void printVoucherType() {
-        try {
-            bw.write("=== Voucher Type ===" + "\n");
-            bw.write("1. fixedAmount" + "\n");
-            bw.write("2. percentAmount" + "\n");
-            bw.flush();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
+        System.out.println("=== Voucher Type ===");
+
+        Arrays.stream(VoucherType.values())
+                .forEach(System.out::println);
     }
 }

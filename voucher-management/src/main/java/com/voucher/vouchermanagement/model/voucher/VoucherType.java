@@ -44,4 +44,9 @@ public enum VoucherType {
     public Voucher create(CreateVoucherDto createVoucherDto) {
         return this.constructor.apply(createVoucherDto);
     }
+
+    @Override
+    public String toString() {
+        return typeNumber + ". " + typeName;
+    }
 }
