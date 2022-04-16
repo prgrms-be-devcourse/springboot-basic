@@ -3,8 +3,6 @@ package org.prgms.voucherProgram.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.prgms.voucherProgram.domain.voucher.FixedAmountVoucher;
-import org.prgms.voucherProgram.domain.voucher.PercentDiscountVoucher;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.repository.voucher.VoucherRepository;
@@ -19,17 +17,9 @@ public class VoucherService {
         this.repository = repository;
     }
 
-    public Voucher create(VoucherType voucherType, long value) {
-        Voucher voucher = createVoucher(voucherType, value);
+    public Voucher create(VoucherType voucherType, long discountValue) {
+        Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), discountValue);
         return repository.save(voucher);
-    }
-
-    private Voucher createVoucher(VoucherType voucherType, long value) {
-        if (voucherType == VoucherType.FIXED_AMOUNT) {
-            return new FixedAmountVoucher(UUID.randomUUID(), value);
-        }
-
-        return new PercentDiscountVoucher(UUID.randomUUID(), value);
     }
 
     public List<Voucher> findAllVoucher() {

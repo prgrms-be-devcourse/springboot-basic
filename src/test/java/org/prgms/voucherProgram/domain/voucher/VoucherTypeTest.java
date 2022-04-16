@@ -2,7 +2,10 @@ package org.prgms.voucherProgram.domain.voucher;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -22,5 +25,19 @@ class VoucherTypeTest {
         assertThatThrownBy(() -> VoucherType.findByCommand(command))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 올바른 바우처 커맨드가 아닙니다.");
+    }
+
+    @DisplayName("FIXED_AMOUNT일때 FixedAmountVoucher를 생성한다.")
+    @Test
+    void should_CreateFixedAmountVoucher_When_FIXED_AMOUNT() {
+        assertThat(VoucherType.FIXED_AMOUNT.createVoucher(UUID.randomUUID(), 10L)).isInstanceOf(
+            FixedAmountVoucher.class);
+    }
+
+    @DisplayName("PERCENT_DISCOUNT일때 PercentDiscountVoucher를 생성한다.")
+    @Test
+    void should_CreatePercentDiscountVoucher_When_PERCENT_DISCOUNT() {
+        assertThat(VoucherType.PERCENT_DISCOUNT.createVoucher(UUID.randomUUID(), 10L)).isInstanceOf(
+            PercentDiscountVoucher.class);
     }
 }
