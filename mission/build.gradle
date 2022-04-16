@@ -18,10 +18,6 @@ dependencies {
 
     //AssertJ
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
-
-    //Cucumber
-    testImplementation 'io.cucumber:cucumber-java:6.10.4'
-
 }
 
 tasks.named('test') {
