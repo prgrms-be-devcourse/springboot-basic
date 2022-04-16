@@ -39,7 +39,7 @@ public class VoucherController {
 	public void run() {
 		while (true) {
 			String menu = input.read(BasicMessage.INIT);
-			MenuType menuType = MenuType.getMenuType(menu); // note : of 말고 이 네이밍이 더 좋아보임
+			MenuType menuType = MenuType.of(menu);
 
 			switch (menuType) {
 				case CREATE -> {
@@ -70,7 +70,7 @@ public class VoucherController {
 			String voucher = input.read(BasicMessage.VOUCHER_SELECT);
 
 			try {
-				VoucherType voucherType = VoucherType.getVoucherType(voucher);
+				VoucherType voucherType = VoucherType.of(voucher);
 				VoucherManager voucherManager = voucherFactory.getVoucherManager(voucherType);
 
 				voucherStoreManager.saveVoucher(voucherManager.create());

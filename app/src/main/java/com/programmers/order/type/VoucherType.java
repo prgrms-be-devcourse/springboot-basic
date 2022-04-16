@@ -13,7 +13,7 @@ public enum VoucherType {
 		this.key = key;
 	}
 
-	public static VoucherType getVoucherType(String input) {
+	public static VoucherType of(String input) {
 		if (!PatternUtils.isNumeric(input)) {
 			return NONE;
 		}
