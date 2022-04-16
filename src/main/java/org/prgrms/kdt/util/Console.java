@@ -29,7 +29,7 @@ public class Console{
 
 
     public static String inputVoucherType() {
-        System.out.println("Type voucherType: fixedAmount or percentDiscount");
+        System.out.println("Type voucherType: FIXED or PERCENT");
         String voucherType = scanner.next();
         logger.info("Type VoucherType: {}", voucherType);
         return voucherType;

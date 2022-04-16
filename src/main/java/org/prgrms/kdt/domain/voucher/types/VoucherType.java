@@ -3,8 +3,8 @@ package org.prgrms.kdt.domain.voucher.types;
 import java.util.Arrays;
 
 public enum VoucherType {
-    FIXED_AMOUNT("fixedAmount"),
-    PERCENT_DISCOUNT("percentDiscount");
+    FIXED_AMOUNT("FIXED"),
+    PERCENT_DISCOUNT("PERCENT");
 
     private final String type;
 
