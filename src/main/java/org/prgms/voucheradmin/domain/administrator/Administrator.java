@@ -1,10 +1,11 @@
 package org.prgms.voucheradmin.domain.administrator;
 
-import org.prgms.voucheradmin.domain.console.Command;
+import org.prgms.voucheradmin.domain.console.service.enums.Command;
 import org.prgms.voucheradmin.domain.console.service.ConsoleService;
+import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -41,16 +43,12 @@ public class Administrator {
                 Command command = consoleService.selectCommand();
 
                 switch (command) {
-                    case CREATE:
-                        consoleService.showVoucherType();
-                        VoucherType voucherType = consoleService.selectVoucherType();
-                        VoucherInputDto voucherInputDto = consoleService.inputAmount(voucherType);
-                        Voucher createdVoucher = voucherService.createVoucher(voucherInputDto);
-                        consoleService.showVoucherCreated(createdVoucher);
+                    case VOUCHER:
+                        consoleService.showCommandAboutVoucher();
+                        CommandAboutVoucher commandAboutVoucher = consoleService.selectCommandAboutVoucher();
+                        doCommandAboutVoucher(commandAboutVoucher);
                         break;
-                    case LIST:
-                        List<Voucher> vouchers = voucherService.getVouchers();
-                        consoleService.showVoucherList(vouchers);
+                    case CUSTOMER:
                         break;
                     case BLACKLIST:
                         List<CustomerDto> blackListedCustomers = customerService.getBlackList();
@@ -64,4 +62,20 @@ public class Administrator {
             }
         }
     }
+
+    private void doCommandAboutVoucher(CommandAboutVoucher commandAboutVoucher) throws IOException {
+        switch (commandAboutVoucher) {
+            case CREATE:
+                consoleService.showVoucherType();
+                VoucherType voucherType = consoleService.selectVoucherType();
+                VoucherCreateReqDto voucherCreateReqDto = consoleService.inputAmount(voucherType);
+                Voucher createdVoucher = voucherService.createVoucher(voucherCreateReqDto);
+                consoleService.showVoucherCreated(createdVoucher);
+                break;
+            case READ:
+                List<Voucher> vouchers = voucherService.getVouchers();
+                consoleService.showVoucherList(vouchers);
+        }
+    }
+
 }

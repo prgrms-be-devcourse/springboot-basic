@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -23,7 +24,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
      * 생성된 바우처를 메모리에 저장하는 메서드입니다.
      **/
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher create(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
@@ -33,13 +33,13 @@ class VoucherServiceTest {
         try {
             // when
             Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
-            when(voucherRepository.save(any(Voucher.class))).thenReturn(voucher);
+            when(voucherRepository.create(any(Voucher.class))).thenReturn(voucher);
 
             // given
-            voucherService.createVoucher(new VoucherInputDto(FIXED_AMOUNT, 10L));
+            voucherService.createVoucher(new VoucherCreateReqDto(FIXED_AMOUNT, 10L));
 
             // then
-            verify(voucherRepository).save(any());
+            verify(voucherRepository).create(any());
         }catch (IOException e) {
             System.out.println(e.getMessage());
         }

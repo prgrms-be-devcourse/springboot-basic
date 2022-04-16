@@ -20,8 +20,8 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10L);
         Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 10L);
 
-        memoryVoucherRepository.save(voucher1);
-        memoryVoucherRepository.save(voucher2);
+        memoryVoucherRepository.create(voucher1);
+        memoryVoucherRepository.create(voucher2);
 
         List<Voucher> vouchers = memoryVoucherRepository.getAll();
 

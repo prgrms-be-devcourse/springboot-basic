@@ -36,7 +36,7 @@ class FileVoucherRepositoryTest {
         when(voucherAdminProperties.getVoucherFilePath()).thenReturn("src/main/java/org/prgms/voucheradmin/global/filedata/voucher.txt");
 
         try {
-            fileVoucherRepository.save(newVoucher);
+            fileVoucherRepository.create(newVoucher);
 
             List<Voucher> vouchers = fileVoucherRepository.getAll().stream()
                     .filter(voucher -> voucher.getVoucherId().equals(voucherId))

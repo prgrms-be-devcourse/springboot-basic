@@ -6,7 +6,12 @@ import java.util.List;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 
 public interface VoucherRepository {
-    Voucher save(Voucher voucher) throws IOException;
+    Voucher create(Voucher voucher) throws IOException;
 
     List<Voucher> getAll() throws IOException;
+
+    default Voucher update(){
+        return null;
+    }
+
 }

@@ -12,14 +12,12 @@ import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.global.properties.VoucherAdminProperties;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 /**
  * 생성된 바우처를 파일에 저장하거나 파일에 저장된 바우처 목록의 반환을 담당하는 클래스입니다.
  **/
 @Repository
-@Primary
 public class FileVoucherRepository implements VoucherRepository{
     private final VoucherAdminProperties voucherAdminProperties;
 
@@ -31,7 +29,7 @@ public class FileVoucherRepository implements VoucherRepository{
      * 생성된 바우처를 파일에 저장하는 메서드 입니다.
      **/
     @Override
-    public Voucher save(Voucher voucher) throws IOException {
+    public Voucher create(Voucher voucher) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(voucherAdminProperties.getVoucherFilePath(),true));
         bw.write(voucher.toString());
         bw.newLine();

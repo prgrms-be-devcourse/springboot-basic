@@ -1,5 +1,6 @@
 package org.prgms.voucheradmin.domain.console.service;
 
+import static org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher.*;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
 
 import java.io.BufferedReader;
@@ -8,9 +9,10 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-import org.prgms.voucheradmin.domain.console.Command;
+import org.prgms.voucheradmin.domain.console.service.enums.Command;
+import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherInputDto;
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.global.exception.WrongInputException;
@@ -23,26 +25,29 @@ import org.springframework.stereotype.Service;
 public class ConsoleService {
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    /**
-     * 선택 가능한 명령들을 사용자에게 보여주는 메서드입니다.
-     **/
     public void showCommandList() {
         StringBuilder commandListBuilder = new StringBuilder();
 
         commandListBuilder
                 .append("\n=== Voucher Program ===\n")
                 .append("Type exit to exit the program.\n")
-                .append("Type create to create a new voucher.\n")
-                .append("Type list to list all vouchers.\n")
+                .append("Type voucher to CRUD about voucher.\n")
+                .append("Type customer to CRUD about customer.\n")
                 .append("Type blacklist to list all blacklisted customers.\n");
 
         System.out.println(commandListBuilder);
         System.out.print("command> ");
     }
 
-    /**
-     * 생성할 수 있는 바우처의 종류들을 사용자에게 보여주는 메서드입니다.
-     **/
+    public void showCommandAboutVoucher() {
+        StringBuilder voucherCommandListBuilder = new StringBuilder();
+        Arrays.stream(CommandAboutVoucher.values())
+                .forEach(commandAboutVoucher -> voucherCommandListBuilder.append(commandAboutVoucher.toString()).append("\n"));
+
+        System.out.print(voucherCommandListBuilder);
+    }
+
+
     public void showVoucherType() {
         StringBuilder voucherTypeStrBuilder = new StringBuilder();
 
@@ -53,47 +58,36 @@ public class ConsoleService {
         System.out.print(voucherTypeStrBuilder);
     }
 
-    /**
-     * 셍성된 바우처의 정보를 보여주는 메서드입니다.
-     */
     public void showVoucherCreated(Voucher createdVoucher) {
-        System.out.println(createdVoucher+" created");
+        System.out.println(createdVoucher + " created");
     }
 
-    /**
-     * 바우처 목록을 보여주는 메서드입니다.
-     */
     public void showVoucherList(List<Voucher> vouchers) {
         vouchers.forEach(voucher -> System.out.println(voucher));
     }
 
-    /**
-     * 블랙리스트 목록을 보여주는 메서드입니다.
-     */
     public void showBlacklist(List<CustomerDto> blackListedCustomers) {
         blackListedCustomers.forEach(blackListedCustomer -> System.out.println(blackListedCustomer));
     }
 
-    /**
-     * 사용자가 명령을 입력하는 메서드입니다.
-     * findCommand 메서드를 통하여 옳바른 입력인지 검증하고 옳바른 입력일 경우 Commands를 반환합니다.
-     * 만약 옳바른 입력이 아닌 경우 WrongInputException을 발생시킵니다.
-     **/
     public Command selectCommand() throws IOException, WrongInputException {
         String selectedCommand = br.readLine().trim().toUpperCase();
 
-        try{
-            Command command =  Command.valueOf(selectedCommand);
+        try {
+            Command command = Command.valueOf(selectedCommand);
             return command;
-        }catch (IllegalArgumentException illegalArgumentException) {
+        } catch (IllegalArgumentException illegalArgumentException) {
             throw new WrongInputException();
         }
     }
 
-    /**
-     * 사용자가 생성할 바우처의 종류를 선택하는 메서드입니다.
-     * 옳바른 입력일 경우 VoucherTypes를 반환하지만 그렇지 않은 경우 WrongInputException을 발생시킵니다.
-     **/
+    public CommandAboutVoucher selectCommandAboutVoucher() throws IOException, WrongInputException {
+        String selectedCommandId = br.readLine().trim();
+        System.out.println();
+
+        return findCommandAboutVoucher(selectedCommandId).orElseThrow(WrongInputException::new);
+    }
+
     public VoucherType selectVoucherType() throws IOException, WrongInputException {
         String selectedVoucherTypeId = br.readLine().trim();
         System.out.println();
@@ -101,22 +95,18 @@ public class ConsoleService {
         return findVoucherType(selectedVoucherTypeId).orElseThrow(WrongInputException::new);
     }
 
-    /**
-     * 사용자가 생성할 바우처의 할인 amount 또는 percent를 입력하는 메서드입니다.
-     * 정상적으로 입력이 이루어진 경우 VoucherInputDto 반환하지만 그렇지 않은 경우 WrongInputException을 발생시킵니다.
-     **/
-    public VoucherInputDto inputAmount(VoucherType voucherType) throws IOException, WrongInputException {
+    public VoucherCreateReqDto inputAmount(VoucherType voucherType) throws IOException, WrongInputException {
         System.out.print(voucherType == FIXED_AMOUNT ? "amount> " : "percent> ");
 
         try {
             long input = Long.parseLong(br.readLine().trim());
 
-            if(input < 0 || (voucherType == PERCENTAGE_DISCOUNT && input > 100)) {
+            if (input < 0 || (voucherType == PERCENTAGE_DISCOUNT && input > 100)) {
                 throw new WrongInputException();
             }
 
-            return new VoucherInputDto(voucherType, input);
-        }catch (NumberFormatException numberFormatException) {
+            return new VoucherCreateReqDto(voucherType, input);
+        } catch (NumberFormatException numberFormatException) {
             throw new WrongInputException();
         }
     }

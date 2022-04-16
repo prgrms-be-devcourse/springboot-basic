@@ -33,3 +33,5 @@ build/
 .vscode/
 
 logs/*.log
+
+application-db.yml
