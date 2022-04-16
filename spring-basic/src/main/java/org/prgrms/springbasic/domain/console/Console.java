@@ -49,7 +49,7 @@ public class Console implements Input, Output {
 
     @Override
     public <T> void printData(List<T> data) {
-        data.forEach(System.out::println);
+        data.forEach(System.out::print);
     }
 
     @Override

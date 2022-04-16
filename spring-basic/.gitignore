@@ -36,3 +36,5 @@ mvnw
 mvnw.cmd
 spring-basic.iml
 logs/
+src/main/resources/black-customers.csv
+src/main/resources/vouchers.txt
