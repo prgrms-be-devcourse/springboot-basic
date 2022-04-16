@@ -1,8 +1,8 @@
 package com.example.voucherproject.user.repository;
 
 import com.example.voucherproject.common.enums.UserType;
-import com.example.voucherproject.common.file.MyReader;
-import com.example.voucherproject.common.file.MyWriter;
+import com.example.voucherproject.common.io.file.MyReader;
+import com.example.voucherproject.common.io.file.MyWriter;
 import com.example.voucherproject.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

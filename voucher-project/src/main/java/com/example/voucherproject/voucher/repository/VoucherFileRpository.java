@@ -1,8 +1,8 @@
 package com.example.voucherproject.voucher.repository;
 
 import com.example.voucherproject.common.enums.VoucherType;
-import com.example.voucherproject.common.file.MyReader;
-import com.example.voucherproject.common.file.MyWriter;
+import com.example.voucherproject.common.io.file.MyReader;
+import com.example.voucherproject.common.io.file.MyWriter;
 import com.example.voucherproject.voucher.domain.FixedDiscountVoucher;
 import com.example.voucherproject.voucher.domain.PercentDiscountVoucher;
 import com.example.voucherproject.voucher.domain.Voucher;

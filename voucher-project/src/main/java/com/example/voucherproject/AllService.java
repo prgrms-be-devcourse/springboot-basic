@@ -1,6 +1,6 @@
 package com.example.voucherproject;
 
-import com.example.voucherproject.common.io.Input;
+import com.example.voucherproject.common.io.console.Input;
 import com.example.voucherproject.user.service.UserService;
 import com.example.voucherproject.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;

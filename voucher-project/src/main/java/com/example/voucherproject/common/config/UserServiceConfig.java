@@ -1,9 +1,9 @@
 package com.example.voucherproject.common.config;
 
-import com.example.voucherproject.common.file.MyReader;
-import com.example.voucherproject.common.file.MyWriter;
-import com.example.voucherproject.common.io.Input;
-import com.example.voucherproject.common.io.Output;
+import com.example.voucherproject.common.io.console.Input;
+import com.example.voucherproject.common.io.console.Output;
+import com.example.voucherproject.common.io.file.MyReader;
+import com.example.voucherproject.common.io.file.MyWriter;
 import com.example.voucherproject.user.domain.UserFactory;
 import com.example.voucherproject.user.repository.UserFileRepository;
 import com.example.voucherproject.user.repository.UserRepository;

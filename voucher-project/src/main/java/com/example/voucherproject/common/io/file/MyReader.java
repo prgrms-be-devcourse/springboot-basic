@@ -1,4 +1,4 @@
-package com.example.voucherproject.common.file;
+package com.example.voucherproject.common.io.file;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.voucherproject.common.io;
+package com.example.voucherproject.common.io.console;
 
 import com.example.voucherproject.user.domain.User;
 import com.example.voucherproject.voucher.domain.Voucher;
