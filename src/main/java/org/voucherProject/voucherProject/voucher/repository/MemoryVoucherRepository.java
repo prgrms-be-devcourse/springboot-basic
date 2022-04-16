@@ -33,6 +33,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return null;
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;

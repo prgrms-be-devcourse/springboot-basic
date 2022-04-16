@@ -28,6 +28,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             "values (UUID_TO_BIN(:voucherId), :amount, :voucherType, :voucherStatus, :createdAt, UUID_TO_BIN(:customerId))";
     private final String DELETE_ALL_SQL = "delete from voucher";
     private final String UPDATE_SQL = "update voucher set voucher_type = :voucherType, voucher_status = :voucherStatus, amount = :amount where customer_id = UUID_TO_BIN(:customerId)";
+    private final String SELECT_BY_CUSTOMER_ID_SQL = "select * from voucher v left join customers c on v.customer_id = c.customer_id where v.customer_id = UUID_TO_BIN(:customerId)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -56,6 +57,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query(SELECT_ALL_SQL, customerRowMapper());
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return jdbcTemplate.query(SELECT_BY_CUSTOMER_ID_SQL,
+                Collections.singletonMap("customerId",customerId.toString().getBytes()),
+                customerRowMapper());
     }
 
     @Override
