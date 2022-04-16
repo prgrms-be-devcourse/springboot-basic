@@ -6,7 +6,6 @@ public class FixedAmountVoucher implements Voucher{
 
     private final UUID voucherId;
     private final Long amount;
-    private final String type =this.getClass().toString();
     public FixedAmountVoucher(UUID voucherId, Long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
