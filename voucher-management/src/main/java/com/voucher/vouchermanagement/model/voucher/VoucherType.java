@@ -30,13 +30,15 @@ public enum VoucherType {
     public static VoucherType getVoucherTypeByName(String typeNameInput) {
         return Arrays.stream(VoucherType.values())
                 .filter((voucherType) -> voucherType.getTypeName().equals(typeNameInput))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입니다."));
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입니다."));
     }
 
     public static VoucherType getVoucherTypeByNumber(int typeNumberInput) {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> voucherType.getTypeNumber() == typeNumberInput)
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입니다."));
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입니다."));
     }
 
     public Voucher create(CreateVoucherDto createVoucherDto) {
