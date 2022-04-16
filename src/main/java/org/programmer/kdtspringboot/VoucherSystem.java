@@ -65,7 +65,7 @@ public class VoucherSystem {
 
     private void showVoucherList() throws IOException {
         List<Voucher> list = voucherService.findAllVouchers();
-        list.stream().map(voucher -> voucher.getVoucherId() + ", " + voucher.getValue() + ", " + voucher.getType()).forEach(console::print);
+        list.stream().map(voucher -> voucher.getVoucherId() + ", " + voucher.getValue() + ", " + voucher.getClass().toString()).forEach(console::print);
     }
 
     private void createVoucher() {
