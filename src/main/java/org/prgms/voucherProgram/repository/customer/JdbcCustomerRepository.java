@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.prgms.voucherProgram.entity.customer.Customer;
 import org.prgms.voucherProgram.exception.DuplicateEmailException;
+import org.prgms.voucherProgram.exception.NothingChangeException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -42,7 +43,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer save(Customer customer) {
         try {
             jdbcTemplate.update(
-                "INSERT INTO customers(customer_id, name, email, created_at) VALUES(UUID_TO_BIN(?), ?, ?, ?)",
+                "INSERT INTO customer(customer_id, name, email, created_at) VALUES(UUID_TO_BIN(?), ?, ?, ?)",
                 toBytes(customer.getCustomerId()),
                 customer.getName(),
                 customer.getEmail(),
@@ -61,7 +62,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer update(Customer customer) {
         try {
             jdbcTemplate.update(
-                "UPDATE customers SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
+                "UPDATE customer SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
                 customer.getName(),
                 customer.getEmail(),
                 customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
@@ -74,14 +75,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("SELECT * FROM customers", customerRowMapper);
+        return jdbcTemplate.query("SELECT * FROM customer", customerRowMapper);
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
             return Optional.ofNullable(
-                jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)",
+                jdbcTemplate.queryForObject("SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(?)",
                     customerRowMapper, toBytes(customerId)));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -91,7 +92,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = ?",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customer WHERE email = ?",
                 customerRowMapper, email));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -100,11 +101,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM customers");
+        jdbcTemplate.update("DELETE FROM customer");
     }
 
     @Override
     public void deleteById(UUID customerId) {
+        int result = jdbcTemplate.update("DELETE FROM customer WHERE customer_id = UUID_TO_BIN(?)",
+            toBytes(customerId));
+        validExecute(result);
+    }
 
+    private void validExecute(int excute) {
+        if (excute == 0) {
+            throw new NothingChangeException();
+        }
     }
 }

@@ -20,6 +20,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.voucherProgram.entity.customer.Customer;
 import org.prgms.voucherProgram.exception.DuplicateEmailException;
+import org.prgms.voucherProgram.exception.NothingChangeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -204,6 +205,31 @@ class JdbcCustomerRepositoryTest {
         Optional<Customer> findCustomer = jdbcCustomerRepository.findById(id);
         // then
         assertThat(findCustomer).isEmpty();
+    }
+
+    @DisplayName("ID를 통해 고객을 삭제한다.")
+    @Test
+    void should_DeleteCustomer_When_IdIsExist() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        jdbcCustomerRepository.save(customer);
+        // when
+        jdbcCustomerRepository.deleteById(customer.getCustomerId());
+        // then
+        assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isEmpty();
+    }
+
+    @DisplayName("잘못된 ID로 삭제하려고 하면 예외를 발생한다.")
+    @Test
+    void should_ThrowException_When_IdIsNotExist() {
+        // given
+        UUID id = UUID.randomUUID();
+        // when
+        // then
+        assertThatThrownBy(() -> jdbcCustomerRepository.deleteById(id))
+            .isInstanceOf(NothingChangeException.class)
+            .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
+
     }
 
     @Configuration
