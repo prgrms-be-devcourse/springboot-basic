@@ -21,7 +21,7 @@ public class FileUtilsTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 파일에 쓰기를 할 경우 파일을 생성하여 파일 쓰기를 합니다.")
+    @DisplayName("존재하지 않는 파일에 쓰기를 할 경우 파일을 생성합니다.")
     public void writeFileWithNonExistentFile() {
     }
 

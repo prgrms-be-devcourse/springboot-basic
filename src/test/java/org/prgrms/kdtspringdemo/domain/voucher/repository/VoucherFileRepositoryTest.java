@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.domain.voucher.repository;
 
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,7 @@ public class VoucherFileRepositoryTest {
     }
 
     @Test
-    @DisplayName("save()호출 시 FileUtils.writeFile()에 예외가 발생하면 예외가 전달됩니다.")
+    @DisplayName("save()호출 시 FileUtils.writeFile()에 예외가 발생하면 예외가 발생합니다.")
     public void saveWithFileUtilsException() {
     }
 
@@ -22,7 +21,7 @@ public class VoucherFileRepositoryTest {
     }
 
     @Test
-    @DisplayName("findAll()호출 시 FileUtils.getFileString()에 예외가 발생하면 예외가 전달됩니다.")
+    @DisplayName("findAll()호출 시 FileUtils.getFileString()에 예외가 발생하면 예외가 발생합니다.")
     public void findAllWithFileUtilsException() {
     }
 }
