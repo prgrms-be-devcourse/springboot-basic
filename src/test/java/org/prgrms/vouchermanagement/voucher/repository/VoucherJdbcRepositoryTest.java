@@ -117,16 +117,8 @@ class VoucherJdbcRepositoryTest {
   @Order(2)
   void testfindAll() {
     List<Voucher> dbVoucherList = voucherJdbcRepository.findAll();
-    List<Voucher> voucherList = new ArrayList<>(){{
-      add(voucher1);
-      add(voucher2);
-    }};
-
-
-
+    assertThat(dbVoucherList.size(), is(2));
   }
-
-
 
   @Test
   @Order(3)
