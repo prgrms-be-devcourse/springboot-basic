@@ -1,45 +1,26 @@
 package com.mountain.voucherApp.voucher;
 
+import com.mountain.voucherApp.enums.DiscountPolicy;
+
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
 
-    private final UUID voucherId;
-    private final long amount;
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        if (amount <= 0)
+    @Override
+    public boolean validate(long discountAmount) {
+        // MAX_AMOUNT 검사
+        if (discountAmount <= 0)
             throw new IllegalArgumentException("Amount should be positive");
-        if (amount > MAX_VOUCHER_AMOUNT)
+        if (discountAmount > MAX_VOUCHER_AMOUNT)
             throw new IllegalArgumentException("Amount should be less than " + MAX_VOUCHER_AMOUNT);
-        this.voucherId = voucherId;
-        this.amount = amount;
-    }
-
-    public FixedAmountVoucher(long amount) {
-        FixedAmountVoucher instance = new FixedAmountVoucher(UUID.randomUUID(), amount);
-        this.voucherId = instance.getVoucherId();
-        this.amount = instance.getAmount();
+        return true;
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public long discount(long beforeDiscount) {
-        long discountedAmount = beforeDiscount - amount;
+    public long discount(long beforeDiscount, long discountAmount) {
+        long discountedAmount = beforeDiscount - discountAmount;
         return (discountedAmount < 0) ? 0 : discountedAmount;
-    }
-
-    @Override
-    public String toString() {
-        return "id: " + voucherId + ", amount: " + amount;
-    }
-
-    @Override
-    public long getAmount() {
-        return amount;
     }
 }

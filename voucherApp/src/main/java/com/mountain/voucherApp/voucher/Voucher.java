@@ -1,9 +1,10 @@
 package com.mountain.voucherApp.voucher;
 
+import com.mountain.voucherApp.enums.DiscountPolicy;
+
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getVoucherId();
-    long getAmount();
-    long discount(long beforeDiscount);
+public abstract class Voucher {
+    public abstract long discount(long beforeDiscount, long discountAmount);
+    public abstract boolean validate(long discountAmount) throws IllegalArgumentException;
 }

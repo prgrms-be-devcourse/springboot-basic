@@ -2,7 +2,7 @@ package com.mountain.voucherApp.io;
 
 import com.mountain.voucherApp.enums.DiscountPolicy;
 import com.mountain.voucherApp.enums.Menu;
-import com.mountain.voucherApp.voucher.Voucher;
+import com.mountain.voucherApp.voucher.VoucherEntity;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -13,6 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static com.mountain.voucherApp.constants.Color.*;
+import static com.mountain.voucherApp.constants.CommonCharacter.INPUT_PROMPT;
+import static com.mountain.voucherApp.constants.Message.*;
 import static com.mountain.voucherApp.utils.MenuUtil.getMenuMap;
 
 @Component
@@ -20,17 +23,6 @@ public class Console implements Input, Output {
 
     private final TextIO textIO = TextIoFactory.getTextIO();
     private final TextTerminal<?> textTerminal = textIO.getTextTerminal();
-
-    private final String MANUAL_TITLE = "=== Voucher Program ===";
-    private final String WRONG_INPUT = "wrong input";
-    private final String PLEASE_AMOUNT = "Please enter discount amount";
-    private final String INPUT_PROMPT = "%";
-
-    private final String INPUT_COLOR = "white";
-    private final String MANUAL_COLOR = "cyan";
-    private final String MENU_COLOR = "yellow";
-    private final String ERR_COLOR = "red";
-    private final String SELECT_COLOR = "white";
 
     private void changeColor(String color) {
         textTerminal.getProperties().setPromptColor(color);
@@ -55,7 +47,7 @@ public class Console implements Input, Output {
         textTerminal.println(MANUAL_TITLE);
         Map<String, Menu> menuMap = getMenuMap();
         for (String key : menuMap.keySet()) {
-            textTerminal.printf("Type ");
+            textTerminal.printf(MessageFormat.format("{0} ", TYPE));
             changeColor(MENU_COLOR);
             textTerminal.printf(key);
             changeColor(MANUAL_COLOR);
@@ -74,7 +66,7 @@ public class Console implements Input, Output {
     public void choiceDiscountPolicy() {
         changeColor(SELECT_COLOR);
         Arrays.stream(DiscountPolicy.values())
-                .forEach((p) -> textTerminal.print(MessageFormat.format("{0}. {1}\n",p.getOrdinal(),
+                .forEach((p) -> textTerminal.print(MessageFormat.format("{0}. {1}\n",p.getPolicyId(),
                                                                                             p.getDescription())));
     }
 
@@ -85,9 +77,9 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printAllList(List<Voucher> repository) {
+    public void printAllList(List<VoucherEntity> repository) {
         repository.stream()
-                .forEach((voucher) -> textTerminal.println(voucher.toString()));
+                .forEach((voucher) -> textTerminal.print(voucher.toString()));
     }
 
     @Override

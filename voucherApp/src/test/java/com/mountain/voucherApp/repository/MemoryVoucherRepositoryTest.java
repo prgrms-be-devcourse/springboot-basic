@@ -2,6 +2,7 @@ package com.mountain.voucherApp.repository;
 
 import com.mountain.voucherApp.voucher.PercentDiscountVoucher;
 import com.mountain.voucherApp.voucher.Voucher;
+import com.mountain.voucherApp.voucher.VoucherEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,11 +30,14 @@ class MemoryVoucherRepositoryTest {
     @Test
     public void insertTest() throws Exception {
         //given
-        Voucher voucher = new PercentDiscountVoucher(10);
+        Voucher voucher = new PercentDiscountVoucher();
+
+        VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), 1, 1000L);
+
         //when
-        Voucher saved = voucherRepository.insert(voucher);
+        VoucherEntity saved = voucherRepository.insert(voucherEntity);
         //then
-        Optional<Voucher> findVoucher = voucherRepository.findById(saved.getVoucherId());
+        Optional<VoucherEntity> findVoucher = voucherRepository.findById(saved.getVoucherId());
         Assertions.assertEquals(saved.getVoucherId(), findVoucher.get().getVoucherId());
     }
 
@@ -41,11 +46,13 @@ class MemoryVoucherRepositoryTest {
     public void findAllTest() throws Exception {
         //given
         for (int i = 1; i <= 10; i++) {
-            Voucher voucher = new PercentDiscountVoucher(i);
-            voucherRepository.insert(voucher);
+            VoucherEntity entity = new VoucherEntity(UUID.randomUUID(),
+                    1,
+                    100L);
+            voucherRepository.insert(entity);
         }
         //when
-        List<Voucher> all = voucherRepository.findAll();
+        List<VoucherEntity> all = voucherRepository.findAll();
         System.out.println(all);
         //then
         Assertions.assertEquals(10, all.size());

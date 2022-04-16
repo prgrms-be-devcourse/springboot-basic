@@ -11,10 +11,10 @@ public class DiscountPolicyUtil {
 
     private static Map<Integer ,DiscountPolicy> map = null;
 
-    public static Voucher getVoucher(int seq, long amount) {
+    public static Voucher getVoucher(int policyId) {
         Map<Integer, DiscountPolicy> discountPolicyMap = getDiscountPolicyMap();
-        DiscountPolicy discountPolicy = discountPolicyMap.get(seq);
-        return discountPolicy.getVoucher(amount);
+        DiscountPolicy discountPolicy = discountPolicyMap.get(policyId);
+        return discountPolicy.getVoucher();
     }
 
     public static Map<Integer,DiscountPolicy> getDiscountPolicyMap() {
@@ -22,7 +22,7 @@ public class DiscountPolicyUtil {
             map = new HashMap<>();
             Arrays.stream(DiscountPolicy.values())
                     .forEach((dp) -> {
-                        map.put(dp.getOrdinal(), dp);
+                        map.put(dp.getPolicyId(), dp);
                     });
         }
         return map;

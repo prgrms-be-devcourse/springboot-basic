@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -17,13 +18,15 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(int seq, long amount) {
-        Voucher voucher = DiscountPolicyUtil.getVoucher(seq, amount);
-        voucherRepository.insert(voucher);
-        return voucher;
+    public VoucherEntity createVoucher(int policyId, long amount) {
+        VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), policyId, amount);
+        // select id from voucher where policyId = :policyId and amount = :amount;
+        // TODO if not Exist insert, else no insert
+        voucherRepository.insert(voucherEntity);
+        return voucherEntity;
     }
 
-    public List<Voucher> findAll() {
+    public List<VoucherEntity> findAll() {
         return voucherRepository.findAll();
     }
 }

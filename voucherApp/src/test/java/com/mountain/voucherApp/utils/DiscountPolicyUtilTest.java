@@ -7,15 +7,13 @@ import com.mountain.voucherApp.voucher.Voucher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
 import java.util.Map;
 
-import static com.mountain.voucherApp.utils.DiscountPolicyUtil.*;
+import static com.mountain.voucherApp.utils.DiscountPolicyUtil.getDiscountPolicyMap;
+import static com.mountain.voucherApp.utils.DiscountPolicyUtil.getVoucher;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class DiscountPolicyUtilTest {
 
@@ -27,7 +25,7 @@ class DiscountPolicyUtilTest {
         //when
         Arrays.stream(DiscountPolicy.values())
                 .forEach((policy) -> {
-                    DiscountPolicy getPolicy = discountPolicyMap.get(policy.getOrdinal());
+                    DiscountPolicy getPolicy = discountPolicyMap.get(policy.getPolicyId());
                     //then
                     Assertions.assertEquals(policy, getPolicy);
                 });
@@ -40,7 +38,7 @@ class DiscountPolicyUtilTest {
         int fixedSeq = 1;
         int amount = 3000;
         //when
-        Voucher fixedVoucher = getVoucher(fixedSeq, amount);
+        Voucher fixedVoucher = getVoucher(fixedSeq);
         //then
         assertThat(fixedVoucher).isInstanceOf(FixedAmountVoucher.class);
         assertThat(fixedVoucher).isNotInstanceOf((PercentDiscountVoucher.class));
@@ -53,7 +51,7 @@ class DiscountPolicyUtilTest {
         int percentSeq = 2;
         int percentAmount = 15;
         //when
-        Voucher fixedVoucher = getVoucher(percentSeq, percentAmount);
+        Voucher fixedVoucher = getVoucher(percentSeq);
         //then
         assertThat(fixedVoucher).isInstanceOf(PercentDiscountVoucher.class);
         assertThat(fixedVoucher).isNotInstanceOf((FixedAmountVoucher.class));

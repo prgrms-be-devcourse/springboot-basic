@@ -4,32 +4,30 @@ import com.mountain.voucherApp.voucher.FixedAmountVoucher;
 import com.mountain.voucherApp.voucher.PercentDiscountVoucher;
 import com.mountain.voucherApp.voucher.Voucher;
 
-import java.util.function.Function;
-
 public enum DiscountPolicy {
-    FIXED(1, "고정 할인", (amount) -> new FixedAmountVoucher(amount)),
-    PERCENT(2, "비율 할인", (amount) -> new PercentDiscountVoucher(amount));
+    FIXED(1, "고정 할인", new FixedAmountVoucher()),
+    PERCENT(2, "비율 할인", new PercentDiscountVoucher());
 
-    private final int ordinal;
+    private final int policyId;
     private final String description;
-    private final Function<Long, Voucher> function;
+    private final Voucher voucher;
 
-    DiscountPolicy(int ordinal, String description, Function<Long, Voucher> function) {
-        this.ordinal = ordinal;
+    DiscountPolicy(int policyId, String description, Voucher voucher) {
+        this.policyId = policyId;
         this.description = description;
-        this.function = function;
+        this.voucher = voucher;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public int getOrdinal() {
-        return ordinal;
+    public int getPolicyId() {
+        return policyId;
     }
 
-    public Voucher getVoucher(long amount) {
-        return function.apply(amount);
+    public Voucher getVoucher() {
+        return voucher;
     }
 }
 
