@@ -38,7 +38,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        return null;
+        int result = jdbcTemplate.update("UPDATE customer SET name = :name, type = :type WHERE id = UNHEX(REPLACE(:id, '-', ''))",
+                getCustomerMap(customer));
+
+        if (result == 1) {
+            return customer;
+        }
+
+        throw new RuntimeException("고객 정보 수정에 실패하였습니다.");
     }
 
     @Override

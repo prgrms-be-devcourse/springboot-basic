@@ -1,6 +1,7 @@
 package com.prgms.management.customer.model;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Timestamp;
@@ -8,14 +9,15 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
+@Setter
 @ToString
 public class Customer {
     private final UUID id;
-    private final String name;
-    private final CustomerType type;
     private final String email;
     private final Timestamp lastLoginAt;
     private final Timestamp createdAt;
+    private String name;
+    private CustomerType type;
 
     public Customer(CustomerType type, UUID id, String name) {
         this(id, name, type, "demo", Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()));
@@ -32,9 +34,5 @@ public class Customer {
         this.email = email;
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
-    }
-
-    public String getStringForCSV() {
-        return id + "," + name;
     }
 }
