@@ -170,6 +170,20 @@ class JdbcCustomerRepositoryTest {
             .hasMessage("[ERROR] 중복된 이메일이 존재합니다.");
     }
 
+    @DisplayName("ID를 통해 고객을 조회한다.")
+    @Test
+    void should_ReturnCustomer_When_IdIsExist() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        jdbcCustomerRepository.save(customer);
+        // when
+        Optional<Customer> findCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
+        // then
+        assertThat(findCustomer).isNotEmpty();
+        assertThat(findCustomer.get()).usingRecursiveComparison()
+            .isEqualTo(customer);
+    }
+
     @Configuration
     @ComponentScan(basePackages = "org.prgms.voucherProgram.repository.customer",
         excludeFilters = @ComponentScan.Filter(

@@ -43,7 +43,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             jdbcTemplate.update(
                 "INSERT INTO customers(customer_id, name, email, created_at) VALUES(UUID_TO_BIN(?), ?, ?, ?)",
-                customer.getCustomerId().toString().getBytes(),
+                toBytes(customer.getCustomerId()),
                 customer.getName(),
                 customer.getEmail(),
                 Timestamp.valueOf(customer.getCreatedTime()));
@@ -51,6 +51,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
             throw new DuplicateEmailException();
         }
         return customer;
+    }
+
+    private byte[] toBytes(UUID customerId) {
+        return customerId.toString().getBytes();
     }
 
     @Override
@@ -61,7 +65,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 customer.getName(),
                 customer.getEmail(),
                 customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
-                customer.getCustomerId().toString().getBytes());
+                toBytes(customer.getCustomerId()));
         } catch (DuplicateKeyException e) {
             throw new DuplicateEmailException();
         }
@@ -75,7 +79,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.empty();
+        try {
+            return Optional.ofNullable(
+                jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)",
+                    customerRowMapper, toBytes(customerId)));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
