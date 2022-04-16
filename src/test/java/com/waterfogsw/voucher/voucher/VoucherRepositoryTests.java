@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class VoucherRepositoryTests {
 
@@ -27,6 +26,7 @@ public class VoucherRepositoryTests {
         final Voucher voucher1_copy = new Voucher(UUID.fromString(key1), VoucherType.FIXED_AMOUNT, 2000d);
         final Voucher voucher2 = new Voucher(UUID.fromString(key2), VoucherType.FIXED_AMOUNT, 1000d);
 
+        @Nested
         @DisplayName("저장할 바우처의 기본키가 중복되지 않으면")
         class Context_not_duplicate_prime_key {
 
@@ -36,11 +36,12 @@ public class VoucherRepositoryTests {
                 Voucher savedVoucher1 = repository.save(voucher1);
                 Voucher savedVoucher2 = repository.save(voucher2);
 
-                assertThat(voucher1, samePropertyValuesAs(voucher1));
-                assertThat(voucher2, samePropertyValuesAs(voucher2));
+                assertThat(savedVoucher1, samePropertyValuesAs(voucher1));
+                assertThat(savedVoucher2, samePropertyValuesAs(voucher2));
             }
         }
 
+        @Nested
         @DisplayName("저장할 바우처의 기본키가 중복되면")
         class Context_duplicate_prime_key {
 
