@@ -39,16 +39,11 @@ public class VoucherManagerConsole implements VoucherManagerInput, VoucherManage
 
     @Override
     public void printMenu() {
-        try {
-            bw.write("=== Voucher Program ===" + "\n");
-            bw.write("Type exit to exit program." + "\n");
-            bw.write("Type create to create a new voucher." + "\n");
-            bw.write("Type list to list all vouchers." + "\n");
-            bw.write("Type blacklist to list all blacklist" + "\n");
-            bw.flush();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
+        System.out.println("=== Voucher Program ===");
+
+        Arrays.stream(CommandType.values())
+                .map(CommandType::getCommandDescription)
+                .forEach(System.out::println);
     }
 
     @Override
