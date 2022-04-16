@@ -30,8 +30,12 @@ public class Order {
         this.orderStatus = OrderStatus.ACCEPTED;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static Order createOrderWithVoucher(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+        return new Order(customerId, orderItems, voucher);
+    }
+
+    public static Order createOrderWithoutVoucher(UUID customerId, List<OrderItem> orderItems) {
+        return new Order(customerId, orderItems, null);
     }
 
     public UUID getId() {
@@ -64,39 +68,4 @@ public class Order {
         return orderStatus;
     }
 
-
-    public static class Builder {
-
-        private UUID customerId;
-        private List<OrderItem> orderItems;
-        private Voucher voucher;
-        private OrderStatus orderStatus;
-
-        public Builder() {
-        }
-
-        public Builder customerId(UUID customerId) {
-            this.customerId = customerId;
-            return this;
-        }
-
-        public Builder orderItems(List<OrderItem> orderItems) {
-            this.orderItems = orderItems;
-            return this;
-        }
-
-        public Builder voucher(Voucher voucher) {
-            this.voucher = voucher;
-            return this;
-        }
-
-        public Builder orderStatus(OrderStatus orderStatus) {
-            this.orderStatus = orderStatus;
-            return this;
-        }
-
-        public Order build() {
-            return new Order(customerId, orderItems, voucher);
-        }
-    }
 }

@@ -11,9 +11,5 @@ import java.util.function.Supplier;
  * 메모리 바우처 리포지토리
  */
 @Repository
-public class MemoryVoucherRepository extends MemoryRepository<Voucher, UUID> implements VoucherRepository {
-
-    public MemoryVoucherRepository(Supplier<UUID> uuidSupplier) {
-        super(uuidSupplier);
-    }
+public class MemoryVoucherRepository extends MemoryRepository<Voucher> implements VoucherRepository {
 }

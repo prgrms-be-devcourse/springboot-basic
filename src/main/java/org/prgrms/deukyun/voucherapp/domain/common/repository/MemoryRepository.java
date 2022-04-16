@@ -1,23 +1,17 @@
 package org.prgrms.deukyun.voucherapp.domain.common.repository;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Supplier;
 
 import static com.google.common.base.Preconditions.checkState;
 
-public abstract class MemoryRepository<E, Id> implements Repository<E, Id> {
+public abstract class MemoryRepository<E> implements Repository<E, UUID> {
 
-    private final Map<Id, E> storage;
-    private final Supplier<Id> idSupplier;
+    private final Map<UUID, E> storage;
 
-    public MemoryRepository(Supplier<Id> idSupplier) {
+    public MemoryRepository() {
         storage = new ConcurrentHashMap<>();
-        this.idSupplier = idSupplier;
     }
 
     @Override
@@ -25,7 +19,7 @@ public abstract class MemoryRepository<E, Id> implements Repository<E, Id> {
 
         try {
             Field idField = elem.getClass().getDeclaredField("id");
-            Id id = idSupplier.get();
+            UUID id = UUID.randomUUID();
             idField.setAccessible(true);
 
             checkState(idField.get(elem) == null, "id must be null before set Id.");
@@ -41,7 +35,7 @@ public abstract class MemoryRepository<E, Id> implements Repository<E, Id> {
     }
 
     @Override
-    public Optional<E> findById(Id id) {
+    public Optional<E> findById(UUID id) {
         return Optional.ofNullable(storage.get(id));
     }
 

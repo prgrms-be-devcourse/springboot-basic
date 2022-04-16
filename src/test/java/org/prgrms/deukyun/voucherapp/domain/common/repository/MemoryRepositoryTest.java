@@ -1,7 +1,5 @@
 package org.prgrms.deukyun.voucherapp.domain.common.repository;
 
-import org.hamcrest.Matchers;
-import org.hamcrest.core.AnyOf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -9,17 +7,12 @@ import org.prgrms.deukyun.voucherapp.domain.order.entity.Order;
 import org.prgrms.deukyun.voucherapp.domain.order.entity.OrderItem;
 import org.prgrms.deukyun.voucherapp.domain.order.repository.MemoryOrderRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 
 class MemoryRepositoryTest {
 
@@ -28,7 +21,7 @@ class MemoryRepositoryTest {
 
     @BeforeEach
     void setup() {
-        memoryRepository = new MemoryOrderRepository(UUID::randomUUID);
+        memoryRepository = new MemoryOrderRepository();
         order = dummyOrder();
     }
 
@@ -46,12 +39,8 @@ class MemoryRepositoryTest {
     }
 
     private List<OrderItem> dummyOrderItems() {
-        List<OrderItem> orderItems = new ArrayList<>();
-        OrderItem mockOrderItem1 = new OrderItem(UUID.randomUUID(), 1000L, 20);
-        OrderItem mockOrderItem2 = new OrderItem(UUID.randomUUID(), 5000L, 5);
-        orderItems.add(mockOrderItem1);
-        orderItems.add(mockOrderItem2);
-        return orderItems;
+        return List.of(new OrderItem(UUID.randomUUID(), 1000L, 20),
+                new OrderItem(UUID.randomUUID(), 5000L, 5));
     }
 
     @Nested
@@ -72,7 +61,7 @@ class MemoryRepositoryTest {
             Order insertedOrder = memoryRepository.insert(order);
 
             //assert
-            assertOrder(insertedOrder, MemoryRepositoryTest.this.order);
+            assertOrder(insertedOrder, order);
         }
 
         @Test
@@ -101,11 +90,8 @@ class MemoryRepositoryTest {
             List<Order> orders = memoryRepository.findAll();
 
             //assert
-            AnyOf<UUID> matcher = Matchers.anyOf(is(order1.getCustomerId()), is(order2.getCustomerId()));
-            assertThat(orders, contains(
-                    hasProperty("customerId", matcher),
-                    hasProperty("customerId", matcher)
-            ));
+            assertThat(orders.stream().map(Order::getCustomerId))
+                    .containsExactlyInAnyOrder(order1.getCustomerId(), order2.getCustomerId());
         }
     }
 
