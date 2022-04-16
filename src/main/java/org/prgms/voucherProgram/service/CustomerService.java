@@ -62,9 +62,9 @@ public class CustomerService {
         }
     }
 
-    public void delete(String email) {
-        jdbcCustomerRepository.findByEmail(email).ifPresentOrElse(
-            customer -> jdbcCustomerRepository.deleteByEmail(email),
+    public void delete(Email email) {
+        jdbcCustomerRepository.findByEmail(email.getEmail()).ifPresentOrElse(
+            customer -> jdbcCustomerRepository.deleteByEmail(email.getEmail()),
             () -> {
                 throw new CustomerIsNotExistsException();
             });

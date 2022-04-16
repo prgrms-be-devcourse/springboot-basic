@@ -153,7 +153,7 @@ class CustomerServiceTest {
         Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
         given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
         // when
-        customerService.delete(customer.getEmail());
+        customerService.delete(new Email("hwan@gmail.com"));
         // then
         then(jdbcCustomerRepository).should(times(1)).findByEmail(customer.getEmail());
         then(jdbcCustomerRepository).should(times(1)).deleteByEmail(customer.getEmail());
@@ -163,7 +163,7 @@ class CustomerServiceTest {
     @Test
     void Should_ThrowException_When_DeleteCustomerIsNotExists() {
         // given
-        String email = "hwan@gmail.com";
+        Email email = new Email("hwan@gmail.com");
         given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
         // when
         // then
