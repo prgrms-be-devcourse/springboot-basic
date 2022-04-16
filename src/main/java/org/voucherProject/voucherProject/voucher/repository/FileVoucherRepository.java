@@ -79,6 +79,11 @@ public class FileVoucherRepository implements VoucherRepository {
         }
     }
 
+    @Override
+    public void deleteOneByCustomerId(UUID customerId, UUID voucherId) {
+
+    }
+
     private List<Voucher> getVouchers() {
         List<Voucher> vouchers = new ArrayList<>();
         try {

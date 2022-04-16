@@ -82,6 +82,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(DELETE_ALL_SQL, Collections.emptyMap());
     }
 
+    @Override
+    public void deleteOneByCustomerId(UUID customerId, UUID voucherId) {
+        Map<String, Object> hashMap = new HashMap<>() {{
+            put("customerId", customerId.toString().getBytes());
+            put("voucherId", voucherId.toString().getBytes());
+        }};
+        jdbcTemplate.update("delete from voucher where customer_id = UUID_TO_BIN(:customerId) and voucher_id = UUID_TO_BIN(:voucherId)", hashMap);
+    }
+
     static UUID toUUID(byte[] bytes) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         UUID customerId = new UUID(byteBuffer.getLong(), byteBuffer.getLong());

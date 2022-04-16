@@ -47,4 +47,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         storage.clear();
     }
+
+    @Override
+    public void deleteOneByCustomerId(UUID customerId, UUID voucherId) {
+
+    }
+
 }
