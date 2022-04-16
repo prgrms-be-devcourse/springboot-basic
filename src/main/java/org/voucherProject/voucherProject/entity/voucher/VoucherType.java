@@ -7,36 +7,43 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public enum VoucherType {
-    FIXED(1, amount -> new FixedAmountVoucher(UUID.randomUUID(), amount)){
+    FIXED(1) {
         @Override
-        public Voucher create(UUID voucherId, long amount, VoucherStatus voucherStatus, LocalDateTime createdAt) {
+        public Voucher createVoucher(long amount) {
+            return new FixedAmountVoucher(UUID.randomUUID(), amount);
+        }
+
+        @Override
+        public Voucher createVoucher(UUID voucherId, long amount, VoucherStatus voucherStatus, LocalDateTime createdAt) {
             return new FixedAmountVoucher(voucherId, amount, voucherStatus, createdAt);
         }
     },
-    PERCENT(2, amount -> new PercentDiscountVoucher(UUID.randomUUID(), amount)){
+    PERCENT(2) {
         @Override
-        public Voucher create(UUID voucherId, long amount, VoucherStatus voucherStatus, LocalDateTime createdAt) {
+        public Voucher createVoucher(long amount) {
+            return new PercentDiscountVoucher(UUID.randomUUID(), amount);
+        }
+
+        @Override
+        public Voucher createVoucher(UUID voucherId, long amount, VoucherStatus voucherStatus, LocalDateTime createdAt) {
             return new PercentDiscountVoucher(voucherId, amount, voucherStatus, createdAt);
+
         }
     };
 
     private final int number;
-    private Function<Long, Voucher> createVoucherExpression;
 
-    VoucherType(int number, Function<Long, Voucher> createVoucherExpression) {
+    VoucherType(int number) {
         this.number = number;
-        this.createVoucherExpression = createVoucherExpression;
     }
 
     public int getNumber() {
         return number;
     }
 
-    public Voucher createVoucher(long amount) {
-        return createVoucherExpression.apply(amount);
-    }
+    public abstract Voucher createVoucher(long amount);
 
-    public abstract Voucher create(UUID voucherId, long amount, VoucherStatus voucherStatus, LocalDateTime createdAt);
+    public abstract Voucher createVoucher(UUID voucherId, long amount, VoucherStatus voucherStatus, LocalDateTime createdAt);
 
     public static VoucherType getVoucherType(int inputVoucherTypeInt) {
         VoucherType voucherType = Arrays.stream(VoucherType.values())
@@ -46,3 +53,4 @@ public enum VoucherType {
         return voucherType;
     }
 }
+

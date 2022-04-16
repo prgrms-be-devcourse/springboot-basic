@@ -2,11 +2,9 @@ package org.voucherProject.voucherProject.repository.voucher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherStatus;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
@@ -26,12 +24,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String SELECT_BY_ID_SQL = "select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String SAVE_SQL = "insert into voucher(voucher_id, amount, voucher_type, voucher_status, created_at) values (UUID_TO_BIN(:voucherId), :amount, :voucherType, :voucherStatus)";
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
                     SELECT_BY_ID_SQL,
                     Collections.singletonMap("customerId", voucherId.toString().getBytes()),
                     customerRowMapper()));
@@ -43,7 +41,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        int save = jdbcTemplate.update(SAVE_SQL, toParamMap(voucher));
+        int save = namedParameterJdbcTemplate.update(SAVE_SQL, toParamMap(voucher));
         if (save != 1) {
             throw new RuntimeException("No Save");
         }
@@ -52,7 +50,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(SELECT_ALL_SQL, customerRowMapper());
+        return namedParameterJdbcTemplate.query(SELECT_ALL_SQL, customerRowMapper());
     }
 
     static UUID toUUID(byte[] bytes) {
@@ -68,7 +66,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type").toUpperCase());
             VoucherStatus voucherStatus = VoucherStatus.valueOf(resultSet.getString("voucher_status").toUpperCase());
             LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-            return voucherType.create(voucherId, amount, voucherStatus, createdAt);
+            return voucherType.createVoucher(voucherId, amount, voucherStatus, createdAt);
         };
     }
 

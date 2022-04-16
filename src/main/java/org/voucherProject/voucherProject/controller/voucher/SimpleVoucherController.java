@@ -22,9 +22,9 @@ public class SimpleVoucherController implements VoucherController {
         long amount = voucherDto.getAmount();
         Voucher voucher = voucherDto.getVoucherType().createVoucher(amount);
 
-        Customer customer = customerService.findById(voucherDto.getCustomerId());
-        customer.getVouchers().add(voucher.getVoucherId());
-        customerService.save(customer);
+//        Customer customer = customerService.findById(voucherDto.getCustomerId());
+//        customer.getVouchers().add(voucher.getVoucherId());
+//        customerService.save(customer);
 
         return voucherService.save(voucher);
     }

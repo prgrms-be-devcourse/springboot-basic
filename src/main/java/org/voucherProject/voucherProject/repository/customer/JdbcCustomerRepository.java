@@ -1,6 +1,5 @@
 package org.voucherProject.voucherProject.repository.customer;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,10 +14,13 @@ import java.util.*;
 
 //@Repository
 @Slf4j
-@RequiredArgsConstructor
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
 
     private final String SELECT_BY_ID_SQL = "select * from customer where customer_id = :customerId";
     private final String SELECT_BY_NAME_SQL = "select * from customers where name  = :name";
@@ -29,7 +31,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL,
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SELECT_BY_ID_SQL,
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     customerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
@@ -41,7 +43,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByName(String customerName) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_NAME_SQL,
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SELECT_BY_NAME_SQL,
                     Collections.singletonMap("name", customerName),
                     customerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
@@ -53,7 +55,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByEmail(String customerEmail) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL_SQL,
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SELECT_BY_EMAIL_SQL,
                     Collections.singletonMap("email", customerEmail),
                     customerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
@@ -64,12 +66,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(SELECT_ALL_SQL, customerRowMapper());
+        return namedParameterJdbcTemplate.query(SELECT_ALL_SQL, customerRowMapper());
     }
 
     @Override
     public Customer save(Customer customer) {
-        int update = jdbcTemplate.update("insert into customers(customer_id, name, email, password, created_at) values (UUID_TO_BIN(:customerId), :name, :email, :password, :createdAt)",
+        int update = namedParameterJdbcTemplate.update("insert into customers(customer_id, name, email, password, created_at) values (UUID_TO_BIN(:customerId), :name, :email, :password, :createdAt)",
                 toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Nothing inserted");
@@ -79,7 +81,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(DELETE_ALL_SQL, Collections.emptyMap());
+        namedParameterJdbcTemplate.update(DELETE_ALL_SQL, Collections.emptyMap());
     }
 
     private Map<String, Object> toParamMap(Customer customer) {

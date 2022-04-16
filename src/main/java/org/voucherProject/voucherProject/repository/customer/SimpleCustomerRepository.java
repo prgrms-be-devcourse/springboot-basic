@@ -1,5 +1,6 @@
 package org.voucherProject.voucherProject.repository.customer;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.customer.Customer;
 
@@ -7,6 +8,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Primary
 public class SimpleCustomerRepository implements CustomerRepository{
 
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
