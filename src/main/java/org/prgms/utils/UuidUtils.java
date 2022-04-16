@@ -10,6 +10,8 @@ public class UuidUtils {
     }
 
     public static byte[] uuidToBytes(UUID uuid) {
+        if (uuid == null)
+            return null;
         var byteBuffer = ByteBuffer.wrap(new byte[16]);
         byteBuffer.putLong(uuid.getMostSignificantBits());
         byteBuffer.putLong(uuid.getLeastSignificantBits());
@@ -17,6 +19,8 @@ public class UuidUtils {
     }
 
     public static UUID bytesToUUID(byte[] bytes) {
+        if (bytes == null)
+            return null;
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
