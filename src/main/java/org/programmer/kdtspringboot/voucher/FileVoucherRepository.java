@@ -14,12 +14,12 @@ import java.util.UUID;
 @Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final String fileName= "voucherList.txt";;
+    private final String fileName= "voucherList.txt";
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     @Override
     public void saveVoucher(Voucher voucher) {
-        String content = voucher.getVoucherId() + "," + voucher.getValue() + "," + voucher.getClass();
+        String content = voucher.toString();
         try {
             FileWriter fileWriter = new FileWriter(fileName, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -29,7 +29,7 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("voucher 추가(" + voucher.getVoucherId() + "," + voucher.getValue() + "," + voucher.getClass() + ")");
+        logger.info("voucher 추가 "+ voucher.toString());
     }
 
     @Override

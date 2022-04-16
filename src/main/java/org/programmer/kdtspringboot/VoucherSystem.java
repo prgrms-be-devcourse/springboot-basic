@@ -65,7 +65,7 @@ public class VoucherSystem {
 
     private void showVoucherList() throws IOException {
         List<Voucher> list = voucherService.findAllVouchers();
-        list.stream().map(voucher -> voucher.getVoucherId() + ", " + voucher.getValue() + ", " + voucher.getClass()).forEach(console::print);
+        list.stream().map(Object::toString).forEach(console::print);
     }
 
     private void createVoucher() {
@@ -91,7 +91,6 @@ public class VoucherSystem {
         } else {
             console.print("Voucher 잘못 입력하셨습니다. 처음부터 다시 해주세요.");
             logger.warn("Voucher 종류 잘못 입력");
-            return;
         }
 
     }
