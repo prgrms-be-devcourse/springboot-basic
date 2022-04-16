@@ -1,24 +1,21 @@
 package org.prgms.voucheradmin.domain.customer.service;
 
+import static org.mockito.Mockito.*;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgms.voucheradmin.domain.customer.dao.blacklist.BlackListRepository;
 import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerUpdateReqDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.global.exception.CustomerNotFoundException;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
@@ -27,10 +24,6 @@ class CustomerServiceTest {
 
     @Mock
     CustomerRepository customerRepository;
-
-    @Mock
-    BlackListRepository blackListRepository;
-
 
     @Test
     @DisplayName("고객 업데이트 예외 확인")
