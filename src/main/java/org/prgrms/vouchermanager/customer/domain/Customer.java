@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.customer.domain;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
@@ -51,4 +52,16 @@ public class Customer {
         return createAt;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return customerId.equals(customer.customerId) && email.equals(customer.email) && createAt.equals(customer.createAt) && name.equals(customer.name) && Objects.equals(lastLoginAt, customer.lastLoginAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, email, createAt, name);
+    }
 }

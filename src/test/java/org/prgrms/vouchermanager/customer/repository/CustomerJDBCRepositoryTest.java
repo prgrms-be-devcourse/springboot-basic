@@ -2,6 +2,7 @@ package org.prgrms.vouchermanager.customer.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.Test;
+import org.prgrms.vouchermanager.customer.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -10,16 +11,42 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
 class CustomerJDBCRepositoryTest {
+
+    @Test
+    void insert_고객을_삽입할_수_있다() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "testName", "test01@email.com");
+
+        //when
+        customerJdbcRepository.insert(customer);
+
+        //then
+        assertThat(customerJdbcRepository.findById(customer.getCustomerId())).isEqualTo(customer);
+    }
+
     @Autowired
     CustomerRepository customerJdbcRepository;
     @Autowired
     DataSource dataSource;
 
-    @Test
-    void insert_고객을_삽입할_수_있다() {
+    @Configuration
+    @ComponentScan(basePackages = {"org.prgrms.vouchermanager"})
+    static class Config {
+        @Bean
+        public DataSource dataSource() {
+            return DataSourceBuilder.create()
+                    .url("jdbc:mysql://localhost/order_mgmt")
+                    .username("root")
+                    .password("1234")
+                    .type(HikariDataSource.class)
+                    .build();
+        }
     }
 
     @Test
@@ -51,18 +78,4 @@ class CustomerJDBCRepositoryTest {
     void deleteAll_고객을_전부_삭제_할_수_있다() {
     }
 
-    @Configuration
-    @ComponentScan(basePackages = {"org.prgrms.vouchermanager"})
-    static class Config {
-
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/order_mgmt")
-                    .username("root")
-                    .password("1234")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-    }
 }
