@@ -84,6 +84,15 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     /**
+     * 전달 받은 Entity를 이용하여 바우처르르 삭제합니다.
+     */
+    @Override
+    public void delete(Voucher voucher) {
+        jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(?)",
+                voucher.getVoucherId().toString().getBytes());
+    }
+
+    /**
      * 조회 결과를 entity에 매핑하는 메서드
      **/
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {

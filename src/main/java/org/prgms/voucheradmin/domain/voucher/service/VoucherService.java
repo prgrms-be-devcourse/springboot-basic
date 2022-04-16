@@ -12,7 +12,7 @@ import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
-import org.prgms.voucheradmin.global.exception.WrongInputException;
+import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +50,7 @@ public class VoucherService {
 
     @Transactional(readOnly = true)
     public Voucher getVoucherById(UUID voucherId){
-        return voucherRepository.findById(voucherId).orElseThrow(() -> new WrongInputException());
+        return voucherRepository.findById(voucherId).orElseThrow(() -> new VoucherNotFoundException(voucherId));
     }
 
     @Transactional
@@ -61,6 +61,12 @@ public class VoucherService {
                 voucherUpdateReqDto.getAmount());
 
         return voucherRepository.update(voucher);
+    }
+
+    @Transactional
+    public void deleteVoucher(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> new VoucherNotFoundException(voucherId));
+        voucherRepository.delete(voucher);
     }
 
     /**

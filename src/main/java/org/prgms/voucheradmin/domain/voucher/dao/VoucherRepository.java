@@ -20,4 +20,5 @@ public interface VoucherRepository {
         return null;
     }
 
+    default void delete(Voucher voucher) {}
 }

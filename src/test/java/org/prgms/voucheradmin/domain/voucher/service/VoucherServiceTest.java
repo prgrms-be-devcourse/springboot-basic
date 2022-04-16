@@ -6,6 +6,7 @@ import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.FIXED_
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,7 @@ import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
+import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
@@ -56,6 +58,39 @@ class VoucherServiceTest {
             verify(voucherRepository).findAll();
         }catch(IOException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("바우처 삭제 테스트")
+    void testDeleteVoucher() {
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new FixedAmountVoucher(voucherId, 10L);
+
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher));
+
+        // given
+        voucherService.deleteVoucher(voucherId);
+
+        verify(voucherRepository).delete(voucher);
+    }
+
+    @Test
+    @DisplayName("바우처 삭제 예외 테스트")
+    void testDeleteVoucherException() {
+        try {
+            // when
+            UUID voucherId = UUID.randomUUID();
+            when(voucherRepository.findById(voucherId)).thenThrow(new VoucherNotFoundException(voucherId));
+
+            // given
+            voucherService.deleteVoucher(voucherId);
+
+        }catch (VoucherNotFoundException e) {
+            System.out.println(e.getMessage());
+        }finally {
+            // then
+            verify(voucherRepository, never()).delete(any());
         }
     }
 }

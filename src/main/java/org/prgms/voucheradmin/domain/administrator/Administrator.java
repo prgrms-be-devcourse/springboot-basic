@@ -88,8 +88,8 @@ public class Administrator {
                 outputService.showVoucherList(vouchers);
                 break;
             case UPDATE:
-                UUID voucherID = inputService.inputVoucherId();
-                Voucher voucher = voucherService.getVoucherById(voucherID);
+                UUID voucherIdForUpdate = inputService.inputVoucherId();
+                Voucher voucher = voucherService.getVoucherById(voucherIdForUpdate);
                 outputService.showVoucher(voucher, READ);
 
                 outputService.showVoucherType();
@@ -98,6 +98,10 @@ public class Administrator {
 
                 Voucher updatedVoucher = voucherService.updateVoucher(new VoucherUpdateReqDto(voucher.getVoucherId(), voucherTypeForUpdate, amountForUpdate));
                 outputService.showVoucher(updatedVoucher, UPDATE);
+                break;
+            case DELETE:
+                UUID voucherIdForDelete = inputService.inputVoucherId();
+                voucherService.deleteVoucher(voucherIdForDelete);
                 break;
         }
     }

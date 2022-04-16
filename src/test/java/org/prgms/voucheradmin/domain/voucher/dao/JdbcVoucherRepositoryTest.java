@@ -114,4 +114,14 @@ class JdbcVoucherRepositoryTest {
         assertThat(retrievedVoucher, not(is(Optional.empty())));
     }
 
+    @Test
+    @Order(4)
+    @DisplayName("바우처 삭제 확인")
+    void testDeleteById() throws Throwable{
+        jdbcVoucherRepository.delete(voucher);
+
+        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+
+        assertThat(vouchers.size(), is(0));
+    }
 }
