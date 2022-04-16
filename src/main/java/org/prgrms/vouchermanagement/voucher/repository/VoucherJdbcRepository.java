@@ -18,7 +18,7 @@ import java.util.*;
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
 
-  private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
+  private static final Logger log = LoggerFactory.getLogger(VoucherJdbcRepository.class);
 
   private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -31,19 +31,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
     long reduction = resultSet.getLong("reduction");
     LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
     VoucherType voucherType = VoucherType.fromDbValue(resultSet.getInt("voucher_type"));
-    logger.info("voucher id -> {}, reduction -> {}, createdAt -> {}, voucher type -> {}", voucherId, reduction, createdAt, voucherType);
+    log.info("voucher id -> {}, reduction -> {}, createdAt -> {}, voucher type -> {}", voucherId, reduction, createdAt, voucherType);
     return VoucherFactory.createVoucher(voucherId, reduction, createdAt, voucherType);
   };
 
-  static UUID toUUID(byte[] bytes) throws SQLException {
-    var byteBuffer = ByteBuffer.wrap(bytes);
-    return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-  }
-
-  @Override
-  public Optional<Voucher> findById(UUID voucherId) {
-    return Optional.empty();
-  }
 
   @Override
   public Voucher insert(Voucher voucher) {
@@ -62,6 +53,19 @@ public class VoucherJdbcRepository implements VoucherRepository {
   }
 
   @Override
+  public List<Voucher> findByVoucherType(VoucherType voucherType) {
+    Map<String, Object> paramMap = new HashMap<>() {{
+      put("voucherType", voucherType.toDbValue());
+    }};
+    return jdbcTemplate.query("select * from vouchers where voucher_type = :voucherType ", paramMap, voucherRowMapper);
+  }
+
+  @Override
+  public Optional<Voucher> findById(UUID voucherId) {
+    return Optional.empty();
+  }
+
+  @Override
   public int count() {
     return jdbcTemplate.queryForObject("select count(*) from vouchers", Collections.emptyMap(), Integer.class);
   }
@@ -71,6 +75,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
     jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
   }
 
+  @Override
+  public void deleteById(UUID voucherId) {
+
+  }
+
+  @Override
+  public void updateById(UUID voucherId) {
+
+  }
 
   private Map<String, Object> toParamMap(Voucher voucher) {
     return new HashMap<String, Object>(){{
@@ -79,5 +92,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
       put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
       put("voucherType", VoucherType.toDbValue(voucher));
     }};
+  }
+
+  static UUID toUUID(byte[] bytes) throws SQLException {
+    var byteBuffer = ByteBuffer.wrap(bytes);
+    return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
   }
 }

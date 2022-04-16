@@ -6,6 +6,8 @@ import org.junit.jupiter.api.*;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +20,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,12 +31,12 @@ import static com.wix.mysql.distribution.Version.v8_0_11;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherJdbcRepositoryTest {
+  private static final Logger log = LoggerFactory.getLogger(VoucherJdbcRepositoryTest.class);
 
   @Configuration
   @ComponentScan(
@@ -72,8 +73,10 @@ class VoucherJdbcRepositoryTest {
 
   EmbeddedMysql embeddedMysql;
 
-  Voucher voucher1 = VoucherFactory.createVoucher(1, 100L, LocalDateTime.now());
-  Voucher voucher2 = VoucherFactory.createVoucher(2, 10L, LocalDateTime.now());
+  Voucher fixedAmountVoucher1 = VoucherFactory.createVoucher(1, 100L, LocalDateTime.now());
+  Voucher fixedAmountVoucher2 = VoucherFactory.createVoucher(1, 1000L, LocalDateTime.now());
+  Voucher percentDiscountVoucher1 = VoucherFactory.createVoucher(2, 10L, LocalDateTime.now());
+  Voucher percentDiscountVoucher2 = VoucherFactory.createVoucher(2, 20L, LocalDateTime.now());
 
   @BeforeAll
   void setUp() {
@@ -104,10 +107,10 @@ class VoucherJdbcRepositoryTest {
   @Order(1)
   @DisplayName("voucherJdbcRepository에 Voucher 인스턴스를 저장할 수 있다")
   void testInsert() {
-    voucherJdbcRepository.insert(voucher1);
+    voucherJdbcRepository.insert(fixedAmountVoucher1);
     assertThat(voucherJdbcRepository.count(), is(1));
 
-    voucherJdbcRepository.insert(voucher2);
+    voucherJdbcRepository.insert(percentDiscountVoucher1);
     assertThat(voucherJdbcRepository.count(), is(not(1)));
     assertThat(voucherJdbcRepository.count(), is(2));
   }
@@ -121,6 +124,20 @@ class VoucherJdbcRepositoryTest {
   }
 
   @Test
+  @Order(3)
+  @DisplayName("Voucher의 타입을 사용하여 voucher을 조회할 수 있다")
+  void testFindByVoucherType() {
+    voucherJdbcRepository.insert(fixedAmountVoucher2);
+    List<Voucher> fixedAmountVouchers = voucherJdbcRepository.findByVoucherType(VoucherType.FIXED_AMOUNT);
+    assertThat(fixedAmountVouchers.size(), is(2));
+
+    voucherJdbcRepository.insert(percentDiscountVoucher2);
+    List<Voucher> percentDiscountVouchers = voucherJdbcRepository.findByVoucherType(VoucherType.PERCENT_DISCOUNT);
+    assertThat(percentDiscountVouchers.size(), is(2));
+  }
+
+  @Test
+  @Disabled
   @Order(3)
   @DisplayName("deleteAll로 모든 데이터를 삭제할 수 있다")
   void testDeleteAll() {

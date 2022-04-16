@@ -1,4 +1,4 @@
-package org.prgrms.VoucherManagement;
+package org.prgrms.vouchermanagement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
