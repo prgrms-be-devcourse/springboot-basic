@@ -20,4 +20,6 @@ public interface CustomerRepository {
     void deleteAll();
 
     void deleteById(UUID customerId);
+
+    void deleteByEmail(String email);
 }

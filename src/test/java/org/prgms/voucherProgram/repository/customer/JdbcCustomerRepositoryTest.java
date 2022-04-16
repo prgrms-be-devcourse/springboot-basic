@@ -229,7 +229,30 @@ class JdbcCustomerRepositoryTest {
         assertThatThrownBy(() -> jdbcCustomerRepository.deleteById(id))
             .isInstanceOf(NothingChangeException.class)
             .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
+    }
 
+    @DisplayName("이메일을 통해 고객을 삭제한다.")
+    @Test
+    void should_DeleteCustomer_When_EmailIsExist() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        jdbcCustomerRepository.save(customer);
+        // when
+        jdbcCustomerRepository.deleteByEmail(customer.getEmail());
+        // then
+        assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isEmpty();
+    }
+
+    @DisplayName("잘못된 ID로 삭제하려고 하면 예외를 발생한다.")
+    @Test
+    void should_ThrowException_When_EmailIsNotExist() {
+        // given
+        String email = "spancer@gmail.com";
+        // when
+        // then
+        assertThatThrownBy(() -> jdbcCustomerRepository.deleteByEmail(email))
+            .isInstanceOf(NothingChangeException.class)
+            .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
     }
 
     @Configuration

@@ -90,4 +90,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
             DatabaseUtils.toBytes(customerId));
         DatabaseUtils.validateExecute(result);
     }
+
+    @Override
+    public void deleteByEmail(String email) {
+        int result = jdbcTemplate.update("DELETE FROM customer WHERE email = ?", email);
+        DatabaseUtils.validateExecute(result);
+    }
 }
