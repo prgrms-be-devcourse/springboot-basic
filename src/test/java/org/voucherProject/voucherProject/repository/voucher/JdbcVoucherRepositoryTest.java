@@ -58,5 +58,16 @@ class JdbcVoucherRepositoryTest {
         assertThat(byId.isEmpty()).isTrue();
 
     }
+    @Test
+    public void findVoid() throws Exception {
+
+        voucherRepository.findById(UUID.randomUUID());
+        //given
+
+        //when
+
+        //then
+
+    }
 
 }

@@ -29,6 +29,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String DELETE_ALL_SQL = "delete from voucher";
     private final String UPDATE_SQL = "update voucher set voucher_type = :voucherType, voucher_status = :voucherStatus, amount = :amount where customer_id = UUID_TO_BIN(:customerId)";
     private final String SELECT_BY_CUSTOMER_ID_SQL = "select * from voucher v left join customers c on v.customer_id = c.customer_id where v.customer_id = UUID_TO_BIN(:customerId)";
+    private final String DELETE_ONE_BY_CUSTOMER_ID_SQL = "delete from voucher where customer_id = UUID_TO_BIN(:customerId) and voucher_id = UUID_TO_BIN(:voucherId)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -40,7 +41,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     customerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            log.error("result empty -> {}", e);
+            log.error("result empty -> {}", e.toString());
             return Optional.empty();
         }
     }
@@ -68,7 +69,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-
         int update = jdbcTemplate.update(UPDATE_SQL,
                 toParamMap(voucher));
         if (update != 1) {
@@ -88,7 +88,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
             put("customerId", customerId.toString().getBytes());
             put("voucherId", voucherId.toString().getBytes());
         }};
-        jdbcTemplate.update("delete from voucher where customer_id = UUID_TO_BIN(:customerId) and voucher_id = UUID_TO_BIN(:voucherId)", hashMap);
+        int delete = jdbcTemplate.update(DELETE_ONE_BY_CUSTOMER_ID_SQL, hashMap);
+        if (delete != 1) {
+            throw new RuntimeException("No Delete");
+        }
     }
 
     static UUID toUUID(byte[] bytes) {
