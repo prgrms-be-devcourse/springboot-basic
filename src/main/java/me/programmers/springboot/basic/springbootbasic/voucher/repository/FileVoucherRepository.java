@@ -14,21 +14,28 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Repository
 @Profile("default")
 public class FileVoucherRepository implements VoucherRepository, FileInput, FileOutput {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-    private final String filename = "voucherList.dat";
-    private final List<Voucher> voucherList = new ArrayList<>();
+    private static final String filename = "voucherList.dat";
+    private final Map<UUID, Voucher> vouchers = new HashMap<>();
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> voucherList = null;
+        List<Voucher> voucherList = new ArrayList<>();
         try {
-            voucherList = (List<Voucher>) fileInput(filename);
+            Map<UUID, Voucher> voucherMap = fileInput(filename);
+
+            for (UUID uuid : voucherMap.keySet()) {
+                voucherList.add(voucherMap.get(uuid));
+            }
         } catch (IOException e) {
             logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
         }
@@ -39,21 +46,22 @@ public class FileVoucherRepository implements VoucherRepository, FileInput, File
     @Override
     public void save(Voucher voucher) {
         try {
-            fileOutput(voucher, filename);
+            vouchers.put(voucher.getVoucherId(), voucher);
+            fileOutput(filename);
         } catch (IOException e) {
             logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
-            e.printStackTrace();
         }
     }
 
     @Override
-    public Object fileInput(String fileName) throws IOException {
+    public Map<UUID, Voucher> fileInput(String fileName) throws IOException {
         FileInputStream fis = new FileInputStream(fileName);
         ObjectInputStream ois = new ObjectInputStream(fis);
 
-        List<Voucher> voucherList = null;
+        Map<UUID, Voucher> voucherMap = null;
+
         try {
-            voucherList = (List<Voucher>) ois.readObject();
+            voucherMap = (Map<UUID, Voucher>) ois.readObject();
         } catch (ClassNotFoundException e) {
             logger.error(e.toString());
         }
@@ -61,17 +69,15 @@ public class FileVoucherRepository implements VoucherRepository, FileInput, File
         ois.close();
         fis.close();
 
-        return voucherList;
+        return voucherMap;
     }
 
     @Override
-    public void fileOutput(Object voucher, String fileName) throws IOException {
+    public void fileOutput(String fileName) throws IOException {
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-        voucherList.add((Voucher) voucher);
-
-        oos.writeObject(voucherList);
+        oos.writeObject(vouchers);
         oos.flush();
 
         oos.close();
