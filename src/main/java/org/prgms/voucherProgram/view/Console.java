@@ -33,7 +33,7 @@ public class Console implements InputView, OutputView {
     public String inputVoucherMenu() {
         System.out.println(REQUEST_INPUT_VOUCHER_COMMAND);
         System.out.print(PROMPT);
-        return scanner.nextLine().trim().toLowerCase();
+        return scanner.nextLine().trim();
     }
 
     @Override

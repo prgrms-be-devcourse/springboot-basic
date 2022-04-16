@@ -18,7 +18,7 @@ public enum VoucherMenuType {
 
     public static VoucherMenuType from(String command) {
         return Arrays.stream(VoucherMenuType.values())
-            .filter(type -> type.command.equals(command))
+            .filter(type -> type.command.equalsIgnoreCase(command))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException(ERROR_WRONG_INPUT_MENU_MESSAGE));
     }
