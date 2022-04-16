@@ -3,6 +3,8 @@ package org.prgms.voucherProgram.domain.customer;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import org.prgms.voucherProgram.exception.WrongEmailException;
+
 public class Email {
     private static final int MAX_EMAIL_LENGTH = 50;
     private static final String ERROR_EMAIL_BLANK_MESSAGE = "[ERROR] 이메일이 비어있습니다.";
@@ -20,13 +22,13 @@ public class Email {
 
     private void validateEmail(String email) {
         if (email.isBlank()) {
-            throw new IllegalArgumentException(ERROR_EMAIL_BLANK_MESSAGE);
+            throw new WrongEmailException(ERROR_EMAIL_BLANK_MESSAGE);
         }
         if (isWrongEmail(email)) {
-            throw new IllegalArgumentException(ERROR_WRONG_EMAIL_MESSAGE);
+            throw new WrongEmailException(ERROR_WRONG_EMAIL_MESSAGE);
         }
         if (email.length() > MAX_EMAIL_LENGTH) {
-            throw new IllegalArgumentException(ERROR_EMAIL_LENGTH_OVER_MAX_LENGTH);
+            throw new WrongEmailException(ERROR_EMAIL_LENGTH_OVER_MAX_LENGTH);
         }
     }
 

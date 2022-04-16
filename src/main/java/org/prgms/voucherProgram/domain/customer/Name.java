@@ -2,6 +2,8 @@ package org.prgms.voucherProgram.domain.customer;
 
 import java.util.Objects;
 
+import org.prgms.voucherProgram.exception.WrongNameException;
+
 public class Name {
     private static final int MAX_NAME_LENGTH = 20;
 
@@ -14,11 +16,11 @@ public class Name {
 
     private void validateName(String name) {
         if (name.isBlank()) {
-            throw new IllegalArgumentException("[ERROR] 이름이 비어있습니다.");
+            throw new WrongNameException("[ERROR] 이름이 비어있습니다.");
         }
 
         if (MAX_NAME_LENGTH < name.length()) {
-            throw new IllegalArgumentException("[ERROR] 이름은 20자 이상을 넘을 수 없습니다.");
+            throw new WrongNameException("[ERROR] 이름은 20자 이상을 넘을 수 없습니다.");
         }
     }
 
