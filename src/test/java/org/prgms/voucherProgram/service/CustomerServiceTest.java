@@ -52,10 +52,11 @@ class CustomerServiceTest {
     void Should_ThrowException_When_DuplicateEmail() {
         // given
         CustomerDto customerDto = new CustomerDto(UUID.randomUUID(), "hwan", "hwan@gmail.com");
-        given(jdbcCustomerRepository.findByEmail(anyString())).willThrow(IllegalArgumentException.class);
+        given(jdbcCustomerRepository.findByEmail(anyString())).willReturn(Optional.ofNullable(customerDto.toEntity()));
         // when
         assertThatThrownBy(() -> customerService.save(customerDto))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 이미 존재하는 고객입니다.");
         then(jdbcCustomerRepository).should(times(1)).findByEmail(anyString());
         then(jdbcCustomerRepository).should(times(0)).save(any(Customer.class));
     }
