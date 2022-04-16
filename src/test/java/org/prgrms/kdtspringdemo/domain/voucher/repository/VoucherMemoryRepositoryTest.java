@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class VoucherMemoryRepositoryTest {
 
     @Test
-    @DisplayName("바우처 한건이 저장됩니다.")
+    @DisplayName("바우처 한건이 저장되고 저장된 바우처를 반환합니다.")
     public void save() {
     }
 
