@@ -1,8 +1,8 @@
 package org.prgrms.deukyun.voucherapp.app;
 
 import org.prgrms.deukyun.voucherapp.app.menu.Menu;
-import org.prgrms.deukyun.voucherapp.order.service.OrderService;
-import org.prgrms.deukyun.voucherapp.voucher.service.VoucherService;
+import org.prgrms.deukyun.voucherapp.domain.order.service.OrderService;
+import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -33,6 +33,7 @@ public class VoucherAppRunner {
            - 메뉴 입력 받기
            - 입력에 따른 로직 구현
        */
+        //run method 구현 전 -> 첫번째 루프 후 바로 exit
         exit = true;
     }
 
