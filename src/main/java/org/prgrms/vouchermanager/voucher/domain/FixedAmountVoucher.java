@@ -13,7 +13,6 @@ public class FixedAmountVoucher extends AbstractVoucher {
         if (amount > MAX_VOUCHER_AMOUNT)
             throw new IllegalArgumentException("Amount should be less than %d".formatted(MAX_VOUCHER_AMOUNT));
 
-
         this.amount = amount;
     }
 
