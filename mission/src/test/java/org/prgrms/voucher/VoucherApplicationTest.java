@@ -26,7 +26,7 @@ public class VoucherApplicationTest {
     }
 
     @Nested
-    @DisplayName("사용자는")
+    @DisplayName("프로그램은 사용자가")
     class DescribeSelect{
 
         @Nested
