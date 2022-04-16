@@ -1,7 +1,5 @@
 package org.voucherProject.voucherProject.entity.voucher;
 
-import org.springframework.cglib.core.internal.Function;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
@@ -27,7 +25,6 @@ public enum VoucherType {
         @Override
         public Voucher createVoucher(UUID voucherId, long amount, VoucherStatus voucherStatus, LocalDateTime createdAt) {
             return new PercentDiscountVoucher(voucherId, amount, voucherStatus, createdAt);
-
         }
     };
 

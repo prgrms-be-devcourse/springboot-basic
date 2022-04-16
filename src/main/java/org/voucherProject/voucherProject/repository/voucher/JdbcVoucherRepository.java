@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.entity.voucher.Voucher;
 import org.voucherProject.voucherProject.entity.voucher.VoucherStatus;
 import org.voucherProject.voucherProject.entity.voucher.VoucherType;
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//@Repository
+@Repository
 @Slf4j
 //@Primary
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String SELECT_ALL_SQL = "select * from voucher";
     private final String SELECT_BY_ID_SQL = "select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String SAVE_SQL = "insert into voucher(voucher_id, amount, voucher_type, voucher_status, created_at) values (UUID_TO_BIN(:voucherId), :amount, :voucherType, :voucherStatus)";
+    private final String DELETE_ALL_SQL = "delete from customers";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -34,7 +36,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     Collections.singletonMap("customerId", voucherId.toString().getBytes()),
                     customerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-//            log.error("result empty -> {}", e);
+            log.error("result empty -> {}", e);
             return Optional.empty();
         }
     }
@@ -51,6 +53,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return namedParameterJdbcTemplate.query(SELECT_ALL_SQL, customerRowMapper());
+    }
+
+    @Override
+    public void deleteAll() {
+        namedParameterJdbcTemplate.update(DELETE_ALL_SQL, Collections.emptyMap());
     }
 
     static UUID toUUID(byte[] bytes) {

@@ -1,12 +1,6 @@
 package org.voucherProject.voucherProject.entity.customer;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.voucherProject.voucherProject.entity.voucher.Voucher;
-import org.voucherProject.voucherProject.entity.voucher.VoucherDto;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +18,7 @@ public class CustomerDto {
 
     private String password;
 
+    @Singular
     private List<UUID> vouchers = new ArrayList<>();
 
 }

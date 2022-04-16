@@ -31,4 +31,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
     }
+
+    @Override
+    public void deleteAll() {
+        storage.clear();
+    }
 }

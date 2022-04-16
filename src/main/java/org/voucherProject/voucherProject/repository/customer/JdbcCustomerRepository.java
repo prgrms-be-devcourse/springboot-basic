@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//@Repository
+@Repository
 @Slf4j
 public class JdbcCustomerRepository implements CustomerRepository {
 

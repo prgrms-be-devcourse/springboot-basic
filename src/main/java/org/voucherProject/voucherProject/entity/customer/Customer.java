@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Customer {

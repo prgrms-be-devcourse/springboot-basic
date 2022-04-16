@@ -56,6 +56,15 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
+    @Override
+    public void deleteAll() {
+        try {
+            new FileOutputStream(FILE_VOUCHER_REPO_PATH);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException();
+        }
+    }
+
     private List<Voucher> getVouchers() {
 
         List<Voucher> vouchers = new ArrayList<>();
