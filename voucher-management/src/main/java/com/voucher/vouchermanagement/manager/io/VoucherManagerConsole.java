@@ -1,40 +1,27 @@
 package com.voucher.vouchermanagement.manager.io;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.voucher.vouchermanagement.manager.command.CommandType;
+import com.voucher.vouchermanagement.model.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.util.Arrays;
+import java.util.Scanner;
 
 @Component
 public class VoucherManagerConsole implements VoucherManagerInput, VoucherManagerOutput {
 
-    private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    private static final BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    private static final Logger logger = LoggerFactory.getLogger(VoucherManagerConsole.class);
+    private static final Scanner scanner = new Scanner(System.in);
 
     @Override
     public String input(String prompt) {
-        try {
-            bw.write(prompt);
-            bw.flush();
+        System.out.print(prompt);
 
-            return br.readLine();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-
-        return "";
+        return scanner.nextLine();
     }
 
     @Override
     public void println(String string) {
-        try {
-            bw.write(string + "\n");
-            bw.flush();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
+        System.out.println(string);
     }
 
     @Override
