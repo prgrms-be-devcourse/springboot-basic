@@ -30,7 +30,7 @@ public class VoucherFileRepository implements VoucherRepository {
     private final Resource FILE_PATH = new ClassPathResource("voucherFileDB.csv");
 
     @Override
-    public void insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(FILE_PATH.getFilename());
             BufferedWriter bufferedWriter = new BufferedWriter(
@@ -43,26 +43,8 @@ public class VoucherFileRepository implements VoucherRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return voucher;
     }
-
-    @Override
-    public int count() {
-        int size = 0;
-        try {
-            InputStream inputStream = new BufferedInputStream(
-                new FileInputStream(FILE_PATH.toString()));
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            while (bufferedReader.readLine() != null) {
-                size++;
-            }
-        } catch (IOException e) {
-            return 0;
-        } catch (NullPointerException e) {
-            return 0;
-        }
-        return size;
-    }
-
 
     @Override
     public List<Voucher> findAll() {

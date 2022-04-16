@@ -5,9 +5,7 @@ import org.programmers.kdt.weekly.voucher.model.Voucher;
 
 public interface VoucherRepository {
 
-    void insert(Voucher voucher);
-
-    int count();
+    Voucher insert(Voucher voucher);
 
     List<Voucher> findAll();
 }

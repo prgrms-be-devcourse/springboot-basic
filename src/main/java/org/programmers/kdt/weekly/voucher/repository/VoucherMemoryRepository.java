@@ -16,15 +16,10 @@ public class VoucherMemoryRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap();
 
     @Override
-    public void insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         storage.put(UUID.randomUUID(), voucher);
+        return voucher;
     }
-
-    @Override
-    public int count() {
-        return storage.size();
-    }
-
 
     @Override
     public List<Voucher> findAll() {
