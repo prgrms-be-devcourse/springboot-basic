@@ -1,11 +1,17 @@
 package org.voucherProject.voucherProject.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.voucherProject.voucherProject.customer.entity.Customer;
+import org.voucherProject.voucherProject.customer.repository.CustomerRepository;
+import org.voucherProject.voucherProject.customer.service.CustomerService;
 import org.voucherProject.voucherProject.voucher.entity.FixedAmountVoucher;
 import org.voucherProject.voucherProject.voucher.entity.PercentDiscountVoucher;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
+import org.voucherProject.voucherProject.voucher.repository.VoucherRepository;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
 
 import java.util.List;
@@ -18,7 +24,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class VoucherServiceImplTest {
 
     @Autowired
+    VoucherRepository voucherRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @BeforeEach
+    void clear() {
+        voucherRepository.deleteAll();
+        customerRepository.deleteAll();
+    }
+
+    @Autowired
     VoucherService voucherService;
+
+    @Autowired
+    CustomerService customerService;
 
     @Test
     public void saveAndGet() throws Exception {
@@ -26,7 +47,7 @@ class VoucherServiceImplTest {
         Voucher saveVoucher = voucherService.save(voucher);
 
         Voucher getVoucher = voucherService.getVoucher(saveVoucher.getVoucherId());
-        assertThat(saveVoucher).isEqualTo(getVoucher);
+        assertThat(saveVoucher.getVoucherId()).isEqualTo(getVoucher.getVoucherId());
     }
 
     @Test
@@ -50,9 +71,19 @@ class VoucherServiceImplTest {
         Voucher saveVoucher4 = voucherService.save(new PercentDiscountVoucher(UUID.randomUUID(), 14, UUID.randomUUID()));
 
         List<Voucher> findAllVoucher = voucherService.findAll();
-        assertThat(findAllVoucher.contains(saveVoucher1)).isTrue();
-        assertThat(findAllVoucher.contains(saveVoucher2)).isTrue();
-        assertThat(findAllVoucher.contains(saveVoucher3)).isTrue();
-        assertThat(findAllVoucher.contains(saveVoucher4)).isTrue();
+        assertThat(findAllVoucher.size()).isEqualTo(4);
+    }
+
+    @Test
+    public void findByCustomer() throws Exception {
+        Customer customer = new Customer(UUID.randomUUID(), "aaa", "a@naver.com", "1234");
+        Customer saveCustomer = customerService.save(customer);
+        Voucher voucher = VoucherType.FIXED.createVoucher(10, customer.getCustomerId());
+        Voucher voucher2 = VoucherType.FIXED.createVoucher(20, customer.getCustomerId());
+        Voucher saveVoucher1 = voucherService.save(voucher);
+        Voucher saveVoucher2 = voucherService.save(voucher2);
+
+        List<Voucher> byCustomer = voucherService.findByCustomer(saveCustomer);
+        assertThat(byCustomer.size()).isEqualTo(2);
     }
 }
