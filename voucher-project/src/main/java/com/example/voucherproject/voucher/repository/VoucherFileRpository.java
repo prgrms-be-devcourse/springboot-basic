@@ -8,6 +8,7 @@ import com.example.voucherproject.voucher.domain.PercentDiscountVoucher;
 import com.example.voucherproject.voucher.domain.Voucher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,9 @@ public class VoucherFileRpository implements VoucherRepository{
 
     private final MyReader reader;
     private final MyWriter writer;
-    private final String VOUCHER_LIST_PATH = "voucher_list.csv";
+
+    @Value(value = "${kdt.path.voucher}")
+    private String VOUCHER_LIST_PATH;
 
     @Override
     public List<Voucher> getList() {

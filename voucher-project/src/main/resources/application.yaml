@@ -1,0 +1,9 @@
+kdt:
+  version: 1.1 # 1주차 - 1리펙토링
+
+  path:
+    voucher: voucher_list.csv
+
+    user:
+      all: user_allList.csv
+      black: user_blackList.csv

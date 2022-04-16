@@ -6,6 +6,7 @@ import com.example.voucherproject.common.io.file.MyWriter;
 import com.example.voucherproject.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,10 @@ public class UserFileRepository implements UserRepository{
     private final MyReader reader;
     private final MyWriter writer;
 
-    private final String ALL_USER_LIST = "user_allList.csv";
-    private final String BLACK_USER_LIST = "user_blacklist.csv";
+    @Value(value = "${kdt.path.user.all}")
+    private String ALL_USER_LIST;
+    @Value(value = "${kdt.path.user.black}")
+    private String BLACK_USER_LIST;
 
     @Override
     public User save(User user) {
