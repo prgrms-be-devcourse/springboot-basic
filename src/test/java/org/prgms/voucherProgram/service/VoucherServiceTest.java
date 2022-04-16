@@ -17,8 +17,6 @@ import org.prgms.voucherProgram.entity.voucher.FixedAmountVoucher;
 import org.prgms.voucherProgram.entity.voucher.PercentDiscountVoucher;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
 import org.prgms.voucherProgram.entity.voucher.VoucherType;
-import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
-import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 import org.prgms.voucherProgram.repository.voucher.VoucherRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,9 +30,7 @@ class VoucherServiceTest {
 
     @DisplayName("FixedAmountVoucerType을 주면 FixedAmountVoucher를 반환한다.")
     @Test
-    void create_FixedAmountVoucherType_ReturnFixedAmountVoucher() throws
-        WrongDiscountPercentException,
-        WrongDiscountAmountException {
+    void create_FixedAmountVoucherType_ReturnFixedAmountVoucher() {
 
         Voucher mockVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
         given(voucherRepository.save(any(FixedAmountVoucher.class))).willReturn(mockVoucher);
@@ -49,9 +45,7 @@ class VoucherServiceTest {
 
     @DisplayName("PercentDiscountVoucerType을 주면 PercentDiscountVoucher를 반환한다.")
     @Test
-    void create_PercentDiscountType_ReturnPercentDiscountVoucher() throws
-        WrongDiscountPercentException,
-        WrongDiscountAmountException {
+    void create_PercentDiscountType_ReturnPercentDiscountVoucher() {
         Voucher mockVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
         given(voucherRepository.save(any(PercentDiscountVoucher.class))).willReturn(mockVoucher);
 
@@ -65,7 +59,7 @@ class VoucherServiceTest {
 
     @DisplayName("모든 바우처를 반환한다.")
     @Test
-    void findAllVoucher_ReturnAllVoucher() throws WrongDiscountAmountException, WrongDiscountPercentException {
+    void findAllVoucher_ReturnAllVoucher() {
         List<Voucher> mockVouchers = Arrays.asList(new FixedAmountVoucher(UUID.randomUUID(), 10L),
             new PercentDiscountVoucher(UUID.randomUUID(), 20L));
         given(voucherRepository.findAll()).willReturn(mockVouchers);

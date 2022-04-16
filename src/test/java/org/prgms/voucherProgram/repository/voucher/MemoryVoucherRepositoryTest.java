@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.prgms.voucherProgram.entity.voucher.FixedAmountVoucher;
 import org.prgms.voucherProgram.entity.voucher.PercentDiscountVoucher;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
-import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
-import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 
 class MemoryVoucherRepositoryTest {
 
@@ -18,7 +16,7 @@ class MemoryVoucherRepositoryTest {
 
     @DisplayName("Voucher를 저장한다.")
     @Test
-    void save_Voucher() throws WrongDiscountAmountException {
+    void save_Voucher() {
         // given
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
         // when
@@ -31,7 +29,7 @@ class MemoryVoucherRepositoryTest {
 
     @DisplayName("저장되어 있는 모든 Voucher를 List형으로 반환한다.")
     @Test
-    void findAll_ReturnAllVoucher() throws WrongDiscountAmountException, WrongDiscountPercentException {
+    void findAll_ReturnAllVoucher() {
         // given
         Voucher voucherOne = new FixedAmountVoucher(UUID.randomUUID(), 20);
         Voucher voucherTwo = new PercentDiscountVoucher(UUID.randomUUID(), 20);

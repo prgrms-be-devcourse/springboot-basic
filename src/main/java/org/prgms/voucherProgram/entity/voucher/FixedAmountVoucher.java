@@ -2,23 +2,22 @@ package org.prgms.voucherProgram.entity.voucher;
 
 import java.util.UUID;
 
-import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
-
 public class FixedAmountVoucher implements Voucher {
+    private static final String ERROR_WRONG_DISCOUNT_AMOUNT_MESSAGE = "[ERROR] 올바른 할인금액이 아닙니다.";
     private static final int MIN_AMOUNT = 1;
 
     private final UUID voucherId;
     private final long discountAmount;
 
-    public FixedAmountVoucher(UUID voucherId, long discountAmount) throws WrongDiscountAmountException {
+    public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         validateDiscountAmount(discountAmount);
         this.voucherId = voucherId;
         this.discountAmount = discountAmount;
     }
 
-    private void validateDiscountAmount(long discountAmount) throws WrongDiscountAmountException {
+    private void validateDiscountAmount(long discountAmount) {
         if (isUnderMinAmount(discountAmount)) {
-            throw new WrongDiscountAmountException();
+            throw new IllegalArgumentException(ERROR_WRONG_DISCOUNT_AMOUNT_MESSAGE);
         }
     }
 
@@ -31,7 +30,7 @@ public class FixedAmountVoucher implements Voucher {
         if (beforeDiscount <= discountAmount) {
             return 0;
         }
-        
+
         return beforeDiscount - discountAmount;
     }
 

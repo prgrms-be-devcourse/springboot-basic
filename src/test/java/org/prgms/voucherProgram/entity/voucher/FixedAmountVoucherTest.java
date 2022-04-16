@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
 
 class FixedAmountVoucherTest {
 
@@ -18,15 +17,14 @@ class FixedAmountVoucherTest {
     @ValueSource(longs = {-1, 0, -100})
     void FixedAmount_AmountLessOne_ThrowsException(long discountAmount) {
         assertThatThrownBy(() -> new FixedAmountVoucher(UUID.randomUUID(), discountAmount))
-            .isInstanceOf(WrongDiscountAmountException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 올바른 할인금액이 아닙니다.");
     }
 
     @DisplayName("정해진 할인금액으로 할인한다.")
     @ParameterizedTest
     @CsvSource(value = {"1000,100,900", "500,300,200", "10000,5000,5000"})
-    void discount_Amount_ReturnDiscountAmount(long beforeDiscount, long discountAmount, long result) throws
-        WrongDiscountAmountException {
+    void discount_Amount_ReturnDiscountAmount(long beforeDiscount, long discountAmount, long result) {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
         long discountPrice = voucher.discount(beforeDiscount);
         assertThat(discountPrice).isEqualTo(result);
@@ -34,7 +32,7 @@ class FixedAmountVoucherTest {
 
     @DisplayName("금액이 할인금액보다 작다면 0을 반환한다.")
     @Test
-    void discount_BeforeDiscountIsUnderDiscountAmount_ReturnZero() throws WrongDiscountAmountException {
+    void discount_BeforeDiscountIsUnderDiscountAmount_ReturnZero() {
         // given
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
         long beforeDiscount = 500L;

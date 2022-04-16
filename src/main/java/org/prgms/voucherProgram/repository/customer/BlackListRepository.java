@@ -13,6 +13,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.prgms.voucherProgram.entity.customer.Customer;
+import org.prgms.voucherProgram.exception.WrongFileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,10 +28,9 @@ public class BlackListRepository {
     private static final int CUSTOMER_EMAIL_INDEX = 2;
     private static final int CUSTOMER_LAST_LOGIN_TIME_INDEX = 3;
     private static final int CUSTOMER_CREATED_TIME_INDEX = 4;
-    private static final String ERROR_WRONG_FILE = "[ERROR] 올바른 고객 파일이 아닙니다.";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final String customerFilePath;
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
 
@@ -45,7 +45,7 @@ public class BlackListRepository {
             addBlackCustomers(storage, bufferedReader);
         } catch (IOException e) {
             logger.error("Fail to find a blacklist file");
-            throw new IllegalArgumentException(ERROR_WRONG_FILE);
+            throw new WrongFileException();
         }
     }
 

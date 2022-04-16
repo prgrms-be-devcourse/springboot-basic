@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgms.voucherProgram.exception.WrongFileException;
 
 class BlackListRepositoryTest {
 
@@ -21,7 +22,7 @@ class BlackListRepositoryTest {
     @Test
     void findBlackCustomers_WrongFile_ThrowException() {
         assertThatThrownBy(() -> new BlackListRepository("file/customer_black.csv"))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("[ERROR] 올바른 고객 파일이 아닙니다.");
+            .isInstanceOf(WrongFileException.class)
+            .hasMessage("[ERROR] 올바른 파일이 아닙니다.");
     }
 }

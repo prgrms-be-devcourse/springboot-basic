@@ -6,13 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.prgms.voucherProgram.exception.WrongInputMenuException;
 
 class MenuTypeTest {
     @DisplayName("해당하는 MenuType을 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {"create,CREATE", "list,LIST", "exit,EXIT"})
-    void of_MenuCommand_ReturnMenuType(String command, MenuType menuType) throws WrongInputMenuException {
+    void of_MenuCommand_ReturnMenuType(String command, MenuType menuType) {
         assertThat(MenuType.of(command)).isEqualTo(menuType);
     }
 
@@ -20,6 +19,8 @@ class MenuTypeTest {
     @ParameterizedTest
     @ValueSource(strings = {"asd", "", "  ", "lists"})
     void of_WrongMenuCommand_ThrowsException(String command) {
-        assertThatThrownBy(() -> MenuType.of(command));
+        assertThatThrownBy(() -> MenuType.of(command))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 올바른 메뉴 입력이 아닙니다.");
     }
 }

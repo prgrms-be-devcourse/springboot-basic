@@ -3,8 +3,7 @@ package org.prgms.voucherProgram;
 import org.prgms.voucherProgram.entity.MenuType;
 import org.prgms.voucherProgram.entity.voucher.Voucher;
 import org.prgms.voucherProgram.entity.voucher.VoucherType;
-import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
-import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
+import org.prgms.voucherProgram.exception.WrongFileException;
 import org.prgms.voucherProgram.service.CustomerService;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
@@ -48,7 +47,7 @@ public class VoucherProgram {
         while (true) {
             try {
                 return MenuType.of(inputView.inputMenu());
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
@@ -67,7 +66,7 @@ public class VoucherProgram {
         while (true) {
             try {
                 return VoucherType.findByCommand(inputView.inputVoucherCommand());
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
@@ -78,10 +77,10 @@ public class VoucherProgram {
             try {
                 long discountValue = inputView.inputDiscountValue(voucherType);
                 return voucherService.create(voucherType, discountValue);
-            } catch (IllegalArgumentException e) {
+            } catch (WrongFileException e) {
                 outputView.printError(e.getMessage());
                 System.exit(0);
-            } catch (WrongDiscountPercentException | WrongDiscountAmountException e) {
+            } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
@@ -90,7 +89,7 @@ public class VoucherProgram {
     private void printBlackList() {
         try {
             outputView.printCustomers(customerService.findBlackList());
-        } catch (IllegalArgumentException e) {
+        } catch (WrongFileException e) {
             outputView.printError(e.getMessage());
             System.exit(0);
         }
