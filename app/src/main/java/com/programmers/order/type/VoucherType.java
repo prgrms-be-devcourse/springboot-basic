@@ -2,6 +2,8 @@ package com.programmers.order.type;
 
 import java.util.Arrays;
 
+import com.programmers.order.utils.PatternUtils;
+
 public enum VoucherType {
 	NONE(0), FIX_VOUCHER(1), PERCENT_VOUCHER(2);
 
@@ -12,7 +14,10 @@ public enum VoucherType {
 	}
 
 	public static VoucherType getVoucherType(String input) {
-		// bug : input 숫자형인지 판단하는 것이 필요함 (NumberFormat exception occured.. )
+		if (!PatternUtils.isNumeric(input)) {
+			return NONE;
+		}
+
 		return Arrays.stream(VoucherType.values())
 				.filter(voucherType -> voucherType.key == Integer.parseInt(input))
 				.findAny()
