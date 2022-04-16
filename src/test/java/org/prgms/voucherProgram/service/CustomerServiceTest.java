@@ -88,6 +88,43 @@ class CustomerServiceTest {
         then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
     }
 
+    @DisplayName("고객을 수정한다.")
+    @Test
+    void Should_UpdateCustomer() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+        customer.login();
+        customer.changeEmail("spancer@gmail.com");
+        customer.changeName("spancer");
+        given(jdbcCustomerRepository.update(any(Customer.class))).willReturn(customer);
+        //when
+        CustomerDto customerDto = customerService.update(CustomerDto.from(customer));
+        //then
+        assertThat(customerDto).usingRecursiveComparison()
+            .isEqualTo(CustomerDto.from(customer));
+        then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
+        then(jdbcCustomerRepository).should(times(1)).update(any(Customer.class));
+    }
+
+    @DisplayName("중복되는 이메일로 수정 시 예외를 발생한다.")
+    @Test
+    void Should_ThrowException_When_UpdateDuplicateEmail() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        Customer duplicateCustomer = new Customer(UUID.randomUUID(), "spancer", "hwan@gmail.com",
+            LocalDateTime.now());
+        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(duplicateCustomer));
+
+        //when
+        //then
+        assertThatThrownBy(() -> customerService.update(CustomerDto.from(customer)))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR} 이미 해당 이메일로 저장된 고객이 있습니다.");
+        then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
+        then(jdbcCustomerRepository).should(times(0)).update(any(Customer.class));
+    }
+
     @DisplayName("모든 블랙리스트를 반환한다.")
     @Test
     void findBlackList_ReturnBlackCustomers() {

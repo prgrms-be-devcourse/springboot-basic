@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
-    private static final String ERROR_DUPLICATE_CUSTOMER = "[ERROR] 이미 존재하는 고객입니다.";
-
+    private static final String ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE = "[ERROR} 해당 이메일로 저장된 고객이 없습니다.";
+    private static final String ERROR_CUSTOMER_IS_EXISTS_MESSAGE = "[ERROR} 이미 해당 이메일로 저장된 고객이 있습니다.";
+    private static final String ERROR_DUPLICATE_CUSTOMER_MESSAGE = "[ERROR] 이미 존재하는 고객입니다.";
+    
     private final BlackListRepository blackListRepository;
     private final JdbcCustomerRepository jdbcCustomerRepository;
 
@@ -29,17 +31,31 @@ public class CustomerService {
     private void validateDuplicateCustomer(Customer customer) {
         jdbcCustomerRepository.findByEmail(customer.getEmail())
             .ifPresent(c -> {
-                throw new IllegalArgumentException(ERROR_DUPLICATE_CUSTOMER);
+                throw new IllegalArgumentException(ERROR_DUPLICATE_CUSTOMER_MESSAGE);
             });
     }
 
     public CustomerDto findByEmail(String email) {
         Customer customer = jdbcCustomerRepository.findByEmail(email)
             .orElseThrow(() -> {
-                throw new IllegalArgumentException("[ERROR} 해당 이메일로 저장된 고객이 없습니다.");
+                throw new IllegalArgumentException(ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE);
             });
 
         return CustomerDto.from(customer);
+    }
+
+    public CustomerDto update(CustomerDto customerDto) {
+        Customer customer = customerDto.toEntity();
+        jdbcCustomerRepository.findByEmail(customer.getEmail())
+            .ifPresent(findCustomer -> validateDuplicateEmail(customer, findCustomer));
+
+        return CustomerDto.from(jdbcCustomerRepository.update(customer));
+    }
+
+    private void validateDuplicateEmail(Customer customer, Customer findCustomer) {
+        if (customer.isNotSameCustomer(findCustomer)) {
+            throw new IllegalArgumentException(ERROR_CUSTOMER_IS_EXISTS_MESSAGE);
+        }
     }
 
     public List<Customer> findBlackList() {

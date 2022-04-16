@@ -23,6 +23,10 @@ public class Customer {
         this.lastLoginTime = lastLoginTime;
     }
 
+    public boolean isNotSameCustomer(Customer customer) {
+        return this.customerId != customer.customerId;
+    }
+
     public void changeName(String name) {
         this.name = new Name(name);
     }
