@@ -13,6 +13,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -74,6 +75,7 @@ class VoucherJdbcRepositoryTest {
 
   EmbeddedMysql embeddedMysql;
 
+  // Voucher Objects for Tests
   Voucher fixedAmountVoucher1 = VoucherFactory.createVoucher(1, 100L, LocalDateTime.now());
   Voucher fixedAmountVoucher2 = VoucherFactory.createVoucher(1, 1000L, LocalDateTime.now());
   Voucher percentDiscountVoucher1 = VoucherFactory.createVoucher(2, 10L, LocalDateTime.now());
@@ -155,8 +157,16 @@ class VoucherJdbcRepositoryTest {
   }
 
   @Test
-  @Disabled
-  @Order(3)
+  @Order(6)
+  void testDeleteById() {
+    voucherJdbcRepository.deleteById(fixedAmountVoucher1.getVoucherID());
+    log.info("voucher size = {}", voucherJdbcRepository.count());
+    Optional<Voucher> foundVoucher = voucherJdbcRepository.findById(fixedAmountVoucher1.getVoucherID());
+    assertThat(foundVoucher.isPresent(), is(false));
+  }
+
+  @Test
+  @Order(7)
   @DisplayName("deleteAll로 모든 데이터를 삭제할 수 있다")
   void testDeleteAll() {
     // deleteAll을 test 하기 위해서는 db가 비어있으면 안 됨

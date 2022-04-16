@@ -86,7 +86,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
   @Override
   public void deleteById(UUID voucherId) {
     try {
-      jdbcTemplate.update("delete from vouchers where voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+      jdbcTemplate.update("delete from vouchers where voucher_id = uuid_to_bin(:voucherId)",
+        Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
     } catch (Exception e) {
       log.error("No such voucherId", e);
     }
