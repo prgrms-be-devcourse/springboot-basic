@@ -2,16 +2,18 @@ CREATE TABLE customers
 (
     customer_id   BINARY(16) PRIMARY KEY,
     name          varchar(20) NOT NULL,
-    email         varchar(50) NOT NULL,
-    last_login_at DATETIME(6)          DEFAULT NULL,
-    created_at    DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    CONSTRAINT unique_user_email UNIQUE (email)
+    email         varchar(20) NOT NULL,
+    last_login_at datetime(6) DEFAULT NULL,
+    created_at    datetime(6) default current_timestamp(6),
+    CONSTRAINT unique_email UNIQUE (email)
 );
 
 CREATE TABLE vouchers
 (
+    customer_id  BINARY(16),
     voucher_id   BINARY(16) PRIMARY KEY,
     amount       BIGINT      DEFAULT 0,
-    voucher_kind VARCHAR(20) NOT NULL,
-    created_at   DATETIME(6) default CURRENT_TIMESTAMP(6)
+    voucher_kind VARCHAR(50) NOT NULL,
+    created_at   DATETIME(6) default CURRENT_TIMESTAMP(6),
+    FOREIGN KEY (customer_id) REFERENCES customers (customer_id) ON DELETE CASCADE
 );
