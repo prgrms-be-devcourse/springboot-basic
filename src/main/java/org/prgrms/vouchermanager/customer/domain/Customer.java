@@ -10,21 +10,12 @@ public class Customer {
     private String name;
     private LocalDateTime lastLoginAt;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime createAt) {
+    public Customer(UUID customerId, String name, String email) {
         validate(name);
         this.name = name;
         this.customerId = customerId;
         this.email = email;
-        this.createAt = createAt;
-    }
-
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createAt) {
-        validate(name);
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.lastLoginAt = lastLoginAt;
-        this.createAt = createAt;
+        this.createAt = LocalDateTime.now();
     }
 
     public void login() {
@@ -37,7 +28,7 @@ public class Customer {
     }
 
     private void validate(String name) {
-        if (name.isBlank()) throw new RuntimeException("Name should not be blank.");
+        if (name.isBlank()) throw new IllegalArgumentException("Name should not be blank.");
     }
 
     public UUID getCustomerId() {
