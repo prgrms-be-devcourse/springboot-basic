@@ -3,12 +3,14 @@ package org.prgrms.springbootbasic.repository.voucher;
 import static org.prgrms.springbootbasic.VoucherType.FIXED;
 import static org.prgrms.springbootbasic.VoucherType.PERCENT;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.GOT_EMPTY_RESULT_MSG;
+import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_DELETED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_INSERTED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_AMOUNT;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_PERCENT;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_TYPE;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_VOUCHER_ID;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.DELETE_ALL_SQL;
+import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.DELETE_BY_VOUCHER_ID_SQL;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.INSERT_SQL;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_ALL_SQL;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_BY_CUSTOMER_SQL;
@@ -138,7 +140,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         return jdbcTemplate.query(SELECT_BY_CUSTOMER_SQL,
             mapToVoucher,
-            customer.getCustomerId().toString().getBytes());
+            customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
+    }
+
+    public void deleteVoucher(Voucher voucher) {
+        logger.info("deleteVoucher() called");
+
+        var delete = jdbcTemplate.update(DELETE_BY_VOUCHER_ID_SQL,
+            voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
+        if (delete != 1) {
+            throw new RuntimeException(NOTHING_WAS_DELETED_EXP_MSG);
+        }
     }
 
 }

@@ -32,6 +32,10 @@ public enum Menu {
     LISTCUSTOMERVOUCHER("listCustomerVoucher", voucherController -> {
         voucherController.listCustomerVoucher();
         return true;
+    }),
+    DELETECUSTOMERVOUCHER("deleteCustomerVoucher", voucherController -> {
+        voucherController.deleteCustomerVoucher();
+        return true;
     });
 
     private final String textName;

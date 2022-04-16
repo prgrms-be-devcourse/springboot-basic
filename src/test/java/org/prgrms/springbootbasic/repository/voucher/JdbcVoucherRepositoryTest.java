@@ -5,6 +5,8 @@ import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_DELETED_EXP_MSG;
 
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
@@ -181,6 +183,32 @@ class JdbcVoucherRepositoryTest {
 
         //then
         assertThat(vouchers).isEmpty();
+    }
+
+    @DisplayName("특정 바우처 삭제")
+    @Test
+    void deleteVoucher() {
+        //given
+        var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+        jdbcVoucherRepository.save(voucher);
+
+        //when
+        jdbcVoucherRepository.deleteVoucher(voucher);
+
+        //then
+        assertThat(jdbcVoucherRepository.findById(voucher.getVoucherId())).isEmpty();
+    }
+
+    @DisplayName("특정 바우처 삭제 - 존재하지 않는 바우처 삭제")
+    @Test
+    void deleteInvalidVoucher() {
+        //given
+        //when
+        //then
+        assertThatThrownBy(() -> jdbcVoucherRepository.deleteVoucher(
+            new FixedAmountVoucher(UUID.randomUUID(), 20)))
+            .isInstanceOf(RuntimeException.class)
+            .hasMessageContaining(NOTHING_WAS_DELETED_EXP_MSG);
     }
 
     @Configuration

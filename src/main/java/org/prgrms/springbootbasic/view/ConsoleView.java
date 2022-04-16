@@ -4,6 +4,7 @@ import static org.prgrms.springbootbasic.controller.Menu.ASSIGNVOUCHER;
 import static org.prgrms.springbootbasic.controller.Menu.BLACKLIST;
 import static org.prgrms.springbootbasic.controller.Menu.CREATE;
 import static org.prgrms.springbootbasic.controller.Menu.CREATECUSTOMER;
+import static org.prgrms.springbootbasic.controller.Menu.DELETECUSTOMERVOUCHER;
 import static org.prgrms.springbootbasic.controller.Menu.EXIT;
 import static org.prgrms.springbootbasic.controller.Menu.LIST;
 import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMER;
@@ -22,6 +23,7 @@ import static org.prgrms.springbootbasic.view.ConstantString.SELECT_VOUCHER_TYPE
 import static org.prgrms.springbootbasic.view.ConstantString.TO_ASSIGN_VOUCHER_TO_CUSTOMER;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_CREATE_A_NEW_CUSTOMER;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_CREATE_A_NEW_VOUCHER;
+import static org.prgrms.springbootbasic.view.ConstantString.TO_DELETE_CUSTOMER_S_VOUCHER;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_EXIT_THE_PROGRAM;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_CUSTOMERS;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_CUSTOMER_BLACK_LIST;
@@ -76,6 +78,7 @@ public class ConsoleView {
         printLine(terminal, LISTCUSTOMER.name(), TO_LIST_ALL_CUSTOMERS);
         printLine(terminal, ASSIGNVOUCHER.name(), TO_ASSIGN_VOUCHER_TO_CUSTOMER);
         printLine(terminal, LISTCUSTOMERVOUCHER.name(), TO_LIST_CUSTOMER_S_VOUCHER);
+        printLine(terminal, DELETECUSTOMERVOUCHER.name(), TO_DELETE_CUSTOMER_S_VOUCHER);
         terminal.println();
     }
 

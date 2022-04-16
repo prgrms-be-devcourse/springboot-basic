@@ -174,4 +174,22 @@ class VoucherControllerTest {
         inOrder.verify(consoleView).selectCustomerId();
         inOrder.verify(voucherService).findCustomerVoucher(customerId);
     }
+
+    @DisplayName("deleteCustomerVoucher 테스트 - 정상 케이스")
+    @Test
+    void deleteCustomerVoucher() {
+        //given
+        when(consoleView.inputMenu()).thenReturn(Menu.DELETECUSTOMERVOUCHER);
+        when(consoleView.selectCustomerId()).thenReturn(UUID.randomUUID());
+        when(consoleView.selectVoucherId()).thenReturn(UUID.randomUUID());
+
+        //when
+        voucherController.process();
+
+        //then
+        var inOrder = inOrder(consoleView, customerService);
+        inOrder.verify(consoleView).selectCustomerId();
+        inOrder.verify(consoleView).selectVoucherId();
+        inOrder.verify(customerService).deleteVoucher(any(UUID.class), any(UUID.class));
+    }
 }

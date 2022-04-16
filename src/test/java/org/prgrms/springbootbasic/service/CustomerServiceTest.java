@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,8 +17,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.prgrms.springbootbasic.exception.DuplicateCustomerEmailException;
+import org.prgrms.springbootbasic.exception.InvalidCustomerIdException;
+import org.prgrms.springbootbasic.exception.InvalidVoucherIdException;
 import org.prgrms.springbootbasic.repository.customer.CustomerRepository;
+import org.prgrms.springbootbasic.repository.voucher.VoucherRepository;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -26,11 +32,14 @@ class CustomerServiceTest {
     @Mock
     CustomerRepository customerRepository;
 
+    @Mock
+    VoucherRepository voucherRepository;
+
     CustomerService customerService;
 
     @BeforeEach
     void init() {
-        customerService = new CustomerService(customerRepository);
+        customerService = new CustomerService(customerRepository, voucherRepository);
     }
 
     @DisplayName("회원 생성 테스트 - 정상")
@@ -79,5 +88,56 @@ class CustomerServiceTest {
         //then
         assertThat(allCustomers)
             .containsExactlyInAnyOrder(customer1, customer2);
+    }
+
+    @DisplayName("특정 회원의 바우처 삭제하기 - 정상 케이스")
+    @Test
+    void deleteVoucher() {
+        //given
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        when(customerRepository.findById(customer.getCustomerId())).thenReturn(
+            Optional.of(customer));
+
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        when(voucherRepository.findByCustomer(customer)).thenReturn(List.of(voucher));
+
+        //when
+        customerService.deleteVoucher(customer.getCustomerId(), voucher.getVoucherId());
+
+        //then
+        var inOrder = inOrder(customerRepository, voucherRepository);
+        inOrder.verify(customerRepository).findById(any(UUID.class));
+        inOrder.verify(voucherRepository).findByCustomer(any(Customer.class));
+        inOrder.verify(voucherRepository).deleteVoucher(any(Voucher.class));
+    }
+
+    @DisplayName("특정 회원의 바우처 삭제하기 - 유효하지 않은 손님 아이디 케이스")
+    @Test
+    void deleteVoucherInvalidCustomerId() {
+        //given
+        var customerId = UUID.randomUUID();
+        when(customerRepository.findById(customerId)).thenReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(
+            () -> customerService.deleteVoucher(customerId, UUID.randomUUID()))
+            .isInstanceOf(InvalidCustomerIdException.class);
+    }
+
+    @DisplayName("특정 회원의 바우처 삭제하기 - 유효하지 않은 바우처 아이디 케이스")
+    @Test
+    void deleteVoucherInvalidVoucherId() {
+        //given
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        when(customerRepository.findById(customer.getCustomerId())).thenReturn(
+            Optional.of(customer));
+        when(voucherRepository.findByCustomer(customer)).thenReturn(Collections.emptyList());
+
+        //when
+        //then
+        assertThatThrownBy(
+            () -> customerService.deleteVoucher(customer.getCustomerId(), UUID.randomUUID()))
+            .isInstanceOf(InvalidVoucherIdException.class);
     }
 }

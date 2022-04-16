@@ -104,4 +104,12 @@ public class VoucherController {
         var customerId = consoleView.selectCustomerId();
         consoleView.printCustomerVouchers(voucherService.findCustomerVoucher(customerId));
     }
+
+    public void deleteCustomerVoucher() {
+        logger.info("deleteCustomerVoucher() called");
+
+        var customerId = consoleView.selectCustomerId();
+        var voucherId = consoleView.selectVoucherId();
+        customerService.deleteVoucher(customerId, voucherId);
+    }
 }

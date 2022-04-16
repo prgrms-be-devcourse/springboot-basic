@@ -121,4 +121,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> findByCustomer(Customer customer) {
         throw new AssertionError("아직 개발 안함");
     }
+
+    @Override
+    public void deleteVoucher(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
+    }
 }
