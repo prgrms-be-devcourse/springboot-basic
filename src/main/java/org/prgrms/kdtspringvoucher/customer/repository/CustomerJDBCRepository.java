@@ -3,6 +3,7 @@ package org.prgrms.kdtspringvoucher.customer.repository;
 import org.prgrms.kdtspringvoucher.customer.entity.JDBCCustomer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

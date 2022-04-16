@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringvoucher.voucher.repository;
 
+import org.prgrms.kdtspringvoucher.aop.TrackTime;
 import org.prgrms.kdtspringvoucher.voucher.service.FixedAmountVoucher;
 import org.prgrms.kdtspringvoucher.voucher.service.PercentDiscountVoucher;
 import org.prgrms.kdtspringvoucher.voucher.service.Voucher;
@@ -64,6 +65,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    @TrackTime
     public Voucher save(Voucher voucher) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
             bufferedWriter.write(voucher.getStringForCSV());
