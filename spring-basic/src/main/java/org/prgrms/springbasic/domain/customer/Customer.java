@@ -26,6 +26,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return MessageFormat.format("{0},{1},{2}\n", customerId, customerType, name);
+        return MessageFormat.format("{0},{1},{2}", customerId, customerType, name);
     }
 }

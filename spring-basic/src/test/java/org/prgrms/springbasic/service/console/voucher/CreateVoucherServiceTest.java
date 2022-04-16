@@ -26,16 +26,16 @@ class CreateVoucherServiceTest {
         var validateFixedType = service.getClass().getDeclaredMethod("validateVoucherType", String.class);
         validateFixedType.setAccessible(true);
 
-        var fixed = (VoucherType) validateFixedType.invoke(service, "fixed");
+        var fixed = (VoucherType) validateFixedType.invoke(service, "FIXED");
         assertThat(fixed, instanceOf(VoucherType.class));
-        assertThat(fixed.getValue(), is("fixed"));
+        assertThat(fixed.toString(), is("FIXED"));
 
         var validatePercentType = service.getClass().getDeclaredMethod("validateVoucherType", String.class);
         validatePercentType.setAccessible(true);
 
-        var percent = (VoucherType) validatePercentType.invoke(service, "percent");
+        var percent = (VoucherType) validatePercentType.invoke(service, "PERCENT");
         assertThat(percent, instanceOf(VoucherType.class));
-        assertThat(percent.getValue(), is("percent"));
+        assertThat(percent.toString(), is("PERCENT"));
     }
 
     @Test

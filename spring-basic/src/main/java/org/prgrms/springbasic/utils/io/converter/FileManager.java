@@ -25,6 +25,7 @@ public class FileManager<T> {
     public void toFile(T object) {
         try (var writer = new BufferedWriter(new FileWriter(path, true))) {
             writer.write(object.toString());
+            writer.write("\n");
         } catch (IOException e) {
             log.error("Got IOException: {}", e.getMessage());
         }
