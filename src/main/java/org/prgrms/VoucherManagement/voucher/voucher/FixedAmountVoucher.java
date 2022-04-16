@@ -1,13 +1,14 @@
 package org.prgrms.VoucherManagement.voucher.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
   private static final long MAX_REDUCTION = 1_000_000L;
 
-  public FixedAmountVoucher(UUID voucherId, long reduction) {
-    super(voucherId, reduction);
+  public FixedAmountVoucher(UUID voucherId, long reduction, LocalDateTime createdAt) {
+    super(voucherId, reduction, createdAt);
   }
 
   @Override

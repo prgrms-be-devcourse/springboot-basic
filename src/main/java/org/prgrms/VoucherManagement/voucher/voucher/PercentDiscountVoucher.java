@@ -1,13 +1,14 @@
 package org.prgrms.VoucherManagement.voucher.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
   private static final long MAX_REDUCTION = 100L;
 
-  public PercentDiscountVoucher(UUID voucherId, long reduction) {
-    super(voucherId, reduction);
+  public PercentDiscountVoucher(UUID voucherId, long reduction, LocalDateTime createdAt) {
+    super(voucherId, reduction, createdAt);
   }
 
   @Override
