@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class BlacklistRepository {
 
     private final String blacklistDbName = "customer_blacklist.csv";
-    private final Resource blackListDb = new ClassPathResource("db/" + blacklistDbName);
+    private final Resource blacklistDb = new ClassPathResource("db/" + blacklistDbName);
     private final FileInput input;
     private final CsvDeserializer<Customer> csvDeserializer;
     private static final Logger logger = LoggerFactory.getLogger(BlacklistRepository.class);
@@ -32,7 +32,7 @@ public class BlacklistRepository {
     public List<Customer> findAll() {
         try {
             return input
-                    .readAllLine(blackListDb.getFile())
+                    .readAllLine(blacklistDb.getFile())
                     .stream().map(csvDeserializer::deserialize)
                     .collect(Collectors.toList());
         } catch (IOException e) {
