@@ -19,7 +19,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void saveVoucher(Voucher voucher) {
-        String content = voucher.getVoucherId() + "," + voucher.getValue() + "," + voucher.getClass().toString();
+        String content = voucher.getVoucherId() + "," + voucher.getValue() + "," + voucher.getClass();
         try {
             FileWriter fileWriter = new FileWriter(fileName, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -29,7 +29,7 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("voucher 추가(" + voucher.getVoucherId() + "," + voucher.getValue() + "," + voucher.getClass().toString() + ")");
+        logger.info("voucher 추가(" + voucher.getVoucherId() + "," + voucher.getValue() + "," + voucher.getClass() + ")");
     }
 
     @Override
