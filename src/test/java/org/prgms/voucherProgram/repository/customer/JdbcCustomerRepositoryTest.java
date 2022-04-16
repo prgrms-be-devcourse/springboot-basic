@@ -19,7 +19,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.voucherProgram.entity.customer.Customer;
-import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.prgms.voucherProgram.exception.NothingChangeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -77,19 +76,6 @@ class JdbcCustomerRepositoryTest {
         // then
         assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail()).get()).usingRecursiveComparison()
             .isEqualTo(customer);
-    }
-
-    @DisplayName("저장하려는 고객의 이메일이 중복된다면 예외를 발생한다.")
-    @Test
-    void should_ThrowException_When_DuplicateCustomerEmail() {
-        // given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        jdbcCustomerRepository.save(customer);
-        // when
-        // then
-        assertThatThrownBy(() -> jdbcCustomerRepository.save(customer))
-            .isInstanceOf(DuplicateEmailException.class)
-            .hasMessage("[ERROR] 중복된 이메일이 존재합니다.");
     }
 
     @DisplayName("모든 고객을 조회한다.")
@@ -164,22 +150,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(updateCustomer).isNotEmpty();
         assertThat(updateCustomer.get()).usingRecursiveComparison()
             .isEqualTo(customer);
-    }
-
-    @DisplayName("수정하려는 고객의 이메일이 중복된다면 에러를 발생한다.")
-    @Test
-    void should_ThrowException_When_DuplicateCustomer() {
-        // given
-        Customer customerOne = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        Customer customerTwo = new Customer(UUID.randomUUID(), "pobi", "pobi@gmail.com", LocalDateTime.now());
-        jdbcCustomerRepository.save(customerOne);
-        jdbcCustomerRepository.save(customerTwo);
-        // when
-        // then
-        customerTwo.changeEmail(customerOne.getEmail());
-        assertThatThrownBy(() -> jdbcCustomerRepository.update(customerTwo))
-            .isInstanceOf(DuplicateEmailException.class)
-            .hasMessage("[ERROR] 중복된 이메일이 존재합니다.");
     }
 
     @DisplayName("ID를 통해 고객을 조회한다.")

@@ -6,9 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.entity.customer.Customer;
-import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.prgms.voucherProgram.utils.DatabaseUtils;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,31 +22,25 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        try {
-            jdbcTemplate.update(
-                "INSERT INTO customer(customer_id, name, email, created_at) VALUES(UUID_TO_BIN(?), ?, ?, ?)",
-                DatabaseUtils.toBytes(customer.getCustomerId()),
-                customer.getName(),
-                customer.getEmail(),
-                Timestamp.valueOf(customer.getCreatedTime()));
-        } catch (DuplicateKeyException e) {
-            throw new DuplicateEmailException();
-        }
+        jdbcTemplate.update(
+            "INSERT INTO customer(customer_id, name, email, created_at) VALUES(UUID_TO_BIN(?), ?, ?, ?)",
+            DatabaseUtils.toBytes(customer.getCustomerId()),
+            customer.getName(),
+            customer.getEmail(),
+            Timestamp.valueOf(customer.getCreatedTime()));
+
         return customer;
     }
 
     @Override
     public Customer update(Customer customer) {
-        try {
-            jdbcTemplate.update(
-                "UPDATE customer SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
-                customer.getName(),
-                customer.getEmail(),
-                customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
-                DatabaseUtils.toBytes(customer.getCustomerId()));
-        } catch (DuplicateKeyException e) {
-            throw new DuplicateEmailException();
-        }
+        jdbcTemplate.update(
+            "UPDATE customer SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
+            customer.getName(),
+            customer.getEmail(),
+            customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
+            DatabaseUtils.toBytes(customer.getCustomerId()));
+        
         return customer;
     }
 
