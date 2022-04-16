@@ -20,7 +20,7 @@ public class FileCustomerRepository implements CustomerRepository {
     private String fileName;
     private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final int UUID_INDEX = 0;
-    private static final int NAME_INDEX = 1;
+    private static final int EMAIL_INDEX = 1;
 
     @Override
     public List<Customer> findAll() {
@@ -50,8 +50,10 @@ public class FileCustomerRepository implements CustomerRepository {
         List<Customer> members = new ArrayList<>();
         for (List<String> row : csvData) {
             UUID customerId = UUID.fromString(row.get(UUID_INDEX));
-            String name = row.get(NAME_INDEX);
-            members.add(new Customer(customerId, name));
+            String email = row.get(EMAIL_INDEX);
+            Customer customer = new Customer.Builder(customerId, email)
+                    .build();
+            members.add(customer);
         }
         return members;
     }

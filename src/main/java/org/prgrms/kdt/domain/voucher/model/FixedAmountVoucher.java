@@ -1,12 +1,14 @@
 package org.prgrms.kdt.domain.voucher.model;
 
+import org.prgrms.kdt.domain.base.BaseEntity;
 import org.prgrms.kdt.domain.voucher.types.VoucherType;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher extends BaseEntity implements Voucher{
     private final UUID voucherId;
     private final long discountPrice;
+    private UUID customerId;
     private static final VoucherType voucherType = VoucherType.FIXED_AMOUNT;
 
     public FixedAmountVoucher(UUID voucherId, long discountPrice) {
@@ -35,12 +37,12 @@ public class FixedAmountVoucher implements Voucher{
         return discountPrice;
     }
 
-    @Override
-    public String toString() {
-        return "FixedAmountVoucher{" +
-                "voucherId=" + voucherId +
-                ", discountPrice=" + discountPrice +
-                '}';
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
     }
 
     private void validateDiscountPrice(long discountPrice) {

@@ -3,7 +3,6 @@ package org.prgrms.kdt.domain.voucher.repository;
 import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
-import org.prgrms.kdt.domain.voucher.service.VoucherService;
 import org.prgrms.kdt.domain.voucher.types.VoucherType;
 import org.prgrms.kdt.util.CsvUtils;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 

@@ -27,13 +27,32 @@ class CustomerServiceTest {
     @DisplayName("블랙리스트 고객들을 조회할 수 있다.")
     public void findBlackList(){
         //given
-        Customer customerPark = new Customer(UUID.randomUUID(), "park");
-        Customer customerKim = new Customer(UUID.randomUUID(), "kim");
+        Customer customerPark = new Customer.Builder(UUID.randomUUID(), "a@naver.com").name("park").build();
+        Customer customerKim = new Customer.Builder(UUID.randomUUID(), "b@gmail.com").name("kim").build();
         List<Customer> savedBlackCustomers = Arrays.asList(customerPark, customerKim);
         //when
         when(customerRepository.findAll()).thenReturn(savedBlackCustomers);
-        List<Customer> blackListCustomers = customerService.findBlackListCustomers();
+        List<Customer> blackListCustomers = customerService.findBlackList();
         //then
         assertThat(blackListCustomers).contains(customerKim, customerPark);
     }
+
+    @Test
+    public void saveCustomers() throws Exception {
+        //given
+
+        //when
+        //then
+    }
+
+    @Test
+    public void saveCustomer() throws Exception {
+        //given
+
+        //when
+
+        //then
+    }
+
+
 }

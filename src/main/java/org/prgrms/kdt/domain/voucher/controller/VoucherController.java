@@ -54,7 +54,7 @@ public class VoucherController {
     }
 
     private void findBlackCustomers() {
-        List<Customer> blackListCustomers = customerService.findBlackListCustomers();
+        List<Customer> blackListCustomers = customerService.findBlackList();
         Console.printAllCustomers(blackListCustomers);
     }
 }

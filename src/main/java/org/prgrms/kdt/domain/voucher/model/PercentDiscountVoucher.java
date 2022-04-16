@@ -1,13 +1,14 @@
 package org.prgrms.kdt.domain.voucher.model;
 
+import org.prgrms.kdt.domain.base.BaseEntity;
 import org.prgrms.kdt.domain.voucher.types.VoucherType;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
-
+public class PercentDiscountVoucher extends BaseEntity implements Voucher{
     private final UUID voucherId;
     private final long discountRate;
+    private UUID customerId;
     private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
 
     public PercentDiscountVoucher(UUID voucherId, long discountRate) {
@@ -36,12 +37,12 @@ public class PercentDiscountVoucher implements Voucher {
         return discountRate;
     }
 
-    @Override
-    public String toString() {
-        return "PercentDiscountVoucher{" +
-                "voucherId=" + voucherId +
-                ", discountRate=" + discountRate +
-                '}';
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
     }
 
     private void validateDiscountRate(long discountRate) {

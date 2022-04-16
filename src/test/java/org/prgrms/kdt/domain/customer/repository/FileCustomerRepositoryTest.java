@@ -40,8 +40,8 @@ class FileCustomerRepositoryTest {
     @DisplayName("csv로 저장된 고객 목록을 불러올 수 있다.")
     public void findCustomers(){
         //given
-        Customer customerPark = new Customer(UUID.randomUUID(), "park");
-        Customer customerKim = new Customer(UUID.randomUUID(), "kim");
+        Customer customerPark = new Customer.Builder(UUID.randomUUID(), "d@naver.com").name("park").build();
+        Customer customerKim = new Customer.Builder(UUID.randomUUID(), "a@gmail.com").name("kim").build();
         customerRepository.save(customerPark);
         customerRepository.save(customerKim);
         //when
@@ -54,7 +54,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("고객 저장 시 파일을 읽지 못할 경우 예외가 발생한다.")
     public void exception_saveCustomer(){
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "park");
+        Customer customer = new Customer.Builder(UUID.randomUUID(), "a@naver.com").name("park").build();
         ReflectionTestUtils.setField(customerRepository, "csvPath", "");
         //when
         //then

@@ -18,7 +18,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> findBlackListCustomers() {
+    public List<Customer> findBlackList() {
         List<Customer> blackCustomers = customerRepository.findAll();
         logger.info("find Black List Customers {}", blackCustomers);
         return blackCustomers;
