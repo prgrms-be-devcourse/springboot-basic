@@ -2,6 +2,7 @@ package com.prgms.management.customer.repository;
 
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.customer.model.CustomerType;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
+@Profile({"default"})
 public class JdbcCustomerRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
