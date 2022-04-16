@@ -5,6 +5,7 @@ import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -57,12 +58,21 @@ public class VoucherJdbcRepository implements VoucherRepository {
     Map<String, Object> paramMap = new HashMap<>() {{
       put("voucherType", voucherType.toDbValue());
     }};
-    return jdbcTemplate.query("select * from vouchers where voucher_type = :voucherType ", paramMap, voucherRowMapper);
+    return jdbcTemplate.query("select * from vouchers where voucher_type = :voucherType ",
+      Collections.singletonMap("voucherType", voucherType.toDbValue()),
+      voucherRowMapper);
   }
 
   @Override
   public Optional<Voucher> findById(UUID voucherId) {
-    return Optional.empty();
+    try {
+      return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers WHERE voucher_id = uuid_to_bin(:voucherId)",
+        Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+        voucherRowMapper));
+    } catch (EmptyResultDataAccessException e) {
+      log.error("Get empty result", e);
+      return Optional.empty();
+    }
   }
 
   @Override

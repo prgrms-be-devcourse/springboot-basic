@@ -39,6 +39,10 @@ public enum VoucherType {
     throw new RuntimeException("[VoucherTypeException] 존재하지 않는 클래스입니다");
   }
 
+  public int toDbValue() {
+    return selectedNumber;
+  }
+
   public static VoucherType fromDbValue(int number) {
     for(VoucherType type: values()) {
       if(type.getSelectedNumber() == number) return type;

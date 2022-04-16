@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -134,6 +135,14 @@ class VoucherJdbcRepositoryTest {
     voucherJdbcRepository.insert(percentDiscountVoucher2);
     List<Voucher> percentDiscountVouchers = voucherJdbcRepository.findByVoucherType(VoucherType.PERCENT_DISCOUNT);
     assertThat(percentDiscountVouchers.size(), is(2));
+  }
+
+  @Test
+  @Order(4)
+  @DisplayName("voucherId를 사용하여 voucher를 조회할 수 있다")
+  void testByVoucherId() {
+    assertThat(voucherJdbcRepository.findById(fixedAmountVoucher1.getVoucherID()), is(not(Optional.empty())));
+    assertThat(voucherJdbcRepository.findById(UUID.randomUUID()), is(Optional.empty()));
   }
 
   @Test
