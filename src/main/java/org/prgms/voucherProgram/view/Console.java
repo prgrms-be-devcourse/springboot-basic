@@ -2,10 +2,12 @@ package org.prgms.voucherProgram.view;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.domain.voucher.VoucherType;
+import org.prgms.voucherProgram.dto.CustomerDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +15,7 @@ public class Console implements InputView, OutputView {
     private static final String PROMPT = "> ";
     private static final String REQUEST_INPUT_CONSOLE_COMMAND = "\n=== Console Program ===\nType \"exit\" to exit the program.\nType \"voucher\" run Voucher program.\nType \"customer\" run Customer program.";
     private static final String REQUEST_INPUT_VOUCHER_COMMAND = "\n=== Voucher Program ===\nType \"exit\" to exit the Voucher program.\nType \"create\" to create a new voucher.\nType \"list\" to list all vouchers.\nType \"blacklist\" to list all black customer.";
+    private static final String REQUEST_INPUT_CUSTOMER_COMMAND = "\n=== Customer Program ===\nType \"exit\" to exit the Customer program.\nType \"create\" to create a new customer.\nType \"read\" to read customers.\nType \"update\" to update customer.\nType \"delete\" to delete customer.";
     private static final String REQUEST_INPUT_VOUCHER_TYPE = "\nSelect a voucher type\nType \"1\" to create a new FixedAmountVoucher\nType \"2\" to create a new PercentDiscountVoucher";
     private static final String REQUEST_INPUT_DISCOUNT_AMOUNT = "\nInput voucher discount amount : ";
     private static final String REQUEST_INPUT_DISCOUNT_PERCENTAGE = "\nInput voucher discount percentage : ";
@@ -37,10 +40,36 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
+    public String inputCustomerMenu() {
+        System.out.println(REQUEST_INPUT_CUSTOMER_COMMAND);
+        System.out.print(PROMPT);
+        return scanner.nextLine().trim();
+    }
+
+    @Override
     public String inputVoucherCommand() {
         System.out.println(REQUEST_INPUT_VOUCHER_TYPE);
         System.out.print(PROMPT);
-        return scanner.nextLine().trim().toLowerCase();
+        return scanner.nextLine().trim();
+    }
+
+    @Override
+    public CustomerDto inputCustomerInformation() {
+        String name = inputCustomerName();
+        String email = inputCustomerEmail();
+        return new CustomerDto(UUID.randomUUID(), name, email);
+    }
+
+    @Override
+    public String inputCustomerName() {
+        System.out.print("\nname : ");
+        return scanner.nextLine().trim();
+    }
+
+    @Override
+    public String inputCustomerEmail() {
+        System.out.print("email : ");
+        return scanner.nextLine().trim();
     }
 
     @Override
@@ -66,6 +95,11 @@ public class Console implements InputView, OutputView {
     @Override
     public void printVoucher(Voucher voucher) {
         System.out.printf("%s\n%n", voucher);
+    }
+
+    @Override
+    public void printCustomer(CustomerDto customerDto) {
+        System.out.printf("%s\n%n", customerDto);
     }
 
     @Override

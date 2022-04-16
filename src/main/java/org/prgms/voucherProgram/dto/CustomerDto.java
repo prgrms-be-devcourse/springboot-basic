@@ -7,10 +7,10 @@ import org.prgms.voucherProgram.domain.customer.Customer;
 
 public class CustomerDto {
     private final UUID customerId;
-    private final String name;
-    private final String email;
     private final LocalDateTime createdTime;
     private final LocalDateTime lastLoginTime;
+    private String name;
+    private String email;
 
     public CustomerDto(UUID customerId, String name, String email) {
         this(customerId, name, email, LocalDateTime.now(), null);
@@ -35,9 +35,17 @@ public class CustomerDto {
         return new Customer(customerId, name, email, createdTime, lastLoginTime);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
-        return "customerId=%s, name='%s', email='%s', createdTime=%s, lastLoginTime=%s".formatted(customerId, name,
+        return "customerId=%s, name=%s, email=%s, createdTime=%s, lastLoginTime=%s".formatted(customerId, name,
             email, createdTime, lastLoginTime);
     }
 }
