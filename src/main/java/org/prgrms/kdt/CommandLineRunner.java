@@ -52,7 +52,7 @@ public class CommandLineRunner implements Runnable {
                         output.printVoucherValue(voucherType);
                         long voucherValue = input.inputLong();
 
-                        Voucher voucher = voucherService.insert(UUID.randomUUID(), voucherValue, voucherType);
+                        Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), voucherValue, voucherType);
                         output.printVoucherCreateSuccess(voucher.toString());
                     } catch (IllegalArgumentException e) {
                         logger.warn("[Voucher] create error: {}", e.getMessage(), e);

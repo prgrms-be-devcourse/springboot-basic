@@ -18,7 +18,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher insert(UUID voucherId, long voucherValue, VoucherType voucherType) {
+    public Voucher createVoucher(UUID voucherId, long voucherValue, VoucherType voucherType) {
         Voucher voucher = VoucherFactory.create(voucherId, voucherValue, voucherType);
         return voucherRepository.insert(voucher);
     }
