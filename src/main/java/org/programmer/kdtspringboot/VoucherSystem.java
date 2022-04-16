@@ -27,7 +27,7 @@ public class VoucherSystem {
     }
 
     public void run() {
-        try{
+        try {
             while (true) {
                 console.menu();
                 String inputString = console.input("선택: ").toLowerCase();
@@ -52,7 +52,7 @@ public class VoucherSystem {
                         console.print("제대로 입력해주세요.");
                 }
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             logger.error("입출력 오류");
         }
         
@@ -60,22 +60,12 @@ public class VoucherSystem {
 
     private void showBlackUserList() throws IOException {
         List<User> list = userService.findAllUsers();
-        if (!list.isEmpty()) {
-            for (int i = 0; i < list.size(); i++) {
-                User user = list.get(i);
-                console.print(user.getUserId() + ", " + user.getUserName());
-            }
-        }
+        list.stream().map(user -> user.getUserId() + ", " + user.getUserName()).forEach(console::print);
     }
 
     private void showVoucherList() throws IOException {
         List<Voucher> list = voucherService.findAllVouchers();
-        if (!list.isEmpty()) {
-            for (int i = 0; i < list.size(); i++) {
-                Voucher voucher = list.get(i);
-                console.print(voucher.getVoucherId() + ", " + voucher.getValue()+", "+voucher.getType());
-            }
-        }
+        list.stream().map(voucher -> voucher.getVoucherId() + ", " + voucher.getValue() + ", " + voucher.getType()).forEach(console::print);
     }
 
     private void createVoucher() {
