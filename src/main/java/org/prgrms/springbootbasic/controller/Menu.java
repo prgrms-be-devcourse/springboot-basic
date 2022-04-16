@@ -54,5 +54,4 @@ public enum Menu {
     public boolean apply(VoucherController voucherController) {
         return function.apply(voucherController);
     }
-
 }

@@ -11,9 +11,11 @@ import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMER;
 import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE;
 import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMERVOUCHER;
 import static org.prgrms.springbootbasic.view.ConstantString.AMOUNT;
+import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_BLACK_LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_LIST_PATTERN;
 import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_S_VOUCHER_LIST;
+import static org.prgrms.springbootbasic.view.ConstantString.FAIL;
 import static org.prgrms.springbootbasic.view.ConstantString.PERCENT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_AMOUNT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_CUSTOMER_EMAIL;
@@ -48,8 +50,8 @@ import java.util.UUID;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
-import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.controller.Menu;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
@@ -62,6 +64,7 @@ import org.springframework.stereotype.Component;
 public class ConsoleView {
 
     private static final String FILE_CUSTOMER_BLACKLIST_CSV = "file:customer_blacklist.csv";
+    private static final String RED = "red";
     private final TextIO textIO = TextIoFactory.getTextIO();
     private final File customerBlackList;
 
@@ -158,7 +161,7 @@ public class ConsoleView {
             br = new BufferedReader(new FileReader(customerBlackList));
             String line = "";
 
-            terminal.println("=== CUSTOMER_BLACK_LIST ===");
+            terminal.println(CUSTOMER_BLACK_LIST);
             while ((line = br.readLine()) != null) {
                 terminal.println(line);
             }
@@ -192,10 +195,10 @@ public class ConsoleView {
     public void printError(String message) {
         TextTerminal<?> terminal = textIO.getTextTerminal();
 
-        terminal.println("=== FAIL ===");
+        terminal.println(FAIL);
         terminal.executeWithPropertiesConfigurator(
             props -> {
-                props.setPromptColor("red");
+                props.setPromptColor(RED);
                 props.setPromptBold(true);
             },
             t -> t.print(message));

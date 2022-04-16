@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic;
+package org.prgrms.springbootbasic.controller;
 
 public enum VoucherType {
     FIXED("fixed"), PERCENT("percent");

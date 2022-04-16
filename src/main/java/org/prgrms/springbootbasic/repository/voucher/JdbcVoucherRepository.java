@@ -1,11 +1,14 @@
 package org.prgrms.springbootbasic.repository.voucher;
 
-import static org.prgrms.springbootbasic.VoucherType.FIXED;
-import static org.prgrms.springbootbasic.VoucherType.PERCENT;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.prgrms.springbootbasic.controller.VoucherType.FIXED;
+import static org.prgrms.springbootbasic.controller.VoucherType.PERCENT;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.GOT_EMPTY_RESULT_MSG;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_DELETED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_INSERTED_EXP_MSG;
+import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTING_WAS_UPDATED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_AMOUNT;
+import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_CUSTOMER_ID;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_PERCENT;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_TYPE;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_VOUCHER_ID;
@@ -15,9 +18,9 @@ import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_ALL_SQL;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_BY_CUSTOMER_SQL;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_BY_ID_SQL;
+import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.UPDATE_CUSTOMER_ID_SQL;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,8 +45,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
         var type = resultSet.getString(COLUMN_TYPE);
         var voucherId = toUUID(resultSet.getBytes(COLUMN_VOUCHER_ID));
-        var customerId = resultSet.getBytes("customer_id") != null ?
-            toUUID(resultSet.getBytes("customer_id")) : null;
+        var customerId = resultSet.getBytes(COLUMN_CUSTOMER_ID) != null ?
+            toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID)) : null;
         if (type.equals(FIXED.toString())) {
             var amount = resultSet.getInt(COLUMN_AMOUNT);
             return new FixedAmountVoucher(voucherId, customerId, amount);
@@ -69,7 +72,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         if (voucher instanceof FixedAmountVoucher) {
             var insert = jdbcTemplate.update(
                 INSERT_SQL,
-                voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8),
+                voucher.getVoucherId().toString().getBytes(UTF_8),
                 FIXED.toString(),
                 ((FixedAmountVoucher) voucher).getAmount(),
                 null);
@@ -81,7 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         if (voucher instanceof PercentDiscountVoucher) {
             var insert = jdbcTemplate.update(
                 INSERT_SQL,
-                voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8),
+                voucher.getVoucherId().toString().getBytes(UTF_8),
                 PERCENT.toString(),
                 null,
                 ((PercentDiscountVoucher) voucher).getPercent());
@@ -106,7 +109,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                 SELECT_BY_ID_SQL,
                 mapToVoucher,
-                id.toString().getBytes(StandardCharsets.UTF_8)));
+                id.toString().getBytes(UTF_8)));
         } catch (EmptyResultDataAccessException e) {
             logger.info(GOT_EMPTY_RESULT_MSG);
             return Optional.empty();
@@ -125,11 +128,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
         logger.info("updateCustomerId() called");
 
         var update = jdbcTemplate.update(
-            "update vouchers set customer_id = uuid_to_bin(?) where voucher_id = uuid_to_bin(?)",
-            voucher.getCustomerId().orElseGet(null).toString().getBytes(StandardCharsets.UTF_8),
-            voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
+            UPDATE_CUSTOMER_ID_SQL,
+            voucher.getCustomerId().get().toString().getBytes(UTF_8),
+            voucher.getVoucherId().toString().getBytes(UTF_8));
         if (update != 1) {
-            throw new RuntimeException("Noting was updated");
+            throw new RuntimeException(NOTING_WAS_UPDATED_EXP_MSG);
         }
         return voucher;
     }
@@ -140,17 +143,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         return jdbcTemplate.query(SELECT_BY_CUSTOMER_SQL,
             mapToVoucher,
-            customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
+            customer.getCustomerId().toString().getBytes(UTF_8));
     }
 
     public void deleteVoucher(Voucher voucher) {
         logger.info("deleteVoucher() called");
 
         var delete = jdbcTemplate.update(DELETE_BY_VOUCHER_ID_SQL,
-            voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
+            voucher.getVoucherId().toString().getBytes(UTF_8));
         if (delete != 1) {
             throw new RuntimeException(NOTHING_WAS_DELETED_EXP_MSG);
         }
     }
-
 }

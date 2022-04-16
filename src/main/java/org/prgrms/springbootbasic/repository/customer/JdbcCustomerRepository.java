@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic.repository.customer;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.GOT_EMPTY_RESULT_MSG;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_INSERTED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.COLUMN_CUSTOMER_ID;
@@ -14,11 +15,10 @@ import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstStri
 import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.UPDATE_BY_ID_SQL;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.prgrms.springbootbasic.VoucherType;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +60,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         logger.info("save() called");
 
         var insert = jdbcTemplate.update(INSERT_SQL,
-            customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8),
+            customer.getCustomerId().toString().getBytes(UTF_8),
             customer.getName(),
             customer.getEmail());
         if (insert != 1) {
@@ -82,7 +82,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         var update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
             customer.getName(),
-            customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
+            customer.getCustomerId().toString().getBytes(UTF_8));
         if (update != 1) {
             throw new RuntimeException(GOT_EMPTY_RESULT_MSG);
         }
@@ -96,7 +96,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID,
                 mapToCustomer,
-                customerId.toString().getBytes(StandardCharsets.UTF_8)));
+                customerId.toString().getBytes(UTF_8)));
         } catch (EmptyResultDataAccessException e) {
             logger.info("findById() Got empty result");
             return Optional.empty();

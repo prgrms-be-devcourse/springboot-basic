@@ -3,7 +3,7 @@ package org.prgrms.springbootbasic.repository.customer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.prgrms.springbootbasic.VoucherType;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.Customer;
 
 public interface CustomerRepository {

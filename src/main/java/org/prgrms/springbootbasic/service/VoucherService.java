@@ -78,5 +78,4 @@ public class VoucherService {
             throw new AlreadyAssignedVoucherException();
         }
     }
-
 }

@@ -1,6 +1,5 @@
 package org.prgrms.springbootbasic.controller;
 
-import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.exception.ServiceException;
 import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
