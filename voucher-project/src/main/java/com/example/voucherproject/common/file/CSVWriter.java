@@ -1,10 +1,8 @@
 package com.example.voucherproject.common.file;
 
-import com.example.voucherproject.common.enums.UserType;
 import com.example.voucherproject.user.domain.User;
-import com.example.voucherproject.user.domain.UserFactory;
+import com.example.voucherproject.voucher.domain.Voucher;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,21 +10,33 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 @Slf4j
-@Component
-public class CSVWriter {
+public class CSVWriter implements MyWriter {
 
     private String saveDirectory = "./src/main/resources/";
 
-    public void userToCSV(User user, String fileName) {
+    @Override
+    public User writeUser(User user, String fileName) {
         try {
             var file = getFile(saveDirectory + fileName);
             writeUser(file, user);
         } catch (IOException e) {
-            log.error("error");
+            log.error("Can't write User To CSV", e);
         }
+        return user;
     }
 
-    private void writeUser(File file, User user) throws IOException {
+    @Override
+    public Voucher writeVoucher(Voucher voucher, String fileName) {
+        try {
+            var file = getFile(saveDirectory + fileName);
+            writeVoucher(file, voucher);
+        } catch (IOException e) {
+            log.error("Can't write Voucher To CSV", e);
+        }
+        return voucher;
+    }
+
+    private User writeUser(File file, User user) throws IOException{
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
 
             var id = user.getId();
@@ -36,6 +46,18 @@ public class CSVWriter {
             writer.write(id.toString() + "," + type.toString() + "," + name);
             writer.newLine();
         }
+        return user;
+    }
+
+    private Voucher writeVoucher(File file, Voucher voucher) throws IOException{
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            var id = voucher.getId();
+            var type = voucher.getType();
+
+            writer.write(id.toString() + "," + type.toString());
+            writer.newLine();
+        }
+        return voucher;
     }
 
     private File getFile(String path) throws IOException {
