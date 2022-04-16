@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Primary
+//@Primary
 public class MemoryCustomerRepository implements CustomerRepository{
 
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();

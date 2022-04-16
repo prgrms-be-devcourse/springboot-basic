@@ -1,7 +1,6 @@
 package org.voucherProject.voucherProject.voucher.entity;
 
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
@@ -23,9 +22,7 @@ public class FixedAmountVoucher implements Voucher {
     private final int MAX_DISCOUNT_AMOUNT = 10000;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
-        if (amount < MIN_DISCOUNT_AMOUNT || amount > MAX_DISCOUNT_AMOUNT || amount == 0) {
-            throw new IllegalArgumentException();
-        }
+        validateAmount(amount);
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherStatus = VoucherStatus.VALID;
@@ -33,6 +30,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public FixedAmountVoucher(UUID voucherId, long amount, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt) {
+        validateAmount(amount);
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherStatus = voucherStatus;
@@ -62,5 +60,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public void cancelVoucher() {
         this.voucherStatus = VoucherStatus.VALID;
+    }
+
+    private void validateAmount(long amount) {
+        if (amount < MIN_DISCOUNT_AMOUNT || amount > MAX_DISCOUNT_AMOUNT || amount == 0) {
+            throw new IllegalArgumentException();
+        }
     }
 }

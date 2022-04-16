@@ -22,6 +22,7 @@ public class SimpleVoucherController implements VoucherController {
         long amount = voucherDto.getAmount();
         Voucher voucher = voucherDto.getVoucherType().createVoucher(amount);
 
+        //customer에 voucher 추가
         Customer customer = customerService.findById(voucherDto.getCustomerId());
         customer.getVouchers().add(voucher.getVoucherId());
         customerService.save(customer);
@@ -33,7 +34,11 @@ public class SimpleVoucherController implements VoucherController {
     public List<VoucherDto> findAll() {
         List<Voucher> vouchers = voucherService.findAll();
         return vouchers.stream()
-                .map(v -> new VoucherDto(v.getVoucherType(), v.getHowMuch(), v.getVoucherStatus()))
+                .map(v -> VoucherDto.builder()
+                        .voucherType(v.getVoucherType())
+                        .amount(v.getHowMuch())
+                        .voucherStatus(v.getVoucherStatus())
+                        .build())
                 .toList();
     }
 

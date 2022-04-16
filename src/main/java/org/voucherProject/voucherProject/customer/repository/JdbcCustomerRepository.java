@@ -1,9 +1,11 @@
 package org.voucherProject.voucherProject.customer.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 
 import java.nio.ByteBuffer;
@@ -11,8 +13,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//@Repository
+@Repository
 @Slf4j
+@Primary
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;

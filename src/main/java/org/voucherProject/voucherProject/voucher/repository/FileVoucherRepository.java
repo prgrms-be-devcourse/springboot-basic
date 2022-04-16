@@ -66,7 +66,6 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private List<Voucher> getVouchers() {
-
         List<Voucher> vouchers = new ArrayList<>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_VOUCHER_REPO_PATH));

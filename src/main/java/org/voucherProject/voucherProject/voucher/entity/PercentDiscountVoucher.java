@@ -29,13 +29,8 @@ public class PercentDiscountVoucher implements Voucher {
         this.createdAt = LocalDateTime.now();
     }
 
-    private void validatePercent(long percent) {
-        if (percent < MIN_DISCOUNT_PERCENT || percent > MAX_DISCOUNT_PERCENT || percent == 0) {
-            throw new IllegalArgumentException();
-        }
-    }
-
     public PercentDiscountVoucher(UUID voucherId, long percent, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt) {
+        validatePercent(percent);
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherStatus = voucherStatus;
@@ -66,4 +61,11 @@ public class PercentDiscountVoucher implements Voucher {
     public void cancelVoucher() {
         this.voucherStatus = VoucherStatus.VALID;
     }
+
+    private void validatePercent(long percent) {
+        if (percent < MIN_DISCOUNT_PERCENT || percent > MAX_DISCOUNT_PERCENT || percent == 0) {
+            throw new IllegalArgumentException();
+        }
+    }
+
 }
