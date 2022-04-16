@@ -1,7 +1,6 @@
 package org.prgrms.kdt.domain.voucher.model;
 
 import org.prgrms.kdt.domain.base.BaseEntity;
-import org.prgrms.kdt.domain.voucher.types.VoucherType;
 
 import java.util.UUID;
 

@@ -3,6 +3,7 @@ package org.prgrms.kdt.domain.voucher.types;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.prgrms.kdt.domain.voucher.model.VoucherType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -10,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class VoucherTypeTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"fixedAmount", "percentDiscount"})
+    @ValueSource(strings = {"FIXED", "PERCENT"})
     @DisplayName("유효한 바우처종류를 입력할 경우 이에 해당하는 바우처타입을 반환한다.")
     public void findVoucherType(String type){
         //given

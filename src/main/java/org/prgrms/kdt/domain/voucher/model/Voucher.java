@@ -1,7 +1,5 @@
 package org.prgrms.kdt.domain.voucher.model;
 
-import org.prgrms.kdt.domain.voucher.types.VoucherType;
-
 import java.util.UUID;
 
 public interface Voucher {
@@ -12,4 +10,5 @@ public interface Voucher {
     long getDiscountValue();
 
     long discount(long beforeDiscount);
+
 }
