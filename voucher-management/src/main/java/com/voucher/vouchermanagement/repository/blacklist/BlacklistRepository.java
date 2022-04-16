@@ -2,7 +2,6 @@ package com.voucher.vouchermanagement.repository.blacklist;
 
 import com.voucher.vouchermanagement.model.customer.Customer;
 import com.voucher.vouchermanagement.repository.io.FileInput;
-import com.voucher.vouchermanagement.repository.io.FileOutput;
 import com.voucher.vouchermanagement.repository.utils.CsvDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +21,11 @@ public class BlacklistRepository {
     private final String blacklistDbName = "customer_blacklist.csv";
     private final Resource blackListDb = new ClassPathResource("db/" + blacklistDbName);
     private final FileInput input;
-    private final FileOutput output;
     private final CsvDeserializer<Customer> csvDeserializer;
     private static final Logger logger = LoggerFactory.getLogger(BlacklistRepository.class);
 
-    public BlacklistRepository(FileInput input, FileOutput output,
-                               @Qualifier("blacklistDeserializer") CsvDeserializer<Customer> csvDeserializer) {
+    public BlacklistRepository(FileInput input, @Qualifier("blacklistDeserializer") CsvDeserializer<Customer> csvDeserializer) {
         this.input = input;
-        this.output = output;
         this.csvDeserializer = csvDeserializer;
     }
 
