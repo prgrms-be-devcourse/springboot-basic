@@ -7,7 +7,9 @@ import static org.prgrms.springbootbasic.controller.Menu.CREATECUSTOMER;
 import static org.prgrms.springbootbasic.controller.Menu.EXIT;
 import static org.prgrms.springbootbasic.controller.Menu.LIST;
 import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMER;
+import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMERVOUCHER;
 import static org.prgrms.springbootbasic.view.ConstantString.AMOUNT;
+import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_S_VOUCHER_LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.PERCENT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_AMOUNT;
 import static org.prgrms.springbootbasic.view.ConstantString.SELECT_CUSTOMER_EMAIL;
@@ -24,6 +26,7 @@ import static org.prgrms.springbootbasic.view.ConstantString.TO_EXIT_THE_PROGRAM
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_CUSTOMERS;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_CUSTOMER_BLACK_LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_ALL_VOUCHERS;
+import static org.prgrms.springbootbasic.view.ConstantString.TO_LIST_CUSTOMER_S_VOUCHER;
 import static org.prgrms.springbootbasic.view.ConstantString.TYPE;
 import static org.prgrms.springbootbasic.view.ConstantString.VOUCHER_ID;
 import static org.prgrms.springbootbasic.view.ConstantString.VOUCHER_LIST;
@@ -72,6 +75,7 @@ public class ConsoleView {
         printLine(terminal, CREATECUSTOMER.name(), TO_CREATE_A_NEW_CUSTOMER);
         printLine(terminal, LISTCUSTOMER.name(), TO_LIST_ALL_CUSTOMERS);
         printLine(terminal, ASSIGNVOUCHER.name(), TO_ASSIGN_VOUCHER_TO_CUSTOMER);
+        printLine(terminal, LISTCUSTOMERVOUCHER.name(), TO_LIST_CUSTOMER_S_VOUCHER);
         terminal.println();
     }
 
@@ -206,8 +210,17 @@ public class ConsoleView {
     private void validateUUIDFormat(String uuid) {
         try {
             UUID.fromString(uuid);
-        } catch (IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
             throw new InvalidateUUIDFormat();
         }
+    }
+
+    public void printCustomerVouchers(List<Voucher> customerVoucher) {
+        TextTerminal<?> terminal = textIO.getTextTerminal();
+        terminal.println(CUSTOMER_S_VOUCHER_LIST);
+        terminal.println();
+
+        customerVoucher.forEach(voucher -> printVoucher(terminal, voucher));
+        terminal.println();
     }
 }

@@ -64,6 +64,7 @@ class JdbcVoucherRepositoryTest {
     @AfterEach
     void init() {
         jdbcVoucherRepository.removeAll();
+        jdbcCustomerRepository.removeAll();
     }
 
     @DisplayName("모든 바우처 조회 기능")
@@ -142,6 +143,44 @@ class JdbcVoucherRepositoryTest {
         var updatedVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
         assertThat(updatedVoucher.get().getCustomerId())
             .isEqualTo(voucher.getCustomerId());
+    }
+
+    @DisplayName("특정 customer의 바우처 조회 기능 - 바우처가 존재한는 경우")
+    @Test
+    void findByCustomer() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        jdbcVoucherRepository.save(voucher);
+
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
+
+        voucher.assignCustomer(customer);
+        jdbcVoucherRepository.updateCustomerId(voucher);
+
+        //when
+        var vouchers = jdbcVoucherRepository.findByCustomer(customer);
+
+        //then
+        assertThat(vouchers.size()).isEqualTo(1);
+        assertThat(vouchers.get(0)).isEqualTo(voucher);
+    }
+
+    @DisplayName("특정 customer의 바우처 조회 기능 - 바우처가 존재하지 않는 경우")
+    @Test
+    void findByCustomerButEmpty() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        jdbcVoucherRepository.save(voucher);
+
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
+
+        //when
+        var vouchers = jdbcVoucherRepository.findByCustomer(customer);
+
+        //then
+        assertThat(vouchers).isEmpty();
     }
 
     @Configuration

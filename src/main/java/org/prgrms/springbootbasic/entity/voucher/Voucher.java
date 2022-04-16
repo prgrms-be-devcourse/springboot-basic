@@ -1,6 +1,7 @@
 package org.prgrms.springbootbasic.entity.voucher;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.springbootbasic.entity.Customer;
@@ -29,5 +30,22 @@ public abstract class Voucher implements Serializable {
 
     public void assignCustomer(Customer customer) {
         this.customerId = customer.getCustomerId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Voucher voucher = (Voucher) o;
+        return getVoucherId().equals(voucher.getVoucherId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVoucherId());
     }
 }

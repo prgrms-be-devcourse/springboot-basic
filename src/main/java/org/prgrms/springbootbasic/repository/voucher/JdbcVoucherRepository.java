@@ -11,6 +11,7 @@ import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.DELETE_ALL_SQL;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.INSERT_SQL;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_ALL_SQL;
+import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_BY_CUSTOMER_SQL;
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_BY_ID_SQL;
 
 import java.nio.ByteBuffer;
@@ -18,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
@@ -128,6 +130,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new RuntimeException("Noting was updated");
         }
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findByCustomer(Customer customer) {
+        logger.info("findByCustomer() called");
+
+        return jdbcTemplate.query(SELECT_BY_CUSTOMER_SQL,
+            mapToVoucher,
+            customer.getCustomerId().toString().getBytes());
     }
 
 }

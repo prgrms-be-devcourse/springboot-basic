@@ -177,4 +177,33 @@ class VoucherServiceTest {
             .isInstanceOf(AlreadyAssignedVoucherException.class);
     }
 
+    @DisplayName("특정 customer voucher 조회 - 정상 케이스")
+    @Test
+    void findCustomerVoucher() {
+        //given
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        when(customerRepository.findById(customer.getCustomerId())).thenReturn(
+            Optional.of(customer));
+
+        //when
+        voucherService.findCustomerVoucher(customer.getCustomerId());
+
+        //then
+        var inOrder = inOrder(customerRepository, voucherRepository);
+        inOrder.verify(customerRepository).findById(customer.getCustomerId());
+        inOrder.verify(voucherRepository).findByCustomer(customer);
+    }
+
+    @DisplayName("특정 customer voucher 조회 - 존재하지 않는 customer id 케이스")
+    @Test
+    void findCustomerVoucherInvalidCustomerId() {
+        //given
+        UUID customerId = UUID.randomUUID();
+        when(customerRepository.findById(customerId)).thenReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(() -> voucherService.findCustomerVoucher(customerId))
+            .isInstanceOf(InvalidCustomerIdException.class);
+    }
 }

@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -156,4 +157,21 @@ class VoucherControllerTest {
         inOrder.verify(voucherService).assignVoucherToCustomer(any(UUID.class), any(UUID.class));
     }
 
+    @DisplayName("listCustomerVoucher 테스트 - 정상 케이스")
+    @Test
+    void listCustomerVoucher() {
+        //given
+        when(consoleView.inputMenu()).thenReturn(Menu.LISTCUSTOMERVOUCHER);
+        UUID customerId = UUID.randomUUID();
+        when(consoleView.selectCustomerId()).thenReturn(customerId);
+        when(voucherService.findCustomerVoucher(customerId)).thenReturn(Collections.emptyList());
+
+        //when
+        voucherController.process();
+
+        //then
+        var inOrder = inOrder(consoleView, voucherService);
+        inOrder.verify(consoleView).selectCustomerId();
+        inOrder.verify(voucherService).findCustomerVoucher(customerId);
+    }
 }

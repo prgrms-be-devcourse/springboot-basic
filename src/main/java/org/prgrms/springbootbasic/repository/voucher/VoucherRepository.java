@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.repository.voucher;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 
 public interface VoucherRepository {
@@ -16,4 +17,6 @@ public interface VoucherRepository {
     Voucher updateCustomerId(Voucher voucher);
 
     Optional<Voucher> findById(UUID voucherId);
+
+    List<Voucher> findByCustomer(Customer customer);
 }

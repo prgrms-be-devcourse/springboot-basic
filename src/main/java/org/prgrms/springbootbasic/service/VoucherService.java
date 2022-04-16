@@ -65,6 +65,14 @@ public class VoucherService {
         voucherRepository.updateCustomerId(voucher);
     }
 
+    public List<Voucher> findCustomerVoucher(UUID customerId) {
+        logger.info("findCustomerVoucher() called");
+
+        var customer = customerRepository.findById(customerId)
+            .orElseThrow(InvalidCustomerIdException::new);
+        return voucherRepository.findByCustomer(customer);
+    }
+
     private void validateAssignedVoucher(Voucher voucher) {
         if (voucher.getCustomerId().isPresent()) {
             throw new AlreadyAssignedVoucherException();

@@ -127,3 +127,7 @@
   - [X] vouchers table의 외래키 값 변경 (Repository)
   - [X] service 계층 개발
   - [X] ConsoleView, Controller 기능 추가
+- [X] 고객이 어떤 바우처를 보유하고 있는지 조회할 수 있어야 합니다.
+  - [X] 고객이 갖고 있는 바우처 Repository에서 조회 기능
+  - [X] 고객이 갖고 있는 바우처 조회 기능 (Service)
+  - [X] 고객이 갖고 있는 바우처 조회 기능 (Controller)
