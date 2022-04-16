@@ -26,6 +26,7 @@ public class SimpleCustomerController implements CustomerController {
                 .map(c -> CustomerDto.builder()
                         .customerName(c.getCustomerName())
                         .customerEmail(c.getCustomerEmail())
+                        .vouchers(c.getVouchers())
                         .build()
                 ).toList();
     }
@@ -34,8 +35,33 @@ public class SimpleCustomerController implements CustomerController {
     public CustomerDto findById(CustomerDto customerDto) {
         Customer customer = customerService.findById(customerDto.getCustomerId());
         return CustomerDto.builder()
+                .customerId(customer.getCustomerId())
                 .customerName(customer.getCustomerName())
                 .customerEmail(customerDto.getCustomerEmail())
+                .vouchers(customerDto.getVouchers())
                 .build();
     }
+
+    @Override
+    public CustomerDto findByName(CustomerDto customerDto) {
+        Customer customer = customerService.findByName(customerDto.getCustomerName());
+        return CustomerDto.builder()
+                .customerId(customer.getCustomerId())
+                .customerName(customer.getCustomerName())
+                .customerEmail(customerDto.getCustomerEmail())
+                .vouchers(customerDto.getVouchers())
+                .build();
+    }
+
+    @Override
+    public CustomerDto findByEmail(CustomerDto customerDto) {
+        Customer customer = customerService.findByEmail(customerDto.getCustomerEmail());
+        return CustomerDto.builder()
+                .customerId(customer.getCustomerId())
+                .customerName(customer.getCustomerName())
+                .customerEmail(customerDto.getCustomerEmail())
+                .vouchers(customerDto.getVouchers())
+                .build();
+    }
+
 }

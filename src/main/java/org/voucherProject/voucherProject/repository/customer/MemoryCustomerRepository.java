@@ -9,13 +9,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Primary
-public class SimpleCustomerRepository implements CustomerRepository{
+public class MemoryCustomerRepository implements CustomerRepository{
 
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.of(storage.get(customerId));
+        return Optional.ofNullable(storage.get(customerId));
     }
 
     @Override
@@ -28,10 +28,9 @@ public class SimpleCustomerRepository implements CustomerRepository{
         return storage.values().stream().filter(c -> c.getCustomerEmail().equals(customerEmail)).findFirst();
     }
 
-
     @Override
     public List<Customer> findAll() {
-        return storage.values().stream().toList();
+        return new ArrayList<>(storage.values());
     }
 
     @Override

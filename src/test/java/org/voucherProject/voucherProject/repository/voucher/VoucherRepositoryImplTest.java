@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.repository;
+package org.voucherProject.voucherProject.repository.voucher;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

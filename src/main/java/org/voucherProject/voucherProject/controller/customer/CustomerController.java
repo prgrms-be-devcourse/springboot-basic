@@ -13,4 +13,8 @@ public interface CustomerController {
 
     CustomerDto findById(CustomerDto customerDto);
 
+    CustomerDto findByName(CustomerDto customerDto);
+
+    CustomerDto findByEmail(CustomerDto customerDto);
+
 }

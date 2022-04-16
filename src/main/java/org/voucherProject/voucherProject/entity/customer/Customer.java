@@ -10,6 +10,7 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Customer {
 
     private final UUID customerId;
