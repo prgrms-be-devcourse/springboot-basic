@@ -44,18 +44,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try (Stream<Path> fileStream = Files.list(Paths.get(objectFolder.getPath()))) {
             return fileStream
                     .filter(path -> matcher.matches(path.getFileName()))
-                    .map(path -> {
-                        try {
-                            Object obj = new ObjectInputStream(new FileInputStream(path.toString())).readObject();
-                            return (Voucher) obj;
-                        } catch (IOException e) {
-                            throw new RuntimeException(
-                                    MessageFormat.format(
-                                            "해당하는 파일이 존재하지 않습니다. msg : {0}", e.getMessage()));
-                        } catch (ClassNotFoundException e) {
-                            throw new RuntimeException(MessageFormat.format("deserialization에서 문제가 발생했습니다.. msg : {0}", e.getMessage()));
-                        }
-                    }).collect(Collectors.toList());
+                    .map(this::deserializeVoucher).collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(MessageFormat.format("해당하는 폴더가 존재하지 않습니다. msg : {0}", e.getMessage()));
         }
@@ -69,11 +58,9 @@ public class FileVoucherRepository implements VoucherRepository {
                     .filter(path -> path.endsWith(voucherId.toString() + ".obj")).findFirst();
             if (targetPath.isEmpty())
                 return Optional.empty();
-            return Optional.of((Voucher) new ObjectInputStream(new FileInputStream(targetPath.get().toString())).readObject());
+            return Optional.of(this.deserializeVoucher(targetPath.get()));
         } catch (IOException e) {
             throw new RuntimeException(MessageFormat.format("해당하는 폴더가 존재하지 않습니다. msg : {0}", e.getMessage()));
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(MessageFormat.format("deserialization에서 문제가 발생했습니다.. msg : {0}", e.getMessage()));
         }
     }
 
@@ -84,6 +71,19 @@ public class FileVoucherRepository implements VoucherRepository {
                     .forEach(path -> path.toFile().delete());
         } catch (IOException e) {
             throw new RuntimeException(MessageFormat.format("해당하는 폴더가 존재하지 않습니다. msg : {0}", e.getMessage()));
+        }
+    }
+
+    private Voucher deserializeVoucher(Path path) {
+        try {
+            Object obj = new ObjectInputStream(new FileInputStream(path.toString())).readObject();
+            return (Voucher) obj;
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    MessageFormat.format(
+                            "해당하는 파일이 존재하지 않습니다. msg : {0}", e.getMessage()));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(MessageFormat.format("deserialization에서 문제가 발생했습니다.. msg : {0}", e.getMessage()));
         }
     }
 }

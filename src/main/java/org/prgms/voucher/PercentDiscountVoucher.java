@@ -1,14 +1,16 @@
 package org.prgms.voucher;
 
+import org.prgms.validator.Validators;
+
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
-    private final long discountPercent;
-    private final UUID voucherId;
+public record PercentDiscountVoucher(UUID customerId, long discountPercent, UUID voucherId) implements Voucher {
 
-    public PercentDiscountVoucher(long discountPercent, UUID voucherId) {
+    public PercentDiscountVoucher(UUID customerId, long discountPercent, UUID voucherId) {
         this.discountPercent = discountPercent;
+        Validators.notNullAndEmptyCheck(voucherId);
         this.voucherId = voucherId;
+        this.customerId = customerId;
     }
 
     @Override
@@ -24,5 +26,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long getDiscountAmount() {
         return discountPercent;
+    }
+
+    @Override
+    public UUID getCustomerId() {
+        return customerId;
     }
 }

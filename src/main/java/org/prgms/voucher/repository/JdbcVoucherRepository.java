@@ -27,7 +27,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, voucher_kind, created_at) values(?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO vouchers(customer_id, voucher_id, amount, voucher_kind, created_at) values(?, ?, ?, ?, ?)",
+                UuidUtils.uuidToBytes(voucher.getCustomerId()),
                 UuidUtils.uuidToBytes(voucher.getVoucherId()),
                 voucher.getDiscountAmount(),
                 voucher.getClass().getSimpleName(),
@@ -54,16 +55,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private Voucher mapToVoucher(ResultSet rs, int rowNum) throws SQLException {
+        var customerId = UuidUtils.bytesToUUID(rs.getBytes("customer_id"));
         var voucherId = UuidUtils.bytesToUUID(rs.getBytes("voucher_id"));
         var amount = rs.getInt("amount");
         var voucherKind = rs.getString("voucher_kind");
-        return decideVoucherType(voucherKind, amount, voucherId);
+        return decideVoucherType(voucherKind, amount, voucherId, customerId);
     }
 
-    private Voucher decideVoucherType(String voucherKind, long amount, UUID voucherId) {
+    private Voucher decideVoucherType(String voucherKind, long amount, UUID voucherId, UUID customerId) {
         if (voucherKind.equals(FixedAmountVoucher.class.getSimpleName()))
-            return new FixedAmountVoucher(amount, voucherId);
+            return new FixedAmountVoucher(customerId, amount, voucherId);
         else //if(voucherKind.equals(PercentDiscountVoucher.class.getSimpleName()))
-            return new PercentDiscountVoucher(amount, voucherId);
+            return new PercentDiscountVoucher(customerId, amount, voucherId);
     }
 }
