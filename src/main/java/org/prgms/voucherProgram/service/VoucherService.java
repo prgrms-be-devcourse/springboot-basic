@@ -3,10 +3,10 @@ package org.prgms.voucherProgram.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.prgms.voucherProgram.entity.voucher.FixedAmountVoucher;
-import org.prgms.voucherProgram.entity.voucher.PercentDiscountVoucher;
-import org.prgms.voucherProgram.entity.voucher.Voucher;
-import org.prgms.voucherProgram.entity.voucher.VoucherType;
+import org.prgms.voucherProgram.domain.voucher.FixedAmountVoucher;
+import org.prgms.voucherProgram.domain.voucher.PercentDiscountVoucher;
+import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 

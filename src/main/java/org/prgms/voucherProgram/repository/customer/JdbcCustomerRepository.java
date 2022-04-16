@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.prgms.voucherProgram.entity.customer.Customer;
+import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.utils.DatabaseUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,7 +40,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             customer.getEmail(),
             customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
             DatabaseUtils.toBytes(customer.getCustomerId()));
-        
+
         return customer;
     }
 

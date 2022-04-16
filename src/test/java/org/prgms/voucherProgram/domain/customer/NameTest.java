@@ -1,4 +1,4 @@
-package org.prgms.voucherProgram.entity.customer;
+package org.prgms.voucherProgram.domain.customer;
 
 import static org.assertj.core.api.Assertions.*;
 

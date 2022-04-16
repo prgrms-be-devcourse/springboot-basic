@@ -1,8 +1,8 @@
 package org.prgms.voucherProgram;
 
-import org.prgms.voucherProgram.entity.MenuType;
-import org.prgms.voucherProgram.entity.voucher.Voucher;
-import org.prgms.voucherProgram.entity.voucher.VoucherType;
+import org.prgms.voucherProgram.domain.MenuType;
+import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.exception.WrongFileException;
 import org.prgms.voucherProgram.service.CustomerService;
 import org.prgms.voucherProgram.service.VoucherService;

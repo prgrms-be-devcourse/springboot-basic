@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.prgms.voucherProgram.entity.customer.Customer;
+import org.prgms.voucherProgram.domain.customer.Customer;
 
 public interface CustomerRepository {
     Customer save(Customer customer);

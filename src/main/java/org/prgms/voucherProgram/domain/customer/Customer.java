@@ -1,4 +1,4 @@
-package org.prgms.voucherProgram.entity.customer;
+package org.prgms.voucherProgram.domain.customer;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

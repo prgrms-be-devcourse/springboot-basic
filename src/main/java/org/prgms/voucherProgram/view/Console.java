@@ -3,9 +3,9 @@ package org.prgms.voucherProgram.view;
 import java.util.List;
 import java.util.Scanner;
 
-import org.prgms.voucherProgram.entity.customer.Customer;
-import org.prgms.voucherProgram.entity.voucher.Voucher;
-import org.prgms.voucherProgram.entity.voucher.VoucherType;
+import org.prgms.voucherProgram.domain.customer.Customer;
+import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
 @Component

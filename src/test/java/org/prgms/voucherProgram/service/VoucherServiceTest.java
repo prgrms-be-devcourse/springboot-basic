@@ -13,10 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgms.voucherProgram.entity.voucher.FixedAmountVoucher;
-import org.prgms.voucherProgram.entity.voucher.PercentDiscountVoucher;
-import org.prgms.voucherProgram.entity.voucher.Voucher;
-import org.prgms.voucherProgram.entity.voucher.VoucherType;
+import org.prgms.voucherProgram.domain.voucher.FixedAmountVoucher;
+import org.prgms.voucherProgram.domain.voucher.PercentDiscountVoucher;
+import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.repository.voucher.VoucherRepository;
 
 @ExtendWith(MockitoExtension.class)

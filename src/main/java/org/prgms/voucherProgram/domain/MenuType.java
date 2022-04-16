@@ -1,4 +1,4 @@
-package org.prgms.voucherProgram.entity;
+package org.prgms.voucherProgram.domain;
 
 import java.util.Arrays;
 

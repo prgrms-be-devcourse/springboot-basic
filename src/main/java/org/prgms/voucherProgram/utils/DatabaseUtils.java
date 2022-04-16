@@ -3,7 +3,7 @@ package org.prgms.voucherProgram.utils;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-import org.prgms.voucherProgram.entity.customer.Customer;
+import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.exception.NothingChangeException;
 import org.springframework.jdbc.core.RowMapper;
 

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgms.voucherProgram.entity.customer.Customer;
+import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.repository.customer.BlackListRepository;
 
 @ExtendWith(MockitoExtension.class)

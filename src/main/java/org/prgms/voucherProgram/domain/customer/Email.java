@@ -1,4 +1,4 @@
-package org.prgms.voucherProgram.entity.customer;
+package org.prgms.voucherProgram.domain.customer;
 
 import java.util.Objects;
 import java.util.regex.Pattern;

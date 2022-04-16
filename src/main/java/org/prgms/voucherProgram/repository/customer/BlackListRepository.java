@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.prgms.voucherProgram.entity.customer.Customer;
+import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.exception.WrongFileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

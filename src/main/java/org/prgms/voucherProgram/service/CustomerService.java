@@ -2,7 +2,7 @@ package org.prgms.voucherProgram.service;
 
 import java.util.List;
 
-import org.prgms.voucherProgram.entity.customer.Customer;
+import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.repository.customer.BlackListRepository;
 import org.springframework.stereotype.Service;
 

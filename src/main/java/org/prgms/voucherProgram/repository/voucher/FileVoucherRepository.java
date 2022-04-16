@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.prgms.voucherProgram.entity.voucher.Voucher;
+import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.exception.WrongFileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
