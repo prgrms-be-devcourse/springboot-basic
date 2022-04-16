@@ -153,6 +153,11 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
+    public void printSuccess() {
+        System.out.println("Success!");
+    }
+
+    @Override
     public void printError(String message) {
         System.out.println("\n" + message + "\n");
     }

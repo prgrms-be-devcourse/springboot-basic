@@ -1,7 +1,10 @@
 package org.prgms.voucherProgram.domain.program;
 
+import org.prgms.voucherProgram.domain.customer.Email;
 import org.prgms.voucherProgram.domain.menu.CustomerMenuType;
 import org.prgms.voucherProgram.dto.CustomerDto;
+import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
+import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.prgms.voucherProgram.exception.WrongEmailException;
 import org.prgms.voucherProgram.exception.WrongNameException;
 import org.prgms.voucherProgram.service.CustomerService;
@@ -30,6 +33,19 @@ public class CustomerProgram {
             switch (customerMenuType) {
                 case EXIT -> isNotEndProgram = false;
                 case CREATE -> createCustomer();
+                case READ -> readCustomer();
+                case UPDATE -> updateCustomer();
+                case DELETE -> deleteCustomer();
+            }
+        }
+    }
+
+    private CustomerMenuType inputMenu() {
+        while (true) {
+            try {
+                return CustomerMenuType.from(inputView.inputCustomerMenu());
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
             }
         }
     }
@@ -50,13 +66,75 @@ public class CustomerProgram {
         }
     }
 
-    private CustomerMenuType inputMenu() {
+    private void readCustomer() {
+        CustomerMenuType customerMenuType = inputSubMenu();
+        switch (customerMenuType) {
+            case ALL -> outputView.printCustomers(customerService.findCustomers());
+            case JUST_ONE -> findCustomer();
+        }
+    }
+
+    private CustomerMenuType inputSubMenu() {
         while (true) {
             try {
-                return CustomerMenuType.from(inputView.inputCustomerMenu());
+                return CustomerMenuType.fromSubMenu(inputView.inputCustomerSubMenu());
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
+        }
+    }
+
+    private void findCustomer() {
+        while (true) {
+            try {
+                Email email = new Email(inputView.inputCustomerEmail());
+                outputView.printCustomer(customerService.findByEmail(email));
+                return;
+            } catch (WrongEmailException e) {
+                outputView.printError(e.getMessage());
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+                return;
+            }
+        }
+    }
+
+    private void updateCustomer() {
+        Email email = inputCustomerEmail();
+        CustomerDto customerDto = inputView.inputCustomerInformation();
+        while (true) {
+            try {
+                outputView.printCustomer(customerService.update(email, customerDto));
+                return;
+            } catch (WrongNameException e) {
+                outputView.printError(e.getMessage());
+                customerDto.setName(inputView.inputCustomerName());
+            } catch (WrongEmailException | DuplicateEmailException e) {
+                outputView.printError(e.getMessage());
+                customerDto.setEmail(inputView.inputCustomerEmail());
+            } catch (CustomerIsNotExistsException e) {
+                outputView.printError(e.getMessage());
+                return;
+            }
+        }
+    }
+
+    private Email inputCustomerEmail() {
+        while (true) {
+            try {
+                return new Email(inputView.inputCustomerEmail());
+            } catch (WrongEmailException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private void deleteCustomer() {
+        try {
+            customerService.delete(inputCustomerEmail());
+            outputView.printSuccess();
+        } catch (CustomerIsNotExistsException e) {
+            outputView.printError(e.getMessage());
         }
     }
 }

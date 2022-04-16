@@ -18,5 +18,7 @@ public interface OutputView {
 
     void printBlackList(List<Customer> customers);
 
+    void printSuccess();
+
     void printError(String message);
 }
