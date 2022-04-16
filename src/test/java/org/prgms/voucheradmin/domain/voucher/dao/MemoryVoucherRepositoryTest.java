@@ -23,7 +23,7 @@ class MemoryVoucherRepositoryTest {
         memoryVoucherRepository.create(voucher1);
         memoryVoucherRepository.create(voucher2);
 
-        List<Voucher> vouchers = memoryVoucherRepository.getAll();
+        List<Voucher> vouchers = memoryVoucherRepository.findAll();
 
         assertThat(vouchers.size()).isEqualTo(2);
     }

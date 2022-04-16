@@ -37,7 +37,7 @@ public class VoucherService {
      * 바우처 목록을 조회하는 메서드 입니다
      **/
     public List<Voucher> getVouchers() throws IOException{
-        return voucherRepository.getAll();
+        return voucherRepository.findAll();
     }
 
     /**

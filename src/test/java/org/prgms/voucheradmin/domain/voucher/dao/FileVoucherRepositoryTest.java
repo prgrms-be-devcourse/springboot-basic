@@ -38,7 +38,7 @@ class FileVoucherRepositoryTest {
         try {
             fileVoucherRepository.create(newVoucher);
 
-            List<Voucher> vouchers = fileVoucherRepository.getAll().stream()
+            List<Voucher> vouchers = fileVoucherRepository.findAll().stream()
                     .filter(voucher -> voucher.getVoucherId().equals(voucherId))
                     .collect(Collectors.toList());
 

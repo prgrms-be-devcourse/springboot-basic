@@ -8,7 +8,7 @@ import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 public interface VoucherRepository {
     Voucher create(Voucher voucher) throws IOException;
 
-    List<Voucher> getAll() throws IOException;
+    List<Voucher> findAll() throws IOException;
 
     default Voucher update(){
         return null;

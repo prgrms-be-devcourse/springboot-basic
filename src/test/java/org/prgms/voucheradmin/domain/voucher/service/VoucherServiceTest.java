@@ -49,11 +49,11 @@ class VoucherServiceTest {
     @DisplayName("바우서 조회 테스트")
     void testGetVouchers() {
         try {
-            when(voucherRepository.getAll()).thenReturn(new ArrayList<Voucher>());
+            when(voucherRepository.findAll()).thenReturn(new ArrayList<Voucher>());
 
             voucherService.getVouchers();
 
-            verify(voucherRepository).getAll();
+            verify(voucherRepository).findAll();
         }catch(IOException e) {
             System.out.println(e.getMessage());
         }

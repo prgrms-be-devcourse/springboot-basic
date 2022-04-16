@@ -86,7 +86,7 @@ class JdbcVoucherRepositoryTest {
     void testCreationVoucher() throws Throwable{
         jdbcVoucherRepository.create(voucher);
 
-        List<Voucher> vouchers = jdbcVoucherRepository.getAll();
+        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
 
         assertThat(vouchers.size(), is(1));
     }

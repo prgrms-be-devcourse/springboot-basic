@@ -42,7 +42,7 @@ public class FileVoucherRepository implements VoucherRepository{
      * 바우처들 파일에서 읽어와 각각 종류에 맞는 entity에 매핑해준 후 바우처 목록을 반환하는 메서드입니다.
      **/
     @Override
-    public List<Voucher> getAll() throws IOException {
+    public List<Voucher> findAll() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(voucherAdminProperties.getVoucherFilePath()));
         List<Voucher> vouchers = new ArrayList<>();
 

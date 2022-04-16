@@ -33,7 +33,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
      * 바우처들의 목록을 반환하는 메서드입니다.
      **/
     @Override
-    public List<Voucher> getAll() {
+    public List<Voucher> findAll() {
         List<Voucher> vouchers = storage.keySet().stream()
                 .map(storage::get)
                 .collect(Collectors.toList());

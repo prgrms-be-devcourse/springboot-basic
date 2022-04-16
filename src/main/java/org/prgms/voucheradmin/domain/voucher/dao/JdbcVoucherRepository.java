@@ -1,6 +1,5 @@
 package org.prgms.voucheradmin.domain.voucher.dao;
 
-import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
@@ -15,6 +14,10 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.UUID;
 
+
+/**
+ * 생성된 바우처를 DB에 CRUD를 하는 클래스 입니다.
+ **/
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository{
@@ -24,6 +27,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * 바우처 생성 메서드
+     **/
     @Override
     public Voucher create(Voucher voucher) {
         int update = jdbcTemplate.update("insert into vouchers(voucher_id, voucher_type, voucher_amount) value(UUID_TO_BIN(?), ?, ?)",
@@ -36,8 +42,11 @@ public class JdbcVoucherRepository implements VoucherRepository{
         return voucher;
     }
 
+    /**
+     * 바우처 전체 조회 메서드
+     **/
     @Override
-    public List<Voucher> getAll() {
+    public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
     }
 
