@@ -74,9 +74,9 @@ class CustomerServiceTest {
         then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
     }
 
-    @DisplayName("해당하는 이메일을 가진 고객이 없다면 예외를 발생한다.")
+    @DisplayName("조회시 해당하는 이메일을 가진 고객이 없다면 예외를 발생한다.")
     @Test
-    void Should_ThrowException_When_CustomerIsNotExists() {
+    void Should_ThrowException_When_FindCustomerIsNotExists() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
         given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
@@ -123,6 +123,34 @@ class CustomerServiceTest {
             .hasMessage("[ERROR} 이미 해당 이메일로 저장된 고객이 있습니다.");
         then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
         then(jdbcCustomerRepository).should(times(0)).update(any(Customer.class));
+    }
+
+    @DisplayName("고객을 삭제한다.")
+    @Test
+    void Should_deleteCustomer_When_CustomerIsExists() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+        // when
+        customerService.delete(customer.getEmail());
+        // then
+        then(jdbcCustomerRepository).should(times(1)).findByEmail(customer.getEmail());
+        then(jdbcCustomerRepository).should(times(1)).deleteByEmail(customer.getEmail());
+    }
+
+    @DisplayName("삭제시 해당하는 이메일을 가진 고객이 없다면 예외를 발생한다.")
+    @Test
+    void Should_ThrowException_When_DeleteCustomerIsNotExists() {
+        // given
+        String email = "hwan@gmail.com";
+        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
+        // when
+        // then
+        assertThatThrownBy(() -> customerService.delete(email))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR} 해당 이메일로 저장된 고객이 없습니다.");
+        then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
+        then(jdbcCustomerRepository).should(times(0)).deleteByEmail(any(String.class));
     }
 
     @DisplayName("모든 블랙리스트를 반환한다.")

@@ -13,7 +13,7 @@ public class CustomerService {
     private static final String ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE = "[ERROR} 해당 이메일로 저장된 고객이 없습니다.";
     private static final String ERROR_CUSTOMER_IS_EXISTS_MESSAGE = "[ERROR} 이미 해당 이메일로 저장된 고객이 있습니다.";
     private static final String ERROR_DUPLICATE_CUSTOMER_MESSAGE = "[ERROR] 이미 존재하는 고객입니다.";
-    
+
     private final BlackListRepository blackListRepository;
     private final JdbcCustomerRepository jdbcCustomerRepository;
 
@@ -30,7 +30,7 @@ public class CustomerService {
 
     private void validateDuplicateCustomer(Customer customer) {
         jdbcCustomerRepository.findByEmail(customer.getEmail())
-            .ifPresent(c -> {
+            .ifPresent(duplicateCustomer -> {
                 throw new IllegalArgumentException(ERROR_DUPLICATE_CUSTOMER_MESSAGE);
             });
     }
@@ -56,6 +56,14 @@ public class CustomerService {
         if (customer.isNotSameCustomer(findCustomer)) {
             throw new IllegalArgumentException(ERROR_CUSTOMER_IS_EXISTS_MESSAGE);
         }
+    }
+
+    public void delete(String email) {
+        jdbcCustomerRepository.findByEmail(email).ifPresentOrElse(
+            customer -> jdbcCustomerRepository.deleteByEmail(email),
+            () -> {
+                throw new IllegalArgumentException(ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE);
+            });
     }
 
     public List<Customer> findBlackList() {
