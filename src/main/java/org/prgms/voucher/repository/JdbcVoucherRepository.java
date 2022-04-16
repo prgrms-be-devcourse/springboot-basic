@@ -4,6 +4,7 @@ import org.prgms.utils.UuidUtils;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.PercentDiscountVoucher;
 import org.prgms.voucher.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Profile("db")
 public class JdbcVoucherRepository implements VoucherRepository {
     private final JdbcTemplate jdbcTemplate;
 
@@ -48,7 +50,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-
+        jdbcTemplate.update("DELETE FROM vouchers;");
     }
 
     private Voucher mapToVoucher(ResultSet rs, int rowNum) throws SQLException {

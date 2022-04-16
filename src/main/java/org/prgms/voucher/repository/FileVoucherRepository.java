@@ -23,6 +23,11 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + objPattern);
 
+    public FileVoucherRepository() {
+        if (!objectFolder.exists())
+            objectFolder.mkdir();
+    }
+
     @Override
     public void save(Voucher voucher) {
         String filename = String.format("./objects/%s.obj", voucher.getVoucherId().toString());
@@ -61,7 +66,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try (Stream<Path> fileStream = Files.list(Paths.get(objectFolder.getPath()))) {
             var targetPath = fileStream
                     .filter(path -> matcher.matches(path.getFileName()))
-                    .filter(path -> path.startsWith(voucherId.toString())).findFirst();
+                    .filter(path -> path.endsWith(voucherId.toString() + ".obj")).findFirst();
             if (targetPath.isEmpty())
                 return Optional.empty();
             return Optional.of((Voucher) new ObjectInputStream(new FileInputStream(targetPath.get().toString())).readObject());

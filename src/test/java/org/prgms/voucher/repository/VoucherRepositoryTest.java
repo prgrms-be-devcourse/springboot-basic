@@ -1,7 +1,7 @@
 package org.prgms.voucher.repository;
 
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.TestConfig;
@@ -9,6 +9,7 @@ import org.prgms.TestContextInitializer;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
@@ -17,13 +18,14 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringJUnitConfig(value = TestConfig.class, initializers = TestContextInitializer.class)
+@ActiveProfiles("db")
 class VoucherRepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;
 
     Voucher voucher = new FixedAmountVoucher(10L, UUID.randomUUID());
 
-    @AfterEach
+    @BeforeEach
     void deleteAll() {
         voucherRepository.deleteAll();
     }
