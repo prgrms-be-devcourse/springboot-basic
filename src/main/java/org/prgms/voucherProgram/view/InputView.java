@@ -11,6 +11,8 @@ public interface InputView {
 
     String inputCustomerMenu();
 
+    String inputCustomerSubMenu();
+
     String inputVoucherCommand();
 
     CustomerDto inputCustomerInformation();

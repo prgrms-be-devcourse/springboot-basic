@@ -90,7 +90,7 @@ public class VoucherProgram {
 
     private void printBlackList() {
         try {
-            outputView.printCustomers(customerService.findBlackList());
+            outputView.printBlackList(customerService.findBlackList());
         } catch (WrongFileException e) {
             outputView.printError(e.getMessage());
             System.exit(0);

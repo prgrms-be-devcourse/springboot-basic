@@ -38,8 +38,16 @@ public class CustomerService {
             });
     }
 
-    public CustomerDto update(CustomerDto customerDto) {
-        Customer customer = customerDto.toEntity();
+    public CustomerDto update(Email email, CustomerDto customerDto) {
+        Customer customer = jdbcCustomerRepository.findByEmail(email.getEmail())
+            .orElseThrow(() -> {
+                throw new IllegalArgumentException(ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE);
+            });
+
+        customer.changeName(customerDto.getName());
+        customer.changeEmail(customerDto.getEmail());
+        customer.login();
+
         jdbcCustomerRepository.findByEmail(customer.getEmail())
             .ifPresent(findCustomer -> validateDuplicateEmail(customer, findCustomer));
 

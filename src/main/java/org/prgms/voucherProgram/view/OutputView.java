@@ -14,7 +14,9 @@ public interface OutputView {
 
     void printVouchers(List<Voucher> vouchers);
 
-    void printCustomers(List<Customer> customers);
+    void printCustomers(List<CustomerDto> customers);
+
+    void printBlackList(List<Customer> customers);
 
     void printError(String message);
 }

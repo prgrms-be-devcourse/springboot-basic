@@ -17,6 +17,7 @@ public class Console implements InputView, OutputView {
     private static final String REQUEST_INPUT_VOUCHER_COMMAND = "\n=== Voucher Program ===\nType \"exit\" to exit the Voucher program.\nType \"create\" to create a new voucher.\nType \"list\" to list all vouchers.\nType \"blacklist\" to list all black customer.";
     private static final String REQUEST_INPUT_CUSTOMER_COMMAND = "\n=== Customer Program ===\nType \"exit\" to exit the Customer program.\nType \"create\" to create a new customer.\nType \"read\" to read customers.\nType \"update\" to update customer.\nType \"delete\" to delete customer.";
     private static final String REQUEST_INPUT_VOUCHER_TYPE = "\nSelect a voucher type\nType \"1\" to create a new FixedAmountVoucher\nType \"2\" to create a new PercentDiscountVoucher";
+    private static final String REQUEST_INPUT_CUSTOMER_SUB_COMMAND = "\nSelect a range\nType \"ALL\" to do ALL\nType \"ONE\" to do just one (need email input)";
     private static final String REQUEST_INPUT_DISCOUNT_AMOUNT = "\nInput voucher discount amount : ";
     private static final String REQUEST_INPUT_DISCOUNT_PERCENTAGE = "\nInput voucher discount percentage : ";
     private static final String EMPTY_VOUCHERS = "Empty Vouchers";
@@ -42,6 +43,13 @@ public class Console implements InputView, OutputView {
     @Override
     public String inputCustomerMenu() {
         System.out.println(REQUEST_INPUT_CUSTOMER_COMMAND);
+        System.out.print(PROMPT);
+        return scanner.nextLine().trim();
+    }
+
+    @Override
+    public String inputCustomerSubMenu() {
+        System.out.println(REQUEST_INPUT_CUSTOMER_SUB_COMMAND);
         System.out.print(PROMPT);
         return scanner.nextLine().trim();
     }
@@ -117,7 +125,21 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public void printCustomers(List<Customer> customers) {
+    public void printCustomers(List<CustomerDto> customers) {
+        if (customers.isEmpty()) {
+            System.out.printf("\n%s%n\n", EMPTY_CUSTOMERS);
+            return;
+        }
+
+        System.out.println();
+        for (CustomerDto customerDto : customers) {
+            System.out.println(customerDto);
+        }
+        System.out.println();
+    }
+
+    @Override
+    public void printBlackList(List<Customer> customers) {
         if (customers.isEmpty()) {
             System.out.printf("\n%s%n\n", EMPTY_CUSTOMERS);
             return;

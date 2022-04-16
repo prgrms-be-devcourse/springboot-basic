@@ -100,11 +100,11 @@ class CustomerServiceTest {
         customer.changeName("spancer");
         given(jdbcCustomerRepository.update(any(Customer.class))).willReturn(customer);
         //when
-        CustomerDto customerDto = customerService.update(CustomerDto.from(customer));
+        CustomerDto customerDto = customerService.update(new Email("hwan@gmail.com"), CustomerDto.from(customer));
         //then
         assertThat(customerDto).usingRecursiveComparison()
             .isEqualTo(CustomerDto.from(customer));
-        then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
+        then(jdbcCustomerRepository).should(times(2)).findByEmail(any(String.class));
         then(jdbcCustomerRepository).should(times(1)).update(any(Customer.class));
     }
 
@@ -112,17 +112,19 @@ class CustomerServiceTest {
     @Test
     void Should_ThrowException_When_UpdateDuplicateEmail() {
         //given
+        Email email = new Email("before@gmail.com");
         Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
         Customer duplicateCustomer = new Customer(UUID.randomUUID(), "spancer", "hwan@gmail.com",
             LocalDateTime.now());
-        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(duplicateCustomer));
+        given(jdbcCustomerRepository.findByEmail(email.getEmail())).willReturn(Optional.of(customer));
+        given(jdbcCustomerRepository.findByEmail(customer.getEmail())).willReturn(Optional.of(duplicateCustomer));
 
         //when
         //then
-        assertThatThrownBy(() -> customerService.update(CustomerDto.from(customer)))
+        assertThatThrownBy(() -> customerService.update(email, CustomerDto.from(customer)))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 이미 해당 이메일로 저장된 고객이 있습니다.");
-        then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
+        then(jdbcCustomerRepository).should(times(2)).findByEmail(any(String.class));
         then(jdbcCustomerRepository).should(times(0)).update(any(Customer.class));
     }
 
