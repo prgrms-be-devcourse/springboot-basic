@@ -6,9 +6,13 @@ import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.console.service.InputService;
 import org.prgms.voucheradmin.domain.console.service.OutputService;
-import org.prgms.voucheradmin.domain.console.service.enums.Command;
-import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
-import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
+import org.prgms.voucheradmin.domain.console.enums.Command;
+import org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer;
+import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher;
+import org.prgms.voucheradmin.domain.customer.dto.BlacklistCustomerDto;
+import org.prgms.voucheradmin.domain.customer.dto.CustomerCreateReqDto;
+import org.prgms.voucheradmin.domain.customer.dto.CustomerUpdateReqDto;
+import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
@@ -19,7 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher.*;
+import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.CREATE;
+import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.UPDATE;
+import static org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher.*;
 
 /**
  * 로직 수행을 위해 필요한 메서드를 호출하는 클래스 입니다.
@@ -56,9 +62,12 @@ public class Administrator {
                         doCommandAboutVoucher(commandAboutVoucher);
                         break;
                     case CUSTOMER:
+                        outputService.showCommandAboutCustomer();
+                        CommandAboutCustomer commandAboutCustomer = inputService.selectCommandAboutCustomer();
+                        doCommandAboutCustomer(commandAboutCustomer);
                         break;
                     case BLACKLIST:
-                        List<CustomerDto> blackListedCustomers = customerService.getBlackList();
+                        List<BlacklistCustomerDto> blackListedCustomers = customerService.getBlackList();
                         outputService.showBlacklist(blackListedCustomers);
                         break;
                     default:
@@ -81,7 +90,7 @@ public class Administrator {
                 long amountForCreate = inputService.inputAmount(voucherTypeForCreate);
 
                 Voucher createdVoucher = voucherService.createVoucher(new VoucherCreateReqDto(voucherTypeForCreate, amountForCreate));
-                outputService.showVoucher(createdVoucher, CREATE);
+                outputService.showVoucher(createdVoucher, CommandAboutVoucher.CREATE);
                 break;
             case READ:
                 List<Voucher> vouchers = voucherService.getVouchers();
@@ -97,11 +106,37 @@ public class Administrator {
                 long amountForUpdate = inputService.inputAmount(voucherTypeForUpdate);
 
                 Voucher updatedVoucher = voucherService.updateVoucher(new VoucherUpdateReqDto(voucher.getVoucherId(), voucherTypeForUpdate, amountForUpdate));
-                outputService.showVoucher(updatedVoucher, UPDATE);
+                outputService.showVoucher(updatedVoucher, CommandAboutVoucher.UPDATE);
                 break;
             case DELETE:
                 UUID voucherIdForDelete = inputService.inputVoucherId();
                 voucherService.deleteVoucher(voucherIdForDelete);
+                break;
+        }
+    }
+
+    /**
+     * 고객에서 선택된 추가 명령에 따라 필요한 메서드 실행을 담당하는 메서드입니다.
+     **/
+    private void doCommandAboutCustomer(CommandAboutCustomer commandAboutCustomer) throws IOException{
+        switch (commandAboutCustomer) {
+            case CREATE:
+                String nameForCreate = inputService.inputName();
+                String emailForCreate = inputService.inputEmail();
+
+                Customer createdCustomer = customerService.createCustomer(new CustomerCreateReqDto(nameForCreate, emailForCreate));
+                outputService.showCustomer(createdCustomer, CREATE);
+                break;
+            case READ:
+                List<Customer> customers = customerService.getCustomers();
+                outputService.showCustomerList(customers);
+                break;
+            case UPDATE:
+                UUID customerIdForUpdate = inputService.inputCustomerId();
+                String nameForUpdate = inputService.inputName();
+
+                Customer updatedCustomer = customerService.updateCustomer(new CustomerUpdateReqDto(customerIdForUpdate, nameForUpdate));
+                outputService.showCustomer(updatedCustomer, UPDATE);
                 break;
         }
     }

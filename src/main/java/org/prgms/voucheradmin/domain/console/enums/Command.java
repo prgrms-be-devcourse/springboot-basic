@@ -1,4 +1,4 @@
-package org.prgms.voucheradmin.domain.console.service.enums;
+package org.prgms.voucheradmin.domain.console.enums;
 
 public enum Command {
     EXIT("exit"), VOUCHER("voucher"), CUSTOMER("customer"),  BLACKLIST("blacklist");

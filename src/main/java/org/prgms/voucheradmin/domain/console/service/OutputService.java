@@ -3,12 +3,17 @@ package org.prgms.voucheradmin.domain.console.service;
 import java.util.Arrays;
 import java.util.List;
 
-import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
-import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
+import org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer;
+import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher;
+import org.prgms.voucheradmin.domain.customer.dto.BlacklistCustomerDto;
+import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.springframework.stereotype.Service;
 
+/**
+ *  출력을 담당하는 클래스 입니다.
+ */
 @Service
 public class OutputService {
 
@@ -31,7 +36,7 @@ public class OutputService {
 
         voucherCommandListBuilder.append("\n");
         Arrays.stream(CommandAboutVoucher.values())
-                .forEach(commandAboutVoucher -> voucherCommandListBuilder.append(commandAboutVoucher.toString()).append("\n"));
+                .forEach(commandAboutVoucher -> voucherCommandListBuilder.append(commandAboutVoucher).append("\n"));
 
         System.out.print(voucherCommandListBuilder);
     }
@@ -40,8 +45,7 @@ public class OutputService {
         StringBuilder voucherTypeStrBuilder = new StringBuilder();
 
         voucherTypeStrBuilder.append("\n");
-        Arrays.stream(VoucherType.values()).forEach(voucherType -> voucherTypeStrBuilder.append(voucherType.toString()).append("\n"));
-        voucherTypeStrBuilder.append("\nvoucher type> ");
+        Arrays.stream(VoucherType.values()).forEach(voucherType -> voucherTypeStrBuilder.append(voucherType).append("\n"));
 
         System.out.print(voucherTypeStrBuilder);
     }
@@ -58,8 +62,30 @@ public class OutputService {
         vouchers.forEach(voucher -> System.out.println(voucher));
     }
 
-    public void showBlacklist(List<CustomerDto> blackListedCustomers) {
+    public void showBlacklist(List<BlacklistCustomerDto> blackListedCustomers) {
         blackListedCustomers.forEach(blackListedCustomer -> System.out.println(blackListedCustomer));
+    }
+
+    public void showCommandAboutCustomer() {
+        StringBuilder customerCommandListBuilder = new StringBuilder();
+
+        customerCommandListBuilder.append("\n");
+        Arrays.stream(CommandAboutCustomer.values())
+                .forEach(commandAboutCustomer -> customerCommandListBuilder.append(commandAboutCustomer).append("\n"));
+
+        System.out.println(customerCommandListBuilder);
+    }
+
+    public void showCustomer(Customer customer, CommandAboutCustomer commandAboutCustomer) {
+        switch (commandAboutCustomer) {
+            case CREATE -> System.out.println(customer + " created");
+            case UPDATE -> System.out.println(customer + " updated");
+            default -> System.out.println(customer);
+        }
+    }
+
+    public void showCustomerList(List<Customer> customers) {
+        customers.forEach(customer -> System.out.println(customer));
     }
 
 }

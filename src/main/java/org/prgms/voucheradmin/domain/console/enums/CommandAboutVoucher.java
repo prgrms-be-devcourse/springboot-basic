@@ -1,4 +1,4 @@
-package org.prgms.voucheradmin.domain.console.service.enums;
+package org.prgms.voucheradmin.domain.console.enums;
 
 import java.util.Collections;
 import java.util.Map;

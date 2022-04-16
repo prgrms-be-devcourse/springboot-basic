@@ -1,15 +1,19 @@
 package org.prgms.voucheradmin.domain.console.service;
 
-import static org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher.findCommandAboutVoucher;
+import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.findCommandAboutCustomer;
+import static org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher.findCommandAboutVoucher;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.prgms.voucheradmin.domain.console.service.enums.Command;
-import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
+import org.prgms.voucheradmin.domain.console.enums.Command;
+import org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer;
+import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.global.exception.WrongInputException;
 import org.springframework.stereotype.Service;
@@ -39,13 +43,14 @@ public class InputService {
 
     public UUID inputVoucherId() throws IOException{
         System.out.print("input voucher ID> ");
-        UUID inputVoucherID = UUID.fromString(br.readLine().trim());
+        UUID inputVoucherId = UUID.fromString(br.readLine().trim());
         System.out.println();
 
-        return inputVoucherID;
+        return inputVoucherId;
     }
 
     public VoucherType selectVoucherType() throws IOException, WrongInputException {
+        System.out.print("select voucher type> ");
         String selectedVoucherTypeId = br.readLine().trim();
         System.out.println();
 
@@ -66,5 +71,53 @@ public class InputService {
         } catch (NumberFormatException numberFormatException) {
             throw new WrongInputException();
         }
+    }
+
+    public CommandAboutCustomer selectCommandAboutCustomer() throws IOException, WrongInputException {
+        System.out.print("customer command> ");
+        String selectedCommandId = br.readLine().trim();
+        System.out.println();
+
+        return findCommandAboutCustomer(selectedCommandId).orElseThrow(WrongInputException::new);
+    }
+
+    public UUID inputCustomerId() throws IOException{
+        System.out.print("input customer ID> ");
+        UUID inputCustomerId = UUID.fromString(br.readLine().trim());
+        System.out.println();
+
+        return inputCustomerId;
+    }
+
+    public String inputName() throws IOException, WrongInputException {
+        System.out.print("input name> ");
+        String name = br.readLine().trim();
+        System.out.println();
+
+        if(name.isBlank()) {
+            throw new WrongInputException("wrong name input");
+        }
+
+        return name;
+    }
+
+    public String inputEmail() throws IOException, WrongInputException {
+        System.out.print("input email> ");
+        String email = br.readLine().trim();
+        System.out.println();
+
+        if(!isValidEmail(email)) {
+            throw new WrongInputException("wrong email input");
+        }
+
+        return email;
+    }
+
+    private boolean isValidEmail(String email) {
+        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(email);
+
+        return m.matches();
     }
 }

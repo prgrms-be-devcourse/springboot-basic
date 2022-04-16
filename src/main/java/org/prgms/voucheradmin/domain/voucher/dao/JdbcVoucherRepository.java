@@ -1,5 +1,10 @@
 package org.prgms.voucheradmin.domain.voucher.dao;
 
+import java.nio.ByteBuffer;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
@@ -12,14 +17,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 
 /**
- * 생성된 바우처를 DB에 CRUD를 하는 클래스 입니다.
+ * 바우처를 DB에 CRUD를 하는 클래스 입니다.
  **/
 @Repository
 @Primary
