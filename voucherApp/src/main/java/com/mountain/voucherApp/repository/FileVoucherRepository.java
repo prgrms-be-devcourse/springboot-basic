@@ -25,7 +25,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final FileRepositoryProperties fileRepositoryProperties;
     private final File listFile;
-    private List<VoucherEntity> list = null;
+    private static final List<VoucherEntity> storage = new ArrayList<>();
 
     public FileVoucherRepository(FileRepositoryProperties fileRepositoryProperties) {
         this.fileRepositoryProperties = fileRepositoryProperties;
@@ -35,7 +35,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<VoucherEntity> findAll() {
         init();
-        return list;
+        return storage;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             FileWriter fw = new FileWriter(listFile.getAbsoluteFile(), true);
             BufferedWriter bw = new BufferedWriter(fw);
-            list.add(voucherEntity);
+            storage.add(voucherEntity);
             bw.write(voucherEntity.toString());
             bw.close();
         } catch (IOException e) {
@@ -56,15 +56,14 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private void init() {
-        if (list == null) {
-            list = new ArrayList<>();
+        if (storage.size() == 0) {
             try {
                 BufferedReader inFile = new BufferedReader(new FileReader(getFullPath()));
                 String line = null;
                 while ((line = inFile.readLine()) != null) {
                     String[] data = line.split(COMMA);
                     VoucherEntity entity = getVoucherEntity(data);
-                    list.add(entity);
+                    storage.add(entity);
                 }
                 inFile.close();
             } catch (IOException e) {

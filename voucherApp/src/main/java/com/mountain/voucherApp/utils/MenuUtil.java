@@ -5,10 +5,13 @@ import com.mountain.voucherApp.enums.Menu;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MenuUtil {
 
-    private static Map<String ,Menu> map = null;
+    private static final Map<String ,Menu> map = new ConcurrentHashMap<>();
+
+    private MenuUtil() {}
 
     public static boolean isExit(String command) {
         return command.equals(Menu.EXIT.getValue());
@@ -23,8 +26,7 @@ public class MenuUtil {
     }
 
     public static Map<String, Menu> getMenuMap() {
-        if (map == null) {
-            map = new HashMap<>();
+        if (map.size() == 0) {
             Arrays.stream(Menu.values())
                     .forEach((menu) -> {
                         map.put(menu.getValue(), menu);

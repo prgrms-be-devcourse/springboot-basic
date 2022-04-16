@@ -1,17 +1,26 @@
 package com.mountain.voucherApp.enums;
 
+import com.mountain.voucherApp.constants.Message;
+import com.mountain.voucherApp.engine.Strategy;
+
+import java.util.function.Consumer;
+
+import static com.mountain.voucherApp.constants.Message.*;
+
 public enum Menu {
 
-    EXIT("exit", "to exit the program."),
-    CREATE("create", "to create a new voucher."),
-    LIST("list", "to list all vouchers.");
+    EXIT(Message.EXIT, EXIT_PROGRAM, strategy -> strategy.exit()),
+    CREATE(Message.CREATE, CREATE_VOUCHER, strategy -> strategy.create()),
+    LIST(Message.LIST, LIST_VOUCHERS, strategy -> strategy.showVoucherList());
 
     private final String value;
     private final String description;
+    private final Consumer<Strategy> consumer;
 
-    Menu(String value, String description) {
+    Menu(String value, String description, Consumer<Strategy> consumer) {
         this.value = value;
         this.description = description;
+        this.consumer = consumer;
     }
 
     public String getValue() {
@@ -20,5 +29,9 @@ public enum Menu {
 
     public String getDescription() {
         return description;
+    }
+
+    public void exec(Strategy strategy) {
+        consumer.accept(strategy);
     }
 }

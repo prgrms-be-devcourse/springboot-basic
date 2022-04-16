@@ -36,7 +36,6 @@ class DiscountPolicyUtilTest {
     public void fixedVoucherTest() {
         //given
         int fixedSeq = 1;
-        int amount = 3000;
         //when
         Voucher fixedVoucher = getVoucher(fixedSeq);
         //then
@@ -49,7 +48,6 @@ class DiscountPolicyUtilTest {
     public void percentVoucherTest() {
         //given
         int percentSeq = 2;
-        int percentAmount = 15;
         //when
         Voucher fixedVoucher = getVoucher(percentSeq);
         //then

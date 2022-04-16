@@ -6,10 +6,13 @@ import com.mountain.voucherApp.voucher.Voucher;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DiscountPolicyUtil {
 
-    private static Map<Integer ,DiscountPolicy> map = null;
+    private DiscountPolicyUtil() {}
+
+    private static final Map<Integer ,DiscountPolicy> map = new ConcurrentHashMap<>();
 
     public static Voucher getVoucher(int policyId) {
         Map<Integer, DiscountPolicy> discountPolicyMap = getDiscountPolicyMap();
@@ -18,8 +21,7 @@ public class DiscountPolicyUtil {
     }
 
     public static Map<Integer,DiscountPolicy> getDiscountPolicyMap() {
-        if (map == null) {
-            map = new HashMap<>();
+        if (map.size() == 0) {
             Arrays.stream(DiscountPolicy.values())
                     .forEach((dp) -> {
                         map.put(dp.getPolicyId(), dp);

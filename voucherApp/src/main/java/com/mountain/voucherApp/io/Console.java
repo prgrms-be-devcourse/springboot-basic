@@ -52,7 +52,7 @@ public class Console implements Input, Output {
             textTerminal.printf(key);
             changeColor(MANUAL_COLOR);
             Menu menu = menuMap.get(key);
-            textTerminal.printf(MessageFormat.format(" {0}\n", menu.getDescription()));
+            textTerminal.printf(MessageFormat.format(" {0}{1}", menu.getDescription()), System.lineSeparator());
         }
     }
 
@@ -66,8 +66,14 @@ public class Console implements Input, Output {
     public void choiceDiscountPolicy() {
         changeColor(SELECT_COLOR);
         Arrays.stream(DiscountPolicy.values())
-                .forEach((p) -> textTerminal.print(MessageFormat.format("{0}. {1}\n",p.getPolicyId(),
-                                                                                            p.getDescription())));
+                .forEach(
+                        (p) -> textTerminal.print(MessageFormat.format(
+                                "{0}. {1}{2}",
+                                p.getPolicyId(),
+                                p.getDescription(),
+                                System.lineSeparator())
+                        )
+                );
     }
 
     @Override

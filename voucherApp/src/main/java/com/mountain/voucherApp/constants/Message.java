@@ -6,7 +6,16 @@ public class Message {
     public static final String NEGATIVE_AMOUNT_ERROR = "Amount should be positive";
     public static final String MAX_MORE_ERROR = "Amount should be less than ";
     public static final String CREATE_NEW_FILE = "create new file";
+    public static final String EXIT_PROGRAM = "to exit the program.";
+    public static final String CREATE_VOUCHER = "to create a new voucher.";
+    public static final String LIST_VOUCHERS = "to list all vouchers.";
+    public static final String CREATE_NEW_VOUCHER = "create new voucher";
+    public static final String PROGRAM_EXIT = "program exit";
+    public static final String SHOW_VOUCHER_LIST = "show voucher list";
 
+    public static final String EXIT = "exit";
+    public static final String CREATE = "create";
+    public static final String LIST = "list";
     // console
     public static final String MANUAL_TITLE = "=== Voucher Program ===";
     public static final String WRONG_INPUT = "wrong input";

@@ -15,16 +15,16 @@ import java.util.List;
 @Service
 public class BlackListService {
 
-    private final String FILE_PATH = "blackList/customer_blacklist.csv";
-    private final File BLACK_LIST_FILE = new FileSystemResource(FILE_PATH).getFile();
-    private final Logger log = LoggerFactory.getLogger(BlackListService.class);
+    private static final String FILE_PATH = "blackList/customer_blacklist.csv";
+    private static final File BLACK_LIST_FILE = new FileSystemResource(FILE_PATH).getFile();
+    private static final Logger log = LoggerFactory.getLogger(BlackListService.class);
 
     public List<BlackListFileFormat> readCSVFile() throws IOException {
-        List<BlackListFileFormat> list = new CsvToBeanBuilder(new FileReader(FILE_PATH))
+        List<BlackListFileFormat> blackList = new CsvToBeanBuilder(new FileReader(FILE_PATH))
                 .withType(BlackListFileFormat.class)
                 .build()
                 .parse();
-        return list;
+        return blackList;
     }
 
     @PostConstruct

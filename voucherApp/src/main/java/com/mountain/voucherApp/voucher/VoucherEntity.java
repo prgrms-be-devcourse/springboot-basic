@@ -28,6 +28,11 @@ public class VoucherEntity {
 
     @Override
     public String toString() {
-        return MessageFormat.format("{0},{1},{2}\n", voucherId, discountPolicyId, discountAmount);
+        return MessageFormat.format("{0},{1},{2}{3}",
+                voucherId,
+                discountPolicyId,
+                discountAmount,
+                System.lineSeparator()
+        );
     }
 }

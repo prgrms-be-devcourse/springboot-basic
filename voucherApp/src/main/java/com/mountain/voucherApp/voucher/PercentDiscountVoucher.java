@@ -4,6 +4,8 @@ import com.mountain.voucherApp.enums.DiscountPolicy;
 import java.util.UUID;
 
 import static com.mountain.voucherApp.constants.Message.*;
+import static com.mountain.voucherApp.constants.Number.ZERO;
+import static com.mountain.voucherApp.constants.Number.ZERO_P_ZERO_ONE;
 
 public class PercentDiscountVoucher extends Voucher {
 
@@ -11,7 +13,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public boolean validate(long discountAmount) {
-        if (discountAmount <= 0)
+        if (discountAmount <= ZERO)
             throw new IllegalArgumentException(NEGATIVE_AMOUNT_ERROR);
         if (discountAmount > MAX_VOUCHER_AMOUNT)
             throw new IllegalArgumentException(MAX_MORE_ERROR + MAX_VOUCHER_AMOUNT);
@@ -20,7 +22,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public long discount(long beforeDiscount, long discountAmount) {
-        double minusAmount = Math.round(discountAmount * 0.01 * beforeDiscount);
+        double minusAmount = Math.round(discountAmount * ZERO_P_ZERO_ONE * beforeDiscount);
         long result = beforeDiscount - (long)minusAmount;
         return result;
     }

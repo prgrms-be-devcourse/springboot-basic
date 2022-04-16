@@ -1,4 +1,4 @@
-package com.mountain.voucherApp.engine.create;
+package com.mountain.voucherApp.engine;
 
 import com.mountain.voucherApp.enums.DiscountPolicy;
 import com.mountain.voucherApp.io.Console;
@@ -6,22 +6,24 @@ import com.mountain.voucherApp.utils.DiscountPolicyUtil;
 import com.mountain.voucherApp.voucher.Voucher;
 import com.mountain.voucherApp.voucher.VoucherEntity;
 import com.mountain.voucherApp.voucher.VoucherService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Component
-public class DefaultCreate implements CreateStrategy {
+import static com.mountain.voucherApp.constants.Message.*;
 
+@Component
+public class Strategy {
+
+    private static final Logger log = LoggerFactory.getLogger(Strategy.class);
     private final Console console;
     private final VoucherService voucherService;
 
-    @Autowired
-    public DefaultCreate(Console console, VoucherService voucherService) {
+    public Strategy(Console console, VoucherService voucherService) {
         this.console = console;
         this.voucherService = voucherService;
     }
 
-    @Override
     public void create() {
         console.choiceDiscountPolicy();
         try {
@@ -43,9 +45,19 @@ public class DefaultCreate implements CreateStrategy {
                 // 5. [정책, 비율]에 해당하는 VoucherEntity 가 없다면 생성한다. 있다면 기존것을 조회한다.
                 VoucherEntity voucherEntity = voucherService.createVoucher(policyId, discountAmount);
             }
-            // 6. 할인이 필요한 경우
+            log.info(CREATE_NEW_VOUCHER);
         } catch (Exception e) {
             console.printException(e);
         }
+    }
+
+    public void showVoucherList() {
+        log.info(SHOW_VOUCHER_LIST);
+        console.printAllList(voucherService.findAll());
+    }
+
+    public void exit() {
+        log.info(PROGRAM_EXIT);
+        console.close();
     }
 }
