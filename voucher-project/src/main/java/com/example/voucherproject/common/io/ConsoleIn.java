@@ -1,9 +1,9 @@
-package com.example.voucherproject.common.io.console;
+package com.example.voucherproject.common.io;
+
 import com.example.voucherproject.common.enums.MenuType;
 import com.example.voucherproject.common.enums.ServiceType;
 import com.example.voucherproject.common.enums.UserType;
 import com.example.voucherproject.common.enums.VoucherType;
-import com.example.voucherproject.common.io.Input;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

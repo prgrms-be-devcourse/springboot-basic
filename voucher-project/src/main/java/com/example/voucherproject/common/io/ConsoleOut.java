@@ -1,5 +1,5 @@
-package com.example.voucherproject.common.io.console;
-import com.example.voucherproject.common.io.Output;
+package com.example.voucherproject.common.io;
+
 import com.example.voucherproject.user.domain.User;
 import com.example.voucherproject.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
