@@ -17,12 +17,16 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public Long getValue() {
-        return percent;
+    public Long discount(Long beforeDiscount) {
+        return beforeDiscount * (percent / 100);
     }
 
     @Override
-    public Long discount(Long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+    public String toString() {
+        return "PercentDiscountVoucher{" +
+                "voucherId=" + voucherId +
+                ", percent=" + percent +
+                ", class=" + this.getClass() +
+                '}';
     }
 }

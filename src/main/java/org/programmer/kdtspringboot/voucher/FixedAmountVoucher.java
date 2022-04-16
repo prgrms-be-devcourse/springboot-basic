@@ -17,12 +17,16 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public Long getValue() {
-        return amount;
+    public Long discount(Long beforeDiscount) {
+        return beforeDiscount - amount;
     }
 
     @Override
-    public Long discount(Long beforeDiscount) {
-        return beforeDiscount - amount;
+    public String toString() {
+        return "FixedAmountVoucher{" +
+                "voucherId=" + voucherId +
+                ", amount=" + amount +
+                ", class=" + this.getClass() +
+                '}';
     }
 }
