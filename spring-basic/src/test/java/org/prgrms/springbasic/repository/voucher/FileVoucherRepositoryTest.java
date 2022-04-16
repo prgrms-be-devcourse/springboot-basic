@@ -10,16 +10,12 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 class FileVoucherRepositoryTest {
 
     FileVoucherRepository repository = new FileVoucherRepository();
     Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
-
-    FileVoucherRepositoryTest() throws IOException {
-    }
 
     @BeforeEach
     void init() {
@@ -43,7 +39,7 @@ class FileVoucherRepositoryTest {
         var foundVoucher = repository.findById(voucherId);
 
         assertThat(foundVoucher.isEmpty(), is(false));
-        assertThat(foundVoucher.get(), is(voucher));
+        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
     }
 
     @Test
@@ -64,7 +60,7 @@ class FileVoucherRepositoryTest {
         var vouchers = repository.findAll();
 
         assertThat(vouchers.size(), is(5));
-        assertThat(vouchers, containsInAnyOrder(newVoucher1, newVoucher2, newVoucher3, newVoucher4, newVoucher5));
+        assertThat(vouchers.get(0), samePropertyValuesAs(newVoucher1));
     }
 
     @Test

@@ -24,8 +24,12 @@ public class Customer {
         return new Customer(customerId, BLACK, name);
     }
 
+    public static Customer toCustomer(UUID customerId, CustomerType customerType, String name) {
+        return new Customer(customerId, customerType, name);
+    }
+
     @Override
     public String toString() {
-        return MessageFormat.format("{0}/{1}/{2}\n", customerId, customerType, name);
+        return MessageFormat.format("{0},{1},{2}\n", customerId, customerType, name);
     }
 }

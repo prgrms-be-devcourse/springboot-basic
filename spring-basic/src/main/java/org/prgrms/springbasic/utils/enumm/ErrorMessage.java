@@ -9,7 +9,8 @@ public enum ErrorMessage {
     AFTER_DISCOUNT_PRICE_ERR( """
             Check the discount information you entered.
             (0 <= AfterDiscount < BeforeDiscount).
-                            """);
+                            """),
+    NOT_EXIST_ENUM_TYPE("Can't find any enum type");
 
     private final String message;
 

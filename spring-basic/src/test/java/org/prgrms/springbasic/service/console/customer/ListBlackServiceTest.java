@@ -18,9 +18,6 @@ class ListBlackServiceTest {
     CustomerRepository repository = new BlackCustomerRepository();
     ConsoleService service = new ListBlackService(repository, new Console());
 
-    ListBlackServiceTest() throws IOException {
-    }
-
     @Test
     @DisplayName("블랙회원이 존재하지 않는 경우 예외가 발생해야한다.")
     void testValidateCustomers() throws Exception {

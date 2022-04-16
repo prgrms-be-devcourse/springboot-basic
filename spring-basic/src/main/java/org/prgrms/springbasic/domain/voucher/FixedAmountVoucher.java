@@ -34,7 +34,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("{0}/{1}/{2}\n", voucherId, voucherType, amount);
+        return MessageFormat.format("{0},{1},{2}\n", voucherId, voucherType, amount);
     }
 
     private void checkDiscountPrice(long beforeDiscount, long afterDiscount) {

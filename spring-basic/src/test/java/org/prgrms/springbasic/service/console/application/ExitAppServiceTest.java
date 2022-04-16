@@ -20,9 +20,6 @@ class ExitAppServiceTest {
     BlackCustomerRepository customerRepository = new BlackCustomerRepository();
     ConsoleService service = new ExitAppService(voucherRepository, customerRepository);
 
-    ExitAppServiceTest() throws IOException {
-    }
-
     @Test
     @DisplayName("프로그램 종료 후 각 레포지토리에는 저장된 값이 없어야한다.")
     void testExitServiceTest() {
