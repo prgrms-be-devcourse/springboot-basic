@@ -1,7 +1,6 @@
 package org.prgms.voucheradmin;
 
 import org.prgms.voucheradmin.domain.administrator.Administrator;
-import org.prgms.voucheradmin.domain.console.service.ConsoleService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

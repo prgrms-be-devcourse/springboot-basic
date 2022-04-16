@@ -1,7 +1,8 @@
 package org.prgms.voucheradmin.domain.administrator;
 
+import org.prgms.voucheradmin.domain.console.service.InputService;
+import org.prgms.voucheradmin.domain.console.service.OutputService;
 import org.prgms.voucheradmin.domain.console.service.enums.Command;
-import org.prgms.voucheradmin.domain.console.service.ConsoleService;
 import org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVoucher;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerDto;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
@@ -27,12 +28,14 @@ import static org.prgms.voucheradmin.domain.console.service.enums.CommandAboutVo
 public class Administrator {
     private final static Logger logger = LoggerFactory.getLogger(Administrator.class);
 
-    private final ConsoleService consoleService;
+    private final OutputService outputService;
+    private final InputService inputService;
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    public Administrator(ConsoleService consoleService, VoucherService voucherService, CustomerService customerService) {
-        this.consoleService = consoleService;
+    public Administrator(OutputService outputService, InputService inputService, VoucherService voucherService, CustomerService customerService) {
+        this.outputService = outputService;
+        this.inputService = inputService;
         this.voucherService = voucherService;
         this.customerService = customerService;
     }
@@ -43,20 +46,20 @@ public class Administrator {
     public void run() {
         while (true) {
             try {
-                consoleService.showCommandList();
-                Command command = consoleService.selectCommand();
+                outputService.showCommandList();
+                Command command = inputService.selectCommand();
 
                 switch (command) {
                     case VOUCHER:
-                        consoleService.showCommandAboutVoucher();
-                        CommandAboutVoucher commandAboutVoucher = consoleService.selectCommandAboutVoucher();
+                        outputService.showCommandAboutVoucher();
+                        CommandAboutVoucher commandAboutVoucher = inputService.selectCommandAboutVoucher();
                         doCommandAboutVoucher(commandAboutVoucher);
                         break;
                     case CUSTOMER:
                         break;
                     case BLACKLIST:
                         List<CustomerDto> blackListedCustomers = customerService.getBlackList();
-                        consoleService.showBlacklist(blackListedCustomers);
+                        outputService.showBlacklist(blackListedCustomers);
                         break;
                     default:
                         return;
@@ -73,28 +76,28 @@ public class Administrator {
     private void doCommandAboutVoucher(CommandAboutVoucher commandAboutVoucher) throws IOException {
         switch (commandAboutVoucher) {
             case CREATE:
-                consoleService.showVoucherType();
-                VoucherType voucherTypeForCreate = consoleService.selectVoucherType();
-                long amountForCreate = consoleService.inputAmount(voucherTypeForCreate);
+                outputService.showVoucherType();
+                VoucherType voucherTypeForCreate = inputService.selectVoucherType();
+                long amountForCreate = inputService.inputAmount(voucherTypeForCreate);
 
                 Voucher createdVoucher = voucherService.createVoucher(new VoucherCreateReqDto(voucherTypeForCreate, amountForCreate));
-                consoleService.showVoucher(createdVoucher, CREATE);
+                outputService.showVoucher(createdVoucher, CREATE);
                 break;
             case READ:
                 List<Voucher> vouchers = voucherService.getVouchers();
-                consoleService.showVoucherList(vouchers);
+                outputService.showVoucherList(vouchers);
                 break;
             case UPDATE:
-                UUID voucherID = consoleService.inputVoucherId();
+                UUID voucherID = inputService.inputVoucherId();
                 Voucher voucher = voucherService.getVoucherById(voucherID);
-                consoleService.showVoucher(voucher, READ);
+                outputService.showVoucher(voucher, READ);
 
-                consoleService.showVoucherType();
-                VoucherType voucherTypeForUpdate = consoleService.selectVoucherType();
-                long amountForUpdate = consoleService.inputAmount(voucherTypeForUpdate);
+                outputService.showVoucherType();
+                VoucherType voucherTypeForUpdate = inputService.selectVoucherType();
+                long amountForUpdate = inputService.inputAmount(voucherTypeForUpdate);
 
                 Voucher updatedVoucher = voucherService.updateVoucher(new VoucherUpdateReqDto(voucher.getVoucherId(), voucherTypeForUpdate, amountForUpdate));
-                consoleService.showVoucher(updatedVoucher, UPDATE);
+                outputService.showVoucher(updatedVoucher, UPDATE);
                 break;
         }
     }
