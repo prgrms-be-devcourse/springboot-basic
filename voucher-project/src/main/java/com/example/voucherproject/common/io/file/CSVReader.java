@@ -15,17 +15,19 @@ import java.util.List;
 public class CSVReader implements MyReader{
 
     public List<List<String>> readLists(String fileName) {
-        var ObjectList = new ArrayList<List<String>>();
-        String absolute = "file:src/main/resources/"+fileName;
+        var objectList = new ArrayList<List<String>>();
 
+        String absolute = "file:src/main/resources/"+fileName;
         var resource = new DefaultResourceLoader().getResource(absolute);
+        if (!resource.exists()) return objectList;
+
         try (var lines = new BufferedReader(new InputStreamReader(resource.getInputStream()))){
             lines.lines().forEach(line ->{
-                ObjectList.add(Arrays.asList(line.split(",")));
+                objectList.add(Arrays.asList(line.split(",")));
             });
         } catch (Exception e) {
             log.error("파일 읽기 오류 "+e.getMessage());
         }
-        return ObjectList;
+        return objectList;
     }
 }
