@@ -138,6 +138,10 @@ public class Administrator {
                 Customer updatedCustomer = customerService.updateCustomer(new CustomerUpdateReqDto(customerIdForUpdate, nameForUpdate));
                 outputService.showCustomer(updatedCustomer, UPDATE);
                 break;
+            case DELETE:
+                UUID customerIdForDelete = inputService.inputCustomerId();
+                customerService.deleteCustomer(customerIdForDelete);
+                break;
         }
     }
 

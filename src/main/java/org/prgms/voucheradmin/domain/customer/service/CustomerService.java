@@ -57,6 +57,15 @@ public class CustomerService {
     }
 
     /**
+     * id를 이용해 고객을 제거하는 메서드입니다.
+     */
+    @Transactional
+    public void deleteCustomer(UUID customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
+        customerRepository.delete(customer);
+    }
+
+    /**
      * 블랙리스트를 반환 하는 메서드입니다.
      */
     public List<BlacklistCustomerDto> getBlackList() throws IOException {

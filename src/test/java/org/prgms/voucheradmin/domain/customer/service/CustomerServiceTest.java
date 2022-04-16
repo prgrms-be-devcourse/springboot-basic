@@ -31,16 +31,13 @@ class CustomerServiceTest {
         try {
             // when
             UUID customerId = UUID.randomUUID();
-            Customer customer = new Customer(customerId, "test", "test@gmail.com", LocalDateTime.now());
             when(customerRepository.findById(customerId)).thenThrow(new CustomerNotFoundException(customerId));
 
             // given
             customerService.updateCustomer(new CustomerUpdateReqDto(customerId, "test1"));
-
-            // then
-            verify(customerRepository, never()).update(customer);
         }catch (CustomerNotFoundException e) {
-            System.out.println(e.getMessage());
+            // then
+            verify(customerRepository, never()).update(any());
         }
     }
 
@@ -58,6 +55,41 @@ class CustomerServiceTest {
 
             // then
             verify(customerRepository).update(customer);
+        }catch (CustomerNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("고객 제거 예외 확인")
+    void testDeleteCustomerException(){
+        try {
+            // when
+            UUID customerId = UUID.randomUUID();
+            when(customerRepository.findById(customerId)).thenThrow(new CustomerNotFoundException(customerId));
+
+            // given
+            customerService.deleteCustomer(customerId);
+        }catch (CustomerNotFoundException e) {
+            // then
+            verify(customerRepository, never()).delete(any());
+        }
+    }
+
+    @Test
+    @DisplayName("고객 제거 확인")
+    void testDeleteCustomer(){
+        try {
+            // when
+            UUID customerId = UUID.randomUUID();
+            Customer customer = new Customer(customerId, "test", "test@gmail.com", LocalDateTime.now());
+            when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
+
+            // given
+            customerService.deleteCustomer(customerId);
+
+            // then
+            verify(customerRepository).delete(customer);
         }catch (CustomerNotFoundException e) {
             System.out.println(e.getMessage());
         }

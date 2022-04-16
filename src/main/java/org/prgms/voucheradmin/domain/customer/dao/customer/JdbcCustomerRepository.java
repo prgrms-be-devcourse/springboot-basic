@@ -94,7 +94,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
      **/
     @Override
     public void delete(Customer customer) {
-
+        jdbcTemplate.update("delete from customers where customer_id = UUID_TO_BIN(?)",
+                customer.getCustomerId().toString().getBytes());
     }
 
     /**

@@ -116,4 +116,14 @@ class JdbcCustomerRepositoryTest {
         assertThat(retrievedCustomer, not(is(Optional.empty())));
         assertThat(retrievedCustomer.get().getName(), is("test2"));
     }
+
+    @Test
+    @Order(5)
+    @DisplayName("고객 제거 확인")
+    void testDelete() {
+        jdbcCustomerRepository.delete(customer);
+        Optional<Customer> retrievedCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
+
+        assertThat(retrievedCustomer, is(Optional.empty()));
+    }
 }

@@ -69,7 +69,6 @@ class VoucherServiceTest {
 
         when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher));
 
-        // given
         voucherService.deleteVoucher(voucherId);
 
         verify(voucherRepository).delete(voucher);
@@ -85,10 +84,7 @@ class VoucherServiceTest {
 
             // given
             voucherService.deleteVoucher(voucherId);
-
         }catch (VoucherNotFoundException e) {
-            System.out.println(e.getMessage());
-        }finally {
             // then
             verify(voucherRepository, never()).delete(any());
         }
