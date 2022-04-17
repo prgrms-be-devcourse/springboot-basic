@@ -146,11 +146,6 @@ class VoucherApplicationTests {
         @Order(2)
         @DisplayName("list 명령어를 입력하면")
         class WhenInputCommandList {
-
-            @Spy
-            private final VoucherRepository voucherRepository;
-            @Spy
-            private final ApplicationController applicationController;
             @Spy
             private final VoucherController voucherController;
 
