@@ -31,7 +31,7 @@ public class Console implements OutputConsole, InputConsole {
         System.out.println(message);
         System.out.println();
 
-        return Long.valueOf(scanner.nextLine());
+        return Long.parseLong(scanner.nextLine());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Console implements OutputConsole, InputConsole {
     public void voucherList(List<Voucher> voucherList) {
         for (Voucher voucher : voucherList) {
             //UUID, VoucherTypeName
-            System.out.println(MessageFormat.format("Voucher {0} is {1}", voucher.getVoucherId(), voucher.toString()));
+            System.out.println(MessageFormat.format("Voucher {0} is {1}", voucher.getVoucherId(), voucher));
         }
         System.out.println();
     }

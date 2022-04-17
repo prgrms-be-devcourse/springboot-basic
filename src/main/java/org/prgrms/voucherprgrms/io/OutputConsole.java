@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface OutputConsole {
     void voucherList(List<Voucher> list);
+
     void commandErrorMessage();
 }

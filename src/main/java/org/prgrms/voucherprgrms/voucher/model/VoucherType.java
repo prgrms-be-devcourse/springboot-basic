@@ -12,11 +12,10 @@ public enum VoucherType {
         this.name = name;
     }
 
-    public static VoucherType getType(String s) {
+    public static VoucherType getType(String name) {
         return Arrays.stream(values())
-                .filter(v -> v.isEqualsVoucherType(s))
-                .findFirst().orElseThrow(()
-                        -> new IllegalArgumentException());
+                .filter(v -> v.isEqualsVoucherType(name))
+                .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
     private boolean isEqualsVoucherType(String name) {
