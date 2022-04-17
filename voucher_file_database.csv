@@ -1,0 +1,8 @@
+PercentDiscountVoucher voucherId: f645a4cd-b9a2-432c-8f2a-cd9b1f68130b percent: 1
+PercentDiscountVoucher voucherId: 3a144683-57df-4286-b518-ee92019aaf93 percent: 2
+FixedAmountVoucher voucherId: f7d99089-e3b2-49a0-8368-38131c9708d2 amount: 2
+PercentDiscountVoucher voucherId: 6c72fa17-c0fa-4911-84c7-a75af60ced1f percent: 1
+FixedAmountVoucher voucherId: d84f0382-a974-4d59-9b4f-020691734a95 amount: 100
+FixedAmountVoucher voucherId: e6bfc9e5-9452-4bda-a0b9-1c58ee43bccf amount: 1
+FixedAmountVoucher voucherId: d8f6c37f-3440-4e98-bc7a-8e25f9ce56d8 amount: 100
+PercentDiscountVoucher voucherId: 2c371695-7ace-46fa-8cfc-909be95c2b42 percent: 1
