@@ -7,7 +7,8 @@ import org.prgms.voucherProgram.exception.WrongCommandException;
 public enum VoucherMenuType {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    UPDATE("update");
 
     private final String command;
 

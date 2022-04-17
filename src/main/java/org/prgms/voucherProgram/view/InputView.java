@@ -26,4 +26,6 @@ public interface InputView {
     Long inputDiscountPercent();
 
     Long inputDiscountAmount();
+
+    VoucherDto inputUpdateVoucher();
 }

@@ -7,7 +7,7 @@ import org.prgms.voucherProgram.domain.voucher.VoucherType;
 
 public class VoucherDto {
     private final UUID voucherId;
-    private final int type;
+    private int type;
     private long discountValue;
 
     public VoucherDto(UUID voucherId, int type, long discountValue) {
@@ -31,6 +31,10 @@ public class VoucherDto {
 
     public int getType() {
         return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public long getDiscountValue() {

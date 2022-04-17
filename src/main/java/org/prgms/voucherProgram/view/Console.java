@@ -11,9 +11,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Console implements InputView, OutputView {
+    public static final String REQUEST_UPDATE_DISCOUNT_VALUE = "Enter voucher discount value to update : ";
     private static final String PROMPT = "> ";
     private static final String REQUEST_INPUT_CONSOLE_COMMAND = "\n=== Console Program ===\nType \"exit\" to exit the program.\nType \"voucher\" run Voucher program.\nType \"customer\" run Customer program.";
-    private static final String REQUEST_INPUT_VOUCHER_COMMAND = "\n=== Voucher Program ===\nType \"exit\" to exit the Voucher program.\nType \"create\" to create a new voucher.\nType \"list\" to list all vouchers.";
+    private static final String REQUEST_INPUT_VOUCHER_COMMAND = "\n=== Voucher Program ===\nType \"exit\" to exit the Voucher program.\nType \"create\" to create a new voucher.\nType \"list\" to list all vouchers.\nType \"update\" to update voucher.\nType \"delete\" to delete voucher.";
     private static final String REQUEST_INPUT_CUSTOMER_COMMAND = "\n=== Customer Program ===\nType \"exit\" to exit the Customer program.\nType \"create\" to create a new customer.\nType \"read\" to read customers.\nType \"update\" to update customer.\nType \"delete\" to delete customer.";
     private static final String REQUEST_INPUT_VOUCHER_TYPE = "\nSelect a voucher type\nType \"1\" to create a new FixedAmountVoucher\nType \"2\" to create a new PercentDiscountVoucher";
     private static final String REQUEST_INPUT_CUSTOMER_SUB_COMMAND = "\nSelect a range\nType \"all\" to do ALL\nType \"one\" to do just one (need email input)\nType \"blacklist\" to list all black customer.";
@@ -102,6 +103,26 @@ public class Console implements InputView, OutputView {
     public Long inputDiscountAmount() {
         System.out.print(REQUEST_INPUT_DISCOUNT_AMOUNT);
         return convertToLong(REQUEST_INPUT_DISCOUNT_PERCENTAGE);
+    }
+
+    @Override
+    public VoucherDto inputUpdateVoucher() {
+        System.out.print("Enter voucherID to update. : ");
+        UUID voucherId = inputVoucherId();
+        int voucherType = inputVoucherType();
+        System.out.print(REQUEST_UPDATE_DISCOUNT_VALUE);
+        Long discountValue = convertToLong(REQUEST_UPDATE_DISCOUNT_VALUE);
+        return new VoucherDto(voucherId, voucherType, discountValue);
+    }
+
+    private UUID inputVoucherId() {
+        while (true) {
+            try {
+                return UUID.fromString(scanner.nextLine().trim());
+            } catch (IllegalArgumentException e) {
+                printError("[ERROR] UUID 형식이 아닙니다.");
+            }
+        }
     }
 
     private int convertToInt() {

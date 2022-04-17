@@ -3,6 +3,7 @@ package org.prgms.voucherProgram.domain.program;
 import org.prgms.voucherProgram.domain.menu.VoucherMenuType;
 import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.dto.VoucherDto;
+import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
 import org.prgms.voucherProgram.exception.WrongCommandException;
 import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
 import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
@@ -33,6 +34,17 @@ public class VoucherProgram {
                 case EXIT -> isNotEndProgram = false;
                 case CREATE -> createVoucher();
                 case LIST -> outputView.printVouchers(voucherService.findAllVoucher());
+                case UPDATE -> updateVoucher();
+            }
+        }
+    }
+
+    private VoucherMenuType inputMenu() {
+        while (true) {
+            try {
+                return VoucherMenuType.from(inputView.inputVoucherMenu());
+            } catch (WrongCommandException e) {
+                outputView.printError(e.getMessage());
             }
         }
     }
@@ -64,12 +76,24 @@ public class VoucherProgram {
         }
     }
 
-    private VoucherMenuType inputMenu() {
+    private void updateVoucher() {
+        VoucherDto voucherDto = inputView.inputUpdateVoucher();
         while (true) {
             try {
-                return VoucherMenuType.from(inputView.inputVoucherMenu());
-            } catch (WrongCommandException e) {
+                outputView.printVoucher(voucherService.update(voucherDto));
+                return;
+            } catch (WrongDiscountAmountException e) {
                 outputView.printError(e.getMessage());
+                voucherDto.setDiscountValue(inputView.inputDiscountAmount());
+            } catch (WrongDiscountPercentException e) {
+                outputView.printError(e.getMessage());
+                voucherDto.setDiscountValue(inputView.inputDiscountPercent());
+            } catch (VoucherIsNotExistsException e) {
+                outputView.printError(e.getMessage());
+                return;
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+                voucherDto.setType(inputView.inputVoucherType());
             }
         }
     }
