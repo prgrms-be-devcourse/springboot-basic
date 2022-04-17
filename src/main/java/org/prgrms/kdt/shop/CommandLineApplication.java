@@ -3,7 +3,7 @@ package org.prgrms.kdt.shop;
 import org.prgrms.kdt.shop.domain.FixedAmountVoucher;
 import org.prgrms.kdt.shop.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.shop.enums.MenuStatus;
-import org.prgrms.kdt.shop.enums.VoucherStatus;
+import org.prgrms.kdt.shop.enums.VoucherChoiceNumber;
 import org.prgrms.kdt.shop.io.Input;
 import org.prgrms.kdt.shop.io.Output;
 import org.prgrms.kdt.shop.service.VoucherService;
@@ -37,18 +37,10 @@ public class CommandLineApplication implements ApplicationRunner {
             MenuStatus menuStatus = inputMenu();
             switch (menuStatus) {
                 case CREATE:
-                    VoucherStatus voucherStatus = inputVoucher();
-                    switch (voucherStatus) {
-                        case FIXED_AMOUNT:
-                            FixedAmountInput();
-                            break;
-                        case PERCENT_DISCOUNT:
-                            PercentDiscountInput();
-                            break;
-                    }
+                    inputVoucherMenu();
                     break;
                 case LIST:
-                    voucherService.findByAll();
+                    voucherService.printAll();
                     break;
                 case EXIT:
                     exitFlag = false;
@@ -57,7 +49,20 @@ public class CommandLineApplication implements ApplicationRunner {
         }
     }
 
-    private String FixedAmountInput( ) {
+    private void inputVoucherMenu( ) {
+        VoucherChoiceNumber voucherStatus = inputVoucher();
+        switch (voucherStatus) {
+            case FIXED_AMOUNT:
+                inputFixedAmount();
+                break;
+            case PERCENT_DISCOUNT:
+                inputPercentDiscount();
+                break;
+        }
+    }
+
+
+    private String inputFixedAmount( ) {
         try {
             output.selectDiscount();
             String inputDiscount = input.input();
@@ -68,10 +73,10 @@ public class CommandLineApplication implements ApplicationRunner {
             output.inputError();
             logger.error("할인 입력 에러");
         }
-        return FixedAmountInput();
+        return inputFixedAmount();
     }
 
-    private String PercentDiscountInput( ) {
+    private String inputPercentDiscount( ) {
         try {
             output.selectDiscount();
             String inputDiscount = input.input();
@@ -81,14 +86,14 @@ public class CommandLineApplication implements ApplicationRunner {
             output.inputError();
             logger.error("할인 입력 에러");
         }
-        return PercentDiscountInput();
+        return inputPercentDiscount();
     }
 
-    private VoucherStatus inputVoucher( ) {
+    private VoucherChoiceNumber inputVoucher( ) {
         try {
             output.selectVoucher();
             String inputVoucher = input.input();
-            return VoucherStatus.find(inputVoucher);
+            return VoucherChoiceNumber.find(inputVoucher);
         } catch (IllegalArgumentException e) {
             output.inputError();
             logger.error("바우처 입력 에러");
