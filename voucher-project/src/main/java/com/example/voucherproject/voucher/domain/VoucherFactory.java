@@ -10,7 +10,7 @@ import static com.example.voucherproject.common.enums.VoucherType.PERCENT;
 
 @Slf4j
 public class VoucherFactory {
-    public Voucher create(VoucherType type){
+    public static Voucher create(VoucherType type){
         log.debug("create " + type + " type voucher");
         switch(type){
             case FIXED:
