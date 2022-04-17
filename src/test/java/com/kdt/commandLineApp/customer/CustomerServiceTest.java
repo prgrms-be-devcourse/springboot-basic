@@ -30,7 +30,8 @@ class CustomerServiceTest {
             assertThat(result2, isA(Customer.class));
             assertThat(result1, equalToObject(customer1));
             assertThat(result2, equalToObject(customer2));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

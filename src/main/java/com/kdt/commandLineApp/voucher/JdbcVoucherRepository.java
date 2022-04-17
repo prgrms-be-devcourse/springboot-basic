@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.kdt.commandLineApp.UUIDConverter.toUUID;
 
@@ -80,32 +81,63 @@ public class JdbcVoucherRepository implements VoucherRepository{
         namedParameterJdbcTemplate.update("delete from mysql.voucher", Collections.emptyMap());
     }
 
-    public void giveVoucherToCustomer(UUID customerId) {
-        //존재하는 customerId인 지 확인하고
-        //vid가 null 인 경우에만 update해야 됩니다.
-        namedParameterJdbcTemplate.update("update mysql.customer set vid = null where cid = UUID_TO_BIN(:customerId)",
-                Collections.singletonMap("customerId",customerId.toString().getBytes())
+    public boolean checkVoucherValidation(UUID voucherId) {
+        String sql = "select count(*) from mysql.voucher where vid = UUID_TO_BIN(:voucherId)";
+        int result = 0;
+
+        result = namedParameterJdbcTemplate.update(
+                sql,
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes())
+        );
+        return (result != 0);
+    }
+
+    public void giveVoucherToCustomer(UUID customerId, UUID voucherId) {
+        String sql = "update mysql.customer set vid = UUID_TO_BIN(:voucherId) where cid = UUID_TO_BIN(:customerId)";
+        Map<String, Object> paramMap = new ConcurrentHashMap<>() {{
+            put("customerId",customerId.toString().getBytes());
+            put("voucherId",voucherId.toString().getBytes());
+        }};
+
+        namedParameterJdbcTemplate.update(
+                sql,
+                paramMap
         );
     }
 
     public void deleteVoucherFromCustomer(UUID customerId) {
-        namedParameterJdbcTemplate.update("update mysql.customer set vid = null where cid = UUID_TO_BIN(:customerId)",
+        String sql = "update mysql.customer set vid = null where cid = UUID_TO_BIN(:customerId)";
+
+        namedParameterJdbcTemplate.update(
+                sql,
                 Collections.singletonMap("customerId",customerId.toString().getBytes())
         );
     }
 
-    public List<Voucher> getVouchers(UUID customerId) {
-        //foreign Key에 해당하는 voucher를 반환한다.
-        String sql = "select v.vid vid, v.type type, v.amount amount" +
-                "from (select vid from mysql.customer where cid = UUID_TO_BIN(:customerId)) c, mysql.voucher v"+
-                "where c.vid = v.vid";
+    public List<Voucher> getCustomerVouchers(UUID customerId) {
+        String sql = "select vid from mysql.customer where cid = UUID_TO_BIN(:customerId)";
 
-        namedParameterJdbcTemplate.queryForObject(
+        RowMapper<Optional<UUID>> uuidRowMapper = (resultSet, i) -> {
+            return Optional.ofNullable(toUUID(resultSet.getBytes("vid")));
+        };
+
+        UUID cuuid = namedParameterJdbcTemplate.queryForObject(
                 sql,
                 Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                voucherRowMapper
-        );
-        return null;
+                uuidRowMapper
+        ).get();
+
+        if (cuuid != null) {
+            sql = "select * from mysql.voucher where vid = UUID_TO_BIN(:voucherId)";
+            return namedParameterJdbcTemplate.query(
+                    sql,
+                    Collections.singletonMap("voucherId", cuuid.toString().getBytes()),
+                    voucherRowMapper
+            );
+        }
+        else {
+            return new ArrayList<>();
+        }
     }
 
     @Override

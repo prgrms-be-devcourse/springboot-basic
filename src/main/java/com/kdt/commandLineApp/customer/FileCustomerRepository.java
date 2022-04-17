@@ -53,7 +53,22 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> getCustomers(UUID voucherId) {
+    public List<Customer> getCustomersWithVoucherId(UUID voucherId) {
         return null;
+    }
+
+    @Override
+    public List<Customer> getAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<Customer> get(UUID customerId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void add(Customer customer) {
+
     }
 }

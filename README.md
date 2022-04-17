@@ -5,15 +5,15 @@
 - [x] 단위테스트 작성
 - [x] Customers 테이블 정의 및 추가
 - [x] Vouchers 테이블 정의 및 추가
-- [ ] JdbcTemplate을 사용한 CustomerRepository
+- [x] JdbcTemplate을 사용한 CustomerRepository
 - [x] JdbcTemplate을 사용한 VoucherRepository (CRUD API)
 
 **심화) 바우처 지갑**
 
-- [ ] 고객의 바우처 보유 정보 조회(SELECT)
-- [ ] 특정 바우처 보유 고객 정보 조회(JOIN)
-- [ ] 특정 고객에게 바우처 할당 기능(UPDATE)
-- [ ] 고객 보유 바우처 제거 기능(UPDATE)
+- [x] 고객의 바우처 보유 정보 조회(SELECT)
+- [x] 특정 바우처 보유 고객 정보 조회(JOIN)
+- [x] 특정 고객에게 바우처 할당 기능(UPDATE)
+- [x] 고객 보유 바우처 제거 기능(UPDATE)
 
 ### **바우처 관리 애플리케이션 설명**
     === Voucher Program ===

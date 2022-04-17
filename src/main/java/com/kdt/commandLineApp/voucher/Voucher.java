@@ -5,7 +5,6 @@ import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
 import lombok.Getter;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -13,7 +12,6 @@ public class Voucher implements Serializable {
     private final UUID id;
     private VoucherType type;
     private int discountAmount;
-    private Map<String, VoucherType> vouchertypeHashMap;
 
     public Voucher(UUID id, String type, int discountAmount) throws WrongVoucherParamsException {
         this.id = id;
