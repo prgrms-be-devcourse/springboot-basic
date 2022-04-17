@@ -14,25 +14,28 @@ import java.util.List;
 
 @Repository
 public class BlackListRepository {
-    private final String BLACK_LIST_FILE_PATH;
+
+    private final FilePathProperties filePathProperties;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final List<Customer> blackList = new ArrayList<>();
 
     public BlackListRepository(FilePathProperties filePathProperties) {
-        BLACK_LIST_FILE_PATH = filePathProperties.getBlackListFilePath();
+        this.filePathProperties = filePathProperties;
     }
 
     @PostConstruct
     private void init() {
+        String blackListFilePath = filePathProperties.getBlackListFilePath();
+
         // customer_black_list.csv 파일을 읽어서 Member 타입의 List 로 변환한다.
-        try (BufferedReader br = new BufferedReader(new FileReader(BLACK_LIST_FILE_PATH))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(blackListFilePath))) {
             String name = null;
             while ((name = br.readLine()) != null) {
                 blackList.add(new Customer(name));
             }
             log.info("init blackList. size={}", blackList.size());
         } catch (IOException e) {
-            log.error("not found {}", BLACK_LIST_FILE_PATH, e);
+            log.error("not found {}", blackListFilePath, e);
         }
     }
 

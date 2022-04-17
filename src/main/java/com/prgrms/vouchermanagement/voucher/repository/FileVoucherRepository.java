@@ -22,10 +22,10 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private List<Voucher> vouchers;
-    private final String VOUCHERS_FILE_PATH;
+    private final FilePathProperties filePathProperties;
 
     public FileVoucherRepository(FilePathProperties filePathProperties) {
-        VOUCHERS_FILE_PATH = filePathProperties.getVouchersFilePath();
+        this.filePathProperties = filePathProperties;
     }
 
     @Override
@@ -42,14 +42,15 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @PostConstruct
     private void init() {
+        String vouchersFilePath = filePathProperties.getVouchersFilePath();
         try (
-                FileInputStream fis = new FileInputStream(VOUCHERS_FILE_PATH);
-                BufferedInputStream bis =new BufferedInputStream(fis);
+                FileInputStream fis = new FileInputStream(vouchersFilePath);
+                BufferedInputStream bis = new BufferedInputStream(fis);
                 ObjectInputStream ois = new ObjectInputStream(bis);
-        ){
+        ) {
             vouchers = (List<Voucher>) ois.readObject();
         } catch (IOException e) {
-            log.error("failed to create or find {}", VOUCHERS_FILE_PATH, e);
+            log.error("failed to create or find {}", vouchersFilePath, e);
 
             //파일을 읽는데 실패한 경우 빈 리스트로 초기화
             vouchers = new ArrayList<>();
@@ -60,14 +61,15 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @PreDestroy
     private void destroy() {
+        String vouchersFilePath = filePathProperties.getVouchersFilePath();
         try (
-                FileOutputStream fos = new FileOutputStream(VOUCHERS_FILE_PATH);
+                FileOutputStream fos = new FileOutputStream(vouchersFilePath);
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
                 ObjectOutputStream oos = new ObjectOutputStream(bos);
-        ){
+        ) {
             oos.writeObject(vouchers);
         } catch (IOException e) {
-            log.error("failed to create or find {}", VOUCHERS_FILE_PATH, e);
+            log.error("failed to create or find {}", vouchersFilePath, e);
         }
     }
 }
