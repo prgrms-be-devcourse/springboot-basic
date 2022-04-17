@@ -6,14 +6,18 @@ import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@SpringBootTest
 public class VoucherRepositoryTests {
 
+    @Autowired
     private VoucherRepository repository;
 
     @Nested
