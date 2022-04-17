@@ -8,8 +8,8 @@ public enum CommandType {
     BLACKLIST("blacklist", "Type blacklist to list all blacklist"),
     EXIT("exit", "Type exit to exit program.");
 
-    private String commandName;
-    private String commandDescription;
+    private final String commandName;
+    private final String commandDescription;
 
     CommandType(String commandName, String commandDescription) {
         this.commandName = commandName;
