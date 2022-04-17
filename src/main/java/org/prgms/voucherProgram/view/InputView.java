@@ -1,5 +1,7 @@
 package org.prgms.voucherProgram.view;
 
+import java.util.UUID;
+
 import org.prgms.voucherProgram.dto.CustomerDto;
 import org.prgms.voucherProgram.dto.VoucherDto;
 
@@ -28,4 +30,6 @@ public interface InputView {
     Long inputDiscountAmount();
 
     VoucherDto inputUpdateVoucher();
+
+    UUID inputVoucherId();
 }

@@ -8,7 +8,8 @@ public enum VoucherMenuType {
     EXIT("exit"),
     CREATE("create"),
     LIST("list"),
-    UPDATE("update");
+    UPDATE("update"),
+    DELETE("delete");
 
     private final String command;
 

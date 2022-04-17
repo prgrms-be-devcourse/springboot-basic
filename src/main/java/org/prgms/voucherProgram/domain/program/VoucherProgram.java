@@ -1,5 +1,7 @@
 package org.prgms.voucherProgram.domain.program;
 
+import java.util.UUID;
+
 import org.prgms.voucherProgram.domain.menu.VoucherMenuType;
 import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.dto.VoucherDto;
@@ -35,6 +37,7 @@ public class VoucherProgram {
                 case CREATE -> createVoucher();
                 case LIST -> outputView.printVouchers(voucherService.findAllVoucher());
                 case UPDATE -> updateVoucher();
+                case DELETE -> deleteVoucher();
             }
         }
     }
@@ -95,6 +98,15 @@ public class VoucherProgram {
                 outputView.printError(e.getMessage());
                 voucherDto.setType(inputView.inputVoucherType());
             }
+        }
+    }
+
+    private void deleteVoucher() {
+        UUID voucherId = inputView.inputVoucherId();
+        try {
+            voucherService.delete(voucherId);
+        } catch (VoucherIsNotExistsException e) {
+            outputView.printError(e.getMessage());
         }
     }
 }

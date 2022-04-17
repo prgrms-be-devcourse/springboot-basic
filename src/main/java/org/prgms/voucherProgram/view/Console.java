@@ -107,7 +107,6 @@ public class Console implements InputView, OutputView {
 
     @Override
     public VoucherDto inputUpdateVoucher() {
-        System.out.print("Enter voucherID to update. : ");
         UUID voucherId = inputVoucherId();
         int voucherType = inputVoucherType();
         System.out.print(REQUEST_UPDATE_DISCOUNT_VALUE);
@@ -115,9 +114,11 @@ public class Console implements InputView, OutputView {
         return new VoucherDto(voucherId, voucherType, discountValue);
     }
 
-    private UUID inputVoucherId() {
+    @Override
+    public UUID inputVoucherId() {
         while (true) {
             try {
+                System.out.print("Enter voucherID to do : ");
                 return UUID.fromString(scanner.nextLine().trim());
             } catch (IllegalArgumentException e) {
                 printError("[ERROR] UUID 형식이 아닙니다.");
