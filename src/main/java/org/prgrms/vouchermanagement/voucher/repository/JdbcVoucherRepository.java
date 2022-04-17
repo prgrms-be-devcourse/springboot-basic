@@ -30,7 +30,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     long reduction = resultSet.getLong("reduction");
     LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
     VoucherType voucherType = VoucherType.fromDbValue(resultSet.getInt("voucher_type"));
-    log.info("voucher id -> {}, reduction -> {}, createdAt -> {}, voucher type -> {}", voucherId, reduction, createdAt, voucherType);
     return VoucherFactory.createVoucher(voucherId, reduction, createdAt, voucherType);
   };
 
