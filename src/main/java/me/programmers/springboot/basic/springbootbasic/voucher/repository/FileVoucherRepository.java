@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("default")
@@ -25,7 +25,7 @@ public class FileVoucherRepository implements VoucherRepository, FileInput, File
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String filename = "voucherList.dat";
-    private static final Map<UUID, Voucher> vouchers = new HashMap<>();
+    private static final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
 
     @Override
     public List<Voucher> findAll() {
