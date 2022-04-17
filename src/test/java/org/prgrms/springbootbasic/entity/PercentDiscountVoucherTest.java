@@ -11,7 +11,7 @@ class PercentDiscountVoucherTest {
 
     @DisplayName("PercentDiscountVoucher 테스트")
     @Test
-    void test() {
+    void createPercentDiscountVoucher() {
         //given
         UUID voucherId = UUID.randomUUID();
         int percent = 10;

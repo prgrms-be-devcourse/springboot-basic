@@ -4,6 +4,7 @@ package org.prgrms.springbootbasic.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ class FixedAmountVoucherTest {
 
     @DisplayName("FixedAmountVoucher 테스트")
     @Test
-    void test() {
+    void createFixedAmountVoucher() {
         //given
         UUID voucherId = UUID.randomUUID();
         int amount = 10;
@@ -20,8 +21,9 @@ class FixedAmountVoucherTest {
         var voucher = new FixedAmountVoucher(voucherId, amount);
 
         //then
-        assertThat(voucher.getVoucherId()).isEqualTo(voucherId);
-        assertThat(voucher.getAmount()).isEqualTo(amount);
+        Assertions.assertAll(
+            () -> assertThat(voucher.getVoucherId()).isEqualTo(voucherId),
+            () -> assertThat(voucher.getAmount()).isEqualTo(amount)
+        );
     }
-
 }
