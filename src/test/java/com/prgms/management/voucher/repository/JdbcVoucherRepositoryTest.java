@@ -49,7 +49,7 @@ class JdbcVoucherRepositoryTest {
     DataSource dataSource;
 
     EmbeddedMysql embeddedMysql;
-    List<Voucher> list = new ArrayList<>();
+    List<Voucher> vouchers = new ArrayList<>();
 
     @BeforeAll
     void setUp() {
@@ -99,7 +99,11 @@ class JdbcVoucherRepositoryTest {
         @CsvSource({"1%, 1", "99%, 99"})
         void savePercentVoucherSuccess(String name, int percent) {
             Voucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), name, percent, Timestamp.valueOf(LocalDateTime.now()));
-            list.add(voucherRepository.save(newVoucher));
+            vouchers.add(voucherRepository.save(newVoucher));
+
+            var retrievedVoucher = voucherRepository.findById(newVoucher.getVoucherId());
+            assertThat(retrievedVoucher, not(nullValue()));
+            assertThat(retrievedVoucher, equalTo(newVoucher));
         }
 
         @DisplayName("할인 바우처 저장 실패 사례")
@@ -108,7 +112,7 @@ class JdbcVoucherRepositoryTest {
         void savePercentVoucherFail(String name, int percent) {
             assertThrows(InvalidVoucherParameterException.class, () -> {
                 Voucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), name, percent, Timestamp.valueOf(LocalDateTime.now()));
-                list.add(voucherRepository.save(newVoucher));
+                vouchers.add(voucherRepository.save(newVoucher));
             });
         }
 
@@ -117,7 +121,11 @@ class JdbcVoucherRepositoryTest {
         @CsvSource({"10000원, 10000", "1원, 1"})
         void saveAmountVoucherSuccess(String name, int percent) {
             Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), name, percent, Timestamp.valueOf(LocalDateTime.now()));
-            list.add(voucherRepository.save(newVoucher));
+            vouchers.add(voucherRepository.save(newVoucher));
+
+            var retrievedVoucher = voucherRepository.findById(newVoucher.getVoucherId());
+            assertThat(retrievedVoucher, not(nullValue()));
+            assertThat(retrievedVoucher, equalTo(newVoucher));
         }
 
         @DisplayName("금액 바우처 저장 실패 사례")
@@ -126,7 +134,7 @@ class JdbcVoucherRepositoryTest {
         void saveAmountVoucherFail(String name, int percent) {
             assertThrows(InvalidVoucherParameterException.class, () -> {
                 Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), name, percent, Timestamp.valueOf(LocalDateTime.now()));
-                list.add(voucherRepository.save(newVoucher));
+                vouchers.add(voucherRepository.save(newVoucher));
             });
         }
     }
@@ -138,7 +146,7 @@ class JdbcVoucherRepositoryTest {
         @DisplayName("아이디를 통한 조회 가능 사례")
         @Test
         void findSuccess() {
-            for (Voucher voucher : list) {
+            for (Voucher voucher : vouchers) {
                 Voucher resultVoucher = voucherRepository.findById(voucher.getVoucherId());
                 assertThat(voucher, equalTo(resultVoucher));
             }
@@ -160,7 +168,7 @@ class JdbcVoucherRepositoryTest {
         void findSuccess() {
             var retVoucher = voucherRepository.findAll();
             assertThat(retVoucher.isEmpty(), is(false));
-            assertThat(retVoucher, hasSize(list.size()));
+            assertThat(retVoucher, hasSize(vouchers.size()));
         }
     }
 }

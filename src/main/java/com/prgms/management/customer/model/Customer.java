@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -34,5 +35,18 @@ public class Customer {
         this.email = email;
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(id, customer.id) && Objects.equals(email, customer.email) && Objects.equals(name, customer.name) && type == customer.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, name, type);
     }
 }
