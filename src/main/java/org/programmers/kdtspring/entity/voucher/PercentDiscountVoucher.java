@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
+    private static final int HUNDRED = 100;
     private final int percent;
     private final VoucherType voucherType = VoucherType.PercentDiscountVoucher;
 
@@ -22,7 +23,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (percent / HUNDRED);
     }
 
     @Override
