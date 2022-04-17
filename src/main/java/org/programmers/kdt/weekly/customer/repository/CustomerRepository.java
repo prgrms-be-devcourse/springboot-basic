@@ -8,9 +8,7 @@ import org.programmers.kdt.weekly.customer.Customer;
 
 public interface CustomerRepository {
 
-    void insert(UUID customerId, Customer customer) throws IOException;
-
-    int count() throws IOException;
+    Customer insert(Customer customer);
 
     List<Customer> findAll();
 }

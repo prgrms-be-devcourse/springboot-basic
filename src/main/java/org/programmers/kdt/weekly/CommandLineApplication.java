@@ -62,7 +62,7 @@ public class CommandLineApplication {
                             () -> console.inputErrorMessage(InputErrorType.VOUCHER_EMPTY));
                     break;
                 case BLACK_LIST:
-                    Optional.ofNullable(customerService.BlackList())
+                    Optional.ofNullable(customerService.blackList())
                         .ifPresentOrElse((customer -> console.customerListPrint(customer.get())),
                             () -> console.inputErrorMessage(InputErrorType.BLACK_LIST_EMPTY));
                     break;

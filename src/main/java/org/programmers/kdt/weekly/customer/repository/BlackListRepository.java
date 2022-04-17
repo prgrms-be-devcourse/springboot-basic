@@ -23,7 +23,7 @@ public class BlackListRepository implements CustomerRepository {
     private final Resource FILE_PATH = new ClassPathResource("customer_blacklist.csv");
 
     @Override
-    public void insert(UUID customerId, Customer customer) {
+    public Customer insert(Customer customer) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(FILE_PATH.getURL().getPath());
             fileOutputStream.write(
@@ -32,21 +32,7 @@ public class BlackListRepository implements CustomerRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public int count() {
-        int size = 0;
-        try {
-            InputStream inputStream = FILE_PATH.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            while (bufferedReader.readLine() != null) {
-                size++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return size;
+        return customer;
     }
 
     @Override

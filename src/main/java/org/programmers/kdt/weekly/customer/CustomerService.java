@@ -18,7 +18,7 @@ public class CustomerService {
     public Customer createCustomer(CustomerType customerType, String name) {
         Customer customer;
         try {
-            customer = customerType.create(UUID.randomUUID(), name);
+            customer = new Customer(UUID.randomUUID(), name, customerType);
             customerRepository.insert(customer);
         } catch (IllegalArgumentException e) {
             throw e;
