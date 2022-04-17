@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void saveVoucher(Voucher voucher) {
-        String content = voucher.toString();
+        String content = voucher.getInfo();
         try {
             FileWriter fileWriter = new FileWriter(fileName, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -41,6 +42,7 @@ public class FileVoucherRepository implements VoucherRepository {
             String content = null;
             while ((content = bufferedReader.readLine()) != null) {
                 String[] contents = content.split(",");
+                logger.info(Arrays.toString(contents));
                 if (contents[2].equals("FixedAmountVoucher")) {
                     list.add(new FixedAmountVoucher(UUID.fromString(contents[0]), Long.parseLong(contents[1])));
                 } else if (contents[2].equals("PercentDiscountVoucher")) {
