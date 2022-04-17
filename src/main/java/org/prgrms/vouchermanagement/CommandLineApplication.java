@@ -17,7 +17,13 @@ import java.util.UUID;
 
 
 public class CommandLineApplication {
-  public static final String AVAILABLE_COMMANDS = "=== Voucher Program ===\nType exit to exit the program.\nType create to create a new voucher.\nType list to list all vouchers.\n";
+  public static final String AVAILABLE_COMMANDS = "=== Voucher Program ===\n" +
+    "Type exit to exit the program.\n" +
+    "Type create to create a new voucher.\n" +
+    "Type \"list voucher\" to list all vouchers.\n" +
+    "Type \"list customer\" to list all vouchers.\n" +
+    "Type issue to issue voucher to customer\n";
+
   public static final String AVAILABLE_VOUCHERS = "Which type do you want?\n\t" +
     "1. FixedAmountVoucher(Fixed)\n\t" +
     "2. PercentDiscountVoucher(Percent)";
@@ -28,8 +34,9 @@ public class CommandLineApplication {
     // 1. 사용 가능한 command를 출력
     System.out.println(AVAILABLE_COMMANDS);
 
-
+    VoucherService voucherService = applicationContext.getBean(VoucherService.class);
     while(true) {
+      System.out.print("Input command: ");
       String command = scanner.nextLine().trim().toLowerCase();
 
       switch (command) {
@@ -40,13 +47,20 @@ public class CommandLineApplication {
           System.out.println(AVAILABLE_VOUCHERS);
           String voucherType;
           if((voucherType = scanner.nextLine()).matches("\\d+")) {
-
           }
           else {
             System.out.println("You can only enter numbers\n");
           }
           break;
-        case "list":
+        case "list voucher":
+          for(Voucher voucher:voucherService.getVoucherList()) {
+            System.out.println(voucher);
+          }
+          break;
+        case "list customer":
+          for(Customer customer:voucherService.getCustomerList()) {
+            System.out.println(customer);
+          }
           break;
         default:
           System.out.println("Command does not exist");

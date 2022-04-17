@@ -7,6 +7,8 @@ import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VoucherService {
 
@@ -37,5 +39,13 @@ public class VoucherService {
     }
     // cannot issue voucher
     return false;
+  }
+
+  public List<Voucher> getVoucherList() {
+    return voucherRepository.findAll();
+  }
+
+  public List<Customer> getCustomerList() {
+    return customerRepository.findAll();
   }
 }
