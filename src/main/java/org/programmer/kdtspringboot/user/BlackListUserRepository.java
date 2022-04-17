@@ -18,9 +18,10 @@ public class BlackListUserRepository implements UserRepository {
     @Override
     public void saveUser(User user) {
         String content = user.toString();
-        try {
-            FileWriter fileWriter = new FileWriter(fileName, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        try (
+                FileWriter fileWriter = new FileWriter(fileName, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        ) {
             bufferedWriter.write(content);
             bufferedWriter.newLine();
             bufferedWriter.flush();
@@ -33,10 +34,11 @@ public class BlackListUserRepository implements UserRepository {
     @Override
     public List<User> findAll() {
         List<User> list = new ArrayList<>();
-        try {
-            FileReader fileReader = new FileReader(fileName);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String content = null;
+        String content = "";
+        try (
+                FileReader fileReader = new FileReader(fileName);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ) {
             while ((content = bufferedReader.readLine()) != null) {
                 String[] contents = content.split(",");
                 list.add(new BlackListUser(UUID.fromString(contents[0]), contents[1]));

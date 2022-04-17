@@ -15,31 +15,31 @@ import java.util.UUID;
 @Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final String fileName= "voucherList.txt";
+    private final String fileName = "voucherList.txt";
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     @Override
     public void saveVoucher(Voucher voucher) {
         String content = voucher.getInfo();
-        try {
-            FileWriter fileWriter = new FileWriter(fileName, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        try (FileWriter fileWriter = new FileWriter(fileName, true);
+             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        ) {
             bufferedWriter.write(content);
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("voucher 추가 "+ voucher);
+        logger.info("voucher 추가 " + voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
         List<Voucher> list = new ArrayList<>();
-        try {
-            FileReader fileReader = new FileReader(fileName);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String content = null;
+        String content = "";
+        try (FileReader fileReader = new FileReader(fileName);
+             BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ) {
             while ((content = bufferedReader.readLine()) != null) {
                 String[] contents = content.split(",");
                 logger.info(Arrays.toString(contents));
