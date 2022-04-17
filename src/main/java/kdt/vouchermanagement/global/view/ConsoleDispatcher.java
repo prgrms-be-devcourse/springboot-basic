@@ -1,6 +1,6 @@
-package kdt.vouchermanagement;
+package kdt.vouchermanagement.global.view;
 
-import kdt.vouchermanagement.io.Input;
+import kdt.vouchermanagement.global.io.Input;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 

@@ -1,10 +1,9 @@
-package kdt.vouchermanagement;
+package kdt.vouchermanagement.global.view;
 
-import kdt.vouchermanagement.exception.InvalidMenuException;
+import kdt.vouchermanagement.global.exception.InvalidMenuException;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 
 public enum Menu {
     EXIT_PROGRAM("exit"),

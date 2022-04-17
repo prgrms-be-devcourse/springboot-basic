@@ -1,4 +1,4 @@
-package kdt.vouchermanagement.exception;
+package kdt.vouchermanagement.global.exception;
 
 public class InvalidMenuException extends RuntimeException {
 
