@@ -16,7 +16,7 @@ public class BlackListUser implements User {
     public String toString() {
         return "BlackListUser{" +
                 "userId=" + userId +
-                ", userName='" + userName + '\'' +
+                ", userName='" + userName +
                 '}';
     }
 
