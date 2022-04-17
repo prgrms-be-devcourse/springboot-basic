@@ -24,6 +24,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.prgms.voucherProgram.domain.voucher.FixedAmountVoucher;
 import org.prgms.voucherProgram.domain.voucher.PercentDiscountVoucher;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.exception.NothingChangeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -115,7 +116,33 @@ class JdbcVoucherRepositoryTest {
         // then
         assertThat(jdbcVoucherRepository.findAll()).hasSize(vouchers.size())
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
-            .isEqualTo(vouchers);
+            .containsAll(vouchers);
+    }
+
+    @DisplayName("ID를 통해 바우처를 조회한다.")
+    @ParameterizedTest
+    @MethodSource("provideVoucher")
+    void sholud_ReturnVoucher_VoucherIsExists(Voucher voucher) {
+        // given
+        jdbcVoucherRepository.save(voucher);
+        // when
+        Optional<Voucher> findVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
+        // then
+        assertThat(findVoucher).isNotEmpty()
+            .get()
+            .usingRecursiveComparison()
+            .isEqualTo(voucher);
+    }
+
+    @DisplayName("저장되지 않은 ID라면 empty를 반환한다.")
+    @Test
+    void should_ReturnEmpty_VoucherIsNotExists() {
+        // given
+        UUID voucherId = UUID.randomUUID();
+        //when
+        Optional<Voucher> findVoucher = jdbcVoucherRepository.findById(voucherId);
+        //then
+        assertThat(findVoucher).isEmpty();
     }
 
     @DisplayName("바우처를 수정한다.")
@@ -133,6 +160,30 @@ class JdbcVoucherRepositoryTest {
         assertThat(updateVoucher).isNotEmpty();
         assertThat(updateVoucher.get()).usingRecursiveComparison()
             .isEqualTo(voucher);
+    }
+
+    @DisplayName("ID를 통해 바우처를 삭제한다.")
+    @ParameterizedTest
+    @MethodSource("provideVoucher")
+    void should_DeleteVoucher_VoucherIsExists(Voucher voucher) {
+        // given
+        jdbcVoucherRepository.save(voucher);
+        // when
+        jdbcVoucherRepository.deleteById(voucher.getVoucherId());
+        // then
+        assertThat(jdbcVoucherRepository.findById(voucher.getVoucherId())).isEmpty();
+    }
+
+    @DisplayName("잘못된 ID로 삭제하려고 하면 예외를 발생한다.")
+    @Test
+    void should_ThrowException_When_VoucherIsNotExists() {
+        // given
+        UUID voucherID = UUID.randomUUID();
+        // when
+        // then
+        assertThatThrownBy(() -> jdbcVoucherRepository.deleteById(voucherID))
+            .isInstanceOf(NothingChangeException.class)
+            .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
     }
 
     @Configuration
