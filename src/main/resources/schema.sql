@@ -17,3 +17,12 @@ CREATE TABLE voucher
     figure     int         NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
+
+CREATE TABLE voucher_wallet
+(
+    id          BINARY(16) PRIMARY KEY,
+    customer_id BINARY(16) NOT NULL,
+    voucher_id  BINARY(16) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customer (id) ON DELETE CASCADE,
+    FOREIGN KEY (voucher_id) REFERENCES voucher (id) ON DELETE CASCADE
+);
