@@ -3,7 +3,6 @@ package org.prgms.io;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.prgms.customer.Customer;
-import org.prgms.customer.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -12,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class CsvFileReader implements FileReader {
@@ -37,15 +37,7 @@ public class CsvFileReader implements FileReader {
         String[] nextLine;
         List<Customer> users = new ArrayList<>();
         while ((nextLine = reader.readNext()) != null) {
-            Gender gender;
-            if (nextLine[1].equals("남")) {
-                gender = Gender.MALE;
-            } else if (nextLine[1].equals("여")) {
-                gender = Gender.FEMALE;
-            } else {
-                continue;
-            }
-            users.add(new Customer(nextLine[0], gender, Integer.parseInt(nextLine[2])));
+            users.add(new Customer(UUID.randomUUID(), nextLine[0], nextLine[2], new ArrayList<>()));
         }
         return users;
     }

@@ -1,23 +1,35 @@
 package org.prgms.voucher;
 
+import org.prgms.validator.Validators;
+
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
-    private final Long amount;
-    private final UUID voucherId;
+public record FixedAmountVoucher(UUID customerId, long discountAmount, UUID voucherId) implements Voucher {
 
-    public FixedAmountVoucher(Long amount, UUID voucherId) {
-        this.amount = amount;
+    public FixedAmountVoucher(UUID customerId, long discountAmount, UUID voucherId) {
+        this.customerId = customerId;
+        this.discountAmount = discountAmount;
+        Validators.notNullAndEmptyCheck(voucherId);
         this.voucherId = voucherId;
     }
 
     @Override
-    public Long apply(Long beforeDiscount) {
-        return beforeDiscount - amount;
+    public long apply(long beforeDiscount) {
+        return beforeDiscount - discountAmount;
     }
 
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public long getDiscountAmount() {
+        return discountAmount;
+    }
+
+    @Override
+    public UUID getCustomerId() {
+        return customerId;
     }
 }

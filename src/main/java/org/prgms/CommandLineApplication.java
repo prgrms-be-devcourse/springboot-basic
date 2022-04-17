@@ -46,8 +46,8 @@ public class CommandLineApplication {
                     case "create":
                         int opt = console.chooseVoucher();
                         switch (opt) {
-                            case 1 -> service.createVoucher(new FixedAmountVoucher(10L, UUID.randomUUID()));
-                            case 2 -> service.createVoucher(new PercentDiscountVoucher(10L, UUID.randomUUID()));
+                            case 1 -> service.createVoucher(new FixedAmountVoucher(null, 10L, UUID.randomUUID()));
+                            case 2 -> service.createVoucher(new PercentDiscountVoucher(null, 10L, UUID.randomUUID()));
                             default -> throw new IllegalArgumentException(String.valueOf(opt));
                         }
                         break;
