@@ -4,14 +4,14 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
-    private final long amount;
+    private final int amount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(UUID voucherId, int amount) {
         super(voucherId);
         this.amount = amount;
     }
 
-    public long getAmount() {
+    public int getAmount() {
         return amount;
     }
 }

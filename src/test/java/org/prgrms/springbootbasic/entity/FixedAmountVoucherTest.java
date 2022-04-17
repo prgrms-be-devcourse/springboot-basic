@@ -14,7 +14,7 @@ class FixedAmountVoucherTest {
     void test() {
         //given
         UUID voucherId = UUID.randomUUID();
-        long amount = 10L;
+        int amount = 10;
 
         //when
         var voucher = new FixedAmountVoucher(voucherId, amount);

@@ -1,9 +1,8 @@
 package org.prgrms.springbootbasic.entity;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Voucher implements Serializable {
+public abstract class Voucher {
 
     private final UUID voucherId;
 

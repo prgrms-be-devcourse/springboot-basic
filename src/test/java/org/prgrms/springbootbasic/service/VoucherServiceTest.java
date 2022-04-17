@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.repository.MemoryVoucherRepository;
 
@@ -24,10 +25,10 @@ class VoucherServiceTest {
     @Test
     void createFixedAmountVoucher() {
         //given
-        long amount = 10L;
+        int amount = 10;
 
         //when
-        voucherService.createFixedAmountVoucher(amount);
+        voucherService.createVoucher(VoucherType.FIXED, amount, 0);
 
         //then
         assertThat(memoryVoucherRepository.getVoucherTotalNumber())
@@ -41,7 +42,7 @@ class VoucherServiceTest {
         int percent = 10;
 
         //when
-        voucherService.createPercentAmountVoucher(percent);
+        voucherService.createVoucher(VoucherType.PERCENT, 0, percent);
 
         //then
         assertThat(memoryVoucherRepository.getVoucherTotalNumber())
@@ -52,8 +53,8 @@ class VoucherServiceTest {
     @Test
     void findAll() {
         //given
-        voucherService.createFixedAmountVoucher(10L);
-        voucherService.createPercentAmountVoucher(10);
+        voucherService.createVoucher(VoucherType.FIXED, 1000, 0);
+        voucherService.createVoucher(VoucherType.PERCENT, 0, 20);
 
         //when
         List<Voucher> vouchers = voucherService.findAll();

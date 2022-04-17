@@ -2,6 +2,7 @@ package org.prgrms.springbootbasic.service;
 
 import java.util.List;
 import java.util.UUID;
+import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.Voucher;
@@ -20,16 +21,15 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createFixedAmountVoucher(long amount) {
-        logger.info("VoucherService.createFixedAmountVoucher() called");
+    public void createVoucher(VoucherType voucherType, int amount, int percent) {
+        logger.info("createVoucher() called");
 
-        voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), amount));
-    }
-
-    public void createPercentAmountVoucher(int percent) {
-        logger.info("VoucherService.createPercentAmountVoucher called");
-
-        voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), percent));
+        if (voucherType.isFixed()) {
+            voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), amount));
+        }
+        if (voucherType.isPercent()) {
+            voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), percent));
+        }
     }
 
     public List<Voucher> findAll() {

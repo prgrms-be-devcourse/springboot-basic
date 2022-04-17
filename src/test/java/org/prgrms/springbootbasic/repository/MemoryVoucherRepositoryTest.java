@@ -24,7 +24,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     void store() {
         //given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
 
         //when
         memoryVoucherRepository.save(voucher);
@@ -37,7 +37,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     void findAll() {
         //given
-        var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10);
         memoryVoucherRepository.save(voucher1);
         var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         memoryVoucherRepository.save(voucher2);

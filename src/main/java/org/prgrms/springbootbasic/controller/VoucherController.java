@@ -25,7 +25,7 @@ public class VoucherController {
     }
 
     private boolean process() {
-        logger.info("VoucherController.process() called");
+        logger.info("process() called");
 
         consoleView.printMenu();
         Menu menu = consoleView.inputMenu();
@@ -36,13 +36,13 @@ public class VoucherController {
         VoucherType voucherType = consoleView.selectVoucherType();
 
         if (voucherType.isFixed()) {
-            long amount = consoleView.selectAmount();
-            voucherService.createFixedAmountVoucher(amount);
+            int amount = consoleView.selectAmount();
+            voucherService.createVoucher(voucherType, amount, 0);
         }
 
         if (voucherType.isPercent()) {
             int percent = consoleView.selectPercent();
-            voucherService.createPercentAmountVoucher(percent);
+            voucherService.createVoucher(voucherType, 0, percent);
         }
     }
 

@@ -80,8 +80,8 @@ public class ConsoleView {
         return voucherType;
     }
 
-    public long selectAmount() {
-        long amount = textIO.newLongInputReader()
+    public int selectAmount() {
+        int amount = textIO.newIntInputReader()
             .read(SELECT_AMOUNT);
         textIO.getTextTerminal().println();
         return amount;
