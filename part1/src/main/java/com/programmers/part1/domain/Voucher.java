@@ -1,4 +1,4 @@
-package com.programmers.part1.order.voucher.entity;
+package com.programmers.part1.domain;
 
 import java.util.UUID;
 

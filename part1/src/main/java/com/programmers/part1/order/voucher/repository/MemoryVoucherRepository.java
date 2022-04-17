@@ -1,6 +1,6 @@
 package com.programmers.part1.order.voucher.repository;
 
-import com.programmers.part1.order.voucher.entity.Voucher;
+import com.programmers.part1.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

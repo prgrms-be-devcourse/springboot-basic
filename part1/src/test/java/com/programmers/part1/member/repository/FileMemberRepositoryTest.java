@@ -1,7 +1,7 @@
 package com.programmers.part1.member.repository;
 
 import com.programmers.part1.configuration.AppConfiguration;
-import com.programmers.part1.member.entity.MemberDto;
+import com.programmers.part1.domain.MemberDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

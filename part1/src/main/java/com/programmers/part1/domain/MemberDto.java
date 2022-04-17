@@ -1,4 +1,4 @@
-package com.programmers.part1.member.entity;
+package com.programmers.part1.domain;
 
 import lombok.Getter;
 

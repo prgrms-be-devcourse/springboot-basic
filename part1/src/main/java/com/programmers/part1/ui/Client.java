@@ -1,20 +1,13 @@
 package com.programmers.part1.ui;
 
-import com.programmers.part1.exception.voucher.FixedAmountException;
-import com.programmers.part1.exception.voucher.PercentErrorException;
-import com.programmers.part1.exception.voucher.VoucherTypeMissingException;
 import com.programmers.part1.io.Console;
 import com.programmers.part1.io.Message;
 import com.programmers.part1.member.MemberController;
 import com.programmers.part1.order.voucher.VoucherController;
-import com.programmers.part1.order.voucher.entity.VoucherType;
+import com.programmers.part1.domain.VoucherType;
 import lombok.Builder;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
-import static java.lang.System.exit;
 
 
 /**

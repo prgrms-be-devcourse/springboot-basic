@@ -2,10 +2,10 @@ package com.programmers.part1.order.voucher;
 
 import com.programmers.part1.exception.voucher.VoucherListEmptyException;
 import com.programmers.part1.exception.voucher.VoucherTypeMissingException;
-import com.programmers.part1.order.voucher.entity.FixedAmountVoucher;
-import com.programmers.part1.order.voucher.entity.PercentAmountVoucher;
-import com.programmers.part1.order.voucher.entity.Voucher;
-import com.programmers.part1.order.voucher.entity.VoucherType;
+import com.programmers.part1.domain.FixedAmountVoucher;
+import com.programmers.part1.domain.PercentAmountVoucher;
+import com.programmers.part1.domain.Voucher;
+import com.programmers.part1.domain.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

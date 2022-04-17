@@ -1,6 +1,6 @@
 package com.programmers.part1.member.repository;
 
-import com.programmers.part1.member.entity.MemberDto;
+import com.programmers.part1.domain.MemberDto;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;

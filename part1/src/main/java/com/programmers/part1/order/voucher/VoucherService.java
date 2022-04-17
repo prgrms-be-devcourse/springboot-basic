@@ -1,6 +1,6 @@
 package com.programmers.part1.order.voucher;
 
-import com.programmers.part1.order.voucher.entity.Voucher;
+import com.programmers.part1.domain.Voucher;
 import com.programmers.part1.order.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 

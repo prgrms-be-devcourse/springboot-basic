@@ -1,6 +1,6 @@
 package com.programmers.part1.member;
 
-import com.programmers.part1.member.entity.MemberDto;
+import com.programmers.part1.domain.MemberDto;
 import com.programmers.part1.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 

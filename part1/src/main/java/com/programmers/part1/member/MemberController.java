@@ -1,7 +1,7 @@
 package com.programmers.part1.member;
 
 import com.programmers.part1.exception.member.BlackListEmptyException;
-import com.programmers.part1.member.entity.MemberDto;
+import com.programmers.part1.domain.MemberDto;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

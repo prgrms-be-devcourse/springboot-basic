@@ -1,4 +1,4 @@
-package com.programmers.part1.order.voucher.entity;
+package com.programmers.part1.domain;
 
 import com.programmers.part1.exception.voucher.VoucherTypeMissingException;
 
