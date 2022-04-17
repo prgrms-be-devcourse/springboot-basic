@@ -26,8 +26,11 @@ public class VoucherAppRunner {
         exit = false;
     }
 
+    public void start() {
+        showCommands();
+    }
+
     public void run() {
-        showMenu();
         /*
         TODO
            - 메뉴 입력 받기
@@ -37,7 +40,7 @@ public class VoucherAppRunner {
         exit = true;
     }
 
-    private void showMenu() {
+    private void showCommands() {
         System.out.println("=== Voucher Program ===");
         menus.forEach(Menu::display);
         System.out.println();

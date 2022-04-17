@@ -14,4 +14,9 @@ public class ExitMenu implements Menu {
     public void display() {
         System.out.println("Type exit to exit the program.");
     }
+
+    @Override
+    public void proc() {
+        //TODO
+    }
 }

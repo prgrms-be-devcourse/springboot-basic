@@ -20,6 +20,7 @@ public class VoucherApp {
 
     public void run() {
         logger.info("app launched");
+        voucherAppRunner.start();
         boolean isBreak = false;
         do {
             try {
