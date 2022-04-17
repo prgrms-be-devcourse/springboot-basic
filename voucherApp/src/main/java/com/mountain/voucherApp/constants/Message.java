@@ -1,11 +1,12 @@
 package com.mountain.voucherApp.constants;
 
 public class Message {
-    public static final String FILE_INSERT_ERROR = "file insert error";
-    public static final String FILE_READ_ERROR = "file read error";
-    public static final String NEGATIVE_AMOUNT_ERROR = "Amount should be positive";
-    public static final String MAX_MORE_ERROR = "Amount should be less than ";
-    public static final String CREATE_NEW_FILE = "create new file";
+    public static final String FILE_INSERT_ERROR = "파일에 레코드를 추가할 수 없습니다.";
+    public static final String FILE_READ_ERROR = "파일을 읽을 수 없습니다.";
+    public static final String NEGATIVE_AMOUNT_ERROR = "음수는 입력할 수 없습니다.";
+    public static final String MAX_MORE_ERROR = "할인(DiscountAmount) MAX : ";
+    public static final String CREATE_NEW_FILE = "새로운 파일 생성.";
+
     public static final String EXIT_PROGRAM = "to exit the program.";
     public static final String CREATE_VOUCHER = "to create a new voucher.";
     public static final String LIST_VOUCHERS = "to list all vouchers.";
@@ -18,7 +19,7 @@ public class Message {
     public static final String LIST = "list";
     // console
     public static final String MANUAL_TITLE = "=== Voucher Program ===";
-    public static final String WRONG_INPUT = "wrong input";
-    public static final String PLEASE_AMOUNT = "Please enter discount amount";
+    public static final String WRONG_INPUT = "올바르지 않은 입력입니다.";
+    public static final String PLEASE_AMOUNT = "할인금액 또는 비율을 입력해 주세요.";
     public static final String TYPE = "Type";
 }

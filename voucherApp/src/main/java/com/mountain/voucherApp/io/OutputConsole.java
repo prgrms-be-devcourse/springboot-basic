@@ -13,58 +13,33 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.mountain.voucherApp.constants.Color.*;
-import static com.mountain.voucherApp.constants.CommonCharacter.INPUT_PROMPT;
 import static com.mountain.voucherApp.constants.Message.*;
 import static com.mountain.voucherApp.utils.MenuUtil.getMenuMap;
 
 @Component
-public class Console implements Input, Output {
+public class OutputConsole implements Output {
 
-    private final TextIO textIO = TextIoFactory.getTextIO();
-    private final TextTerminal<?> textTerminal = textIO.getTextTerminal();
-
-    private void changeColor(String color) {
-        textTerminal.getProperties().setPromptColor(color);
-    }
-
-    @Override
-    public String input() {
-        changeColor(INPUT_COLOR);
-        String command = textIO.newStringInputReader()
-                .read(INPUT_PROMPT);
-        return command;
-    }
-
-    @Override
-    public void close() {
-        textTerminal.abort();
-    }
+    public static TextTerminal<?> textTerminal = TextIoFactory.getTextIO().getTextTerminal();
 
     @Override
     public void printManual() {
-        changeColor(MANUAL_COLOR);
         textTerminal.println(MANUAL_TITLE);
         Map<String, Menu> menuMap = getMenuMap();
         for (String key : menuMap.keySet()) {
             textTerminal.printf(MessageFormat.format("{0} ", TYPE));
-            changeColor(MENU_COLOR);
             textTerminal.printf(key);
-            changeColor(MANUAL_COLOR);
             Menu menu = menuMap.get(key);
-            textTerminal.printf(MessageFormat.format(" {0}{1}", menu.getDescription()), System.lineSeparator());
+            textTerminal.printf(MessageFormat.format(" {0}{1}", menu.getDescription(), System.lineSeparator()));
         }
     }
 
     @Override
     public void printWrongInput() {
-        changeColor(ERR_COLOR);
         textTerminal.println(WRONG_INPUT);
     }
 
     @Override
     public void choiceDiscountPolicy() {
-        changeColor(SELECT_COLOR);
         Arrays.stream(DiscountPolicy.values())
                 .forEach(
                         (p) -> textTerminal.print(MessageFormat.format(
@@ -78,7 +53,6 @@ public class Console implements Input, Output {
 
     @Override
     public void printAmount() {
-        changeColor(SELECT_COLOR);
         textTerminal.println(PLEASE_AMOUNT);
     }
 
@@ -90,8 +64,12 @@ public class Console implements Input, Output {
 
     @Override
     public void printException(Exception e) {
-        changeColor(ERR_COLOR);
         textTerminal.println(e.getMessage());
+    }
+
+    @Override
+    public void close() {
+        textTerminal.abort();
     }
 
 }

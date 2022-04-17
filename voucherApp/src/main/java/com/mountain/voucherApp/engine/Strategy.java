@@ -1,7 +1,8 @@
 package com.mountain.voucherApp.engine;
 
 import com.mountain.voucherApp.enums.DiscountPolicy;
-import com.mountain.voucherApp.io.Console;
+import com.mountain.voucherApp.io.InputConsole;
+import com.mountain.voucherApp.io.OutputConsole;
 import com.mountain.voucherApp.utils.DiscountPolicyUtil;
 import com.mountain.voucherApp.voucher.Voucher;
 import com.mountain.voucherApp.voucher.VoucherEntity;
@@ -16,26 +17,28 @@ import static com.mountain.voucherApp.constants.Message.*;
 public class Strategy {
 
     private static final Logger log = LoggerFactory.getLogger(Strategy.class);
-    private final Console console;
+    private final InputConsole inputConsole;
+    private final OutputConsole outputConsole;
     private final VoucherService voucherService;
 
-    public Strategy(Console console, VoucherService voucherService) {
-        this.console = console;
+    public Strategy(InputConsole inputConsole, OutputConsole outputConsole, VoucherService voucherService) {
+        this.inputConsole = inputConsole;
+        this.outputConsole = outputConsole;
         this.voucherService = voucherService;
     }
 
     public void create() {
-        console.choiceDiscountPolicy();
+        outputConsole.choiceDiscountPolicy();
         try {
             // 1. 할인정책 선택
-            int policyId = Integer.valueOf(console.input());
+            int policyId = Integer.valueOf(inputConsole.input());
             if (policyId > DiscountPolicy.values().length) {
-                console.printWrongInput();
+                outputConsole.printWrongInput();
                 return ;
             }
             // 2. 할인 양(금액 또는 비율) 입력받기.
-            console.printAmount();
-            long discountAmount = Long.valueOf(console.input());
+            outputConsole.printAmount();
+            long discountAmount = Long.valueOf(inputConsole.input());
 
             // 3. 할인 정책에 해당되는 Voucher 인스턴스 가져오기
             Voucher voucher = DiscountPolicyUtil.getVoucher(policyId);
@@ -47,17 +50,17 @@ public class Strategy {
             }
             log.info(CREATE_NEW_VOUCHER);
         } catch (Exception e) {
-            console.printException(e);
+            outputConsole.printException(e);
         }
     }
 
     public void showVoucherList() {
         log.info(SHOW_VOUCHER_LIST);
-        console.printAllList(voucherService.findAll());
+        outputConsole.printAllList(voucherService.findAll());
     }
 
     public void exit() {
         log.info(PROGRAM_EXIT);
-        console.close();
+        outputConsole.close();
     }
 }
