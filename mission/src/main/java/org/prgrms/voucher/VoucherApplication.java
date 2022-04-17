@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VoucherApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(VoucherApplication.class, args);
     }
 }

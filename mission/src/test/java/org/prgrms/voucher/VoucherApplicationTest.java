@@ -11,15 +11,15 @@ public class VoucherApplicationTest {
 
     @Nested
     @DisplayName("프로그램은")
-    class DescribeProgram{
+    class DescribeProgram {
 
         @Nested
         @DisplayName("실행되면")
-        class ContextRun{
+        class ContextRun {
 
             @Test
             @DisplayName("create, list, exit 메뉴가 화면에 출력된다.")
-            void itPrintMenu(){
+            void itPrintMenu() {
 
             }
         }
@@ -27,54 +27,54 @@ public class VoucherApplicationTest {
 
     @Nested
     @DisplayName("프로그램은 사용자가")
-    class DescribeSelect{
+    class DescribeSelect {
 
         @Nested
         @DisplayName("create 메뉴를 선택하면")
-        class ContextCreate{
+        class ContextCreate {
 
             @Test
             @DisplayName("바우처 정보를 입력받는다.")
-            void itInputCreateVoucher(){
+            void itInputCreateVoucher() {
 
             }
 
             @Test
             @DisplayName("바우처를 생성한다.")
-            void itCreateVoucher(){
+            void itCreateVoucher() {
 
             }
         }
 
         @Nested
         @DisplayName("list 메뉴를 선택하면")
-        class ContextList{
+        class ContextList {
 
             @Test
             @DisplayName("바우처 목록을 출력한다.")
-            void itPrintVoucherList(){
+            void itPrintVoucherList() {
 
             }
         }
 
         @Nested
         @DisplayName("exit 메뉴를 선택하면")
-        class ContextExit{
+        class ContextExit {
 
             @Test
             @DisplayName("프로그램이 종료된다.")
-            void itExitProgram(){
+            void itExitProgram() {
 
             }
         }
 
         @Nested
         @DisplayName("유효하지 않은 메뉴를 입력하면")
-        class ContextInvalidInput{
+        class ContextInvalidInput {
 
             @Test
             @DisplayName("에러메시지가 출력된다.")
-            void itPrintError(){
+            void itPrintError() {
 
             }
         }
