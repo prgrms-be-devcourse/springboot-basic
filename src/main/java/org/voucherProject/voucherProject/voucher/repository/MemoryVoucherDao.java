@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class MemoryVoucherRepository implements VoucherRepository {
+public class MemoryVoucherDao implements VoucherDao {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 

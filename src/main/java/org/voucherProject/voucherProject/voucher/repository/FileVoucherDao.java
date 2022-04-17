@@ -13,14 +13,14 @@ import java.util.UUID;
 
 @Repository
 @Slf4j
-public class FileVoucherRepository implements VoucherRepository {
+public class FileVoucherDao implements VoucherDao {
 
     private final String FILE_VOUCHER_REPO_PATH = "src/main/resources/voucherRepository.txt";
 
     private final FileWriter fileWriter = new FileWriter(FILE_VOUCHER_REPO_PATH, true);
     private final BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-    public FileVoucherRepository() throws IOException {
+    public FileVoucherDao() throws IOException {
     }
 
     @Override

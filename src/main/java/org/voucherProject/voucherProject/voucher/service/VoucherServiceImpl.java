@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
-import org.voucherProject.voucherProject.voucher.repository.VoucherRepository;
+import org.voucherProject.voucherProject.voucher.repository.VoucherDao;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VoucherServiceImpl implements VoucherService {
 
-    private final VoucherRepository voucherRepository;
+    private final VoucherDao voucherRepository;
 
     @Override
     public Voucher findById(UUID voucherId){

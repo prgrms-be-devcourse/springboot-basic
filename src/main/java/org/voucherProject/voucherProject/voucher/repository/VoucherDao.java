@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface VoucherRepository {
+public interface VoucherDao {
 
     Voucher save(Voucher voucher);
 

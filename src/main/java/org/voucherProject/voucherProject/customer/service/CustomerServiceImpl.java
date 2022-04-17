@@ -3,16 +3,16 @@ package org.voucherProject.voucherProject.customer.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.voucherProject.voucherProject.customer.entity.Customer;
-import org.voucherProject.voucherProject.customer.repository.CustomerRepository;
+import org.voucherProject.voucherProject.customer.repository.CustomerDao;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class SimpleCustomerService implements CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerRepository customerRepository;
+    private final CustomerDao customerRepository;
 
     @Override
     public Customer findById(UUID customerId) {

@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.customer.entity.Customer;
-import org.voucherProject.voucherProject.customer.repository.CustomerRepository;
+import org.voucherProject.voucherProject.customer.repository.CustomerDao;
 import org.voucherProject.voucherProject.voucher.entity.FixedAmountVoucher;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
-import org.voucherProject.voucherProject.voucher.repository.VoucherRepository;
+import org.voucherProject.voucherProject.voucher.repository.VoucherDao;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
 import java.util.List;
 import java.util.UUID;
@@ -19,16 +19,16 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class CustomerServiceTest {
+public class TestCustomerService {
 
     @Autowired
     VoucherService voucherService;
     @Autowired
     CustomerService customerService;
     @Autowired
-    VoucherRepository voucherRepository;
+    VoucherDao voucherRepository;
     @Autowired
-    CustomerRepository customerRepository;
+    CustomerDao customerRepository;
 
     @BeforeEach
     void clear() {

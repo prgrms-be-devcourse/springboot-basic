@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
-import org.voucherProject.voucherProject.voucher.repository.VoucherRepository;
+import org.voucherProject.voucherProject.voucher.repository.VoucherDao;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,13 +17,13 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class CustomerRepositoryTest {
+public class TestCustomerDao {
 
     @Autowired
-    CustomerRepository customerRepository;
+    CustomerDao customerRepository;
 
     @Autowired
-    VoucherRepository voucherRepository;
+    VoucherDao voucherRepository;
 
     @BeforeEach
     void setUp() {

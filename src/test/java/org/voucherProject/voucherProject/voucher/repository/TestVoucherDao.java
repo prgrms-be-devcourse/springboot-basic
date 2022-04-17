@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.customer.entity.Customer;
-import org.voucherProject.voucherProject.customer.repository.CustomerRepository;
+import org.voucherProject.voucherProject.customer.repository.CustomerDao;
 import org.voucherProject.voucherProject.voucher.entity.FixedAmountVoucher;
 import org.voucherProject.voucherProject.voucher.entity.PercentDiscountVoucher;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
@@ -19,13 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-public class VoucherRepositoryTest {
+public class TestVoucherDao {
 
     @Autowired
-    VoucherRepository voucherRepository;
+    VoucherDao voucherRepository;
 
     @Autowired
-    CustomerRepository customerRepository;
+    CustomerDao customerRepository;
 
     @BeforeEach
     void setup() {

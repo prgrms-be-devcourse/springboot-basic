@@ -22,7 +22,7 @@ import java.util.*;
 @Repository
 @Slf4j
 @Primary
-public class JdbcVoucherRepository implements VoucherRepository {
+public class JdbcVoucherDao implements VoucherDao {
 
     private String SELECT_ALL_SQL;
     private String SELECT_BY_ID_SQL;
@@ -35,7 +35,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcVoucherDao(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

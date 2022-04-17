@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class MemoryCustomerRepository implements CustomerRepository{
+public class MemoryCustomerDao implements CustomerDao {
 
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
 

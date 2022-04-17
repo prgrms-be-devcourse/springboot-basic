@@ -21,12 +21,12 @@ import java.util.*;
 @Setter
 @Slf4j
 @Primary
-public class JdbcCustomerRepository implements CustomerRepository {
+public class JdbcCustomerDao implements CustomerDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public JdbcCustomerDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.jdbcTemplate = namedParameterJdbcTemplate;
     }
 
