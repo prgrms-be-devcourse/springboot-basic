@@ -22,9 +22,7 @@ public class VoucherService {
     }
 
     public List<Voucher> findAll() {
-        List<Voucher> foundVouchers = this.voucherRepository.findAll();
-
-        return foundVouchers;
+        return this.voucherRepository.findAll();
     }
 
 }
