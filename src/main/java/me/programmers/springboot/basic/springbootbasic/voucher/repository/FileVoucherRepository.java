@@ -25,19 +25,15 @@ public class FileVoucherRepository implements VoucherRepository, FileInput, File
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String filename = "voucherList.dat";
-    private final Map<UUID, Voucher> vouchers = new HashMap<>();
+    private static final Map<UUID, Voucher> vouchers = new HashMap<>();
 
     @Override
     public List<Voucher> findAll() {
         List<Voucher> voucherList = new ArrayList<>();
-        try {
-            Map<UUID, Voucher> voucherMap = fileInput(filename);
 
-            for (UUID uuid : voucherMap.keySet()) {
-                voucherList.add(voucherMap.get(uuid));
-            }
-        } catch (IOException e) {
-            logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
+        fileInput(filename);
+        for (UUID uuid : vouchers.keySet()) {
+            voucherList.add(vouchers.get(uuid));
         }
 
         return voucherList;
@@ -45,42 +41,52 @@ public class FileVoucherRepository implements VoucherRepository, FileInput, File
 
     @Override
     public void save(Voucher voucher) {
-        try {
-            vouchers.put(voucher.getVoucherId(), voucher);
-            fileOutput(filename);
-        } catch (IOException e) {
-            logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
-        }
+        fileOutput(filename, voucher);
     }
 
     @Override
-    public Map<UUID, Voucher> fileInput(String fileName) throws IOException {
-        FileInputStream fis = new FileInputStream(fileName);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-
-        Map<UUID, Voucher> voucherMap = null;
+    public void fileInput(String fileName) {
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
 
         try {
-            voucherMap = (Map<UUID, Voucher>) ois.readObject();
+            fis = new FileInputStream(fileName);
+            ois = new ObjectInputStream(fis);
+
+            Voucher voucher = (Voucher) ois.readObject();
+            vouchers.put(voucher.getVoucherId(), voucher);
         } catch (ClassNotFoundException e) {
             logger.error(e.toString());
+        } catch (IOException e2) {
+            logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
+        } finally {
+            try {
+                ois.close();
+                fis.close();
+            } catch (IOException e) {}
         }
-
-        ois.close();
-        fis.close();
-
-        return voucherMap;
     }
 
     @Override
-    public void fileOutput(String fileName) throws IOException {
-        FileOutputStream fos = new FileOutputStream(fileName);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
+    public void fileOutput(String fileName, Voucher voucher) {
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
 
-        oos.writeObject(vouchers);
-        oos.flush();
+        try {
+            fos = new FileOutputStream(fileName, true);
+            oos = new ObjectOutputStream(fos);
 
-        oos.close();
-        fos.close();
+            oos.writeObject(voucher);
+            oos.flush();
+        } catch (IOException e) {
+            logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
+        } finally {
+            try {
+                oos.close();
+                fos.close();
+            } catch (IOException e) {}
+        }
+
+
     }
 }
