@@ -18,6 +18,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public long getValue() {
+        return amount;
+    }
+
+
+    @Override
     public String toString() {
         return VoucherType.FIXEDAMOUNT.getName();
     }

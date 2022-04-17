@@ -18,6 +18,11 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public long getValue() {
+        return percent;
+    }
+
+    @Override
     public String toString() {
         return VoucherType.PERCENTDISCOUNT.getName();
     }
