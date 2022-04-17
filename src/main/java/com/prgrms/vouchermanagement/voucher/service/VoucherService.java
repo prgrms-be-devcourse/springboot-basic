@@ -5,6 +5,8 @@ import com.prgrms.vouchermanagement.voucher.PercentDiscountVoucher;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 @Service
 public class VoucherService {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private final VoucherRepository repository;
 
     public VoucherService(VoucherRepository repository) {
@@ -21,6 +24,7 @@ public class VoucherService {
     public void addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException {
         Voucher newVoucher = createVoucher(voucherType, amount);
         repository.save(newVoucher);
+        log.info("voucher is saved - {}", newVoucher);
     }
 
     private Voucher createVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException {
@@ -35,7 +39,9 @@ public class VoucherService {
     }
 
     public List<Voucher> findAllVouchers() {
-        return repository.findAll();
+        List<Voucher> allVouchers = repository.findAll();
+        log.info("find all vouchers. size={}", allVouchers.size());
+        return allVouchers;
     }
 
 }

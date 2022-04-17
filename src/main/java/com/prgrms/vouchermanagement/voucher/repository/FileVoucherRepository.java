@@ -31,12 +31,10 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void save(Voucher voucher) {
         vouchers.add(voucher);
-        log.info("voucher is saved to file - {}", voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
-        log.info("find all vouchers from file. size={}", vouchers.size());
         return new ArrayList<>(vouchers);
     }
 

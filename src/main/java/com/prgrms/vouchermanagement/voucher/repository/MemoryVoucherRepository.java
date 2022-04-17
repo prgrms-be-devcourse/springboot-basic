@@ -19,13 +19,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void save(Voucher voucher) {
         store.put(voucher.getId(), voucher);
-        log.info("voucher is saved  to memory - {}", voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
-        ArrayList<Voucher> vouchers = new ArrayList<>(store.values());
-        log.info("find all vouchers from memory. size={}", vouchers.size());
-        return vouchers;
+        return new ArrayList<>(store.values());
     }
 }
