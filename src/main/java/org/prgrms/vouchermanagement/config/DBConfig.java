@@ -19,7 +19,7 @@ public class DBConfig {
   @Bean
   public DataSource dataSource() {
     var dataSource = DataSourceBuilder.create()
-      .url("jdbc:mysql://localhost:3306/")
+      .url("jdbc:mysql://localhost:3306/voucher_mgmt")
       .username("root")
       .password("root1234!")
       .type(HikariDataSource.class)
