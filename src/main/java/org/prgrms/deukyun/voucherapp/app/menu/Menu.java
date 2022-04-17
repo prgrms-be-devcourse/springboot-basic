@@ -2,7 +2,7 @@ package org.prgrms.deukyun.voucherapp.app.menu;
 
 /**
  * 메뉴
- * @param <E> - 열거 메뉴 선택
+ * @param <E> - 부모 메뉴의 선택
  */
 public abstract class Menu<E extends Enum<E>> {
 

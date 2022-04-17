@@ -3,7 +3,6 @@ package org.prgrms.deukyun.voucherapp.app.menu.main.exit;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ExitMenuTest {
 
@@ -11,13 +10,13 @@ class ExitMenuTest {
     ExitMenu exitMenu = new ExitMenu(exitButton);
 
     @Test
-    void givenConstructedExitMenu_whenCheckIsDone_thenIsNotDone(){
+    void givenConstructedExitMenu_whenCheckIsExit_thenIsNotExit(){
         //assert
         assertThat(exitButton.isExit()).isFalse();
     }
 
     @Test
-    void givenConstructedExitMenu_whenCallProcAndCheckIsDone_thenIsDone(){
+    void givenConstructedExitMenu_whenCallProcAndCheckIsExit_thenIsExit(){
         //action
         exitMenu.proc();
 
