@@ -1,10 +1,8 @@
 package com.kdt.commandLineApp.voucher;
 
 import com.kdt.commandLineApp.AppContext;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -15,24 +13,21 @@ import static org.hamcrest.Matchers.is;
 @ActiveProfiles("dev")
 class VoucherServiceTest {
     @Autowired
-    ApplicationContext applicationContext;
-
     VoucherService voucherService;
-
-    @Before
-    void set() {
-        voucherService = applicationContext.getBean("voucherService",VoucherService.class);
-    }
 
     @Test
     void voucherService() {
         try {
-            voucherService.addVoucher("percent",100f);
-            assertThat(voucherService.getVouchers().size(), is(1));
-            voucherService.addVoucher("percent",10f);
-            assertThat(voucherService.getVouchers().size(), is(2));
+            voucherService.addVoucher("percent",100);
+            var result = voucherService.getVouchers().size();
+            assertThat(result, is(1));
+
+            voucherService.addVoucher("fixed",100);
+            result = voucherService.getVouchers().size();
+            assertThat(result, is(2));
         }
         catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

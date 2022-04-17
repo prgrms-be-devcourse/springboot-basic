@@ -17,56 +17,69 @@ class VoucherTest {
     @Test
     public void createVoucher1() {
         try {
-            Voucher voucher = new Voucher("fixed",1000f);
-            Float discountPrice = 0f;
+            Voucher voucher1 = new Voucher("fixed",1000);
 
-            discountPrice = voucher.discount(10000);
+            assertThat(voucher1.getType() , is("fixed"));
+            assertThat(voucher1.getDiscountAmount() , is(1000));
 
-            assertThat(voucher.getType() , is("fixed"));
-            assertThat(voucher.getDiscountAmount() , is(1000f));
-            assertThat(discountPrice, is(9000f));
-            assertThrows(CanNotDiscountException.class, ()-> {
-                voucher.discount(900);
-            });
+            Voucher voucher2 = new Voucher("percent",100);
+
+            assertThat(voucher2.getType() , is("percent"));
+            assertThat(voucher2.getDiscountAmount() , is(100));
         }
         catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
     @Test
     public void createVoucher2() {
         assertThrows(WrongVoucherParamsException.class,()-> {
-            new Voucher("fix",1000f);
+            new Voucher("fix",1000);
         });
         assertThrows(WrongVoucherParamsException.class,()-> {
-            new Voucher("fixed",-1f);
+            new Voucher("fixed",-1);
         });
         assertThrows(WrongVoucherParamsException.class,()-> {
-            new Voucher("percent",-1f);
+            new Voucher("percent",-1);
         });
         assertThrows(WrongVoucherParamsException.class,()-> {
-            new Voucher("percent",101f);
+            new Voucher("percent",101);
         });
     }
 
     @Test
-    void discount() {
+    void discount1() {
         try {
-            Voucher voucher = new Voucher("fixed",1000f);
-            Float discountPrice = 0f;
+            Voucher voucher = new Voucher("fixed",1000);
 
-            discountPrice = voucher.discount(10000);
+            Float discountPrice = voucher.discount(10000);
 
             assertThat(voucher.getType() , is("fixed"));
-            assertThat(voucher.getDiscountAmount() , is(1000f));
+            assertThat(voucher.getDiscountAmount() , is(1000));
             assertThat(discountPrice, is(9000f));
             assertThrows(CanNotDiscountException.class, ()-> {
                 voucher.discount(900);
             });
         }
         catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Test
+    void discount2() {
+        try {
+            Voucher voucher = new Voucher("percent",10);
+
+            Float discountPrice = voucher.discount(10000);
+
+            assertThat(voucher.getType() , is("percent"));
+            assertThat(voucher.getDiscountAmount() , is(10));
+            assertThat(discountPrice, is(9000f));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -18,13 +18,14 @@ public class FileVoucherRepository implements VoucherRepository {
     private String fileName;
     private Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
-    //프로퍼티 클래스에서 설정할 수 있는 심화 개념 (@EnableConfigurationProperties 참고)
     public FileVoucherRepository(@Value("${voucher_info}") String fileName) {
         try {
             this.fileName = fileName;
             loadFile(fileName);
         }
-        catch (Exception ignored) {
+        catch (Exception e) {
+            //no need to throw exception (it can use empty array list)
+            e.printStackTrace();
         }
     }
 
@@ -42,7 +43,6 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public void savefile() throws IOException {
-        System.out.println("df");
         List<Voucher> vouchers = map.values().stream().collect(toCollection(ArrayList::new));
 
         try {
@@ -57,11 +57,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void add(Voucher voucher) {
-        map.put(voucher.getId(), voucher);
         try {
-            //DisposableBean을 이용한 빈 객체 소멸 전 저장 메소드 호출이 안되네요..
-            savefile();
-        } catch (Exception e) {
+            map.put(voucher.getId(), voucher);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -73,5 +73,10 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> getAll() {
         return map.values().stream().collect(toCollection(ArrayList::new));
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        savefile();
     }
 }

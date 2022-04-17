@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.toCollection;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
-    private final int COLUMN_COUNT = 4;
+    private final int COLUMN_COUNT = 3;
     private ArrayList<Customer> customerList = new ArrayList<>();
 
     public FileCustomerRepository(@Value("${customer_blacklist_info}") String fileName) {
@@ -34,7 +34,10 @@ public class FileCustomerRepository implements CustomerRepository {
             while (sc.hasNext()) {
                 String str = sc.nextLine();
                 ArrayList<String> params = Arrays.stream(str.split(",")).collect(toCollection(ArrayList::new));
-                customerList.add(new Customer(params));
+                String name = params.get(0);
+                String age = params.get(1);
+                String sex = params.get(2);
+                customerList.add(new Customer(name, age, sex));
             }
         }
         catch (Exception e) {

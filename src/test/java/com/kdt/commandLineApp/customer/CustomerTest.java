@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.util.ArrayList;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,56 +15,25 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CustomerTest {
     @Test
     public void testCreateCustomer1() {
-        Customer customer1 = null;
-        Customer customer2 = null;
         try {
-            customer1 = new Customer(
-                    new ArrayList<>(){{
-                        add("moon");
-                        add("25");
-                        add("man");
-                        add("X");
-                    }}
-            );
-            customer2 = new Customer(
-                    new ArrayList<>(){{
-                        add("moon");
-                        add("25");
-                        add("mefsdn");
-                        add("X");
-                    }}
-            );
+            var customer = new Customer("moon","25","man");
 
-            assertThat(customer1.getName(), is("moon"));
-            assertThat(customer1.getAge(), is(25));
-            assertThat(customer1.getSex(), is("man"));
-            assertThat(customer1.getDescription(), is("X"));
+            assertThat(customer.getName(), is("moon"));
+            assertThat(customer.getAge(), is(25));
+            assertThat(customer.getSex(), is("man"));
         }
         catch (WrongCustomerParamsException e) {
+            e.printStackTrace();
         }
     }
 
     @Test
     public void testCreateCustomer2() {
         assertThrows(WrongCustomerParamsException.class, ()->{
-            new Customer(
-                    new ArrayList<>(){{
-                        add("moon");
-                        add("25");
-                        add("mefsdn");
-                        add("X");
-                    }}
-            );
+            new Customer("moon","25","mbn");
         });
         assertThrows(WrongCustomerParamsException.class, ()->{
-            new Customer(
-                    new ArrayList<>(){{
-                        add("moon");
-                        add("-25");
-                        add("man");
-                        add("X");
-                    }}
-            );
+            new Customer("moon","-26","woman");
         });
     }
 }
