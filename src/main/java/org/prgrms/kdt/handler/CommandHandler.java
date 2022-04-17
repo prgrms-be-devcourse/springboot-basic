@@ -7,12 +7,11 @@ import org.prgrms.kdt.command.CommandType;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
 import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class CommandHandler implements ApplicationRunner {
+public class CommandHandler {
 
   private final Input input;
   private final Output output;
@@ -27,8 +26,7 @@ public class CommandHandler implements ApplicationRunner {
     this.context = context;
   }
 
-  @Override
-  public void run(ApplicationArguments args) {
+  public void handle() {
     var commandType = CommandType.INIT;
     while (commandType != CommandType.EXIT) {
       output.printMenu();
