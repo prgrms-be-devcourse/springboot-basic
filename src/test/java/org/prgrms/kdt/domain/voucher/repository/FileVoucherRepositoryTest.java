@@ -1,9 +1,8 @@
 package org.prgrms.kdt.domain.voucher.repository;
 
 import org.junit.jupiter.api.*;
-import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
+import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.FileOutputStream;
@@ -47,8 +46,8 @@ class FileVoucherRepositoryTest {
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
-        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000, now, now);
-        Voucher percentVoucher = new PercentDiscountVoucher(percentVoucherId, 30, now, now);
+        Voucher fixedVoucher = new Voucher(fixedVoucherId, VoucherType.FIXED_AMOUNT, 10000L, now, now);
+        Voucher percentVoucher = new Voucher(percentVoucherId, VoucherType.PERCENT_DISCOUNT, 30L, now, now);
         voucherRepository.save(fixedVoucher);
         voucherRepository.save(percentVoucher);
         //when
@@ -64,8 +63,8 @@ class FileVoucherRepositoryTest {
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
-        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000, now, now);
-        Voucher percentVoucher = new PercentDiscountVoucher(percentVoucherId, 50, now, now);
+        Voucher fixedVoucher = new Voucher(fixedVoucherId, VoucherType.FIXED_AMOUNT, 10000L, now, now);
+        Voucher percentVoucher = new Voucher(percentVoucherId, VoucherType.PERCENT_DISCOUNT, 50L, now, now);
         voucherRepository.save(fixedVoucher);
         voucherRepository.save(percentVoucher);
         //when
@@ -84,7 +83,7 @@ class FileVoucherRepositoryTest {
         //given
         UUID voucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
-        Voucher voucher = new FixedAmountVoucher(voucherId, 10000, now, now);
+        Voucher voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, 10000L, now, now);
         //when
         UUID savedVoucherId = voucherRepository.save(voucher);
         //then
@@ -121,7 +120,7 @@ class FileVoucherRepositoryTest {
         //given
         UUID fixedVoucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
-        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000, now, now);
+        Voucher fixedVoucher = new Voucher(fixedVoucherId, VoucherType.FIXED_AMOUNT, 10000L, now, now);
         ReflectionTestUtils.setField(voucherRepository, "csvPath", "");
         //when
         //then

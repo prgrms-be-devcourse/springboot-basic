@@ -2,9 +2,8 @@ package org.prgrms.kdt.domain.voucher.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
+import org.prgrms.kdt.domain.voucher.model.VoucherType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,8 +23,8 @@ class MemoryVoucherRepositoryTest {
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
-        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000, now, now);
-        Voucher percentVoucher = new PercentDiscountVoucher(percentVoucherId, 50, now, now);
+        Voucher fixedVoucher = new Voucher(fixedVoucherId, VoucherType.FIXED_AMOUNT, 10000L, now, now);
+        Voucher percentVoucher = new Voucher(percentVoucherId, VoucherType.PERCENT_DISCOUNT, 50L, now, now);
         voucherRepository.save(fixedVoucher);
         voucherRepository.save(percentVoucher);
         //when
@@ -42,7 +41,7 @@ class MemoryVoucherRepositoryTest {
         //given
         UUID voucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
-        Voucher voucher = new FixedAmountVoucher(voucherId, 10000, now, now);
+        Voucher voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, 10000L, now, now);
         //when
         UUID savedVoucherId = voucherRepository.save(voucher);
         //then
@@ -56,8 +55,8 @@ class MemoryVoucherRepositoryTest {
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
-        Voucher fixedVoucher = new FixedAmountVoucher(fixedVoucherId, 10000, now, now);
-        Voucher percentVoucher = new PercentDiscountVoucher(percentVoucherId, 30, now, now);
+        Voucher fixedVoucher = new Voucher(fixedVoucherId, VoucherType.FIXED_AMOUNT, 10000L, now, now);
+        Voucher percentVoucher = new Voucher(percentVoucherId, VoucherType.PERCENT_DISCOUNT, 30L, now, now);
         voucherRepository.save(fixedVoucher);
         voucherRepository.save(percentVoucher);
         //when
