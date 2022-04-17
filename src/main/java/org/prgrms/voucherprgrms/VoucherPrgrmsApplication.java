@@ -4,12 +4,14 @@ import org.prgrms.voucherprgrms.io.InputConsole;
 import org.prgrms.voucherprgrms.io.OutputConsole;
 import org.prgrms.voucherprgrms.voucher.VoucherService;
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class VoucherPrgrmsApplication implements Runnable {
+public class VoucherPrgrmsApplication implements ApplicationRunner {
 
     private final VoucherService voucherService;
     private final InputConsole inputConsole;
@@ -22,7 +24,7 @@ public class VoucherPrgrmsApplication implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run(ApplicationArguments args) throws Exception {
         boolean runnableFlag = true;
         while (runnableFlag) {
             String input = inputConsole.commandInput();
