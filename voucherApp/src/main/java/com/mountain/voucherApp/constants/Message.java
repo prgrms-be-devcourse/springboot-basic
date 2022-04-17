@@ -5,6 +5,7 @@ public class Message {
     public static final String FILE_READ_ERROR = "file read error";
     public static final String NEGATIVE_AMOUNT_ERROR = "Amount should be positive";
     public static final String MAX_MORE_ERROR = "Amount should be less than ";
+    public static final String EMPTY_RESULT_ERROR = "Got empty result";
     public static final String CREATE_NEW_FILE = "create new file";
     public static final String EXIT_PROGRAM = "to exit the program.";
     public static final String CREATE_VOUCHER = "to create a new voucher.";
@@ -21,4 +22,10 @@ public class Message {
     public static final String WRONG_INPUT = "wrong input";
     public static final String PLEASE_AMOUNT = "Please enter discount amount";
     public static final String TYPE = "Type";
+
+    // jdbc
+    public static final String NOT_INSERTED = "Nothing was inserted";
+    public static final String NOT_UPDATED = "Nothing was updated";
+    public static final String EMPTY_RESULT = "Got empty result";
+
 }

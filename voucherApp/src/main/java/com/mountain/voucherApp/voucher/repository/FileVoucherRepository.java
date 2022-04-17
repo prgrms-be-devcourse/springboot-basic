@@ -1,4 +1,4 @@
-package com.mountain.voucherApp.repository;
+package com.mountain.voucherApp.voucher.repository;
 
 import com.mountain.voucherApp.properties.FileRepositoryProperties;
 import com.mountain.voucherApp.voucher.VoucherEntity;
@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.mountain.voucherApp.constants.CommonCharacter.COMMA;
@@ -24,12 +25,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final FileRepositoryProperties fileRepositoryProperties;
-    private final File listFile;
+    private final File voucherListFile;
     private static final List<VoucherEntity> storage = new ArrayList<>();
 
     public FileVoucherRepository(FileRepositoryProperties fileRepositoryProperties) {
         this.fileRepositoryProperties = fileRepositoryProperties;
-        this.listFile = new FileSystemResource(getFullPath()).getFile();
+        this.voucherListFile = new FileSystemResource(getFullPath()).getFile();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class FileVoucherRepository implements VoucherRepository {
     public VoucherEntity insert(VoucherEntity voucherEntity) {
         init();
         try {
-            FileWriter fw = new FileWriter(listFile.getAbsoluteFile(), true);
+            FileWriter fw = new FileWriter(voucherListFile.getAbsoluteFile(), true);
             BufferedWriter bw = new BufferedWriter(fw);
             storage.add(voucherEntity);
             bw.write(voucherEntity.toString());
@@ -86,12 +87,25 @@ public class FileVoucherRepository implements VoucherRepository {
         return fileRepositoryProperties.getDir() + SLASH + fileRepositoryProperties.getFileName();
     }
 
+    public void remove() {
+        if (voucherListFile.exists()) {
+            voucherListFile.delete();
+        }
+    }
+
+    @Override
+    public Optional<VoucherEntity> findByPolicyIdAndDiscountAmount(int discountPolicyId, long discountAmount) {
+        return storage.stream()
+                .filter((e) -> (e.getDiscountPolicyId() == discountPolicyId) && (e.getDiscountAmount() == discountAmount))
+                .findFirst();
+    }
+
     @PostConstruct
     public void postConstruct() throws IOException {
-        if (!listFile.exists()) {
-            listFile.getParentFile().mkdir();
-            listFile.createNewFile();
-            log.info("{} {}", CREATE_NEW_FILE, listFile.getName());
+        if (!voucherListFile.exists()) {
+            voucherListFile.getParentFile().mkdir();
+            voucherListFile.createNewFile();
+            log.info("{} {}", CREATE_NEW_FILE, voucherListFile.getName());
         }
     }
 }

@@ -36,16 +36,14 @@ public class Strategy {
             // 2. 할인 양(금액 또는 비율) 입력받기.
             console.printAmount();
             long discountAmount = Long.valueOf(console.input());
-
             // 3. 할인 정책에 해당되는 Voucher 인스턴스 가져오기
             Voucher voucher = DiscountPolicyUtil.getVoucher(policyId);
             // 4. 해당 정책에 입력 가능한 DiscountAmount 에 대해 유효성을 검사한다.
             //       불가능할 경우 Exception 이 발생한다.
             if (voucher.validate(discountAmount)) {
                 // 5. [정책, 비율]에 해당하는 VoucherEntity 가 없다면 생성한다. 있다면 기존것을 조회한다.
-                VoucherEntity voucherEntity = voucherService.createVoucher(policyId, discountAmount);
+                voucherService.createVoucher(policyId, discountAmount);
             }
-            log.info(CREATE_NEW_VOUCHER);
         } catch (Exception e) {
             console.printException(e);
         }

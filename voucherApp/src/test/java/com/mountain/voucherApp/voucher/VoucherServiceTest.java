@@ -1,6 +1,6 @@
 package com.mountain.voucherApp.voucher;
 
-import com.mountain.voucherApp.repository.MemoryVoucherRepository;
+import com.mountain.voucherApp.voucher.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;

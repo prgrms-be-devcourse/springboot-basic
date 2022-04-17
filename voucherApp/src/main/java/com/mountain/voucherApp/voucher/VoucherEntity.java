@@ -1,14 +1,17 @@
 package com.mountain.voucherApp.voucher;
 
+import com.mountain.voucherApp.enums.DiscountPolicy;
+
 import java.text.MessageFormat;
 import java.util.UUID;
 
 public class VoucherEntity {
     private final UUID voucherId;
-    private final Integer discountPolicyId; // fk
-    private final Long discountAmount;
+    private Integer discountPolicyId;
+    private Long discountAmount;
 
     public VoucherEntity(UUID voucherId, Integer discountPolicyId, Long discountAmount) {
+        validatePolicyId(discountPolicyId);
         this.voucherId = voucherId;
         this.discountPolicyId = discountPolicyId;
         this.discountAmount = discountAmount;
@@ -24,6 +27,17 @@ public class VoucherEntity {
 
     public Long getDiscountAmount() {
         return discountAmount;
+    }
+
+    private void validatePolicyId(int discountPolicyId) {
+        if (discountPolicyId <= 0 || discountPolicyId > DiscountPolicy.values().length)
+            throw new RuntimeException("Name should not be blank");
+    }
+
+    public void changeVoucherInfo(Integer discountPolicyId, Long discountAmount) {
+        validatePolicyId(discountPolicyId);
+        this.discountAmount = discountAmount;
+        this.discountPolicyId = discountPolicyId;
     }
 
     @Override
