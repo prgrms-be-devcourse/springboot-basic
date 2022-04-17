@@ -9,10 +9,10 @@ import java.util.List;
 @Service
 public class BlacklistService {
 
-    private final BlacklistRepository blackListRepository;
+    private final BlacklistRepository blacklistRepository;
 
-    public BlacklistService(BlacklistRepository blackListRepository) {
-        this.blackListRepository = blackListRepository;
+    public BlacklistService(BlacklistFileRepository blacklistRepository) {
+        this.blacklistRepository = blacklistRepository;
     }
 
     public List<Customer> findAll() {
