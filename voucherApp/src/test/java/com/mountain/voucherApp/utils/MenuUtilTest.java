@@ -18,7 +18,7 @@ class MenuUtilTest {
     @Test
     public void Menu_Map_조회_테스트() throws Exception {
         //given
-        Map<String, Menu> menuMap = getMenuMap();
+        Map<Integer, Menu> menuMap = getMenuMap();
         //when
         Arrays.stream(Menu.values())
                 .forEach((menu) -> {
@@ -30,15 +30,14 @@ class MenuUtilTest {
 
     @ParameterizedTest
     @CsvSource({ // given
-            "exit, true, false, false",
-            "create, false, true, false",
-            "list, false, false, true"
+            "0, true",
+            "1, false",
+            "2, false"
     })
-    public void 타입_확인함수_테스트(String command, boolean expected1, boolean expected2, boolean expected3)
+    public void 타입_확인함수_테스트(int ordinal, boolean expected1)
             throws Exception {
-        Assertions.assertEquals(expected1, isExit(command));
-        Assertions.assertEquals(expected2, isCreate(command));
-        Assertions.assertEquals(expected3, isList(command));
+        getMenuMap();
+        Assertions.assertEquals(expected1, isExit(ordinal));
     }
 
 }

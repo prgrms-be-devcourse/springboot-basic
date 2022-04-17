@@ -1,5 +1,6 @@
 package com.mountain.voucherApp.io;
 
+import com.mountain.voucherApp.customer.Customer;
 import com.mountain.voucherApp.voucher.Voucher;
 import com.mountain.voucherApp.voucher.VoucherEntity;
 
@@ -10,6 +11,7 @@ public interface Output {
     void printWrongInput();
     void choiceDiscountPolicy();
     void printAmount();
-    void printAllList(List<VoucherEntity> repository);
+    void printVoucherList(List<VoucherEntity> repository);
+    void printCustomerList(List<Customer> repository);
     void printException(Exception e);
 }

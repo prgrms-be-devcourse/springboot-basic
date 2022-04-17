@@ -26,15 +26,19 @@ public class ExecuteEngine {
     public void run() {
         while (true) {
             console.printManual();
-            String command = console.input().toLowerCase().trim();
-            Menu menu = getMenuMap().getOrDefault(command, null);
-            if (menu != null) {
-                menu.exec(strategy);
-                if (isExit(command))
-                    break;
-            } else {
-                log.error(WRONG_INPUT);
-                console.printWrongInput();
+            try {
+                int command = Integer.valueOf(console.input());
+                Menu menu = getMenuMap().getOrDefault(command, null);
+                if (menu != null) {
+                    menu.exec(strategy);
+                    if (isExit(command))
+                        break;
+                } else {
+                    log.error(WRONG_INPUT);
+                    console.printWrongInput();
+                }
+            } catch (NumberFormatException e) {
+                console.printException(e);
             }
         }
     }

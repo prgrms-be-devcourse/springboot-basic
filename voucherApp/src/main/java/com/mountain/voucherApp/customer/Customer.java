@@ -1,5 +1,6 @@
 package com.mountain.voucherApp.customer;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -79,5 +80,16 @@ public class Customer {
 
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("{0},{1},{2},{3}{4}",
+                voucherId,
+                name,
+                email,
+                lastLoginAt,
+                System.lineSeparator()
+        );
     }
 }

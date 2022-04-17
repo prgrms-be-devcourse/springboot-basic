@@ -90,13 +90,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
             put(DISCOUNT_AMOUNT_CAMEL, discountAmount);
         }};
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
+            Optional<VoucherEntity> voucherEntity = Optional.ofNullable(jdbcTemplate.queryForObject(
                     SELECT_VOUCHER_BY_POLICY_ID_AND_AMOUNT,
                     paramMap,
                     voucherEntityRowMapper
             ));
+            log.info(EXIST_VOUCHER);
+            return voucherEntity;
         } catch (EmptyResultDataAccessException e) {
-            log.error(EMPTY_RESULT, e);
             return Optional.empty();
         }
     }

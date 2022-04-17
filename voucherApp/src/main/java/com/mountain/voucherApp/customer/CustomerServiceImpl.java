@@ -14,6 +14,10 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
+    }
+
     @Override
     @Transactional
     public void createCustomers(List<Customer> customers) {

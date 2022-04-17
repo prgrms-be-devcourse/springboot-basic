@@ -1,5 +1,6 @@
 package com.mountain.voucherApp.io;
 
+import com.mountain.voucherApp.customer.Customer;
 import com.mountain.voucherApp.enums.DiscountPolicy;
 import com.mountain.voucherApp.enums.Menu;
 import com.mountain.voucherApp.voucher.VoucherEntity;
@@ -45,14 +46,14 @@ public class Console implements Input, Output {
     public void printManual() {
         changeColor(MANUAL_COLOR);
         textTerminal.println(MANUAL_TITLE);
-        Map<String, Menu> menuMap = getMenuMap();
-        for (String key : menuMap.keySet()) {
-            textTerminal.printf(MessageFormat.format("{0} ", TYPE));
-            changeColor(MENU_COLOR);
-            textTerminal.printf(key);
-            changeColor(MANUAL_COLOR);
+        Map<Integer, Menu> menuMap = getMenuMap();
+        for (Integer key : menuMap.keySet()) {
             Menu menu = menuMap.get(key);
-            textTerminal.printf(MessageFormat.format(" {0}{1}", menu.getDescription()), System.lineSeparator());
+            textTerminal.printf(MessageFormat.format("{0}.{1} ",menu.ordinal(), TYPE));
+            changeColor(MENU_COLOR);
+            textTerminal.printf(menu.getValue());
+            changeColor(MANUAL_COLOR);
+            textTerminal.printf(MessageFormat.format(" {0}{1}", menu.getDescription(), System.lineSeparator()));
         }
     }
 
@@ -83,9 +84,22 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printAllList(List<VoucherEntity> repository) {
+    public void printVoucherList(List<VoucherEntity> repository) {
         repository.stream()
                 .forEach((voucher) -> textTerminal.print(voucher.toString()));
+    }
+
+    @Override
+    public void printCustomerList(List<Customer> repository) {
+        for (int i = 0; i < repository.size(); i++) {
+            Customer customer = repository.get(i);
+            textTerminal.print(MessageFormat.format("{0}. [{1}], {2}, {3}{4}",
+                    i,
+                    customer.getVoucherId(),
+                    customer.getName(),
+                    customer.getEmail(),
+                    System.lineSeparator()));
+        }
     }
 
     @Override
