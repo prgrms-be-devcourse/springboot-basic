@@ -36,7 +36,7 @@ public class VoucherService {
 
     public List<Voucher> findAll() {
         List<Voucher> vouchers = voucherRepository.findAll();
-        logger.info("find All Voucher {}", vouchers);
+        logger.info("find All Voucher size: {}", vouchers.size());
         return vouchers;
     }
 

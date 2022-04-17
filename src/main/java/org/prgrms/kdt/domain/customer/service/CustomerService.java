@@ -20,7 +20,7 @@ public class CustomerService {
 
     public List<Customer> findBlackList() {
         List<Customer> blackCustomers = customerRepository.findAll();
-        logger.info("find Black List Customers {}", blackCustomers);
+        logger.info("find Black List Customers size: {}", blackCustomers.size());
         return blackCustomers;
     }
 
