@@ -25,20 +25,9 @@ public class VoucherController {
     }
 
     public void create(VoucherType voucherType, long amount) throws VoucherTypeMissingException{
-
-        Voucher voucher;
-
         switch (voucherType){
-            case NONE -> throw new VoucherTypeMissingException("Voucher Type이 잘못 입력 되었습니다\n");
-            case FIXED -> {
-                voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
-                voucherService.saveVoucher(voucher);
-            }
-            case PERCENT -> {
-                voucher = new PercentAmountVoucher(UUID.randomUUID(), amount);
-                voucherService.saveVoucher(voucher);
-            }
-
+            case FIXED -> voucherService.saveVoucher(new FixedAmountVoucher(UUID.randomUUID(), amount));
+            case PERCENT -> voucherService.saveVoucher(new PercentAmountVoucher(UUID.randomUUID(), (int)amount));
         }
     }
 

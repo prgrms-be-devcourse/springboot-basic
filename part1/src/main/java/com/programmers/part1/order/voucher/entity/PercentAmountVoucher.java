@@ -7,14 +7,15 @@ import java.util.UUID;
 public class PercentAmountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final long percent;
+    private final int percent;
 
-    public PercentAmountVoucher(UUID voucherId, long percent) throws PercentErrorException{
-        this.voucherId = voucherId;
+    public PercentAmountVoucher(UUID voucherId, int percent) throws PercentErrorException{
         if(percent > 100)
             throw new PercentErrorException("비율은 100%를 넘길 수 없습니다.\n");
         else if(percent <= 0)
             throw new PercentErrorException("비율은 0%보다 커야합니다.\n");
+
+        this.voucherId = voucherId;
         this.percent = percent;
     }
 
