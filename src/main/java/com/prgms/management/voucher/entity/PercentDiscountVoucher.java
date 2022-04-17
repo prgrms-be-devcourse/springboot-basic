@@ -5,6 +5,7 @@ import lombok.ToString;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @ToString
@@ -56,17 +57,40 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
     public Long discount(Long beforeDiscount) {
         return beforeDiscount * ((100 - percent) / 100);
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return Objects.equals(percent, that.percent) && type == that.type && Objects.equals(voucherId, that.voucherId) && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(percent, type, voucherId, name);
+    }
+
+    @Override
     public String getStringForCSV() {
         return this.getClass().getCanonicalName() + "," + voucherId + "," + percent;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 }

@@ -1,5 +1,6 @@
 package com.prgms.management.voucher.entity;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public interface Voucher {
@@ -11,9 +12,13 @@ public interface Voucher {
 
     void resetVoucherId();
 
-    void setName(String name);
-
     Long discount(Long beforeDiscount);
 
     String getStringForCSV();
+
+    String getName();
+
+    void setName(String name);
+
+    Timestamp getCreatedAt();
 }

@@ -45,12 +45,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher save(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>() {{
             put("id", voucher.getVoucherId().toString());
-            put("name", "demo");
+            put("name", voucher.getName());
             put("type", voucher.getVoucherType());
             put("figure", voucher.getVoucherFigure());
+            put("created_at", voucher.getCreatedAt());
         }};
-        int result = jdbcTemplate.update("INSERT INTO voucher(id, name, type, figure) " +
-                        "VALUES (UNHEX(REPLACE(:id, '-', '')), :name, :type, :figure)",
+        int result = jdbcTemplate.update("INSERT INTO voucher(id, name, type, figure, created_at) " +
+                        "VALUES (UNHEX(REPLACE(:id, '-', '')), :name, :type, :figure, :created_at)",
                 paramMap);
         if (result == 1) {
             return voucher;
