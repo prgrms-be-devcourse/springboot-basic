@@ -22,7 +22,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createFixedAmountVoucher(long amount) throws IOException {
+    public void createFixedAmountVoucher(int amount) throws IOException {
         logger.info("[VoucherService] createFixedAmountVoucher(long amount) called");
 
         Voucher FixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
@@ -33,7 +33,7 @@ public class VoucherService {
 
     }
 
-    public void createPercentDiscountVoucher(long percent) throws IOException {
+    public void createPercentDiscountVoucher(int percent) throws IOException {
         logger.info("[VoucherService] createPercentDiscountVoucher(long amount) called");
 
         Voucher PercentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);

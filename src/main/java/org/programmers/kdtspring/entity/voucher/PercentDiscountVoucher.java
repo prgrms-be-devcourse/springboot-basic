@@ -2,22 +2,22 @@ package org.programmers.kdtspring.entity.voucher;
 
 import org.programmers.kdtspring.entity.voucher.Voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
-    private final UUID voucherId;
-    private final long percent;
+    private final int percent;
     private final VoucherType voucherType = VoucherType.PercentDiscountVoucher;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        this.voucherId = voucherId;
+    public PercentDiscountVoucher(UUID voucherId, int percent) {
+        super(voucherId);
         this.percent = percent;
     }
 
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    public PercentDiscountVoucher(UUID voucherId, UUID customerId, int percent) {
+        super(voucherId, customerId);
+        this.percent = percent;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public long getDiscount() {
+    public int getDiscount() {
         return this.percent;
     }
 
