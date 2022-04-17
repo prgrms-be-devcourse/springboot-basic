@@ -1,21 +1,29 @@
 package org.prgrms.kdtspringdemo.console;
 
+import java.util.Arrays;
+
 public enum Menu {
-    EXIT("exit", 1),
-    CREATE("create", 2),
-    LIST("list", 3),
-    ERROR("error", 0);
+    EXIT("The Program is terminated"),
+    CREATE("Choose one of voucher type. it will be created"),
+    LIST("Show all voucher list"),
+    BLACKLIST("Add person to blacklist"),
+    None("Type letter correctly");
 
-    private final String menuName;
-    private final int checkNumber;
+    private final String stateInfo;
 
-    Menu(String menuName, int checkNumber) {
-        this.menuName = menuName;
-        this.checkNumber = checkNumber;
+    Menu(String stateInfo) {
+        this.stateInfo = stateInfo;
     }
 
-    public String getMenuName() {
-
-        return menuName;
+    public static Menu of(String inputMenu) {
+        return Arrays.stream(Menu.values())
+                .filter(menu -> String.valueOf(menu).equalsIgnoreCase(inputMenu))
+                .findFirst()
+                .orElse(None);
     }
+
+    public void writeStateInfo() {
+        System.out.println(stateInfo);
+    }
+
 }

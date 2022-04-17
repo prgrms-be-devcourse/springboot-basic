@@ -1,25 +1,27 @@
 package org.prgrms.kdtspringdemo.voucher.voucherdetail;
 
+import java.util.Arrays;
+
 public enum VoucherType {
-    FIXED("1", "FixedAmountVoucher"),
-    PERCENT("2", "PercentDiscountVoucher"),
-    ERROR("0", "error");
+    FIXED("You choose FixedAmountVoucher"),
+    PERCENT("PercentDiscountVoucher"),
+    None("Type wrong type");
 
-    private final String typeNumber;
-    private final String typeName;
+    private final String stateInfo;
+    private int discountAmount;
 
-    VoucherType(String typeNumber, String typeName) {
-        this.typeNumber = typeNumber;
-        this.typeName = typeName;
+    VoucherType(String stateInfo) {
+        this.stateInfo = stateInfo;
     }
 
-    public String getTypeNumber() {
-
-        return typeNumber;
+    public static VoucherType of(String inputVoucherType) {
+        return Arrays.stream(VoucherType.values())
+                .filter(type -> String.valueOf(type).equalsIgnoreCase(inputVoucherType))
+                .findFirst()
+                .orElse(None);
     }
 
-    public String getTypeName() {
-
-        return typeName;
+    public void writeStateInfo() {
+        System.out.println(stateInfo);
     }
 }
