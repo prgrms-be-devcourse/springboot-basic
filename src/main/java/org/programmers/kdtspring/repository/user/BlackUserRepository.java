@@ -6,15 +6,9 @@ import org.programmers.kdtspring.entity.user.User;
 import java.util.List;
 import java.util.UUID;
 
-public interface UserRepository {
+public interface BlackUserRepository {
 
-    default void save(User user) {
-    }
-
-
-    default void saveBlackUser(User user) {
-    }
-
+    void saveBlackUser(User user);
 
     List<String[]> findAll();
 
