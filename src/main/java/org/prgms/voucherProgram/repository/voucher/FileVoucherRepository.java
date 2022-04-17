@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.exception.WrongFileException;
@@ -55,5 +57,23 @@ public class FileVoucherRepository implements VoucherRepository {
             logger.error("Fail to open the File");
             throw new WrongFileException();
         }
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+    }
+
+    @Override
+    public void deleteAll() {
     }
 }
