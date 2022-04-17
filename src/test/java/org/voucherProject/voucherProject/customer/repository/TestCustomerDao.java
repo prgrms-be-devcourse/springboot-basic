@@ -2,6 +2,7 @@ package org.voucherProject.voucherProject.customer.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,49 +37,62 @@ public class TestCustomerDao {
 
     Customer customer;
 
-    @Test
-    @DisplayName("Id로 조회")
-    void findById() {
-        Optional<Customer> findById = customerRepository.findById(customer.getCustomerId());
-        assertThat(findById.isPresent()).isTrue();
+    @Nested
+    @DisplayName("id로 조회")
+    class findById {
+        @Test
+        @DisplayName("성공")
+        void findById() {
+            Optional<Customer> findById = customerRepository.findById(customer.getCustomerId());
+            assertThat(findById.isPresent()).isTrue();
+        }
+
+        @Test
+        @DisplayName("실패")
+        void findByWrongId() {
+            Optional<Customer> findById = customerRepository.findById(UUID.randomUUID());
+            assertThat(findById.isPresent()).isFalse();
+        }
     }
 
-    @Test
-    @DisplayName("없는 Id로 조회")
-    void findByWrongId() {
-        Optional<Customer> findById = customerRepository.findById(UUID.randomUUID());
-        assertThat(findById.isPresent()).isFalse();
-    }
-
-    @Test
+    @Nested
     @DisplayName("이름으로 조회")
-    void findByName() {
-        Optional<Customer> byName = customerRepository.findByName("aaa");
-        assertThat(byName.isPresent()).isTrue();
+    class findByName {
+        @Test
+        @DisplayName("성공")
+        void findByName() {
+            Optional<Customer> byName = customerRepository.findByName("aaa");
+            assertThat(byName.isPresent()).isTrue();
+        }
+
+        @Test
+        @DisplayName("실패")
+        void findByVoidName() {
+            Optional<Customer> byName = customerRepository.findByName("");
+            assertThat(byName.isPresent()).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("E-Mail으로 조회")
+    class findByEmail {
+        @Test
+        @DisplayName("성공")
+        void findByEmail() {
+            Optional<Customer> byEmail = customerRepository.findByEmail("aaa@naver.com");
+            assertThat(byEmail.isPresent()).isTrue();
+        }
+
+        @Test
+        @DisplayName("실패")
+        void findByVoidEmail() {
+            Optional<Customer> byEmail = customerRepository.findByEmail("bbb@.com");
+            assertThat(byEmail.isPresent()).isFalse();
+        }
     }
 
     @Test
-    @DisplayName("없는 이름으로 조회")
-    void findByVoidName() {
-        Optional<Customer> byName = customerRepository.findByName("");
-        assertThat(byName.isPresent()).isFalse();
-    }
-
-    @Test
-    @DisplayName("이메일로 조회")
-    void findByEmail() {
-        Optional<Customer> byEmail = customerRepository.findByEmail("aaa@naver.com");
-        assertThat(byEmail.isPresent()).isTrue();
-    }
-
-    @Test
-    @DisplayName("없는이메일로 조회")
-    void findByVoidEmail() {
-        Optional<Customer> byEmail = customerRepository.findByEmail("bbb@.com");
-        assertThat(byEmail.isPresent()).isFalse();
-    }
-
-    @Test
+    @DisplayName("전체 조회")
     void findAll() {
         List<Customer> all = customerRepository.findAll();
         assertThat(all.size()).isEqualTo(1);

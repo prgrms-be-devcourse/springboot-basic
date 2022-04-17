@@ -2,6 +2,7 @@ package org.voucherProject.voucherProject.voucher.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,18 +45,23 @@ public class TestVoucherService {
     Customer customer;
     Voucher voucher;
 
-    @Test
+    @Nested
     @DisplayName("바우처 찾기")
-    public void findVoucher() throws Exception {
-        Voucher findVoucher = voucherService.findById(voucher.getVoucherId());
-        assertThat(findVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
-    }
+    class findVoucher {
 
-    @Test
-    @DisplayName("없는 바우처 찾기 -> 예외")
-    public void findVoidVoucher() throws Exception {
-        assertThrows(IllegalArgumentException.class,
-                () -> voucherService.findById(UUID.randomUUID()));
+        @Test
+        @DisplayName("성공")
+        public void success() throws Exception {
+            Voucher findVoucher = voucherService.findById(voucher.getVoucherId());
+            assertThat(findVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        }
+
+        @Test
+        @DisplayName("없는 바우처 찾기 -> 예외")
+        public void failure() throws Exception {
+            assertThrows(IllegalArgumentException.class,
+                    () -> voucherService.findById(UUID.randomUUID()));
+        }
     }
 
     @Test
@@ -70,33 +76,44 @@ public class TestVoucherService {
         assertThat(voucherService.findAll().size()).isEqualTo(1);
     }
 
-    @Test
+
+    @Nested
     @DisplayName("고객이 가진 바우처 조회")
-    public void findByCustomer() throws Exception {
-        List<Voucher> byCustomer = voucherService.findByCustomer(customer);
-        assertThat(byCustomer.size()).isEqualTo(1);
+    class findByCustomer {
+
+        @Test
+        @DisplayName("성공")
+        public void findByCustomer() throws Exception {
+            List<Voucher> byCustomer = voucherService.findByCustomer(customer);
+            assertThat(byCustomer.size()).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("바우처 없는 고객이 가진 바우처 조회")
+        public void findByVoidCustomer() throws Exception {
+            Customer newCustomer = new Customer(UUID.randomUUID(), "bbb", "bbb@naver.com", "1234");
+
+            List<Voucher> byCustomer = voucherService.findByCustomer(newCustomer);
+            assertThat(byCustomer.size()).isEqualTo(0);
+        }
     }
 
-    @Test
-    @DisplayName("바우처 없는 고객이 가진 바우처 조회")
-    public void findByVoidCustomer() throws Exception {
-        Customer newCustomer = new Customer(UUID.randomUUID(), "bbb", "bbb@naver.com", "1234");
+    @Nested
+    @DisplayName("고객이 가진 바우처 조회")
+    class deleteOneVoucherByCustomer {
 
-        List<Voucher> byCustomer = voucherService.findByCustomer(newCustomer);
-        assertThat(byCustomer.size()).isEqualTo(0);
-    }
+        @Test
+        @DisplayName("성공")
+        public void deleteOneVoucherByCustomer() throws Exception {
+            voucherService.deleteOneVoucherByCustomer(customer, voucher);
+        }
 
-    @Test
-    @DisplayName("고객이 가진 바우처 한개 제거")
-    public void deleteOneVoucherByCustomer() throws Exception {
-        voucherService.deleteOneVoucherByCustomer(customer, voucher);
-    }
-
-    @Test
-    @DisplayName("고객이 가진 바우처 한개 제거 -> 고객이 가진 바우처가 아니었을 때")
-    public void deleteOneVoucherByWrongCustomer() throws Exception {
-        Customer newCustomer = new Customer(UUID.randomUUID(), "bbb", "bbb@naver.com", "1234");
-        assertThrows(RuntimeException.class, () -> voucherService.deleteOneVoucherByCustomer(newCustomer, voucher));
+        @Test
+        @DisplayName("고객이 가진 바우처 한개 제거 -> 고객이 가진 바우처가 아니었을 때")
+        public void deleteOneVoucherByWrongCustomer() throws Exception {
+            Customer newCustomer = new Customer(UUID.randomUUID(), "bbb", "bbb@naver.com", "1234");
+            assertThrows(RuntimeException.class, () -> voucherService.deleteOneVoucherByCustomer(newCustomer, voucher));
+        }
     }
 
     @Test

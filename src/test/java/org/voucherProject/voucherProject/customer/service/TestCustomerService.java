@@ -1,9 +1,6 @@
 package org.voucherProject.voucherProject.customer.service;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.customer.entity.Customer;
@@ -45,43 +42,56 @@ public class TestCustomerService {
     Customer customer;
     Voucher voucher;
 
-    @Test
-    @DisplayName("Id로 조회")
-    void findById() {
-        Customer byId = customerService.findById(customer.getCustomerId());
-        assertThat(byId.getCustomerId()).isEqualTo(customer.getCustomerId());
-    }
-    @Test
-    @DisplayName("없는Id로 조회")
-    void findByVoidId() {
-        Assertions.assertThrows(RuntimeException.class,
-                () -> customerService.findById(UUID.randomUUID()));
-    }
-
-    @Test
-    @DisplayName("이름으로 조회")
-    void findByName() {
-        Customer byName = customerService.findByName("aaa");
-        assertThat(byName.getCustomerId()).isEqualTo(customer.getCustomerId());
-    }
-    @Test
-    @DisplayName("없는 이름으로 조회")
-    void findByVoidName() {
-        Assertions.assertThrows(RuntimeException.class,
-                () -> customerService.findByName("bbb"));
+    @Nested
+    @DisplayName("id 조회")
+    class findById {
+        @Test
+        @DisplayName("성공")
+        void findById() {
+            Customer byId = customerService.findById(customer.getCustomerId());
+            assertThat(byId.getCustomerId()).isEqualTo(customer.getCustomerId());
+        }
+        @Test
+        @DisplayName("실패")
+        void findByVoidId() {
+            Assertions.assertThrows(RuntimeException.class,
+                    () -> customerService.findById(UUID.randomUUID()));
+        }
     }
 
-    @Test
-    @DisplayName("email로 조회")
-    void findByEmail() {
-        Customer byEmail = customerService.findByEmail("aaa@naver.com");
-        assertThat(byEmail.getCustomerId()).isEqualTo(customer.getCustomerId());
+    @Nested
+    @DisplayName("이름 조회")
+    class findByName {
+        @Test
+        @DisplayName("성공")
+        void findByName() {
+            Customer byName = customerService.findByName("aaa");
+            assertThat(byName.getCustomerId()).isEqualTo(customer.getCustomerId());
+        }
+        @Test
+        @DisplayName("실패")
+        void findByVoidName() {
+            Assertions.assertThrows(RuntimeException.class,
+                    () -> customerService.findByName("bbb"));
+        }
     }
-    @Test
-    @DisplayName("없는 email로 조회")
-    void findByVoidEmail() {
-        Assertions.assertThrows(RuntimeException.class,
-                () -> customerService.findByEmail("bbb@naver.com"));
+
+    @Nested
+    @DisplayName("E-Mail 조회")
+    class findByEmail {
+        @Test
+        @DisplayName("성공")
+        void findByEmail() {
+            Customer byEmail = customerService.findByEmail("aaa@naver.com");
+            assertThat(byEmail.getCustomerId()).isEqualTo(customer.getCustomerId());
+        }
+
+        @Test
+        @DisplayName("실패")
+        void findByVoidEmail() {
+            Assertions.assertThrows(RuntimeException.class,
+                    () -> customerService.findByEmail("bbb@naver.com"));
+        }
     }
 
     @Test
@@ -116,3 +126,4 @@ public class TestCustomerService {
         assertThat(byVoucherType2.size()).isEqualTo(2);
     }
 }
+

@@ -1,9 +1,6 @@
 package org.voucherProject.voucherProject.voucher.repository;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.customer.entity.Customer;
@@ -43,16 +40,20 @@ public class TestVoucherDao {
     Customer customer;
     Voucher voucher;
 
-    @Test
+    @Nested
     @DisplayName("바우처 조회")
-    public void findVoucher() throws Exception {
-        assertThat(voucherRepository.findById(voucher.getVoucherId()).isPresent()).isTrue();
-    }
+    class findVoucher {
+        @Test
+        @DisplayName("조회 성공")
+        public void findVoucher() throws Exception {
+            assertThat(voucherRepository.findById(voucher.getVoucherId()).isPresent()).isTrue();
+        }
 
-    @Test
-    @DisplayName("없는 바우처 조회")
-    public void findVoidVoucher() throws Exception {
-        assertThat(voucherRepository.findById(UUID.randomUUID()).isEmpty()).isTrue();
+        @Test
+        @DisplayName("없는 바우처")
+        public void findVoidVoucher() throws Exception {
+            assertThat(voucherRepository.findById(UUID.randomUUID()).isEmpty()).isTrue();
+        }
     }
 
     @Test
@@ -93,33 +94,37 @@ public class TestVoucherDao {
         assertThat(updateVoucher.getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
     }
 
-    @Test
-    @DisplayName("고객이 보유한 바우처를 1개 제거")
-    public void deleteOneVoucherByCustomerId() throws Exception {
-        voucherRepository.deleteOneByCustomerId(customer.getCustomerId(),voucher.getVoucherId());
+    @Nested
+    @DisplayName("고객이 가진 바우처 제거")
+    class deleteVoucher {
+        @Test
+        @DisplayName("제거 성공")
+        public void deleteOneVoucherByCustomerId() throws Exception {
+            voucherRepository.deleteOneByCustomerId(customer.getCustomerId(),voucher.getVoucherId());
 
-        Optional<Voucher> byId = voucherRepository.findById(voucher.getVoucherId());
-        assertThat(byId.isEmpty()).isTrue();
-    }
+            Optional<Voucher> byId = voucherRepository.findById(voucher.getVoucherId());
+            assertThat(byId.isEmpty()).isTrue();
+        }
 
-    @Test
-    @DisplayName("바우처를 1개 제거, 잘못된 customerId -> 예외 발생")
-    public void deleteWrongCustomerId() throws Exception {
-        Assertions.assertThrows(RuntimeException.class,
-                () -> voucherRepository.deleteOneByCustomerId(UUID.randomUUID(), voucher.getVoucherId()));
-    }
+        @Test
+        @DisplayName("고객 아이디 오류")
+        public void deleteWrongCustomerId() throws Exception {
+            Assertions.assertThrows(RuntimeException.class,
+                    () -> voucherRepository.deleteOneByCustomerId(UUID.randomUUID(), voucher.getVoucherId()));
+        }
 
-    @Test
-    @DisplayName("바우처를 1개 제거, 잘못된 voucherId -> 예외 발생")
-    public void deleteWrongVoucherId() throws Exception {
-        Assertions.assertThrows(RuntimeException.class,
-                () -> voucherRepository.deleteOneByCustomerId(customer.getCustomerId(), UUID.randomUUID()));
-    }
+        @Test
+        @DisplayName("바우처 아이디 오류")
+        public void deleteWrongVoucherId() throws Exception {
+            Assertions.assertThrows(RuntimeException.class,
+                    () -> voucherRepository.deleteOneByCustomerId(customer.getCustomerId(), UUID.randomUUID()));
+        }
 
-    @Test
-    @DisplayName("바우처를 1개 제거, 잘못된 customerId, voucherId -> 예외 발생")
-    public void deleteWrongCustomerIdAndVoucherId() throws Exception {
-        Assertions.assertThrows(RuntimeException.class,
-                () -> voucherRepository.deleteOneByCustomerId(UUID.randomUUID(), UUID.randomUUID()));
+        @Test
+        @DisplayName("바우처, 고객 아이디 오류")
+        public void deleteWrongCustomerIdAndVoucherId() throws Exception {
+            Assertions.assertThrows(RuntimeException.class,
+                    () -> voucherRepository.deleteOneByCustomerId(UUID.randomUUID(), UUID.randomUUID()));
+        }
     }
 }
