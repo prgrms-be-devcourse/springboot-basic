@@ -17,12 +17,13 @@ public class AppProgram {
     private final Output output;
     private final Input input;
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    @Autowired
-    public AppProgram(Output output, Input input, VoucherService voucherService) {
+    public AppProgram(Output output, Input input, VoucherService voucherService, CustomerService customerService) {
         this.output = output;
         this.input = input;
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     // App 시작
@@ -58,6 +59,10 @@ public class AppProgram {
             case LIST -> {
                 Menu.LIST.writeStateInfo();
                 voucherService.showVoucherList();
+            }
+            case BLACKLIST -> {
+                Menu.BLACKLIST.writeStateInfo();
+                customerService.addBlackList();
             }
             case None -> Menu.None.writeStateInfo();
         }
