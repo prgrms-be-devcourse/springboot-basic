@@ -3,6 +3,7 @@ package org.prgms.voucherProgram.service;
 import static java.util.stream.Collectors.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.dto.VoucherDto;
@@ -26,18 +27,22 @@ public class VoucherService {
 
     public VoucherDto update(VoucherDto voucherDto) {
         Voucher voucher = voucherDto.toEntity();
-
-        voucherRepository.findById(voucherDto.getVoucherId())
-            .orElseThrow(() -> {
-                throw new VoucherIsNotExistsException();
-            });
-
+        voucherRepository.findById(voucherDto.getVoucherId()).orElseThrow(() -> {
+            throw new VoucherIsNotExistsException();
+        });
         return VoucherDto.from(voucherRepository.update(voucher));
     }
-    
+
     public List<VoucherDto> findAllVoucher() {
         return voucherRepository.findAll().stream()
             .map(VoucherDto::from)
             .collect(toList());
+    }
+
+    public void delete(UUID voucherId) {
+        voucherRepository.findById(voucherId)
+            .ifPresentOrElse(voucher -> voucherRepository.deleteById(voucherId), () -> {
+                throw new VoucherIsNotExistsException();
+            });
     }
 }

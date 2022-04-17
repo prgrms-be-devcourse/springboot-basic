@@ -88,6 +88,34 @@ class VoucherServiceTest {
         then(voucherRepository).should(times(0)).update(any(Voucher.class));
     }
 
+    @DisplayName("삭제할 바우처가 존재한다면 바우처를 삭제한다.")
+    @ParameterizedTest
+    @MethodSource("provideVoucher")
+    void sholud_DeleteVoucher_When_VoucherIsExists(VoucherDto voucherDto) {
+        // given
+        given(voucherRepository.findById(voucherDto.getVoucherId())).willReturn(Optional.of(voucherDto.toEntity()));
+        // when
+        voucherService.delete(voucherDto.getVoucherId());
+        // then
+        then(voucherRepository).should(times(1)).findById(voucherDto.getVoucherId());
+        then(voucherRepository).should(times(1)).deleteById(voucherDto.getVoucherId());
+    }
+
+    @DisplayName("삭제할 바우처가 없다면 예외를 발생한다.")
+    @ParameterizedTest
+    @MethodSource("provideVoucher")
+    void sholud_ThrowException_When_VoucherIsNotExists(VoucherDto voucherDto) {
+        // given
+        given(voucherRepository.findById(voucherDto.getVoucherId())).willReturn(Optional.empty());
+        // when
+        // then
+        assertThatThrownBy(() -> voucherService.delete(voucherDto.getVoucherId()))
+            .isInstanceOf(VoucherIsNotExistsException.class)
+            .hasMessage("[ERROR] 해당 아이디로 저장된 바우처가 없습니다.");
+        then(voucherRepository).should(times(1)).findById(voucherDto.getVoucherId());
+        then(voucherRepository).should(times(0)).deleteById(voucherDto.getVoucherId());
+    }
+
     @DisplayName("모든 바우처를 반환한다.")
     @Test
     void findAllVoucher_ReturnAllVoucher() {
