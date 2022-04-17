@@ -3,6 +3,7 @@ package org.prgrms.kdtspringdemo;
 import org.prgrms.kdtspringdemo.console.Input;
 import org.prgrms.kdtspringdemo.console.Menu;
 import org.prgrms.kdtspringdemo.console.Output;
+import org.prgrms.kdtspringdemo.customer.CustomerService;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
 import org.prgrms.kdtspringdemo.voucher.voucherdetail.VoucherType;
 import org.slf4j.Logger;
@@ -12,71 +13,83 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AppProgram {
-    private static final Logger logger = LoggerFactory.getLogger(Input.class);
-    private final Output output = new Output();
-    private final Input input = new Input();
-
+    private static final Logger logger = LoggerFactory.getLogger(AppProgram.class);
+    private final Output output;
+    private final Input input;
     private final VoucherService voucherService;
 
     @Autowired
-    public AppProgram(VoucherService voucherService) {
+    public AppProgram(Output output, Input input, VoucherService voucherService) {
+        this.output = output;
+        this.input = input;
         this.voucherService = voucherService;
     }
 
+    // App 시작
     public void startApp() {
         // while 문 탈출을 workingCondition 으로 제어
+        logger.info("App 시작");
         boolean workingCondition = true;
 
         while (workingCondition) {
-            // 초기 메뉴 선택
-            logger.info(output.initMessage());
-            Menu menu = input.inputMenu();
-
-            switch (menu) {
-                case CREATE -> {
-                    logger.info(output.createListMessage());
-                    VoucherType voucherType = input.inputVoucherType();
-                    // CREATE 선택 후 타입 지정(ERROR 의 경우 workingCondition false 반환)
-                    workingCondition = createWithVoucherType(workingCondition, voucherType);
-
-                }
-                case LIST -> {
-                    logger.info(output.showAllMessage());
-                    voucherService.showAllVoucher();
-                }
-                case EXIT, ERROR -> workingCondition = false;
-            }
+            workingCondition = startProgram(workingCondition);
         }
+
+        input.closeScanner();
     }
 
-    private boolean createWithVoucherType(boolean workingCondition, VoucherType voucherType) {
+    // 메뉴 선택(EXIT, CREAT, LIST)
+    private boolean startProgram(boolean workingCondition) {
+        logger.info("메뉴 선택(EXIT, CREAT, LIST)");
+        System.out.println(output.initMessage());
+        Menu menu = input.inputMenu();
+
+        switch (menu) {
+            case EXIT -> {
+                Menu.EXIT.writeStateInfo();
+                logger.info("EXIT 선택 후 프로그램 종료");
+
+                return !workingCondition;
+            }
+            case CREATE -> {
+                Menu.CREATE.writeStateInfo();
+                chooseVoucher();
+            }
+            case LIST -> {
+                Menu.LIST.writeStateInfo();
+                voucherService.showVoucherList();
+            }
+            case None -> Menu.None.writeStateInfo();
+        }
+
+        return workingCondition;
+    }
+
+    // Voucher 타입 선택(Fixed, Percent)
+    private void chooseVoucher() {
+        System.out.println(output.chooseVoucherTypeMessage());
+        VoucherType voucherType = input.inputVoucherType();
+
         switch (voucherType) {
             case FIXED -> {
-                int amount = input.inputAmount(voucherType);
-                workingCondition = CreateVoucherAndInsertIntoStorage(amount, workingCondition, VoucherType.FIXED);
+                VoucherType.FIXED.writeStateInfo();
+                System.out.println(output.FixedDiscountAmountMessage());
+                // 입력값 받아오면서 입력 타입 검증
+                int amount = input.inputDiscountAmount(voucherType);
+                voucherService.createFixedVoucher(amount);
             }
             case PERCENT -> {
-                int amount = input.inputAmount(voucherType);
-                // 타입 선택 후 입력받은 할인 금액 처리(ERROR 의 경우 workingCondition false 반환)
-                workingCondition = CreateVoucherAndInsertIntoStorage(amount, workingCondition, VoucherType.PERCENT);
+                VoucherType.PERCENT.writeStateInfo();
+                System.out.println(output.PercentDiscountAmountMessage());
+                // 입력값 받아오면서 입력 타입 검증
+                int amount = input.inputDiscountAmount(voucherType);
+                voucherService.createPercentVoucher(amount);
             }
-            // 에러의 경우 workingCondition false 반환
-            case ERROR -> workingCondition = false;
+            case None -> VoucherType.None.writeStateInfo();
         }
-
-        return workingCondition;
-    }
-
-    private boolean CreateVoucherAndInsertIntoStorage(int input, boolean workingCondition, VoucherType fixed) {
-        int fixedAmount = input;
-
-        if (fixedAmount == -1) {
-            workingCondition = false;
-        } else {
-            // 선택 타입과 할인 금액을 통해 Voucher 생성 및 메모리 저장
-            voucherService.createVoucher(fixed, fixedAmount);
-        }
-
-        return workingCondition;
     }
 }
+
+
+
+

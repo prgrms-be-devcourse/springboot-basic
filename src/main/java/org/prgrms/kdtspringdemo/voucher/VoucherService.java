@@ -1,15 +1,11 @@
 package org.prgrms.kdtspringdemo.voucher;
 
-import org.prgrms.kdtspringdemo.console.Input;
 import org.prgrms.kdtspringdemo.voucher.storage.VoucherStorage;
 import org.prgrms.kdtspringdemo.voucher.voucherdetail.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.voucherdetail.PercentDiscountVoucher;
 import org.prgrms.kdtspringdemo.voucher.voucherdetail.Voucher;
-import org.prgrms.kdtspringdemo.voucher.voucherdetail.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -20,33 +16,38 @@ public class VoucherService {
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherStorage voucherStorage;
 
-    @Autowired
     public VoucherService(VoucherStorage voucherStorage) {
         this.voucherStorage = voucherStorage;
     }
 
-    // Voucher 생성 로직(타입과 할인금액을 입력받는다)
-    public void createVoucher(VoucherType voucherType, int amount) {
+    public void createFixedVoucher(int amount) {
+        Voucher voucher;
 
-        switch (voucherType) {
-            case FIXED -> {
-                Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
-                voucherStorage.insert(voucher);
-            }
-            case PERCENT -> {
-                Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), amount);
-                voucherStorage.insert(voucher);
-            }
+        try {
+            voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
+        } catch (IllegalArgumentException e) {
+            logger.error("Fixed 입력 할인 금액은 범위에 맞지 않은 값을 입력하였습니다.");
+            return;
         }
+
+        voucherStorage.insert(voucher);
     }
 
+    public void createPercentVoucher(int amount) {
+        Voucher voucher;
 
-    // List 작성 시 모든 데이터를 모여주는 로직
-    public void showAllVoucher() {
+        try {
+            voucher = new PercentDiscountVoucher(UUID.randomUUID(), amount);
+        } catch (IllegalArgumentException e) {
+            logger.error("Percent 입력 할인 금액은 범위에 맞지 않은 값을 입력하였습니다.");
+            return;
+        }
+
+        voucherStorage.insert(voucher);
+    }
+
+    public void showVoucherList() {
         Map<UUID, Voucher> storage = voucherStorage.getStorage();
-        storage.entrySet().stream().forEach(s -> logger.info(
-                "\nid : " + s.getKey() +
-                        "\nVoucher type : " + s.getValue().getAmount() +
-                        "\nDiscount amount : " + s.getValue().getAmount()));
+        storage.values().stream().forEach(System.out::println);
     }
 }
