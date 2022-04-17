@@ -46,55 +46,29 @@ public class FileVoucherRepository implements VoucherRepository, FileInput, File
 
     @Override
     public void fileInput(String fileName) {
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
-
-        try {
-            fis = new FileInputStream(fileName);
-            ois = new ObjectInputStream(fis);
-
+        try (
+                FileInputStream fis = new FileInputStream(fileName);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+        ) {
             Voucher voucher = (Voucher) ois.readObject();
             vouchers.put(voucher.getVoucherId(), voucher);
         } catch (ClassNotFoundException e) {
             logger.error(e.toString());
         } catch (IOException e2) {
             logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
-        } finally {
-            try {
-                if (ois != null) {
-                    ois.close();
-                }
-                if (fis != null) {
-                    fis.close();
-                }
-            } catch (IOException e) {}
         }
     }
 
     @Override
     public void fileOutput(String fileName, Voucher voucher) {
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
-
-        try {
-            fos = new FileOutputStream(fileName, true);
-            oos = new ObjectOutputStream(fos);
-
+        try (
+                FileOutputStream fos = new FileOutputStream(fileName, true);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+        ) {
             oos.writeObject(voucher);
             oos.flush();
         } catch (IOException e) {
             logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
-        } finally {
-            try {
-                if (oos != null) {
-                    oos.close();
-                }
-                if (fos != null) {
-                    fos.close();
-                }
-            } catch (IOException e) {}
         }
-
-
     }
 }
