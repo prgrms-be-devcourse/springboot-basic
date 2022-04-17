@@ -120,7 +120,5 @@ public class CustomerRepositoryTest {
         Customer updateCustomer = customerRepository.findById(this.customer.getCustomerId()).get();
 
         assertThat(updateCustomer.getPassword()).isEqualTo("4321");
-
-
     }
 }
