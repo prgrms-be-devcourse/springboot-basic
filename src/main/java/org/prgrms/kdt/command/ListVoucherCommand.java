@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.Locale;
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.service.VoucherService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-@Qualifier("LIST")
 @Component
 public class ListVoucherCommand implements Command {
 

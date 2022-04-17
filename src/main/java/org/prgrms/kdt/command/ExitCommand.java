@@ -1,11 +1,9 @@
 package org.prgrms.kdt.command;
 
 import java.util.Locale;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-@Qualifier("EXIT")
 @Component
 public class ExitCommand implements Command {
 

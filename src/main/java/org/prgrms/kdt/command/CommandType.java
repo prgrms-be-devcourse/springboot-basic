@@ -10,7 +10,7 @@ public enum CommandType {
 
   public static CommandType of(String command) {
     try {
-      return CommandType.valueOf(command.toUpperCase());
+      return CommandType.valueOf(command.toUpperCase().trim());
     } catch (Exception e) {
       return CommandType.ERROR;
     }

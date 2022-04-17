@@ -8,11 +8,9 @@ import org.prgrms.kdt.domain.VoucherType;
 import org.prgrms.kdt.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-@Qualifier("CREATE")
 @Component
 public class CreateVoucherCommand implements Command {
 

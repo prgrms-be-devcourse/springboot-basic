@@ -3,10 +3,10 @@ package org.prgrms.kdt.handler;
 import static org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils.qualifiedBeanOfType;
 
 import org.prgrms.kdt.command.Command;
+import org.prgrms.kdt.command.CommandFactory;
 import org.prgrms.kdt.command.CommandType;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 
@@ -17,13 +17,17 @@ public class CommandHandler {
   private final Output output;
   private final ApplicationContext context;
 
+  private final CommandFactory commandFactory;
+
   public CommandHandler(
       Input input,
       Output output,
-      ApplicationContext context) {
+      ApplicationContext context,
+      CommandFactory commandFactory) {
     this.input = input;
     this.output = output;
     this.context = context;
+    this.commandFactory = commandFactory;
   }
 
   public void handle() {
@@ -31,11 +35,12 @@ public class CommandHandler {
     while (commandType != CommandType.EXIT) {
       output.printMenu();
       commandType = CommandType.of(input.read());
-      output.printLine(command(commandType).execute());
+      output.printLine(executeCommand(commandType));
     }
   }
 
-  private Command command(CommandType commandType) {
-    return qualifiedBeanOfType(context, Command.class, commandType.name());
+  private String executeCommand(CommandType commandType) {
+    Command command = commandFactory.getCommand(commandType);
+    return command.execute();
   }
 }

@@ -2,11 +2,9 @@ package org.prgrms.kdt.command;
 
 import java.util.Locale;
 import org.prgrms.kdt.service.BlacklistService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-@Qualifier("BLACKLIST")
 @Component
 public class BlacklistCommand implements Command {
 
