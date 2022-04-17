@@ -19,9 +19,9 @@ public enum Menu {
     }
 
     public static Menu from(String input) {
-        Optional<Menu> foundMenu = Arrays.stream(values())
+        return Arrays.stream(values())
                 .filter(o -> Objects.equals(o.menu, input))
-                .findFirst();
-        return foundMenu.orElseThrow(() -> new InvalidMenuException("입력한 메뉴값이 유효하지 않습니다."));
+                .findFirst()
+                .orElseThrow(() -> new InvalidMenuException("입력한 메뉴값이 유효하지 않습니다."));
     }
 }
