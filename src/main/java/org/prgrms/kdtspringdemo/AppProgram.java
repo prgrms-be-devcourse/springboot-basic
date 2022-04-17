@@ -3,12 +3,10 @@ package org.prgrms.kdtspringdemo;
 import org.prgrms.kdtspringdemo.console.Input;
 import org.prgrms.kdtspringdemo.console.Menu;
 import org.prgrms.kdtspringdemo.console.Output;
-import org.prgrms.kdtspringdemo.customer.CustomerService;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
 import org.prgrms.kdtspringdemo.voucher.voucherdetail.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,13 +15,11 @@ public class AppProgram {
     private final Output output;
     private final Input input;
     private final VoucherService voucherService;
-    private final CustomerService customerService;
 
-    public AppProgram(Output output, Input input, VoucherService voucherService, CustomerService customerService) {
+    public AppProgram(Output output, Input input, VoucherService voucherService) {
         this.output = output;
         this.input = input;
         this.voucherService = voucherService;
-        this.customerService = customerService;
     }
 
     // App 시작
@@ -59,10 +55,6 @@ public class AppProgram {
             case LIST -> {
                 Menu.LIST.writeStateInfo();
                 voucherService.showVoucherList();
-            }
-            case BLACKLIST -> {
-                Menu.BLACKLIST.writeStateInfo();
-                customerService.addBlackList();
             }
             case None -> Menu.None.writeStateInfo();
         }
