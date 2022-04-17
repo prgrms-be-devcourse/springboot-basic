@@ -1,5 +1,6 @@
 package org.prgms.voucherProgram.view;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -78,7 +79,7 @@ public class Console implements InputView, OutputView {
     public CustomerDto inputCustomerInformation() {
         String name = inputCustomerName();
         String email = inputCustomerEmail();
-        return new CustomerDto(UUID.randomUUID(), name, email);
+        return new CustomerDto(UUID.randomUUID(), name, email, null, LocalDateTime.now());
     }
 
     @Override

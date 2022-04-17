@@ -38,7 +38,6 @@ import com.zaxxer.hikari.HikariDataSource;
 class JdbcCustomerRepositoryTest {
 
     private static EmbeddedMysql embeddedMysql;
-
     @Autowired
     private JdbcCustomerRepository jdbcCustomerRepository;
 
@@ -74,7 +73,9 @@ class JdbcCustomerRepositoryTest {
         // when
         jdbcCustomerRepository.save(customer);
         // then
-        assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail()).get()).usingRecursiveComparison()
+        assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isNotEmpty()
+            .get()
+            .usingRecursiveComparison()
             .isEqualTo(customer);
     }
 
@@ -82,19 +83,18 @@ class JdbcCustomerRepositoryTest {
     @Test
     void should_ReturnAllCustomers() {
         // given
-        Customer customerOne = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        Customer customerTwo = new Customer(UUID.randomUUID(), "pobi", "pobi@gmail.com", LocalDateTime.now());
-        jdbcCustomerRepository.save(customerOne);
-        jdbcCustomerRepository.save(customerTwo);
+        List<Customer> customers = List.of(
+            new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now()),
+            new Customer(UUID.randomUUID(), "spancer", "spancer@gmail.com", LocalDateTime.now()));
+        customers.forEach(jdbcCustomerRepository::save);
+
         // when
         List<Customer> findCustomer = jdbcCustomerRepository.findAll();
+
         // then
         assertThat(findCustomer).hasSize(2)
-            .extracting("customerId", "name", "email", "createdTime")
-            .contains(tuple(customerOne.getCustomerId(), customerOne.getName(), customerOne.getEmail(),
-                    customerOne.getCreatedTime())
-                , tuple(customerTwo.getCustomerId(), customerTwo.getName(), customerTwo.getEmail(),
-                    customerTwo.getCreatedTime()));
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+            .containsAll(customers);
     }
 
     @DisplayName("모든 고객을 삭제한다.")
@@ -138,17 +138,18 @@ class JdbcCustomerRepositoryTest {
     @Test
     void should_updateCustomer_When_nonDuplicateCustomer() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        UUID customerId = UUID.randomUUID();
+        LocalDateTime createdTime = LocalDateTime.now();
+        Customer customer = new Customer(customerId, "hwan", "hwan@gmail.com", createdTime);
         jdbcCustomerRepository.save(customer);
         // when
-        customer.login();
-        customer.changeName("spancer");
-        customer.changeEmail("spancer@gmail.com");
+        customer = new Customer(customerId, "spancer", "spancer@gmail.com", createdTime, LocalDateTime.now());
         jdbcCustomerRepository.update(customer);
         // then
         Optional<Customer> updateCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail());
-        assertThat(updateCustomer).isNotEmpty();
-        assertThat(updateCustomer.get()).usingRecursiveComparison()
+        assertThat(updateCustomer).isNotEmpty()
+            .get()
+            .usingRecursiveComparison()
             .isEqualTo(customer);
     }
 

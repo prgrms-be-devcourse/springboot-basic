@@ -16,9 +16,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
-    private static final String ERROR_CUSTOMER_IS_NOT_EXISTS_MESSAGE = "[ERROR] 해당 이메일로 저장된 고객이 없습니다.";
-    private static final String ERROR_CUSTOMER_IS_EXISTS_MESSAGE = "[ERROR] 이미 해당 이메일로 저장된 고객이 있습니다.";
-    private static final String ERROR_DUPLICATE_CUSTOMER_MESSAGE = "[ERROR] 이미 존재하는 고객입니다.";
 
     private final BlackListRepository blackListRepository;
     private final CustomerRepository customerRepository;
@@ -35,21 +32,17 @@ public class CustomerService {
     }
 
     private void validateDuplicateCustomer(Customer customer) {
-        customerRepository.findByEmail(customer.getEmail())
-            .ifPresent(duplicateCustomer -> {
-                throw new DuplicateEmailException();
-            });
+        customerRepository.findByEmail(customer.getEmail()).ifPresent(duplicateCustomer -> {
+            throw new DuplicateEmailException();
+        });
     }
 
     public CustomerDto update(Email email, CustomerDto customerDto) {
-        Customer customer = customerRepository.findByEmail(email.getEmail())
-            .orElseThrow(() -> {
-                throw new CustomerIsNotExistsException();
-            });
+        Customer customer = customerDto.toEntity();
 
-        customer.changeName(customerDto.getName());
-        customer.changeEmail(customerDto.getEmail());
-        customer.login();
+        customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
+            throw new CustomerIsNotExistsException();
+        });
 
         customerRepository.findByEmail(customer.getEmail())
             .ifPresent(findCustomer -> validateDuplicateEmail(customer, findCustomer));
@@ -64,18 +57,16 @@ public class CustomerService {
     }
 
     public void delete(Email email) {
-        customerRepository.findByEmail(email.getEmail()).ifPresentOrElse(
-            customer -> customerRepository.deleteByEmail(email.getEmail()),
-            () -> {
+        customerRepository.findByEmail(email.getEmail())
+            .ifPresentOrElse(customer -> customerRepository.deleteByEmail(email.getEmail()), () -> {
                 throw new CustomerIsNotExistsException();
             });
     }
 
     public CustomerDto findByEmail(Email email) {
-        Customer customer = customerRepository.findByEmail(email.getEmail())
-            .orElseThrow(() -> {
-                throw new CustomerIsNotExistsException();
-            });
+        Customer customer = customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
+            throw new CustomerIsNotExistsException();
+        });
 
         return CustomerDto.from(customer);
     }

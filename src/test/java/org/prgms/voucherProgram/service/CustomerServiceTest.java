@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -66,12 +65,13 @@ class CustomerServiceTest {
     @Test
     void Should_ReturnCustomerDto_When_CustomerIsExists() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+        CustomerDto customerDto = new CustomerDto(UUID.randomUUID(), "hwan", "hwan@gmail.com");
+        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customerDto.toEntity()));
         //when
-        CustomerDto customerDto = customerService.findByEmail(new Email(customer.getEmail()));
+        CustomerDto findCustomer = customerService.findByEmail(new Email(customerDto.getEmail()));
         //then
-        assertThat(customerDto).usingRecursiveComparison().isEqualTo(CustomerDto.from(customer));
+        assertThat(findCustomer).usingRecursiveComparison()
+            .isEqualTo(customerDto);
         then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
     }
 
@@ -79,11 +79,12 @@ class CustomerServiceTest {
     @Test
     void Should_ThrowException_When_FindCustomerIsNotExists() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        Email email = new Email("hwan@gmail.com");
         given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
+
         //when
         //then
-        assertThatThrownBy(() -> customerService.findByEmail(new Email(customer.getEmail())))
+        assertThatThrownBy(() -> customerService.findByEmail(email))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
         then(jdbcCustomerRepository).should(times(1)).findByEmail(any(String.class));
@@ -93,17 +94,19 @@ class CustomerServiceTest {
     @Test
     void Should_UpdateCustomer() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
-        customer.login();
-        customer.changeEmail("spancer@gmail.com");
-        customer.changeName("spancer");
-        given(jdbcCustomerRepository.update(any(Customer.class))).willReturn(customer);
+        CustomerDto customerDto = new CustomerDto(UUID.randomUUID(), "hwan", "hwan@gmail.com", null,
+            LocalDateTime.now());
+        given(jdbcCustomerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customerDto.toEntity()));
+        customerDto.setName("spancer");
+        customerDto.setEmail("spancer@gmail.com");
+        given(jdbcCustomerRepository.update(any(Customer.class))).willReturn(customerDto.toEntity());
+
         //when
-        CustomerDto customerDto = customerService.update(new Email("hwan@gmail.com"), CustomerDto.from(customer));
+        CustomerDto updateDto = customerService.update(new Email("hwan@gmail.com"), customerDto);
+
         //then
-        assertThat(customerDto).usingRecursiveComparison()
-            .isEqualTo(CustomerDto.from(customer));
+        assertThat(updateDto).usingRecursiveComparison()
+            .isEqualTo(customerDto);
         then(jdbcCustomerRepository).should(times(2)).findByEmail(any(String.class));
         then(jdbcCustomerRepository).should(times(1)).update(any(Customer.class));
     }
@@ -196,17 +199,16 @@ class CustomerServiceTest {
     @DisplayName("모든 블랙리스트를 반환한다.")
     @Test
     void findBlackList_ReturnBlackCustomers() {
-        List<Customer> mockBlackCustomers = Arrays.asList(new Customer(UUID.randomUUID(), "jin", "jin@gmail.com", null,
-                null),
+        List<Customer> mockBlackCustomers = List.of(
+            new Customer(UUID.randomUUID(), "jin", "jin@gmail.com", null, null),
             new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", null, null),
             new Customer(UUID.randomUUID(), "pobi", "pobi@gmail.com", null, null));
 
         given(fileCustomerRepository.findBlackCustomers()).willReturn(mockBlackCustomers);
 
         assertThat(customerService.findBlackList()).hasSize(3)
-            .extracting("name", "email").contains(tuple("hwan", "hwan@gmail.com"),
-                tuple("pobi", "pobi@gmail.com"),
-                tuple("jin", "jin@gmail.com"));
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+            .containsAll(mockBlackCustomers);
         then(fileCustomerRepository).should(times(1)).findBlackCustomers();
     }
 }
