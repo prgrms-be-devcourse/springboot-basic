@@ -16,9 +16,9 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID customerId);
 
-    Optional<Customer> findByName(UUID customerId);
+    Optional<Customer> findByName(String name);
 
-    Optional<Customer> findByEmail(UUID customerId);
+    Optional<Customer> findByEmail(String email);
 
     void delete(UUID customerId);
 
