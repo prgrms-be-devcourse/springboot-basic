@@ -3,6 +3,9 @@ spring:
     activate:
       on-profile: default
 database:
+  url: jdbc:mysql://localhost/demo
+  username: root
+  password: 1234
   file:
     voucher: "voucher_simple_db.csv"
     black-list: "customer_blacklist.csv"
@@ -14,6 +17,9 @@ spring:
     activate:
       on-profile: dev
 database:
+  url: jdbc:mysql://localhost/demo
+  username: root
+  password: 1234
   file:
     black-list: "customer_blacklist.csv"
 
@@ -24,5 +30,21 @@ spring:
     activate:
       on-profile: prod
 database:
+  url: jdbc:mysql://localhost/demo
+  username: root
+  password: 1234
+  file:
+    black-list: "customer_blacklist.csv"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+database:
+  url: jdbc:mysql://localhost/demo
+  username: root
+  password: 1234
   file:
     black-list: "customer_blacklist.csv"

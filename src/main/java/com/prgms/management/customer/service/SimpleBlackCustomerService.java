@@ -1,21 +1,22 @@
 package com.prgms.management.customer.service;
 
 import com.prgms.management.customer.model.Customer;
-import com.prgms.management.customer.repository.BlackCustomerRepository;
+import com.prgms.management.customer.model.CustomerType;
+import com.prgms.management.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class SimpleBlackCustomerService implements BlackCustomerService {
-    private final BlackCustomerRepository blackCustomerRepository;
+    private final CustomerRepository customerRepository;
 
-    public SimpleBlackCustomerService(BlackCustomerRepository blackCustomerRepository) {
-        this.blackCustomerRepository = blackCustomerRepository;
+    public SimpleBlackCustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     @Override
     public List<Customer> getAllCustomers() {
-        return blackCustomerRepository.findAll();
+        return customerRepository.findByType(CustomerType.BLACK);
     }
 }
