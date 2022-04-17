@@ -32,10 +32,12 @@ public class VoucherManager {
     }
 
     public void run() {
-        while (true) {
+        CommandType commandType = null;
+
+        while (commandType != CommandType.EXIT) {
             try {
                 output.printMenu();
-                CommandType commandType = CommandType.getCommandTypeByName(input.input("input command : "));
+                commandType = CommandType.getCommandTypeByName(input.input("input command : "));
                 switch (commandType) {
                     case CREATE: {
                         createVoucher();
@@ -48,9 +50,6 @@ public class VoucherManager {
                     case BLACKLIST: {
                         printBlacklist();
                         break;
-                    }
-                    case EXIT: {
-                        return;
                     }
                 }
             } catch (IllegalArgumentException e) {
