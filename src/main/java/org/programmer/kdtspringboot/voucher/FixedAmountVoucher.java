@@ -22,6 +22,11 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
+    public String getInfo() {
+        return voucherId+","+amount+","+this.getClass();
+    }
+
+    @Override
     public String toString() {
         return "FixedAmountVoucher{" +
                 "voucherId=" + voucherId +
@@ -29,4 +34,6 @@ public class FixedAmountVoucher implements Voucher{
                 ", class=" + this.getClass() +
                 '}';
     }
+
+
 }

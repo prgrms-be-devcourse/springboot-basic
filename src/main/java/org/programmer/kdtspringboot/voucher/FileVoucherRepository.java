@@ -29,7 +29,7 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("voucher 추가 "+ voucher.toString());
+        logger.info("voucher 추가 "+ voucher);
     }
 
     @Override
