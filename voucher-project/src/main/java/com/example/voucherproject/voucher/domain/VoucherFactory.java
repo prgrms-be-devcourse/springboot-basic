@@ -18,7 +18,7 @@ public class VoucherFactory {
             case PERCENT:
                 return new PercentDiscountVoucher(UUID.randomUUID(), PERCENT);
             default:
-                log.error("정의되지 않은 Voucher 종류입니다");
+                log.info("정의되지 않은 Voucher 종류입니다");
                 return null;
         }
     }

@@ -40,7 +40,7 @@ public class VoucherFileRepository implements VoucherRepository{
                     vouchers.add(new PercentDiscountVoucher(voucherId, voucherType));
                     break;
                 default:
-                    log.error("정의되지 않은 바우처 타입");
+                    log.info("정의되지 않은 바우처 타입 : Voucher -> {}",voucher);
                     break;
             }
         });
