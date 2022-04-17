@@ -57,6 +57,11 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByVoucherId(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
     public int updateById(Customer customer) {
         return 0;
     }

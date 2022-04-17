@@ -53,7 +53,7 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now();
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK, now, now);
+        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         //when
         UUID savedId = repository.save(customer);
         //then
@@ -65,7 +65,7 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now();
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK, now, now);
+        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         repository.save(customer);
         //when
         List<Customer> customers = repository.findAll();
@@ -78,7 +78,7 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now();
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK, now, now);
+        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         repository.save(customer);
         //when
         int updateCnt = repository.updateById(new Customer(customerId, "kim", "a@naver.com", CustomerType.NORMAL, LocalDateTime.now(), LocalDateTime.now()));

@@ -14,6 +14,8 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID customerId);
 
+    Optional<Customer> findByVoucherId(UUID voucherId);
+
     int updateById(Customer customer);
 
     void deleteById(UUID customerId);

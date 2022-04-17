@@ -38,7 +38,6 @@ public class JdbcCustomerRepository implements CustomerRepository{
                 "INSERT INTO customer(customer_id, customer_type, name, email, created_date, modified_date) " +
                         "VALUES (UNHEX(REPLACE(:customerId, '-', '')), :customerType, :name, :email, :createdDate, :modifiedDate)",
                 toParamMap(customer));
-        logger.info("update row {}", update);
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
@@ -48,12 +47,25 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer WHERE customer_id = :customerId",
+            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                     Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)),
                     customerRowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            logger.info("Find by id method got empty result", e);
+            logger.error("Find by id method got empty result", e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Customer> findByVoucherId(UUID voucherId) {
+        try{
+            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer c JOIN voucher v on c.customer_id = v.customer_id WHERE v.voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+                    Collections.singletonMap("voucherId", voucherId),
+                    customerRowMapper());
+            return Optional.of(customer);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Find By Voucher id got empty result", e);
             return Optional.empty();
         }
     }
@@ -69,8 +81,8 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public void deleteById(UUID customerId) {
-        jdbcTemplate.update("DELETE FROM customer WHERE customer_id = :customerId",
-                Collections.singletonMap("customerId", customerId));
+        jdbcTemplate.update("DELETE FROM customer WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+                Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
     }
 
     @Override
@@ -80,8 +92,8 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("customerType", customer.getCustomerType().name());
+            put("customerId", UuidUtils.UuidToByte(customer.getCustomerId()));
+            put("customerType", CustomerType.getValue(customer.getCustomerType()));
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("createdDate", Timestamp.valueOf(customer.getCreatedDate()));
@@ -92,16 +104,18 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     private RowMapper<Customer> customerRowMapper() {
-        return (rs, rowNum) -> {
+        RowMapper<Customer> rowMapper = (rs, rowNum) -> {
             UUID customerId = UuidUtils.byteToUUID(rs.getBytes("customer_id"));
-            CustomerType customer_type = CustomerType.valueOf(rs.getString("customer_type"));
+            CustomerType customerType = CustomerType.findCustomerType(rs.getString("customer_type"));
             String name = rs.getString("name");
             String email = rs.getString("email");
             LocalDateTime createdDate = rs.getTimestamp("created_date").toLocalDateTime();
             LocalDateTime modifiedDate = rs.getTimestamp("modified_date") != null ?
                     rs.getTimestamp("modified_date").toLocalDateTime() : null;
 
-            return new Customer(customerId, name, email, customer_type, createdDate, modifiedDate);
+            return new Customer(customerId, name, email, customerType, createdDate, modifiedDate);
         };
+
+        return rowMapper;
     }
 }
