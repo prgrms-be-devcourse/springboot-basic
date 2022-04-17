@@ -1,0 +1,5 @@
+22:50:24.217 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 55632 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+22:50:24.220 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "local"
+22:50:43.515 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 55669 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+22:50:43.516 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "local"
+22:50:43.740 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.388 seconds (JVM running for 0.732)

@@ -20,7 +20,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.prgrms.management" level="warn">
+    <logger name="com.prgrms.management" level="info">
         <appender-ref ref="FILE"/>
     </logger>
     <root level="info">

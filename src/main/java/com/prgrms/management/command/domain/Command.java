@@ -6,7 +6,16 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public enum Command {
-    CREATE,LIST,BLACKLIST,EXIT;
+    CREATE,
+    LIST,
+    BLACKLIST,
+    CREATECUSTOMER,
+    DELETECUSTOMER,
+    LISTCUSTOMER,
+    CREATEVOUCHER,
+    DELETEVOUCHER,
+    LISTVOUCHER,
+    EXIT;
 
     public static Command of(String input) {
         return Arrays.stream(Command.values())

@@ -1,0 +1,11 @@
+16:51:03.432 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 99533 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+16:51:03.435 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "local"
+16:51:03.647 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.354 seconds (JVM running for 0.636)
+16:51:09.146 [main] INFO c.p.m.c.r.FileCustomerRepository - class com.fasterxml.jackson.databind.exc.InvalidDefinitionException:IO EXCEPTION이 발생했습니다.
+16:51:09.147 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.lang.NullPointerException:null
+17:00:36.394 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 314 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+17:00:36.394 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "local"
+17:00:36.631 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.388 seconds (JVM running for 0.748)
+17:00:40.756 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:class com.prgrms.management.command.domain.Command:존재하지 않는 명령어 타입입니다.
+17:00:43.035 [main] INFO c.p.m.c.r.FileCustomerRepository - class com.fasterxml.jackson.databind.exc.MismatchedInputException:IO EXCEPTION이 발생했습니다.
+17:00:43.035 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.lang.NullPointerException:null

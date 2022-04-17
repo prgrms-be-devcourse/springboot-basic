@@ -18,4 +18,22 @@ public class CustomerService {
     public List<Customer> findBlackList() {
         return customerRepository.findBlackList();
     }
+
+    public void createCustomer() {
+    }
+
+    public void deleteCustomer() {
+    }
+
+    public void createVoucher() {
+    }
+
+    public void deleteVoucher() {
+    }
+
+    public void findCustomers() {
+    }
+
+    public void findCustomersByVoucherType() {
+    }
 }

@@ -26,7 +26,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 bufferedWriter.newLine();
             }
         } catch (IOException e) {
-            logger.warn("{}:{}",e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
+            logger.info("{}:{}",e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
         }
         return customer;
     }

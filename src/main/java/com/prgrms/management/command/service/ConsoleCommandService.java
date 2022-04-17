@@ -35,7 +35,7 @@ public class ConsoleCommandService implements CommandService {
                 Command command = Command.of(inputCommand);
                 execute(command);
             } catch (RuntimeException e) {
-                logger.warn("{}:{}",e.getClass(),e.getMessage());
+                logger.info("{}:{}",e.getClass(),e.getMessage());
             }
         }
     }
@@ -44,17 +44,29 @@ public class ConsoleCommandService implements CommandService {
     public void execute(Command command) {
         switch (command) {
             case CREATE:
-                output.printGuide(GuideType.VOUCHER.getMESSAGE());
-                String inputVoucherType = input.readLine();
-                output.printGuide(GuideType.DISCOUNT.getMESSAGE());
-                String inputAmount = input.readLine();
-                voucherService.createVoucher(new VoucherRequest(inputVoucherType,inputAmount));
+                VoucherRequest voucherRequest = input.inputVoucherType();
+                voucherService.createVoucher(voucherRequest);
                 break;
             case LIST:
                 output.printList(voucherService.findAll());
                 break;
-            case BLACKLIST:
-                output.printList(customerService.findBlackList());
+            case CREATECUSTOMER:
+                customerService.createCustomer();
+                break;
+            case DELETECUSTOMER:
+                customerService.deleteCustomer();
+                break;
+            case LISTCUSTOMER:
+                customerService.findCustomers();
+                break;
+            case CREATEVOUCHER:
+                customerService.createVoucher();
+                break;
+            case DELETEVOUCHER:
+                customerService.deleteVoucher();
+                break;
+            case LISTVOUCHER:
+                customerService.findCustomersByVoucherType();
                 break;
             case EXIT:
                 System.exit(0);
