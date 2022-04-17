@@ -5,10 +5,11 @@ import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.exception.NothingChangeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 
 public class DatabaseUtils {
-
     public static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var name = resultSet.getString("name");
@@ -19,6 +20,7 @@ public class DatabaseUtils {
         return new Customer(customerId, name, email, createdTime, lastLoginTime);
     };
 
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseUtils.class);
     private static final int WRONG_EXCUTE_VALUE = 0;
 
     private DatabaseUtils() {
@@ -35,6 +37,7 @@ public class DatabaseUtils {
 
     public static void validateExecute(int excute) {
         if (excute == WRONG_EXCUTE_VALUE) {
+            logger.error("SQL excute but nothing change");
             throw new NothingChangeException();
         }
     }

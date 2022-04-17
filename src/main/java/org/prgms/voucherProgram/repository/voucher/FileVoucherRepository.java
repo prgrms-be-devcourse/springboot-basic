@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("local")
+@Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final String voucherFilePath;
@@ -52,7 +52,7 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (EOFException | FileNotFoundException e) {
             return vouchers;
         } catch (IOException | ClassNotFoundException e) {
-            logger.error("Fail to find a voucher file");
+            logger.error("Fail to open the File");
             throw new WrongFileException();
         }
     }

@@ -22,25 +22,27 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        jdbcTemplate.update(
+        int result = jdbcTemplate.update(
             "INSERT INTO customer(customer_id, name, email, created_at) VALUES(UUID_TO_BIN(?), ?, ?, ?)",
             DatabaseUtils.toBytes(customer.getCustomerId()),
             customer.getName(),
             customer.getEmail(),
             Timestamp.valueOf(customer.getCreatedTime()));
 
+        DatabaseUtils.validateExecute(result);
         return customer;
     }
 
     @Override
     public Customer update(Customer customer) {
-        jdbcTemplate.update(
+        int result = jdbcTemplate.update(
             "UPDATE customer SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
             customer.getName(),
             customer.getEmail(),
             customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
             DatabaseUtils.toBytes(customer.getCustomerId()));
 
+        DatabaseUtils.validateExecute(result);
         return customer;
     }
 
