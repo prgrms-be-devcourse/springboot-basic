@@ -61,8 +61,12 @@ public class FileVoucherRepository implements VoucherRepository, FileInput, File
             logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
         } finally {
             try {
-                ois.close();
-                fis.close();
+                if (ois != null) {
+                    ois.close();
+                }
+                if (fis != null) {
+                    fis.close();
+                }
             } catch (IOException e) {}
         }
     }
@@ -82,8 +86,12 @@ public class FileVoucherRepository implements VoucherRepository, FileInput, File
             logger.error(filename + " 해당 파일을 찾을 수 없습니다.");
         } finally {
             try {
-                oos.close();
-                fos.close();
+                if (oos != null) {
+                    oos.close();
+                }
+                if (fos != null) {
+                    fos.close();
+                }
             } catch (IOException e) {}
         }
 
