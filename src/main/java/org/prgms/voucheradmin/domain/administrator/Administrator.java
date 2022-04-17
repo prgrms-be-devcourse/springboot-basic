@@ -22,6 +22,9 @@ import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
+import org.prgms.voucheradmin.domain.voucherwallet.dto.CreatVoucherWalletReqDto;
+import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
+import org.prgms.voucheradmin.domain.voucherwallet.service.VoucherWalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -37,12 +40,14 @@ public class Administrator {
     private final InputService inputService;
     private final VoucherService voucherService;
     private final CustomerService customerService;
+    private final VoucherWalletService voucherWalletService;
 
-    public Administrator(OutputService outputService, InputService inputService, VoucherService voucherService, CustomerService customerService) {
+    public Administrator(OutputService outputService, InputService inputService, VoucherService voucherService, CustomerService customerService, VoucherWalletService voucherWalletService) {
         this.outputService = outputService;
         this.inputService = inputService;
         this.voucherService = voucherService;
         this.customerService = customerService;
+        this.voucherWalletService = voucherWalletService;
     }
 
     /**
@@ -137,6 +142,12 @@ public class Administrator {
             case DELETE:
                 UUID customerIdForDelete = inputService.inputCustomerId();
                 customerService.deleteCustomer(customerIdForDelete);
+            case ALLOCATE_VOUCHER:
+                UUID customerId = inputService.inputCustomerId();
+                UUID voucherId = inputService.inputVoucherId();
+
+                VoucherWallet createdVoucherWallet = voucherWalletService.createVoucherWallet(new CreatVoucherWalletReqDto(customerId, voucherId));
+                outputService.showVoucherWallet(createdVoucherWallet);
                 break;
         }
     }

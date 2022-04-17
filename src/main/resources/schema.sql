@@ -14,12 +14,19 @@ CREATE TABLE vouchers
     voucher_amount int NOT NULL
 );
 
-CREATE TABLE voucher_wallets
+create table voucher_wallets
 (
-    voucher_wallet_id    BINARY(16) PRIMARY KEY,
-    voucher_wallet_name varchar(100) NOT NULL,
-    customer_id BINARY(16) NOT NULL,
-    voucher_id  BINARY(16) NOT NULL,
-    foreign key(customer_id) references customers(customer_id) ON DELETE CASCADE,
-    foreign key(voucher_id) references vouchers(voucher_id) ON DELETE CASCADE
+    voucher_wallet_id binary(16) not null
+        primary key,
+    customer_id       binary(16) not null,
+    voucher_id        binary(16) not null,
+    constraint customer_id
+        unique (customer_id, voucher_id),
+    constraint voucher_wallets_ibfk_1
+        foreign key (customer_id) references customers (customer_id)
+            on delete cascade,
+    constraint voucher_wallets_ibfk_2
+        foreign key (voucher_id) references vouchers (voucher_id)
+            on delete cascade
 );
+

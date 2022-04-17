@@ -1,6 +1,7 @@
 package org.prgms.voucheradmin.domain.voucher.dao;
 
-import java.nio.ByteBuffer;
+import static org.prgms.voucheradmin.global.util.Util.toUUID;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,7 +17,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 
 /**
  * 바우처를 DB에 CRUD를 하는 클래스 입니다.
@@ -107,12 +107,4 @@ public class JdbcVoucherRepository implements VoucherRepository{
                 return new PercentageDiscountVoucher(voucherId, percent);
         }
     };
-
-    /**
-     * UUID 변환 메서드
-     **/
-    private UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 }

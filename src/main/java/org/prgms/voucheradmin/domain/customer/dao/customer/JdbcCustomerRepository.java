@@ -1,6 +1,7 @@
 package org.prgms.voucheradmin.domain.customer.dao.customer;
 
-import java.nio.ByteBuffer;
+import static org.prgms.voucheradmin.global.util.Util.toUUID;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 
 /**
  * 고객을 DB에 CRUD를 하는 클래스 입니다.
@@ -109,12 +109,4 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         return new Customer(customerId, name, email, createdAt);
     };
-
-    /**
-     * UUID 변환 메서드
-     **/
-    private UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 }

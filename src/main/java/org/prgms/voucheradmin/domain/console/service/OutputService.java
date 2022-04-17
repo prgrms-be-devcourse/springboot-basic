@@ -9,6 +9,7 @@ import org.prgms.voucheradmin.domain.customer.dto.BlacklistCustomerDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
+import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
 import org.springframework.stereotype.Service;
 
 /**
@@ -88,4 +89,7 @@ public class OutputService {
         customers.forEach(customer -> System.out.println(customer));
     }
 
+    public void showVoucherWallet(VoucherWallet voucherWallet) {
+        System.out.println("voucher "+voucherWallet.getVoucherId()+" is allocated to customer "+voucherWallet.getCustomerId());
+    }
 }
