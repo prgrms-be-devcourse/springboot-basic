@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedStatic;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @DisplayName("Voucher Application 시나리오 테스트")
@@ -27,6 +29,7 @@ import static org.mockito.Mockito.mockStatic;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherApplicationTests {
     private static MockedStatic<VoucherApplication> voucherApplication;
+
     @BeforeAll
     static void registStaticApplication() {
         voucherApplication = mockStatic(VoucherApplication.class);
@@ -95,14 +98,13 @@ class VoucherApplicationTests {
         @DisplayName("명령어가 아닌 다른 입력을 한다면")
         class WhenInputIllegalCommand {
             @ParameterizedTest
-            @ValueSource(strings = {"dojin","listz","cret"})
+            @ValueSource(strings = {"dojin", "listz", "cret"})
             @DisplayName("에러 메세지를 출력한다")
             void thenDisplayErrorMessage(String userWrongInput) {
                 InputStream inputCommandStream = generateUserInput(userWrongInput);
                 System.setIn(inputCommandStream);
-                InputView.setScanner(sc);
-
                 Scanner sc = new Scanner(System.in);
+                InputView.setScanner(sc);
                 StringBuilder sb = new StringBuilder();
                 sb.append(userWrongInput);
                 sb.append(": command not found\n");
@@ -112,6 +114,7 @@ class VoucherApplicationTests {
                 assertThat(output.toString()).isEqualTo(expectedCommandListMessage);
             }
         }
+
         @Nested
         @Order(1)
         @DisplayName("create 명령어를 입력하면")
@@ -119,7 +122,7 @@ class VoucherApplicationTests {
             private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
             @ParameterizedTest
-            @ValueSource(strings = {"create","CREATE","Create"})
+            @ValueSource(strings = {"create", "CREATE", "Create"})
             @DisplayName("바우처 생성을 위한 정보를 입력 받아야한다.")
             void thenInputModeForVoucherCreate(String inputCommand) {
                 VoucherApplication.main(new String[]{});
@@ -136,43 +139,33 @@ class VoucherApplicationTests {
                 InputView.setScanner(sc);
                 System.setOut(new PrintStream(output));
                 assertThat(output.toString()).isEqualTo(expectedCommandListMessage);
-            }        }
+            }
+        }
 
         @Nested
         @Order(2)
         @DisplayName("list 명령어를 입력하면")
         class WhenInputCommandList {
-            private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-            @Autowired
+            @Spy
             private final VoucherRepository voucherRepository;
+            @Spy
+            private final ApplicationController applicationController;
+            @Spy
+            private final VoucherController voucherController;
 
             @ParameterizedTest
-            @ValueSource(strings = {"list","LIST","List"})
+            @ValueSource(strings = {"list", "LIST", "List"})
             @DisplayName("생성된 바우처 리스트를 출력한다")
             void thenDisplayVoucherList(String inputCommand) {
+                // Command가 입력되는 환경 설정
                 InputStream inputCommandStream = generateUserInput(inputCommand);
                 System.setIn(inputCommandStream);
                 Scanner sc = new Scanner(System.in);
-                StringBuilder sb = new StringBuilder();
-                VoucherType sampleVoucherType = VoucherType.FIXED_AMOUNT;
-                int sampleVoucherAmount = 5000;
-                LocalDateTime sampleCreateAt = LocalDateTime.now();
-
-                Voucher sampleVoucher = new Voucher(sampleVoucherType,
-                                                    sampleVoucherAmount,
-                                                    sampleCreateAt);
-
-                voucherRepository.save(sampleVoucher);
-
-                sb.append("=== Voucher List ===");
-                sb.append(sampleVoucher.toString());
-                sb.append("====================");
-                String expectedCommandListMessage = sb.toString();
-
                 InputView.setScanner(sc);
-                System.setOut(new PrintStream(output));
-                assertThat(output.toString()).isEqualTo(expectedCommandListMessage);
+
+                // 바우처 전체를 조회하는 함수가 호출 되었는 지 확인
+                verify(voucherController).findAll();
             }
         }
 
@@ -182,7 +175,7 @@ class VoucherApplicationTests {
         class WhenInputCommandExit {
 
             @ParameterizedTest
-            @ValueSource(strings = {"exit","EXIT","exiT","Exit"})
+            @ValueSource(strings = {"exit", "EXIT", "exiT", "Exit"})
             @DisplayName("어플리케이션을 종료한다")
             void thenTerminateApplication(String userInput) {
                 VoucherApplication.main(new String[]{});
