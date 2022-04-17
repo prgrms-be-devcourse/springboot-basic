@@ -14,7 +14,7 @@
 
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>ERROR</level>
+      <level>DEBUG</level>
     </filter>
 
     <file>logs/log.log</file>

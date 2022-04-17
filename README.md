@@ -77,7 +77,7 @@ SpringBoot Part1 Weekly Mission
 - [X] service 계층에서 createvoucher시 create 되게
 - [X] Voucher 도메인의 FileVoucherRepository 의존성 낮추기.
     - DTO 객체를 이용해보자.
-- [ ] 파일에 로그를 남길 때 어느 레벨까지 남길지 고민해보기.
+- [X] 파일에 로그를 남길 때 어느 레벨까지 남길지 고민해보기.
 - [ ] Test 메서드 명도 신경쓰기.
 - [ ] 동시 테스트 softAssertions 이용해보기.
 - [X] BeforeEach, AfterEach 하나만 하도록 코드 수정
