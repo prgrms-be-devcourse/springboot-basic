@@ -1,9 +1,11 @@
 package org.prgms.voucherProgram.domain.program;
 
 import org.prgms.voucherProgram.domain.menu.VoucherMenuType;
-import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.domain.voucher.VoucherType;
-import org.prgms.voucherProgram.exception.WrongFileException;
+import org.prgms.voucherProgram.dto.VoucherDto;
+import org.prgms.voucherProgram.exception.WrongCommandException;
+import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
+import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
 import org.prgms.voucherProgram.view.InputView;
@@ -29,56 +31,44 @@ public class VoucherProgram {
             VoucherMenuType voucherMenuType = inputMenu();
             switch (voucherMenuType) {
                 case EXIT -> isNotEndProgram = false;
-                case LIST -> printVouchers();
                 case CREATE -> createVoucher();
+                case LIST -> outputView.printVouchers(voucherService.findAllVoucher());
             }
         }
     }
 
     private void createVoucher() {
-        VoucherType voucherType = inputVoucherCommand();
-        Voucher voucher = createVoucher(voucherType);
-        outputView.printVoucher(voucher);
+        VoucherType voucherType = inputVoucherType();
+        VoucherDto voucherDto = inputView.inputVoucherInformation(voucherType.getNumber());
+        while (true) {
+            try {
+                outputView.printVoucher(voucherService.create(voucherDto));
+                return;
+            } catch (WrongDiscountAmountException e) {
+                outputView.printError(e.getMessage());
+                voucherDto.setDiscountValue(inputView.inputDiscountAmount());
+            } catch (WrongDiscountPercentException e) {
+                outputView.printError(e.getMessage());
+                voucherDto.setDiscountValue(inputView.inputDiscountPercent());
+            }
+        }
+    }
+
+    private VoucherType inputVoucherType() {
+        while (true) {
+            try {
+                return VoucherType.findByNumber(inputView.inputVoucherType());
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
     }
 
     private VoucherMenuType inputMenu() {
         while (true) {
             try {
                 return VoucherMenuType.from(inputView.inputVoucherMenu());
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-    }
-
-    private void printVouchers() {
-        try {
-            outputView.printVouchers(voucherService.findAllVoucher());
-        } catch (IllegalArgumentException e) {
-            outputView.printError(e.getMessage());
-            System.exit(0);
-        }
-    }
-
-    private VoucherType inputVoucherCommand() {
-        while (true) {
-            try {
-                return VoucherType.findByCommand(inputView.inputVoucherCommand());
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-    }
-
-    private Voucher createVoucher(VoucherType voucherType) {
-        while (true) {
-            try {
-                long discountValue = inputView.inputDiscountValue(voucherType);
-                return voucherService.create(voucherType, discountValue);
-            } catch (WrongFileException e) {
-                outputView.printError(e.getMessage());
-                System.exit(0);
-            } catch (IllegalArgumentException e) {
+            } catch (WrongCommandException e) {
                 outputView.printError(e.getMessage());
             }
         }

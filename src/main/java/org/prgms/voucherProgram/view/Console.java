@@ -5,9 +5,8 @@ import java.util.Scanner;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.customer.Customer;
-import org.prgms.voucherProgram.domain.voucher.Voucher;
-import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.dto.CustomerDto;
+import org.prgms.voucherProgram.dto.VoucherDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -55,10 +54,23 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public String inputVoucherCommand() {
-        System.out.println(REQUEST_INPUT_VOUCHER_TYPE);
-        System.out.print(PROMPT);
-        return scanner.nextLine().trim();
+    public int inputVoucherType() {
+        return convertToInt();
+    }
+
+    @Override
+    public VoucherDto inputVoucherInformation(int voucherType) {
+        long discountValue = inputDiscountValue(voucherType);
+        return new VoucherDto(UUID.randomUUID(), null, voucherType, discountValue);
+    }
+
+    private long inputDiscountValue(int voucherType) {
+        String message = REQUEST_INPUT_DISCOUNT_PERCENTAGE;
+        if (voucherType == 1) {
+            message = REQUEST_INPUT_DISCOUNT_AMOUNT;
+        }
+        System.out.print(message);
+        return convertToLong(message);
     }
 
     @Override
@@ -81,28 +93,43 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public long inputDiscountValue(VoucherType voucherType) {
-        String message = REQUEST_INPUT_DISCOUNT_PERCENTAGE;
-
-        if (voucherType == VoucherType.FIXED_AMOUNT) {
-            message = REQUEST_INPUT_DISCOUNT_AMOUNT;
-        }
-
-        System.out.print(message);
-        return convertToLong(scanner.nextLine().trim());
+    public Long inputDiscountPercent() {
+        System.out.print(REQUEST_INPUT_DISCOUNT_PERCENTAGE);
+        return convertToLong(REQUEST_INPUT_DISCOUNT_PERCENTAGE);
     }
 
-    private Long convertToLong(String input) {
-        try {
-            return Long.parseLong(input);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(ERROR_INPUT_NUMBER_TYPE);
+    @Override
+    public Long inputDiscountAmount() {
+        System.out.print(REQUEST_INPUT_DISCOUNT_AMOUNT);
+        return convertToLong(REQUEST_INPUT_DISCOUNT_PERCENTAGE);
+    }
+
+    private int convertToInt() {
+        while (true) {
+            try {
+                System.out.println(REQUEST_INPUT_VOUCHER_TYPE);
+                System.out.print(PROMPT);
+                return Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                printError(ERROR_INPUT_NUMBER_TYPE);
+            }
+        }
+    }
+
+    private Long convertToLong(String requestMessage) {
+        while (true) {
+            try {
+                return Long.parseLong(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                printError(ERROR_INPUT_NUMBER_TYPE);
+                System.out.println(requestMessage);
+            }
         }
     }
 
     @Override
-    public void printVoucher(Voucher voucher) {
-        System.out.printf("%s\n%n", voucher);
+    public void printVoucher(VoucherDto voucherDto) {
+        System.out.printf("%s\n%n", voucherDto);
     }
 
     @Override
@@ -111,15 +138,15 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public void printVouchers(List<Voucher> vouchers) {
+    public void printVouchers(List<VoucherDto> vouchers) {
         if (vouchers.isEmpty()) {
             System.out.printf("\n%s%n\n", EMPTY_VOUCHERS);
             return;
         }
 
         System.out.println();
-        for (Voucher voucher : vouchers) {
-            System.out.println(voucher);
+        for (VoucherDto voucherDto : vouchers) {
+            System.out.println(voucherDto);
         }
         System.out.println();
     }

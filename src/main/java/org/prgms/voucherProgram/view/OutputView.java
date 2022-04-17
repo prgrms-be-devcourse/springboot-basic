@@ -3,16 +3,16 @@ package org.prgms.voucherProgram.view;
 import java.util.List;
 
 import org.prgms.voucherProgram.domain.customer.Customer;
-import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.dto.CustomerDto;
+import org.prgms.voucherProgram.dto.VoucherDto;
 
 public interface OutputView {
 
-    void printVoucher(Voucher voucher);
+    void printVoucher(VoucherDto VoucherDto);
 
     void printCustomer(CustomerDto customerDto);
 
-    void printVouchers(List<Voucher> vouchers);
+    void printVouchers(List<VoucherDto> vouchers);
 
     void printCustomers(List<CustomerDto> customers);
 

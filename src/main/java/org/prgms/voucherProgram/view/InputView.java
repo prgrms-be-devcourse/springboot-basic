@@ -1,7 +1,7 @@
 package org.prgms.voucherProgram.view;
 
-import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.dto.CustomerDto;
+import org.prgms.voucherProgram.dto.VoucherDto;
 
 public interface InputView {
 
@@ -13,7 +13,9 @@ public interface InputView {
 
     String inputCustomerSubMenu();
 
-    String inputVoucherCommand();
+    int inputVoucherType();
+
+    VoucherDto inputVoucherInformation(int voucherType);
 
     CustomerDto inputCustomerInformation();
 
@@ -21,6 +23,7 @@ public interface InputView {
 
     String inputCustomerEmail();
 
-    long inputDiscountValue(VoucherType voucherType);
-}
+    Long inputDiscountPercent();
 
+    Long inputDiscountAmount();
+}

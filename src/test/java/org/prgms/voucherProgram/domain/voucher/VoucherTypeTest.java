@@ -14,17 +14,17 @@ class VoucherTypeTest {
     @DisplayName("command를 통해 해당하는 VoucherType을 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {"1,FIXED_AMOUNT", "2,PERCENT_DISCOUNT"})
-    void findByCommand_VoucherCommand_ReturnVoucherType(String command, VoucherType voucherType) {
-        assertThat(VoucherType.findByCommand(command)).isEqualTo(voucherType);
+    void findByCommand_VoucherCommand_ReturnVoucherType(int command, VoucherType voucherType) {
+        assertThat(VoucherType.findByNumber(command)).isEqualTo(voucherType);
     }
 
     @DisplayName("올바르지 않은 command은 예외를 발생한다.")
     @ParameterizedTest
-    @ValueSource(strings = {"asd", "", "  ", "lists"})
-    void findByCommand_WrongVoucherCommand_ThrowsException(String command) {
-        assertThatThrownBy(() -> VoucherType.findByCommand(command))
+    @ValueSource(strings = {"6", "5", "4", "3"})
+    void findByCommand_WrongVoucherCommand_ThrowsException(int command) {
+        assertThatThrownBy(() -> VoucherType.findByNumber(command))
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("[ERROR] 올바른 바우처 커맨드가 아닙니다.");
+            .hasMessage("[ERROR] 올바른 바우처 타입이 아닙니다.");
     }
 
     @DisplayName("FIXED_AMOUNT일때 FixedAmountVoucher를 생성한다.")

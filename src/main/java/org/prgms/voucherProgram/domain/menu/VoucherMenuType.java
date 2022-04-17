@@ -2,12 +2,12 @@ package org.prgms.voucherProgram.domain.menu;
 
 import java.util.Arrays;
 
+import org.prgms.voucherProgram.exception.WrongCommandException;
+
 public enum VoucherMenuType {
     EXIT("exit"),
     CREATE("create"),
     LIST("list");
-
-    private static final String ERROR_WRONG_INPUT_MENU_MESSAGE = "[ERROR] 올바른 메뉴 입력이 아닙니다.";
 
     private final String command;
 
@@ -19,6 +19,6 @@ public enum VoucherMenuType {
         return Arrays.stream(VoucherMenuType.values())
             .filter(type -> type.command.equalsIgnoreCase(command))
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(ERROR_WRONG_INPUT_MENU_MESSAGE));
+            .orElseThrow(WrongCommandException::new);
     }
 }

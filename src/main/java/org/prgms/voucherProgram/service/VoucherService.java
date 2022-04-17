@@ -1,28 +1,31 @@
 package org.prgms.voucherProgram.service;
 
+import static java.util.stream.Collectors.*;
+
 import java.util.List;
-import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.voucher.Voucher;
-import org.prgms.voucherProgram.domain.voucher.VoucherType;
+import org.prgms.voucherProgram.dto.VoucherDto;
 import org.prgms.voucherProgram.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VoucherService {
 
-    private final VoucherRepository repository;
+    private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository repository) {
-        this.repository = repository;
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
     }
 
-    public Voucher create(VoucherType voucherType, long discountValue) {
-        Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), null, discountValue);
-        return repository.save(voucher);
+    public VoucherDto create(VoucherDto voucherDto) {
+        Voucher voucher = voucherDto.toEntity();
+        return VoucherDto.from(voucherRepository.save(voucher));
     }
 
-    public List<Voucher> findAllVoucher() {
-        return repository.findAll();
+    public List<VoucherDto> findAllVoucher() {
+        return voucherRepository.findAll().stream()
+            .map(VoucherDto::from)
+            .collect(toList());
     }
 }
