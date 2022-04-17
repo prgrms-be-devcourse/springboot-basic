@@ -7,8 +7,6 @@ public abstract class Voucher implements Serializable {
 
     private UUID voucherId;
 
-    protected Voucher() {}
-
     protected Voucher(UUID voucherId) {
         this.voucherId = voucherId;
     }

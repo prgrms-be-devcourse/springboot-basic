@@ -5,10 +5,9 @@ import java.util.UUID;
 public class FixedAmountVoucher extends Voucher {
 
     private final long amount;
-    private final UUID voucherId;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
-        this.voucherId = voucherId;
+        super(voucherId);
         this.amount = amount;
     }
 
@@ -20,8 +19,8 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
-                "amount=" + amount +
-                ", voucherId=" + voucherId +
+                "voucherId=" + super.getVoucherId() +
+                ", amount=" + amount +
                 '}';
     }
 }
