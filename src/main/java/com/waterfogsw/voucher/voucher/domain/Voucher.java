@@ -12,4 +12,8 @@ public class Voucher {
         this.type = type;
         this.value = value;
     }
+
+    public UUID getVoucherId() {
+        return voucherId;
+    }
 }
