@@ -22,7 +22,32 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCustomerId(UUID voucherId) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return Collections.unmodifiableList(storage.values().stream().toList());
+    }
+
+    @Override
+    public int updateById(Voucher voucher) {
+        return 0;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public void deleteByCustomerId(UUID customerId) {
+
     }
 }

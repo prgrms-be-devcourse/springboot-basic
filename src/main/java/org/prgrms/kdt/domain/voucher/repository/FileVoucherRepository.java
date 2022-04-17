@@ -1,7 +1,5 @@
 package org.prgrms.kdt.domain.voucher.repository;
 
-import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.util.CsvUtils;
@@ -55,6 +53,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCustomerId(UUID voucherId) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         List<List<String>> csvData;
         try {
@@ -64,6 +67,26 @@ public class FileVoucherRepository implements VoucherRepository {
             throw new IllegalArgumentException("파일의 경로 혹은 이름을 확인해주세요.");
         }
         return parseCsvToList(csvData);
+    }
+
+    @Override
+    public int updateById(Voucher voucher) {
+        return 0;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public void deleteByCustomerId(UUID customerId) {
+
     }
 
     private String createCsvData(Voucher voucher, VoucherType voucherType) {
@@ -82,11 +105,7 @@ public class FileVoucherRepository implements VoucherRepository {
             UUID voucherId = UUID.fromString(row.get(ID_INDEX));
             String discount = row.get(DISCOUNT_INDEX);
             LocalDateTime now = LocalDateTime.now();
-            if(voucherType == VoucherType.FIXED_AMOUNT){
-                vouchers.add(new FixedAmountVoucher(voucherId, Long.parseLong(discount), now, now));
-            } else if(voucherType == VoucherType.PERCENT_DISCOUNT) {
-                vouchers.add(new PercentDiscountVoucher(voucherId, Long.parseLong(discount), now, now));
-            }
+            vouchers.add(new Voucher(voucherId, voucherType, Long.parseLong(discount), now, now));
         }
         return vouchers;
     }
