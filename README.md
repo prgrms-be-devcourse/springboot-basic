@@ -71,3 +71,15 @@ SpringBoot Part1 Weekly Mission
 - [X] Voucher serializable 이유
 - [X] FileVoucherRepository 메서드 1depth로 줄여보기
 - [X] ConstantString 관리 생각하기
+
+### 2차 피드백
+- [X] Voucher 관계 상속 관계로 수정하기
+- [ ] Voucher 도메인의 FileVoucherRepository 의존성 낮추기.
+    - DTO 객체를 이용해보자.
+- [ ] 파일에 로그를 남길 때 어느 레벨까지 남길지 고민해보기.
+- [ ] Test 메서드 명도 신경쓰기.
+- [ ] 동시 테스트 softAssertions 이용해보기.
+- [ ] BeforeEach, AfterEach 하나만 하도록 코드 수정
+- [ ] InstanceOf 지양하기
+- [ ] 메모리 레포에서 굳이 제할당 이유?
+- [ ] service 계층에서 createvoucher시 create 되게
