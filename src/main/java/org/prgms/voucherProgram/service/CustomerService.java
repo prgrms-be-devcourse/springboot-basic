@@ -10,6 +10,7 @@ import org.prgms.voucherProgram.dto.CustomerDto;
 import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.prgms.voucherProgram.repository.customer.BlackListRepository;
+import org.prgms.voucherProgram.repository.customer.CustomerRepository;
 import org.prgms.voucherProgram.repository.customer.JdbcCustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,28 +21,28 @@ public class CustomerService {
     private static final String ERROR_DUPLICATE_CUSTOMER_MESSAGE = "[ERROR] 이미 존재하는 고객입니다.";
 
     private final BlackListRepository blackListRepository;
-    private final JdbcCustomerRepository jdbcCustomerRepository;
+    private final CustomerRepository customerRepository;
 
-    public CustomerService(JdbcCustomerRepository jdbcCustomerRepository, BlackListRepository fileCustomerRepository) {
-        this.jdbcCustomerRepository = jdbcCustomerRepository;
+    public CustomerService(JdbcCustomerRepository customerRepository, BlackListRepository fileCustomerRepository) {
+        this.customerRepository = customerRepository;
         this.blackListRepository = fileCustomerRepository;
     }
 
     public CustomerDto save(CustomerDto customerDto) {
         Customer customer = customerDto.toEntity();
         validateDuplicateCustomer(customer);
-        return CustomerDto.from(jdbcCustomerRepository.save(customer));
+        return CustomerDto.from(customerRepository.save(customer));
     }
 
     private void validateDuplicateCustomer(Customer customer) {
-        jdbcCustomerRepository.findByEmail(customer.getEmail())
+        customerRepository.findByEmail(customer.getEmail())
             .ifPresent(duplicateCustomer -> {
                 throw new DuplicateEmailException();
             });
     }
 
     public CustomerDto update(Email email, CustomerDto customerDto) {
-        Customer customer = jdbcCustomerRepository.findByEmail(email.getEmail())
+        Customer customer = customerRepository.findByEmail(email.getEmail())
             .orElseThrow(() -> {
                 throw new CustomerIsNotExistsException();
             });
@@ -50,10 +51,10 @@ public class CustomerService {
         customer.changeEmail(customerDto.getEmail());
         customer.login();
 
-        jdbcCustomerRepository.findByEmail(customer.getEmail())
+        customerRepository.findByEmail(customer.getEmail())
             .ifPresent(findCustomer -> validateDuplicateEmail(customer, findCustomer));
 
-        return CustomerDto.from(jdbcCustomerRepository.update(customer));
+        return CustomerDto.from(customerRepository.update(customer));
     }
 
     private void validateDuplicateEmail(Customer customer, Customer findCustomer) {
@@ -63,15 +64,15 @@ public class CustomerService {
     }
 
     public void delete(Email email) {
-        jdbcCustomerRepository.findByEmail(email.getEmail()).ifPresentOrElse(
-            customer -> jdbcCustomerRepository.deleteByEmail(email.getEmail()),
+        customerRepository.findByEmail(email.getEmail()).ifPresentOrElse(
+            customer -> customerRepository.deleteByEmail(email.getEmail()),
             () -> {
                 throw new CustomerIsNotExistsException();
             });
     }
 
     public CustomerDto findByEmail(Email email) {
-        Customer customer = jdbcCustomerRepository.findByEmail(email.getEmail())
+        Customer customer = customerRepository.findByEmail(email.getEmail())
             .orElseThrow(() -> {
                 throw new CustomerIsNotExistsException();
             });
@@ -80,7 +81,7 @@ public class CustomerService {
     }
 
     public List<CustomerDto> findCustomers() {
-        return jdbcCustomerRepository.findAll()
+        return customerRepository.findAll()
             .stream()
             .map(CustomerDto::from)
             .collect(toList());
