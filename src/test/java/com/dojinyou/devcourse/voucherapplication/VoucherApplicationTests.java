@@ -106,14 +106,8 @@ class VoucherApplicationTests {
                 InputStream inputStream = generateUserInput(userInput);
                 System.setIn(inputStream);
                 Scanner sc = new Scanner(System.in);
-                // input에서 받는 view에 생성된 sc를 삽입해서 정리
+                InputView.setScanner(sc);
                 // 어플리케이션 종료된 것을 어떻게 확인할 수 있는지??
-            }
-
-            @Test
-            @DisplayName("요청 명령과 명령어와 명령 시간을 정보로 로깅한다")
-            void thenLoggingInformationOfBehaviorAndInputValueAndTime() {
-                // TODO: 테스트코드 작성
             }
         }
 
@@ -141,14 +135,7 @@ class VoucherApplicationTests {
                 InputView.setScanner(sc);
                 System.setOut(new PrintStream(output));
                 assertThat(output.toString()).isEqualTo(expectedCommandListMessage);
-            }
-
-            @Test
-            @DisplayName("요청 명령과 명령어와 명령 시간을 정보로 로깅한다")
-            void thenLoggingInformationOfBehaviorAndInputValueAndTime() {
-                // TODO: 테스트코드 작성
-            }
-        }
+            }        }
 
         @Nested
         @Order(2)
@@ -186,12 +173,6 @@ class VoucherApplicationTests {
                 System.setOut(new PrintStream(output));
                 assertThat(output.toString()).isEqualTo(expectedCommandListMessage);
             }
-
-            @Test
-            @DisplayName("요청 명령과 명령어와 명령 시간을 정보로 로깅한다")
-            void thenLoggingInformationOfBehaviorAndInputValueAndTime() {
-                // TODO: 테스트코드 작성
-            }
         }
 
         @Nested
@@ -215,13 +196,6 @@ class VoucherApplicationTests {
                 System.setOut(new PrintStream(output));
                 assertThat(output.toString()).isEqualTo(expectedCommandListMessage);
             }
-
-            @Test
-            @DisplayName("요청 명령과 명령어와 실패 시간을 정보로써 로깅한다")
-            void thenLoggingInformationOfBehaviorAndInputValueAndTime() {
-                // TODO: 테스트코드 작성
-            }
         }
     }
-
 }
