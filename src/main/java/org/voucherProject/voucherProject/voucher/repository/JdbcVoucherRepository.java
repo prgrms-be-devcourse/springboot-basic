@@ -1,6 +1,5 @@
 package org.voucherProject.voucherProject.voucher.repository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherStatus;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
-
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

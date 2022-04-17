@@ -42,7 +42,6 @@ public enum VoucherType {
 
     public abstract Voucher createVoucher(UUID voucherId, long amount, VoucherStatus voucherStatus, LocalDateTime createdAt, UUID customerId);
 
-
     public static VoucherType getVoucherType(String voucherTypeString) {
         VoucherType voucherType = Arrays.stream(VoucherType.values())
                 .filter(v -> v.equals(voucherTypeString.toUpperCase()))
@@ -51,9 +50,6 @@ public enum VoucherType {
         return voucherType;
     }
 
-    /**
-     * 콘솔용
-     */
     public static VoucherType getVoucherType(int inputVoucherTypeInt) {
         VoucherType voucherType = Arrays.stream(VoucherType.values())
                 .filter(v -> v.getNumber() == inputVoucherTypeInt)

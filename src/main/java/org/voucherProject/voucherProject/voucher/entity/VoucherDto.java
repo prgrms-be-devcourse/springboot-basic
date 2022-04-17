@@ -2,7 +2,6 @@ package org.voucherProject.voucherProject.voucher.entity;
 
 import lombok.Builder;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -21,5 +20,4 @@ public class VoucherDto {
     private LocalDateTime createdAt;
 
     private UUID customerId;
-
 }

@@ -1,20 +1,15 @@
 package org.voucherProject.voucherProject.customer.repository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.customer.entity.Customer;
-import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 
 import java.nio.ByteBuffer;

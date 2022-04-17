@@ -3,7 +3,6 @@ package org.voucherProject.voucherProject.voucher.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.voucher.entity.*;
-
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +13,6 @@ import java.util.UUID;
 
 @Repository
 @Slf4j
-//@Primary
 public class FileVoucherRepository implements VoucherRepository {
 
     private final String FILE_VOUCHER_REPO_PATH = "src/main/resources/voucherRepository.txt";
@@ -45,7 +43,6 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         return voucher;
     }
-
 
     private void validSameId(Voucher voucher) {
         if (findById(voucher.getVoucherId()).isPresent()) {

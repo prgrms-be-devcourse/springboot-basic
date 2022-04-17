@@ -1,8 +1,6 @@
 package org.voucherProject.voucherProject.voucher.repository;
 
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
-import org.voucherProject.voucherProject.voucher.entity.VoucherType;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
