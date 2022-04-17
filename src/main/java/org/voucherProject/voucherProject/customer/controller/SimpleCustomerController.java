@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.customer.entity.CustomerDto;
 import org.voucherProject.voucherProject.customer.service.CustomerService;
-
 import java.util.List;
 
 @Controller
@@ -59,5 +58,4 @@ public class SimpleCustomerController implements CustomerController {
                 .customerEmail(customerDto.getCustomerEmail())
                 .build();
     }
-
 }

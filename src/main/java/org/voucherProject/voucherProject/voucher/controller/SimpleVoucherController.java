@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +19,6 @@ public class SimpleVoucherController implements VoucherController {
         UUID customerId = voucherDto.getCustomerId();
         long amount = voucherDto.getAmount();
         Voucher voucher = voucherDto.getVoucherType().createVoucher(amount, customerId);
-
         return voucherService.save(voucher);
     }
 

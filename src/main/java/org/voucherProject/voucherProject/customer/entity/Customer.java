@@ -2,7 +2,6 @@ package org.voucherProject.voucherProject.customer.entity;
 
 import lombok.*;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

@@ -1,6 +1,5 @@
 package org.voucherProject.voucherProject.voucher.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,10 +12,8 @@ import org.voucherProject.voucherProject.voucher.entity.FixedAmountVoucher;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherStatus;
 import org.voucherProject.voucherProject.voucher.repository.VoucherRepository;
-
 import java.util.List;
 import java.util.UUID;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -109,11 +106,4 @@ public class VoucherServiceTest {
         Voucher updateVoucher = voucherService.updateVoucher(this.voucher);
         assertThat(updateVoucher.getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
     }
-
-
-
-
-
-
-
 }

@@ -2,7 +2,6 @@ package org.voucherProject.voucherProject.voucher.entity;
 
 import lombok.*;
 import org.springframework.lang.Nullable;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 

@@ -12,11 +12,9 @@ import org.voucherProject.voucherProject.voucher.entity.FixedAmountVoucher;
 import org.voucherProject.voucherProject.voucher.entity.PercentDiscountVoucher;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherStatus;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -124,11 +122,4 @@ public class VoucherRepositoryTest {
         Assertions.assertThrows(RuntimeException.class,
                 () -> voucherRepository.deleteOneByCustomerId(UUID.randomUUID(), UUID.randomUUID()));
     }
-
-
-
-
-
-
-
 }

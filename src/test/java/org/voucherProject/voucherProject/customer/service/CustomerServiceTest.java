@@ -13,7 +13,6 @@ import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 import org.voucherProject.voucherProject.voucher.repository.VoucherRepository;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -116,8 +115,4 @@ public class CustomerServiceTest {
         assertThat(byVoucherType1.size()).isEqualTo(3);
         assertThat(byVoucherType2.size()).isEqualTo(2);
     }
-
-
-
-
 }

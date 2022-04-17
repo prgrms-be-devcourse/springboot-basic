@@ -4,6 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3306/voucher_w2?serverTimezone=Asia/Seoul&useUniCode=yes&characterEncoding=UTF-8
     username: root
     password: root1234
+
 customers-sql:
   SELECT_BY_ID_SQL: SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)
   SELECT_BY_NAME_SQL: SELECT * FROM customers WHERE name  = :name
