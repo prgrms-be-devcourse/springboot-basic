@@ -11,7 +11,7 @@ public class VoucherControllerTest {
     class DescribeCreate{
 
         @Nested
-        @DisplayName("사용자에게 바우처 타입과 할인값을 받으면")
+        @DisplayName("바우처 타입을 파라미터로 받으면")
         class ContextReceiveVoucherTypeAndValue{
 
             @Test
@@ -23,6 +23,28 @@ public class VoucherControllerTest {
             @Test
             @DisplayName("생성된 바우처를 리턴한다.")
             void itReturnVoucher() {
+
+            }
+        }
+
+        @Nested
+        @DisplayName("전달받은 인자가 null이면")
+        class ContextReceiveNull{
+
+            @Test
+            @DisplayName("에러메시지를 출력한다.")
+            void itPrintNullError(){
+
+            }
+        }
+
+        @Nested
+        @DisplayName("전달 받은 인자가 공백, 빈문자열이면")
+        class ContextWhiteSpace{
+
+            @Test
+            @DisplayName("에러메시지를 출력한다.")
+            void itPrintWhiteSpaceError(){
 
             }
         }
