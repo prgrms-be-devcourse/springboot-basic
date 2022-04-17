@@ -32,7 +32,7 @@ public class VoucherControllerTest {
         class ContextReceiveNull{
 
             @Test
-            @DisplayName("널 에러메시지를 출력한다.")
+            @DisplayName("null 에러메시지를 출력한다.")
             void itPrintNullError(){
 
             }
