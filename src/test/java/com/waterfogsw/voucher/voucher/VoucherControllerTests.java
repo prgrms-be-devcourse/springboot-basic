@@ -10,8 +10,19 @@ public class VoucherControllerTests {
     class Describe_voucherSave {
 
         @Nested
-        @DisplayName("인자가 잘못되어 바우처 생성과정에서 에러가 발생하면")
-        class Context_with_voucher_creation_error {
+        @DisplayName("fixed amount 바우처 타입의 amount가 잘못되어 생성과정에서 에러가 발생하면")
+        class Context_with_voucher_creation_error_with_wrong_amount {
+
+            @Test
+            @DisplayName("에러 메시지를 리턴한다")
+            void it_return_error_message() {
+
+            }
+        }
+
+        @Nested
+        @DisplayName("percent discount 바우처 타입의 percent가 잘못되어 생성과정에서 에러가 발생하면")
+        class Context_with_voucher_creation_erro_with_wrong_percent {
 
             @Test
             @DisplayName("에러 메시지를 리턴한다")
