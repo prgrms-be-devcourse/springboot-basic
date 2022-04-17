@@ -13,14 +13,12 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,8 +35,8 @@ import static org.hamcrest.Matchers.*;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class VoucherJdbcRepositoryTest {
-  private static final Logger log = LoggerFactory.getLogger(VoucherJdbcRepositoryTest.class);
+class JdbcVoucherRepositoryTest {
+  private static final Logger log = LoggerFactory.getLogger(JdbcVoucherRepositoryTest.class);
 
   @Configuration
   @ComponentScan(
@@ -68,7 +66,7 @@ class VoucherJdbcRepositoryTest {
   }
 
   @Autowired
-  VoucherJdbcRepository voucherJdbcRepository;
+  JdbcVoucherRepository jdbcVoucherRepository;
 
   @Autowired
   DataSource dataSource;
@@ -103,26 +101,26 @@ class VoucherJdbcRepositoryTest {
   @Disabled
   @DisplayName("voucherJdbcRepository가 null이면 안 된다")
   void repositoryIsNotNull() {
-    assertThat(voucherJdbcRepository, is(notNullValue()));
+    assertThat(jdbcVoucherRepository, is(notNullValue()));
   }
 
   @Test
   @Order(1)
   @DisplayName("voucherJdbcRepository에 Voucher 인스턴스를 저장할 수 있다")
   void testInsert() {
-    voucherJdbcRepository.insert(fixedAmountVoucher1);
-    assertThat(voucherJdbcRepository.count(), is(1));
+    jdbcVoucherRepository.insert(fixedAmountVoucher1);
+    assertThat(jdbcVoucherRepository.count(), is(1));
 
-    voucherJdbcRepository.insert(percentDiscountVoucher1);
-    assertThat(voucherJdbcRepository.count(), is(not(1)));
-    assertThat(voucherJdbcRepository.count(), is(2));
+    jdbcVoucherRepository.insert(percentDiscountVoucher1);
+    assertThat(jdbcVoucherRepository.count(), is(not(1)));
+    assertThat(jdbcVoucherRepository.count(), is(2));
   }
 
 
   @Test
   @Order(2)
   void testfindAll() {
-    List<Voucher> dbVoucherList = voucherJdbcRepository.findAll();
+    List<Voucher> dbVoucherList = jdbcVoucherRepository.findAll();
     assertThat(dbVoucherList.size(), is(2));
   }
 
@@ -130,12 +128,12 @@ class VoucherJdbcRepositoryTest {
   @Order(3)
   @DisplayName("Voucher의 타입을 사용하여 voucher을 조회할 수 있다")
   void testFindByVoucherType() {
-    voucherJdbcRepository.insert(fixedAmountVoucher2);
-    List<Voucher> fixedAmountVouchers = voucherJdbcRepository.findByVoucherType(VoucherType.FIXED_AMOUNT);
+    jdbcVoucherRepository.insert(fixedAmountVoucher2);
+    List<Voucher> fixedAmountVouchers = jdbcVoucherRepository.findByVoucherType(VoucherType.FIXED_AMOUNT);
     assertThat(fixedAmountVouchers.size(), is(2));
 
-    voucherJdbcRepository.insert(percentDiscountVoucher2);
-    List<Voucher> percentDiscountVouchers = voucherJdbcRepository.findByVoucherType(VoucherType.PERCENT_DISCOUNT);
+    jdbcVoucherRepository.insert(percentDiscountVoucher2);
+    List<Voucher> percentDiscountVouchers = jdbcVoucherRepository.findByVoucherType(VoucherType.PERCENT_DISCOUNT);
     assertThat(percentDiscountVouchers.size(), is(2));
   }
 
@@ -143,25 +141,25 @@ class VoucherJdbcRepositoryTest {
   @Order(4)
   @DisplayName("voucherId를 사용하여 voucher를 조회할 수 있다")
   void testByVoucherId() {
-    assertThat(voucherJdbcRepository.findById(fixedAmountVoucher1.getVoucherID()), is(not(Optional.empty())));
-    assertThat(voucherJdbcRepository.findById(UUID.randomUUID()), is(Optional.empty()));
+    assertThat(jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherID()), is(not(Optional.empty())));
+    assertThat(jdbcVoucherRepository.findById(UUID.randomUUID()), is(Optional.empty()));
   }
 
   @Test
   @Order(5)
   @DisplayName("voucherId를 사용하여 reduction을 수정할 수 있다")
   void testUpdateById() {
-    assertThat(voucherJdbcRepository.findById(fixedAmountVoucher1.getVoucherID()).get().getReduction(), is(100L));
-    voucherJdbcRepository.updateById(fixedAmountVoucher1.getVoucherID(), 200L);
-    assertThat(voucherJdbcRepository.findById(fixedAmountVoucher1.getVoucherID()).get().getReduction(), is(200L));
+    assertThat(jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherID()).get().getReduction(), is(100L));
+    jdbcVoucherRepository.updateById(fixedAmountVoucher1.getVoucherID(), 200L);
+    assertThat(jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherID()).get().getReduction(), is(200L));
   }
 
   @Test
   @Order(6)
   void testDeleteById() {
-    voucherJdbcRepository.deleteById(fixedAmountVoucher1.getVoucherID());
-    log.info("voucher size = {}", voucherJdbcRepository.count());
-    Optional<Voucher> foundVoucher = voucherJdbcRepository.findById(fixedAmountVoucher1.getVoucherID());
+    jdbcVoucherRepository.deleteById(fixedAmountVoucher1.getVoucherID());
+    log.info("voucher size = {}", jdbcVoucherRepository.count());
+    Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherID());
     assertThat(foundVoucher.isPresent(), is(false));
   }
 
@@ -170,8 +168,8 @@ class VoucherJdbcRepositoryTest {
   @DisplayName("deleteAll로 모든 데이터를 삭제할 수 있다")
   void testDeleteAll() {
     // deleteAll을 test 하기 위해서는 db가 비어있으면 안 됨
-    assertThat(voucherJdbcRepository.count(), is(not(0)));
-    voucherJdbcRepository.deleteAll();
-    assertThat(voucherJdbcRepository.count(), is(0));
+    assertThat(jdbcVoucherRepository.count(), is(not(0)));
+    jdbcVoucherRepository.deleteAll();
+    assertThat(jdbcVoucherRepository.count(), is(0));
   }
 }

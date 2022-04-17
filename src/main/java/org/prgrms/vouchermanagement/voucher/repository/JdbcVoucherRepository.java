@@ -15,13 +15,13 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
-public class VoucherJdbcRepository implements VoucherRepository {
+public class JdbcVoucherRepository implements VoucherRepository {
 
-  private static final Logger log = LoggerFactory.getLogger(VoucherJdbcRepository.class);
+  private static final Logger log = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
   private final NamedParameterJdbcTemplate jdbcTemplate;
 
-  public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+  public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
