@@ -152,12 +152,12 @@ class JdbcVoucherRepositoryTest {
         // given
         jdbcVoucherRepository.save(voucher);
         // when
-        voucher.changeDiscountValue(100L);
+        voucher = new FixedAmountVoucher(voucher.getVoucherId(), voucher.getCustomerId(), 50L);
         jdbcVoucherRepository.update(voucher);
         // then
-        Optional<Voucher> updateVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
-        assertThat(updateVoucher).isNotEmpty();
-        assertThat(updateVoucher.get()).usingRecursiveComparison()
+        assertThat(jdbcVoucherRepository.findById(voucher.getVoucherId())).isNotEmpty()
+            .get()
+            .usingRecursiveComparison()
             .isEqualTo(voucher);
     }
 

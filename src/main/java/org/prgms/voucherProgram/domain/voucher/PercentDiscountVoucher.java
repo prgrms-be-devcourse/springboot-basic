@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
-    private DiscountPercent discountPercent;
+    private final DiscountPercent discountPercent;
 
     public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
         super(voucherId);
@@ -19,11 +19,6 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return discountPercent.discount(beforeDiscount);
-    }
-
-    @Override
-    public void changeDiscountValue(Long discountValue) {
-        this.discountPercent = new DiscountPercent(discountValue);
     }
 
     @Override
