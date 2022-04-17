@@ -28,7 +28,10 @@ public class CommandLineApplication {
   private static final Scanner scanner = new Scanner(System.in);
   public static void main(String[] args) {
     ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+    run(applicationContext);
+  }
 
+  static void run(ApplicationContext applicationContext) {
     // 1. 사용 가능한 command를 출력
     System.out.println(AVAILABLE_COMMANDS);
 
