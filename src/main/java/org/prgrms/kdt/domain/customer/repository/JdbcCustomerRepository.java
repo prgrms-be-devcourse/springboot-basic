@@ -61,7 +61,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     public Optional<Customer> findByVoucherId(UUID voucherId) {
         try{
             Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer c JOIN voucher v on c.customer_id = v.customer_id WHERE v.voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
-                    Collections.singletonMap("voucherId", voucherId),
+                    Collections.singletonMap("voucherId", UuidUtils.UuidToByte(voucherId)),
                     customerRowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
