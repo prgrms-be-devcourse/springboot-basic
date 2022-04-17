@@ -1,6 +1,8 @@
 package kdt.vouchermanagement.domain.voucher.service;
 
+import kdt.vouchermanagement.domain.voucher.domain.Voucher;
+
 public interface VoucherService {
 
-    void createVoucher(String voucherTypeNum, String discountValue);
+    Voucher createVoucher(String voucherTypeNum, String discountValue);
 }
