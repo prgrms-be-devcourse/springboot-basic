@@ -118,7 +118,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
       resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
     LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-    log.info("customer id -> {}, customer name -> {}, createdAt -> {}", customerId, customerName, createdAt);
     return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
   };
 
