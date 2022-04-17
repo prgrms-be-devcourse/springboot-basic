@@ -21,7 +21,7 @@ public enum CustomerMenuType {
     }
 
     public static CustomerMenuType from(String command) {
-        return Stream.of(CREATE, READ, UPDATE, DELETE)
+        return Stream.of(CREATE, READ, UPDATE, DELETE, EXIT)
             .filter(type -> type.command.equalsIgnoreCase(command))
             .findFirst()
             .orElseThrow(WrongCommandException::new);
