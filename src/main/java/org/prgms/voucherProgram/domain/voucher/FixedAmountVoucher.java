@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
-    private final DiscountAmount discountAmount;
+    private DiscountAmount discountAmount;
 
     public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         super(voucherId);
@@ -23,6 +23,11 @@ public class FixedAmountVoucher extends Voucher {
         }
 
         return discountAmount.discount(beforeDiscount);
+    }
+
+    @Override
+    public void changeDiscountValue(Long discountValue) {
+        this.discountAmount = new DiscountAmount(discountValue);
     }
 
     @Override

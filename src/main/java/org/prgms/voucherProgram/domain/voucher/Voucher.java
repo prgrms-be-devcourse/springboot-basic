@@ -6,7 +6,7 @@ import java.util.UUID;
 public abstract class Voucher implements Serializable {
 
     protected final UUID voucherId;
-    protected final UUID customerId;
+    protected UUID customerId;
 
     protected Voucher(UUID voucherId, UUID customerId) {
         this.voucherId = voucherId;
@@ -26,7 +26,13 @@ public abstract class Voucher implements Serializable {
         return customerId;
     }
 
+    public void changeCustomerId(UUID customerId) {
+        this.customerId = customerId;
+    }
+
     public abstract long discount(long beforeDiscount);
+
+    public abstract void changeDiscountValue(Long discountValue);
 
     public abstract int getType();
 

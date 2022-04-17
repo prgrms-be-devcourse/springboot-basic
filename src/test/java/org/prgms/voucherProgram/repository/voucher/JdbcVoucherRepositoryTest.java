@@ -118,6 +118,23 @@ class JdbcVoucherRepositoryTest {
             .isEqualTo(vouchers);
     }
 
+    @DisplayName("바우처를 수정한다.")
+    @ParameterizedTest
+    @MethodSource("provideVoucher")
+    void should_updateVoucher(Voucher voucher) {
+        // given
+        jdbcVoucherRepository.save(voucher);
+        // when
+        voucher.changeCustomerId(UUID.randomUUID());
+        voucher.changeDiscountValue(100L);
+        jdbcVoucherRepository.update(voucher);
+        // then
+        Optional<Voucher> updateVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
+        assertThat(updateVoucher).isNotEmpty();
+        assertThat(updateVoucher.get()).usingRecursiveComparison()
+            .isEqualTo(voucher);
+    }
+
     @Configuration
     @ComponentScan(basePackages = "org.prgms.voucherProgram.repository.voucher",
         excludeFilters = @ComponentScan.Filter(
