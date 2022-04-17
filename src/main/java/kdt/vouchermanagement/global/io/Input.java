@@ -1,4 +1,4 @@
-package kdt.vouchermanagement.io;
+package kdt.vouchermanagement.global.io;
 
 public interface Input {
 

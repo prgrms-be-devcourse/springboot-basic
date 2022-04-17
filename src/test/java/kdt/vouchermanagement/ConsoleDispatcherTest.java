@@ -1,7 +1,9 @@
 package kdt.vouchermanagement;
 
-import kdt.vouchermanagement.exception.InvalidMenuException;
-import kdt.vouchermanagement.io.Input;
+import kdt.vouchermanagement.global.exception.InvalidMenuException;
+import kdt.vouchermanagement.global.io.Input;
+import kdt.vouchermanagement.global.view.ConsoleDispatcher;
+import kdt.vouchermanagement.global.view.Menu;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
