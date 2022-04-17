@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
-import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
@@ -13,7 +12,6 @@ import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
-import org.prgms.voucheradmin.global.exception.CustomerNotFoundException;
 import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

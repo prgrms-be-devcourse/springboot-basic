@@ -2,6 +2,9 @@ package org.prgms.voucheradmin.domain.voucherwallet.entity;
 
 import java.util.UUID;
 
+/**
+ * 바우처 집갑 entity 입니다.
+ */
 public class VoucherWallet {
     private UUID voucherWalletId;
     private UUID customerId;

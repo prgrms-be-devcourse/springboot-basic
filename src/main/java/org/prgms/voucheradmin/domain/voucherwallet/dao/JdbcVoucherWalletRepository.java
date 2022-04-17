@@ -13,6 +13,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+
+/**
+ * 비우처 지갑을 생성하고 조회하고 삭제하는 DAO 입니다.
+ */
 @Repository
 public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
 

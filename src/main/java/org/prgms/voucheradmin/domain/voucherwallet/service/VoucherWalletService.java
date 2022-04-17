@@ -1,5 +1,8 @@
 package org.prgms.voucheradmin.domain.voucherwallet.service;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
@@ -13,9 +16,9 @@ import org.prgms.voucheradmin.global.exception.VoucherWalletNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.UUID;
-
+/**
+ * 바우처 집갑에 대한 로직을 수행하는 클래스입니다.
+ */
 @Service
 public class VoucherWalletService {
     private final CustomerRepository customerRepository;

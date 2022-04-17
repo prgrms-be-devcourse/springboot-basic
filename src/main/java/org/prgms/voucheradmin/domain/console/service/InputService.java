@@ -20,6 +20,9 @@ import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.global.exception.WrongInputException;
 import org.springframework.stereotype.Service;
 
+/**
+ * 입력을 담당하는 클래스 입니다.
+ */
 @Service
 public class InputService {
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
