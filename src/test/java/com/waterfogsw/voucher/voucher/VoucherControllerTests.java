@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 
 public class VoucherControllerTests {
     @Nested
-    @DisplayName("create 메소드는")
-    class Describe_create {
+    @DisplayName("voucherSave 메소드는")
+    class Describe_voucherSave {
 
         @Nested
         @DisplayName("인자가 잘못되어 바우처 생성과정에서 에러가 발생하면")
