@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: dev
+
+---
+
+spring:
+  profiles:
+    group:
+      dev:
+        - console-logging
+        - file-logging
+
+path:
+  voucher: voucher.txt
+  blacklist: blacklist.csv
+
+---
+
+spring:
+  profiles:
+    group:
+      prod:
+        - file-logging
+
+path:
+  blacklist: blacklist.csv
+
+---

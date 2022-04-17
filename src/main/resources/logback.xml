@@ -1,0 +1,45 @@
+<configuration>
+  <conversionRule
+    conversionWord="clr"
+    converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+
+  <property name="CONSOLE_LOG_PATTERN"
+    value="%clr(%d{HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID}){magenta} --- %clr([%16t]){faint} %clr(%logger{36}){cyan} : %msg%n"/>
+  <property name="FILE_LOG_PATTERN"
+    value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
+  <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <file>logs/error.log</file>
+    <append>false</append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>
+        logs/error-%d{yyyy-MM-dd}.log
+      </fileNamePattern>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <root level="INFO">
+    <springProfile name="console-logging">
+      <appender-ref ref="STDOUT"/>
+    </springProfile>
+    <springProfile name="file-logging">
+      <appender-ref ref="ROLLING_FILE"/>
+    </springProfile>
+  </root>
+</configuration>
