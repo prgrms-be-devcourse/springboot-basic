@@ -1,5 +1,11 @@
 package kdt.vouchermanagement;
 
+import kdt.vouchermanagement.exception.InvalidMenuException;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
+
 public enum Menu {
     EXIT_PROGRAM("exit"),
     CREATE_VOUCHER("create"),
@@ -13,6 +19,9 @@ public enum Menu {
     }
 
     public static Menu from(String input) {
-        return null;
+        return Arrays.stream(values())
+                .filter(o -> Objects.equals(o.menu, input))
+                .findFirst()
+                .orElseThrow(() -> new InvalidMenuException("입력한 메뉴값이 유효하지 않습니다."));
     }
 }
