@@ -8,6 +8,7 @@ import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -31,10 +32,10 @@ public class VoucherService {
 //      .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
 //  }
 
-  public boolean issueVoucher(Voucher voucher, Customer customer) {
-    if(voucherRepository.findById(voucher.getVoucherID()).isPresent() &&
-      customerRepository.findById(customer.getCustomerId()).isPresent()) {
-      walletRepository.insert(customer.getCustomerId(), voucher.getVoucherID());
+  public boolean issueVoucher(UUID voucherId, UUID customerId) {
+    if(voucherRepository.findById(voucherId).isPresent() &&
+      customerRepository.findById(customerId).isPresent()) {
+      walletRepository.insert(customerId, voucherId);
       return true;
     }
     // cannot issue voucher

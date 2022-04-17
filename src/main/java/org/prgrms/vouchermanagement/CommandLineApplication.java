@@ -1,17 +1,11 @@
 package org.prgrms.vouchermanagement;
 
 import org.prgrms.vouchermanagement.customer.Customer;
-import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
-import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
-import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
-import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -27,6 +21,10 @@ public class CommandLineApplication {
   public static final String AVAILABLE_VOUCHERS = "Which type do you want?\n\t" +
     "1. FixedAmountVoucher(Fixed)\n\t" +
     "2. PercentDiscountVoucher(Percent)";
+
+  public static final String ISSUE_COMMAND_CUSTOMER = "Input the Customer ID: ";
+  public static final String ISSUE_COMMAND_VOUCHER = "Input the Voucher ID: ";
+
   private static final Scanner scanner = new Scanner(System.in);
   public static void main(String[] args) {
     ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
@@ -62,43 +60,18 @@ public class CommandLineApplication {
             System.out.println(customer);
           }
           break;
+        case "issue":
+          System.out.print(ISSUE_COMMAND_CUSTOMER);
+          UUID customerId = UUID.fromString(scanner.nextLine());
+
+          System.out.print(ISSUE_COMMAND_VOUCHER);
+          UUID voucherId = UUID.fromString(scanner.nextLine());
+
+          if(voucherService.issueVoucher(voucherId, customerId)) System.out.println("Issued!");
+          break;
         default:
           System.out.println("Command does not exist");
       }
     }
-
-
-    /*while (true) {
-      String input = textIO.newStringInputReader()
-        .read("Input: ");
-      if(input.equals("exit")) {
-        System.exit(0);
-      }
-      else if(input.equals("create")) {
-        String voucherType;
-
-        while (true) {
-          voucherType = textIO.newStringInputReader()
-            .read(AVAILABLE_VOUCHERS);
-
-          if(voucherType.equals("Fixed") || voucherType.equals("FixedAmountVoucher")) {
-            voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L)); // fix later
-            break;
-          }
-          else if(voucherType.equals("Percent") || voucherType.equals("PercentDiscountVoucher")) {
-            voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 10L)); // fix later
-            break;
-          } else {
-            terminal.printf("%s is a non-existent voucher type.\n", voucherType);
-          }
-        }
-      }
-      else if(input.equals("list")) {
-        terminal.println(voucherRepository.findAll());
-      }
-      else {
-        terminal.printf("%s is a non-existent command.\n", input);
-      }
-    }*/
   }
 }
