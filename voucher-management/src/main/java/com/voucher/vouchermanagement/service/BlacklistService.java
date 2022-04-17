@@ -16,8 +16,6 @@ public class BlacklistService {
     }
 
     public List<Customer> findAll() {
-        List<Customer> foundBlacklist = blackListRepository.findAll();
-
-        return foundBlacklist;
+        return this.blacklistRepository.findAll();
     }
 }
