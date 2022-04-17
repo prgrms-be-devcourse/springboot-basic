@@ -1,6 +1,7 @@
 package org.programmers.devcourse.voucher.engine.customer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.programmers.devcourse.voucher.configuration.JdbcProperties;
+import org.springframework.dao.DataAccessException;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -95,6 +97,16 @@ class JdbcCustomerRepositoryTest {
 
 
   @ParameterizedTest
+  @MethodSource("customerSource")
+  @DisplayName("DB의 모든 customer들을 불러올 수 있어야 한다.")
+  @Order(2)
+  void can_get_all_customers_by_single_method(List<Customer> customers) {
+    var queriedCustomers = repository.getAll();
+    assertThat(queriedCustomers).containsExactlyInAnyOrder(customers.toArray(Customer[]::new));
+  }
+
+
+  @ParameterizedTest
   @MethodSource("uuidSource")
   @DisplayName("customerId와 일치하는 Customer를 가져와야 한다.")
   @Order(2)
@@ -110,4 +122,85 @@ class JdbcCustomerRepositoryTest {
   }
 
 
+  @ParameterizedTest
+  @MethodSource("customerSource")
+  @DisplayName("name과 일치하는 customer를 가져올 수 있어야 한다.")
+  @Order(4)
+  void get_proper_customer_with_email(List<Customer> customers) {
+
+    customers.forEach(originalCustomer -> {
+      var queriedCustomer = repository.getByName(originalCustomer.getName());
+
+      assertThat(queriedCustomer).isNotEmpty();
+      assertThat(queriedCustomer.get().getName()).isEqualTo(originalCustomer.getName());
+    });
+
+  }
+
+  @ParameterizedTest
+  @MethodSource("customerSource")
+  @DisplayName("email이 일치하는 customer를 가져올 수 있어야 한다.")
+  @Order(5)
+  void get_proper_customer_with_name(List<Customer> customers) {
+
+    customers.forEach(originalCustomer -> {
+      var queriedCustomer = repository.getByEmail(originalCustomer.getEmail());
+
+      assertThat(queriedCustomer).isNotEmpty();
+      assertThat(queriedCustomer.get().getEmail()).isEqualTo(originalCustomer.getEmail());
+    });
+
+  }
+
+  @ParameterizedTest
+  @MethodSource("customerSource")
+  @DisplayName("DB에 있는 원하는 customer를 삭제할 수 있어야 한다.")
+  @Order(5)
+  void can_delete_customer(List<Customer> customers) {
+    var customerToDelete = customers.get(0);
+    repository.delete(customerToDelete);
+    assertThat(repository.getById(customerToDelete.getCustomerId())).isEmpty();
+
+    repository.insert(customerToDelete);
+  }
+
+  @ParameterizedTest
+  @MethodSource("customerSource")
+  @DisplayName("DB에 있는 원하는 customer를 수정할 수 있어야 한다.")
+  @Order(6)
+  void can_update_customer(List<Customer> customers) {
+    var customerToUpdate = customers.get(0);
+
+    var updatedCustomer = new Customer(customerToUpdate.getCustomerId(), "boogie",
+        "boogie@gmail.com", null, LocalDateTime.now());
+
+    repository.update(updatedCustomer);
+
+    var searchedCustomer = repository.getById(updatedCustomer.getCustomerId());
+    assertThat(searchedCustomer).isNotEmpty().get()
+        .isEqualTo(updatedCustomer);
+
+    assertThat(searchedCustomer).get().matches(customer -> {
+      return customer.getEmail().equals(updatedCustomer.getEmail()) && customer.getName()
+          .equals(updatedCustomer.getName());
+    });
+
+
+  }
+
+  @ParameterizedTest
+  @MethodSource("customerSource")
+  @DisplayName("transaction이 중간에 실패할 경우 rollback 되어야 한다.")
+  @Order(6)
+  void if_transaction_fails_repository_must_rollback(List<Customer> customers) {
+    assertThatThrownBy(() ->
+        repository.runTransaction(() -> {
+          repository.deleteAll();
+          assertThat(repository.getAll().size()).isEqualTo(0);
+          repository.insert(customers.get(0));
+          repository.insert(customers.get(0)); // exception expected
+        })).isInstanceOf(DataAccessException.class);
+
+    assertThat(repository.getAll().size()).isEqualTo(customers.size());
+  }
 }

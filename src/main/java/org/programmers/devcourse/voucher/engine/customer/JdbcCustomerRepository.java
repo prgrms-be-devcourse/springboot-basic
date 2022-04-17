@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import javax.sql.DataSource;
 import org.programmers.devcourse.voucher.configuration.JdbcProperties;
 import org.programmers.devcourse.voucher.util.UUIDMapper;
 import org.slf4j.Logger;
@@ -25,9 +26,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -36,6 +39,22 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
   private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+  private final DataSource dataSource;
+  private final DataSourceTransactionManager transactionManager;
+
+  public void runTransaction(Runnable runnable) throws DataAccessException {
+    var status = transactionManager.getTransaction(null);
+    try {
+      runnable.run();
+      transactionManager.commit(status);
+    } catch (DataAccessException exception) {
+      transactionManager.rollback(status);
+      throw exception;
+    }
+
+  }
+
 
   private final RowMapper<Customer> mapToCustomer = (resultSet, index) -> {
     UUID customerId = null;
@@ -53,12 +72,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
   };
 
   public JdbcCustomerRepository(JdbcProperties jdbcProperties) {
-    var datasource = DataSourceBuilder.create().type(HikariDataSource.class)
+    dataSource = DataSourceBuilder.create().type(HikariDataSource.class)
         .username(jdbcProperties.getUser()).password(jdbcProperties.getPassword())
         .url(jdbcProperties.getUrl())
         .build();
-    this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(datasource));
+    this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource));
+    this.transactionManager = new DataSourceTransactionManager(dataSource);
   }
+
 
   @Override
   public Optional<Customer> getById(UUID customerId) {
@@ -70,7 +91,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
           mapToCustomer
       );
       return Optional.ofNullable(customer);
+    } catch (EmptyResultDataAccessException exception) {
+      return Optional.empty();
+
     } catch (DataAccessException exception) {
+
       logger.error("DataAccessException", exception);
       return Optional.empty();
 
@@ -96,12 +121,36 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
   @Override
   public Optional<Customer> getByName(String name) {
-    return Optional.empty();
+    try {
+      var customer = namedParameterJdbcTemplate.queryForObject(
+          "SELECT customer_id, name, email, last_login_at, created_at FROM customers WHERE name=:name",
+          Map.of("name", name),
+          mapToCustomer
+      );
+
+      return Optional.ofNullable(customer);
+    } catch (DataAccessException exception) {
+      logger.error("DataAccessException", exception);
+      return Optional.empty();
+
+    }
   }
 
   @Override
   public Optional<Customer> getByEmail(String email) {
-    return Optional.empty();
+    try {
+      var customer = namedParameterJdbcTemplate.queryForObject(
+          "SELECT customer_id, name, email, last_login_at, created_at FROM customers WHERE email=:email",
+          Map.of("email", email),
+          mapToCustomer
+      );
+
+      return Optional.ofNullable(customer);
+    } catch (DataAccessException exception) {
+      logger.error("DataAccessException", exception);
+      return Optional.empty();
+
+    }
   }
 
   @Override
@@ -117,7 +166,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
   @Override
   public List<Customer> getAll() {
-    return null;
+    try {
+      var customers = namedParameterJdbcTemplate.query("SELECT * FROM customers", mapToCustomer);
+      return customers;
+    } catch (DataAccessException exception) {
+      logger.error("DB query failed", exception);
+      return Collections.emptyList();
+    }
   }
 
   @Override
@@ -128,12 +183,30 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
   @Override
   public int delete(Customer customer) {
-    return 0;
+    try {
+      return namedParameterJdbcTemplate.update(
+          "DELETE FROM customers WHERE customer_id = :customerId",
+          Map.of(CUSTOMER_ID.toString(), UUIDMapper.toBytes(customer.getCustomerId())));
+
+
+    } catch (DataAccessException exception) {
+      logger.error("DB query failed", exception);
+      return 0;
+
+    }
   }
 
   @Override
-  public int update(Customer customer) {
-    return 0;
+  public Customer update(Customer customer) {
+
+    try {
+      namedParameterJdbcTemplate.update(
+          "UPDATE customers SET name=:name, email=:email, created_at=:createdAt, last_login_at=:lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
+          mapToParameter(customer));
+    } catch (DataAccessException exception) {
+      logger.error("DataAccessException", exception);
+    }
+    return customer;
   }
 
   enum CustomerParam {
