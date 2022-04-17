@@ -23,7 +23,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.prgrms.vouchermanager" level="error">
+    <logger name="org.prgrms.vouchermanager" level="info">
         <appender-ref ref="FILE"/>
     </logger>
 

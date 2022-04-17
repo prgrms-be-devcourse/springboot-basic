@@ -1,7 +1,7 @@
 package org.prgrms.vouchermanager.customer.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.prgrms.vouchermanager.customer.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -16,28 +16,48 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomerJDBCRepositoryTest {
-
-    @Test
-    void insert_고객을_삽입할_수_있다() {
-        //given
-        Customer customer = new Customer(UUID.randomUUID(), "testName", "test01@email.com");
-
-        //when
-        customerJdbcRepository.insert(customer);
-
-        //then
-        assertThat(customerJdbcRepository.findById(customer.getCustomerId())).isEqualTo(customer);
-    }
 
     @Autowired
     CustomerRepository customerJdbcRepository;
     @Autowired
     DataSource dataSource;
+    Customer testCustomer;
+
+    @BeforeAll
+    void beforeAll() {
+        customerJdbcRepository.deleteAll();
+        testCustomer = new Customer(UUID.randomUUID(), "test_customer", "test@email.com");
+    }
+
+    @Test
+    void insert_고객을_삽입할_수_있다() {
+        //when
+        customerJdbcRepository.insert(testCustomer);
+        Customer findCustomer = customerJdbcRepository.findById(testCustomer.getCustomerId()).get();
+
+        //then
+        assertThat(testCustomer.equals(findCustomer)).isTrue();
+    }
+
+    @Test
+    void update_고객을_업데이트_할_수_있다() {
+        //when
+        customerJdbcRepository.insert(testCustomer);
+        String updatedName = "NewName";
+        testCustomer.changeName(updatedName);
+        customerJdbcRepository.update(testCustomer);
+
+        //then
+        assertThat(customerJdbcRepository.findById(testCustomer.getCustomerId()).get().getName()).isEqualTo(updatedName);
+    }
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgrms.vouchermanager"})
     static class Config {
+
         @Bean
         public DataSource dataSource() {
             return DataSourceBuilder.create()
@@ -47,10 +67,6 @@ class CustomerJDBCRepositoryTest {
                     .type(HikariDataSource.class)
                     .build();
         }
-    }
-
-    @Test
-    void update_고객을_업데이트_할_수_있다() {
     }
 
     @Test

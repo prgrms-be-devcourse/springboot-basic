@@ -6,17 +6,25 @@ import java.util.UUID;
 
 public class Customer {
     private final UUID customerId;
-    private final String email;
-    private final LocalDateTime createAt;
     private String name;
+    private final String email;
     private LocalDateTime lastLoginAt;
+    private final LocalDateTime createAt;
 
     public Customer(UUID customerId, String name, String email) {
         validate(name);
-        this.name = name;
         this.customerId = customerId;
+        this.name = name;
         this.email = email;
         this.createAt = LocalDateTime.now();
+    }
+
+    public Customer(UUID customerId, String name, String email, LocalDateTime createAt, LocalDateTime lastLoginAt) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.lastLoginAt = lastLoginAt;
+        this.createAt = createAt;
     }
 
     public void login() {
@@ -57,7 +65,7 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return customerId.equals(customer.customerId) && email.equals(customer.email) && createAt.equals(customer.createAt) && name.equals(customer.name) && Objects.equals(lastLoginAt, customer.lastLoginAt);
+        return customerId.equals(customer.customerId) && email.equals(customer.email) && name.equals(customer.name);
     }
 
     @Override
