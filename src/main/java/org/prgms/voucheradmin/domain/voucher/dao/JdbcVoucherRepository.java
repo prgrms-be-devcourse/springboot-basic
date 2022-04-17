@@ -65,6 +65,12 @@ public class JdbcVoucherRepository implements VoucherRepository{
         }
     }
 
+    @Override
+    public List<Voucher> findAllocatedVouchers(UUID customerId) {
+        return jdbcTemplate.query("select v.voucher_id, v.voucher_type, v.voucher_amount from voucher_wallets as vw join vouchers as v on vw.voucher_id = v.voucher_id where customer_id = UUID_TO_BIN(?)", voucherRowMapper,
+                customerId.toString().getBytes());
+    }
+
     /**
      * 바우처 수정(voucher type, amount or percent)
      **/

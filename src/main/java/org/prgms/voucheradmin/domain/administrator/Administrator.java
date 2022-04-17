@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucherWallet;
 import org.prgms.voucheradmin.domain.console.service.InputService;
 import org.prgms.voucheradmin.domain.console.service.OutputService;
 import org.prgms.voucheradmin.domain.console.enums.Command;
@@ -69,6 +70,11 @@ public class Administrator {
                         outputService.showCommandAboutCustomer();
                         CommandAboutCustomer commandAboutCustomer = inputService.selectCommandAboutCustomer();
                         doCommandAboutCustomer(commandAboutCustomer);
+                        break;
+                    case VOUCHER_WALLET:
+                        outputService.showCommandAboutVoucherWallet();
+                        CommandAboutVoucherWallet commandAboutVoucherWallet = inputService.selectCommandAboutVoucherWallet();
+                        doCommandAboutVoucherWallet(commandAboutVoucherWallet);
                         break;
                     case BLACKLIST:
                         List<BlacklistCustomerDto> blackListedCustomers = customerService.getBlackList();
@@ -142,12 +148,22 @@ public class Administrator {
             case DELETE:
                 UUID customerIdForDelete = inputService.inputCustomerId();
                 customerService.deleteCustomer(customerIdForDelete);
+        }
+    }
+
+    private void doCommandAboutVoucherWallet(CommandAboutVoucherWallet commandAboutVoucherWallet) throws IOException{
+        switch (commandAboutVoucherWallet) {
             case ALLOCATE_VOUCHER:
                 UUID customerId = inputService.inputCustomerId();
                 UUID voucherId = inputService.inputVoucherId();
 
                 VoucherWallet createdVoucherWallet = voucherWalletService.createVoucherWallet(new CreatVoucherWalletReqDto(customerId, voucherId));
                 outputService.showVoucherWallet(createdVoucherWallet);
+                break;
+            case FIND_ALLOCATED_VOUCHER:
+                UUID customerIdForAllocatedVoucher = inputService.inputCustomerId();
+                List<Voucher> vouchers = voucherWalletService.getAllocatedVouchers(customerIdForAllocatedVoucher);
+                outputService.showVoucherList(vouchers);
                 break;
         }
     }

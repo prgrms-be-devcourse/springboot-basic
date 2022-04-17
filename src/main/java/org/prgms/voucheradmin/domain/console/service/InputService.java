@@ -2,6 +2,7 @@ package org.prgms.voucheradmin.domain.console.service;
 
 import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.findCommandAboutCustomer;
 import static org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher.findCommandAboutVoucher;
+import static org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucherWallet.findCommandAboutVoucherWallet;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
 
 import java.io.BufferedReader;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
 import org.prgms.voucheradmin.domain.console.enums.Command;
 import org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer;
 import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher;
+import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucherWallet;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.global.exception.WrongInputException;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class InputService {
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public Command selectCommand() throws IOException, WrongInputException {
-        String selectedCommand = br.readLine().trim().toUpperCase();
+        String selectedCommand = br.readLine().trim().replace(" ", "_").toUpperCase();
 
         try {
             Command command = Command.valueOf(selectedCommand);
@@ -111,6 +113,14 @@ public class InputService {
         }
 
         return email;
+    }
+
+    public CommandAboutVoucherWallet selectCommandAboutVoucherWallet() throws IOException, WrongInputException {
+        System.out.print("voucher wallet command> ");
+        String selectedCommandId = br.readLine().trim();
+        System.out.println();
+
+        return findCommandAboutVoucherWallet(selectedCommandId).orElseThrow(WrongInputException::new);
     }
 
     private boolean isValidEmail(String email) {

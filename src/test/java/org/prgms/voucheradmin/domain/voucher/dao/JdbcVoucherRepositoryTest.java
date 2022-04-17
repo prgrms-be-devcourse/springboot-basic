@@ -8,6 +8,8 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,9 +20,13 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
+import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
+import org.prgms.voucheradmin.domain.voucherwallet.dao.VoucherWalletRepository;
+import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +38,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class JdbcVoucherRepositoryTest {
+class voucherRepositoryTest {
     @Configuration
     @ComponentScan(
             basePackages = {"org.prgms.voucheradmin"}
@@ -57,11 +63,22 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Autowired
-    VoucherRepository jdbcVoucherRepository;
+    CustomerRepository customerRepository;
+
+    @Autowired
+    VoucherRepository voucherRepository;
+
+    @Autowired
+    VoucherWalletRepository voucherWalletRepository;
 
     EmbeddedMysql embeddedMysql;
 
+    Customer customer = new Customer(UUID.randomUUID(), "tester", "tester@gmail.com", LocalDateTime.now());
     Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+    Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+    Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 50);
+    VoucherWallet voucherWallet1 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher1.getVoucherId());
+    VoucherWallet voucherWallet2 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher2.getVoucherId());
 
     @BeforeAll
     void setUp() {
@@ -86,9 +103,9 @@ class JdbcVoucherRepositoryTest {
     @Order(1)
     @DisplayName("바우처 생성 확인")
     void testCreationVoucher() throws Throwable{
-        jdbcVoucherRepository.create(voucher);
+        voucherRepository.create(voucher);
 
-        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
 
         assertThat(vouchers.size(), is(1));
     }
@@ -97,9 +114,9 @@ class JdbcVoucherRepositoryTest {
     @Order(2)
     @DisplayName("바우처 수정 확인")
     void testUpdateVoucher() throws Throwable{
-        jdbcVoucherRepository.update(new PercentageDiscountVoucher(voucher.getVoucherId(), 20));
+        voucherRepository.update(new PercentageDiscountVoucher(voucher.getVoucherId(), 20));
 
-        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
 
         assertThat(vouchers.get(0).getAmount(), is(20L));
         assertThat(vouchers.get(0).getVoucherType(), is(PERCENTAGE_DISCOUNT));
@@ -109,7 +126,7 @@ class JdbcVoucherRepositoryTest {
     @Order(3)
     @DisplayName("바우처 id 조회 확인")
     void testFindById() throws Throwable{
-        Optional<Voucher> retrievedVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherRepository.findById(voucher.getVoucherId());
 
         assertThat(retrievedVoucher, not(is(Optional.empty())));
     }
@@ -118,10 +135,25 @@ class JdbcVoucherRepositoryTest {
     @Order(4)
     @DisplayName("바우처 삭제 확인")
     void testDeleteById() throws Throwable{
-        jdbcVoucherRepository.delete(voucher);
+        voucherRepository.delete(voucher);
 
-        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
 
         assertThat(vouchers.size(), is(0));
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("고객에게 할당된 바우처 조회")
+    void testFindAllocatedVouchers() throws IOException {
+        customerRepository.create(customer);
+        voucherRepository.create(voucher1);
+        voucherRepository.create(voucher2);
+        voucherWalletRepository.create(voucherWallet1);
+        voucherWalletRepository.create(voucherWallet2);
+
+        List<Voucher> vouchers = voucherRepository.findAllocatedVouchers(customer.getCustomerId());
+
+        assertThat(vouchers.size(), is(2));
     }
 }

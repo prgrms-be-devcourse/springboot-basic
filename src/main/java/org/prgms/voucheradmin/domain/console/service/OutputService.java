@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer;
 import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher;
+import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucherWallet;
 import org.prgms.voucheradmin.domain.customer.dto.BlacklistCustomerDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
@@ -23,10 +24,11 @@ public class OutputService {
 
         commandListBuilder
                 .append("\n=== Voucher Program ===\n")
-                .append("Type exit to exit the program.\n")
-                .append("Type voucher to CRUD about voucher.\n")
-                .append("Type customer to CRUD about customer.\n")
-                .append("Type blacklist to list all blacklisted customers.\n")
+                .append("Type \"exit\" to exit the program.\n")
+                .append("Type \"voucher\" to CRUD about voucher.\n")
+                .append("Type \"customer\" to CRUD about customer.\n")
+                .append("Type \"voucher wallet\" to do something about voucher wallet.\n")
+                .append("Type \"blacklist\" to list all blacklisted customers.\n")
                 .append("command> ");
 
         System.out.print(commandListBuilder);
@@ -87,6 +89,16 @@ public class OutputService {
 
     public void showCustomerList(List<Customer> customers) {
         customers.forEach(customer -> System.out.println(customer));
+    }
+
+    public void showCommandAboutVoucherWallet() {
+        StringBuilder voucherWalletCommandListBuilder = new StringBuilder();
+
+        voucherWalletCommandListBuilder.append("\n");
+        Arrays.stream(CommandAboutVoucherWallet.values())
+                .forEach(commandAboutVoucherWallet -> voucherWalletCommandListBuilder.append(commandAboutVoucherWallet).append("\n"));
+
+        System.out.print(voucherWalletCommandListBuilder);
     }
 
     public void showVoucherWallet(VoucherWallet voucherWallet) {

@@ -16,6 +16,10 @@ public interface VoucherRepository {
         return Optional.empty();
     }
 
+    default List<Voucher> findAllocatedVouchers(UUID customerId) {
+        return null;
+    }
+
     default Voucher update(Voucher voucher){
         return null;
     }

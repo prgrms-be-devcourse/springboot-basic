@@ -6,6 +6,7 @@ import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.FIXED_
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.PERCENTAGE_DISCOUNT;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,11 +17,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
+import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
+import org.prgms.voucheradmin.global.exception.CustomerNotFoundException;
 import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +34,9 @@ class VoucherServiceTest {
 
     @Mock
     VoucherRepository voucherRepository;
+
+    @Mock
+    CustomerRepository customerRepository;
 
     @Test
     @DisplayName("바우처 생성 테스트")

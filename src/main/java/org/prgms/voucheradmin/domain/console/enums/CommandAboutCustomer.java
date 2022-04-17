@@ -13,7 +13,7 @@ public enum CommandAboutCustomer {
     UPDATE("3", "update customer"),
     DELETE("4", "delete customer"),
     ALLOCATE_VOUCHER("5", "allocate voucher"),
-    FIND_VOUCHERS_BY_OWNER("6", "find vouchers by owner"),
+    FIND_ALLOCATED_VOUCHER("6", "find allocated vouchers"),
     DELETE_CUSTOMER_VOUCHER("7", "delete customer's voucher");
 
     private final String commandId;
