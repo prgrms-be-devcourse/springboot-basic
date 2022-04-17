@@ -1,7 +1,10 @@
 package org.voucherProject.voucherProject.voucher.repository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,22 +19,27 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@ConfigurationProperties(prefix = "voucher-sql")
+@Setter
 @Repository
 @Slf4j
 @Primary
-@RequiredArgsConstructor
 public class JdbcVoucherRepository implements VoucherRepository {
 
-    private final String SELECT_ALL_SQL = "select * from voucher";
-    private final String SELECT_BY_ID_SQL = "select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)";
-    private final String INSERT_SQL = "insert into voucher(voucher_id, amount, voucher_type, voucher_status, created_at, customer_id) " +
-            "values (UUID_TO_BIN(:voucherId), :amount, :voucherType, :voucherStatus, :createdAt, UUID_TO_BIN(:customerId))";
-    private final String DELETE_ALL_SQL = "delete from voucher";
-    private final String UPDATE_SQL = "update voucher set voucher_type = :voucherType, voucher_status = :voucherStatus, amount = :amount where customer_id = UUID_TO_BIN(:customerId)";
-    private final String SELECT_BY_CUSTOMER_ID_SQL = "select * from voucher v left join customers c on v.customer_id = c.customer_id where v.customer_id = UUID_TO_BIN(:customerId)";
-    private final String DELETE_ONE_BY_CUSTOMER_ID_SQL = "delete from voucher where customer_id = UUID_TO_BIN(:customerId) and voucher_id = UUID_TO_BIN(:voucherId)";
+    private String SELECT_ALL_SQL;
+    private String SELECT_BY_ID_SQL;
+    private String INSERT_SQL;
+    private String DELETE_ALL_SQL;
+    private String UPDATE_SQL;
+    private String SELECT_BY_CUSTOMER_ID_SQL;
+    private String DELETE_ONE_BY_CUSTOMER_ID_SQL;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

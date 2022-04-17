@@ -1,7 +1,14 @@
 package org.voucherProject.voucherProject.customer.repository;
 
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,24 +22,27 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@ConfigurationProperties(prefix = "customers-sql")
 @Repository
+@Setter
 @Slf4j
 @Primary
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    @Autowired
     public JdbcCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.jdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    private final String SELECT_BY_ID_SQL = "select * from customers where customer_id = UUID_TO_BIN(:customerId)";
-    private final String SELECT_BY_NAME_SQL = "select * from customers where name  = :name";
-    private final String SELECT_BY_EMAIL_SQL = "select * from customers where email  = :email";
-    private final String SELECT_ALL_SQL = "select * from customers";
-    private final String DELETE_ALL_SQL = "delete from customers";
-    private final String INSERT_SQL = "insert into customers(customer_id, name, email, password, created_at) values (UUID_TO_BIN(:customerId), :name, :email, :password, :createdAt)";
-    private final String SELECT_BY_VOUCHER_TYPE_SQL = "select * from customers c left join voucher v on v.customer_id = c.customer_id where v.voucher_type = :voucherType";
+    private String SELECT_BY_ID_SQL;
+    private String SELECT_BY_NAME_SQL;
+    private String SELECT_BY_EMAIL_SQL;
+    private String SELECT_ALL_SQL;
+    private String DELETE_ALL_SQL;
+    private String INSERT_SQL;
+    private String SELECT_BY_VOUCHER_TYPE_SQL;
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
