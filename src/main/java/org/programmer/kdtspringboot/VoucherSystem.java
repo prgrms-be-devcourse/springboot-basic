@@ -4,6 +4,7 @@ import org.programmer.kdtspringboot.user.User;
 import org.programmer.kdtspringboot.user.UserService;
 import org.programmer.kdtspringboot.voucher.Voucher;
 import org.programmer.kdtspringboot.voucher.VoucherService;
+import org.programmer.kdtspringboot.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -71,7 +72,7 @@ public class VoucherSystem {
     private void createVoucher() {
         console.choice();
 
-        String inputString = console.input("선택: ").toLowerCase();
+        String inputString = console.input("선택: ");
         logger.info("Voucher 종류 선택: " + inputString);
 
         String discountString = console.input("할인값: ");
@@ -83,16 +84,7 @@ public class VoucherSystem {
 
         int discount = Integer.parseInt(discountString);
         logger.info("할인값 입력: " + discountString);
-
-        if (inputString.equals("amount")) {
-            voucherService.createFixedAmountVoucher(UUID.randomUUID(), discount);
-        } else if (inputString.equals("percent")) {
-            voucherService.createPercentDiscountVoucher(UUID.randomUUID(), discount);
-        } else {
-            console.print("Voucher 잘못 입력하셨습니다. 처음부터 다시 해주세요.");
-            logger.warn("Voucher 종류 잘못 입력");
-        }
-
+        voucherService.createVoucher(inputString, (long) discount);
     }
 
     private boolean isNumber(String str) {
