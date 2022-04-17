@@ -27,8 +27,8 @@ public class Console implements OutputConsole, InputConsole {
     }
 
     @Override
-    public long getVoucherValue(String message) {
-        System.out.println(message);
+    public long getVoucherValue() {
+        System.out.println("Type **value**");
         System.out.println();
 
         return Long.parseLong(scanner.nextLine());
@@ -56,6 +56,7 @@ public class Console implements OutputConsole, InputConsole {
 
     @Override
     public void commandErrorMessage() {
+        logger.error("잘못된 command 입력");
         logger.info("COMMAND ERROR");
         System.out.println("잘못된 입력입니다.");
     }

@@ -1,44 +1,34 @@
 package org.prgrms.voucherprgrms.voucher;
 
-import org.prgrms.voucherprgrms.voucher.model.FixedAmountVoucher;
-import org.prgrms.voucherprgrms.voucher.model.PercentDiscountVoucher;
-import org.prgrms.voucherprgrms.voucher.model.Voucher;
-import org.prgrms.voucherprgrms.voucher.model.VoucherType;
+import org.prgrms.voucherprgrms.VoucherPrgrmsApplication;
+import org.prgrms.voucherprgrms.voucher.model.*;
 import org.prgrms.voucherprgrms.io.InputConsole;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
 public class VoucherCreator {
-    private final InputConsole inputConsole;
+    private static final Logger logger = LoggerFactory.getLogger(VoucherCreator.class);
 
-    public VoucherCreator(InputConsole inputConsole) {
-        this.inputConsole = inputConsole;
-    }
+    public Voucher create(VoucherDTO voucherDTO) {
 
-    public Voucher create() {
-        VoucherType type = VoucherType.getType(inputConsole.getVoucherType());
+        VoucherType type = VoucherType.getType(voucherDTO.getVoucherType());
+        long value = voucherDTO.getValue();
 
         UUID voucherId = UUID.randomUUID();
         switch (type) {
             case FIXEDAMOUNT:
-                return getFixedAmountVoucher(voucherId);
+                return new FixedAmountVoucher(voucherId, value);
             case PERCENTDISCOUNT:
-                return getPercentDiscountVoucher(voucherId);
+                return new PercentDiscountVoucher(voucherId, value);
             default:
                 //Exception
-                throw new IllegalArgumentException();
+                logger.error("유효하지 않은 Voucher type -> {}", type);
+                throw new IllegalArgumentException("Voucher type error");
         }
     }
 
-    private Voucher getPercentDiscountVoucher(UUID voucherId) {
-        long percent = inputConsole.getVoucherValue("Type **percent** to create PercentDiscountVoucher");
-        return new PercentDiscountVoucher(voucherId, percent);
-    }
-
-    private Voucher getFixedAmountVoucher(UUID voucherId) {
-        long amount = inputConsole.getVoucherValue("Type **amount** to create FixedAmountVoucher");
-        return new FixedAmountVoucher(voucherId, amount);
-    }
 }

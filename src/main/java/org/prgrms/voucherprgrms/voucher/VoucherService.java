@@ -1,6 +1,8 @@
 package org.prgrms.voucherprgrms.voucher;
 
+import org.prgrms.voucherprgrms.io.InputConsole;
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
+import org.prgrms.voucherprgrms.voucher.model.VoucherDTO;
 import org.prgrms.voucherprgrms.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +19,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherCreator voucherCreator;
 
-    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository, VoucherCreator voucherCreator) {
+    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository, VoucherCreator voucherCreator, InputConsole inputConsole) {
         this.voucherRepository = voucherRepository;
         this.voucherCreator = voucherCreator;
     }
@@ -25,8 +27,8 @@ public class VoucherService {
     /**
      * create Voucher
      */
-    public Voucher createVoucher() throws IllegalArgumentException{
-        Voucher voucher = voucherCreator.create();
+    public Voucher createVoucher(VoucherDTO voucherDTO) throws IllegalArgumentException{
+        Voucher voucher = voucherCreator.create(voucherDTO);
         logger.info("CREATE Voucher({})", voucher.getVoucherId());
         return voucherRepository.insert(voucher);
     }
