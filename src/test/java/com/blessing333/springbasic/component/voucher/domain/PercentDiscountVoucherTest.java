@@ -1,7 +1,5 @@
-package com.blessing333.springbasic.voucher.domain;
+package com.blessing333.springbasic.component.voucher.domain;
 
-import com.blessing333.springbasic.component.voucher.domain.PercentDiscountVoucher;
-import com.blessing333.springbasic.component.voucher.domain.Voucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

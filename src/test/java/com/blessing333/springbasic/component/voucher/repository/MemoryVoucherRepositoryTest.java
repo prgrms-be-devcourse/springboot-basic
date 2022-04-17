@@ -1,9 +1,8 @@
-package com.blessing333.springbasic.voucher.repository;
+package com.blessing333.springbasic.component.voucher.repository;
 
 import com.blessing333.springbasic.component.voucher.domain.FixedAmountVoucher;
 import com.blessing333.springbasic.component.voucher.domain.PercentDiscountVoucher;
 import com.blessing333.springbasic.component.voucher.domain.Voucher;
-import com.blessing333.springbasic.component.voucher.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

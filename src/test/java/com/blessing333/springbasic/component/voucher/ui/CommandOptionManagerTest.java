@@ -1,4 +1,4 @@
-package com.blessing333.springbasic.ui;
+package com.blessing333.springbasic.component.voucher.ui;
 
 import com.blessing333.springbasic.component.voucher.command.CommandOptionManager;
 import com.blessing333.springbasic.component.voucher.command.CommandOptionType;
