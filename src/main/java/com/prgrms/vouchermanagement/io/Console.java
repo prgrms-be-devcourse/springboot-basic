@@ -92,7 +92,7 @@ public class Console implements Input, Output{
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n").append("=== Black List ===").append("\n");
-        blackList.forEach(member -> sb.append("- ").append(member.getName()).append("\n"));
+        blackList.forEach(customer -> sb.append(customer).append("\n"));
         System.out.println(sb);
     }
 }
