@@ -18,11 +18,11 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        store.put(voucher.getVoucherId(), voucher);
+        this.store.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(store.values());
+        return new ArrayList<>(this.store.values());
     }
 }
