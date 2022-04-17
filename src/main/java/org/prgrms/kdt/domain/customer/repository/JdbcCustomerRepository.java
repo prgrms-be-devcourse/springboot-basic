@@ -71,6 +71,13 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
+    public List<Customer> findByCustomerType(CustomerType customerType) {
+        return jdbcTemplate.query("SELECT * FROM customer WHERE customer_type = :customerType",
+                Collections.singletonMap("customerType", CustomerType.getValue(customerType)),
+                customerRowMapper());
+    }
+
+    @Override
     public int updateById(Customer customer) {
         int update = jdbcTemplate.update("UPDATE customer " +
                         "SET customer_type = :customerType, name = :name, email = :email, modified_date = :modifiedDate " +

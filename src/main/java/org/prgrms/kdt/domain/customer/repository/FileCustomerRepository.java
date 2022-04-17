@@ -1,6 +1,7 @@
 package org.prgrms.kdt.domain.customer.repository;
 
 import org.prgrms.kdt.domain.customer.model.Customer;
+import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.util.CsvUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,11 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByVoucherId(UUID voucherId) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Customer> findByCustomerType(CustomerType customerType) {
+        return null;
     }
 
     @Override
