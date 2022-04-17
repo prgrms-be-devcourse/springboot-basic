@@ -20,7 +20,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        return storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override

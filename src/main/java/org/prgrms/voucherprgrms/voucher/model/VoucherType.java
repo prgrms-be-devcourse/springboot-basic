@@ -15,7 +15,7 @@ public enum VoucherType {
     public static VoucherType getType(String name) {
         return Arrays.stream(values())
                 .filter(v -> v.isEqualsVoucherType(name))
-                .findFirst().orElseThrow(IllegalArgumentException::new);
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("Voucher type error"));
     }
 
     private boolean isEqualsVoucherType(String name) {
