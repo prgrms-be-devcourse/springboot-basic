@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
-public class VoucherFileRpository implements VoucherRepository{
+public class VoucherFileRepository implements VoucherRepository{
 
     private final MyReader reader;
     private final MyWriter writer;

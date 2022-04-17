@@ -10,7 +10,7 @@ public interface Output {
     void home();
     void error();
     void createVoucher(Voucher voucher);
-    void vouchers(List<Voucher> v);
+    void printVouchers(List<Voucher> vouchers);
     void users(List<User> list);
     void createUser(User save);
 }

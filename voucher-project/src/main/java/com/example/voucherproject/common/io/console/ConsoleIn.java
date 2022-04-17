@@ -5,14 +5,12 @@ import com.example.voucherproject.common.enums.ServiceType;
 import com.example.voucherproject.common.enums.UserType;
 import com.example.voucherproject.common.enums.VoucherType;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 import static com.example.voucherproject.common.enums.ServiceType.*;
 
 @Slf4j
-@Component
 public class ConsoleIn implements Input {
     Scanner sc = new Scanner(System.in);
 
