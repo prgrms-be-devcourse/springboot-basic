@@ -1,7 +1,5 @@
 package org.prgrms.kdt.domain.voucher.service;
 
-import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
@@ -45,11 +43,7 @@ public class VoucherService {
     private Voucher createVoucher(VoucherType voucherType, long discount) {
         UUID voucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
-        if(voucherType == VoucherType.FIXED_AMOUNT){
-            return new FixedAmountVoucher(voucherId, discount, now, now);
-        } else {
-            return new PercentDiscountVoucher(voucherId, discount, now, now);
-        }
+        return new Voucher(voucherId, voucherType, discount, now, now);
     }
 
 }
