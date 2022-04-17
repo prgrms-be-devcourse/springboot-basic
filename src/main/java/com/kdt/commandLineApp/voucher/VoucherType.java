@@ -1,5 +1,6 @@
 package com.kdt.commandLineApp.voucher;
 
+import com.kdt.commandLineApp.exception.CanNotDiscountException;
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
 
 import java.util.Map;
@@ -12,24 +13,24 @@ import static java.util.stream.Collectors.toMap;
 public enum VoucherType {
     FiXED("fixed") {
         @Override
-        public boolean isValidAmount(Float amount) {
+        public boolean isValidAmount(int amount) {
             return amount > 0;
         }
 
         @Override
-        public Float discount(Integer currentPrice, Float amount) {
+        public float discount(int currentPrice, int amount) {
             return (currentPrice - amount);
         }
     },
     PERCENT("percent") {
         @Override
-        public boolean isValidAmount(Float percent) {
+        public boolean isValidAmount(int percent) {
             return (percent > 0)  && (percent <= 100);
         }
 
         @Override
-        public Float discount(Integer currentPrice, Float percent) {
-            return currentPrice * (1 - percent);
+        public float discount(int currentPrice, int percent) {
+            return currentPrice * (100 - percent) / 100;
         }
     };
 
@@ -40,11 +41,11 @@ public enum VoucherType {
         this.type = type;
     }
 
-    public Float discount(Integer currentPrice, Float amount) {
+    public float discount(int currentPrice, int amount) throws CanNotDiscountException {
         return Float.valueOf(0);
     }
 
-    public boolean isValidAmount(Float amount) {return true;}
+    public boolean isValidAmount(int amount) {return true;}
 
     @Override
     public String toString() {

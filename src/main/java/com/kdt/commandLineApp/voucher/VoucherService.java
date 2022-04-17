@@ -16,7 +16,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void addVoucher(String type, Float amount) throws WrongVoucherParamsException {
+    public void addVoucher(String type, int amount) throws WrongVoucherParamsException {
         try {
             voucherRepository.add(new Voucher(type, amount));
         }
@@ -31,9 +31,5 @@ public class VoucherService {
 
     public List<Voucher> getVouchers() {
         return voucherRepository.getAll();
-    }
-
-    public void showVouchers() {
-        getVouchers().stream().forEach(System.out::println);
     }
 }

@@ -33,7 +33,10 @@ public class FileCustomerRepository implements CustomerRepository {
             while (sc.hasNext()) {
                 String str = sc.nextLine();
                 ArrayList<String> params = Arrays.stream(str.split(",")).collect(toCollection(ArrayList::new));
-                customerBlackList.add(new Customer(params));
+                String name = params.get(0);
+                String age = params.get(1);
+                String sex = params.get(2);
+                customerBlackList.add(new Customer(name, age, sex));
             }
         }
         catch (Exception e) {

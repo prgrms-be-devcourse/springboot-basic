@@ -1,9 +1,5 @@
 package com.kdt.commandLineApp;
 
-import com.kdt.commandLineApp.customer.CustomerService;
-import com.kdt.commandLineApp.io.IO;
-import com.kdt.commandLineApp.io.commandLineAppIO;
-import com.kdt.commandLineApp.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,38 +12,26 @@ public class CommandLineApplication {
 
 	public static void main(String[] args) {
 		CommandLineApplication commandLineApplication = new CommandLineApplication();
-		ApplicationContext voucherContext = new AnnotationConfigApplicationContext(AppContext.class);
-		VoucherService voucherService = voucherContext.getBean("voucherService",VoucherService.class);
-		CustomerService customerService = voucherContext.getBean("customerService", CustomerService.class);
-		IO io = voucherContext.getBean("commandLineAppIO", commandLineAppIO.class);
+		ApplicationContext appContext = new AnnotationConfigApplicationContext(AppContext.class);
+		MainLogic mainLogic = appContext.getBean("mainLogic", MainLogic.class);
 
 		while (true) {
-			io.print("=== Voucher Program ===\n" +
-					"Type exit to exit the program.\n" +
-					"Type create to create a new voucher.\n" +
-					"Type list to list all vouchers.\n" +
-					"Type blacklist to list all blacklist custom info"
-			);
+			mainLogic.printMainMenu();
 			try {
-				String command = io.get();
+				Command command  = mainLogic.getCommand();
 				switch (command) {
-					case "create":
-						io.print("Type voucher type(fixed or percent) and amount");
-						String voucherType = io.get();
-						float amount = Float.parseFloat(io.get());
-						voucherService.addVoucher(voucherType, amount);
+					case CREATE :
+						mainLogic.createVoucher();
 						break;
-					case "list":
-						io.print(voucherService.getVouchers());
+					case LIST :
+						mainLogic.showVouchers();
 						break;
-					case "blacklist":
-						io.print(customerService.getCustomers());
+					case BLACKLIST:
+						mainLogic.showBlackList();
 						break;
-					case "exit":
+					case EXIT:
 						logger.debug("successfully exit");
 						return;
-					default:
-						io.print("Type correct command");
 				}
 			}
 			catch (Exception e) {

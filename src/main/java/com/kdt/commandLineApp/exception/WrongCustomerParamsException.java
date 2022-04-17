@@ -4,4 +4,8 @@ public class WrongCustomerParamsException extends CommandLineApplicationExceptio
     public WrongCustomerParamsException() {
         this.msg = "insert correct customer info";
     }
+
+    public WrongCustomerParamsException(String msg) {
+        super(msg);
+    }
 }

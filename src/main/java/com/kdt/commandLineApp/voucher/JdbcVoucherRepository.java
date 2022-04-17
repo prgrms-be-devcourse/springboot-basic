@@ -20,7 +20,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = toUUID(resultSet.getBytes("vid"));
         String type = resultSet.getString("type");
-        float amount = resultSet.getFloat("amount");
+        int amount = resultSet.getInt("amount");
 
         try {
             return new Voucher(voucherId, type, amount);
@@ -106,5 +106,10 @@ public class JdbcVoucherRepository implements VoucherRepository{
                 voucherRowMapper
         );
         return null;
+    }
+
+    @Override
+    public void destroy() throws Exception {
+
     }
 }

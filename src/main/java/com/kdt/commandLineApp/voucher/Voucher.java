@@ -12,10 +12,10 @@ import java.util.UUID;
 public class Voucher implements Serializable {
     private final UUID id;
     private VoucherType type;
-    private Float discountAmount;
+    private int discountAmount;
     private Map<String, VoucherType> vouchertypeHashMap;
 
-    public Voucher(UUID id, String type, Float discountAmount) throws WrongVoucherParamsException {
+    public Voucher(UUID id, String type, int discountAmount) throws WrongVoucherParamsException {
         this.id = id;
         this.type = VoucherType.fromString(type);
         if (this.type.isValidAmount(discountAmount)) {
@@ -26,20 +26,25 @@ public class Voucher implements Serializable {
         }
     }
 
-    public Voucher(String type, Float discountAmount) throws WrongVoucherParamsException {
+    public Voucher(String type, int discountAmount) throws WrongVoucherParamsException {
         this(UUID.randomUUID(), type, discountAmount);
     }
 
     @Override
     public String toString() {
-        return "id: " + id + "\ntype: " + type.toString() + "\namount: " + discountAmount.toString() +"\n" ;
+        return "id: " + id + "\ntype: " + type.toString() + "\namount: " + discountAmount +"\n" ;
     }
 
-    public Float discount(Integer currentPrice) throws CanNotDiscountException {
-        if (currentPrice < this.discountAmount) {
+    public Float discount(int currentPrice) throws CanNotDiscountException {
+        if (checkFixedVoucherValidationError(currentPrice) || (currentPrice < 0)) {
             throw new CanNotDiscountException();
         }
         return type.discount(currentPrice, discountAmount);
+    }
+
+    //Fixed voucher always apply only if you purchase more than the discount amount.
+    public boolean checkFixedVoucherValidationError(int currentPrice) {
+        return (this.type == VoucherType.FiXED) && (currentPrice < this.discountAmount);
     }
 
     public String getType() {

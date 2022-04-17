@@ -34,4 +34,9 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     public void remove(UUID vid) {
 
     }
+
+    @Override
+    public void destroy() throws Exception {
+
+    }
 }

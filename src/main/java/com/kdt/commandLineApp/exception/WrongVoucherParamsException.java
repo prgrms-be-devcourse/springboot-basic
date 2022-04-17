@@ -4,4 +4,8 @@ public class WrongVoucherParamsException extends CommandLineApplicationException
     public WrongVoucherParamsException() {
         this.msg = "insert correct voucher type";
     }
+
+    public WrongVoucherParamsException(String msg) {
+        super(msg);
+    }
 }

@@ -27,7 +27,7 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = null;
         UUID voucherID = UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698");
         try {
-            voucher = new Voucher(voucherID, "fixed",1000f);
+            voucher = new Voucher(voucherID, "fixed",1000);
         } catch (WrongVoucherParamsException e) {
             e.printStackTrace();
         }
@@ -40,7 +40,7 @@ class JdbcVoucherRepositoryTest {
         assertThat(voucherList.get(0), isA(Voucher.class));
         assertThat(voucherList.get(0).getId().toString(), is("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
         assertThat(voucherList.get(0).getType(), is("fixed"));
-        assertThat(voucherList.get(0).getDiscountAmount(), is(1000f));
+        assertThat(voucherList.get(0).getDiscountAmount(), is(1000));
     }
 
     @Test
@@ -50,7 +50,7 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = null;
         UUID voucherID = UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698");
         try {
-            voucher = new Voucher(voucherID, "fixed",1000f);
+            voucher = new Voucher(voucherID, "fixed",1000);
         } catch (WrongVoucherParamsException e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ class JdbcVoucherRepositoryTest {
         UUID voucherID = UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698");
 
         try {
-            voucher1 = new Voucher(voucherID, "fixed",1000f);
+            voucher1 = new Voucher(voucherID, "fixed",1000);
         } catch (WrongVoucherParamsException e) {
             e.printStackTrace();
         }
@@ -92,7 +92,7 @@ class JdbcVoucherRepositoryTest {
         UUID voucherID = UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698");
 
         try {
-            voucher1 = new Voucher(voucherID, "fixed",1000f);
+            voucher1 = new Voucher(voucherID, "fixed",1000);
         } catch (WrongVoucherParamsException e) {
             e.printStackTrace();
         }

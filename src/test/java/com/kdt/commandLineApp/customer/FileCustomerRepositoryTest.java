@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.util.ArrayList;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToObject;
 import static org.hamcrest.Matchers.isA;
@@ -21,33 +19,19 @@ class FileCustomerRepositoryTest {
     @Test
     void testGetAll() {
         try {
-            Customer customer1 = null;
-            Customer customer2 = null;
+            var customer1 = new Customer("moon","25","man");
+            var customer2 = new Customer("moon","26","woman");
 
-            customer1 = new Customer(
-                    new ArrayList<>(){{
-                        add("moon");
-                        add("25");
-                        add("man");
-                        add("X");
-                    }}
-            );
-            customer2 = new Customer(
-                    new ArrayList<>(){{
-                        add("moon");
-                        add("26");
-                        add("woman");
-                        add("X");
-                    }}
-            );
+            var result1 = customerRepository.getAllBlacklist().get(0);
+            var result2 = customerRepository.getAllBlacklist().get(1);
 
-            assertThat(customerRepository.getAllBlacklist().get(0),isA(Customer.class));
-            assertThat(customerRepository.getAllBlacklist().get(1),isA(Customer.class));
-            assertThat(customerRepository.getAllBlacklist().get(0),equalToObject(customer1));
-            assertThat(customerRepository.getAllBlacklist().get(1),equalToObject(customer2));
+            assertThat(result1, isA(Customer.class));
+            assertThat(result2, isA(Customer.class));
+            assertThat(result1, equalToObject(customer1));
+            assertThat(result2, equalToObject(customer2));
         }
         catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 }
