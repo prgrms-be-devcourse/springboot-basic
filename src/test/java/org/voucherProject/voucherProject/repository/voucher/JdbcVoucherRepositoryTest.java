@@ -62,11 +62,6 @@ class JdbcVoucherRepositoryTest {
     public void findVoid() throws Exception {
 
         voucherRepository.findById(UUID.randomUUID());
-        //given
-
-        //when
-
-        //then
 
     }
 

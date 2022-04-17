@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.customer.entity.Customer;
+import org.voucherProject.voucherProject.voucher.entity.Voucher;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
@@ -30,6 +32,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private final String SELECT_ALL_SQL = "select * from customers";
     private final String DELETE_ALL_SQL = "delete from customers";
     private final String INSERT_SQL = "insert into customers(customer_id, name, email, password, created_at) values (UUID_TO_BIN(:customerId), :name, :email, :password, :createdAt)";
+    private final String SELECT_BY_VOUCHER_TYPE_SQL = "select * from customers c left join voucher v on v.customer_id = c.customer_id where v.voucher_type = :voucherType";
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
@@ -65,6 +68,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
             log.error("Got empty result", e);
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Customer> findByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query(SELECT_BY_VOUCHER_TYPE_SQL,
+                Collections.singletonMap("voucherType", voucherType.toString()),
+                customerRowMapper());
     }
 
     @Override

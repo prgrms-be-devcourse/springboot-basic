@@ -1,8 +1,8 @@
 package org.voucherProject.voucherProject.voucher.repository;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

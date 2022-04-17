@@ -3,6 +3,7 @@ package org.voucherProject.voucherProject.customer.repository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.customer.entity.Customer;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,6 +27,11 @@ public class MemoryCustomerRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findByEmail(String customerEmail) {
         return storage.values().stream().filter(c -> c.getCustomerEmail().equals(customerEmail)).findFirst();
+    }
+
+    @Override
+    public List<Customer> findByVoucherType(VoucherType voucherType) {
+        return null;
     }
 
     @Override
