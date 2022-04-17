@@ -81,7 +81,6 @@ class VoucherWalletServiceTest {
     @Test
     @DisplayName("할당된 바우처 조회 예외 테스트")
     void testGetAllocatedVoucherException() {
-        Customer customer = new Customer(UUID.randomUUID(), "a", "a@test.com", LocalDateTime.now());
         try {
             when(customerRepository.findById(customer.getCustomerId())).thenThrow(new CustomerNotFoundException(customer.getCustomerId()));
 
@@ -94,7 +93,6 @@ class VoucherWalletServiceTest {
     @Test
     @DisplayName("할당된 바우처 조회 테스트")
     void testGetAllocatedVoucher() {
-        Customer customer = new Customer(UUID.randomUUID(), "a", "a@test.com", LocalDateTime.now());
         when(customerRepository.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
 
         voucherWalletService.getAllocatedVouchers(customer.getCustomerId());
@@ -102,4 +100,25 @@ class VoucherWalletServiceTest {
         verify(voucherRepository).findAllocatedVouchers(customer.getCustomerId());
     }
 
+    @Test
+    @DisplayName("바우처 보유 고객 조회 예외 테스트")
+    void testGetVoucherOwnersException() {;
+        try {
+            when(voucherRepository.findById(voucher.getVoucherId())).thenThrow(new VoucherNotFoundException(voucher.getVoucherId()));
+
+            voucherWalletService.getVoucherOwners(voucher.getVoucherId());
+        }catch(VoucherNotFoundException e) {
+            verify(customerRepository, never()).findVoucherOwners(voucher.getVoucherId());
+        }
+    }
+
+    @Test
+    @DisplayName("바우처 보유 고객 조회 테스트")
+    void testGetVoucherOwners() {
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+
+        voucherWalletService.getVoucherOwners(voucher.getVoucherId());
+
+        verify(customerRepository).findVoucherOwners(voucher.getVoucherId());
+    }
 }

@@ -49,6 +49,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return jdbcTemplate.query("select * from customers", customerRowMapper);
     }
 
+
+    /**
+     * 바우처르 소유하고 있는 고객 목록 조회 메서드
+     **/
+    @Override
+    public List<Customer> findVoucherOwners(UUID voucherId) {
+        return jdbcTemplate.query("select c.customer_id, c.name, c.email, created_at from voucher_wallets as vw join customers as c on vw.customer_id = c.customer_id where voucher_id = UUID_TO_BIN(?)", customerRowMapper,
+                voucherId.toString().getBytes());
+    }
+
     /**
      * id를 통한 고객 조회 메서드
      **/

@@ -26,6 +26,7 @@ import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
 import org.prgms.voucheradmin.domain.voucherwallet.dto.CreatVoucherWalletReqDto;
 import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
 import org.prgms.voucheradmin.domain.voucherwallet.service.VoucherWalletService;
+import org.prgms.voucheradmin.global.exception.WrongInputException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -119,6 +120,8 @@ public class Administrator {
                 UUID voucherIdForDelete = inputService.inputVoucherId();
                 voucherService.deleteVoucher(voucherIdForDelete);
                 break;
+            default:
+                throw new WrongInputException();
         }
     }
 
@@ -148,9 +151,14 @@ public class Administrator {
             case DELETE:
                 UUID customerIdForDelete = inputService.inputCustomerId();
                 customerService.deleteCustomer(customerIdForDelete);
+            default:
+                throw new WrongInputException();
         }
     }
 
+    /**
+     * 바우처 지갑에서 선택된 추가 명령에 따라 필요한 메서드 실행을 담당하는 메서드입니다.
+     **/
     private void doCommandAboutVoucherWallet(CommandAboutVoucherWallet commandAboutVoucherWallet) throws IOException{
         switch (commandAboutVoucherWallet) {
             case ALLOCATE_VOUCHER:
@@ -165,6 +173,13 @@ public class Administrator {
                 List<Voucher> vouchers = voucherWalletService.getAllocatedVouchers(customerIdForAllocatedVoucher);
                 outputService.showVoucherList(vouchers);
                 break;
+            case FIND_VOUCHER_OWNER:
+                UUID voucherIdForVoucherOwner = inputService.inputVoucherId();
+                List<Customer> customers = voucherWalletService.getVoucherOwners(voucherIdForVoucherOwner);
+                outputService.showCustomerList(customers);
+                break;
+            default:
+                throw new WrongInputException();
         }
     }
 

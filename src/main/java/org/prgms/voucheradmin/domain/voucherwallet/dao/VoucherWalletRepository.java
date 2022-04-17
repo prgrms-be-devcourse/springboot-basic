@@ -10,7 +10,5 @@ public interface VoucherWalletRepository {
 
     List<VoucherWallet> findAll();
 
-    // List<Customer> findVoucherOwners();// voucherId
-
     void deleteAllocatedVoucher(UUID customerId, UUID voucherId);
 }

@@ -11,10 +11,7 @@ public enum CommandAboutCustomer {
     CREATE("1", "create customer"),
     READ("2", "list all customers"),
     UPDATE("3", "update customer"),
-    DELETE("4", "delete customer"),
-    ALLOCATE_VOUCHER("5", "allocate voucher"),
-    FIND_ALLOCATED_VOUCHER("6", "find allocated vouchers"),
-    DELETE_CUSTOMER_VOUCHER("7", "delete customer's voucher");
+    DELETE("4", "delete customer");
 
     private final String commandId;
     private final String commandName;

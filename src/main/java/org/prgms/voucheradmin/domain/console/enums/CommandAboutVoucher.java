@@ -11,8 +11,8 @@ public enum CommandAboutVoucher {
     CREATE("1", "create voucher"),
     READ("2", "list all vouchers"),
     UPDATE("3", "update voucher"),
-    DELETE("4", "delete voucher"),
-    FIND_VOUCHER_OWNER("5", "find voucher owners");
+    DELETE("4", "delete voucher");
+
 
     private final String commandId;
     private final String commandName;

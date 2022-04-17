@@ -17,7 +17,6 @@ import java.util.UUID;
 
 @Service
 public class VoucherWalletService {
-
     private final CustomerRepository customerRepository;
     private final VoucherRepository voucherRepository;
     private final VoucherWalletRepository voucherWalletRepository;
@@ -29,7 +28,7 @@ public class VoucherWalletService {
     }
 
     /**
-     * 바우처를 고객에게 할당하는 메서드 입니다.
+     * 고객에게 바우처를 할당하는 메서드 입니다.
      */
     @Transactional
     public VoucherWallet createVoucherWallet(CreatVoucherWalletReqDto creatVoucherWalletReqDto) {
@@ -42,11 +41,24 @@ public class VoucherWalletService {
         return voucherWalletRepository.create(new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
     }
 
+    /**
+     * 고객에게 할당된 바우처를 조회하는 메서드입니다.
+     */
     @Transactional(readOnly = true)
     public List<Voucher> getAllocatedVouchers(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException(customerId));
 
         return voucherRepository.findAllocatedVouchers(customer.getCustomerId());
+    }
+
+    /**
+     * 특정 바우처를 보유한 고객을 조회하는 메서드입니다.
+     */
+    public List<Customer> getVoucherOwners(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new VoucherNotFoundException(voucherId));
+
+        return customerRepository.findVoucherOwners(voucher.getVoucherId());
     }
 }

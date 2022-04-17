@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class InputService {
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public Command selectCommand() throws IOException, WrongInputException {
+    public Command selectCommand() throws IOException {
         String selectedCommand = br.readLine().trim().replace(" ", "_").toUpperCase();
 
         try {
@@ -35,7 +35,7 @@ public class InputService {
         }
     }
 
-    public CommandAboutVoucher selectCommandAboutVoucher() throws IOException, WrongInputException {
+    public CommandAboutVoucher selectCommandAboutVoucher() throws IOException {
         System.out.print("voucher command> ");
         String selectedCommandId = br.readLine().trim();
         System.out.println();
@@ -51,7 +51,7 @@ public class InputService {
         return inputVoucherId;
     }
 
-    public VoucherType selectVoucherType() throws IOException, WrongInputException {
+    public VoucherType selectVoucherType() throws IOException {
         System.out.print("select voucher type> ");
         String selectedVoucherTypeId = br.readLine().trim();
         System.out.println();
@@ -59,7 +59,7 @@ public class InputService {
         return findVoucherType(selectedVoucherTypeId).orElseThrow(WrongInputException::new);
     }
 
-    public long inputAmount(VoucherType voucherType) throws IOException, WrongInputException {
+    public long inputAmount(VoucherType voucherType) throws IOException {
         System.out.print(voucherType == FIXED_AMOUNT ? "amount> " : "percent> ");
 
         try {
@@ -75,7 +75,7 @@ public class InputService {
         }
     }
 
-    public CommandAboutCustomer selectCommandAboutCustomer() throws IOException, WrongInputException {
+    public CommandAboutCustomer selectCommandAboutCustomer() throws IOException {
         System.out.print("customer command> ");
         String selectedCommandId = br.readLine().trim();
         System.out.println();
@@ -91,7 +91,7 @@ public class InputService {
         return inputCustomerId;
     }
 
-    public String inputName() throws IOException, WrongInputException {
+    public String inputName() throws IOException {
         System.out.print("input name> ");
         String name = br.readLine().trim();
         System.out.println();
@@ -103,7 +103,7 @@ public class InputService {
         return name;
     }
 
-    public String inputEmail() throws IOException, WrongInputException {
+    public String inputEmail() throws IOException {
         System.out.print("input email> ");
         String email = br.readLine().trim();
         System.out.println();
@@ -115,7 +115,7 @@ public class InputService {
         return email;
     }
 
-    public CommandAboutVoucherWallet selectCommandAboutVoucherWallet() throws IOException, WrongInputException {
+    public CommandAboutVoucherWallet selectCommandAboutVoucherWallet() throws IOException {
         System.out.print("voucher wallet command> ");
         String selectedCommandId = br.readLine().trim();
         System.out.println();

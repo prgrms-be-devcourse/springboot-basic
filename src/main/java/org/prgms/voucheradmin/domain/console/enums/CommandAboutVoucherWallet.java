@@ -10,7 +10,8 @@ import java.util.stream.Stream;
 public enum CommandAboutVoucherWallet {
     ALLOCATE_VOUCHER("1", "allocate voucher"),
     FIND_ALLOCATED_VOUCHER("2", "find allocated vouchers"),
-    DELETE_CUSTOMER_VOUCHER("3", "delete customer's voucher");
+    FIND_VOUCHER_OWNER("3", "find voucher owners"),
+    DELETE_CUSTOMER_VOUCHER("4", "delete customer's voucher");
 
     private final String commandId;
     private final String commandName;

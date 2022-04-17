@@ -8,6 +8,7 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,11 @@ import com.wix.mysql.config.Charset;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
+import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
+import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
+import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
+import org.prgms.voucheradmin.domain.voucherwallet.dao.VoucherWalletRepository;
+import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +35,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class JdbcCustomerRepositoryTest {
+class customerRepositoryTest {
     @Configuration
     @ComponentScan(
             basePackages = {"org.prgms.voucheradmin"}
@@ -54,11 +60,21 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Autowired
-    CustomerRepository jdbcCustomerRepository;
+    CustomerRepository customerRepository;
+
+    @Autowired
+    VoucherRepository voucherRepository;
+
+    @Autowired
+    VoucherWalletRepository voucherWalletRepository;
 
     EmbeddedMysql embeddedMysql;
 
     Customer customer = new Customer(UUID.randomUUID(), "test1", "test1@test.com", LocalDateTime.now());
+    Customer customer2 = new Customer(UUID.randomUUID(), "tester", "tester@gmail.com", LocalDateTime.now());
+    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+    VoucherWallet voucherWallet1 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId());
+    VoucherWallet voucherWallet2 = new VoucherWallet(UUID.randomUUID(), customer2.getCustomerId(), voucher.getVoucherId());
 
     @BeforeAll
     void setUp() {
@@ -83,9 +99,9 @@ class JdbcCustomerRepositoryTest {
     @Order(1)
     @DisplayName("고객 생성 확인")
     void testCrateCustomer() {
-        jdbcCustomerRepository.create(customer);
+        customerRepository.create(customer);
 
-        List<Customer> customers = jdbcCustomerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
 
         assertThat(customers.size(), is(1));
     }
@@ -94,7 +110,7 @@ class JdbcCustomerRepositoryTest {
     @Order(2)
     @DisplayName("고객 조회 by email 확인")
     void testFindById() {
-        Optional<Customer> retrievedCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
+        Optional<Customer> retrievedCustomer = customerRepository.findById(customer.getCustomerId());
         assertThat(retrievedCustomer, not(is(Optional.empty())));
     }
 
@@ -102,7 +118,7 @@ class JdbcCustomerRepositoryTest {
     @Order(3)
     @DisplayName("고객 조회 by id 확인")
     void testFindByEmail() {
-        Optional<Customer> retrievedCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail());
+        Optional<Customer> retrievedCustomer = customerRepository.findByEmail(customer.getEmail());
         assertThat(retrievedCustomer, not(is(Optional.empty())));
     }
 
@@ -110,8 +126,8 @@ class JdbcCustomerRepositoryTest {
     @Order(4)
     @DisplayName("고객 업데이트 확인")
     void testUpdate() {
-        jdbcCustomerRepository.update(new Customer(customer.getCustomerId(), "test2", customer.getEmail(), customer.getCreatedAt()));
-        Optional<Customer> retrievedCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
+        customerRepository.update(new Customer(customer.getCustomerId(), "test2", customer.getEmail(), customer.getCreatedAt()));
+        Optional<Customer> retrievedCustomer = customerRepository.findById(customer.getCustomerId());
 
         assertThat(retrievedCustomer, not(is(Optional.empty())));
         assertThat(retrievedCustomer.get().getName(), is("test2"));
@@ -121,9 +137,24 @@ class JdbcCustomerRepositoryTest {
     @Order(5)
     @DisplayName("고객 제거 확인")
     void testDelete() {
-        jdbcCustomerRepository.delete(customer);
-        Optional<Customer> retrievedCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
+        customerRepository.delete(customer);
+        Optional<Customer> retrievedCustomer = customerRepository.findById(customer.getCustomerId());
 
         assertThat(retrievedCustomer, is(Optional.empty()));
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("특정 부우처를 보유한 고객 조회 확인")
+    void testFindVoucherOwners() throws IOException {
+        customerRepository.create(customer);
+        customerRepository.create(customer2);
+        voucherRepository.create(voucher);
+        voucherWalletRepository.create(voucherWallet1);
+        voucherWalletRepository.create(voucherWallet2);
+
+        List<Customer> customers = customerRepository.findVoucherOwners(voucher.getVoucherId());
+
+        assertThat(customers.size(), is(2));
     }
 }
