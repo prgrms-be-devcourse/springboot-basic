@@ -6,8 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgrms.kdt.domain.voucher.model.FixedAmountVoucher;
-import org.prgrms.kdt.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
@@ -65,8 +63,8 @@ class VoucherServiceTest {
         //given
         LocalDateTime now = LocalDateTime.now();
         List<Voucher> savedVouchers = Arrays.asList(
-                new FixedAmountVoucher(UUID.randomUUID(), 10000, now, now),
-                new PercentDiscountVoucher(UUID.randomUUID(), 10, now, now));
+                new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 10000L, now, now),
+                new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 10L, now, now));
         //when
         when(voucherRepository.findAll()).thenReturn(savedVouchers);
         List<Voucher> vouchers = voucherService.findAll();
@@ -81,8 +79,8 @@ class VoucherServiceTest {
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(fixedVoucherId, 10000, now, now);
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(percentVoucherId, 20, now, now);
+        Voucher fixedAmountVoucher = new Voucher(fixedVoucherId, VoucherType.FIXED_AMOUNT,10000L, now, now);
+        Voucher percentDiscountVoucher = new Voucher(percentVoucherId, VoucherType.PERCENT_DISCOUNT, 20L, now, now);
         //when
         when(voucherRepository.findById(fixedVoucherId)).thenReturn(Optional.of(fixedAmountVoucher));
         when(voucherRepository.findById(percentVoucherId)).thenReturn(Optional.of(percentDiscountVoucher));
