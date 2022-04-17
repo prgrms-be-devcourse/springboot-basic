@@ -29,7 +29,7 @@ public class VoucherService {
         return voucher;
     }
 
-    public void findByAll( ) {
+    public void printAll( ) {
         List<Voucher> voucherList = voucherRepository.findByAll();
         if (voucherList.isEmpty()) {
             System.out.println("바우처가 없습니다.");

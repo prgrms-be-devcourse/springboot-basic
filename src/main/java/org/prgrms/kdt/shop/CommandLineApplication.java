@@ -28,7 +28,6 @@ public class CommandLineApplication implements ApplicationRunner {
         this.voucherService = voucherService;
     }
 
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
         boolean exitFlag = true;
@@ -60,7 +59,6 @@ public class CommandLineApplication implements ApplicationRunner {
                 break;
         }
     }
-
 
     private String inputFixedAmount( ) {
         try {
@@ -112,6 +110,4 @@ public class CommandLineApplication implements ApplicationRunner {
         }
         return inputMenu();
     }
-
-
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface VoucherRepository {
-    public List<Voucher> findByAll( );
+    List<Voucher> findByAll( );
 
     Optional<Voucher> findById(UUID voucherId);
 
