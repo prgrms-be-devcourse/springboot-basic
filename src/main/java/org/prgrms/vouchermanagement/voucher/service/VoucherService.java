@@ -35,7 +35,7 @@ public class VoucherService {
       walletRepository.insert(customer.getCustomerId(), voucher.getVoucherID());
       return true;
     }
-
-    return true;
+    // cannot issue voucher
+    return false;
   }
 }
