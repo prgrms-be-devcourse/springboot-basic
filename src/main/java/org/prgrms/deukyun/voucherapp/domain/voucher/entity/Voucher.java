@@ -19,4 +19,6 @@ public interface Voucher {
      * @return 할인된 가격
      */
     long discount(long beforeDiscountPrice);
+
+    String toDisplayString();
 }

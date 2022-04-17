@@ -11,13 +11,17 @@ public class PercentDiscountVoucher implements Voucher {
 
     private static final int MIN_DISCOUNT_PERCENT = 0;
     private static final int MAC_DISCOUNT_PERCENT = 100;
-    public final long percent;
+    private final long percent;
     private UUID id;
 
     public PercentDiscountVoucher(long percent) {
-        checkArgument(percent >= MIN_DISCOUNT_PERCENT && percent <= MAC_DISCOUNT_PERCENT, "amount must be between 0 and 100 inclusive.");
+        checkArgument(percent >= MIN_DISCOUNT_PERCENT && percent <= MAC_DISCOUNT_PERCENT, "percent must be between 0 and 100 inclusive.");
 
         this.percent = percent;
+    }
+
+    public long getPercent() {
+        return percent;
     }
 
     @Override
@@ -28,5 +32,13 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscountPrice) {
         return beforeDiscountPrice * (100 - percent) / 100;
+    }
+
+    @Override
+    public String toDisplayString() {
+        return new StringBuilder("[Percent Discount Voucher]     ")
+                .append(" id : ").append(id.toString(), 0, 8)
+                .append(", percent : ").append(percent)
+                .toString();
     }
 }

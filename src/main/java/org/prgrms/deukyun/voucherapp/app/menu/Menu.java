@@ -2,16 +2,27 @@ package org.prgrms.deukyun.voucherapp.app.menu;
 
 /**
  * 메뉴
+ * @param <E> - 열거 메뉴 선택
  */
-public interface Menu {
+public abstract class Menu<E extends Enum<E>> {
 
     /**
-     * 지원가능한 명령어 디스플레이
+     * 메뉴는 자신을 선택하기 위한 enum 타입을 생성시 세팅하여 가지고 있는다.
      */
-    void display();
+    private final E choice;
+
+    protected Menu(E choice) {
+        this.choice = choice;
+    }
+
+    public E getChoice() {
+        return choice;
+    }
 
     /**
-     * 로직 실행
+     * 로직 실행 <br>
+     * 메뉴의 직접적인 로직과 관련없는 선택에 관련된 출력은 최대한 각 Choice enum에 보관하도록 함
      */
-    void proc();
+    public abstract void proc();
+
 }

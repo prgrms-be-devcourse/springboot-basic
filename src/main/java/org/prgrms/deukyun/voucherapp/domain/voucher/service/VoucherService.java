@@ -36,4 +36,8 @@ public class VoucherService {
     public List<Voucher> findAll(){
         return voucherRepository.findAll();
     }
+
+    public void insert(Voucher voucher){
+        voucherRepository.insert(voucher);
+    }
 }
