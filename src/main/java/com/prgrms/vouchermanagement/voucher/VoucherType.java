@@ -20,4 +20,18 @@ public enum VoucherType {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("order와 매칭되는 VoucherType이 없습니다."));
     }
+
+    /**
+     * @throws IllegalArgumentException : amount 값이 유효한 범위의 값이 아닌 경우 of 메서드에서 던져진다.
+     */
+    public Voucher constructor(long amount) throws IllegalArgumentException {
+        switch (this) {
+            case FIXED_DISCOUNT:
+                return FixedAmountVoucher.of(amount);
+            case PERCENT_DISCOUNT:
+                return PercentDiscountVoucher.of(amount);
+            default:
+                throw new IllegalArgumentException("일치하는 VoucherType이 없습니다");
+        }
+    }
 }
