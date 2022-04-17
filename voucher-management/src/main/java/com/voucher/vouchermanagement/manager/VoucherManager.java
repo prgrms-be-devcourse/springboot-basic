@@ -36,7 +36,7 @@ public class VoucherManager {
 
         while (commandType != CommandType.EXIT) {
             try {
-                output.printMenu();
+                this.output.printMenu();
                 commandType = CommandType.getCommandTypeByName(input.input("input command : "));
                 switch (commandType) {
                     case CREATE: {
@@ -53,44 +53,46 @@ public class VoucherManager {
                     }
                 }
             } catch (IllegalArgumentException e) {
-                logger.error(e.getMessage());
-                output.println(e.getMessage());
+                logAndPrintException(e);
             }
         }
     }
 
     private void createVoucher() {
         try {
-            output.println("=== [Create Voucher] ===");
-            output.printVoucherType();
-            int voucherTypeNumberInput = Integer.parseInt(input.input("Input voucher type : "));
+            this.output.println("=== [Create Voucher] ===");
+            this.output.printVoucherType();
+            int voucherTypeNumberInput = Integer.parseInt(this.input.input("Input voucher type : "));
             VoucherType voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumberInput);
-            long voucherValue = Long.parseLong(input.input("Input voucher value : "));
+            long voucherValue = Long.parseLong(this.input.input("Input voucher value : "));
 
-            voucherService.insertVoucher(voucherType, voucherValue);
-            output.println("Voucher Creation Completed.");
+            this.voucherService.insertVoucher(voucherType, voucherValue);
+            this.output.println("Voucher Creation Completed.");
         } catch (IllegalArgumentException e) {
-            logger.error(e.getMessage());
-            output.println(e.getMessage());
+            logAndPrintException(e);
         }
     }
 
     private void printVouchers() {
-        output.println("=== [Voucher List] ===");
-        List<Voucher> vouchers = voucherService.findAll();
+        this.output.println("=== [Voucher List] ===");
+        List<Voucher> vouchers = this.voucherService.findAll();
 
         for (Voucher voucher : vouchers) {
-            output.println(voucher.toString());
+            this.output.println(voucher.toString());
         }
     }
 
     private void printBlacklist() {
-        output.println("===  [Blacklist]  ===");
-        List<Customer> blacklist = blackListService.findAll();
+        this.output.println("===  [Blacklist]  ===");
+        List<Customer> blacklist = this.blackListService.findAll();
 
         for (Customer user : blacklist) {
-            output.println(user.toString());
+            this.output.println(user.toString());
         }
     }
 
+    private void logAndPrintException(Exception exception) {
+        this.logger.error(exception.getMessage());
+        this.output.println(exception.getMessage());
+    }
 }
