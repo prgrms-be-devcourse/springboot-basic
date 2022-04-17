@@ -143,8 +143,10 @@ class JdbcWalletRepositoryTest {
   }
 
   @Test
-  @Disabled
+  @Order(4)
   void testDelete() {
-
+    jdbcWalletRepository.delete(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
+    List<UUID> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer1.getCustomerId());
+    assertThat(vouchers.size(), is(1));
   }
 }

@@ -64,10 +64,10 @@ public class JdbcWalletRepository implements WalletRepository {
   @Override
   public void delete(UUID customerId, UUID voucherId) {
     try {
-      jdbcTemplate.update("delete from wallet where voucher_id = uuid_to_bin(:voucherId and customer_id = uuid_to_bin(:customerId))",
+      jdbcTemplate.update("delete from wallet where voucher_id = uuid_to_bin(:voucherId) AND customer_id = uuid_to_bin(:customerId)",
         toParamMap(customerId, voucherId));
     } catch (Exception e) {
-      log.error("No such voucherId", e);
+      log.error("No such voucher", e);
     }
   }
 
