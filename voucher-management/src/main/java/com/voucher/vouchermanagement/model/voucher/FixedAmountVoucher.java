@@ -55,10 +55,6 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     private void validateValue(long value) {
-        validateValueIsUnderMin(value);
-    }
-
-    private void validateValueIsUnderMin(long value) {
         if (value < MIN_PERCENT) {
             throw new IllegalArgumentException("할인 금액이 1원 미만일 수 없습니다.");
         }

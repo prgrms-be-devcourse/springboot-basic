@@ -53,17 +53,9 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     private void validateValue(long value) {
-        validateValueIsOverMax(value);
-        validateValueIsUnderMin(value);
-    }
-
-    private void validateValueIsOverMax(long value) {
-        if (value > MAX_PERCENT)
-            throw new IllegalArgumentException("100%를 초과할 수 없습니다.");
-    }
-
-    private void validateValueIsUnderMin(long value) {
         if (value < MIN_PERCENT)
             throw new IllegalArgumentException("1% 미만일 수 없습니다.");
+        if (value > MAX_PERCENT)
+            throw new IllegalArgumentException("100%를 초과할 수 없습니다.");
     }
 }
