@@ -1,30 +1,60 @@
-package org.prgrms.VoucherManagement;
+package org.prgrms.vouchermanagement;
 
-import org.beryx.textio.TextIO;
-import org.beryx.textio.TextIoFactory;
-import org.beryx.textio.TextTerminal;
-import org.prgrms.VoucherManagement.voucher.repository.VoucherRepository;
-import org.prgrms.VoucherManagement.voucher.voucher.FixedAmountVoucher;
-import org.prgrms.VoucherManagement.voucher.voucher.PercentDiscountVoucher;
+import org.prgrms.vouchermanagement.customer.Customer;
+import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
+import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
+import org.prgrms.vouchermanagement.voucher.service.VoucherService;
+import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
+import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
+import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.time.LocalDateTime;
+import java.util.Scanner;
 import java.util.UUID;
 
 
 public class CommandLineApplication {
   public static final String AVAILABLE_COMMANDS = "=== Voucher Program ===\nType exit to exit the program.\nType create to create a new voucher.\nType list to list all vouchers.\n";
-  public static final String AVAILABLE_VOUCHERS = "Which type do you want, FixedAmountVoucher(Fixed) or PercentDiscountVoucher(Percent)?";
-
+  public static final String AVAILABLE_VOUCHERS = "Which type do you want?\n\t" +
+    "1. FixedAmountVoucher(Fixed)\n\t" +
+    "2. PercentDiscountVoucher(Percent)";
+  private static final Scanner scanner = new Scanner(System.in);
   public static void main(String[] args) {
-    var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-    var voucherRepository = applicationContext.getBean(VoucherRepository.class);
+    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 
-    TextIO textIO = TextIoFactory.getTextIO();
-    TextTerminal terminal = textIO.getTextTerminal();
-    terminal.print(AVAILABLE_COMMANDS);
+    // 1. 사용 가능한 command를 출력
+    System.out.println(AVAILABLE_COMMANDS);
 
 
-    while (true) {
+    while(true) {
+      String command = scanner.nextLine().trim().toLowerCase();
+
+      switch (command) {
+        case "exit":
+          System.exit(0);
+          break;
+        case "create":
+          System.out.println(AVAILABLE_VOUCHERS);
+          String voucherType;
+          if((voucherType = scanner.nextLine()).matches("\\d+")) {
+
+          }
+          else {
+            System.out.println("You can only enter numbers\n");
+          }
+          break;
+        case "list":
+          break;
+        default:
+          System.out.println("Command does not exist");
+      }
+    }
+
+
+    /*while (true) {
       String input = textIO.newStringInputReader()
         .read("Input: ");
       if(input.equals("exit")) {
@@ -55,6 +85,6 @@ public class CommandLineApplication {
       else {
         terminal.printf("%s is a non-existent command.\n", input);
       }
-    }
+    }*/
   }
 }
