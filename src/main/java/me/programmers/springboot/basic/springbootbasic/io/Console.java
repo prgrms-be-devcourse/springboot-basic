@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Console implements ConsoleInput, ConsoleOutput {
 
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public String inputCommand(String s) {
