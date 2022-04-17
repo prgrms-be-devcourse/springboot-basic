@@ -6,6 +6,7 @@ import org.prgms.voucherProgram.dto.CustomerDto;
 import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.prgms.voucherProgram.exception.WrongEmailException;
+import org.prgms.voucherProgram.exception.WrongFileException;
 import org.prgms.voucherProgram.exception.WrongNameException;
 import org.prgms.voucherProgram.service.CustomerService;
 import org.prgms.voucherProgram.view.Console;
@@ -70,7 +71,8 @@ public class CustomerProgram {
         CustomerMenuType customerMenuType = inputSubMenu();
         switch (customerMenuType) {
             case ALL -> outputView.printCustomers(customerService.findCustomers());
-            case JUST_ONE -> findCustomer();
+            case JUST_ONE -> printCustomer();
+            case BLACKLIST -> printBlackList();
         }
     }
 
@@ -84,7 +86,7 @@ public class CustomerProgram {
         }
     }
 
-    private void findCustomer() {
+    private void printCustomer() {
         while (true) {
             try {
                 Email email = new Email(inputView.inputCustomerEmail());
@@ -135,6 +137,15 @@ public class CustomerProgram {
             outputView.printSuccess();
         } catch (CustomerIsNotExistsException e) {
             outputView.printError(e.getMessage());
+        }
+    }
+
+    private void printBlackList() {
+        try {
+            outputView.printBlackList(customerService.findBlackList());
+        } catch (WrongFileException e) {
+            outputView.printError(e.getMessage());
+            System.exit(0);
         }
     }
 }

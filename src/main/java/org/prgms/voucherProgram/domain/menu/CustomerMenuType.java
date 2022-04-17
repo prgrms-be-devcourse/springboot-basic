@@ -11,7 +11,9 @@ public enum CustomerMenuType {
     UPDATE("update"),
     DELETE("delete"),
     ALL("all"),
-    JUST_ONE("one");
+    JUST_ONE("one"),
+    BLACKLIST("blacklist");
+
     private final String command;
 
     CustomerMenuType(String command) {
@@ -26,7 +28,7 @@ public enum CustomerMenuType {
     }
 
     public static CustomerMenuType fromSubMenu(String command) {
-        return Stream.of(ALL, JUST_ONE)
+        return Stream.of(ALL, JUST_ONE, BLACKLIST)
             .filter(type -> type.command.equalsIgnoreCase(command))
             .findFirst()
             .orElseThrow(WrongCommandException::new);

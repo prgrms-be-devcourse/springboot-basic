@@ -4,7 +4,6 @@ import org.prgms.voucherProgram.domain.menu.VoucherMenuType;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.exception.WrongFileException;
-import org.prgms.voucherProgram.service.CustomerService;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
 import org.prgms.voucherProgram.view.InputView;
@@ -14,13 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherProgram {
     private final VoucherService voucherService;
-    private final CustomerService customerService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public VoucherProgram(VoucherService voucherService, CustomerService customerService, Console console) {
+    public VoucherProgram(VoucherService voucherService, Console console) {
         this.voucherService = voucherService;
-        this.customerService = customerService;
         this.inputView = console;
         this.outputView = console;
     }
@@ -34,7 +31,6 @@ public class VoucherProgram {
                 case EXIT -> isNotEndProgram = false;
                 case LIST -> printVouchers();
                 case CREATE -> createVoucher();
-                case BLACKLIST -> printBlackList();
             }
         }
     }
@@ -85,15 +81,6 @@ public class VoucherProgram {
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
-        }
-    }
-
-    private void printBlackList() {
-        try {
-            outputView.printBlackList(customerService.findBlackList());
-        } catch (WrongFileException e) {
-            outputView.printError(e.getMessage());
-            System.exit(0);
         }
     }
 }

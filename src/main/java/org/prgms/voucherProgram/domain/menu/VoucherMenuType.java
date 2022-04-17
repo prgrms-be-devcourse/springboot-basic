@@ -5,8 +5,7 @@ import java.util.Arrays;
 public enum VoucherMenuType {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list"),
-    BLACKLIST("blacklist");
+    LIST("list");
 
     private static final String ERROR_WRONG_INPUT_MENU_MESSAGE = "[ERROR] 올바른 메뉴 입력이 아닙니다.";
 
