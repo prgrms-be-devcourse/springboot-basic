@@ -17,7 +17,7 @@ public class BlackListUserRepository implements UserRepository {
 
     @Override
     public void saveUser(User user) {
-        String content = user.getUserId() + "," + user.getUserName();
+        String content = user.toString();
         try {
             FileWriter fileWriter = new FileWriter(fileName, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -27,7 +27,7 @@ public class BlackListUserRepository implements UserRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("블랙리스트유저 추가(" + user.getUserId() + "," + user.getUserName() + ")");
+        logger.info("블랙리스트유저 추가 " + user);
     }
 
     @Override

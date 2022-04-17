@@ -13,12 +13,15 @@ public class BlackListUser implements User {
     }
 
     @Override
-    public UUID getUserId() {
-        return userId;
+    public String toString() {
+        return "BlackListUser{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                '}';
     }
 
     @Override
-    public String getUserName() {
-        return userName;
+    public String getInfo() {
+        return userId + "," + userName;
     }
 }

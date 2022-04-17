@@ -55,12 +55,12 @@ public class VoucherSystem {
         } catch (IOException e) {
             logger.error("입출력 오류");
         }
-        
+
     }
 
     private void showBlackUserList() throws IOException {
         List<User> list = userService.findAllUsers();
-        list.stream().map(user -> user.getUserId() + ", " + user.getUserName()).forEach(console::print);
+        list.stream().map(Object::toString).forEach(console::print);
     }
 
     private void showVoucherList() throws IOException {
