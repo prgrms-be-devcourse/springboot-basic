@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ConsoleDispatcherTest {
@@ -25,28 +24,6 @@ public class ConsoleDispatcherTest {
 
     @Mock
     Input consoleInput;
-
-    @Test
-    @DisplayName("입력값(메뉴, 바우처 타입, 할인값)이 공백이면_실패")
-    void nullOrEmptyInputMenu() throws NoSuchMethodException {
-        //given
-        String input = "";
-        doReturn(input).when(consoleInput).input();
-
-        Method method = consoleDispatcher.getClass().getDeclaredMethod("excuteInput");
-        method.setAccessible(true);
-
-        //when
-        try {
-            method.invoke(consoleDispatcher);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            //then
-            assertThat(e.getCause().getClass()).isEqualTo(IllegalArgumentException.class);
-            assertThat(e.getCause().getMessage()).isEqualTo("공백이 입력되었습니다. 올바른 값을 입력해주세요.");
-        }
-    }
 
     @Test
     @DisplayName("입력된 메뉴가 유효하지 않은 메뉴이면_실패")
