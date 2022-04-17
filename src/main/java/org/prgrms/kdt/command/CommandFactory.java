@@ -7,7 +7,6 @@ public class CommandFactory {
 
   private final InitCommand initCommand;
   private final ExitCommand exitCommand;
-  private final ErrorCommand errorCommand;
   private final BlacklistCommand blacklistCommand;
   private final ListVoucherCommand listVoucherCommand;
   private final CreateVoucherCommand createVoucherCommand;
@@ -15,13 +14,11 @@ public class CommandFactory {
   public CommandFactory(
       InitCommand initCommand,
       ExitCommand exitCommand,
-      ErrorCommand errorCommand,
       BlacklistCommand blacklistCommand,
       ListVoucherCommand listVoucherCommand,
       CreateVoucherCommand createVoucherCommand) {
     this.initCommand = initCommand;
     this.exitCommand = exitCommand;
-    this.errorCommand = errorCommand;
     this.blacklistCommand = blacklistCommand;
     this.listVoucherCommand = listVoucherCommand;
     this.createVoucherCommand = createVoucherCommand;
@@ -31,9 +28,8 @@ public class CommandFactory {
     return switch (commandType) {
       case INIT -> initCommand;
       case EXIT -> exitCommand;
-      case ERROR -> errorCommand;
-      case BLACKLIST -> blacklistCommand;
       case LIST -> listVoucherCommand;
+      case BLACKLIST -> blacklistCommand;
       case CREATE -> createVoucherCommand;
     };
   }
