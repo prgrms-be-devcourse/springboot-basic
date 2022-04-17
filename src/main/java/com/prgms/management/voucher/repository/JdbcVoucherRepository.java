@@ -4,7 +4,7 @@ import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.PercentDiscountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.entity.VoucherType;
-import com.prgms.management.voucher.exception.VoucherException;
+import com.prgms.management.voucher.exception.VoucherNotSaveException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -26,7 +26,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(UUID voucherId) throws VoucherException {
+    public Voucher findById(UUID voucherId) {
         try {
             return jdbcTemplate.queryForObject("SELECT * from voucher WHERE id = UNHEX(REPLACE(:id, '-', ''))",
                     Collections.singletonMap("id", voucherId.toString()),
@@ -37,12 +37,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() throws VoucherException {
+    public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * from voucher", (rs, rowNum) -> mapToVoucher(rs));
     }
 
     @Override
-    public Voucher save(Voucher voucher) throws VoucherException {
+    public Voucher save(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>() {{
             put("id", voucher.getVoucherId().toString());
             put("name", "demo");
@@ -55,7 +55,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         if (result == 1) {
             return voucher;
         }
-        throw new RuntimeException("바우처 저장에 실패하였습니다.");
+        throw new VoucherNotSaveException();
     }
 
     private UUID toUUID(byte[] bytes) {
