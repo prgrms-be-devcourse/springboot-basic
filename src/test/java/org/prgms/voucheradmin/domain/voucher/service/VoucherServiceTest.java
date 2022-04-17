@@ -3,6 +3,7 @@ package org.prgms.voucheradmin.domain.voucher.service;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.FIXED_AMOUNT;
+import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.PERCENTAGE_DISCOUNT;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
@@ -48,7 +50,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("바우서 조회 테스트")
+    @DisplayName("바우처 조회 테스트")
     void testGetVouchers() {
         try {
             when(voucherRepository.findAll()).thenReturn(new ArrayList<Voucher>());
@@ -58,6 +60,33 @@ class VoucherServiceTest {
             verify(voucherRepository).findAll();
         }catch(IOException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("바우처 수정 테스트")
+    void testUpdateVoucher() {
+        UUID voucherId = UUID.randomUUID();
+        Voucher retrievedVoucher = new FixedAmountVoucher(voucherId, 10);
+
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(retrievedVoucher));
+
+        voucherService.updateVoucher(new VoucherUpdateReqDto(voucherId, PERCENTAGE_DISCOUNT, 10));
+
+        verify(voucherRepository).update(any());
+    }
+
+    @Test
+    @DisplayName("바우처 수정 예외 테스트")
+    void testUpdateVoucherException() {
+        try{
+            UUID voucherId = UUID.randomUUID();
+            Voucher retrievedVoucher = new FixedAmountVoucher(voucherId, 10);
+            when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(retrievedVoucher));
+
+            voucherService.updateVoucher(new VoucherUpdateReqDto(voucherId, PERCENTAGE_DISCOUNT, 10));
+        }catch (VoucherNotFoundException e) {
+            verify(voucherRepository, never()).update(any());
         }
     }
 

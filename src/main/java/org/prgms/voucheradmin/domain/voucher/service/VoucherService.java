@@ -48,24 +48,19 @@ public class VoucherService {
     }
 
     /**
-     * id를 사용하여 바우처를 조회합니다.
-     **/
-    @Transactional(readOnly = true)
-    public Voucher getVoucherById(UUID voucherId){
-        return voucherRepository.findById(voucherId).orElseThrow(() -> new VoucherNotFoundException(voucherId));
-    }
-
-    /**
      * 바우처의 type, amount(percent)를 수정하는 메서드입니다.
      **/
     @Transactional
     public Voucher updateVoucher(VoucherUpdateReqDto voucherUpdateReqDto) {
-        Voucher voucher = getVoucherInstance(
-                voucherUpdateReqDto.getVoucherId(),
+        Voucher retrievedVoucher = voucherRepository.findById(voucherUpdateReqDto.getVoucherId())
+                .orElseThrow(() -> new VoucherNotFoundException(voucherUpdateReqDto.getVoucherId()));
+
+        Voucher updatedVoucher = getVoucherInstance(
+                retrievedVoucher.getVoucherId(),
                 voucherUpdateReqDto.getVoucherType(),
                 voucherUpdateReqDto.getAmount());
 
-        return voucherRepository.update(voucher);
+        return voucherRepository.update(updatedVoucher);
     }
 
     /**

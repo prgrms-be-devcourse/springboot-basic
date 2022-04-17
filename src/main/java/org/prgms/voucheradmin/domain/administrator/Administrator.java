@@ -1,5 +1,8 @@
 package org.prgms.voucheradmin.domain.administrator;
 
+import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.CREATE;
+import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.UPDATE;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -22,10 +25,6 @@ import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.CREATE;
-import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.UPDATE;
-import static org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher.*;
 
 /**
  * 로직 수행을 위해 필요한 메서드를 호출하는 클래스 입니다.
@@ -98,14 +97,11 @@ public class Administrator {
                 break;
             case UPDATE:
                 UUID voucherIdForUpdate = inputService.inputVoucherId();
-                Voucher voucher = voucherService.getVoucherById(voucherIdForUpdate);
-                outputService.showVoucher(voucher, READ);
-
                 outputService.showVoucherType();
                 VoucherType voucherTypeForUpdate = inputService.selectVoucherType();
                 long amountForUpdate = inputService.inputAmount(voucherTypeForUpdate);
 
-                Voucher updatedVoucher = voucherService.updateVoucher(new VoucherUpdateReqDto(voucher.getVoucherId(), voucherTypeForUpdate, amountForUpdate));
+                Voucher updatedVoucher = voucherService.updateVoucher(new VoucherUpdateReqDto(voucherIdForUpdate, voucherTypeForUpdate, amountForUpdate));
                 outputService.showVoucher(updatedVoucher, CommandAboutVoucher.UPDATE);
                 break;
             case DELETE:

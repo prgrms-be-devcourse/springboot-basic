@@ -63,7 +63,6 @@ public class JdbcVoucherRepository implements VoucherRepository{
         }catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
-
     }
 
     /**

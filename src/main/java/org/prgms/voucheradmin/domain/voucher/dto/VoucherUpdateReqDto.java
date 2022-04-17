@@ -1,8 +1,8 @@
 package org.prgms.voucheradmin.domain.voucher.dto;
 
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
-
 import java.util.UUID;
+
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 
 public class VoucherUpdateReqDto {
     private UUID voucherId;
