@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.customer.repository.CustomerRepository;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +34,11 @@ public class SimpleCustomerService implements CustomerService {
     }
 
     @Override
+    public List<Customer> findByVoucherType(VoucherType voucherType) {
+        return customerRepository.findByVoucherType(voucherType);
+    }
+
+    @Override
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }
@@ -40,6 +46,11 @@ public class SimpleCustomerService implements CustomerService {
     @Override
     public Customer save(Customer customer) {
         return customerRepository.save(customer);
+    }
+
+    @Override
+    public Customer update(Customer customer) {
+        return customerRepository.update(customer);
     }
 
     @Override

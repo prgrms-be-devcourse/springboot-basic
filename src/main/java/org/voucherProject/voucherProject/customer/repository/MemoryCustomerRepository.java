@@ -47,6 +47,11 @@ public class MemoryCustomerRepository implements CustomerRepository{
     }
 
     @Override
+    public Customer update(Customer customer) {
+        return null;
+    }
+
+    @Override
     public void deleteAll() {
         storage.clear();
     }

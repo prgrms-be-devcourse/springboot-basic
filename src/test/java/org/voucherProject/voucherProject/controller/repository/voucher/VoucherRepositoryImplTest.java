@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.repository.voucher;
+package org.voucherProject.voucherProject.controller.repository.voucher;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

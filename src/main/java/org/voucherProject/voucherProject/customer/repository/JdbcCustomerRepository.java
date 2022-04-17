@@ -38,6 +38,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private String DELETE_ALL_SQL;
     private String INSERT_SQL;
     private String SELECT_BY_VOUCHER_TYPE_SQL;
+    private String UPDATE_SQL;
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
@@ -93,6 +94,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Nothing inserted");
+        }
+        return customer;
+    }
+
+    @Override
+    public Customer update(Customer customer) {
+        int update = jdbcTemplate.update(UPDATE_SQL,
+                toParamMap(customer));
+        if (update != 1) {
+            throw new RuntimeException("No Update");
         }
         return customer;
     }

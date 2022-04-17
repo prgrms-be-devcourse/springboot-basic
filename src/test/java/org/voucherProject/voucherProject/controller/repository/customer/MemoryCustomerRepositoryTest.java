@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.repository.customer;
+package org.voucherProject.voucherProject.controller.repository.customer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,7 +85,22 @@ class MemoryCustomerRepositoryTest {
 
         assertThat(byVoucherType1.size()).isEqualTo(3);
         assertThat(byVoucherType2.size()).isEqualTo(2);
+    }
 
+    @Test
+    public void update() throws Exception {
+        Customer customer2 = new Customer(UUID.randomUUID(), "bbb", "bbb@.com", "1234");
+        Customer customer3 = new Customer(UUID.randomUUID(), "ccc", "ccc@.com", "1234");
+
+        customerRepository.save(customer2);
+        customerRepository.save(customer3);
+
+        customer2.updatePassword("4321");
+        customerRepository.update(customer2);
+
+        Optional<Customer> byId = customerRepository.findById(customer2.getCustomerId());
+
+        assertThat(byId.get().getPassword()).isEqualTo("4321");
 
     }
 }

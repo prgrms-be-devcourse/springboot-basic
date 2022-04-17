@@ -12,6 +12,7 @@ customers-sql:
   DELETE_ALL_SQL: DELETE FROM customers
   INSERT_SQL: INSERT INTO customers(customer_id, name, email, password, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :password, :createdAt)
   SELECT_BY_VOUCHER_TYPE_SQL: SELECT * FROM customers c LEFT JOIN voucher v ON v.customer_id = c.customer_id WHERE v.voucher_type = :voucherType
+  UPDATE_SQL: UPDATE customers SET name = :name, password = :password WHERE customer_id = UUID_TO_BIN(:customerId)
 
 voucher-sql:
   SELECT_ALL_SQL: SELECT * FROM voucher

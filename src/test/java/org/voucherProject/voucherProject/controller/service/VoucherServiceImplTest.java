@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.service;
+package org.voucherProject.voucherProject.controller.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

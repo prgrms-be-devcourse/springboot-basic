@@ -1,4 +1,4 @@
-package org.voucherProject.voucherProject.service.customer;
+package org.voucherProject.voucherProject.controller.service.customer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
