@@ -114,14 +114,11 @@ class VoucherServiceTest {
     @DisplayName("바우처 삭제 예외 테스트")
     void testDeleteVoucherException() {
         try {
-            // when
             UUID voucherId = UUID.randomUUID();
             when(voucherRepository.findById(voucherId)).thenThrow(new VoucherNotFoundException(voucherId));
 
-            // given
             voucherService.deleteVoucher(voucherId);
         }catch (VoucherNotFoundException e) {
-            // then
             verify(voucherRepository, never()).delete(any());
         }
     }

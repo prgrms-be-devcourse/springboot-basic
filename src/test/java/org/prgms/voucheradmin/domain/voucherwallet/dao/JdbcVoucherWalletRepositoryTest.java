@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.wix.mysql.EmbeddedMysql;
@@ -109,5 +110,30 @@ class JdbcVoucherWalletRepositoryTest {
         List<VoucherWallet> voucherWallets = voucherWalletRepository.findAll();
 
         assertThat(voucherWallets.size(), is(2));
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("바우처 지갑 조회 확인")
+    void testWalletFindByCustomerIdAndVoucherId() {
+        Optional<VoucherWallet> retrievedVoucherWallet1 = voucherWalletRepository
+                .findByCustomerIdAndVoucherId(voucherWallet1.getCustomerId(), voucherWallet1.getVoucherId());
+        Optional<VoucherWallet> retrievedVoucherWallet2 = voucherWalletRepository
+                .findByCustomerIdAndVoucherId(UUID.randomUUID(), voucherWallet2.getVoucherId());
+
+        assertThat(retrievedVoucherWallet1, not(is(Optional.empty())));
+        assertThat(retrievedVoucherWallet2, is(Optional.empty()));
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("바우처 지갑 삭제 확인")
+    void testWalletDelete() {
+        voucherWalletRepository.deleteVoucherWallet(voucherWallet1);
+        voucherWalletRepository.deleteVoucherWallet(voucherWallet2);
+
+        List<VoucherWallet> voucherWallets = voucherWalletRepository.findAll();
+
+        assertThat(voucherWallets.size(), is(0));
     }
 }

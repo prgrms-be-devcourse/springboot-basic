@@ -3,7 +3,7 @@ package org.prgms.voucheradmin.global.exception;
 import java.util.UUID;
 
 public class VoucherNotFoundException extends RuntimeException{
-    private static final String VOUCHER_NOT_FOUND_EXCEPTION = "can't find voucher";
+    private static final String VOUCHER_NOT_FOUND_EXCEPTION = "can't find a voucher";
 
 
     public VoucherNotFoundException(UUID voucherId) {

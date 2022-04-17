@@ -9,6 +9,7 @@ import org.prgms.voucheradmin.domain.voucherwallet.dto.CreatVoucherWalletReqDto;
 import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
 import org.prgms.voucheradmin.global.exception.CustomerNotFoundException;
 import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
+import org.prgms.voucheradmin.global.exception.VoucherWalletNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,5 +61,13 @@ public class VoucherWalletService {
                 .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
         return customerRepository.findVoucherOwners(voucher.getVoucherId());
+    }
+
+    /**
+     * 고객이 보유한 바우처를 제거하는 메서드 입니다.
+     */
+    public void deleteVoucherWallet(UUID customerId, UUID voucherId) {
+        VoucherWallet voucherWallet = voucherWalletRepository.findByCustomerIdAndVoucherId(customerId, voucherId).orElseThrow(() -> new VoucherWalletNotFoundException(customerId, voucherId));
+        voucherWalletRepository.deleteVoucherWallet(voucherWallet);
     }
 }

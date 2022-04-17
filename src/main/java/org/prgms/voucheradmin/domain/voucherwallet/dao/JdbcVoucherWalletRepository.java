@@ -3,15 +3,15 @@ package org.prgms.voucheradmin.domain.voucherwallet.dao;
 import static org.prgms.voucheradmin.global.util.Util.toUUID;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
 import org.prgms.voucheradmin.global.exception.CreationFailException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-
 
 @Repository
 public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
@@ -42,8 +42,20 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
     }
 
     @Override
-    public void deleteAllocatedVoucher(UUID customerId, UUID voucherId) {
+    public Optional<VoucherWallet> findByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        try {
+            return Optional.of(jdbcTemplate.queryForObject("select * from voucher_wallets where customer_id = UUID_TO_BIN(?) and voucher_id = UUID_TO_BIN(?)", voucherWalletRowMapper,
+                    customerId.toString().getBytes(),
+                    voucherId.toString().getBytes()));
+        }catch(EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
 
+    @Override
+    public void deleteVoucherWallet(VoucherWallet voucherWallet) {
+        jdbcTemplate.update("delete from voucher_wallets where voucher_wallet_id = UUID_TO_BIN(?)",
+                voucherWallet.getVoucherWalletId().toString().getBytes());
     }
 
     private final RowMapper<VoucherWallet> voucherWalletRowMapper = (resultSet, rowNum) -> {

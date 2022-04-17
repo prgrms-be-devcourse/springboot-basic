@@ -16,6 +16,7 @@ import org.prgms.voucheradmin.domain.voucherwallet.dto.CreatVoucherWalletReqDto;
 import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
 import org.prgms.voucheradmin.global.exception.CustomerNotFoundException;
 import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
+import org.prgms.voucheradmin.global.exception.VoucherWalletNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -41,6 +42,7 @@ class VoucherWalletServiceTest {
     CreatVoucherWalletReqDto creatVoucherWalletReqDto = new CreatVoucherWalletReqDto(UUID.randomUUID(), UUID.randomUUID());
     Customer customer = new Customer(creatVoucherWalletReqDto.getCustomerId(), "a", "a@test.com", LocalDateTime.now());
     Voucher voucher = new FixedAmountVoucher(creatVoucherWalletReqDto.getVoucherId(), 1000);
+    VoucherWallet voucherWallet = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId());
 
     @Test
     @DisplayName("바우처 지갑 생성 고객 예외 톄스트")
@@ -120,5 +122,27 @@ class VoucherWalletServiceTest {
         voucherWalletService.getVoucherOwners(voucher.getVoucherId());
 
         verify(customerRepository).findVoucherOwners(voucher.getVoucherId());
+    }
+
+    @Test
+    @DisplayName("바우처 지갑 삭제 예외 테스트")
+    void testDeleteVoucherWalletException() {
+        try {
+            when(voucherWalletRepository.findByCustomerIdAndVoucherId(customer.getCustomerId(), voucher.getVoucherId())).thenThrow(new VoucherWalletNotFoundException(customer.getCustomerId(), voucher.getVoucherId()));
+
+            voucherWalletService.deleteVoucherWallet(customer.getCustomerId(), voucher.getVoucherId());
+        }catch(VoucherWalletNotFoundException e) {
+            verify(voucherWalletRepository, never()).deleteVoucherWallet(voucherWallet);
+        }
+    }
+
+    @Test
+    @DisplayName("바우처 지갑 삭제 테스트")
+    void testDeleteVoucherWallet() {
+        when(voucherWalletRepository.findByCustomerIdAndVoucherId(customer.getCustomerId(), voucher.getVoucherId())).thenReturn(Optional.of(voucherWallet));
+
+        voucherWalletService.deleteVoucherWallet(customer.getCustomerId(), voucher.getVoucherId());
+
+        verify(voucherWalletRepository).deleteVoucherWallet(voucherWallet);
     }
 }

@@ -1,6 +1,7 @@
 package org.prgms.voucheradmin.domain.voucherwallet.dao;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
@@ -10,5 +11,7 @@ public interface VoucherWalletRepository {
 
     List<VoucherWallet> findAll();
 
-    void deleteAllocatedVoucher(UUID customerId, UUID voucherId);
+    Optional<VoucherWallet> findByCustomerIdAndVoucherId(UUID customerId, UUID voucherId);
+
+    void deleteVoucherWallet(VoucherWallet voucherWallet);
 }

@@ -3,7 +3,7 @@ package org.prgms.voucheradmin.global.exception;
 import java.util.UUID;
 
 public class CustomerNotFoundException extends RuntimeException{
-    private static final String CUSTOMER_NOT_FOUND_EXCEPTION = "can't find customer";
+    private static final String CUSTOMER_NOT_FOUND_EXCEPTION = "can't find a customer";
 
 
     public CustomerNotFoundException(UUID customerId) {

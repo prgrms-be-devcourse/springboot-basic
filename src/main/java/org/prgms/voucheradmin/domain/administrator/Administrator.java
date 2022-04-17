@@ -151,6 +151,7 @@ public class Administrator {
             case DELETE:
                 UUID customerIdForDelete = inputService.inputCustomerId();
                 customerService.deleteCustomer(customerIdForDelete);
+                break;
             default:
                 throw new WrongInputException();
         }
@@ -177,6 +178,11 @@ public class Administrator {
                 UUID voucherIdForVoucherOwner = inputService.inputVoucherId();
                 List<Customer> customers = voucherWalletService.getVoucherOwners(voucherIdForVoucherOwner);
                 outputService.showCustomerList(customers);
+                break;
+            case DELETE_CUSTOMER_VOUCHER:
+                UUID customerIdForDelete = inputService.inputCustomerId();
+                UUID voucherIdForDelete = inputService.inputVoucherId();
+                voucherWalletService.deleteVoucherWallet(customerIdForDelete, voucherIdForDelete);
                 break;
             default:
                 throw new WrongInputException();
