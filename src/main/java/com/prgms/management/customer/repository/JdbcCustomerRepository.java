@@ -3,6 +3,7 @@ package com.prgms.management.customer.repository;
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.customer.model.CustomerType;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -49,16 +50,24 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer findById(UUID id) {
-        return jdbcTemplate.queryForObject("SELECT * from customer WHERE id = UNHEX(REPLACE(:id, '-', ''))",
-                Collections.singletonMap("id", id.toString()),
-                (rs, rowNum) -> mapToCustomer(rs));
+        try {
+            return jdbcTemplate.queryForObject("SELECT * from customer WHERE id = UNHEX(REPLACE(:id, '-', ''))",
+                    Collections.singletonMap("id", id.toString()),
+                    (rs, rowNum) -> mapToCustomer(rs));
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public Customer findByEmail(String email) {
-        return jdbcTemplate.queryForObject("SELECT * from customer WHERE email = :email",
-                Collections.singletonMap("email", email),
-                (rs, rowNum) -> mapToCustomer(rs));
+        try {
+            return jdbcTemplate.queryForObject("SELECT * from customer WHERE email = :email",
+                    Collections.singletonMap("email", email),
+                    (rs, rowNum) -> mapToCustomer(rs));
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override

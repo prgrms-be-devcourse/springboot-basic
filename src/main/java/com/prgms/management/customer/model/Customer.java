@@ -1,5 +1,6 @@
 package com.prgms.management.customer.model;
 
+import com.prgms.management.customer.exception.CustomerException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,6 +30,9 @@ public class Customer {
     }
 
     public Customer(UUID id, String name, CustomerType type, String email, Timestamp lastLoginAt, Timestamp createdAt) {
+        if (type == CustomerType.NONE) {
+            throw new CustomerException("유효하지 않은 타입입니다.");
+        }
         this.id = id;
         this.name = name;
         this.type = type;
