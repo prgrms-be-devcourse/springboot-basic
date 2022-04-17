@@ -1,7 +1,6 @@
 package org.prgrms.kdt.shop.enums;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 public enum MenuStatus {
     LIST("list"), EXIT("exit"), CREATE("create");

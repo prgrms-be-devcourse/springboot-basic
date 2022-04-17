@@ -1,6 +1,5 @@
 package org.prgrms.kdt.shop;
 
-import lombok.extern.slf4j.Slf4j;
 import org.prgrms.kdt.shop.domain.FixedAmountVoucher;
 import org.prgrms.kdt.shop.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.shop.enums.MenuStatus;

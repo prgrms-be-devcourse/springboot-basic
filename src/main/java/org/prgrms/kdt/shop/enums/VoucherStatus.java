@@ -1,8 +1,5 @@
 package org.prgrms.kdt.shop.enums;
 
-import org.prgrms.kdt.shop.domain.Voucher;
-import org.prgrms.kdt.shop.service.VoucherService;
-
 import java.util.Arrays;
 
 public enum VoucherStatus {
