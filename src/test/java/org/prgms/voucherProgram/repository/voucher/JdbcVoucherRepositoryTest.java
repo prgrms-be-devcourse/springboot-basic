@@ -152,7 +152,6 @@ class JdbcVoucherRepositoryTest {
         // given
         jdbcVoucherRepository.save(voucher);
         // when
-        voucher.changeCustomerId(UUID.randomUUID());
         voucher.changeDiscountValue(100L);
         jdbcVoucherRepository.update(voucher);
         // then

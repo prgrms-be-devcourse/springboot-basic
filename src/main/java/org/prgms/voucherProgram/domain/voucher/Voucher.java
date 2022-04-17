@@ -25,11 +25,7 @@ public abstract class Voucher implements Serializable {
     public UUID getCustomerId() {
         return customerId;
     }
-
-    public void changeCustomerId(UUID customerId) {
-        this.customerId = customerId;
-    }
-
+    
     public abstract long discount(long beforeDiscount);
 
     public abstract void changeDiscountValue(Long discountValue);

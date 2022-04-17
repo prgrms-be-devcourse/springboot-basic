@@ -61,7 +61,7 @@ public class Console implements InputView, OutputView {
     @Override
     public VoucherDto inputVoucherInformation(int voucherType) {
         long discountValue = inputDiscountValue(voucherType);
-        return new VoucherDto(UUID.randomUUID(), null, voucherType, discountValue);
+        return new VoucherDto(UUID.randomUUID(), voucherType, discountValue);
     }
 
     private long inputDiscountValue(int voucherType) {

@@ -37,8 +37,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         int result = jdbcTemplate.update(
-            "UPDATE voucher SET customer_id = UUID_TO_BIN(?), type = ?, discount = ? WHERE voucher_id = UUID_TO_BIN(?)",
-            DatabaseUtils.toBytes(voucher.getCustomerId()),
+            "UPDATE voucher SET type = ?, discount = ? WHERE voucher_id = UUID_TO_BIN(?)",
             voucher.getType(),
             voucher.getDiscountValue(),
             DatabaseUtils.toBytes(voucher.getVoucherId()));

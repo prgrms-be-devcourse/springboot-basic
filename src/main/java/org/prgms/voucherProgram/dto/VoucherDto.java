@@ -7,33 +7,26 @@ import org.prgms.voucherProgram.domain.voucher.VoucherType;
 
 public class VoucherDto {
     private final UUID voucherId;
-    private final UUID customerId;
     private final int type;
     private long discountValue;
 
-    public VoucherDto(UUID voucherId, UUID customerId, int type, long discountValue) {
+    public VoucherDto(UUID voucherId, int type, long discountValue) {
         this.voucherId = voucherId;
-        this.customerId = customerId;
         this.type = type;
         this.discountValue = discountValue;
     }
 
     public static VoucherDto from(Voucher voucher) {
-        return new VoucherDto(voucher.getVoucherId(), voucher.getCustomerId(), voucher.getType(),
-            voucher.getDiscountValue());
+        return new VoucherDto(voucher.getVoucherId(), voucher.getType(), voucher.getDiscountValue());
     }
 
     public Voucher toEntity() {
         return VoucherType.findByNumber(type)
-            .createVoucher(voucherId, customerId, discountValue);
+            .createVoucher(voucherId, null, discountValue);
     }
 
     public UUID getVoucherId() {
         return voucherId;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
     }
 
     public int getType() {
@@ -50,7 +43,7 @@ public class VoucherDto {
 
     @Override
     public String toString() {
-        return "voucherId=%s, customerId=%s, type=%s, discountValue = %d".formatted(voucherId, customerId,
-            VoucherType.findByNumber(type), discountValue);
+        return "voucherId=%s, type=%s, discountValue = %d".formatted(voucherId, VoucherType.findByNumber(type),
+            discountValue);
     }
 }
