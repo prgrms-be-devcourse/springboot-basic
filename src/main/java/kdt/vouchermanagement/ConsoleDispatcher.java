@@ -23,9 +23,9 @@ public class ConsoleDispatcher implements ApplicationRunner {
                         return;
                     case CREATE_VOUCHER:
                         //TODO output
-                        String inputVoucherTypeNum = excuteInput();
+                        String voucherTypeNum = excuteInput();
                         //TODO output
-                        String inputDiscountValue = excuteInput();
+                        String discountValue = excuteInput();
                         //TODO controller
                     case LIST_VOUCHERS:
                         //TODO output
@@ -38,7 +38,7 @@ public class ConsoleDispatcher implements ApplicationRunner {
         }
     }
 
-    public String excuteInput() {
+    private String excuteInput() {
         String inputValue = consoleInput.input();
         if (inputValue.isBlank()) {
             throw new IllegalArgumentException("공백이 입력되었습니다. 올바른 값을 입력해주세요.");
@@ -46,7 +46,7 @@ public class ConsoleDispatcher implements ApplicationRunner {
         return inputValue;
     }
 
-    public Menu findMenu(String input) {
+    private Menu findMenu(String input) {
         return Menu.from(input);
     }
 }
