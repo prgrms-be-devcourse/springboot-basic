@@ -39,7 +39,7 @@ public class Customer {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Customer)) return false;
         Customer customer = (Customer) o;
         return age == customer.age && Objects.equals(name, customer.name) && sex == customer.sex;
     }
