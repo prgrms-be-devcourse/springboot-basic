@@ -6,23 +6,26 @@ import org.beryx.textio.TextTerminal;
 import org.prgrms.springbootbasic.voucher.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.voucher.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.voucher.repository.VoucherRepository;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.UUID;
-
 
 public class CommandLineApplication {
   public static final String AVAILABLE_COMMANDS = "=== Voucher Program ===\nType exit to exit the program.\nType create to create a new voucher.\nType list to list all vouchers.\n";
   public static final String AVAILABLE_VOUCHERS = "Which type do you want, FixedAmountVoucher(Fixed) or PercentDiscountVoucher(Percent)?";
 
   public static void main(String[] args) {
-    var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+//    var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+    run(new AnnotationConfigApplicationContext(AppConfiguration.class));
+  }
+
+  private static void run(ApplicationContext applicationContext) {
     var voucherRepository = applicationContext.getBean(VoucherRepository.class);
 
     TextIO textIO = TextIoFactory.getTextIO();
     TextTerminal terminal = textIO.getTextTerminal();
     terminal.print(AVAILABLE_COMMANDS);
-
 
     while (true) {
       String input = textIO.newStringInputReader()
