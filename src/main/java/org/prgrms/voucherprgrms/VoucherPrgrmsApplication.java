@@ -1,6 +1,5 @@
 package org.prgrms.voucherprgrms;
 
-import org.prgrms.voucherprgrms.io.Console;
 import org.prgrms.voucherprgrms.io.InputConsole;
 import org.prgrms.voucherprgrms.io.OutputConsole;
 import org.prgrms.voucherprgrms.voucher.VoucherService;

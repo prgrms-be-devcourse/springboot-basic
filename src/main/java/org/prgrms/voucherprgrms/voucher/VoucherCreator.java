@@ -1,8 +1,6 @@
 package org.prgrms.voucherprgrms.voucher;
 
-import org.prgrms.voucherprgrms.VoucherPrgrmsApplication;
 import org.prgrms.voucherprgrms.voucher.model.*;
-import org.prgrms.voucherprgrms.io.InputConsole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
