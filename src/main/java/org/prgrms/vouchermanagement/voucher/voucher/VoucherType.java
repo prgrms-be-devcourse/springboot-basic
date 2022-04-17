@@ -28,6 +28,13 @@ public enum VoucherType {
     throw new RuntimeException("[VoucherTypeException] 존재하지 않는 클래스입니다");
   }
 
+  // check
+  public static VoucherType fromInt(int number) {
+    for(VoucherType type: values()) {
+      if(type.getSelectedNumber() == number) return type;
+    }
+    throw new RuntimeException("[VoucherTypeException] 하지 않는 종류입니다");
+  }
   /**
    *
    * @param voucher
