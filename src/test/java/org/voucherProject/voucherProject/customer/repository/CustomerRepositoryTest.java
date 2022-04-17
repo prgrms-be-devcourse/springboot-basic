@@ -1,11 +1,12 @@
-package org.voucherProject.voucherProject.controller.repository.customer;
+package org.voucherProject.voucherProject.customer.repository;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.customer.entity.Customer;
-import org.voucherProject.voucherProject.customer.repository.CustomerRepository;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 import org.voucherProject.voucherProject.voucher.repository.VoucherRepository;
@@ -17,7 +18,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class MemoryCustomerRepositoryTest {
+public class CustomerRepositoryTest {
 
     @Autowired
     CustomerRepository customerRepository;
@@ -25,34 +26,57 @@ class MemoryCustomerRepositoryTest {
     @Autowired
     VoucherRepository voucherRepository;
 
-    UUID id;
-
     @BeforeEach
     void setUp() {
         voucherRepository.deleteAll();
         customerRepository.deleteAll();
 
-        Customer customer1 = new Customer(UUID.randomUUID(), "aaa", "aaa@.com", "1234");
-        customerRepository.save(customer1);
-        id = customer1.getCustomerId();
+        customer = new Customer(UUID.randomUUID(), "aaa", "aaa@naver.com", "1234");
+        customerRepository.save(customer);
     }
 
+    Customer customer;
+
     @Test
+    @DisplayName("Id로 조회")
     void findById() {
-        Optional<Customer> findById = customerRepository.findById(id);
+        Optional<Customer> findById = customerRepository.findById(customer.getCustomerId());
         assertThat(findById.isPresent()).isTrue();
     }
 
     @Test
+    @DisplayName("없는 Id로 조회")
+    void findByWrongId() {
+        Optional<Customer> findById = customerRepository.findById(UUID.randomUUID());
+        assertThat(findById.isPresent()).isFalse();
+    }
+
+    @Test
+    @DisplayName("이름으로 조회")
     void findByName() {
         Optional<Customer> byName = customerRepository.findByName("aaa");
         assertThat(byName.isPresent()).isTrue();
     }
 
     @Test
+    @DisplayName("없는 이름으로 조회")
+    void findByVoidName() {
+        Optional<Customer> byName = customerRepository.findByName("");
+        assertThat(byName.isPresent()).isFalse();
+    }
+
+    @Test
+    @DisplayName("이메일로 조회")
     void findByEmail() {
-        Optional<Customer> byEmail = customerRepository.findByEmail("aaa@.com");
+        Optional<Customer> byEmail = customerRepository.findByEmail("aaa@naver.com");
         assertThat(byEmail.isPresent()).isTrue();
+    }
+
+    @Test
+    @DisplayName("없는이메일로 조회")
+    void findByVoidEmail() {
+        Optional<Customer> byEmail = customerRepository.findByEmail("bbb@.com");
+        assertThat(byEmail.isPresent()).isFalse();
     }
 
     @Test
@@ -62,6 +86,7 @@ class MemoryCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("특정 바우터 타입을 가지고있는 고객 조회")
     public void findByVoucherType() throws Exception {
         Customer customer2 = new Customer(UUID.randomUUID(), "bbb", "bbb@.com", "1234");
         Customer customer3 = new Customer(UUID.randomUUID(), "ccc", "ccc@.com", "1234");
@@ -69,8 +94,8 @@ class MemoryCustomerRepositoryTest {
         customerRepository.save(customer2);
         customerRepository.save(customer3);
 
-        Voucher voucher1 = VoucherType.FIXED.createVoucher(10, id);
-        Voucher voucher2 = VoucherType.PERCENT.createVoucher(11, id);
+        Voucher voucher1 = VoucherType.FIXED.createVoucher(10, customer.getCustomerId());
+        Voucher voucher2 = VoucherType.PERCENT.createVoucher(11, customer.getCustomerId());
         Voucher voucher3 = VoucherType.FIXED.createVoucher(12, customer2.getCustomerId());
         Voucher voucher4 = VoucherType.PERCENT.createVoucher(13, customer2.getCustomerId());
         Voucher voucher5 = VoucherType.FIXED.createVoucher(12, customer3.getCustomerId());
@@ -88,19 +113,14 @@ class MemoryCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("업데이트")
     public void update() throws Exception {
-        Customer customer2 = new Customer(UUID.randomUUID(), "bbb", "bbb@.com", "1234");
-        Customer customer3 = new Customer(UUID.randomUUID(), "ccc", "ccc@.com", "1234");
+        customer.updatePassword("4321");
+        customerRepository.update(customer);
+        Customer updateCustomer = customerRepository.findById(this.customer.getCustomerId()).get();
 
-        customerRepository.save(customer2);
-        customerRepository.save(customer3);
+        assertThat(updateCustomer.getPassword()).isEqualTo("4321");
 
-        customer2.updatePassword("4321");
-        customerRepository.update(customer2);
-
-        Optional<Customer> byId = customerRepository.findById(customer2.getCustomerId());
-
-        assertThat(byId.get().getPassword()).isEqualTo("4321");
 
     }
 }
