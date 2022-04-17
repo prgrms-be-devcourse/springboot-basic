@@ -3,8 +3,17 @@ package org.prgms.voucherProgram.domain.voucher;
 import java.io.Serializable;
 import java.util.UUID;
 
-public interface Voucher extends Serializable {
-    long discount(long beforeDiscount);
+public abstract class Voucher implements Serializable {
 
-    UUID getVoucherId();
+    protected final UUID voucherId;
+
+    protected Voucher(UUID voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    abstract long discount(long beforeDiscount);
+
+    public UUID getVoucherId() {
+        return voucherId;
+    }
 }
