@@ -31,10 +31,10 @@ public class VoucherTest {
     @DisplayName("바우처 목록 조회 테스트")
     void getListOfVoucherTest() {
         VoucherRepository voucherRepository = new VoucherMemoryRepository();
-        voucherRepository.save(
+        voucherRepository.insert(
                 FixedAmountVoucher.getFixedAmountVoucher(UUID.randomUUID(), 100,
                         "fixedAmountVoucher", "PercentAmountVoucher"));
-        voucherRepository.save(
+        voucherRepository.insert(
                 PercentAmountVoucher.getPercentAmountVoucher(UUID.randomUUID(), 10,
                         "percentAmountVoucher", "PercentAmountVoucher"));
 

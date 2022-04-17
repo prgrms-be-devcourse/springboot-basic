@@ -6,5 +6,7 @@ import org.prgms.management.io.Output;
 import org.prgms.management.voucher.service.VoucherService;
 
 public interface Command {
-    boolean execute(Input input, Output output, VoucherService voucherService, BlacklistService blacklistService);
+    boolean execute(Input input, Output output,
+                    VoucherService voucherService,
+                    BlacklistService blacklistService);
 }

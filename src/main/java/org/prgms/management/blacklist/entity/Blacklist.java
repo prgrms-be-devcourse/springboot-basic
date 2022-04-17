@@ -4,18 +4,18 @@ import java.util.UUID;
 
 public class Blacklist {
     private final UUID blacklistId;
-    private final UUID userId;
+    private final UUID customerId;
 
-    public Blacklist(UUID blacklistId, UUID userId) {
+    public Blacklist(UUID blacklistId, UUID customerId) {
         this.blacklistId = blacklistId;
-        this.userId = userId;
+        this.customerId = customerId;
     }
 
     public UUID getBlacklistId() {
         return blacklistId;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public UUID getCustomerId() {
+        return customerId;
     }
 }

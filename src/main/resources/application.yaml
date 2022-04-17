@@ -8,7 +8,7 @@ spring.config.activate.on-profile: local-file
 filedb:
   blacklist: "src/main/resources/filedb/blacklist.csv"
   voucher: "src/main/resources/filedb/voucher.csv"
-
+  customer: "src/main/resources/filedb/customer.csv"
 ---
 
 spring.config.activate.on-profile: local-memory

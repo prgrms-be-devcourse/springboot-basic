@@ -1,6 +1,6 @@
-package org.prgms.management.blacklist.repository;
+package org.prgms.management.customer.repository;
 
-import org.prgms.management.blacklist.entity.Blacklist;
+import org.prgms.management.customer.entity.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,14 +16,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile({"local-file", "test"})
-public class BlackListFileRepository implements BlackListRepository {
-    @Value("${filedb.blacklist}")
+public class CustomerFileRepository implements CustomerRepository {
+    @Value("${filedb.customer}")
     private String filePath;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public Map<UUID, Blacklist> getAll() {
-        Map<UUID, Blacklist> map = new ConcurrentHashMap<>();
+    public Map<UUID, Customer> getAll() {
+        Map<UUID, Customer> map = new ConcurrentHashMap<>();
 
         try (
                 BufferedReader bufferedReader = new BufferedReader(
@@ -32,32 +32,32 @@ public class BlackListFileRepository implements BlackListRepository {
             bufferedReader.lines().forEach(
                     line -> {
                         String[] str = line.split(",");
-                        UUID blacklistId = UUID.fromString(str[0]);
-                        UUID customerId = UUID.fromString(str[1]);
-                        map.put(blacklistId, new Blacklist(blacklistId, customerId));
+                        UUID customerId = UUID.fromString(str[0]);
+                        String name = str[1];
+                        map.put(customerId, new Customer(customerId, name));
                     }
             );
         } catch (IOException e) {
-            logger.error("{} can't read blacklist file", e.getMessage());
+            logger.error("{} can't read customer file", e.getMessage());
         }
 
         return map;
     }
 
     @Override
-    public Optional<Blacklist> insert(Blacklist blacklist) {
+    public Optional<Customer> insert(Customer customer) {
         try (
                 BufferedWriter bufferedWriter = new BufferedWriter(
                         new FileWriter(filePath, true)
                 );
         ) {
-            String blacklistStr = MessageFormat.format("{0},{1}\r\n",
-                    blacklist.getBlacklistId(), blacklist.getCustomerId());
+            String customerStr = MessageFormat.format("{0},{1}\r\n",
+                    customer.getCustomerId(), customer.getName());
 
-            bufferedWriter.write(blacklistStr);
-            return Optional.of(blacklist);
+            bufferedWriter.write(customerStr);
+            return Optional.of(customer);
         } catch (IOException e) {
-            logger.error("{} can't insert blacklist file", e.getMessage(), e);
+            logger.error("{} can't insert customer file", e.getMessage(), e);
         }
         return Optional.empty();
     }

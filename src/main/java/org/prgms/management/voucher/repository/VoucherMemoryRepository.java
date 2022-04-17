@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,12 +15,12 @@ public class VoucherMemoryRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
 
     @Override
-    public boolean save(Voucher voucher) {
+    public Optional<Voucher> insert(Voucher voucher) {
         if (!voucherMap.containsKey(voucher.getVoucherId())) {
             voucherMap.put(voucher.getVoucherId(), voucher);
-            return true;
+            return Optional.of(voucher);
         }
-        return false;
+        return Optional.empty();
     }
 
     @Override

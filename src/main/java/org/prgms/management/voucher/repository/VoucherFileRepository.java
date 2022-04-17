@@ -24,7 +24,7 @@ public class VoucherFileRepository implements VoucherRepository {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public boolean save(Voucher voucher) {
+    public Optional<Voucher> insert(Voucher voucher) {
         try (
                 BufferedWriter bufferedWriter = new BufferedWriter(
                         new FileWriter(filePath, true)
@@ -35,11 +35,11 @@ public class VoucherFileRepository implements VoucherRepository {
                     voucher.getVoucherName(), voucher.getDiscountNum());
 
             bufferedWriter.write(voucherStr);
-            return true;
-        } catch (Throwable e) {
+            return Optional.of(voucher);
+        } catch (IOException e) {
             logger.error("{} can't save voucher file", e.getMessage(), e);
         }
-        return false;
+        return Optional.empty();
     }
 
     @Override
