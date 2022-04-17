@@ -1,0 +1,6 @@
+db:
+  path: "db/"
+  blacklist:
+    name: customer_blacklist.csv
+  voucher:
+    name : voucher_db.csv

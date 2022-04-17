@@ -1,6 +1,7 @@
 package com.voucher.vouchermanagement.service;
 
 import com.voucher.vouchermanagement.model.customer.Customer;
+import com.voucher.vouchermanagement.repository.blacklist.BlacklistFileRepository;
 import com.voucher.vouchermanagement.repository.blacklist.BlacklistRepository;
 import org.springframework.stereotype.Service;
 
