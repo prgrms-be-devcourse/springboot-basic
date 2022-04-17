@@ -2,18 +2,24 @@ package com.programmers.part1.order.voucher.entity;
 
 import com.programmers.part1.exception.voucher.VoucherTypeMissingException;
 
+import java.util.Arrays;
+
 public enum VoucherType {
 
-    FIXED, PERCENT,NONE;
+    FIXED("1"),
+    PERCENT("2");
 
-    public static VoucherType getVoucherType(String requestVoucherType){
+    private final String request;
 
-        if(requestVoucherType.equals("1"))
-            return FIXED;
-        if(requestVoucherType.equals("2"))
-            return PERCENT;
-        else
-            throw new VoucherTypeMissingException("Voucher Type이 잘못 입력 되었습니다.\n");
+    VoucherType(String request) {
+        this.request = request;
+    }
+
+    public static VoucherType getVoucherType(String request) throws VoucherTypeMissingException{
+        return Arrays.stream(values())
+                .filter(type -> type.request.equals(request))
+                .findAny()
+                .orElseThrow(() -> new VoucherTypeMissingException("Voucher Type이 잘못 입력되었습니다."));
     }
 
 }

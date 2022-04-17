@@ -1,10 +1,14 @@
 package com.programmers.part1.ui;
 
+import com.programmers.part1.exception.voucher.FixedAmountException;
+import com.programmers.part1.exception.voucher.PercentErrorException;
+import com.programmers.part1.exception.voucher.VoucherTypeMissingException;
 import com.programmers.part1.io.Console;
 import com.programmers.part1.io.Message;
 import com.programmers.part1.member.MemberController;
 import com.programmers.part1.order.voucher.VoucherController;
 import com.programmers.part1.order.voucher.entity.VoucherType;
+import lombok.Builder;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
 
@@ -20,90 +24,68 @@ import static java.lang.System.exit;
  * 제가 handler 처리에 미숙해서 리팩터에 실패하였습니다. -> 조언을 받고 싶습니다.
  * 3. Controller 및 도메인에서 에러를 던져서 받았는데 exception 처리 책임이 잘 나뉘어졌는지 궁금합니다.
  */
-@Component
 public class Client implements Runnable {
 
     private final Console console;
-    private final Message message;
-    private final BeanFactory applicationContext;
+    private final MemberController memberController;
+    private final VoucherController voucherController;
 
-    public Client(Console console, Message message, BeanFactory applicationContext) {
+    @Builder
+    public Client(Console console, MemberController memberController, VoucherController voucherController) {
         this.console = console;
-        this.message = message;
-        this.applicationContext = applicationContext;
+        this.memberController = memberController;
+        this.voucherController = voucherController;
     }
 
     @Override
     public void run() {
 
-        MemberController memberController = applicationContext.getBean(MemberController.class);
-        VoucherController voucherController = applicationContext.getBean(VoucherController.class);
+        boolean isWorking = true;
 
-        while (true) {
-            console.write(message.getSTART_PROMPT());
+        while (isWorking) {
+            console.write(Message.START_PROMPT);
 
-            // 요청 받기
-            String request = console.readLine();
-            CommandType requestCommandType = CommandType.getCommandType(request);
+            try {
+                // 요청 받기
+                String request = console.readLine();
+                CommandType requestCommandType = CommandType.getCommandType(request);
 
-            /**
-             * switch문 밖으로 빼서 처리하는게 일관성을 깨트리는 것같습니다...
-             * switch문 안에서 처리할 때 exit() 함수로 강제종료 시키는 방법도 있지만
-             * 적합하지 않은 방법이라 적용하지 않았습니다...
-             * **/
-            if (requestCommandType == CommandType.EXIT) {
-                exitApp();
-                break;
-            }
-
-            switch (requestCommandType) {
-                case CREATE -> createVoucher(voucherController);
-                case LIST -> getAllVoucher(voucherController);
-                case BLACKLIST -> getAllBlackMembers(memberController);
-                case NONE -> reInputCommand();
+                switch (requestCommandType) {
+                    case CREATE -> createVoucher(voucherController);
+                    case LIST -> getAllVoucher(voucherController);
+                    case BLACKLIST -> getAllBlackMembers(memberController);
+                    case EXIT -> {
+                        isWorking = false;
+                        exitApp();
+                    }
+                }
+            } catch (RuntimeException e) {
+                console.write(e.getMessage());
             }
         }
     }
 
     private void exitApp() {
-        console.write(message.getEXIT());
+        console.write(Message.EXIT);
     }
 
-    private void reInputCommand(){
-        console.write(message.getRE_INPUT());
-    }
 
     private void createVoucher(VoucherController voucherController) {
         // 1. voucher type 입력
-        console.write(message.getVOUCHER_PROMPT());
-        VoucherType requestVoucherType = VoucherType.NONE;
+        console.write(Message.VOUCHER_PROMPT);
+        VoucherType requestVoucherType = VoucherType.getVoucherType(console.readLine());
 
-        try {
-            requestVoucherType = VoucherType.getVoucherType(console.readLine());
-            console.write(message.getAMOUNT_PROMPT());
-            long amount = Long.parseLong(console.readLine());
-            voucherController.create(requestVoucherType, amount);
-            console.write(message.getCREATE_SUCCESS());
-        } catch (RuntimeException e) {
-            /**
-             * 1. voucher type이 잘못 입력 되었을때
-             * 2. voucherType 검증
-             * 3. Fixed 일 경우 0보다 큰값이 입력 되었는지
-             * 4. Percent일 경우 amount <=0, 100 < amount 퍼센트 검증
-             * **/
-            console.write(e.getMessage());
-        }
+        console.write(Message.AMOUNT_PROMPT);
+        long amount = Long.parseLong(console.readLine());
+
+        voucherController.create(requestVoucherType, amount);
+        console.write(Message.CREATE_SUCCESS);
     }
 
     private void getAllVoucher(VoucherController voucherController) {
-        try {
-            voucherController.list()
-                    .iterator()
-                    .forEachRemaining(System.out::println);
-        } catch (RuntimeException e) {
-            // list 정보가 없을 경우
-            console.write(e.getMessage());
-        }
+        voucherController.list()
+                .iterator()
+                .forEachRemaining(System.out::println);
     }
 
     private void getAllBlackMembers(MemberController memberController){
@@ -111,13 +93,8 @@ public class Client implements Runnable {
             memberController.list()
                     .iterator()
                     .forEachRemaining(System.out::println);
-        } catch (RuntimeException e) {
-            console.write(e.getMessage());
         } catch (IOException e) {
-            //list 정보가 없을 경우
             e.printStackTrace();
         }
     }
-
-
 }
