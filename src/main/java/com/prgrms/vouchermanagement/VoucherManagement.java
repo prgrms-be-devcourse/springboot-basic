@@ -22,8 +22,6 @@ public class VoucherManagement {
     private final Input input;
     private final Output output;
 
-    private final String CREATE_COMMAND = "create", LIST_COMMAND = "list", EXIT_COMMAND = "exit", BLACK_LIST_COMMAND = "blacklist";
-
     public VoucherManagement(VoucherService voucherService, BlackListRepository blackListRepository, Input input, Output output) {
         this.voucherService = voucherService;
         this.blackListRepository = blackListRepository;
@@ -35,7 +33,15 @@ public class VoucherManagement {
 
         while (isRunning) {
             output.printMenu();
-            String command = input.inputCommand();
+            String commandStr = input.inputCommand();
+
+            //commandStr 문자열과 매칭되는 COMMAND 객체가 없으면 에러 메시지를 출력하고 다시 입력 받는다.
+            if (!COMMAND.contain(commandStr)) {
+                printCommandError();
+                continue;
+            }
+
+            COMMAND command = COMMAND.getCommand(commandStr);
 
             switch (command) {
                 case CREATE_COMMAND:
