@@ -5,10 +5,10 @@ import java.util.Arrays;
 public enum VoucherType {
     FIXED, PERCENT;
 
-    public static VoucherType getVoucherStatus(String voucherTypeString) {
+    public static VoucherType getVoucherStatus(String inputVoucherType) {
         return Arrays.stream(VoucherType.values())
-                .filter(e -> e.name().equals(voucherTypeString.toUpperCase()))
+                .filter(voucherType -> voucherType.name().equals(inputVoucherType.toUpperCase()))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입력"));
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입력 " + inputVoucherType));
     }
 }
