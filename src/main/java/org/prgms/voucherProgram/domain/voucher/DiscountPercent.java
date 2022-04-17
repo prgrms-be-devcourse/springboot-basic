@@ -29,6 +29,10 @@ public class DiscountPercent implements Serializable {
         return (long)(beforeDiscount * (1 - (percent / 100.0)));
     }
 
+    public Long getPercent() {
+        return percent;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

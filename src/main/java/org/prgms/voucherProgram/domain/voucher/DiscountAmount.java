@@ -33,6 +33,10 @@ public class DiscountAmount implements Serializable {
         return beforeDiscount - amount;
     }
 
+    public Long getAmount() {
+        return amount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

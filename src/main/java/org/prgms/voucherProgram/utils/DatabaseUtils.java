@@ -1,9 +1,13 @@
 package org.prgms.voucherProgram.utils;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.customer.Customer;
+import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.exception.NothingChangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +15,22 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class DatabaseUtils {
     public static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var name = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        var createdTime = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var lastLoginTime = resultSet.getTimestamp("last_login_at") != null ?
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        String name = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        LocalDateTime createdTime = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime lastLoginTime = resultSet.getTimestamp("last_login_at") != null ?
             resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         return new Customer(customerId, name, email, createdTime, lastLoginTime);
+    };
+
+    public static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
+        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        int voucherType = resultSet.getInt("type");
+        Long discountValue = resultSet.getLong("discount");
+        return VoucherType.findByNumber(voucherType)
+            .createVoucher(voucherId, customerId, discountValue);
     };
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseUtils.class);
@@ -27,11 +40,17 @@ public class DatabaseUtils {
     }
 
     private static UUID toUUID(byte[] bytes) {
+        if (Objects.isNull(bytes)) {
+            return null;
+        }
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     public static byte[] toBytes(UUID customerId) {
+        if (Objects.isNull(customerId)) {
+            return null;
+        }
         return customerId.toString().getBytes();
     }
 

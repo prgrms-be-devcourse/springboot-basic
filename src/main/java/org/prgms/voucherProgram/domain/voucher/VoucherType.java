@@ -42,4 +42,8 @@ public enum VoucherType {
     public Voucher createVoucher(UUID voucherId, UUID customerId, long discountValue) {
         return createVoucher.apply(voucherId, customerId, discountValue);
     }
+
+    public int getNumber() {
+        return number;
+    }
 }

@@ -26,6 +26,16 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
+    public int getType() {
+        return VoucherType.FIXED_AMOUNT.getNumber();
+    }
+
+    @Override
+    public long getDiscountValue() {
+        return discountAmount.getAmount();
+    }
+
+    @Override
     public String toString() {
         return String.format("%s\t%s\t%s", VoucherType.FIXED_AMOUNT, voucherId, discountAmount);
     }

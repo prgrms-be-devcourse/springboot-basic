@@ -22,6 +22,16 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
+    public int getType() {
+        return VoucherType.PERCENT_DISCOUNT.getNumber();
+    }
+
+    @Override
+    public long getDiscountValue() {
+        return discountPercent.getPercent();
+    }
+
+    @Override
     public String toString() {
         return String.format("%s\t%s\t%s%%", VoucherType.PERCENT_DISCOUNT, voucherId, discountPercent);
     }
