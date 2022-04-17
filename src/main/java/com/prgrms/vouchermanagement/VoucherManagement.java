@@ -68,7 +68,7 @@ public class VoucherManagement {
         if (blackList == null || blackList.isEmpty()) {
             output.printMessage(BLACK_LIST_EMPTY);
         } else {
-            output.printBlackList(blackList);
+            output.printList(blackList);
         }
     }
 
@@ -84,7 +84,7 @@ public class VoucherManagement {
             return;
         }
 
-        output.printVoucherList(vouchers);
+        output.printList(vouchers);
     }
 
     private void executeCreateVoucher() {

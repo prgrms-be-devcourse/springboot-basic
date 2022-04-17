@@ -1,8 +1,6 @@
 package com.prgrms.vouchermanagement.io;
 
-import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.util.StringUtils;
-import com.prgrms.vouchermanagement.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.InputMismatchException;
@@ -66,14 +64,13 @@ public class Console implements Input, Output{
     }
 
     @Override
-    public void printVoucherList(List<Voucher> vouchers) {
-        if (vouchers == null || vouchers.isEmpty()) {
+    public <T> void printList(List<T> list) {
+        if (list == null || list.isEmpty()) {
             return;
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("\n").append("=== Voucher List ===").append("\n");
-        vouchers.forEach(v -> sb.append("- ").append(v).append("\n"));
+        list.forEach(t -> sb.append("- ").append(t).append("\n"));
         System.out.println(sb);
     }
 
@@ -82,17 +79,5 @@ public class Console implements Input, Output{
         System.out.println();
         System.out.println(message);
         System.out.println();
-    }
-
-    @Override
-    public void printBlackList(List<Customer> blackList) {
-        if (blackList == null || blackList.isEmpty()) {
-            return;
-        }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n").append("=== Black List ===").append("\n");
-        blackList.forEach(customer -> sb.append(customer).append("\n"));
-        System.out.println(sb);
     }
 }
