@@ -15,6 +15,7 @@ class VoucherApplicationTests {
 		@Test
 		@DisplayName("사용 가능한 명령어를 출력한다")
 		void 사용가능한_명령어를_출력한다 () {
+
 		}
 	}
 
@@ -23,8 +24,9 @@ class VoucherApplicationTests {
 	class CREATE_입력이_주어지면 {
 
 		@Test
-		@DisplayName("바우처를 생성하고 생성된 바우처를 반환한다")
-		void 바우처를_생성하고_생성된_바우처를_반환한다 () {
+		@DisplayName("바우처를 생성하고 생성된 바우처를 출력한다")
+		void 바우처를_생성하고_생성된_바우처를_출력한다 () {
+
 		}
 	}
 
@@ -33,8 +35,8 @@ class VoucherApplicationTests {
 	class LIST_입력이_주어지면 {
 
 		@Test
-		@DisplayName("바우처를 전체 조회하고 반환한다")
-		void 바우처를_전체_조회하고_반환한다 () {
+		@DisplayName("바우처를 전체 조회하고 출력한다")
+		void 바우처를_전체_조회하고_출력한다 () {
 		}
 	}
 
