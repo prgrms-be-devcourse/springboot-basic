@@ -41,10 +41,10 @@ class FileCustomerRepositoryTest {
                     }}
             );
 
-            assertThat(customerRepository.getAll().get(0),isA(Customer.class));
-            assertThat(customerRepository.getAll().get(1),isA(Customer.class));
-            assertThat(customerRepository.getAll().get(0),equalToObject(customer1));
-            assertThat(customerRepository.getAll().get(1),equalToObject(customer2));
+            assertThat(customerRepository.getAllBlacklist().get(0),isA(Customer.class));
+            assertThat(customerRepository.getAllBlacklist().get(1),isA(Customer.class));
+            assertThat(customerRepository.getAllBlacklist().get(0),equalToObject(customer1));
+            assertThat(customerRepository.getAllBlacklist().get(1),equalToObject(customer2));
         }
         catch (Exception e) {
 

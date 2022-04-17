@@ -1,13 +1,19 @@
-# SpringBoot Basic Weekly Mission 1
+# SpringBoot Basic Weekly Mission 2
 ### 과제 요구사항
-- [x] [Commandline Application](https://dzone.com/articles/interactive-console-applications-in-java)
-- [x]  Maven / Gradle 로 프로젝트를 실제로 구성하고 이때 Spring Boot CLI를 사용해서 프로젝트를 만든다.
-- [x]  스프링부트 애플리케이션으로 만든다. 
-- [x]  메모리 관리가 아닌 파일로 관리가 되는 Repository 사용하고 
-- [x] 기존 메모리 레포지토리는 지우지 말고 개발 프로파일에서만 동작하게 해보세요.
-- [x]  YAML 프라퍼티를 만들어 사용한다.
-- [x]  적절한 로그를 기록하고 `logback` 설정을해서 에러는 파일로 기록된다.
-- [x]  실행가능한 `jar` 파일을 생성한다.
+
+**기본) 바우처 관리 애플리케이션 추가 기능**
+- [x] 단위테스트 작성
+- [x] Customers 테이블 정의 및 추가
+- [x] Vouchers 테이블 정의 및 추가
+- [ ] JdbcTemplate을 사용한 CustomerRepository
+- [x] JdbcTemplate을 사용한 VoucherRepository (CRUD API)
+
+**심화) 바우처 지갑**
+
+- [ ] 고객의 바우처 보유 정보 조회(SELECT)
+- [ ] 특정 바우처 보유 고객 정보 조회(JOIN)
+- [ ] 특정 고객에게 바우처 할당 기능(UPDATE)
+- [ ] 고객 보유 바우처 제거 기능(UPDATE)
 
 ### **바우처 관리 애플리케이션 설명**
     === Voucher Program ===
@@ -15,6 +21,10 @@
     Type create to create a new voucher.
     Type list to list all vouchers.
     Type blacklist to list all blacklist custom info
+
+    Type customer voucher
+    Type edit customer voucher(add, delete)
+    Type voucher customer
 
 - create 커맨드를 통해 바우처를 생성할수 있다. (FixedAmountVoucher, PercentDiscountVoucher 중 선택)
     ```

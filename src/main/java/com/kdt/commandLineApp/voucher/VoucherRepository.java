@@ -10,4 +10,6 @@ public interface VoucherRepository {
     public Optional<Voucher> get(UUID id);
 
     public List<Voucher> getAll();
+
+    public void remove(UUID vid);
 }

@@ -29,4 +29,9 @@ public class InMemoryVoucherRepository implements VoucherRepository {
                 .stream()
                 .collect(toCollection(ArrayList::new));
     }
+
+    @Override
+    public void remove(UUID vid) {
+
+    }
 }

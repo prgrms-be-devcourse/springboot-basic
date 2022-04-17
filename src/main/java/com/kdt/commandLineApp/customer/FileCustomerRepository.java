@@ -2,20 +2,19 @@ package com.kdt.commandLineApp.customer;
 
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.util.stream.Collectors.toCollection;
 
 @Repository
+@Profile("dev")
 public class FileCustomerRepository implements CustomerRepository {
-    private final int COLUMN_COUNT = 4;
-    private ArrayList<Customer> customerList = new ArrayList<>();
+    private final int COLUMN_COUNT = 3;
+    private ArrayList<Customer> customerBlackList = new ArrayList<>();
 
     public FileCustomerRepository(@Value("${customer_blacklist_info}") String fileName) {
         try {
@@ -34,7 +33,7 @@ public class FileCustomerRepository implements CustomerRepository {
             while (sc.hasNext()) {
                 String str = sc.nextLine();
                 ArrayList<String> params = Arrays.stream(str.split(",")).collect(toCollection(ArrayList::new));
-                customerList.add(new Customer(params));
+                customerBlackList.add(new Customer(params));
             }
         }
         catch (Exception e) {
@@ -46,7 +45,12 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> getAll() {
-        return customerList;
+    public List<Customer> getAllBlacklist() {
+        return customerBlackList;
+    }
+
+    @Override
+    public List<Customer> getCustomers(UUID voucherId) {
+        return null;
     }
 }

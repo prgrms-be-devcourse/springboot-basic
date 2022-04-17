@@ -15,8 +15,8 @@ public class Voucher implements Serializable {
     private Float discountAmount;
     private Map<String, VoucherType> vouchertypeHashMap;
 
-    public Voucher(String type, Float discountAmount) throws WrongVoucherParamsException {
-        this.id = UUID.randomUUID();
+    public Voucher(UUID id, String type, Float discountAmount) throws WrongVoucherParamsException {
+        this.id = id;
         this.type = VoucherType.fromString(type);
         if (this.type.isValidAmount(discountAmount)) {
             this.discountAmount = discountAmount;
@@ -24,6 +24,10 @@ public class Voucher implements Serializable {
         else {
             throw new WrongVoucherParamsException();
         }
+    }
+
+    public Voucher(String type, Float discountAmount) throws WrongVoucherParamsException {
+        this(UUID.randomUUID(), type, discountAmount);
     }
 
     @Override

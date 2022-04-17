@@ -74,4 +74,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> getAll() {
         return map.values().stream().collect(toCollection(ArrayList::new));
     }
+
+    @Override
+    public void remove(UUID vid) {
+
+    }
 }

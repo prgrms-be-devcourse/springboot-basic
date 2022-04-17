@@ -15,6 +15,6 @@ public class CustomerService {
     }
 
     public List<Customer> getCustomers() throws Exception {
-        return customerRepository.getAll();
+        return customerRepository.getAllBlacklist();
     }
 }

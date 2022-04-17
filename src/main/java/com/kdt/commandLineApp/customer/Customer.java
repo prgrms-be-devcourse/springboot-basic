@@ -3,19 +3,16 @@ package com.kdt.commandLineApp.customer;
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
 @Getter
 public class Customer {
+    private UUID customerId;
     private String name;
     private int age;
-    private String description;
     private Sex sex;
 
     public Customer(ArrayList<String> params) throws WrongCustomerParamsException {
@@ -25,7 +22,20 @@ public class Customer {
             throw new WrongCustomerParamsException();
         }
         this.sex = Sex.fromString(params.get(2));
-        this.description = params.get(3);
+    }
+
+    public Customer(UUID customerId, String name, int age, String sex) throws WrongCustomerParamsException {
+        this.customerId = customerId;
+        this.name = name;
+        this.age = age;
+        if (this.age < 0) {
+            throw new WrongCustomerParamsException();
+        }
+        this.sex = Sex.fromString(sex);
+    }
+
+    public Customer(String name, int age, String sex) throws WrongCustomerParamsException {
+        this(UUID.randomUUID(), name, age, sex);
     }
 
     public enum Sex {
@@ -53,8 +63,7 @@ public class Customer {
     public String toString() {
         return "name: " + name +
                 " age: " + age +
-                " sex: " + sex +
-                " description: " + description;
+                " sex: " + sex ;
     }
 
     @Override
@@ -62,12 +71,12 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return age == customer.age && Objects.equals(name, customer.name) && Objects.equals(description, customer.description) && sex == customer.sex;
+        return age == customer.age && Objects.equals(name, customer.name) && sex == customer.sex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, age, description, sex);
+        return Objects.hash(name, age, sex);
     }
 
     public String getSex() {
