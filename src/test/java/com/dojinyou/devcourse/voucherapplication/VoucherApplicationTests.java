@@ -90,27 +90,28 @@ class VoucherApplicationTests {
             return new ByteArrayInputStream(input.getBytes());
         }
 
-        @BeforeAll
-        void setUp(){}
-
         @Nested
-        @DisplayName("exit 명령어를 입력하면")
-        @Order(3)
-        class WhenInputCommandExit {
-
+        @Order(1)
+        @DisplayName("명령어가 아닌 다른 입력을 한다면")
+        class WhenInputIllegalCommand {
             @ParameterizedTest
-            @ValueSource(strings = {"exit","EXIT","exiT","Exit"})
-            @DisplayName("어플리케이션을 종료한다")
-            void thenTerminateApplication(String userInput) {
-                VoucherApplication.main(new String[]{});
-                InputStream inputStream = generateUserInput(userInput);
-                System.setIn(inputStream);
-                Scanner sc = new Scanner(System.in);
+            @ValueSource(strings = {"dojin","listz","cret"})
+            @DisplayName("에러 메세지를 출력한다")
+            void thenDisplayErrorMessage(String userWrongInput) {
+                InputStream inputCommandStream = generateUserInput(userWrongInput);
+                System.setIn(inputCommandStream);
                 InputView.setScanner(sc);
-                // 어플리케이션 종료된 것을 어떻게 확인할 수 있는지??
+
+                Scanner sc = new Scanner(System.in);
+                StringBuilder sb = new StringBuilder();
+                sb.append(userWrongInput);
+                sb.append(": command not found\n");
+                String expectedCommandListMessage = sb.toString();
+
+                System.setOut(new PrintStream(output));
+                assertThat(output.toString()).isEqualTo(expectedCommandListMessage);
             }
         }
-
         @Nested
         @Order(1)
         @DisplayName("create 명령어를 입력하면")
@@ -176,25 +177,20 @@ class VoucherApplicationTests {
         }
 
         @Nested
-        @Order(1)
-        @DisplayName("명령어가 아닌 다른 입력을 한다면")
-        class WhenInputIllegalCommand {
+        @DisplayName("exit 명령어를 입력하면")
+        @Order(3)
+        class WhenInputCommandExit {
+
             @ParameterizedTest
-            @ValueSource(strings = {"dojin","listz","cret"})
-            @DisplayName("에러 메세지를 출력한다")
-            void thenDisplayErrorMessage(String userWrongInput) {
-                InputStream inputCommandStream = generateUserInput(userWrongInput);
-                System.setIn(inputCommandStream);
-                InputView.setScanner(sc);
-
+            @ValueSource(strings = {"exit","EXIT","exiT","Exit"})
+            @DisplayName("어플리케이션을 종료한다")
+            void thenTerminateApplication(String userInput) {
+                VoucherApplication.main(new String[]{});
+                InputStream inputStream = generateUserInput(userInput);
+                System.setIn(inputStream);
                 Scanner sc = new Scanner(System.in);
-                StringBuilder sb = new StringBuilder();
-                sb.append(userWrongInput);
-                sb.append(": command not found\n");
-                String expectedCommandListMessage = sb.toString();
-
-                System.setOut(new PrintStream(output));
-                assertThat(output.toString()).isEqualTo(expectedCommandListMessage);
+                InputView.setScanner(sc);
+                // 어플리케이션 종료된 것을 어떻게 확인할 수 있는지??
             }
         }
     }
