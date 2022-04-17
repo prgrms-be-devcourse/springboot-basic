@@ -4,20 +4,6 @@
 
 </br>
 
-## TODO
-
-</br>
-
-> pr이 더 늦어질 것같아 피드백 이후 추가하도록 하겠습니다.
-
-</br>
-
-- logback
-- jar
-- property
-
-</br>
-
 ## diagram
 
 |                                         간략한 다이어그램                                         |
@@ -31,7 +17,14 @@
 - part1
   - configuragtion
     - AppConfiguration.java
-  - error
+  - domain
+    - Member.java
+    - MemberDto.java : csv에서 읽어올 객체
+    - Voucher : 인터페이스
+    - FixedAmountVoucher
+    - PercentAmountVoucher
+    - VoucherType : 입출력에서 생성할 경우 판별 할 enum 타입
+  - exception
     - member
       - BlackListEmptyException.java : 블랙리스트 멤버 없을 경우
     - voucher
@@ -39,37 +32,42 @@
       - PercentErrorException.java : 퍼센트 에러
       - VoucherListEmptyException.java : 바우처 없을 경우
       - VoucherTypeMissingException : 바우처 타입 잘못 입력할 경우
+      - CommandTypeMissingException : 명령어가 없을 경우
   - io
     - Console.java : Client.java에서 사용할 입출력 기구
     - Input, Output : 콘솔에서 사용할 인터페이스
     - Message.java : 프롬포트에서 사용할 메시지 클래스
   - member
-    - entity
-      - Member
-      - MemberDto.class : csv에서 읽어올 객체
-      - MemberType : 과제와 무관
     - repository
       - MemberRepository.java : 제네릭 타입으로 구현한 인터페이스
       - FileMemberRepository.java : csv Read 레포지토리
     - MemberController : ui 계층과 맞닿아 전달만 하는 계층
     - MemberService : 비즈니스 로직 처리 계층
-  - order
-    - entity
-      - Voucher : 인터페이스
-      - FixedAmountVoucher
-      - PercentAmountVoucher
-      - VoucherType : 입출력에서 생성할 경우 판별 할 enum 타입
+  - order.voucher
+    - repository
+      - MemoryVoucherRepository
+      - VoucherRepository
+    - VoucherController
+    - VoucherRepository
   - ui
     - client : ui 계층 담당
     - CommandType : 유저가 입력할 명령어 enum 타입
 
 </br>
 
-## **PR 포인트**
+## **PR 수정 사항**
 
 </br>
 
-1. 에러 처리가 각 클래스별로 책임을 잘 지고 있는지
-2. 수업을 듣고 나서 생각한 것이 개발 순서를 domain
-   -> controller와 같이 고수준에서 저수준으로 만들고 테스트 케이스를 만드는것이 적합할지
-3. 패키지를 어떻게 나누는 것이 좋을지 궁금합니다!
+- [x] try - catch 반복 수정
+- [x] enum 장점 살려서 refactor
+- [x] client 의존성 문제 refactor
+- [x] Message.java를 public static으로 변경
+- [x] PercentVoucher.java amount 자료형 및 예외처리 수정
+- [x] domain 패키지로 관련 바우처와 멤버 이동
+
+## **TODO**
+
+> Generic의 장점을 사용해서 다시 refactor 해보기  
+> AOP 적용해서 log 및 Property 세팅은
+> PR approve 받고 현재 진행중인 과제에 적용해서 리뷰 받아도 될까요...?
