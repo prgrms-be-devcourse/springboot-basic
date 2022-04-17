@@ -42,11 +42,13 @@ public class FileVoucherRepository implements VoucherRepository {
         ) {
             while ((content = bufferedReader.readLine()) != null) {
                 String[] contents = content.split(",");
-                logger.info(Arrays.toString(contents));
-                if (contents[2].equals("FixedAmountVoucher")) {
+                if(contents[2].equals(VoucherType.FixedAmountVoucher.toString())){
                     list.add(new FixedAmountVoucher(UUID.fromString(contents[0]), Long.parseLong(contents[1])));
-                } else if (contents[2].equals("PercentDiscountVoucher")) {
+                }else if(contents[2].equals(VoucherType.PercentDiscountVoucher.toString())){
                     list.add(new PercentDiscountVoucher(UUID.fromString(contents[0]), Long.parseLong(contents[1])));
+                }else{
+                    logger.info("File 읽는 도중 알수없는 타입 발견");
+                    throw new IOException();
                 }
             }
             logger.info("File list 반환 성공");
