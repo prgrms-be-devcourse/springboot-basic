@@ -1,25 +1,38 @@
 package com.prgms.management.voucher.entity;
 
 import com.prgms.management.voucher.exception.InvalidVoucherParameterException;
+import lombok.ToString;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+@ToString
 public class PercentDiscountVoucher implements Voucher {
     private final static Integer MIN_PERCENT = 0;
     private final static Integer MAX_PERCENT = 100;
     private final Integer percent;
+    private final Timestamp createdAt;
+    private final VoucherType type = VoucherType.PERCENT;
     private UUID voucherId;
+    private String name;
 
     public PercentDiscountVoucher(Integer percent) {
         this(UUID.randomUUID(), percent);
     }
 
     public PercentDiscountVoucher(UUID voucherId, Integer percent) {
-        if (percent < 0 || percent > 100) {
+        this(voucherId, "demo", percent, Timestamp.valueOf(LocalDateTime.now()));
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, String name, Integer percent, Timestamp createdAt) {
+        if (percent < MIN_PERCENT || percent > MAX_PERCENT) {
             throw new InvalidVoucherParameterException(MIN_PERCENT + "과 " + MAX_PERCENT + "사이의 값을 입력해주세요.");
         }
         this.voucherId = voucherId;
+        this.name = name;
         this.percent = percent;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -34,12 +47,17 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String getVoucherType() {
-        return "percent";
+        return type.toString();
     }
 
     @Override
     public void resetVoucherId() {
         voucherId = UUID.randomUUID();
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -50,10 +68,5 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public String getStringForCSV() {
         return this.getClass().getCanonicalName() + "," + voucherId + "," + percent;
-    }
-
-    @Override
-    public String toString() {
-        return "Percent Discount Voucher {" + "voucherId=" + voucherId + ", percent=" + percent + '}';
     }
 }

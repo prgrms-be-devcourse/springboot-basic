@@ -1,15 +1,20 @@
 package com.prgms.management.voucher.repository;
 
+import com.prgms.management.voucher.entity.FixedAmountVoucher;
+import com.prgms.management.voucher.entity.PercentDiscountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
+import com.prgms.management.voucher.entity.VoucherType;
 import com.prgms.management.voucher.exception.VoucherException;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.nio.ByteBuffer;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Repository
 @Profile({"default"})
@@ -22,12 +27,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher findById(UUID voucherId) throws VoucherException {
-        return null;
+        try {
+            return jdbcTemplate.queryForObject("SELECT * from voucher WHERE id = UNHEX(REPLACE(:id, '-', ''))",
+                    Collections.singletonMap("id", voucherId.toString()),
+                    (rs, rowNum) -> mapToVoucher(rs));
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public List<Voucher> findAll() throws VoucherException {
-        return null;
+        return jdbcTemplate.query("SELECT * from voucher", (rs, rowNum) -> mapToVoucher(rs));
     }
 
     @Override
@@ -45,5 +56,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return voucher;
         }
         throw new RuntimeException("바우처 저장에 실패하였습니다.");
+    }
+
+    private UUID toUUID(byte[] bytes) {
+        var buffer = ByteBuffer.wrap(bytes);
+        return new UUID(buffer.getLong(), buffer.getLong());
+    }
+
+    private Voucher mapToVoucher(ResultSet set) throws SQLException {
+        UUID id = toUUID(set.getBytes("id"));
+        String type = set.getString("type");
+        String name = set.getString("name");
+        int figure = set.getInt("figure");
+        Timestamp createdAt = set.getTimestamp("created_at");
+
+        if (type.equals(VoucherType.FIXED.toString())) {
+            return new FixedAmountVoucher(id, name, figure, createdAt);
+        } else {
+            return new PercentDiscountVoucher(id, name, figure, createdAt);
+        }
     }
 }

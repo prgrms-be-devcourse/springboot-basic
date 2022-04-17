@@ -38,10 +38,10 @@ public enum VoucherType {
     }
 
     public static VoucherType of(String command) {
-        switch (command.toLowerCase()) {
-            case "fixed":
+        switch (command.toUpperCase()) {
+            case "FIXED":
                 return FIXED;
-            case "percent":
+            case "PERCENT":
                 return PERCENT;
             default:
                 return ERROR;

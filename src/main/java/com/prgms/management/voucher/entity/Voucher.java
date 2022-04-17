@@ -11,6 +11,8 @@ public interface Voucher {
 
     void resetVoucherId();
 
+    void setName(String name);
+
     Long discount(Long beforeDiscount);
 
     String getStringForCSV();
