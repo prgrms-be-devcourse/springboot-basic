@@ -10,8 +10,8 @@ public class VoucherControllerTests {
     class Describe_voucherSave {
 
         @Nested
-        @DisplayName("바우처 타입이 잘못되어 생성과정에서 에러가 발생하면")
-        class Context_with_voucher_creation_error_with_wrong_type {
+        @DisplayName("바우처 타입이 null 들어와 생성과정에서 에러가 발생하면")
+        class Context_with_voucher_creation_error_with_null_type {
 
             @Test
             @DisplayName("에러 메시지를 리턴한다")
@@ -21,8 +21,8 @@ public class VoucherControllerTests {
         }
 
         @Nested
-        @DisplayName("fixed amount 바우처 타입의 amount가 잘못되어 생성과정에서 에러가 발생하면")
-        class Context_with_voucher_creation_error_with_wrong_amount {
+        @DisplayName("fixed amount 바우처 타입의 amount 의 범위를 벗어난 값이 들어와 생성과정에서 에러가 발생하면")
+        class Context_with_fixed_voucher_creation_error_with_out_of_range {
 
             @Test
             @DisplayName("에러 메시지를 리턴한다")
@@ -32,8 +32,8 @@ public class VoucherControllerTests {
         }
 
         @Nested
-        @DisplayName("percent discount 바우처 타입의 percent가 잘못되어 생성과정에서 에러가 발생하면")
-        class Context_with_voucher_creation_erro_with_wrong_percent {
+        @DisplayName("percent discount 바우처 타입의 percent가 범위를 벗어난 값이 들어와 생성과정에서 에러가 발생하면")
+        class Context_with_voucher_creation_error_with_percent_out_of_range {
 
             @Test
             @DisplayName("에러 메시지를 리턴한다")
