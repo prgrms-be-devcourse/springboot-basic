@@ -13,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.prgms.voucherProgram.domain.voucher.DiscountAmount;
+import org.prgms.voucherProgram.domain.voucher.DiscountPercent;
 import org.prgms.voucherProgram.domain.voucher.FixedAmountVoucher;
 import org.prgms.voucherProgram.domain.voucher.PercentDiscountVoucher;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
@@ -39,7 +41,7 @@ class VoucherServiceTest {
 
         assertThat(voucher).isInstanceOf(FixedAmountVoucher.class);
         assertThat(voucher).extracting("discountAmount")
-            .isEqualTo(10L);
+            .isEqualTo(new DiscountAmount(10L));
         then(voucherRepository).should(times(1)).save(any(Voucher.class));
     }
 
@@ -53,7 +55,7 @@ class VoucherServiceTest {
 
         assertThat(voucher).isInstanceOf(PercentDiscountVoucher.class);
         assertThat(voucher).extracting("discountPercent")
-            .isEqualTo(10L);
+            .isEqualTo(new DiscountPercent(10L));
         then(voucherRepository).should(times(1)).save(any(Voucher.class));
     }
 

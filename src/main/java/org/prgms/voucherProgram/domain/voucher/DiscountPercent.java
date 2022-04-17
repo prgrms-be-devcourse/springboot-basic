@@ -1,18 +1,18 @@
 package org.prgms.voucherProgram.domain.voucher;
 
-import java.util.UUID;
+import java.io.Serializable;
+import java.util.Objects;
 
-public class PercentDiscountVoucher extends Voucher {
+public class DiscountPercent implements Serializable {
     private static final String ERROR_WRONG_DISCOUNT_PERCENT_MESSAGE = "[ERROR] 올바른 할인퍼센트가 아닙니다.";
     private static final long MIN_PERCENT = 1;
     private static final long MAX_PERCENT = 100;
 
-    private final DiscountPercent discountPercent;
+    private final Long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
-        super(voucherId);
-        validateDiscountPercent(discountPercent);
-        this.discountPercent = new DiscountPercent(discountPercent);
+    public DiscountPercent(Long percent) {
+        validateDiscountPercent(percent);
+        this.percent = percent;
     }
 
     private void validateDiscountPercent(long discountPercent) {
@@ -25,13 +25,27 @@ public class PercentDiscountVoucher extends Voucher {
         return MAX_PERCENT < discountPercent || discountPercent < MIN_PERCENT;
     }
 
-    @Override
     public long discount(long beforeDiscount) {
-        return discountPercent.discount(beforeDiscount);
+        return (long)(beforeDiscount * (1 - (percent / 100.0)));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        DiscountPercent that = (DiscountPercent)o;
+        return percent.equals(that.percent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(percent);
     }
 
     @Override
     public String toString() {
-        return String.format("%s\t%s\t%s%%", VoucherType.PERCENT_DISCOUNT, voucherId, discountPercent);
+        return String.valueOf(percent);
     }
 }
