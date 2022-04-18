@@ -3,6 +3,7 @@ package org.prgrms.springbasic.repository.voucher;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.voucher.Voucher;
 import org.prgrms.springbasic.utils.io.converter.FileManager;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.UUID;
 
 import static org.prgrms.springbasic.utils.enumm.path.FilePath.VOUCHER_FILE_PATH;
 
-//@Repository
-//@Profile("dev")
+@Profile("dev")
+@Repository
 @Slf4j
 public class FileVoucherRepository implements VoucherRepository {
 

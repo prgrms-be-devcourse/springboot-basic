@@ -8,6 +8,7 @@ import org.prgrms.springbasic.repository.customer.CustomerRepository;
 import org.prgrms.springbasic.repository.voucher.VoucherRepository;
 import org.prgrms.springbasic.utils.io.console.Console;
 import org.prgrms.springbasic.utils.validator.CustomerValidator;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import static java.util.UUID.randomUUID;
@@ -22,7 +23,7 @@ import static org.prgrms.springbasic.utils.enumm.message.VoucherConsole.VOUCHER_
 import static org.prgrms.springbasic.utils.validator.CustomerValidator.validateCustomerType;
 import static org.prgrms.springbasic.utils.validator.VoucherValidator.*;
 
-
+@Profile({"prd", "local", "dev"})
 @Service
 @RequiredArgsConstructor
 @Slf4j

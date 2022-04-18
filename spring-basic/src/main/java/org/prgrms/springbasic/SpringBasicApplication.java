@@ -9,10 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringBasicApplication {
 
 	public static void main(String[] args) {
-		var springApplication = new SpringApplication(AppConfig.class);
-		springApplication.setAdditionalProfiles("dev");
-		var applicationContext = springApplication.run(args);
-		var app = applicationContext.getBean(Application.class);
-		app.run();
+		SpringApplication.run(SpringBasicApplication.class, args);
 	}
 }
