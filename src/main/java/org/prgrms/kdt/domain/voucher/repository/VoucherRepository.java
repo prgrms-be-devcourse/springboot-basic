@@ -1,7 +1,9 @@
 package org.prgrms.kdt.domain.voucher.repository;
 
 import org.prgrms.kdt.domain.voucher.model.Voucher;
+import org.prgrms.kdt.domain.voucher.model.VoucherType;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,10 +19,13 @@ public interface VoucherRepository {
 
     int updateById(Voucher voucher);
 
+    int updateCustomerId(UUID voucherId, UUID customerId);
+
     void deleteById(UUID voucherId);
 
     void deleteAll();
 
     void deleteByCustomerId(UUID customerId);
 
+    List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date);
 }

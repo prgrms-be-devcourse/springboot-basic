@@ -1,8 +1,10 @@
 package org.prgrms.kdt.domain.voucher.repository;
 
 import org.prgrms.kdt.domain.voucher.model.Voucher;
+import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -37,6 +39,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public int updateCustomerId(UUID voucherId, UUID customerId) {
+        return 0;
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
 
     }
@@ -49,5 +56,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteByCustomerId(UUID customerId) {
 
+    }
+
+    @Override
+    public List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date) {
+        return null;
     }
 }

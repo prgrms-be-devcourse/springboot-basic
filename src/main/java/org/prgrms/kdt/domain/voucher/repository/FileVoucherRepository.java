@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -87,6 +88,16 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteByCustomerId(UUID customerId) {
 
+    }
+
+    @Override
+    public List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date) {
+        return null;
+    }
+
+    @Override
+    public int updateCustomerId(UUID voucherId, UUID customerId) {
+        return 0;
     }
 
     private String createCsvData(Voucher voucher, VoucherType voucherType) {

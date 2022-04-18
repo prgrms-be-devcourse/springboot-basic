@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -20,8 +22,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JdbcVoucherRepository(DataSource dataSource) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override
@@ -56,16 +58,36 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put("voucherType", VoucherType.getValue(voucherType));
+            put("createdDate", date.toString());
+        }};
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE voucher_type = :voucherType AND DATE(created_date) = :createdDate",
+                paramMap,
+                voucherRowMapper());
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM voucher", Collections.emptyMap(), voucherRowMapper());
     }
 
     @Override
     public int updateById(Voucher voucher) {
-        int update = jdbcTemplate.update("UPDATE voucher " +
+        return jdbcTemplate.update("UPDATE voucher " +
                         "SET voucher_type = :voucherType, discount_value = :discountValue, customer_id = UNHEX(REPLACE(:customerId, '-', '')), created_date = :createdDate, modified_date = :modifiedDate",
                 toParamMap(voucher));
-        return update;
+    }
+
+    @Override
+    public int updateCustomerId(UUID voucherId, UUID customerId) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put("voucherId", UuidUtils.UuidToByte(voucherId));
+            put("customerId", UuidUtils.UuidToByte(customerId));
+        }};
+        return jdbcTemplate.update("UPDATE voucher SET customer_id = UNHEX(REPLACE(:customerId, '-', '')) WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+                paramMap);
     }
 
     @Override
