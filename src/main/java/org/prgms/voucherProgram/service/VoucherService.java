@@ -5,9 +5,15 @@ import static java.util.stream.Collectors.*;
 import java.util.List;
 import java.util.UUID;
 
+import org.prgms.voucherProgram.domain.customer.Customer;
+import org.prgms.voucherProgram.domain.customer.Email;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.dto.VoucherDto;
+import org.prgms.voucherProgram.dto.WalletRequestDto;
+import org.prgms.voucherProgram.dto.WalletVoucherDto;
+import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
+import org.prgms.voucherProgram.repository.customer.CustomerRepository;
 import org.prgms.voucherProgram.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +21,11 @@ import org.springframework.stereotype.Service;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final CustomerRepository customerRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
         this.voucherRepository = voucherRepository;
+        this.customerRepository = customerRepository;
     }
 
     public VoucherDto create(VoucherDto voucherDto) {
@@ -44,5 +52,19 @@ public class VoucherService {
             .ifPresentOrElse(voucher -> voucherRepository.deleteById(voucherId), () -> {
                 throw new VoucherIsNotExistsException();
             });
+    }
+
+    public WalletVoucherDto assignVoucher(WalletRequestDto walletRequestDto) {
+        Email email = new Email(walletRequestDto.getCustomerEmail());
+        Customer customer = customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
+            throw new CustomerIsNotExistsException();
+        });
+
+        Voucher voucher = voucherRepository.findById(walletRequestDto.getVoucherId()).orElseThrow(() -> {
+            throw new VoucherIsNotExistsException();
+        });
+
+        voucher.assignCustomer(customer.getCustomerId());
+        return WalletVoucherDto.from(voucherRepository.assignCustomer(voucher));
     }
 }

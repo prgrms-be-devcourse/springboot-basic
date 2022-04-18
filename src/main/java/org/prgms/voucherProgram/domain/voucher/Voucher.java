@@ -6,7 +6,7 @@ import java.util.UUID;
 public abstract class Voucher implements Serializable {
 
     protected final UUID voucherId;
-    protected final UUID customerId;
+    protected UUID customerId;
 
     protected Voucher(UUID voucherId, UUID customerId) {
         this.voucherId = voucherId;
@@ -16,6 +16,10 @@ public abstract class Voucher implements Serializable {
     protected Voucher(UUID voucherId) {
         this.voucherId = voucherId;
         this.customerId = null;
+    }
+
+    public void assignCustomer(UUID customerId) {
+        this.customerId = customerId;
     }
 
     public UUID getVoucherId() {

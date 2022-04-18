@@ -76,4 +76,9 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
     }
+
+    @Override
+    public Voucher assignCustomer(Voucher voucher) {
+        return null;
+    }
 }

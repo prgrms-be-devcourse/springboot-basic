@@ -49,4 +49,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
     }
+
+    @Override
+    public Voucher assignCustomer(Voucher voucher) {
+        return null;
+    }
 }

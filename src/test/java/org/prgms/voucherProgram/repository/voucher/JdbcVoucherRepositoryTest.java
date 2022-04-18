@@ -185,6 +185,23 @@ class JdbcVoucherRepositoryTest {
             .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
     }
 
+    @DisplayName("바우처를 고객에게 할당한다.")
+    @ParameterizedTest
+    @MethodSource("provideVoucher")
+    void should_AssignVoucher(Voucher voucher) {
+        // given
+        UUID customerId = UUID.randomUUID();
+        jdbcVoucherRepository.save(voucher);
+        // when
+        voucher.assignCustomer(customerId);
+        Voucher assignVoucher = jdbcVoucherRepository.assignCustomer(voucher);
+        // then
+        assertThat(jdbcVoucherRepository.findById(voucher.getVoucherId())).isNotEmpty()
+            .get()
+            .usingRecursiveComparison()
+            .isEqualTo(assignVoucher);
+    }
+
     @Configuration
     @ComponentScan(basePackages = "org.prgms.voucherProgram.repository.voucher",
         excludeFilters = @ComponentScan.Filter(

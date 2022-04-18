@@ -73,4 +73,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM voucher");
     }
+
+    @Override
+    public Voucher assignCustomer(Voucher voucher) {
+        int result = jdbcTemplate.update(
+            "UPDATE voucher SET customer_id = UUID_TO_BIN(?) WHERE voucher_id = UUID_TO_BIN(?)",
+            DatabaseUtils.toBytes(voucher.getCustomerId()),
+            DatabaseUtils.toBytes(voucher.getVoucherId()));
+
+        DatabaseUtils.validateExecute(result);
+        return voucher;
+    }
 }
