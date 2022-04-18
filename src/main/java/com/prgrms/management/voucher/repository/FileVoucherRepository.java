@@ -22,33 +22,50 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     @Override
-    public Voucher insert(Voucher voucher) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(VOUCHER_FILE_NAME, true))) {
-            bufferedWriter.write(voucher.getVoucherId() + "," + voucher.getAmount() + "," + voucher.getVoucherType());
-            bufferedWriter.newLine();
-        } catch (IOException e) {
-            logger.warn("{}:{}", e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
-        }
-        return voucher;
+    public Voucher save(Voucher voucher) {
+//        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(VOUCHER_FILE_NAME, true))) {
+//            bufferedWriter.write(voucher.getVoucherId() + "," + voucher.getAmount() + "," + voucher.getVoucherType());
+//            bufferedWriter.newLine();
+//        } catch (IOException e) {
+//            logger.warn("{}:{}", e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
+//        }
+//        return voucher;
+        return null;
+    }
+
+    @Override
+    public Voucher findById(UUID voucherId) {
+        return null;
     }
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> voucherList = new ArrayList<>();
-        //try-with-resource
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(VOUCHER_FILE_NAME))) {
-            String reader;
-            while ((reader = bufferedReader.readLine()) != null) {
-                String[] voucherInfo = reader.split(",");
-                VoucherType type = VoucherType.of(voucherInfo[2]);
-                if (type.equals(VoucherType.FIXED))
-                    voucherList.add(new FixedAmountVoucher(UUID.fromString(voucherInfo[0]), Long.parseLong(voucherInfo[1])));
-                else
-                    voucherList.add(new PercentAmountVoucher(UUID.fromString(voucherInfo[0]), Long.parseLong(voucherInfo[1])));
-            }
-        } catch (IOException e) {
-            logger.warn("{}:{}", e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
-        }
-        return voucherList;
+//        List<Voucher> voucherList = new ArrayList<>();
+//        //try-with-resource
+//        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(VOUCHER_FILE_NAME))) {
+//            String reader;
+//            while ((reader = bufferedReader.readLine()) != null) {
+//                String[] voucherInfo = reader.split(",");
+//                VoucherType type = VoucherType.of(voucherInfo[2]);
+//                if (type.equals(VoucherType.FIXED))
+//                    voucherList.add(new FixedAmountVoucher(UUID.fromString(voucherInfo[0]), Long.parseLong(voucherInfo[1])));
+//                else
+//                    voucherList.add(new PercentAmountVoucher(UUID.fromString(voucherInfo[0]), Long.parseLong(voucherInfo[1])));
+//            }
+//        } catch (IOException e) {
+//            logger.warn("{}:{}", e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
+//        }
+//        return voucherList;
+        return new ArrayList<>();
+    }
+
+    @Override
+    public void deleteByCustomerId(UUID customerId) {
+
+    }
+
+    @Override
+    public void findCustomerIdByVoucherType(VoucherType voucherType) {
+
     }
 }

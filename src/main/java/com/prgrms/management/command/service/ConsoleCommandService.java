@@ -4,12 +4,17 @@ import com.prgrms.management.command.domain.Command;
 import com.prgrms.management.config.GuideType;
 import com.prgrms.management.command.io.Input;
 import com.prgrms.management.command.io.Output;
+import com.prgrms.management.customer.domain.Customer;
+import com.prgrms.management.customer.domain.CustomerRequest;
 import com.prgrms.management.customer.service.CustomerService;
 import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class ConsoleCommandService implements CommandService {
@@ -42,31 +47,38 @@ public class ConsoleCommandService implements CommandService {
 
     @Override
     public void execute(Command command) {
+        UUID customerId, voucherId;
         switch (command) {
             case CREATE:
-                VoucherRequest voucherRequest = input.inputVoucherType();
+                VoucherRequest voucherRequest = input.inputVoucherTypeAndAmount();
                 voucherService.createVoucher(voucherRequest);
                 break;
             case LIST:
                 output.printList(voucherService.findAll());
                 break;
             case CREATECUSTOMER:
-                customerService.createCustomer();
+                CustomerRequest customerRequest = input.inputCustomer();
+                customerService.createCustomer(new Customer(customerRequest));
                 break;
             case DELETECUSTOMER:
-                customerService.deleteCustomer();
+                customerId = input.inputCustomerId();
+                customerService.deleteCustomer(customerId);
                 break;
             case LISTCUSTOMER:
                 customerService.findCustomers();
                 break;
             case CREATEVOUCHER:
-                customerService.createVoucher();
+                voucherId = input.inputVoucherId();
+                customerId = input.inputCustomerId();
+                voucherService.createVoucherByCustomerId(voucherId,customerId);
                 break;
             case DELETEVOUCHER:
-                customerService.deleteVoucher();
+                customerId = input.inputCustomerId();
+                voucherService.deleteVoucherByCustomerId(customerId);
                 break;
             case LISTVOUCHER:
-                customerService.findCustomersByVoucherType();
+                VoucherType voucherType = input.inputVoucherType();
+                voucherService.findCustomersByVoucherType(voucherType);
                 break;
             case EXIT:
                 System.exit(0);

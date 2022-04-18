@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -19,10 +20,25 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
-        return voucherRepository.insert(VoucherType.of(voucherRequest.getVoucherType()).createVoucher(voucherRequest.getAmount()));
+        return null;
+        //return voucherRepository.insert(VoucherType.of(voucherRequest.getVoucherType()).createVoucher(voucherRequest.getAmount()));
     }
 
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
+    }
+
+    public void createVoucherByCustomerId(UUID voucherId, UUID customerId) {
+        Voucher voucher = voucherRepository.findById(voucherId);
+        voucher.setCustomerId(customerId);
+        voucherRepository.save(voucher);
+    }
+
+    public void deleteVoucherByCustomerId(UUID customerId) {
+        voucherRepository.deleteByCustomerId(customerId);
+    }
+
+    public void findCustomersByVoucherType(VoucherType voucherType) {
+        voucherRepository.findCustomerIdByVoucherType(voucherType);
     }
 }

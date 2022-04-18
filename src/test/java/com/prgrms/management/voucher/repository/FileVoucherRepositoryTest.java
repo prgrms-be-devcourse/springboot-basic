@@ -14,15 +14,15 @@ class FileVoucherRepositoryTest {
 
     @Test
     void Voucher_File에_저장() {
-        //given
-        FixedAmountVoucher voucher = new FixedAmountVoucher(100);
-        PercentAmountVoucher voucherTwo = new PercentAmountVoucher(5);
-        //when
-        Voucher insert = voucherRepository.insert(voucher);
-        Voucher insertTwo = voucherRepository.insert(voucherTwo);
-        //then
-        Assertions.assertThat(insert).isEqualTo(voucher);
-        Assertions.assertThat(insertTwo).isEqualTo(voucherTwo);
+//        //given
+//        FixedAmountVoucher voucher = new FixedAmountVoucher(100);
+//        PercentAmountVoucher voucherTwo = new PercentAmountVoucher(5);
+//        //when
+//        Voucher insert = voucherRepository.insert(voucher);
+//        Voucher insertTwo = voucherRepository.insert(voucherTwo);
+//        //then
+//        Assertions.assertThat(insert).isEqualTo(voucher);
+//        Assertions.assertThat(insertTwo).isEqualTo(voucherTwo);
     }
 
 }

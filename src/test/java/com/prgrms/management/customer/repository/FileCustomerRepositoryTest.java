@@ -13,7 +13,7 @@ public class FileCustomerRepositoryTest {
         //given
         Customer customer = new Customer(CustomerType.NORMAL);
         //when
-        Customer insert = customerRepository.insert(customer);
+        Customer insert = customerRepository.save(customer);
         //then
         Assertions.assertThat(insert).isEqualTo(customer);
     }
@@ -23,7 +23,7 @@ public class FileCustomerRepositoryTest {
         //given
         Customer customer = new Customer(CustomerType.BLACKLIST);
         //when
-        Customer insert = customerRepository.insert(customer);
+        Customer insert = customerRepository.save(customer);
         //then
         Assertions.assertThat(insert).isEqualTo(customer);
     }

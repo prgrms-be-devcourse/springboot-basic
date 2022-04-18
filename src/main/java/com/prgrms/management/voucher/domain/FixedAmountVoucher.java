@@ -4,7 +4,7 @@ import com.prgrms.management.config.ErrorMessageType;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher implements VoucherPolicy {
     private final UUID voucherId;
     private final long amount;
     private final VoucherType voucherType;
