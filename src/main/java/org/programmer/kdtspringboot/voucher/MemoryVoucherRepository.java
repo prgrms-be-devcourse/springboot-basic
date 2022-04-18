@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -19,13 +16,26 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
     @Override
-    public void saveVoucher(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         logger.info("voucher 생성 "+ voucher);
+        return voucher;
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        //구현 보류
+        return null;
     }
 
     @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        //구현 보류
+        return Optional.empty();
     }
 }

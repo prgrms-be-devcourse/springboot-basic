@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile("file")
@@ -19,7 +16,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     @Override
-    public void saveVoucher(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         String content = voucher.getInfo();
         try (FileWriter fileWriter = new FileWriter(fileName, true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -31,6 +28,13 @@ public class FileVoucherRepository implements VoucherRepository {
             e.printStackTrace();
         }
         logger.info("voucher 추가 " + voucher);
+        return voucher;
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        //구현 보류
+        return null;
     }
 
     @Override
@@ -57,5 +61,11 @@ public class FileVoucherRepository implements VoucherRepository {
         }
 
         return list;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        //구현 보류
+        return Optional.empty();
     }
 }

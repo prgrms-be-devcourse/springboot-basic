@@ -21,7 +21,7 @@ public class VoucherService {
         try{
             VoucherType voucherType = VoucherType.getVoucherType(type);
             Voucher voucher = voucherType.create(value);
-            voucherRepository.saveVoucher(voucher);
+            voucherRepository.insert(voucher);
         }catch (IllegalArgumentException e){
             logger.info("Voucher Type 잘못 입력 했습니다 {}", type);
         }
