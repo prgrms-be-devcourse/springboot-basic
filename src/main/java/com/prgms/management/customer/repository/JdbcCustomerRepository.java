@@ -72,7 +72,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findByType(CustomerType type) {
-        return jdbcTemplate.query("SELECT * from customer WHERE type = '" + type.toString() + "'",
+        return jdbcTemplate.query("SELECT * from customer WHERE type = :type",
+                Collections.singletonMap("type", type.toString()),
                 (rs, rowNum) -> mapToCustomer(rs));
     }
 
