@@ -11,7 +11,6 @@ import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.prgms.voucherProgram.repository.customer.BlackListRepository;
 import org.prgms.voucherProgram.repository.customer.CustomerRepository;
-import org.prgms.voucherProgram.repository.customer.JdbcCustomerRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +19,7 @@ public class CustomerService {
     private final BlackListRepository blackListRepository;
     private final CustomerRepository customerRepository;
 
-    public CustomerService(JdbcCustomerRepository customerRepository, BlackListRepository fileCustomerRepository) {
+    public CustomerService(CustomerRepository customerRepository, BlackListRepository fileCustomerRepository) {
         this.customerRepository = customerRepository;
         this.blackListRepository = fileCustomerRepository;
     }
