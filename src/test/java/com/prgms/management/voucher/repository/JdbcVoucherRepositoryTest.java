@@ -4,6 +4,7 @@ import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.PercentDiscountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.exception.InvalidVoucherParameterException;
+import com.prgms.management.voucher.exception.VoucherDeleteFailException;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.MysqldConfig;
@@ -169,6 +170,38 @@ class JdbcVoucherRepositoryTest {
             var retVoucher = voucherRepository.findAll();
             assertThat(retVoucher.isEmpty(), is(false));
             assertThat(retVoucher, hasSize(vouchers.size()));
+        }
+    }
+
+    @DisplayName("removeById() 테스트")
+    @Nested
+    @Order(4)
+    @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+    class RemoveByIdTest {
+        List<UUID> oldVouchers = new ArrayList<>();
+
+        @DisplayName("아이디를 통한 삭제 가능 사례")
+        @Test
+        @Order(1)
+        void removeSuccess() {
+            int count = vouchers.size();
+
+            for (Voucher voucher : vouchers) {
+                oldVouchers.add(voucher.getVoucherId());
+                voucherRepository.removeById(voucher.getVoucherId());
+
+                var result = voucherRepository.findAll();
+                assertThat(result, hasSize(--count));
+            }
+        }
+
+        @DisplayName("아이디를 통한 삭제 실패 사례")
+        @Test
+        @Order(2)
+        void removeFail() {
+            for (UUID id : oldVouchers) {
+                assertThrows(VoucherDeleteFailException.class, () -> voucherRepository.removeById(id));
+            }
         }
     }
 }
