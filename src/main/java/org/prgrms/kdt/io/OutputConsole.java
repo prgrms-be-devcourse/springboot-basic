@@ -4,6 +4,7 @@ import org.prgrms.kdt.model.function.Function;
 import org.prgrms.kdt.model.voucher.VoucherType;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 public class OutputConsole implements Output {
     @Override
@@ -40,5 +41,11 @@ public class OutputConsole implements Output {
     @Override
     public void printExceptionMessage(String exceptionMessage) {
         System.out.println(MessageFormat.format("{0}\n", exceptionMessage));
+    }
+
+    public void printList(List<String> printList) {
+        for(String argument : printList) {
+            System.out.println(argument);
+        }
     }
 }

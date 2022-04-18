@@ -5,6 +5,7 @@ import org.prgrms.kdt.io.InputConsole;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.service.BlackListService;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.util.Utility;
 import org.slf4j.Logger;
@@ -16,14 +17,14 @@ import java.util.UUID;
 public enum Function {
     exit(" to exit the program") {
         @Override
-        public boolean execute(VoucherService voucherService) {
+        public boolean execute(VoucherService voucherService, BlackListService blackListService) {
             getOutput().printExitMessage();
             return isEndProgram;
         }
     },
     create(" to create a new voucher") {
         @Override
-        public boolean execute(VoucherService voucherService) {
+        public boolean execute(VoucherService voucherService, BlackListService blackListService) {
             getOutput().printVoucherType();
             Input input = new InputConsole() {
             };
@@ -36,10 +37,17 @@ public enum Function {
             return !isEndProgram;
         }
     },
-    list(" to list all vouchers") {
+    voucherList(" to list all vouchers") {
         @Override
-        public boolean execute(VoucherService voucherService) {
+        public boolean execute(VoucherService voucherService, BlackListService blackListService) {
             printVoucherList(voucherService.getVoucherList());
+            return !isEndProgram;
+        }
+    },
+    blackList(" to list all blackList") {
+        @Override
+        public boolean execute(VoucherService voucherService, BlackListService blackListService) {
+            getOutput().printList(blackListService.getBlackList());
             return !isEndProgram;
         }
     };
@@ -58,7 +66,7 @@ public enum Function {
         return explain;
     }
 
-    public abstract boolean execute(VoucherService voucherService);
+    public abstract boolean execute(VoucherService voucherService, BlackListService blackListService);
 
     Output getOutput() {
         return new OutputConsole();
