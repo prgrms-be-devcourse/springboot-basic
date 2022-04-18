@@ -68,4 +68,9 @@ public class FileVoucherRepository implements VoucherRepository {
         //구현 보류
         return Optional.empty();
     }
+
+    @Override
+    public void deleteAll() {
+        //구현 보류
+    }
 }
