@@ -11,6 +11,11 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
+    @Override
+    public boolean isFixed() {
+        return true;
+    }
+
     public int getAmount() {
         return amount;
     }

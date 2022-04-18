@@ -11,6 +11,11 @@ public class PercentDiscountVoucher extends Voucher {
         this.percent = percent;
     }
 
+    @Override
+    public boolean isPercent() {
+        return true;
+    }
+
     public int getPercent() {
         return percent;
     }

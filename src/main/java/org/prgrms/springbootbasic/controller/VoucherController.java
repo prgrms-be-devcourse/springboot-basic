@@ -1,6 +1,5 @@
 package org.prgrms.springbootbasic.controller;
 
-import org.prgrms.springbootbasic.VoucherType;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.view.ConsoleView;
 import org.slf4j.Logger;

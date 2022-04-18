@@ -13,4 +13,12 @@ public abstract class Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
+
+    public boolean isFixed() {
+        return false;
+    }
+
+    public boolean isPercent() {
+        return false;
+    }
 }

@@ -81,5 +81,4 @@ SpringBoot Part1 Weekly Mission
 - [X] Test 메서드 명도 신경쓰기.
 - [X] 동시 테스트 assertAll() 이용해보기.
 - [X] BeforeEach, AfterEach 하나만 하도록 코드 수정
-- [ ] InstanceOf 지양하기
-- [ ] 메모리 레포에서 굳이 제할당 이유?
+- [X] InstanceOf 지양하기

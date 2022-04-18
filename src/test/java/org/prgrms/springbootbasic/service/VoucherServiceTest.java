@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.springbootbasic.VoucherType;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.Voucher;
 import org.prgrms.springbootbasic.repository.MemoryVoucherRepository;
 
