@@ -2,8 +2,8 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.domain.command.types.CommandType;
 import org.prgrms.kdt.domain.command.componet.CommandApplication;
-import org.prgrms.kdt.domain.console.Input;
-import org.prgrms.kdt.domain.console.Output;
+import org.prgrms.kdt.console.Input;
+import org.prgrms.kdt.console.Output;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

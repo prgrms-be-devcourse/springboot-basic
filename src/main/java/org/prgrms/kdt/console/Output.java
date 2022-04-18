@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain.console;
+package org.prgrms.kdt.console;
 
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.voucher.model.Voucher;

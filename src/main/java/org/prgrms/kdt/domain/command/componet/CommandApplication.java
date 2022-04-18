@@ -1,12 +1,12 @@
 package org.prgrms.kdt.domain.command.componet;
 
 import org.prgrms.kdt.domain.command.types.CommandType;
-import org.prgrms.kdt.domain.console.Output;
+import org.prgrms.kdt.console.Output;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.customer.service.CustomerService;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
-import org.prgrms.kdt.domain.console.Input;
+import org.prgrms.kdt.console.Input;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.service.VoucherService;
 import org.prgrms.kdt.domain.wallet.service.WalletService;
