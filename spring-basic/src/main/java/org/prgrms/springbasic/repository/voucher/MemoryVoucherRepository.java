@@ -1,21 +1,22 @@
 package org.prgrms.springbasic.repository.voucher;
 
 import org.prgrms.springbasic.domain.voucher.Voucher;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("local")
+//@Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
+
+        return voucher;
     }
 
     @Override
@@ -31,6 +32,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public int countStorageSize() {
         return storage.size();
+    }
+
+    @Override
+    public Voucher updateVoucher(Voucher voucher) {
+        //JDBC만 구현
+        return null;
     }
 
     @Override

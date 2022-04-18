@@ -8,13 +8,15 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    void save(Customer customer);
+    Customer save(Customer customer);
 
     Optional<Customer> findById(UUID customerId);
 
     List<Customer> findAll();
 
     int countStorageSize();
+
+    Customer updateCustomer(Customer customer);
 
     void clear();
 }

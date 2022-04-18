@@ -8,13 +8,15 @@ import java.util.UUID;
 
 public interface VoucherRepository {
 
-    void save(Voucher voucher);
+    Voucher save(Voucher voucher);
 
     Optional<Voucher> findById(UUID voucherId);
 
     List<Voucher> findAll();
 
     int countStorageSize();
+
+    Voucher updateVoucher(Voucher voucher);
 
     void clear();
 }
