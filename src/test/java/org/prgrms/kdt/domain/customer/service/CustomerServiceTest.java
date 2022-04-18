@@ -35,7 +35,7 @@ class CustomerServiceTest {
         List<Customer> savedBlackCustomers = Arrays.asList(customerPark, customerKim);
         //when
         when(customerRepository.findAll()).thenReturn(savedBlackCustomers);
-        List<Customer> blackListCustomers = customerService.findBlackList();
+        List<Customer> blackListCustomers = customerService.getBlackCustomers();
         //then
         assertThat(blackListCustomers).contains(customerKim, customerPark);
     }
