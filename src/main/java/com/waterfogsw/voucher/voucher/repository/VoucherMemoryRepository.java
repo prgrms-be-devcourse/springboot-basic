@@ -14,7 +14,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        voucherStore.put(voucher.getVoucherId(), voucher);
+        voucherStore.put(voucher.getId(), voucher);
         return voucher;
     }
 }
