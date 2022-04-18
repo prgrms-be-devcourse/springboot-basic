@@ -1,7 +1,6 @@
 package com.prgrms.management.customer.service;
 
 import com.prgrms.management.customer.domain.Customer;
-import com.prgrms.management.customer.domain.CustomerRequest;
 import com.prgrms.management.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +28,23 @@ public class CustomerService {
         customerRepository.deleteById(customerId);
     }
 
-
-    public void findCustomers() {
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
     }
 
-    public void findCustomersByVoucherType() {
+    public void deleteAllCustomer() {
+        customerRepository.deleteAll();
     }
 
+    public void updateCustomer(UUID customerId) {
 
+    }
+
+    public void findById(UUID customerId) {
+        customerRepository.findById(customerId);
+    }
+
+    public void findByEmail(String email) {
+        customerRepository.findByEmail(email);
+    }
 }

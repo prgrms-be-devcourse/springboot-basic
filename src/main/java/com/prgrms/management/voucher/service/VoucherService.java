@@ -20,8 +20,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
-        return null;
-        //return voucherRepository.insert(VoucherType.of(voucherRequest.getVoucherType()).createVoucher(voucherRequest.getAmount()));
+        return voucherRepository.save(new Voucher(voucherRequest));
     }
 
     public List<Voucher> findAll() {

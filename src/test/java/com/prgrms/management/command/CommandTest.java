@@ -16,7 +16,7 @@ class CommandTest {
         //when
         Command command = Command.of(inputCommand);
         //then
-        Assertions.assertThat(command).isEqualTo(Command.CREATE);
+        Assertions.assertThat(command).isEqualTo(Command.CREATEVOUCHER);
     }
     @Test
     void LIST_Command_입력() {
@@ -25,7 +25,7 @@ class CommandTest {
         //when
         Command command = Command.of(inputCommand);
         //then
-        Assertions.assertThat(command).isEqualTo(Command.LIST);
+        Assertions.assertThat(command).isEqualTo(Command.LISTVOUCHER);
     }
     @Test
     void BLACKLIST_Command_입력() {

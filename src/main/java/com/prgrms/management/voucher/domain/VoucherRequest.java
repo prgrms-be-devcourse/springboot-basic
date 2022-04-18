@@ -1,19 +1,24 @@
 package com.prgrms.management.voucher.domain;
 
+import lombok.Getter;
+
+@Getter
 public class VoucherRequest {
-    private String voucherType;
-    private String amount;
+    private VoucherType voucherType;
+    private Long amount;
 
     public VoucherRequest(String voucherType, String amount) {
-        this.voucherType = voucherType;
-        this.amount = amount;
+        this.voucherType = VoucherType.of(voucherType);
+        this.amount = toLong(amount);
     }
 
-    public String getVoucherType() {
-        return voucherType;
-    }
-
-    public String getAmount() {
+    private long toLong(String inputAmount) {
+        long amount = 0L;
+        try {
+            amount = Long.parseLong(inputAmount);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         return amount;
     }
 }

@@ -60,13 +60,8 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findByEmail(UUID email) {
+    public Optional<Customer> findByEmail(String email) {
         return Optional.empty();
-    }
-
-    @Override
-    public List<Customer> findCustomerByVoucherType(VoucherType voucherType) {
-        return null;
     }
 
 

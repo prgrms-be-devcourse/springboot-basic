@@ -53,4 +53,10 @@ public class Input {
         String voucherId = scanner.nextLine();
         return UUID.fromString(voucherId);
     }
+
+    public String inputCustomerEmail() {
+        System.out.println(GuideType.EMAIL.getMESSAGE());
+        String email = scanner.nextLine();
+        return email;
+    }
 }

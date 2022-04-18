@@ -6,15 +6,19 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public enum Command {
-    CREATE,
-    LIST,
+    CREATEVOUCHER,
+    LISTVOUCHER,
     BLACKLIST,
     CREATECUSTOMER,
+    UPDATECUSTOMER,
     DELETECUSTOMER,
+    DELETEALLCUSTOMER,
+    FINDCUSTOMERBYID,
+    FINDCUSTOMERBYEMAIL,
     LISTCUSTOMER,
-    CREATEVOUCHER,
-    DELETEVOUCHER,
-    LISTVOUCHER,
+    ASSIGNVOUCHER,
+    UNASSIGNVOUCHER,
+    LISTVOUCHERWITHTYPE,
     EXIT;
 
     public static Command of(String input) {
