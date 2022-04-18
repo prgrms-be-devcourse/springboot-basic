@@ -10,9 +10,7 @@ public class FixedAmountVoucher implements Voucher {
     private final static Integer MIN_AMOUNT = 0;
 
     public FixedAmountVoucher(UUID voucherId, Long amount) {
-        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT) {
-            throw new IllegalArgumentException(MIN_AMOUNT + "~" + MAX_AMOUNT + " 값을 입력해주세요.");
-        }
+        validateAmount(amount);
         this.voucherId = voucherId;
         this.amount = amount;
     }
@@ -39,6 +37,12 @@ public class FixedAmountVoucher implements Voucher {
                 ", amount=" + amount +
                 ", class=" + this.getClass().getSimpleName() +
                 '}';
+    }
+
+    private void validateAmount(Long amount) {
+        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT) {
+            throw new IllegalArgumentException(MIN_AMOUNT + "~" + MAX_AMOUNT + " 값을 입력해주세요.");
+        }
     }
 
 
