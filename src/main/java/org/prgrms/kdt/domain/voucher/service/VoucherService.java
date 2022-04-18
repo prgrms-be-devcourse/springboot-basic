@@ -6,6 +6,7 @@ import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,20 +22,23 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public UUID save(VoucherType voucherType, long discount) {
+    @Transactional
+    public UUID saveVoucher(VoucherType voucherType, long discount) {
         Voucher voucher = createVoucher(voucherType, discount);
         UUID voucherId = voucherRepository.save(voucher);
-        logger.info("save Fixed Amount Voucher: {}", voucher);
+        logger.info("save Voucher: {}", voucher);
         return voucherId;
     }
 
-    public Optional<Voucher> findById(UUID voucherId) {
+    @Transactional
+    public Optional<Voucher> getVoucherById(UUID voucherId) {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
         logger.info("find Voucher By Id {}", voucher);
         return voucher;
     }
 
-    public List<Voucher> findAll() {
+    @Transactional
+    public List<Voucher> getAllVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
         logger.info("find All Voucher size: {}", vouchers.size());
         return vouchers;
@@ -45,5 +49,4 @@ public class VoucherService {
         LocalDateTime now = LocalDateTime.now();
         return new Voucher(voucherId, voucherType, discount, now, now);
     }
-
 }

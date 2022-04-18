@@ -38,7 +38,7 @@ class VoucherServiceTest {
         VoucherType voucherType = VoucherType.FIXED_AMOUNT;
         //when
         when(voucherRepository.save(any())).thenReturn(voucherId);
-        UUID savedVoucherId = voucherService.save(voucherType, discountPrice);
+        UUID savedVoucherId = voucherService.saveVoucher(voucherType, discountPrice);
         //then
         assertThat(savedVoucherId).isEqualTo(voucherId);
     }
@@ -52,7 +52,7 @@ class VoucherServiceTest {
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
         //when
         when(voucherRepository.save(any())).thenReturn(voucherId);
-        UUID savedVoucherId = voucherService.save(voucherType, percentDiscount);
+        UUID savedVoucherId = voucherService.saveVoucher(voucherType, percentDiscount);
         //then
         assertThat(savedVoucherId).isEqualTo(voucherId);
     }
@@ -67,7 +67,7 @@ class VoucherServiceTest {
                 new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 10L, now, now));
         //when
         when(voucherRepository.findAll()).thenReturn(savedVouchers);
-        List<Voucher> vouchers = voucherService.findAll();
+        List<Voucher> vouchers = voucherService.getAllVouchers();
         //then
         assertThat(vouchers.size()).isEqualTo(2);
     }
@@ -84,8 +84,8 @@ class VoucherServiceTest {
         //when
         when(voucherRepository.findById(fixedVoucherId)).thenReturn(Optional.of(fixedAmountVoucher));
         when(voucherRepository.findById(percentVoucherId)).thenReturn(Optional.of(percentDiscountVoucher));
-        Optional<Voucher> findFixedVoucher = voucherService.findById(fixedVoucherId);
-        Optional<Voucher> findPercentVoucher = voucherService.findById(percentVoucherId);
+        Optional<Voucher> findFixedVoucher = voucherService.getVoucherById(fixedVoucherId);
+        Optional<Voucher> findPercentVoucher = voucherService.getVoucherById(percentVoucherId);
         //then
         assertThat(findFixedVoucher.orElse(null)).isEqualTo(fixedAmountVoucher);
         assertThat(findPercentVoucher.orElse(null)).isEqualTo(percentDiscountVoucher);
@@ -97,7 +97,7 @@ class VoucherServiceTest {
         //given
         //when
         when(voucherRepository.findById(any())).thenReturn(null);
-        Optional<Voucher> voucher = voucherService.findById(UUID.randomUUID());
+        Optional<Voucher> voucher = voucherService.getVoucherById(UUID.randomUUID());
         //then
         assertThat(voucher).isNull();
     }
