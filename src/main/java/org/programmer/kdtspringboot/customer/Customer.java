@@ -11,6 +11,13 @@ public class Customer {
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createAt;
 
+    public Customer(UUID customerId, String name, String email, LocalDateTime createAt) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.createAt = createAt;
+    }
+
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createAt) {
         this.customerId = customerId;
         this.name = name;
@@ -25,5 +32,29 @@ public class Customer {
         this.email = email;
         lastLoginAt = LocalDateTime.now();
         createAt = LocalDateTime.now();
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public void changeName(String name){
+        this.name = name;
     }
 }
