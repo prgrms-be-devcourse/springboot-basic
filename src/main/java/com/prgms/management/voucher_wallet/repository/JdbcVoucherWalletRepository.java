@@ -51,7 +51,10 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
 
     @Override
     public Customer findCustomerByVoucherId(UUID voucherId) {
-        return null;
+        VoucherWallet result = jdbcTemplate.queryForObject("SELECT * from voucher_wallet where voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+                Collections.singletonMap("voucherId", voucherId.toString()),
+                (rs, rowNum) -> mapToVoucherWallet(rs));
+        return result != null ? result.getCustomer() : null;
     }
 
     private UUID toUUID(byte[] bytes) {
