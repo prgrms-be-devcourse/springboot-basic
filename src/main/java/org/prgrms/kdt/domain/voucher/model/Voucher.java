@@ -22,6 +22,7 @@ public class Voucher extends BaseEntity{
 
     public Voucher(UUID voucherId, VoucherType voucherType, Long discountValue, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         super(createdDate, modifiedDate);
+        validateDiscountValue(discountValue, voucherType);
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.discountValue = discountValue;
@@ -72,6 +73,8 @@ public class Voucher extends BaseEntity{
                 ", voucherType=" + voucherType +
                 ", discountValue=" + discountValue +
                 ", customerId=" + customerId +
+                ", createdDate=" + getCreatedDate().toString() +
+                ", modifiedDate=" + getModifiedDate().toString() +
                 '}';
     }
 }
