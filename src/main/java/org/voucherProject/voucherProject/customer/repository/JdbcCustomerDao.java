@@ -16,9 +16,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@ConfigurationProperties(prefix = "customers-sql")
 @Repository
-@Setter
 @Slf4j
 @Primary
 public class JdbcCustomerDao implements CustomerDao {
@@ -30,14 +28,14 @@ public class JdbcCustomerDao implements CustomerDao {
         this.jdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    private String SELECT_BY_ID_SQL;
-    private String SELECT_BY_NAME_SQL;
-    private String SELECT_BY_EMAIL_SQL;
-    private String SELECT_ALL_SQL;
-    private String DELETE_ALL_SQL;
-    private String INSERT_SQL;
-    private String SELECT_BY_VOUCHER_TYPE_SQL;
-    private String UPDATE_SQL;
+    private final String SELECT_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
+    private final String SELECT_BY_NAME_SQL = "SELECT * FROM customers WHERE name  = :name";
+    private final String SELECT_BY_EMAIL_SQL = "SELECT * FROM customers WHERE email  = :email";
+    private final String SELECT_ALL_SQL = "SELECT * FROM customers";
+    private final String DELETE_ALL_SQL = "DELETE FROM customers";
+    private final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, password, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :password, :createdAt)";
+    private final String SELECT_BY_VOUCHER_TYPE_SQL = "SELECT * FROM customers c LEFT JOIN voucher v ON v.customer_id = c.customer_id WHERE v.voucher_type = :voucherType";
+    private final String UPDATE_SQL = "UPDATE customers SET name = :name, password = :password WHERE customer_id = UUID_TO_BIN(:customerId)";
 
     @Override
     public Optional<Customer> findById(UUID customerId) {

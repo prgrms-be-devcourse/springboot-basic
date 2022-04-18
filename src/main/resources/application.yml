@@ -4,23 +4,3 @@ spring:
     url: jdbc:mysql://localhost:3306/voucher_w2?serverTimezone=Asia/Seoul&useUniCode=yes&characterEncoding=UTF-8
     username: root
     password: root1234
-
-customers-sql:
-  SELECT_BY_ID_SQL: SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)
-  SELECT_BY_NAME_SQL: SELECT * FROM customers WHERE name  = :name
-  SELECT_BY_EMAIL_SQL: SELECT * FROM customers WHERE email  = :email
-  SELECT_ALL_SQL: SELECT * FROM customers
-  DELETE_ALL_SQL: DELETE FROM customers
-  INSERT_SQL: INSERT INTO customers(customer_id, name, email, password, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :password, :createdAt)
-  SELECT_BY_VOUCHER_TYPE_SQL: SELECT * FROM customers c LEFT JOIN voucher v ON v.customer_id = c.customer_id WHERE v.voucher_type = :voucherType
-  UPDATE_SQL: UPDATE customers SET name = :name, password = :password WHERE customer_id = UUID_TO_BIN(:customerId)
-
-voucher-sql:
-  SELECT_ALL_SQL: SELECT * FROM voucher
-  SELECT_BY_ID_SQL: SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)
-  INSERT_SQL: INSERT INTO voucher(voucher_id, amount, voucher_type, voucher_status, created_at, customer_id) VALUES (UUID_TO_BIN(:voucherId), :amount, :voucherType, :voucherStatus, :createdAt, UUID_TO_BIN(:customerId))
-  DELETE_ALL_SQL: DELETE FROM voucher
-  UPDATE_SQL: UPDATE voucher SET voucher_type = :voucherType, voucher_status = :voucherStatus, amount = :amount WHERE customer_id = UUID_TO_BIN(:customerId)
-  SELECT_BY_CUSTOMER_ID_SQL: SELECT * FROM voucher v LEFT JOIN customers c ON v.customer_id = c.customer_id WHERE v.customer_id = UUID_TO_BIN(:customerId)
-  DELETE_ONE_BY_CUSTOMER_ID_SQL: DELETE FROM voucher WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)
-
