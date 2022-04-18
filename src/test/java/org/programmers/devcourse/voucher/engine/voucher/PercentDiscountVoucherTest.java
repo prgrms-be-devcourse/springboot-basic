@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
+import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.voucher.entity.PercentDiscountVoucher;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
@@ -20,7 +20,7 @@ class PercentDiscountVoucherTest {
       "10000, 50, 5000"
   })
   void discount_price_by_percent_in_normal_situation(long beforeDiscount, long discountDegree,
-      long afterDiscount) throws VoucherDataOutOfRangeException {
+      long afterDiscount) throws VoucherDiscountDegreeOutOfRangeException {
     Voucher voucher0 = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree);
     assertThat(voucher0.discount(beforeDiscount)).isEqualTo(afterDiscount);
   }
@@ -37,7 +37,7 @@ class PercentDiscountVoucherTest {
   void throw_exception_when_discount_degree_is_not_in_1_to_100(long discountDegree) {
     assertThatThrownBy(() -> {
       PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree);
-    }).isInstanceOf(VoucherDataOutOfRangeException.class);
+    }).isInstanceOf(VoucherDiscountDegreeOutOfRangeException.class);
   }
 
   @DisplayName("할인 비율이 100일 경우 0을 반환해야 한다.")
@@ -47,7 +47,7 @@ class PercentDiscountVoucherTest {
       "99999,100"
   })
   void return_zero_when_discount_degree_is_100(long beforeDiscount,
-      long discountDegree) throws VoucherDataOutOfRangeException {
+      long discountDegree) throws VoucherDiscountDegreeOutOfRangeException {
     long discountedPrice = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree)
         .discount(beforeDiscount);
 

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = "/application-jdbc.yaml", factory = YamlPropertySourceFactory.class)
 @Getter
 @Setter
-public class LocalJdbcProperties implements JdbcProperties {
+public class DevJdbcProperties implements JdbcProperties {
 
   private String user;
   private String password;

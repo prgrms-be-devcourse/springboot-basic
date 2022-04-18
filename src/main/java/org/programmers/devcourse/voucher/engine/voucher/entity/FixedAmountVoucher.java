@@ -2,7 +2,7 @@ package org.programmers.devcourse.voucher.engine.voucher.entity;
 
 import java.text.MessageFormat;
 import java.util.UUID;
-import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
+import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherFactory;
 
 
@@ -15,13 +15,14 @@ public class FixedAmountVoucher extends
   private final long discountAmount;
 
   private FixedAmountVoucher(UUID voucherId, long discountAmount)
-      throws VoucherDataOutOfRangeException {
+      throws VoucherDiscountDegreeOutOfRangeException {
     if (discountAmount >= MAX_AMOUNT) {
-      throw new VoucherDataOutOfRangeException(
+      throw new VoucherDiscountDegreeOutOfRangeException(
           MessageFormat.format("discount amount must be lower than {0}", MAX_AMOUNT));
     }
     if (discountAmount <= 0) {
-      throw new VoucherDataOutOfRangeException("discount amount must have positive value");
+      throw new VoucherDiscountDegreeOutOfRangeException(
+          "discount amount must have positive value");
     }
     this.voucherId = voucherId;
     this.discountAmount = discountAmount;

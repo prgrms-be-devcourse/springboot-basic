@@ -2,7 +2,7 @@ package org.programmers.devcourse.voucher.engine.voucher.entity;
 
 import java.text.MessageFormat;
 import java.util.UUID;
-import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
+import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherFactory;
 
 public class PercentDiscountVoucher extends
@@ -13,9 +13,9 @@ public class PercentDiscountVoucher extends
   private final long discountPercent;
 
   private PercentDiscountVoucher(UUID voucherId, long discountPercent)
-      throws VoucherDataOutOfRangeException {
+      throws VoucherDiscountDegreeOutOfRangeException {
     if (discountPercent > 100 || discountPercent <= 0) {
-      throw new VoucherDataOutOfRangeException("Discount percent out of range(1-100)");
+      throw new VoucherDiscountDegreeOutOfRangeException("Discount percent out of range(1-100)");
     }
     this.voucherId = voucherId;
     this.discountPercent = discountPercent;

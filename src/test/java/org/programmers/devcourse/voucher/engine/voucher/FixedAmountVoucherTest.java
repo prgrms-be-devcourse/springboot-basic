@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
+import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.voucher.entity.FixedAmountVoucher;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
@@ -22,7 +22,7 @@ class FixedAmountVoucherTest {
       "50000, 40000, 10000"
   })
   void discount_price_in_normal_situation(long beforeDiscount, long discountDegree,
-      long afterDiscount) throws VoucherDataOutOfRangeException {
+      long afterDiscount) throws VoucherDiscountDegreeOutOfRangeException {
     Voucher voucher0 = FixedAmountVoucher.factory.create(UUID.randomUUID(), discountDegree);
     assertThat(voucher0.discount(beforeDiscount)).isEqualTo(afterDiscount);
   }
@@ -37,7 +37,7 @@ class FixedAmountVoucherTest {
   void throw_exception_when_discount_degree_is_negative(long discountDegree) {
     assertThatThrownBy(() -> {
       FixedAmountVoucher.factory.create(UUID.randomUUID(), discountDegree);
-    }).isInstanceOf(VoucherDataOutOfRangeException.class);
+    }).isInstanceOf(VoucherDiscountDegreeOutOfRangeException.class);
   }
 
   @DisplayName("할인 대상 가격보다 할인액이 더 클 경우 0을 반환해야 한다.")
@@ -47,7 +47,7 @@ class FixedAmountVoucherTest {
       "10000,99999"
   })
   void return_zero_when_discount_degree_is_greater_than_target_price(long beforeDiscount,
-      long discountDegree) throws VoucherDataOutOfRangeException {
+      long discountDegree) throws VoucherDiscountDegreeOutOfRangeException {
     long discountedPrice = FixedAmountVoucher.factory.create(UUID.randomUUID(), discountDegree)
         .discount(beforeDiscount);
 

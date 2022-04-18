@@ -3,14 +3,13 @@ package org.programmers.devcourse.voucher.engine.voucher.repository;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
-import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
+import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
@@ -20,7 +19,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("dev")
+@Profile("local")
 public class FileVoucherRepository implements
     VoucherRepository {
 
@@ -30,7 +29,7 @@ public class FileVoucherRepository implements
     String template = "{1}{0}{2}{0}{3}";
     return MessageFormat.format(template, DELIMITER,
         voucher.getVoucherId(),
-        VoucherMapper.mapToId(voucher), // 바우처의 타입을 알면 id를 받아올 수 있다.
+        VoucherMapper.mapToTypeId(voucher), // 바우처의 타입을 알면 id를 받아올 수 있다.
         voucher.getDiscountDegree());
   };
   // 바우처를 로드했을 때 먼저 파일 스트림을 연다.
@@ -55,7 +54,7 @@ public class FileVoucherRepository implements
       try {
         memoryStorage.put(voucherId,
             voucherMapper.get().getFactory().create(voucherId, discountDegree));
-      } catch (VoucherDataOutOfRangeException e) {
+      } catch (VoucherDiscountDegreeOutOfRangeException e) {
         logger.error(MessageFormat.format("{0} : Not valid voucher", voucherId));
       }
 
@@ -77,13 +76,13 @@ public class FileVoucherRepository implements
   }
 
   @Override
-  public Optional<Voucher> getVoucher(UUID voucherId) {
+  public Optional<Voucher> getVoucherById(UUID voucherId) {
     return Optional.ofNullable(memoryStorage.get(voucherId));
   }
 
   @Override
-  public Collection<Voucher> getAllVouchers() {
-    return Collections.unmodifiableCollection(memoryStorage.values());
+  public List<Voucher> getAllVouchers() {
+    return List.copyOf(memoryStorage.values());
   }
 
 

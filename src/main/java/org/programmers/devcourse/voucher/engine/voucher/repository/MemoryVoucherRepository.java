@@ -1,8 +1,7 @@
 package org.programmers.devcourse.voucher.engine.voucher.repository;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,14 +24,14 @@ public class MemoryVoucherRepository implements
   }
 
   @Override
-  public Optional<Voucher> getVoucher(UUID voucherId) {
+  public Optional<Voucher> getVoucherById(UUID voucherId) {
 
     return Optional.ofNullable(storage.get(voucherId));
   }
 
   @Override
-  public Collection<Voucher> getAllVouchers() {
-    return Collections.unmodifiableCollection(storage.values());
+  public List<Voucher> getAllVouchers() {
+    return List.copyOf(storage.values());
   }
 
 

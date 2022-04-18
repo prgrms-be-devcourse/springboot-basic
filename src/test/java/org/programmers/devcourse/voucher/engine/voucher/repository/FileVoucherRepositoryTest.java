@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.programmers.devcourse.voucher.engine.exception.VoucherDataOutOfRangeException;
+import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.entity.FixedAmountVoucher;
 import org.programmers.devcourse.voucher.engine.voucher.entity.PercentDiscountVoucher;
@@ -22,7 +22,7 @@ import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 class FileVoucherRepositoryTest {
 
 
-  static Stream<Arguments> voucherSource() throws VoucherDataOutOfRangeException {
+  static Stream<Arguments> voucherSource() throws VoucherDiscountDegreeOutOfRangeException {
     return Stream.of(arguments(List.of(
         FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L),
         PercentDiscountVoucher.factory.create(UUID.randomUUID(), 50),
@@ -108,7 +108,7 @@ class FileVoucherRepositoryTest {
 
     //then
     incomingVouchers.forEach(voucher -> {
-      var queriedVoucher = repository.getVoucher(voucher.getVoucherId());
+      var queriedVoucher = repository.getVoucherById(voucher.getVoucherId());
       assertThat(queriedVoucher).isNotEmpty();
       assertThat(queriedVoucher).contains(voucher);
     });

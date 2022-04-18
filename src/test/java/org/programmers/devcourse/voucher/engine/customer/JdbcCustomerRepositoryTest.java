@@ -16,17 +16,14 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.programmers.devcourse.voucher.configuration.JdbcProperties;
+import org.programmers.devcourse.voucher.EmbeddedDatabaseTestModule;
 import org.springframework.dao.DataAccessException;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Testcontainers
-class JdbcCustomerRepositoryTest {
+class JdbcCustomerRepositoryTest extends EmbeddedDatabaseTestModule {
 
   private static final List<UUID> uuids =
       List.of(
@@ -40,15 +37,6 @@ class JdbcCustomerRepositoryTest {
           LocalDateTime.now(), LocalDateTime.now().minusDays(4)),
       new Customer(uuids.get(2), "faker", "faker@gmail.com",
           LocalDateTime.now(), LocalDateTime.now().minusDays(10)));
-  @Container
-  public static MySQLContainer mysql = new MySQLContainer<>(
-      DockerImageName
-          .parse("mysql:8.0.28-debian"))
-      .withDatabaseName("order_mgmt")
-      .withInitScript("init.sql")
-      .withUsername("test")
-      .withPassword("test1234!")
-      .withCommand("--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci");
 
 
   private static JdbcCustomerRepository repository;
@@ -64,25 +52,11 @@ class JdbcCustomerRepositoryTest {
 
   @BeforeAll
   static void setup() {
-    mysql.start();
+    if (!mysql.isRunning()) {
+      mysql.start();
+    }
 
-    repository = new JdbcCustomerRepository(new JdbcProperties() {
-      @Override
-      public String getUser() {
-        return mysql.getUsername();
-      }
-
-      @Override
-      public String getPassword() {
-        return mysql.getPassword();
-      }
-
-      @Override
-      public String getUrl() {
-        return mysql.getJdbcUrl();
-      }
-    });
-    repository.deleteAll();
+    repository = new JdbcCustomerRepository(getTestDataSource());
   }
 
   @ParameterizedTest

@@ -1,6 +1,7 @@
 package org.programmers.devcourse.voucher.util;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class UUIDMapper {
@@ -9,8 +10,8 @@ public class UUIDMapper {
   }
 
   public static byte[] toBytes(UUID uuid) {
-    return ByteBuffer.allocate(16).putLong(uuid.getMostSignificantBits())
-        .putLong(uuid.getLeastSignificantBits()).array();
+
+    return uuid.toString().getBytes(StandardCharsets.UTF_8);
   }
 
   public static UUID fromBytes(byte[] bytes) {

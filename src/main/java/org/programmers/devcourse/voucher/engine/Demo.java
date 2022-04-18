@@ -13,7 +13,6 @@ import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherService;
-import org.programmers.devcourse.voucher.engine.exception.ExceptionFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -38,46 +37,41 @@ public class Demo {
 
 
   public void start() {
-    logger.info("User started application");
     try (input; output) {
 
-      runMainProcess();
+      while (true) {
+        Optional<MenuSelection> optionalSelection = input.getSelection();
+        try {
+          switch (optionalSelection.orElseThrow(
+              NoSuchOptionException::new)) {
+            case EXIT:
+              output.print("=====Good Bye=====");
+              return;
+            case CREATE:
+              createVoucher();
+              break;
+            case LIST:
+              showAllVouchers();
+              break;
+            case BLACKLIST:
+              showBlacklist();
+              break;
+          }
 
-    } catch (Exception e) {
+        } catch (VoucherException exception) {
+          output.print(exception.getMessage());
+          logger.error("VoucherException", exception);
+        }
+      }
+
+    } catch (Exception exception) {
       // VoucherException 외 치명적 오류 (파일로 보관 예정)
       logger.error(
-          ExceptionFormatter.formatExceptionForLogger(e));
-      output.print("ERROR : Terminating Process");
+          "critical error", exception);
     }
 
   }
 
-  private void runMainProcess() throws IOException {
-    while (true) {
-      Optional<MenuSelection> optionalSelection = input.getSelection();
-      try {
-        switch (optionalSelection.orElseThrow(
-            NoSuchOptionException::new)) {
-          case EXIT:
-            logger.info("User shut down application");
-            output.print("=====Good Bye=====");
-            return;
-          case CREATE:
-            createVoucher();
-            break;
-          case LIST:
-            showAllVouchers();
-            break;
-          case BLACKLIST:
-            showBlacklist();
-            break;
-        }
-
-      } catch (VoucherException e) {
-        output.print(e.getMessage());
-      }
-    }
-  }
 
   private void showBlacklist() {
     List<BlackList> list = blackListService.getBlackList();

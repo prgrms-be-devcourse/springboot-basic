@@ -1,6 +1,6 @@
 package org.programmers.devcourse.voucher.engine.voucher.repository;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
@@ -10,9 +10,9 @@ public interface VoucherRepository {
 
   UUID save(Voucher voucher) throws VoucherException;
 
-  Optional<Voucher> getVoucher(UUID voucherId);
+  Optional<Voucher> getVoucherById(UUID voucherId);
 
-  Collection<Voucher> getAllVouchers();
+  List<Voucher> getAllVouchers();
 
 
 }

@@ -18,17 +18,17 @@ public enum VoucherMapper {
 
   private static final Map<String, VoucherMapper> idToMapperStorage = Collections.unmodifiableMap(
       Stream.of(VoucherMapper.values())
-          .collect(Collectors.toMap(value -> value.id, value -> value)));
+          .collect(Collectors.toMap(value -> value.typeId, value -> value)));
 
 
-  private final String id;
+  private final String typeId;
   private final String unit;
   private final VoucherFactory factory;
 
 
-  VoucherMapper(String id, String unit,
+  VoucherMapper(String typeId, String unit,
       VoucherFactory factory) {
-    this.id = id;
+    this.typeId = typeId;
     this.unit = unit;
     this.factory = factory;
   }
@@ -38,12 +38,12 @@ public enum VoucherMapper {
     return Optional.ofNullable(idToMapperStorage.get(candidate));
   }
 
-  public static String mapToId(Voucher voucher) {
+  public static String mapToTypeId(Voucher voucher) {
     // 바우처의 타입을 확인한다.
     if (FixedAmountVoucher.class.equals(voucher.getClass())) {
-      return FIXED_AMOUNT.id;
+      return FIXED_AMOUNT.typeId;
     } else if (PercentDiscountVoucher.class.equals(voucher.getClass())) {
-      return PERCENT_DISCOUNT.id;
+      return PERCENT_DISCOUNT.typeId;
     }
     throw new VoucherException("No corresponding voucher type");
   }

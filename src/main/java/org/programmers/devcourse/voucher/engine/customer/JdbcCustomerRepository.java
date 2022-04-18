@@ -7,7 +7,6 @@ import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepo
 import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.LAST_LOGIN_AT;
 import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.NAME;
 
-import com.zaxxer.hikari.HikariDataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
@@ -19,11 +18,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
-import org.programmers.devcourse.voucher.configuration.JdbcProperties;
+import org.programmers.devcourse.voucher.configuration.Transactional;
 import org.programmers.devcourse.voucher.util.UUIDMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,12 +33,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("dev")
-public class JdbcCustomerRepository implements CustomerRepository {
+public class JdbcCustomerRepository implements CustomerRepository, Transactional {
 
   private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-  private final DataSource dataSource;
   private final DataSourceTransactionManager transactionManager;
 
   public void runTransaction(Runnable runnable) throws DataAccessException {
@@ -71,11 +68,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     return new Customer(customerId, name, email, lastLoginAt, createdAt);
   };
 
-  public JdbcCustomerRepository(JdbcProperties jdbcProperties) {
-    dataSource = DataSourceBuilder.create().type(HikariDataSource.class)
-        .username(jdbcProperties.getUser()).password(jdbcProperties.getPassword())
-        .url(jdbcProperties.getUrl())
-        .build();
+  public JdbcCustomerRepository(DataSource dataSource) {
     this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource));
     this.transactionManager = new DataSourceTransactionManager(dataSource);
   }
@@ -185,7 +178,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
   public int delete(Customer customer) {
     try {
       return namedParameterJdbcTemplate.update(
-          "DELETE FROM customers WHERE customer_id = :customerId",
+          "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
           Map.of(CUSTOMER_ID.toString(), UUIDMapper.toBytes(customer.getCustomerId())));
 
 

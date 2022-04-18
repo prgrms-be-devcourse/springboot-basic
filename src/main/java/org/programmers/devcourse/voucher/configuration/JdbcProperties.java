@@ -8,4 +8,5 @@ public interface JdbcProperties {
 
   String getUrl();
 
+
 }
