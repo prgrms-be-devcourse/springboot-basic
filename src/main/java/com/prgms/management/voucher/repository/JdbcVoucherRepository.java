@@ -4,6 +4,7 @@ import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.PercentDiscountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.entity.VoucherType;
+import com.prgms.management.voucher.exception.VoucherDeleteFailException;
 import com.prgms.management.voucher.exception.VoucherNotSaveException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -61,8 +62,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void removeById(UUID voucherId) {
-        jdbcTemplate.update("DELETE FROM voucher WHERE id = (UNHEX(REPLACE(:id, '-', '')))",
+        int result = jdbcTemplate.update("DELETE FROM voucher WHERE id = (UNHEX(REPLACE(:id, '-', '')))",
                 Collections.singletonMap("id", voucherId.toString()));
+        if (result != 1) {
+            throw new VoucherDeleteFailException();
+        }
     }
 
     private UUID toUUID(byte[] bytes) {
