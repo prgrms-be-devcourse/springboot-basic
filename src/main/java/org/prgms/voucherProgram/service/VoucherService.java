@@ -8,9 +8,11 @@ import java.util.UUID;
 import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.domain.customer.Email;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.dto.CustomerDto;
 import org.prgms.voucherProgram.dto.VoucherDto;
 import org.prgms.voucherProgram.dto.WalletRequestDto;
 import org.prgms.voucherProgram.dto.WalletVoucherDto;
+import org.prgms.voucherProgram.exception.AlreadyAssignException;
 import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.exception.NotFoundVoucherException;
 import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class VoucherService {
 
+    public static final String ERROR_VOUCHER_IS_NOT_ASSIGN = "[ERROR] 해당 바우처는 아직 할당전 입니다.";
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
 
@@ -56,8 +59,9 @@ public class VoucherService {
     }
 
     public WalletVoucherDto assignVoucher(WalletRequestDto walletRequestDto) {
-        Customer customer = findCustomer(walletRequestDto.getCustomerEmail());
         Voucher voucher = findVoucher(walletRequestDto.getVoucherId());
+        validateAssign(voucher);
+        Customer customer = findCustomer(walletRequestDto.getCustomerEmail());
 
         voucher.assignCustomer(customer.getCustomerId());
         return WalletVoucherDto.from(voucherRepository.assignCustomer(voucher));
@@ -78,8 +82,29 @@ public class VoucherService {
             .filter(findVoucher -> findVoucher.isSameVoucher(walletRequestDto.getVoucherId()))
             .findFirst()
             .orElseThrow(NotFoundVoucherException::new);
-        
+
         voucherRepository.deleteById(voucher.getVoucherId());
+    }
+
+    public CustomerDto findCustomer(UUID voucherId) {
+        Voucher voucher = findVoucher(voucherId);
+        validateNotAssign(voucher);
+
+        Customer customer = customerRepository.findById(voucher.getCustomerId())
+            .orElseThrow(CustomerIsNotExistsException::new);
+        return CustomerDto.from(customer);
+    }
+
+    private void validateNotAssign(Voucher voucher) {
+        if (voucher.isNotAssign()) {
+            throw new CustomerIsNotExistsException(ERROR_VOUCHER_IS_NOT_ASSIGN);
+        }
+    }
+
+    private void validateAssign(Voucher voucher) {
+        if (voucher.isAssign()) {
+            throw new AlreadyAssignException();
+        }
     }
 
     private Customer findCustomer(String requestEmail) {

@@ -1,6 +1,7 @@
 package org.prgms.voucherProgram.domain.voucher;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Voucher implements Serializable {
@@ -24,6 +25,14 @@ public abstract class Voucher implements Serializable {
 
     public boolean isSameVoucher(UUID voucherId) {
         return this.voucherId.equals(voucherId);
+    }
+
+    public boolean isAssign() {
+        return Objects.nonNull(customerId);
+    }
+
+    public boolean isNotAssign() {
+        return Objects.isNull(customerId);
     }
 
     public UUID getVoucherId() {
