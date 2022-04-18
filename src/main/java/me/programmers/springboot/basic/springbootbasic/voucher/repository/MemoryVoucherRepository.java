@@ -26,7 +26,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 }
