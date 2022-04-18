@@ -8,7 +8,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
     private final UUID voucherId;
-    private final long percent;
+    private final Long percent;
     private final static Integer MAX_AMOUNT = 100;
     private final static Integer MIN_AMOUNT = 0;
     public PercentDiscountVoucher(UUID voucherId, Long percent) {
@@ -23,8 +23,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(Long beforeDiscount) {
-        return (long) (beforeDiscount * ((100 - percent) / 100.0));
+    public Long discount(Long beforeDiscount) {
+        return (long) (beforeDiscount * (100 - percent) / 100.0);
     }
 
     @Override
