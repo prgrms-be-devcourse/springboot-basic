@@ -19,6 +19,8 @@ public interface CustomerRepository {
 
     List<Customer> findByCustomerType(CustomerType customerType);
 
+    Optional<Customer> findByEmail(String email);
+
     int updateById(Customer customer);
 
     void deleteById(UUID customerId);

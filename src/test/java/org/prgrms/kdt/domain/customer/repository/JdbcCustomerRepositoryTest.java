@@ -96,6 +96,20 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    public void findByEmail() throws Exception {
+        //given
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        UUID customerId = UUID.randomUUID();
+        String email = "dbslzld15@naver.com";
+        Customer customer = new Customer(customerId,"park" , email, CustomerType.BLACK_LIST, now, now);
+        customerRepository.save(customer);
+        //when
+        Optional<Customer> findCustomer = customerRepository.findByEmail(email);
+        //then
+        assertThat(findCustomer.get()).usingRecursiveComparison().isEqualTo(customer);
+    }
+
+    @Test
     public void findByVoucherId() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);

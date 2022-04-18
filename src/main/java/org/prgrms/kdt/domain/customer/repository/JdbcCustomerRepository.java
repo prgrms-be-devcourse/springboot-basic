@@ -78,6 +78,19 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
+    public Optional<Customer> findByEmail(String email) {
+        try{
+            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer WHERE email = :email",
+                    Collections.singletonMap("email", email),
+                    customerRowMapper());
+            return Optional.of(customer);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Find By Voucher id got empty result", e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public int updateById(Customer customer) {
         int update = jdbcTemplate.update("UPDATE customer " +
                         "SET customer_type = :customerType, name = :name, email = :email, modified_date = :modifiedDate " +

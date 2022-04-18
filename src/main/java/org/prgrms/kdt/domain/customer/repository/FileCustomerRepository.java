@@ -68,6 +68,11 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
     public int updateById(Customer customer) {
         return 0;
     }
