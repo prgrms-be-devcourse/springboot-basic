@@ -44,14 +44,6 @@ public class Customer {
         this.name = name;
     }
 
-    public void changeVoucherId(UUID voucherId) {
-        this.voucherId = voucherId;
-    }
-
-    public void login() {
-        this.lastLoginAt = LocalDateTime.now();
-    }
-
     private void validateName(String name) {
         if (name.isBlank()) {
             throw new RuntimeException("Name should not be blank");
@@ -80,6 +72,10 @@ public class Customer {
 
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    public void setVoucherId(UUID voucherId) {
+        this.voucherId = voucherId;
     }
 
     @Override

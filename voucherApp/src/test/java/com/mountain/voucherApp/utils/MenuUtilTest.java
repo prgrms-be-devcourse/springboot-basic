@@ -22,7 +22,7 @@ class MenuUtilTest {
         //when
         Arrays.stream(Menu.values())
                 .forEach((menu) -> {
-                    Menu getMenu = menuMap.get(menu.getValue());
+                    Menu getMenu = menuMap.get(menu.ordinal());
                     //then
                     Assertions.assertEquals(menu, getMenu);
                 });

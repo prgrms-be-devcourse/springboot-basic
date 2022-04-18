@@ -99,6 +99,17 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findByVoucherId(UUID voucherId) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put(VOUCHER_ID_CAMEL, voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
+        }};
+        return jdbcTemplate.query(SELECT_CUSTOMER_BY_VOUCHER_ID,
+                paramMap,
+                customerRowMapper
+        );
+    }
+
+    @Override
     public Optional<Customer> findByName(String name) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
@@ -129,6 +140,17 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update(DELETE_ALL_CUSTOMER, Collections.emptyMap());
+    }
+
+    @Override
+    public List<Customer> findByVoucherIdNotNull() {
+        return jdbcTemplate.query(SELECT_ALL_VOUCHER_ID_NOT_NULL, customerRowMapper);
+    }
+
+    @Override
+    public void removeByCustomerId(UUID customerId) {
+        jdbcTemplate.update(DELETE_BY_CUSTOMER_ID, Collections.singletonMap(CUSTOMER_ID_CAMEL,
+                customerId.toString().getBytes(StandardCharsets.UTF_8)));
     }
 
     private static RowMapper<Customer> customerRowMapper = new RowMapper<Customer>() {

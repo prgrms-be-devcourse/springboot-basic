@@ -11,6 +11,10 @@ public interface CustomerRepository {
     Optional<Customer> findById(UUID customerId);
     Optional<Customer> findByName(String name);
     Optional<Customer> findByEmail(String email);
+    List<Customer> findByVoucherId(UUID voucherId);
+    List<Customer> findByVoucherIdNotNull();
+    void removeByCustomerId(UUID customerId);
+
     int count();
     void deleteAll();
 }

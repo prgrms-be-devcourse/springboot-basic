@@ -7,11 +7,11 @@ import com.mountain.voucherApp.voucher.VoucherEntity;
 import java.util.List;
 
 public interface Output {
+    void printMessage(String msg);
     void printManual();
-    void printWrongInput();
     void choiceDiscountPolicy();
-    void printAmount();
-    void printVoucherList(List<VoucherEntity> repository);
-    void printCustomerList(List<Customer> repository);
+    void printVoucherList(List<VoucherEntity> voucherEntityList);
+    void printCustomerList(List<Customer> customerList);
+    void printCustomerVoucherInfo(List<Customer> customerList);
     void printException(Exception e);
 }

@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -19,8 +21,23 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Transactional
-    public void createCustomers(List<Customer> customers) {
-        customers.forEach(customerRepository::insert);
+    public Customer update(Customer customer) {
+        customerRepository.update(customer);
+        return customer;
+    }
+
+    @Override
+    public List<Customer> findByVoucherId(UUID voucherId) {
+        return customerRepository.findByVoucherId(voucherId);
+    }
+
+    @Override
+    public List<Customer> findByVoucherIdNotNull() {
+        return customerRepository.findByVoucherIdNotNull();
+    }
+
+    @Override
+    public void removeByCustomerId(UUID customerId) {
+        customerRepository.removeByCustomerId(customerId);
     }
 }

@@ -1,6 +1,8 @@
 package com.mountain.voucherApp.customer;
 
 
+import com.mountain.voucherApp.voucher.VoucherEntity;
+import com.mountain.voucherApp.voucher.repository.JdbcVoucherRepository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -17,6 +19,7 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -38,13 +41,14 @@ import static org.hamcrest.Matchers.*;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("prod")
 class CustomerNamedJdbcRepositoryTest {
 
     private static final Logger log = LoggerFactory.getLogger(CustomerNamedJdbcRepositoryTest.class);
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.mountain.voucherApp.customer"}
+            basePackages = {"com.mountain.voucherApp.customer", "com.mountain.voucherApp.voucher"}
     )
     static class Config {
         @Bean
@@ -84,9 +88,13 @@ class CustomerNamedJdbcRepositoryTest {
     CustomerNamedJdbcRepository customerNamedJdbcRepository;
 
     @Autowired
+    JdbcVoucherRepository jdbcVoucherRepository;
+
+    @Autowired
     DataSource dataSource;
 
     Customer customer;
+    VoucherEntity voucherEntity;
     EmbeddedMysql embeddedMysql;
 
     @BeforeAll
@@ -95,6 +103,10 @@ class CustomerNamedJdbcRepositoryTest {
                 "test-user",
                 "test-user@gmail.com",
                 LocalDateTime.now());
+
+        voucherEntity = new VoucherEntity(UUID.randomUUID(),
+                1,
+                1000L);
 
         MysqldConfig config = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
@@ -168,6 +180,8 @@ class CustomerNamedJdbcRepositoryTest {
     @Order(6)
     public void testUpdate() throws Exception {
         customer.changeName("updated-user");
+        jdbcVoucherRepository.insert(voucherEntity);
+        customer.setVoucherId(voucherEntity.getVoucherId());
         customerNamedJdbcRepository.update(customer);
 
         List<Customer> customers = customerNamedJdbcRepository.findAll();
@@ -178,6 +192,55 @@ class CustomerNamedJdbcRepositoryTest {
         Optional<Customer> savedCustomer = customerNamedJdbcRepository.findById(customer.getCustomerId());
         assertThat(savedCustomer.isEmpty(), is(false));
         assertThat(savedCustomer.get(), samePropertyValuesAs(customer));
+    }
+
+    @Test
+    @DisplayName("voucherId로 고객 조회.")
+    @Order(7)
+    public void testFindByVoucherId() throws Exception {
+        List<Customer> customers = customerNamedJdbcRepository.findByVoucherId(voucherEntity.getVoucherId());
+        assertThat(customers.isEmpty(), is(false));
+        assertThat(customers.get(0).getVoucherId(), is(voucherEntity.getVoucherId()));
+        List<Customer> unknown = customerNamedJdbcRepository.findByVoucherId(UUID.randomUUID());
+        assertThat(unknown.isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("동일한 voucherId를 가진 2명 고객 조회.")
+    @Order(8)
+    public void testFindByVoucherIdListCase() throws Exception {
+        Customer customer2 = new Customer(UUID.randomUUID(),
+                "test-user2",
+                "test-user2@gmail.com",
+                LocalDateTime.now());
+        customer2.setVoucherId(voucherEntity.getVoucherId());
+        customerNamedJdbcRepository.insert(customer2);
+        List<Customer> customers = customerNamedJdbcRepository.findByVoucherId(voucherEntity.getVoucherId());
+        assertThat(customers.isEmpty(), is(false));
+        assertThat(customers.size(), is(2));
+    }
+
+    @Test
+    @DisplayName("voucher id가 not null인 고객만 조회 할 수 있어야 한.")
+    @Order(9)
+    public void testVoucherIdNotNullList() throws Exception {
+        customer.setVoucherId(null);
+        customerNamedJdbcRepository.update(customer);
+        List<Customer> customers = customerNamedJdbcRepository.findByVoucherIdNotNull();
+        assertThat(customers.isEmpty(), is(false));
+        assertThat(customers.size(), is(1));
+    }
+
+    @Test
+    @DisplayName("customer id로 삭제할 수 있어야 한다.")
+    @Order(10)
+    public void removeByCustomerId() throws Exception {
+        UUID customerId = customer.getCustomerId();
+        customerNamedJdbcRepository.removeByCustomerId(customerId);
+        Optional<Customer> selectedCustomer = customerNamedJdbcRepository.findById(customerId);
+        assertThat(selectedCustomer.isEmpty(), is(true));
+        int allSize = customerNamedJdbcRepository.findAll().size();
+        assertThat(allSize, is(1));
     }
 
 }

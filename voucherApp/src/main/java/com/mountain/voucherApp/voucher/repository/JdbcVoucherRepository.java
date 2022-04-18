@@ -105,10 +105,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static RowMapper<VoucherEntity> voucherEntityRowMapper = new RowMapper<VoucherEntity>() {
         @Override
         public VoucherEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-            int discountPolicyId = rs.getInt(DISCOUNT_POLICY_ID);
-            long discountAmount = rs.getLong(DISCOUNT_AMOUNT);
             byte[] voucherId = rs.getBytes(VOUCHER_ID);
             UUID uuid = toUUID(voucherId);
+            long discountAmount = rs.getLong(DISCOUNT_AMOUNT);
+            int discountPolicyId = rs.getInt(DISCOUNT_POLICY_ID);
             return new VoucherEntity(uuid, discountPolicyId, discountAmount);
         }
     };

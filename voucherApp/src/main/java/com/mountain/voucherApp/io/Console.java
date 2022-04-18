@@ -42,6 +42,12 @@ public class Console implements Input, Output {
         textTerminal.abort();
     }
 
+
+    @Override
+    public void printMessage(String msg) {
+        textTerminal.println(msg);
+    }
+
     @Override
     public void printManual() {
         changeColor(MANUAL_COLOR);
@@ -58,12 +64,6 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printWrongInput() {
-        changeColor(ERR_COLOR);
-        textTerminal.println(WRONG_INPUT);
-    }
-
-    @Override
     public void choiceDiscountPolicy() {
         changeColor(SELECT_COLOR);
         Arrays.stream(DiscountPolicy.values())
@@ -77,35 +77,54 @@ public class Console implements Input, Output {
                 );
     }
 
-    @Override
-    public void printAmount() {
-        changeColor(SELECT_COLOR);
-        textTerminal.println(PLEASE_AMOUNT);
+    private boolean validateList(List dataList) {
+        if (dataList == null || dataList.size() == 0) {
+            textTerminal.println(EMPTY_DATA);
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void printVoucherList(List<VoucherEntity> repository) {
-        repository.stream()
-                .forEach((voucher) -> textTerminal.print(voucher.toString()));
+    public void printVoucherList(List<VoucherEntity> voucherEntityList) {
+        if (validateList(voucherEntityList)) {
+            for (int i = 0; i < voucherEntityList.size(); i++) {
+                VoucherEntity voucherEntity = voucherEntityList.get(i);
+                textTerminal.println(MessageFormat.format("{0}. 할인유형:{1}, 할인금액(비율): {2}",
+                        i,
+                        voucherEntity.getDiscountPolicyId(),
+                        voucherEntity.getDiscountAmount()));
+            }
+        }
     }
 
     @Override
-    public void printCustomerList(List<Customer> repository) {
-        for (int i = 0; i < repository.size(); i++) {
-            Customer customer = repository.get(i);
-            textTerminal.print(MessageFormat.format("{0}. [{1}], {2}, {3}{4}",
+    public void printCustomerList(List<Customer> customerList) {
+        if (validateList(customerList)) {
+            for (int i = 0; i < customerList.size(); i++) {
+                Customer customer = customerList.get(i);
+                textTerminal.println(MessageFormat.format("{0}. {1}",
+                        i,
+                        customer.getEmail()));
+            }
+        }
+    }
+
+    @Override
+    public void printCustomerVoucherInfo(List<Customer> customerList) {
+        for (int i = 0; i < customerList.size(); i++) {
+            Customer customer = customerList.get(i);
+            textTerminal.println(MessageFormat.format("{0}. customerEmail : {1}, voucherId : {2}",
                     i,
-                    customer.getVoucherId(),
-                    customer.getName(),
                     customer.getEmail(),
-                    System.lineSeparator()));
+                    customer.getVoucherId()));
         }
     }
 
     @Override
     public void printException(Exception e) {
         changeColor(ERR_COLOR);
-        textTerminal.println(e.getMessage());
+        textTerminal.println(MessageFormat.format("[{0}]: {1}", e.getClass().getCanonicalName(), e.getMessage()));
     }
 
 }
