@@ -7,7 +7,7 @@ import org.prgms.management.voucher.service.VoucherService;
 public class ListCommand implements Command {
     @Override
     public boolean execute(Input input, Output output, VoucherService voucherService, BlacklistService blacklistService) {
-        var vouchers = voucherService.getAllVouchers();
+        var vouchers = voucherService.getAll();
         output.voucherList(vouchers);
         return true;
     }

@@ -8,7 +8,7 @@ import org.prgms.management.voucher.service.VoucherService;
 public class BlacklistCommand implements Command {
     @Override
     public boolean execute(Input input, Output output, VoucherService voucherService, BlacklistService blacklistService) {
-        var blackLists = blacklistService.getAllBlackList();
+        var blackLists = blacklistService.getAll();
         output.blackList(blackLists);
         return true;
     }

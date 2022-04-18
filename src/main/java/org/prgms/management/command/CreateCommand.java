@@ -28,7 +28,7 @@ public class CreateCommand implements Command {
                 UUID.randomUUID(), discountNum, voucherName, voucherType);
 
         if (voucher.isPresent() &&
-                voucherService.createVoucher(voucher.get()).isPresent()) {
+                voucherService.insert(voucher.get()).isPresent()) {
             output.voucherCreateSuccess();
             return true;
         }

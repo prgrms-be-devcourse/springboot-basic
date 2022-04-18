@@ -1,15 +1,23 @@
 package org.prgms.management.wallet.repository;
 
 import org.prgms.management.wallet.entity.Wallet;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-// TODO : CRUD 구현
+@Component
 public interface WalletRepository {
+    Optional<Wallet> insert(Wallet wallet);
+
     Map<UUID, Wallet> getAll();
 
-    // TODO : 매개변수로 Optional 객체를 사용하는게 좋을까?
-    Optional<Wallet> insert(Wallet wallet);
+    Optional<Wallet> getById(UUID walletId);
+
+    Optional<Wallet> getByCustomerId(UUID customerId);
+
+    Optional<Wallet> delete(UUID walletId);
+
+    void deleteAll();
 }

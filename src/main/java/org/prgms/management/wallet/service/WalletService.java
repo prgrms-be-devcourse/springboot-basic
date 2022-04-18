@@ -17,11 +17,27 @@ public class WalletService {
         this.walletRepository = walletRepository;
     }
 
+    public Optional<Wallet> insertWallet(Wallet wallet) {
+        return walletRepository.insert(wallet);
+    }
+
     public Map<UUID, Wallet> getAllWallet() {
         return walletRepository.getAll();
     }
 
-    public Optional<Wallet> insertWallet(Wallet wallet) {
-        return walletRepository.insert(wallet);
+    public Optional<Wallet> getById(UUID walletId) {
+        return walletRepository.getById(walletId);
+    }
+
+    public Optional<Wallet> getByCustomerId(UUID customerId) {
+        return walletRepository.getByCustomerId(customerId);
+    }
+
+    public Optional<Wallet> delete(UUID walletId) {
+        return walletRepository.delete(walletId);
+    }
+
+    void deleteAll() {
+        walletRepository.deleteAll();
     }
 }

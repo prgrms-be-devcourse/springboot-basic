@@ -17,11 +17,31 @@ public class customerService {
         this.customerRepository = customerRepository;
     }
 
-    public Map<UUID, Customer> getAllCustomer() {
+    public Optional<Customer> insert(Customer customer) {
+        return customerRepository.insert(customer);
+    }
+
+    public Map<UUID, Customer> getAll() {
         return customerRepository.getAll();
     }
 
-    public Optional<Customer> insertCustomer(Customer customer) {
-        return customerRepository.insert(customer);
+    public Optional<Customer> getById(UUID customerId) {
+        return customerRepository.getById(customerId);
+    }
+
+    public Optional<Customer> getByName(String name) {
+        return customerRepository.getByName(name);
+    }
+
+    public Optional<Customer> update(Customer customer) {
+        return customerRepository.update(customer);
+    }
+
+    public Optional<Customer> delete(UUID customerId) {
+        return customerRepository.delete(customerId);
+    }
+
+    public void deleteAll() {
+        customerRepository.deleteAll();
     }
 }

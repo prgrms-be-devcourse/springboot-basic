@@ -1,5 +1,6 @@
 package org.prgms.management.voucher.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
@@ -9,5 +10,7 @@ public interface Voucher {
 
     String getVoucherName();
 
-    long getDiscountNum();
+    int getDiscountNum();
+
+    LocalDateTime getCreatedAt();
 }

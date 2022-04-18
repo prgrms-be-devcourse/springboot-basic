@@ -3,6 +3,7 @@ package org.prgms.management.voucher.entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentAmountVoucher implements Voucher {
@@ -17,17 +18,23 @@ public class PercentAmountVoucher implements Voucher {
     private final String voucherName;
     private final String voucherType;
 
-    private PercentAmountVoucher(UUID voucherId, int percent, String voucherName, String voucherType) {
+    private final LocalDateTime createdAt;
+
+    private PercentAmountVoucher(UUID voucherId, int percent, String voucherName, String voucherType, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherName = voucherName;
         this.voucherType = voucherType;
+        this.createdAt = createdAt;
     }
 
     public static PercentAmountVoucher getPercentAmountVoucher(
-            UUID voucherId, int amount, String voucherName, String voucherType) {
+            UUID voucherId, int amount, String voucherName,
+            String voucherType, LocalDateTime createdAt) {
         if (!validate(voucherName, amount)) return null;
-        return new PercentAmountVoucher(voucherId, amount, voucherName, voucherType);
+
+        return new PercentAmountVoucher(
+                voucherId, amount, voucherName, voucherType, createdAt);
     }
 
     private static Boolean validate(String name, int amount) {
@@ -56,21 +63,26 @@ public class PercentAmountVoucher implements Voucher {
 
     @Override
     public UUID getVoucherId() {
-        return voucherId;
+        return this.voucherId;
     }
 
     @Override
     public String getVoucherType() {
-        return voucherType;
+        return this.voucherType;
     }
 
     @Override
     public String getVoucherName() {
-        return voucherName;
+        return this.voucherName;
     }
 
     @Override
-    public long getDiscountNum() {
-        return percent;
+    public int getDiscountNum() {
+        return this.percent;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
     }
 }

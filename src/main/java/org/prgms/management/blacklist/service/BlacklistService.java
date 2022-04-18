@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-// TODO : CRUD 구현
-// TODO : Customer 클래스 생성 후 userId 대신 Customer 객체에 대응하는 메서드 구현
 @Service
 public class BlacklistService {
     private final BlackListRepository blackListRepository;
@@ -18,11 +16,27 @@ public class BlacklistService {
         this.blackListRepository = blackListRepository;
     }
 
-    public Map<UUID, Blacklist> getAllBlackList() {
+    public Map<UUID, Blacklist> getAll() {
         return blackListRepository.getAll();
     }
 
-    public Optional<Blacklist> insertBlackList(Blacklist blacklist) {
+    public Optional<Blacklist> getById(UUID blacklistId) {
+        return blackListRepository.getById(blacklistId);
+    }
+
+    public Optional<Blacklist> getByCustomerId(UUID customerId) {
+        return blackListRepository.getByCustomerId(customerId);
+    }
+
+    public Optional<Blacklist> insert(Blacklist blacklist) {
         return blackListRepository.insert(blacklist);
+    }
+
+    public Optional<Blacklist> delete(UUID blacklistId) {
+        return blackListRepository.delete(blacklistId);
+    }
+
+    public void deleteAll() {
+        blackListRepository.deleteAll();
     }
 }
