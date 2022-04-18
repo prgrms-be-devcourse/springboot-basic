@@ -5,7 +5,9 @@ import me.programmers.springboot.basic.springbootbasic.command.CommandStrategy;
 import me.programmers.springboot.basic.springbootbasic.command.CommandType;
 import me.programmers.springboot.basic.springbootbasic.command.CreateCommand;
 import me.programmers.springboot.basic.springbootbasic.command.ShowVoucherCommand;
-import me.programmers.springboot.basic.springbootbasic.io.Console;
+import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
+import me.programmers.springboot.basic.springbootbasic.io.In;
+import me.programmers.springboot.basic.springbootbasic.io.Out;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -24,12 +26,13 @@ public class CommandLineApplication {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
         VoucherService voucherService = context.getBean(VoucherService.class);
-        Console console = new Console();
+        ConsoleOutput outputConsole = new Out();
+        ConsoleInput inputConsole = new In();
 
         boolean isExit = false;
         while (!isExit) {
-            showMenu(console);
-            String inputMenu = console.inputCommand("명령어 입력: ");
+            showMenu(outputConsole);
+            String inputMenu = inputConsole.inputCommand("명령어 입력: ");
 
             CommandType commandType = getCommand(inputMenu);
             if (commandType == null) {
