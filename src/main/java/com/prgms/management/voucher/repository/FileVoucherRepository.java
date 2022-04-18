@@ -78,4 +78,9 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         return voucher;
     }
+
+    @Override
+    public void removeById(UUID voucherId) {
+        // 구현 보류
+    }
 }
