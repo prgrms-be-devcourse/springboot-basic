@@ -5,6 +5,8 @@ import com.prgrms.management.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -36,15 +38,17 @@ public class CustomerService {
         customerRepository.deleteAll();
     }
 
-    public void updateCustomer(UUID customerId) {
-
+    public void updateCustomer(UUID customerId,String customerName) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(NoSuchElementException::new);
+        customer.setName(customerName);
+        customerRepository.updateName(customer);
     }
 
-    public void findById(UUID customerId) {
-        customerRepository.findById(customerId);
+    public Customer findById(UUID customerId) {
+        return customerRepository.findById(customerId).orElseThrow(NoSuchElementException::new);
     }
 
-    public void findByEmail(String email) {
-        customerRepository.findByEmail(email);
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email).orElseThrow(NoSuchElementException::new);
     }
 }

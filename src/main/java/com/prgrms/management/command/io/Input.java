@@ -59,4 +59,10 @@ public class Input {
         String email = scanner.nextLine();
         return email;
     }
+
+    public String inputCustomerName() {
+        System.out.println(GuideType.CUSTOMERNAME.getMESSAGE());
+        String name = scanner.nextLine();
+        return name;
+    }
 }

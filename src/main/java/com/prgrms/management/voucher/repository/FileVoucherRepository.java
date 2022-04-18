@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -30,8 +31,12 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         return null;
+    }
+
+    @Override
+    public void updateVoucherWithCustomerId(UUID voucherId,UUID customerId) {
     }
 
     @Override
@@ -61,7 +66,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void findCustomerIdByVoucherType(VoucherType voucherType) {
-
+    public List<UUID> findCustomerIdByVoucherType(VoucherType voucherType) {
+        return null;
     }
 }

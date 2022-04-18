@@ -58,11 +58,12 @@ public class ConsoleCommandService implements CommandService {
                 break;
             case CREATECUSTOMER:
                 CustomerRequest customerRequest = input.inputCustomer();
-                customerService.createCustomer(new Customer(customerRequest));
+                System.out.println(customerService.createCustomer(new Customer(customerRequest)));
                 break;
             case UPDATECUSTOMER:
                 customerId = input.inputCustomerId();
-                customerService.updateCustomer(customerId);
+                String customerName = input.inputCustomerName();
+                customerService.updateCustomer(customerId,customerName);
                 break;
             case DELETECUSTOMER:
                 customerId = input.inputCustomerId();
@@ -73,11 +74,11 @@ public class ConsoleCommandService implements CommandService {
                 break;
             case FINDCUSTOMERBYID:
                 customerId = input.inputCustomerId();
-                customerService.findById(customerId);
+                System.out.println(customerService.findById(customerId));
                 break;
             case FINDCUSTOMERBYEMAIL:
                 String email = input.inputCustomerEmail();
-                customerService.findByEmail(email);
+                System.out.println(customerService.findByEmail(email));
                 break;
             case LISTCUSTOMER:
                 output.printList(customerService.findAll());
@@ -87,13 +88,13 @@ public class ConsoleCommandService implements CommandService {
                 customerId = input.inputCustomerId();
                 voucherService.createVoucherByCustomerId(voucherId,customerId);
                 break;
-            case UNASSIGNVOUCHER:
+            case DELETEVOUCHER:
                 customerId = input.inputCustomerId();
                 voucherService.deleteVoucherByCustomerId(customerId);
                 break;
             case LISTVOUCHERWITHTYPE:
                 VoucherType voucherType = input.inputVoucherType();
-                voucherService.findCustomersByVoucherType(voucherType);
+                output.printList(voucherService.findCustomersByVoucherType(voucherType));
                 break;
             case EXIT:
                 System.exit(0);

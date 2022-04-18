@@ -1,5 +1,6 @@
 package com.prgrms.management.voucher.service;
 
+import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -20,7 +22,8 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
-        return voucherRepository.save(new Voucher(voucherRequest));
+        Voucher voucher = new Voucher(voucherRequest);
+        return voucherRepository.save(voucher);
     }
 
     public List<Voucher> findAll() {
@@ -28,16 +31,14 @@ public class VoucherService {
     }
 
     public void createVoucherByCustomerId(UUID voucherId, UUID customerId) {
-        Voucher voucher = voucherRepository.findById(voucherId);
-        voucher.setCustomerId(customerId);
-        voucherRepository.save(voucher);
+        voucherRepository.updateVoucherWithCustomerId(voucherId,customerId);
     }
 
     public void deleteVoucherByCustomerId(UUID customerId) {
         voucherRepository.deleteByCustomerId(customerId);
     }
 
-    public void findCustomersByVoucherType(VoucherType voucherType) {
-        voucherRepository.findCustomerIdByVoucherType(voucherType);
+    public List<UUID> findCustomersByVoucherType(VoucherType voucherType) {
+        return voucherRepository.findCustomerIdByVoucherType(voucherType);
     }
 }

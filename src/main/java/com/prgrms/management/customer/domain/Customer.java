@@ -42,6 +42,10 @@ public class Customer {
             throw new RuntimeException("Name should not be blank");
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +

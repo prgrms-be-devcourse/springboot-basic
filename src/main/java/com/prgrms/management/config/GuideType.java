@@ -13,7 +13,7 @@ public enum GuideType {
             "Type FINDCUSTOMERBYID to find a voucher by Id.\n" +
             "Type FINDCUSTOMERBYEMAIL to find a voucher by email.\n" +
             "Type ASSIGNVOUCHER to assign customer's voucher.\n" +
-            "Type UNASSIGNVOUCHER to unassign customer's voucher.\n" +
+            "Type DELETEVOUCHER to delete customer's voucher.\n" +
             "Type LISTVOUCHERWITHTYPE to list all customerId with voucherType.\n" +
             "Type exit to exit the program.\nEnter Your Command"),
     VOUCHERTYPE("=== Choose Voucher ===\n" +

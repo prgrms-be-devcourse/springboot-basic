@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -23,8 +24,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         return null;
+    }
+
+    @Override
+    public void updateVoucherWithCustomerId(UUID voucherId,UUID customerId) {
     }
 
     @Override
@@ -40,7 +45,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void findCustomerIdByVoucherType(VoucherType voucherType) {
-
+    public List<UUID> findCustomerIdByVoucherType(VoucherType voucherType) {
+        return null;
     }
 }

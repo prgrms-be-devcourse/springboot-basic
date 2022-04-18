@@ -1,11 +1,12 @@
 package com.prgrms.management.customer.repository;
 
+import com.prgrms.management.config.ErrorMessageType;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerType;
-import com.prgrms.management.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -43,6 +44,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
+        try {
+            if (findByEmail(customer.getEmail()).isPresent()) {
+                throw new DuplicateKeyException(ErrorMessageType.DUPLICATECUSTOMEREMAIL.getMessage());
+            }
+        } catch (DuplicateKeyException e) {
+            logger.info("{}:{}", e.getClass(), e.getMessage());
+        }
         int update = jdbcTemplate.update("insert into customers(customer_id, name, email, created_at, customer_type) values (UUID_TO_BIN(?), ?, ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
                 customer.getName(),
@@ -52,7 +60,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
         }
-        System.out.println("update = " + update);
         return customer;
     }
 
@@ -80,7 +87,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         if (update != 1) {
             throw new RuntimeException("Noting was updated");
         }
-        return null;
+        return customer;
     }
 
     @Override

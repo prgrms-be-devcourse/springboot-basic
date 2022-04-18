@@ -1,31 +1,22 @@
 package com.prgrms.management.voucher.domain;
 
 import com.prgrms.management.config.ErrorMessageType;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
-@Getter
 public class Voucher {
+    private static final Long MAX_FIXED_DISCOUNT = 10000L;
+    private static final Long MAX_PERCENT_DISCOUNT = 100L;
+    private static final Long MIN_DISCOUNT = 0L;
     private UUID voucherId;
     private Long amount;
     private LocalDateTime createdAt;
     private VoucherType voucherType;
-    private UUID customerId;
+    private UUID customerId = null;
 
-    private static final Long MAX_FIXED_DISCOUNT = 100L;
-    private static final Long MAX_PERCENT_DISCOUNT = 10000L;
-    private static final Long MIN_DISCOUNT = 0L;
-
-    public Voucher(UUID voucherId, Long amount, LocalDateTime createdAt, VoucherType voucherType) {
-        this.voucherId = voucherId;
-        this.amount = amount;
-        this.createdAt = createdAt;
-        this.voucherType = voucherType;
-    }
-
-    public Voucher(UUID voucherId, Long amount, LocalDateTime createdAt, VoucherType voucherType,UUID customerId) {
+    public Voucher(UUID voucherId, Long amount, LocalDateTime createdAt, VoucherType voucherType, UUID customerId) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.createdAt = createdAt;
@@ -34,27 +25,47 @@ public class Voucher {
     }
 
     public Voucher(VoucherRequest voucherRequest) {
-        if (VoucherType.FIXED.equals(voucherRequest.getVoucherType()))
-            validateFixedAmount(amount);
+        if (voucherRequest.getVoucherType().equals(VoucherType.FIXED))
+            validateFixedAmount(voucherRequest.getAmount());
         else
-            validatePercentAmount(amount);
+            validatePercentAmount(voucherRequest.getAmount());
         this.voucherId = UUID.randomUUID();
-        this.amount = amount;
+        this.amount = voucherRequest.getAmount();
         this.voucherType = voucherRequest.getVoucherType();
         this.createdAt = LocalDateTime.now();
     }
 
-    private void validateFixedAmount(long inputAmount) {
+    private void validateFixedAmount(long amount) {
         if (amount < MIN_DISCOUNT || amount > MAX_FIXED_DISCOUNT)
             throw new NumberFormatException(VoucherType.class + ErrorMessageType.OUT_OF_RANGE_FIXED_NUMBER.getMessage());
     }
 
-    private void validatePercentAmount(long inputAmount) {
+    private void validatePercentAmount(long amount) {
         if (amount < MIN_DISCOUNT || amount > MAX_PERCENT_DISCOUNT)
             throw new NumberFormatException(VoucherType.class + ErrorMessageType.OUT_OF_RANGE_PERCENT_NUMBER.getMessage());
     }
 
     public void setCustomerId(UUID customerId) {
         this.customerId = customerId;
+    }
+
+    public UUID getCustomerId() {
+        return this.customerId;
+    }
+
+    public UUID getVoucherId() {
+        return this.voucherId;
+    }
+
+    public long getAmount() {
+        return this.amount;
+    }
+
+    public VoucherType getVoucherType() {
+        return this.voucherType;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
     }
 }
