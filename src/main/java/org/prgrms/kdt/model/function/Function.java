@@ -10,7 +10,6 @@ import org.prgrms.kdt.util.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 
@@ -60,11 +59,6 @@ public enum Function {
     }
 
     public abstract boolean execute(VoucherService voucherService);
-
-    public static boolean hasFunction(String function) {
-        return Arrays.stream(Function.values())
-                .anyMatch(f -> f.name().equals(function));
-    }
 
     Output getOutput() {
         return new OutputConsole();

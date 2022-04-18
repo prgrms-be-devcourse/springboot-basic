@@ -23,10 +23,8 @@ public class VoucherProgram implements Runnable {
 
     @Override
     public void run() {
-        boolean isEnd = false;
+        while (!execute()) {
 
-        while (!isEnd) {
-            isEnd = execute();
         }
     }
 
@@ -40,10 +38,13 @@ public class VoucherProgram implements Runnable {
     }
 
     private boolean hasFunction(String inputFunction) {
-        if (!Function.hasFunction(inputFunction)) {
-            logger.info("input [Function] -> {}", inputFunction);
+        try{
+            Function.valueOf(inputFunction);
+        }catch (IllegalArgumentException e) {
             output.printInputFunctionError();
             return false;
+        }finally {
+            logger.info("input [Function] -> {}", inputFunction);
         }
         return true;
     }
