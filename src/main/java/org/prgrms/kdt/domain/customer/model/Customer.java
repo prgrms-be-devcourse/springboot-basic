@@ -54,4 +54,16 @@ public class Customer extends BaseEntity {
             throw new IllegalArgumentException("이메일 주소를 확인해주세요");
         }
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", customerType=" + customerType +
+                ", createdDate=" + getCreatedDate().toString() +
+                ", modifiedDate=" + getModifiedDate().toString() +
+                '}';
+    }
 }
