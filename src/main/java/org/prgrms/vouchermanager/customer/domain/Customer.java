@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.customer.domain;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -12,14 +13,15 @@ public class Customer {
     private final LocalDateTime createAt;
 
     public Customer(UUID customerId, String name, String email) {
-        validate(name);
+        validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createAt = LocalDateTime.now();
+        this.createAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createAt, LocalDateTime lastLoginAt) {
+        validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -27,16 +29,12 @@ public class Customer {
         this.createAt = createAt;
     }
 
-    public void login() {
-        lastLoginAt = LocalDateTime.now();
-    }
-
     public void changeName(String name) {
-        validate(name);
+        validateName(name);
         this.name = name;
     }
 
-    private void validate(String name) {
+    private void validateName(String name) {
         if (name.isBlank()) throw new IllegalArgumentException("Name should not be blank.");
     }
 
@@ -65,11 +63,22 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return customerId.equals(customer.customerId) && email.equals(customer.email) && name.equals(customer.name);
+        return customerId.equals(customer.customerId) && name.equals(customer.name) && email.equals(customer.email) && Objects.equals(lastLoginAt, customer.lastLoginAt) && createAt.equals(customer.createAt);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(customerId, email, createAt, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", lastLoginAt=" + lastLoginAt +
+                ", createAt=" + createAt +
+                '}';
     }
 }

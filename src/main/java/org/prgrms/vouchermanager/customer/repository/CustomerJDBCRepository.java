@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,8 +21,9 @@ public class CustomerJDBCRepository implements CustomerRepository {
     private final Logger log = LoggerFactory.getLogger(CustomerJDBCRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
+
     private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        UUID customer_id = customerIdBytesToUUID(resultSet.getBytes("customer_id"));
+        UUID customer_id = UUIDBytesToUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
         LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") == null ? null : resultSet.getTimestamp("last_login_at").toLocalDateTime();
@@ -35,19 +35,15 @@ public class CustomerJDBCRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private UUID customerIdBytesToUUID(byte[] customer_ids) {
+    private UUID UUIDBytesToUUID(byte[] customer_ids) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(customer_ids);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
-    private byte[] customerIdUUIDToBytes(UUID customerId) {
-        return customerId.toString().getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
     public Customer insert(Customer customer) {
         int theNumberOfRowAffected = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, create_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
-                customer.getCustomerId().toString(),
+                customer.getCustomerId().toString().getBytes(),
                 customer.getName(),
                 customer.getEmail(),
                 Timestamp.valueOf(customer.getCreateAt()));
@@ -103,12 +99,13 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public void delete(UUID customerId) {
-        int theNumberOfRowsAffected = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerId.toString());
-        if (theNumberOfRowsAffected != 1) throw new IllegalArgumentException("delete Failed");
+        int theNumberOfRowsDeleted = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerId.toString());
+        if (theNumberOfRowsDeleted != 1) throw new IllegalArgumentException("delete Failed");
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM customers");
+        int theNumberOfRowsDeleted = jdbcTemplate.update("DELETE FROM customers");
+        log.info("{} rows are deleted.", theNumberOfRowsDeleted);
     }
 }

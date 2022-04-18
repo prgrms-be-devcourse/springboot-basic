@@ -52,6 +52,12 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Test
+    void testHikariConnectionPool() {
+        assertThat(dataSource.getClass().getName()).isEqualTo("com.zaxxer.hikari.HikariDataSource");
+    }
+
+    @Test
+    @DisplayName("고객을 삽입할 수 있다")
     @Order(1)
     void insert_고객을_삽입할_수_있다() {
         //when
@@ -61,11 +67,12 @@ class CustomerJDBCRepositoryTest {
         Customer findCustomer2 = customerJdbcRepository.findById(testCustomer2.getCustomerId()).get();
 
         //then
-        assertThat(testCustomer1.equals(findCustomer1)).isTrue();
-        assertThat(testCustomer2.equals(findCustomer2)).isTrue();
+        assertThat(findCustomer1).isEqualTo(testCustomer1);
+        assertThat(findCustomer2).isEqualTo(testCustomer2);
     }
 
     @Test
+    @DisplayName("customerId로 고객을 조회할 수 있다")
     @Order(2)
     void findById_customerId로_고객을_조회할_수_있다() {
         //given
@@ -79,6 +86,7 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Test
+    @DisplayName("고객을 업데이트 할 수 있다")
     @Order(3)
     void update_고객을_업데이트_할_수_있다() {
         //when
@@ -91,8 +99,9 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Test
+    @DisplayName("name으로 고객을 조회할 수 있다")
     @Order(4)
-    void findByName_customer_name으로_고객을_조회할_수_있다() {
+    void findByName_name으로_고객을_조회할_수_있다() {
         //given
         String name = testCustomer1.getName();
 

@@ -2,26 +2,12 @@ package org.prgrms.vouchermanager.customer.domain;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CustomerTest {
-
-    @Test
-    void login_lastLoginAt을_현재시간으로_바꾼다() {
-        //given
-        Customer customer = new Customer(UUID.randomUUID(), "foo name", "example@email.com");
-
-        //when
-        LocalDateTime loginTime = LocalDateTime.now();
-        customer.login();
-
-        //then
-        assertThat(customer.getLastLoginAt()).isAfterOrEqualTo(loginTime);
-    }
 
     @Test
     void changeName_이름을_바꾼다() {
