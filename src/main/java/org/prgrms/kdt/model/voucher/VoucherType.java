@@ -1,5 +1,7 @@
 package org.prgrms.kdt.model.voucher;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 
 public enum VoucherType {
@@ -27,4 +29,10 @@ public enum VoucherType {
     }
 
     public abstract Voucher newVoucher(UUID voucherId, int discountAmount);
+
+    public static Optional<VoucherType> getVoucherTypeByNumber(int voucherTypeNumber) {
+        return Arrays.stream(VoucherType.values())
+                .filter(t -> t.getTypeNumber() == voucherTypeNumber)
+                .findAny();
+    }
 }

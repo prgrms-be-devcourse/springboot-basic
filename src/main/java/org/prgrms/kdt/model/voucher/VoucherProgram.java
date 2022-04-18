@@ -3,7 +3,6 @@ package org.prgrms.kdt.model.voucher;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.model.function.Function;
-import org.prgrms.kdt.model.function.FunctionMapping;
 import org.prgrms.kdt.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +49,6 @@ public class VoucherProgram implements Runnable {
     }
 
     private Function getFunctionByName(String functionName) {
-        return FunctionMapping.valueOf(functionName);
+        return Function.valueOf(functionName);
     }
 }
