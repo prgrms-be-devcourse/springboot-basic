@@ -12,9 +12,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final static Integer MAX_AMOUNT = 100;
     private final static Integer MIN_AMOUNT = 0;
     public PercentDiscountVoucher(UUID voucherId, Long percent) {
-        if (percent <= MIN_AMOUNT || percent > MAX_AMOUNT) {
-            throw new IllegalArgumentException(MIN_AMOUNT + 1 + "~" + MAX_AMOUNT + " 범위의 값을 입력해주세요");
-        }
+        validatePercent(percent);
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -41,5 +39,11 @@ public class PercentDiscountVoucher implements Voucher {
                 ", percent=" + percent +
                 ", class=" + this.getClass().getSimpleName() +
                 '}';
+    }
+
+    private void validatePercent(Long percent) {
+        if (percent <= MIN_AMOUNT || percent > MAX_AMOUNT) {
+            throw new IllegalArgumentException(MIN_AMOUNT + 1 + "~" + MAX_AMOUNT + " 값을 입력해주세요");
+        }
     }
 }
