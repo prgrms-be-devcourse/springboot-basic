@@ -1,5 +1,6 @@
 package com.blessing333.springbasic.component.customer.domain;
 
+import com.blessing333.springbasic.customer.domain.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
