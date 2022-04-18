@@ -1,5 +1,12 @@
 package com.waterfogsw.voucher.voucher.controller;
 
-public interface VoucherController {
-    VoucherDto.Response voucherSave(VoucherDto.Request request);
+import com.waterfogsw.voucher.voucher.service.VoucherService;
+
+public class VoucherController {
+
+    private VoucherService voucherService;
+
+    public VoucherDto.Response voucherSave(VoucherDto.Request request) {
+        return null;
+    }
 }
