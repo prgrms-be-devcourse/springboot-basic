@@ -3,19 +3,18 @@ package org.prgrms.springbasic.repository.voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.springbasic.domain.voucher.FixedAmountVoucher;
 import org.prgrms.springbasic.domain.voucher.Voucher;
 
-import java.io.IOException;
-import java.util.UUID;
-
+import static java.util.UUID.randomUUID;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.prgrms.springbasic.domain.voucher.Voucher.fixedVoucher;
 
 class FileVoucherRepositoryTest {
 
     FileVoucherRepository repository = new FileVoucherRepository();
-    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+    Voucher voucher = fixedVoucher(randomUUID(), 10, randomUUID());
 
     @BeforeEach
     void init() {
@@ -45,11 +44,11 @@ class FileVoucherRepositoryTest {
     @Test
     @DisplayName("바우처를 저장 후 모두 조회를 하면 저장한 개수와 리스트의 사이즈가 같아야 하고 리스트는 저장한 바우처를 모두 포함해야한다.")
     void findAll() {
-        Voucher newVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10);
-        Voucher newVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20);
-        Voucher newVoucher3 = new FixedAmountVoucher(UUID.randomUUID(), 30);
-        Voucher newVoucher4 = new FixedAmountVoucher(UUID.randomUUID(), 40);
-        Voucher newVoucher5 = new FixedAmountVoucher(UUID.randomUUID(), 50);
+        Voucher newVoucher1 = fixedVoucher(randomUUID(), 10, randomUUID());
+        Voucher newVoucher2 = fixedVoucher(randomUUID(), 20, randomUUID());
+        Voucher newVoucher3 = fixedVoucher(randomUUID(), 30, randomUUID());
+        Voucher newVoucher4 = fixedVoucher(randomUUID(), 40, randomUUID());
+        Voucher newVoucher5 = fixedVoucher(randomUUID(), 50, randomUUID());
 
         repository.save(newVoucher1);
         repository.save(newVoucher2);

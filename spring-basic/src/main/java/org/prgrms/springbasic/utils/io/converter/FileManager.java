@@ -7,12 +7,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.prgrms.springbasic.utils.enumm.ErrorMessage.NOT_EXIST_ENUM_TYPE;
+import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_EXIST_ENUM_TYPE;
 
 @Slf4j
 public class FileManager<T> {
-    private BufferedWriter writer;
-    private BufferedReader reader;
     private final File file;
     private final String path;
     private int count;
