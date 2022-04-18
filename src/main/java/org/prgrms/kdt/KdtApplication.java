@@ -1,9 +1,9 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.domain.command.types.CommandType;
-import org.prgrms.kdt.domain.command.componet.CommandApplication;
-import org.prgrms.kdt.console.Input;
-import org.prgrms.kdt.console.Output;
+import org.prgrms.kdt.domain.command.componet.CommandComponent;
+import org.prgrms.kdt.util.Input;
+import org.prgrms.kdt.util.Output;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -15,13 +15,13 @@ public class KdtApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(KdtApplication.class, args);
-		CommandApplication commandApplication = context.getBean(CommandApplication.class);
+		CommandComponent commandComponent = context.getBean(CommandComponent.class);
 		CommandType commandType;
 
 		do {
 			Output.printVoucherProgram();
 			commandType = Input.inputVoucherCommand();
-			commandApplication.processCommand(commandType);
+			commandComponent.processCommand(commandType);
 		} while (commandType != CommandType.EXIT);
 	}
 }

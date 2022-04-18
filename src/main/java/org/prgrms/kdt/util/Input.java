@@ -1,4 +1,4 @@
-package org.prgrms.kdt.console;
+package org.prgrms.kdt.util;
 
 import org.prgrms.kdt.domain.command.types.CommandType;
 import org.prgrms.kdt.domain.customer.model.CustomerType;

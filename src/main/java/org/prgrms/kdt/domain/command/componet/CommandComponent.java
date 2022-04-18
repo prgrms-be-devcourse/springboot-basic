@@ -1,12 +1,12 @@
 package org.prgrms.kdt.domain.command.componet;
 
 import org.prgrms.kdt.domain.command.types.CommandType;
-import org.prgrms.kdt.console.Output;
+import org.prgrms.kdt.util.Output;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.customer.service.CustomerService;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
-import org.prgrms.kdt.console.Input;
+import org.prgrms.kdt.util.Input;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.service.VoucherService;
 import org.prgrms.kdt.domain.wallet.service.WalletService;
@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class CommandApplication {
+public class CommandComponent {
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private final WalletService walletService;
 
-    public CommandApplication(VoucherService voucherService, CustomerService customerService, WalletService walletService) {
+    public CommandComponent(VoucherService voucherService, CustomerService customerService, WalletService walletService) {
         this.voucherService = voucherService;
         this.customerService = customerService;
         this.walletService = walletService;
@@ -86,7 +86,7 @@ public class CommandApplication {
         Output.printAllCustomers(customers);
     }
 
-    private void getVoucherByCustomer() { //고객이 어떤 바우처를 보유하고 있는지 조회
+    private void getVoucherByCustomer() {
         Output.printEnterCustomerId();
         UUID customerId = Input.inputUuid();
         List<Voucher> vouchers = walletService.getVouchersByCustomerId(customerId);
