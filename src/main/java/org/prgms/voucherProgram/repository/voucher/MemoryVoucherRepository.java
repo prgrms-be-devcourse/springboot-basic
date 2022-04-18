@@ -34,24 +34,31 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        throw new AssertionError();
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        throw new AssertionError();
     }
 
     @Override
     public void deleteById(UUID voucherId) {
+        throw new AssertionError();
     }
 
     @Override
     public void deleteAll() {
+        throw new AssertionError();
     }
 
     @Override
     public Voucher assignCustomer(Voucher voucher) {
-        return null;
+        throw new AssertionError();
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        throw new AssertionError();
     }
 }
