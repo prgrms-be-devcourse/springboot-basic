@@ -5,10 +5,12 @@ import java.util.UUID;
 import org.prgms.voucherProgram.domain.menu.VoucherMenuType;
 import org.prgms.voucherProgram.domain.voucher.VoucherType;
 import org.prgms.voucherProgram.dto.VoucherDto;
+import org.prgms.voucherProgram.dto.WalletRequestDto;
 import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
 import org.prgms.voucherProgram.exception.WrongCommandException;
 import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
 import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
+import org.prgms.voucherProgram.exception.WrongEmailException;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
 import org.prgms.voucherProgram.view.InputView;
@@ -38,6 +40,7 @@ public class VoucherProgram {
                 case LIST -> outputView.printVouchers(voucherService.findAllVoucher());
                 case UPDATE -> updateVoucher();
                 case DELETE -> deleteVoucher();
+                case WALLET -> walletVoucher();
             }
         }
     }
@@ -107,6 +110,75 @@ public class VoucherProgram {
             voucherService.delete(voucherId);
         } catch (VoucherIsNotExistsException e) {
             outputView.printError(e.getMessage());
+        }
+    }
+
+    private void walletVoucher() {
+        boolean isNotEndProgram = true;
+
+        while (isNotEndProgram) {
+            VoucherMenuType walletMenuType = inputWalletMenu();
+            switch (walletMenuType) {
+                case EXIT -> isNotEndProgram = false;
+                case ASSIGN -> assignVoucher();
+                case LIST -> findAssignVouchers();
+                case DELETE -> deleteAssignVoucher();
+                case FIND -> findCustomerByVoucher();
+            }
+        }
+    }
+
+    private void deleteAssignVoucher() {
+        WalletRequestDto walletRequestDto = inputView.inputWalletInformation();
+        try {
+            voucherService.deleteAssignVoucher(walletRequestDto);
+            outputView.printSuccess();
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+        }
+    }
+
+    private void findCustomerByVoucher() {
+        UUID voucherId = inputView.inputVoucherId();
+        try {
+            outputView.printCustomer(voucherService.findCustomer(voucherId));
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+        }
+    }
+
+    private void assignVoucher() {
+        WalletRequestDto walletRequestDto = inputView.inputWalletInformation();
+        try {
+            outputView.printVoucher(voucherService.assignVoucher(walletRequestDto));
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+        }
+    }
+
+    private VoucherMenuType inputWalletMenu() {
+        while (true) {
+            try {
+                return VoucherMenuType.fromSubMenu(inputView.inputWalletMenu());
+            } catch (WrongCommandException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private void findAssignVouchers() {
+        String email = inputView.inputCustomerEmail();
+        while (true) {
+            try {
+                outputView.printWalletVouchers(voucherService.findAssignVouchers(email));
+                return;
+            } catch (WrongEmailException e) {
+                outputView.printError(e.getMessage());
+                email = inputView.inputCustomerEmail();
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+                return;
+            }
         }
     }
 }

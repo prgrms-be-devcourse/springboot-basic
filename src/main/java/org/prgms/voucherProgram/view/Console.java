@@ -8,6 +8,8 @@ import java.util.UUID;
 import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.dto.CustomerDto;
 import org.prgms.voucherProgram.dto.VoucherDto;
+import org.prgms.voucherProgram.dto.WalletRequestDto;
+import org.prgms.voucherProgram.dto.WalletVoucherDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,8 +17,9 @@ public class Console implements InputView, OutputView {
     public static final String REQUEST_UPDATE_DISCOUNT_VALUE = "Enter voucher discount value to update : ";
     private static final String PROMPT = "> ";
     private static final String REQUEST_INPUT_CONSOLE_COMMAND = "\n=== Console Program ===\nType \"exit\" to exit the program.\nType \"voucher\" run Voucher program.\nType \"customer\" run Customer program.";
-    private static final String REQUEST_INPUT_VOUCHER_COMMAND = "\n=== Voucher Program ===\nType \"exit\" to exit the Voucher program.\nType \"create\" to create a new voucher.\nType \"list\" to list all vouchers.\nType \"update\" to update voucher.\nType \"delete\" to delete voucher.";
+    private static final String REQUEST_INPUT_VOUCHER_COMMAND = "\n=== Voucher Program ===\nType \"exit\" to exit the Voucher program.\nType \"create\" to create a new voucher.\nType \"list\" to list all vouchers.\nType \"update\" to update voucher.\nType \"delete\" to delete voucher.\nType \"wallet\" to wallet voucher.";
     private static final String REQUEST_INPUT_CUSTOMER_COMMAND = "\n=== Customer Program ===\nType \"exit\" to exit the Customer program.\nType \"create\" to create a new customer.\nType \"read\" to read customers.\nType \"update\" to update customer.\nType \"delete\" to delete customer.";
+    private static final String REQUEST_INPUT_WALLET_COMMAND = "\n=== WALLET Program ===\nType \"exit\" to exit the WALLET program.\nType \"assign\" voucher assign to customer\nType \"list\" to list customer has vouchers.\nType \"delete\" to delete customer has voucher.\nType \"find\" find customer with voucher.";
     private static final String REQUEST_INPUT_VOUCHER_TYPE = "\nSelect a voucher type\nType \"1\" to create a new FixedAmountVoucher\nType \"2\" to create a new PercentDiscountVoucher";
     private static final String REQUEST_INPUT_CUSTOMER_SUB_COMMAND = "\nSelect a range\nType \"all\" to do ALL\nType \"one\" to do just one (need email input)\nType \"blacklist\" to list all black customer.";
     private static final String REQUEST_INPUT_DISCOUNT_AMOUNT = "\nInput voucher discount amount : ";
@@ -79,7 +82,7 @@ public class Console implements InputView, OutputView {
     public CustomerDto inputCustomerInformation() {
         String name = inputCustomerName();
         String email = inputCustomerEmail();
-        return new CustomerDto(UUID.randomUUID(), name, email, null, LocalDateTime.now());
+        return new CustomerDto(UUID.randomUUID(), name, email, LocalDateTime.now(), null);
     }
 
     @Override
@@ -127,6 +130,20 @@ public class Console implements InputView, OutputView {
         }
     }
 
+    @Override
+    public String inputWalletMenu() {
+        System.out.println(REQUEST_INPUT_WALLET_COMMAND);
+        System.out.print(PROMPT);
+        return scanner.nextLine().trim();
+    }
+
+    @Override
+    public WalletRequestDto inputWalletInformation() {
+        String email = inputCustomerEmail();
+        UUID voucherId = inputVoucherId();
+        return new WalletRequestDto(email, voucherId);
+    }
+
     private int convertToInt() {
         while (true) {
             try {
@@ -156,6 +173,11 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
+    public void printVoucher(WalletVoucherDto walletVoucherDto) {
+        System.out.printf("%s\n%n", walletVoucherDto);
+    }
+
+    @Override
     public void printCustomer(CustomerDto customerDto) {
         System.out.printf("%s\n%n", customerDto);
     }
@@ -169,6 +191,20 @@ public class Console implements InputView, OutputView {
 
         System.out.println();
         for (VoucherDto voucherDto : vouchers) {
+            System.out.println(voucherDto);
+        }
+        System.out.println();
+    }
+
+    @Override
+    public void printWalletVouchers(List<WalletVoucherDto> vouchers) {
+        if (vouchers.isEmpty()) {
+            System.out.printf("\n%s%n\n", EMPTY_VOUCHERS);
+            return;
+        }
+
+        System.out.println();
+        for (WalletVoucherDto voucherDto : vouchers) {
             System.out.println(voucherDto);
         }
         System.out.println();

@@ -3,6 +3,7 @@ package org.prgms.voucherProgram.dto;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.domain.voucher.VoucherType;
 
 public class WalletVoucherDto {
     private final UUID voucherId;
@@ -20,5 +21,11 @@ public class WalletVoucherDto {
     public static WalletVoucherDto from(Voucher voucher) {
         return new WalletVoucherDto(voucher.getVoucherId(), voucher.getCustomerId(), voucher.getType(),
             voucher.getDiscountValue());
+    }
+
+    @Override
+    public String toString() {
+        return "voucherId=%s, customerId=%s, type=%s, discountValue = %d".formatted(voucherId, customerId,
+            VoucherType.findByNumber(type), discountValue);
     }
 }

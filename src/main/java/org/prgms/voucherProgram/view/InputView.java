@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.prgms.voucherProgram.dto.CustomerDto;
 import org.prgms.voucherProgram.dto.VoucherDto;
+import org.prgms.voucherProgram.dto.WalletRequestDto;
 
 public interface InputView {
 
@@ -32,4 +33,8 @@ public interface InputView {
     VoucherDto inputUpdateVoucher();
 
     UUID inputVoucherId();
+
+    String inputWalletMenu();
+
+    WalletRequestDto inputWalletInformation();
 }

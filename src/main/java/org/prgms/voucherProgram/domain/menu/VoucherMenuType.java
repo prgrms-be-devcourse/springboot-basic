@@ -1,6 +1,6 @@
 package org.prgms.voucherProgram.domain.menu;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.prgms.voucherProgram.exception.WrongCommandException;
 
@@ -9,7 +9,10 @@ public enum VoucherMenuType {
     CREATE("create"),
     LIST("list"),
     UPDATE("update"),
-    DELETE("delete");
+    DELETE("delete"),
+    WALLET("wallet"),
+    ASSIGN("assign"),
+    FIND("find");
 
     private final String command;
 
@@ -18,7 +21,14 @@ public enum VoucherMenuType {
     }
 
     public static VoucherMenuType from(String command) {
-        return Arrays.stream(VoucherMenuType.values())
+        return Stream.of(EXIT, CREATE, LIST, UPDATE, DELETE, WALLET)
+            .filter(type -> type.command.equalsIgnoreCase(command))
+            .findFirst()
+            .orElseThrow(WrongCommandException::new);
+    }
+
+    public static VoucherMenuType fromSubMenu(String command) {
+        return Stream.of(EXIT, ASSIGN, LIST, FIND, DELETE)
             .filter(type -> type.command.equalsIgnoreCase(command))
             .findFirst()
             .orElseThrow(WrongCommandException::new);

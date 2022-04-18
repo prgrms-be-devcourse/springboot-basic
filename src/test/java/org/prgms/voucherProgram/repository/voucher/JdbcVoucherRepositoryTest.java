@@ -204,7 +204,7 @@ class JdbcVoucherRepositoryTest {
             .isEqualTo(assignVoucher);
     }
 
-    @DisplayName("고객에게 할당된 바우처를 반환한다.")
+    @DisplayName("고객에게 할당된 바우처를 조회한다.")
     @Test
     void should_ReturnAssignVouchers() {
         //given
