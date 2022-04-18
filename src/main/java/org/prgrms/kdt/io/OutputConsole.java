@@ -38,7 +38,7 @@ public class OutputConsole implements Output {
     }
 
     @Override
-    public void illegalArgumentExceptionMessage(IllegalArgumentException e) {
-        System.out.println(MessageFormat.format("{0}\n", e.getMessage()));
+    public void printExceptionMessage(String exceptionMessage) {
+        System.out.println(MessageFormat.format("{0}\n", exceptionMessage));
     }
 }

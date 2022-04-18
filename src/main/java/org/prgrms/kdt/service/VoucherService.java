@@ -19,7 +19,11 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(UUID voucherId, int voucherTypeNumber, int discountAmount) {
-        Voucher voucher = getVoucherTypeByNumber(voucherTypeNumber).newVoucher(voucherId, discountAmount);
+        VoucherType voucherType = getVoucherTypeByNumber(voucherTypeNumber);
+        if (voucherType == null) {
+            throw new IllegalArgumentException("WRONG : input right voucher type");
+        }
+        Voucher voucher = voucherType.newVoucher(voucherId, discountAmount);
         voucherRepository.insert(voucher);
         return voucher;
     }

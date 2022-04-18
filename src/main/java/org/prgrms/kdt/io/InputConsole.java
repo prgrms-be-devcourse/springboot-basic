@@ -4,22 +4,22 @@ import java.util.Scanner;
 
 public class InputConsole implements Input{
 
-    private final Scanner sc;
+    private final Scanner scanner;
 
     public InputConsole() {
-        this.sc = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
     }
 
-    public String function() {
-        return sc.nextLine();
+    public String inputFunction() {
+        return scanner.nextLine();
     }
 
-    public String voucherType() {
-        return sc.nextLine();
+    public String inputVoucherType() {
+        return scanner.nextLine();
     }
 
-    public String amount() {
+    public String inputAmount() {
         System.out.print("Type amount : ");
-        return sc.nextLine();
+        return scanner.nextLine();
     }
 }

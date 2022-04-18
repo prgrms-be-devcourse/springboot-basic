@@ -5,7 +5,6 @@ import org.prgrms.kdt.io.InputConsole;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.util.Utility;
 import org.slf4j.Logger;
@@ -30,10 +29,10 @@ public enum Function {
             Input input = new InputConsole() {
             };
             try {
-                createVoucherByVoucherType(input.voucherType(), input.amount(), voucherService);
+                createVoucherByVoucherType(input.inputVoucherType(), input.inputAmount(), voucherService);
             } catch (IllegalArgumentException e) {
                 logger.info("error -> {}", e.getMessage());
-                getOutput().illegalArgumentExceptionMessage(e);
+                getOutput().printExceptionMessage(e.getMessage());
             }
             return !isEndProgram;
         }
@@ -72,10 +71,6 @@ public enum Function {
     }
 
     void createVoucherByVoucherType(String voucherType, String discountAmount, VoucherService voucherService) {
-        if (!VoucherType.hasVoucherType(voucherType)) {
-            logger.info("input voucherType -> {}", voucherType);
-            throw new IllegalArgumentException("WRONG : Type right VoucherType number\n");
-        }
         voucherService.createVoucher(UUID.randomUUID(),
                 Utility.toInt(voucherType),
                 Utility.toInt(discountAmount));

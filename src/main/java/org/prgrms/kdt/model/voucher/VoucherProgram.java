@@ -32,7 +32,7 @@ public class VoucherProgram implements Runnable {
 
     private boolean execute() {
         output.printFunctions();
-        String inputFunction = input.function();
+        String inputFunction = input.inputFunction();
         if (!hasFunction(inputFunction)) {
             return false;
         }

@@ -1,8 +1,5 @@
 package org.prgrms.kdt.model.voucher;
 
-import org.prgrms.kdt.util.Utility;
-
-import java.util.Arrays;
 import java.util.UUID;
 
 public enum VoucherType {
@@ -23,12 +20,6 @@ public enum VoucherType {
 
     VoucherType(int typeNumber) {
         this.typeNumber = typeNumber;
-    }
-
-    public static boolean hasVoucherType(String inputString) {
-        if (!Utility.isNumber(inputString)) return false;
-        return Arrays.stream(VoucherType.values())
-                .anyMatch(v -> v.typeNumber == Utility.toInt(inputString));
     }
 
     public Integer getTypeNumber() {

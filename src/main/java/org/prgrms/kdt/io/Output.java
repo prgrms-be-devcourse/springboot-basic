@@ -12,5 +12,5 @@ public interface Output {
 
     void printExitMessage();
 
-    void illegalArgumentExceptionMessage(IllegalArgumentException e);
+    void printExceptionMessage(String exceptionMessage);
 }

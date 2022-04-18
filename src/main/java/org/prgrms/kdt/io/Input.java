@@ -2,10 +2,10 @@ package org.prgrms.kdt.io;
 
 public interface Input {
 
-    String function();
+    String inputFunction();
 
-    String voucherType();
+    String inputVoucherType();
 
-    String amount();
+    String inputAmount();
 
 }
