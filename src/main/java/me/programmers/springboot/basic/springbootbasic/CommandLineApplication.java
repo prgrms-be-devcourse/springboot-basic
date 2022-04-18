@@ -4,7 +4,9 @@ import me.programmers.springboot.basic.springbootbasic.command.Command;
 import me.programmers.springboot.basic.springbootbasic.command.CommandStrategy;
 import me.programmers.springboot.basic.springbootbasic.command.CommandType;
 import me.programmers.springboot.basic.springbootbasic.command.CreateCommand;
+import me.programmers.springboot.basic.springbootbasic.command.ExitCommand;
 import me.programmers.springboot.basic.springbootbasic.command.ShowVoucherCommand;
+import me.programmers.springboot.basic.springbootbasic.command.WrongCommand;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
 import me.programmers.springboot.basic.springbootbasic.io.In;
 import me.programmers.springboot.basic.springbootbasic.io.Out;
@@ -43,7 +45,7 @@ public class CommandLineApplication {
             switch (commandType) {
                 case EXIT:
                     isExit = true;
-                    logger.info("CommandLineApplication Terminate");
+                    commandStrategy = new ExitCommand();
                     break;
                 case CREATE:
                     commandStrategy = new CreateCommand(voucherService);
@@ -52,6 +54,7 @@ public class CommandLineApplication {
                     commandStrategy = new ShowVoucherCommand(voucherService);
                     break;
                 default:
+                    commandStrategy = new WrongCommand();
                     break;
             }
             Command command = new Command(commandStrategy);
