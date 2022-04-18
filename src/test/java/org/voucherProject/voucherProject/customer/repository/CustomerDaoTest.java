@@ -18,7 +18,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class TestCustomerDao {
+public class CustomerDaoTest {
 
     @Autowired
     CustomerDao customerRepository;

@@ -15,7 +15,8 @@ public class SimpleCustomerController implements CustomerController {
 
     @Override
     public Customer createCustomer(CustomerDto customerDto) {
-        return customerService.save(new Customer(customerDto.getCustomerId(), customerDto.getCustomerName(), customerDto.getCustomerEmail(), customerDto.getPassword()));
+        Customer customer = new Customer(customerDto.getCustomerId(), customerDto.getCustomerName(), customerDto.getCustomerEmail(), customerDto.getPassword());
+        return customerService.save(customer);
     }
 
     @Override

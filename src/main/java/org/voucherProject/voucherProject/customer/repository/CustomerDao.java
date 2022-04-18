@@ -23,6 +23,4 @@ public interface CustomerDao {
     Customer update(Customer customer);
 
     void deleteAll();
-
-
 }

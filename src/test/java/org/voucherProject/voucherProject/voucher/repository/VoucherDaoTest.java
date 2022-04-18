@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-public class TestVoucherDao {
+public class VoucherDaoTest {
 
     @Autowired
     VoucherDao voucherRepository;

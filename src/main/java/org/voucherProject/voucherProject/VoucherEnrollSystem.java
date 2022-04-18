@@ -24,16 +24,16 @@ public class VoucherEnrollSystem implements Runnable {
                     "Type create to create a new voucher.\n" +
                     "Type list to list all vouchers");
             try {
-                InputCommend inputCommend = InputCommend.is(inputString);
-                executeSystem(inputCommend);
+                InputCommand inputCommand = InputCommand.is(inputString);
+                executeSystem(inputCommand);
             } catch (IllegalArgumentException e) {
                 console.errorMessage();
             }
         }
     }
 
-    private void executeSystem(InputCommend inputCommend) {
-        switch (inputCommend) {
+    private void executeSystem(InputCommand inputCommand) {
+        switch (inputCommand) {
             case EXIT:
                 console.endMessage();
                 System.exit(0);
