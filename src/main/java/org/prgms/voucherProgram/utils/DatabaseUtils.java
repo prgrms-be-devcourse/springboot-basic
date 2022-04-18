@@ -30,7 +30,7 @@ public class DatabaseUtils {
         int voucherType = resultSet.getInt("type");
         Long discountValue = resultSet.getLong("discount");
         return VoucherType.findByNumber(voucherType)
-            .createVoucher(voucherId, customerId, discountValue);
+            .constructor(voucherId, customerId, discountValue);
     };
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseUtils.class);

@@ -12,11 +12,11 @@ public enum VoucherType {
     private static final String ERROR_WRONG_VOUCHER_COMMAND_MESSAGE = "[ERROR] 올바른 바우처 타입이 아닙니다.";
 
     private final int number;
-    private final TriFunction<UUID, UUID, Long, Voucher> createVoucher;
+    private final TriFunction<UUID, UUID, Long, Voucher> constructor;
 
-    VoucherType(int number, TriFunction<UUID, UUID, Long, Voucher> createVoucher) {
+    VoucherType(int number, TriFunction<UUID, UUID, Long, Voucher> constructor) {
         this.number = number;
-        this.createVoucher = createVoucher;
+        this.constructor = constructor;
     }
 
     public static VoucherType findByNumber(int number) {
@@ -30,8 +30,8 @@ public enum VoucherType {
         System.out.println(Arrays.toString(VoucherType.values()));
     }
 
-    public Voucher createVoucher(UUID voucherId, UUID customerId, long discountValue) {
-        return createVoucher.apply(voucherId, customerId, discountValue);
+    public Voucher constructor(UUID voucherId, UUID customerId, long discountValue) {
+        return constructor.apply(voucherId, customerId, discountValue);
     }
 
     public int getNumber() {

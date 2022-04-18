@@ -22,7 +22,7 @@ public class VoucherDto {
 
     public Voucher toEntity() {
         return VoucherType.findByNumber(type)
-            .createVoucher(voucherId, null, discountValue);
+            .constructor(voucherId, null, discountValue);
     }
 
     public UUID getVoucherId() {
