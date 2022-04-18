@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -191,5 +192,45 @@ class VoucherServiceTest {
         assertThatThrownBy(() -> voucherService.assignVoucher(walletRequestDto))
             .isInstanceOf(VoucherIsNotExistsException.class)
             .hasMessage("[ERROR] 해당 아이디로 저장된 바우처가 없습니다.");
+    }
+
+    @DisplayName("고객에게 할당된 바우처를 조회한다.")
+    @Test
+    void should_ReturnAssignVouchers() {
+        // given
+        UUID customerId = UUID.randomUUID();
+        Customer customer = new Customer(customerId, "hwan", "hwan@gmail.com", LocalDateTime.now());
+        given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+        given(voucherRepository.findByCustomerId(any(UUID.class))).willReturn(vouchers(customerId));
+
+        // when
+        List<WalletVoucherDto> vouchers = voucherService.findAssignVouchers(customer.getEmail());
+
+        // then
+        assertThat(vouchers).hasSize(5);
+        then(customerRepository).should(times(1)).findByEmail(any(String.class));
+        then(voucherRepository).should(times(1)).findByCustomerId(any(UUID.class));
+    }
+
+    @DisplayName("할당된 바우처 조회 시 존재하지 않는 고객이라면 예외를 발생한다.")
+    @Test
+    void should_ThrowException_WhenCustomerIsNotExists() {
+        // given
+        String email = "hwan@gmail.com";
+        given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
+
+        // when
+        // then
+        assertThatThrownBy(() -> voucherService.findAssignVouchers(email))
+            .isInstanceOf(CustomerIsNotExistsException.class)
+            .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
+    }
+
+    private List<Voucher> vouchers(UUID customerId) {
+        List<Voucher> vouchers = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), customerId, 10L));
+        }
+        return vouchers;
     }
 }

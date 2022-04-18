@@ -45,7 +45,9 @@ class JdbcVoucherRepositoryTest {
     private static final List<Voucher> vouchers = List.of(
         new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L),
         new PercentDiscountVoucher(UUID.randomUUID(), 30L));
+
     private static EmbeddedMysql embeddedMysql;
+
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
 
@@ -200,6 +202,24 @@ class JdbcVoucherRepositoryTest {
             .get()
             .usingRecursiveComparison()
             .isEqualTo(assignVoucher);
+    }
+
+    @DisplayName("고객에게 할당된 바우처를 반환한다.")
+    @Test
+    void should_ReturnAssignVouchers() {
+        //given
+        UUID customerId = UUID.randomUUID();
+        List<Voucher> vouchers = List.of(new FixedAmountVoucher(UUID.randomUUID(), customerId, 20L),
+            new PercentDiscountVoucher(UUID.randomUUID(), customerId, 30L));
+        vouchers.forEach(jdbcVoucherRepository::save);
+
+        //when
+        List<Voucher> findVouchers = jdbcVoucherRepository.findByCustomerId(customerId);
+
+        //then
+        assertThat(findVouchers).hasSize(2)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+            .containsAll(vouchers);
     }
 
     @Configuration

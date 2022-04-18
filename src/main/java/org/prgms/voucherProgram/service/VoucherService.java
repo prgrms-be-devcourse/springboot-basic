@@ -67,4 +67,15 @@ public class VoucherService {
         voucher.assignCustomer(customer.getCustomerId());
         return WalletVoucherDto.from(voucherRepository.assignCustomer(voucher));
     }
+
+    public List<WalletVoucherDto> findAssignVouchers(String customerEmail) {
+        Email email = new Email(customerEmail);
+        Customer customer = customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
+            throw new CustomerIsNotExistsException();
+        });
+
+        return voucherRepository.findByCustomerId(customer.getCustomerId()).stream()
+            .map(WalletVoucherDto::from)
+            .collect(toList());
+    }
 }

@@ -84,4 +84,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
         DatabaseUtils.validateExecute(result);
         return voucher;
     }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE customer_id = UUID_TO_BIN(?)",
+            DatabaseUtils.voucherRowMapper,
+            DatabaseUtils.toBytes(customerId));
+    }
 }
