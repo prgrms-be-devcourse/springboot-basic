@@ -12,6 +12,7 @@ import org.prgms.voucherProgram.dto.VoucherDto;
 import org.prgms.voucherProgram.dto.WalletRequestDto;
 import org.prgms.voucherProgram.dto.WalletVoucherDto;
 import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
+import org.prgms.voucherProgram.exception.NotFoundVoucherException;
 import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
 import org.prgms.voucherProgram.repository.customer.CustomerRepository;
 import org.prgms.voucherProgram.repository.voucher.VoucherRepository;
@@ -55,27 +56,42 @@ public class VoucherService {
     }
 
     public WalletVoucherDto assignVoucher(WalletRequestDto walletRequestDto) {
-        Email email = new Email(walletRequestDto.getCustomerEmail());
-        Customer customer = customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
-            throw new CustomerIsNotExistsException();
-        });
-
-        Voucher voucher = voucherRepository.findById(walletRequestDto.getVoucherId()).orElseThrow(() -> {
-            throw new VoucherIsNotExistsException();
-        });
+        Customer customer = findCustomer(walletRequestDto.getCustomerEmail());
+        Voucher voucher = findVoucher(walletRequestDto.getVoucherId());
 
         voucher.assignCustomer(customer.getCustomerId());
         return WalletVoucherDto.from(voucherRepository.assignCustomer(voucher));
     }
 
     public List<WalletVoucherDto> findAssignVouchers(String customerEmail) {
-        Email email = new Email(customerEmail);
-        Customer customer = customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
-            throw new CustomerIsNotExistsException();
-        });
+        Customer customer = findCustomer(customerEmail);
 
         return voucherRepository.findByCustomerId(customer.getCustomerId()).stream()
             .map(WalletVoucherDto::from)
             .collect(toList());
+    }
+
+    public void deleteAssignVoucher(WalletRequestDto walletRequestDto) {
+        Customer customer = findCustomer(walletRequestDto.getCustomerEmail());
+
+        Voucher voucher = voucherRepository.findByCustomerId(customer.getCustomerId()).stream()
+            .filter(findVoucher -> findVoucher.isSameVoucher(walletRequestDto.getVoucherId()))
+            .findFirst()
+            .orElseThrow(NotFoundVoucherException::new);
+        
+        voucherRepository.deleteById(voucher.getVoucherId());
+    }
+
+    private Customer findCustomer(String requestEmail) {
+        Email email = new Email(requestEmail);
+        return customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
+            throw new CustomerIsNotExistsException();
+        });
+    }
+
+    private Voucher findVoucher(UUID voucherId) {
+        return voucherRepository.findById(voucherId).orElseThrow(() -> {
+            throw new VoucherIsNotExistsException();
+        });
     }
 }

@@ -22,6 +22,10 @@ public abstract class Voucher implements Serializable {
         this.customerId = customerId;
     }
 
+    public boolean isSameVoucher(UUID voucherId) {
+        return this.voucherId.equals(voucherId);
+    }
+
     public UUID getVoucherId() {
         return voucherId;
     }

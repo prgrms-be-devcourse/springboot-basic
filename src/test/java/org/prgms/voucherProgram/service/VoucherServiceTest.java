@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +28,7 @@ import org.prgms.voucherProgram.dto.VoucherDto;
 import org.prgms.voucherProgram.dto.WalletRequestDto;
 import org.prgms.voucherProgram.dto.WalletVoucherDto;
 import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
+import org.prgms.voucherProgram.exception.NotFoundVoucherException;
 import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
 import org.prgms.voucherProgram.repository.customer.CustomerRepository;
 import org.prgms.voucherProgram.repository.voucher.VoucherRepository;
@@ -224,6 +226,55 @@ class VoucherServiceTest {
         assertThatThrownBy(() -> voucherService.findAssignVouchers(email))
             .isInstanceOf(CustomerIsNotExistsException.class)
             .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
+    }
+
+    @DisplayName("고객이 보유한 바우처를 삭제한다.")
+    @Test
+    void should_DeleteAssign() {
+        // given
+        UUID customerId = UUID.randomUUID();
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), customerId, 10L);
+        Customer customer = new Customer(customerId, "hwan", "hwan@gmail.com", LocalDateTime.now());
+        WalletRequestDto walletRequestDto = new WalletRequestDto(customer.getEmail(), voucher.getVoucherId());
+        given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+        given(voucherRepository.findByCustomerId(any(UUID.class))).willReturn(List.of(voucher));
+
+        // when
+        voucherService.deleteAssignVoucher(walletRequestDto);
+
+        // then
+        then(customerRepository).should(times(1)).findByEmail(any(String.class));
+        then(voucherRepository).should(times(1)).findByCustomerId(any(UUID.class));
+        then(voucherRepository).should(times(1)).deleteById(any(UUID.class));
+    }
+
+    @DisplayName("바우처 삭제 시 고객이 존재하지 않는다면 예외를 발생한다.")
+    @Test
+    void should_ThrowException_When_DeleteCustomerIsNotExists() {
+        // given
+        WalletRequestDto walletRequestDto = new WalletRequestDto("hwan@gmail.com", UUID.randomUUID());
+        given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
+
+        // when
+        // then
+        assertThatThrownBy(() -> voucherService.deleteAssignVoucher(walletRequestDto))
+            .isInstanceOf(CustomerIsNotExistsException.class)
+            .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
+    }
+
+    @DisplayName("바우처 삭제 시 바우처가 존재하지 않는다면 예외를 발생한다.")
+    @Test
+    void should_ThrowException_When_DeleteVoucherIsNotExists() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        WalletRequestDto walletRequestDto = new WalletRequestDto("hwan@gmail.com", UUID.randomUUID());
+        given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+        given(voucherRepository.findByCustomerId(any(UUID.class))).willReturn(Collections.emptyList());
+        // when
+        // then
+        assertThatThrownBy(() -> voucherService.deleteAssignVoucher(walletRequestDto))
+            .isInstanceOf(NotFoundVoucherException.class)
+            .hasMessage("[ERROR] 고객이 가진 바우처들에서 해당 아이디를 가진 바우처를 찾을 수 없습니다.");
     }
 
     private List<Voucher> vouchers(UUID customerId) {
