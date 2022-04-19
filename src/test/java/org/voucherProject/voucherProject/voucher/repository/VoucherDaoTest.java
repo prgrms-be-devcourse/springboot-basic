@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.customer.repository.CustomerDao;
-import org.voucherProject.voucherProject.voucher.entity.FixedAmountVoucher;
-import org.voucherProject.voucherProject.voucher.entity.PercentDiscountVoucher;
-import org.voucherProject.voucherProject.voucher.entity.Voucher;
-import org.voucherProject.voucherProject.voucher.entity.VoucherStatus;
+import org.voucherProject.voucherProject.voucher.entity.*;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,40 +17,120 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class VoucherDaoTest {
 
     @Autowired
-    VoucherDao voucherRepository;
+    VoucherDao voucherDao;
 
     @Autowired
     CustomerDao customerRepository;
 
     @BeforeEach
     void setup() {
-        voucherRepository.deleteAll();
+        voucherDao.deleteAll();
         customerRepository.deleteAll();
 
         customer = new Customer(UUID.randomUUID(), "aaa", "a@naver.com", "1234");
         customerRepository.save(customer);
 
         voucher = new FixedAmountVoucher(UUID.randomUUID(), 2, customer.getCustomerId());
-        voucherRepository.save(voucher);
+        voucherDao.save(voucher);
 
     }
 
     Customer customer;
     Voucher voucher;
 
+
     @Nested
-    @DisplayName("바우처 조회")
-    class findVoucher {
+    @DisplayName("바우처 생성")
+    class createVoucher {
+
+        private final int MIN_DISCOUNT_AMOUNT = 0;
+        private final int MAX_DISCOUNT_AMOUNT = 10000;
+
+        private final int MIN_DISCOUNT_PERCENT = 0;
+        private final int MAX_DISCOUNT_PERCENT = 100;
+
         @Test
-        @DisplayName("조회 성공")
-        public void findVoucher() throws Exception {
-            assertThat(voucherRepository.findById(voucher.getVoucherId()).isPresent()).isTrue();
+        @DisplayName("Fixed 생성 성공")
+        public void createFixedVoucher() throws Exception {
+            VoucherType.FIXED.createVoucher(1, UUID.randomUUID());
         }
 
         @Test
-        @DisplayName("없는 바우처")
+        @DisplayName("Percent 생성 성공")
+        public void createPercentVoucher() throws Exception {
+            VoucherType.PERCENT.createVoucher(1, UUID.randomUUID());
+        }
+
+        @Test
+        @DisplayName("Fixed(-1) 생성 -> 실패")
+        public void createMinusFixedVoucher() throws Exception {
+            assertThrows(IllegalArgumentException.class, () -> VoucherType.FIXED.createVoucher(-1, UUID.randomUUID()));
+        }
+
+        @Test
+        @DisplayName("Percent(-1) 생성 -> 실패")
+        public void createMaxPercentVoucher() throws Exception {
+            assertThrows(IllegalArgumentException.class, () -> VoucherType.PERCENT.createVoucher(-1, UUID.randomUUID()));
+        }
+
+        @Test
+        @DisplayName("Fixed(Max) 생성 -> 실패")
+        public void createMaxFixedVoucher() throws Exception {
+            assertThrows(IllegalArgumentException.class, () -> VoucherType.FIXED.createVoucher(MAX_DISCOUNT_AMOUNT+1, UUID.randomUUID()));
+        }
+
+        @Test
+        @DisplayName("Percent(Max) 생성 -> 실패")
+        public void createMinusPercentVoucher() throws Exception {
+            assertThrows(IllegalArgumentException.class, () -> VoucherType.PERCENT.createVoucher(MAX_DISCOUNT_PERCENT+1, UUID.randomUUID()));
+        }
+    }
+
+    @Nested
+    @DisplayName("할인 결과")
+    class discount {
+        @Test
+        @DisplayName("고정할인 결과 성공")
+        public void discountFixed() {
+            Voucher voucher = VoucherType.FIXED.createVoucher(1000, UUID.randomUUID());
+            long discount = voucher.discount(10000);
+            assertThat(discount).isEqualTo(9000);
+        }
+
+        @Test
+        @DisplayName("퍼센트할인 결과 성공")
+        public void discountPercent() {
+            Voucher voucher = VoucherType.PERCENT.createVoucher(10, UUID.randomUUID());
+            long discount = voucher.discount(10000);
+            assertThat(discount).isEqualTo(9000);
+        }
+        @Test
+        @DisplayName("고정할인 결과 결과값이 0보다 작을 때 -> 실패")
+        public void FixedBigDiscount() {
+            Voucher voucher = VoucherType.FIXED.createVoucher(1001, UUID.randomUUID());
+            assertThrows(IllegalArgumentException.class, () -> voucher.discount(1000));
+        }
+    }
+
+    @Nested
+    @DisplayName("바우처 조회")
+    class findVoucherId {
+        @Test
+        @DisplayName("유효한 바우처 아이디 존재 -> 성공")
+        public void findVoucher() throws Exception {
+            assertThat(voucherDao.findById(voucher.getVoucherId()).isPresent()).isTrue();
+        }
+
+        @Test
+        @DisplayName("바우처 아이디가 db에 존재하지 않을 때 -> 실패")
         public void findVoidVoucher() throws Exception {
-            assertThat(voucherRepository.findById(UUID.randomUUID()).isEmpty()).isTrue();
+            assertThat(voucherDao.findById(UUID.randomUUID()).isEmpty()).isTrue();
+        }
+
+        @Test
+        @DisplayName("바우처 아이디가 db에 존재하지 않을 때 -> 실패")
+        public void findNull() throws Exception {
+            assertThrows(RuntimeException.class, () -> voucherDao.findById(null));
         }
     }
 
@@ -60,7 +138,7 @@ public class VoucherDaoTest {
     @DisplayName("같은 바우처아이디 중복 저장")
     public void saveSameVoucherId() throws Exception {
         Voucher voucherWithSameId = new FixedAmountVoucher(voucher.getVoucherId(), 41, UUID.randomUUID());
-        assertThrows(RuntimeException.class, () -> voucherRepository.save(voucherWithSameId));
+        assertThrows(RuntimeException.class, () -> voucherDao.save(voucherWithSameId));
     }
 
     @Test
@@ -69,27 +147,44 @@ public class VoucherDaoTest {
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3, UUID.randomUUID());
         Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2, UUID.randomUUID());
         Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
-        voucherRepository.save(voucher1);
-        voucherRepository.save(voucher2);
-        voucherRepository.save(voucher3);
+        voucherDao.save(voucher1);
+        voucherDao.save(voucher2);
+        voucherDao.save(voucher3);
 
-        List<Voucher> findAllVoucher = voucherRepository.findAll();
+        List<Voucher> findAllVoucher = voucherDao.findAll();
 
         assertThat(findAllVoucher.size()).isEqualTo(4);
     }
 
-    @Test
-    @DisplayName("고객이 보유한 바우처를 조회")
-    public void findByCustomerId() throws Exception {
-        List<Voucher> vouchersByCustomer = voucherRepository.findByCustomerId(customer.getCustomerId());
-        assertThat(vouchersByCustomer.size()).isEqualTo(1);
-    }
+    @Nested
+    @DisplayName("고객 아이디로 조회")
+    class findByCustomerId {
+        @Test
+        @DisplayName("고객이 보유한 바우처를 조회")
+        public void findByCustomerId() throws Exception {
+            List<Voucher> vouchersByCustomer = voucherDao.findByCustomerId(customer.getCustomerId());
+            assertThat(vouchersByCustomer.size()).isEqualTo(1);
+        }
 
+        @Test
+        @DisplayName("고객이 보유한 바우처를 조회 -> 없을때 -> 조회수 0")
+        public void findByVoidCustomerId() throws Exception {
+            List<Voucher> vouchersByCustomer = voucherDao.findByCustomerId(UUID.randomUUID());
+            assertThat(vouchersByCustomer.size()).isEqualTo(0);
+        }
+
+        @Test
+        @DisplayName("고객이 보유한 바우처를 조회 -> null -> 예외 발생")
+        public void findByNullCustomerId() throws Exception {
+            assertThrows(RuntimeException.class, () -> voucherDao.findByCustomerId(null));
+        }
+
+    }
     @Test
-    @DisplayName("바우처 업데이트")
+    @DisplayName("바우처 업데이트 (바우처 상태가 valid -> expired)")
     public void update() throws Exception {
         voucher.useVoucher();
-        Voucher updateVoucher = voucherRepository.update(voucher);
+        Voucher updateVoucher = voucherDao.update(voucher);
 
         assertThat(updateVoucher.getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
     }
@@ -98,33 +193,53 @@ public class VoucherDaoTest {
     @DisplayName("고객이 가진 바우처 제거")
     class deleteVoucher {
         @Test
-        @DisplayName("제거 성공")
+        @DisplayName("바우처 제거 성공")
         public void deleteOneVoucherByCustomerId() throws Exception {
-            voucherRepository.deleteOneByCustomerId(customer.getCustomerId(),voucher.getVoucherId());
+            voucherDao.deleteOneByCustomerId(customer.getCustomerId(),voucher.getVoucherId());
 
-            Optional<Voucher> byId = voucherRepository.findById(voucher.getVoucherId());
+            Optional<Voucher> byId = voucherDao.findById(voucher.getVoucherId());
             assertThat(byId.isEmpty()).isTrue();
         }
 
         @Test
-        @DisplayName("고객 아이디 오류")
+        @DisplayName("바우처 아이디는 유효,고객 아이디가 없는 아이디 -> 예외 발생")
         public void deleteWrongCustomerId() throws Exception {
             Assertions.assertThrows(RuntimeException.class,
-                    () -> voucherRepository.deleteOneByCustomerId(UUID.randomUUID(), voucher.getVoucherId()));
+                    () -> voucherDao.deleteOneByCustomerId(UUID.randomUUID(), voucher.getVoucherId()));
         }
 
         @Test
-        @DisplayName("바우처 아이디 오류")
+        @DisplayName("바우처 아이디는 없고, 고객 아이디는 유효할 때 -> 예외 발생")
         public void deleteWrongVoucherId() throws Exception {
             Assertions.assertThrows(RuntimeException.class,
-                    () -> voucherRepository.deleteOneByCustomerId(customer.getCustomerId(), UUID.randomUUID()));
+                    () -> voucherDao.deleteOneByCustomerId(customer.getCustomerId(), UUID.randomUUID()));
         }
 
         @Test
-        @DisplayName("바우처, 고객 아이디 오류")
+        @DisplayName("바우처, 고객 아이디가 없는 아이디일 때")
         public void deleteWrongCustomerIdAndVoucherId() throws Exception {
             Assertions.assertThrows(RuntimeException.class,
-                    () -> voucherRepository.deleteOneByCustomerId(UUID.randomUUID(), UUID.randomUUID()));
+                    () -> voucherDao.deleteOneByCustomerId(UUID.randomUUID(), UUID.randomUUID()));
+        }
+        @Test
+        @DisplayName("바우처 아이디는 유효,고객 아이디가 Null -> 예외 발생")
+        public void deleteNUllCustomerId() throws Exception {
+            Assertions.assertThrows(RuntimeException.class,
+                    () -> voucherDao.deleteOneByCustomerId(null, voucher.getVoucherId()));
+        }
+
+        @Test
+        @DisplayName("바우처 아이디는 Null, 고객 아이디는 유효할 때 -> 예외 발생")
+        public void deleteNullVoucherId() throws Exception {
+            Assertions.assertThrows(RuntimeException.class,
+                    () -> voucherDao.deleteOneByCustomerId(customer.getCustomerId(), null));
+        }
+
+        @Test
+        @DisplayName("바우처, 고객 아이디가 Null일 때")
+        public void deleteNullCustomerIdAndVoucherId() throws Exception {
+            Assertions.assertThrows(RuntimeException.class,
+                    () -> voucherDao.deleteOneByCustomerId(null, null));
         }
     }
 }

@@ -42,6 +42,9 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
+        if (beforeDiscount - amount < 0) {
+            throw new IllegalArgumentException();
+        }
         return beforeDiscount - amount;
     }
 
