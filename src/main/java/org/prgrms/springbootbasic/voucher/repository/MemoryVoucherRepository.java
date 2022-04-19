@@ -24,13 +24,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
   }
 
   @Override
-  public String findAll() {
-    StringBuffer stringBuffer = new StringBuffer();
-
-    for(UUID voucherId :storage.keySet()) {
-      stringBuffer.append(storage.get(voucherId).toString() + "\n");
-    }
-
-    return stringBuffer.toString();
+  public Map<UUID, Voucher> findAll() {
+    return storage;
   }
 }

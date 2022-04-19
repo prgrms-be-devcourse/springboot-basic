@@ -2,6 +2,7 @@ package org.prgrms.springbootbasic.voucher.repository;
 
 import org.prgrms.springbootbasic.voucher.voucher.Voucher;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,5 +11,5 @@ public interface VoucherRepository {
 
   Voucher insert(Voucher voucher);
 
-  String findAll();
+  Map<UUID, Voucher> findAll();
 }
