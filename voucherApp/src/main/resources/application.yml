@@ -1,0 +1,3 @@
+file-repository:
+  dir: "vouchers"
+  file-name: "list.txt"
