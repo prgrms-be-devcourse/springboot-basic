@@ -82,9 +82,9 @@ public class VoucherSystem {
             return;
         }
 
-        int discount = Integer.parseInt(discountString);
+        Long discount = Long.parseLong(discountString);
         logger.info("할인값 입력: " + discountString);
-        voucherService.createVoucher(inputString, (long) discount);
+        voucherService.createVoucher(inputString, discount);
     }
 
     private boolean isNumber(String str) {
