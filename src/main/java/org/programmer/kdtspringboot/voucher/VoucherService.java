@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -18,11 +17,11 @@ public class VoucherService {
 
     public void createVoucher(String type, Long value) {
         //타입을 가져오고
-        try{
+        try {
             VoucherType voucherType = VoucherType.getVoucherType(type);
             Voucher voucher = voucherType.create(value);
             voucherRepository.insert(voucher);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             logger.info("Voucher Type 잘못 입력 했습니다 {}", type);
         }
 
