@@ -25,7 +25,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType type) throws NumberFormatException {
-        Voucher voucher;
+        Voucher voucher = null;
 
         switch (type) {
             case FIXED_AMOUNT:
@@ -33,18 +33,21 @@ public class VoucherService {
                 String fixedAmount = sc.next();
                 voucher = new FixedAmountVoucher(UUID.randomUUID(), Long.valueOf(fixedAmount));
                 break;
-            default:
+            case PERCENT_DISCOUNT:
                 System.out.print("할인율을 입력하세요 ==> ");
                 String percent = sc.next();
                 voucher = new PercentDiscountVoucher(UUID.randomUUID(), Double.valueOf(percent));
+                break;
+            default:
+                //추가 로직
                 break;
         }
 
         System.out.println("할인권이 정상적으로 생성 및 저장되었습니다. " +
                 "(생성된 할인권 ID: " + voucher.getVoucherId() + ")");
-        voucherRepository.insert(voucher);
+        Voucher result = voucherRepository.insert(voucher);
 
-        return voucher;
+        return result;
     }
 
     public Optional<Voucher> findVoucher(String voucherId) {

@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.service;
 
+import com.programmers.springbootbasic.ConsoleApp;
 import com.programmers.springbootbasic.domain.Voucher;
 import com.programmers.springbootbasic.domain.VoucherType;
 
@@ -7,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class VoucherManager implements Runnable {
+public class VoucherManagementApp implements ConsoleApp {
 
     private final Scanner sc = new Scanner(System.in);
 
     private VoucherService voucherService;
 
-    public VoucherManager(VoucherService voucherService) {
+    public VoucherManagementApp(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
@@ -84,7 +85,7 @@ public class VoucherManager implements Runnable {
         if (vouchers.size() == 0)
             System.out.println("생성된 할인권이 없습니다.");
         else
-            vouchers.stream().forEach(System.out::println);
+            vouchers.forEach(System.out::println);
     }
 
 }
