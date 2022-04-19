@@ -16,14 +16,14 @@ public class ConsoleInput implements Input {
   @Override
   public String readCommand() {
     output.printInputMessage();
-    String command = scanner.nextLine();
+    String command = scanner.nextLine().trim();
     return command;
   }
 
   @Override
   public String readVoucherType() {
     output.printVoucherTypeMessage();
-    String voucherType = scanner.nextLine();
+    String voucherType = scanner.nextLine().trim();
     return voucherType;
   }
 }

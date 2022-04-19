@@ -9,7 +9,14 @@ import java.util.UUID;
 
 @Component
 public class ConsoleOutput implements Output {
-  public static final String AVAILABLE_COMMANDS = "=== Voucher Program ===\nType exit to exit the program.\nType create to create a new voucher.\nType list to list all vouchers.\n";
+  public static final String AVAILABLE_COMMANDS = "=== Voucher Program ===" +
+    System.lineSeparator() +
+    "Type exit to exit the program." +
+    System.lineSeparator() +
+    "Type create to create a new voucher." +
+    System.lineSeparator() +
+    "Type list to list all vouchers." +
+    System.lineSeparator();
   public static final String AVAILABLE_VOUCHERS = "Which type do you want, FixedAmountVoucher(Fixed) or PercentDiscountVoucher(Percent)?";
   public static final String INPUT = "Input: ";
   public static final String VOUCHER_TYPE = "Input Voucher Type: ";
