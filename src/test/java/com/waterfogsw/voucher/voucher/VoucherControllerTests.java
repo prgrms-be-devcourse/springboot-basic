@@ -32,7 +32,7 @@ public class VoucherControllerTests {
 
         @Nested
         @DisplayName("바우처 타입이 null 들어오면")
-        class Context_with_voucher_creation_error_with_null_type {
+        class Context_with_type_null {
 
             @Test
             @DisplayName("에러 메시지를 리턴한다")
@@ -46,8 +46,8 @@ public class VoucherControllerTests {
         }
 
         @Nested
-        @DisplayName("fixed amount 바우처 타입의 amount 가 null 이 들어오면")
-        class Context_with_fixed_voucher_creation_error_with_null_amount {
+        @DisplayName("value 가 null 이 들어오면")
+        class Context_with_value_null {
 
             @Test
             @DisplayName("에러 메시지를 리턴한다")
@@ -61,55 +61,8 @@ public class VoucherControllerTests {
         }
 
         @Nested
-        @DisplayName("fixed amount 바우처 타입의 amount 의 범위를 벗어난 값이 들어와 생성과정에서 에러가 발생하면")
-        class Context_with_fixed_voucher_creation_error_with_out_of_range {
-
-            @Test
-            @DisplayName("에러 메시지를 리턴한다")
-            void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, -1d);
-                doThrow(new IllegalArgumentException()).when(voucherService).saveVoucher(Mockito.any(Voucher.class));
-
-                VoucherDto.Response response = controller.voucherSave(request);
-
-                assertThat(response.getReturnMessage(), is(ErrorMessages.OUT_OF_RANGE));
-            }
-        }
-
-        @Nested
-        @DisplayName("percent discount 바우처 타입의 percent 가 null 이 들어와 에러가 발생하면")
-        class Context_with_fixed_voucher_creation_error_with_null_percent {
-
-            @Test
-            @DisplayName("에러 메시지를 리턴한다")
-            void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.PERCENT_DISCOUNT, null);
-
-                VoucherDto.Response response = controller.voucherSave(request);
-
-                assertThat(response.getReturnMessage(), is(ErrorMessages.OUT_OF_RANGE));
-            }
-        }
-
-        @Nested
-        @DisplayName("percent discount 바우처 타입의 percent 가 범위를 벗어난 값이 들어와 생성과정에서 에러가 발생하면")
-        class Context_with_voucher_creation_error_with_percent_out_of_range {
-
-            @Test
-            @DisplayName("에러 메시지를 리턴한다")
-            void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.PERCENT_DISCOUNT, -1d);
-                doThrow(new IllegalArgumentException()).when(voucherService).saveVoucher(Mockito.any(Voucher.class));
-
-                VoucherDto.Response response = controller.voucherSave(request);
-
-                assertThat(response.getReturnMessage(), is(ErrorMessages.OUT_OF_RANGE));
-            }
-        }
-
-        @Nested
         @DisplayName("바우처가 정상적으로 생성되면")
-        class Context_with_voucher_creation_success {
+        class Context_with_all_argument_not_null {
             @Captor
             ArgumentCaptor<Voucher> voucherCaptor;
 
