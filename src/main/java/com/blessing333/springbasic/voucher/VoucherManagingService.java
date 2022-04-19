@@ -1,6 +1,7 @@
 package com.blessing333.springbasic.voucher;
 
 import com.blessing333.springbasic.RunnableService;
+import com.blessing333.springbasic.common.ExceptionStackTraceConverter;
 import com.blessing333.springbasic.voucher.converter.Converter;
 import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
@@ -12,9 +13,6 @@ import com.blessing333.springbasic.voucher.validator.VoucherFormValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 @Component
 @RequiredArgsConstructor
@@ -40,13 +38,10 @@ public class VoucherManagingService implements RunnableService {
                     default -> userInterface.showHelpText();
                 }
             } catch (CommandNotSupportedException e) {
-                StringWriter sw = new StringWriter();
-                e.printStackTrace(new PrintWriter(sw));
-                log.error(sw.toString());
+                log.error(ExceptionStackTraceConverter.convertToString(e));
                 userInterface.showHelpText();
             }
         }
-
     }
 
     private void startCreateNewVoucher(){

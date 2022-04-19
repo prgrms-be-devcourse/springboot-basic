@@ -1,8 +1,12 @@
 package com.blessing333.springbasic.component.customer.domain;
 
+import com.blessing333.springbasic.component.customer.CustomerFactory;
 import com.blessing333.springbasic.customer.domain.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,10 +16,11 @@ class CustomerTest {
     @DisplayName("Customer 객체 생성 - 성공")
     @Test
     void createCustomerTestWithCorrectParam() {
+        UUID id = UUID.randomUUID();
         String userName = "testName";
         String userEmail = "test@test.com";
 
-        Customer newCustomer = Customer.createNewCustomer(userName, userEmail);
+        Customer newCustomer = Customer.createNewCustomer(id,userName, userEmail,LocalDateTime.now());
 
         assertThat(newCustomer.getName()).isEqualTo(userName);
         assertThat(newCustomer.getEmail()).isEqualTo(userEmail);
@@ -24,16 +29,17 @@ class CustomerTest {
     @DisplayName("Customer 객체 생성 - 실패 - empty name")
     @Test
     void createCustomerTestWithEmptyName() {
+        UUID id = UUID.randomUUID();
         String userName = "";
         String userEmail = "test@test.com";
 
-        assertThrows(IllegalArgumentException.class, () -> Customer.createNewCustomer(userName, userEmail));
+        assertThrows(IllegalArgumentException.class, () -> Customer.createNewCustomer(id,userName, userEmail,LocalDateTime.now()));
     }
 
     @DisplayName("Customer 이름 변경 - 성공")
     @Test
     void changeCustomerName() {
-        Customer customer = createCustomer("beforeName", "test@test.com");
+        Customer customer = CustomerFactory.createCustomer("beforeName", "test@test.com");
         String afterName = "afterName";
 
         customer.changeName(afterName);
@@ -44,15 +50,13 @@ class CustomerTest {
     @DisplayName("Customer 이름 변경 - 실패 - empty name")
     @Test
     void changeCustomerNameWithEmptyName() {
-        Customer customer = createCustomer("beforeName", "test@test.com");
+        Customer customer = CustomerFactory.createCustomer("beforeName", "test@test.com");
         String afterName = "";
 
         assertThrows(IllegalArgumentException.class, () -> customer.changeName(afterName));
     }
 
 
-    private Customer createCustomer(String name, String email) {
-        return Customer.createNewCustomer(name, email);
-    }
+
 
 }
