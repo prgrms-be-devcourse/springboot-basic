@@ -19,34 +19,48 @@
     === Voucher Program ===
     Type exit to exit the program.
     Type create to create a new voucher.
-    Type list to list all vouchers.
-    Type blacklist to list all blacklist custom info
+    Type list to see all vouchers.
+    Type blacklist to see all blacklist custom info.
+    ========================
+    Type give voucher to give voucher to custmer.
+    Type take voucher to take a voucher from customer.
+    Type customer list to see customer list with same voucher.
+    Type voucher list to see voucher list of customer.
 
-    Type customer voucher
-    Type edit customer voucher(add, delete)
-    Type voucher customer
-
-- create 커맨드를 통해 바우처를 생성할수 있다. (FixedAmountVoucher, PercentDiscountVoucher 중 선택)
+- give voucher 커맨드를 통해 고객에게 바우처를 부여할수 있다.
     ```
-    >>create
-    Type voucher type(fixed or percent) and amount
-    fixed
-    1000
+  >>give voucher
+  Type custmer id you want to give voucher to.
+  >>>90876254-1988-4f45-b296-ebbb6fedd464
+  Type voucher id you want to give to customer.
+  >>>34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
+  ```
+- take voucher 커맨드를 통해 고객이 가지고 있는 바우처를 회수할 수 있다.
     ```
-- list 커맨드를 통해 만들어진 바우처를 조회할 수 있다.
-    ```
-    >>list
-    id: af4f2e6d-c39d-4ea3-b114-955c79103d78
-    type: fixed
-    amount: 1000.0
+  >>take voucher
+  Type custmer id you want to take voucher from.
+  >>>90876254-1988-4f45-b296-ebbb6fedd464
+  Type voucher id you want to take from customer.
+  >>>34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
     ```
 
-- blacklist 커맨드를 통해 csv파일의 기록된 블랙리스트 정보를 조회할 수 있다.
+- customer list 커맨드를 통해 동일한 바우처를 가진 고객 정보를 조회할 수 있다.
     ```
-    >>blacklist
-    name: moon age: 25 sex: man description: X
-    name: moon age: 26 sex: woman description: X
+  >>customer list
+  Type voucher id you want see customer list.
+  >>>34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
+  name: moon age: 20 sex: woman
     ```
+- voucher list 커맨드를 통해 고객이 가진 바우처 정보를 조회할 수 있다.
+  ```
+  >>>voucher list
+  Type customer id you want see voucher list.
+  >>>90876254-1988-4f45-b296-ebbb6fedd464
+  id: 34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
+  type: fixed
+  amount: 1000
+  ```
+
 ### Class Diagram
 
 ![Untitled-2022-03-29-1415](https://user-images.githubusercontent.com/37391733/163552243-7c7b42fb-3fb1-49b1-b612-9cce565bef8b.png)

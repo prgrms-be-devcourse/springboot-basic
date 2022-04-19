@@ -10,14 +10,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @SpringJUnitConfig(classes = {AppContext.class})
-@ActiveProfiles("dev")
+@ActiveProfiles("db")
 class VoucherServiceTest {
     @Autowired
     VoucherService voucherService;
 
+    @Autowired
+    VoucherRepository voucherRepository;
+
     @Test
     void voucherService() {
         try {
+            voucherRepository.deleteAll();
             voucherService.addVoucher("percent",100);
             var result = voucherService.getVouchers().size();
             assertThat(result, is(1));

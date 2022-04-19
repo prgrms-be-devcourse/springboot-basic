@@ -14,4 +14,6 @@ public interface VoucherRepository extends DisposableBean {
     public List<Voucher> getAll();
 
     public void remove(UUID vid);
+
+    public void deleteAll();
 }

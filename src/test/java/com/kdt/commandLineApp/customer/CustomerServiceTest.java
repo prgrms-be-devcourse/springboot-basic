@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.equalToObject;
 import static org.hamcrest.Matchers.isA;
 
 @SpringJUnitConfig(classes = {AppContext.class})
-@ActiveProfiles("dev")
+@ActiveProfiles("db")
 class CustomerServiceTest {
     @Autowired
     CustomerService customerService;

@@ -26,8 +26,20 @@ public class CommandLineApplication {
 					case LIST :
 						mainLogic.showVouchers();
 						break;
-					case BLACKLIST:
+					case BLACKLIST :
 						mainLogic.showBlackList();
+						break;
+					case GIVE_VOUCHER :
+						mainLogic.giveVoucher();
+						break;
+					case TAKE_VOUCHER :
+						mainLogic.takeVoucher();
+						break;
+					case CUSTOMER_LIST_WITH_SAME_VOUCHER :
+						mainLogic.getCustomerListWithSameVoucher();
+						break;
+					case VOUCHER_LIST_OF_CUSTOMER:
+						mainLogic.getVoucherListOfCustomer();
 						break;
 					case EXIT:
 						logger.debug("successfully exit");

@@ -77,6 +77,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void remove(UUID vid) {
+        map.remove(vid);
+    }
+
+    @Override
+    public void deleteAll() {
+        map.clear();
     }
 
     @Override

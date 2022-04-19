@@ -11,7 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig(classes = {AppContext.class})
-@ActiveProfiles("dev")
+@ActiveProfiles("db")
 class CustomerTest {
     @Test
     public void testCreateCustomer1() {

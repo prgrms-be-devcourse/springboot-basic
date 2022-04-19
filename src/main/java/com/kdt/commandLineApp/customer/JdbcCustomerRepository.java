@@ -38,15 +38,6 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public List<Customer> getCustomersWithVoucherId(UUID voucherId) {
-        return namedParameterJdbcTemplate.query(
-                "select * from mysql.customer where vid = UUID_TO_BIN(:voucherId)",
-                Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-                customerRowMapper
-        );
-    }
-
-    @Override
     public List<Customer> getAll() {
         return namedParameterJdbcTemplate.query(
                         "select * from mysql.customer",

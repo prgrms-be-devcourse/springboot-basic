@@ -8,8 +8,6 @@ import java.util.UUID;
 public interface CustomerRepository{
     public List<Customer> getAllBlacklist() throws IOException;
 
-    public List<Customer> getCustomersWithVoucherId(UUID voucherId);
-
     public List<Customer> getAll();
 
     public Optional<Customer> get(UUID customerId);

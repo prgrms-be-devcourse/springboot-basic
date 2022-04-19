@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static com.kdt.commandLineApp.UUIDConverter.toUUID;
 
@@ -77,68 +76,11 @@ public class JdbcVoucherRepository implements VoucherRepository{
         );
     }
 
+    @Override
     public void deleteAll() {
         namedParameterJdbcTemplate.update("delete from mysql.voucher", Collections.emptyMap());
     }
 
-    public boolean checkVoucherValidation(UUID voucherId) {
-        String sql = "select count(*) from mysql.voucher where vid = UUID_TO_BIN(:voucherId)";
-        int result = 0;
-
-        result = namedParameterJdbcTemplate.update(
-                sql,
-                Collections.singletonMap("voucherId", voucherId.toString().getBytes())
-        );
-        return (result != 0);
-    }
-
-    public void giveVoucherToCustomer(UUID customerId, UUID voucherId) {
-        String sql = "update mysql.customer set vid = UUID_TO_BIN(:voucherId) where cid = UUID_TO_BIN(:customerId)";
-        Map<String, Object> paramMap = new ConcurrentHashMap<>() {{
-            put("customerId",customerId.toString().getBytes());
-            put("voucherId",voucherId.toString().getBytes());
-        }};
-
-        namedParameterJdbcTemplate.update(
-                sql,
-                paramMap
-        );
-    }
-
-    public void deleteVoucherFromCustomer(UUID customerId) {
-        String sql = "update mysql.customer set vid = null where cid = UUID_TO_BIN(:customerId)";
-
-        namedParameterJdbcTemplate.update(
-                sql,
-                Collections.singletonMap("customerId",customerId.toString().getBytes())
-        );
-    }
-
-    public List<Voucher> getCustomerVouchers(UUID customerId) {
-        String sql = "select vid from mysql.customer where cid = UUID_TO_BIN(:customerId)";
-
-        RowMapper<Optional<UUID>> uuidRowMapper = (resultSet, i) -> {
-            return Optional.ofNullable(toUUID(resultSet.getBytes("vid")));
-        };
-
-        UUID cuuid = namedParameterJdbcTemplate.queryForObject(
-                sql,
-                Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                uuidRowMapper
-        ).get();
-
-        if (cuuid != null) {
-            sql = "select * from mysql.voucher where vid = UUID_TO_BIN(:voucherId)";
-            return namedParameterJdbcTemplate.query(
-                    sql,
-                    Collections.singletonMap("voucherId", cuuid.toString().getBytes()),
-                    voucherRowMapper
-            );
-        }
-        else {
-            return new ArrayList<>();
-        }
-    }
 
     @Override
     public void destroy() throws Exception {

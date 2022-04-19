@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -14,7 +15,8 @@ import static java.util.stream.Collectors.toCollection;
 @Profile("dev")
 public class FileCustomerRepository implements CustomerRepository {
     private final int COLUMN_COUNT = 3;
-    private ArrayList<Customer> customerBlackList = new ArrayList<>();
+    private Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
+    private List<Customer> customerBlackList = new ArrayList<>();
 
     public FileCustomerRepository(@Value("${customer_blacklist_info}") String fileName) {
         try {
@@ -53,22 +55,17 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> getCustomersWithVoucherId(UUID voucherId) {
-        return null;
-    }
-
-    @Override
     public List<Customer> getAll() {
-        return null;
+        return customerMap.values().stream().toList();
     }
 
     @Override
     public Optional<Customer> get(UUID customerId) {
-        return Optional.empty();
+        return Optional.ofNullable(customerMap.get(customerId));
     }
 
     @Override
     public void add(Customer customer) {
-
+        customerMap.put(customer.getCustomerId(), customer);
     }
 }

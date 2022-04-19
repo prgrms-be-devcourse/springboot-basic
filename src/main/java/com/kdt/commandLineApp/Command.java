@@ -13,7 +13,11 @@ public enum Command {
     BLACKLIST("blacklist"),
     CREATE("create"),
     EXIT("exit"),
-    LIST("list");
+    LIST("list"), 
+    GIVE_VOUCHER("give voucher"),
+    TAKE_VOUCHER("take voucher"),
+    CUSTOMER_LIST_WITH_SAME_VOUCHER("customer list"),
+    VOUCHER_LIST_OF_CUSTOMER("voucher list");
 
     private final String command;
 

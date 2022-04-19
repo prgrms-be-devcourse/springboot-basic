@@ -1,8 +1,6 @@
 package com.kdt.commandLineApp.voucher;
 
 import com.kdt.commandLineApp.AppContext;
-import com.kdt.commandLineApp.customer.Customer;
-import com.kdt.commandLineApp.customer.JdbcCustomerRepository;
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,25 +20,10 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     JdbcVoucherRepository jdbcVoucherRepository;
 
-    @Autowired
-    JdbcCustomerRepository jdbcCustomerRepository;
-
-    void settingCustomer(String uuid, String name, int age, String sex) {
-        try {
-            jdbcCustomerRepository.deleteAll();
-            Customer customer = new Customer(UUID.fromString(uuid), name, age, sex);
-            jdbcCustomerRepository.add(customer);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     void settingVoucher(String uuid, String type, int amount) {
         try {
             jdbcVoucherRepository.deleteAll();
-            UUID voucherID = UUID.fromString(uuid);
-            Voucher voucher = new Voucher(voucherID, type, amount);
+            Voucher voucher = new Voucher(UUID.fromString(uuid), type, amount);
             jdbcVoucherRepository.add(voucher);
         }
         catch (WrongVoucherParamsException e) {
@@ -50,7 +33,6 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     void add() {
-        //@Before 아노테이션으로 적용한 deleteAll이 반영이 안되네요..
         settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
 
         List<Voucher> voucherList = jdbcVoucherRepository.getAll();
@@ -93,59 +75,14 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    void deleteAll() {
+    void deleteAllVoucher() {
         settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698", "fixed", 1000);
 
         var result1 = jdbcVoucherRepository.getAll().size();
         jdbcVoucherRepository.deleteAll();
-        var result2 = jdbcCustomerRepository.getAll().size();
+        var result2 = jdbcVoucherRepository.getAll().size();
 
         assertThat(result1, is(1));
-        assertThat(result1, is(0));
-    }
-
-    @Test
-    void giveVoucherToCustomer() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464","moon",20, "woman");
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
-
-        jdbcVoucherRepository.giveVoucherToCustomer(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464"), UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
-
-        var result = jdbcCustomerRepository.getCustomersWithVoucherId(UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698")).get(0);
-
-        assertThat(result, isA(Customer.class));
-        assertThat(result.getName(), is("moon"));
-        assertThat(result.getAge(), is(20));
-        assertThat(result.getSex(), is("woman"));
-    }
-
-    @Test
-    void deleteVoucherFromCustomer() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464","moon",20, "woman");
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
-        jdbcVoucherRepository.giveVoucherToCustomer(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464"), UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
-
-        jdbcVoucherRepository.deleteVoucherFromCustomer(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464"));
-        var result = jdbcVoucherRepository.getAll().size();
-
-        assertThat(result, is(0));
-    }
-
-    @Test
-    void getCustomerVouchers() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464","moon",20, "woman");
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
-
-        jdbcVoucherRepository.giveVoucherToCustomer(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464"), UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
-        var result = jdbcVoucherRepository.getCustomerVouchers(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464")).get(0);
-
-        assertThat(result.getId(), is(UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698")));
-        assertThat(result.getType(), is("fixed"));
-        assertThat(result.getDiscountAmount(), is(1000));
-    }
-
-    @Test
-    void checkVoucherValidation() {
-
+        assertThat(result2, is(0));
     }
 }

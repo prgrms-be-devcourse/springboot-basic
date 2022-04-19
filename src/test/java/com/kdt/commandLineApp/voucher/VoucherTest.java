@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig(classes = {AppContext.class})
-@ActiveProfiles("dev")
+@ActiveProfiles("db")
 class VoucherTest {
     @Test
     public void createVoucher1() {
