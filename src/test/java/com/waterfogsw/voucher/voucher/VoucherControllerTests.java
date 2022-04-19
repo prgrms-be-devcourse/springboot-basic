@@ -2,7 +2,7 @@ package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.voucher.controller.ErrorMessages;
 import com.waterfogsw.voucher.voucher.controller.VoucherController;
-import com.waterfogsw.voucher.voucher.controller.VoucherDto;
+import com.waterfogsw.voucher.voucher.dto.VoucherDto;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import com.waterfogsw.voucher.voucher.service.VoucherService;

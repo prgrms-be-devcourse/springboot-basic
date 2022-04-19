@@ -1,5 +1,6 @@
 package com.waterfogsw.voucher.voucher.controller;
 
+import com.waterfogsw.voucher.voucher.dto.VoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
 
 public class VoucherController {

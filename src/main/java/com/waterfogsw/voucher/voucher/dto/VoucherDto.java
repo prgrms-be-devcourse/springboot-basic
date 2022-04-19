@@ -1,8 +1,6 @@
-package com.waterfogsw.voucher.voucher.controller;
+package com.waterfogsw.voucher.voucher.dto;
 
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
-
-import java.util.UUID;
 
 public class VoucherDto {
 
