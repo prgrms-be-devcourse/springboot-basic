@@ -4,9 +4,12 @@ import com.mountain.voucherApp.voucher.FixedAmountVoucher;
 import com.mountain.voucherApp.voucher.PercentDiscountVoucher;
 import com.mountain.voucherApp.voucher.Voucher;
 
+import static com.mountain.voucherApp.constants.Message.FIXED_DISCOUNT;
+import static com.mountain.voucherApp.constants.Message.PERCENT_DISCOUNT;
+
 public enum DiscountPolicy {
-    FIXED(1, "고정 할인", new FixedAmountVoucher()),
-    PERCENT(2, "비율 할인", new PercentDiscountVoucher());
+    FIXED(1, FIXED_DISCOUNT, new FixedAmountVoucher()),
+    PERCENT(2, PERCENT_DISCOUNT, new PercentDiscountVoucher());
 
     private final int policyId;
     private final String description;

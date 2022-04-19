@@ -9,27 +9,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MenuUtil {
 
-    private static final Map<String ,Menu> map = new ConcurrentHashMap<>();
+    private static final Map<Integer ,Menu> map = new ConcurrentHashMap<>();
 
     private MenuUtil() {}
 
-    public static boolean isExit(String command) {
-        return command.equals(Menu.EXIT.getValue());
+    public static boolean isExit(int ordinal) {
+        Menu menu = map.getOrDefault(ordinal, null);
+        if (menu != null)
+            return (menu == Menu.EXIT);
+        return false;
     }
 
-    public static boolean isCreate(String command) {
-        return command.equals(Menu.CREATE.getValue());
-    }
-
-    public static boolean isList(String command) {
-        return command.equals(Menu.LIST.getValue());
-    }
-
-    public static Map<String, Menu> getMenuMap() {
+    public static Map<Integer, Menu> getMenuMap() {
         if (map.size() == 0) {
             Arrays.stream(Menu.values())
                     .forEach((menu) -> {
-                        map.put(menu.getValue(), menu);
+                        map.put(menu.ordinal(), menu);
                     });
         }
         return map;

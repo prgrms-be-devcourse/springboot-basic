@@ -1,5 +1,6 @@
 package com.mountain.voucherApp.io;
 
+import com.mountain.voucherApp.customer.Customer;
 import com.mountain.voucherApp.enums.DiscountPolicy;
 import com.mountain.voucherApp.enums.Menu;
 import com.mountain.voucherApp.voucher.VoucherEntity;
@@ -41,25 +42,25 @@ public class Console implements Input, Output {
         textTerminal.abort();
     }
 
+
+    @Override
+    public void printMessage(String msg) {
+        textTerminal.println(msg);
+    }
+
     @Override
     public void printManual() {
         changeColor(MANUAL_COLOR);
         textTerminal.println(MANUAL_TITLE);
-        Map<String, Menu> menuMap = getMenuMap();
-        for (String key : menuMap.keySet()) {
-            textTerminal.printf(MessageFormat.format("{0} ", TYPE));
-            changeColor(MENU_COLOR);
-            textTerminal.printf(key);
-            changeColor(MANUAL_COLOR);
+        Map<Integer, Menu> menuMap = getMenuMap();
+        for (Integer key : menuMap.keySet()) {
             Menu menu = menuMap.get(key);
-            textTerminal.printf(MessageFormat.format(" {0}{1}", menu.getDescription()), System.lineSeparator());
+            textTerminal.printf(MessageFormat.format("{0}.{1} ",menu.ordinal(), TYPE));
+            changeColor(MENU_COLOR);
+            textTerminal.printf(menu.getValue());
+            changeColor(MANUAL_COLOR);
+            textTerminal.printf(MessageFormat.format(" {0}{1}", menu.getDescription(), System.lineSeparator()));
         }
-    }
-
-    @Override
-    public void printWrongInput() {
-        changeColor(ERR_COLOR);
-        textTerminal.println(WRONG_INPUT);
     }
 
     @Override
@@ -76,22 +77,54 @@ public class Console implements Input, Output {
                 );
     }
 
-    @Override
-    public void printAmount() {
-        changeColor(SELECT_COLOR);
-        textTerminal.println(PLEASE_AMOUNT);
+    private boolean validateList(List dataList) {
+        if (dataList == null || dataList.size() == 0) {
+            textTerminal.println(EMPTY_DATA);
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void printAllList(List<VoucherEntity> repository) {
-        repository.stream()
-                .forEach((voucher) -> textTerminal.print(voucher.toString()));
+    public void printVoucherList(List<VoucherEntity> voucherEntityList) {
+        if (validateList(voucherEntityList)) {
+            for (int i = 0; i < voucherEntityList.size(); i++) {
+                VoucherEntity voucherEntity = voucherEntityList.get(i);
+                textTerminal.println(MessageFormat.format("{0}. 할인유형:{1}, 할인금액(비율): {2}",
+                        i,
+                        voucherEntity.getDiscountPolicyId(),
+                        voucherEntity.getDiscountAmount()));
+            }
+        }
+    }
+
+    @Override
+    public void printCustomerList(List<Customer> customerList) {
+        if (validateList(customerList)) {
+            for (int i = 0; i < customerList.size(); i++) {
+                Customer customer = customerList.get(i);
+                textTerminal.println(MessageFormat.format("{0}. {1}",
+                        i,
+                        customer.getEmail()));
+            }
+        }
+    }
+
+    @Override
+    public void printCustomerVoucherInfo(List<Customer> customerList) {
+        for (int i = 0; i < customerList.size(); i++) {
+            Customer customer = customerList.get(i);
+            textTerminal.println(MessageFormat.format("{0}. customerEmail : {1}, voucherId : {2}",
+                    i,
+                    customer.getEmail(),
+                    customer.getVoucherId()));
+        }
     }
 
     @Override
     public void printException(Exception e) {
         changeColor(ERR_COLOR);
-        textTerminal.println(e.getMessage());
+        textTerminal.println(MessageFormat.format("[{0}]: {1}", e.getClass().getCanonicalName(), e.getMessage()));
     }
 
 }

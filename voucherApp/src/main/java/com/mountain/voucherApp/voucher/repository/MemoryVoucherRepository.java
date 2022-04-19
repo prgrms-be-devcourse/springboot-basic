@@ -1,14 +1,10 @@
-package com.mountain.voucherApp.repository;
+package com.mountain.voucherApp.voucher.repository;
 
-import com.mountain.voucherApp.voucher.Voucher;
 import com.mountain.voucherApp.voucher.VoucherEntity;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -33,6 +29,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public VoucherEntity insert(VoucherEntity voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
+    }
+
+    @Override
+    public Optional<VoucherEntity> findByPolicyIdAndDiscountAmount(int discountPolicyId, long discountAmount) {
+        return storage.values().stream()
+                .filter((e) -> (e.getDiscountPolicyId() == discountPolicyId) && (e.getDiscountAmount() == discountAmount))
+                .findFirst();
     }
 
     public void clear() {

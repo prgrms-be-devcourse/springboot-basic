@@ -15,26 +15,30 @@ import static com.mountain.voucherApp.utils.MenuUtil.isExit;
 public class ExecuteEngine {
     private static final Logger log = LoggerFactory.getLogger(ExecuteEngine.class);
     private final Console console;
-    private final Strategy strategy;
+    private final MenuStrategy menuStrategy;
 
     @Autowired
-    public ExecuteEngine(Console console, Strategy strategy) {
+    public ExecuteEngine(Console console, MenuStrategy menuStrategy) {
         this.console = console;
-        this.strategy = strategy;
+        this.menuStrategy = menuStrategy;
     }
 
     public void run() {
         while (true) {
             console.printManual();
-            String command = console.input().toLowerCase().trim();
-            Menu menu = getMenuMap().getOrDefault(command, null);
-            if (menu != null) {
-                menu.exec(strategy);
-                if (isExit(command))
-                    break;
-            } else {
-                log.error(WRONG_INPUT);
-                console.printWrongInput();
+            try {
+                int command = Integer.valueOf(console.input());
+                Menu menu = getMenuMap().getOrDefault(command, null);
+                if (menu != null) {
+                    menu.exec(menuStrategy);
+                    if (isExit(command))
+                        break;
+                } else {
+                    log.error(WRONG_INPUT);
+                    console.printMessage(WRONG_INPUT);
+                }
+            } catch (IllegalArgumentException e) {
+                console.printException(e);
             }
         }
     }
