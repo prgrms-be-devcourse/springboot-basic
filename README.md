@@ -48,7 +48,7 @@
     ```
   >>customer list
   Type voucher id you want see customer list.
-  >>>34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
+  >>34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
   name: moon age: 20 sex: woman
     ```
 - voucher list 커맨드를 통해 고객이 가진 바우처 정보를 조회할 수 있다.
