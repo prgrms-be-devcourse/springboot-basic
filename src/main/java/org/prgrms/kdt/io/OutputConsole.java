@@ -2,6 +2,9 @@ package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.model.voucher.VoucherType;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class OutputConsole implements Output {
 
     @Override
@@ -32,21 +35,15 @@ public class OutputConsole implements Output {
 
     @Override
     public void printVoucherManual() {
-        printMessage(
-            "바우처 타입을 선택해주세요.\n" +
-            "Type fixed to create a new FixedAmountVoucher\n" +
-            "Type percent to create a new PercentDiscountVoucher."
-        );
+        StringBuilder stringBuilder = new StringBuilder("바우처 타입을 선택해주세요.\n");
+        stringBuilder.append(VoucherType.getAllVoucherManual());
+        printMessage(stringBuilder.toString());
     }
 
     @Override
     public void printVoucherValue(VoucherType voucherType) {
         StringBuilder stringBuilder = new StringBuilder("바우처 값을 입력해주세요.\n");
-        if (voucherType == VoucherType.FIXED_AMOUNT) {
-            stringBuilder.append("(0 초과로 입력해주세요.)");
-        } else if (voucherType == VoucherType.PERCENT_DISCOUNT) {
-            stringBuilder.append("(0 초과, 100이하로 입력해주세요.)");
-        }
+        stringBuilder.append(voucherType.getVoucherValidationMessage());
         printMessage(stringBuilder.toString());
     }
 
