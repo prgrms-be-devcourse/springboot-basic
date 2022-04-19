@@ -51,7 +51,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
             while ((line = bufferedReader.readLine()) != null) {
                 String[] lineSplitComma = line.split(",");
-                Voucher voucher = VoucherType.findByType(lineSplitComma[0])
+                Voucher voucher = VoucherType.valueOf(lineSplitComma[0])
                     .create(UUID.fromString(lineSplitComma[1]),
                         Integer.parseInt(lineSplitComma[2]));
                 vouchers.add(voucher);
