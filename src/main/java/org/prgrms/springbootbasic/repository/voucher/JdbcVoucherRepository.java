@@ -69,7 +69,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void save(Voucher voucher) {
         logger.info("save() called");
 
-        if (voucher instanceof FixedAmountVoucher) {
+        if (voucher.isFixed()) {
             var insert = jdbcTemplate.update(
                 INSERT_SQL,
                 voucher.getVoucherId().toString().getBytes(UTF_8),
@@ -81,7 +81,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             }
             return;
         }
-        if (voucher instanceof PercentDiscountVoucher) {
+        if (voucher.isPercent()) {
             var insert = jdbcTemplate.update(
                 INSERT_SQL,
                 voucher.getVoucherId().toString().getBytes(UTF_8),

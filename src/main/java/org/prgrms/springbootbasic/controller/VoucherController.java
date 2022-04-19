@@ -24,8 +24,10 @@ public class VoucherController {
     }
 
     public void run() {
-        while (process()) {
-        }
+        boolean isProcessed;
+        do {
+            isProcessed = process();
+        } while (isProcessed);
     }
 
     public boolean process() {
