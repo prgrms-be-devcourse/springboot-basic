@@ -5,10 +5,11 @@ import java.util.UUID;
 import java.util.function.BiFunction;
 
 public enum VoucherType {
-    FixedAmountVoucher(1, "FixedAmountVoucher",
-        (uuid, integer) -> new FixedAmountVoucher(uuid, integer)),
-    PercentDiscountVoucher(2, "PercentDiscountVoucher",
-        (uuid, integer) -> new PercentDiscountVoucher(uuid, integer));
+
+    FIXED_AMOUNT_VOUCHER(1, "FixedAmountVoucher",
+        FixedAmountVoucher::new),
+    PERCENT_DISCOUNT_VOUCHER(2, "PercentDiscountVoucher",
+        PercentDiscountVoucher::new);
 
     private final int number;
     private final String type;
@@ -36,6 +37,6 @@ public enum VoucherType {
     }
 
     public Voucher create(UUID voucherId, Integer value) {
-        return voucherIdAndValue.apply(voucherId, value);
+        return this.voucherIdAndValue.apply(voucherId, value);
     }
 }

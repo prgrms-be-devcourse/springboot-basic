@@ -18,6 +18,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         storage.put(UUID.randomUUID(), voucher);
+
         return voucher;
     }
 
@@ -25,6 +26,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         List<Voucher> voucherList = new ArrayList<>();
         storage.forEach((uuid, voucher) -> voucherList.add(voucher));
-        return voucherList;
+
+        return List.copyOf(voucherList);
     }
 }

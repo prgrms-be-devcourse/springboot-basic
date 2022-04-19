@@ -1,6 +1,5 @@
 package org.programmers.kdt.weekly.customer;
 
-
 import java.util.UUID;
 import lombok.Getter;
 

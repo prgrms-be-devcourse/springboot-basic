@@ -7,7 +7,7 @@ import lombok.Getter;
 public final class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final VoucherType voucherType = VoucherType.FixedAmountVoucher;
+    private static final VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
     private final int value;
 
     public FixedAmountVoucher(UUID voucherId, int value) {
@@ -29,11 +29,14 @@ public final class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED_AMOUNT_VOUCHER;
+    }
+
+    @Override
     public String toString() {
         return "Voucher Type: " + voucherType +
             ", voucherId: " + voucherId +
             ", amount: " + value;
     }
-
 }
-

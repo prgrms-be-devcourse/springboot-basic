@@ -1,14 +1,11 @@
 package org.programmers.kdt.weekly.voucher.repository;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -17,8 +14,6 @@ import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 
@@ -27,42 +22,45 @@ import org.springframework.stereotype.Repository;
 public class VoucherFileRepository implements VoucherRepository {
 
     private final Logger logger = LoggerFactory.getLogger(VoucherFileRepository.class);
-    private final Resource FILE_PATH = new ClassPathResource("voucherFileDB.csv");
+    private final File file = new File("voucher_database.csv");
 
     @Override
     public Voucher insert(Voucher voucher) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(FILE_PATH.getFilename());
-            BufferedWriter bufferedWriter = new BufferedWriter(
-                new OutputStreamWriter(fileOutputStream));
+            FileWriter fileWriter = new FileWriter(file, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             String line =
                 voucher.getVoucherType() + "," + voucher.getVoucherId() + "," + voucher.getValue()
                     + "\n";
             bufferedWriter.write(line);
             bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("voucher insert() IOException  error ", e);
         }
+
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> voucherList = new ArrayList<>();
+        List<Voucher> vouchers = new ArrayList<>();
         String line;
         try {
-            InputStream inputStream = FILE_PATH.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
             while ((line = bufferedReader.readLine()) != null) {
                 String[] lineSplitComma = line.split(",");
-                VoucherType.findByType(lineSplitComma[0])
+                Voucher voucher = VoucherType.findByType(lineSplitComma[0])
                     .create(UUID.fromString(lineSplitComma[1]),
                         Integer.parseInt(lineSplitComma[2]));
+                vouchers.add(voucher);
             }
 
         } catch (IOException | NullPointerException e) {
-            logger.error("File database error -> {}", e.getMessage());
+            logger.error("voucher findAll() IOException  error ", e);
         }
-        return voucherList;
+
+        return List.copyOf(vouchers);
     }
 }

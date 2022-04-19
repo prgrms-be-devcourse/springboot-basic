@@ -8,7 +8,7 @@ import lombok.Getter;
 public final class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final VoucherType voucherType = VoucherType.PercentDiscountVoucher;
+    private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
     private final int value;
 
     public PercentDiscountVoucher(UUID voucherId, int value) {
@@ -30,10 +30,14 @@ public final class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT_DISCOUNT_VOUCHER;
+    }
+
+    @Override
     public String toString() {
         return "Voucher Type: " + voucherType +
             ", voucherId: " + voucherId +
             ", percent: " + value + "%";
     }
-
 }
