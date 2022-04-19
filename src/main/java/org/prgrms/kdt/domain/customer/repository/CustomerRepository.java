@@ -23,7 +23,7 @@ public interface CustomerRepository {
 
     int updateById(Customer customer);
 
-    void deleteById(UUID customerId);
+    int deleteById(UUID customerId);
 
-    void deleteAll();
+    int deleteAll();
 }

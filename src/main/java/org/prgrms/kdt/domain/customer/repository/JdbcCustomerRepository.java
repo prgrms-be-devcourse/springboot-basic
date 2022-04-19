@@ -34,12 +34,12 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public UUID save(Customer customer) {
-        int update = jdbcTemplate.update(
+        int savedRows = jdbcTemplate.update(
                 "INSERT INTO customer(customer_id, customer_type, name, email, created_date, modified_date) " +
                         "VALUES (UNHEX(REPLACE(:customerId, '-', '')), :customerType, :name, :email, :createdDate, :modifiedDate)",
                 toParamMap(customer));
-        if(update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+        if(savedRows != 1) {
+            throw new RuntimeException("저장된 컬럼이 없습니다.");
         }
         return customer.getCustomerId();
     }
@@ -92,22 +92,29 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public int updateById(Customer customer) {
-        int update = jdbcTemplate.update("UPDATE customer " +
+        int updatedRows = jdbcTemplate.update("UPDATE customer " +
                         "SET customer_type = :customerType, name = :name, email = :email, modified_date = :modifiedDate " +
                         "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 toParamMap(customer));
-        return update;
+        if(updatedRows == 0) {
+            throw new RuntimeException("업데이트된 컬럼이 없습니다.");
+        }
+        return updatedRows;
     }
 
     @Override
-    public void deleteById(UUID customerId) {
-        jdbcTemplate.update("DELETE FROM customer WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+    public int deleteById(UUID customerId) {
+        int deletedRows = jdbcTemplate.update("DELETE FROM customer WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
+        if(deletedRows == 0) {
+            throw new RuntimeException("삭제된 컬럼이 없습니다.");
+        }
+        return deletedRows;
     }
 
     @Override
-    public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM customer", Collections.emptyMap());
+    public int deleteAll() {
+        return jdbcTemplate.update("DELETE FROM customer", Collections.emptyMap());
     }
 
     private Map<String, Object> toParamMap(Customer customer) {

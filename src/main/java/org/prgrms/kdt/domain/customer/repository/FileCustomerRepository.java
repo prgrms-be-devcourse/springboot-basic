@@ -78,13 +78,13 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteById(UUID customerId) {
-
+    public int deleteById(UUID customerId) {
+        return 0;
     }
 
     @Override
-    public void deleteAll() {
-
+    public int deleteAll() {
+        return 0;
     }
 
     private List<Customer> parseCsvToList(List<List<String>> csvData) {
@@ -102,7 +102,9 @@ public class FileCustomerRepository implements CustomerRepository {
     private String createCsvData(Customer customer) {
         StringBuilder data = new StringBuilder(customer.getCustomerId().toString())
                 .append(",")
-                .append(customer.getName());
+                .append(customer.getName())
+                .append(",")
+                .append(customer.getEmail());
         return data.toString();
     }
 }
