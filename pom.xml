@@ -14,7 +14,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <properties>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <supercsv.version>2.4.0</supercsv.version>
     <guava.version>30.1.1-jre</guava.version>
