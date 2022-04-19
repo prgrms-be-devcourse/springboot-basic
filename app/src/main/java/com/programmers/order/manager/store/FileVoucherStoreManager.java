@@ -76,31 +76,39 @@ public class FileVoucherStoreManager implements VoucherStoreManager {
 
 	private ObjectWriter getWriter() {
 		File csvFile = this.getCsvFile();
+
 		CsvMapper csvMapper = FileUtils.getCsvMapper();
 
 		if (!csvFile.exists()) {
-			try {
-				boolean isSuccessCreate = csvFile.createNewFile();
+			createFile();
+			CsvSchema schema = FileUtils.getSchemaWithHeader(VoucherForCsv.class);
 
-				if (!isSuccessCreate) {
-					throw new NotCreateFileException(ErrorMessage.INTERNAL_PROGRAM_ERROR);
-				}
+			return csvMapper.writerFor(Voucher.class).with(schema);
 
-				CsvSchema schema = FileUtils.getSchemaWithHeader(VoucherForCsv.class);
-
-				return csvMapper.writerFor(Voucher.class).with(schema);
-			} catch (IOException exception) {
-				exception.printStackTrace();
-				log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.IO_EXCEPTION);
-			} catch (NotCreateFileException exception) {
-				exception.printStackTrace();
-				log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_CREATE_FILE);
-			}
 		}
 
 		CsvSchema schema = FileUtils.getSchemaWithOutHeader(VoucherForCsv.class);
 
 		return csvMapper.writerFor(Voucher.class).with(schema);
+	}
+
+	private void createFile() {
+		File csvFile = this.getCsvFile();
+
+		try {
+			boolean isSuccessCreate = csvFile.createNewFile();
+
+			if (!isSuccessCreate) {
+				throw new NotCreateFileException(ErrorMessage.INTERNAL_PROGRAM_ERROR);
+			}
+
+		} catch (IOException exception) {
+			exception.printStackTrace();
+			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.IO_EXCEPTION);
+		} catch (NotCreateFileException exception) {
+			exception.printStackTrace();
+			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_CREATE_FILE);
+		}
 	}
 
 	private File getCsvFile() {

@@ -63,25 +63,22 @@ public class VoucherController {
 		output.write(BasicMessage.EXIT);
 	}
 
-	// todo : try-catch scope 줄이기 !!
+	// todo : 스코프 범위 줄이기(불필요한 부분 삭제)
 	private void createVoucher() {
 		VoucherType voucherType = VoucherType.NONE;
 
 		do {
 			String voucher = input.read(BasicMessage.VOUCHER_SELECT);
-
-			try {
-				voucherType = VoucherType.of(voucher);
-				VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(voucherType);
-
-				voucherStoreManager.saveVoucher(voucherManager.create());
-
-				break;
-			} catch (NotSupportedException exception) {
-				output.write(ErrorMessage.CLIENT_ERROR);
-				logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
-			}
+			voucherType = VoucherType.of(voucher);
 		} while (voucherType.isReEnter());
+
+		try {
+			VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(voucherType);
+			voucherStoreManager.saveVoucher(voucherManager.create());
+		} catch (NotSupportedException exception) {
+			output.write(ErrorMessage.CLIENT_ERROR);
+			logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
+		}
 
 	}
 
