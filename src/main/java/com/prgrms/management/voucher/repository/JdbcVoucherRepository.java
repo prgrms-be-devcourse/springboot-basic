@@ -1,6 +1,8 @@
 package com.prgrms.management.voucher.repository;
 
+import com.prgrms.management.config.ErrorMessageType;
 import com.prgrms.management.customer.repository.JdbcCustomerRepository;
+import com.prgrms.management.util.ToUUID;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherType;
 import org.slf4j.Logger;
@@ -29,19 +31,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var voucherId = toUUId(resultSet.getBytes("voucher_id"));
+        var voucherId = ToUUID.toUUId(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("amount");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var voucherType = VoucherType.of(resultSet.getString("voucher_type"));
         var customerId = resultSet.getBytes("customer_id") != null
-                ? toUUId(resultSet.getBytes("customer_id")) : null;
+                ? ToUUID.toUUId(resultSet.getBytes("customer_id")) : null;
         return new Voucher(voucherId, amount, createdAt, voucherType, customerId);
     };
-
-    static UUID toUUId(byte[] bytes) {
-        ByteBuffer wrap = ByteBuffer.wrap(bytes);
-        return new UUID(wrap.getLong(), wrap.getLong());
-    }
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -51,7 +48,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 Timestamp.valueOf(voucher.getCreatedAt()),
                 voucher.getVoucherType().equals(VoucherType.FIXED) ? "fixed" : "percent");
         if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
         }
         return voucher;
     }
@@ -64,6 +61,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     voucherRowMapper,
                     voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
+            logger.info("{}:{}", e.getClass(), e.getMessage());
             return Optional.empty();
         }
     }
@@ -75,7 +73,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 voucherId.toString().getBytes()
         );
         if (update != 1) {
-            throw new RuntimeException("Noting was updated");
+            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
         }
     }
 

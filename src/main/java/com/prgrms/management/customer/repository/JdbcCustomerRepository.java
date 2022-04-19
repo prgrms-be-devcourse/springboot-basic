@@ -3,10 +3,10 @@ package com.prgrms.management.customer.repository;
 import com.prgrms.management.config.ErrorMessageType;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerType;
+import com.prgrms.management.util.ToUUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile({"jdbc","test"})
+@Profile({"jdbc", "test"})
 public class JdbcCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
@@ -29,18 +29,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        var customerId = toUUId(resultSet.getBytes("customer_id"));
+        var customerId = ToUUID.toUUId(resultSet.getBytes("customer_id"));
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var customerType = CustomerType.of(resultSet.getString("customer_type"));
         return new Customer(customerId, customerName, email, createdAt, customerType);
     };
-
-    static UUID toUUId(byte[] bytes) {
-        ByteBuffer wrap = ByteBuffer.wrap(bytes);
-        return new UUID(wrap.getLong(), wrap.getLong());
-    }
 
     @Override
     public Customer save(Customer customer) {
@@ -51,7 +46,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 Timestamp.valueOf(customer.getCreatedAt()),
                 customer.getCustomerType().equals(CustomerType.NORMAL) ? "normal" : "blacklist");
         if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
         }
         return customer;
     }
@@ -78,7 +73,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 customer.getCustomerId().toString().getBytes()
         );
         if (update != 1) {
-            throw new RuntimeException("Noting was updated");
+            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
         }
         return customer;
     }
@@ -91,7 +86,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper,
                     customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.info("Got empty result", e);
+            logger.info("{}:{}", e.getClass(), e.getMessage());
             return Optional.empty();
         }
     }
@@ -104,7 +99,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper,
                     email));
         } catch (EmptyResultDataAccessException e) {
-            logger.info("Got empty result", e);
+            logger.info("{}:{}", e.getClass(), e.getMessage());
             return Optional.empty();
         }
     }

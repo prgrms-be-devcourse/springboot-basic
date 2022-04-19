@@ -1,5 +1,6 @@
 package com.prgrms.management.voucher.domain;
 
+import com.prgrms.management.config.ErrorMessageType;
 import lombok.Getter;
 
 @Getter
@@ -17,7 +18,7 @@ public class VoucherRequest {
         try {
             amount = Long.parseLong(inputAmount);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            throw new NumberFormatException(ErrorMessageType.INCORRECT_NUMBER_FORMAT.getMessage());
         }
         return amount;
     }

@@ -67,16 +67,17 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID customerId) {
-
+        //미구현
     }
 
     @Override
     public void deleteAll() {
-
+        //미구현
     }
 
     @Override
     public List<UUID> findCustomerIdByVoucherType(VoucherType voucherType) {
+        //미구현
         return null;
     }
 }

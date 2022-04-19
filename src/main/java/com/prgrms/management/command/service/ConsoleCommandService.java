@@ -38,6 +38,7 @@ public class ConsoleCommandService implements CommandService {
             try {
                 String inputCommand = input.readLine();
                 Command command = Command.of(inputCommand);
+                logger.info("select {}", command.name());
                 execute(command);
             } catch (RuntimeException e) {
                 logger.info("{}:{}",e.getClass(),e.getMessage());
