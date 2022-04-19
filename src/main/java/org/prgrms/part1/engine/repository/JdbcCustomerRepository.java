@@ -2,6 +2,7 @@ package org.prgrms.part1.engine.repository;
 
 import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.engine.domain.Voucher;
+import org.prgrms.part1.engine.enumtype.VoucherType;
 import org.prgrms.part1.exception.VoucherException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,6 +28,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
+    };
+
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
+        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        var value = resultSet.getLong(voucherType.getValueColumnName());
+        var customerId = resultSet.getBytes("customer_id") != null ? toUUID(resultSet.getBytes("customer_id")) : null;
+        return voucherType.createVoucher(voucherId, value, createdAt);
     };
 
     private Map<String, Object> toParamMap(Customer customer) {
@@ -79,11 +89,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
-    }
-
-    @Override
-    public List<Voucher> findOwnedVouchers(Customer customer) {
-        return jdbcTemplate.getJdbcTemplate().query("select * from vouchers where customer_id = ?", customer.getCustomerId().toString().getBytes());
     }
 
     @Override

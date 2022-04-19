@@ -18,8 +18,6 @@ public interface CustomerRepository {
 
     Optional<Customer> findByEmail(String email);
 
-    List<Voucher> findOwnedVouchers(Customer customer);
-
     Customer insert(Customer customer);
 
     Customer update(Customer customer);

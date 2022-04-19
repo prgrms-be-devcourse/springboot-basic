@@ -32,6 +32,10 @@ public class VoucherService {
         return voucher.get();
     }
 
+    public List<Voucher> getVouchersByCustomerId(Customer customer) {
+        return voucherRepository.findByCustomer(customer);
+    }
+
     public Voucher insertVoucher(Voucher voucher) {
         return voucherRepository.insert(voucher);
     }

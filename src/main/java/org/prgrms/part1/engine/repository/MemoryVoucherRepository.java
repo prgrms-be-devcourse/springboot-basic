@@ -49,4 +49,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findByType(VoucherType voucherType) {
         return null;
     }
+
+    @Override
+    public List<Voucher> findByCustomer(Customer customer) {
+        return null;
+    }
 }

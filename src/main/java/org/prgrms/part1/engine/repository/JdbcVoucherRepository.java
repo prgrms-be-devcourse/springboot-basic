@@ -72,6 +72,11 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByCustomer(Customer customer) {
+        return jdbcTemplate.query("select * from vouchers where customer_id = :customerId;", Collections.singletonMap("customerId", customer.getCustomerId().toString().getBytes()),voucherRowMapper);
+    }
+
+    @Override
     public Voucher insert(Voucher voucher) {
         var paramMap = toParamMap(voucher);
         int insertCount = jdbcTemplate.update("insert into vouchers (voucher_id, voucher_type, " + voucher.getVoucherType().getValueColumnName() + ", created_at) values (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :value, :createdAt);",paramMap);

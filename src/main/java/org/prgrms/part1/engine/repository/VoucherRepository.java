@@ -17,6 +17,8 @@ public interface VoucherRepository {
 
     List<Voucher> findByType(VoucherType voucherType);
 
+    List<Voucher> findByCustomer(Customer customer);
+
     Voucher insert(Voucher voucher);
 
     Voucher update(Voucher voucher);
