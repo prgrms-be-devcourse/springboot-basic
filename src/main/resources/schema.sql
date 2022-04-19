@@ -8,9 +8,9 @@ CREATE TABLE customers
     CONSTRAINT unq_user_email UNIQUE (email)
 );
 
-CREATE TABLE `vouchers`
+CREATE TABLE vouchers
 (
-    `voucher_id` BINARY(16) PRIMARY KEY,
-    `value` BIGINT NOT NULL,
-    `type` enum('FIX','PERCENT') NOT NULL
+    voucher_id BINARY(16) PRIMARY KEY,
+    value BIGINT NOT NULL,
+    type varchar(20) NOT NULL
 );
