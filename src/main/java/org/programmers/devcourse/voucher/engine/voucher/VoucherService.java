@@ -1,6 +1,7 @@
 package org.programmers.devcourse.voucher.engine.voucher;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
@@ -17,9 +18,9 @@ public class VoucherService {
     this.voucherRepository = voucherRepository;
   }
 
-  public UUID create(VoucherMapper voucherMapper, long voucherDiscountData)
+  public UUID create(VoucherType voucherType, long voucherDiscountData)
       throws VoucherException {
-    var voucher = voucherMapper.getFactory().create(UUID.randomUUID(), voucherDiscountData);
+    var voucher = voucherType.getFactory().create(UUID.randomUUID(), voucherDiscountData);
     voucherRepository.save(voucher);
     return voucher.getVoucherId();
 
@@ -27,5 +28,9 @@ public class VoucherService {
 
   public Collection<Voucher> getAllVouchers() {
     return voucherRepository.getAllVouchers();
+  }
+
+  public Optional<VoucherType> mapTypeToMapper(String type) {
+    return VoucherType.from(type);
   }
 }

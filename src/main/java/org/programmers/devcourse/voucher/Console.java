@@ -11,7 +11,7 @@ import org.programmers.devcourse.voucher.engine.MenuSelection;
 import org.programmers.devcourse.voucher.engine.blacklist.BlackList;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
-import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
+import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -38,27 +38,21 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public VoucherMapper getVoucherMapper() throws IOException {
-    Optional<VoucherMapper> voucherMapper;
-    while (true) {
-      System.out.println("== Create ==");
-      System.out.println("Select type of voucher");
-      System.out.println("FixedAmountVoucher --> type 1");
-      System.out.println("PercentDiscountVoucher --> type 2");
-      voucherMapper = VoucherMapper.from(consoleReader.readLine());
-      if (voucherMapper.isPresent()) {
-        return voucherMapper.get();
-      }
-      System.out.println("Wrong input, please try again");
-    }
+  public String getVoucherTypeId() throws IOException {
+    System.out.println("== Create ==");
+    System.out.println("Select type of voucher");
+    System.out.println("FixedAmountVoucher --> type 1");
+    System.out.println("PercentDiscountVoucher --> type 2");
+
+    return consoleReader.readLine();
   }
 
   @Override
-  public long getVoucherDiscountData(VoucherMapper voucherMapper) throws IOException {
+  public long getVoucherDiscountData(VoucherType voucherType) throws IOException {
     long discountData = Long.MIN_VALUE;
     while (discountData == Long.MIN_VALUE) {
       System.out.print(
-          MessageFormat.format("Type amount of discount(unit: {0}) >> ", voucherMapper.getUnit()));
+          MessageFormat.format("Type amount of discount(unit: {0}) >> ", voucherType.getUnit()));
       try {
         discountData = Long.parseLong(consoleReader.readLine());
         if (discountData <= 0) {
@@ -70,6 +64,13 @@ public class Console implements Input, Output {
       }
     }
     return discountData;
+  }
+
+  @Override
+  public void printInputError(String message) {
+
+    System.out.println(MessageFormat.format("[ERROR] : {0}", message));
+
   }
 
   @Override

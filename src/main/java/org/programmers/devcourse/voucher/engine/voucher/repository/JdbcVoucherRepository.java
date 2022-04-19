@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.sql.DataSource;
 import org.programmers.devcourse.voucher.configuration.Transactional;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
-import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
+import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.programmers.devcourse.voucher.util.UUIDMapper;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
     var type = resultSet.getString("type");
     var discountDegree = resultSet.getInt("discount_degree");
 
-    return VoucherMapper.from(type).orElseThrow(() -> new SQLException()).getFactory()
+    return VoucherType.from(type).orElseThrow(() -> new SQLException()).getFactory()
         .create(voucherId, discountDegree);
 
   };
@@ -59,7 +59,7 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
   private Map<String, Object> mapToParam(Voucher voucher) {
     var map = new ConcurrentHashMap<String, Object>();
     map.put("voucherId", voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
-    map.put("type", VoucherMapper.mapToTypeId(voucher));
+    map.put("type", VoucherType.mapToTypeId(voucher));
     map.put("discountDegree", voucher.getDiscountDegree());
 
     return map;

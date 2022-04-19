@@ -1,6 +1,6 @@
 package org.programmers.devcourse.voucher;
 
-import org.programmers.devcourse.voucher.engine.Demo;
+import org.programmers.devcourse.voucher.engine.Controller;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -14,7 +14,7 @@ public class VoucherApplication {
 
     var context = app.run(args);
 
-    context.getBean(Demo.class).start();
+    context.getBean(Controller.class).start();
 
 
   }

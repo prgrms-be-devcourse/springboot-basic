@@ -11,10 +11,9 @@ public class JdbcConfiguration {
 
   @Bean
   DataSource dataSource(JdbcProperties jdbcProperties) {
-    var dataSource = DataSourceBuilder.create().type(HikariDataSource.class)
+    return DataSourceBuilder.create().type(HikariDataSource.class)
         .username(jdbcProperties.getUser()).password(jdbcProperties.getPassword())
         .url(jdbcProperties.getUrl())
         .build();
-    return dataSource;
   }
 }

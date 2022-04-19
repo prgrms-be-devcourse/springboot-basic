@@ -10,14 +10,14 @@ import org.programmers.devcourse.voucher.engine.voucher.entity.FixedAmountVouche
 import org.programmers.devcourse.voucher.engine.voucher.entity.PercentDiscountVoucher;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
-public enum VoucherMapper {
+public enum VoucherType {
   FIXED_AMOUNT("1",
       "$", FixedAmountVoucher.factory),
   PERCENT_DISCOUNT("2",
       "%", PercentDiscountVoucher.factory);
 
-  private static final Map<String, VoucherMapper> idToMapperStorage = Collections.unmodifiableMap(
-      Stream.of(VoucherMapper.values())
+  private static final Map<String, VoucherType> idToMapperStorage = Collections.unmodifiableMap(
+      Stream.of(VoucherType.values())
           .collect(Collectors.toMap(value -> value.typeId, value -> value)));
 
 
@@ -26,14 +26,14 @@ public enum VoucherMapper {
   private final VoucherFactory factory;
 
 
-  VoucherMapper(String typeId, String unit,
+  VoucherType(String typeId, String unit,
       VoucherFactory factory) {
     this.typeId = typeId;
     this.unit = unit;
     this.factory = factory;
   }
 
-  public static Optional<VoucherMapper> from(String candidate) {
+  public static Optional<VoucherType> from(String candidate) {
 
     return Optional.ofNullable(idToMapperStorage.get(candidate));
   }

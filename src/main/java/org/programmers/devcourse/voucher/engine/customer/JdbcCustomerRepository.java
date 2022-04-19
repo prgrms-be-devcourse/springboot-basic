@@ -89,7 +89,7 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
 
     } catch (DataAccessException exception) {
 
-      logger.error("DataAccessException", exception);
+      logger.error(exception.getMessage(), exception);
       return Optional.empty();
 
     }

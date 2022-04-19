@@ -11,7 +11,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
-import org.programmers.devcourse.voucher.engine.voucher.VoucherMapper;
+import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public class FileVoucherRepository implements
     String template = "{1}{0}{2}{0}{3}";
     return MessageFormat.format(template, DELIMITER,
         voucher.getVoucherId(),
-        VoucherMapper.mapToTypeId(voucher), // 바우처의 타입을 알면 id를 받아올 수 있다.
+        VoucherType.mapToTypeId(voucher), // 바우처의 타입을 알면 id를 받아올 수 있다.
         voucher.getDiscountDegree());
   };
   // 바우처를 로드했을 때 먼저 파일 스트림을 연다.
@@ -44,7 +44,7 @@ public class FileVoucherRepository implements
     Arrays.stream(fileChannel.readAllLines()).forEach(line -> {
       var fields = line.split(DELIMITER_REGEX);
       var voucherId = UUID.fromString(fields[0]);
-      var voucherMapper = VoucherMapper.from(fields[1]);
+      var voucherMapper = VoucherType.from(fields[1]);
       if (voucherMapper.isEmpty()) {
         return;
       }
