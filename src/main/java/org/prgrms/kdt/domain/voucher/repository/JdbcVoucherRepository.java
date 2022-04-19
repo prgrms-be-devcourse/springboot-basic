@@ -28,12 +28,12 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public UUID save(Voucher voucher) {
-        int update = jdbcTemplate.update(
+        int savedRows = jdbcTemplate.update(
                 "INSERT INTO voucher(voucher_id, voucher_type, discount_value, customer_id, created_date, modified_date) " +
                         "VALUES (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :discountValue, UNHEX(REPLACE(:customerId, '-', '')), :createdDate, :modifiedDate)",
                 toParamMap(voucher));
-        if(update != 1){
-            throw new RuntimeException("Nothing was inserted");
+        if(savedRows != 1){
+            throw new RuntimeException("저장된 컬럼이 없습니다.");
         }
         return voucher.getVoucherId();
     }
@@ -75,9 +75,14 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public int updateById(Voucher voucher) {
-        return jdbcTemplate.update("UPDATE voucher " +
-                        "SET voucher_type = :voucherType, discount_value = :discountValue, customer_id = UNHEX(REPLACE(:customerId, '-', '')), created_date = :createdDate, modified_date = :modifiedDate",
+        int updatedRows = jdbcTemplate.update("UPDATE voucher " +
+                        "SET voucher_type = :voucherType, discount_value = :discountValue, customer_id = UNHEX(REPLACE(:customerId, '-', '')), created_date = :createdDate, modified_date = :modifiedDate " +
+                        "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 toParamMap(voucher));
+        if(updatedRows == 0) {
+            throw new RuntimeException("업데이트 된 컬럼이 없습니다.");
+        }
+        return updatedRows;
     }
 
     @Override
@@ -86,25 +91,37 @@ public class JdbcVoucherRepository implements VoucherRepository{
             put("voucherId", UuidUtils.UuidToByte(voucherId));
             put("customerId", UuidUtils.UuidToByte(customerId));
         }};
-        return jdbcTemplate.update("UPDATE voucher SET customer_id = UNHEX(REPLACE(:customerId, '-', '')) WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+        int updatedRows = jdbcTemplate.update("UPDATE voucher SET customer_id = UNHEX(REPLACE(:customerId, '-', '')) WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 paramMap);
+        if(updatedRows == 0) {
+            throw new RuntimeException("업데이트 된 컬럼이 없습니다.");
+        }
+        return updatedRows;
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
-        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+    public int deleteById(UUID voucherId) {
+        int deletedRows = jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 Collections.singletonMap("voucherId", UuidUtils.UuidToByte(voucherId)));
+        if(deletedRows == 0) {
+            throw new RuntimeException("삭제된 컬럼이 없습니다.");
+        }
+        return deletedRows;
     }
 
     @Override
-    public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
+    public int deleteAll() {
+        return jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
     }
 
     @Override
-    public void deleteByCustomerId(UUID customerId) {
-        jdbcTemplate.update("DELETE FROM voucher WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+    public int deleteByCustomerId(UUID customerId) {
+        int deletedRows = jdbcTemplate.update("DELETE FROM voucher WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
+        if(deletedRows == 0) {
+            throw new RuntimeException("삭제된 컬럼이 없습니다.");
+        }
+        return deletedRows;
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {

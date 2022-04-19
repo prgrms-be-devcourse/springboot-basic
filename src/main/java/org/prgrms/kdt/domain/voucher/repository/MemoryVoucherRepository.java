@@ -44,18 +44,18 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
-
+    public int deleteById(UUID voucherId) {
+        return 0;
     }
 
     @Override
-    public void deleteAll() {
-
+    public int deleteAll() {
+        return 0;
     }
 
     @Override
-    public void deleteByCustomerId(UUID customerId) {
-
+    public int deleteByCustomerId(UUID customerId) {
+        return 0;
     }
 
     @Override

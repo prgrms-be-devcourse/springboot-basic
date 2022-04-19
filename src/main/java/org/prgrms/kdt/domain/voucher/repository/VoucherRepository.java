@@ -21,11 +21,11 @@ public interface VoucherRepository {
 
     int updateCustomerId(UUID voucherId, UUID customerId);
 
-    void deleteById(UUID voucherId);
+    int deleteById(UUID voucherId);
 
-    void deleteAll();
+    int deleteAll();
 
-    void deleteByCustomerId(UUID customerId);
+    int deleteByCustomerId(UUID customerId);
 
     List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date);
 }
