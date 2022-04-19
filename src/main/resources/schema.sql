@@ -7,3 +7,10 @@ CREATE TABLE customers
     created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     CONSTRAINT unq_user_email UNIQUE (email)
 );
+
+CREATE TABLE `vouchers`
+(
+    `voucher_id` BINARY(16) PRIMARY KEY,
+    `value` BIGINT NOT NULL,
+    `type` enum('FIX','PERCENT') NOT NULL
+);
