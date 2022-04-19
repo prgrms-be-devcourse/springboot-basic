@@ -14,12 +14,4 @@ public class Voucher {
     public Long getId() {
         return id;
     }
-
-    public VoucherType getType() {
-        return type;
-    }
-
-    public int getValue() {
-        return value;
-    }
 }
