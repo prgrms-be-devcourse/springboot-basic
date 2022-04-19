@@ -38,7 +38,8 @@ public class CommandLineRunner implements Runnable {
             output.printCommandManual();
 
             String command = input.input();
-            switch (CommandType.getCommandType(command)) {
+            CommandType commandType = CommandType.getCommandType(command);
+            switch (commandType) {
                 case EXIT:
                     isRunning = false;
                     output.printShutDownSystem();
@@ -61,18 +62,16 @@ public class CommandLineRunner implements Runnable {
 
                     break;
                 case LIST:
-                    output.printMessage(
-                        voucherService.findAll().stream()
-                            .map(Object::toString)
-                            .collect(Collectors.joining(",\n"))
-                    );
+                    String vouchers = voucherService.findAll().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(",\n"));
+                    output.printMessage(vouchers);
                     break;
                 case BLACK_LIST:
-                    output.printMessage(
-                        blackListCustomerService.findAll().stream()
-                            .map(Object::toString)
-                            .collect(Collectors.joining(",\n"))
-                    );
+                    String blackListCustomers = blackListCustomerService.findAll().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(",\n"));
+                    output.printMessage(blackListCustomers);
                     break;
                 default:
                     output.printInvalidCommand();
