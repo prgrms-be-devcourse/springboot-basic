@@ -11,7 +11,9 @@ public class VoucherApplication {
 
   public static void main(String[] args) {
     var app = new SpringApplication(VoucherApplication.class);
-
+    if (app.getAdditionalProfiles().isEmpty()) {
+      app.setAdditionalProfiles("dev");
+    }
     var context = app.run(args);
 
     context.getBean(Controller.class).start();

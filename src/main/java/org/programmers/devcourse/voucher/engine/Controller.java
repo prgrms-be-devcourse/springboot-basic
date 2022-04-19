@@ -3,11 +3,9 @@ package org.programmers.devcourse.voucher.engine;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.blacklist.BlackList;
 import org.programmers.devcourse.voucher.engine.blacklist.BlackListService;
-import org.programmers.devcourse.voucher.engine.exception.NoSuchOptionException;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
@@ -38,12 +36,9 @@ public class Controller {
 
   public void start() {
     try (input; output) {
-
       while (true) {
-        Optional<MenuSelection> optionalSelection = input.getSelection();
         try {
-          switch (optionalSelection.orElseThrow(
-              NoSuchOptionException::new)) {
+          switch (input.getSelection()) {
             case EXIT:
               output.print("=====Good Bye=====");
               return;
@@ -56,11 +51,13 @@ public class Controller {
             case BLACKLIST:
               showBlacklist();
               break;
+            default:
           }
 
         } catch (VoucherException exception) {
+          // 치명적이지 않은 오류 : 프로그램을 계속 실행한다.
           output.print(exception.getMessage());
-          logger.error("VoucherException", exception);
+          logger.error(exception.getClass().getCanonicalName(), exception);
         }
       }
 
@@ -90,12 +87,11 @@ public class Controller {
     VoucherType voucherType = null;
     while (true) {
       String typeId = input.getVoucherTypeId();
-      var candidate = voucherService.mapTypeToMapper(typeId);
-      if (candidate.isPresent()) {
-        voucherType = candidate.get();
+      var candidateVoucherType = voucherService.mapTypeToMapper(typeId);
+      if (candidateVoucherType.isPresent()) {
+        voucherType = candidateVoucherType.get();
         break;
       }
-      // input은 사용자의 입력을 받으면서 소통하는 애플리케이션
       input.printInputError("타입이 맞지 않습니다.");
     }
     long voucherDiscountData = input.getVoucherDiscountData(voucherType);

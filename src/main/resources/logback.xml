@@ -41,7 +41,6 @@
 
 
   <logger name="org.programmers.devcourse.voucher.engine" level="info" additivity="false">
-    <appender-ref ref="STDOUT"/>
     <appender-ref ref="ROLLING_FILE"/>
   </logger>
   <root level="info">

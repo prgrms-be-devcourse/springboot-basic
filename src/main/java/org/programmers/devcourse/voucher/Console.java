@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import org.programmers.devcourse.voucher.engine.MenuSelection;
 import org.programmers.devcourse.voucher.engine.blacklist.BlackList;
+import org.programmers.devcourse.voucher.engine.exception.NoSuchOptionException;
 import org.programmers.devcourse.voucher.engine.io.Input;
 import org.programmers.devcourse.voucher.engine.io.Output;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
@@ -30,19 +30,20 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public Optional<MenuSelection> getSelection() throws IOException {
+  public MenuSelection getSelection() throws IOException {
     System.out.println(MENU_STRING);
     System.out.print(">> ");
 
-    return MenuSelection.from(consoleReader.readLine());
+    return MenuSelection.from(consoleReader.readLine()).orElseThrow(NoSuchOptionException::new);
   }
 
   @Override
   public String getVoucherTypeId() throws IOException {
     System.out.println("== Create ==");
     System.out.println("Select type of voucher");
-    System.out.println("FixedAmountVoucher --> type 1");
-    System.out.println("PercentDiscountVoucher --> type 2");
+    for (VoucherType voucherType : VoucherType.values()) {
+      System.out.printf("%s --> type %d%n", voucherType.name(), voucherType.ordinal() + 1);
+    }
 
     return consoleReader.readLine();
   }
@@ -55,12 +56,8 @@ public class Console implements Input, Output {
           MessageFormat.format("Type amount of discount(unit: {0}) >> ", voucherType.getUnit()));
       try {
         discountData = Long.parseLong(consoleReader.readLine());
-        if (discountData <= 0) {
-          throw new NumberFormatException();
-        }
-
-      } catch (NumberFormatException e) {
-        System.out.println("Only positive integer accepted");
+      } catch (NumberFormatException ignored) {
+        System.out.println("정수를 입력해 주세요!");
       }
     }
     return discountData;

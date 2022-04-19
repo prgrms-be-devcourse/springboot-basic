@@ -1,7 +1,6 @@
 package org.programmers.devcourse.voucher.engine.blacklist;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,13 +31,16 @@ public class FileBlackListRepository implements
 
       blackListReader.lines().forEach(line -> {
         var fields = Arrays.stream(line.split(",")).map(String::trim).toArray(String[]::new);
+        if (fields.length != 2) {
+          throw new RuntimeException();
+        }
         var name = fields[0];
         var reason = fields[1];
         cache.add(new BlackList(name, reason));
       });
       blackListReader.close();
-    } catch (IOException ignored) {
-      logger.error("Blacklist File loading failed");
+    } catch (Exception exception) {
+      throw new RuntimeException("BlackListRepository 읽기 실패", exception);
     }
 
 

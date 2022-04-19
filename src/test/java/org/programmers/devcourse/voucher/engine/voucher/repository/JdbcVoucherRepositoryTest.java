@@ -88,7 +88,7 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
           repository.save(vouchersToTest.get(0));
         })).isInstanceOf(DataAccessException.class);
 
-    assertThat(repository.getAllVouchers().size()).isEqualTo(vouchersToTest.size());
+    assertThat(repository.getAllVouchers()).hasSameSizeAs(vouchersToTest);
   }
 
 }
