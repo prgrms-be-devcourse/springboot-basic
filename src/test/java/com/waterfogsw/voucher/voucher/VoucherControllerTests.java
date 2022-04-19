@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class VoucherControllerTests {
@@ -75,10 +75,8 @@ public class VoucherControllerTests {
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
-                VoucherDto.Info voucherInfo = response.getInfo();
-                assertThat(voucherInfo.getId(), is(voucherCaptor.getValue().getId()));
-                assertThat(voucherInfo.getType(), is(voucherCaptor.getValue().getType()));
-                assertThat(voucherInfo.getValue(), is(voucherCaptor.getValue().getValue()));
+                assertThat(request.getType(), is(response.getInfo().getType()));
+                assertThat(request.getValue(), is(response.getInfo().getValue()));
             }
         }
     }
