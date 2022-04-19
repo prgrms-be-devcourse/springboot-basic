@@ -24,4 +24,7 @@ public enum VoucherType {
 				.orElse(NONE);
 	}
 
+	public boolean isReEnter() {
+		return this == NONE;
+	}
 }

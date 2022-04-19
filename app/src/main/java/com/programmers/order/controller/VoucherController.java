@@ -37,9 +37,11 @@ public class VoucherController {
 	}
 
 	public void run() {
-		while (true) {
+		MenuType menuType = MenuType.NONE;
+
+		while (menuType.isReEnter()) {
 			String menu = input.read(BasicMessage.INIT);
-			MenuType menuType = MenuType.of(menu);
+			menuType = MenuType.of(menu);
 
 			switch (menuType) {
 				case CREATE -> {
@@ -47,11 +49,6 @@ public class VoucherController {
 				}
 				case LIST -> {
 					showVouchers();
-				}
-				case EXIT -> {
-					output.write(BasicMessage.EXIT);
-
-					return;
 				}
 				case NONE -> {
 					output.write(ErrorMessage.CLIENT_ERROR);
@@ -63,14 +60,18 @@ public class VoucherController {
 			output.write(BasicMessage.NEW_LINE);
 		}
 
+		output.write(BasicMessage.EXIT);
 	}
 
+	// todo : try-catch scope 줄이기 !!
 	private void createVoucher() {
-		while (true) {
+		VoucherType voucherType = VoucherType.NONE;
+
+		do {
 			String voucher = input.read(BasicMessage.VOUCHER_SELECT);
 
 			try {
-				VoucherType voucherType = VoucherType.of(voucher);
+				voucherType = VoucherType.of(voucher);
 				VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(voucherType);
 
 				voucherStoreManager.saveVoucher(voucherManager.create());
@@ -80,25 +81,27 @@ public class VoucherController {
 				output.write(ErrorMessage.CLIENT_ERROR);
 				logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
 			}
-		}
+		} while (voucherType.isReEnter());
+
 	}
 
+	// todo : voucher 1 네이밍 변경! := voucherBundle로!
 	private void showVouchers() {
 		output.write(BasicMessage.NEW_LINE);
 
-		List<Voucher> vouchers1 = voucherStoreManager.getVouchers();
+		List<Voucher> vouchers = voucherStoreManager.getVouchers();
 
-		if (vouchers1.isEmpty()) {
+		if (vouchers.isEmpty()) {
 			output.write(BasicMessage.NOT_EXIST_DATE);
 
 			return;
 		}
 
-		String vouchers = vouchers1
+		String voucherBundle = vouchers
 				.stream()
 				.map(Voucher::show)
 				.collect(Collectors.joining("\n"));
-		output.write(vouchers);
+		output.write(voucherBundle);
 	}
 
 }

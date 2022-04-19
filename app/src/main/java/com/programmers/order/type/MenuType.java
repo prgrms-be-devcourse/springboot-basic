@@ -11,4 +11,9 @@ public enum MenuType {
 				.findAny()
 				.orElse(NONE);
 	}
+
+	public boolean isReEnter() {
+		return this != EXIT;
+	}
 }
+

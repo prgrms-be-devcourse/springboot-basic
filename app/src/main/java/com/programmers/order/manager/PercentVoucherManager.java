@@ -23,6 +23,7 @@ public class PercentVoucherManager implements VoucherManager {
 	private static final Pattern LIMIT_NUMERIC_PATTERN = Pattern.compile("^[0-9]{1,3}");
 	private static final int LIMIT_PERCENT = 100;
 	private static final int MINIMUM_PERCENT = 1;
+	private static final String NOT_DECISION = "";
 
 	private final Input input;
 	private final Output output;
@@ -34,8 +35,11 @@ public class PercentVoucherManager implements VoucherManager {
 
 	@Override
 	public Voucher create() {
-		while (true) {
-			String percent = input.read(BasicMessage.PERCENT_VOUCHER_SELECT_MESSAGE);
+		boolean isReEnter = true;
+		String percent = NOT_DECISION;
+
+		while (isReEnter) {
+			percent = input.read(BasicMessage.PERCENT_VOUCHER_SELECT_MESSAGE);
 
 			if (!this.isValidPercent(percent)) {
 				log.info("error : {}", ErrorMessage.CLIENT_ERROR);
@@ -43,9 +47,10 @@ public class PercentVoucherManager implements VoucherManager {
 				continue;
 			}
 
-			return new PercentDiscountVoucher(UUID.randomUUID(),
-					Long.parseLong(percent));
+			isReEnter = false;
 		}
+
+		return new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(percent));
 	}
 
 	@Override

@@ -23,6 +23,7 @@ public class FixVoucherManager implements VoucherManager {
 	private static final Pattern LIMIT_NUMERIC_PATTERN = Pattern.compile("^[0-9]{1,9}");
 	private static final int MAXIMUM_FIX = 100_000_000;
 	private static final int MINIMUM_FIX = 1;
+	private static final String NOT_DECISION = "";
 
 	private final Input input;
 	private final Output output;
@@ -34,8 +35,11 @@ public class FixVoucherManager implements VoucherManager {
 
 	@Override
 	public Voucher create() {
-		while (true) {
-			String fixPrice = input.read(BasicMessage.FIX_VOUCHER_SELECT_MESSAGE);
+		boolean isReEnter = true;
+		String fixPrice = NOT_DECISION;
+
+		while (isReEnter) {
+			fixPrice = input.read(BasicMessage.FIX_VOUCHER_SELECT_MESSAGE);
 
 			if (!this.isValidPrice(fixPrice)) {
 				log.info("error : {}", ErrorMessage.CLIENT_ERROR);
@@ -43,8 +47,10 @@ public class FixVoucherManager implements VoucherManager {
 				continue;
 			}
 
-			return new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(fixPrice));
+			isReEnter = false;
 		}
+
+		return new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(fixPrice));
 	}
 
 	@Override
