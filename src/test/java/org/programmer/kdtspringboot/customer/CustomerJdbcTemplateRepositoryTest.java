@@ -80,14 +80,14 @@ class CustomerJdbcTemplateRepositoryTest {
     @Test
     @Order(1)
     @DisplayName("HiKARI 확인")
-    void testHikariConnectionPool() {
+    void hikariConnectionPoolTest() {
         assertThat(dataSource.getClass().getName()).isEqualTo("com.zaxxer.hikari.HikariDataSource");
     }
 
     @Test
     @Order(2)
     @DisplayName("고객을 추가할 수 있음")
-    void testInsertCustomer() {
+    void insertCustomerTest() {
         customerJdbcTemplateRepository.insert(customer);
 
         var retrievedCustomer = customerJdbcTemplateRepository.findById(customer.getCustomerId());
@@ -98,7 +98,7 @@ class CustomerJdbcTemplateRepositoryTest {
     @Test
     @Order(3)
     @DisplayName("전체 고객을 조회할 수 있음")
-    void testFindAll() /*throws InterruptedException*/ {
+    void findAllTest() /*throws InterruptedException*/ {
         var customers = customerJdbcTemplateRepository.findAll();
         assertThat(customers).isNotEmpty();
     }
@@ -106,7 +106,7 @@ class CustomerJdbcTemplateRepositoryTest {
     @Test
     @Order(4)
     @DisplayName("이름으로 고객을 조회할 수 있음")
-    void testFindName() {
+    void findNameTest() {
         var customers = customerJdbcTemplateRepository.findByName(customer.getName());
         assertThat(customers).isNotEmpty();
 
@@ -117,7 +117,7 @@ class CustomerJdbcTemplateRepositoryTest {
     @Test
     @Order(5)
     @DisplayName("이메일로 고객을 조회할 수 있음")
-    void testFindEmail() {
+    void findEmailTest() {
         var customers = customerJdbcTemplateRepository.findByEmail(customer.getEmail());
         assertThat(customers).isNotEmpty();
 
@@ -128,7 +128,7 @@ class CustomerJdbcTemplateRepositoryTest {
     @Test
     @Order(6)
     @DisplayName("고객을 수정할 수 있음")
-    void testUpdateCustomer() {
+    void updateCustomerTest() {
         customer.changeName("updated-user");
         customerJdbcTemplateRepository.update(customer);
 
