@@ -2,7 +2,7 @@ package org.prgrms.springbootbasic.voucher.voucher;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
   private final UUID voucherId;
   private final long percent;
   private static final long divider = 100L;

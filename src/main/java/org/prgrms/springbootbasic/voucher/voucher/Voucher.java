@@ -2,9 +2,9 @@ package org.prgrms.springbootbasic.voucher.voucher;
 
 import java.util.UUID;
 
-public interface Voucher {
+public abstract class Voucher {
 
-  UUID getVoucherID();
+  public abstract UUID getVoucherID();
 
-  long discount(long beforeDiscount);
+  public abstract long discount(long beforeDiscount);
 }

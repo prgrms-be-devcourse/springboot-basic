@@ -2,7 +2,7 @@ package org.prgrms.springbootbasic.voucher.voucher;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
   private final UUID voucherId;
   private final long amount;
 
