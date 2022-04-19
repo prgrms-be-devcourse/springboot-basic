@@ -2,6 +2,7 @@ package org.programmer.kdtspringboot.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,9 +25,10 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         int update = jdbcTemplate.update(
-                "insert into vouchers(voucher_id, value) values (UNHEX(REPLACE(?, '-', '')), ?)",
-                voucher.getVoucherId(),
-                voucher.getValue()
+                "insert into vouchers(voucher_id, value, type) values (UNHEX(REPLACE(?, '-', '')), ?, ?)",
+                voucher.getVoucherId().toString().getBytes(),
+                voucher.getValue(),
+                voucher.getType().getType()
         );
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
@@ -37,9 +39,10 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         int update = jdbcTemplate.update(
-                "update vouchers set value = ? where voucher_id =UNHEX(REPLACE(?, '-', ''))",
+                "update vouchers set value = ?, type = ? where voucher_id =UNHEX(REPLACE(?, '-', ''))",
                 voucher.getValue(),
-                voucher.getVoucherId()
+                voucher.getType().getType(),
+                voucher.getVoucherId().toString().getBytes()
         );
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
@@ -57,20 +60,24 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(
-                "select * from vouchers where voucherId = ?",
-                voucherRowMapper,
-                voucherId
-        ));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "select * from vouchers where voucher_id = UNHEX(REPLACE(?, '-', ''))",
+                    voucherRowMapper,
+                    voucherId.toString().getBytes()
+            ));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from customer");
+        jdbcTemplate.update("delete from vouchers");
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
-        //TODO: Voucher  타입을 어떻게 결정할것인가?
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("value");
         var voucherType = VoucherType.getVoucherType(resultSet.getString("type"));
