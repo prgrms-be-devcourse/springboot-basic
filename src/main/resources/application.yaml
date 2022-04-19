@@ -2,3 +2,5 @@ file.path:
   baseDirectory: files
   vouchersFilePath: vouchers.ser
   blacklistFilePath: customer_black_list.csv
+
+spring.config.import: db-config.yaml
