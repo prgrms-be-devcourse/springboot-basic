@@ -1,6 +1,12 @@
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher?serverTimezone=Asia/Seoul
+    username:
+    password:
+
   profiles:
-    active: dev
+    active: local
 csv:
   voucher:
     file-name: voucherList_sample.csv
