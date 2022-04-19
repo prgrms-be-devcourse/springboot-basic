@@ -1,7 +1,7 @@
 package org.programmer.kdtspringboot.customer;
 
+import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -11,24 +11,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import com.wix.mysql.EmbeddedMysql;
-
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.distribution.Version.v5_7_latest;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.config.Charset.UTF8;
-
 import javax.sql.DataSource;
-
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.*;
-
+import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
+import static com.wix.mysql.ScriptResolver.classPathScript;
+import static com.wix.mysql.config.Charset.UTF8;
+import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -37,9 +30,9 @@ class CustomerJdbcTemplateRepositoryTest {
 
     @Configuration
     @ComponentScan(basePackages = {"org.programmer.kdtspringboot.customer"})
-    static class Config{
+    static class Config {
         @Bean
-        public DataSource dataSource(){
+        public DataSource dataSource() {
             HikariDataSource dataSource = DataSourceBuilder.create()
                     .url("jdbc:mysql://localhost:2215/test-order_mgmt")
                     .username("test")
@@ -50,7 +43,7 @@ class CustomerJdbcTemplateRepositoryTest {
         }
 
         @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource){
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
         }
     }
@@ -63,6 +56,7 @@ class CustomerJdbcTemplateRepositoryTest {
 
     Customer customer;
     EmbeddedMysql embeddedMysql;
+
     @BeforeAll
     void setUp() {
         //임베디드 실습
@@ -70,11 +64,11 @@ class CustomerJdbcTemplateRepositoryTest {
         var mysqlConfig = aMysqldConfig(v5_7_latest)
                 .withCharset(UTF8)
                 .withPort(2215)
-                .withUser("test","test1234!")
+                .withUser("test", "test1234!")
                 .withTimeZone("Asia/Seoul")
                 .build();
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-order_mgmt",classPathScript("schema.sql"))
+                .addSchema("test-order_mgmt", classPathScript("schema.sql"))
                 .start();
     }
 
@@ -87,7 +81,7 @@ class CustomerJdbcTemplateRepositoryTest {
     @Order(1)
     @DisplayName("HiKARI 확인")
     void testHikariConnectionPool() {
-        MatcherAssert.assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
+        assertThat(dataSource.getClass().getName()).isEqualTo("com.zaxxer.hikari.HikariDataSource");
     }
 
     @Test
@@ -96,9 +90,9 @@ class CustomerJdbcTemplateRepositoryTest {
     void testInsertCustomer() {
         customerJdbcTemplateRepository.insert(customer);
 
-        var retrievedCustomer =customerJdbcTemplateRepository.findById(customer.getCustomerId());
-        MatcherAssert.assertThat(retrievedCustomer.isEmpty(), is(false));
-        MatcherAssert.assertThat(retrievedCustomer.get(), samePropertyValuesAs(customer));
+        var retrievedCustomer = customerJdbcTemplateRepository.findById(customer.getCustomerId());
+        assertThat(retrievedCustomer).isNotEmpty();
+        assertThat(retrievedCustomer.get()).usingRecursiveComparison().isEqualTo(customer);
     }
 
     @Test
@@ -106,8 +100,7 @@ class CustomerJdbcTemplateRepositoryTest {
     @DisplayName("전체 고객을 조회할 수 있음")
     void testFindAll() /*throws InterruptedException*/ {
         var customers = customerJdbcTemplateRepository.findAll();
-        MatcherAssert.assertThat(customers.isEmpty(), is(false));
-        //Thread.sleep(10000);
+        assertThat(customers).isNotEmpty();
     }
 
     @Test
@@ -115,10 +108,10 @@ class CustomerJdbcTemplateRepositoryTest {
     @DisplayName("이름으로 고객을 조회할 수 있음")
     void testFindName() {
         var customers = customerJdbcTemplateRepository.findByName(customer.getName());
-        MatcherAssert.assertThat(customers.isEmpty(), is(false));
+        assertThat(customers).isNotEmpty();
 
         var customers1 = customerJdbcTemplateRepository.findByName("unknown-user");
-        MatcherAssert.assertThat(customers1.isEmpty(), is(true));
+        assertThat(customers1).isEmpty();
     }
 
     @Test
@@ -126,10 +119,10 @@ class CustomerJdbcTemplateRepositoryTest {
     @DisplayName("이메일로 고객을 조회할 수 있음")
     void testFindEmail() {
         var customers = customerJdbcTemplateRepository.findByEmail(customer.getEmail());
-        MatcherAssert.assertThat(customers.isEmpty(), is(false));
+        assertThat(customers).isNotEmpty();
 
         var customers1 = customerJdbcTemplateRepository.findByName("unknown-user@123");
-        MatcherAssert.assertThat(customers1.isEmpty(), is(true));
+        assertThat(customers1).isEmpty();
     }
 
     @Test
@@ -139,14 +132,12 @@ class CustomerJdbcTemplateRepositoryTest {
         customer.changeName("updated-user");
         customerJdbcTemplateRepository.update(customer);
 
-        var customers= customerJdbcTemplateRepository.findAll();
-        MatcherAssert.assertThat(customers, hasSize(1));
-        MatcherAssert.assertThat(customers, everyItem(samePropertyValuesAs(customer)));
+        var customers = customerJdbcTemplateRepository.findAll();
+        assertThat(customers).isNotEmpty();
+        assertThat(customers).hasSize(1);
 
-        var retrivedCustomer =customerJdbcTemplateRepository.findById(customer.getCustomerId());
-        MatcherAssert.assertThat(retrivedCustomer.isEmpty(), is(false));
-        MatcherAssert.assertThat(retrivedCustomer.get(), samePropertyValuesAs(customer));
+        var retrivedCustomer = customerJdbcTemplateRepository.findById(customer.getCustomerId());
+        assertThat(retrivedCustomer).isNotEmpty();
+        assertThat(retrivedCustomer.get()).usingRecursiveComparison().isEqualTo(customer);
     }
-
-
 }
