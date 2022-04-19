@@ -1,11 +1,13 @@
-package org.prgrms.springbootbasic.repository;
+package org.prgrms.springbootbasic.repository.voucher;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import org.prgrms.springbootbasic.entity.Voucher;
+import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -33,12 +35,27 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Integer getVoucherTotalNumber() {
-        return storage.size();
+    public void removeAll() {
+        storage.clear();
     }
 
     @Override
-    public void removeAll() {
-        storage.clear();
+    public Voucher updateCustomerId(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public List<Voucher> findByCustomer(Customer customer) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public void deleteVoucher(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
     }
 }

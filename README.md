@@ -5,7 +5,7 @@
 [노션에서 미션 확인가기](https://www.notion.so/backend-devcourse/Part1-3-38f57acca0dd490db11393701417943a)
 <br/>
 
-SpringBoot Part1 Weekly Mission
+## SpringBoot Part1 Weekly Mission
 
 (기본) **바우처 관리 애플리케이션**
 
@@ -82,3 +82,70 @@ SpringBoot Part1 Weekly Mission
 - [X] 동시 테스트 assertAll() 이용해보기.
 - [X] BeforeEach, AfterEach 하나만 하도록 코드 수정
 - [X] InstanceOf 지양하기
+
+## SpringBoot Part2 Weekly Mission
+
+**(기본)** **바우처 관리 애플리케이션**
+
+- [X] 바우처 관리 애플리케이션에 단위테스트를 작성해보세요.
+    - 가능한 많은 단위 테스트코드를 작성하려고 노력해보세요.
+    - 엣지 케이스(예외 케이스)를 고려해서 작성해주세요.
+    - Hamcrest 의 메쳐들을 다양하게 작성해보고 익숙해져 보세요.
+- [X] 바우처 관리 애플리케이션에서도 과정에서 다루었던 고객을 적용해보세요.
+    - customers 테이블 정의 및 추가
+    - CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
+- [X] (1주차를 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
+    - 바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
+    - 바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
+    - 기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
+
+**(심화)** **바우처 지갑을 만들어보세요.**
+
+- [X] 특정 고객에게 바우처를 할당할 수 있습니다.
+- [X] 고객이 어떤 바우처를 보유하고 있는지 조회할 수 있어야 합니다.
+- [X] 고객이 보유한 바우처를 제거할 수 있어야 합니다.
+- [X] 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
+
+
+### 구현 기능 목록  (기본 요구사항)
+- [X] JDBC 연결
+- [X] customers table 만들기
+- [X] JdbcCustomerRepository 만들기
+  - [X] 회원 저장 기능 개발
+  - [X] 회원 전체 조회 기능 개발
+  - [X] 회원 전체 삭제 개발
+  - [X] 회원 이름 수정 기능 개발
+- [X] Customer 엔티티 개발
+- [X] CustomerService 개발
+  - [X] 회원 추가 기능 개발
+  - [X] 회원 조회 기능 개발
+- [X] ConsoleView에 기능 추가
+  - [X] 회원 생성 기능 추가
+  - [X] 회원 조회 기능 추가
+- [X] vouchers table 만들기 (비정규화 방식으로 만듬)
+- [X] JdbcVoucherRepository 만들기
+  - [X] Voucher 전체 조회
+  - [X] Voucher 저장
+  - [X] Voucher 전체 삭제
+  - [X] Voucher Id로 조회
+- [X] 테스트 추가 & 전체적으로 리팩토링 (예외처리 등..)
+
+### 구현 기능 모록 (심화 요구사항)
+- [X] AOP 사용해 보기 (Logger)
+- [X] vouchers table 수정 (참조키로 customers table와 연결)
+- [X] 특정 고객에게 바우처 할당 기능
+  - [X] vouchers table의 외래키 값 변경 (Repository)
+  - [X] service 계층 개발
+  - [X] ConsoleView, Controller 기능 추가
+- [X] 고객이 어떤 바우처를 보유하고 있는지 조회할 수 있어야 합니다.
+  - [X] 고객이 갖고 있는 바우처 Repository에서 조회 기능
+  - [X] 고객이 갖고 있는 바우처 조회 기능 (Service)
+  - [X] 고객이 갖고 있는 바우처 조회 기능 (Controller)
+- [X] 고객이 보유한 바우처 제거 기능
+  - [X] 특정 customer_id를 가진 voucher 제거 기능 (Repository)
+  - [X] voucher 고객이 보유한 바우처 제거 기능 (Service)
+  - [X] 고객이 보유한 바우처 제거 기능 (Controller)
+- [X] 특정 바우처를 보유한 고객 조회 기능
+  - [X] 특정 바우처를 가진 고객 조회 기능 개발 (Repository)
+  - [X] 특정 바우처를 가진 고객 조회 기능 (Service)
+  - [X] 특정 바우처를 가진 고객 조회 기능 (Controller)

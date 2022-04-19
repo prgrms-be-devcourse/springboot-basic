@@ -1,5 +1,7 @@
 package org.prgrms.springbootbasic.controller;
 
+import org.prgrms.springbootbasic.exception.ServiceException;
+import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.view.ConsoleView;
 import org.slf4j.Logger;
@@ -12,10 +14,13 @@ public class VoucherController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
     private final ConsoleView consoleView;
+    private final CustomerService customerService;
 
-    public VoucherController(VoucherService voucherService, ConsoleView consoleView) {
+    public VoucherController(VoucherService voucherService, ConsoleView consoleView,
+        CustomerService customerService) {
         this.voucherService = voucherService;
         this.consoleView = consoleView;
+        this.customerService = customerService;
     }
 
     public void run() {
@@ -23,15 +28,28 @@ public class VoucherController {
         }
     }
 
-    private boolean process() {
+    public boolean process() {
         logger.info("process() called");
 
         consoleView.printMenu();
         Menu menu = consoleView.inputMenu();
-        return menu.apply(this);
+
+        try {
+            return menu.apply(this);
+        } catch (ServiceException exception) {
+            logger.info("Got service exception");
+
+            consoleView.printError(exception.getMessage());
+            return true;
+        } catch (Exception exception) {
+            logger.error("Got system exception", exception);
+            return false;
+        }
     }
 
     public void createVoucher() {
+        logger.info("createVoucher() called");
+
         VoucherType voucherType = consoleView.selectVoucherType();
 
         if (voucherType.isFixed()) {
@@ -46,10 +64,59 @@ public class VoucherController {
     }
 
     public void printList() {
+        logger.info("printList() called");
+
         consoleView.printList(voucherService.findAll());
     }
 
     public void printBlackList() {
+        logger.info("printBlackList() called");
+
         consoleView.printCustomerBlackList();
+    }
+
+    public void createCustomer() {
+        logger.info("createCustomer() called");
+
+        var name = consoleView.selectName();
+        var email = consoleView.selectEmail();
+        customerService.createCustomer(name, email);
+    }
+
+    public void printAllCustomers() {
+        logger.info("printAllCustomers() called");
+
+        consoleView.printAllCustomers(customerService.findAllCustomers());
+    }
+
+    public void assignVoucher() {
+        logger.info("assignVoucher() called");
+
+        var voucherId = consoleView.selectVoucherId();
+        var customerId = consoleView.selectCustomerId();
+        voucherService.assignVoucherToCustomer(voucherId, customerId);
+    }
+
+    public void listCustomerVoucher() {
+        logger.info("listCustomerVoucher() called");
+
+        var customerId = consoleView.selectCustomerId();
+        consoleView.printCustomerVouchers(voucherService.findCustomerVoucher(customerId));
+    }
+
+    public void deleteCustomerVoucher() {
+        logger.info("deleteCustomerVoucher() called");
+
+        var customerId = consoleView.selectCustomerId();
+        var voucherId = consoleView.selectVoucherId();
+        customerService.deleteVoucher(customerId, voucherId);
+    }
+
+    public void listCustomerHavingSpecificVoucherType() {
+        logger.info("listCustomerHavingSpecificVoucherType() called");
+
+        var voucherType = consoleView.selectVoucherType();
+        consoleView.printAllCustomers(
+            customerService.findCustomerHavingSpecificVoucherType(voucherType));
     }
 }

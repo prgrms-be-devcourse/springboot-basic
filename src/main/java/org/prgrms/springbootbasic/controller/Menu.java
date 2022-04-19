@@ -16,7 +16,32 @@ public enum Menu {
     BLACKLIST("blacklist", voucherController -> {
         voucherController.printBlackList();
         return true;
-    });
+    }),
+    CREATECUSTOMER("createCustomer", voucherController -> {
+        voucherController.createCustomer();
+        return true;
+    }),
+    LISTCUSTOMER("listCustomer", voucherController -> {
+        voucherController.printAllCustomers();
+        return true;
+    }),
+    ASSIGNVOUCHER("assignVoucher", voucherController -> {
+        voucherController.assignVoucher();
+        return true;
+    }),
+    LISTCUSTOMERVOUCHER("listCustomerVoucher", voucherController -> {
+        voucherController.listCustomerVoucher();
+        return true;
+    }),
+    DELETECUSTOMERVOUCHER("deleteCustomerVoucher", voucherController -> {
+        voucherController.deleteCustomerVoucher();
+        return true;
+    }),
+    LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE("listCustomerHavingSpecificVoucherType",
+        voucherController -> {
+            voucherController.listCustomerHavingSpecificVoucherType();
+            return true;
+        });
 
     private final String textName;
     private final Function<VoucherController, Boolean> function;
@@ -29,5 +54,4 @@ public enum Menu {
     public boolean apply(VoucherController voucherController) {
         return function.apply(voucherController);
     }
-
 }

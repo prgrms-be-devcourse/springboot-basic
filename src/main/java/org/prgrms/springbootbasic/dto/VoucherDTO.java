@@ -3,9 +3,9 @@ package org.prgrms.springbootbasic.dto;
 import java.io.Serializable;
 import java.util.UUID;
 import org.prgrms.springbootbasic.controller.VoucherType;
-import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
-import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
-import org.prgrms.springbootbasic.entity.Voucher;
+import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
 
 public class VoucherDTO implements Serializable {
 

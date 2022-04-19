@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.repository;
+package org.prgrms.springbootbasic.repository.voucher;
 
 import java.io.EOFException;
 import java.io.File;
@@ -9,18 +9,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.prgrms.springbootbasic.dto.VoucherDTO;
-import org.prgrms.springbootbasic.entity.FixedAmountVoucher;
-import org.prgrms.springbootbasic.entity.PercentDiscountVoucher;
-import org.prgrms.springbootbasic.entity.Voucher;
+import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("dev")
+@Profile("dev1")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -72,16 +75,31 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Integer getVoucherTotalNumber() {
-        return findAll().size();
-    }
-
-    @Override
     public void removeAll() {
         try {
             new FileOutputStream(VoucherStorage).close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Voucher updateCustomerId(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public List<Voucher> findByCustomer(Customer customer) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public void deleteVoucher(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
     }
 }
