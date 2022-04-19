@@ -2,11 +2,11 @@ package org.prgms.voucherProgram.dto;
 
 import java.util.UUID;
 
-public class WalletRequestDto {
+public class WalletRequest {
     private String customerEmail;
     private UUID voucherId;
 
-    public WalletRequestDto(String customerEmail, UUID voucherId) {
+    public WalletRequest(String customerEmail, UUID voucherId) {
         this.customerEmail = customerEmail;
         this.voucherId = voucherId;
     }

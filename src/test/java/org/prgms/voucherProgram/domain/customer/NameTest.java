@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 class NameTest {
 
@@ -18,9 +20,10 @@ class NameTest {
     }
 
     @DisplayName("이름이 비어있으면 예외를 발생한다.")
-    @Test
-    void should_ThrowException_When_NameIsBlank() {
-        assertThatThrownBy(() -> new Name("  "))
+    @ParameterizedTest
+    @NullAndEmptySource
+    void should_ThrowException_When_NameIsBlank(String name) {
+        assertThatThrownBy(() -> new Name(name))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 이름이 비어있습니다.");
     }

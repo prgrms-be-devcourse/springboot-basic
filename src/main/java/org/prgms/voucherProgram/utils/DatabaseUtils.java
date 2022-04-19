@@ -29,8 +29,7 @@ public class DatabaseUtils {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         int voucherType = resultSet.getInt("type");
         Long discountValue = resultSet.getLong("discount");
-        return VoucherType.findByNumber(voucherType)
-            .constructor(voucherId, customerId, discountValue);
+        return VoucherType.findByNumber(voucherType).constructor(voucherId, customerId, discountValue);
     };
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseUtils.class);

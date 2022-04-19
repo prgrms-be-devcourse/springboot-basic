@@ -6,6 +6,7 @@ import static com.wix.mysql.config.MysqldConfig.*;
 import static com.wix.mysql.distribution.Version.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,10 +22,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.domain.voucher.FixedAmountVoucher;
 import org.prgms.voucherProgram.domain.voucher.PercentDiscountVoucher;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
 import org.prgms.voucherProgram.exception.NothingChangeException;
+import org.prgms.voucherProgram.repository.customer.BlackListRepository;
+import org.prgms.voucherProgram.repository.customer.JdbcCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -50,6 +54,9 @@ class JdbcVoucherRepositoryTest {
 
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
+
+    @Autowired
+    private JdbcCustomerRepository jdbcCustomerRepository;
 
     @BeforeAll
     static void setup() {
@@ -208,13 +215,14 @@ class JdbcVoucherRepositoryTest {
     @Test
     void should_ReturnAssignVouchers() {
         //given
-        UUID customerId = UUID.randomUUID();
-        List<Voucher> vouchers = List.of(new FixedAmountVoucher(UUID.randomUUID(), customerId, 20L),
-            new PercentDiscountVoucher(UUID.randomUUID(), customerId, 30L));
+        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+        List<Voucher> vouchers = List.of(new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 20L),
+            new PercentDiscountVoucher(UUID.randomUUID(), customer.getCustomerId(), 30L));
+        jdbcCustomerRepository.save(customer);
         vouchers.forEach(jdbcVoucherRepository::save);
 
         //when
-        List<Voucher> findVouchers = jdbcVoucherRepository.findByCustomerId(customerId);
+        List<Voucher> findVouchers = jdbcVoucherRepository.findByCustomerEmail(customer.getEmail());
 
         //then
         assertThat(findVouchers).hasSize(2)
@@ -223,10 +231,11 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Configuration
-    @ComponentScan(basePackages = "org.prgms.voucherProgram.repository.voucher",
+    @ComponentScan(basePackages = {"org.prgms.voucherProgram.repository.voucher",
+        "org.prgms.voucherProgram.repository.customer"},
         excludeFilters = @ComponentScan.Filter(
             type = FilterType.ASSIGNABLE_TYPE,
-            value = FileVoucherRepository.class))
+            value = {FileVoucherRepository.class, BlackListRepository.class}))
     static class Config {
         @Bean
         public DataSource dataSource() {

@@ -2,9 +2,9 @@ package org.prgms.voucherProgram.view;
 
 import java.util.UUID;
 
-import org.prgms.voucherProgram.dto.CustomerDto;
-import org.prgms.voucherProgram.dto.VoucherDto;
-import org.prgms.voucherProgram.dto.WalletRequestDto;
+import org.prgms.voucherProgram.dto.CustomerRequest;
+import org.prgms.voucherProgram.dto.VoucherRequest;
+import org.prgms.voucherProgram.dto.WalletRequest;
 
 public interface InputView {
 
@@ -16,25 +16,21 @@ public interface InputView {
 
     String inputCustomerSubMenu();
 
-    int inputVoucherType();
-
-    VoucherDto inputVoucherInformation(int voucherType);
-
-    CustomerDto inputCustomerInformation();
-
-    String inputCustomerName();
+    CustomerRequest inputCustomerInformation();
 
     String inputCustomerEmail();
 
-    Long inputDiscountPercent();
+    String inputCustomerName();
 
-    Long inputDiscountAmount();
+    VoucherRequest inputVoucherInformation(int voucherType);
 
-    VoucherDto inputUpdateVoucher();
+    int inputVoucherType();
+
+    long inputDiscountValue();
 
     UUID inputVoucherId();
 
     String inputWalletMenu();
 
-    WalletRequestDto inputWalletInformation();
+    WalletRequest inputWalletInformation();
 }

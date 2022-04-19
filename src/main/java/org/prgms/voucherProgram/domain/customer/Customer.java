@@ -5,10 +5,10 @@ import java.util.UUID;
 
 public class Customer {
     private final UUID customerId;
-    private final Name name;
-    private final Email email;
     private final LocalDateTime createdTime;
-    private final LocalDateTime lastLoginTime;
+    private Name name;
+    private Email email;
+    private LocalDateTime lastLoginTime;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdTime) {
         this(customerId, name, email, createdTime, null);
@@ -25,6 +25,12 @@ public class Customer {
 
     public boolean isNotSameCustomer(Customer customer) {
         return !this.customerId.equals(customer.customerId);
+    }
+
+    public void changeInformation(String name, String email, LocalDateTime lastLoginTime) {
+        this.name = new Name(name);
+        this.email = new Email(email);
+        this.lastLoginTime = lastLoginTime;
     }
 
     public UUID getCustomerId() {
@@ -45,5 +51,16 @@ public class Customer {
 
     public LocalDateTime getLastLoginTime() {
         return lastLoginTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+            "customerId=" + customerId +
+            ", createdTime=" + createdTime +
+            ", name=" + name +
+            ", email=" + email +
+            ", lastLoginTime=" + lastLoginTime +
+            '}';
     }
 }

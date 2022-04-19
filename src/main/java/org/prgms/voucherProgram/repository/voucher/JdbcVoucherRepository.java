@@ -91,4 +91,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
             DatabaseUtils.voucherRowMapper,
             DatabaseUtils.toBytes(customerId));
     }
+
+    @Override
+    public List<Voucher> findByCustomerEmail(String customerEmail) {
+        return jdbcTemplate.query(
+            "SELECT * FROM voucher v join customer c on c.customer_id = v.customer_id where c.email = ?",
+            DatabaseUtils.voucherRowMapper,
+            customerEmail);
+    }
 }

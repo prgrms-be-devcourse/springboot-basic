@@ -15,7 +15,7 @@ public class Name {
     }
 
     private void validateName(String name) {
-        if (name.isBlank()) {
+        if (Objects.isNull(name) || name.isBlank()) {
             throw new WrongNameException("[ERROR] 이름이 비어있습니다.");
         }
 
@@ -41,5 +41,10 @@ public class Name {
     @Override
     public int hashCode() {
         return Objects.hash(getName());
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

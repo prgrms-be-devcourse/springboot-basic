@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 class EmailTest {
 
@@ -18,9 +20,10 @@ class EmailTest {
     }
 
     @DisplayName("이메일이 비어있으면 예외를 발생한다.")
-    @Test
-    void should_ThrowException_When_EmailIsBlank() {
-        assertThatThrownBy(() -> new Email("  "))
+    @ParameterizedTest
+    @NullAndEmptySource
+    void should_ThrowException_When_EmailIsBlank(String email) {
+        assertThatThrownBy(() -> new Email(email))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 이메일이 비어있습니다.");
     }

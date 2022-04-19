@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.menu.VoucherMenuType;
 import org.prgms.voucherProgram.domain.voucher.VoucherType;
-import org.prgms.voucherProgram.dto.VoucherDto;
-import org.prgms.voucherProgram.dto.WalletRequestDto;
+import org.prgms.voucherProgram.dto.VoucherRequest;
+import org.prgms.voucherProgram.dto.WalletRequest;
 import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
 import org.prgms.voucherProgram.exception.WrongCommandException;
 import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
@@ -57,17 +57,14 @@ public class VoucherProgram {
 
     private void createVoucher() {
         VoucherType voucherType = inputVoucherType();
-        VoucherDto voucherDto = inputView.inputVoucherInformation(voucherType.getNumber());
+        VoucherRequest voucherRequest = inputView.inputVoucherInformation(voucherType.getNumber());
         while (true) {
             try {
-                outputView.printVoucher(voucherService.create(voucherDto));
+                outputView.printVoucher(voucherService.create(voucherRequest));
                 return;
-            } catch (WrongDiscountAmountException e) {
+            } catch (WrongDiscountAmountException | WrongDiscountPercentException e) {
                 outputView.printError(e.getMessage());
-                voucherDto.setDiscountValue(inputView.inputDiscountAmount());
-            } catch (WrongDiscountPercentException e) {
-                outputView.printError(e.getMessage());
-                voucherDto.setDiscountValue(inputView.inputDiscountPercent());
+                voucherRequest.setDiscountValue(inputView.inputDiscountValue());
             }
         }
     }
@@ -83,23 +80,19 @@ public class VoucherProgram {
     }
 
     private void updateVoucher() {
-        VoucherDto voucherDto = inputView.inputUpdateVoucher();
+        UUID voucherId = inputView.inputVoucherId();
+        VoucherType voucherType = inputVoucherType();
+        VoucherRequest voucherRequest = inputView.inputVoucherInformation(voucherType.getNumber());
         while (true) {
             try {
-                outputView.printVoucher(voucherService.update(voucherDto));
+                outputView.printVoucher(voucherService.update(voucherId, voucherRequest));
                 return;
-            } catch (WrongDiscountAmountException e) {
+            } catch (WrongDiscountAmountException | WrongDiscountPercentException e) {
                 outputView.printError(e.getMessage());
-                voucherDto.setDiscountValue(inputView.inputDiscountAmount());
-            } catch (WrongDiscountPercentException e) {
-                outputView.printError(e.getMessage());
-                voucherDto.setDiscountValue(inputView.inputDiscountPercent());
+                voucherRequest.setDiscountValue(inputView.inputDiscountValue());
             } catch (VoucherIsNotExistsException e) {
                 outputView.printError(e.getMessage());
                 return;
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-                voucherDto.setType(inputView.inputVoucherType());
             }
         }
     }
@@ -129,9 +122,9 @@ public class VoucherProgram {
     }
 
     private void deleteAssignVoucher() {
-        WalletRequestDto walletRequestDto = inputView.inputWalletInformation();
+        WalletRequest walletRequest = inputView.inputWalletInformation();
         try {
-            voucherService.deleteAssignVoucher(walletRequestDto);
+            voucherService.deleteAssignVoucher(walletRequest);
             outputView.printSuccess();
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
@@ -148,9 +141,9 @@ public class VoucherProgram {
     }
 
     private void assignVoucher() {
-        WalletRequestDto walletRequestDto = inputView.inputWalletInformation();
+        WalletRequest walletRequest = inputView.inputWalletInformation();
         try {
-            outputView.printVoucher(voucherService.assignVoucher(walletRequestDto));
+            outputView.printVoucher(voucherService.assignVoucher(walletRequest));
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
         }
@@ -170,7 +163,7 @@ public class VoucherProgram {
         String email = inputView.inputCustomerEmail();
         while (true) {
             try {
-                outputView.printWalletVouchers(voucherService.findAssignVouchers(email));
+                outputView.printVouchers(voucherService.findAssignVouchers(email));
                 return;
             } catch (WrongEmailException e) {
                 outputView.printError(e.getMessage());

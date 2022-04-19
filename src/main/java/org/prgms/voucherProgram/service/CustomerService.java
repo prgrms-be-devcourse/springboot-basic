@@ -1,12 +1,12 @@
 package org.prgms.voucherProgram.service;
 
-import static java.util.stream.Collectors.*;
-
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.domain.customer.Email;
-import org.prgms.voucherProgram.dto.CustomerDto;
+import org.prgms.voucherProgram.dto.CustomerRequest;
 import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.prgms.voucherProgram.repository.customer.BlackListRepository;
@@ -24,10 +24,11 @@ public class CustomerService {
         this.blackListRepository = fileCustomerRepository;
     }
 
-    public CustomerDto save(CustomerDto customerDto) {
-        Customer customer = customerDto.toEntity();
+    public Customer save(CustomerRequest customerRequest) {
+        Customer customer = new Customer(UUID.randomUUID(), customerRequest.getName(), customerRequest.getEmail(),
+            LocalDateTime.now());
         validateDuplicateCustomer(customer);
-        return CustomerDto.from(customerRepository.save(customer));
+        return customerRepository.save(customer);
     }
 
     private void validateDuplicateCustomer(Customer customer) {
@@ -36,17 +37,20 @@ public class CustomerService {
         });
     }
 
-    public CustomerDto update(Email email, CustomerDto customerDto) {
-        Customer customer = customerDto.toEntity();
-
-        customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
-            throw new CustomerIsNotExistsException();
-        });
+    public Customer update(Email email, CustomerRequest customerRequest) {
+        Customer customer = findCustomer(email);
+        customer.changeInformation(customerRequest.getName(), customerRequest.getEmail(), LocalDateTime.now());
 
         customerRepository.findByEmail(customer.getEmail())
             .ifPresent(findCustomer -> validateDuplicateEmail(customer, findCustomer));
 
-        return CustomerDto.from(customerRepository.update(customer));
+        return customerRepository.update(customer);
+    }
+
+    private Customer findCustomer(Email email) {
+        return customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
+            throw new CustomerIsNotExistsException();
+        });
     }
 
     private void validateDuplicateEmail(Customer customer, Customer findCustomer) {
@@ -62,19 +66,12 @@ public class CustomerService {
             });
     }
 
-    public CustomerDto findByEmail(Email email) {
-        Customer customer = customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
-            throw new CustomerIsNotExistsException();
-        });
-
-        return CustomerDto.from(customer);
+    public Customer findByEmail(Email email) {
+        return findCustomer(email);
     }
 
-    public List<CustomerDto> findCustomers() {
-        return customerRepository.findAll()
-            .stream()
-            .map(CustomerDto::from)
-            .collect(toList());
+    public List<Customer> findCustomers() {
+        return customerRepository.findAll();
     }
 
     public List<Customer> findBlackList() {

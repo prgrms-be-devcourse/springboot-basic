@@ -1,17 +1,14 @@
 package org.prgms.voucherProgram.service;
 
-import static java.util.stream.Collectors.*;
-
 import java.util.List;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.domain.customer.Email;
 import org.prgms.voucherProgram.domain.voucher.Voucher;
-import org.prgms.voucherProgram.dto.CustomerDto;
-import org.prgms.voucherProgram.dto.VoucherDto;
-import org.prgms.voucherProgram.dto.WalletRequestDto;
-import org.prgms.voucherProgram.dto.WalletVoucherDto;
+import org.prgms.voucherProgram.domain.voucher.VoucherType;
+import org.prgms.voucherProgram.dto.VoucherRequest;
+import org.prgms.voucherProgram.dto.WalletRequest;
 import org.prgms.voucherProgram.exception.AlreadyAssignException;
 import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.exception.NotFoundVoucherException;
@@ -32,23 +29,27 @@ public class VoucherService {
         this.customerRepository = customerRepository;
     }
 
-    public VoucherDto create(VoucherDto voucherDto) {
-        Voucher voucher = voucherDto.toEntity();
-        return VoucherDto.from(voucherRepository.save(voucher));
+    public Voucher create(VoucherRequest voucherRequest) {
+        Voucher voucher = toEntity(UUID.randomUUID(), voucherRequest);
+        return voucherRepository.save(voucher);
     }
 
-    public VoucherDto update(VoucherDto voucherDto) {
-        Voucher voucher = voucherDto.toEntity();
-        voucherRepository.findById(voucherDto.getVoucherId()).orElseThrow(() -> {
+    private Voucher toEntity(UUID voucherId, VoucherRequest voucherRequest) {
+        return VoucherType.findByNumber(voucherRequest.getType())
+            .constructor(voucherId, null, voucherRequest.getDiscountValue());
+    }
+
+    public Voucher update(UUID voucherId, VoucherRequest voucherRequest) {
+        voucherRepository.findById(voucherId).orElseThrow(() -> {
             throw new VoucherIsNotExistsException();
         });
-        return VoucherDto.from(voucherRepository.update(voucher));
+
+        Voucher voucher = toEntity(voucherId, voucherRequest);
+        return voucherRepository.update(voucher);
     }
 
-    public List<VoucherDto> findAllVoucher() {
-        return voucherRepository.findAll().stream()
-            .map(VoucherDto::from)
-            .collect(toList());
+    public List<Voucher> findAllVoucher() {
+        return voucherRepository.findAll();
     }
 
     public void delete(UUID voucherId) {
@@ -58,41 +59,37 @@ public class VoucherService {
             });
     }
 
-    public WalletVoucherDto assignVoucher(WalletRequestDto walletRequestDto) {
-        Voucher voucher = findVoucher(walletRequestDto.getVoucherId());
+    public Voucher assignVoucher(WalletRequest walletRequest) {
+        Voucher voucher = findVoucher(walletRequest.getVoucherId());
         validateAssign(voucher);
-        Customer customer = findCustomer(walletRequestDto.getCustomerEmail());
+        Customer customer = findCustomer(walletRequest.getCustomerEmail());
 
         voucher.assignCustomer(customer.getCustomerId());
-        return WalletVoucherDto.from(voucherRepository.assignCustomer(voucher));
+        return voucherRepository.assignCustomer(voucher);
     }
 
-    public List<WalletVoucherDto> findAssignVouchers(String customerEmail) {
+    public List<Voucher> findAssignVouchers(String customerEmail) {
         Customer customer = findCustomer(customerEmail);
-
-        return voucherRepository.findByCustomerId(customer.getCustomerId()).stream()
-            .map(WalletVoucherDto::from)
-            .collect(toList());
+        return voucherRepository.findByCustomerEmail(customer.getEmail());
     }
 
-    public void deleteAssignVoucher(WalletRequestDto walletRequestDto) {
-        Customer customer = findCustomer(walletRequestDto.getCustomerEmail());
+    public void deleteAssignVoucher(WalletRequest walletRequest) {
+        Customer customer = findCustomer(walletRequest.getCustomerEmail());
 
         Voucher voucher = voucherRepository.findByCustomerId(customer.getCustomerId()).stream()
-            .filter(findVoucher -> findVoucher.isSameVoucher(walletRequestDto.getVoucherId()))
+            .filter(findVoucher -> findVoucher.isSameVoucher(walletRequest.getVoucherId()))
             .findFirst()
             .orElseThrow(NotFoundVoucherException::new);
 
         voucherRepository.deleteById(voucher.getVoucherId());
     }
 
-    public CustomerDto findCustomer(UUID voucherId) {
+    public Customer findCustomer(UUID voucherId) {
         Voucher voucher = findVoucher(voucherId);
         validateNotAssign(voucher);
 
-        Customer customer = customerRepository.findById(voucher.getCustomerId())
+        return customerRepository.findByVoucherId(voucherId)
             .orElseThrow(CustomerIsNotExistsException::new);
-        return CustomerDto.from(customer);
     }
 
     private void validateNotAssign(Voucher voucher) {

@@ -1,20 +1,18 @@
 package org.prgms.voucherProgram.view;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.customer.Customer;
-import org.prgms.voucherProgram.dto.CustomerDto;
-import org.prgms.voucherProgram.dto.VoucherDto;
-import org.prgms.voucherProgram.dto.WalletRequestDto;
-import org.prgms.voucherProgram.dto.WalletVoucherDto;
+import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.dto.CustomerRequest;
+import org.prgms.voucherProgram.dto.VoucherRequest;
+import org.prgms.voucherProgram.dto.WalletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Console implements InputView, OutputView {
-    public static final String REQUEST_UPDATE_DISCOUNT_VALUE = "Enter voucher discount value to update : ";
     private static final String PROMPT = "> ";
     private static final String REQUEST_INPUT_CONSOLE_COMMAND = "\n=== Console Program ===\nType \"exit\" to exit the program.\nType \"voucher\" run Voucher program.\nType \"customer\" run Customer program.";
     private static final String REQUEST_INPUT_VOUCHER_COMMAND = "\n=== Voucher Program ===\nType \"exit\" to exit the Voucher program.\nType \"create\" to create a new voucher.\nType \"list\" to list all vouchers.\nType \"update\" to update voucher.\nType \"delete\" to delete voucher.\nType \"wallet\" to wallet voucher.";
@@ -22,8 +20,7 @@ public class Console implements InputView, OutputView {
     private static final String REQUEST_INPUT_WALLET_COMMAND = "\n=== WALLET Program ===\nType \"exit\" to exit the WALLET program.\nType \"assign\" voucher assign to customer\nType \"list\" to list customer has vouchers.\nType \"delete\" to delete customer has voucher.\nType \"find\" find customer with voucher.";
     private static final String REQUEST_INPUT_VOUCHER_TYPE = "\nSelect a voucher type\nType \"1\" to create a new FixedAmountVoucher\nType \"2\" to create a new PercentDiscountVoucher";
     private static final String REQUEST_INPUT_CUSTOMER_SUB_COMMAND = "\nSelect a range\nType \"all\" to do ALL\nType \"one\" to do just one (need email input)\nType \"blacklist\" to list all black customer.";
-    private static final String REQUEST_INPUT_DISCOUNT_AMOUNT = "\nInput voucher discount amount : ";
-    private static final String REQUEST_INPUT_DISCOUNT_PERCENTAGE = "\nInput voucher discount percentage : ";
+    private static final String REQUEST_INPUT_DISCOUNT_VALUE = "\nInput voucher discount value : ";
     private static final String EMPTY_VOUCHERS = "Empty Vouchers";
     private static final String EMPTY_CUSTOMERS = "Empty Customers";
     private static final String ERROR_INPUT_NUMBER_TYPE = "[ERROR] 정수만 입력가능합니다.";
@@ -59,30 +56,10 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public int inputVoucherType() {
-        return convertToInt();
-    }
-
-    @Override
-    public VoucherDto inputVoucherInformation(int voucherType) {
-        long discountValue = inputDiscountValue(voucherType);
-        return new VoucherDto(UUID.randomUUID(), voucherType, discountValue);
-    }
-
-    private long inputDiscountValue(int voucherType) {
-        String message = REQUEST_INPUT_DISCOUNT_PERCENTAGE;
-        if (voucherType == 1) {
-            message = REQUEST_INPUT_DISCOUNT_AMOUNT;
-        }
-        System.out.print(message);
-        return convertToLong(message);
-    }
-
-    @Override
-    public CustomerDto inputCustomerInformation() {
+    public CustomerRequest inputCustomerInformation() {
         String name = inputCustomerName();
         String email = inputCustomerEmail();
-        return new CustomerDto(UUID.randomUUID(), name, email, LocalDateTime.now(), null);
+        return new CustomerRequest(name, email);
     }
 
     @Override
@@ -98,24 +75,20 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public Long inputDiscountPercent() {
-        System.out.print(REQUEST_INPUT_DISCOUNT_PERCENTAGE);
-        return convertToLong(REQUEST_INPUT_DISCOUNT_PERCENTAGE);
+    public int inputVoucherType() {
+        return convertToInt();
     }
 
     @Override
-    public Long inputDiscountAmount() {
-        System.out.print(REQUEST_INPUT_DISCOUNT_AMOUNT);
-        return convertToLong(REQUEST_INPUT_DISCOUNT_PERCENTAGE);
+    public VoucherRequest inputVoucherInformation(int voucherType) {
+        long discountValue = inputDiscountValue();
+        return new VoucherRequest(voucherType, discountValue);
     }
 
     @Override
-    public VoucherDto inputUpdateVoucher() {
-        UUID voucherId = inputVoucherId();
-        int voucherType = inputVoucherType();
-        System.out.print(REQUEST_UPDATE_DISCOUNT_VALUE);
-        Long discountValue = convertToLong(REQUEST_UPDATE_DISCOUNT_VALUE);
-        return new VoucherDto(voucherId, voucherType, discountValue);
+    public long inputDiscountValue() {
+        System.out.print(REQUEST_INPUT_DISCOUNT_VALUE);
+        return convertToLong();
     }
 
     @Override
@@ -138,10 +111,10 @@ public class Console implements InputView, OutputView {
     }
 
     @Override
-    public WalletRequestDto inputWalletInformation() {
+    public WalletRequest inputWalletInformation() {
         String email = inputCustomerEmail();
         UUID voucherId = inputVoucherId();
-        return new WalletRequestDto(email, voucherId);
+        return new WalletRequest(email, voucherId);
     }
 
     private int convertToInt() {
@@ -156,76 +129,42 @@ public class Console implements InputView, OutputView {
         }
     }
 
-    private Long convertToLong(String requestMessage) {
+    private Long convertToLong() {
         while (true) {
             try {
                 return Long.parseLong(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
                 printError(ERROR_INPUT_NUMBER_TYPE);
-                System.out.println(requestMessage);
             }
         }
     }
 
     @Override
-    public void printVoucher(VoucherDto voucherDto) {
-        System.out.printf("%s\n%n", voucherDto);
+    public void printVoucher(Voucher voucher) {
+        System.out.printf("%s\n%n", voucher);
     }
 
     @Override
-    public void printVoucher(WalletVoucherDto walletVoucherDto) {
-        System.out.printf("%s\n%n", walletVoucherDto);
+    public void printCustomer(Customer customer) {
+        System.out.printf("%s\n%n", customer);
     }
 
     @Override
-    public void printCustomer(CustomerDto customerDto) {
-        System.out.printf("%s\n%n", customerDto);
-    }
-
-    @Override
-    public void printVouchers(List<VoucherDto> vouchers) {
+    public void printVouchers(List<Voucher> vouchers) {
         if (vouchers.isEmpty()) {
             System.out.printf("\n%s%n\n", EMPTY_VOUCHERS);
             return;
         }
 
         System.out.println();
-        for (VoucherDto voucherDto : vouchers) {
-            System.out.println(voucherDto);
+        for (Voucher voucher : vouchers) {
+            System.out.println(voucher);
         }
         System.out.println();
     }
 
     @Override
-    public void printWalletVouchers(List<WalletVoucherDto> vouchers) {
-        if (vouchers.isEmpty()) {
-            System.out.printf("\n%s%n\n", EMPTY_VOUCHERS);
-            return;
-        }
-
-        System.out.println();
-        for (WalletVoucherDto voucherDto : vouchers) {
-            System.out.println(voucherDto);
-        }
-        System.out.println();
-    }
-
-    @Override
-    public void printCustomers(List<CustomerDto> customers) {
-        if (customers.isEmpty()) {
-            System.out.printf("\n%s%n\n", EMPTY_CUSTOMERS);
-            return;
-        }
-
-        System.out.println();
-        for (CustomerDto customerDto : customers) {
-            System.out.println(customerDto);
-        }
-        System.out.println();
-    }
-
-    @Override
-    public void printBlackList(List<Customer> customers) {
+    public void printCustomers(List<Customer> customers) {
         if (customers.isEmpty()) {
             System.out.printf("\n%s%n\n", EMPTY_CUSTOMERS);
             return;

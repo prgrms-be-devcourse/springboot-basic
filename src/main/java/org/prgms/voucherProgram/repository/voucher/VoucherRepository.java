@@ -22,4 +22,6 @@ public interface VoucherRepository {
     Voucher assignCustomer(Voucher voucher);
 
     List<Voucher> findByCustomerId(UUID customerId);
+
+    List<Voucher> findByCustomerEmail(String customerEmail);
 }

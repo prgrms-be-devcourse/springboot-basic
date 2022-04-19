@@ -74,6 +74,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByVoucherId(UUID voucherId) {
+        try {
+            return Optional.ofNullable(
+                jdbcTemplate.queryForObject(
+                    "SELECT * FROM customer c JOIN voucher v on c.customer_id = v.customer_id WHERE voucher_id = UUID_TO_BIN(?)",
+                    DatabaseUtils.customerRowMapper, voucherId));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customer");
     }
@@ -91,3 +103,4 @@ public class JdbcCustomerRepository implements CustomerRepository {
         DatabaseUtils.validateExecute(result);
     }
 }
+

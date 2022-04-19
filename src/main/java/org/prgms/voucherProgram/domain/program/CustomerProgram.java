@@ -2,7 +2,7 @@ package org.prgms.voucherProgram.domain.program;
 
 import org.prgms.voucherProgram.domain.customer.Email;
 import org.prgms.voucherProgram.domain.menu.CustomerMenuType;
-import org.prgms.voucherProgram.dto.CustomerDto;
+import org.prgms.voucherProgram.dto.CustomerRequest;
 import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.exception.DuplicateEmailException;
 import org.prgms.voucherProgram.exception.WrongEmailException;
@@ -52,17 +52,17 @@ public class CustomerProgram {
     }
 
     private void createCustomer() {
-        CustomerDto customerDto = inputView.inputCustomerInformation();
+        CustomerRequest customerRequest = inputView.inputCustomerInformation();
         while (true) {
             try {
-                outputView.printCustomer(customerService.save(customerDto));
+                outputView.printCustomer(customerService.save(customerRequest));
                 return;
             } catch (WrongNameException e) {
                 outputView.printError(e.getMessage());
-                customerDto.setName(inputView.inputCustomerName());
+                customerRequest.setName(inputView.inputCustomerName());
             } catch (WrongEmailException e) {
                 outputView.printError(e.getMessage());
-                customerDto.setEmail(inputView.inputCustomerEmail());
+                customerRequest.setEmail(inputView.inputCustomerEmail());
             }
         }
     }
@@ -103,17 +103,17 @@ public class CustomerProgram {
 
     private void updateCustomer() {
         Email email = inputCustomerEmail();
-        CustomerDto customerDto = inputView.inputCustomerInformation();
+        CustomerRequest customerRequest = inputView.inputCustomerInformation();
         while (true) {
             try {
-                outputView.printCustomer(customerService.update(email, customerDto));
+                outputView.printCustomer(customerService.update(email, customerRequest));
                 return;
             } catch (WrongNameException e) {
                 outputView.printError(e.getMessage());
-                customerDto.setName(inputView.inputCustomerName());
+                customerRequest.setName(inputView.inputCustomerName());
             } catch (WrongEmailException | DuplicateEmailException e) {
                 outputView.printError(e.getMessage());
-                customerDto.setEmail(inputView.inputCustomerEmail());
+                customerRequest.setEmail(inputView.inputCustomerEmail());
             } catch (CustomerIsNotExistsException e) {
                 outputView.printError(e.getMessage());
                 return;
@@ -142,7 +142,7 @@ public class CustomerProgram {
 
     private void printBlackList() {
         try {
-            outputView.printBlackList(customerService.findBlackList());
+            outputView.printCustomers(customerService.findBlackList());
         } catch (WrongFileException e) {
             outputView.printError(e.getMessage());
             System.exit(0);

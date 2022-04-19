@@ -21,7 +21,7 @@ public class Email {
     }
 
     private void validateEmail(String email) {
-        if (email.isBlank()) {
+        if (Objects.isNull(email) || email.isBlank()) {
             throw new WrongEmailException(ERROR_EMAIL_BLANK_MESSAGE);
         }
         if (isWrongEmail(email)) {
@@ -53,5 +53,10 @@ public class Email {
     @Override
     public int hashCode() {
         return Objects.hash(getEmail());
+    }
+
+    @Override
+    public String toString() {
+        return email;
     }
 }
