@@ -24,6 +24,7 @@ public class Customer {
     }
 
     public Customer(CustomerRequest customerRequest) {
+        validateName(customerRequest.getName());
         this.customerId = UUID.randomUUID();
         this.name = customerRequest.getName();
         this.email = customerRequest.getEmail();
@@ -32,9 +33,9 @@ public class Customer {
     }
 
     public Customer(CustomerType customerType) {
-        this.customerId = UUID.randomUUID();
-        this.createdAt = LocalDateTime.now();
+        this.customerId=UUID.randomUUID();
         this.customerType = customerType;
+        this.createdAt = LocalDateTime.now();
     }
 
     private void validateName(String name) {

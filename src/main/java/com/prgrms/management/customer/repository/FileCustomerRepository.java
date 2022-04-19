@@ -67,18 +67,19 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findBlackList() {
-        List<Customer> blackCustomerList = new ArrayList<>();
-        //try-with-resource
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(BLACK_LIST_FILE_NAME))) {
-            String reader;
-            while ((reader = bufferedReader.readLine()) != null) {
-                String[] voucherInfo = reader.split(",");
-                CustomerType type = CustomerType.of(voucherInfo[1]);
-                if (type.equals(CustomerType.BLACKLIST)) blackCustomerList.add(new Customer(CustomerType.BLACKLIST));
-            }
-        } catch (IOException e) {
-            logger.warn("{}:{}",e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
-        }
-        return blackCustomerList;
+//        List<Customer> blackCustomerList = new ArrayList<>();
+//        //try-with-resource
+//        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(BLACK_LIST_FILE_NAME))) {
+//            String reader;
+//            while ((reader = bufferedReader.readLine()) != null) {
+//                String[] voucherInfo = reader.split(",");
+//                CustomerType type = CustomerType.of(voucherInfo[1]);
+//                if (type.equals(CustomerType.BLACKLIST)) blackCustomerList.add(new Customer(CustomerType.BLACKLIST));
+//            }
+//        } catch (IOException e) {
+//            logger.warn("{}:{}",e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
+//        }
+//        return blackCustomerList;
+        return null;
     }
 }

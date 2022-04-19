@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("jdbc")
+@Profile({"jdbc","test"})
 public class JdbcCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
@@ -44,13 +44,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        try {
-            if (findByEmail(customer.getEmail()).isPresent()) {
-                throw new DuplicateKeyException(ErrorMessageType.DUPLICATECUSTOMEREMAIL.getMessage());
-            }
-        } catch (DuplicateKeyException e) {
-            logger.info("{}:{}", e.getClass(), e.getMessage());
-        }
         int update = jdbcTemplate.update("insert into customers(customer_id, name, email, created_at, customer_type) values (UUID_TO_BIN(?), ?, ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
                 customer.getName(),
@@ -80,7 +73,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer updateName(Customer customer) {
-        int update = jdbcTemplate.update("update customers set name = ? customer_id = UUID_TO_BIN(?)",
+        int update = jdbcTemplate.update("update customers set name = ? where customer_id = UUID_TO_BIN(?)",
                 customer.getName(),
                 customer.getCustomerId().toString().getBytes()
         );
@@ -98,7 +91,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper,
                     customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.info("Got empty result", e);
             return Optional.empty();
         }
     }
@@ -111,7 +104,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper,
                     email));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.info("Got empty result", e);
             return Optional.empty();
         }
     }

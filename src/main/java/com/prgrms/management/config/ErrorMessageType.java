@@ -7,6 +7,7 @@ public enum ErrorMessageType {
     INCORRECT_NUMBER_FORMAT(":올바른 숫자 형식이 아닙니다."),
     IO_EXCEPTION("IO EXCEPTION이 발생했습니다."),
     DUPLICATECUSTOMEREMAIL("중복된 이메일입니다."),
+    NOSUCHCUSTOMER("조회할 수 없는 고객입니다."),
     OUT_OF_RANGE_FIXED_NUMBER(":0~10000 이내로 입력하세요"),
     OUT_OF_RANGE_PERCENT_NUMBER(":0~100 이내로 입력하세요");
 

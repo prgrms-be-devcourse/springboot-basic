@@ -19,7 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
-@Profile("jdbc")
+@Profile({"jdbc","test"})
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
@@ -64,7 +64,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     voucherRowMapper,
                     voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
             return Optional.empty();
         }
     }

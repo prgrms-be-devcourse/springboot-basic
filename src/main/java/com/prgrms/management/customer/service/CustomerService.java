@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -38,7 +37,7 @@ public class CustomerService {
         customerRepository.deleteAll();
     }
 
-    public void updateCustomer(UUID customerId,String customerName) {
+    public void updateCustomer(UUID customerId, String customerName) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(NoSuchElementException::new);
         customer.setName(customerName);
         customerRepository.updateName(customer);
