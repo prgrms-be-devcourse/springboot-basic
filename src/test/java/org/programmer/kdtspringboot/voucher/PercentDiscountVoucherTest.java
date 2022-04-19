@@ -12,11 +12,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PercentDiscountVoucherTest {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+
     @Test
     @DisplayName("할인을 해주는 discount 성공테스트")
     void DiscountPercentSuccessesTest() {
         var sut = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
-        logger.info("결과값" +sut.discount(200L));
+        logger.info("결과값" + sut.discount(200L));
         assertThat(180L).isEqualTo(sut.discount(200L));
     }
 
