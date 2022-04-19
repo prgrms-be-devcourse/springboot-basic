@@ -36,7 +36,7 @@ class JdbcCustomerRepositoryTest {
         public DataSource dataSource() {
             return DataSourceBuilder.create()
                     .url("jdbc:mysql://localhost/voucher")
-                    .username("park")
+                    .username("root")
                     .password("1234")
                     .type(HikariDataSource.class)
                     .build();
@@ -126,9 +126,23 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    public void findByCustomerType() {
+        //given
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        UUID customerId = UUID.randomUUID();
+        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
+        customerRepository.save(customer);
+        //when
+        List<Customer> customers = customerRepository.findByCustomerType(CustomerType.BLACK_LIST);
+        //then
+        assertThat(customers.size()).isEqualTo(1);
+        assertThat(customers.get(0)).usingRecursiveComparison().isEqualTo(customer);
+    }
+
+    @Test
     public void updateById() throws Exception {
         //given
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
         Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
