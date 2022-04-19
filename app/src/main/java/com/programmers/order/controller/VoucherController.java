@@ -85,7 +85,6 @@ public class VoucherController {
 
 	}
 
-	// todo : voucher 1 네이밍 변경! := voucherBundle로!
 	private void showVouchers() {
 		output.write(BasicMessage.NEW_LINE);
 
