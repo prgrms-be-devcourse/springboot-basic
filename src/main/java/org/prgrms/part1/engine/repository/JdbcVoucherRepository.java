@@ -1,5 +1,6 @@
 package org.prgrms.part1.engine.repository;
 
+import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.engine.domain.Voucher;
 import org.prgrms.part1.engine.enumtype.VoucherType;
 import org.prgrms.part1.exception.VoucherException;
@@ -24,6 +25,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var value = resultSet.getLong(voucherType.getValueColumnName());
+        var customerId = resultSet.getBytes("customer_id") != null ? toUUID(resultSet.getBytes("customer_id")) : null;
         return voucherType.createVoucher(voucherId, value, createdAt);
     };
 
@@ -33,6 +35,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
            put("voucherType", voucher.getVoucherType().toString());
            put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
            put("value", voucher.getValue());
+           put("customerId", voucher.getCustomerId().isPresent() ? voucher.getCustomerId() : null);
         }};
     }
 
@@ -81,7 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Voucher update(Voucher voucher) {
         var paramMap = toParamMap(voucher);
-        int updateCount = jdbcTemplate.update("update vouchers set "+ voucher.getVoucherType().getValueColumnName() + "= :value where voucher_id = UNHEX(REPLACE(:voucherId, '-', ''));",paramMap);
+        int updateCount = jdbcTemplate.update("update vouchers set "+ voucher.getVoucherType().getValueColumnName() + "= :value, customer_id = :customerId where voucher_id = UNHEX(REPLACE(:voucherId, '-', ''));",paramMap);
         if (updateCount < 1) {
             throw new VoucherException("Nothing was updated!");
         }

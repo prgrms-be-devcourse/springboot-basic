@@ -1,5 +1,6 @@
 package org.prgrms.part1.engine.repository;
 
+import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.engine.domain.Voucher;
 import org.prgrms.part1.engine.enumtype.VoucherType;
 import org.springframework.context.annotation.Profile;

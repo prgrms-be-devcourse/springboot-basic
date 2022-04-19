@@ -1,9 +1,10 @@
 package org.prgrms.part1.engine.domain;
 
 import com.opencsv.bean.CsvBindByName;
+import org.prgrms.part1.exception.VoucherException;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.*;
 
 public class Customer {
     @CsvBindByName
@@ -19,6 +20,7 @@ public class Customer {
     private Boolean isBlack;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+        validate(name, email);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -28,6 +30,7 @@ public class Customer {
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+        validate(name, email);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -35,14 +38,8 @@ public class Customer {
         this.isBlack = false;
     }
 
-    private void validateName(String name) {
-        if (name.isBlank()) {
-            throw new RuntimeException("Name should not be blank.");
-        }
-    }
-
     public void changeName(String name) {
-        validateName(name);
+        validate(name, email);
         this.name = name;
     }
 
@@ -84,5 +81,11 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    private void validate(String name, String email) {
+        if (name.isBlank() || email.isBlank()) {
+            throw new VoucherException("Name and email is required!");
+        }
     }
 }

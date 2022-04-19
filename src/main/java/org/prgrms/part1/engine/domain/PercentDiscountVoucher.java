@@ -4,6 +4,7 @@ import org.prgrms.part1.engine.enumtype.VoucherType;
 import org.prgrms.part1.exception.VoucherException;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -12,6 +13,7 @@ public class PercentDiscountVoucher implements Voucher {
     private long percent;
     private final VoucherType voucherType;
     private final LocalDateTime createdAt;
+    private UUID customerId;
 
     public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
         validateValue(percent);
@@ -37,6 +39,16 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public void changeOwner(Customer customer) {
+        this.customerId = customer.getCustomerId();
+    }
+
+    @Override
+    public void revokeOwner() {
+        this.customerId = null;
+    }
+
+    @Override
     public String toFileString() {
         return voucherId + "\nPercentDiscount\n" + percent + "\n" + createdAt;
     }
@@ -59,6 +71,11 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public Optional<UUID> getCustomerId() {
+        return Optional.ofNullable(this.customerId);
     }
 
     private void validateValue(Long percent) {

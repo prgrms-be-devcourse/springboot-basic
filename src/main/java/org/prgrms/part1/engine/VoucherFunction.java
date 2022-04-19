@@ -1,5 +1,6 @@
 package org.prgrms.part1.engine;
 
+import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.engine.domain.Voucher;
 import org.prgrms.part1.engine.enumtype.DomainType;
 import org.prgrms.part1.engine.enumtype.VoucherType;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -97,6 +99,58 @@ public class VoucherFunction {
         customerService.insertCustomer(customerService.createCustomer(name, email));
     }
 
+    public void allocateVoucherToCustomer() {
+        UUID voucherId = validateUUIDInput();
+        Voucher voucher = voucherService.getVoucher(voucherId);
+        UUID customerId = UUID.fromString(input.inputQuestion("Type Customer Id"));
+        Customer customer = customerService.getCustomerById(customerId);
+        voucherService.allocateToCustomer(voucher, customer);
+        output.print("\nAllocate complete\n");
+    }
+
+    public void deallocateVoucherFromCustomer() {
+        UUID voucherId = validateUUIDInput();
+        Voucher voucher = voucherService.getVoucher(voucherId);
+        voucherService.deallocateFromCustomer(voucher);
+        output.print("\nDeallocate complete\n");
+    }
+
+    public void showSearchMenu() {
+        while (true) {
+            var num = selectDomain();
+            Optional<DomainType> domainType = DomainType.findMatchingCode(num);
+            if (domainType.isEmpty()) {
+                logger.debug("User select back to previous page");
+                return;
+            }
+            domainType.get().showSearch(this);
+        }
+    }
+
+    public void searchVoucher() {
+        UUID voucherId = validateUUIDInput();
+        Voucher voucher = voucherService.getVoucher(voucherId);
+        output.print(voucher.toString());
+        if (voucher.getCustomerId().isPresent()) {
+            Customer customer = customerService.getCustomerById(voucher.getCustomerId().get());
+            output.print("is owned by\n");
+            output.print(customer.toString());
+        }
+    }
+
+    public void searchCustomer() {
+        UUID customerId = UUID.fromString(input.inputQuestion("Type Customer Id"));
+        Customer customer = customerService.getCustomerById(customerId);
+        output.print(customer.toString());
+        List<Voucher> vouchers = voucherService.getVouchersByCustomerId(customer);
+        output.print("owned vouchers :");
+        if (!vouchers.isEmpty()) {
+            vouchers.forEach(v -> output.print(v.toString()));
+        } else {
+            output.print("Nothing.");
+        }
+    }
+
     private String selectVoucherType() {
         output.print("Select type of Voucher");
         output.print("1. Fixed Amount Voucher");
@@ -118,6 +172,14 @@ public class VoucherFunction {
             return Long.parseLong(inputValue);
         } else {
             throw new VoucherException("Please type invalid number.");
+        }
+    }
+
+    private UUID validateUUIDInput() {
+        try {
+            return UUID.fromString(input.inputQuestion("Type Voucher Id"));
+        } catch (IllegalArgumentException ex) {
+            throw new VoucherException("Invalid id format!");
         }
     }
 }

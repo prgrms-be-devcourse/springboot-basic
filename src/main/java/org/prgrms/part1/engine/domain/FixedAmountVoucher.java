@@ -4,6 +4,7 @@ import org.prgrms.part1.engine.enumtype.VoucherType;
 import org.prgrms.part1.exception.VoucherException;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -12,6 +13,7 @@ public class FixedAmountVoucher implements Voucher {
     private long amount;
     private final VoucherType voucherType;
     private final LocalDateTime createdAt;
+    private UUID customerId;
 
     public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
         validateValue(amount);
@@ -25,6 +27,16 @@ public class FixedAmountVoucher implements Voucher {
     public void changeValue(long value) {
         validateValue(value);
         this.amount = value;
+    }
+
+    @Override
+    public void changeOwner(Customer customer) {
+        this.customerId = customer.getCustomerId();
+    }
+
+    @Override
+    public void revokeOwner() {
+        this.customerId = null;
     }
 
     @Override
@@ -59,6 +71,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public Optional<UUID> getCustomerId() {
+        return Optional.ofNullable(this.customerId);
     }
 
     private void validateValue(Long amount) {

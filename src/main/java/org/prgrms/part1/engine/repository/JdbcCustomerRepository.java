@@ -1,6 +1,7 @@
 package org.prgrms.part1.engine.repository;
 
 import org.prgrms.part1.engine.domain.Customer;
+import org.prgrms.part1.engine.domain.Voucher;
 import org.prgrms.part1.exception.VoucherException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -78,6 +79,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Voucher> findOwnedVouchers(Customer customer) {
+        return jdbcTemplate.getJdbcTemplate().query("select * from vouchers where customer_id = ?", customer.getCustomerId().toString().getBytes());
     }
 
     @Override

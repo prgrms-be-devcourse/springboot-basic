@@ -23,6 +23,5 @@ public class Part1Application {
         var console = new Console();
 
         new VoucherManager(voucherService, customerService, console, console, logger).run();
-
     }
 }

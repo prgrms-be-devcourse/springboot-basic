@@ -25,6 +25,27 @@ public enum VoucherMenu {
             voucherFunction.showListMenu();
             return false;
         }
+    },
+    ALLOCATE("allocate") {
+        @Override
+        public Boolean runMethod(VoucherFunction voucherFunction) {
+            voucherFunction.allocateVoucherToCustomer();
+            return false;
+        }
+    },
+    DEALLOCATE("deallocate") {
+        @Override
+        public Boolean runMethod(VoucherFunction voucherFunction) {
+            voucherFunction.deallocateVoucherFromCustomer();
+            return false;
+        }
+    },
+    SEARCH("search") {
+        @Override
+        public Boolean runMethod(VoucherFunction voucherFunction) {
+            voucherFunction.showSearchMenu();
+            return false;
+        }
     };
 
     private final String string;

@@ -53,6 +53,9 @@ public class VoucherManager implements Runnable{
     private String selectMainMenu() {
         output.print("Type create to create a new voucher or new customer.");
         output.print("Type list to list all vouchers or all customers.");
+        output.print("Type allocate to allocate voucher to customer.");
+        output.print("Type deallocate to deallocate voucher to customer.");
+        output.print("Type search to show detail about voucher and customer.");
         output.print("Type exit to exit the program.");
         return input.select();
     }
