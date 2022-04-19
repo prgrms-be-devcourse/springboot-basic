@@ -2,6 +2,7 @@ package org.prgrms.kdt.domain.customer.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
@@ -57,6 +58,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("고객이 정상적으로 저장된다.")
     public void save() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -69,6 +71,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("저장된 고객들을 조회할 수 있다.")
     public void findAll() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -83,6 +86,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("고객 ID를 통해 고객을 조회할 수 있다.")
     public void findById() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -96,6 +100,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("email을 통해 고객을 조회할 수 있다.")
     public void findByEmail() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -110,6 +115,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 ID를 통해 해당 바우처를 가진 고객을 조회할 수 있다.")
     public void findByVoucherId() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -126,6 +132,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("설정한 고객 타입에 해당하는 고객들을 조회할 수 있다.")
     public void findByCustomerType() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -140,19 +147,22 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("고객 ID를 통해 고객에 대한 정보를 업데이트 할 수 있다.")
     public void updateById() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
         Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
+        Customer updateCustomer = new Customer(customerId, "kim", "a@naver.com", CustomerType.NORMAL, LocalDateTime.now(), LocalDateTime.now());
         //when
-        int updateCnt = customerRepository.updateById(new Customer(customerId, "kim", "a@naver.com", CustomerType.NORMAL, LocalDateTime.now(), LocalDateTime.now()));
+        int updatedRows = customerRepository.updateById(updateCustomer);
         //then
-        assertThat(updateCnt).isEqualTo(1);
+        assertThat(updatedRows).isEqualTo(1);
     }
 
     @Test
+    @DisplayName("고객 ID를 통해 고객을 삭제할 수 있다.")
     public void deleteById() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now();
@@ -160,13 +170,13 @@ class JdbcCustomerRepositoryTest {
         Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
-        customerRepository.deleteById(customerId);
-        List<Customer> customers = customerRepository.findAll();
+        int deletedRows = customerRepository.deleteById(customerId);
         //then
-        assertThat(customers).isEmpty();
+        assertThat(deletedRows).isEqualTo(1);
     }
 
     @Test
+    @DisplayName("고객 테이블에 저장된 모든 데이터를 삭제할 수 있다.")
     public void deleteAll() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now();
@@ -174,9 +184,8 @@ class JdbcCustomerRepositoryTest {
         Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
-        customerRepository.deleteAll();
+        int deletedRows = customerRepository.deleteAll();
         //then
-        List<Customer> customers = customerRepository.findAll();
-        assertThat(customers).isEmpty();
+        assertThat(deletedRows).isEqualTo(1);
     }
 }

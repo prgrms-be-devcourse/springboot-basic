@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.customer.model;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class CustomerTest {
 
     @Test
+    @DisplayName("고객이 정상적으로 생성된다.")
     public void createCustomer() {
         //given
         UUID customerId = UUID.randomUUID();
@@ -24,6 +26,7 @@ class CustomerTest {
     }
 
     @Test
+    @DisplayName("고객의 이메일 주소가 유효하지 않을경우 예외가 발생한다.")
     public void createCustomer_exception() {
         //given
         UUID customerId = UUID.randomUUID();

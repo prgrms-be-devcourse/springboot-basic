@@ -43,6 +43,7 @@ class CustomerServiceTest {
     }
 
     @Test
+    @DisplayName("저장된 고객목록을 조회할 수 있다.")
     public void getAllCustomers() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now();
@@ -57,6 +58,7 @@ class CustomerServiceTest {
     }
 
     @Test
+    @DisplayName("입력받은 값을 통해 고객을 저장할 수 있다.")
     public void createCustomer() throws Exception {
         //given
         UUID customerId = UUID.randomUUID();

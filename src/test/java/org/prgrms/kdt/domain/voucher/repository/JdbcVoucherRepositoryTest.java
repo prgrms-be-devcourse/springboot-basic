@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -56,6 +57,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처가 정상적으로 저장된다.")
     void save() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -68,6 +70,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 ID로 바우처를 조회한다.")
     void findById() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -81,6 +84,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("저장된 바우처를 전부 조회한다.")
     void findAll() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -94,6 +98,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("고객 ID를 통해 바우처를 조회할 수 있다.")
     public void findByCustomerId() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -110,6 +115,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 타입과 날짜를 통해 바우처를 조회할 수 있다.")
     void findByVoucherTypeAndDate() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -124,6 +130,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 ID를 통해 바우처를 업데이트 할 수 있다.")
     void updateById() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -135,6 +142,22 @@ class JdbcVoucherRepositoryTest {
         int updateCnt = voucherRepository.updateById(updateVoucher);
         //then
         assertThat(updateCnt).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("잘못된 ID를 입력해 업데이트된 컬럼이 없을경우 예외가 발생한다.")
+    void updateById_exception() {
+        //given
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new Voucher(voucherId, VoucherType.PERCENT_DISCOUNT, 10L, now, now);
+        voucherRepository.save(voucher);
+        Voucher updateVoucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 20000L, now, now);
+        //when
+        //then
+        assertThatThrownBy(() -> voucherRepository.updateById(updateVoucher))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("업데이트 된 컬럼이 없습니다.");
     }
 
     @Test
@@ -154,42 +177,42 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     void deleteById() {
+        //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = new Voucher(voucherId, VoucherType.PERCENT_DISCOUNT, 10L, now, now);
         voucherRepository.save(voucher);
-
-        voucherRepository.deleteById(voucherId);
-        List<Voucher> vouchers = voucherRepository.findAll();
-
-        assertThat(vouchers).isEmpty();
+        //when
+        int deletedRows = voucherRepository.deleteById(voucherId);
+        //then
+        assertThat(deletedRows).isEqualTo(1);
     }
 
     @Test
     void deleteAll() {
+        //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = new Voucher(voucherId, VoucherType.PERCENT_DISCOUNT, 10L, now, now);
         voucherRepository.save(voucher);
-
-        voucherRepository.deleteAll();
-        List<Voucher> vouchers = voucherRepository.findAll();
-
-        assertThat(vouchers).isEmpty();
+        //when
+        int deletedRows = voucherRepository.deleteAll();
+        //then
+        assertThat(deletedRows).isEqualTo(1);
     }
 
     @Test
     void deleteByCustomerId() {
+        //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
         customerRepository.save(new Customer(customerId, "park", "d@naver.com", now, now));
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = new Voucher(voucherId, VoucherType.PERCENT_DISCOUNT, 10L, customerId, now, now);
         voucherRepository.save(voucher);
-
-        voucherRepository.deleteByCustomerId(customerId);
-        List<Voucher> vouchers = voucherRepository.findAll();
-
-        assertThat(vouchers).isEmpty();
+        //when
+        int deletedRows = voucherRepository.deleteByCustomerId(customerId);
+        //then
+        assertThat(deletedRows).isEqualTo(1);
     }
 }
