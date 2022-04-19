@@ -3,7 +3,6 @@ package com.prgrms.management.voucher.domain;
 import com.prgrms.management.config.ErrorMessageType;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 public class Voucher {

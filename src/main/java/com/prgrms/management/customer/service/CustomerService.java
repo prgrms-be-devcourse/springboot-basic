@@ -1,6 +1,7 @@
 package com.prgrms.management.customer.service;
 
 import com.prgrms.management.config.ErrorMessageType;
+import com.prgrms.management.config.exception.NotFoundException;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -38,16 +39,16 @@ public class CustomerService {
     }
 
     public void updateCustomer(UUID customerId, String customerName) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new IllegalArgumentException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
         customer.setName(customerName);
         customerRepository.updateName(customer);
     }
 
     public Customer findById(UUID customerId) {
-        return customerRepository.findById(customerId).orElseThrow(() -> new IllegalArgumentException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
+        return customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
     }
 
     public Customer findByEmail(String email) {
-        return customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
+        return customerRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
     }
 }

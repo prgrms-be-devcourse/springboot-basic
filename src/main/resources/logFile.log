@@ -1,0 +1,10 @@
+20:24:33.377 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 93686 (started by dhkstn in /Users/dhkstn/management)
+20:24:33.377 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+20:24:34.181 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 0.949 seconds (JVM running for 1.69)
+20:24:34.597 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
+20:24:34.618 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
+20:24:34.705 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
+20:24:34.729 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
+20:24:34.787 [main] INFO c.p.m.v.r.JdbcVoucherRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
+20:24:34.839 [main] INFO c.p.m.v.r.JdbcVoucherRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
+20:24:34.877 [main] INFO c.p.m.v.r.JdbcVoucherRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0

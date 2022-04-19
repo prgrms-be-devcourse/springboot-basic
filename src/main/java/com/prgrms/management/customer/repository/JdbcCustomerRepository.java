@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -86,7 +85,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper,
                     customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.info("{}:{}", e.getClass(), e.getMessage());
+            logger.info("NotFoundException:{}", ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage());
             return Optional.empty();
         }
     }
@@ -99,7 +98,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper,
                     email));
         } catch (EmptyResultDataAccessException e) {
-            logger.info("{}:{}", e.getClass(), e.getMessage());
+            logger.info("NotFoundException:{}", ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage());
             return Optional.empty();
         }
     }

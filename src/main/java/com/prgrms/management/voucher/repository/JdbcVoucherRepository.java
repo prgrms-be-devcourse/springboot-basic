@@ -61,7 +61,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     voucherRowMapper,
                     voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.info("{}:{}", e.getClass(), e.getMessage());
+            logger.info("NotFoundException:{}", ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage());
             return Optional.empty();
         }
     }
