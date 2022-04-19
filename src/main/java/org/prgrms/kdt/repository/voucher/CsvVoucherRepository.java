@@ -1,7 +1,7 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherFactory;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,7 +44,7 @@ public class CsvVoucherRepository implements VoucherRepository {
             Map<String, String> map = new ConcurrentHashMap<>();
             map.put(CSV_HEADER[0], voucher.getVoucherId().toString());
             map.put(CSV_HEADER[1], String.valueOf(voucher.getVoucherValue()));
-            map.put(CSV_HEADER[2], voucher.getClass().getSimpleName());
+            map.put(CSV_HEADER[2], VoucherType.getVoucherType(voucher.getClass()).toString());
 
             beanWriter.write(map, CSV_HEADER);
         } catch (IOException e) {
@@ -62,9 +62,10 @@ public class CsvVoucherRepository implements VoucherRepository {
             while ((readData = beanReader.read(CSV_HEADER)) != null) {
                 UUID voucherId = UUID.fromString(readData.get(CSV_HEADER[0]));
                 long voucherValue = toLong(readData.get(CSV_HEADER[1]));
-                String classSimpleName = readData.get(CSV_HEADER[2]);
+                VoucherType voucherType = VoucherType.valueOf(readData.get(CSV_HEADER[2]));
 
-                vouchers.add(VoucherFactory.create(voucherId, voucherValue, classSimpleName));
+                Voucher voucher = voucherType.createVoucher(voucherId, voucherValue);
+                vouchers.add(voucher);
             }
         } catch (IOException e) {
             logger.error("failed to get vouchers in csv-file : {}", e.getMessage(), e);

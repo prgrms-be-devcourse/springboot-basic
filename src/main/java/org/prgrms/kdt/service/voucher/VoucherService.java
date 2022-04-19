@@ -1,7 +1,6 @@
 package org.prgrms.kdt.service.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherFactory;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(UUID voucherId, long voucherValue, VoucherType voucherType) {
-        Voucher voucher = VoucherFactory.create(voucherId, voucherValue, voucherType);
+        Voucher voucher = voucherType.createVoucher(voucherId, voucherValue);
         return voucherRepository.insert(voucher);
     }
 
