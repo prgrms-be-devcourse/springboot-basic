@@ -1,6 +1,7 @@
 package com.manager.voucher.domain;
 
 public interface Voucher {
-    boolean isExpired();
-    void applyDiscountTo(Item item);
+    public void discountProduct(Product product);
+    public void used();
+
 }
