@@ -10,10 +10,11 @@ import java.util.UUID;
 public interface VoucherRepository {
     Voucher save(Voucher voucher);
     Optional<Voucher> findById(UUID voucherId);
-    void updateVoucherWithCustomerId(UUID voucherId,UUID customerId);
+    void updateVoucherByCustomerId(UUID voucherId,UUID customerId);
     List<Voucher> findAll();
 
-    void deleteByCustomerId(UUID customerId);
+    void deleteById(UUID customerId);
+    void deleteAll();
 
     List<UUID> findCustomerIdByVoucherType(VoucherType voucherType);
 }

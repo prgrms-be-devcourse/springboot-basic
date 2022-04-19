@@ -31,11 +31,11 @@ public class VoucherService {
     }
 
     public void createVoucherByCustomerId(UUID voucherId, UUID customerId) {
-        voucherRepository.updateVoucherWithCustomerId(voucherId,customerId);
+        voucherRepository.updateVoucherByCustomerId(voucherId,customerId);
     }
 
     public void deleteVoucherByCustomerId(UUID customerId) {
-        voucherRepository.deleteByCustomerId(customerId);
+        voucherRepository.deleteById(customerId);
     }
 
     public List<UUID> findCustomersByVoucherType(VoucherType voucherType) {

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Repository
 @Profile({"jdbc","test"})
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
@@ -32,10 +32,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var voucherId = toUUId(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("amount");
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var customerType = VoucherType.of(resultSet.getString("voucher_type"));
+        var voucherType = VoucherType.of(resultSet.getString("voucher_type"));
         var customerId = resultSet.getBytes("customer_id") != null
                 ? toUUId(resultSet.getBytes("customer_id")) : null;
-        return new Voucher(voucherId, amount, createdAt, customerType, customerId);
+        return new Voucher(voucherId, amount, createdAt, voucherType, customerId);
     };
 
     static UUID toUUId(byte[] bytes) {
@@ -60,7 +60,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    "select * from customers where voucher_id = UUID_TO_BIN(?)",
+                    "select * from vouchers where voucher_id = UUID_TO_BIN(?)",
                     voucherRowMapper,
                     voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
@@ -69,7 +69,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateVoucherWithCustomerId(UUID voucherId,UUID customerId) {
+    public void updateVoucherByCustomerId(UUID voucherId,UUID customerId) {
         int update = jdbcTemplate.update("update vouchers set customer_id = UUID_TO_BIN(?) where voucher_id = UUID_TO_BIN(?)",
                 customerId.toString().getBytes(),
                 voucherId.toString().getBytes()
@@ -85,9 +85,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteByCustomerId(UUID customerId) {
-        jdbcTemplate.update("delete from vouchers where customer_id = UUID_TO_BIN(?)",
-                customerId.toString().getBytes());
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(?)",
+                voucherId.toString().getBytes());
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("delete from vouchers");
     }
 
     @Override

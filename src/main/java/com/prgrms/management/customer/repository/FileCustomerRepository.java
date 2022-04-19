@@ -36,50 +36,42 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
+        //미구현
         return null;
     }
 
     @Override
     public void deleteAll() {
-
+        //미구현
     }
 
     @Override
     public void deleteById(UUID customerId) {
-
+        //미구현
     }
 
     @Override
     public Customer updateName(Customer customer) {
+        //미구현
         return null;
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
+        //미구현
         return Optional.empty();
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
+        //미구현
         return Optional.empty();
     }
 
 
     @Override
     public List<Customer> findBlackList() {
-//        List<Customer> blackCustomerList = new ArrayList<>();
-//        //try-with-resource
-//        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(BLACK_LIST_FILE_NAME))) {
-//            String reader;
-//            while ((reader = bufferedReader.readLine()) != null) {
-//                String[] voucherInfo = reader.split(",");
-//                CustomerType type = CustomerType.of(voucherInfo[1]);
-//                if (type.equals(CustomerType.BLACKLIST)) blackCustomerList.add(new Customer(CustomerType.BLACKLIST));
-//            }
-//        } catch (IOException e) {
-//            logger.warn("{}:{}",e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
-//        }
-//        return blackCustomerList;
+        //TODO 미구현
         return null;
     }
 }

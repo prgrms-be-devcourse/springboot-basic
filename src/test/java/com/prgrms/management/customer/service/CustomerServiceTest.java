@@ -40,7 +40,7 @@ class CustomerServiceTest {
 
     @Test
     @Order(1)
-    void 성공_저장_Customer() {
+    void 성공_Customer_저장() {
         //given
         //when
         Customer createCustomer = customerService.createCustomer(customer);
