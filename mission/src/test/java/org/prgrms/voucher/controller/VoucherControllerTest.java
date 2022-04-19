@@ -1,16 +1,14 @@
 package org.prgrms.voucher.controller;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgrms.voucher.exceptions.NullReceiveException;
+import org.prgrms.voucher.dto.VoucherDto;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.service.VoucherService;
 
@@ -29,29 +27,33 @@ public class VoucherControllerTest {
         VoucherController voucherController;
 
         @Nested
-        @DisplayName("create 기능을 테스트 할 떄 바우처 타입을 파라미터로 받으면")
+        @DisplayName("create 기능을 테스트 할 때 바우처 타입 1, 할인값 100을 인자로 받으면")
         class ContextReceiveVoucherTypeAndValue {
 
-            Voucher voucher;
+            VoucherDto.RequestDto requestDto = new VoucherDto.RequestDto(1, 100);
 
             @Test
             @DisplayName("Service 의 create 메서드에 파라미터를 넘겨주며 호출한다.")
             void itCallCreateService() {
 
-                voucherController.create(voucher);
+                voucherController.create(requestDto);
 
-                verify(voucherServiceMock).create(voucher);
+                verify(voucherServiceMock).create(requestDto);
             }
 
             @Test
-            @DisplayName("생성된 바우처를 리턴한다.")
-            void itReturnVoucher() {
+            @DisplayName("바우처가 생성되면 생성된 정보를 리턴한다.")
+            void itReturnVoucherResponse() {
 
-                when(voucherServiceMock.create(voucher)).thenReturn(voucher);
+                Voucher voucher = new Voucher(1L) {
 
-                Voucher voucherCheck = voucherController.create(voucher);
+                };
 
-                Assertions.assertThat(voucher).isEqualTo(voucherCheck);
+                when(voucherServiceMock.create(requestDto)).thenReturn(voucher);
+
+                VoucherDto.ResponseDto response = voucherController.create(requestDto);
+
+                Assertions.assertThat(response.getVoucherId()).isEqualTo(voucher.getVoucherId());
             }
         }
 
@@ -59,28 +61,16 @@ public class VoucherControllerTest {
         @DisplayName("create 기능을 테스트 할 때 전달받은 바우처타입 인자가 null이면")
         class ContextReceiveNull {
 
-            Voucher voucher = null;
+            VoucherDto.RequestDto voucherRequestDto = null;
 
             @Test
             @DisplayName("null 에러메시지를 출력한다.")
             void itPrintNullError() {
 
-                Assertions.assertThatThrownBy(() -> voucherController.create(voucher))
-                        .isInstanceOf(NullReceiveException.class)
-                        .hasMessage("null create request...");
+                Assertions.assertThatThrownBy(() -> voucherController.create(voucherRequestDto))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("bad request...");
             }
         }
-
-//        @Nested
-//        @DisplayName("crete 기능을 테스트 할 때 전달 받은 바우처타입 인자가 공백, 빈문자열이면")
-//        class ContextWhiteSpace{
-//
-//
-//            @Test
-//            @DisplayName("공백 에러메시지를 출력한다.")
-//            void itPrintWhiteSpaceError(){
-//
-//            }
-//        }
     }
 }
