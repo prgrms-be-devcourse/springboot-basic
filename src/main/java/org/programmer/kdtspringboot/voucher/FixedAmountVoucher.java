@@ -6,6 +6,7 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final Long amount;
+    private final VoucherType type = VoucherType.FixedAmountVoucher;
     private final static Integer MAX_AMOUNT = 10000;
     private final static Integer MIN_AMOUNT = 0;
 
@@ -31,6 +32,16 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public Long getValue() {
+        return amount;
+    }
+
+    @Override
+    public VoucherType getType() {
+        return type;
+    }
+
+    @Override
     public String toString() {
         return "FixedAmountVoucher{" +
                 "voucherId=" + voucherId +
@@ -44,6 +55,5 @@ public class FixedAmountVoucher implements Voucher {
             throw new IllegalArgumentException(MIN_AMOUNT + "~" + MAX_AMOUNT + " 값을 입력해주세요.");
         }
     }
-
 
 }

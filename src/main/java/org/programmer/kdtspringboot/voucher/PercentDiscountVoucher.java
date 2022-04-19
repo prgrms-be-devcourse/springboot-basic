@@ -9,8 +9,10 @@ public class PercentDiscountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
     private final UUID voucherId;
     private final Long percent;
+    private final VoucherType type = VoucherType.PercentDiscountVoucher;
     private final static Integer MAX_AMOUNT = 100;
     private final static Integer MIN_AMOUNT = 0;
+
     public PercentDiscountVoucher(UUID voucherId, Long percent) {
         validatePercent(percent);
         this.voucherId = voucherId;
@@ -29,7 +31,17 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String getInfo() {
-        return voucherId+","+percent+","+this.getClass().getSimpleName();
+        return voucherId + "," + percent + "," + this.getClass().getSimpleName();
+    }
+
+    @Override
+    public Long getValue() {
+        return percent;
+    }
+
+    @Override
+    public VoucherType getType() {
+        return type;
     }
 
     @Override
@@ -46,4 +58,5 @@ public class PercentDiscountVoucher implements Voucher {
             throw new IllegalArgumentException(MIN_AMOUNT + 1 + "~" + MAX_AMOUNT + " 값을 입력해주세요");
         }
     }
+
 }
