@@ -59,7 +59,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("저장된 모든 바우처를 조회할 수 있다.")
-    public void findAllVouchers(){
+    public void getAllVouchers(){
         //given
         LocalDateTime now = LocalDateTime.now();
         List<Voucher> savedVouchers = Arrays.asList(
@@ -74,7 +74,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("id를 통해 저장된 바우처를 조회할 수 있다")
-    public void findVoucherById() {
+    public void getVoucherById() {
         //given
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
@@ -93,7 +93,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("저장되어 있지 않은 바우처를 조회 시 null을 반환한다")
-    public void findVoucherByIdIsNull() {
+    public void getVoucherByIdIsNull() {
         //given
         //when
         when(voucherRepository.findById(any())).thenReturn(null);
