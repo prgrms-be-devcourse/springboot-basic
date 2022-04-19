@@ -1,19 +1,17 @@
 package com.waterfogsw.voucher.voucher.domain;
 
-import java.util.UUID;
-
 public class Voucher {
-    UUID id;
+    Long id;
     VoucherType type;
-    Double value;
+    int value;
 
-    public Voucher(UUID id, VoucherType type, Double value) {
+    public Voucher(Long id, VoucherType type, int value) {
         this.id = id;
         this.type = type;
         this.value = value;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
@@ -21,7 +19,7 @@ public class Voucher {
         return type;
     }
 
-    public Double getValue() {
+    public int getValue() {
         return value;
     }
 }

@@ -37,7 +37,7 @@ public class VoucherControllerTests {
             @Test
             @DisplayName("에러 메시지를 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(null, 1000d);
+                VoucherDto.Request request = new VoucherDto.Request(null, 1000);
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
@@ -46,13 +46,13 @@ public class VoucherControllerTests {
         }
 
         @Nested
-        @DisplayName("value 가 null 이 들어오면")
-        class Context_with_value_null {
+        @DisplayName("value 값이 0 이 들어오면")
+        class Context_with_value_zero {
 
             @Test
             @DisplayName("에러 메시지를 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, null);
+                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 0);
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
@@ -69,7 +69,8 @@ public class VoucherControllerTests {
             @Test
             @DisplayName("생성된 바우처의 정보를 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 5000d);
+                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 1000);
+
                 when(voucherService.saveVoucher(voucherCaptor.capture())).thenReturn(voucherCaptor.getValue());
 
                 VoucherDto.Response response = controller.voucherSave(request);

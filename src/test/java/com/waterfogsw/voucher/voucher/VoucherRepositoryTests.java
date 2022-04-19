@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.UUID;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -23,12 +21,12 @@ public class VoucherRepositoryTests {
     @Nested
     @DisplayName("save 메소드는")
     class Describe_save {
-        String key1 = "550e8400-e29b-41d4-a716-446655440000";
-        String key2 = "550e8400-e29b-41d4-a716-446655441234";
+        Long key1 = 1L;
+        Long key2 = 2L;
 
-        final Voucher voucher1 = new Voucher(UUID.fromString(key1), VoucherType.FIXED_AMOUNT, 1000d);
-        final Voucher voucher1_copy = new Voucher(UUID.fromString(key1), VoucherType.FIXED_AMOUNT, 2000d);
-        final Voucher voucher2 = new Voucher(UUID.fromString(key2), VoucherType.FIXED_AMOUNT, 1000d);
+        final Voucher voucher1 = new Voucher(key1, VoucherType.FIXED_AMOUNT, 1000);
+        final Voucher voucher1_copy = new Voucher(key2, VoucherType.FIXED_AMOUNT, 2000);
+        final Voucher voucher2 = new Voucher(key2, VoucherType.FIXED_AMOUNT, 1000);
 
         @Nested
         @DisplayName("저장할 바우처의 기본키가 중복되지 않으면")

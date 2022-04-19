@@ -8,9 +8,9 @@ public class VoucherDto {
 
     public static class Request {
         private VoucherType type;
-        private Double value;
+        private int value;
 
-        public Request(VoucherType type, Double value) {
+        public Request(VoucherType type, int value) {
             this.type = type;
             this.value = value;
         }
@@ -19,23 +19,23 @@ public class VoucherDto {
             return type;
         }
 
-        public Double getValue() {
+        public int getValue() {
             return value;
         }
     }
 
     public static class Info {
-        private UUID id;
+        private Long id;
         private VoucherType type;
-        private Double value;
+        private int value;
 
-        public Info(UUID id, VoucherType type, Double value) {
+        public Info(Long id, VoucherType type, int value) {
             this.id = id;
             this.type = type;
             this.value = value;
         }
 
-        public UUID getId() {
+        public Long getId() {
             return id;
         }
 
@@ -43,7 +43,7 @@ public class VoucherDto {
             return type;
         }
 
-        public Double getValue() {
+        public int getValue() {
             return value;
         }
     }
