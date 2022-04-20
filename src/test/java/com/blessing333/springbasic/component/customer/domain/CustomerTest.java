@@ -20,7 +20,7 @@ class CustomerTest {
         String userName = "testName";
         String userEmail = "test@test.com";
 
-        Customer newCustomer = Customer.createNewCustomer(id,userName, userEmail,LocalDateTime.now());
+        Customer newCustomer = createNewCustomer(id,userName, userEmail,LocalDateTime.now());
 
         assertThat(newCustomer.getName()).isEqualTo(userName);
         assertThat(newCustomer.getEmail()).isEqualTo(userEmail);
@@ -33,7 +33,7 @@ class CustomerTest {
         String userName = "";
         String userEmail = "test@test.com";
 
-        assertThrows(IllegalArgumentException.class, () -> Customer.createNewCustomer(id,userName, userEmail,LocalDateTime.now()));
+        assertThrows(IllegalArgumentException.class, () -> createNewCustomer(id,userName, userEmail,LocalDateTime.now()));
     }
 
     @DisplayName("Customer 이름 변경 - 성공")
@@ -56,7 +56,14 @@ class CustomerTest {
         assertThrows(IllegalArgumentException.class, () -> customer.changeName(afterName));
     }
 
-
+    private Customer createNewCustomer(UUID id,String userName, String userEmail,LocalDateTime time){
+        return Customer.customerBuilder()
+                .customerId(id)
+                .name(userName)
+                .email(userEmail)
+                .createdAt(time)
+                .build();
+    }
 
 
 }
