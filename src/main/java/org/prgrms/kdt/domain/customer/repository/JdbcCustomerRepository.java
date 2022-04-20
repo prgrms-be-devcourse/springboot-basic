@@ -1,7 +1,7 @@
 package org.prgrms.kdt.domain.customer.repository;
 
 import org.prgrms.kdt.domain.common.exception.ExceptionType;
-import org.prgrms.kdt.domain.customer.exception.CustomerNotUpdatedException;
+import org.prgrms.kdt.domain.customer.exception.CustomerDataException;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.util.UuidUtils;
@@ -44,7 +44,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
                         "VALUES (UNHEX(REPLACE(:customerId, '-', '')), :customerType, :name, :email, :createdDate, :modifiedDate)",
                 toParamMap(customer));
         if(savedRows != 1) {
-            throw new CustomerNotUpdatedException(NOT_SAVED);
+            throw new CustomerDataException(NOT_SAVED);
         }
         return customer.getCustomerId();
     }
@@ -102,7 +102,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
                         "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 toParamMap(customer));
         if(updatedRows == 0) {
-            throw new CustomerNotUpdatedException(ExceptionType.NOT_UPDATED);
+            throw new CustomerDataException(ExceptionType.NOT_UPDATED);
         }
         return updatedRows;
     }
@@ -112,7 +112,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
         int deletedRows = jdbcTemplate.update("DELETE FROM customer WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
         if(deletedRows == 0) {
-            throw new CustomerNotUpdatedException(NOT_DELETED);
+            throw new CustomerDataException(NOT_DELETED);
         }
         return deletedRows;
     }

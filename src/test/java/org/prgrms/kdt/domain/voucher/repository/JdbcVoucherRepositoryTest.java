@@ -8,7 +8,7 @@ import org.prgrms.kdt.TestConfig;
 import org.prgrms.kdt.domain.common.exception.ExceptionType;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.repository.JdbcCustomerRepository;
-import org.prgrms.kdt.domain.voucher.exception.VoucherNotUpdatedException;
+import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,7 +164,7 @@ class JdbcVoucherRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> voucherRepository.updateById(updateVoucher))
-                .isInstanceOf(VoucherNotUpdatedException.class)
+                .isInstanceOf(VoucherDataException.class)
                 .hasMessage(ExceptionType.NOT_UPDATED.getMsg());
     }
 
