@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Service
@@ -17,7 +19,7 @@ public class CustomerService {
     private final static Logger logger = LoggerFactory.getLogger(CustomerService.class);
     private final CustomerRepository customerRepository;
 
-    public CustomerService(@Qualifier("named")CustomerRepository customerRepository) {
+    public CustomerService(@Qualifier("named") CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
@@ -43,12 +45,14 @@ public class CustomerService {
 
     /**
      * DTO to Customer
+     *
      * @param customerDTO
      * @return customer
      */
     private Customer toCustomer(CustomerDTO customerDTO) {
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId, customerDTO.getName(), customerDTO.getEmail());
+        LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        Customer customer = new Customer(customerId, customerDTO.getName(), customerDTO.getEmail(), createdAt);
         return customer;
     }
 

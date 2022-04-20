@@ -2,34 +2,35 @@ package org.prgrms.voucherprgrms.customer.model;
 
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
 
-    private UUID customerId;
+    private final UUID customerId;
     private String name;
-    private String email;
+    private final String email;
+    private final LocalDateTime createdAt;
 
-    //TODO UUID/Voucher 형태로 둘 것인지. Optional을 씌울 것인지.
-//    private Optional<Voucher> voucher = Optional.empty();
     private UUID voucherId = null;
 
-    public Customer(UUID customerId, String name, String email) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
+        this.createdAt = createdAt;
     }
 
-    public Customer(UUID customerId, String name, String email, UUID voucherId) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, UUID voucherId) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
+        this.createdAt = createdAt;
         this.voucherId = voucherId;
     }
 
     public boolean allocateVoucher(Voucher voucher) {
-        if (this.voucherId == null) {
+        if (this.voucherId != null) {
             return false;
         } else {
             this.voucherId = voucher.getVoucherId();
