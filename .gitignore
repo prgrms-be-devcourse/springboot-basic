@@ -168,3 +168,4 @@ gradle
 .idea
 gradlew.bat
 target
+src/main/java/com/prgrms/voucher_manager/order
