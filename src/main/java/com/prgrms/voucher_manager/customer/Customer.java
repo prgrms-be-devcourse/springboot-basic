@@ -1,14 +1,20 @@
 package com.prgrms.voucher_manager.customer;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Customer {
 
-    int getId();
+    UUID getCustomerId();
 
     String getName();
 
-    String getPhoneNumber();
+    String getEmail();
 
-    String getInfo();
+    LocalDateTime getCreatedAt();
+
+    LocalDateTime getLastLoginAt();
+
+    void loginInNow();
+
 }
