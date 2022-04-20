@@ -1,4 +1,4 @@
-package com.example.voucherproject.user;
+package com.example.voucherproject.user.service;
 
 import com.example.voucherproject.common.console.Input;
 import com.example.voucherproject.common.console.Output;
