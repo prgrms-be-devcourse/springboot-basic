@@ -4,11 +4,9 @@ import org.prgrms.voucherapp.global.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -27,11 +25,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public ArrayList<Voucher> getVoucherAll() {
-        var voucherList = new ArrayList<Voucher>();
-        storage.forEach((uuid, voucher) -> {
-            voucherList.add(voucher);
-        });
-        return voucherList;
+    public List<Voucher> getVoucherAll() {
+        return storage.keySet().stream()
+                .map(storage::get)
+                .toList();
     }
 }

@@ -1,6 +1,7 @@
 package org.prgrms.voucherapp.engine;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,5 +10,5 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
-    ArrayList<Voucher> getVoucherAll();
+    List<Voucher> getVoucherAll();
 }
