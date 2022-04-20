@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +49,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
                 customer.getEmail(),
                 Timestamp.valueOf(customer.getCreateAt()));
         if (theNumberOfRowAffected != 1)
-            throw new IllegalArgumentException("잘못된 삽입");
+            throw new IllegalArgumentException("잘못된 삽입입니다.");
         return customer;
     }
 
@@ -61,7 +62,8 @@ public class CustomerJDBCRepository implements CustomerRepository {
                 customer.getCustomerId().toString()
         );
 
-        if (theNumberOfRowsAffected != 1) throw new IllegalArgumentException("update Failed");
+        if (theNumberOfRowsAffected != 1)
+            throw new IllegalArgumentException(MessageFormat.format("Customer: {0} 업데이트 실패", customer));
         return customer;
     }
 
@@ -75,6 +77,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerRowMapper, customerId.toString()));
         } catch (EmptyResultDataAccessException e) {
+            log.error(MessageFormat.format("findById: {0} 반환 결과가 1개 행이 아닙니다.", customerId));
             return Optional.empty();
         }
     }
@@ -84,6 +87,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE name = ?", customerRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
+            log.error(MessageFormat.format("findByName: {0} 반환 결과가 1개 행이 아닙니다.", name));
             return Optional.empty();
         }
     }
@@ -93,6 +97,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = ?", customerRowMapper, email));
         } catch (EmptyResultDataAccessException e) {
+            log.error(MessageFormat.format("findByEmail: {0} 반환 결과가 1개 행이 아닙니다.", email));
             return Optional.empty();
         }
     }
@@ -100,12 +105,15 @@ public class CustomerJDBCRepository implements CustomerRepository {
     @Override
     public void delete(UUID customerId) {
         int theNumberOfRowsDeleted = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerId.toString());
-        if (theNumberOfRowsDeleted != 1) throw new IllegalArgumentException("delete Failed");
+        if (theNumberOfRowsDeleted != 1) {
+            log.error(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다.", customerId));
+            throw new IllegalArgumentException(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다.", customerId));
+        }
     }
 
     @Override
     public void deleteAll() {
         int theNumberOfRowsDeleted = jdbcTemplate.update("DELETE FROM customers");
-        log.info("{} rows are deleted.", theNumberOfRowsDeleted);
+        log.info("전부 {} 행이 삭제되었습니다", theNumberOfRowsDeleted);
     }
 }

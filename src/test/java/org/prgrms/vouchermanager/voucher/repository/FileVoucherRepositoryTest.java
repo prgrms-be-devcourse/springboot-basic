@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanager.exception.IllegalResourceAccessException;
-import org.prgrms.vouchermanager.voucher.domain.*;
+import org.prgrms.vouchermanager.voucher.domain.FixedAmountVoucher;
+import org.prgrms.vouchermanager.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.vouchermanager.voucher.domain.Voucher;
 
 import java.io.File;
 import java.util.List;
@@ -16,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileVoucherRepositoryTest {
 
-    private static final String SAVE_PATH = "C:\\save\\test";
+    private static final String SAVE_PATH = "src/main/resources/voucher";
 
     @BeforeAll
     static void makeFolder() {
@@ -84,7 +86,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("저장할 FilePath가 적절하지 않은 경우 IllgalResourceException을 던진다")
     void testWithInsertException() {
         //given
-        FileVoucherRepository fileVoucherRepository = new FileVoucherRepository("not_path");
+        FileVoucherRepository fileVoucherRepository = new FileVoucherRepository("Invalid path Test");
         Voucher voucher = new FixedAmountVoucher(10L);
 
         //then

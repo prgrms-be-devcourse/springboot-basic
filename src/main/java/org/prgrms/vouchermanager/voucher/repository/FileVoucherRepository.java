@@ -66,15 +66,15 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private List<Voucher> getVouchers() {
-        List<Voucher> vouchers = new ArrayList<>();
         File[] files = new File(voucherFilePath).listFiles();
-        if (files == null) return vouchers;
+        if (files == null) return Collections.emptyList();
+
+        List<Voucher> vouchers = new ArrayList<>();
 
         Arrays.stream(files).forEach(file -> {
             try (FileInputStream fileInputStream = new FileInputStream(file.getPath());
                  ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
                 vouchers.add((Voucher) objectInputStream.readObject());
-
             } catch (IOException | ClassNotFoundException e) {
                 throw new IllegalResourceAccessException();
             }

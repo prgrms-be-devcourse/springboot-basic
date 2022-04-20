@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,7 +26,7 @@ public class BlacklistRepository {
     @PostConstruct
     void init() {
         try {
-            for (String row : Files.readAllLines(Path.of(blacklistPath + "blacklist.csv"))) {
+            for (String row : Files.readAllLines(Path.of(blacklistPath))) {
                 StringTokenizer st = new StringTokenizer(row, ",");
                 UUID blockCustomerId = UUID.fromString(st.nextToken());
                 Blacklist blockCustomer = new Blacklist(blockCustomerId, st.nextToken());
@@ -33,7 +34,8 @@ public class BlacklistRepository {
                 storage.put(blockCustomerId, blockCustomer);
             }
         } catch (Exception e) {
-            log.error("BlockCustomerList를 읽어오는데 실패하였습니다. blacklist.path = {}", blacklistPath);
+            log.error("Blacklist를 읽어오는데 실패하였습니다. blacklist.path = {}", blacklistPath);
+            throw new IllegalArgumentException(MessageFormat.format("{0}", e.getMessage()));
         }
     }
 

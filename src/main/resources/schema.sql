@@ -10,7 +10,6 @@ CREATE TABLE customers
     CONSTRAINT unq_user_email UNIQUE (email)
 );
 
-
 insert into customers(customer_id, name, email) values (UUID_TO_BIN(UUID()), 'tester01', 'test00@email.com');
 insert into customers(customer_id, name, email) values (UUID_TO_BIN(UUID()), 'tester02', 'test01@email.com');
 insert into customers(customer_id, name, email) values (UUID_TO_BIN(UUID()), 'tester03', 'test02@email.com');

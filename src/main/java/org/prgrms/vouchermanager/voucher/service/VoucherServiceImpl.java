@@ -38,9 +38,4 @@ public class VoucherServiceImpl implements VoucherService {
                 .findById(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException("저장되지 않은 voucherId 입니다."));
     }
-
-    // 아직 구현하지 않은 기능입니다.
-    @Override
-    public void useVoucher(Voucher voucher) {
-    }
 }

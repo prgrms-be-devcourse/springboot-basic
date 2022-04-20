@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
-import javax.annotation.PostConstruct;
 import java.text.MessageFormat;
 
 @ShellComponent
@@ -17,17 +16,6 @@ public class VoucherManagerShell {
 
     public VoucherManagerShell(VoucherService voucherService) {
         this.voucherService = voucherService;
-    }
-
-
-    @PostConstruct
-    String init() {
-        return """
-                === Voucher Program ===
-                Type exit to exit the program.
-                Type create to create a new voucher.
-                Type list to list all vouchers.
-                """;
     }
 
     @ShellMethod("create a voucher")

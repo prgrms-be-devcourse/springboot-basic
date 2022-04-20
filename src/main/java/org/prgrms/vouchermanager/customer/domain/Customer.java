@@ -22,8 +22,8 @@ public class Customer {
     }
 
     private void validateEmail(String email) {
-        if (email.isBlank()) throw new IllegalArgumentException("email should not be blank.");
-        if (!email.contains("@")) throw new IllegalArgumentException("email should contain '@'.");
+        if (email.isBlank()) throw new IllegalArgumentException("email은 공백이 될 수 없습니다.");
+        if (!email.contains("@")) throw new IllegalArgumentException("email은 @를 포함해야 합니다.");
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createAt, LocalDateTime lastLoginAt) {
