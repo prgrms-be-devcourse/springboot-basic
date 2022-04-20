@@ -1,7 +1,6 @@
-package com.blessing333.springbasic.component.customer.domain;
+package com.blessing333.springbasic.customer.domain;
 
-import com.blessing333.springbasic.component.customer.CustomerFactory;
-import com.blessing333.springbasic.customer.domain.Customer;
+import com.blessing333.springbasic.customer.CustomerFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -32,8 +31,9 @@ class CustomerTest {
         UUID id = UUID.randomUUID();
         String userName = "";
         String userEmail = "test@test.com";
+        LocalDateTime now = LocalDateTime.now();
 
-        assertThrows(IllegalArgumentException.class, () -> createNewCustomer(id,userName, userEmail,LocalDateTime.now()));
+        assertThrows(IllegalArgumentException.class, () -> createNewCustomer(id,userName, userEmail,now));
     }
 
     @DisplayName("Customer 이름 변경 - 성공")

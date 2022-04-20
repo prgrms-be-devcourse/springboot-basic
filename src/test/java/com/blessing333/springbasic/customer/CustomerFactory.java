@@ -1,4 +1,4 @@
-package com.blessing333.springbasic.component.customer;
+package com.blessing333.springbasic.customer;
 
 import com.blessing333.springbasic.customer.domain.Customer;
 import lombok.AccessLevel;

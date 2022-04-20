@@ -2,6 +2,7 @@ package com.blessing333.springbasic.customer;
 
 import com.blessing333.springbasic.RunnableService;
 import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
+import com.blessing333.springbasic.customer.converter.CustomerCreateFormConverter;
 import com.blessing333.springbasic.customer.domain.Customer;
 import com.blessing333.springbasic.customer.service.CustomerService;
 import com.blessing333.springbasic.customer.ui.CustomerCommandOptionType;
@@ -21,7 +22,7 @@ import java.util.UUID;
 public class CustomerApp implements RunnableService {
     private final CustomerManagingServiceUserInterface userInterface;
     private final CustomerService customerService;
-    private final Converter converter = new Converter();
+    private final CustomerCreateFormConverter customerCreateFormConverter = new CustomerCreateFormConverter();
 
     @Override
     public void startService() {
@@ -47,7 +48,7 @@ public class CustomerApp implements RunnableService {
 
     private void registerNewCustomer(){
         try {
-            Customer customer = converter.convert(userInterface.requestCustomerInformation()); //IllegalArgumentException 발생 가능
+            Customer customer = customerCreateFormConverter.convert(userInterface.requestCustomerInformation()); //IllegalArgumentException 발생 가능
             Customer registeredCustomer = customerService.registerCustomer(customer);  // DataAccessException 발생 가능
             userInterface.printCustomerCreateSuccessMessage(registeredCustomer);
         } catch (IllegalArgumentException | DataAccessException e){

@@ -1,8 +1,7 @@
-package com.blessing333.springbasic.component.customer.repository;
+package com.blessing333.springbasic.customer.repository;
 
-import com.blessing333.springbasic.component.customer.CustomerFactory;
+import com.blessing333.springbasic.customer.CustomerFactory;
 import com.blessing333.springbasic.customer.domain.Customer;
-import com.blessing333.springbasic.customer.repository.JdbcTemplateCustomerRepository;
 import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
