@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.voucher.repository;
 
+import org.prgrms.kdt.domain.voucher.exception.VoucherNotUpdatedException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.util.UuidUtils;
@@ -15,6 +16,9 @@ import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_DELETED;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_UPDATED;
 
 @Repository
 @Primary
@@ -33,7 +37,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
                         "VALUES (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :discountValue, UNHEX(REPLACE(:customerId, '-', '')), :createdDate, :modifiedDate)",
                 toParamMap(voucher));
         if(savedRows != 1){
-            throw new RuntimeException("저장된 컬럼이 없습니다.");
+            throw new VoucherNotUpdatedException(NOT_UPDATED);
         }
         return voucher.getVoucherId();
     }
@@ -45,7 +49,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
                     Collections.singletonMap("voucherId", UuidUtils.UuidToByte(voucherId)), voucherRowMapper());
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Find By Voucher id got empty result", e);
+            logger.error("바우처 ID에 해당하는 데이터가 존재하지 않습니다.", e);
             return Optional.empty();
         }
     }
@@ -80,7 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
                         "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 toParamMap(voucher));
         if(updatedRows == 0) {
-            throw new RuntimeException("업데이트 된 컬럼이 없습니다.");
+            throw new VoucherNotUpdatedException(NOT_UPDATED);
         }
         return updatedRows;
     }
@@ -94,7 +98,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         int updatedRows = jdbcTemplate.update("UPDATE voucher SET customer_id = UNHEX(REPLACE(:customerId, '-', '')) WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 paramMap);
         if(updatedRows == 0) {
-            throw new RuntimeException("업데이트 된 컬럼이 없습니다.");
+            throw new VoucherNotUpdatedException(NOT_UPDATED);
         }
         return updatedRows;
     }
@@ -104,7 +108,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         int deletedRows = jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 Collections.singletonMap("voucherId", UuidUtils.UuidToByte(voucherId)));
         if(deletedRows == 0) {
-            throw new RuntimeException("삭제된 컬럼이 없습니다.");
+            throw new VoucherNotUpdatedException(NOT_DELETED);
         }
         return deletedRows;
     }
@@ -119,13 +123,13 @@ public class JdbcVoucherRepository implements VoucherRepository{
         int deletedRows = jdbcTemplate.update("DELETE FROM voucher WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
         if(deletedRows == 0) {
-            throw new RuntimeException("삭제된 컬럼이 없습니다.");
+            throw new VoucherNotUpdatedException(NOT_DELETED);
         }
         return deletedRows;
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
-        Map<String, Object> paramMap = new HashMap<>() {{
+        return new HashMap<>() {{
             put("voucherId", UuidUtils.UuidToByte(voucher.getVoucherId()));
             put("voucherType", VoucherType.getValue(voucher.getVoucherType()));
             put("discountValue", voucher.getDiscountValue());
@@ -133,11 +137,10 @@ public class JdbcVoucherRepository implements VoucherRepository{
             put("createdDate", voucher.getCreatedDate());
             put("modifiedDate", voucher.getModifiedDate());
         }};
-        return paramMap;
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
-        RowMapper<Voucher> rowMapper = (rs, rowNum) -> {
+        return (rs, rowNum) -> {
             UUID voucherId = UuidUtils.byteToUUID(rs.getBytes("voucher_id"));
             VoucherType voucherType = VoucherType.findVoucherType(rs.getString("voucher_type"));
             Long discountValue = rs.getLong("discount_value");
@@ -148,6 +151,5 @@ public class JdbcVoucherRepository implements VoucherRepository{
                     rs.getTimestamp("modified_date").toLocalDateTime() : null;
             return new Voucher(voucherId, voucherType, discountValue, customerId, createdDate, modifiedDate);
         };
-        return rowMapper;
     }
 }
