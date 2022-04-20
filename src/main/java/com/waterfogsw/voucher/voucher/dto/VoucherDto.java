@@ -6,9 +6,9 @@ public class VoucherDto {
 
     public static class Request {
         private VoucherType type;
-        private Integer value;
+        private int value;
 
-        public Request(VoucherType type, Integer value) {
+        public Request(VoucherType type, int value) {
             this.type = type;
             this.value = value;
         }
@@ -17,7 +17,7 @@ public class VoucherDto {
             return type;
         }
 
-        public Integer getValue() {
+        public int getValue() {
             return value;
         }
     }
@@ -25,7 +25,7 @@ public class VoucherDto {
     public static class Info {
         private Long id;
         private VoucherType type;
-        private Integer value;
+        private int value;
 
         public Info(Long id, VoucherType type, int value) {
             this.id = id;
@@ -41,7 +41,7 @@ public class VoucherDto {
             return type;
         }
 
-        public Integer getValue() {
+        public int getValue() {
             return value;
         }
     }
