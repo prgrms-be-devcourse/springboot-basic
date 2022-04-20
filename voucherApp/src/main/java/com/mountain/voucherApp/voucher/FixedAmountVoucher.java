@@ -1,9 +1,5 @@
 package com.mountain.voucherApp.voucher;
 
-import com.mountain.voucherApp.enums.DiscountPolicy;
-
-import java.util.UUID;
-
 import static com.mountain.voucherApp.constants.Message.MAX_MORE_ERROR;
 import static com.mountain.voucherApp.constants.Message.NEGATIVE_AMOUNT_ERROR;
 import static com.mountain.voucherApp.constants.Number.ZERO;

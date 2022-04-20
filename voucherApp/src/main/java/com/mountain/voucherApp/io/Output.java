@@ -1,7 +1,6 @@
 package com.mountain.voucherApp.io;
 
 import com.mountain.voucherApp.customer.Customer;
-import com.mountain.voucherApp.voucher.Voucher;
 import com.mountain.voucherApp.voucher.VoucherEntity;
 
 import java.util.List;
@@ -14,4 +13,5 @@ public interface Output {
     void printCustomerList(List<Customer> customerList);
     void printCustomerVoucherInfo(List<Customer> customerList);
     void printException(Exception e);
+    void close();
 }

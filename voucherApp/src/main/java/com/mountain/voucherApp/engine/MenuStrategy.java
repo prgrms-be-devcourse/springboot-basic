@@ -3,7 +3,8 @@ package com.mountain.voucherApp.engine;
 import com.mountain.voucherApp.customer.Customer;
 import com.mountain.voucherApp.customer.CustomerService;
 import com.mountain.voucherApp.enums.DiscountPolicy;
-import com.mountain.voucherApp.io.Console;
+import com.mountain.voucherApp.io.InputConsole;
+import com.mountain.voucherApp.io.OutputConsole;
 import com.mountain.voucherApp.utils.DiscountPolicyUtil;
 import com.mountain.voucherApp.voucher.Voucher;
 import com.mountain.voucherApp.voucher.VoucherEntity;
@@ -16,31 +17,35 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import static com.mountain.voucherApp.constants.Message.*;
+import static com.mountain.voucherApp.constants.Number.NOT_EXIST_DATA_NUMBER;
 
 @Component
 public class MenuStrategy {
 
     private static final Logger log = LoggerFactory.getLogger(MenuStrategy.class);
-    private final Console console;
+    private final InputConsole inputConsole;
+    private final OutputConsole outputConsole;
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    public MenuStrategy(Console console,
+    public MenuStrategy(InputConsole inputConsole,
+                        OutputConsole outputConsole,
                         VoucherService voucherService,
                         CustomerService customerService) {
-        this.console = console;
+        this.inputConsole = inputConsole;
+        this.outputConsole = outputConsole;
         this.voucherService = voucherService;
         this.customerService = customerService;
     }
 
     public void create() throws RuntimeException, NumberFormatException {
-        console.choiceDiscountPolicy();
+        outputConsole.choiceDiscountPolicy();
         // 1. 할인정책 선택
-        int policyId = Integer.valueOf(console.input());
+        int policyId = Integer.valueOf(inputConsole.input());
         if (choiceNumberValidate(policyId, DiscountPolicy.values().length)) {
             // 2. 할인 양(금액 또는 비율) 입력받기.
-            console.printMessage(PLEASE_AMOUNT);
-            long discountAmount = Long.valueOf(console.input());
+            outputConsole.printMessage(PLEASE_AMOUNT);
+            long discountAmount = Long.valueOf(inputConsole.input());
             // 3. 할인 정책에 해당되는 Voucher 인스턴스 가져오기
             Voucher voucher = DiscountPolicyUtil.getVoucher(policyId);
             // 4. 해당 정책에 입력 가능한 DiscountAmount에 대해 유효성을 검사한다.
@@ -52,16 +57,16 @@ public class MenuStrategy {
     }
 
     public void showVoucherList() {
-        console.printVoucherList(voucherService.findAll());
+        outputConsole.printVoucherList(voucherService.findAll());
     }
 
     public void showCustomerVoucherInfo() {
-        console.printCustomerVoucherInfo(customerService.findAll());
+        outputConsole.printCustomerVoucherInfo(customerService.findAll());
     }
 
     public void exit() {
         log.info(PROGRAM_EXIT);
-        console.close();
+        outputConsole.close();
     }
 
     public void addVoucher() {
@@ -104,29 +109,43 @@ public class MenuStrategy {
             // 2. 해당 바우처를 보유한 고객 조회
             VoucherEntity voucherEntity = voucherEntityList.get(idx);
             List<Customer> customers = customerService.findByVoucherId(voucherEntity.getVoucherId());
-            console.printMessage(MessageFormat.format(CUSTOMER_BY_VOUCHER_FORMAT, voucherEntity.getVoucherId()));
-            console.printCustomerList(customers);
+            outputConsole.printMessage(MessageFormat.format(CUSTOMER_BY_VOUCHER_FORMAT, voucherEntity.getVoucherId()));
+            if (validateList(customers))
+                outputConsole.printCustomerList(customers);
         }
     }
 
-
-    private int choiceVoucher(List<VoucherEntity> voucherEntityList) {
-        console.printMessage(PLEASE_INPUT_NUMBER);
-        console.printVoucherList(voucherEntityList);
-        return Integer.valueOf(console.input());
-    }
-
     private boolean choiceNumberValidate(int choiceNumber, int maxSize) {
+        if (choiceNumber == NOT_EXIST_DATA_NUMBER)
+            return false;
         if (choiceNumber > maxSize) {
-            console.printMessage(WRONG_INPUT);
+            outputConsole.printMessage(WRONG_INPUT);
             return false;
         }
         return true;
     }
 
+    private boolean validateList(List dataList) {
+        if (dataList == null || dataList.size() == 0) {
+            outputConsole.printMessage(EMPTY_DATA);
+            return false;
+        }
+        return true;
+    }
+
+    private int choiceVoucher(List<VoucherEntity> voucherEntityList) {
+        if (validateList(voucherEntityList)) {
+            outputConsole.printVoucherList(voucherEntityList);
+            return Integer.valueOf(inputConsole.input());
+        }
+        return NOT_EXIST_DATA_NUMBER;
+    }
+
     private int choiceCustomer(List<Customer> customerList) {
-        console.printMessage(PLEASE_INPUT_NUMBER);
-        console.printCustomerList(customerList);
-        return Integer.valueOf(console.input());
+        if (validateList(customerList)) {
+            outputConsole.printCustomerList(customerList);
+            return Integer.valueOf(inputConsole.input());
+        }
+        return NOT_EXIST_DATA_NUMBER;
     }
 }
