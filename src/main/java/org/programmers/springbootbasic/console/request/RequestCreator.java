@@ -2,7 +2,7 @@ package org.programmers.springbootbasic.console.request;
 
 import lombok.RequiredArgsConstructor;
 import org.programmers.springbootbasic.console.ConsoleMapper;
-import org.programmers.springbootbasic.console.Model;
+import org.programmers.springbootbasic.console.model.Model;
 import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.console.command.RedirectCommand;
 import org.springframework.stereotype.Component;
@@ -11,8 +11,7 @@ import static org.programmers.springbootbasic.console.command.InputCommand.HELP;
 
 @Component
 @RequiredArgsConstructor
-public class RequestSetter {
-    //TODO GC 처리 지점 언제로 할 지
+public class RequestCreator {
 
     private final Input input;
 

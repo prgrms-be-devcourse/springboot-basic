@@ -2,7 +2,7 @@ package org.programmers.springbootbasic.console.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.console.ModelAndView;
+import org.programmers.springbootbasic.console.model.ModelAndView;
 import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.console.command.InputCommand;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.programmers.springbootbasic.console.ConsoleResponseCode.PROCEED;
 import static org.programmers.springbootbasic.console.ConsoleResponseCode.STOP;
 import static org.programmers.springbootbasic.console.command.InputCommand.*;
-import static org.programmers.springbootbasic.console.command.RedirectCommand.WAIT_FOR_INPUT;
 
 @Slf4j
 @Component
@@ -32,7 +31,6 @@ public class CliHandler implements Handler {
         commandList.put(HELP.getViewName(), HELP);
         commandList.put(HOME.getViewName(), HOME);
         commandList.put(EXIT.getViewName(), EXIT);
-        commandList.put(WAIT_FOR_INPUT.getViewName(), WAIT_FOR_INPUT);
     }
 
     @Override

@@ -21,8 +21,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Voucher registerVoucher(Voucher voucher) throws IllegalArgumentException {
-        if (isValidAmount(
-                voucher.getAmount(), VoucherType.findTypeByClass(voucher.getClass()))) {
+        if (isValidAmount(voucher.getAmount(), voucher.getType())) {
             return voucherRepository.insert(voucher);
         }
         log.error("Illegal value of voucher's discount amount={}", voucher.getAmount());

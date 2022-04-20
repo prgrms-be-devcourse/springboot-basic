@@ -2,7 +2,7 @@ package org.programmers.springbootbasic.console.handler;
 
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.programmers.springbootbasic.console.ConsoleResponseCode;
-import org.programmers.springbootbasic.console.ModelAndView;
+import org.programmers.springbootbasic.console.model.ModelAndView;
 import org.programmers.springbootbasic.console.command.Command;
 import org.springframework.stereotype.Component;
 

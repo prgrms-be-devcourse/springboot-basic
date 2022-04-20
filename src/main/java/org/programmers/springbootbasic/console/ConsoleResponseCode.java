@@ -1,5 +1,5 @@
 package org.programmers.springbootbasic.console;
 
 public enum ConsoleResponseCode {
-    PROCEED, INPUT, STOP;
+    PROCEED, INPUT_AND_REDIRECT, STOP, REDIRECT;
 }

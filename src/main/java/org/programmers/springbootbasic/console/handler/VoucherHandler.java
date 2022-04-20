@@ -2,9 +2,9 @@ package org.programmers.springbootbasic.console.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.console.request.ConsoleRequest;
-import org.programmers.springbootbasic.console.ModelAndView;
 import org.programmers.springbootbasic.console.command.Command;
+import org.programmers.springbootbasic.console.model.ModelAndView;
+import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.programmers.springbootbasic.service.VoucherService;
 import org.programmers.springbootbasic.voucher.FixedDiscountVoucher;
 import org.programmers.springbootbasic.voucher.RateDiscountVoucher;
@@ -19,10 +19,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.programmers.springbootbasic.console.ConsoleResponseCode.*;
-import static org.programmers.springbootbasic.console.command.InputCommand.*;
+import static org.programmers.springbootbasic.console.ConsoleResponseCode.INPUT_AND_REDIRECT;
+import static org.programmers.springbootbasic.console.ConsoleResponseCode.PROCEED;
+import static org.programmers.springbootbasic.console.command.InputCommand.CREATE;
+import static org.programmers.springbootbasic.console.command.InputCommand.LIST;
 import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_AMOUNT;
 import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_COMPLETE;
+import static org.programmers.springbootbasic.voucher.VoucherType.*;
 
 @Slf4j
 @Component
@@ -78,30 +81,34 @@ public class VoucherHandler implements Handler {
     private ModelAndView create(ConsoleRequest request) {
         var model = request.getModel();
 
+        List<String> voucherTypesDescription = getAllVoucherTypeDescription();
+
+        model.addAttributes("allVoucherTypes", voucherTypesDescription);
+        model.setInputSignature("type");
+        model.setRedirectLink(CREATE_AMOUNT);
+
+        return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT_AND_REDIRECT);
+    }
+
+    private List<String> getAllVoucherTypeDescription() {
         List<String> voucherTypesInformation = new ArrayList<>();
         for (var voucherType : VoucherType.values()) {
             voucherTypesInformation.add(voucherType.explainThisType());
         }
-
-        model.addAttributes("allVoucherTypes", voucherTypesInformation);
-        model.setInputSignature("type");
-        model.setRedirectLink(CREATE_AMOUNT);
-
-        return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT);
+        return voucherTypesInformation;
     }
 
     private ModelAndView createAmount(ConsoleRequest request) {
         var model = request.getModel();
 
-        //TODO: 컨버터 개발하여 아래 로직 대체하기1
-        String ordinalString = (String) model.getAttributes("type");
-        int ordinal = Integer.parseInt(ordinalString);
+        VoucherType voucherType = getVoucherTypeFromModel(model.getAttributes("type"));
+        model.addAttributes("voucherType", voucherType.getName());
 
-        model.addAttributes("amount", VoucherType.findTypeByOrdinal(ordinal).getDiscountUnitName());
+        model.addAttributes("amountUnit", voucherType.getDiscountUnitMessage());
         model.setRedirectLink(CREATE_COMPLETE);
         model.setInputSignature("amount");
 
-        return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT);
+        return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT_AND_REDIRECT);
     }
 
     private ModelAndView createComplete(ConsoleRequest request) {
@@ -109,27 +116,33 @@ public class VoucherHandler implements Handler {
 
         Voucher voucher;
 
-        //TODO: 컨버터 개발하여 아래 로직 대체하기2
-        String ordinalString = (String) model.getAttributes("type");
-        int ordinal = Integer.parseInt(ordinalString);
-        String amountString = (String) model.getAttributes("amount");
-        int amount = Integer.parseInt(amountString);
+        var voucherType = getVoucherTypeFromModel(model.getAttributes("type"));
+        int amount = getDiscountAmountFromModel(model.getAttributes("amount"));
 
-        Class<? extends Voucher> type = VoucherType.findTypeByOrdinal(ordinal).getType();
-
-        if (type.equals(FixedDiscountVoucher.class)) {
+        if (voucherType == FIXED) {
             voucher = new FixedDiscountVoucher(UUID.randomUUID(), amount);
-        } else if (type.equals(RateDiscountVoucher.class)) {
+        } else if (voucherType == RATE) {
             voucher = new RateDiscountVoucher(UUID.randomUUID(), amount);
         } else {
             log.info("Illegal type of voucher. No corresponding voucher type exist.");
-            throw new IllegalArgumentException("Illegal type of voucher. No corresponding voucher type exist.");
+            throw new IllegalArgumentException("유효하지 않은 바우처 종류를 만들려고 시도했습니다.");
         }
         voucherService.registerVoucher(voucher);
 
         model.clear();
 
         return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), PROCEED);
+    }
+
+    private VoucherType getVoucherTypeFromModel(Object modelAttribute) {
+        String voucherTypeInput = (String) modelAttribute;
+        int ordinal = Integer.parseInt(voucherTypeInput);
+        return findTypeByOrdinal(ordinal);
+    }
+
+    private int getDiscountAmountFromModel(Object modelAttribute) {
+        String amountString = (String) modelAttribute;
+        return Integer.parseInt(amountString);
     }
 
     private ModelAndView list(ConsoleRequest request) {
@@ -143,7 +156,7 @@ public class VoucherHandler implements Handler {
         List<String> allVouchersInformation = new ArrayList<>(vouchers.size());
 
         for (Voucher voucher : vouchers) {
-            allVouchersInformation.add(VoucherType.dataOfVoucher(voucher));
+            allVouchersInformation.add(dataOfVoucher(voucher));
         }
 
         model.addAttributes("allVouchersInformation", allVouchersInformation);

@@ -2,6 +2,8 @@ package org.programmers.springbootbasic.console;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.programmers.springbootbasic.console.model.Model;
+import org.programmers.springbootbasic.console.model.ModelAndView;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static org.programmers.springbootbasic.console.ConsoleResponseCode.*;
-import static org.programmers.springbootbasic.console.command.RedirectCommand.*;
+import static org.programmers.springbootbasic.console.ConsoleResponseCode.INPUT_AND_REDIRECT;
+import static org.programmers.springbootbasic.console.ConsoleResponseCode.PROCEED;
+import static org.programmers.springbootbasic.console.command.RedirectCommand.ERROR;
 
 @Slf4j
 @Component
@@ -47,7 +50,7 @@ public class Drawer {
         viewAssembler.delete(0, viewAssembler.length());
         var responseCode = modelAndView.getResponseCode();
 
-        if (responseCode != INPUT) {
+        if (responseCode != INPUT_AND_REDIRECT) {
             log.info("Clear model's attributes because attributes are used.");
             model.clear();
         }

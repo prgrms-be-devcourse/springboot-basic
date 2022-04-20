@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.ConsoleProperties;
 import org.programmers.springbootbasic.console.SimpleErrorMessageMapper;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
-import org.programmers.springbootbasic.console.ModelAndView;
+import org.programmers.springbootbasic.console.model.ModelAndView;
 import org.programmers.springbootbasic.console.command.Command;
 import org.springframework.stereotype.Component;
 

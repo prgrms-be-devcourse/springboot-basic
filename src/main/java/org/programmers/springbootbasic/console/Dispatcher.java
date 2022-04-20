@@ -2,10 +2,11 @@ package org.programmers.springbootbasic.console;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.programmers.springbootbasic.console.model.ModelAndView;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.springframework.stereotype.Component;
 
-import static org.programmers.springbootbasic.console.ConsoleResponseCode.PROCEED;
+import static org.programmers.springbootbasic.console.ConsoleResponseCode.REDIRECT;
 import static org.programmers.springbootbasic.console.command.RedirectCommand.ERROR;
 
 @Slf4j
@@ -24,11 +25,13 @@ public class Dispatcher {
 
             ModelAndView modelAndView = controller.handleRequest(request);
             var code = drawer.draw(modelAndView);
-            request = null;
+            request = null; //GC
             return code;
         } catch (Exception e) {
+            log.error("Exception stack trace: ", e);
+            model.addAttributes("errorData", e);
             model.setRedirectLink(ERROR);
-            return PROCEED;
+            return REDIRECT;
         }
     }
 }

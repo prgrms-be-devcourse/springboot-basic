@@ -1,9 +1,9 @@
-package org.programmers.springbootbasic.console;
+package org.programmers.springbootbasic.console.model;
 
-import lombok.AccessLevel;
 import lombok.Getter;
+import org.programmers.springbootbasic.console.ConsoleResponseCode;
 
-@Getter(AccessLevel.PACKAGE)
+@Getter
 public class ModelAndView {
     private final ConsoleResponseCode responseCode;
     private final String view;
