@@ -26,6 +26,8 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_DELETED;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_UPDATED;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -165,7 +167,7 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThatThrownBy(() -> voucherRepository.updateById(updateVoucher))
                 .isInstanceOf(VoucherDataException.class)
-                .hasMessage(ExceptionType.NOT_UPDATED.getMsg());
+                .hasMessage(NOT_UPDATED.getMsg());
     }
 
     @Test
@@ -185,6 +187,19 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("입력된 ID를 통해 업데이트 된 컬럼이 존재하지 않을 경우 예외가 발생한다.")
+    void updateCustomerId_exception() {
+        //given
+        UUID customerId = UUID.randomUUID();
+        UUID voucherId = UUID.randomUUID();
+        //when
+        //then
+        assertThatThrownBy(() -> voucherRepository.updateCustomerId(voucherId, customerId))
+                .isInstanceOf(VoucherDataException.class)
+                .hasMessage(NOT_UPDATED.getMsg());
+    }
+
+    @Test
     @DisplayName("바우처 ID를 통해 바우처를 삭제할 수 있다.")
     void deleteById() {
         //given
@@ -196,6 +211,18 @@ class JdbcVoucherRepositoryTest {
         int deletedRows = voucherRepository.deleteById(voucherId);
         //then
         assertThat(deletedRows).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("등록되지 않은 바우처 ID를 삭제할 경우 예외가 발생한다.")
+    void deleteById_exception() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        //when
+        //then
+        assertThatThrownBy(() -> voucherRepository.deleteById(voucherId))
+                .isInstanceOf(VoucherDataException.class)
+                .hasMessage(ExceptionType.NOT_DELETED.getMsg());
     }
 
     @Test
@@ -226,5 +253,18 @@ class JdbcVoucherRepositoryTest {
         int deletedRows = voucherRepository.deleteByCustomerId(customerId);
         //then
         assertThat(deletedRows).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 고객 ID를 통해 삭제할 경우 예외가 발생한다.")
+    void deleteByCustomerId_exception() {
+        //given
+
+        UUID customerId = UUID.randomUUID();
+        //when
+        //then
+        assertThatThrownBy(() -> voucherRepository.deleteByCustomerId(customerId))
+                .isInstanceOf(VoucherDataException.class)
+                .hasMessage(NOT_DELETED.getMsg());
     }
 }

@@ -5,6 +5,8 @@ import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import org.junit.jupiter.api.*;
 import org.prgrms.kdt.TestConfig;
+import org.prgrms.kdt.domain.common.exception.ExceptionType;
+import org.prgrms.kdt.domain.customer.exception.CustomerDataException;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
@@ -24,6 +26,9 @@ import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_DELETED;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_UPDATED;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -68,7 +73,8 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
+        Customer customer = new Customer(customerId,"park" ,
+                "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         //when
         UUID savedId = customerRepository.save(customer);
         //then
@@ -81,7 +87,8 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
+        Customer customer = new Customer(customerId,"park" ,
+                "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
         List<Customer> customers = customerRepository.findAll();
@@ -96,7 +103,8 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
+        Customer customer = new Customer(customerId,"park" ,
+                "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
         Optional<Customer> findCustomer = customerRepository.findById(customerId);
@@ -111,7 +119,8 @@ class JdbcCustomerRepositoryTest {
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
         String email = "dbslzld15@naver.com";
-        Customer customer = new Customer(customerId,"park" , email, CustomerType.BLACK_LIST, now, now);
+        Customer customer = new Customer(customerId,"park" ,
+                email, CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
         Optional<Customer> findCustomer = customerRepository.findByEmail(email);
@@ -125,10 +134,12 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId, "park", "d@naver.com", now, now);
+        Customer customer = new Customer(customerId, "park",
+                "d@naver.com", now, now);
         customerRepository.save(customer);
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new Voucher(voucherId, VoucherType.PERCENT_DISCOUNT, 10L, customerId, now, now);
+        Voucher voucher = new Voucher(voucherId, VoucherType.PERCENT_DISCOUNT,
+                10L, customerId, now, now);
         voucherRepository.save(voucher);
         //when
         Optional<Customer> findCustomer = customerRepository.findByVoucherId(voucherId);
@@ -142,7 +153,8 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
+        Customer customer = new Customer(customerId,"park" ,
+                "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
         List<Customer> customers = customerRepository.findByCustomerType(CustomerType.BLACK_LIST);
@@ -157,13 +169,29 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
+        Customer customer = new Customer(customerId,"park" ,
+                "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
-        Customer updateCustomer = new Customer(customerId, "kim", "a@naver.com", CustomerType.NORMAL, LocalDateTime.now(), LocalDateTime.now());
+        Customer updateCustomer = new Customer(customerId, "kim",
+                "a@naver.com", CustomerType.NORMAL, LocalDateTime.now(), LocalDateTime.now());
         //when
         int updatedRows = customerRepository.updateById(updateCustomer);
         //then
         assertThat(updatedRows).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 고객을 업데이트 할 경우 예외가 발생한다.")
+    void updateById_exception() {
+        //given
+        UUID customerId = UUID.randomUUID();
+        Customer updateCustomer = new Customer(customerId, "kim",
+                "a@naver.com", CustomerType.NORMAL, LocalDateTime.now(), LocalDateTime.now());
+        //when
+        //then
+        assertThatThrownBy(() -> customerRepository.updateById(updateCustomer))
+                .isInstanceOf(CustomerDataException.class)
+                .hasMessage(NOT_UPDATED.getMsg());
     }
 
     @Test
@@ -172,7 +200,8 @@ class JdbcCustomerRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now();
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
+        Customer customer = new Customer(customerId,"park" ,
+                "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
         int deletedRows = customerRepository.deleteById(customerId);
@@ -181,12 +210,25 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("존재하지 않는 고객을 삭제할 경우 예외가 발생한다.")
+    void deleteById_exception() {
+        //given
+        UUID customerId = UUID.randomUUID();
+        //when
+        //then
+        assertThatThrownBy(() -> customerRepository.deleteById(customerId))
+                .isInstanceOf(CustomerDataException.class)
+                .hasMessage(NOT_DELETED.getMsg());
+    }
+
+    @Test
     @DisplayName("고객 테이블에 저장된 모든 데이터를 삭제할 수 있다.")
     void deleteAll() {
         //given
         LocalDateTime now = LocalDateTime.now();
         UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId,"park" , "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
+        Customer customer = new Customer(customerId,"park" ,
+                "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
         int deletedRows = customerRepository.deleteAll();
