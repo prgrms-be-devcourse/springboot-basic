@@ -1,4 +1,4 @@
-package com.example.voucherproject.common.io;
+package com.example.voucherproject.common.io.console;
 
 import com.example.voucherproject.common.enums.MenuType;
 import com.example.voucherproject.common.enums.ServiceType;

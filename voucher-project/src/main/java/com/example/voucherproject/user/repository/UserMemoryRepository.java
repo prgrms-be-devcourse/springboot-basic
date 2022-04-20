@@ -1,11 +1,13 @@
 package com.example.voucherproject.user.repository;
+
 import com.example.voucherproject.common.enums.UserType;
 import com.example.voucherproject.user.domain.User;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Repository;
-import java.util.*;
 
-@Repository
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 public class UserMemoryRepository implements UserRepository{
     private final Map<UUID, User> userMap = new HashMap<>();
 

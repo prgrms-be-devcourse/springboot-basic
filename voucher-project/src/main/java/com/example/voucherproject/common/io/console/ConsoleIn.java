@@ -1,18 +1,16 @@
 package com.example.voucherproject.common.io.console;
+
 import com.example.voucherproject.common.enums.MenuType;
 import com.example.voucherproject.common.enums.ServiceType;
 import com.example.voucherproject.common.enums.UserType;
 import com.example.voucherproject.common.enums.VoucherType;
-import com.example.voucherproject.common.io.Input;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 import static com.example.voucherproject.common.enums.ServiceType.*;
 
 @Slf4j
-@Component
 public class ConsoleIn implements Input {
     Scanner sc = new Scanner(System.in);
 

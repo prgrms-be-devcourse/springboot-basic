@@ -1,18 +1,21 @@
 package com.example.voucherproject.common.io.console;
-import com.example.voucherproject.common.io.Output;
+
 import com.example.voucherproject.user.domain.User;
 import com.example.voucherproject.voucher.domain.Voucher;
-import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
 
-@Component
 public class ConsoleOut implements Output {
 
     @Override
     public void exit() {
         System.out.println("종료합니다\n");
+    }
+
+    @Override
+    public void home() {
+        System.out.println("Return to Main Menu\n");
     }
 
     @Override
@@ -26,9 +29,9 @@ public class ConsoleOut implements Output {
     }
 
     @Override
-    public void vouchers(List<Voucher> v) {
-        System.out.println("저장된 바우처 수 : " + v.size());
-        v.forEach(System.out::println);
+    public void printVouchers(List<Voucher> vouchers) {
+        System.out.println("저장된 바우처 수 : " + vouchers.size());
+        vouchers.forEach(System.out::println);
         System.out.println();
     }
 
