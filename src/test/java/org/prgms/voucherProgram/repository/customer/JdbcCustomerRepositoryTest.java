@@ -16,7 +16,9 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.prgms.voucherProgram.domain.customer.Customer;
 import org.prgms.voucherProgram.exception.NothingChangeException;
@@ -38,6 +40,7 @@ import com.zaxxer.hikari.HikariDataSource;
 class JdbcCustomerRepositoryTest {
 
     private static EmbeddedMysql embeddedMysql;
+
     @Autowired
     private JdbcCustomerRepository jdbcCustomerRepository;
 
@@ -65,165 +68,14 @@ class JdbcCustomerRepositoryTest {
         jdbcCustomerRepository.deleteAll();
     }
 
-    @DisplayName("고객을 저장한다.")
-    @Test
-    void should_ReturnCustomer_When_nonDuplicateCustomer() {
-        // given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        // when
-        jdbcCustomerRepository.save(customer);
-        // then
-        assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isNotEmpty()
-            .get()
-            .usingRecursiveComparison()
-            .isEqualTo(customer);
+    private Customer customer() {
+        return new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
     }
 
-    @DisplayName("모든 고객을 조회한다.")
-    @Test
-    void should_ReturnAllCustomers() {
-        // given
-        List<Customer> customers = List.of(
+    private List<Customer> customers() {
+        return List.of(
             new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now()),
             new Customer(UUID.randomUUID(), "spancer", "spancer@gmail.com", LocalDateTime.now()));
-        customers.forEach(jdbcCustomerRepository::save);
-
-        // when
-        List<Customer> findCustomer = jdbcCustomerRepository.findAll();
-
-        // then
-        assertThat(findCustomer).hasSize(2)
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
-            .containsAll(customers);
-    }
-
-    @DisplayName("모든 고객을 삭제한다.")
-    @Test
-    void should_DeleteAllCustomer() {
-        // given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        jdbcCustomerRepository.save(customer);
-        // when
-        jdbcCustomerRepository.deleteAll();
-        // then
-        assertThat(jdbcCustomerRepository.findAll()).isEmpty();
-    }
-
-    @DisplayName("이메일을 통해 고객을 조회한다.")
-    @Test
-    void should_ReturnCustomer_When_EmailIsExist() {
-        // given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        jdbcCustomerRepository.save(customer);
-        // when
-        Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail());
-        // then
-        assertThat(findCustomer).isNotEmpty();
-        assertThat(findCustomer.get()).usingRecursiveComparison()
-            .isEqualTo(customer);
-    }
-
-    @DisplayName("저장되지 않은 이메일로 조회 시 empty를 리턴한다.")
-    @Test
-    void should_ReturnEmpty_When_EmailIsNotExist() {
-        //given
-        String email = "asd@gmail.com";
-        //when
-        Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(email);
-        //then
-        assertThat(findCustomer).isEmpty();
-    }
-
-    @DisplayName("고객 정보를 수정한다.")
-    @Test
-    void should_updateCustomer_When_nonDuplicateCustomer() {
-        // given
-        UUID customerId = UUID.randomUUID();
-        LocalDateTime createdTime = LocalDateTime.now();
-        Customer customer = new Customer(customerId, "hwan", "hwan@gmail.com", createdTime);
-        jdbcCustomerRepository.save(customer);
-        // when
-        customer = new Customer(customerId, "spancer", "spancer@gmail.com", createdTime, LocalDateTime.now());
-        jdbcCustomerRepository.update(customer);
-        // then
-        Optional<Customer> updateCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail());
-        assertThat(updateCustomer).isNotEmpty()
-            .get()
-            .usingRecursiveComparison()
-            .isEqualTo(customer);
-    }
-
-    @DisplayName("ID를 통해 고객을 조회한다.")
-    @Test
-    void should_ReturnCustomer_When_IdIsExist() {
-        // given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        jdbcCustomerRepository.save(customer);
-        // when
-        Optional<Customer> findCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
-        // then
-        assertThat(findCustomer).isNotEmpty();
-        assertThat(findCustomer.get()).usingRecursiveComparison()
-            .isEqualTo(customer);
-    }
-
-    @DisplayName("저장되지 않은 ID로 조회 시 empty를 리턴한다.")
-    @Test
-    void should_ReturnEmpty_When_IdIsNotExist() {
-        // given
-        UUID id = UUID.randomUUID();
-        // when
-        Optional<Customer> findCustomer = jdbcCustomerRepository.findById(id);
-        // then
-        assertThat(findCustomer).isEmpty();
-    }
-
-    @DisplayName("ID를 통해 고객을 삭제한다.")
-    @Test
-    void should_DeleteCustomer_When_IdIsExist() {
-        // given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        jdbcCustomerRepository.save(customer);
-        // when
-        jdbcCustomerRepository.deleteById(customer.getCustomerId());
-        // then
-        assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isEmpty();
-    }
-
-    @DisplayName("잘못된 ID로 삭제하려고 하면 예외를 발생한다.")
-    @Test
-    void should_ThrowException_When_IdIsNotExist() {
-        // given
-        UUID id = UUID.randomUUID();
-        // when
-        // then
-        assertThatThrownBy(() -> jdbcCustomerRepository.deleteById(id))
-            .isInstanceOf(NothingChangeException.class)
-            .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
-    }
-
-    @DisplayName("이메일을 통해 고객을 삭제한다.")
-    @Test
-    void should_DeleteCustomer_When_EmailIsExist() {
-        // given
-        Customer customer = new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
-        jdbcCustomerRepository.save(customer);
-        // when
-        jdbcCustomerRepository.deleteByEmail(customer.getEmail());
-        // then
-        assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isEmpty();
-    }
-
-    @DisplayName("잘못된 ID로 삭제하려고 하면 예외를 발생한다.")
-    @Test
-    void should_ThrowException_When_EmailIsNotExist() {
-        // given
-        String email = "spancer@gmail.com";
-        // when
-        // then
-        assertThatThrownBy(() -> jdbcCustomerRepository.deleteByEmail(email))
-            .isInstanceOf(NothingChangeException.class)
-            .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
     }
 
     @Configuration
@@ -245,6 +97,266 @@ class JdbcCustomerRepositoryTest {
         @Bean
         public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
+        }
+    }
+
+    @Nested
+    @DisplayName("save 메서드는")
+    class Describe_save {
+
+        @Nested
+        @DisplayName("고객이 주어지면")
+        class Context_with_customer {
+            final Customer customer = customer();
+
+            @Test
+            @DisplayName("주어진 고객을 저장하고 저장된 고객을 리턴한다.")
+            void it_saves_customer_and_returns_saved_customer() {
+                Customer savedCustomer = jdbcCustomerRepository.save(customer);
+
+                assertThat(savedCustomer).isEqualTo(customer);
+                assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isNotEmpty()
+                    .get()
+                    .usingRecursiveComparison()
+                    .isEqualTo(customer);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findAll 메서드는")
+    class Describe_findAll {
+        @Nested
+        @DisplayName("저장된 고객들이 있다면")
+        class Context_with_customers {
+            final List<Customer> customers = customers();
+
+            @BeforeEach
+            void prepare() {
+                customers.forEach(customer -> jdbcCustomerRepository.save(customer));
+            }
+
+            @Test
+            @DisplayName("모든 고객들을 리턴한다.")
+            void it_returns_all_customer() {
+                List<Customer> findCustomer = jdbcCustomerRepository.findAll();
+
+                assertThat(findCustomer).hasSize(2)
+                    .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+                    .containsAll(customers);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findByEmail 메서드는")
+    class Describe_findByEmail {
+        final Customer customer = customer();
+
+        @BeforeEach
+        void prepare() {
+            jdbcCustomerRepository.save(customer);
+        }
+
+        @Nested
+        @DisplayName("저장된 고객의 이메일이라면")
+        class Context_with_saved_customer_email {
+            @Test
+            @DisplayName("이메일로 고객을 찾고 리턴한다.")
+            void it_find_customer_by_email_and_returns_customer() {
+                Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail());
+
+                assertThat(findCustomer).isNotEmpty()
+                    .get()
+                    .usingRecursiveComparison()
+                    .isEqualTo(customer);
+            }
+        }
+
+        @Nested
+        @DisplayName("저장되지 않은 고객의 이메일이라면")
+        class Context_with_not_saved_customer_email {
+            final String notSaveEmail = "asdsad@gmail.com";
+
+            @Test
+            @DisplayName("Optional Empty 를 리턴한다.")
+            void it_returns_Optional_empty() {
+                Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(notSaveEmail);
+
+                assertThat(findCustomer).isEmpty();
+            }
+        }
+
+    }
+
+    @Nested
+    @DisplayName("findById 메서드는")
+    class Describe_findById {
+
+        @Nested
+        @DisplayName("만약 저장된 고객의 ID라면")
+        class Context_with_saved_customer_id {
+            final Customer customer = customer();
+
+            @BeforeEach
+            void prepare() {
+                jdbcCustomerRepository.save(customer);
+            }
+
+            @Test
+            @DisplayName("고객ID로 찾은 뒤 해당 고객을 리턴한다.")
+            void it_find_customer_and_returns_customer() {
+                Optional<Customer> findCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
+
+                assertThat(findCustomer).isNotEmpty()
+                    .get()
+                    .usingRecursiveComparison()
+                    .isEqualTo(customer);
+            }
+        }
+
+        @Nested
+        @DisplayName("만약 저장되지 않은 고객의 ID라면")
+        class Context_with_not_saved_customer_id {
+            final UUID notSavedId = UUID.randomUUID();
+
+            @Test
+            @DisplayName("Optional Empty 를 리턴한다.")
+            void it_return_optional_empty() {
+                Optional<Customer> findCustomer = jdbcCustomerRepository.findById(notSavedId);
+
+                assertThat(findCustomer).isEmpty();
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("update 메서드는")
+    class Describe_update {
+
+        @Nested
+        @DisplayName("수정할 고객이 주어지면")
+        class Context_with_update_customer {
+            final Customer customer = customer();
+            final Customer update = new Customer(customer.getCustomerId(), "aramand", "aramand@gmail.com",
+                customer.getCreatedTime());
+
+            @BeforeEach
+            void prepare() {
+                jdbcCustomerRepository.save(customer);
+            }
+
+            @Test
+            @DisplayName("고객을 수정하고 수정된 고객을 리턴한다.")
+            void it_updates_customer_and_returns_updated_customer() {
+                Customer updatedCustomer = jdbcCustomerRepository.update(update);
+
+                assertThat(updatedCustomer).isEqualTo(update);
+                assertThat(jdbcCustomerRepository.findById(updatedCustomer.getCustomerId())).isNotEmpty()
+                    .get()
+                    .usingRecursiveComparison()
+                    .isEqualTo(update);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("deleteByEmail 메서드는")
+    class Describe_deleteByEmail {
+
+        @Nested
+        @DisplayName("만약 저장된 고객의 이메일이라면")
+        class Context_with_saved_customer_email {
+            final Customer customer = customer();
+
+            @BeforeEach
+            void prepare() {
+                jdbcCustomerRepository.save(customer);
+            }
+
+            @Test
+            @DisplayName("해당 고객을 삭제한다.")
+            void it_delete_voucher() {
+                jdbcCustomerRepository.deleteByEmail(customer.getEmail());
+
+                assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isEmpty();
+            }
+        }
+
+        @Nested
+        @DisplayName("만약 저장되지 않은 고객의 이메일이라면")
+        class Context_with_not_saved_customer_email {
+            final String notSavedEmail = "asdfdsaf@gmail.com";
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_Exception() {
+                assertThatThrownBy(() -> jdbcCustomerRepository.deleteByEmail(notSavedEmail))
+                    .isInstanceOf(NothingChangeException.class)
+                    .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("deleteById 메서드는")
+    class Describe_deleteById {
+
+        @Nested
+        @DisplayName("만약 저장된 고객의 ID라면")
+        class Context_with_saved_customer_id {
+            final Customer customer = customer();
+
+            @BeforeEach
+            void prepare() {
+                jdbcCustomerRepository.save(customer);
+            }
+
+            @Test
+            @DisplayName("해당 고객을 삭제한다.")
+            void it_delete_customer() {
+                jdbcCustomerRepository.deleteById(customer.getCustomerId());
+
+                assertThat(jdbcCustomerRepository.findById(customer.getCustomerId())).isEmpty();
+            }
+        }
+
+        @Nested
+        @DisplayName("만약 저장되지 않은 고객의 ID라면")
+        class Context_with_not_saved_customer_id {
+            final UUID notSavedId = UUID.randomUUID();
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_Exception() {
+                assertThatThrownBy(() -> jdbcCustomerRepository.deleteById(notSavedId))
+                    .isInstanceOf(NothingChangeException.class)
+                    .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
+            }
+        }
+    }
+    
+    @Nested
+    @DisplayName("deleteAll 메서드는")
+    class Describe_deleteAll {
+
+        @Nested
+        @DisplayName("저장된 고객들이 있다면")
+        class Context_with_customers {
+            final List<Customer> customers = customers();
+
+            @BeforeEach
+            void prepare() {
+                customers.forEach(customer -> jdbcCustomerRepository.save(customer));
+            }
+
+            @Test
+            @DisplayName("모든 삭제한다.")
+            void it_delete_all_customer() {
+                jdbcCustomerRepository.deleteAll();
+
+                assertThat(jdbcCustomerRepository.findAll()).isEmpty();
+            }
         }
     }
 }

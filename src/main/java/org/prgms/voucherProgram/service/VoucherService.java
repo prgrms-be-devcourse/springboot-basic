@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class VoucherService {
 
     public static final String ERROR_VOUCHER_IS_NOT_ASSIGN = "[ERROR] 해당 바우처는 아직 할당전 입니다.";
+    
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
 

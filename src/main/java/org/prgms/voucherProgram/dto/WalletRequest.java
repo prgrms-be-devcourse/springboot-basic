@@ -3,7 +3,7 @@ package org.prgms.voucherProgram.dto;
 import java.util.UUID;
 
 public class WalletRequest {
-    private String customerEmail;
+    private final String customerEmail;
     private UUID voucherId;
 
     public WalletRequest(String customerEmail, UUID voucherId) {
@@ -13,10 +13,6 @@ public class WalletRequest {
 
     public String getCustomerEmail() {
         return customerEmail;
-    }
-
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
     }
 
     public UUID getVoucherId() {
