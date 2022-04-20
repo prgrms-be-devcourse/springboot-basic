@@ -55,7 +55,7 @@ public class FixedAmountVoucher implements Voucher{
         return VoucherType.FIXED;
     }
 
-    public static Voucher createVoucher(VoucherDTO voucherDTO) {
+    public static Voucher createVoucher(VoucherDto voucherDTO) {
         return new FixedAmountVoucher(voucherDTO.getVoucherId(), voucherDTO.getValue(), voucherDTO.getCreatedAt());
     }
 }

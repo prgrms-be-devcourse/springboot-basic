@@ -1,7 +1,7 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 import org.programmers.springbootbasic.voucher.model.Voucher;
-import org.programmers.springbootbasic.voucher.model.VoucherDTO;
+import org.programmers.springbootbasic.voucher.model.VoucherDto;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 String[] voucherInfo = line.split(" ");
                 if (voucherInfo[2].equals(voucherId.toString())) {
                     voucherType = VoucherType.findByType(voucherInfo[0]);
-                    return Optional.of(voucherType.create(new VoucherDTO(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6]))));
+                    return Optional.of(voucherType.create(new VoucherDto(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6]))));
                 }
             }
         } catch (IOException e) {
@@ -85,7 +85,7 @@ public class FileVoucherRepository implements VoucherRepository {
             while ((line = bufferedReader.readLine())!=null) {
                 String[] voucherInfo = line.split(" ");
                 voucherType = VoucherType.findByType(voucherInfo[0]);
-                voucherList.add(voucherType.create(new VoucherDTO(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6]))));
+                voucherList.add(voucherType.create(new VoucherDto(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6]))));
             }
         } catch (FileNotFoundException e) {
             logger.warn("FileNotFoundException 입니다.", e);

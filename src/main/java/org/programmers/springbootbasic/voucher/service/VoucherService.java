@@ -1,7 +1,7 @@
 package org.programmers.springbootbasic.voucher.service;
 
 import org.programmers.springbootbasic.voucher.model.Voucher;
-import org.programmers.springbootbasic.voucher.model.VoucherDTO;
+import org.programmers.springbootbasic.voucher.model.VoucherDto;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType voucherType, long value) {
-        VoucherDTO voucherDTO = new VoucherDTO(UUID.randomUUID(), value, LocalDateTime.now());
+        VoucherDto voucherDTO = new VoucherDto(UUID.randomUUID(), value, LocalDateTime.now());
         var voucher = voucherType.create(voucherDTO);
         return voucherRepository.insert(voucher);
     }

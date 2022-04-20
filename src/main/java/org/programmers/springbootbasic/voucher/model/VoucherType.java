@@ -9,9 +9,9 @@ public enum VoucherType {
 
     private final int number;
     private final String type;
-    private final Function<VoucherDTO, Voucher> voucherFunction;
+    private final Function<VoucherDto, Voucher> voucherFunction;
 
-    VoucherType(int number, String type, Function<VoucherDTO, Voucher> voucherFunction) {
+    VoucherType(int number, String type, Function<VoucherDto, Voucher> voucherFunction) {
         this.number = number;
         this.type = type;
         this.voucherFunction = voucherFunction;
@@ -31,7 +31,7 @@ public enum VoucherType {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입입니다."));
     }
 
-    public Voucher create(VoucherDTO voucherDTO) {
+    public Voucher create(VoucherDto voucherDTO) {
         return voucherFunction.apply(voucherDTO);
     }
 

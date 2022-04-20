@@ -53,7 +53,7 @@ public class PercentDiscountVoucher implements Voucher{
         return VoucherType.PERCENT;
     }
 
-    public static Voucher createVoucher(VoucherDTO voucherDTO) {
+    public static Voucher createVoucher(VoucherDto voucherDTO) {
         return new PercentDiscountVoucher(voucherDTO.getVoucherId(), voucherDTO.getValue(), voucherDTO.getCreatedAt());
     }
 }
