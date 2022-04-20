@@ -91,7 +91,7 @@ public class BlackCustomerRepository{
     }
 
     public void deleteAll() {}
-    
+
     private BufferedReader getBufferReader(File file){
         try{
             br = new BufferedReader(new FileReader(file));

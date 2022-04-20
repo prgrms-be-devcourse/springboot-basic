@@ -1,4 +1,4 @@
-id,name,phoneNumber
-1,beomseok,010-1111-2222
-2,beomsic,010-1234-5678
-3,chulsu,010-9876-5432
+id,name,email
+7e59805e-1de4-42fe-a72e-1b9cede51fc0,beomseok,beomseok@gmail.com
+7e59805e-1de4-42fe-a72e-1b9cede51fc0,beomsic,beomsic@gmail.com
+7e59805e-1de4-42fe-a72e-1b9cede51fc0,chulsu,chulsu@gmail.com

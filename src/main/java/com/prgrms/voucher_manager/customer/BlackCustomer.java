@@ -1,24 +1,30 @@
 package com.prgrms.voucher_manager.customer;
 
 import lombok.Builder;
-import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
-public class BlackCustomer implements Customer{
+public class BlackCustomer implements Customer {
 
-    private final int id;
-    private final String name;
-    private String phoneNumber;
+    private final UUID customerId;
+    private String name;
+    private final String email;
+    private LocalDateTime lastLoginAt;
+    private final LocalDateTime createdAt;
 
-    public BlackCustomer(int id, String name, String phoneNumber) {
-        this.id = id;
+    public BlackCustomer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+        this.customerId = customerId;
         this.name = name;
-        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
     }
 
     @Override
-    public int getId() {
-        return id;
+    public UUID getCustomerId() {
+        return customerId;
     }
 
     @Override
@@ -27,12 +33,33 @@ public class BlackCustomer implements Customer{
     }
 
     @Override
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getEmail() {
+        return email;
     }
 
     @Override
-    public String getInfo() {
-        return "BlackList - id : " + id + ", name : " + name + ", phoneNumber : " + phoneNumber +"\n";
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    @Override
+    public void loginInNow() {
+        this.lastLoginAt = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "BlackCustomer{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", lastLoginAt=" + lastLoginAt +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
