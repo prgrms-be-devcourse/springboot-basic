@@ -44,7 +44,7 @@ public class ConsoleServiceImpl implements ConsoleService {
 
     @Override
     public void customers() {
-        var customers = CustomerValidator.validateCustomers(customerRepository.findAll());
+        var customers = CustomerValidator.validateCustomers(customerRepository.findCustomers());
 
         customers.forEach(console::printToConsole);
     }
@@ -60,7 +60,7 @@ public class ConsoleServiceImpl implements ConsoleService {
 
     @Override
     public void vouchers() {
-        var vouchers = validateVouchers(voucherRepository.findAll());
+        var vouchers = validateVouchers(voucherRepository.findVouchers());
 
         vouchers.forEach(console::printToConsole);
     }
@@ -68,8 +68,8 @@ public class ConsoleServiceImpl implements ConsoleService {
     @Override
     public void exit() {
         log.info("program exit");
-        voucherRepository.clear();
-        customerRepository.clear();
+        voucherRepository.deleteVouchers();
+        customerRepository.deleteCustomers();
         System.exit(0);
     }
 
