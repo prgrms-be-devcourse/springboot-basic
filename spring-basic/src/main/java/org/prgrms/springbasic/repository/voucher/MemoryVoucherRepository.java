@@ -1,6 +1,7 @@
 package org.prgrms.springbasic.repository.voucher;
 
 import org.prgrms.springbasic.domain.voucher.Voucher;
+import org.prgrms.springbasic.domain.wallet.Wallet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -21,28 +22,50 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findByVoucherId(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public Optional<Voucher> findByCustomerId(UUID customerId) {
+        //JDBC만 구현
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findVouchers() {
         return storage.values().stream().toList();
     }
 
     @Override
-    public int countStorageSize() {
-        return storage.size();
-    }
-
-    @Override
-    public Voucher updateVoucher(Voucher voucher) {
+    public List<Wallet> findWallets() {
         //JDBC만 구현
         return null;
     }
 
     @Override
-    public void clear() {
+    public int countData() {
+        return storage.size();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        //JDBC만 구현
+        return null;
+    }
+
+    @Override
+    public void deleteByVoucherId(UUID voucherId) {
+        //JDBC만 구현
+    }
+
+    @Override
+    public void deleteByCustomerId(UUID customerId) {
+        //JDBC만 구현
+    }
+
+    @Override
+    public void deleteVouchers() {
         storage.clear();
     }
 }

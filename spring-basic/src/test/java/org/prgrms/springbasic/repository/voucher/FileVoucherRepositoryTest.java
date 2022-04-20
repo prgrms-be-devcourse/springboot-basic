@@ -18,7 +18,7 @@ class FileVoucherRepositoryTest {
 
     @BeforeEach
     void init() {
-        repository.clear();
+        repository.deleteVouchers();
     }
 
     @Test
@@ -26,7 +26,7 @@ class FileVoucherRepositoryTest {
     void save() {
         repository.save(voucher);
 
-        assertThat(repository.countStorageSize(), is(1));
+        assertThat(repository.countData(), is(1));
     }
 
     @Test
@@ -35,7 +35,7 @@ class FileVoucherRepositoryTest {
         repository.save(voucher);
         var voucherId = voucher.getVoucherId();
 
-        var foundVoucher = repository.findById(voucherId);
+        var foundVoucher = repository.findByVoucherId(voucherId);
 
         assertThat(foundVoucher.isEmpty(), is(false));
         assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
@@ -56,7 +56,7 @@ class FileVoucherRepositoryTest {
         repository.save(newVoucher4);
         repository.save(newVoucher5);
 
-        var vouchers = repository.findAll();
+        var vouchers = repository.findVouchers();
 
         assertThat(vouchers.size(), is(5));
         assertThat(vouchers.get(0), samePropertyValuesAs(newVoucher1));
@@ -66,9 +66,9 @@ class FileVoucherRepositoryTest {
     @DisplayName("레포지토리를 클리어하면 레포지토리 사이즈가 0이되어야 한다.")
     void clear() {
         repository.save(voucher);
-        assertThat(repository.countStorageSize(), is(1));
+        assertThat(repository.countData(), is(1));
 
-        repository.clear();
-        assertThat(repository.countStorageSize(), is(0));
+        repository.deleteVouchers();
+        assertThat(repository.countData(), is(0));
     }
 }

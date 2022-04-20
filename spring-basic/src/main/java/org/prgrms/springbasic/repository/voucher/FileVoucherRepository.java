@@ -2,6 +2,7 @@ package org.prgrms.springbasic.repository.voucher;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.voucher.Voucher;
+import org.prgrms.springbasic.domain.wallet.Wallet;
 import org.prgrms.springbasic.utils.io.converter.FileManager;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -27,7 +28,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findByVoucherId(UUID voucherId) {
         return fileManager.objectToList(Voucher.class)
                 .stream()
                 .filter(v -> v.getVoucherId().equals(voucherId))
@@ -35,23 +36,45 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public Optional<Voucher> findByCustomerId(UUID customerId) {
+        //JDBC만 구현
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findVouchers() {
         return fileManager.objectToList(Voucher.class);
     }
 
     @Override
-    public int countStorageSize() {
-        return fileManager.countLines();
-    }
-
-    @Override
-    public Voucher updateVoucher(Voucher voucher) {
+    public List<Wallet> findWallets() {
         //JDBC만 구현
         return null;
     }
 
     @Override
-    public void clear() {
+    public int countData() {
+        return fileManager.countLines();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        //JDBC만 구현
+        return null;
+    }
+
+    @Override
+    public void deleteByVoucherId(UUID voucherId) {
+        //JDBC만 구현
+    }
+
+    @Override
+    public void deleteByCustomerId(UUID customerId) {
+        //JDBC만 구현
+    }
+
+    @Override
+    public void deleteVouchers() {
         fileManager.clear();
     }
 }
