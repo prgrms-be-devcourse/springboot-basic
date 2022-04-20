@@ -4,9 +4,9 @@ import java.io.IOException;
 
 public interface Output {
 
-    void voucherCreated() throws IOException;
+    void voucherCreated();
 
-    void showAllVoucher() throws IOException;
+    void showAllVoucher();
 
     void showBlackList();
 

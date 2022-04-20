@@ -6,5 +6,6 @@ public interface Input {
 
     String chooseVoucher();
 
+    String inputEmail();
 
 }

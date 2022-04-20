@@ -48,12 +48,18 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public String inputEmail() {
+        System.out.print("회원 가입 시 사용한 이메일을 입력해주세요. >>");
+        return scanner.nextLine();
+    }
+
+    @Override
     public void voucherCreated() {
         System.out.println("Voucher created!");
     }
 
     @Override
-    public void showAllVoucher() throws IOException {
+    public void showAllVoucher() {
         List<Voucher> voucherList = voucherRepository.findAll();
         voucherList.forEach(System.out::println);
     }
