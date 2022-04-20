@@ -1,5 +1,9 @@
 package org.programmers.springbootbasic.customer.model;
 
-public interface Customer {
+import java.util.UUID;
 
+public interface Customer {
+    UUID getCustomerId();
+
+    String getCustomerName();
 }

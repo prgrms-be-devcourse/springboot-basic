@@ -17,4 +17,14 @@ public class BlackListCustomer implements Customer{
                 " customerId= " + customerId +
                 " customerName= " + customerName;
     }
+
+    @Override
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    @Override
+    public String getCustomerName() {
+        return customerName;
+    }
 }
