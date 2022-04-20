@@ -1,4 +1,4 @@
-package com.example.voucherproject.common.io.file;
+package com.example.voucherproject.common.file;
 
 import com.example.voucherproject.user.domain.User;
 import com.example.voucherproject.voucher.domain.Voucher;
@@ -42,8 +42,9 @@ public class CSVWriter implements MyWriter {
             var id = user.getId();
             var type = user.getType();
             var name = user.getName();
+            var createdAt = user.getCreatedAt();
 
-            writer.write(id.toString() + "," + type.toString() + "," + name);
+            writer.write(id.toString() + "," + type.toString() + "," + name + "," + createdAt.toString());
             writer.newLine();
         }
         return user;
@@ -53,8 +54,10 @@ public class CSVWriter implements MyWriter {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             var id = voucher.getId();
             var type = voucher.getType();
+            var amount = voucher.getAmount();
+            var createdAt = voucher.getCreatedAt();
 
-            writer.write(id.toString() + "," + type.toString());
+            writer.write(id.toString() + "," + type.toString()+","+amount.toString()+ ","+createdAt.toString());
             writer.newLine();
         }
         return voucher;
