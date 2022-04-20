@@ -1,4 +1,4 @@
-package com.example.voucherproject.common.io.file;
+package com.example.voucherproject.common.file;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
