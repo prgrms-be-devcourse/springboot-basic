@@ -1,8 +1,9 @@
 package com.example.voucherproject;
 
-import com.example.voucherproject.common.io.console.Input;
-import com.example.voucherproject.user.service.UserService;
-import com.example.voucherproject.voucher.service.VoucherService;
+import com.example.voucherproject.common.console.Input;
+import com.example.voucherproject.user.UserService;
+import com.example.voucherproject.voucher.VoucherService;
+import com.example.voucherproject.wallet.WalletService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -11,6 +12,7 @@ public class AllService implements Runnable{
     private final Input input;
     private final UserService userService;
     private final VoucherService voucherService;
+    private final WalletService walletService;
 
     @Override
     public void run() {
@@ -21,6 +23,9 @@ public class AllService implements Runnable{
                     break;
                 case VOUCHER_SERVICE:
                     voucherService.run();
+                    break;
+                case WALLET_SERVICE:
+                    walletService.run();
                     break;
                 case EXIT:
                     return;
