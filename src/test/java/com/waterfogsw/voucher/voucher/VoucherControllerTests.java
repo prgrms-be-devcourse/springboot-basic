@@ -46,13 +46,13 @@ public class VoucherControllerTests {
         }
 
         @Nested
-        @DisplayName("value 값이 0 이 들어오면")
+        @DisplayName("value 값이 null 이 들어오면")
         class Context_with_value_zero {
 
             @Test
             @DisplayName("에러 메시지를 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 0);
+                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, null);
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
