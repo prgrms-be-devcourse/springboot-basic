@@ -15,10 +15,13 @@ public class VoucherService {
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
+    
+    public void createVoucher(VoucherType voucherType, Long value) {
+        this.voucherRepository.insert(voucherType.create(UUID.randomUUID(), value, LocalDateTime.now()));
+    }
 
-    public void insertVoucher(VoucherType voucherType, Long value) {
-        CreateVoucherDto createVoucherDTO = new CreateVoucherDto(value);
-        this.voucherRepository.insert(voucherType.create(createVoucherDTO));
+    public void createVouchers(List<Voucher> vouchers) {
+        vouchers.forEach(voucherRepository::insert);
     }
 
     public List<Voucher> findAll() {

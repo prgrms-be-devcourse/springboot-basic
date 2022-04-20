@@ -66,7 +66,7 @@ public class VoucherManager {
             VoucherType voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumberInput);
             long voucherValue = Long.parseLong(this.input.input("Input voucher value : "));
 
-            this.voucherService.insertVoucher(voucherType, voucherValue);
+            this.voucherService.createVoucher(voucherType, voucherValue);
             this.output.println("Voucher Creation Completed.");
         } catch (IllegalArgumentException e) {
             logAndPrintException(e);
