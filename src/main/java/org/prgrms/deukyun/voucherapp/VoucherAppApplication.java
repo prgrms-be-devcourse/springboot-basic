@@ -1,6 +1,5 @@
 package org.prgrms.deukyun.voucherapp;
 
-import org.prgrms.deukyun.voucherapp.app.VoucherApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +11,6 @@ import org.springframework.context.ApplicationContext;
 public class VoucherAppApplication {
 
     public static void main(String[] args) {
-        ApplicationContext ac = SpringApplication.run(VoucherAppApplication.class, args);
-        ac.getBean(VoucherApp.class).run();
+        SpringApplication.run(VoucherAppApplication.class, args);
     }
 }

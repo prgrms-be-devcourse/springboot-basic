@@ -31,11 +31,8 @@ public class OrderService {
      * @param orderItems 주문 아이템 목록
      * @return 주문객체
      */
-    public Order createOrderWithNoVoucher(UUID customerId, List<OrderItem> orderItems) {
-        return Order.builder()
-                .customerId(customerId)
-                .orderItems(orderItems)
-                .build();
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
+        return Order.createOrder(customerId, orderItems);
     }
 
     /**
@@ -43,16 +40,12 @@ public class OrderService {
      *
      * @param customerId 고객 ID
      * @param orderItems 주문 아이템 목록
-     * @param voucherId 바우처 ID
+     * @param voucherId  바우처 ID
      * @return 주문객체
      */
     public Order createOrderWithVoucher(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {
         Voucher voucher = voucherService.getVoucher(voucherId);
-        Order order = Order.builder()
-                .customerId(customerId)
-                .orderItems(orderItems)
-                .voucher(voucher)
-                .build();
+        Order order = Order.createOrderWithVoucher(customerId, orderItems, voucher);
         orderRepository.insert(order);
         return order;
     }

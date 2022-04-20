@@ -5,6 +5,7 @@ import org.prgrms.deukyun.voucherapp.domain.voucher.repository.VoucherRepository
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -30,5 +31,13 @@ public class VoucherService {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+    }
+
+    public List<Voucher> findAll() {
+        return voucherRepository.findAll();
+    }
+
+    public void insert(Voucher voucher) {
+        voucherRepository.insert(voucher);
     }
 }

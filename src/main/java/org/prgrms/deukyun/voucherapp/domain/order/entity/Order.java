@@ -19,7 +19,7 @@ public class Order {
     private final Optional<Voucher> voucher;
     private final OrderStatus orderStatus;
 
-    public Order(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+    private Order(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
         checkArgument(customerId != null, "customerId must be provided.");
         checkArgument(orderItems != null, "orderItems must be provided.");
         checkArgument(!orderItems.isEmpty(), "orderItems must contains at least one OrderItem.");
@@ -30,8 +30,14 @@ public class Order {
         this.orderStatus = OrderStatus.ACCEPTED;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static Order createOrder(UUID customerId, List<OrderItem> orderItems) {
+        return new Order(customerId, orderItems, null);
+    }
+
+    public static Order createOrderWithVoucher(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+        checkArgument(voucher != null, "voucher must be provided in this method.");
+
+        return new Order(customerId, orderItems, voucher);
     }
 
     public UUID getId() {
@@ -64,39 +70,4 @@ public class Order {
         return orderStatus;
     }
 
-
-    public static class Builder {
-
-        private UUID customerId;
-        private List<OrderItem> orderItems;
-        private Voucher voucher;
-        private OrderStatus orderStatus;
-
-        public Builder() {
-        }
-
-        public Builder customerId(UUID customerId) {
-            this.customerId = customerId;
-            return this;
-        }
-
-        public Builder orderItems(List<OrderItem> orderItems) {
-            this.orderItems = orderItems;
-            return this;
-        }
-
-        public Builder voucher(Voucher voucher) {
-            this.voucher = voucher;
-            return this;
-        }
-
-        public Builder orderStatus(OrderStatus orderStatus) {
-            this.orderStatus = orderStatus;
-            return this;
-        }
-
-        public Order build() {
-            return new Order(customerId, orderItems, voucher);
-        }
-    }
 }
