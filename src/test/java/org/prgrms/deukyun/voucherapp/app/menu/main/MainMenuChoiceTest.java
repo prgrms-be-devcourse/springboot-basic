@@ -19,7 +19,7 @@ class MainMenuChoiceTest {
     }
 
     @Test
-    void givenStringCreate_whenCallResolve_thenReturnEnumPercent(){
+    void givenStringCreate_whenCallResolve_thenReturnEnumCreate(){
         //setup
         String in = "Create";
 
@@ -31,7 +31,7 @@ class MainMenuChoiceTest {
     }
 
     @Test
-    void givenStringList_whenCallResolve_thenReturnEnumPercent(){
+    void givenStringList_whenCallResolve_thenReturnEnumList(){
         //setup
         String in = "List";
 

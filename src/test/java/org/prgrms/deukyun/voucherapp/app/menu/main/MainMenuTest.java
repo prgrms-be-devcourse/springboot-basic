@@ -138,7 +138,7 @@ class MainMenuTest {
         @Test
         void givenIllegalInput_whenCallProc_thenPrintsInvalidChoice() {
             //setup
-            String input = "나는 Illegal 인풋 ";
+            String input = "나는 Invalid 인풋 ";
             InputStream in = new ByteArrayInputStream(input.getBytes());
             System.setIn(in);
 
