@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.customer.repository;
 
+import org.prgrms.kdt.domain.customer.exception.CustomerDataException;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.util.CsvUtils;
@@ -16,11 +17,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SUPPORTED;
+
 @Repository
 @Profile("dev")
 public class FileCustomerRepository implements CustomerRepository {
-    private String csvPath;
-    private String fileName;
+    private final String csvPath;
+    private final String fileName;
     private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final int UUID_INDEX = 0;
     private static final int NAME_INDEX = 1;
@@ -57,37 +60,37 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return null;
+        throw new CustomerDataException(NOT_SUPPORTED);
     }
 
     @Override
     public Optional<Customer> findByVoucherId(UUID voucherId) {
-        return Optional.empty();
+        throw new CustomerDataException(NOT_SUPPORTED);
     }
 
     @Override
     public List<Customer> findByCustomerType(CustomerType customerType) {
-        return null;
+        throw new CustomerDataException(NOT_SUPPORTED);
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        return Optional.empty();
+        throw new CustomerDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int updateById(Customer customer) {
-        return 0;
+        throw new CustomerDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int deleteById(UUID customerId) {
-        return 0;
+        throw new CustomerDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int deleteAll() {
-        return 0;
+        throw new CustomerDataException(NOT_SUPPORTED);
     }
 
     private List<Customer> parseCsvToList(List<List<String>> csvData) {

@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.voucher.repository;
 
+import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.util.CsvUtils;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SUPPORTED;
 
 @Repository
 @Profile("dev")
@@ -59,7 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByCustomerId(UUID voucherId) {
-        throw new RuntimeException("지원하지 않는 기능입니다.");
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
@@ -76,32 +79,32 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public int updateById(Voucher voucher) {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int deleteById(UUID voucherId) {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int deleteAll() {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int deleteByCustomerId(UUID customerId) {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date) {
-        return null;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int updateCustomerId(UUID voucherId, UUID customerId) {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     private String createCsvData(Voucher voucher, VoucherType voucherType) {

@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.voucher.repository;
 
+import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.springframework.stereotype.Repository;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SUPPORTED;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -24,42 +27,42 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByCustomerId(UUID voucherId) {
-        return null;
-    }
-
-    @Override
     public List<Voucher> findAll() {
         return Collections.unmodifiableList(storage.values().stream().toList());
     }
 
     @Override
+    public List<Voucher> findByCustomerId(UUID voucherId) {
+        throw new VoucherDataException(NOT_SUPPORTED);
+    }
+
+    @Override
     public int updateById(Voucher voucher) {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int updateCustomerId(UUID voucherId, UUID customerId) {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int deleteById(UUID voucherId) {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int deleteAll() {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public int deleteByCustomerId(UUID customerId) {
-        return 0;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 
     @Override
     public List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date) {
-        return null;
+        throw new VoucherDataException(NOT_SUPPORTED);
     }
 }
