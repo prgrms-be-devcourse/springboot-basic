@@ -45,7 +45,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
-            Voucher voucher = jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+            Voucher voucher = jdbcTemplate.queryForObject("SELECT * FROM voucher " +
+                            "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                     Collections.singletonMap("voucherId", UuidUtils.UuidToByte(voucherId)), voucherRowMapper());
             return Optional.of(voucher);
         } catch (EmptyResultDataAccessException e) {
@@ -56,7 +57,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findByCustomerId(UUID customerId) {
-        return jdbcTemplate.query("SELECT * FROM voucher WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+        return jdbcTemplate.query("SELECT * FROM voucher " +
+                        "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)),
                 voucherRowMapper());
     }
@@ -64,10 +66,11 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date) {
         Map<String, Object> paramMap = new HashMap<>() {{
-            put("voucherType", VoucherType.getValue(voucherType));
+            put("voucherType", voucherType.getType());
             put("createdDate", date.toString());
         }};
-        return jdbcTemplate.query("SELECT * FROM voucher WHERE voucher_type = :voucherType AND DATE(created_date) = :createdDate",
+        return jdbcTemplate.query("SELECT * FROM voucher " +
+                        "WHERE voucher_type = :voucherType AND DATE(created_date) = :createdDate",
                 paramMap,
                 voucherRowMapper());
     }
@@ -95,7 +98,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
             put("voucherId", UuidUtils.UuidToByte(voucherId));
             put("customerId", UuidUtils.UuidToByte(customerId));
         }};
-        int updatedRows = jdbcTemplate.update("UPDATE voucher SET customer_id = UNHEX(REPLACE(:customerId, '-', '')) WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+        int updatedRows = jdbcTemplate.update("UPDATE voucher " +
+                        "SET customer_id = UNHEX(REPLACE(:customerId, '-', '')) " +
+                        "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 paramMap);
         if(updatedRows == 0) {
             throw new VoucherDataException(NOT_UPDATED);
@@ -105,7 +110,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public int deleteById(UUID voucherId) {
-        int deletedRows = jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+        int deletedRows = jdbcTemplate.update("DELETE FROM voucher " +
+                        "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 Collections.singletonMap("voucherId", UuidUtils.UuidToByte(voucherId)));
         if(deletedRows == 0) {
             throw new VoucherDataException(NOT_DELETED);
@@ -120,7 +126,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public int deleteByCustomerId(UUID customerId) {
-        int deletedRows = jdbcTemplate.update("DELETE FROM voucher WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+        int deletedRows = jdbcTemplate.update("DELETE FROM voucher " +
+                        "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
         if(deletedRows == 0) {
             throw new VoucherDataException(NOT_DELETED);
@@ -131,9 +138,10 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
             put("voucherId", UuidUtils.UuidToByte(voucher.getVoucherId()));
-            put("voucherType", VoucherType.getValue(voucher.getVoucherType()));
+            put("voucherType", voucher.getVoucherType().getType());
             put("discountValue", voucher.getDiscountValue());
-            put("customerId", voucher.getCustomerId() == null ? null : UuidUtils.UuidToByte(voucher.getCustomerId()));
+            put("customerId", voucher.getCustomerId() == null
+                    ? null : UuidUtils.UuidToByte(voucher.getCustomerId()));
             put("createdDate", voucher.getCreatedDate());
             put("modifiedDate", voucher.getModifiedDate());
         }};

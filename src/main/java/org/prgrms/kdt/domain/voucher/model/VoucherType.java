@@ -19,7 +19,7 @@ public enum VoucherType {
                 .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 바우처타입 입니다."));
     }
 
-    public static String getValue(VoucherType voucherType){
-        return voucherType.type;
+    public String getType(){
+        return type;
     }
 }

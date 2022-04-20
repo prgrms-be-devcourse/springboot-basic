@@ -108,7 +108,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private String createCsvData(Voucher voucher, VoucherType voucherType) {
-        StringBuilder data = new StringBuilder(VoucherType.getValue(voucherType))
+        StringBuilder data = new StringBuilder(voucherType.getType())
                 .append(",")
                 .append(voucher.getVoucherId().toString())
                 .append(",")
