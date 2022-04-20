@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = "11"
 
 configurations {
     compileOnly {
@@ -20,11 +20,18 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.projectlombok:lombok:1.18.22'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.5'
+    testImplementation 'org.projectlombok:lombok'
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.6'
+
+    implementation 'mysql:mysql-connector-java:8.0.28'
+    testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.6'
+    runtimeOnly 'com.h2database:h2'
 
 }
 
