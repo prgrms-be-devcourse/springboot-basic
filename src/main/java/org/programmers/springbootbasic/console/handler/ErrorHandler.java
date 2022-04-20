@@ -1,10 +1,10 @@
-package org.programmers.springbootbasic.console.controller;
+package org.programmers.springbootbasic.console.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.ConsoleProperties;
-import org.programmers.springbootbasic.console.ConsoleRequest;
-import org.programmers.springbootbasic.console.ErrorData;
+import org.programmers.springbootbasic.console.SimpleErrorMessageMapper;
+import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.programmers.springbootbasic.console.ModelAndView;
 import org.programmers.springbootbasic.console.command.Command;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,9 @@ import static org.programmers.springbootbasic.console.command.RedirectCommand.ER
 public class ErrorHandler implements Handler {
 
     private static final Map<String, Command> commandList = new ConcurrentHashMap<>();
+
     private final ConsoleProperties consoleProperties;
+    private final SimpleErrorMessageMapper simpleErrorMessageMapper;
 
     @PostConstruct
     @Override
@@ -45,16 +47,17 @@ public class ErrorHandler implements Handler {
     public ModelAndView handleRequest(ConsoleRequest request) {
         log.info("processing command {} at Controller", request.getCommand());
         var model = request.getModel();
+        var errorData = (Exception) model.getAttributes("errorData");
+
         if (consoleProperties.isDetailErrorMessage()) {
-            var errorData = (Exception) model.getAttributes("errorData");
-            model.addAttributes("errorMessage", errorData.getMessage());
+            model.addAttributes("errorMessage", errorData.toString());
             model.addAttributes("errorName", errorData.getClass());
         } else {
-            var errorData = (ErrorData) model.getAttributes("errorData");
-            model.addAttributes("errorMessage", errorData.message());
-            model.addAttributes("errorName", errorData.name());
+            SimpleErrorMessageMapper.ErrorData simpleErrorData = simpleErrorMessageMapper.toErrorData(errorData);
+            model.addAttributes("errorMessage", simpleErrorData.message());
+            model.addAttributes("errorName", simpleErrorData.name());
         }
 
-        return new ModelAndView(model, "error/" + request.getCommand().getViewName(), PROCEED);
+        return new ModelAndView(model, request.getCommand().getViewName(), PROCEED);
     }
 }

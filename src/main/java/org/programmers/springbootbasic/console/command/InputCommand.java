@@ -13,7 +13,7 @@ public enum InputCommand implements Command {
     LIST("list", "모든 바우처의 목록을 봅니다."),
     HELP("help", "모든 명령어 목록을 봅니다.");
 
-    private final String name;
+    private final String viewName;
     private final String description;
 
     public String getCommandInformation() {
@@ -23,10 +23,5 @@ public enum InputCommand implements Command {
         stringBuilder.append(" | ");
         stringBuilder.append(this.getDescription());
         return stringBuilder.toString();
-    }
-
-    @Override
-    public String getViewName() {
-        return this.name;
     }
 }

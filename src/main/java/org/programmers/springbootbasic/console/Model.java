@@ -1,6 +1,5 @@
 package org.programmers.springbootbasic.console;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.programmers.springbootbasic.console.command.RedirectCommand;
@@ -12,9 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class Model {
     private final Map<String, Object> attributes = new ConcurrentHashMap<>();
-    @Getter @Setter
+    @Getter
+    @Setter
     private String inputSignature;
-    @Getter @Setter
+    @Getter
+    @Setter
     private RedirectCommand redirectLink;
 
     public void addAttributes(String name, Object attribute) {
@@ -28,6 +29,4 @@ public class Model {
     public void clear() {
         attributes.clear();
     }
-
-
 }

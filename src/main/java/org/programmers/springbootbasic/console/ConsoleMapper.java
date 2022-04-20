@@ -5,10 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.console.command.InputCommand;
 import org.programmers.springbootbasic.console.command.RedirectCommand;
-import org.programmers.springbootbasic.console.controller.CliHandler;
-import org.programmers.springbootbasic.console.controller.Handler;
-import org.programmers.springbootbasic.console.controller.ErrorHandler;
-import org.programmers.springbootbasic.console.controller.VoucherHandler;
+import org.programmers.springbootbasic.console.handler.CliHandler;
+import org.programmers.springbootbasic.console.handler.Handler;
+import org.programmers.springbootbasic.console.handler.ErrorHandler;
+import org.programmers.springbootbasic.console.handler.VoucherHandler;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public final class ConsoleMappingData {
+public class ConsoleMapper {
 
     public static final Map<String, Command> COMMANDS = new ConcurrentHashMap<>();
     public static final List<Handler> CONTROLLERS = new ArrayList<>();

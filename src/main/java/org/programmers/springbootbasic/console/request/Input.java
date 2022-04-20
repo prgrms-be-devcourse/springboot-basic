@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.console.input;
+package org.programmers.springbootbasic.console.request;
 
 import org.springframework.stereotype.Component;
 

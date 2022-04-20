@@ -1,8 +1,8 @@
-package org.programmers.springbootbasic.console.controller;
+package org.programmers.springbootbasic.console.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.console.ConsoleRequest;
+import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.programmers.springbootbasic.console.ModelAndView;
 import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.service.VoucherService;
