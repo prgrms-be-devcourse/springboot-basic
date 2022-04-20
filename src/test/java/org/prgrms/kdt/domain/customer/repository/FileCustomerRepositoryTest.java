@@ -16,18 +16,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FileCustomerRepositoryTest {
 
-    CustomerRepository customerRepository = new FileCustomerRepository();
     String csvPath = "src\\test\\resources";
     String fileName = "customer_blacklist_sample.csv";
-
-    /**
-     * 리플렉션을 통해 csvPath, fileName을 설정해준다.
-     */
-    @BeforeEach
-    public void setCsvFile() {
-        ReflectionTestUtils.setField(customerRepository, "csvPath", csvPath);
-        ReflectionTestUtils.setField(customerRepository, "fileName", fileName);
-    }
 
     /**
      * 각 테스트 실행 후 csv에 있는 내용 전부를 지운다.
@@ -41,6 +31,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("csv로 저장된 고객 목록을 불러올 수 있다.")
     public void findCustomers(){
         //given
+        CustomerRepository customerRepository = new FileCustomerRepository(csvPath, fileName);
         LocalDateTime now = LocalDateTime.now();
         Customer customerPark = new Customer(UUID.randomUUID(),"park" , "d@naver.com", now, now);
         Customer customerKim = new Customer(UUID.randomUUID(),"kim", "a@gmail.com", now, now);
@@ -56,6 +47,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("고객 저장 시 파일을 읽지 못할 경우 예외가 발생한다.")
     public void exception_saveCustomer(){
         //given
+        CustomerRepository customerRepository = new FileCustomerRepository("", "");
         LocalDateTime now = LocalDateTime.now();
         Customer customer = new Customer(UUID.randomUUID(),"park" , "a@naver.com", now, now);
         ReflectionTestUtils.setField(customerRepository, "csvPath", "");
@@ -70,7 +62,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("고객 전체 조회시 파일을 읽지 못할 경우 예외가 발생한다.")
     public void exception_findAllCustomer(){
         //given
-        ReflectionTestUtils.setField(customerRepository, "csvPath", "");
+        CustomerRepository customerRepository = new FileCustomerRepository("", "");
         //when
         //then
         assertThatThrownBy(() -> customerRepository.findAll())

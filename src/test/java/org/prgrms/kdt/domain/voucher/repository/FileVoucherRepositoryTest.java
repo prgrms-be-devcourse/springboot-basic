@@ -3,7 +3,6 @@ package org.prgrms.kdt.domain.voucher.repository;
 import org.junit.jupiter.api.*;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,18 +17,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FileVoucherRepositoryTest {
 
-    FileVoucherRepository voucherRepository = new FileVoucherRepository();
     String csvPath = "src\\test\\resources";
     String fileName = "voucherList_sample.csv";
-
-    /**
-     * 리플렉션을 통해 csvPath, fileName을 설정해준다.
-     */
-    @BeforeEach
-    public void setCsvFile() {
-        ReflectionTestUtils.setField(voucherRepository, "csvPath", csvPath);
-        ReflectionTestUtils.setField(voucherRepository, "fileName", fileName);
-    }
 
     /**
      * 각 테스트 실행 후 csv에 있는 내용 전부를 지운다.
@@ -43,6 +32,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("csv에 저장된 바우처들을 조회할 수 있다.")
     public void findAllVouchers(){
         //given
+        FileVoucherRepository voucherRepository = new FileVoucherRepository(csvPath, fileName);
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
@@ -60,6 +50,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("csv를 읽어, 저장된 바우처 중 특정 ID값을 가진 바우처를 조회할 수 있다.")
     public void findById(){
         //given
+        FileVoucherRepository voucherRepository = new FileVoucherRepository(csvPath, fileName);
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
@@ -81,6 +72,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("csv에 바우처를 정상적으로 저장한다.")
     public void saveVoucher(){
         //given
+        FileVoucherRepository voucherRepository = new FileVoucherRepository(csvPath, fileName);
         UUID voucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
         Voucher voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, 10000L, now, now);
@@ -94,7 +86,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("바우처 전체조회 시 저장된 파일을 읽지 못할 경우 예외가 발생한다.")
     public void exception_findAll(){
         //given
-        ReflectionTestUtils.setField(voucherRepository, "csvPath", "");
+        FileVoucherRepository voucherRepository = new FileVoucherRepository("", "");
         //when
         //then
         assertThatThrownBy(() -> voucherRepository.findAll())
@@ -106,7 +98,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("바우처 ID로 조회 시 저장된 파일을 읽지 못할 경우 예외가 발생한다.")
     public void exception_findById(){
         //given
-        ReflectionTestUtils.setField(voucherRepository, "csvPath", "");
+        FileVoucherRepository voucherRepository = new FileVoucherRepository("", "");
         //when
         //then
         assertThatThrownBy(() -> voucherRepository.findById(UUID.randomUUID()))
@@ -118,10 +110,10 @@ class FileVoucherRepositoryTest {
     @DisplayName("바우처 저장 시 파일을 읽지 못할 경우 예외가 발생한다.")
     public void exception_saveVoucher(){
         //given
+        FileVoucherRepository voucherRepository = new FileVoucherRepository("", "");
         UUID fixedVoucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
         Voucher fixedVoucher = new Voucher(fixedVoucherId, VoucherType.FIXED_AMOUNT, 10000L, now, now);
-        ReflectionTestUtils.setField(voucherRepository, "csvPath", "");
         //when
         //then
         assertThatThrownBy(() -> voucherRepository.save(fixedVoucher))

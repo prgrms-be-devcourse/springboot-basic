@@ -19,14 +19,17 @@ import java.util.UUID;
 @Repository
 @Profile("dev")
 public class FileCustomerRepository implements CustomerRepository {
-    @Value("${csv.member.path}")
     private String csvPath;
-    @Value("${csv.member.file-name}")
     private String fileName;
     private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final int UUID_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int EMAIL_INDEX = 2;
+
+    public FileCustomerRepository(@Value("${csv.member.path}") String csvPath, @Value("${csv.member.file-name}") String fileName) {
+        this.csvPath = csvPath;
+        this.fileName = fileName;
+    }
 
     @Override
     public List<Customer> findAll() {

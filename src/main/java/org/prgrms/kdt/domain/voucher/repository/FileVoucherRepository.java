@@ -17,14 +17,18 @@ import java.util.*;
 @Repository
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
-    @Value("${csv.voucher.path}")
+
     private String csvPath;
-    @Value("${csv.voucher.file-name}")
     private String fileName;
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final int TYPE_INDEX = 0;
     private static final int ID_INDEX = 1;
     private static final int DISCOUNT_INDEX = 2;
+
+    public FileVoucherRepository(@Value("${csv.voucher.path}") String csvPath, @Value("${csv.voucher.file-name}") String fileName) {
+        this.csvPath = csvPath;
+        this.fileName = fileName;
+    }
 
     @Override
     public UUID save(Voucher voucher) {
