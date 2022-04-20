@@ -12,7 +12,8 @@ public class Customer {
     private String email;
 
     //TODO UUID/Voucher 형태로 둘 것인지. Optional을 씌울 것인지.
-    private Optional<Voucher> voucher = Optional.empty();
+//    private Optional<Voucher> voucher = Optional.empty();
+    private UUID voucherId = null;
 
     public Customer(UUID customerId, String name, String email) {
         this.customerId = customerId;
@@ -20,8 +21,20 @@ public class Customer {
         this.email = email;
     }
 
-    public void allocateVoucher(Voucher voucher) {
-        this.voucher = Optional.of(voucher);
+    public Customer(UUID customerId, String name, String email, UUID voucherId) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.voucherId = voucherId;
+    }
+
+    public boolean allocateVoucher(Voucher voucher) {
+        if (this.voucherId == null) {
+            return false;
+        } else {
+            this.voucherId = voucher.getVoucherId();
+            return true;
+        }
     }
 
     public UUID getCustomerId() {
@@ -36,7 +49,7 @@ public class Customer {
         return email;
     }
 
-    public Optional<Voucher> getVoucher() {
-        return voucher;
+    public UUID getVoucherId() {
+        return voucherId;
     }
 }

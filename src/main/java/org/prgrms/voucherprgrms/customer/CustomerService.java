@@ -32,10 +32,20 @@ public class CustomerService {
     }
 
     public void allocateVoucher(Customer customer, Voucher voucher) {
-        customer.allocateVoucher(voucher);
+        if (customer.allocateVoucher(voucher)) {
+            customerRepository.allocateVoucher(customer);
+        } else {
+            logger.error("Can't allocate voucher to customer {}", customer.getCustomerId());
+            //throw
+        }
 
     }
 
+    /**
+     * DTO to Customer
+     * @param customerDTO
+     * @return customer
+     */
     private Customer toCustomer(CustomerDTO customerDTO) {
         UUID customerId = UUID.randomUUID();
         Customer customer = new Customer(customerId, customerDTO.getName(), customerDTO.getEmail());

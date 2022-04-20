@@ -10,6 +10,8 @@ public interface CustomerRepository {
 
     Optional<Customer> findByEmail(String email);
 
+    Customer allocateVoucher(Customer customer);
+
     //TODO CUSTOMER UPDATE
 
 
