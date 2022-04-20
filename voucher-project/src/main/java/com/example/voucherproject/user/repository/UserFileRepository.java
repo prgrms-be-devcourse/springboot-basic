@@ -1,15 +1,19 @@
 package com.example.voucherproject.user.repository;
 
-import com.example.voucherproject.common.enums.UserType;
-import com.example.voucherproject.common.io.file.MyReader;
-import com.example.voucherproject.common.io.file.MyWriter;
+import com.example.voucherproject.user.enums.UserType;
+import com.example.voucherproject.common.file.MyReader;
+import com.example.voucherproject.common.file.MyWriter;
 import com.example.voucherproject.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -24,7 +28,7 @@ public class UserFileRepository implements UserRepository{
     private String BLACK_USER_LIST;
 
     @Override
-    public User save(User user) {
+    public User insert(User user) {
         switch(user.getType()){
             case BLACK:
                 writer.writeUser(user, BLACK_USER_LIST);
@@ -39,7 +43,7 @@ public class UserFileRepository implements UserRepository{
     }
 
     @Override
-    public List<User> getUserList(UserType type) {
+    public List<User> findHavingTypeAll(UserType type) {
         switch(type){
             case BLACK:
                 return getUserList(BLACK_USER_LIST);
@@ -51,6 +55,21 @@ public class UserFileRepository implements UserRepository{
         }
     }
 
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<User> findById(UUID userId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public long count() {
+        return getUserList(ALL_USER_LIST).size();
+    }
+
     private List<User> getUserList(String userListType) {
         List<User> users = new ArrayList<>();
         var allUser = reader.readLists(userListType);
@@ -58,9 +77,10 @@ public class UserFileRepository implements UserRepository{
             var userUUID = UUID.fromString(user.get(0));
             var userType = UserType.valueOf(user.get(1));
             var userName = user.get(2);
-            users.add(new User(userUUID, userType, userName));
+            var createdAt = LocalDateTime.parse(user.get(3), DateTimeFormatter.ISO_LOCAL_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);
+
+            users.add(new User(userUUID, userType, userName, createdAt));
         });
         return users;
     }
-
 }
