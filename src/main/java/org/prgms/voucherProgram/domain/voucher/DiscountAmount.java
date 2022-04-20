@@ -3,7 +3,7 @@ package org.prgms.voucherProgram.domain.voucher;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
+import org.prgms.voucherProgram.exception.WrongDiscountValueException;
 
 public class DiscountAmount implements Serializable {
     private static final long MIN_AMOUNT = 1;
@@ -18,7 +18,7 @@ public class DiscountAmount implements Serializable {
 
     private void validateDiscountAmount(long discountAmount) {
         if (isUnderMinAmount(discountAmount)) {
-            throw new WrongDiscountAmountException();
+            throw new WrongDiscountValueException("[ERROR] 올바른 할인금액이 아닙니다.");
         }
     }
 

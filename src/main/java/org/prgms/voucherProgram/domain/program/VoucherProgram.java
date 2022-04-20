@@ -8,8 +8,7 @@ import org.prgms.voucherProgram.dto.VoucherRequest;
 import org.prgms.voucherProgram.dto.WalletRequest;
 import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
 import org.prgms.voucherProgram.exception.WrongCommandException;
-import org.prgms.voucherProgram.exception.WrongDiscountAmountException;
-import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
+import org.prgms.voucherProgram.exception.WrongDiscountValueException;
 import org.prgms.voucherProgram.exception.WrongEmailException;
 import org.prgms.voucherProgram.service.VoucherService;
 import org.prgms.voucherProgram.view.Console;
@@ -62,7 +61,7 @@ public class VoucherProgram {
             try {
                 outputView.printVoucher(voucherService.create(voucherRequest));
                 return;
-            } catch (WrongDiscountAmountException | WrongDiscountPercentException e) {
+            } catch (WrongDiscountValueException e) {
                 outputView.printError(e.getMessage());
                 voucherRequest.setDiscountValue(inputView.inputDiscountValue());
             }
@@ -87,7 +86,7 @@ public class VoucherProgram {
             try {
                 outputView.printVoucher(voucherService.update(voucherId, voucherRequest));
                 return;
-            } catch (WrongDiscountAmountException | WrongDiscountPercentException e) {
+            } catch (WrongDiscountValueException e) {
                 outputView.printError(e.getMessage());
                 voucherRequest.setDiscountValue(inputView.inputDiscountValue());
             } catch (VoucherIsNotExistsException e) {
@@ -101,6 +100,7 @@ public class VoucherProgram {
         UUID voucherId = inputView.inputVoucherId();
         try {
             voucherService.delete(voucherId);
+            outputView.printSuccess();
         } catch (VoucherIsNotExistsException e) {
             outputView.printError(e.getMessage());
         }

@@ -3,7 +3,7 @@ package org.prgms.voucherProgram.domain.voucher;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.prgms.voucherProgram.exception.WrongDiscountPercentException;
+import org.prgms.voucherProgram.exception.WrongDiscountValueException;
 
 public class DiscountPercent implements Serializable {
     private static final long MIN_PERCENT = 1;
@@ -18,7 +18,7 @@ public class DiscountPercent implements Serializable {
 
     private void validateDiscountPercent(long discountPercent) {
         if (isWrongPercent(discountPercent)) {
-            throw new WrongDiscountPercentException();
+            throw new WrongDiscountValueException("[ERROR] 올바른 할인퍼센트가 아닙니다.");
         }
     }
 
