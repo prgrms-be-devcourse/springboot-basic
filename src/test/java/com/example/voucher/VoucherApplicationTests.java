@@ -1,11 +1,16 @@
 package com.example.voucher;
 
+import com.example.voucher.io.Input;
 import com.example.voucher.io.Output;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+
+
 import java.lang.reflect.Method;
 import static org.mockito.Mockito.verify;
 
@@ -13,27 +18,42 @@ import static org.mockito.Mockito.verify;
 @DisplayName("VoucherApplication 클래스는")
 class VoucherApplicationTests {
 
+	@InjectMocks
+	VoucherApplication voucherApplication;
+
+	@Mock
+	Input input;
+
 	@Mock
 	Output output;
 
 	@Nested
 	@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 	class 애플리케이션이_실행되면 {
-		private VoucherApplication voucherApplication;
 		private Method printCommandPrompt;
+		private Method getCommand;
 
 		@BeforeEach
 		void private_메서드_테스트를_위한_설정() throws Exception {
-			voucherApplication = new VoucherApplication(output);
 			printCommandPrompt = voucherApplication.getClass().getDeclaredMethod("printCommandPrompt");
 			printCommandPrompt.setAccessible(true);
+
+			getCommand = voucherApplication.getClass().getDeclaredMethod("getCommand");
+			getCommand.setAccessible(true);
 		}
 
 		@Test
-		@DisplayName("사용 가능한 명령어를 출력한다")
+		@DisplayName("사용 가능한 명령어를 출력한다.")
 		void 사용_가능한_명령어를_출력한다 () throws Exception {
 			printCommandPrompt.invoke(voucherApplication);
 			verify(output).printCommandPrompt();
+		}
+
+		@Test
+		@DisplayName("명령어를 입력 받는다.")
+		void 명령어를_입력_받는다 () throws Exception {
+			getCommand.invoke(voucherApplication);
+			verify(input).getCommand();
 		}
 	}
 
