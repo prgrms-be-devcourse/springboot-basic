@@ -9,9 +9,9 @@ public class DiscountAmount implements Serializable {
     private static final long MIN_AMOUNT = 1;
     private static final long MAX_AMOUNT = 1_000_000;
 
-    private final Long amount;
+    private final long amount;
 
-    public DiscountAmount(Long amount) {
+    public DiscountAmount(long amount) {
         validateDiscountAmount(amount);
         this.amount = amount;
     }
@@ -34,7 +34,7 @@ public class DiscountAmount implements Serializable {
         return beforeDiscount - amount;
     }
 
-    public Long getAmount() {
+    public long getAmount() {
         return amount;
     }
 
@@ -44,8 +44,8 @@ public class DiscountAmount implements Serializable {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        DiscountAmount that = (DiscountAmount)o;
-        return amount.equals(that.amount);
+        DiscountAmount other = (DiscountAmount)o;
+        return this.amount == other.amount;
     }
 
     @Override

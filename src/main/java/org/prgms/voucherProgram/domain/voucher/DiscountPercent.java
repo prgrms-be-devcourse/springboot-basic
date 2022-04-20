@@ -9,9 +9,9 @@ public class DiscountPercent implements Serializable {
     private static final long MIN_PERCENT = 1;
     private static final long MAX_PERCENT = 100;
 
-    private final Long percent;
+    private final long percent;
 
-    public DiscountPercent(Long percent) {
+    public DiscountPercent(long percent) {
         validateDiscountPercent(percent);
         this.percent = percent;
     }
@@ -40,8 +40,8 @@ public class DiscountPercent implements Serializable {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        DiscountPercent that = (DiscountPercent)o;
-        return percent.equals(that.percent);
+        DiscountPercent other = (DiscountPercent)o;
+        return this.percent == other.percent;
     }
 
     @Override
