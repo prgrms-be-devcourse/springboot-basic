@@ -1,13 +1,10 @@
-package com.blessing333.springbasic.ui;
+package com.blessing333.springbasic.voucher.ui;
 
+import com.blessing333.springbasic.common.ui.ServiceUserInterface;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 
-public interface UserInterface {
-    void showWelcomeText();
+public interface VoucherManagerServiceUserInterface extends ServiceUserInterface {
     void showVoucherTypeSelectText();
-    void showHelpText();
-    void printMessage(String message);
     void printVoucherCreateSuccessMessage();
     VoucherCreateForm requestVoucherInformation();
-    String inputMessage();
 }

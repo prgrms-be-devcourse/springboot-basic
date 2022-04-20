@@ -7,36 +7,33 @@ import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import com.blessing333.springbasic.voucher.repository.VoucherRepository;
+import com.blessing333.springbasic.voucher.ui.VoucherManagerServiceUserInterface;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class DefaultVoucherService implements VoucherService {
+    private final VoucherManagerServiceUserInterface voucherManagerUserInterface;
     private final VoucherRepository repository;
 
     @Override
-    public Voucher createNewVoucher(ConvertedVoucherCreateForm form) {
+    public void createNewVoucher(ConvertedVoucherCreateForm form) {
         VoucherType type = form.getVoucherType();
         Voucher newVoucher;
         switch (type) {
             case FIXED -> newVoucher = new FixedAmountVoucher(form.getDiscountAmount());
             case PERCENT -> newVoucher = new PercentDiscountVoucher((int) form.getDiscountAmount());
-            default -> {
-                log.error("검증되지 않은 VoucherType이 서비스로 넘어옴.validator 확인 필요.\n type -> {}", type);
-                throw new VoucherCreateFailException("바우처 생성 실패");
-            }
+            default -> throw new VoucherCreateFailException("");
         }
         repository.save(newVoucher);
-        return newVoucher;
     }
 
     @Override
-    public List<Voucher> loadAllVoucher() {
-        return repository.findAll();
+    public void showVoucherList() {
+        List<Voucher> savedVoucher = repository.findAll();
+        savedVoucher.forEach(voucher -> voucherManagerUserInterface.printMessage(voucher.toString()));
     }
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository{
-    private static final Map<UUID,Voucher> voucherStore = new ConcurrentHashMap<>();
+    private static final Map<UUID, Voucher> voucherStore = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID id) {

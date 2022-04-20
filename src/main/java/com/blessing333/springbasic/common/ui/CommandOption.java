@@ -1,4 +1,4 @@
-package com.blessing333.springbasic.ui;
+package com.blessing333.springbasic.common.ui;
 
 import lombok.AccessLevel;
 import lombok.Getter;

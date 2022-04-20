@@ -1,8 +1,8 @@
-package com.blessing333.springbasic.ui;
+package com.blessing333.springbasic.voucher;
 
-import com.blessing333.springbasic.ui.exception.CommandNotSupportedException;
+import com.blessing333.springbasic.common.ui.CommandOptionType;
+import com.blessing333.springbasic.voucher.ui.exception.CommandNotSupportedException;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.util.Collections;
 import java.util.Map;
@@ -11,11 +11,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @AllArgsConstructor
-@Getter
-public enum CommandOptionType {
+public enum VoucherServiceCommandOptionType implements CommandOptionType {
     CREATE("create", false, "새로운 바우쳐를 생성합니다."),
     LIST("list", false, "생성된 바우쳐를 조회합니다."),
-    QUIT("quit", false, "프로그램을 종료합니다.");
+    QUIT("exit", false, "프로그램을 종료합니다.");
 
     private static final Map<String, CommandOptionType> availableCommandOptionType = initAvailableCommandOptionList();
     private final String optionName;
@@ -25,7 +24,7 @@ public enum CommandOptionType {
     private static Map<String, CommandOptionType> initAvailableCommandOptionList() {
         return Collections.unmodifiableMap(
                 Stream.of(values())
-                        .collect(Collectors.toMap(CommandOptionType::getOptionName, Function.identity()))
+                        .collect(Collectors.toMap(VoucherServiceCommandOptionType::getOptionName, Function.identity()))
         );
     }
 
@@ -33,11 +32,25 @@ public enum CommandOptionType {
         return availableCommandOptionType;
     }
 
-    public static CommandOptionType find(String target) throws CommandNotSupportedException {
+    public static VoucherServiceCommandOptionType find(String target) throws CommandNotSupportedException {
         CommandOptionType type = availableCommandOptionType.get(target);
         if (type == null)
             throw new CommandNotSupportedException();
-        else
-            return type;
+        return (VoucherServiceCommandOptionType) type;
+    }
+
+    @Override
+    public String getOptionName() {
+        return this.optionName;
+    }
+
+    @Override
+    public boolean isArgumentRequired() {
+        return this.argumentRequired;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.description;
     }
 }

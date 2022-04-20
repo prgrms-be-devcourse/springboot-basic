@@ -1,20 +1,21 @@
-package com.blessing333.springbasic.ui;
+package com.blessing333.springbasic.voucher.ui;
 
+import com.blessing333.springbasic.common.ui.ApacheCommandLine;
+import com.blessing333.springbasic.common.ui.CommandOptionConfigurer;
+import com.blessing333.springbasic.common.ui.CommandOptions;
+import com.blessing333.springbasic.voucher.VoucherServiceCommandOptionType;
 import com.blessing333.springbasic.voucher.VoucherType;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.cli.HelpFormatter;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 @Component
 @RequiredArgsConstructor
-public class ApacheCliUserInterface implements UserInterface {
+public class ApacheCliVoucherManagerServiceUserInterface extends ApacheCommandLine implements VoucherManagerServiceUserInterface {
     private static final String AVAILABLE_VOUCHER_TYPE_GUIDE = initAvailableVoucherTypeGuideText();
     private final Scanner scanner = new Scanner(System.in);
-    private final CommandOptionManager optionManager = new CommandOptionManager();
-    private final HelpFormatter helpFormatter = new HelpFormatter();
 
     private static String initAvailableVoucherTypeGuideText() {
         StringBuilder sb = new StringBuilder();
@@ -25,7 +26,17 @@ public class ApacheCliUserInterface implements UserInterface {
     }
 
     @Override
-    public void showWelcomeText() {
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+
+    @Override
+    public String inputMessage() {
+        return scanner.nextLine();
+    }
+
+    @Override
+    public void showGuideText() {
         printMessage("=== Voucher Program ===");
         printMessage("Type exit to exit the program.");
         printMessage("Type create to create a new voucher.");
@@ -55,18 +66,12 @@ public class ApacheCliUserInterface implements UserInterface {
     }
 
     @Override
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
-    @Override
-    public String inputMessage() {
-        return scanner.nextLine();
+    protected CommandOptions initSupportedCommandOption() {
+        return CommandOptionConfigurer.configSupportedCommandOptions(VoucherServiceCommandOptionType.getAvailableCommandOptionType());
     }
 
     @Override
     public void showHelpText() {
-        helpFormatter.printHelp("Voucher 관리 ", optionManager.getSupportedOptions().getOptions());
+        printHelpText("바우처 관리");
     }
-
 }
