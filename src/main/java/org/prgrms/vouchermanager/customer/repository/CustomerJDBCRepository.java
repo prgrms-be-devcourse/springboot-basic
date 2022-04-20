@@ -27,7 +27,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
         LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") == null ? null : resultSet.getTimestamp("last_login_at").toLocalDateTime();
-        LocalDateTime createdAt = resultSet.getTimestamp("create_at").toLocalDateTime();
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new Customer(customer_id, name, email, createdAt, lastLoginAt);
     };
 
@@ -42,7 +42,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        int theNumberOfRowAffected = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, create_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
+        int theNumberOfRowAffected = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
                 customer.getName(),
                 customer.getEmail(),

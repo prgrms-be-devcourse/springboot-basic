@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("default")
+@Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
@@ -20,7 +20,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        if (storage.getOrDefault(voucher.getVoucherId(), null) != null)
+        if (storage.get(voucher.getVoucherId()) != null)
             throw new IllegalArgumentException("이미 존재하는 voucherId 입니다.");
 
         storage.put(voucher.getVoucherId(), voucher);

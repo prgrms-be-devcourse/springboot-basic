@@ -5,9 +5,11 @@ import org.junit.jupiter.api.*;
 import org.prgrms.vouchermanager.customer.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
@@ -17,6 +19,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -24,6 +27,7 @@ class CustomerJDBCRepositoryTest {
 
     @Autowired
     CustomerRepository customerJdbcRepository;
+
     @Autowired
     DataSource dataSource;
     private Customer testCustomer1;
@@ -37,7 +41,7 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.prgrms.vouchermanager"})
+    @ComponentScan(basePackages = {"org.prgrms.vouchermanager.customer"})
     static class Config {
 
         @Bean
@@ -49,6 +53,12 @@ class CustomerJDBCRepositoryTest {
                     .type(HikariDataSource.class)
                     .build();
         }
+
+        @Bean
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
+        }
+
     }
 
     @Test

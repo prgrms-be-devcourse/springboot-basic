@@ -1,12 +1,12 @@
-package org.prgrms.vouchermanager.blocklist;
+package org.prgrms.vouchermanager.blacklist;
 
 import java.util.UUID;
 
-public class BlockCustomer {
+public class Blacklist {
     private final UUID customerId;
     private final String email;
 
-    public BlockCustomer(UUID customerId, String email) {
+    public Blacklist(UUID customerId, String email) {
         if (email.isBlank()) throw new IllegalArgumentException();
         if (customerId == null) throw new IllegalArgumentException();
         this.customerId = customerId;

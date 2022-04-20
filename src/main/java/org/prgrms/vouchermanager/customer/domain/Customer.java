@@ -7,17 +7,23 @@ import java.util.UUID;
 
 public class Customer {
     private final UUID customerId;
-    private String name;
     private final String email;
-    private LocalDateTime lastLoginAt;
     private final LocalDateTime createAt;
+    private String name;
+    private LocalDateTime lastLoginAt;
 
     public Customer(UUID customerId, String name, String email) {
         validateName(name);
+        validateEmail(email);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.createAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    }
+
+    private void validateEmail(String email) {
+        if (email.isBlank()) throw new IllegalArgumentException("email should not be blank.");
+        if (!email.contains("@")) throw new IllegalArgumentException("email should contain '@'.");
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createAt, LocalDateTime lastLoginAt) {

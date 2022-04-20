@@ -55,6 +55,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try (FileOutputStream fileOutputStream = new FileOutputStream(savePath);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
             objectOutputStream.writeObject(voucher);
+
         } catch (IOException e) {
             log.error(savePath + " " + voucher);
             // RuntimeException 중에서 의미가 적절한게 없는 것 같아서 RuntimeException을 상속받는 예외 정의하였습니다.
@@ -73,6 +74,7 @@ public class FileVoucherRepository implements VoucherRepository {
             try (FileInputStream fileInputStream = new FileInputStream(file.getPath());
                  ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
                 vouchers.add((Voucher) objectInputStream.readObject());
+
             } catch (IOException | ClassNotFoundException e) {
                 throw new IllegalResourceAccessException();
             }
