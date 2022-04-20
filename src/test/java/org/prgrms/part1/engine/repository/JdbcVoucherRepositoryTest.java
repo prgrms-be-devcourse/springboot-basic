@@ -16,14 +16,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -66,16 +62,6 @@ class JdbcVoucherRepositoryTest {
         @Bean
         public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
             return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-
-        @Bean
-        public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-            return new DataSourceTransactionManager(dataSource);
-        }
-
-        @Bean
-        public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager) {
-            return new TransactionTemplate(transactionManager);
         }
     }
 
@@ -166,5 +152,23 @@ class JdbcVoucherRepositoryTest {
         var changedPercentDiscountVoucher = voucherRepository.findById(newPercentDiscountVoucher.getVoucherId());
         assertThat(changedPercentDiscountVoucher.isEmpty(), is(false));
         assertThat(changedPercentDiscountVoucher.get().getValue(), is(newPercentDiscountVoucher.getValue()));
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("Customer에 Voucher를 allocate / deallocate 수 있다.")
+    public void testAllocateAndDeallocate() {
+        Customer customer = new Customer(UUID.randomUUID(), "test", "test@mail.com", LocalDateTime.now().withNano(0));
+        newFixedAmountVoucher.changeOwner(customer);
+        voucherRepository.update(newFixedAmountVoucher);
+        var changedFixedAmountVoucher = voucherRepository.findById(newFixedAmountVoucher.getVoucherId());
+        assertThat(changedFixedAmountVoucher.isEmpty(), is(false));
+        assertThat(changedFixedAmountVoucher.get(), samePropertyValuesAs(newFixedAmountVoucher));
+
+        newFixedAmountVoucher.revokeOwner();
+        voucherRepository.update(newFixedAmountVoucher);
+        changedFixedAmountVoucher = voucherRepository.findById(newFixedAmountVoucher.getVoucherId());
+        assertThat(changedFixedAmountVoucher.isEmpty(), is(false));
+        assertThat(changedFixedAmountVoucher.get(), samePropertyValuesAs(newFixedAmountVoucher));
     }
 }

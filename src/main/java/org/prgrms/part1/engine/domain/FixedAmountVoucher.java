@@ -10,12 +10,12 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
     private static final long MAX_VOUCHER_AMOUNT = 1000000;
     private final UUID voucherId;
-    private long amount;
+    private Integer amount;
     private final VoucherType voucherType;
     private final LocalDateTime createdAt;
     private UUID customerId;
 
-    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
+    public FixedAmountVoucher(UUID voucherId, Integer amount, LocalDateTime createdAt) {
         validateValue(amount);
         this.voucherId = voucherId;
         this.amount = amount;
@@ -23,8 +23,17 @@ public class FixedAmountVoucher implements Voucher {
         this.voucherType = VoucherType.FixedAmount;
     }
 
+    public FixedAmountVoucher(UUID voucherId, UUID customerId, Integer amount, LocalDateTime createdAt) {
+        validateValue(amount);
+        this.voucherId = voucherId;
+        this.customerId = customerId;
+        this.amount = amount;
+        this.createdAt = createdAt;
+        this.voucherType = VoucherType.FixedAmount;
+    }
+
     @Override
-    public void changeValue(long value) {
+    public void changeValue(Integer value) {
         validateValue(value);
         this.amount = value;
     }
@@ -64,7 +73,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public Long getValue() {
+    public Integer getValue() {
         return amount;
     }
 
@@ -78,7 +87,7 @@ public class FixedAmountVoucher implements Voucher {
         return Optional.ofNullable(this.customerId);
     }
 
-    private void validateValue(Long amount) {
+    private void validateValue(Integer amount) {
         if (amount < 0) {
             throw new VoucherException("Amount should be positive");
         } else if (amount == 0) {

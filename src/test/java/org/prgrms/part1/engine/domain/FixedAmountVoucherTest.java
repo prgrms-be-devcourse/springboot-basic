@@ -26,7 +26,7 @@ class FixedAmountVoucherTest {
     @Test
     void TestChangeAmount() {
         voucher.changeValue(80000);
-        assertThat(voucher.getValue(), is(80000L));
+        assertThat(voucher.getValue(), is(80000));
     }
 
     @Test
@@ -36,6 +36,16 @@ class FixedAmountVoucherTest {
                 () -> assertThrows(VoucherException.class, () -> voucher.changeValue(-100)),
                 () -> assertThrows(VoucherException.class, () -> voucher.changeValue(1000001))
         );
+    }
 
+    @Test
+    void TestAllocateToUser() {
+        Customer customer = new Customer(UUID.randomUUID(), "test", "test@mail.com", LocalDateTime.now().withNano(0));
+        voucher.changeOwner(customer);
+        assertThat(voucher.getCustomerId().isEmpty(), is(false));
+        assertThat(voucher.getCustomerId().get(), is(customer.getCustomerId()));
+
+        voucher.revokeOwner();
+        assertThat(voucher.getCustomerId().isEmpty(), is(true));
     }
 }

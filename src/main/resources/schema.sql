@@ -11,6 +11,7 @@ CREATE TABLE customers
 CREATE TABLE vouchers
 (
     voucher_id BINARY(16) PRIMARY KEY,
+    customer_id BINARY(16) REFERENCES customer(customer_id),
     voucher_type varchar(20) NOT NULL,
     percent INTEGER,
     amount INTEGER,

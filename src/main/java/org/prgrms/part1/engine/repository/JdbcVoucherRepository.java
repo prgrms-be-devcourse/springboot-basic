@@ -24,9 +24,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var value = resultSet.getLong(voucherType.getValueColumnName());
+        var value = resultSet.getInt(voucherType.getValueColumnName());
         var customerId = resultSet.getBytes("customer_id") != null ? toUUID(resultSet.getBytes("customer_id")) : null;
-        return voucherType.createVoucher(voucherId, value, createdAt);
+        return voucherType.createVoucher(voucherId, customerId, value, createdAt);
     };
 
     private Map<String, Object> toParamMap(Voucher voucher) {
@@ -35,7 +35,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
            put("voucherType", voucher.getVoucherType().toString());
            put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
            put("value", voucher.getValue());
-           put("customerId", voucher.getCustomerId().isPresent() ? voucher.getCustomerId() : null);
+           put("customerId", voucher.getCustomerId().isPresent() ? voucher.getCustomerId().get().toString().getBytes() : null);
         }};
     }
 
@@ -73,7 +73,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findByCustomer(Customer customer) {
-        return jdbcTemplate.query("select * from vouchers where customer_id = :customerId;", Collections.singletonMap("customerId", customer.getCustomerId().toString().getBytes()),voucherRowMapper);
+        return jdbcTemplate.query("select * from vouchers where customer_id = UNHEX(REPLACE(:customerId, '-', ''));", Collections.singletonMap("customerId", customer.getCustomerId().toString().getBytes()),voucherRowMapper);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Voucher update(Voucher voucher) {
         var paramMap = toParamMap(voucher);
-        int updateCount = jdbcTemplate.update("update vouchers set "+ voucher.getVoucherType().getValueColumnName() + "= :value, customer_id = :customerId where voucher_id = UNHEX(REPLACE(:voucherId, '-', ''));",paramMap);
+        int updateCount = jdbcTemplate.update("update vouchers set "+ voucher.getVoucherType().getValueColumnName() + "= :value, customer_id = UNHEX(REPLACE(:customerId, '-', '')) where voucher_id = UNHEX(REPLACE(:voucherId, '-', ''));",paramMap);
         if (updateCount < 1) {
             throw new VoucherException("Nothing was updated!");
         }

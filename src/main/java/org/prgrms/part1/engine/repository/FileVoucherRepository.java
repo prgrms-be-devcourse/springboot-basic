@@ -54,7 +54,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     UUID voucherId = UUID.fromString(br.readLine());
                     VoucherType type = VoucherType.valueOf(br.readLine());
-                    Long value = Long.parseLong(br.readLine());
+                    Integer value = Integer.parseInt(br.readLine());
                     LocalDateTime createdAt = LocalDateTime.parse(br.readLine());
                     br.close();
                     Voucher voucher = type.createVoucher(voucherId, value, createdAt);

@@ -32,7 +32,7 @@ public class CustomerService {
     }
 
     public Customer createCustomer(String name, String email) {
-        return new Customer(UUID.randomUUID(), name, email, LocalDateTime.now().withNano(0));
+        return insertCustomer(new Customer(UUID.randomUUID(), name, email, LocalDateTime.now().withNano(0)));
     }
 
     public Customer insertCustomer(Customer customer) {

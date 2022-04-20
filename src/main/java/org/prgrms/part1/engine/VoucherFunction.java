@@ -86,7 +86,7 @@ public class VoucherFunction {
                 return;
             }
             var inputValue = input.inputQuestion("Type discount amount(percent) of Voucher : ");
-            long value = parseValue(inputValue);
+            Integer value = parseValue(inputValue);
             Voucher voucher = voucherService.insertVoucher(voucherType.get().createVoucher(UUID.randomUUID(), value, LocalDateTime.now().withNano(0)));
             logger.info(MessageFormat.format("Create Voucher.\n{0}", voucher.toString()));
         }
@@ -96,20 +96,20 @@ public class VoucherFunction {
         output.print("CREATE CUSTOMER\n");
         String name = input.inputQuestion("Name : ");
         String email = input.inputQuestion("Email : ");
-        customerService.insertCustomer(customerService.createCustomer(name, email));
+        customerService.createCustomer(name, email);
     }
 
     public void allocateVoucherToCustomer() {
-        UUID voucherId = validateUUIDInput();
+        UUID voucherId = validateUUIDInput("Type voucher Id");
         Voucher voucher = voucherService.getVoucher(voucherId);
-        UUID customerId = UUID.fromString(input.inputQuestion("Type Customer Id"));
+        UUID customerId = validateUUIDInput("Type customer Id");
         Customer customer = customerService.getCustomerById(customerId);
         voucherService.allocateToCustomer(voucher, customer);
         output.print("\nAllocate complete\n");
     }
 
     public void deallocateVoucherFromCustomer() {
-        UUID voucherId = validateUUIDInput();
+        UUID voucherId = validateUUIDInput("Type voucher Id");
         Voucher voucher = voucherService.getVoucher(voucherId);
         voucherService.deallocateFromCustomer(voucher);
         output.print("\nDeallocate complete\n");
@@ -128,18 +128,18 @@ public class VoucherFunction {
     }
 
     public void searchVoucher() {
-        UUID voucherId = validateUUIDInput();
+        UUID voucherId = validateUUIDInput("Type voucher Id");
         Voucher voucher = voucherService.getVoucher(voucherId);
         output.print(voucher.toString());
         if (voucher.getCustomerId().isPresent()) {
             Customer customer = customerService.getCustomerById(voucher.getCustomerId().get());
-            output.print("is owned by\n");
+            output.print("is owned by");
             output.print(customer.toString());
         }
     }
 
     public void searchCustomer() {
-        UUID customerId = UUID.fromString(input.inputQuestion("Type Customer Id"));
+        UUID customerId = validateUUIDInput("Type customer Id");
         Customer customer = customerService.getCustomerById(customerId);
         output.print(customer.toString());
         List<Voucher> vouchers = voucherService.getVouchersByCustomerId(customer);
@@ -167,17 +167,17 @@ public class VoucherFunction {
         return input.select();
     }
 
-    private long parseValue(String inputValue) {
+    private Integer parseValue(String inputValue) {
         if (Pattern.matches("[\\d]+", inputValue)) {
-            return Long.parseLong(inputValue);
+            return Integer.parseInt(inputValue);
         } else {
             throw new VoucherException("Please type invalid number.");
         }
     }
 
-    private UUID validateUUIDInput() {
+    private UUID validateUUIDInput(String question) {//수정
         try {
-            return UUID.fromString(input.inputQuestion("Type Voucher Id"));
+            return UUID.fromString(input.inputQuestion(question));
         } catch (IllegalArgumentException ex) {
             throw new VoucherException("Invalid id format!");
         }

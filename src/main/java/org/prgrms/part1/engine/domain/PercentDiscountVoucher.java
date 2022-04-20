@@ -10,14 +10,23 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private long percent;
+    private Integer percent;
     private final VoucherType voucherType;
     private final LocalDateTime createdAt;
     private UUID customerId;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
+    public PercentDiscountVoucher(UUID voucherId, Integer percent, LocalDateTime createdAt) {
         validateValue(percent);
         this.voucherId = voucherId;
+        this.percent = percent;
+        this.createdAt = createdAt;
+        this.voucherType = VoucherType.PercentDiscount;
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, UUID customerId, Integer percent, LocalDateTime createdAt) {
+        validateValue(percent);
+        this.voucherId = voucherId;
+        this.customerId = customerId;
         this.percent = percent;
         this.createdAt = createdAt;
         this.voucherType = VoucherType.PercentDiscount;
@@ -33,7 +42,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public void changeValue(long value) {
+    public void changeValue(Integer value) {
         validateValue(value);
         this.percent = value;
     }
@@ -64,7 +73,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public Long getValue() {
+    public Integer getValue() {
         return this.percent;
     }
 
@@ -78,7 +87,7 @@ public class PercentDiscountVoucher implements Voucher {
         return Optional.ofNullable(this.customerId);
     }
 
-    private void validateValue(Long percent) {
+    private void validateValue(Integer percent) {
         if (percent < 0) {
             throw new VoucherException("Amount should be positive");
         } else if (percent == 0) {

@@ -30,15 +30,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     };
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var value = resultSet.getLong(voucherType.getValueColumnName());
-        var customerId = resultSet.getBytes("customer_id") != null ? toUUID(resultSet.getBytes("customer_id")) : null;
-        return voucherType.createVoucher(voucherId, value, createdAt);
-    };
-
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<String, Object>() {{
             put("customerId", customer.getCustomerId().toString().getBytes());

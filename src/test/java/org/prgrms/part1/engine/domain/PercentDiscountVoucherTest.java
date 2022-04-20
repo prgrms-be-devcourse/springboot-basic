@@ -25,7 +25,7 @@ class PercentDiscountVoucherTest {
     @Test
     void TestChangeAmount() {
         voucher.changeValue(80);
-        assertThat(voucher.getValue(), is(80L));
+        assertThat(voucher.getValue(), is(80));
     }
 
     @Test
@@ -35,6 +35,16 @@ class PercentDiscountVoucherTest {
                 () -> assertThrows(VoucherException.class, () -> voucher.changeValue(-100)),
                 () -> assertThrows(VoucherException.class, () -> voucher.changeValue(101))
         );
+    }
 
+    @Test
+    void TestAllocateToUser() {
+        Customer customer = new Customer(UUID.randomUUID(), "test", "test@mail.com", LocalDateTime.now().withNano(0));
+        voucher.changeOwner(customer);
+        assertThat(voucher.getCustomerId().isEmpty(), is(false));
+        assertThat(voucher.getCustomerId().get(), is(customer.getCustomerId()));
+
+        voucher.revokeOwner();
+        assertThat(voucher.getCustomerId().isEmpty(), is(true));
     }
 }

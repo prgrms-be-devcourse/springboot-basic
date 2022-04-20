@@ -12,13 +12,23 @@ import java.util.UUID;
 public enum VoucherType {
     FixedAmount("1", "amount") {
         @Override
-        public Voucher createVoucher(UUID voucherId, Long value, LocalDateTime createdAt) {
+        public Voucher createVoucher(UUID voucherId, Integer value, LocalDateTime createdAt) {
             return new FixedAmountVoucher(voucherId, value, createdAt);
+        }
+
+        @Override
+        public Voucher createVoucher(UUID voucherId, UUID customerID, Integer value, LocalDateTime createdAt) {
+            return new FixedAmountVoucher(voucherId, customerID, value, createdAt);
         }
     }, PercentDiscount("2", "percent") {
         @Override
-        public Voucher createVoucher(UUID voucherId, Long value, LocalDateTime createdAt) {
+        public Voucher createVoucher(UUID voucherId, Integer value, LocalDateTime createdAt) {
             return new PercentDiscountVoucher(voucherId, value, createdAt);
+        }
+
+        @Override
+        public Voucher createVoucher(UUID voucherId, UUID customerID, Integer value, LocalDateTime createdAt) {
+            return new PercentDiscountVoucher(voucherId, customerID, value, createdAt);
         }
     };
 
@@ -39,7 +49,9 @@ public enum VoucherType {
         return valueColumnName;
     }
 
-    public abstract Voucher createVoucher(UUID voucherId, Long value, LocalDateTime createdAt);
+    public abstract Voucher createVoucher(UUID voucherId, Integer value, LocalDateTime createdAt);
+
+    public abstract Voucher createVoucher(UUID voucherId, UUID customerID, Integer value, LocalDateTime createdAt);
 
     public static Optional<VoucherType> findMatchingCode(String input) {
         return Optional.ofNullable(Arrays.stream(values()).filter(vt -> vt.code.equals(input)).findFirst().orElse(null));

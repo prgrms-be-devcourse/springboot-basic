@@ -12,11 +12,11 @@ public interface Voucher {
 
     VoucherType getVoucherType();
 
-    Long getValue();
+    Integer getValue();
 
     LocalDateTime getCreatedAt();
 
-    void changeValue(long value);
+    void changeValue(Integer value);
 
     void changeOwner(Customer customer);
 
