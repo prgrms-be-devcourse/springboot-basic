@@ -1,0 +1,4 @@
+file.path:
+  baseDirectory: files
+  vouchersFilePath: vouchers.ser
+  blacklistFilePath: customer_black_list.csv
