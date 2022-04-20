@@ -1,6 +1,5 @@
 package org.programmer.kdtspringboot.customer;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,14 +25,6 @@ public class Customer {
         this.createAt = createAt;
     }
 
-    public Customer(String name, String email) {
-        this.customerId = UUID.randomUUID();
-        this.name = name;
-        this.email = email;
-        lastLoginAt = LocalDateTime.now();
-        createAt = LocalDateTime.now();
-    }
-
     public UUID getCustomerId() {
         return customerId;
     }
@@ -54,7 +45,7 @@ public class Customer {
         return createAt;
     }
 
-    public void changeName(String name){
+    public void changeName(String name) {
         this.name = name;
     }
 }
