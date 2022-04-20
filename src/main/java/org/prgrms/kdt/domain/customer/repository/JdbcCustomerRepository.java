@@ -80,7 +80,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Override
     public List<Customer> findByCustomerType(CustomerType customerType) {
         return jdbcTemplate.query("SELECT * FROM customer WHERE customer_type = :customerType",
-                Collections.singletonMap("customerType", CustomerType.getValue(customerType)),
+                Collections.singletonMap("customerType", customerType.getType()),
                 customerRowMapper());
     }
 
@@ -128,7 +128,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
             put("customerId", UuidUtils.UuidToByte(customer.getCustomerId()));
-            put("customerType", CustomerType.getValue(customer.getCustomerType()));
+            put("customerType", customer.getCustomerType().getType());
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("createdDate", Timestamp.valueOf(customer.getCreatedDate()));

@@ -19,7 +19,7 @@ public enum CustomerType {
                 .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 고객타입 입니다."));
     }
 
-    public static String getValue(CustomerType customerType){
-        return customerType.type;
+    public String getType(){
+        return type;
     }
 }
