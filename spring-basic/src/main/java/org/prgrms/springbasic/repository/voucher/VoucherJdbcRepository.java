@@ -2,10 +2,12 @@ package org.prgrms.springbasic.repository.voucher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.prgrms.springbasic.domain.customer.CustomerType;
 import org.prgrms.springbasic.domain.voucher.Voucher;
 import org.prgrms.springbasic.domain.voucher.VoucherType;
+import org.prgrms.springbasic.domain.wallet.Wallet;
 import org.prgrms.springbasic.utils.exception.NoDatabaseChange;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,9 +21,8 @@ import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_INSERT
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_UPDATED;
 import static org.prgrms.springbasic.utils.sql.VoucherSQL.*;
 
-//@Repository
-//@Primary
-//@Profile("prd")
+@Repository
+@Profile("prd")
 @Slf4j
 @RequiredArgsConstructor
 public class VoucherJdbcRepository implements VoucherRepository {
@@ -30,7 +31,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        var insert = jdbcTemplate.update(INSERT_INTO_VOUCHER.getQuery(), toParamMap(voucher));
+        var insert = jdbcTemplate.update(CREATE_VOUCHER.getQuery(), toParamMap(voucher));
 
         if(insert != 1) {
             log.error("Got not inserted result: {}", voucher);
@@ -42,9 +43,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findByVoucherId(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_VOUCHER_BY_ID.getQuery(),
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_VOUCHER_ID.getQuery(),
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -54,12 +55,29 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return jdbcTemplate.query(SELECT_ALL_VOUCHER.getQuery(), voucherRowMapper);
+    public Optional<Voucher> findByCustomerId(UUID customerId) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_CUSTOMER_ID.getQuery(),
+                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                    voucherRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            log.error("Got empty result: {}", e.getMessage());
+            return Optional.empty();
+        }
     }
 
     @Override
-    public int countStorageSize() {
+    public List<Voucher> findVouchers() {
+        return jdbcTemplate.query(SELECT_VOUCHERS.getQuery(), voucherRowMapper);
+    }
+
+    @Override
+    public List<Wallet> findWallets() {
+        return jdbcTemplate.query(SELECT_WALLETS.getQuery(), walletRowMapper);
+    }
+
+    @Override
+    public int countData() {
         var count = jdbcTemplate.queryForObject(SELECT_COUNT.getQuery(),
                 Collections.emptyMap(),
                 Integer.class);
@@ -68,7 +86,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher updateVoucher(Voucher voucher) {
+    public Voucher update(Voucher voucher) {
         var update = jdbcTemplate.update(UPDATE_VOUCHER.getQuery(), toParamMap(voucher));
 
         if(update != 1) {
@@ -81,8 +99,18 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public void clear() {
-        jdbcTemplate.update(DELETE_ALL_VOUCHER.getQuery(), Collections.emptyMap());
+    public void deleteByVoucherId(UUID voucherId) {
+        jdbcTemplate.update(DELETE_VOUCHERS.getQuery(), Collections.singletonMap("voucherId", voucherId));
+    }
+
+    @Override
+    public void deleteByCustomerId(UUID customerId) {
+        jdbcTemplate.update(DELETE_VOUCHERS.getQuery(), Collections.singletonMap("customerId", customerId));
+    }
+
+    @Override
+    public void deleteVouchers() {
+        jdbcTemplate.update(DELETE_VOUCHERS.getQuery(), Collections.emptyMap());
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
@@ -108,6 +136,20 @@ public class VoucherJdbcRepository implements VoucherRepository {
         var customerId = resultSet.getBytes("customer_id") == null ? null : toUUID(resultSet.getBytes("customer_id"));
 
         return new Voucher(voucherId, voucherType, discountInfo, createdAt, modifiedAt, customerId);
+    };
+
+    private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
+        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var customerType = CustomerType.valueOf(resultSet.getString("customer_type"));
+        var name = resultSet.getString("name");
+        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        var discountInfo = resultSet.getLong("discount_info");
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+
+        return Wallet.builder().customerId(customerId).customerType(customerType)
+                .name(name).voucherId(voucherId).voucherType(voucherType)
+                .discountInfo(discountInfo).createdAt(createdAt).build();
     };
 
     private static UUID toUUID(byte[] bytes) {
