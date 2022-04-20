@@ -1,5 +1,8 @@
 package org.prgrms.kdt.domain.voucher.repository;
 
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.Charset;
+import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.kdt.domain.customer.model.Customer;
@@ -20,6 +23,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
+import static com.wix.mysql.ScriptResolver.classPathScript;
+import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -35,8 +42,8 @@ class JdbcVoucherRepositoryTest {
         @Bean
         public DataSource dataSource() {
             return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/voucher")
-                    .username("root")
+                    .url("jdbc:mysql://localhost:2215/test")
+                    .username("park")
                     .password("1234")
                     .type(HikariDataSource.class)
                     .build();
@@ -50,10 +57,30 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     JdbcCustomerRepository customerRepository;
 
+    EmbeddedMysql embeddedMysql;
+
+    @BeforeAll
+    void setup() {
+        MysqldConfig mysqldConfig = aMysqldConfig(v5_7_latest)
+                .withCharset(Charset.UTF8)
+                .withPort(2215)
+                .withUser("park", "1234")
+                .withTimeZone("Asia/Seoul")
+                .build();
+        embeddedMysql = anEmbeddedMysql(mysqldConfig)
+                .addSchema("test", classPathScript("schema.sql"))
+                .start();
+    }
+
     @BeforeEach
     void cleanData() {
         voucherRepository.deleteAll();
         customerRepository.deleteAll();
+    }
+
+    @AfterAll
+    void stopDatabase() {
+        embeddedMysql.stop();
     }
 
     @Test
@@ -161,6 +188,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("입력받은 고객 ID를 통해 바우처를 고객에게 할당할 수 있다.")
     void updateCustomerId() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -176,6 +204,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 ID를 통해 바우처를 삭제할 수 있다.")
     void deleteById() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -189,6 +218,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("저장된 바우처들을 전부 삭제한다.")
     void deleteAll() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -202,6 +232,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("고객이 가진 바우처를 삭제한다.")
     void deleteByCustomerId() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);

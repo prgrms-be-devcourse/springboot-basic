@@ -1,9 +1,10 @@
 package org.prgrms.kdt.domain.customer.repository;
 
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.Charset;
+import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
@@ -23,9 +24,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
+import static com.wix.mysql.ScriptResolver.classPathScript;
+import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcCustomerRepositoryTest {
 
     @Configuration
@@ -36,8 +42,8 @@ class JdbcCustomerRepositoryTest {
         @Bean
         public DataSource dataSource() {
             return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/voucher")
-                    .username("root")
+                    .url("jdbc:mysql://localhost:2215/test")
+                    .username("park")
                     .password("1234")
                     .type(HikariDataSource.class)
                     .build();
@@ -51,10 +57,30 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     JdbcVoucherRepository voucherRepository;
 
+    EmbeddedMysql embeddedMysql;
+
+    @BeforeAll
+    void setup() {
+        MysqldConfig mysqldConfig = aMysqldConfig(v5_7_latest)
+                .withCharset(Charset.UTF8)
+                .withPort(2215)
+                .withUser("park", "1234")
+                .withTimeZone("Asia/Seoul")
+                .build();
+        embeddedMysql = anEmbeddedMysql(mysqldConfig)
+                .addSchema("test", classPathScript("schema.sql"))
+                .start();
+    }
+
     @BeforeEach
     void setUp() {
         voucherRepository.deleteAll();
         customerRepository.deleteAll();
+    }
+
+    @AfterAll
+    void stopDatabase() {
+        embeddedMysql.stop();
     }
 
     @Test
