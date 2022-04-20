@@ -18,7 +18,7 @@ public class Product {
             this.price = 0L;
             return;
         }
-        this.price = this.price / 100 * (100-percent);
+        this.price = this.price / 100 * (100 - percent);
     }
 
     public void discountPriceByAmount(Long amount){
