@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain.base;
+package org.prgrms.kdt.domain.common.model;
 
 import java.time.LocalDateTime;
 

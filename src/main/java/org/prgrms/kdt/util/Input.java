@@ -1,6 +1,6 @@
 package org.prgrms.kdt.util;
 
-import org.prgrms.kdt.domain.command.types.CommandType;
+import org.prgrms.kdt.domain.command.CommandType;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.slf4j.Logger;
@@ -52,7 +52,6 @@ public class Input {
             }
         }
     }
-
 
     public static long inputDiscountValue() {
         return scanner.nextLong();
