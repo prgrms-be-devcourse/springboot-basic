@@ -19,6 +19,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.springbootbasic.controller.VoucherType;
+import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
@@ -107,7 +108,9 @@ class VoucherServiceTest {
 
         //then
         assertThat(voucherList)
-            .containsExactlyInAnyOrder(fixedAmountVoucher, percentDiscountVoucher);
+            .extracting(VoucherDTO::getVoucherId)
+            .containsExactlyInAnyOrder(fixedAmountVoucher.getVoucherId(),
+                percentDiscountVoucher.getVoucherId());
     }
 
     @DisplayName("voucher를 customer에게 할당 기능 - 정상 상황")

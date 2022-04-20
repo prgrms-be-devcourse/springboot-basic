@@ -13,6 +13,7 @@ public class VoucherDTO implements Serializable {
     private final VoucherType voucherType;
     private final int amount;
     private final int percent;
+    private final UUID customerId;
 
     public VoucherDTO(Voucher voucher) {
         this.voucherId = voucher.getVoucherId();
@@ -26,6 +27,8 @@ public class VoucherDTO implements Serializable {
             this.percent = ((PercentDiscountVoucher) voucher).getPercent();
             this.amount = 0;
         }
+
+        this.customerId = voucher.getCustomerId().orElse(null);
     }
 
     public UUID getVoucherId() {
@@ -42,5 +45,9 @@ public class VoucherDTO implements Serializable {
 
     public int getPercent() {
         return percent;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
     }
 }

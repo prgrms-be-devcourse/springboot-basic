@@ -2,7 +2,9 @@ package org.prgrms.springbootbasic.service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.prgrms.springbootbasic.controller.VoucherType;
+import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
@@ -42,10 +44,12 @@ public class VoucherService {
         }
     }
 
-    public List<Voucher> findAll() {
+    public List<VoucherDTO> findAll() {
         logger.info("findAll() called");
 
-        return voucherRepository.findAll();
+        return voucherRepository.findAll().stream()
+            .map(VoucherDTO::new)
+            .collect(Collectors.toList());
     }
 
     @Transactional
@@ -64,12 +68,14 @@ public class VoucherService {
         voucherRepository.updateCustomerId(voucher);
     }
 
-    public List<Voucher> findCustomerVoucher(UUID customerId) {
+    public List<VoucherDTO> findCustomerVoucher(UUID customerId) {
         logger.info("findCustomerVoucher() called");
 
         var customer = customerRepository.findById(customerId)
             .orElseThrow(InvalidCustomerIdException::new);
-        return voucherRepository.findByCustomer(customer);
+        return voucherRepository.findByCustomer(customer).stream()
+            .map(VoucherDTO::new)
+            .collect(Collectors.toList());
     }
 
     private void validateAssignedVoucher(Voucher voucher) {

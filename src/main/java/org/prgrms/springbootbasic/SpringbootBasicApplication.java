@@ -1,6 +1,5 @@
 package org.prgrms.springbootbasic;
 
-import org.prgrms.springbootbasic.controller.VoucherController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -10,9 +9,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class SpringbootBasicApplication {
 
     public static void main(String[] args) {
-        var applicationContext = SpringApplication.run(SpringbootBasicApplication.class, args);
-        var voucherController = applicationContext.getBean(VoucherController.class);
-        voucherController.run();
+        SpringApplication.run(SpringbootBasicApplication.class, args);
     }
-
 }

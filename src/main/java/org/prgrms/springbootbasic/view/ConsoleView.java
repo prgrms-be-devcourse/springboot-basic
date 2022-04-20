@@ -52,10 +52,10 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.prgrms.springbootbasic.controller.Menu;
 import org.prgrms.springbootbasic.controller.VoucherType;
+import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
-import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.prgrms.springbootbasic.exception.InvalidateUUIDFormat;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -131,25 +131,23 @@ public class ConsoleView {
         return percent;
     }
 
-    public void printList(List<Voucher> vouchers) {
+    public void printList(List<VoucherDTO> voucherDTOs) {
         TextTerminal<?> terminal = textIO.getTextTerminal();
         terminal.println(VOUCHER_LIST);
         terminal.println();
 
-        vouchers.forEach(voucher -> printVoucher(terminal, voucher));
+        voucherDTOs.forEach(voucherDTO -> printVoucher(terminal, voucherDTO));
         terminal.println();
     }
 
-    private void printVoucher(TextTerminal<?> terminal, Voucher voucher) {
-        terminal.print(VOUCHER_ID + voucher.getVoucherId());
+    private void printVoucher(TextTerminal<?> terminal, VoucherDTO voucherDTO) {
+        terminal.print(VOUCHER_ID + voucherDTO.getVoucherId());
 
-        if (voucher.getClass() == FixedAmountVoucher.class) {
-            var fixedAmountVoucher = (FixedAmountVoucher) voucher;
-            terminal.println(AMOUNT + fixedAmountVoucher.getAmount());
+        if (voucherDTO.getVoucherType().isFixed()) {
+            terminal.println(AMOUNT + voucherDTO.getAmount());
         }
-        if (voucher.getClass() == PercentDiscountVoucher.class) {
-            var percentDiscountVoucher = (PercentDiscountVoucher) voucher;
-            terminal.println(PERCENT + percentDiscountVoucher.getPercent());
+        if (voucherDTO.getVoucherType().isPercent()) {
+            terminal.println(PERCENT + voucherDTO.getPercent());
         }
     }
 
@@ -227,12 +225,12 @@ public class ConsoleView {
         }
     }
 
-    public void printCustomerVouchers(List<Voucher> customerVoucher) {
+    public void printCustomerVouchers(List<VoucherDTO> customerVoucherDTOs) {
         TextTerminal<?> terminal = textIO.getTextTerminal();
         terminal.println(CUSTOMER_S_VOUCHER_LIST);
         terminal.println();
 
-        customerVoucher.forEach(voucher -> printVoucher(terminal, voucher));
+        customerVoucherDTOs.forEach(voucherDTO -> printVoucher(terminal, voucherDTO));
         terminal.println();
     }
 }
