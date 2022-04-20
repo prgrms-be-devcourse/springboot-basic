@@ -21,12 +21,16 @@ public class VoucherApplication implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		while(true) {
+			printCommandPrompt();
 			CommandType command = getCommand();
 		}
 	}
 
-	private CommandType getCommand() {
+	private void printCommandPrompt() {
 		output.printCommandPrompt();
+	}
+
+	private CommandType getCommand() {
 		return CommandType.of(input.getCommand());
 	}
 

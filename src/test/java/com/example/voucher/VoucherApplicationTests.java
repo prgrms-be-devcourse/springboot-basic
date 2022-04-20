@@ -30,19 +30,29 @@ class VoucherApplicationTests {
 	@Nested
 	@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 	class 애플리케이션이_실행되면 {
+		private Method printCommandPrompt;
 		private Method getCommand;
 
 		@BeforeEach
 		void private_메서드_테스트를_위한_설정() throws Exception {
+			printCommandPrompt = voucherApplication.getClass().getDeclaredMethod("printCommandPrompt");
+			printCommandPrompt.setAccessible(true);
+
 			getCommand = voucherApplication.getClass().getDeclaredMethod("getCommand");
 			getCommand.setAccessible(true);
 		}
 
 		@Test
-		@DisplayName("사용 가능한 명령어를 출력하고 명령어를 입력 받는다.")
-		void 사용_가능한_명령어를_출력하고_명령어를_입력_받는다 () throws Exception {
-			getCommand.invoke(voucherApplication);
+		@DisplayName("사용 가능한 명령어를 출력한다.")
+		void 사용_가능한_명령어를_출력한다 () throws Exception {
+			printCommandPrompt.invoke(voucherApplication);
 			verify(output).printCommandPrompt();
+		}
+
+		@Test
+		@DisplayName("명령어를 입력 받는다.")
+		void 명령어를_입력_받는다 () throws Exception {
+			getCommand.invoke(voucherApplication);
 			verify(input).getCommand();
 		}
 	}
