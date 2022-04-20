@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
+/**
+ * 콘솔 서비스
+ */
 @Service
 public class ConsoleService {
 

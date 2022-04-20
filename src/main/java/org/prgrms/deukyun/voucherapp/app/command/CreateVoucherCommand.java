@@ -10,6 +10,9 @@ import org.springframework.shell.standard.ShellMethod;
 
 import java.text.MessageFormat;
 
+/**
+ * 바우처 생성 커맨드
+ */
 @ShellComponent
 public class CreateVoucherCommand {
 

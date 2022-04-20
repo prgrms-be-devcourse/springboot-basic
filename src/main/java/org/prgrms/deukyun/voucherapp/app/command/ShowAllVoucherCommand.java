@@ -8,6 +8,9 @@ import org.springframework.shell.standard.ShellMethod;
 
 import java.util.stream.Collectors;
 
+/**
+ * 바우처 전체 출력 커맨드
+ */
 @ShellComponent
 public class ShowAllVoucherCommand {
 

@@ -11,6 +11,6 @@ import org.springframework.context.ApplicationContext;
 public class VoucherAppApplication {
 
     public static void main(String[] args) {
-        ApplicationContext ac = SpringApplication.run(VoucherAppApplication.class, args);
+        SpringApplication.run(VoucherAppApplication.class, args);
     }
 }

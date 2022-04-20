@@ -4,6 +4,9 @@ import org.springframework.shell.ExitRequest;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+/**
+ * 퇴장 커맨드
+ */
 @ShellComponent
 public class ExitCommand {
 
