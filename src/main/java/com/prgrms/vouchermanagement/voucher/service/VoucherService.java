@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -20,7 +22,7 @@ public class VoucherService {
     }
 
     public void addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException {
-        Voucher newVoucher = voucherType.constructor(amount);
+        Voucher newVoucher = voucherType.constructor(UUID.randomUUID(), amount, LocalDateTime.now());
         repository.save(newVoucher);
         log.info("voucher is saved - {}", newVoucher);
     }
