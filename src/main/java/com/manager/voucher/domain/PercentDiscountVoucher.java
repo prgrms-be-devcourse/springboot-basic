@@ -2,23 +2,34 @@ package com.manager.voucher.domain;
 
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher{
-    private int percent;
+    private int discountPercent;
+    private UUID voucherId;
     private LocalDateTime expireDate;
+    private boolean isUsed;
 
-    public PercentDiscountVoucher(int percent) {
-        this.percent = percent;
-        this.expireDate = LocalDateTime.now().plusMonths(1);
+    public PercentDiscountVoucher(int discountPercent, LocalDateTime expireDate) {
+        this.discountPercent = discountPercent;
+        this.expireDate = expireDate;
+        this.isUsed = false;
     }
 
     @Override
-    public boolean isExpired() {
-        return (LocalDateTime.now()).isAfter(this.expireDate);
+    public void discountProduct(Product product) {
+        if(!isUsed)  product.discountPriceByPercent(discountPercent);
     }
 
     @Override
+    public void used() {
+        this.isUsed = true;
+    }
+
     public String toString() {
-        return "percent discount: " + percent;
+        StringBuilder sb = new StringBuilder();
+        sb.append("voucher id : "+this.voucherId + "\n");
+        sb.append("percent discount: " + discountPercent+"\n");
+        return sb.toString();
     }
 }

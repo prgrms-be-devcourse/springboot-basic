@@ -1,23 +1,35 @@
 package com.manager.voucher.domain;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class FixedDiscountVoucher implements Voucher{
-    private int amount;
+    private Long discountAmount;
+    private UUID voucherId;
     private LocalDateTime expireDate;
+    private boolean isUsed;
 
-    public FixedDiscountVoucher(int amount) {
-        this.amount = amount;
-        this.expireDate = LocalDateTime.now().plusMonths(1);
+    public FixedDiscountVoucher(Long discountAmount, LocalDateTime expireDate) {
+        this.discountAmount = discountAmount;
+        this.expireDate = expireDate;
+        this.isUsed = false;
     }
 
     @Override
-    public boolean isExpired() {
-        return (LocalDateTime.now()).isAfter(this.expireDate);
+    public void discountProduct(Product product) {
+        if(!isUsed) product.discountPriceByAmount(discountAmount);
+    }
+
+    @Override
+    public void used() {
+        this.isUsed = true;
     }
 
     @Override
     public String toString() {
-        return "fixed Amount: " + amount;
+        StringBuilder sb = new StringBuilder();
+        sb.append("voucher id : "+this.voucherId + "\n");
+        sb.append("percent discount: " + discountAmount+"\n");
+        return sb.toString();
     }
 }
