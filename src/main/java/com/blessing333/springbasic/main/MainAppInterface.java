@@ -1,6 +1,6 @@
 package com.blessing333.springbasic.main;
 
-import com.blessing333.springbasic.ui.ServiceUserInterface;
+import com.blessing333.springbasic.common.ui.ServiceUserInterface;
 
 import java.util.Scanner;
 

@@ -12,6 +12,7 @@ public class ServiceProvider {
     public RunnableService getRunnableService(ServiceStrategy strategy) {
         switch (strategy){
             case VOUCHER_MANAGING : return context.getBean("voucherManagingService",RunnableService.class);
+            case CUSTOMER_MANAGING: return context.getBean("customerApp",RunnableService.class);
             default : throw new NotSupportedStrategyException();
         }
     }

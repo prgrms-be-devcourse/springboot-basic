@@ -1,7 +1,7 @@
 package com.blessing333.springbasic.main;
 
 import com.blessing333.springbasic.RunnableService;
-import com.blessing333.springbasic.ui.ServiceUserInterface;
+import com.blessing333.springbasic.common.ui.ServiceUserInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;

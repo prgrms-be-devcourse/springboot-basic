@@ -30,8 +30,7 @@ public enum ServiceStrategy {
         ServiceStrategy strategy = availableServiceStrategy.get(target);
         if (strategy == null)
             throw new NotSupportedStrategyException("지원하지 않는 기능입니다.");
-        else
-            return strategy;
+        return strategy;
     }
 
 }
