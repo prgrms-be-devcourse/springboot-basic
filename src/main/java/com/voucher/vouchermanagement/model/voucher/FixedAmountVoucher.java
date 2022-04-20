@@ -1,7 +1,5 @@
 package com.voucher.vouchermanagement.model.voucher;
 
-import com.voucher.vouchermanagement.service.CreateVoucherDto;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,12 +16,6 @@ public class FixedAmountVoucher implements Voucher {
         this.id = id;
         this.value = value;
         this.createdAt = createdAt;
-    }
-
-    public static Voucher createVoucher(CreateVoucherDto createVoucherDto) {
-        return new FixedAmountVoucher(createVoucherDto.getId(),
-                createVoucherDto.getValue(),
-                createVoucherDto.getCreatedAt());
     }
 
     @Override

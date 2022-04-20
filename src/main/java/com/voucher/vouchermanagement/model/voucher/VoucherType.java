@@ -1,22 +1,29 @@
 package com.voucher.vouchermanagement.model.voucher;
 
-import com.voucher.vouchermanagement.service.CreateVoucherDto;
-
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.function.Function;
+import java.util.UUID;
 
 public enum VoucherType {
-    Fixed("FixedAmountVoucher", 1, FixedAmountVoucher::createVoucher),
-    Percent("PercentDiscountVoucher", 2, PercentDiscountVoucher::createVoucher);
+    Fixed("FixedAmountVoucher", 1) {
+        @Override
+        public Voucher create(UUID voucherId, long voucherValue, LocalDateTime createdAt) {
+            return new FixedAmountVoucher(voucherId, voucherValue, createdAt);
+        }
+    },
+    Percent("PercentDiscountVoucher", 2) {
+        @Override
+        public Voucher create(UUID voucherId, long voucherValue, LocalDateTime createdAt) {
+            return new PercentDiscountVoucher(voucherId, voucherValue, createdAt);
+        }
+    };
 
     private final String typeName;
     private final int typeNumber;
-    private final Function<CreateVoucherDto, Voucher> constructor;
 
-    VoucherType(String typeName, int typeNumber, Function<CreateVoucherDto, Voucher> constructor) {
+    VoucherType(String typeName, int typeNumber) {
         this.typeName = typeName;
         this.typeNumber = typeNumber;
-        this.constructor = constructor;
     }
 
     public String getTypeName() {
@@ -41,12 +48,10 @@ public enum VoucherType {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입니다."));
     }
 
-    public Voucher create(CreateVoucherDto createVoucherDto) {
-        return this.constructor.apply(createVoucherDto);
-    }
-
     @Override
     public String toString() {
         return typeNumber + ". " + typeName;
     }
+
+    public abstract Voucher create(UUID voucherId, long voucherValue, LocalDateTime createdAt);
 }
