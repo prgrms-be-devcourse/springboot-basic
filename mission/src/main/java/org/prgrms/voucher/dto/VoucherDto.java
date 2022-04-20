@@ -1,34 +1,36 @@
 package org.prgrms.voucher.dto;
 
+import org.prgrms.voucher.models.VoucherType;
+
 public class VoucherDto {
 
-    public static class RequestDto {
+    public static class CreateVoucherRequest {
 
-        private final int voucherType;
-        private final long discountValue;
+        private final VoucherType voucherType;
+        private final Long discountValue;
 
-        public RequestDto(int voucherType, long discountValue) {
+        public CreateVoucherRequest(VoucherType voucherType, Long discountValue) {
 
             this.voucherType = voucherType;
             this.discountValue = discountValue;
         }
 
-        public int getVoucherType() {
+        public VoucherType getVoucherType() {
 
             return voucherType;
         }
 
-        public long getDiscountValue() {
+        public Long getDiscountValue() {
 
             return discountValue;
         }
     }
 
-    public static class ResponseDto {
+    public static class CreateVoucherResponse {
 
         private final Long voucherId;
 
-        public ResponseDto(Long voucherId) {
+        public CreateVoucherResponse(Long voucherId) {
 
             this.voucherId = voucherId;
         }

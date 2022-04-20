@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class VoucherService {
 
-    public Voucher create(VoucherDto.RequestDto requestDto) {
+    public Voucher create(VoucherDto.CreateVoucherRequest requestDto) {
 
         return null;
     }
