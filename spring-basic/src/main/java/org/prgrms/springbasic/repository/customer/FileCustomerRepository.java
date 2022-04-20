@@ -27,28 +27,39 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerId) {
+    public Optional<Customer> findByCustomerId(UUID customerId) {
         return Optional.empty();
     }
 
     @Override
-    public List<Customer> findAll() {
+    public Optional<Customer> findByVoucherId(UUID voucherId) {
+        //JDBC만 구현
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Customer> findCustomers() {
         return fileManager.objectToList(Customer.class);
     }
 
     @Override
-    public int countStorageSize() {
+    public int countData() {
         return fileManager.countLines();
     }
 
     @Override
-    public Customer updateCustomer(Customer customer) {
+    public Customer update(Customer customer) {
         //JDBC만 구현
         return null;
     }
 
     @Override
-    public void clear() {
+    public void deleteByCustomerId(UUID customerId) {
+        //JDBC만 구현
+    }
+
+    @Override
+    public void deleteCustomers() {
         fileManager.clear();
     }
 }

@@ -10,13 +10,17 @@ public interface CustomerRepository {
 
     Customer save(Customer customer);
 
-    Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findByCustomerId(UUID customerId);
 
-    List<Customer> findAll();
+    Optional<Customer> findByVoucherId(UUID voucherId);
 
-    int countStorageSize();
+    List<Customer> findCustomers();
 
-    Customer updateCustomer(Customer customer);
+    int countData();
 
-    void clear();
+    Customer update(Customer customer);
+
+    void deleteByCustomerId(UUID customerId);
+
+    void deleteCustomers();
 }
