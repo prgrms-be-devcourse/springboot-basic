@@ -1,16 +1,15 @@
 package com.blessing333.springbasic.customer.domain;
 
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "customerId")
+@Builder(builderClassName = "Builder",builderMethodName = "customerBuilder")
+@Setter(AccessLevel.PRIVATE)
 public class Customer {
     private UUID customerId;
     private String name;
@@ -18,25 +17,13 @@ public class Customer {
     private LocalDateTime createdAt;
     private LocalDateTime lastLoginAt;
 
-    public static Customer createNewCustomer(UUID id,String name,String email,LocalDateTime createdAt) throws IllegalArgumentException {
+    public Customer(UUID id,String name,String email,LocalDateTime createdAt,LocalDateTime lastLoginAt) throws IllegalArgumentException {
         validateName(name);
-        Customer customer = new Customer();
-        customer.customerId = id;
-        customer.name = name;
-        customer.email = email;
-        customer.createdAt = createdAt;
-        return customer;
-    }
-
-    public static Customer createNewCustomerWithAllArgument(UUID id,String name,String email,LocalDateTime createdAt,LocalDateTime lastLoginAt) throws IllegalArgumentException {
-        validateName(name);
-        Customer customer = new Customer();
-        customer.customerId = id;
-        customer.name = name;
-        customer.email = email;
-        customer.createdAt = createdAt;
-        customer.lastLoginAt = lastLoginAt;
-        return customer;
+        this.customerId = id;
+        this.name = name;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.lastLoginAt = lastLoginAt;
     }
 
     private static void validateName(String name) {
@@ -56,5 +43,27 @@ public class Customer {
 
     public void changeEmail(String email){
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        String createDate = createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String lastLogin = this.lastLoginAt == null ? "이력 없음" : this.lastLoginAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        sb.append("고객 ID : ").append(this.customerId)
+                .append("\n이름 : ").append(this.name)
+                .append("\n이메일 : ").append(this.email)
+                .append("\n생성 날짜 : ").append(createDate)
+                .append("\n최종 로그인 날짜 : " ).append(lastLogin);
+
+        return sb.toString();
+    }
+
+    public void generateCustomerId(){
+        this.customerId = UUID.randomUUID();
+    }
+
+    public void renewCreatedDate(){
+        this.createdAt = LocalDateTime.now();
     }
 }

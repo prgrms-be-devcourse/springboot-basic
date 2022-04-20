@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
-    UUID insert(Customer customer);
+    Customer insert(Customer customer);
 
     void update(Customer customer);
 

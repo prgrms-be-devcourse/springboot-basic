@@ -29,8 +29,7 @@ import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -143,6 +142,14 @@ class JdbcTemplateCustomerRepositoryTest {
         assertThat(customerList).hasSize(2).contains(firstCustomer,secondCustomer);
     }
 
+    @DisplayName("모든 고객의 정보를 조회할 떄 고객 정보가 없다면 빈 리스트를 반환한다.")
+    @Test
+    void findAllWhenNothingExist(){
+        List<Customer> customerList = repository.findAll();
+        assertNotNull(customerList);
+        assertThat(customerList).isEmpty();
+    }
+
     @DisplayName("저장된 모든 Customer row의 개수를 반환할 수 있어야 한다")
     @Test
     void countTest() {
@@ -154,7 +161,7 @@ class JdbcTemplateCustomerRepositoryTest {
 
         assertThat(result).isEqualTo(3);
     }
-
+    @DisplayName("저장된 모든 고객 정보를 삭제할 수 있어야 한다")
     @Test
     void deleteAllTest() {
         saveCustomerToDB("first","first@email.com");
@@ -163,7 +170,7 @@ class JdbcTemplateCustomerRepositoryTest {
 
         repository.deleteAll();
 
-        assertThat(repository.count()).isEqualTo(0);
+        assertThat(repository.count()).isZero();
     }
 
     private Customer saveCustomerToDB(String name,String mail){
