@@ -7,6 +7,8 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 
+    private final String DTYPE = "FixedAmountVoucher";
+
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
@@ -20,6 +22,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long getValue() {
         return amount;
+    }
+
+    public String getDTYPE() {
+        return DTYPE;
     }
 
 
