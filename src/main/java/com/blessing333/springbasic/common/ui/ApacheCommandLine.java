@@ -1,10 +1,7 @@
-package com.blessing333.springbasic.ui;
+package com.blessing333.springbasic.common.ui;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import org.apache.commons.cli.HelpFormatter;
 
-@Getter(AccessLevel.PROTECTED)
 public abstract class ApacheCommandLine {
     private final CommandOptions supportedCommandOptions = initSupportedCommandOption();
     private final HelpFormatter helpFormatter = new HelpFormatter();

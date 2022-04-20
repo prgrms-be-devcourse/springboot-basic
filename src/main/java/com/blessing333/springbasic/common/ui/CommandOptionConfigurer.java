@@ -1,4 +1,4 @@
-package com.blessing333.springbasic.ui;
+package com.blessing333.springbasic.common.ui;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CommandOptionFactory {
+public class CommandOptionConfigurer {
 
-    public static CommandOptions createCommandOptions(Map<String, ? extends CommandOptionType> optionMap) {
+    public static CommandOptions configSupportedCommandOptions(Map<String, ? extends CommandOptionType> optionMap) {
         CommandOptions supportedCommandOptions = new CommandOptions();
         optionMap.values()
                 .forEach(t -> supportedCommandOptions.addOption(CommandOption.createNewOption(t)));
