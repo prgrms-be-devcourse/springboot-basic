@@ -4,6 +4,7 @@ import org.prgrms.kdt.model.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.supercsv.exception.SuperCsvException;
 import org.supercsv.io.CsvMapReader;
 import org.supercsv.io.ICsvMapReader;
 import org.supercsv.prefs.CsvPreference;
@@ -37,7 +38,7 @@ public class CsvBlackListCustomerRepository {
 
                 customers.add(new Customer(customerId, customerName));
             }
-        } catch (IOException e) {
+        } catch (IOException | SuperCsvException e) {
             logger.error("failed to get black-list in csv-file : {}", e.getMessage(), e);
         }
         return customers;

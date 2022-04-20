@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
+import org.supercsv.exception.SuperCsvException;
 import org.supercsv.io.CsvMapReader;
 import org.supercsv.io.CsvMapWriter;
 import org.supercsv.io.ICsvMapReader;
@@ -47,7 +48,7 @@ public class CsvVoucherRepository implements VoucherRepository {
             map.put(CSV_HEADER[2], VoucherType.getVoucherType(voucher.getClass()).toString());
 
             beanWriter.write(map, CSV_HEADER);
-        } catch (IOException e) {
+        } catch (IOException | SuperCsvException e) {
             logger.error("failed to save voucher : {}", e.getMessage(), e);
         }
         return voucher;
