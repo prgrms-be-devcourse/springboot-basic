@@ -4,6 +4,7 @@ import com.voucher.vouchermanagement.model.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
+@Profile({"prod", "dev"})
 public class BlacklistFileRepository implements BlacklistRepository {
 
     @Value("${db.path}")
