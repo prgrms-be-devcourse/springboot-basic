@@ -18,6 +18,10 @@ dependencies {
 
     //AssertJ
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
+
+    //Mockito-core
+    testImplementation 'org.mockito:mockito-core:4.4.0'
+
 }
 
 tasks.named('test') {
