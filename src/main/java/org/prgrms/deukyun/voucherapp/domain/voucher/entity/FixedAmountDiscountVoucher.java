@@ -1,8 +1,5 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.entity;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -12,8 +9,8 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 public class FixedAmountDiscountVoucher implements Voucher {
 
-    private UUID id;
     private final long amount;
+    private UUID id;
 
     public FixedAmountDiscountVoucher(long amount) {
         checkArgument(amount > 0, "amount must be positive.");

@@ -40,7 +40,7 @@ public class OrderService {
      *
      * @param customerId 고객 ID
      * @param orderItems 주문 아이템 목록
-     * @param voucherId 바우처 ID
+     * @param voucherId  바우처 ID
      * @return 주문객체
      */
     public Order createOrderWithVoucher(UUID customerId, List<OrderItem> orderItems, UUID voucherId) {

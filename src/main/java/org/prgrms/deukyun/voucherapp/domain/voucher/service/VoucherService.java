@@ -33,11 +33,11 @@ public class VoucherService {
                 .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
     }
 
-    public List<Voucher> findAll(){
+    public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
 
-    public void insert(Voucher voucher){
+    public void insert(Voucher voucher) {
         voucherRepository.insert(voucher);
     }
 }
