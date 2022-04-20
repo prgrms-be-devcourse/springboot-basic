@@ -1,3 +1,5 @@
-FixedAmountVoucher,5dd62587-cfba-4367-bc44-dc3e8c18c9ad,20
-PercentDiscountVoucher,40b07604-cae0-4970-9058-179e73b99dd5,30
-FixedAmountVoucher,3cf01045-e3da-4997-89e0-a730c7da5fdb,10
+type=FixedAmountVoucher,id=7e59805e-1de4-42fe-a72e-1b9cede51fc0,amount=10
+type=PercentDiscountVoucher,id=25b391db-70be-4f61-bf44-c382019836b1,percent=5
+type=PercentDiscountVoucher,id=98a1f551-38a4-4b17-ba1e-c13c924c1fc2,percent=20
+type=FixedAmountVoucher,id=02dd9ac5-e212-4e70-9478-2e5f6fbf4def,amount=10
+type=PercentDiscountVoucher,id=8f3820a6-1dc4-4b0f-8b0a-e9baae739c2f,percent=45

@@ -52,7 +52,16 @@ public class VoucherService {
         } catch (DataAccessException dataAccessException) {
             logger.info("중복된 voucher가 이미 존재합니다. type : {}, value : {}", type, value);
         }
+
+    }
+    public List<Voucher> findByType(String type) {
+        return voucherRepository.findByType(type);
     }
 
+    public Voucher findById(UUID voucherId) {
+        return voucherRepository
+                .findById(voucherId)
+                .orElseThrow(() -> new RuntimeException());
+    }
 
 }
