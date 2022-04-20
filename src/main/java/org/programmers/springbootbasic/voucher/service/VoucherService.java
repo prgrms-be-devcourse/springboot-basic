@@ -1,12 +1,14 @@
 package org.programmers.springbootbasic.voucher.service;
 
 import org.programmers.springbootbasic.voucher.model.Voucher;
+import org.programmers.springbootbasic.voucher.model.VoucherDTO;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -17,19 +19,18 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Optional<Voucher> getVoucher(UUID voucherId) {
         return voucherRepository
-                .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException
-                        (MessageFormat.format("바우처를 찾을 수 없습니다. {0}", voucherId)));
+                .findById(voucherId);
     }
 
     public List<Voucher> getVoucherList() {
         return voucherRepository.findAll();
     }
 
-    public Voucher createVoucher(VoucherType voucherType, Long value) {
-        var voucher = voucherType.create(value);
+    public Voucher createVoucher(VoucherType voucherType, long value) {
+        VoucherDTO voucherDTO = new VoucherDTO(UUID.randomUUID(), value, LocalDateTime.now());
+        var voucher = voucherType.create(voucherDTO);
         return voucherRepository.insert(voucher);
     }
 }
