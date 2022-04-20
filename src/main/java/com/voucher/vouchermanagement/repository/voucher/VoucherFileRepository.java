@@ -55,6 +55,15 @@ public class VoucherFileRepository implements VoucherRepository {
                 .collect(Collectors.toList());
     }
 
+    public void deleteAll() {
+        BufferedWriter voucherWriter = getBufferedWriter(this.dbDirectory, this.voucherDbName, false);
+        try {
+            voucherWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String csvSerialize(Voucher voucher) {
         return String.join(",", voucher.getClass().getSimpleName(),
                 voucher.getVoucherId().toString(),

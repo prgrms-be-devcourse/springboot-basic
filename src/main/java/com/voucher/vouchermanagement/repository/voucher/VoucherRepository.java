@@ -9,4 +9,6 @@ public interface VoucherRepository {
     void insert(Voucher voucher);
 
     List<Voucher> findAll();
+
+    void deleteAll();
 }

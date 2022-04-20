@@ -25,4 +25,9 @@ public class VoucherMemoryRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return new ArrayList<>(this.store.values());
     }
+
+    @Override
+    public void deleteAll() {
+        store.clear();
+    }
 }
