@@ -20,7 +20,7 @@ public enum CustomerMenuType {
         this.command = command;
     }
 
-    public static CustomerMenuType from(String command) {
+    public static CustomerMenuType fromMainMenu(String command) {
         return Stream.of(CREATE, READ, UPDATE, DELETE, EXIT)
             .filter(type -> type.command.equalsIgnoreCase(command))
             .findFirst()

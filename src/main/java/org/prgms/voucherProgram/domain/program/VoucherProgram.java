@@ -48,7 +48,7 @@ public class VoucherProgram {
     private VoucherMenuType inputMenu() {
         while (true) {
             try {
-                return VoucherMenuType.from(inputView.inputVoucherMenu());
+                return VoucherMenuType.fromMainMenu(inputView.inputVoucherMenu());
             } catch (WrongCommandException e) {
                 outputView.printError(e.getMessage());
             }

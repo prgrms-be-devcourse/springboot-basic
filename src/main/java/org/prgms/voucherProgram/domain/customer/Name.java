@@ -5,8 +5,9 @@ import java.util.Objects;
 import org.prgms.voucherProgram.exception.WrongNameException;
 
 public class Name {
+    public static final String ERROR_BLANK_NAME_MESSAGE = "[ERROR] 이름이 비어있습니다.";
+    public static final String ERROR_NAME_LENGTH_OVER_MAX_LENGTH = "[ERROR] 이름은 20자 이상을 넘을 수 없습니다.";
     private static final int MAX_NAME_LENGTH = 20;
-
     private final String name;
 
     public Name(String name) {
@@ -16,11 +17,11 @@ public class Name {
 
     private void validateName(String name) {
         if (Objects.isNull(name) || name.isBlank()) {
-            throw new WrongNameException("[ERROR] 이름이 비어있습니다.");
+            throw new WrongNameException(ERROR_BLANK_NAME_MESSAGE);
         }
 
         if (MAX_NAME_LENGTH < name.length()) {
-            throw new WrongNameException("[ERROR] 이름은 20자 이상을 넘을 수 없습니다.");
+            throw new WrongNameException(ERROR_NAME_LENGTH_OVER_MAX_LENGTH);
         }
     }
 

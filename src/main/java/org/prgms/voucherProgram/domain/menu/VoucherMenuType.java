@@ -20,7 +20,7 @@ public enum VoucherMenuType {
         this.command = command;
     }
 
-    public static VoucherMenuType from(String command) {
+    public static VoucherMenuType fromMainMenu(String command) {
         return Stream.of(EXIT, CREATE, LIST, UPDATE, DELETE, WALLET)
             .filter(type -> type.command.equalsIgnoreCase(command))
             .findFirst()

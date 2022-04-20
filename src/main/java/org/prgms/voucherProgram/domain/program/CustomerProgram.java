@@ -44,7 +44,7 @@ public class CustomerProgram {
     private CustomerMenuType inputMenu() {
         while (true) {
             try {
-                return CustomerMenuType.from(inputView.inputCustomerMenu());
+                return CustomerMenuType.fromMainMenu(inputView.inputCustomerMenu());
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
