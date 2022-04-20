@@ -4,15 +4,26 @@ import static com.google.common.base.Preconditions.*;
 
 import java.util.UUID;
 
+import org.prgms.springbootbasic.voucher.service.VoucherType;
+
 public class PercentDiscountVoucher implements Voucher {
-	private final UUID voucherId = UUID.randomUUID();
+	private final UUID voucherId;
+	private final VoucherType voucherType;
 	private final int discountPercent;
 
 	public PercentDiscountVoucher(int discountPercent) {
 		checkArgument(discountPercent >= 0 && discountPercent <= 100
 			, "discountPercent(할인율)은 0 ~ 100 사이의 정수여야 합니다. discountPercent = {0}", discountPercent);
 
+		this.voucherId = UUID.randomUUID();
+		this.voucherType = VoucherType.PERCENTDISCOUNTVOUCHER;
 		this.discountPercent = discountPercent;
+	}
+
+	public PercentDiscountVoucher(UUID voucherId, int value) {
+		this.voucherId = voucherId;
+		this.voucherType = VoucherType.PERCENTDISCOUNTVOUCHER;
+		this.discountPercent = value;
 	}
 
 	@Override
@@ -21,8 +32,13 @@ public class PercentDiscountVoucher implements Voucher {
 	}
 
 	@Override
-	public String getVoucherType() {
-		return this.getClass().getSimpleName();
+	public VoucherType getVoucherType() {
+		return this.voucherType;
+	}
+
+	@Override
+	public long getValue() {
+		return this.discountPercent;
 	}
 
 	/**

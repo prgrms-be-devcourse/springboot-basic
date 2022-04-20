@@ -37,7 +37,7 @@ public class VoucherService {
 	/**
 	 * 생성된 리스트 전부를 보여주는 메서드
 	 */
-	public Map<String, List<Voucher>> list() {
+	public Map<VoucherType, List<Voucher>> list() {
 		return voucherRepository.getVoucherListByType();
 	}
 

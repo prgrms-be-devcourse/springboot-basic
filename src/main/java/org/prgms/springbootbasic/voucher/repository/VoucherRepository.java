@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.prgms.springbootbasic.voucher.service.VoucherType;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
 
 public interface VoucherRepository {
@@ -18,9 +19,9 @@ public interface VoucherRepository {
 	/**
 	 * Voucher 리스트를 Voucher의 종류에 따 조회하는 메서드
 	 *
-	 * @return Map<String, List<Voucher>>
+	 * @return Map<String, List < Voucher>>
 	 */
-	Map<String,List<Voucher>> getVoucherListByType();
+	Map<VoucherType, List<Voucher>> getVoucherListByType();
 
 	/**
 	 * 저장된 Voucher의 총 개수를 반환하는 메서드

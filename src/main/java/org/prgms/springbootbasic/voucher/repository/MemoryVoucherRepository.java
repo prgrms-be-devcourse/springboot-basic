@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import org.prgms.springbootbasic.voucher.service.VoucherType;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +44,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	 * @return Map<String, List < Voucher>>
 	 */
 	@Override
-	public Map<String, List<Voucher>> getVoucherListByType() {
-		return memory.entrySet().stream()
-			.map(e -> e.getValue())
+	public Map<VoucherType, List<Voucher>> getVoucherListByType() {
+		return memory.values().stream()
 			.collect(Collectors.groupingBy(Voucher::getVoucherType));
 	}
 
