@@ -13,7 +13,7 @@ class CustomerTest {
 
     @Test
     @DisplayName("고객이 정상적으로 생성된다.")
-    public void createCustomer() {
+    void createCustomer() {
         //given
         UUID customerId = UUID.randomUUID();
         String name = "park";
@@ -27,7 +27,7 @@ class CustomerTest {
 
     @Test
     @DisplayName("고객의 이메일 주소가 유효하지 않을경우 예외가 발생한다.")
-    public void createCustomer_exception() {
+    void createCustomer_exception() {
         //given
         UUID customerId = UUID.randomUUID();
         String name = "park";

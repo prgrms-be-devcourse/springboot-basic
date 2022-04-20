@@ -30,7 +30,7 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("csv에 저장된 바우처들을 조회할 수 있다.")
-    public void findAllVouchers(){
+    void findAllVouchers(){
         //given
         FileVoucherRepository voucherRepository = new FileVoucherRepository(csvPath, fileName);
         UUID fixedVoucherId = UUID.randomUUID();
@@ -43,12 +43,13 @@ class FileVoucherRepositoryTest {
         //when
         List<Voucher> vouchers = voucherRepository.findAll();
         //then
-        assertThat(vouchers.size()).isEqualTo(2);
+        int voucherSize = vouchers.size();
+        assertThat(voucherSize).isEqualTo(2);
     }
 
     @Test
     @DisplayName("csv를 읽어, 저장된 바우처 중 특정 ID값을 가진 바우처를 조회할 수 있다.")
-    public void findById(){
+    void findById(){
         //given
         FileVoucherRepository voucherRepository = new FileVoucherRepository(csvPath, fileName);
         UUID fixedVoucherId = UUID.randomUUID();
@@ -70,7 +71,7 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("csv에 바우처를 정상적으로 저장한다.")
-    public void saveVoucher(){
+    void saveVoucher(){
         //given
         FileVoucherRepository voucherRepository = new FileVoucherRepository(csvPath, fileName);
         UUID voucherId = UUID.randomUUID();
@@ -84,7 +85,7 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 전체조회 시 저장된 파일을 읽지 못할 경우 예외가 발생한다.")
-    public void exception_findAll(){
+    void exception_findAll(){
         //given
         FileVoucherRepository voucherRepository = new FileVoucherRepository("", "");
         //when
@@ -96,19 +97,20 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 ID로 조회 시 저장된 파일을 읽지 못할 경우 예외가 발생한다.")
-    public void exception_findById(){
+    void exception_findById(){
         //given
         FileVoucherRepository voucherRepository = new FileVoucherRepository("", "");
+        UUID voucherId = UUID.randomUUID();
         //when
         //then
-        assertThatThrownBy(() -> voucherRepository.findById(UUID.randomUUID()))
+        assertThatThrownBy(() -> voucherRepository.findById(voucherId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("파일의 경로 혹은 이름을 확인해주세요.");
     }
 
     @Test
     @DisplayName("바우처 저장 시 파일을 읽지 못할 경우 예외가 발생한다.")
-    public void exception_saveVoucher(){
+    void exception_saveVoucher(){
         //given
         FileVoucherRepository voucherRepository = new FileVoucherRepository("", "");
         UUID fixedVoucherId = UUID.randomUUID();

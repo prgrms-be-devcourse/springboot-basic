@@ -18,7 +18,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("id를 통해 저장된 바우처를 조회할 수 있다.")
-    public void findById(){
+    void findById(){
         //given
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
@@ -37,7 +37,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처가 정상적으로 저장된다.")
-    public void saveVoucher(){
+    void saveVoucher(){
         //given
         UUID voucherId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
@@ -50,7 +50,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("저장된 바우처를 조회할 수 있다.")
-    public void findAllVouchers(){
+    void findAllVouchers(){
         //given
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();

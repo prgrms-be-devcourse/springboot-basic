@@ -3,21 +3,16 @@ package org.prgrms.kdt.domain.customer.repository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.TestConfig;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-
-import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,24 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Import({TestConfig.class})
 class JdbcCustomerRepositoryTest {
-
-    @Configuration
-    @ComponentScan(
-            basePackages = {"org.prgrms.kdt"}
-    )
-    static class config {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test")
-                    .username("park")
-                    .password("1234")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-    }
 
     @Autowired
     JdbcCustomerRepository customerRepository;
@@ -85,7 +64,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("고객이 정상적으로 저장된다.")
-    public void save() throws Exception {
+    void save() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
@@ -98,7 +77,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("저장된 고객들을 조회할 수 있다.")
-    public void findAll() throws Exception {
+    void findAll() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
@@ -113,7 +92,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("고객 ID를 통해 고객을 조회할 수 있다.")
-    public void findById() throws Exception {
+    void findById() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
@@ -127,7 +106,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("email을 통해 고객을 조회할 수 있다.")
-    public void findByEmail() throws Exception {
+    void findByEmail() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
@@ -142,7 +121,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("바우처 ID를 통해 해당 바우처를 가진 고객을 조회할 수 있다.")
-    public void findByVoucherId() throws Exception {
+    void findByVoucherId() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
@@ -159,7 +138,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("설정한 고객 타입에 해당하는 고객들을 조회할 수 있다.")
-    public void findByCustomerType() {
+    void findByCustomerType() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
@@ -174,7 +153,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("고객 ID를 통해 고객에 대한 정보를 업데이트 할 수 있다.")
-    public void updateById() throws Exception {
+    void updateById() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
@@ -189,7 +168,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("고객 ID를 통해 고객을 삭제할 수 있다.")
-    public void deleteById() throws Exception {
+    void deleteById() {
         //given
         LocalDateTime now = LocalDateTime.now();
         UUID customerId = UUID.randomUUID();
@@ -203,7 +182,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("고객 테이블에 저장된 모든 데이터를 삭제할 수 있다.")
-    public void deleteAll() throws Exception {
+    void deleteAll() {
         //given
         LocalDateTime now = LocalDateTime.now();
         UUID customerId = UUID.randomUUID();

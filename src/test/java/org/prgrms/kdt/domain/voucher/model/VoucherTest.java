@@ -9,11 +9,11 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class VoucherTest {
+class VoucherTest {
 
     @Test
     @DisplayName("정률할인 바우처가 정상적으로 생성된다.")
-    public void createPercentDiscountVoucher(){
+    void createPercentDiscountVoucher(){
         //given
         UUID voucherId = UUID.randomUUID();
         long discountRate = 20;
@@ -31,7 +31,7 @@ public class VoucherTest {
 
     @Test
     @DisplayName("고정할인 바우처가 정상적으로 생성된다.")
-    public void createFixedAmountVoucher(){
+    void createFixedAmountVoucher(){
         //given
         UUID voucherId = UUID.randomUUID();
         long discountPrice = 10000;

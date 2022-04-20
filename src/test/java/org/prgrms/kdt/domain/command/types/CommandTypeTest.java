@@ -13,7 +13,7 @@ class CommandTypeTest {
     @ParameterizedTest
     @ValueSource(strings = {"1", "2", "9", "10"})
     @DisplayName("유효한 명령어를 입력시 이에 해당하는 커맨드타입을 반환한다.")
-    public void findCommandType(String command){
+    void findCommandType(String command){
         //given
         //when
         CommandType commandType = CommandType.findCommand(command);
@@ -24,7 +24,7 @@ class CommandTypeTest {
     @ParameterizedTest
     @ValueSource(strings = {"yes", "0", " ", "exitList"})
     @DisplayName("지원하지 않는 명령어를 입력시 예외를 발생시킨다.")
-    public void exception_findCommandType(String command){
+    void exception_findCommandType(String command){
         //given
         //when
         //then

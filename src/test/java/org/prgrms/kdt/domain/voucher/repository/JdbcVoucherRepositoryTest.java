@@ -3,20 +3,17 @@ package org.prgrms.kdt.domain.voucher.repository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.TestConfig;
+import org.prgrms.kdt.domain.common.exception.ExceptionType;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.repository.JdbcCustomerRepository;
+import org.prgrms.kdt.domain.voucher.exception.VoucherNotUpdatedException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-
-import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,24 +29,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Import({TestConfig.class})
 class JdbcVoucherRepositoryTest {
-
-    @Configuration
-    @ComponentScan(
-            basePackages = {"org.prgrms.kdt"}
-    )
-    static class config {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test")
-                    .username("park")
-                    .password("1234")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-    }
 
     @Autowired
     JdbcVoucherRepository voucherRepository;
@@ -126,7 +107,7 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("고객 ID를 통해 바우처를 조회할 수 있다.")
-    public void findByCustomerId() throws Exception {
+    void findByCustomerId() {
         //given
         LocalDateTime now = LocalDateTime.now().withNano(0);
         UUID customerId = UUID.randomUUID();
@@ -183,8 +164,8 @@ class JdbcVoucherRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> voucherRepository.updateById(updateVoucher))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("업데이트 된 컬럼이 없습니다.");
+                .isInstanceOf(VoucherNotUpdatedException.class)
+                .hasMessage(ExceptionType.NOT_UPDATED.getMsg());
     }
 
     @Test

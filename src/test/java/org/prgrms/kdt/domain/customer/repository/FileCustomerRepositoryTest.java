@@ -29,7 +29,7 @@ class FileCustomerRepositoryTest {
 
     @Test
     @DisplayName("csv로 저장된 고객 목록을 불러올 수 있다.")
-    public void findCustomers(){
+    void findCustomers(){
         //given
         CustomerRepository customerRepository = new FileCustomerRepository(csvPath, fileName);
         LocalDateTime now = LocalDateTime.now();
@@ -45,7 +45,7 @@ class FileCustomerRepositoryTest {
 
     @Test
     @DisplayName("고객 저장 시 파일을 읽지 못할 경우 예외가 발생한다.")
-    public void exception_saveCustomer(){
+    void exception_saveCustomer(){
         //given
         CustomerRepository customerRepository = new FileCustomerRepository("", "");
         LocalDateTime now = LocalDateTime.now();
@@ -60,7 +60,7 @@ class FileCustomerRepositoryTest {
 
     @Test
     @DisplayName("고객 전체 조회시 파일을 읽지 못할 경우 예외가 발생한다.")
-    public void exception_findAllCustomer(){
+    void exception_findAllCustomer(){
         //given
         CustomerRepository customerRepository = new FileCustomerRepository("", "");
         //when

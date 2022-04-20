@@ -13,7 +13,7 @@ class VoucherTypeTest {
     @ParameterizedTest
     @ValueSource(strings = {"FIXED", "PERCENT"})
     @DisplayName("유효한 바우처종류를 입력할 경우 이에 해당하는 바우처타입을 반환한다.")
-    public void findVoucherType(String type){
+    void findVoucherType(String type){
         //given
         //when
         VoucherType voucherType = VoucherType.findVoucherType(type);
@@ -24,7 +24,7 @@ class VoucherTypeTest {
     @ParameterizedTest
     @ValueSource(strings = {"", " ", "voucher"})
     @DisplayName("지원하지 않는 바우처 타입을 입력시 예외를 발생시킨다.")
-    public void exception_findVoucherType(String type){
+    void exception_findVoucherType(String type){
         //given
         //when
         //then

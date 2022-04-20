@@ -31,7 +31,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("고정할인 바우처가 정상적으로 저장된다.")
-    public void saveFixedAmountVoucher(){
+    void saveFixedAmountVoucher(){
         //given
         UUID voucherId = UUID.randomUUID();
         long discountPrice = 10000;
@@ -45,7 +45,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("정률할인 바우처가 정상적으로 저장된다.")
-    public void savePercentDiscountVoucher(){
+    void savePercentDiscountVoucher(){
         //given
         UUID voucherId = UUID.randomUUID();
         long percentDiscount = 90;
@@ -59,7 +59,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("저장된 모든 바우처를 조회할 수 있다.")
-    public void getAllVouchers(){
+    void getAllVouchers(){
         //given
         LocalDateTime now = LocalDateTime.now();
         List<Voucher> savedVouchers = Arrays.asList(
@@ -74,7 +74,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("id를 통해 저장된 바우처를 조회할 수 있다")
-    public void getVoucherById() {
+    void getVoucherById() {
         //given
         UUID fixedVoucherId = UUID.randomUUID();
         UUID percentVoucherId = UUID.randomUUID();
@@ -93,12 +93,28 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("저장되어 있지 않은 바우처를 조회 시 null을 반환한다")
-    public void getVoucherByIdIsNull() {
+    void getVoucherByIdIsNull() {
         //given
         //when
         when(voucherRepository.findById(any())).thenReturn(null);
         Optional<Voucher> voucher = voucherService.getVoucherById(UUID.randomUUID());
         //then
         assertThat(voucher).isNull();
+    }
+
+    @Test
+    @DisplayName("바우처 타입과 날짜를 통해 저장된 바우처를 조회할 수 있다.")
+    void getVoucherByTypeAndDate(){
+        //given
+        LocalDateTime now = LocalDateTime.now();
+        List<Voucher> savedVouchers = Arrays.asList(
+                new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 10000L, now, now),
+                new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 10L, now, now));
+        //when
+        when(voucherRepository.findByVoucherTypeAndDate(any(), any())).thenReturn(savedVouchers);
+        List<Voucher> vouchers = voucherService.getVoucherByTypeAndDate(VoucherType.FIXED_AMOUNT, now.toLocalDate());
+        //then
+        assertThat(vouchers.size()).isEqualTo(2);
+        assertThat(vouchers).contains(savedVouchers.get(0), savedVouchers.get(1));
     }
 }
