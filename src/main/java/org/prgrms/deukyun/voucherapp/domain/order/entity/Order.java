@@ -19,7 +19,7 @@ public class Order {
     private final Optional<Voucher> voucher;
     private final OrderStatus orderStatus;
 
-    public Order(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+    private Order(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
         checkArgument(customerId != null, "customerId must be provided.");
         checkArgument(orderItems != null, "orderItems must be provided.");
         checkArgument(!orderItems.isEmpty(), "orderItems must contains at least one OrderItem.");
@@ -30,12 +30,14 @@ public class Order {
         this.orderStatus = OrderStatus.ACCEPTED;
     }
 
-    public static Order createOrderWithVoucher(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
-        return new Order(customerId, orderItems, voucher);
+    public static Order createOrder(UUID customerId, List<OrderItem> orderItems) {
+        return new Order(customerId, orderItems, null);
     }
 
-    public static Order createOrderWithoutVoucher(UUID customerId, List<OrderItem> orderItems) {
-        return new Order(customerId, orderItems, null);
+    public static Order createOrderWithVoucher(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
+        checkArgument(voucher != null, "voucher must be provided in this method.");
+
+        return new Order(customerId, orderItems, voucher);
     }
 
     public UUID getId() {

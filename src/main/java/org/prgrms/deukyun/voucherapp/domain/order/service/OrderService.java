@@ -31,8 +31,8 @@ public class OrderService {
      * @param orderItems 주문 아이템 목록
      * @return 주문객체
      */
-    public Order createOrderWithNoVoucher(UUID customerId, List<OrderItem> orderItems) {
-        return Order.createOrderWithoutVoucher(customerId, orderItems);
+    public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
+        return Order.createOrder(customerId, orderItems);
     }
 
     /**

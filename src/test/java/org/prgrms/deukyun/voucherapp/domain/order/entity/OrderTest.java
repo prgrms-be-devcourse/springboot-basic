@@ -60,49 +60,25 @@ class OrderTest {
     }
 
     @Nested
-    class constructorTest {
+    class createOrderTest {
 
         @Test
-        void givenTwoOrderItemsNullVoucher_whenConstructOrder_thenOrderCreated() {
+        void givenTwoOrderItems_whenCallCreateOrder_thenOrderCreated() {
             //action
-            Order order = new Order(customerId, orderItems, null);
+            Order order = Order.createOrder(customerId, orderItems);
 
             //assert
             assertThat(order).isNotNull();
         }
 
         @Test
-        void givenFixedAmountDiscountVoucher_whenConstructOrder_thenOrderCreated() {
-            //setup
-            voucher = fixedAmountDiscountVoucherWithAmount(20L);
-
-            //action
-            Order order = new Order(customerId, orderItems, voucher);
-
-            //assert
-            assertThat(order).isNotNull();
-        }
-
-        @Test
-        void givenPercentDiscountVoucher_whenConstructOrder_thenOrderCreated() {
-            //setup
-            voucher = percentDiscountVoucherWithPercent(20L);
-
-            //action
-            Order order = new Order(customerId, orderItems, voucher);
-
-            //assert
-            assertThat(order).isNotNull();
-        }
-
-        @Test
-        void givenNullCustomerId_whenConstructOrder_thenThrowsIllegalArgumentException() {
+        void givenNullCustomerId_whenCallCreateOrder_thenThrowsIllegalArgumentException() {
             //setup
             customerId = null;
 
             //assert throws
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> new Order(customerId, orderItems, voucher));
+                    .isThrownBy(() -> Order.createOrder(customerId, orderItems));
         }
 
         @ParameterizedTest
@@ -110,7 +86,57 @@ class OrderTest {
         void givenNullAndEmptyOrderItems_whenConstructOrder_thenThrowsIllegalArgumentException(List<OrderItem> orderItems) {
             //assert throws
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> new Order(customerId, orderItems, voucher));
+                    .isThrownBy(() -> Order.createOrder(customerId, orderItems));
+        }
+    }
+
+    @Nested
+    class createOrderWithVoucherTest {
+
+        @Test
+        void givenFixedAmountDiscountVoucher_whenCallCreateOrderWithVoucher_thenOrderCreated() {
+            //setup
+            voucher = fixedAmountDiscountVoucherWithAmount(2000L);
+
+            //action
+            Order order = Order.createOrderWithVoucher(customerId, orderItems, voucher);
+
+            //assert
+            assertThat(order).isNotNull();
+        }
+
+        @Test
+        void givenPercentDiscountVoucher_whenCallCreateOrderWithVoucher_thenOrderCreated() {
+            //setup
+            voucher = percentDiscountVoucherWithPercent(20L);
+
+            //action
+            Order order = Order.createOrderWithVoucher(customerId, orderItems, voucher);
+
+            //assert
+            assertThat(order).isNotNull();
+        }
+
+        @Test
+        void givenNullCustomerId_whenCallCreateOrderWithVoucher_thenThrowsIllegalArgumentException() {
+            //setup
+            customerId = null;
+            voucher = fixedAmountDiscountVoucherWithAmount(2000L);
+
+            //assert throws
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Order.createOrderWithVoucher(customerId, orderItems, voucher));
+        }
+
+        @ParameterizedTest
+        @NullAndEmptySource
+        void givenNullAndEmptyOrderItems_whenCallCreateOrderWithVoucher_thenThrowsIllegalArgumentException(List<OrderItem> orderItems) {
+            //setup
+            voucher = fixedAmountDiscountVoucherWithAmount(2000L);
+
+            //assert throws
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Order.createOrderWithVoucher(customerId, orderItems, voucher));
         }
     }
 
@@ -120,7 +146,7 @@ class OrderTest {
         @Test
         void givenCreatedOrder_whenGetOrderStatus_thenIsOrderStatusAccepted() {
             //setup
-            Order order = new Order(customerId, orderItems, voucher);
+            Order order = Order.createOrder(customerId, orderItems);
 
             //action
             OrderStatus orderStatus = order.getOrderStatus();
@@ -134,9 +160,9 @@ class OrderTest {
     class totalPriceTest {
 
         @Test
-        void givenNullVoucher_whenCallTotalPrice_thenReturnsNaiveTotalPrice() {
+        void givenOrderWithoutVoucher_whenCallTotalPrice_thenReturnsNaiveTotalPrice() {
             //setup
-            Order order = new Order(customerId, orderItems, voucher);
+            Order order = Order.createOrder(customerId, orderItems);
 
             //action
             long totalPrice = order.totalPrice();
@@ -151,7 +177,7 @@ class OrderTest {
             //setup
             long amount = 20L;
             voucher = fixedAmountDiscountVoucherWithAmount(amount);
-            Order order = new Order(customerId, orderItems, voucher);
+            Order order = Order.createOrderWithVoucher(customerId, orderItems, voucher);
 
             //action
             long orderTotalPrice = order.totalPrice();
@@ -165,7 +191,7 @@ class OrderTest {
             //setup
             long percent = 20L;
             voucher = percentDiscountVoucherWithPercent(percent);
-            Order order = new Order(customerId, orderItems, voucher);
+            Order order = Order.createOrderWithVoucher(customerId, orderItems, voucher);
 
             //action
             long orderTotalPrice = order.totalPrice();

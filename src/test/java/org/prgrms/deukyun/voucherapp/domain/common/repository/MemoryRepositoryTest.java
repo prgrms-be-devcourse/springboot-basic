@@ -35,7 +35,7 @@ class MemoryRepositoryTest {
     }
 
     private Order dummyOrder() {
-        return new Order(UUID.randomUUID(), dummyOrderItems(), null);
+        return Order.createOrder(UUID.randomUUID(), dummyOrderItems());
     }
 
     private List<OrderItem> dummyOrderItems() {
