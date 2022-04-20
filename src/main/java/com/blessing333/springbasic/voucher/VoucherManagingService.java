@@ -1,7 +1,7 @@
 package com.blessing333.springbasic.voucher;
 
 import com.blessing333.springbasic.RunnableService;
-import com.blessing333.springbasic.common.ExceptionStackTraceConverter;
+import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
 import com.blessing333.springbasic.voucher.converter.Converter;
 import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
