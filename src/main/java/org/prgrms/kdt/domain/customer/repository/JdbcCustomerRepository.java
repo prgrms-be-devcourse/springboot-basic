@@ -52,7 +52,8 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer " +
+                            "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                     Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)),
                     customerRowMapper());
             return Optional.of(customer);
@@ -65,7 +66,8 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findByVoucherId(UUID voucherId) {
         try{
-            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer c JOIN voucher v on c.customer_id = v.customer_id WHERE v.voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+            Customer customer = jdbcTemplate.queryForObject("SELECT * FROM customer c JOIN voucher v " +
+                            "on c.customer_id = v.customer_id WHERE v.voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                     Collections.singletonMap("voucherId", UuidUtils.UuidToByte(voucherId)),
                     customerRowMapper());
             return Optional.of(customer);
@@ -109,7 +111,8 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public int deleteById(UUID customerId) {
-        int deletedRows = jdbcTemplate.update("DELETE FROM customer WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+        int deletedRows = jdbcTemplate.update("DELETE FROM customer " +
+                        "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
         if(deletedRows == 0) {
             throw new CustomerDataException(NOT_DELETED);
@@ -123,7 +126,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
-        Map<String, Object> paramMap = new HashMap<>() {{
+        return new HashMap<>() {{
             put("customerId", UuidUtils.UuidToByte(customer.getCustomerId()));
             put("customerType", CustomerType.getValue(customer.getCustomerType()));
             put("name", customer.getName());
@@ -132,11 +135,10 @@ public class JdbcCustomerRepository implements CustomerRepository{
             put("modifiedDate", customer.getModifiedDate() != null ?
                     Timestamp.valueOf(customer.getModifiedDate()) : null);
         }};
-        return paramMap;
     }
 
     private RowMapper<Customer> customerRowMapper() {
-        RowMapper<Customer> rowMapper = (rs, rowNum) -> {
+        return (rs, rowNum) -> {
             UUID customerId = UuidUtils.byteToUUID(rs.getBytes("customer_id"));
             CustomerType customerType = CustomerType.findCustomerType(rs.getString("customer_type"));
             String name = rs.getString("name");
@@ -147,7 +149,5 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
             return new Customer(customerId, name, email, customerType, createdDate, modifiedDate);
         };
-
-        return rowMapper;
     }
 }

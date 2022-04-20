@@ -45,7 +45,7 @@ class FileCustomerRepositoryTest {
 
     @Test
     @DisplayName("고객 저장 시 파일을 읽지 못할 경우 예외가 발생한다.")
-    void exception_saveCustomer(){
+    void saveCustomer_exception(){
         //given
         CustomerRepository customerRepository = new FileCustomerRepository("", "");
         LocalDateTime now = LocalDateTime.now();
@@ -60,7 +60,7 @@ class FileCustomerRepositoryTest {
 
     @Test
     @DisplayName("고객 전체 조회시 파일을 읽지 못할 경우 예외가 발생한다.")
-    void exception_findAllCustomer(){
+    void findAllCustomer_exception(){
         //given
         CustomerRepository customerRepository = new FileCustomerRepository("", "");
         //when

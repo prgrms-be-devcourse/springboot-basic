@@ -3,11 +3,9 @@ package org.prgrms.kdt.domain.customer.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.prgrms.kdt.domain.voucher.model.VoucherType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerTypeTest {
 
@@ -26,7 +24,7 @@ class CustomerTypeTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "BLACKLIST", "NOT"})
     @DisplayName("지원하지 않는 고객 타입을 입력시 예외를 발생시킨다.")
-    void exception_findCustomerType(String type){
+    void findCustomerType_exception(String type){
         //given
         //when
         //then
