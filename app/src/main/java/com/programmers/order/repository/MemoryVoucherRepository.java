@@ -1,4 +1,4 @@
-package com.programmers.order.manager.store;
+package com.programmers.order.repository;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +11,7 @@ import com.programmers.order.domain.Voucher;
 
 @Profile("memory")
 @Component
-public class MemoryVoucherStoreManager implements VoucherStoreManager {
+public class MemoryVoucherRepository implements VoucherRepository {
 
 	private static final ConcurrentHashMap<UUID, Voucher> memory = new ConcurrentHashMap<>();
 

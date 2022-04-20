@@ -13,7 +13,7 @@ import com.programmers.order.factory.VoucherManagerFactory;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.manager.VoucherManager;
-import com.programmers.order.manager.store.VoucherStoreManager;
+import com.programmers.order.repository.VoucherRepository;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.MenuType;
@@ -26,14 +26,14 @@ public class VoucherController {
 	private final Input input;
 	private final Output output;
 	private final VoucherManagerFactory voucherManagerFactory;
-	private final VoucherStoreManager voucherStoreManager;
+	private final VoucherRepository voucherRepository;
 
 	public VoucherController(Input input, Output output, VoucherManagerFactory voucherManagerFactory,
-			VoucherStoreManager voucherStoreManager) {
+			VoucherRepository voucherRepository) {
 		this.input = input;
 		this.output = output;
 		this.voucherManagerFactory = voucherManagerFactory;
-		this.voucherStoreManager = voucherStoreManager;
+		this.voucherRepository = voucherRepository;
 	}
 
 	public void run() {
@@ -74,7 +74,7 @@ public class VoucherController {
 
 		try {
 			VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(voucherType);
-			voucherStoreManager.saveVoucher(voucherManager.create());
+			voucherRepository.saveVoucher(voucherManager.create());
 		} catch (NotSupportedException exception) {
 			output.write(ErrorMessage.CLIENT_ERROR);
 			logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
@@ -85,7 +85,7 @@ public class VoucherController {
 	private void showVouchers() {
 		output.write(BasicMessage.NEW_LINE);
 
-		List<Voucher> vouchers = voucherStoreManager.getVouchers();
+		List<Voucher> vouchers = voucherRepository.getVouchers();
 
 		if (vouchers.isEmpty()) {
 			output.write(BasicMessage.NOT_EXIST_DATE);

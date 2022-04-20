@@ -1,4 +1,4 @@
-package com.programmers.order.manager.store;
+package com.programmers.order.repository;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,9 +25,9 @@ import com.programmers.order.utils.FileUtils;
 
 @Profile("file")
 @Component
-public class FileVoucherStoreManager implements VoucherStoreManager {
+public class FileVoucherRepository implements VoucherRepository {
 
-	private final Logger log = LoggerFactory.getLogger(FileVoucherStoreManager.class);
+	private final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 
 	private static final String RESOURCE_NAME = "voucher";
 	private static final boolean CONTINUE_WRITING = true;
@@ -71,6 +71,7 @@ public class FileVoucherStoreManager implements VoucherStoreManager {
 			e.printStackTrace();
 			log.error("error : {}", ErrorLogMessage.IO_EXCEPTION);
 		}
+
 		return List.of();
 	}
 
