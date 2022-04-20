@@ -1,0 +1,3 @@
+dev:
+  customer_blacklist_info: src/main/resources/customer_blacklist.csv
+  voucher_info: src/main/resources/voucher_info.dat
