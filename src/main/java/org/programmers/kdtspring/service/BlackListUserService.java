@@ -13,7 +13,7 @@ import java.util.UUID;
 public class BlackListUserService {
 
     private final BlackListUserRepository blackListUserRepository;
-    Logger logger = LoggerFactory.getLogger(BlackListUserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(BlackListUserService.class);
 
     public BlackListUserService(BlackListUserRepository blackListUserRepository) {
         this.blackListUserRepository = blackListUserRepository;
