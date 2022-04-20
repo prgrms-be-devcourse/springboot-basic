@@ -8,7 +8,7 @@ import java.util.UUID;
  * Voucher에 관한 서비스
  */
 public interface VoucherService {
-    void createVoucher(String type, Long amount);
+    UUID createVoucher(String type, Long amount);
 
     String allVouchersToString();
 

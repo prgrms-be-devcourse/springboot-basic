@@ -5,9 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanager.exception.IllegalResourceAccessException;
-import org.prgrms.vouchermanager.voucher.domain.AbstractVoucher;
-import org.prgrms.vouchermanager.voucher.domain.Voucher;
-import org.prgrms.vouchermanager.voucher.domain.VoucherType;
+import org.prgrms.vouchermanager.voucher.domain.*;
 
 import java.io.File;
 import java.util.List;
@@ -15,18 +13,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-// mockito를 사용했을 때, file 저장 부분에서 문제가 있는지 잘 안되서 따로 Mock클래스를 정의하여 사용하였습니다.
-class MockVoucher extends AbstractVoucher {
-    public MockVoucher(VoucherType type) {
-        super(type);
-    }
-
-    @Override
-    public Long discount(long beforeDiscount) {
-        return null;
-    }
-}
 
 class FileVoucherRepositoryTest {
 
@@ -54,7 +40,7 @@ class FileVoucherRepositoryTest {
     void insert() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
-        Voucher voucher = new MockVoucher(VoucherType.FIXED);
+        Voucher voucher = new FixedAmountVoucher(10L);
 
         //when
         // insert 실패시, exception 던지도록 작성했으므로 exception이 발생하지 않으면 성공했다고 판단한다?
@@ -69,7 +55,8 @@ class FileVoucherRepositoryTest {
     void findById() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
-        Voucher voucher = new MockVoucher(VoucherType.FIXED);
+        Voucher voucher = new FixedAmountVoucher(10L);
+
 
         //when
         fileVoucherRepository.insert(voucher);
@@ -83,7 +70,7 @@ class FileVoucherRepositoryTest {
     void getAll() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
-        List<Voucher> mockVouchers = List.of(new MockVoucher(VoucherType.FIXED), new MockVoucher(VoucherType.FIXED));
+        List<Voucher> mockVouchers = List.of(new FixedAmountVoucher(10L), new PercentDiscountVoucher(10L));
 
         //when
         mockVouchers.forEach(fileVoucherRepository::insert);
@@ -98,18 +85,18 @@ class FileVoucherRepositoryTest {
     void testWithInsertException() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository("not_path");
-        Voucher voucher = new MockVoucher(VoucherType.FIXED);
+        Voucher voucher = new FixedAmountVoucher(10L);
 
         //then
         assertThrows(IllegalResourceAccessException.class, () -> fileVoucherRepository.insert(voucher));
     }
 
     @Test
-    @DisplayName("삽입하려는 voucher가 이미 존재하는 경우 IllgalResourceException을 던진다.")
+    @DisplayName("삽입하려는 voucher가 이미 존재하는 경우 IllgalArgumentException을 던진다.")
     void testWithDeplicatedInsertion() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
-        Voucher voucher = new MockVoucher(VoucherType.FIXED);
+        Voucher voucher = new FixedAmountVoucher(10L);
 
         //when
         fileVoucherRepository.insert(voucher);

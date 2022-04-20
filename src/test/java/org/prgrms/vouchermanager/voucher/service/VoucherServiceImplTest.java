@@ -2,77 +2,73 @@ package org.prgrms.vouchermanager.voucher.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgrms.vouchermanager.voucher.domain.Voucher;
+import org.prgrms.vouchermanager.voucher.domain.FixedAmountVoucher;
+import org.prgrms.vouchermanager.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.vouchermanager.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.vouchermanager.voucher.repository.VoucherRepository;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.LongStream;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 
-
-@ExtendWith(MockitoExtension.class)
 class VoucherServiceImplTest {
 
     @Test
     @DisplayName("createVoucher는 VoucherRepository에 insert한다.")
     void createVoucherTest() {
         //given
-        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        VoucherRepository voucherRepository = new MemoryVoucherRepository();
         VoucherService voucherService = new VoucherServiceImpl(voucherRepository);
 
         //when
-        voucherService.createVoucher("FIXED", 10L);
+        UUID insertedVoucherId = voucherService.createVoucher("FIXED", 10L);
 
         //then
-        verify(voucherRepository, times(1)).insert(any(Voucher.class));
+        assertThat(voucherRepository.findById(insertedVoucherId)).isNotEmpty();
     }
 
     @Test
     @DisplayName("존재하는 VoucherList를 출력한다.")
     void allVoucherToString() {
         //given
-        Voucher voucher = mock(Voucher.class);
-        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        VoucherRepository voucherRepository = new MemoryVoucherRepository();
         VoucherService voucherService = new VoucherServiceImpl(voucherRepository);
+        LongStream.range(1, 10).forEach(i -> {
+            voucherRepository.insert(new FixedAmountVoucher(i));
+            voucherRepository.insert(new PercentDiscountVoucher(i));
+        });
 
         //when
-        when(voucher.toString()).thenReturn("voucher info");
-        when(voucherRepository.getAll()).thenReturn(List.of(voucher));
+        StringBuilder sb = new StringBuilder();
+        voucherRepository.getAll().forEach(v -> sb.append(v).append("\n"));
 
         //then
-        assertEquals("voucher info\n", voucherService.allVouchersToString());
+        assertEquals(sb.toString(), voucherService.allVouchersToString());
     }
 
     @Test
     @DisplayName("createVoucher에서 잘못된 타입을 입력 받았을 때, 예외를 던진다.")
     void testWithIllegalTypeArg() {
         //given
-        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        VoucherRepository voucherRepository = new MemoryVoucherRepository();
         VoucherService voucherService = new VoucherServiceImpl(voucherRepository);
 
         //then
-        assertThrows(IllegalArgumentException.class, () ->
-                voucherService.createVoucher("fix2", 10L)
-        );
+        assertThatThrownBy(() -> voucherService.createVoucher("WringVoucherType", 10L)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    @DisplayName("저장되지 않은 voucherId로 findVoucher 경우 예외를 던진다.")
+    @DisplayName("저장되지 않은 voucherId로 findVoucher할 경우 예외를 던진다.")
     void findVoucher_test() {
         //given
-        VoucherRepository voucherRepository = mock(VoucherRepository.class);
+        VoucherRepository voucherRepository = new MemoryVoucherRepository();
         VoucherService voucherService = new VoucherServiceImpl(voucherRepository);
 
-        //when
-        when(voucherRepository.findById(any())).thenReturn(Optional.empty());
-
         //then
-        assertThrows(IllegalArgumentException.class, () -> voucherService.findVoucher(UUID.randomUUID()));
+        assertThatThrownBy(() -> voucherService.findVoucher(UUID.randomUUID())).isInstanceOf(IllegalArgumentException.class);
     }
+
 }

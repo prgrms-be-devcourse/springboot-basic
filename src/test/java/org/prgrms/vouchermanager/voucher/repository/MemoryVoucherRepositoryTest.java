@@ -2,14 +2,12 @@ package org.prgrms.vouchermanager.voucher.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.vouchermanager.voucher.domain.FixedAmountVoucher;
+import org.prgrms.vouchermanager.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.vouchermanager.voucher.domain.Voucher;
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MemoryVoucherRepositoryTest {
 
@@ -18,14 +16,16 @@ class MemoryVoucherRepositoryTest {
     void testWithInsert() {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        Voucher voucher = mock(Voucher.class);
+        Voucher fixedVoucher = new FixedAmountVoucher(10);
+        Voucher percentVoucher = new PercentDiscountVoucher(10);
 
         //when
-        when(voucher.getVoucherId()).thenReturn(UUID.randomUUID());
-        Voucher inserted = voucherRepository.insert(voucher);
+        voucherRepository.insert(fixedVoucher);
+        voucherRepository.insert(percentVoucher);
 
         //then
-        assertEquals(voucher, inserted);
+        assertThat(voucherRepository.findById(fixedVoucher.getVoucherId()).get()).isEqualTo(fixedVoucher);
+        assertThat(voucherRepository.findById(percentVoucher.getVoucherId()).get()).isEqualTo(percentVoucher);
     }
 
     @Test
@@ -33,15 +33,18 @@ class MemoryVoucherRepositoryTest {
     void testWithFindById() {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        Voucher voucher = mock(Voucher.class);
+        Voucher fixedVoucher = new FixedAmountVoucher(10);
+        Voucher percentVoucher = new PercentDiscountVoucher(10);
+        voucherRepository.insert(fixedVoucher);
+        voucherRepository.insert(percentVoucher);
 
         //when
-        when(voucher.getVoucherId()).thenReturn(UUID.randomUUID());
-        voucherRepository.insert(voucher);
-        Voucher findVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
+        Voucher findFixedVoucher = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
+        Voucher findPercentVoucher = voucherRepository.findById(percentVoucher.getVoucherId()).get();
 
         //then
-        assertEquals(voucher, findVoucher);
+        assertThat(findFixedVoucher).isEqualTo(fixedVoucher);
+        assertThat(findPercentVoucher).isEqualTo(percentVoucher);
     }
 
     @Test
@@ -49,11 +52,13 @@ class MemoryVoucherRepositoryTest {
     void testWithDuplicatedInsert() {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        Voucher voucher = mock(Voucher.class);
-        when(voucher.getVoucherId()).thenReturn(UUID.randomUUID());
-        voucherRepository.insert(voucher);
+        Voucher fixedVoucher = new FixedAmountVoucher(10);
+
+        //when
+        voucherRepository.insert(fixedVoucher);
 
         //then
-        assertThrows(IllegalArgumentException.class, () -> voucherRepository.insert(voucher));
+        assertThatThrownBy(() -> voucherRepository.insert(fixedVoucher)).isInstanceOf(IllegalArgumentException.class);
     }
+
 }
