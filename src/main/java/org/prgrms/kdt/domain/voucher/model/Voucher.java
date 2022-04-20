@@ -1,6 +1,6 @@
 package org.prgrms.kdt.domain.voucher.model;
 
-import org.prgrms.kdt.domain.base.BaseEntity;
+import org.prgrms.kdt.domain.common.model.BaseEntity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -61,7 +61,7 @@ public class Voucher extends BaseEntity{
 
     public long discount(long beforeDiscount) {
         return switch (voucherType) {
-            case FIXED_AMOUNT -> beforeDiscount - discountValue;
+            case FIXED_AMOUNT -> beforeDiscount - discountValue < 0 ? 0 : beforeDiscount - discountValue;
             case PERCENT_DISCOUNT -> beforeDiscount * (1 - (discountValue / 100));
         };
     }

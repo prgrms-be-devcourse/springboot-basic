@@ -1,6 +1,6 @@
 package org.prgrms.kdt.domain.customer.model;
 
-import org.prgrms.kdt.domain.base.BaseEntity;
+import org.prgrms.kdt.domain.common.model.BaseEntity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
