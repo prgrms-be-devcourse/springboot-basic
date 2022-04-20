@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private final Map<Long, Voucher> storage = new ConcurrentHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
 
@@ -31,8 +31,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(Long voucherId) {
         return Optional.empty();
+    }
+
+    @Override
+    public Voucher updateCustomerId(Voucher voucher) {
+        return null;
     }
 
     @Override

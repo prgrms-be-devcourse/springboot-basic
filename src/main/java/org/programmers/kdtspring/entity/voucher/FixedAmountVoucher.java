@@ -1,25 +1,15 @@
 package org.programmers.kdtspring.entity.voucher;
 
-import org.programmers.kdtspring.entity.voucher.Voucher;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 public class FixedAmountVoucher extends Voucher {
 
 
     private final int amount;
-    private final VoucherType voucherType = VoucherType.FixedAmountVoucher;
+    private final String voucherType;
 
-    public FixedAmountVoucher(UUID voucherId, int amount) {
-        super(voucherId);
-        this.amount = amount;
-    }
-
-    public FixedAmountVoucher(UUID voucherId, UUID customerId, int amount) {
+    public FixedAmountVoucher(Long voucherId, Long customerId, int amount, String voucherType) {
         super(voucherId, customerId);
         this.amount = amount;
+        this.voucherType = voucherType;
     }
 
     @Override
@@ -33,7 +23,7 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType() {
+    public String getVoucherType() {
         return voucherType;
     }
 }

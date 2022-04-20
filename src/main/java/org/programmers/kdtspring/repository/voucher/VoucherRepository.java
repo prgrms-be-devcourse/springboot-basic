@@ -12,11 +12,13 @@ public interface VoucherRepository {
 
     void save(Voucher voucher);
 
-    Optional<Voucher> findById(UUID voucherId);
+    Optional<Voucher> findById(Long voucherId);
 
     List<Voucher> findAll();
 
     List<Voucher> findByCustomer(Customer customer);
+
+    Voucher updateCustomerId(Voucher voucher);
 
     void deleteOne(Voucher voucher);
 

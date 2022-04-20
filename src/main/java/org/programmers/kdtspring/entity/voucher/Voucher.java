@@ -2,29 +2,25 @@ package org.programmers.kdtspring.entity.voucher;
 
 import org.programmers.kdtspring.entity.user.Customer;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
-
 public abstract class Voucher {
 
-    private final UUID voucherId;
-    private UUID customerId;
+    private final Long voucherId;
+    private Long customerId;
 
-    public Voucher(UUID voucherId) {
+    public Voucher(Long voucherId) {
         this.voucherId = voucherId;
     }
 
-    public Voucher(UUID voucherId, UUID customerId) {
+    public Voucher(Long voucherId, Long customerId) {
         this(voucherId);
         this.customerId = customerId;
     }
 
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
@@ -36,6 +32,6 @@ public abstract class Voucher {
 
     public abstract int getDiscount();
 
-    public abstract VoucherType getVoucherType();
+    public abstract String getVoucherType();
 
 }

@@ -13,55 +13,51 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.nio.ByteBuffer;
-import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 import static org.programmers.kdtspring.repository.voucher.SQLString.*;
 
 @Repository
 @Primary
-public class voucherJdbcRepository implements VoucherRepository {
+public class VoucherJdbcRepository implements VoucherRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(voucherJdbcRepository.class);
-    private final DataSource dataSource;
+    private static final int NOT_BELONGED_TO = 0;
+
+    private static final Logger log = LoggerFactory.getLogger(VoucherJdbcRepository.class);
+
     private final JdbcTemplate jdbcTemplate;
 
-    public voucherJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
+    public VoucherJdbcRepository(JdbcTemplate jdbcTemplate) {
+
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.get());
-    }
-
     private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_Id"));
-        UUID customerId = resultSet.getBytes("customer_id") != null ?
-                toUUID(resultSet.getBytes("customer_id")) : null;
+        Long voucherId = resultSet.getLong("voucher_Id");
+        Long customerId = resultSet.getLong("customer_id") != NOT_BELONGED_TO ?
+                resultSet.getLong("customer_id") : null;
         String voucherType = resultSet.getString("voucher_type");
         if (voucherType.equals(String.valueOf(VoucherType.FixedAmountVoucher))) {
             int amount = resultSet.getInt("amount");
-            return new FixedAmountVoucher(voucherId, customerId, amount);
+            return new FixedAmountVoucher(voucherId, customerId, amount, voucherType);
         } else {
             int percent = resultSet.getInt("percent");
-            return new PercentDiscountVoucher(voucherId, customerId, percent);
+            return new PercentDiscountVoucher(voucherId, percent, voucherType);
         }
     };
-
 
     @Override
     public void save(Voucher voucher) {
         log.info("[voucherJdbcRepository] save() called");
 
         if (voucher instanceof FixedAmountVoucher) {
-            int insert = jdbcTemplate.update(INSERT_VOUCHER, voucher.getVoucherId().toString().getBytes(),
-                    VoucherType.FixedAmountVoucher.toString(),
+            int insert = jdbcTemplate.update(INSERT_VOUCHER,
+                    voucher.getVoucherId(),
+                    voucher.getCustomerId(),
+                    String.valueOf(VoucherType.FixedAmountVoucher),
                     ((FixedAmountVoucher) voucher).getDiscount(),
                     null);
             if (insert != 1) {
@@ -73,7 +69,7 @@ public class voucherJdbcRepository implements VoucherRepository {
         if (voucher instanceof PercentDiscountVoucher) {
             int insert = jdbcTemplate.update(
                     INSERT_VOUCHER,
-                    voucher.getVoucherId().toString().getBytes(),
+                    voucher.getVoucherId(),
                     VoucherType.PercentDiscountVoucher.toString(),
                     null,
                     ((PercentDiscountVoucher) voucher).getDiscount());
@@ -84,13 +80,13 @@ public class voucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(Long voucherId) {
         log.info("[voucherJdbcRepository] findById() called");
 
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID,
                     mapToVoucher,
-                    voucherId.toString().getBytes()));
+                    voucherId));
         } catch (EmptyResultDataAccessException e) {
             log.error("Got empty result", e);
             return Optional.empty();
@@ -101,7 +97,7 @@ public class voucherJdbcRepository implements VoucherRepository {
     public List<Voucher> findByCustomer(Customer customer) {
         return jdbcTemplate.query(SELECT_BY_CUSTOMER,
                 mapToVoucher,
-                customer.getCustomerId().toString().getBytes());
+                customer.getCustomerId());
     }
 
     @Override
@@ -111,11 +107,25 @@ public class voucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher updateCustomerId(Voucher voucher) {
+        log.info("[VoucherService] updateCustomerId called()");
+
+        int update = jdbcTemplate.update(
+                UPDATE_BY_ID_SQL,
+                voucher.getCustomerId(),
+                voucher.getVoucherId());
+        if (update != 1) {
+            throw new RuntimeException("Nothing was updated");
+        }
+        return voucher;
+    }
+
+    @Override
     public void deleteOne(Voucher voucher) {
         log.info("[voucherJdbcRepository] deleteOne() called");
 
         int delete = jdbcTemplate.update(DELETE_VOUCHER,
-                voucher.getVoucherId().toString().getBytes());
+                voucher.getVoucherId().toString());
         if (delete != 1) {
             throw new RuntimeException("Nothing was deleted");
         }

@@ -9,21 +9,21 @@ import java.util.UUID;
 
 public class Customer {
 
-    private final UUID customerId;
+    private final Long customerId;
     private String name;
     private final String email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+    public Customer(Long customerId, String name, String email, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
     }
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public Customer(Long customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -37,7 +37,7 @@ public class Customer {
         }
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
@@ -57,7 +57,4 @@ public class Customer {
         return createdAt;
     }
 
-    public void changeName(String name) {
-        this.name = name;
-    }
 }
