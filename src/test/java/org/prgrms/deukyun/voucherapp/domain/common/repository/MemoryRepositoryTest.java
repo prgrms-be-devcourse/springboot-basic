@@ -90,7 +90,7 @@ class MemoryRepositoryTest {
             List<Order> orders = memoryRepository.findAll();
 
             //assert
-            assertThat(orders.stream().map(Order::getCustomerId))
+            assertThat(orders).extracting("customerId")
                     .containsExactlyInAnyOrder(order1.getCustomerId(), order2.getCustomerId());
         }
     }
