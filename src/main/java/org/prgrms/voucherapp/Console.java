@@ -81,4 +81,9 @@ public class Console implements Input, Output {
         }
         System.out.print(sb);
     }
+
+    @Override
+    public void infoMessage(String msg) {
+        System.out.println(msg);
+    }
 }

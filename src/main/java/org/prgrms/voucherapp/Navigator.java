@@ -43,7 +43,7 @@ public class Navigator implements Runnable {
                     }
                     case LIST -> {
                         logger.info("User chose list command.");
-                        System.out.println(voucherService.getVoucherListByStr());
+                        output.infoMessage(voucherService.getVoucherListByStr());
                         continue;
                     }
                 }
