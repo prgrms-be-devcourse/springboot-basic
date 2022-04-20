@@ -1,6 +1,6 @@
-package org.prgrms.kdt.domain.command.componet;
+package org.prgrms.kdt.domain.command;
 
-import org.prgrms.kdt.domain.command.types.CommandType;
+import org.prgrms.kdt.domain.command.CommandType;
 import org.prgrms.kdt.util.Output;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
@@ -17,18 +17,18 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class CommandComponent {
+public class CommandProcessor {
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private final WalletService walletService;
 
-    public CommandComponent(VoucherService voucherService, CustomerService customerService, WalletService walletService) {
+    public CommandProcessor(VoucherService voucherService, CustomerService customerService, WalletService walletService) {
         this.voucherService = voucherService;
         this.customerService = customerService;
         this.walletService = walletService;
     }
 
-    public void processCommand(CommandType voucherCommandType){
+    public void doCommand(CommandType voucherCommandType){
         switch (voucherCommandType) {
             case CREATE_CUSTOMER -> createCustomer();
             case LIST_CUSTOMER -> getAllCustomers();

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain.command.types;
+package org.prgrms.kdt.domain.command;
 
 import java.util.Arrays;
 
