@@ -16,13 +16,17 @@ public enum InputCommand implements Command {
     private final String name;
     private final String description;
 
-    @Override
     public String getCommandInformation() {
         var stringBuilder = new StringBuilder();
         stringBuilder.append("명령어: ");
-        stringBuilder.append(this.getName());
+        stringBuilder.append(this.getViewName());
         stringBuilder.append(" | ");
         stringBuilder.append(this.getDescription());
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String getViewName() {
+        return this.name;
     }
 }

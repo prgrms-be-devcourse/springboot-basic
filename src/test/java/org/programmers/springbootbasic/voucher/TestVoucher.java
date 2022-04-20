@@ -22,4 +22,9 @@ public class TestVoucher implements Voucher {
     public int getAmount() {
         return 0;
     }
+
+    @Override
+    public VoucherType getType() {
+        return null;
+    }
 }

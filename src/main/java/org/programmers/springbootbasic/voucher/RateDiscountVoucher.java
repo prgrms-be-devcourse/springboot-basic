@@ -1,28 +1,17 @@
 package org.programmers.springbootbasic.voucher;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.UUID;
 
-@RequiredArgsConstructor
-public class RateDiscountVoucher implements Voucher {
+import static org.programmers.springbootbasic.voucher.VoucherType.RATE;
 
-    private final UUID id;
-    private final int percent;
+public class RateDiscountVoucher extends AbstractVoucher {
+
+    public RateDiscountVoucher(UUID id, int amount) {
+        super(id, amount, RATE);
+    }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (100 - percent) / 100;
+        return beforeDiscount * (100 - this.getAmount()) / 100;
     }
-
-    @Override
-    public UUID getId() {
-        return id;
-    }
-
-    @Override
-    public int getAmount() {
-        return percent;
-    }
-
 }

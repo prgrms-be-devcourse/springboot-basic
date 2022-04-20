@@ -9,4 +9,6 @@ public interface Voucher {
     UUID getId();
 
     int getAmount();
+
+    VoucherType getType();
 }

@@ -11,10 +11,5 @@ public enum RedirectCommand implements Command {
     ERROR("error"),
     WAIT_FOR_INPUT("wait-for-input");
 
-    private final String name;
-
-    @Override
-    public String getCommandInformation() {
-        return this.name;
-    }
+    private final String viewName;
 }

@@ -1,28 +1,15 @@
 package org.programmers.springbootbasic.voucher;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.UUID;
 
-@RequiredArgsConstructor
-public class FixedDiscountVoucher implements Voucher {
+public class FixedDiscountVoucher extends AbstractVoucher {
 
-    private final UUID id;
-    private final int amount;
+    public FixedDiscountVoucher(UUID id, int amount) {
+        super(id, amount, VoucherType.FIXED);
+    }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        return beforeDiscount - this.getAmount();
     }
-
-    @Override
-    public UUID getId() {
-        return id;
-    }
-
-    @Override
-    public int getAmount() {
-        return amount;
-    }
-
 }

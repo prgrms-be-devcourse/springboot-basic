@@ -2,6 +2,7 @@ package org.programmers.springbootbasic.console;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.programmers.springbootbasic.console.command.RedirectCommand;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import static org.programmers.springbootbasic.console.ConsoleResponseCode.*;
+import static org.programmers.springbootbasic.console.command.RedirectCommand.*;
 
 @Slf4j
 @Component
@@ -34,7 +36,7 @@ public class Drawer {
             Model model = modelAndView.getModel();
             model.addAttributes("errorData",
                     (consoleProperties.isDetailErrorMessage()) ? e : new ErrorData("파일 읽기 오류", ""));
-            model.setRedirectLink("error");
+            model.setRedirectLink(ERROR);
             return PROCEED;
         }
 
