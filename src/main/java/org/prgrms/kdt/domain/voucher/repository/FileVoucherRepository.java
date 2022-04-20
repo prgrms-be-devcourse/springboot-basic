@@ -18,8 +18,8 @@ import java.util.*;
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private String csvPath;
-    private String fileName;
+    private final String csvPath;
+    private final String fileName;
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final int TYPE_INDEX = 0;
     private static final int ID_INDEX = 1;
@@ -59,7 +59,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByCustomerId(UUID voucherId) {
-        return null;
+        throw new RuntimeException("지원하지 않는 기능입니다.");
     }
 
     @Override

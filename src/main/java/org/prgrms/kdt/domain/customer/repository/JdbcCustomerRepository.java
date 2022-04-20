@@ -1,5 +1,7 @@
 package org.prgrms.kdt.domain.customer.repository;
 
+import org.prgrms.kdt.domain.common.exception.ExceptionType;
+import org.prgrms.kdt.domain.customer.exception.CustomerNotUpdatedException;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.util.UuidUtils;
@@ -14,6 +16,9 @@ import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_DELETED;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository{
@@ -39,7 +44,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
                         "VALUES (UNHEX(REPLACE(:customerId, '-', '')), :customerType, :name, :email, :createdDate, :modifiedDate)",
                 toParamMap(customer));
         if(savedRows != 1) {
-            throw new RuntimeException("저장된 컬럼이 없습니다.");
+            throw new CustomerNotUpdatedException(NOT_SAVED);
         }
         return customer.getCustomerId();
     }
@@ -52,7 +57,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
                     customerRowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Find by id method got empty result", e);
+            logger.error("고객 ID에 해당하는 데이터가 존재하지 않습니다.", e);
             return Optional.empty();
         }
     }
@@ -65,7 +70,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
                     customerRowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Find By Voucher id got empty result", e);
+            logger.error("해당 바우처 ID에 대한 데이터가 존재하지 않습니다.", e);
             return Optional.empty();
         }
     }
@@ -85,7 +90,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
                     customerRowMapper());
             return Optional.of(customer);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Find By Voucher id got empty result", e);
+            logger.error("해당 이메일에 대한 데이터가 존재하지 않습니다.", e);
             return Optional.empty();
         }
     }
@@ -97,7 +102,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
                         "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 toParamMap(customer));
         if(updatedRows == 0) {
-            throw new RuntimeException("업데이트된 컬럼이 없습니다.");
+            throw new CustomerNotUpdatedException(ExceptionType.NOT_UPDATED);
         }
         return updatedRows;
     }
@@ -107,7 +112,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
         int deletedRows = jdbcTemplate.update("DELETE FROM customer WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
         if(deletedRows == 0) {
-            throw new RuntimeException("삭제된 컬럼이 없습니다.");
+            throw new CustomerNotUpdatedException(NOT_DELETED);
         }
         return deletedRows;
     }
