@@ -28,50 +28,43 @@ public class Console implements Input, Output {
         bw.flush();
         st = new StringTokenizer(br.readLine());
         return st.nextToken();
-        //return br.readLine();
     }
 
     @Override
     public void wrongInput() throws IOException {
-        bw.write(Message.WRONG_INPUT.getMessage());
-        bw.newLine();
-        bw.flush();
+        printMessage(Message.WRONG_INPUT.getMessage());
     }
 
     @Override
     public void consoleMenu() throws IOException {
-        bw.write(Message.CONSOLE_INPUT.getMessage());
-        bw.newLine();
-        bw.flush();
+        printMessage(Message.MAIN_MENU.getMessage());
     }
 
     @Override
-    public void selectVoucher() throws IOException {
-        bw.write(Message.CREATE_VOUCHER.getMessage());
-        bw.newLine();
-        bw.flush();
+    public void createVoucher() throws IOException {
+        printMessage(Message.CREATE_VOUCHER.getMessage());
     }
 
     @Override
     public void exitProgram() throws IOException {
-        bw.write(Message.EXIT_PROGRAM.getMessage());
-        bw.newLine();
-        bw.flush();
+        printMessage(Message.EXIT_PROGRAM.getMessage());
     }
 
     @Override
     public void emptyVoucherRepository() throws IOException {
-        bw.write(Message.EMPTY_REPOSITORY.getMessage());
-        bw.newLine();
-        bw.flush();
+        printMessage(Message.EMPTY_REPOSITORY.getMessage());
     }
 
     @Override
     public void emptyBlackList() throws IOException {
-        bw.write(Message.EMPTY_BLACKLIST.getMessage());
+        printMessage(Message.EMPTY_BLACKLIST.getMessage());
+    }
+
+
+    private void printMessage (String message) throws IOException {
+        bw.write(message);
         bw.newLine();
         bw.flush();
     }
-
 
 }
