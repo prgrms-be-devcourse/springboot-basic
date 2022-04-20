@@ -79,9 +79,9 @@ public class JdbcWalletRepository implements WalletRepository{
     }
 
 
-    public void deleteAll() {
-        jdbcTemplate.update(DELETE_ALL_SQL,Collections.emptyMap());
-    }
+//    public void deleteAll() {
+//        jdbcTemplate.update(DELETE_ALL_SQL,Collections.emptyMap());
+//    }
 
     public void deleteByVoucherId(Wallet wallet) {
         jdbcTemplate.update(DELETE_BY_ID_SQL, toParamMap(wallet));
