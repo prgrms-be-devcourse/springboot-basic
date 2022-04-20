@@ -10,6 +10,11 @@ import java.util.List;
 public class ConsoleOutput implements Output{
 
     @Override
+    public void startProgram() {
+        System.out.println("=== Voucher Program ===");
+    }
+
+    @Override
     public void listCommand() {
         Arrays.stream(Command.values())
                 .forEach(value -> System.out.println("Type " + value.toString() + " to " + value.getExplanation()));

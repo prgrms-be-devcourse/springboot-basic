@@ -7,6 +7,7 @@ import org.programmers.voucher.domain.VoucherType;
 import org.programmers.voucher.io.Input;
 import org.programmers.voucher.io.Output;
 import org.programmers.voucher.repository.VoucherRepository;
+import org.programmers.voucher.service.VoucherService;
 import org.programmers.voucher.util.Command;
 import org.programmers.voucher.util.IllegalCommandException;
 import org.programmers.voucher.util.IllegalVoucherTypeException;
@@ -16,52 +17,45 @@ import java.util.UUID;
 
 public class VoucherController implements Runnable {
 
-    private final VoucherRepository voucherRepository;
+    private final VoucherService voucherService;
     private final Input input;
     private final Output output;
 
-    @Value("${FixedAmountVoucher.Amount}")
-    private int amount;
-    @Value("${PercentDiscountVoucher.Percent}")
-    private int percent;
-
-    public VoucherController(VoucherRepository voucherRepository, Input input, Output output) {
-        this.voucherRepository = voucherRepository;
+    public VoucherController(VoucherService voucherService, Input input, Output output) {
+        this.voucherService = voucherService;
         this.input = input;
         this.output = output;
     }
 
     @Override
     public void run() {
-        System.out.println("=== Voucher Program ===");
-        while(true) {
-            output.listCommand();
+        output.startProgram();
+        output.listCommand();
+        Command cmd = null;
+        do {
             try {
-                Command command = input.inputCommand();
-                switch (command) {
-                    case EXIT:
-                        return;
-                    case CREATE:
-                        output.listVoucherType();
-                        Voucher voucher = makeVoucher(input.inputVoucherType());
-                        voucherRepository.save(voucher);
-                        break;
-                    case LIST:
-                        output.listVoucher(voucherRepository.findAll());
-                        break;
-                }
+                cmd = parseCommand();
             } catch (IllegalCommandException e) {
                 System.out.println("Illegal Command");
             } catch (IllegalVoucherTypeException e) {
                 System.out.println("Illegal Voucher Type");
             }
-        }
+        } while (Command.EXIT.equals(cmd));
     }
 
-    private Voucher makeVoucher(VoucherType voucherType){
-        return switch (voucherType) {
-            case FixedAmountVoucher -> new FixedAmountVoucher(UUID.randomUUID(), amount);
-            case PercentDiscountVoucher -> new PercentDiscountVoucher(UUID.randomUUID(), percent);
-        };
+    private Command parseCommand() throws IllegalCommandException, IllegalVoucherTypeException {
+        Command command = input.inputCommand();
+        switch (command) {
+            case EXIT:
+                break;
+            case CREATE:
+                output.listVoucherType();
+                voucherService.makeVoucher(input.inputVoucherType());
+                break;
+            case LIST:
+                output.listVoucher(voucherService.listVoucher());
+                break;
+        }
+        return command;
     }
 }
