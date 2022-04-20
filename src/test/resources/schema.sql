@@ -1,6 +1,3 @@
-use voucher;
-drop table voucher;
-drop table customer;
 CREATE TABLE customer
 (
     customer_id BINARY(16),
