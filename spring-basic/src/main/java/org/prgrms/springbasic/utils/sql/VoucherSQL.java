@@ -27,7 +27,8 @@ public enum VoucherSQL {
             "update vouchers set " +
                     "voucher_type = :voucherType, " +
                     "discount_info = :discountInfo, " +
-                    "modified_at = :modifiedAt " +
+                    "modified_at = :modifiedAt, " +
+                    "customer_id = UUID_TO_BIN(:customerId) " +
                     "where voucher_id = UUID_TO_BIN(:voucherId)"
     ),
     DELETE_BY_VOUCHER_ID(

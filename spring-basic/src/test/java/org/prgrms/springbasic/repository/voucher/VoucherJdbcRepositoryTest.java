@@ -222,7 +222,7 @@ class VoucherJdbcRepositoryTest {
 
         Thread.sleep(1000);
 
-        var updatedVoucher = newVoucher.update(PERCENT, 20L);
+        var updatedVoucher = newVoucher.update(PERCENT, 20L, null);
         var retrievedVoucher = voucherRepository.update(updatedVoucher);
 
         assertThat(retrievedVoucher, notNullValue());

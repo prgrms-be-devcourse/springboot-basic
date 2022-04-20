@@ -43,10 +43,11 @@ public class Voucher {
         return new Voucher(voucherId, PERCENT, discountInfo, now(), customerId);
     }
 
-    public Voucher update(VoucherType voucherType, long discountInfo) {
+    public Voucher update(VoucherType voucherType, long discountInfo, UUID customerId) {
         this.voucherType = voucherType;
         this.discountInfo = discountInfo;
         this.modifiedAt = now();
+        this.customerId = customerId;
 
         return this;
     }
