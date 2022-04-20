@@ -5,3 +5,7 @@ logging:
 spring:
   profiles:
     active: local
+
+path:
+  voucher: voucher_file_database.csv
+  blacklist: customer_blacklist.csv
