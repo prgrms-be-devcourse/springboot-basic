@@ -9,12 +9,15 @@ public interface Output {
 
     void consoleMenu() throws IOException;
 
-    void selectVoucher() throws IOException;
+    void createVoucher() throws IOException;
 
     void exitProgram() throws IOException;
 
-    void emptyVoucherRepository() throws IOException;
+    void voucherMenu() throws IOException;
 
-    void emptyBlackList() throws IOException;
+    void customerMenu() throws IOException;
 
+    void ListCustomerByVoucherType() throws IOException;
+
+    void walletMenu() throws IOException;
 }

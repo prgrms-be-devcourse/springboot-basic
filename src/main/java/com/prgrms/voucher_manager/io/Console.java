@@ -50,14 +50,25 @@ public class Console implements Input, Output {
         printMessage(Message.EXIT_PROGRAM.getMessage());
     }
 
+
     @Override
-    public void emptyVoucherRepository() throws IOException {
-        printMessage(Message.EMPTY_REPOSITORY.getMessage());
+    public void voucherMenu() throws IOException {
+        printMessage(Message.VOUCHER_MENU.getMessage());
     }
 
     @Override
-    public void emptyBlackList() throws IOException {
-        printMessage(Message.EMPTY_BLACKLIST.getMessage());
+    public void customerMenu() throws IOException {
+        printMessage(Message.CUSTOMER_MENU.getMessage());
+    }
+
+    @Override
+    public void ListCustomerByVoucherType() throws IOException {
+        printMessage(Message.SELECT_VOUCHER.getMessage());
+    }
+
+    @Override
+    public void walletMenu() throws IOException {
+        printMessage(Message.WALLET_MENU.getMessage());
     }
 
 
