@@ -5,6 +5,7 @@ import org.prgms.management.voucher.entity.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,15 +16,15 @@ public interface VoucherRepository {
 
     Optional<Voucher> update(Voucher voucher);
 
-    Map<UUID, Voucher> getAll();
+    List<Voucher> findAll();
 
-    Optional<Voucher> getById(UUID voucherId);
+    Optional<Voucher> findById(UUID voucherId);
 
-    Optional<Voucher> getByCreatedAt(LocalDateTime cratedAt);
+    Optional<Voucher> findByCreatedAt(LocalDateTime cratedAt);
 
-    Optional<Voucher> getByType(String type);
+    Optional<Voucher> findByType(String type);
 
-    Optional<Voucher> delete(UUID voucherId);
+    Optional<Voucher> delete(Voucher voucher);
 
     void deleteAll();
 }

@@ -4,11 +4,10 @@ import org.prgms.management.wallet.entity.Wallet;
 import org.prgms.management.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-// TODO : CRUD 구현
 @Service
 public class WalletService {
     private final WalletRepository walletRepository;
@@ -21,20 +20,20 @@ public class WalletService {
         return walletRepository.insert(wallet);
     }
 
-    public Map<UUID, Wallet> getAllWallet() {
-        return walletRepository.getAll();
+    public List<Wallet> getAllWallet() {
+        return walletRepository.findAll();
     }
 
     public Optional<Wallet> getById(UUID walletId) {
-        return walletRepository.getById(walletId);
+        return walletRepository.findById(walletId);
     }
 
     public Optional<Wallet> getByCustomerId(UUID customerId) {
-        return walletRepository.getByCustomerId(customerId);
+        return walletRepository.findByCustomerId(customerId);
     }
 
-    public Optional<Wallet> delete(UUID walletId) {
-        return walletRepository.delete(walletId);
+    public Optional<Wallet> delete(Wallet wallet) {
+        return walletRepository.delete(wallet);
     }
 
     void deleteAll() {

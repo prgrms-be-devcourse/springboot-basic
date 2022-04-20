@@ -4,11 +4,10 @@ import org.prgms.management.customer.entity.Customer;
 import org.prgms.management.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-// TODO : CRUD 구현
 @Service
 public class customerService {
     private final CustomerRepository customerRepository;
@@ -21,24 +20,24 @@ public class customerService {
         return customerRepository.insert(customer);
     }
 
-    public Map<UUID, Customer> getAll() {
-        return customerRepository.getAll();
+    public List<Customer> getAll() {
+        return customerRepository.findAll();
     }
 
     public Optional<Customer> getById(UUID customerId) {
-        return customerRepository.getById(customerId);
+        return customerRepository.findById(customerId);
     }
 
     public Optional<Customer> getByName(String name) {
-        return customerRepository.getByName(name);
+        return customerRepository.findByName(name);
     }
 
     public Optional<Customer> update(Customer customer) {
         return customerRepository.update(customer);
     }
 
-    public Optional<Customer> delete(UUID customerId) {
-        return customerRepository.delete(customerId);
+    public Optional<Customer> delete(Customer customer) {
+        return customerRepository.delete(customer);
     }
 
     public void deleteAll() {
