@@ -3,6 +3,7 @@ package com.prgrms.voucher_manager.voucher;
 import com.prgrms.voucher_manager.exception.WrongVoucherValueException;
 import com.prgrms.voucher_manager.io.Message;
 import lombok.Builder;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.UUID;
@@ -11,17 +12,23 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID id;
-    private final long amount;
-    private final VoucherType type = VoucherType.FixedAmountVoucher;
+    private long amount;
 
     private static final long MAX_AMOUNT = 10000L;
     private static final long MIN_AMOUNT = 0L;
 
     public FixedAmountVoucher(UUID id, long amount) {
-        if(amount > MAX_AMOUNT || amount < MIN_AMOUNT)
-            throw new WrongVoucherValueException("0 ~ 10,000 사이의 수를 입력해야 합니다.");
+        validateValue(amount);
         this.id = id;
         this.amount = amount;
+    }
+
+
+    @Override
+    public long discount(long beforeDiscount) {
+        var discountedAmount = beforeDiscount - amount;
+        return (discountedAmount < 0 ) ? 0 : discountedAmount;
+
     }
 
     @Override
@@ -30,17 +37,29 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getInfo() {
-        return "Voucher type : " + type + ", amount : " + amount + ", voucherId :" + id;
+    public void validateValue(Long amount) {
+        if(amount > MAX_AMOUNT || amount < MIN_AMOUNT)
+            throw new WrongVoucherValueException("0 ~ 10,000 사이의 수를 입력해야 합니다.");
+
     }
 
-    @Override
-    public VoucherType getVoucherType() {
-        return type;
-    }
 
     @Override
     public Long getValue() {
         return amount;
+    }
+
+    @Override
+    public void changeValue(Long value) {
+        validateValue(value);
+        this.amount = value;
+    }
+
+    @Override
+    public String toString() {
+        return "type=FixedAmountVoucher" +
+                ",id=" + id +
+                ",amount=" + amount +
+                "\n";
     }
 }

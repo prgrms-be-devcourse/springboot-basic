@@ -1,6 +1,6 @@
 //package com.prgrms.voucher_manager;
 //
-//import com.prgrms.voucher_manager.voucher.VoucherService;
+//import com.prgrms.voucher_manager.voucher.service.VoucherService;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 //import org.springframework.stereotype.Component;
@@ -33,3 +33,4 @@
 //        voucherService.getFindAllVoucher();
 //    }
 //}
+

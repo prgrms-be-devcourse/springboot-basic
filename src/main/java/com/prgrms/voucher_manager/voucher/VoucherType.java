@@ -12,7 +12,7 @@ public enum VoucherType {
     private Function<Long, Voucher> voucher;
 
 
-    VoucherType(String type, Function<Long, Voucher> voucher) {
+    VoucherType(String type,  Function<Long, Voucher> voucher) {
         this.type = type;
         this.voucher = voucher;
     }
@@ -27,6 +27,7 @@ public enum VoucherType {
     public Voucher create(long value){
         return voucher.apply(value);
     }
+
     private String getType(){
         return type;
     }
