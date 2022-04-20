@@ -22,4 +22,16 @@ public class InputConsole implements Input{
         System.out.print("Type amount : ");
         return scanner.nextLine();
     }
+
+    @Override
+    public String inputCustomerName() {
+        System.out.print("input customer name : ");
+        return scanner.nextLine();
+    }
+
+    @Override
+    public String inputCustomerEmail() {
+        System.out.print("input customer Email : ");
+        return scanner.nextLine();
+    }
 }

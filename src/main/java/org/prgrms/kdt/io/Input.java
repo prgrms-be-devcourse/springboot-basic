@@ -8,4 +8,8 @@ public interface Input {
 
     String inputAmount();
 
+    String inputCustomerName();
+
+    String inputCustomerEmail();
+
 }
