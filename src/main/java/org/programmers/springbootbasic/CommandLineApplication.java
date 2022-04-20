@@ -6,11 +6,10 @@ import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommandLineApplication implements CommandLineRunner {
+public class CommandLineApplication implements Runnable {
 	private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
 	private final Console console;
@@ -24,19 +23,20 @@ public class CommandLineApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) {
-		boolean exitProgram = false;
+	public void run() {
+		boolean runProgram = true;
 
-		while (!exitProgram) {
+		while (runProgram) {
 			console.printMenu();
 			String choice = console.input("");
 
 			switch (choice) {
-				case "exit" -> exitProgram = true;
+				case "exit" -> runProgram = false;
 				case "create" -> {
 					try {
 						long value = Long.parseLong(console.input("Type value"));
-						VoucherType voucherType = VoucherType.findByNumber(Integer.parseInt(console.input("Type Voucher number\n 1. FixedAmountVoucher\n 2. PercentDiscountVoucher")));
+						int voucherNumber = Integer.parseInt(console.input("Type Voucher number\n 1. FixedAmountVoucher\n 2. PercentDiscountVoucher"));
+						VoucherType voucherType = VoucherType.findByNumber(voucherNumber);
 						voucherService.createVoucher(voucherType, value);
 						console.printSuccessMessage();
 					} catch (NumberFormatException e) {
