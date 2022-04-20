@@ -5,6 +5,7 @@ import org.prgrms.kdt.model.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.supercsv.exception.SuperCsvException;
@@ -33,10 +34,12 @@ import static org.apache.commons.lang3.math.NumberUtils.toLong;
 public class CsvVoucherRepository implements VoucherRepository {
 
     private static final String CSV_FILENAME = "voucher.csv";
-    private static final String CSV_PATH = System.getProperty("java.class.path");
     private static final String[] CSV_HEADER = {"voucherId", "voucherValue", "voucherClassSimpleName"};
 
     private static final Logger logger = LoggerFactory.getLogger(CsvVoucherRepository.class);
+
+    @Value("${csv.file-path}")
+    private String csvFilePath;
 
     @Override
     public Voucher insert(Voucher voucher) {
@@ -75,7 +78,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     public String getPathCsvFile() {
-        File file = new File(CSV_PATH);
+        File file = new File(csvFilePath);
         String path = file.getParentFile().getPath();
         return Path.of(path, CSV_FILENAME).toString();
     }

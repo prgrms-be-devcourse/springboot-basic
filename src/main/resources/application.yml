@@ -1,3 +1,6 @@
 spring:
   application:
     name: voucher-management
+
+csv:
+  file-path: ${java.class.path}
