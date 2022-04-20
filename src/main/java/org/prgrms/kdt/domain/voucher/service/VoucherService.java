@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,32 @@ public class VoucherService {
     public List<Voucher> getAllVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
         logger.info("find All Voucher size: {}", vouchers.size());
+        return vouchers;
+    }
+
+    @Transactional
+    public void removeVoucher(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+        logger.info("Delete Voucher id: {}", voucherId);
+    }
+
+    @Transactional
+    public void updateVoucherCustomerId(UUID voucherId, UUID customerId) {
+        int update = voucherRepository.updateCustomerId(voucherId, customerId);
+        logger.info("Update Voucher's customerId count: {}", update);
+    }
+
+    @Transactional
+    public List<Voucher> getVouchersByCustomerId(UUID customerId) {
+        List<Voucher> vouchers = voucherRepository.findByCustomerId(customerId);
+        logger.info("Get voucher by customerId size: {}", vouchers.size());
+        return vouchers;
+    }
+
+    @Transactional
+    public List<Voucher> getVoucherByTypeAndDate(VoucherType voucherType, LocalDate date) {
+        List<Voucher> vouchers = voucherRepository.findByVoucherTypeAndDate(voucherType, date);
+        logger.info("Get voucher by type and date size: {}", vouchers.size());
         return vouchers;
     }
 

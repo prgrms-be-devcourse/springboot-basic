@@ -1,6 +1,5 @@
 package org.prgrms.kdt.domain.command;
 
-import org.prgrms.kdt.domain.command.CommandType;
 import org.prgrms.kdt.util.Output;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
@@ -9,10 +8,10 @@ import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.util.Input;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.service.VoucherService;
-import org.prgrms.kdt.domain.wallet.service.WalletService;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,12 +19,10 @@ import java.util.UUID;
 public class CommandProcessor {
     private final VoucherService voucherService;
     private final CustomerService customerService;
-    private final WalletService walletService;
 
-    public CommandProcessor(VoucherService voucherService, CustomerService customerService, WalletService walletService) {
+    public CommandProcessor(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
         this.customerService = customerService;
-        this.walletService = walletService;
     }
 
     public void doCommand(CommandType voucherCommandType){
@@ -68,13 +65,13 @@ public class CommandProcessor {
         UUID voucherId = Input.inputUuid();
         Output.printEnterCustomerId();
         UUID customerId = Input.inputUuid();
-        walletService.updateVoucherCustomerId(voucherId, customerId);
+        voucherService.updateVoucherCustomerId(voucherId, customerId);
     }
 
     private void removeVoucher() {
         Output.printEnterVoucherId();
         UUID voucherId = Input.inputUuid();
-        walletService.removeVoucher(voucherId);
+        voucherService.removeVoucher(voucherId);
     }
 
     private void getCustomersByVoucherTypeAndDate() {
@@ -82,14 +79,18 @@ public class CommandProcessor {
         VoucherType voucherType = Input.inputVoucherType();
         Output.printEnterCreatedDate();
         LocalDate date = Input.inputDate();
-        List<Customer> customers = walletService.getCustomerByTypeAndDate(voucherType, date);
+        List<Voucher> vouchers = voucherService.getVoucherByTypeAndDate(voucherType, date);
+        List<Customer> customers = new ArrayList<>();
+        vouchers.stream()
+                .map(voucher -> customerService.getCustomerByVoucherId(voucher.getVoucherId()))
+                .forEach(customer -> customer.ifPresent(customers::add));
         Output.printAllCustomers(customers);
     }
 
     private void getVoucherByCustomer() {
         Output.printEnterCustomerId();
         UUID customerId = Input.inputUuid();
-        List<Voucher> vouchers = walletService.getVouchersByCustomerId(customerId);
+        List<Voucher> vouchers = voucherService.getVouchersByCustomerId(customerId);
         Output.printAllVouchers(vouchers);
     }
 
