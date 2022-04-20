@@ -10,8 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 직렬화를 사용하여 voucher 리스트를 저장하고 조회한다.
@@ -21,7 +20,7 @@ import java.util.List;
 public class FileVoucherRepository implements VoucherRepository {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private List<Voucher> vouchers;
+    private Map<UUID, Voucher> store;
     private final FilePathProperties filePathProperties;
 
     public FileVoucherRepository(FilePathProperties filePathProperties) {
@@ -30,12 +29,45 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        vouchers.add(voucher);
+        if (voucher == null) {
+            return;
+        }
+
+        store.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(vouchers);
+        return new ArrayList<>(store.values());
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        if (voucherId == null) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(store.get(voucherId));
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        if (voucher == null) {
+            return;
+        }
+
+        if (store.containsKey(voucher.getVoucherId())) {
+            store.put(voucher.getVoucherId(), voucher);
+        }
+    }
+
+    @Override
+    public void remove(Voucher voucher) {
+        if (voucher == null) {
+            return;
+        }
+
+        store.remove(voucher.getVoucherId());
     }
 
     @PostConstruct
@@ -46,12 +78,12 @@ public class FileVoucherRepository implements VoucherRepository {
                 BufferedInputStream bis = new BufferedInputStream(fis);
                 ObjectInputStream ois = new ObjectInputStream(bis);
         ) {
-            vouchers = (List<Voucher>) ois.readObject();
+            store = (Map<UUID, Voucher>) ois.readObject();
         } catch (IOException e) {
             log.error("failed to create or find {}", vouchersFilePath, e);
 
             //파일을 읽는데 실패한 경우 빈 리스트로 초기화
-            vouchers = new ArrayList<>();
+            store = new HashMap<>();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -65,7 +97,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
                 ObjectOutputStream oos = new ObjectOutputStream(bos);
         ) {
-            oos.writeObject(vouchers);
+            oos.writeObject(store);
         } catch (IOException e) {
             log.error("failed to create or find {}", vouchersFilePath, e);
         }
