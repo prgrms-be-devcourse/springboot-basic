@@ -29,6 +29,7 @@ public class VoucherManagerConsole implements VoucherManagerInput, VoucherManage
         System.out.println("=== Voucher Program ===");
 
         Arrays.stream(CommandType.values())
+                .filter(commandType-> commandType != CommandType.NONE)
                 .map(CommandType::getCommandDescription)
                 .forEach(System.out::println);
     }

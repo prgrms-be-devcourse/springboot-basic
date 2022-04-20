@@ -32,7 +32,7 @@ public class VoucherManager {
     }
 
     public void run() {
-        CommandType commandType = null;
+        CommandType commandType = CommandType.NONE;
 
         while (commandType != CommandType.EXIT) {
             try {
