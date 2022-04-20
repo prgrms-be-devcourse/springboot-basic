@@ -11,6 +11,12 @@ import java.util.UUID;
 public class CustomerFactory {
     public static Customer createCustomer(String name, String email) {
         UUID id = UUID.randomUUID();
-        return Customer.createNewCustomerWithAllArgument(id,name, email, LocalDateTime.now(),LocalDateTime.now());
+        return Customer.customerBuilder()
+                .customerId(id)
+                .name(name)
+                .email(email)
+                .createdAt(LocalDateTime.now())
+                .lastLoginAt(LocalDateTime.now())
+                .build();
     }
 }
