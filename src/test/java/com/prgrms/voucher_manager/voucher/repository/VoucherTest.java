@@ -1,4 +1,4 @@
-package com.prgrms.voucher_manager.repository;
+package com.prgrms.voucher_manager.voucher.repository;
 
 import com.prgrms.voucher_manager.exception.WrongVoucherValueException;
 import com.prgrms.voucher_manager.voucher.FixedAmountVoucher;
@@ -13,18 +13,22 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class VoucherRepositoryTest {
+class VoucherTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherRepositoryTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherTest.class);
 
     @BeforeEach
     void setup(){
     }
 
     @Test
-    @DisplayName("기본적인 voucher save 테스트")
+    @DisplayName("기본적인 voucher 생성 테스트")
     void saveVoucher() {
-        assertThat(true,is(new FixedAmountVoucher(UUID.randomUUID(),10).getValue() == 10));
+        FixedAmountVoucher fix = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        PercentDiscountVoucher percent = new PercentDiscountVoucher(UUID.randomUUID(), 30);
+
+        assertThat(true, is(fix.getValue() == 10));
+        assertThat(true, is(percent.getValue() == 20));
     }
 
 
