@@ -17,16 +17,16 @@ public class DiscountAmount implements Serializable {
     }
 
     private void validateDiscountAmount(long discountAmount) {
-        if (isUnderMinAmount(discountAmount)) {
+        if (isWrongAmount(discountAmount)) {
             throw new WrongDiscountValueException("[ERROR] 올바른 할인금액이 아닙니다.");
         }
     }
 
-    private boolean isUnderMinAmount(long discountAmount) {
+    private boolean isWrongAmount(long discountAmount) {
         return MAX_AMOUNT < discountAmount || discountAmount < MIN_AMOUNT;
     }
 
-    public boolean isBiggerAmount(long beforeDiscount) {
+    public boolean isBigger(long beforeDiscount) {
         return beforeDiscount <= this.amount;
     }
 

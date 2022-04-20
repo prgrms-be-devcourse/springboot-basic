@@ -18,7 +18,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        if (discountAmount.isBiggerAmount(beforeDiscount)) {
+        if (discountAmount.isBigger(beforeDiscount)) {
             return 0;
         }
 
