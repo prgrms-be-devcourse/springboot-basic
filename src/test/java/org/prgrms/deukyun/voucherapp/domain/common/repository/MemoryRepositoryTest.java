@@ -3,9 +3,9 @@ package org.prgrms.deukyun.voucherapp.domain.common.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.prgrms.deukyun.voucherapp.domain.order.entity.Order;
-import org.prgrms.deukyun.voucherapp.domain.order.entity.OrderItem;
-import org.prgrms.deukyun.voucherapp.domain.order.repository.MemoryOrderRepository;
+import org.prgrms.deukyun.voucherapp.domain.voucher.entity.FixedAmountDiscountVoucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.entity.Voucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.repository.MemoryVoucherRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,82 +16,57 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 class MemoryRepositoryTest {
 
-    MemoryOrderRepository memoryRepository;
-    Order order;
+    MemoryVoucherRepository memoryRepository;
+    Voucher voucher;
 
     @BeforeEach
     void setup() {
-        memoryRepository = new MemoryOrderRepository();
-        order = dummyOrder();
-    }
-
-    private void assertOrder(Order actualOrder, Order expectedOrder) {
-        assertThat(actualOrder).isNotNull();
-        assertThat(actualOrder.getId()).isNotNull();
-        assertThat(actualOrder.getOrderItems()).containsAll(expectedOrder.getOrderItems());
-        assertThat(actualOrder.getVoucher()).isEqualTo(expectedOrder.getVoucher());
-        assertThat(actualOrder.getOrderStatus()).isEqualTo(expectedOrder.getOrderStatus());
-        assertThat(actualOrder.getCustomerId()).isEqualTo(expectedOrder.getCustomerId());
-    }
-
-    private Order dummyOrder() {
-        return Order.createOrder(UUID.randomUUID(), dummyOrderItems());
-    }
-
-    private List<OrderItem> dummyOrderItems() {
-        return List.of(new OrderItem(UUID.randomUUID(), 1000L, 20),
-                new OrderItem(UUID.randomUUID(), 5000L, 5));
+        memoryRepository = new MemoryVoucherRepository();
+        voucher = dummyVoucher();
     }
 
     @Nested
     class insertTest {
 
         @Test
-        void givenOrder_whenCallInsert_thenIdIsSet() {
+        void givenVoucher_whenCallInsert_thenIdIsSetAndReturnsInsertedVoucher() {
             //when
-            memoryRepository.insert(order);
+            Voucher insertedVoucher = memoryRepository.insert(voucher);
 
             //assert
-            assertThat(order.getId()).isNotNull();
+            assertVoucher(insertedVoucher);
+            assertFADV(insertedVoucher, voucher);
         }
 
         @Test
-        void givenOrder_whenCallInsert_thenReturnsInsertedOrder() {
-            //when
-            Order insertedOrder = memoryRepository.insert(order);
-
-            //assert
-            assertOrder(insertedOrder, order);
-        }
-
-        @Test
-        void givenInsertedOrder_whenCallInsertAgainWithSameOrderInstance_thenThrowsIllegalStateException() {
+        void givenInsertedVoucher_whenCallInsertAgainWithSameVoucherInstance_thenThrowsIllegalStateException() {
             //setup
-            memoryRepository.insert(order);
+            memoryRepository.insert(voucher);
 
             //assert throws
             assertThatIllegalStateException()
-                    .isThrownBy(() -> memoryRepository.insert(order));
+                    .isThrownBy(() -> memoryRepository.insert(voucher));
         }
     }
+
 
     @Nested
     class findAllTest {
 
         @Test
-        void givenTwoOrderInsertion_whenCallFindAll_thenGivesTwoOrders() {
+        void givenTwoVoucherInsertion_whenCallFindAll_thenGivesTwoVouchers() {
             //setup
-            Order order1 = dummyOrder();
-            Order order2 = dummyOrder();
-            memoryRepository.insert(order1);
-            memoryRepository.insert(order2);
+            Voucher voucher1 = dummyVoucher();
+            Voucher voucher2 = dummyVoucher();
+            memoryRepository.insert(voucher1);
+            memoryRepository.insert(voucher2);
 
             //when
-            List<Order> orders = memoryRepository.findAll();
+            List<Voucher> vouchers = memoryRepository.findAll();
 
             //assert
-            assertThat(orders).extracting("customerId")
-                    .containsExactlyInAnyOrder(order1.getCustomerId(), order2.getCustomerId());
+            assertThat(vouchers).extracting("id")
+                    .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
         }
     }
 
@@ -102,20 +77,20 @@ class MemoryRepositoryTest {
 
         @BeforeEach
         void setup() {
-            memoryRepository.insert(order);
+            memoryRepository.insert(voucher);
         }
 
         @Test
-        void givenIdOfInsertedOrder_whenCallFindById_thenReturnFoundOrderInstance() {
+        void givenIdOfInsertedVoucher_whenCallFindById_thenReturnFoundVoucherInstance() {
             //setup
-            id = order.getId();
+            id = voucher.getId();
 
             //when
-            Optional<Order> foundOrder = memoryRepository.findById(id);
+            Optional<Voucher> foundVoucher = memoryRepository.findById(id);
 
             //assert
-            assertThat(foundOrder).isPresent();
-            assertOrder(foundOrder.get(), order);
+            assertThat(foundVoucher).isPresent();
+            assertFADV(foundVoucher.get(), voucher);
         }
 
         @Test
@@ -124,10 +99,25 @@ class MemoryRepositoryTest {
             id = UUID.randomUUID();
 
             //when
-            Optional<Order> foundOrder = memoryRepository.findById(id);
+            Optional<Voucher> foundVoucher = memoryRepository.findById(id);
 
             //assert
-            assertThat(foundOrder).isNotPresent();
+            assertThat(foundVoucher).isNotPresent();
         }
+    }
+
+    private Voucher dummyVoucher() {
+        return new FixedAmountDiscountVoucher(2000L);
+    }
+
+    private void assertVoucher(Voucher actualVoucher) {
+        assertThat(actualVoucher).isNotNull();
+        assertThat(actualVoucher.getId()).isNotNull();
+    }
+
+    private void assertFADV(Voucher insertedVoucher, Voucher expectedVoucher) {
+        FixedAmountDiscountVoucher actualFADV = (FixedAmountDiscountVoucher) insertedVoucher;
+        FixedAmountDiscountVoucher expectedFADV = (FixedAmountDiscountVoucher) expectedVoucher;
+        assertThat(actualFADV.getAmount()).isEqualTo(expectedFADV.getAmount());
     }
 }
