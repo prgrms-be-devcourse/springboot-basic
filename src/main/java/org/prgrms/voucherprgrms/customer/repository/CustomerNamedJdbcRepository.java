@@ -48,8 +48,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         };
     }
 
-
-    //TODO 예외처리 로그 추가
     @Override
     public Customer insert(Customer customer) {
         var insert = jdbcTemplate.update("insert into CUSTOMERS(customer_id, name, email) values(UUID_TO_BIN(:customerId), :name, :email)",
@@ -76,7 +74,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer allocateVoucher(Customer customer) {
+    public Customer changeVoucher(Customer customer) {
         var update = jdbcTemplate.update("update CUSTOMERS set voucher_id=UUID_TO_BIN(:voucherId) where customer_id=UUID_TO_BIN(:customerId)", toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Allocation failed");
@@ -88,6 +86,12 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     public void deleteAll() {
         jdbcTemplate.update("delete from CUSTOMERS", Collections.emptyMap());
     }
+
+    @Override
+    public List<Customer> findAll() {
+        return jdbcTemplate.query("select * from CUSTOMERS", customerRowMapper);
+    }
+
 
     private static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
