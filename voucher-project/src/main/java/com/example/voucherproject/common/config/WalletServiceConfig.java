@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
-public class WalletConfig {
+public class WalletServiceConfig {
 
     @Bean
     public WalletService walletService(Input input, Output output,
