@@ -18,7 +18,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.dto.VoucherForCsv;
-import com.programmers.order.exception.NotCreateFileException;
+import com.programmers.order.exception.FileException;
 import com.programmers.order.message.ErrorLogMessage;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.utils.FileUtils;
@@ -37,7 +37,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
 		File csvFile = this.getCsvFile();
 		ObjectWriter writer = this.getWriter();
-
+		log.info("path : {}", csvFile.getPath());
 		try (OutputStreamWriter output = new OutputStreamWriter(new FileOutputStream(csvFile, CONTINUE_WRITING));) {
 			writer.writeValues(output)
 					.write(voucher);
@@ -100,13 +100,13 @@ public class FileVoucherRepository implements VoucherRepository {
 			boolean isSuccessCreate = csvFile.createNewFile();
 
 			if (!isSuccessCreate) {
-				throw new NotCreateFileException(ErrorMessage.INTERNAL_PROGRAM_ERROR);
+				throw new FileException.NotCreateFileException(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 			}
 
 		} catch (IOException exception) {
 			exception.printStackTrace();
 			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.IO_EXCEPTION);
-		} catch (NotCreateFileException exception) {
+		} catch (FileException.NotCreateFileException exception) {
 			exception.printStackTrace();
 			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_CREATE_FILE);
 		}

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.programmers.order.exception.NotSupportedException;
+import com.programmers.order.exception.ServiceException;
 import com.programmers.order.manager.VoucherManager;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.VoucherType;
@@ -26,6 +26,6 @@ public class VoucherManagerFactory {
 		return managers.stream()
 				.filter(manager -> manager.getType() == voucherType)
 				.findAny()
-				.orElseThrow(() -> new NotSupportedException(ErrorMessage.CLIENT_ERROR));
+				.orElseThrow(() -> new ServiceException.NotSupportedException(ErrorMessage.CLIENT_ERROR));
 	}
 }

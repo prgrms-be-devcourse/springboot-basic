@@ -1,6 +1,7 @@
 package com.programmers.order.message;
 
 public enum ErrorLogMessage {
+	LOG_PREFIX("error : {}"),
 	IO_EXCEPTION("io checked Exception error"),
 	NOT_FOUND_FILE("not found file resources ... "),
 	NOT_CREATE_FILE("create file false ... ");
@@ -19,6 +20,6 @@ public enum ErrorLogMessage {
 	}
 
 	public static String getLogPrefix() {
-		return "error : {}";
+		return LOG_PREFIX.message;
 	}
 }

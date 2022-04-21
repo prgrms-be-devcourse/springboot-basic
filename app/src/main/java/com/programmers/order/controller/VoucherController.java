@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.programmers.order.domain.Voucher;
-import com.programmers.order.exception.NotSupportedException;
+import com.programmers.order.exception.ServiceException;
 import com.programmers.order.factory.VoucherManagerFactory;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
@@ -75,7 +75,7 @@ public class VoucherController {
 		try {
 			VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(voucherType);
 			voucherRepository.saveVoucher(voucherManager.create());
-		} catch (NotSupportedException exception) {
+		} catch (ServiceException.NotSupportedException exception) {
 			output.write(ErrorMessage.CLIENT_ERROR);
 			logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
 		}
