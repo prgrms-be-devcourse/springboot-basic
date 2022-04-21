@@ -180,13 +180,28 @@ public class VoucherDaoTest {
         }
 
     }
+
     @Test
-    @DisplayName("바우처 업데이트 (바우처 상태가 valid -> expired)")
+    @DisplayName("바우처 업데이트 (바우처 상태가 valid -> expired), 그 외는 변화 없음")
     public void update() throws Exception {
+        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
+        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
+        Voucher voucher4 = new FixedAmountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+        voucherDao.save(voucher2);
+        voucherDao.save(voucher3);
+        voucherDao.save(voucher4);
+
         voucher.useVoucher();
         Voucher updateVoucher = voucherDao.update(voucher);
 
-        assertThat(updateVoucher.getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
+        //voucher 만 상태 변화
+        assertThat(voucherDao.findById(voucher.getVoucherId()).get().getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
+
+        //그 외는 변화 없음
+        assertThat(voucherDao.findById(voucher2.getVoucherId()).get().getVoucherStatus()).isEqualTo(VoucherStatus.VALID);
+        assertThat(voucherDao.findById(voucher3.getVoucherId()).get().getVoucherStatus()).isEqualTo(VoucherStatus.VALID);
+        assertThat(voucherDao.findById(voucher4.getVoucherId()).get().getVoucherStatus()).isEqualTo(VoucherStatus.VALID);
+
     }
 
     @Nested
