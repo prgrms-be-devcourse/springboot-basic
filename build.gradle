@@ -13,21 +13,19 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.shell:spring-shell-starter:2.0.1.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter'
+    // log 관련 라이브러리
     implementation 'org.slf4j:jcl-over-slf4j'
     implementation 'ch.qos.logback:logback-classic'
     implementation 'ch.qos.logback:logback-core'
-
+    // JDBC 관련 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.6'
     implementation 'mysql:mysql-connector-java:8.0.28'
-
-    implementation 'org.springframework.shell:spring-shell-starter:2.0.1.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.6'
-
+    // test 관련 라이브러리
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mockito.mockito-core:3.1.0'
     implementation 'org.assertj:assertj-core:3.22.0'
-
 }
 
 tasks.named('test') {
