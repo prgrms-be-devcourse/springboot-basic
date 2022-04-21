@@ -1,12 +1,14 @@
-package com.pppp0722.vouchermanagement.voucher.model;
+package com.pppp0722.vouchermanagement.entity.voucher;
 
+import com.pppp0722.vouchermanagement.entity.voucher.Voucher;
+import com.pppp0722.vouchermanagement.entity.voucher.VoucherType;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long amount;
-    private final VoucherType voucherType = VoucherType.FIXED_AMOUNT;
+    private final VoucherType type = VoucherType.FIXED_AMOUNT;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -24,7 +26,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return voucherType;
+    public VoucherType getType() {
+        return type;
     }
 }
