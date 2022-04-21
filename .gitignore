@@ -34,3 +34,8 @@ build/
 
 ### log ###
 logs/
+
+### maven ###
+.mvn
+mvnw
+mvnw.cmd
