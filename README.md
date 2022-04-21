@@ -1,65 +1,26 @@
-# SpringBoot Basic Weekly Mission 2
+# SpringBoot Basic Weekly Mission 3
 ### 과제 요구사항
 
-**기본) 바우처 관리 애플리케이션 추가 기능**
-- [x] 단위테스트 작성
-- [x] Customers 테이블 정의 및 추가
-- [x] Vouchers 테이블 정의 및 추가
-- [x] JdbcTemplate을 사용한 CustomerRepository
-- [x] JdbcTemplate을 사용한 VoucherRepository (CRUD API)
+**(기본) 바우처 서비스 관리페이지 개발하기**
 
-**심화) 바우처 지갑**
+- Spring MVC를 적용해서 thymeleaf 템플릿을 설정해보세요.
+- 커맨드로 지원했던 기능을 thymeleaf를 이용해서 관리페이지를 만들고 다음 기능을 지원가능하게 해보세요
+  - [ ]  조회페이지
+  - [ ]  상세페이지
+  - [ ]  입력페이지
+  - [ ]  삭제기능
 
-- [x] 고객의 바우처 보유 정보 조회(SELECT)
-- [x] 특정 바우처 보유 고객 정보 조회(JOIN)
-- [x] 특정 고객에게 바우처 할당 기능(UPDATE)
-- [x] 고객 보유 바우처 제거 기능(UPDATE)
+**(기본) 바우처 서비스의 API 개발하기**
 
-### **바우처 관리 애플리케이션 설명**
-    === Voucher Program ===
-    Type exit to exit the program.
-    Type create to create a new voucher.
-    Type list to see all vouchers.
-    Type blacklist to see all blacklist custom info.
-    ========================
-    Type give voucher to give voucher to custmer.
-    Type take voucher to take a voucher from customer.
-    Type customer list to see customer list with same voucher.
-    Type voucher list to see voucher list of customer.
-
-- give voucher 커맨드를 통해 고객에게 바우처를 부여할수 있다.
-    ```
-  >>give voucher
-  Type custmer id you want to give voucher to.
-  >>>90876254-1988-4f45-b296-ebbb6fedd464
-  Type voucher id you want to give to customer.
-  >>>34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
-  ```
-- take voucher 커맨드를 통해 고객이 가지고 있는 바우처를 회수할 수 있다.
-    ```
-  >>take voucher
-  Type custmer id you want to take voucher from.
-  >>>90876254-1988-4f45-b296-ebbb6fedd464
-  Type voucher id you want to take from customer.
-  >>>34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
-    ```
-
-- customer list 커맨드를 통해 동일한 바우처를 가진 고객 정보를 조회할 수 있다.
-    ```
-  >>customer list
-  Type voucher id you want see customer list.
-  >>>34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
-  name: moon age: 20 sex: woman
-    ```
-- voucher list 커맨드를 통해 고객이 가진 바우처 정보를 조회할 수 있다.
-  ```
-  >>>voucher list
-  Type customer id you want see voucher list.
-  >>>90876254-1988-4f45-b296-ebbb6fedd464
-  id: 34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698
-  type: fixed
-  amount: 1000
-  ```
+- Spring MVC를 적용해서 JSON과 XML을 지원하는 REST API를 개발해보세요
+  - [ ]  전체 조회기능
+  - [ ]  조건별 조회기능 (바우처 생성기간 및 특정 할인타입별)
+  - [ ]  바우처 추가기능
+  - [ ]  바우처 삭제기능
+  - [ ]  바우처 아이디로 조회 기능
+  
+### **바우처 관리 웹어플리케이션 설명**
+    
 
 ### Class Diagram
 

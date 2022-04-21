@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@SpringBootApplication
 public class CommandLineApplication {
 	private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 

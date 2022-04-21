@@ -2,6 +2,7 @@ package com.kdt.commandLineApp.voucher;
 
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,7 +14,7 @@ import static com.kdt.commandLineApp.UUIDConverter.toUUID;
 
 @Repository
 @Profile("db")
-public class JdbcVoucherRepository implements VoucherRepository{
+public class JdbcVoucherRepository implements VoucherRepository {
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

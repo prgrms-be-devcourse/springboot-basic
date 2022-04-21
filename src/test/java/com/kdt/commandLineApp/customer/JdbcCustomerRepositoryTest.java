@@ -66,5 +66,4 @@ class JdbcCustomerRepositoryTest {
         assertThat(result.getAge(), is(20));
         assertThat(result.getSex(), is("woman"));
     }
-
 }
