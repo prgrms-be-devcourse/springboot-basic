@@ -1,6 +1,7 @@
 package org.prgrms.voucherapp.global;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Optional;
 
 /*
@@ -28,8 +29,10 @@ public enum Command {
     }
 
     public static Optional<Command> getMenu(String command) {
-        return Arrays.stream(values())
-                .filter(c -> c.command.equals(command))
-                .findFirst();
+        try {
+            return Optional.of(Command.valueOf(command.toUpperCase()));
+        }catch(IllegalArgumentException e){
+            return Optional.empty();
+        }
     }
 }

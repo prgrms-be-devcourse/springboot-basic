@@ -8,6 +8,7 @@ import org.prgrms.voucherapp.global.Util;
 import org.prgrms.voucherapp.global.VoucherType;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
+@Profile({"db"})
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;

@@ -45,9 +45,11 @@ public enum VoucherType {
     }
 
     public static Optional<VoucherType> getType(String typeName) {
-        return Arrays.stream(values())
-                .filter(o -> typeName.equals(o.toString()))
-                .findFirst();
+        try{
+            return Optional.of(VoucherType.valueOf(typeName.toUpperCase()));
+        } catch(IllegalArgumentException e){
+            return Optional.empty();
+        }
     }
 
     public int getOption() {
