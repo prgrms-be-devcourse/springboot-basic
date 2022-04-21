@@ -6,7 +6,7 @@ import com.waterfogsw.voucher.voucher.domain.VoucherType;
 public class VoucherDto {
     public static record Request(
             VoucherType type,
-            Integer value
+            int value
     ) {
         public static Voucher to(Request request) {
             return new Voucher(
@@ -19,7 +19,7 @@ public class VoucherDto {
     public static record Response(
             Long id,
             VoucherType type,
-            Integer value,
+            int value,
             ResponseStatus status
     ) {
         public static Response of(Voucher voucher, ResponseStatus status) {
