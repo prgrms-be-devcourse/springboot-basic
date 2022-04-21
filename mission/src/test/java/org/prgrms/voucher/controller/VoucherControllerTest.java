@@ -31,11 +31,17 @@ public class VoucherControllerTest {
         @DisplayName("create 기능을 테스트 할 때 바우처 타입 1, 할인값 100을 인자로 받으면")
         class ContextReceiveVoucherTypeAndValue {
 
-            VoucherDto.CreateVoucherRequest requestDto = new VoucherDto.CreateVoucherRequest(VoucherType.FIXED_AMOUNT, 100L);
+            VoucherDto.CreateVoucherRequest requestDto = new VoucherDto.CreateVoucherRequest(VoucherType.FIXED_AMOUNT, 100);
+
+            Voucher voucher = new Voucher(1L) {
+
+            };
 
             @Test
             @DisplayName("Service 의 create 메서드에 파라미터를 넘겨주며 호출한다.")
             void itCallCreateService() {
+
+                when(voucherServiceMock.create(requestDto)).thenReturn(voucher);
 
                 voucherController.create(requestDto);
 
@@ -45,10 +51,6 @@ public class VoucherControllerTest {
             @Test
             @DisplayName("바우처가 생성되면 생성된 정보를 리턴한다.")
             void itReturnVoucherResponse() {
-
-                Voucher voucher = new Voucher(1L) {
-
-                };
 
                 when(voucherServiceMock.create(requestDto)).thenReturn(voucher);
 
