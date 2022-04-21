@@ -2,10 +2,8 @@ package org.prgrms.kdt.model.voucher;
 
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
-import org.prgrms.kdt.model.function.Function;
-import org.prgrms.kdt.service.BlackListService;
-import org.prgrms.kdt.service.CustomerService;
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.function.Function;
+import org.prgrms.kdt.function.FunctionOperator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,17 +11,13 @@ public class VoucherProgram implements Runnable {
 
     private Input input;
     private Output output;
-    private VoucherService voucherService;
-    private BlackListService blackListService;
-    private CustomerService customerService;
+    private FunctionOperator functionOperator;
     private final static Logger logger = LoggerFactory.getLogger(VoucherProgram.class);
 
-    public VoucherProgram(Input input, Output output, VoucherService voucherService, BlackListService blackListService, CustomerService customerService) {
+    public VoucherProgram(Input input, Output output, FunctionOperator functionOperator) {
         this.input = input;
         this.output = output;
-        this.voucherService = voucherService;
-        this.blackListService = blackListService;
-        this.customerService = customerService;
+        this.functionOperator = functionOperator;
     }
 
     @Override
@@ -39,7 +33,7 @@ public class VoucherProgram implements Runnable {
         if (!hasFunction(inputFunction)) {
             return false;
         }
-        return getFunctionByName(inputFunction).execute(voucherService, blackListService, customerService);
+        return getFunctionByName(inputFunction).execute(functionOperator);
     }
 
     private boolean hasFunction(String inputFunction) {

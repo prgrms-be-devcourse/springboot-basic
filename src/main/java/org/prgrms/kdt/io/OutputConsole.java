@@ -1,6 +1,6 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.model.function.Function;
+import org.prgrms.kdt.function.Function;
 import org.prgrms.kdt.model.voucher.VoucherType;
 
 import java.text.MessageFormat;
