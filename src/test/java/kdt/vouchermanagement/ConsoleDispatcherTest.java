@@ -1,6 +1,5 @@
 package kdt.vouchermanagement;
 
-import kdt.vouchermanagement.global.exception.InvalidMenuException;
 import kdt.vouchermanagement.global.io.Input;
 import kdt.vouchermanagement.global.view.ConsoleDispatcher;
 import kdt.vouchermanagement.global.view.Menu;
@@ -41,7 +40,7 @@ public class ConsoleDispatcherTest {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             //then
-            assertThat(e.getCause().getClass()).isEqualTo(InvalidMenuException.class);
+            assertThat(e.getCause().getClass()).isEqualTo(IllegalArgumentException.class);
             assertThat(e.getCause().getMessage()).isEqualTo("입력한 메뉴값이 유효하지 않습니다.");
         }
     }
