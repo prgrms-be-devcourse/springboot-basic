@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.programmers.order.domain.Voucher;
+import com.programmers.order.type.VoucherType;
 
 @JsonPropertyOrder({"voucherId", "voucherType", "discountValue", "createdAt"})
 public class VoucherForCsv implements Voucher {
@@ -55,6 +56,11 @@ public class VoucherForCsv implements Voucher {
 				", voucherType='" + voucherType + '\'' +
 				", discountValue='" + discountValue + '\'' +
 				", createdAt=" + createdAt;
+	}
+
+	@Override
+	public long discount(long beforeDiscount) {
+		return 0;
 	}
 
 	@Override

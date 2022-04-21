@@ -1,8 +1,12 @@
 package com.programmers.order.domain;
 
+import static com.programmers.order.domain.constraint.Voucher.*;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.programmers.order.exception.DomainException;
+import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.VoucherType;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -11,6 +15,9 @@ public class PercentDiscountVoucher implements Voucher {
 	private final LocalDateTime createdAt;
 
 	public PercentDiscountVoucher(UUID voucherId, long percent) {
+		if (PERCENT_VOUCHER.isViolate(percent)) {
+			throw new DomainException.ConstraintException(ErrorMessage.CLIENT_ERROR);
+		}
 		this.voucherId = voucherId;
 		this.percent = percent;
 		this.createdAt = LocalDateTime.now();
@@ -39,6 +46,11 @@ public class PercentDiscountVoucher implements Voucher {
 	@Override
 	public String show() {
 		return "voucher type : " + getVoucherType() + ", percent : " + percent;
+	}
+
+	@Override
+	public long discount(long beforeDiscount) {
+		return beforeDiscount - (percent / 100) * 100;
 	}
 
 	@Override

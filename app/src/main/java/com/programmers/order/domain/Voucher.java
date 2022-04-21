@@ -17,4 +17,12 @@ public interface Voucher {
 	LocalDateTime getCreatedAt();
 
 	String show();
+
+	/**
+	 *
+	 * @param beforeDiscount
+	 * @return
+	 */
+	long discount(long beforeDiscount);
+
 }
