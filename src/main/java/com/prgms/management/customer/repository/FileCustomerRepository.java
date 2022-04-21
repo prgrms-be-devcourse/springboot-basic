@@ -1,6 +1,6 @@
 package com.prgms.management.customer.repository;
 
-import com.prgms.management.customer.exception.CustomerException;
+import com.prgms.management.common.exception.EmptyListException;
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.customer.model.CustomerType;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,36 +20,41 @@ import java.util.UUID;
 @Profile({"dev"})
 public class FileCustomerRepository implements CustomerRepository {
     private final Resource resource;
-
+    
     public FileCustomerRepository(@Value("${database.file.black-list}") String filename) {
         DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
         this.resource = defaultResourceLoader.getResource(filename);
     }
-
+    
     @Override
     public Customer save(Customer customer) {
+        // 구현 보류
         return null;
     }
-
+    
     @Override
     public Customer update(Customer customer) {
+        // 구현 보류
         return null;
     }
-
+    
     @Override
     public Customer findById(UUID id) {
+        // 구현 보류
         return null;
     }
-
+    
     @Override
     public Customer findByEmail(String email) {
+        // 구현 보류
         return null;
     }
-
+    
     @Override
     public List<Customer> findByType(CustomerType type) {
+        // 구현 보류
         List<Customer> customers = new ArrayList<>();
-
+        
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -57,16 +62,16 @@ public class FileCustomerRepository implements CustomerRepository {
                 customers.add(new Customer(CustomerType.BLACK, UUID.fromString(array[0]), array[1]));
             }
         } catch (IOException e) {
-            throw new CustomerException(e.getMessage());
+            throw new EmptyListException(e.getMessage());
         }
-
+        
         return customers;
     }
-
+    
     @Override
     public List<Customer> findAll() {
         List<Customer> customers = new ArrayList<>();
-
+        
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -74,19 +79,19 @@ public class FileCustomerRepository implements CustomerRepository {
                 customers.add(new Customer(CustomerType.BLACK, UUID.fromString(array[0]), array[1]));
             }
         } catch (IOException e) {
-            throw new CustomerException(e.getMessage());
+            throw new EmptyListException(e.getMessage());
         }
-
+        
         return customers;
     }
-
+    
     @Override
     public void removeById(UUID id) {
-
+        // 구현 보류
     }
-
+    
     @Override
     public void removeAll() {
-
+        // 구현 보류
     }
 }
