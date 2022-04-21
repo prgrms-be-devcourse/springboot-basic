@@ -9,7 +9,7 @@ import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 
-public class TestContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class EmbeddedTestDbInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         var config = aMysqldConfig(v8_0_11)

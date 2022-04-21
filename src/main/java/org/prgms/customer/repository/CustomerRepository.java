@@ -21,10 +21,10 @@ public class CustomerRepository {
     private final static Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
-    private final static String SELECT_ALL_QUERY = "SELECT a.*, b.voucher_id FROM customers a LEFT JOIN vouchers b ON a.customer_id = b.customer_id;";
-    private final static String SELECT_BY_NAME_QUERY = "SELECT a.*, b.voucher_id FROM customers a LEFT JOIN vouchers b ON a.customer_id = b.customer_id WHERE a.name = ?;";
-    private final static String SELECT_BY_ID = "SELECT a.*, b.voucher_id FROM customers a LEFT JOIN vouchers b ON a.customer_id = b.customer_id WHERE a.customer_id = ?;";
-    private final static String SELECT_BY_EMAIL = "SELECT a.*, b.voucher_id FROM customers a LEFT JOIN vouchers b ON a.customer_id = b.customer_id WHERE a.email = ?;";
+    private final static String SELECT_ALL_QUERY = "SELECT * FROM customers;";
+    private final static String SELECT_BY_NAME_QUERY = "SELECT * FROM customers WHERE name = ?;";
+    private final static String SELECT_BY_ID = "SELECT * FROM customers WHERE customer_id = ?;";
+    private final static String SELECT_BY_EMAIL = "SELECT * FROM customers WHERE email = ?;";
 
     private final static String INSERT_QUERY = "INSERT INTO customers(customer_id, name, email) values (?, ?, ?)";
     private final static String UPDATE_NAME_BY_ID_QUERY = "UPDATE customers SET name = ? WHERE customer_id = ?;";

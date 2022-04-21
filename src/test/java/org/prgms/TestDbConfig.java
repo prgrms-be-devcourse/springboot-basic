@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(basePackages = "org.prgms")
-public class TestConfig {
+public class TestDbConfig {
     @Bean
     DataSource dataSource() {
         return DataSourceBuilder.create()

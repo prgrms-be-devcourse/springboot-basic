@@ -4,10 +4,11 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.TestConfig;
-import org.prgms.TestContextInitializer;
+import org.prgms.EmbeddedTestDbInitializer;
+import org.prgms.TestDbConfig;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.Voucher;
+import org.prgms.voucher.VoucherConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@SpringJUnitConfig(value = TestConfig.class, initializers = TestContextInitializer.class)
+@SpringJUnitConfig(value = {TestDbConfig.class, VoucherConfig.class}, initializers = EmbeddedTestDbInitializer.class)
 class VoucherRepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;

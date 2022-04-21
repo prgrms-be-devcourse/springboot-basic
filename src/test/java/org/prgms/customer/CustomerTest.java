@@ -3,22 +3,26 @@ package org.prgms.customer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.TestConfig;
 import org.prgms.io.FileReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
 import java.util.UUID;
 
-@SpringJUnitConfig(value = TestConfig.class)
+@SpringJUnitConfig(value = CustomerTest.Config.class)
 class CustomerTest {
-    @Autowired
-    private FileReader fileReader;
+
+    @Configuration
+    @ComponentScan(basePackages = "org.prgms.io")
+    static class Config {
+
+    }
 
     @Autowired
-    private ApplicationContext context;
+    private FileReader fileReader;
 
     @Test
     @DisplayName("고객 블랙리스트 조회를 통한 Customer객체 테스트")

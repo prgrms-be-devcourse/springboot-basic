@@ -2,8 +2,8 @@ package org.prgms.wallet;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
-import org.prgms.TestConfig;
-import org.prgms.TestContextInitializer;
+import org.prgms.EmbeddedTestDbInitializer;
+import org.prgms.TestDbConfig;
 import org.prgms.customer.Customer;
 import org.prgms.customer.repository.CustomerRepository;
 import org.prgms.voucher.FixedAmountVoucher;
@@ -11,14 +11,21 @@ import org.prgms.voucher.PercentDiscountVoucher;
 import org.prgms.voucher.Voucher;
 import org.prgms.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.UUID;
 
 
-@SpringJUnitConfig(value = TestConfig.class, initializers = TestContextInitializer.class)
+@SpringJUnitConfig(value = {TestDbConfig.class, WalletRepositoryTest.Config.class}, initializers = EmbeddedTestDbInitializer.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class WalletRepositoryTest {
+
+    @Configuration
+    @ComponentScan(basePackages = "org.prgms.wallet")
+    static class Config {
+    }
 
     @Autowired
     private WalletRepository walletRepository;
