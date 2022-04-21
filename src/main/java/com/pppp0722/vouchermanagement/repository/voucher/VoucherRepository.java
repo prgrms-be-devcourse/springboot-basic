@@ -17,6 +17,4 @@ public interface VoucherRepository {
     Voucher updateVoucher(Voucher voucher);
 
     Voucher deleteVoucher(Voucher voucher);
-
-    List<Voucher> readVouchersByMemberId(UUID memberId);
 }

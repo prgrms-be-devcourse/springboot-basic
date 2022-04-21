@@ -7,9 +7,7 @@ import java.util.UUID;
 
 public interface VoucherService {
 
-    void createVoucher(UUID voucherId, VoucherType voucherType, long amount, UUID memberId);
+    void createVoucher(VoucherType voucherType, UUID voucherId, long amount);
 
     List<Voucher> getAllVouchers();
-
-    List<Voucher> getVouchersByMemberId(UUID memberId);
 }

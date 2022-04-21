@@ -17,4 +17,8 @@ public interface MemberRepository {
     Member updateMember(Member member);
 
     Member deleteMember(Member member);
+
+    void updateWallet(UUID memberId, UUID walletId);
+
+    Optional<UUID> readWalletId(UUID memberId);
 }

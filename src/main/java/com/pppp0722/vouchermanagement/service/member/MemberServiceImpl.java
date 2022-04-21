@@ -27,6 +27,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public void updateWallet(UUID memberId, UUID walletId) {
+        memberRepository.updateWallet(memberId, walletId);
+    }
+
+    @Override
     public List<Member> getAllMembers() {
         return memberRepository.readMembers();
     }

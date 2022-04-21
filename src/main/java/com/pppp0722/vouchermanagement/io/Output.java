@@ -17,9 +17,7 @@ public interface Output {
 
     void printError(String error);
 
-    void printEntityTypeInputRequest1();
-
-    void printEntityTypeInputRequest2();
+    void printEntityTypeInputRequest();
 
     void printVoucherTypeInputRequest();
 
