@@ -1,6 +1,5 @@
-spring.profiles.active: dev
-csv:
-  voucher:
-    file-path: csv\\voucher_list.csv
-  blacklist:
-    file-path: csv\\customer_blacklist.csv
+spring.profiles.active: default
+database:
+  url: jdbc:mysql://localhost/voucher_mgmt
+  username: root
+  password: root1234!
