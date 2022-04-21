@@ -27,11 +27,10 @@ public class VoucherFileRepository implements VoucherRepository {
     @Override
     public void insert(Voucher voucher) {
         StringBuilder sb = new StringBuilder();
-        BufferedWriter bw = null;
 
-        try {
-            bw = new BufferedWriter(new FileWriter(path, true));
 
+        // try with resources로 해당 구문 벗어나면 AutoCloseable은 close 된다.
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))){
             // UUID,voucher.toString() 형식으로 작성
             sb.append(voucher.getVoucherId());
             sb.append(",");
@@ -43,46 +42,28 @@ public class VoucherFileRepository implements VoucherRepository {
             logger.error("Got error while opening file ", e);
         } catch (IOException e) {
             logger.error("Got error while writing in file ", e);
-
-        } finally {
-            try {
-                if (bw != null) {
-                    bw.close();
-                }
-            } catch (IOException e) {
-                logger.error("Got error while closing file ", e);
-            }
         }
     }
 
     @Override
     public List<String> getAllVoucher() {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader br = null;
         String line = " ";
         List<String> vouchers = new ArrayList<>();
 
-        try {
-            br = new BufferedReader(new FileReader(path));
+        try (BufferedReader br = new BufferedReader(new FileReader(path))){
             while ((line = br.readLine()) != null) {
                 String[] strings = line.split(",");
                 vouchers.add(strings[1]); // voucher.toString()만 slicing
+
             }
 
         } catch (FileNotFoundException e) {
             logger.error("Got error while opening file ", e);
         } catch (IOException e) {
             logger.error("Got error while reading file ", e);
-        } finally {
-            try {
-                if (br != null) {
-                    br.close(); // 사용 후 BufferedReader를 닫기
-                }
-            } catch (IOException e) {
-                logger.error("Got error while closing file ", e);
-            }
-
         }
+
+
 
         return vouchers;
     }
