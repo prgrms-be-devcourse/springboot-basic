@@ -1,5 +1,4 @@
 package com.example.voucher.io;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,5 +10,10 @@ public class ConsoleWriter implements Output {
 		                   "Type exit to exit the program.\n" +
 				           "Type create to create a new voucher.\n" +
 				           "Type list to list all vouchers.");
+	}
+
+	@Override
+	public void printError(String message) {
+
 	}
 }
