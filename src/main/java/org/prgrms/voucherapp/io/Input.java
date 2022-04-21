@@ -2,10 +2,11 @@ package org.prgrms.voucherapp.io;
 
 import org.prgrms.voucherapp.exception.WrongAmountException;
 import org.prgrms.voucherapp.exception.WrongInputException;
-import org.prgrms.voucherapp.global.Command;
-import org.prgrms.voucherapp.global.VoucherType;
+import org.prgrms.voucherapp.global.enums.Command;
+import org.prgrms.voucherapp.global.enums.ModuleCommand;
+import org.prgrms.voucherapp.global.enums.VoucherType;
 
-import java.util.InputMismatchException;
+import java.util.UUID;
 
 /*
 * Input : 입력 인터페이스
@@ -15,9 +16,15 @@ import java.util.InputMismatchException;
 * 입력 인터페이스를 인터페이스로서 잘 사용하려면 어떤 메소드들만 정의하는 것이 좋을까요?
 * */
 public interface Input {
+    ModuleCommand moduleInput(String s) throws WrongInputException;
+
     Command commandInput(String s) throws WrongInputException;
 
     VoucherType voucherTypeInput(String s) throws WrongInputException;
 
     long discountAmountInput(VoucherType type, String s) throws WrongInputException, WrongAmountException;
+
+    UUID customerIdInput(String s) throws WrongInputException;
+
+    UUID voucherIdInput(String s) throws WrongInputException;
 }

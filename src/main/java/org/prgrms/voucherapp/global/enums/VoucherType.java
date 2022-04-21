@@ -1,4 +1,4 @@
-package org.prgrms.voucherapp.global;
+package org.prgrms.voucherapp.global.enums;
 
 import org.prgrms.voucherapp.engine.voucher.entity.FixedAmountVoucher;
 import org.prgrms.voucherapp.engine.voucher.entity.PercentDiscountVoucher;
@@ -21,15 +21,13 @@ import java.util.function.BiFunction;
  * */
 public enum VoucherType {
 
-    FIX(1, FixedAmountVoucher::new, 10000),
-    PERCENT(2, PercentDiscountVoucher::new, 30);
+    FIX(FixedAmountVoucher::new, 10000),
+    PERCENT(PercentDiscountVoucher::new, 30);
 
-    private final int option;
     private final BiFunction<UUID, Long, Voucher> createInstance;
     private final long maxDiscountAmount;
 
-    VoucherType(int option, BiFunction<UUID, Long, Voucher> createInstance, long maxDiscountAmount) {
-        this.option = option;
+    VoucherType(BiFunction<UUID, Long, Voucher> createInstance, long maxDiscountAmount) {
         this.createInstance = createInstance;
         this.maxDiscountAmount = maxDiscountAmount;
     }
@@ -40,7 +38,7 @@ public enum VoucherType {
 
     public static Optional<VoucherType> getType(int option) {
         return Arrays.stream(values())
-                .filter(o -> o.option == option)
+                .filter(o -> o.ordinal() == option-1)
                 .findFirst();
     }
 
@@ -50,10 +48,6 @@ public enum VoucherType {
         } catch(IllegalArgumentException e){
             return Optional.empty();
         }
-    }
-
-    public int getOption() {
-        return option;
     }
 
     public long getMaxDiscountAmount() {

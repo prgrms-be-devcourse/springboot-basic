@@ -1,6 +1,6 @@
 package org.prgrms.voucherapp.engine.voucher.entity;
 
-import org.prgrms.voucherapp.global.VoucherType;
+import org.prgrms.voucherapp.global.enums.VoucherType;
 
 import java.text.MessageFormat;
 import java.util.UUID;

@@ -1,21 +1,16 @@
 package org.prgrms.voucherapp.engine.voucher.repository;
 
-import org.prgrms.voucherapp.engine.voucher.entity.FixedAmountVoucher;
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.exception.SqlStatementFailException;
 import org.prgrms.voucherapp.exception.WrongSqlValueException;
 import org.prgrms.voucherapp.global.Util;
-import org.prgrms.voucherapp.global.VoucherType;
-import org.springframework.boot.autoconfigure.web.WebProperties;
-import org.springframework.context.annotation.Primary;
+import org.prgrms.voucherapp.global.enums.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
