@@ -2,6 +2,7 @@ package org.prgms.customer.repository;
 
 import org.prgms.customer.Customer;
 import org.prgms.utils.UuidUtils;
+import org.prgms.validator.RepositoryValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -50,11 +51,9 @@ public class CustomerRepository {
         return jdbcTemplate.query(SELECT_BY_ID, this::mapToCustomer, UuidUtils.uuidToBytes(customerId));
     }
 
-    public int insert(Customer customer) {
+    public int save(Customer customer) {
         var update = jdbcTemplate.update(INSERT_QUERY, UuidUtils.uuidToBytes(customer.customerId()), customer.name(), customer.email());
-        if (update != 1) {
-            throw new DataIntegrityViolationException(MessageFormat.format("데이터 삽입 실패, 유효 row 갯수 : {0}", update));
-        }
+        RepositoryValidator.affectedRowMustBeOne(update);
         return update;
     }
 
@@ -84,28 +83,4 @@ public class CustomerRepository {
             throw new DataRetrievalFailureException(MessageFormat.format("데이터를 가져오는 데 실패했습니다. {0}", e.getMessage()));
         }
     }
-
-//    private List<Customer> mapToCustomers(ResultSet resultSet) {
-//        List<Customer> customers = new ArrayList<>();
-//        Map<UUID, Customer> customerMap = new HashMap<>();
-//        try {
-//            while (resultSet.next()) {
-//                var customerId = UuidUtils.bytesToUUID(resultSet.getBytes("customer_id"));
-//                var name = resultSet.getString("name");
-//                var email = resultSet.getString("email");
-//                if (!customerMap.containsKey(customerId))
-//                    customerMap.put(customerId, new Customer(customerId, name, email));
-//                var voucherIdBytes = resultSet.getBytes("voucher_id");
-//                if (voucherIdBytes == null) {
-//                    continue;
-//                }
-//                var voucherId = UuidUtils.bytesToUUID(voucherIdBytes);
-//                customerMap.get(customerId).addVoucher(voucherRepository.findById(voucherId).orElseThrow());
-//            }
-//        } catch (SQLException e) {
-//            throw new DataRetrievalFailureException(MessageFormat.format("데이터를 가져오는 데 실패했습니다. {0}", e.getMessage()));
-//        }
-//        return new ArrayList<>(customerMap.values());
-//    }
-
 }

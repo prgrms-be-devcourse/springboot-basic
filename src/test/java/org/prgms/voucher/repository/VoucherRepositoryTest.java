@@ -17,7 +17,6 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringJUnitConfig(value = TestConfig.class, initializers = TestContextInitializer.class)
-//@ActiveProfiles("db")
 class VoucherRepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;

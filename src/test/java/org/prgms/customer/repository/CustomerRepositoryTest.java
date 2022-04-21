@@ -13,7 +13,6 @@ import java.util.UUID;
 
 @SpringJUnitConfig(value = TestConfig.class, initializers = TestContextInitializer.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@ActiveProfiles("db")
 class CustomerRepositoryTest {
 
     @Autowired
