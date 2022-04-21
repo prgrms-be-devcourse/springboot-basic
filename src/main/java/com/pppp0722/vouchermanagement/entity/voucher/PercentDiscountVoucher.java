@@ -1,5 +1,7 @@
-package com.pppp0722.vouchermanagement.voucher.model;
+package com.pppp0722.vouchermanagement.entity.voucher;
 
+import com.pppp0722.vouchermanagement.entity.voucher.Voucher;
+import com.pppp0722.vouchermanagement.entity.voucher.VoucherType;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -24,7 +26,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType() {
+    public VoucherType getType() {
         return voucherType;
     }
 }
