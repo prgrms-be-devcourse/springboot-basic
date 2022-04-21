@@ -110,7 +110,8 @@ public class CommandLineApplication {
                 "4. Type customer_insert to create a new customer\n" +
                 "5. Type customer_list to find all customers\n" +
                 "6. Type customer_update to update customer\n" +
-                "7. Type customer_delete to delete all customers\n"
+                "7. Type customer_delete to delete all customers\n" +
+                "8. Type customer_findby_email to delete all customers\n"
         );
     }
 }
