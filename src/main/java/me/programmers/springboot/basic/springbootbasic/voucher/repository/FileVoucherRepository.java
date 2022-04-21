@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("default")
+@Profile("file")
 public class FileVoucherRepository implements VoucherRepository, FileInput, FileOutput {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
