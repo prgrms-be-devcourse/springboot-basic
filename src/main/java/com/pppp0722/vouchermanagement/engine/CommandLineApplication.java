@@ -48,6 +48,9 @@ public class CommandLineApplication {
                 case LIST:
                     printList();
                     break;
+                case DELETE:
+                    delete();
+                    break;
                 case EXIT:
                     isExit = true;
                     break;
@@ -63,16 +66,13 @@ public class CommandLineApplication {
 
     public void create() {
         EntityType entityType;
-        console.printEntityTypeInputRequest();
+        console.printEntityTypeInputRequest1();
         entityType = EntityType.getEntityType(console.getCommand("Input : "));
         if (entityType.equals(EntityType.MEMBER)) {
             inputMember();
         } else if (entityType.equals(EntityType.VOUCHER)) {
             inputVoucher();
-        } else if (entityType.equals(EntityType.WALLET)) {
-            inputWallet();
-        }
-        else {
+        } else {
             logger.error("Invalid entity type!");
             console.printInputError();
 
@@ -88,9 +88,17 @@ public class CommandLineApplication {
     }
 
     public void inputVoucher() {
+        UUID memberId = inputMemberId();
         VoucherType voucherType = inputVoucherType();
         long discountAmount = inputDiscountAmount(voucherType);
-        voucherService.createVoucher(voucherType, UUID.randomUUID(), discountAmount);
+        voucherService.createVoucher(UUID.randomUUID(), voucherType, discountAmount, memberId);
+    }
+
+    public UUID inputMemberId() {
+        UUID memberId;
+        console.printMemberIdInputRequest();
+        memberId = UUID.fromString(console.getCommand("Input : "));
+        return memberId;
     }
 
     public VoucherType inputVoucherType() {
@@ -121,14 +129,6 @@ public class CommandLineApplication {
         return discountAmount;
     }
 
-    public void inputWallet() {
-        UUID memberId;
-        console.printMemberIdInputRequest();
-        memberId = UUID.fromString(console.getCommand("Input : "));
-
-        memberService.updateWallet(memberId, UUID.randomUUID());
-    }
-
     public boolean isValidAmount(VoucherType voucherType, long discountAmount) {
         if (voucherType.equals(FIXED_AMOUNT)) {
             if (discountAmount < 1) {
@@ -147,7 +147,7 @@ public class CommandLineApplication {
 
     public void printList() {
         EntityType entityType;
-        console.printEntityTypeInputRequest();
+        console.printEntityTypeInputRequest2();
         entityType = EntityType.getEntityType(console.getCommand("Input : "));
         if (entityType.equals(EntityType.MEMBER)) {
             printMemberList();
@@ -155,7 +155,8 @@ public class CommandLineApplication {
             printVoucherList();
         } else if (entityType.equals(EntityType.WALLET)) {
             printWallet();
-        } else {
+        }
+        else {
             logger.error("Invalid entity type!");
             console.printInputError();
         }
@@ -187,5 +188,21 @@ public class CommandLineApplication {
         UUID memberId;
         console.printMemberIdInputRequest();
         memberId = UUID.fromString(console.getCommand("Input : "));
+        printVoucherListByMemberId(memberId);
+    }
+
+    public void printVoucherListByMemberId(UUID memberId) {
+        List<Voucher> voucherList = voucherService.getVouchersByMemberId(memberId);
+
+        if (voucherList.isEmpty()) {
+            logger.info("Voucher is Empty.");
+            console.printVoucherEmpty();
+        } else {
+            console.printVoucherList(voucherList);
+        }
+    }
+
+    public void delete() {
+
     }
 }

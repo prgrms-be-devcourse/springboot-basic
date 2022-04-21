@@ -3,6 +3,7 @@ package com.pppp0722.vouchermanagement.engine;
 public enum CommandType {
     CREATE,
     LIST,
+    DELETE,
     EXIT,
     NONE;
 
@@ -16,6 +17,9 @@ public enum CommandType {
                 break;
             case "list":
                 commandType = CommandType.LIST;
+                break;
+            case "delete":
+                commandType = CommandType.DELETE;
                 break;
             case "exit":
                 commandType = CommandType.EXIT;
