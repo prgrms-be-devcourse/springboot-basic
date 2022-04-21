@@ -42,8 +42,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
-                            Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-                            voucherRowMapper));
+                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                    voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -51,26 +51,26 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        var insert = jdbcTemplate.update("insert into vouchers(voucher_id, amount, type) values(UUID_TO_BIN(:voucherId), :amount, :type)", toParamMap(voucher));
-        if(insert!=1) throw new SqlStatementFailException("정상적으로 삽입되지 않았습니다.");
+        int insert = jdbcTemplate.update("insert into vouchers(voucher_id, amount, type) values(UUID_TO_BIN(:voucherId), :amount, :type)", toParamMap(voucher));
+        if (insert != 1) throw new SqlStatementFailException("정상적으로 삽입되지 않았습니다.");
         return voucher;
     }
 
     @Override
-    public List<Voucher> getVoucherAll() {
+    public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        var update = jdbcTemplate.update("update vouchers set type = :type, amount = :amount where voucher_id = UUID_TO_BIN(:voucherId)", toParamMap(voucher));
-        if(update!=1) throw new SqlStatementFailException("정상적으로 수정되지 않았습니다.");
+        int update = jdbcTemplate.update("update vouchers set type = :type, amount = :amount where voucher_id = UUID_TO_BIN(:voucherId)", toParamMap(voucher));
+        if (update != 1) throw new SqlStatementFailException("정상적으로 수정되지 않았습니다.");
         return voucher;
     }
 
     @Override
-    public void delete(UUID voucherId) {
-        var delete = jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
-        if(delete!=1) throw new SqlStatementFailException("정상적으로 삭제되지 않았습니다.");
+    public void deleteById(UUID voucherId) {
+        int delete = jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+        if (delete != 1) throw new SqlStatementFailException("정상적으로 삭제되지 않았습니다.");
     }
 }

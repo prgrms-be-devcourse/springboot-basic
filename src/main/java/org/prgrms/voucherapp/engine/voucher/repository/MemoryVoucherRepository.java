@@ -25,7 +25,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getVoucherAll() {
+    public List<Voucher> findAll() {
         return storage.keySet().stream()
                 .map(storage::get)
                 .toList();
@@ -38,7 +38,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void delete(UUID voucherId) {
+    public void deleteById(UUID voucherId) {
         storage.remove(voucherId);
     }
 }

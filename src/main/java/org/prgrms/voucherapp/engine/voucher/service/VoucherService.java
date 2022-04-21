@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 /*
@@ -32,7 +30,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher getVoucher(UUID voucherId) throws NullVoucherException {
+    public Voucher getVoucher(UUID voucherId){
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new NullVoucherException(MessageFormat.format("{0}는 존재하지 않는 바우처 id입니다.", voucherId)));
@@ -51,7 +49,7 @@ public class VoucherService {
      * */
     public String getVoucherListByStr() {
         StringBuilder sb = new StringBuilder();
-        for (Voucher voucher : voucherRepository.getVoucherAll()) {
+        for (Voucher voucher : voucherRepository.findAll()) {
             sb.append(voucher.toString()).append("\n");
         }
         if (sb.isEmpty()) return "Voucher Repository is empty.";
@@ -60,15 +58,14 @@ public class VoucherService {
     }
 
     public void removeVoucher(UUID voucherId) {
-        Voucher oldVoucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new NullVoucherException(MessageFormat.format("{0}는 존재하지 않는 바우처 id입니다.", voucherId)));
-        voucherRepository.delete(voucherId);
+        Voucher oldVoucher = this.getVoucher(voucherId);
+        voucherRepository.deleteById(voucherId);
         logger.info("--- 삭제된 바우처 정보 --- \n%s".formatted(oldVoucher));
     }
 
+    // TODO : 지금은 무조건 create 하지만 type에 따라서 entity 속성을 바꿔줄 수도 있음.
     public void updateVoucher(UUID voucherId, VoucherType newVoucherType, long newDiscountAmount){
-        Voucher oldVoucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new NullVoucherException(MessageFormat.format("{0}는 존재하지 않는 바우처 id입니다.", voucherId)));
+        Voucher oldVoucher =  this.getVoucher(voucherId);
         Voucher newVoucher = voucherRepository.update(newVoucherType.createVoucher(voucherId, newDiscountAmount));
         logger.info("--- 수정된 바우처 정보 ---\n변경 전 : %s\n변경 후 : %s".formatted(oldVoucher, newVoucher));
     }

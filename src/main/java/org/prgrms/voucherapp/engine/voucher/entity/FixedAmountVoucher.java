@@ -40,6 +40,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("TYPE : {0}, AMOUNT : {1}, ID : {2}", VoucherType.FIX.toString(), discountAmount, voucherId);
+        return String.format("TYPE : %7s, AMOUNT : %7s, ID : %36s", type, discountAmount, voucherId);
     }
 }

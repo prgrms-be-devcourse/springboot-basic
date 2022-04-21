@@ -3,9 +3,11 @@ package org.prgrms.voucherapp.io;
 import org.prgrms.voucherapp.exception.WrongAmountException;
 import org.prgrms.voucherapp.exception.WrongInputException;
 import org.prgrms.voucherapp.global.enums.Command;
+import org.prgrms.voucherapp.global.enums.CustomerStatus;
 import org.prgrms.voucherapp.global.enums.ModuleCommand;
 import org.prgrms.voucherapp.global.enums.VoucherType;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /*
@@ -16,15 +18,19 @@ import java.util.UUID;
 * 입력 인터페이스를 인터페이스로서 잘 사용하려면 어떤 메소드들만 정의하는 것이 좋을까요?
 * */
 public interface Input {
-    ModuleCommand moduleInput(String s) throws WrongInputException;
+    ModuleCommand moduleInput(String prompt);
 
-    Command commandInput(String s) throws WrongInputException;
+    Command commandInput(String prompt);
 
-    VoucherType voucherTypeInput(String s) throws WrongInputException;
+    VoucherType voucherTypeInput(String prompt);
 
-    long discountAmountInput(VoucherType type, String s) throws WrongInputException, WrongAmountException;
+    long discountAmountInput(VoucherType type, String prompt);
 
-    UUID customerIdInput(String s) throws WrongInputException;
+    UUID UUIDInput(String prompt);
 
-    UUID voucherIdInput(String s) throws WrongInputException;
+    String customerNameInput(String prompt);
+
+    String customerEmailInput(String prompt);
+
+    Optional<CustomerStatus> customerStatusInput(String prompt);
 }

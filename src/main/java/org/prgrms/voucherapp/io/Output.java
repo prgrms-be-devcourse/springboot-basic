@@ -23,5 +23,7 @@ public interface Output {
 
     void informVoucherTypeFormat();
 
+    void informCustomerStatus();
+
     void infoMessage(String msg);
 }

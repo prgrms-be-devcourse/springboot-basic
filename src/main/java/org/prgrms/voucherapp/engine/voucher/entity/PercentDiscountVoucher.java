@@ -39,7 +39,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("TYPE : {0}, AMOUNT : {1}%, ID : {2}", VoucherType.PERCENT.toString(), percentAmount, voucherId);
+        return String.format("TYPE : %7s, AMOUNT : %6s%%, ID : %36s", type, percentAmount, voucherId);
     }
 
 }
