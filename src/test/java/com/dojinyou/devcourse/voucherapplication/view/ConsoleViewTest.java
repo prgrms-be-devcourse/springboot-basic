@@ -38,8 +38,10 @@ class ConsoleViewTest {
 
             InputStream emptyInputStream = generateUserInput(emptyInput);
             System.setIn(emptyInputStream);
-            Scanner sc = new Scanner(System.in);
-            consoleView.setScanner(sc);
+            Scanner testScanner = new Scanner(System.in);
+            Field scannerField = consoleView.getClass().getDeclaredField("scanner");
+            scannerField.setAccessible(true);
+            scannerField.set(consoleView, testScanner);
 
             // 테스트 메소드 호출 및 반환 타입 저장
             Throwable thrown = catchThrowable(()->consoleView.getUserInput());
@@ -52,14 +54,16 @@ class ConsoleViewTest {
         @ParameterizedTest
         @ValueSource(strings = {"create", "adfafadsf", "exit"})
         @DisplayName("정상적인 입력값이 들어온다면, 해당 입력값을 전달한다.")
-        void normalInputTest(String normalInput) {
+        void normalInputTest(String normalInput) throws NoSuchFieldException, IllegalAccessException {
             // 테스트 환경 설정
             consoleView = new ConsoleView();
             
             InputStream emptyInputStream = generateUserInput(normalInput);
             System.setIn(emptyInputStream);
-            Scanner sc = new Scanner(System.in);
-            consoleView.setScanner(sc);
+            Scanner testScanner = new Scanner(System.in);
+            Field scannerField = consoleView.getClass().getDeclaredField("scanner");
+            scannerField.setAccessible(true);
+            scannerField.set(consoleView, testScanner);
             
             // 테스트 메소드 호출 및 반환 타입 저장
             String userInput = consoleView.getUserInput();
