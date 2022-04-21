@@ -10,7 +10,12 @@ public class ConsoleInput implements Input {
     Scanner sc = new Scanner(System.in);
 
     @Override
-    public String input() {
+    public String menuInput() {
         return sc.nextLine();
+    }
+
+    @Override
+    public int valueInput() {
+        return sc.nextInt();
     }
 }

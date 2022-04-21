@@ -1,15 +1,19 @@
 package kdt.vouchermanagement.global.view;
 
-import kdt.vouchermanagement.global.io.Input;
+정import kdt.vouchermanagement.global.io.Input;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleDispatcher implements ApplicationRunner {
 
-    private final Input consoleInput;
+    private Input consoleInput;
+    private VoucherConsoleController voucherConsoleController;
 
-    public ConsoleDispatcher(Input consoleInput) {
+    public ConsoleDispatcher(Input consoleInput, VoucherConsoleController voucherConsoleController) {
         this.consoleInput = consoleInput;
+        this.voucherConsoleController = voucherConsoleController;
     }
 
     @Override
@@ -17,16 +21,15 @@ public class ConsoleDispatcher implements ApplicationRunner {
         while (true) {
             //TODO output
             try {
-                Menu menu = findMenu(excuteInput());
+                Menu menu = findMenu(consoleInput.menuInput());
                 switch (menu) {
                     case EXIT_PROGRAM:
                         return;
                     case CREATE_VOUCHER:
                         //TODO output
-                        String voucherTypeNum = excuteInput();
+                        int voucherTypeNum = consoleInput.valueInput();
                         //TODO output
-                        String discountValue = excuteInput();
-                        //TODO controller
+                        int discountValue = consoleInput.valueInput();
                     case LIST_VOUCHERS:
                         //TODO output
                     case BLACKLIST:
@@ -38,15 +41,7 @@ public class ConsoleDispatcher implements ApplicationRunner {
         }
     }
 
-    private String excuteInput() {
-        String inputValue = consoleInput.input();
-        if (inputValue.isBlank()) {
-            throw new IllegalArgumentException("공백이 입력되었습니다. 올바른 값을 입력해주세요.");
-        }
-        return inputValue;
-    }
-
-    private Menu findMenu(String input) {
-        return Menu.from(input);
+    private Menu findMenu(String inputMenu) {
+        return Menu.from(inputMenu);
     }
 }
