@@ -17,5 +17,5 @@ public interface VoucherService {
 
     Voucher updateVoucher(Voucher voucher);
 
-    void deleteOneVoucherByCustomer(Customer customer, Voucher voucher);
+    void deleteOneVoucherByCustomer(UUID customerId, UUID voucherId);
 }

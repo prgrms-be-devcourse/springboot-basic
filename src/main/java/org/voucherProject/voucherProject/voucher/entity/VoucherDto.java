@@ -20,4 +20,16 @@ public class VoucherDto {
     private LocalDateTime createdAt;
 
     private UUID customerId;
+
+    public static VoucherDto of(Voucher voucher) {
+        return VoucherDto.builder()
+                .voucherId(voucher.getVoucherId())
+                .amount(voucher.getHowMuch())
+                .voucherType(voucher.getVoucherType())
+                .voucherStatus(voucher.getVoucherStatus())
+                .createdAt(voucher.getCreatedAt())
+                .customerId(voucher.getCustomerId())
+                .build();
+    }
+
 }

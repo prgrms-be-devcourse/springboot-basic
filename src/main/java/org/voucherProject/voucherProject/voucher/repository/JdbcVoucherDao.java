@@ -26,7 +26,7 @@ public class JdbcVoucherDao implements VoucherDao {
     private final String SELECT_BY_ID_SQL = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String INSERT_SQL = "INSERT INTO voucher(voucher_id, amount, voucher_type, voucher_status, created_at, customer_id) VALUES (UUID_TO_BIN(:voucherId), :amount, :voucherType, :voucherStatus, :createdAt, UUID_TO_BIN(:customerId))";
     private final String DELETE_ALL_SQL = "DELETE FROM voucher";
-    private final String UPDATE_SQL = "UPDATE voucher SET voucher_type = :voucherType, voucher_status = :voucherStatus, amount = :amount WHERE customer_id = UUID_TO_BIN(:customerId)";
+    private final String UPDATE_SQL = "UPDATE voucher SET voucher_type = :voucherType, voucher_status = :voucherStatus, amount = :amount WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String SELECT_BY_CUSTOMER_ID_SQL = "SELECT * FROM voucher v LEFT JOIN customers c ON v.customer_id = c.customer_id WHERE v.customer_id = UUID_TO_BIN(:customerId)";
     private final String DELETE_ONE_BY_CUSTOMER_ID_SQL = "DELETE FROM voucher WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)";
 

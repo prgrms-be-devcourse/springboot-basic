@@ -57,5 +57,6 @@ public enum VoucherType {
                 .orElseThrow(IllegalArgumentException::new);
         return voucherType;
     }
+
 }
 

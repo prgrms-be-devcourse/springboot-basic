@@ -39,10 +39,8 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public void deleteOneVoucherByCustomer(Customer customer, Voucher voucher) {
-        UUID customerId = customer.getCustomerId();
-        UUID voucherId = voucher.getVoucherId();
-        voucherRepository.deleteOneByCustomerId(customerId,voucherId);
+    public void deleteOneVoucherByCustomer(UUID customerId, UUID voucherId) {
+        voucherRepository.deleteOneByCustomerId(customerId, voucherId);
     }
 
     @Override

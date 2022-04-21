@@ -105,14 +105,14 @@ public class VoucherServiceTest {
         @Test
         @DisplayName("성공")
         public void deleteOneVoucherByCustomer() throws Exception {
-            voucherService.deleteOneVoucherByCustomer(customer, voucher);
+            voucherService.deleteOneVoucherByCustomer(customer.getCustomerId(), voucher.getVoucherId());
         }
 
         @Test
         @DisplayName("고객이 가진 바우처 한개 제거 -> 고객이 가진 바우처가 아니었을 때")
         public void deleteOneVoucherByWrongCustomer() throws Exception {
             Customer newCustomer = new Customer(UUID.randomUUID(), "bbb", "bbb@naver.com", "1234");
-            assertThrows(RuntimeException.class, () -> voucherService.deleteOneVoucherByCustomer(newCustomer, voucher));
+            assertThrows(RuntimeException.class, () -> voucherService.deleteOneVoucherByCustomer(newCustomer.getCustomerId(), voucher.getVoucherId()));
         }
     }
 

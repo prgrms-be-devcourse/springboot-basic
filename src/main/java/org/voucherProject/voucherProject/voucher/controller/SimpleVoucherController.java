@@ -2,6 +2,7 @@ package org.voucherProject.voucherProject.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
