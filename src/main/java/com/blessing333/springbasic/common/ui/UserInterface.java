@@ -1,6 +1,6 @@
 package com.blessing333.springbasic.common.ui;
 
-public interface ServiceUserInterface {
+public interface UserInterface {
     default void printDivider(){
         printMessage("=========================");
     }

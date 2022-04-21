@@ -50,7 +50,7 @@ class JdbcTemplateCustomerRepositoryTest {
                 .build();
 
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-customer", classPathScript("schema.sql"))
+                .addSchema("test-customer", classPathScript("customer.sql"))
                 .start();
     }
 

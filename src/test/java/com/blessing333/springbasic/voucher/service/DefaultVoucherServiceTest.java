@@ -1,9 +1,7 @@
 package com.blessing333.springbasic.voucher.service;
 
-import com.blessing333.springbasic.voucher.VoucherType;
-import com.blessing333.springbasic.voucher.domain.FixedAmountVoucher;
-import com.blessing333.springbasic.voucher.domain.PercentDiscountVoucher;
 import com.blessing333.springbasic.voucher.domain.Voucher;
+import com.blessing333.springbasic.voucher.domain.Voucher.VoucherType;
 import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -34,8 +32,6 @@ class DefaultVoucherServiceTest {
         Voucher newVoucher = service.createNewVoucher(form);
 
         UUID id = newVoucher.getVoucherId();
-        assertTrue(newVoucher instanceof FixedAmountVoucher);
-        assertThat(((FixedAmountVoucher) newVoucher).getDiscountAmount()).isEqualTo(discountAmount);
         assertTrue(repository.findById(id).isPresent());
     }
 
@@ -49,8 +45,6 @@ class DefaultVoucherServiceTest {
         Voucher newVoucher = service.createNewVoucher(form);
 
         UUID id = newVoucher.getVoucherId();
-        assertTrue(newVoucher instanceof PercentDiscountVoucher);
-        assertThat(((PercentDiscountVoucher) newVoucher).getPercent()).isEqualTo(discountPercent);
         assertTrue(repository.findById(id).isPresent());
     }
 

@@ -9,7 +9,7 @@ import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import com.blessing333.springbasic.voucher.service.VoucherService;
-import com.blessing333.springbasic.voucher.ui.VoucherManagerServiceUserInterface;
+import com.blessing333.springbasic.voucher.ui.VoucherManagerUserInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 public class VoucherManagingService implements RunnableService {
     private final VoucherService voucherService;
-    private final VoucherManagerServiceUserInterface userInterface;
+    private final VoucherManagerUserInterface userInterface;
     private final Converter converter;
 
     @Override

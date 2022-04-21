@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 @Component
-public class ApacheCliCustomerUserInterface extends ApacheCommandLine implements CustomerManagingServiceUserInterface{
+public class ApacheCliCustomerUserInterface extends ApacheCommandLine implements CustomerManagingUserInterface {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override

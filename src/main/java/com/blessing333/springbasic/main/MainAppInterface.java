@@ -1,10 +1,10 @@
 package com.blessing333.springbasic.main;
 
-import com.blessing333.springbasic.common.ui.ServiceUserInterface;
+import com.blessing333.springbasic.common.ui.UserInterface;
 
 import java.util.Scanner;
 
-public class MainAppInterface implements ServiceUserInterface {
+public class MainAppInterface implements UserInterface {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override

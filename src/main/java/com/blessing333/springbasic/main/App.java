@@ -1,7 +1,7 @@
 package com.blessing333.springbasic.main;
 
 import com.blessing333.springbasic.RunnableService;
-import com.blessing333.springbasic.common.ui.ServiceUserInterface;
+import com.blessing333.springbasic.common.ui.UserInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class App implements ApplicationRunner {
     private static final String PROGRAM_EXIT = "exit";
-    private final ServiceUserInterface serviceUserInterface = new MainAppInterface();
+    private final UserInterface userInterface = new MainAppInterface();
     private final ServiceProvider provider;
 
     @Override
     public void run(ApplicationArguments args){
         while(true){
-            serviceUserInterface.showGuideText();
-            String command = serviceUserInterface.inputMessage();
+            userInterface.showGuideText();
+            String command = userInterface.inputMessage();
             if(PROGRAM_EXIT.equals(command)) break;
             else doService(command);
         }

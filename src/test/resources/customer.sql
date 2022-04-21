@@ -6,3 +6,4 @@ CREATE TABLE customers(
     created_at    datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     CONSTRAINT unq_user_email UNIQUE (email)
 );
+

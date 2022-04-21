@@ -4,7 +4,6 @@ import com.blessing333.springbasic.common.ui.ApacheCommandLine;
 import com.blessing333.springbasic.common.ui.CommandOptionConfigurer;
 import com.blessing333.springbasic.common.ui.CommandOptions;
 import com.blessing333.springbasic.voucher.VoucherServiceCommandOptionType;
-import com.blessing333.springbasic.voucher.VoucherType;
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +13,13 @@ import java.util.Scanner;
 
 @Component
 @RequiredArgsConstructor
-public class ApacheCliVoucherManagerServiceUserInterface extends ApacheCommandLine implements VoucherManagerServiceUserInterface {
+public class ApacheCliVoucherManagerUserInterface extends ApacheCommandLine implements VoucherManagerUserInterface {
     private static final String AVAILABLE_VOUCHER_TYPE_GUIDE = initAvailableVoucherTypeGuideText();
     private final Scanner scanner = new Scanner(System.in);
 
     private static String initAvailableVoucherTypeGuideText() {
         StringBuilder sb = new StringBuilder();
-        VoucherType.getValidVoucherTypes().forEach((optionNumber, voucherType) ->
+        Voucher.VoucherType.getValidVoucherTypes().forEach((optionNumber, voucherType) ->
                 sb.append(optionNumber).append(". ").append(voucherType.getDescription()).append("\n")
         );
         return sb.toString();

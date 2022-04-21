@@ -1,9 +1,7 @@
 package com.blessing333.springbasic.voucher.repository;
 
-import com.blessing333.springbasic.voucher.VoucherType;
-import com.blessing333.springbasic.voucher.domain.FixedAmountVoucher;
-import com.blessing333.springbasic.voucher.domain.PercentDiscountVoucher;
 import com.blessing333.springbasic.voucher.domain.Voucher;
+import com.blessing333.springbasic.voucher.domain.Voucher.VoucherType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,9 +33,9 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("존재하는 바우쳐에 조회 시도")
     @Test
     void findVoucherWithCollectId(){
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(1000);
-        UUID fixedAmountVoucherId = fixedAmountVoucher.getVoucherId();
-        repository.save(fixedAmountVoucher);
+        UUID fixedAmountVoucherId = UUID.randomUUID();
+        Voucher fixedAmountVoucher = new Voucher(fixedAmountVoucherId,VoucherType.FIXED,1000);
+        repository.insert(fixedAmountVoucher);
 
         Optional<Voucher> foundVoucher = repository.findById(fixedAmountVoucherId);
 
@@ -48,10 +46,10 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("저장된 바우쳐 전체 조회")
     @Test
     void findAllTest(){
-        Voucher fixedAmountVoucher = generateVoucher(VoucherType.FIXED);
-        Voucher percentDiscountVoucher = generateVoucher(VoucherType.PERCENT);
-        repository.save(fixedAmountVoucher);
-        repository.save(percentDiscountVoucher);
+        Voucher fixedAmountVoucher = new Voucher(UUID.randomUUID(),VoucherType.FIXED,1000);
+        Voucher percentDiscountVoucher = new Voucher(UUID.randomUUID(),VoucherType.PERCENT,50);
+        repository.insert(fixedAmountVoucher);
+        repository.insert(percentDiscountVoucher);
 
         List<Voucher> all = repository.findAll();
 
@@ -63,36 +61,17 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우쳐 저장")
     @Test
     void save() {
-        Voucher fixedAmountVoucher = generateVoucher(VoucherType.FIXED);
-        Voucher percentDiscountVoucher = generateVoucher(VoucherType.PERCENT);
-        UUID fixedAmountVoucherId = fixedAmountVoucher.getVoucherId();
-        UUID percentVoucherId = percentDiscountVoucher.getVoucherId();
+        UUID fixedAmountVoucherId = UUID.randomUUID();
+        UUID percentVoucherId =UUID.randomUUID();
+        Voucher fixedAmountVoucher = new Voucher(fixedAmountVoucherId,VoucherType.FIXED,1000);
+        Voucher percentDiscountVoucher = new Voucher(percentVoucherId,VoucherType.PERCENT,50);
 
-        repository.save(fixedAmountVoucher);
-        repository.save(percentDiscountVoucher);
+
+        repository.insert(fixedAmountVoucher);
+        repository.insert(percentDiscountVoucher);
 
         assertNotNull(repository.findById(fixedAmountVoucherId).get());
         assertNotNull(repository.findById(percentVoucherId).get());
-    }
-
-    @DisplayName("바우쳐 삭제 테스트")
-    @Test
-    void delete() {
-        Voucher fixedAmountVoucher = generateVoucher(VoucherType.FIXED);
-        UUID fixedAmountVoucherId = fixedAmountVoucher.getVoucherId();
-        repository.save(fixedAmountVoucher);
-
-        repository.delete(fixedAmountVoucherId);
-
-        Optional<Voucher> found = repository.findById(fixedAmountVoucherId);
-        assertTrue(found.isEmpty());
-    }
-
-    private Voucher generateVoucher(VoucherType type){
-        return switch (type) {
-            case FIXED -> new FixedAmountVoucher(1000);
-            case PERCENT -> new PercentDiscountVoucher(50);
-        };
     }
 
 }

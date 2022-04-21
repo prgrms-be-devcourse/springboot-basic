@@ -7,7 +7,7 @@ import com.blessing333.springbasic.customer.converter.CustomerCreateFormConverte
 import com.blessing333.springbasic.customer.domain.Customer;
 import com.blessing333.springbasic.customer.service.CustomerService;
 import com.blessing333.springbasic.customer.ui.CustomerCommandOptionType;
-import com.blessing333.springbasic.customer.ui.CustomerManagingServiceUserInterface;
+import com.blessing333.springbasic.customer.ui.CustomerManagingUserInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerApp implements RunnableService {
-    private final CustomerManagingServiceUserInterface userInterface;
+    private final CustomerManagingUserInterface userInterface;
     private final CustomerService customerService;
     private final CustomerCreateFormConverter customerCreateFormConverter = new CustomerCreateFormConverter();
 
