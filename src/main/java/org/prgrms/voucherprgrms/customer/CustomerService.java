@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,24 +24,32 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    //TODO email 중복 Exception 처리
-    public void createCustomer(CustomerDTO customerDTO) throws Exception {
+    public void createCustomer(CustomerDTO customerDTO) throws RuntimeException {
         if (customerRepository.findByEmail(customerDTO.getEmail()).isPresent()) {
             logger.error("Email 중복 input : {}", customerDTO.getEmail());
-            throw new Exception();
+            throw new RuntimeException();
         }
         Customer customer = toCustomer(customerDTO);
         customerRepository.insert(customer);
     }
 
-    public void allocateVoucher(Customer customer, Voucher voucher) {
+    public boolean allocateVoucher(Customer customer, Voucher voucher) {
         if (customer.allocateVoucher(voucher)) {
-            customerRepository.allocateVoucher(customer);
+            customerRepository.changeVoucher(customer);
+            return true;
         } else {
             logger.error("Can't allocate voucher to customer {}", customer.getCustomerId());
-            //throw
+            return false;
         }
+    }
 
+    public void removeVoucher(Customer customer) {
+        customer.removeVoucher();
+        customerRepository.changeVoucher(customer);
+    }
+
+    public List<Customer> findAllCustomer(){
+        return customerRepository.findAll();
     }
 
     /**

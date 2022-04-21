@@ -38,6 +38,10 @@ public class Customer {
         }
     }
 
+    public void removeVoucher() {
+        this.voucherId = null;
+    }
+
     public UUID getCustomerId() {
         return customerId;
     }
