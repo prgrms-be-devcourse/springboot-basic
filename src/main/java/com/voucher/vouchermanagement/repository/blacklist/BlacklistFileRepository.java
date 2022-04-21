@@ -1,86 +1,47 @@
 package com.voucher.vouchermanagement.repository.blacklist;
 
 import com.voucher.vouchermanagement.model.customer.Customer;
+import com.voucher.vouchermanagement.utils.deserializer.CsvMapper;
+import com.voucher.vouchermanagement.utils.deserializer.CustomerCsvMapper;
+import com.voucher.vouchermanagement.utils.file.FileIOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
 @Profile({"prod", "dev"})
 public class BlacklistFileRepository implements BlacklistRepository {
 
-    @Value("${db.path}")
-    private String dbDirectory;
-    @Value("${db.blacklist.name}")
-    private String blacklistDbName;
-    private final ResourceLoader resourceLoader;
+    private final Resource blacklistDb;
+    private final CsvMapper<Customer> csvMapper = new CustomerCsvMapper();
     private static final Logger logger = LoggerFactory.getLogger(BlacklistFileRepository.class);
 
-    public BlacklistFileRepository(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
+    public BlacklistFileRepository(@Value("${db.path}") String dbDirectory, @Value("${db.blacklist.name}") String blacklistDbName
+            , ResourceLoader resourceloader) {
+        this.blacklistDb = resourceloader.getResource(dbDirectory + blacklistDbName);
     }
 
     @Override
     public List<Customer> findAll() {
-        BufferedReader blacklistReader = getBufferedReader(dbDirectory, blacklistDbName);
-
-        return readAllFromReader(blacklistReader)
-                .stream().map(this::csvDeserialize)
-                .collect(Collectors.toList());
-    }
-
-    private Customer csvDeserialize(String csvLine) {
-        StringTokenizer stringTokenizer = new StringTokenizer(csvLine, ",");
-        String id = stringTokenizer.nextToken().trim();
-        String name = stringTokenizer.nextToken().trim();
-
-        return new Customer(UUID.fromString(id), name);
-    }
-
-    private void logAndPrintException(Exception e) {
-        this.logger.error(e.getMessage());
-        System.out.println(e.getMessage());
-    }
-
-    private BufferedReader getBufferedReader(String directory, String target) {
         try {
-            File db = this.resourceLoader.getResource(directory + target).getFile();
-            FileReader fileReader = new FileReader(db);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            return bufferedReader;
+            return FileIOUtils.readAllLine(blacklistDb.getFile())
+                    .stream()
+                    .map(csvMapper::deserialize)
+                    .collect(Collectors.toList());
         } catch (IOException e) {
-            logAndPrintException(e);
+            logger.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
-        return (BufferedReader) BufferedReader.nullReader();
-    }
-
-    private List<String> readAllFromReader(BufferedReader bufferedReader) {
-        List<String> list = new ArrayList<>();
-        String buffer = "";
-        try {
-            while ((buffer = bufferedReader.readLine()) != null) {
-                list.add(buffer);
-            }
-            bufferedReader.close();
-        } catch (IOException e) {
-            logAndPrintException(e);
-        }
-
-        return list;
+        return Collections.emptyList();
     }
 }
