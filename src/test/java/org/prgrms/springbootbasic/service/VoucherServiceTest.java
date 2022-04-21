@@ -2,6 +2,7 @@ package org.prgrms.springbootbasic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
@@ -211,5 +212,36 @@ class VoucherServiceTest {
         //then
         assertThatThrownBy(() -> voucherService.findCustomerVoucher(customerId))
             .isInstanceOf(InvalidCustomerIdException.class);
+    }
+
+    @DisplayName("voucherId로 voucher 조회 - 정상 상황")
+    @Test
+    void findVoucher() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+
+        //when
+        var voucherDto = voucherService.findVoucher(voucher.getVoucherId());
+
+        //then
+        assertAll(
+            () -> assertThat(voucherDto.getVoucherId()).isEqualTo(voucher.getVoucherId()),
+            () -> assertThat(voucherDto.getVoucherType().isFixed()).isTrue(),
+            () -> assertThat(voucherDto.getAmount()).isEqualTo(voucher.getAmount())
+        );
+    }
+
+    @DisplayName("voucherId로 voucher 조회 - 정상 상황")
+    @Test
+    void findVoucherException() {
+        //given
+        var voucherId = UUID.randomUUID();
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(() -> voucherService.findVoucher(voucherId))
+            .isInstanceOf(InvalidVoucherIdException.class);
     }
 }
