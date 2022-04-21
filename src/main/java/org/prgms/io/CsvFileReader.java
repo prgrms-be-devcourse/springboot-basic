@@ -37,7 +37,7 @@ public class CsvFileReader implements FileReader {
         String[] nextLine;
         List<Customer> users = new ArrayList<>();
         while ((nextLine = reader.readNext()) != null) {
-            users.add(new Customer(UUID.randomUUID(), nextLine[0], nextLine[2], new ArrayList<>()));
+            users.add(new Customer(UUID.randomUUID(), nextLine[0], nextLine[2]));
         }
         return users;
     }

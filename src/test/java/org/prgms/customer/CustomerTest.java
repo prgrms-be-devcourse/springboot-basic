@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,9 +32,9 @@ class CustomerTest {
     @Test
     @DisplayName("Null 인자, 빈 공백으로 Customer 초기화 시킬 수 없음")
     void nullTest() {
-        Assertions.assertThatThrownBy(() -> new Customer(null, null, null, null))
+        Assertions.assertThatThrownBy(() -> new Customer(null, null, null))
                 .isInstanceOf(NullPointerException.class);
-        Assertions.assertThatThrownBy(() -> new Customer(UUID.randomUUID(), "", "", new ArrayList<>()))
+        Assertions.assertThatThrownBy(() -> new Customer(UUID.randomUUID(), "", ""))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

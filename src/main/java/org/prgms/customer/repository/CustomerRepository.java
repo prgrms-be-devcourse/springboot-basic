@@ -2,7 +2,6 @@ package org.prgms.customer.repository;
 
 import org.prgms.customer.Customer;
 import org.prgms.utils.UuidUtils;
-import org.prgms.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,13 +12,13 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class CustomerRepository {
     private final static Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
-    private final VoucherRepository voucherRepository;
 
     private final static String SELECT_ALL_QUERY = "SELECT a.*, b.voucher_id FROM customers a LEFT JOIN vouchers b ON a.customer_id = b.customer_id;";
     private final static String SELECT_BY_NAME_QUERY = "SELECT a.*, b.voucher_id FROM customers a LEFT JOIN vouchers b ON a.customer_id = b.customer_id WHERE a.name = ?;";
@@ -31,9 +30,8 @@ public class CustomerRepository {
     private final static String DELETE_QUERY = "DELETE FROM customers;";
     private final static String DELETE_QUERY_BY_ID = "DELETE FROM customers WHERE customer_id = ?;";
 
-    public CustomerRepository(JdbcTemplate jdbcTemplate, VoucherRepository voucherRepository) {
+    public CustomerRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.voucherRepository = voucherRepository;
     }
 
     public List<Customer> findAll() {
@@ -54,7 +52,6 @@ public class CustomerRepository {
 
     public int insert(Customer customer) {
         var update = jdbcTemplate.update(INSERT_QUERY, UuidUtils.uuidToBytes(customer.customerId()), customer.name(), customer.email());
-        customer.getVouchers().forEach(voucherRepository::save);
         if (update != 1) {
             throw new DataIntegrityViolationException(MessageFormat.format("데이터 삽입 실패, 유효 row 갯수 : {0}", update));
         }
@@ -77,27 +74,38 @@ public class CustomerRepository {
         }
     }
 
-    private List<Customer> mapToCustomer(ResultSet resultSet) {
-        List<Customer> customers = new ArrayList<>();
-        Map<UUID, Customer> customerMap = new HashMap<>();
+    private Customer mapToCustomer(ResultSet resultSet, int rowNum) {
         try {
-            while (resultSet.next()) {
-                var customerId = UuidUtils.bytesToUUID(resultSet.getBytes("customer_id"));
-                var name = resultSet.getString("name");
-                var email = resultSet.getString("email");
-                if (!customerMap.containsKey(customerId))
-                    customerMap.put(customerId, new Customer(customerId, name, email, new ArrayList<>()));
-                var voucherIdBytes = resultSet.getBytes("voucher_id");
-                if (voucherIdBytes == null) {
-                    continue;
-                }
-                var voucherId = UuidUtils.bytesToUUID(voucherIdBytes);
-                customerMap.get(customerId).addVoucher(voucherRepository.findById(voucherId).orElseThrow());
-            }
+            var customerId = UuidUtils.bytesToUUID(resultSet.getBytes("customer_id"));
+            var name = resultSet.getString("name");
+            var email = resultSet.getString("email");
+            return new Customer(customerId, name, email);
         } catch (SQLException e) {
             throw new DataRetrievalFailureException(MessageFormat.format("데이터를 가져오는 데 실패했습니다. {0}", e.getMessage()));
         }
-        return new ArrayList<>(customerMap.values());
     }
+
+//    private List<Customer> mapToCustomers(ResultSet resultSet) {
+//        List<Customer> customers = new ArrayList<>();
+//        Map<UUID, Customer> customerMap = new HashMap<>();
+//        try {
+//            while (resultSet.next()) {
+//                var customerId = UuidUtils.bytesToUUID(resultSet.getBytes("customer_id"));
+//                var name = resultSet.getString("name");
+//                var email = resultSet.getString("email");
+//                if (!customerMap.containsKey(customerId))
+//                    customerMap.put(customerId, new Customer(customerId, name, email));
+//                var voucherIdBytes = resultSet.getBytes("voucher_id");
+//                if (voucherIdBytes == null) {
+//                    continue;
+//                }
+//                var voucherId = UuidUtils.bytesToUUID(voucherIdBytes);
+//                customerMap.get(customerId).addVoucher(voucherRepository.findById(voucherId).orElseThrow());
+//            }
+//        } catch (SQLException e) {
+//            throw new DataRetrievalFailureException(MessageFormat.format("데이터를 가져오는 데 실패했습니다. {0}", e.getMessage()));
+//        }
+//        return new ArrayList<>(customerMap.values());
+//    }
 
 }
