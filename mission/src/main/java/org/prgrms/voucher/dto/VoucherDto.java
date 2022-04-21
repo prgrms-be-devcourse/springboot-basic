@@ -30,20 +30,20 @@ public class VoucherDto {
     public static class CreateVoucherResponse {
 
         private final Long voucherId;
-        private final long voucherValue;
+        private final long discountValue;
         private final VoucherType voucherType;
         private ResponseState responseState = ResponseState.SUCCESS;
 
-        public CreateVoucherResponse(Long voucherId, long voucherValue, VoucherType voucherType){
+        public CreateVoucherResponse(Long voucherId, long discountValue, VoucherType voucherType){
 
             this.voucherId = voucherId;
-            this.voucherValue = voucherValue;
+            this.discountValue = discountValue;
             this.voucherType = voucherType;
         }
-        public CreateVoucherResponse(Long voucherId, long voucherValue, VoucherType voucherType, ResponseState responseState) {
+        public CreateVoucherResponse(Long voucherId, long discountValue, VoucherType voucherType, ResponseState responseState) {
 
             this.voucherId = voucherId;
-            this.voucherValue = voucherValue;
+            this.discountValue = discountValue;
             this.voucherType = voucherType;
             this.responseState = responseState;
         }
