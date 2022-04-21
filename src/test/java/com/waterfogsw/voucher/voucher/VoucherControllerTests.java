@@ -1,7 +1,7 @@
 package com.waterfogsw.voucher.voucher;
 
-import com.waterfogsw.voucher.voucher.controller.ErrorMessages;
 import com.waterfogsw.voucher.voucher.controller.VoucherController;
+import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
 import com.waterfogsw.voucher.voucher.dto.VoucherDto;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
@@ -35,28 +35,28 @@ public class VoucherControllerTests {
         class Context_with_type_null {
 
             @Test
-            @DisplayName("에러 메시지를 리턴한다")
+            @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
             void it_return_error_message() {
                 VoucherDto.Request request = new VoucherDto.Request(null, 1000);
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
-                assertThat(response.getReturnMessage(), is(ErrorMessages.INVALID_VOUCHER_TYPE));
+                assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
         }
 
         @Nested
-        @DisplayName("value 값이 null 이 들어오면")
+        @DisplayName("value 값이 0 이 들어오면")
         class Context_with_value_zero {
 
             @Test
-            @DisplayName("에러 메시지를 리턴한다")
+            @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, null);
+                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 0);
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
-                assertThat(response.getReturnMessage(), is(ErrorMessages.OUT_OF_RANGE));
+                assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
         }
 
@@ -67,7 +67,7 @@ public class VoucherControllerTests {
             ArgumentCaptor<Voucher> voucherCaptor;
 
             @Test
-            @DisplayName("생성된 바우처의 정보를 리턴한다")
+            @DisplayName("생성된 바우처의 정보를 가진 응답을 리턴한다")
             void it_return_error_message() {
                 VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 1000);
 
@@ -75,8 +75,9 @@ public class VoucherControllerTests {
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
-                assertThat(request.getType(), is(response.getInfo().getType()));
-                assertThat(request.getValue(), is(response.getInfo().getValue()));
+                assertThat(response.status(), is(ResponseStatus.OK));
+                assertThat(response.type(), is(request.type()));
+                assertThat(response.value(), is(request.value()));
             }
         }
     }
