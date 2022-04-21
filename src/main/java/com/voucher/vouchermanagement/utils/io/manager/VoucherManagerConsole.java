@@ -1,4 +1,4 @@
-package com.voucher.vouchermanagement.manager.io;
+package com.voucher.vouchermanagement.utils.io.manager;
 
 import com.voucher.vouchermanagement.manager.command.CommandType;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 @Component
 public class VoucherManagerConsole implements VoucherManagerInput, VoucherManagerOutput {
-
     private static final Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -29,7 +28,7 @@ public class VoucherManagerConsole implements VoucherManagerInput, VoucherManage
         System.out.println("=== Voucher Program ===");
 
         Arrays.stream(CommandType.values())
-                .filter(commandType-> commandType != CommandType.NONE)
+                .filter(commandType -> commandType != CommandType.NONE)
                 .map(CommandType::getCommandDescription)
                 .forEach(System.out::println);
     }

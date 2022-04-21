@@ -1,4 +1,4 @@
-package com.voucher.vouchermanagement.manager.io;
+package com.voucher.vouchermanagement.utils.io.manager;
 
 public interface VoucherManagerInput {
 
