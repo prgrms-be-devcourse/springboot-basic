@@ -9,8 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.voucher.dto.VoucherDto;
+import org.prgrms.voucher.models.FixedAmountVoucher;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
+import org.prgrms.voucher.response.ResponseState;
 import org.prgrms.voucher.service.VoucherService;
 
 import static org.mockito.Mockito.*;
@@ -33,10 +35,7 @@ public class VoucherControllerTest {
 
             VoucherDto.CreateVoucherRequest requestDto = new VoucherDto.CreateVoucherRequest(VoucherType.FIXED_AMOUNT, 100);
 
-            Voucher voucher = new Voucher(1L) {
-
-            };
-
+            Voucher voucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT);
             @Test
             @DisplayName("Service 의 create 메서드에 파라미터를 넘겨주며 호출한다.")
             void itCallCreateService() {
@@ -70,9 +69,9 @@ public class VoucherControllerTest {
             @DisplayName("null 에러메시지를 출력한다.")
             void itPrintNullError() {
 
-                Assertions.assertThatThrownBy(() -> voucherController.create(voucherRequestDto))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("bad request...");
+                VoucherDto.CreateVoucherResponse voucherResponse = voucherController.create(voucherRequestDto);
+
+                Assertions.assertThat(voucherResponse.getResponseState()).isEqualTo(ResponseState.BAD_REQUEST);
             }
         }
     }
