@@ -1,26 +1,40 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.repository;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.prgrms.deukyun.voucherapp.domain.voucher.entity.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.entity.Voucher;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MemoryVoucherRepositoryTest {
+class JdbcVoucherRepositoryTest {
 
-    MemoryVoucherRepository memoryRepository;
-    Voucher voucher;
+    static JdbcVoucherRepository jdbcVoucherRepository;
+    static Voucher voucher;
 
-    @BeforeEach
-    void setup() {
-        memoryRepository = new MemoryVoucherRepository();
+    static DataSource dataSource;
+
+    @BeforeAll
+    static void setup() {
+        System.out.println("hi");
+        dataSource = DataSourceBuilder
+                .create()
+                .url("jdbc:h2:mem:test;INIT=RUNSCRIPT FROM 'classpath:/schema.sql'")
+                .driverClassName("org.h2.Driver")
+                .build();
+        jdbcVoucherRepository = new JdbcVoucherRepository(new NamedParameterJdbcTemplate(dataSource));
         voucher = dummyVoucher();
+    }
+
+    @AfterEach
+    void cleanup() {
+        jdbcVoucherRepository.clear();
     }
 
     @Nested
@@ -29,7 +43,7 @@ class MemoryVoucherRepositoryTest {
         @Test
         void givenVoucher_whenCallInsert_thenIdIsSetAndReturnsInsertedVoucher() {
             //when
-            Voucher insertedVoucher = memoryRepository.insert(voucher);
+            Voucher insertedVoucher = jdbcVoucherRepository.insert(voucher);
 
             //assert
             assertVoucher(insertedVoucher);
@@ -45,11 +59,11 @@ class MemoryVoucherRepositoryTest {
             //setup
             Voucher voucher1 = dummyVoucher();
             Voucher voucher2 = dummyVoucher();
-            memoryRepository.insert(voucher1);
-            memoryRepository.insert(voucher2);
+            jdbcVoucherRepository.insert(voucher1);
+            jdbcVoucherRepository.insert(voucher2);
 
             //when
-            List<Voucher> vouchers = memoryRepository.findAll();
+            List<Voucher> vouchers = jdbcVoucherRepository.findAll();
 
             //assert
             assertThat(vouchers).extracting("id")
@@ -64,7 +78,7 @@ class MemoryVoucherRepositoryTest {
 
         @BeforeEach
         void setup() {
-            memoryRepository.insert(voucher);
+            jdbcVoucherRepository.insert(voucher);
         }
 
         @Test
@@ -73,7 +87,7 @@ class MemoryVoucherRepositoryTest {
             id = voucher.getId();
 
             //when
-            Optional<Voucher> foundVoucher = memoryRepository.findById(id);
+            Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(id);
 
             //assert
             assertThat(foundVoucher).isPresent();
@@ -86,7 +100,7 @@ class MemoryVoucherRepositoryTest {
             id = UUID.randomUUID();
 
             //when
-            Optional<Voucher> foundVoucher = memoryRepository.findById(id);
+            Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(id);
 
             //assert
             assertThat(foundVoucher).isNotPresent();
@@ -99,18 +113,18 @@ class MemoryVoucherRepositoryTest {
         @Test
         void givenTwoInsertion_whenCallClear_thenFindAllReturnsEmptyList(){
             //setup
-            memoryRepository.insert(dummyVoucher());
-            memoryRepository.insert(dummyVoucher());
+            jdbcVoucherRepository.insert(dummyVoucher());
+            jdbcVoucherRepository.insert(dummyVoucher());
 
             //action
-            memoryRepository.clear();
+            jdbcVoucherRepository.clear();
 
             //assert
-            assertThat(memoryRepository.findAll()).isEmpty();
+            assertThat(jdbcVoucherRepository.findAll()).isEmpty();
         }
     }
 
-    private Voucher dummyVoucher() {
+    private static Voucher dummyVoucher() {
         return new FixedAmountDiscountVoucher(2000L);
     }
 

@@ -6,10 +6,11 @@ import org.prgrms.deukyun.voucherapp.domain.voucher.entity.Voucher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-
+//@Repository
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -17,6 +18,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String insertQuery = "INSERT INTO voucher(voucher_id, voucher_type, amount, percent) VALUES (:id, :type, :amount, :percent)";
     private static final String findAllQuery = "SELECT * FROM voucher";
     private static final String findByIdQuery = "SELECT * FROM voucher WHERE voucher_id = :id";
+    private static final String clearQuery = "DELETE FROM voucher";
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -46,6 +48,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query(findAllQuery, voucherRowMapper);
     }
 
+    @Override
+    public void clear() {
+        jdbcTemplate.update(clearQuery, Collections.emptyMap());
+    }
+
 
     private Map<String, Object> resolveParamMap(Voucher voucher) {
 
@@ -70,10 +77,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final RowMapper<Voucher> voucherRowMapper = (rs, i) -> {
         String type = rs.getString("voucher_type");
+        UUID id = UUID.fromString(rs.getString("voucher_id"));
         if (type.equals("fixed")) {
-            return new FixedAmountDiscountVoucher(rs.getLong("amount"));
+            return new FixedAmountDiscountVoucher(id, rs.getLong("amount"));
         } else if (type.equals("percent")) {
-            return new PercentDiscountVoucher(rs.getLong("percent"));
+            return new PercentDiscountVoucher(id, rs.getLong("percent"));
         } else {
             throw new IllegalStateException("Invalid voucher type stored");
         }

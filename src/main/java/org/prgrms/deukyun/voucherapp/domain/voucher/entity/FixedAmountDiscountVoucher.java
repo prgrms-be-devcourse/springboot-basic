@@ -12,10 +12,10 @@ public class FixedAmountDiscountVoucher extends Voucher {
     private final long amount;
 
     public FixedAmountDiscountVoucher(long amount) {
-        this(amount, UUID.randomUUID());
+        this(UUID.randomUUID(), amount);
     }
 
-    public FixedAmountDiscountVoucher(long amount, UUID id) {
+    public FixedAmountDiscountVoucher(UUID id, long amount) {
         checkArgument(amount > 0, "amount must be positive.");
 
         super.setId(id);

@@ -16,10 +16,10 @@ public class PercentDiscountVoucher extends Voucher {
     private static final int MAX_DISCOUNT_PERCENT = 100;
 
     public PercentDiscountVoucher(long percent) {
-        this(percent, UUID.randomUUID());
+        this(UUID.randomUUID(), percent);
     }
 
-    public PercentDiscountVoucher(long percent, UUID id){
+    public PercentDiscountVoucher(UUID id, long percent){
         checkArgument(percent >= MIN_DISCOUNT_PERCENT && percent <= MAX_DISCOUNT_PERCENT,
                 MessageFormat.format("percent must be between {1} and {2} inclusive.", MIN_DISCOUNT_PERCENT, MAX_DISCOUNT_PERCENT));
 
