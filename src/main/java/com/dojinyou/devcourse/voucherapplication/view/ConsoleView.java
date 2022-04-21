@@ -14,10 +14,6 @@ public class ConsoleView implements InputView<String>, OutputView<String> {
         this.scanner = new Scanner(System.in);
     }
 
-    public void setScanner(Scanner sc) {
-        this.scanner = sc;
-    }
-
     @Override
     public String getUserInput() {
         String userInput = scanner.nextLine().strip();
