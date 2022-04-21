@@ -26,9 +26,9 @@ public class ShowAllVoucherCommand {
     public void showAllVoucher() {
 
         console.write(
-                voucherService.findAll().stream()
-                        .map(Voucher::toDisplayString)
-                        .collect(Collectors.joining("\n"))
+            voucherService.findAll().stream()
+                .map(Voucher::toDisplayString)
+                .collect(Collectors.joining("\n"))
         );
     }
 }

@@ -6,6 +6,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.google.common.base.Preconditions.checkState;
 
+/**
+ * 메모리 리포지토리 - UUID 맵으로 구현
+ * @param <E> 저장 타입
+ */
 public abstract class MemoryRepository<E> implements Repository<E, UUID> {
 
     private final Map<UUID, E> storage;
@@ -14,6 +18,10 @@ public abstract class MemoryRepository<E> implements Repository<E, UUID> {
         storage = new ConcurrentHashMap<>();
     }
 
+    /**
+     * id는 전달받은 클래스의 UUID id;필드에 UUID.random 생성하여 세팅 <br>
+     * 저장후 저장객체 반환
+     */
     @Override
     public E insert(E elem) {
 
