@@ -1,6 +1,8 @@
 package kdt.vouchermanagement.global.view;
 
-정import kdt.vouchermanagement.global.io.Input;
+import kdt.vouchermanagement.domain.voucher.converter.VoucherRequestConverter;
+import kdt.vouchermanagement.domain.voucher.dto.VoucherRequest;
+import kdt.vouchermanagement.global.io.Input;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -8,12 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsoleDispatcher implements ApplicationRunner {
 
-    private Input consoleInput;
-    private VoucherConsoleController voucherConsoleController;
+    private final Input consoleInput;
+    private final VoucherRequestConverter voucherRequestConverter;
 
-    public ConsoleDispatcher(Input consoleInput, VoucherConsoleController voucherConsoleController) {
+
+    public ConsoleDispatcher(Input consoleInput, VoucherRequestConverter voucherRequestConverter) {
         this.consoleInput = consoleInput;
-        this.voucherConsoleController = voucherConsoleController;
+        this.voucherRequestConverter = voucherRequestConverter;
     }
 
     @Override
@@ -30,6 +33,7 @@ public class ConsoleDispatcher implements ApplicationRunner {
                         int voucherTypeNum = consoleInput.valueInput();
                         //TODO output
                         int discountValue = consoleInput.valueInput();
+                        VoucherRequest voucherRequest = voucherRequestConverter.of(voucherTypeNum, discountValue);
                     case LIST_VOUCHERS:
                         //TODO output
                     case BLACKLIST:
