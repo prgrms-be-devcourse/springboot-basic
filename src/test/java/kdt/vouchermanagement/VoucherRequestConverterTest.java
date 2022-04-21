@@ -39,6 +39,6 @@ public class VoucherRequestConverterTest {
 
         //when
         assertThat(request.getVoucherType()).isEqualTo(VoucherType.NONE);
-        assertThat(request.getDiscountValue()).isNotNull();
+        assertThat(request.getDiscountValue()).isEqualTo(discountValue);
     }
 }
