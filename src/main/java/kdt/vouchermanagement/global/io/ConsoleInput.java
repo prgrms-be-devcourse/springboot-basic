@@ -15,7 +15,7 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int input() {
+    public int valueInput() {
         return sc.nextInt();
     }
 }

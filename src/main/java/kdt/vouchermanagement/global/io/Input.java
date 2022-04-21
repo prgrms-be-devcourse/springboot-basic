@@ -4,5 +4,5 @@ public interface Input {
 
     String menuInput();
 
-    int input();
+    int valueInput();
 }

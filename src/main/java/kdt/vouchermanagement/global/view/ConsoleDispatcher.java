@@ -1,7 +1,6 @@
 package kdt.vouchermanagement.global.view;
 
-import kdt.vouchermanagement.domain.voucher.controller.VoucherConsoleController;
-import kdt.vouchermanagement.global.io.Input;
+정import kdt.vouchermanagement.global.io.Input;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -28,9 +27,9 @@ public class ConsoleDispatcher implements ApplicationRunner {
                         return;
                     case CREATE_VOUCHER:
                         //TODO output
-                        int voucherTypeNum = consoleInput.input();
+                        int voucherTypeNum = consoleInput.valueInput();
                         //TODO output
-                        int discountValue = consoleInput.input();
+                        int discountValue = consoleInput.valueInput();
                     case LIST_VOUCHERS:
                         //TODO output
                     case BLACKLIST:
