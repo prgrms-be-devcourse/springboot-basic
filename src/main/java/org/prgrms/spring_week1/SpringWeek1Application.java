@@ -45,6 +45,7 @@ public class SpringWeek1Application {
                     voucherService.createPercentVoucher(Long.parseLong(percent));
 
                 } else { // 잘못된 입력
+                    logger.info("사용자가 생성할바우처 종류선택에서 기대되지않는 입력을 했습니다.");
                     consoleService.wrongInput();
                 }
 
@@ -56,6 +57,7 @@ public class SpringWeek1Application {
             } else if (opt.equals("exit")) {  // 종료
                 exit(0);
             } else { // 잘못된 입력
+                logger.info("사용자가 최상위 메뉴선택에서 기대되지않는 입력을 했습니다.");
                 consoleService.wrongInput();
             }
         }
