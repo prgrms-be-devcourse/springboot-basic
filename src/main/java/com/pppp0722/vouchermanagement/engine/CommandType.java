@@ -1,25 +1,21 @@
-package com.pppp0722.vouchermanagement;
+package com.pppp0722.vouchermanagement.engine;
 
 public enum CommandType {
     CREATE,
     LIST,
-    BLACK,
     EXIT,
     NONE;
 
     public static CommandType getCommandType(String command) {
-        String lowerCommand = command.toLowerCase();
+        command = command.toLowerCase();
         CommandType commandType;
 
-        switch(lowerCommand) {
+        switch (command) {
             case "create":
                 commandType = CommandType.CREATE;
                 break;
             case "list":
                 commandType = CommandType.LIST;
-                break;
-            case "black":
-                commandType = CommandType.BLACK;
                 break;
             case "exit":
                 commandType = CommandType.EXIT;
