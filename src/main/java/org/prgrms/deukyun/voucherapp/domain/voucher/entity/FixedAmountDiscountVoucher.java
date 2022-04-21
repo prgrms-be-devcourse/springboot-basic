@@ -7,24 +7,23 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * 정액 할인 바우처
  */
-public class FixedAmountDiscountVoucher implements Voucher {
+public class FixedAmountDiscountVoucher extends Voucher {
 
     private final long amount;
-    private UUID id;
 
     public FixedAmountDiscountVoucher(long amount) {
+        this(amount, UUID.randomUUID());
+    }
+
+    public FixedAmountDiscountVoucher(long amount, UUID id) {
         checkArgument(amount > 0, "amount must be positive.");
 
+        super.setId(id);
         this.amount = amount;
     }
 
     public long getAmount() {
         return amount;
-    }
-
-    @Override
-    public UUID getId() {
-        return id;
     }
 
     @Override
@@ -37,7 +36,7 @@ public class FixedAmountDiscountVoucher implements Voucher {
     @Override
     public String toDisplayString() {
         return new StringBuilder("[Fixed Amount Discount Voucher]")
-                .append(" id : ").append(id.toString(), 0, 8)
+                .append(" id : ").append(super.getId().toString(), 0, 8)
                 .append(", amount  : ").append(amount)
                 .toString();
     }

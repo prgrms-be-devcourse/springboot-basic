@@ -1,20 +1,18 @@
-package org.prgrms.deukyun.voucherapp.domain.common.repository;
+package org.prgrms.deukyun.voucherapp.domain.voucher.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.prgrms.deukyun.voucherapp.domain.voucher.entity.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.entity.Voucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.repository.MemoryVoucherRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
-class MemoryRepositoryTest {
+class MemoryVoucherRepositoryTest {
 
     MemoryVoucherRepository memoryRepository;
     Voucher voucher;
@@ -37,18 +35,7 @@ class MemoryRepositoryTest {
             assertVoucher(insertedVoucher);
             assertFADV(insertedVoucher, voucher);
         }
-
-        @Test
-        void givenInsertedVoucher_whenCallInsertAgainWithSameVoucherInstance_thenThrowsIllegalStateException() {
-            //setup
-            memoryRepository.insert(voucher);
-
-            //assert throws
-            assertThatIllegalStateException()
-                    .isThrownBy(() -> memoryRepository.insert(voucher));
-        }
     }
-
 
     @Nested
     class findAllTest {

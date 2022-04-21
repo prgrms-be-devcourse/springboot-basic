@@ -8,27 +8,27 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * 정률 할인 바우처
  */
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
+
+    private final long percent;
 
     private static final int MIN_DISCOUNT_PERCENT = 0;
     private static final int MAX_DISCOUNT_PERCENT = 100;
-    private final long percent;
-    private UUID id;
 
     public PercentDiscountVoucher(long percent) {
+        this(percent, UUID.randomUUID());
+    }
+
+    public PercentDiscountVoucher(long percent, UUID id){
         checkArgument(percent >= MIN_DISCOUNT_PERCENT && percent <= MAX_DISCOUNT_PERCENT,
                 MessageFormat.format("percent must be between {1} and {2} inclusive.", MIN_DISCOUNT_PERCENT, MAX_DISCOUNT_PERCENT));
 
+        super.setId(id);
         this.percent = percent;
     }
 
     public long getPercent() {
         return percent;
-    }
-
-    @Override
-    public UUID getId() {
-        return id;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public String toDisplayString() {
         return new StringBuilder("[Percent Discount Voucher]     ")
-                .append(" id : ").append(id.toString(), 0, 8)
+                .append(" id : ").append(super.getId().toString(), 0, 8)
                 .append(", percent : ").append(percent)
                 .toString();
     }
