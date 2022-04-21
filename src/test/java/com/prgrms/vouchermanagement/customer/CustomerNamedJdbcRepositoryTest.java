@@ -47,9 +47,6 @@ class CustomerNamedJdbcRepositoryTest {
     }
 
     @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
-
-    @Autowired
     CustomerNamedJdbcRepository customerRepository;
 
     @BeforeEach
