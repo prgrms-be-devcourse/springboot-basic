@@ -1,5 +1,6 @@
 package org.prgrms.voucher.dto;
 
+import org.prgrms.voucher.response.ResponseState;
 import org.prgrms.voucher.models.VoucherType;
 
 public class VoucherDto {
@@ -7,9 +8,9 @@ public class VoucherDto {
     public static class CreateVoucherRequest {
 
         private final VoucherType voucherType;
-        private final Long discountValue;
+        private final long discountValue;
 
-        public CreateVoucherRequest(VoucherType voucherType, Long discountValue) {
+        public CreateVoucherRequest(VoucherType voucherType, long discountValue) {
 
             this.voucherType = voucherType;
             this.discountValue = discountValue;
@@ -20,7 +21,7 @@ public class VoucherDto {
             return voucherType;
         }
 
-        public Long getDiscountValue() {
+        public long getDiscountValue() {
 
             return discountValue;
         }
@@ -29,15 +30,24 @@ public class VoucherDto {
     public static class CreateVoucherResponse {
 
         private final Long voucherId;
+        private ResponseState responseState = ResponseState.SUCCESS;
 
-        public CreateVoucherResponse(Long voucherId) {
+        public CreateVoucherResponse(Long voucherId){
 
             this.voucherId = voucherId;
         }
+        public CreateVoucherResponse(Long voucherId, ResponseState responseState) {
+
+            this.voucherId = voucherId;
+            this.responseState = responseState;
+        }
 
         public Long getVoucherId() {
-
             return voucherId;
+        }
+
+        public ResponseState getResponseState() {
+            return responseState;
         }
     }
 }
