@@ -16,9 +16,9 @@ public class FixedAmountDiscountVoucher extends Voucher {
     }
 
     public FixedAmountDiscountVoucher(UUID id, long amount) {
+        super(id);
         checkArgument(amount > 0, "amount must be positive.");
 
-        super.setId(id);
         this.amount = amount;
     }
 

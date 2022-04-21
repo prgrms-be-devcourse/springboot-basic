@@ -35,5 +35,3 @@ build/
 .mvn
 
 src/test/java/org/prgrms/deukyun/voucherapp/prac/**
-/**/*.csv
-/**/Csv*.java

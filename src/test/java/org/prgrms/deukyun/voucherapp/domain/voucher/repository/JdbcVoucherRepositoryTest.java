@@ -22,10 +22,9 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     static void setup() {
-        System.out.println("hi");
         dataSource = DataSourceBuilder
                 .create()
-                .url("jdbc:h2:mem:test;INIT=RUNSCRIPT FROM 'classpath:/schema.sql'")
+                .url("jdbc:h2:mem:testdb;INIT=RUNSCRIPT FROM 'classpath:/schema.sql';DB_CLOSE_DELAY=-1")
                 .driverClassName("org.h2.Driver")
                 .build();
         jdbcVoucherRepository = new JdbcVoucherRepository(new NamedParameterJdbcTemplate(dataSource));

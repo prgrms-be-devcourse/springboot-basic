@@ -2,19 +2,23 @@ package org.prgrms.deukyun.voucherapp.domain.voucher.entity;
 
 import java.util.UUID;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * 바우처
  */
 public abstract class Voucher {
 
-    private UUID id;
+    private final UUID id;
+
+    protected Voucher(UUID id) {
+        checkArgument(id != null, "id must be provided.");
+
+        this.id = id;
+    }
 
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     /**
