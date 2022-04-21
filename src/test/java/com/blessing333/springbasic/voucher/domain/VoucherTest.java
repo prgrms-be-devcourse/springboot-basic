@@ -1,6 +1,7 @@
 package com.blessing333.springbasic.voucher.domain;
 
 
+import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,10 +46,19 @@ class VoucherTest {
         Assertions.assertThat(voucher.discount(beforePrice)).isZero();
     }
 
-    @DisplayName("비율 할인 바우처에서 할인 비율 범위는 1~100 사이 이여야하며, 이를 어길시 IllegalArgumentException 발생시킨다")
+    @DisplayName("고정 할인 바우처에서 할인 금액이 음수면 VoucherCreateFailException을 발생시킨다")
+    @Test
+    void discountAmountNegative() {
+        long discountAmount = -5000;
+
+        assertThrows(VoucherCreateFailException.class, () ->
+                new Voucher(UUID.randomUUID(), Voucher.VoucherType.FIXED, discountAmount));
+    }
+
+    @DisplayName("비율 할인 바우처에서 할인 비율 범위는 1~100 사이 이여야하며, 이를 어길시 VoucherCreateFailException 발생시킨다")
     @Test
     void discountRateRangeTest() {
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(VoucherCreateFailException.class, () ->
                 new Voucher(UUID.randomUUID(), Voucher.VoucherType.PERCENT, 101));
 
     }

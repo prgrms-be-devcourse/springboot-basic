@@ -1,6 +1,6 @@
 package com.blessing333.springbasic.voucher;
 
-import com.blessing333.springbasic.RunnableService;
+import com.blessing333.springbasic.RunnableController;
 import com.blessing333.springbasic.common.ui.CommandNotSupportedException;
 import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
 import com.blessing333.springbasic.voucher.converter.Converter;
@@ -9,6 +9,7 @@ import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import com.blessing333.springbasic.voucher.service.VoucherService;
+import com.blessing333.springbasic.voucher.ui.VoucherCommandOptionType;
 import com.blessing333.springbasic.voucher.ui.VoucherManagerUserInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class VoucherManagingService implements RunnableService {
+public class VoucherController implements RunnableController {
     private final VoucherService voucherService;
     private final VoucherManagerUserInterface userInterface;
     private final Converter converter;
@@ -31,7 +32,7 @@ public class VoucherManagingService implements RunnableService {
             userInterface.showGuideText();
             String command = userInterface.inputMessage();
             try {
-                VoucherServiceCommandOptionType type = VoucherServiceCommandOptionType.find(command);
+                VoucherCommandOptionType type = VoucherCommandOptionType.find(command);
                 switch (type) {
                     case CREATE -> startCreateNewVoucher();
                     case LIST -> showAllVoucherInformation();

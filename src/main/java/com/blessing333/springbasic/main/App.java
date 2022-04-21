@@ -1,7 +1,8 @@
 package com.blessing333.springbasic.main;
 
-import com.blessing333.springbasic.RunnableService;
+import com.blessing333.springbasic.RunnableController;
 import com.blessing333.springbasic.common.ui.UserInterface;
+import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class App implements ApplicationRunner {
     private static final String PROGRAM_EXIT = "exit";
     private final UserInterface userInterface = new MainAppInterface();
-    private final ServiceProvider provider;
+    private final ControllerMapper provider;
 
     @Override
     public void run(ApplicationArguments args){
@@ -29,10 +30,11 @@ public class App implements ApplicationRunner {
     private void doService(String command){
         try{
             ServiceStrategy strategy = ServiceStrategy.fromString(command);
-            RunnableService service = provider.getRunnableService(strategy);
-            service.startService();
+            RunnableController controller = provider.getRunnableController(strategy);
+            controller.startService();
         }catch (NotSupportedStrategyException e){
-            log.error(e.getMessage());
+            log.error(ExceptionStackTraceConverter.convertToString(e));
+            userInterface.printMessage(e.getMessage());
         }
     }
 }

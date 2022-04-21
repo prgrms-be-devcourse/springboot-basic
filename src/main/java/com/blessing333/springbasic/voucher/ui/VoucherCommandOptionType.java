@@ -1,4 +1,4 @@
-package com.blessing333.springbasic.voucher;
+package com.blessing333.springbasic.voucher.ui;
 
 import com.blessing333.springbasic.common.ui.CommandNotSupportedException;
 import com.blessing333.springbasic.common.ui.CommandOptionType;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @AllArgsConstructor
-public enum VoucherServiceCommandOptionType implements CommandOptionType {
+public enum VoucherCommandOptionType implements CommandOptionType {
     CREATE("create", false, "새로운 바우쳐를 생성합니다."),
     LIST("list", false, "생성된 바우쳐를 조회합니다."),
     QUIT("exit", false, "프로그램을 종료합니다.");
@@ -24,7 +24,7 @@ public enum VoucherServiceCommandOptionType implements CommandOptionType {
     private static Map<String, CommandOptionType> initAvailableCommandOptionList() {
         return Collections.unmodifiableMap(
                 Stream.of(values())
-                        .collect(Collectors.toMap(VoucherServiceCommandOptionType::getOptionName, Function.identity()))
+                        .collect(Collectors.toMap(VoucherCommandOptionType::getOptionName, Function.identity()))
         );
     }
 
@@ -32,11 +32,11 @@ public enum VoucherServiceCommandOptionType implements CommandOptionType {
         return availableCommandOptionType;
     }
 
-    public static VoucherServiceCommandOptionType find(String target) throws CommandNotSupportedException {
+    public static VoucherCommandOptionType find(String target) throws CommandNotSupportedException {
         CommandOptionType type = availableCommandOptionType.get(target);
         if (type == null)
             throw new CommandNotSupportedException();
-        return (VoucherServiceCommandOptionType) type;
+        return (VoucherCommandOptionType) type;
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.blessing333.springbasic.voucher.ui;
 import com.blessing333.springbasic.common.ui.ApacheCommandLine;
 import com.blessing333.springbasic.common.ui.CommandOptionConfigurer;
 import com.blessing333.springbasic.common.ui.CommandOptions;
-import com.blessing333.springbasic.voucher.VoucherServiceCommandOptionType;
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import lombok.RequiredArgsConstructor;
@@ -75,7 +74,7 @@ public class ApacheCliVoucherManagerUserInterface extends ApacheCommandLine impl
 
     @Override
     protected CommandOptions initSupportedCommandOption() {
-        return CommandOptionConfigurer.configSupportedCommandOptions(VoucherServiceCommandOptionType.getAvailableCommandOptionType());
+        return CommandOptionConfigurer.configSupportedCommandOptions(VoucherCommandOptionType.getAvailableCommandOptionType());
     }
 
     @Override

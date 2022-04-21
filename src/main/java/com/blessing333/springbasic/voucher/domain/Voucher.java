@@ -1,5 +1,6 @@
 package com.blessing333.springbasic.voucher.domain;
 
+import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +74,7 @@ public class Voucher {
             @Override
             public void validateDiscountAmount(long discountAmount) {
                 if(discountAmount < 0)
-                    throw new IllegalArgumentException("할인 금액은 0보다 작을 수 없습니다");
+                    throw new VoucherCreateFailException("할인 금액은 0보다 작을 수 없습니다");
             }
 
         },
@@ -87,7 +88,7 @@ public class Voucher {
             @Override
             public void validateDiscountAmount(long discountPercent) {
                 if (discountPercent < 1 || discountPercent > 100)
-                    throw new IllegalArgumentException("할인 비율은 0초과 100 이하로 입력해야합니다");
+                    throw new VoucherCreateFailException("할인 비율은 0초과 100 이하로 입력해야합니다");
             }
         };
 

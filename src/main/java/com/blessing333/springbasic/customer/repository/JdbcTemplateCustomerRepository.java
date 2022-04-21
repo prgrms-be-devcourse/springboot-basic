@@ -3,6 +3,7 @@ package com.blessing333.springbasic.customer.repository;
 import com.blessing333.springbasic.customer.domain.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -55,9 +56,14 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL,
-                Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                customerRowMapper));
+        Customer customer;
+        Map<String, byte[]> param = Collections.singletonMap("customerId", customerId.toString().getBytes());
+        try {
+            customer = jdbcTemplate.queryForObject(FIND_BY_ID_SQL, param, customerRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return Optional.ofNullable(customer);
     }
 
     @Override

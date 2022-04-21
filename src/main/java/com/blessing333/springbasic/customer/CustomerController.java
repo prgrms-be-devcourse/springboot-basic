@@ -1,6 +1,6 @@
 package com.blessing333.springbasic.customer;
 
-import com.blessing333.springbasic.RunnableService;
+import com.blessing333.springbasic.RunnableController;
 import com.blessing333.springbasic.common.ui.CommandNotSupportedException;
 import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
 import com.blessing333.springbasic.customer.converter.CustomerCreateFormConverter;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CustomerApp implements RunnableService {
+public class CustomerController implements RunnableController {
     private final CustomerManagingUserInterface userInterface;
     private final CustomerService customerService;
     private final CustomerCreateFormConverter customerCreateFormConverter = new CustomerCreateFormConverter();
