@@ -10,4 +10,6 @@ public interface Voucher {
     VoucherType getType();
 
     long getAmount();
+    
+    UUID getMemberId();
 }

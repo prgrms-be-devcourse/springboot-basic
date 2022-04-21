@@ -8,7 +8,5 @@ public interface MemberService {
 
     Member createMember(UUID memberId, String name);
 
-    void updateWallet(UUID memberId, UUID walletId);
-
     List<Member> getAllMembers();
 }

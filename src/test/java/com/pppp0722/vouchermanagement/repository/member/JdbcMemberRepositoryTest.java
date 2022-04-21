@@ -1,4 +1,4 @@
-package com.pppp0722.vouchermanagement.member.repository;
+package com.pppp0722.vouchermanagement.repository.member;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
@@ -11,7 +11,6 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 import com.pppp0722.vouchermanagement.entity.member.Member;
 
-import com.pppp0722.vouchermanagement.repository.member.JdbcMemberRepository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;

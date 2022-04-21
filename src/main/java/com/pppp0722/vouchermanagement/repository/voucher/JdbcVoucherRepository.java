@@ -41,6 +41,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("type", voucher.getType().toString());
             put("amount", voucher.getAmount());
+            put("memberId", voucher.getMemberId().toString().getBytes());
         }};
     }
 
@@ -48,18 +49,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         VoucherType type = getVoucherType(resultSet.getString("type"));
         long amount = resultSet.getLong("amount");
+        UUID memberId = toUUID(resultSet.getBytes("member_id"));
 
         if (type.equals(FIXED_AMOUNT)) {
-            return new FixedAmountVoucher(voucherId, amount);
+            return new FixedAmountVoucher(voucherId, amount, memberId);
         } else {
-            return new PercentDiscountVoucher(voucherId, amount);
+            return new PercentDiscountVoucher(voucherId, amount, memberId);
         }
     };
 
     @Override
     public Voucher createVoucher(Voucher voucher) {
         int update = jdbcTemplate.update(
-            "INSERT INTO vouchers(voucher_id, type, amount) VALUES(UNHEX(REPLACE(:voucherId, '-', '')), :type, :amount)",
+            "INSERT INTO vouchers(voucher_id, type, amount, member_id) VALUES(UNHEX(REPLACE(:voucherId, '-', '')), :type, :amount, UNHEX(REPLACE(:memberId, '-', '')))",
             toParamMap(voucher));
 
         if (update != 1) {
@@ -119,5 +121,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
 
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> readVouchersByMemberId(UUID memberId) {
+        List<Voucher> vouchers = jdbcTemplate.query(
+            "SELECT * FROM vouchers WHERE member_id = UNHEX(REPLACE(:memberId, '-', ''))",
+            Collections.singletonMap("memberId", memberId.toString().getBytes()),
+            voucherRowMapper);
+
+        return vouchers;
     }
 }

@@ -2,8 +2,6 @@ package com.pppp0722.vouchermanagement.service.member;
 
 import com.pppp0722.vouchermanagement.entity.member.Member;
 import com.pppp0722.vouchermanagement.repository.member.MemberRepository;
-import com.pppp0722.vouchermanagement.service.member.MemberService;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +22,6 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.createMember(member);
 
         return member;
-    }
-
-    @Override
-    public void updateWallet(UUID memberId, UUID walletId) {
-        memberRepository.updateWallet(memberId, walletId);
     }
 
     @Override
