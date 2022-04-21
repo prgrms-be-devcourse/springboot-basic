@@ -6,4 +6,6 @@ public interface InputConsole {
     long getVoucherValue();
 
     String getVoucherType();
+
+    int getSelect();
 }

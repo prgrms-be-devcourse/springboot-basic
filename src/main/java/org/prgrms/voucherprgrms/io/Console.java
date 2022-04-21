@@ -1,5 +1,6 @@
 package org.prgrms.voucherprgrms.io;
 
+import org.prgrms.voucherprgrms.customer.model.Customer;
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import org.prgrms.voucherprgrms.voucher.model.VoucherType;
 import org.slf4j.Logger;
@@ -21,6 +22,10 @@ public class Console implements OutputConsole, InputConsole {
         System.out.println("Type **exit** to exit the program.");
         System.out.println("Type **create** to create a new voucher.");
         System.out.println("Type **list** to list all vouchers.");
+        System.out.println();
+        System.out.println("== Voucher - Customer ==");
+        System.out.println("Type **allocate** to allocate a voucher to customer.");
+        System.out.println("Type **remove** to remove a voucher from customer.");
         System.out.println();
 
         return scanner.nextLine();
@@ -46,18 +51,43 @@ public class Console implements OutputConsole, InputConsole {
     }
 
     @Override
+    public int getSelect() {
+        System.out.println("Select **Number**");
+        return Integer.parseInt(scanner.nextLine()) - 1;
+    }
+
+    @Override
     public void voucherList(List<Voucher> voucherList) {
-        for (Voucher voucher : voucherList) {
+        for (int i = 0; i < voucherList.size(); i++) {
+            Voucher voucher = voucherList.get(i);
             //UUID, VoucherTypeName
-            System.out.println(MessageFormat.format("Voucher {0} is {1}", voucher.getVoucherId(), voucher));
+            System.out.println(MessageFormat.format("({0}) Voucher {1} is {2}", i + 1, voucher.getVoucherId(), voucher.getDTYPE()));
+        }
+        System.out.println();
+    }
+
+    @Override
+    public void customerList(List<Customer> customerList) {
+        for (int i = 0; i < customerList.size(); i++) {
+            Customer customer = customerList.get(i);
+            //UUID, CustomerName
+            System.out.println(MessageFormat.format("({0}) Customer {1} is {2}", i + 1, customer.getCustomerId(), customer.getName()));
         }
         System.out.println();
     }
 
     @Override
     public void commandErrorMessage() {
-        logger.error("잘못된 command 입력");
-        logger.info("COMMAND ERROR");
         System.out.println("잘못된 입력입니다.");
+    }
+
+    @Override
+    public void sqlErrorMessage() {
+        System.out.println("");
+    }
+
+    @Override
+    public void failedAllocation() {
+        System.out.println("Can't allocate voucher to this customer");
     }
 }
