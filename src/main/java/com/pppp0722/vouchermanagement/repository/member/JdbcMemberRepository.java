@@ -46,12 +46,6 @@ public class JdbcMemberRepository implements MemberRepository {
         return new Member(memberId, name);
     };
 
-    private static final RowMapper<UUID> walletIdRowMapper = (resultSet, i) -> {
-        UUID memberId = toUUID(resultSet.getBytes("wallet_id"));
-
-        return memberId;
-    };
-
     @Override
     public Member createMember(Member member) {
         int update = jdbcTemplate.update(
@@ -115,36 +109,5 @@ public class JdbcMemberRepository implements MemberRepository {
         }
 
         return member;
-    }
-
-    @Override
-    public void updateWallet(UUID memberId, UUID walletId) {
-        int update = jdbcTemplate.update(
-            "UPDATE members SET wallet_id = UNHEX(REPLACE(:walletId, '-', '')) WHERE member_id = UNHEX(REPLACE(:memberId, '-', '')) AND wallet_id is null",
-            new HashMap<>() {{
-                put("memberId", memberId.toString().getBytes());
-                put("walletId", walletId.toString().getBytes());
-            }});
-
-        if (update != 1) {
-            logger.error("Nothing was updated! (Member)");
-            console.printError("Nothing was updated! (Member)");
-        }
-    }
-
-    @Override
-    public Optional<UUID> readWalletId(UUID memberId) {
-        try {
-            return Optional.ofNullable(
-                jdbcTemplate.queryForObject(
-                    "SELECT wallet_id FROM members WHERE member_id = UNHEX(REPLACE(:memberId, '-', ''))",
-                    Collections.singletonMap("memberId", memberId.toString().getBytes()),
-                    walletIdRowMapper));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result! (Member)");
-            console.printError("Got empty result! (Member)");
-
-            return Optional.empty();
-        }
     }
 }

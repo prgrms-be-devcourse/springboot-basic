@@ -20,15 +20,16 @@ public class VoucherServiceImpl implements VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(VoucherType voucherType, UUID voucherId, long amount) {
+    @Override
+    public void createVoucher(UUID voucherId, VoucherType voucherType, long amount, UUID memberId) {
         Voucher voucher = null;
 
         switch (voucherType) {
             case FIXED_AMOUNT:
-                voucher = new FixedAmountVoucher(voucherId, amount);
+                voucher = new FixedAmountVoucher(voucherId, amount, memberId);
                 break;
             case PERCENT_DISCOUNT:
-                voucher = new PercentDiscountVoucher(voucherId, amount);
+                voucher = new PercentDiscountVoucher(voucherId, amount, memberId);
                 break;
             default:
                 break;
@@ -37,9 +38,13 @@ public class VoucherServiceImpl implements VoucherService {
         voucherRepository.createVoucher(voucher);
     }
 
+    @Override
     public List<Voucher> getAllVouchers() {
-        List<Voucher> voucherList = voucherRepository.readVouchers();
+        return voucherRepository.readVouchers();
+    }
 
-        return voucherList;
+    @Override
+    public List<Voucher> getVouchersByMemberId(UUID memberId) {
+        return voucherRepository.readVouchersByMemberId(memberId);
     }
 }
