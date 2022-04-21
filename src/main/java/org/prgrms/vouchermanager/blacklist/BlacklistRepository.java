@@ -12,6 +12,12 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * resource 폴더의 customer_blacklist.csv에 저장된 목록을 읽어오는 repository입니다.
+ * custmer_blacklist.csv는 'UUID, email' 의 형식으로 저장되어있습니다.
+ * 예시:
+ * 5153948e-bf99-11ec-9d64-0242ac120002, "blacklist01@email.com"
+ */
 @Repository
 public class BlacklistRepository {
 
@@ -23,6 +29,9 @@ public class BlacklistRepository {
         this.blacklistPath = blacklistPath;
     }
 
+    /**
+     * init할 때, customer_blacklist.csv를 한 번만 읽어와 Map storage에 저장하여 조회합니다.
+     */
     @PostConstruct
     void init() {
         try {
@@ -30,12 +39,12 @@ public class BlacklistRepository {
                 StringTokenizer st = new StringTokenizer(row, ",");
                 UUID blockCustomerId = UUID.fromString(st.nextToken());
                 Blacklist blockCustomer = new Blacklist(blockCustomerId, st.nextToken());
-                if (storage.get(blockCustomerId) != null) throw new IllegalArgumentException();
+                if (storage.get(blockCustomerId) != null) throw new IllegalArgumentException("customer_blacklist.csv에 중복이 존재합니다.");
                 storage.put(blockCustomerId, blockCustomer);
             }
         } catch (Exception e) {
-            log.error("Blacklist를 읽어오는데 실패하였습니다. blacklist.path = {}", blacklistPath);
-            throw new IllegalArgumentException(MessageFormat.format("{0}", e.getMessage()));
+            log.error("customer_blacklist.csv를 읽어오는데 실패하였습니다. blacklist.path = {}", blacklistPath);
+            throw new IllegalStateException(MessageFormat.format("{0}", e.getMessage()));
         }
     }
 

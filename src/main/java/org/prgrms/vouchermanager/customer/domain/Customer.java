@@ -9,16 +9,29 @@ public class Customer {
     private final UUID customerId;
     private final String email;
     private final LocalDateTime createAt;
-    private String name;
-    private LocalDateTime lastLoginAt;
+    private final String name;
 
-    public Customer(UUID customerId, String name, String email) {
-        validateName(name);
-        validateEmail(email);
+    public Customer(UUID customerId, String name, String email, LocalDateTime createAt) {
+        validateCustomerConstructorArgs(customerId, name, email, createAt);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        this.createAt = createAt.truncatedTo(ChronoUnit.SECONDS);
+    }
+
+    private void validateCustomerConstructorArgs(UUID customerId, String name, String email, LocalDateTime createAt) {
+        validateID(customerId);
+        validateName(name);
+        validateEmail(email);
+        validateCreateAt(createAt);
+    }
+
+    private void validateCreateAt(LocalDateTime createAt) {
+        if (createAt == null) throw new IllegalArgumentException("createAt은 null이 될 수 없습니다.");
+    }
+
+    private void validateID(UUID customerId) {
+        if (customerId == null) throw new IllegalArgumentException("customerId는 null이 될 수 없습니다.");
     }
 
     private void validateEmail(String email) {
@@ -26,22 +39,8 @@ public class Customer {
         if (!email.contains("@")) throw new IllegalArgumentException("email은 @를 포함해야 합니다.");
     }
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime createAt, LocalDateTime lastLoginAt) {
-        validateName(name);
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.lastLoginAt = lastLoginAt;
-        this.createAt = createAt;
-    }
-
-    public void changeName(String name) {
-        validateName(name);
-        this.name = name;
-    }
-
     private void validateName(String name) {
-        if (name.isBlank()) throw new IllegalArgumentException("Name should not be blank.");
+        if (name.isBlank()) throw new IllegalArgumentException("name은 공백이 될 수 없습니다.");
     }
 
     public UUID getCustomerId() {
@@ -56,10 +55,6 @@ public class Customer {
         return email;
     }
 
-    public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
     public LocalDateTime getCreateAt() {
         return createAt;
     }
@@ -69,7 +64,7 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return customerId.equals(customer.customerId) && name.equals(customer.name) && email.equals(customer.email) && Objects.equals(lastLoginAt, customer.lastLoginAt) && createAt.equals(customer.createAt);
+        return customerId.equals(customer.customerId) && email.equals(customer.email) && createAt.equals(customer.createAt) && name.equals(customer.name);
     }
 
     @Override
@@ -83,7 +78,6 @@ public class Customer {
                 "customerId=" + customerId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", lastLoginAt=" + lastLoginAt +
                 ", createAt=" + createAt +
                 '}';
     }

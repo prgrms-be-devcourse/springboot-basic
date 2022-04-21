@@ -2,6 +2,9 @@ package org.prgrms.vouchermanager.wallet;
 
 import java.util.UUID;
 
+/**
+ * customer와 voucher 다대다 연관관계를
+ */
 public class Wallet {
     private final UUID walletId;
     private final UUID voucherId;

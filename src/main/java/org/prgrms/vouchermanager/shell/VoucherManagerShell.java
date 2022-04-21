@@ -8,6 +8,9 @@ import org.springframework.shell.standard.ShellMethod;
 
 import java.text.MessageFormat;
 
+/**
+ * 아직 view, controller는 구현하지 않았습니다.
+ */
 @ShellComponent
 public class VoucherManagerShell {
 

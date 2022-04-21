@@ -48,6 +48,6 @@ class FixedAmountVoucherTest {
     @Test
     @DisplayName("할인액은 MAX_VOUCHER_AMOUNT을 초과할 수 없다.")
     void testVoucherCreationWithOverMaxAmount() {
-        assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), FixedAmountVoucher.MAX_AMOUNT + 1));
+        assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), FixedAmountVoucher.MAX_FIXED_VOUCHER_AMOUNT + 1));
     }
 }

@@ -7,8 +7,8 @@ public class Blacklist {
     private final String email;
 
     public Blacklist(UUID customerId, String email) {
-        if (email.isBlank()) throw new IllegalArgumentException();
-        if (customerId == null) throw new IllegalArgumentException();
+        if (email.isBlank()) throw new IllegalArgumentException("email은 공백이 될 수 없습니다.");
+        if (customerId == null) throw new IllegalArgumentException("blacklist의 UUID는 null이 될 수 없습니다.");
         this.customerId = customerId;
         this.email = email;
     }

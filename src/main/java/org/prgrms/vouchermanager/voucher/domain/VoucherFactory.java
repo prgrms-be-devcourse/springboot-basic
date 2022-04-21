@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanager.voucher.domain;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 /**
@@ -17,6 +18,6 @@ public class VoucherFactory {
             }
         }
 
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException(MessageFormat.format("{0} 타입의 바우처가 존재하지 않습니다.", type));
     }
 }

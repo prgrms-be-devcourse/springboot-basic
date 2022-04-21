@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class JDBCVoucherRepositoryTest {
+class JdbcVoucherRepositoryTest {
 
     @Autowired
     VoucherRepository voucherRepository;
@@ -113,7 +113,7 @@ class JDBCVoucherRepositoryTest {
 
         @Bean
         public VoucherRepository voucherRepository() {
-            return new JDBCVoucherRepository(jdbcTemplate(dataSource()));
+            return new JdbcVoucherRepository(jdbcTemplate(dataSource()));
         }
 
         @Bean

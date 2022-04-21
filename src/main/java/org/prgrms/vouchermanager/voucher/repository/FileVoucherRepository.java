@@ -12,6 +12,9 @@ import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Voucher를 직렬화하여 Voucher마다 한개의 파일로 저장하고 역직렬화해서 읽어오는 리포지토리입니다.
+ */
 @Repository
 @Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
@@ -58,8 +61,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         } catch (IOException e) {
             log.error(savePath + " " + voucher);
-            // RuntimeException 중에서 의미가 적절한게 없는 것 같아서 RuntimeException을 상속받는 예외 정의하였습니다.
-            throw new IllegalResourceAccessException();
+            throw new IllegalResourceAccessException("voucher를 insert하는 과정에서 문제가 발생했습니다.\n" + e.getMessage());
         }
 
         return voucher;
@@ -76,7 +78,7 @@ public class FileVoucherRepository implements VoucherRepository {
                  ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
                 vouchers.add((Voucher) objectInputStream.readObject());
             } catch (IOException | ClassNotFoundException e) {
-                throw new IllegalResourceAccessException();
+                throw new IllegalResourceAccessException("voucher를 조회하는 과정에서 문제가 발생했습니다.\n" + e.getMessage());
             }
         });
 

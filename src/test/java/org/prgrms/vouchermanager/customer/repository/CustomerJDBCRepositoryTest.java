@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,8 +35,8 @@ class CustomerJDBCRepositoryTest {
     @BeforeAll
     void beforeAll() {
         customerJdbcRepository.deleteAll();
-        testCustomer1 = new Customer(UUID.randomUUID(), "test_customer1", "test01@email.com");
-        testCustomer2 = new Customer(UUID.randomUUID(), "test_customer2", "test02@email.com");
+        testCustomer1 = new Customer(UUID.randomUUID(), "test_customer1", "test01@email.com", LocalDateTime.now());
+        testCustomer2 = new Customer(UUID.randomUUID(), "test_customer2", "test02@email.com", LocalDateTime.now());
     }
 
     @Configuration
@@ -94,21 +95,8 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Test
-    @DisplayName("고객을 업데이트 할 수 있다")
-    @Order(3)
-    void update_고객을_업데이트_할_수_있다() {
-        //when
-        String updatedName = "NewName";
-        testCustomer1.changeName(updatedName);
-        customerJdbcRepository.update(testCustomer1);
-
-        //then
-        assertThat(customerJdbcRepository.findById(testCustomer1.getCustomerId()).get().getName()).isEqualTo(updatedName);
-    }
-
-    @Test
     @DisplayName("name으로 고객을 조회할 수 있다")
-    @Order(4)
+    @Order(3)
     void findByName_name으로_고객을_조회할_수_있다() {
         //given
         String name = testCustomer1.getName();
@@ -121,7 +109,7 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void findByEmail_customer_email로_고객을_조회할_수_있다() {
         //given
         String email = testCustomer1.getEmail();
@@ -134,7 +122,7 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     void findAll_모든_고객을_리스트로_조회할_수_있다() {
         //given
         List<Customer> expectList = List.of(testCustomer1, testCustomer2);
@@ -147,7 +135,7 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     void delete_customer_id로_고객을_삭제할_수_있다() {
         //when
         customerJdbcRepository.delete(testCustomer1.getCustomerId());
@@ -157,7 +145,7 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     void deleteAll_고객을_전부_삭제_할_수_있다() {
         //when
         customerJdbcRepository.insert(testCustomer1);

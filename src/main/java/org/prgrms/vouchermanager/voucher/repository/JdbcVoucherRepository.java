@@ -19,13 +19,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * 위클리미션 목록 중 JdbcVoucherRepository 구현 입니다!
+ */
 @Repository
 @Profile("jdbc")
-public class JDBCVoucherRepository implements VoucherRepository {
+public class JdbcVoucherRepository implements VoucherRepository {
 
     private final Logger log = LoggerFactory.getLogger(CustomerJDBCRepository.class);
-
     private final JdbcTemplate jdbcTemplate;
+
+    /**
+     * 데이터베이스에서 읽어온 ResultSet을 Voucher로 매핑하기 위한 Mapper입니다.
+     */
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, voucher) -> {
         UUID voucher_id = UUIDBytesToUUID(resultSet.getBytes("voucher_id"));
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("type").toUpperCase());
@@ -33,7 +39,7 @@ public class JDBCVoucherRepository implements VoucherRepository {
         return VoucherFactory.getVoucher(voucher_id, voucherType, amount);
     };
 
-    public JDBCVoucherRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

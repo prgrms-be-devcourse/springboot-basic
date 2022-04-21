@@ -20,24 +20,24 @@ import java.util.UUID;
 public class CustomerJDBCRepository implements CustomerRepository {
 
     private final Logger log = LoggerFactory.getLogger(CustomerJDBCRepository.class);
-
     private final JdbcTemplate jdbcTemplate;
+    /**
+     * 데이터베이스에서 읽어온 ResultSet을 Customer로 매핑하기 위한 Mapper입니다.
+     */
+    private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+        UUID customer_id = UUIDBytesToUUID(resultSet.getBytes("customer_id"));
+        String name = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return new Customer(customer_id, name, email, createdAt);
+    };
 
     public CustomerJDBCRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        UUID customer_id = UUIDBytesToUUID(resultSet.getBytes("customer_id"));
-        String name = resultSet.getString("name");
-        String email = resultSet.getString("email");
-        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") == null ? null : resultSet.getTimestamp("last_login_at").toLocalDateTime();
-        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customer_id, name, email, createdAt, lastLoginAt);
-    };
-
-    private UUID UUIDBytesToUUID(byte[] customer_ids) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(customer_ids);
+    private UUID UUIDBytesToUUID(byte[] customer_id) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(customer_id);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
@@ -55,10 +55,9 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        int theNumberOfRowsAffected = jdbcTemplate.update("UPDATE customers SET name = ?, email =?, last_login_at = ? where customer_id = UUID_TO_BIN(?)",
+        int theNumberOfRowsAffected = jdbcTemplate.update("UPDATE customers SET name = ?, email =? where customer_id = UUID_TO_BIN(?)",
                 customer.getName(),
                 customer.getEmail(),
-                customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
                 customer.getCustomerId().toString().getBytes()
         );
 
@@ -106,7 +105,9 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public void delete(UUID customerId) {
-        int theNumberOfRowsDeleted = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerId.toString().getBytes());
+        int theNumberOfRowsDeleted = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)",
+                customerId.toString().getBytes());
+
         if (theNumberOfRowsDeleted != 1) {
             log.error(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다.", customerId));
             throw new IllegalArgumentException(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다.", customerId));

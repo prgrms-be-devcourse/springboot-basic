@@ -17,13 +17,13 @@ public interface VoucherService {
     UUID createVoucher(String type, Long amount);
 
     /**
-     * @return 저장된 voucher 목록
+     * @return 저장된 voucher 목록을 String으로 반환합니다.
      */
     String allVouchersToString();
 
     /**
      * @param voucherId
-     * @return voucherId로 voucher찾아 반환
+     * @return voucherId로 voucher찾아 반환합니다.
      */
     Voucher findVoucher(UUID voucherId);
 }

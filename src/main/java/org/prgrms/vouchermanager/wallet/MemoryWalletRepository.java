@@ -9,10 +9,12 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+/**
+ * Wallet은 인메모리 리포지토리로 작성하였습니다.
+ */
 @Repository
 public class MemoryWalletRepository implements WalletRepository {
 
-    //굳이 map일 필요가 없다..
     private final Map<UUID, Wallet> storage = new ConcurrentHashMap<>();
 
     @Override
