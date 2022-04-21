@@ -11,6 +11,10 @@ public class PercentAmountVoucher extends Voucher {
         this.percent = percent;
     }
 
+    public long getPercent() {
+        return percent;
+    }
+
     @Override
     public long discount(long beforeDiscount) {
         double discountBase = 100;
