@@ -37,7 +37,7 @@ public class VoucherService {
         while (voucherRepository.findById(uuid).isPresent()) {
             uuid = UUID.randomUUID();
         }
-        Voucher voucher = VoucherType.createVoucher(type, uuid, amount);
+        Voucher voucher = type.createVoucher(uuid, amount);
         return voucherRepository.insert(voucher);
     }
 

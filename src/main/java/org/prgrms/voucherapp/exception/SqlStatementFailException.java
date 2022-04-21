@@ -3,8 +3,7 @@ package org.prgrms.voucherapp.exception;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class WrongInputException extends RuntimeException {
-
+public class SqlStatementFailException extends RuntimeException{
     private String message;
 
     @Override

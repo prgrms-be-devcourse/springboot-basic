@@ -3,7 +3,7 @@ package org.prgrms.voucherapp.exception;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class NullVoucherException extends Exception{
+public class NullVoucherException extends RuntimeException{
     private final String message;
 
     @Override

@@ -31,25 +31,30 @@ public class Console implements Input, Output {
     @Override
     public VoucherType voucherTypeInput(String prompt) throws WrongInputException {
         System.out.println(prompt);
-        return VoucherType
-                .getType(scanner.nextLine())
-                .orElseThrow(() -> (new WrongInputException("존재하지 않는 바우처 타입을 입력하였습니다.")));
+        try {
+            return VoucherType
+                    .getType(scanner.nextInt())
+                    .orElseThrow(() -> (new WrongInputException("존재하지 않는 바우처 타입을 입력하였습니다.")));
+        } catch (InputMismatchException e){
+            throw new WrongInputException("숫자를 입력해주세요.");
+        } finally{
+            scanner.nextLine();
+        }
     }
 
     @Override
     public long discountAmountInput(VoucherType voucherType, String prompt) throws WrongInputException, WrongAmountException {
         System.out.println(prompt);
-        long discountAmount;
         try {
-            discountAmount = scanner.nextLong();
+            long discountAmount = scanner.nextLong();
             if (discountAmount <= 0 || discountAmount > voucherType.getMaxDiscountAmount())
                 throw new WrongAmountException("잘못된 할인 금액을 입력하였습니다.");
+            return discountAmount;
         } catch (InputMismatchException e) {
             throw new WrongInputException("양식에 맞지 않는 할인 금액을 입력하였습니다. 정수를 입력해주세요.");
         } finally {
             scanner.nextLine(); //버퍼비우기
         }
-        return discountAmount;
     }
 
     @Override

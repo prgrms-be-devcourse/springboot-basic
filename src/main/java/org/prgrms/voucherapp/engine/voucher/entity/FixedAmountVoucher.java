@@ -9,6 +9,7 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long discountAmount;
+    private static final String type = VoucherType.FIX.toString();
 
     public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         this.discountAmount = discountAmount;
@@ -16,8 +17,18 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public long getAmount() {
+        return discountAmount;
+    }
+
+    @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public String getTypeName() {
+        return type;
     }
 
     @Override
