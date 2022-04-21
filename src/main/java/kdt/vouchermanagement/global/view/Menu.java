@@ -1,7 +1,5 @@
 package kdt.vouchermanagement.global.view;
 
-import kdt.vouchermanagement.global.exception.InvalidMenuException;
-
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -21,6 +19,6 @@ public enum Menu {
         return Arrays.stream(values())
                 .filter(o -> Objects.equals(o.menu, input))
                 .findFirst()
-                .orElseThrow(() -> new InvalidMenuException("입력한 메뉴값이 유효하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("입력한 메뉴값이 유효하지 않습니다."));
     }
 }
