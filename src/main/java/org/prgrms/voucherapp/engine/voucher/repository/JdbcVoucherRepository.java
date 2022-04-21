@@ -70,7 +70,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void delete(UUID voucherId) {
-        var delete = jdbcTemplate.update("delete from vouchers from voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+        var delete = jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
         if(delete!=1) throw new SqlStatementFailException("정상적으로 삭제되지 않았습니다.");
     }
 }
