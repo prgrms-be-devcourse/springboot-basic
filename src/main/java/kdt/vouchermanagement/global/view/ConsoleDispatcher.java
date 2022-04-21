@@ -23,8 +23,8 @@ public class ConsoleDispatcher implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         while (true) {
             //TODO output
+            Menu menu = findMenu(consoleInput.menuInput());
             try {
-                Menu menu = findMenu(consoleInput.menuInput());
                 switch (menu) {
                     case EXIT_PROGRAM:
                         return;
@@ -37,6 +37,8 @@ public class ConsoleDispatcher implements ApplicationRunner {
                     case LIST_VOUCHERS:
                         //TODO output
                     case BLACKLIST:
+                        //TODO output
+                    case NONE:
                         //TODO output
                 }
             } catch (Exception e) {
