@@ -1,4 +1,4 @@
-package org.prgrms.spring_week1.services.io;
+package org.prgrms.spring_week1.io;
 
 public interface Input {
 

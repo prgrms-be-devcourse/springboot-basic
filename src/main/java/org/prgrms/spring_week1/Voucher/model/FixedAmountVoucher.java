@@ -1,16 +1,16 @@
-package org.prgrms.spring_week1.models;
+package org.prgrms.spring_week1.Voucher.model;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class FixedAmountVoucher implements Voucher {
 
     private UUID voucherId;
-    private long percent;
+    private long amount;
     private VoucherStatus voucherStatus = VoucherStatus.VALID;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.amount = amount;
     }
 
     public void setVoucherStatus(VoucherStatus voucherStatus) {
@@ -19,20 +19,20 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return 0;
+        return beforeDiscount - amount;
     }
+
 
     @Override
     public UUID getVoucherId() {
         return voucherId;
     }
 
-
     @Override
     public String toString() {
-        return "PercentDiscountVoucher{" +
+        return "FixedAmountVoucher{" +
             "voucherId=" + voucherId +
-            "/ percent=" + percent +
+            "/ amount=" + amount +
             "/ voucherStatus=" + voucherStatus +
             '}';
     }

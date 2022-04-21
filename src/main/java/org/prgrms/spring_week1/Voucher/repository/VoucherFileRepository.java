@@ -1,16 +1,14 @@
-package org.prgrms.spring_week1.repositories;
+package org.prgrms.spring_week1.Voucher.repository;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import org.prgrms.spring_week1.models.Voucher;
+import org.prgrms.spring_week1.Voucher.model.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

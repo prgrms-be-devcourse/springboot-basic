@@ -1,7 +1,7 @@
-package org.prgrms.spring_week1.repositories;
+package org.prgrms.spring_week1.Voucher.repository;
 
 import java.util.List;
-import org.prgrms.spring_week1.models.Voucher;
+import org.prgrms.spring_week1.Voucher.model.Voucher;
 
 public interface VoucherRepository {
 

@@ -1,4 +1,4 @@
-package org.prgrms.spring_week1.models;
+package org.prgrms.spring_week1.Order.model;
 
 import java.util.UUID;
 

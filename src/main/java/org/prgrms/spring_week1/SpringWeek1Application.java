@@ -2,13 +2,12 @@ package org.prgrms.spring_week1;
 
 import static java.lang.System.exit;
 
-import org.prgrms.spring_week1.services.OrderService;
-import org.prgrms.spring_week1.services.VoucherService;
-import org.prgrms.spring_week1.services.io.ConsoleService;
+import org.prgrms.spring_week1.Order.OrderService;
+import org.prgrms.spring_week1.Voucher.VoucherService;
+import org.prgrms.spring_week1.io.ConsoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -21,44 +20,43 @@ public class SpringWeek1Application {
     public static void main(String[] args) {
         ConfigurableApplicationContext ac = SpringApplication
             .run(SpringWeek1Application.class, args);
-        // AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
 
-        VoucherService vs = ac.getBean(VoucherService.class);
-        OrderService os = ac.getBean(OrderService.class);
-        ConsoleService cs = ac.getBean(ConsoleService.class);
+        VoucherService voucherService = ac.getBean(VoucherService.class);
+        OrderService orderService = ac.getBean(OrderService.class);
+        ConsoleService consoleService = ac.getBean(ConsoleService.class);
 
         while (true) {
-            cs.mainMenu();
-            String opt = cs.input();
+            consoleService.mainMenu();
+            String opt = consoleService.input();
 
             if (opt.equals("create")) { // 생성
-                cs.voucherCreate();
-                String type = cs.input();
+                consoleService.voucherCreate();
+                String type = consoleService.input();
 
                 if (type.equals("1")) { // fixedVoucher
-                    cs.output("정해진 할인가격을 입력하세요.");
-                    String amount = cs.input();
-                    vs.createFixedVoucher(Long.parseLong(amount));
+                    consoleService.output("정해진 할인가격을 입력하세요.");
+                    String amount = consoleService.input();
+                    voucherService.createFixedVoucher(Long.parseLong(amount));
 
 
                 } else if (type.equals("2")) { // percentVoucher
-                    cs.output("할인율을 입력하세요");
-                    String percent = cs.input();
-                    vs.createPercentVoucher(Long.parseLong(percent));
+                    consoleService.output("할인율을 입력하세요");
+                    String percent = consoleService.input();
+                    voucherService.createPercentVoucher(Long.parseLong(percent));
 
                 } else { // 잘못된 입력
-                    cs.wrongInput();
+                    consoleService.wrongInput();
                 }
 
             } else if (opt.equals("list")) {  // 조회
-                for (String voucher : vs.getAllVoucher()) {
-                    cs.output(voucher);
+                for (String voucher : voucherService.getAllVoucher()) {
+                    consoleService.output(voucher);
                 }
 
             } else if (opt.equals("exit")) {  // 종료
                 exit(0);
             } else { // 잘못된 입력
-                cs.wrongInput();
+                consoleService.wrongInput();
             }
         }
 

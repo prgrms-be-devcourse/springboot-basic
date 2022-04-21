@@ -1,11 +1,11 @@
-package org.prgrms.spring_week1.services;
+package org.prgrms.spring_week1.Voucher;
 
 import java.util.List;
 import java.util.UUID;
-import org.prgrms.spring_week1.models.FixedAmountVoucher;
-import org.prgrms.spring_week1.models.PercentDiscountVoucher;
-import org.prgrms.spring_week1.models.Voucher;
-import org.prgrms.spring_week1.repositories.VoucherRepository;
+import org.prgrms.spring_week1.Voucher.model.FixedAmountVoucher;
+import org.prgrms.spring_week1.Voucher.model.PercentDiscountVoucher;
+import org.prgrms.spring_week1.Voucher.model.Voucher;
+import org.prgrms.spring_week1.Voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,9 +22,6 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-//    public Voucher getVoucher(UUID voucherId){
-//        return voucherRepository.findById(voucherId);
-//    }
 
     public Voucher createFixedVoucher(long amount) {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
@@ -39,7 +36,6 @@ public class VoucherService {
     }
 
     public List<String> getAllVoucher() {
-//        return voucherRepository.getAllVoucher().values().stream().map(Object::toString).collect(Collectors.toList());
         return voucherRepository.getAllVoucher();
 
     }

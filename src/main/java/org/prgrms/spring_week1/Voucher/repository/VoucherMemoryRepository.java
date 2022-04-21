@@ -1,10 +1,10 @@
-package org.prgrms.spring_week1.repositories;
+package org.prgrms.spring_week1.Voucher.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import org.prgrms.spring_week1.models.Voucher;
+import org.prgrms.spring_week1.Voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
