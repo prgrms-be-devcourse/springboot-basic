@@ -29,14 +29,14 @@ public class OrderService {
 
     // voucher 없는 경우
     public Order createOrder(UUID customerId, List<OrderItem> orderItems) {
-        Order order = new Order(UUID.randomUUID(), customerId, orderItems, Optional.empty());
+        Order order = new Order(UUID.randomUUID(), customerId, orderItems);
         orderRepository.insert(order);
         return order;
     }
 
     // voucher 있는 경우
     public Order createOrder(UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
-        Order order = new Order(UUID.randomUUID(), customerId, orderItems, Optional.of(voucher));
+        Order order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
         orderRepository.insert(order);
         return order;
     }

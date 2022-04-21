@@ -1,8 +1,9 @@
-package org.prgrms.spring_week1.models;
+package org.prgrms.spring_week1.Order.model;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.spring_week1.Voucher.model.Voucher;
 
 public class Order {
 
@@ -13,21 +14,19 @@ public class Order {
     private OrderStatus orderStatus = OrderStatus.ACCEPTED;
 
     // 바우처 없는 경우
-    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItemList,
-        Optional<Voucher> voucher) {
-        this.orderId = orderId;
-        this.customerId = customerId;
-        this.orderItemList = orderItemList;
-        this.voucher = voucher;
-        this.orderStatus = orderStatus;
-    }
-
-    // 바우처 있는경우
     public Order(UUID orderId, UUID customerId, List<OrderItem> orderItemList) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItemList = orderItemList;
-        this.orderStatus = orderStatus;
+        this.voucher = Optional.empty();
+    }
+
+    // 바우처 있는경우
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItemList, Voucher voucher) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.orderItemList = orderItemList;
+        this.voucher =  Optional.of(voucher);
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
@@ -35,16 +34,16 @@ public class Order {
     }
 
     public long totalPrice() {
-        Long beforeDiscount = orderItemList
+        Long totalPrice = orderItemList
             .stream()
             .map(i -> i.getProductPrice() * i.getQuantity())
             .reduce(0L, Long::sum);
 
-        if (voucher.isPresent()) {
-            return voucher.get().discount(beforeDiscount);
-        } else {
-            return beforeDiscount;
+        if (voucher.isPresent()) { // 바우처 있을 때
+            totalPrice = voucher.get().discount(totalPrice);
         }
+
+        return totalPrice;
 
     }
 
