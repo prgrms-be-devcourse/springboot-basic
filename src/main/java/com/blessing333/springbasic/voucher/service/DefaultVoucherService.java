@@ -7,7 +7,6 @@ import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import com.blessing333.springbasic.voucher.repository.VoucherRepository;
-import com.blessing333.springbasic.voucher.ui.VoucherManagerServiceUserInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +15,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DefaultVoucherService implements VoucherService {
-    private final VoucherManagerServiceUserInterface voucherManagerUserInterface;
     private final VoucherRepository repository;
 
     @Override
-    public void createNewVoucher(ConvertedVoucherCreateForm form) {
+    public Voucher createNewVoucher(ConvertedVoucherCreateForm form) {
         VoucherType type = form.getVoucherType();
         Voucher newVoucher;
         switch (type) {
@@ -29,11 +27,11 @@ public class DefaultVoucherService implements VoucherService {
             default -> throw new VoucherCreateFailException("");
         }
         repository.save(newVoucher);
+        return newVoucher;
     }
 
     @Override
-    public void showVoucherList() {
-        List<Voucher> savedVoucher = repository.findAll();
-        savedVoucher.forEach(voucher -> voucherManagerUserInterface.printMessage(voucher.toString()));
+    public List<Voucher> loadAllVoucher() {
+        return repository.findAll();
     }
 }

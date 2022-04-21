@@ -1,4 +1,4 @@
-package com.blessing333.springbasic.voucher.ui.exception;
+package com.blessing333.springbasic.common.ui;
 
 public class CommandNotSupportedException extends RuntimeException{
     public CommandNotSupportedException() {

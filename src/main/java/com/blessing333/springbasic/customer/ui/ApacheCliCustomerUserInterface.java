@@ -83,7 +83,5 @@ public class ApacheCliCustomerUserInterface extends ApacheCommandLine implements
         printMessage("=======================");
         printMessage("명령을 입력해주세요");
     }
-    private void printDivider(){
-        printMessage("=========================");
-    }
+
 }

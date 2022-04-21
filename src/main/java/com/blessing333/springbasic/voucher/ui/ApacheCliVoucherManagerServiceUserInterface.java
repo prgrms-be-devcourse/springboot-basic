@@ -5,6 +5,7 @@ import com.blessing333.springbasic.common.ui.CommandOptionConfigurer;
 import com.blessing333.springbasic.common.ui.CommandOptions;
 import com.blessing333.springbasic.voucher.VoucherServiceCommandOptionType;
 import com.blessing333.springbasic.voucher.VoucherType;
+import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,13 @@ public class ApacheCliVoucherManagerServiceUserInterface extends ApacheCommandLi
                 sb.append(optionNumber).append(". ").append(voucherType.getDescription()).append("\n")
         );
         return sb.toString();
+    }
+
+    @Override
+    public void printVoucherInformation(Voucher voucher) {
+        printDivider();
+        printMessage(voucher.toString());
+        printDivider();
     }
 
     @Override
@@ -61,8 +69,9 @@ public class ApacheCliVoucherManagerServiceUserInterface extends ApacheCommandLi
     }
 
     @Override
-    public void printVoucherCreateSuccessMessage() {
+    public void printVoucherCreateSuccessMessage(Voucher voucher) {
         printMessage("바우쳐 생성이 완료되었습니다.");
+        printVoucherInformation(voucher);
     }
 
     @Override

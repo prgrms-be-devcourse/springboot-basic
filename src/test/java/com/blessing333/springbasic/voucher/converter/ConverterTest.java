@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ConverterTest {
-    private final Converter converter = new Converter(new VoucherFormValidator());
+    private final Converter converter = new Converter();
 
     @DisplayName("VoucherCreateForm 정상 변환")
     @Test
@@ -44,4 +44,5 @@ class ConverterTest {
 
         assertThrows(ConvertFailException.class, () -> converter.convert(voucherCreateForm));
     }
+
 }

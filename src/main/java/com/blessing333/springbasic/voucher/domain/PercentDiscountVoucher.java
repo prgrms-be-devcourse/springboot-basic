@@ -8,6 +8,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(int percent) {
         super();
+        validateDiscountRate(percent);
         this.percent = percent;
     }
 
@@ -24,5 +25,10 @@ public class PercentDiscountVoucher extends Voucher {
                 .append("바우처 타입 : 비율 할인\n")
                 .append("할인 비율 : ").append(this.percent).append("\n")
                 .toString();
+    }
+
+    private void validateDiscountRate(int percent) throws IllegalArgumentException{
+        if (percent < 1 || percent > 100)
+            throw new IllegalArgumentException("할인 비율은 0초과 100 이하로 입력해야합니다");
     }
 }

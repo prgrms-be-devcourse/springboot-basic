@@ -49,7 +49,7 @@ public class Customer {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String createDate = createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String lastLogin = this.lastLoginAt == null ? "이력 없음" : this.lastLoginAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String lastLogin = this.lastLoginAt == null ? "이력 없음" : this.lastLoginAt.format(DateTimeFormatter.ofPattern("yyyy-MM-동dd"));
         sb.append("고객 ID : ").append(this.customerId)
                 .append("\n이름 : ").append(this.name)
                 .append("\n이메일 : ").append(this.email)
