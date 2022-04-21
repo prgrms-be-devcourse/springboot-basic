@@ -9,20 +9,13 @@ import org.prgms.EmbeddedTestDbInitializer;
 import org.prgms.TestDbConfig;
 import org.prgms.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
 import java.util.UUID;
 
-@SpringJUnitConfig(value = {TestDbConfig.class, CustomerRepositoryTest.Config.class}, initializers = EmbeddedTestDbInitializer.class)
+@SpringJUnitConfig(value = {TestDbConfig.class}, initializers = EmbeddedTestDbInitializer.class)
 class CustomerRepositoryTest {
-    @Configuration
-    @ComponentScan(basePackages = "org.prgms.customer")
-    static class Config {
-    }
-
     @Autowired
     private CustomerRepository jdbcCustomerRepository;
 

@@ -11,13 +11,12 @@ import org.prgms.TestDbConfig;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.PercentDiscountVoucher;
 import org.prgms.voucher.Voucher;
-import org.prgms.voucher.VoucherConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.UUID;
 
-@SpringJUnitConfig(value = {TestDbConfig.class, VoucherConfig.class}, initializers = EmbeddedTestDbInitializer.class)
+@SpringJUnitConfig(value = {TestDbConfig.class}, initializers = EmbeddedTestDbInitializer.class)
 class VoucherServiceTest {
 
     @Autowired

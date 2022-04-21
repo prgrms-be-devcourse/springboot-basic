@@ -18,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.UUID;
 
 
-@SpringJUnitConfig(value = {TestDbConfig.class, WalletRepositoryTest.Config.class}, initializers = EmbeddedTestDbInitializer.class)
+@SpringJUnitConfig(value = {TestDbConfig.class}, initializers = EmbeddedTestDbInitializer.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class WalletRepositoryTest {
 
