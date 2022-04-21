@@ -8,6 +8,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.nio.file.FileSystemException;
+
 import static com.example.voucher.VoucherType.EMPTY;
 
 @SpringBootApplication
@@ -39,9 +41,16 @@ public class VoucherApplication implements ApplicationRunner {
 					int discountAmount = 0;
 					try {
 						discountAmount = getDiscountAmount();
+					} catch (IllegalArgumentException e) {
+						output.printError(e.getMessage());
+						continue;
+					}
+
+					try {
 						processCreateCommand(voucherType, discountAmount);
 					} catch (Exception e) {
 						output.printError(e.getMessage());
+						continue;
 					}
 				}
 			}
