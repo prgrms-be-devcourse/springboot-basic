@@ -42,6 +42,11 @@ public class MemoryVoucherDao implements VoucherDao {
     }
 
     @Override
+    public List<Voucher> findByCreatedAtBetween(String date1, String date2) {
+        return null;
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;

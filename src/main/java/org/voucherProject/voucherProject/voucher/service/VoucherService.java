@@ -17,6 +17,8 @@ public interface VoucherService {
 
     List<Voucher> findByVoucherType(VoucherType voucherType);
 
+    List<Voucher> findByCreatedAtBetween(String date1, String date2);
+
     List<Voucher> findAll();
 
     Voucher updateVoucher(Voucher voucher);

@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.customer.repository.CustomerDao;
 import org.voucherProject.voucherProject.voucher.entity.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -178,7 +177,6 @@ public class VoucherDaoTest {
         public void findByNullCustomerId() throws Exception {
             assertThrows(RuntimeException.class, () -> voucherDao.findByCustomerId(null));
         }
-
     }
 
     @Test
@@ -201,7 +199,6 @@ public class VoucherDaoTest {
         assertThat(voucherDao.findById(voucher2.getVoucherId()).get().getVoucherStatus()).isEqualTo(VoucherStatus.VALID);
         assertThat(voucherDao.findById(voucher3.getVoucherId()).get().getVoucherStatus()).isEqualTo(VoucherStatus.VALID);
         assertThat(voucherDao.findById(voucher4.getVoucherId()).get().getVoucherStatus()).isEqualTo(VoucherStatus.VALID);
-
     }
 
     @Nested
@@ -276,5 +273,63 @@ public class VoucherDaoTest {
         List<Voucher> byPercentVoucherType = voucherDao.findByVoucherType(VoucherType.PERCENT);
         assertThat(byPercentVoucherType.size()).isEqualTo(3);
 
+    }
+
+    @Nested
+    @DisplayName("A~B 사이에 생성된 바우처 조회")
+    class findByCreatedAtBetween {
+        @Test
+        @DisplayName("정확한 입력 형식(yyyy-MM-dd)을 맞춰서 -> 성공")
+        public void findByCreatedAtBetween() throws Exception {
+
+            Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
+            Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
+            Voucher voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+            Voucher voucher5 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+
+            voucherDao.save(voucher2);
+            voucherDao.save(voucher3);
+            voucherDao.save(voucher4);
+            voucherDao.save(voucher5);
+
+            String date1 = "2022-01-31";
+            String date2 = "2099-12-12";
+            List<Voucher> byCreateAtBetween = voucherDao.findByCreatedAtBetween(date1, date2);
+            List<Voucher> byCreateAtBetween2 = voucherDao.findByCreatedAtBetween(date2, date1);
+
+            assertThat(byCreateAtBetween.size()).isEqualTo(5);
+            assertThat(byCreateAtBetween2.size()).isEqualTo(5);
+
+        }
+
+        @Test
+        @DisplayName("입력 형식이 LocalDateTime -> 실패")
+        public void findByCreatedAtBetweenWrongInput() throws Exception {
+
+            String date1 = "2022-01-31 00:00:00";
+            String date2 = "2099-12-12";
+            assertThrows(RuntimeException.class, () -> voucherDao.findByCreatedAtBetween(date1, date2));
+            assertThrows(RuntimeException.class, () -> voucherDao.findByCreatedAtBetween(date2, date1));
+        }
+
+        @Test
+        @DisplayName("입력 형식이 null -> 실패")
+        public void findByCreatedAtBetweenNullInput() throws Exception {
+
+            String date1 = null;
+            String date2 = "2099-12-12";
+            assertThrows(RuntimeException.class, () -> voucherDao.findByCreatedAtBetween(date1, date2));
+            assertThrows(RuntimeException.class, () -> voucherDao.findByCreatedAtBetween(date2, date1));
+        }
+
+        @Test
+        @DisplayName("입력 형식이 yyyy.MM.dd -> 실패")
+        public void findByCreatedAtBetweenWrongInput2() throws Exception {
+
+            String date1 = "2011.01.01";
+            String date2 = "2099-12-12";
+            assertThrows(RuntimeException.class, () -> voucherDao.findByCreatedAtBetween(date1, date2));
+            assertThrows(RuntimeException.class, () -> voucherDao.findByCreatedAtBetween(date2, date1));
+        }
     }
 }

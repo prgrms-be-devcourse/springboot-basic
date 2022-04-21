@@ -14,6 +14,7 @@ import org.voucherProject.voucherProject.voucher.entity.VoucherStatus;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -29,6 +30,7 @@ public class JdbcVoucherDao implements VoucherDao {
     private final String UPDATE_SQL = "UPDATE voucher SET voucher_type = :voucherType, voucher_status = :voucherStatus, amount = :amount WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String SELECT_BY_CUSTOMER_ID_SQL = "SELECT * FROM voucher v LEFT JOIN customers c ON v.customer_id = c.customer_id WHERE v.customer_id = UUID_TO_BIN(:customerId)";
     private final String SELECT_BY_VOUCHER_TYPE_SQL = "SELECT * FROM voucher WHERE voucher_type = :voucherType";
+    private final String SELECT_BY_CREATED_AT_BETWEEN_SQL = "SELECT * FROM voucher WHERE created_at BETWEEN :date1 AND :date2";
     private final String DELETE_ONE_BY_CUSTOMER_ID_SQL = "DELETE FROM voucher WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -76,6 +78,21 @@ public class JdbcVoucherDao implements VoucherDao {
     public List<Voucher> findByVoucherType(VoucherType voucherType) {
         return jdbcTemplate.query(SELECT_BY_VOUCHER_TYPE_SQL,
                 Collections.singletonMap("voucherType",voucherType.toString()),
+                customerRowMapper());
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAtBetween(String date1, String date2) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        if (LocalDate.parse(date1).isBefore(LocalDate.parse(date2))) {
+            hashMap.put("date1", date1 + " 00.00.00.000");
+            hashMap.put("date2", date2 + " 23.59.59.997");
+        } else {
+            hashMap.put("date1", date2 + " 00.00.00.000");
+            hashMap.put("date2", date1 + " 23.59.59.997");
+        }
+        return jdbcTemplate.query(SELECT_BY_CREATED_AT_BETWEEN_SQL,
+                hashMap,
                 customerRowMapper());
     }
 

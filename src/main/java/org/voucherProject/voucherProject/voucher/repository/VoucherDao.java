@@ -19,6 +19,8 @@ public interface VoucherDao {
 
     List<Voucher> findByVoucherType(VoucherType voucherType);
 
+    List<Voucher> findByCreatedAtBetween(String date1, String date2);
+
     Voucher update(Voucher voucher);
 
     void deleteAll();

@@ -34,6 +34,12 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public List<Voucher> findByCreatedAtBetween(String date1, String date2) {
+        return voucherRepository.findByCreatedAtBetween(date1, date2);
+    }
+
+
+    @Override
     public List<Voucher> findAll(){
         return voucherRepository.findAll();
     }

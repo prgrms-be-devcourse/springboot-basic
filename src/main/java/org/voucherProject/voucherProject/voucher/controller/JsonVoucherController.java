@@ -64,4 +64,11 @@ public class JsonVoucherController {
         List<Voucher> byVoucherType = voucherService.findByVoucherType(VoucherType.valueOf(voucherType.toUpperCase()));
         return byVoucherType.stream().map(VoucherDto::of).toList();
     }
+
+    @GetMapping("/v1/voucher/created-at")
+    public List<VoucherDto> findByCreatedAtBetweenAandB(@RequestParam("date1") String date1,
+                                                        @RequestParam("date2") String date2) {
+        List<Voucher> byCreatedAtBetween = voucherService.findByCreatedAtBetween(date1, date2);
+        return byCreatedAtBetween.stream().map(VoucherDto::of).toList();
+    }
 }
