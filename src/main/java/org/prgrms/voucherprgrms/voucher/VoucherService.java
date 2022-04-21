@@ -19,7 +19,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherCreator voucherCreator;
 
-    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository, VoucherCreator voucherCreator, InputConsole inputConsole) {
+    public VoucherService(@Qualifier("named") VoucherRepository voucherRepository, VoucherCreator voucherCreator, InputConsole inputConsole) {
         this.voucherRepository = voucherRepository;
         this.voucherCreator = voucherCreator;
     }
@@ -27,7 +27,7 @@ public class VoucherService {
     /**
      * create Voucher
      */
-    public Voucher createVoucher(VoucherDTO voucherDTO) throws IllegalArgumentException{
+    public Voucher createVoucher(VoucherDTO voucherDTO) throws IllegalArgumentException, RuntimeException {
         Voucher voucher = voucherCreator.create(voucherDTO);
         logger.info("CREATE Voucher({})", voucher.getVoucherId());
         return voucherRepository.insert(voucher);
