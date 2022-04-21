@@ -8,4 +8,6 @@ import org.programmers.voucher.util.IllegalVoucherTypeException;
 public interface Input {
      Command inputCommand() throws IllegalCommandException;
      VoucherType inputVoucherType() throws IllegalVoucherTypeException;
+     long inputAmount();
+     double inputPercent();
 }

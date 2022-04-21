@@ -35,4 +35,16 @@ public class ConsoleInput implements Input{
         }
         return inputType.get();
     }
+
+    @Override
+    public long inputAmount() {
+        long input = Long.parseLong(sc.nextLine());
+        return 0;
+    }
+
+    @Override
+    public double inputPercent() {
+        double input = Double.parseDouble(sc.nextLine());
+        return 0;
+    }
 }
