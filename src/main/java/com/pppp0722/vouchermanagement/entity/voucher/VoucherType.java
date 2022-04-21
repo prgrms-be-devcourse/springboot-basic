@@ -1,4 +1,4 @@
-package com.pppp0722.vouchermanagement.voucher.model;
+package com.pppp0722.vouchermanagement.entity.voucher;
 
 public enum VoucherType {
 
@@ -7,14 +7,15 @@ public enum VoucherType {
     NONE;
 
     public static VoucherType getVoucherType(String type) {
-        String lowerType = type.toLowerCase();
         VoucherType voucherType;
-
-        switch(lowerType) {
-            case "fixed": case "fixed_amount":
+        type = type.toLowerCase();
+        switch (type) {
+            case "fixed":
+            case "fixed_amount":
                 voucherType = VoucherType.FIXED_AMOUNT;
                 break;
-            case "percent": case "percent_discount":
+            case "percent":
+            case "percent_discount":
                 voucherType = VoucherType.PERCENT_DISCOUNT;
                 break;
             default:
