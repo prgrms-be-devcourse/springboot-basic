@@ -2,6 +2,10 @@ spring:
   config:
     activate:
       on-profile: default
+  devtools:
+    livereload:
+      enabled: true
+
 database:
   url: jdbc:mysql://localhost/demo
   username: root
