@@ -1,7 +1,6 @@
 package kdt.vouchermanagement.domain.voucher.domain;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public enum VoucherType {
     NONE(0),
@@ -15,9 +14,10 @@ public enum VoucherType {
     }
 
     public static VoucherType from(int voucherTypeNum) {
-        return Arrays.stream(values())
-                .filter(o -> Objects.equals(o.voucherTypeNum, voucherTypeNum))
+        VoucherType type = Arrays.stream(values())
+                .filter(o -> o.voucherTypeNum == voucherTypeNum)
                 .findFirst()
                 .orElse(NONE);
+        return type;
     }
 }
