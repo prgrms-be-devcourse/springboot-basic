@@ -5,9 +5,9 @@ import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 public class VoucherRequest {
 
     private final VoucherType voucherType;
-    private final long discountValue;
+    private final int discountValue;
 
-    public VoucherRequest(VoucherType voucherType, long discountValue) {
+    public VoucherRequest(VoucherType voucherType, int discountValue) {
         this.voucherType = voucherType;
         this.discountValue = discountValue;
     }
@@ -16,7 +16,7 @@ public class VoucherRequest {
         return voucherType;
     }
 
-    public Long getDiscountValue() {
+    public int getDiscountValue() {
         return discountValue;
     }
 }
