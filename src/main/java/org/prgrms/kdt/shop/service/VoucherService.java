@@ -34,7 +34,7 @@ public class VoucherService {
         if (voucherList.isEmpty()) {
             System.out.println("바우처가 없습니다.");
         } else {
-            voucherList.forEach(s -> System.out.println("Voucher Id : " + s.getVoucherId() + "  Discount Info : " + s.getAmount()));
+            voucherList.forEach(s -> System.out.println("Voucher Id : " + s.getVoucherId() + "  Discount Info : " + s.getAmount() + " VoucherType : " + s.getVoucherType()));
         }
     }
 }

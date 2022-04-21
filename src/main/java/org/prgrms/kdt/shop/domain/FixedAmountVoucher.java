@@ -1,10 +1,13 @@
 package org.prgrms.kdt.shop.domain;
 
+import org.prgrms.kdt.shop.enums.VoucherType;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
+    private final VoucherType type = VoucherType.FIXED_AMOUNT;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -24,5 +27,14 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long getAmount( ) {
         return amount;
+    }
+
+    @Override
+    public VoucherType getVoucherType( ) {
+        return type;
+    }
+
+    public VoucherType getType( ) {
+        return type;
     }
 }

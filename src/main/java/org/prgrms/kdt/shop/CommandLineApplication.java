@@ -3,7 +3,7 @@ package org.prgrms.kdt.shop;
 import org.prgrms.kdt.shop.domain.FixedAmountVoucher;
 import org.prgrms.kdt.shop.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.shop.enums.MenuStatus;
-import org.prgrms.kdt.shop.enums.VoucherChoiceNumber;
+import org.prgrms.kdt.shop.enums.VoucherType;
 import org.prgrms.kdt.shop.io.Input;
 import org.prgrms.kdt.shop.io.Output;
 import org.prgrms.kdt.shop.service.VoucherService;
@@ -49,7 +49,7 @@ public class CommandLineApplication implements ApplicationRunner {
     }
 
     private void inputVoucherMenu( ) {
-        VoucherChoiceNumber voucherStatus = inputVoucher();
+        VoucherType voucherStatus = inputVoucher();
         switch (voucherStatus) {
             case FIXED_AMOUNT:
                 inputFixedAmount();
@@ -87,11 +87,11 @@ public class CommandLineApplication implements ApplicationRunner {
         return inputPercentDiscount();
     }
 
-    private VoucherChoiceNumber inputVoucher( ) {
+    private VoucherType inputVoucher( ) {
         try {
             output.selectVoucher();
             String inputVoucher = input.input();
-            return VoucherChoiceNumber.find(inputVoucher);
+            return VoucherType.find(inputVoucher);
         } catch (IllegalArgumentException e) {
             output.inputError();
             logger.error("바우처 입력 에러");
