@@ -50,7 +50,12 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printEntityTypeInputRequest() {
+    public void printEntityTypeInputRequest1() {
+        System.out.println("member\nvoucher");
+    }
+
+    @Override
+    public void printEntityTypeInputRequest2() {
         System.out.println("member\nvoucher\nwallet");
     }
 
@@ -85,7 +90,8 @@ public class Console implements Input, Output {
         for (Voucher voucher : voucherList) {
             System.out.println("voucher id : " + voucher.getVoucherId() +
                 ", voucher type: " + voucher.getType() +
-                ", amount : " + voucher.getAmount());
+                ", amount : " + voucher.getAmount() +
+                ", member Id : " + voucher.getMemberId());
         }
     }
 
@@ -106,7 +112,7 @@ public class Console implements Input, Output {
     public String getCommand(String question) {
         System.out.print(question);
         String command = scanner.nextLine().toLowerCase();
-        printEmpty();
+        System.out.println();;
 
         return command;
     }
