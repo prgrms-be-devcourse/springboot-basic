@@ -13,7 +13,7 @@ import java.io.*;
 import java.util.*;
 
 @Repository
-@Profile("option")
+@Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
     private final String voucherFilePath;
 

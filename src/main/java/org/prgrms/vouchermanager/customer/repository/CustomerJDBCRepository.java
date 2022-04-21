@@ -23,6 +23,10 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    public CustomerJDBCRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID customer_id = UUIDBytesToUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
@@ -31,10 +35,6 @@ public class CustomerJDBCRepository implements CustomerRepository {
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new Customer(customer_id, name, email, createdAt, lastLoginAt);
     };
-
-    public CustomerJDBCRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     private UUID UUIDBytesToUUID(byte[] customer_ids) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(customer_ids);
@@ -59,7 +59,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
                 customer.getName(),
                 customer.getEmail(),
                 customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
-                customer.getCustomerId().toString()
+                customer.getCustomerId().toString().getBytes()
         );
 
         if (theNumberOfRowsAffected != 1)
@@ -75,7 +75,9 @@ public class CustomerJDBCRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerRowMapper, customerId.toString()));
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)",
+                    customerRowMapper,
+                    customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             log.error(MessageFormat.format("findById: {0} 반환 결과가 1개 행이 아닙니다.", customerId));
             return Optional.empty();
@@ -104,7 +106,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public void delete(UUID customerId) {
-        int theNumberOfRowsDeleted = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerId.toString());
+        int theNumberOfRowsDeleted = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)", customerId.toString().getBytes());
         if (theNumberOfRowsDeleted != 1) {
             log.error(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다.", customerId));
             throw new IllegalArgumentException(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다.", customerId));

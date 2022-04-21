@@ -19,7 +19,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public UUID createVoucher(String type, Long amount) {
-        Voucher voucher = VoucherFactory.getVoucher(VoucherType.valueOf(type.toUpperCase()), amount);
+        Voucher voucher = VoucherFactory.getVoucher(UUID.randomUUID(), VoucherType.valueOf(type.toUpperCase()), amount);
         Voucher insertedVoucher = voucherRepository.insert(voucher);
         return insertedVoucher.getVoucherId();
     }

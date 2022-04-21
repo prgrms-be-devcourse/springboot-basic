@@ -37,8 +37,8 @@ class VoucherServiceImplTest {
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
         VoucherService voucherService = new VoucherServiceImpl(voucherRepository);
         LongStream.range(1, 10).forEach(i -> {
-            voucherRepository.insert(new FixedAmountVoucher(i));
-            voucherRepository.insert(new PercentDiscountVoucher(i));
+            voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(),i));
+            voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),i));
         });
 
         //when

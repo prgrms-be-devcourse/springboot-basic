@@ -42,7 +42,7 @@ class FileVoucherRepositoryTest {
     void insert() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
-        Voucher voucher = new FixedAmountVoucher(10L);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(),10L);
 
         //when
         // insert 실패시, exception 던지도록 작성했으므로 exception이 발생하지 않으면 성공했다고 판단한다?
@@ -57,7 +57,7 @@ class FileVoucherRepositoryTest {
     void findById() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
-        Voucher voucher = new FixedAmountVoucher(10L);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(),10L);
 
 
         //when
@@ -72,7 +72,7 @@ class FileVoucherRepositoryTest {
     void getAll() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
-        List<Voucher> mockVouchers = List.of(new FixedAmountVoucher(10L), new PercentDiscountVoucher(10L));
+        List<Voucher> mockVouchers = List.of(new FixedAmountVoucher(UUID.randomUUID(), 10L), new PercentDiscountVoucher(UUID.randomUUID(), 10L));
 
         //when
         mockVouchers.forEach(fileVoucherRepository::insert);
@@ -87,7 +87,7 @@ class FileVoucherRepositoryTest {
     void testWithInsertException() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository("Invalid path Test");
-        Voucher voucher = new FixedAmountVoucher(10L);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(),10L);
 
         //then
         assertThrows(IllegalResourceAccessException.class, () -> fileVoucherRepository.insert(voucher));
@@ -98,7 +98,7 @@ class FileVoucherRepositoryTest {
     void testWithDeplicatedInsertion() {
         //given
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(SAVE_PATH);
-        Voucher voucher = new FixedAmountVoucher(10L);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(),10L);
 
         //when
         fileVoucherRepository.insert(voucher);

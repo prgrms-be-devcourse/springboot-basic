@@ -6,6 +6,8 @@ import org.prgrms.vouchermanager.voucher.domain.FixedAmountVoucher;
 import org.prgrms.vouchermanager.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.vouchermanager.voucher.domain.Voucher;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -16,8 +18,8 @@ class MemoryVoucherRepositoryTest {
     void testWithInsert() {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        Voucher fixedVoucher = new FixedAmountVoucher(10);
-        Voucher percentVoucher = new PercentDiscountVoucher(10);
+        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(),10);
+        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(),10);
 
         //when
         voucherRepository.insert(fixedVoucher);
@@ -33,8 +35,8 @@ class MemoryVoucherRepositoryTest {
     void testWithFindById() {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        Voucher fixedVoucher = new FixedAmountVoucher(10);
-        Voucher percentVoucher = new PercentDiscountVoucher(10);
+        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(),10);
+        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(),10);
         voucherRepository.insert(fixedVoucher);
         voucherRepository.insert(percentVoucher);
 
@@ -52,7 +54,7 @@ class MemoryVoucherRepositoryTest {
     void testWithDuplicatedInsert() {
         //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
-        Voucher fixedVoucher = new FixedAmountVoucher(10);
+        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(),10);
 
         //when
         voucherRepository.insert(fixedVoucher);

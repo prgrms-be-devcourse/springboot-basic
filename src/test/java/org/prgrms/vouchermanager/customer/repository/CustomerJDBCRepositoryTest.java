@@ -5,7 +5,6 @@ import org.junit.jupiter.api.*;
 import org.prgrms.vouchermanager.customer.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +18,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -73,12 +71,12 @@ class CustomerJDBCRepositoryTest {
         //when
         customerJdbcRepository.insert(testCustomer1);
         customerJdbcRepository.insert(testCustomer2);
-        Customer findCustomer1 = customerJdbcRepository.findById(testCustomer1.getCustomerId()).get();
-        Customer findCustomer2 = customerJdbcRepository.findById(testCustomer2.getCustomerId()).get();
+        Customer foundCustomer1 = customerJdbcRepository.findById(testCustomer1.getCustomerId()).get();
+        Customer foundCustomer2 = customerJdbcRepository.findById(testCustomer2.getCustomerId()).get();
 
         //then
-        assertThat(findCustomer1).isEqualTo(testCustomer1);
-        assertThat(findCustomer2).isEqualTo(testCustomer2);
+        assertThat(foundCustomer1).isEqualTo(testCustomer1);
+        assertThat(foundCustomer2).isEqualTo(testCustomer2);
     }
 
     @Test

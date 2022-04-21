@@ -8,5 +8,7 @@ public interface Voucher extends Serializable {
 
     VoucherType getVoucherType();
 
+    long getDiscountValue();
+
     Long discount(long beforeDiscount);
 }
