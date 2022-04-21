@@ -32,7 +32,7 @@ class ConsoleViewTest {
     class getUserInputTest{
         @ParameterizedTest
         @ValueSource(strings = {"\n", " "})
-        @DisplayName("입력값이 없을 때, 에러를 발생시킨다.")
+        @DisplayName("입력값이 없을 때,  IllegalArgumentException을 발생시킨다.")
         void emptyInputTest(String emptyInput) throws NoSuchFieldException, IllegalAccessException {
             // 테스트 환경 설정
             consoleView = new ConsoleView();
@@ -79,6 +79,7 @@ class ConsoleViewTest {
     class displayTest {
         @ParameterizedTest
         @ValueSource(strings = {"", "\n"," "})
+        @DisplayName("빈 출력값이 들어온다면, IllegalArgumentException을 발생시킨다.")
         void emptyOrNullInput(String emptyOutput) throws NoSuchFieldException, IllegalAccessException {
             consoleView = new ConsoleView();
 
