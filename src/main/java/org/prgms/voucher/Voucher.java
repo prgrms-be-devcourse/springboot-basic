@@ -9,6 +9,4 @@ public interface Voucher extends Serializable {
     UUID getVoucherId();
 
     long getDiscountAmount();
-
-    UUID getCustomerId();
 }

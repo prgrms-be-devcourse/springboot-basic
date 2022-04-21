@@ -1,11 +1,11 @@
 package org.prgms.customer;
 
-import org.prgms.validator.Validators;
+import org.prgms.validator.DomainValidators;
 
 import java.util.UUID;
 
 public record Customer(UUID customerId, String name, String email) {
     public Customer {
-        Validators.notNullAndEmptyCheck(customerId, name, email);
+        DomainValidators.notNullAndEmptyCheck(customerId, name, email);
     }
 }

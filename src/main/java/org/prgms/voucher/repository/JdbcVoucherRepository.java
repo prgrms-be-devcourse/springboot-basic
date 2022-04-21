@@ -28,7 +28,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        jdbcTemplate.update("INSERT INTO vouchers(customer_id, amount, voucher_kind, created_at) values(?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, voucher_kind, created_at) values(?, ?, ?, ?)",
                 UuidUtils.uuidToBytes(voucher.getVoucherId()),
                 voucher.getDiscountAmount(),
                 voucher.getClass().getSimpleName(),

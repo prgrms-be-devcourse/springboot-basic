@@ -26,8 +26,8 @@ class VoucherServiceTest {
         voucherService.deleteAllVouchers();
     }
 
-    public final Voucher fixedAmountVoucher = new FixedAmountVoucher(null, 500L, UUID.randomUUID());
-    public final Voucher percentDiscountVoucher = new PercentDiscountVoucher(null, 10L, UUID.randomUUID());
+    public final Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 500L);
+    public final Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
 
     @Test
     @DisplayName("바우처 만들기 테스트")
