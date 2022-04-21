@@ -2,6 +2,8 @@ package org.voucherProject.voucherProject.voucher.repository;
 
 import org.springframework.stereotype.Repository;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,6 +33,11 @@ public class MemoryVoucherDao implements VoucherDao {
 
     @Override
     public List<Voucher> findByCustomerId(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
         return null;
     }
 

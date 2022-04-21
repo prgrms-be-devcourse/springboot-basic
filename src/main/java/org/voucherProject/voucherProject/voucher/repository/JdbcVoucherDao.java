@@ -28,6 +28,7 @@ public class JdbcVoucherDao implements VoucherDao {
     private final String DELETE_ALL_SQL = "DELETE FROM voucher";
     private final String UPDATE_SQL = "UPDATE voucher SET voucher_type = :voucherType, voucher_status = :voucherStatus, amount = :amount WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private final String SELECT_BY_CUSTOMER_ID_SQL = "SELECT * FROM voucher v LEFT JOIN customers c ON v.customer_id = c.customer_id WHERE v.customer_id = UUID_TO_BIN(:customerId)";
+    private final String SELECT_BY_VOUCHER_TYPE_SQL = "SELECT * FROM voucher WHERE voucher_type = :voucherType";
     private final String DELETE_ONE_BY_CUSTOMER_ID_SQL = "DELETE FROM voucher WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -68,6 +69,13 @@ public class JdbcVoucherDao implements VoucherDao {
     public List<Voucher> findByCustomerId(UUID customerId) {
         return jdbcTemplate.query(SELECT_BY_CUSTOMER_ID_SQL,
                 Collections.singletonMap("customerId",customerId.toString().getBytes()),
+                customerRowMapper());
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query(SELECT_BY_VOUCHER_TYPE_SQL,
+                Collections.singletonMap("voucherType",voucherType.toString()),
                 customerRowMapper());
     }
 

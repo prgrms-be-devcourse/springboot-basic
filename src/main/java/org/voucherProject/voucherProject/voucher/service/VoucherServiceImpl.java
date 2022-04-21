@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 import org.voucherProject.voucherProject.voucher.repository.VoucherDao;
 import java.text.MessageFormat;
 import java.util.List;
@@ -25,6 +26,11 @@ public class VoucherServiceImpl implements VoucherService {
     public List<Voucher> findByCustomer(Customer customer) {
         UUID customerId = customer.getCustomerId();
         return voucherRepository.findByCustomerId(customerId);
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return voucherRepository.findByVoucherType(voucherType);
     }
 
     @Override

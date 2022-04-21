@@ -62,6 +62,11 @@ public class FileVoucherDao implements VoucherDao {
     }
 
     @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         return null;
     }

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
 
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@Primary
 public class JsonVoucherController {
 
     private final VoucherService voucherService;
@@ -25,8 +25,8 @@ public class JsonVoucherController {
         voucherService.save(voucher);
     }
 
-    @GetMapping("/v1/voucher/{voucherId}")
-    public VoucherDto findById(@PathVariable("voucherId") UUID voucherId) {
+    @GetMapping("/v1/voucher/{id}")
+    public VoucherDto findById(@PathVariable("id") UUID voucherId) {
         return VoucherDto.of(voucherService.findById(voucherId));
     }
 
@@ -57,5 +57,11 @@ public class JsonVoucherController {
         UUID voucherId = voucherDto.getVoucherId();
         UUID customerId = voucherDto.getCustomerId();
         voucherService.deleteOneVoucherByCustomer(customerId, voucherId);
+    }
+
+    @GetMapping("/v1/vouchers/type")
+    public List<VoucherDto> findByVoucherType(@RequestParam("type") String voucherType) {
+        List<Voucher> byVoucherType = voucherService.findByVoucherType(VoucherType.valueOf(voucherType.toUpperCase()));
+        return byVoucherType.stream().map(VoucherDto::of).toList();
     }
 }

@@ -12,6 +12,7 @@ import org.voucherProject.voucherProject.customer.service.CustomerService;
 import org.voucherProject.voucherProject.voucher.entity.FixedAmountVoucher;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherStatus;
+import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 import org.voucherProject.voucherProject.voucher.repository.VoucherDao;
 import java.util.List;
 import java.util.UUID;
@@ -122,5 +123,15 @@ public class VoucherServiceTest {
         voucher.useVoucher();
         Voucher updateVoucher = voucherService.updateVoucher(this.voucher);
         assertThat(updateVoucher.getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
+    }
+
+    @Test
+    public void findByVoucherType() throws Exception {
+
+        List<Voucher> byFixedVoucherType = voucherRepository.findByVoucherType(VoucherType.FIXED);
+        assertThat(byFixedVoucherType.size()).isEqualTo(1);
+        List<Voucher> byPercentVoucherType = voucherRepository.findByVoucherType(VoucherType.PERCENT);
+        assertThat(byPercentVoucherType.size()).isEqualTo(0);
+
     }
 }
