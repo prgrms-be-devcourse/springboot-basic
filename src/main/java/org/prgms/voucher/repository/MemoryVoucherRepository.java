@@ -1,7 +1,6 @@
 package org.prgms.voucher.repository;
 
 import org.prgms.voucher.Voucher;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile({"local", "default"})
+//@Profile({"local", "default"})
 public class MemoryVoucherRepository implements VoucherRepository {
     private final List<Voucher> db = new ArrayList<>();
 

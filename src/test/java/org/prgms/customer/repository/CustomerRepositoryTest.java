@@ -6,7 +6,6 @@ import org.prgms.TestConfig;
 import org.prgms.TestContextInitializer;
 import org.prgms.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.UUID;
 
 @SpringJUnitConfig(value = TestConfig.class, initializers = TestContextInitializer.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("db")
+//@ActiveProfiles("db")
 class CustomerRepositoryTest {
 
     @Autowired
@@ -26,8 +25,8 @@ class CustomerRepositoryTest {
 
     @BeforeEach
     void insertData() {
-        jdbcCustomerRepository.insert(newCustomer);
-        jdbcCustomerRepository.insert(newCustomer2);
+        jdbcCustomerRepository.save(newCustomer);
+        jdbcCustomerRepository.save(newCustomer2);
     }
 
     @AfterEach
@@ -67,7 +66,7 @@ class CustomerRepositoryTest {
     @DisplayName("고객 데이터 insert 테스트")
     void insertTest() {
         Customer customer = new Customer(UUID.randomUUID(), "new-insert", "insert@gmail.com");
-        jdbcCustomerRepository.insert(customer);
+        jdbcCustomerRepository.save(customer);
         List<Customer> customers = jdbcCustomerRepository.findByName("new-insert");
         Assertions.assertThat(customers).extracting("customerId").contains(customer.customerId());
     }

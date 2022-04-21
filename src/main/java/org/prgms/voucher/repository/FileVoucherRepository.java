@@ -3,7 +3,6 @@ package org.prgms.voucher.repository;
 import org.prgms.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Repository
-@Profile("dev")
+//@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
     private static final File objectFolder = new File("./objects");
     private static final String objPattern = "*.obj";

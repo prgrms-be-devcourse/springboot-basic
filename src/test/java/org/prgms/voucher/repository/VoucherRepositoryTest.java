@@ -9,7 +9,6 @@ import org.prgms.TestContextInitializer;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
@@ -18,12 +17,12 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringJUnitConfig(value = TestConfig.class, initializers = TestContextInitializer.class)
-@ActiveProfiles("db")
+//@ActiveProfiles("db")
 class VoucherRepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;
 
-    Voucher voucher = new FixedAmountVoucher(null, 10L, UUID.randomUUID());
+    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
 
     @BeforeEach
     void deleteAll() {
@@ -42,7 +41,7 @@ class VoucherRepositoryTest {
     @DisplayName("바우처 조회 테스트")
     void findAllTest() {
         for (int i = 0; i < 3; i++) {
-            voucherRepository.save(new FixedAmountVoucher(null, 10L, UUID.randomUUID()));
+            voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 10L));
         }
         List<Voucher> vouchers = voucherRepository.findAll();
         assertThat(vouchers, Matchers.hasSize(3));

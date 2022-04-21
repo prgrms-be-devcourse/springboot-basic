@@ -4,7 +4,7 @@ import org.prgms.utils.UuidUtils;
 import org.prgms.voucher.FixedAmountVoucher;
 import org.prgms.voucher.PercentDiscountVoucher;
 import org.prgms.voucher.Voucher;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,7 +17,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("db")
+//@Profile("db")
+@Primary
 public class JdbcVoucherRepository implements VoucherRepository {
     private final JdbcTemplate jdbcTemplate;
 
@@ -27,8 +28,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        jdbcTemplate.update("INSERT INTO vouchers(customer_id, voucher_id, amount, voucher_kind, created_at) values(?, ?, ?, ?, ?)",
-                UuidUtils.uuidToBytes(voucher.getCustomerId()),
+        jdbcTemplate.update("INSERT INTO vouchers(customer_id, amount, voucher_kind, created_at) values(?, ?, ?, ?)",
                 UuidUtils.uuidToBytes(voucher.getVoucherId()),
                 voucher.getDiscountAmount(),
                 voucher.getClass().getSimpleName(),
@@ -55,17 +55,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private Voucher mapToVoucher(ResultSet rs, int rowNum) throws SQLException {
-        var customerId = UuidUtils.bytesToUUID(rs.getBytes("customer_id"));
         var voucherId = UuidUtils.bytesToUUID(rs.getBytes("voucher_id"));
         var amount = rs.getInt("amount");
         var voucherKind = rs.getString("voucher_kind");
-        return decideVoucherType(voucherKind, amount, voucherId, customerId);
+        return decideVoucherType(voucherKind, amount, voucherId);
     }
 
-    private Voucher decideVoucherType(String voucherKind, long amount, UUID voucherId, UUID customerId) {
+    private Voucher decideVoucherType(String voucherKind, long amount, UUID voucherId) {
         if (voucherKind.equals(FixedAmountVoucher.class.getSimpleName()))
-            return new FixedAmountVoucher(customerId, amount, voucherId);
+            return new FixedAmountVoucher(voucherId, amount);
         else //if(voucherKind.equals(PercentDiscountVoucher.class.getSimpleName()))
-            return new PercentDiscountVoucher(customerId, amount, voucherId);
+            return new PercentDiscountVoucher(voucherId, amount);
     }
 }
