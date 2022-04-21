@@ -1,7 +1,7 @@
 package org.prgrms.voucherapp;
 
 import lombok.AllArgsConstructor;
-import org.prgrms.voucherapp.engine.VoucherService;
+import org.prgrms.voucherapp.engine.voucher.service.VoucherService;
 import org.prgrms.voucherapp.global.Command;
 import org.prgrms.voucherapp.global.VoucherType;
 import org.prgrms.voucherapp.io.Input;

@@ -1,8 +1,8 @@
 package org.prgrms.voucherapp.global;
 
-import org.prgrms.voucherapp.engine.FixedAmountVoucher;
-import org.prgrms.voucherapp.engine.PercentDiscountVoucher;
-import org.prgrms.voucherapp.engine.Voucher;
+import org.prgrms.voucherapp.engine.voucher.entity.FixedAmountVoucher;
+import org.prgrms.voucherapp.engine.voucher.entity.PercentDiscountVoucher;
+import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 
 import java.util.Arrays;
 import java.util.Optional;

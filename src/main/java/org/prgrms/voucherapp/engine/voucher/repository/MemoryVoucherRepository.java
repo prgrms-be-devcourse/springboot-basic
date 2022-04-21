@@ -1,12 +1,10 @@
-package org.prgrms.voucherapp.engine;
+package org.prgrms.voucherapp.engine.voucher.repository;
 
-import org.prgrms.voucherapp.global.VoucherType;
-import org.springframework.context.annotation.Profile;
+import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -29,5 +27,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return storage.keySet().stream()
                 .map(storage::get)
                 .toList();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+        storage.remove(voucherId);
     }
 }

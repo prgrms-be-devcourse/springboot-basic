@@ -1,6 +1,6 @@
 package org.prgrms.voucherapp;
 
-import org.prgrms.voucherapp.engine.VoucherService;
+import org.prgrms.voucherapp.engine.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

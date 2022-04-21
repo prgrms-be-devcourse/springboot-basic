@@ -1,6 +1,5 @@
-package org.prgrms.voucherapp.engine;
+package org.prgrms.voucherapp.engine.voucher.entity;
 
-import org.prgrms.voucherapp.exception.WrongAmountException;
 import org.prgrms.voucherapp.global.VoucherType;
 
 import java.text.MessageFormat;

@@ -1,5 +1,7 @@
-package org.prgrms.voucherapp.engine;
+package org.prgrms.voucherapp.engine.voucher.service;
 
+import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
+import org.prgrms.voucherapp.engine.voucher.repository.VoucherRepository;
 import org.prgrms.voucherapp.exception.NullVoucherException;
 import org.prgrms.voucherapp.global.VoucherType;
 import org.springframework.stereotype.Service;
