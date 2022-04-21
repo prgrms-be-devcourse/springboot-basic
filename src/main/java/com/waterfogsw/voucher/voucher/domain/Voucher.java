@@ -5,6 +5,11 @@ public class Voucher {
     VoucherType type;
     int value;
 
+    public Voucher(VoucherType type, int value) {
+        this.type = type;
+        this.value = value;
+    }
+
     public Voucher(Long id, VoucherType type, int value) {
         this.id = id;
         this.type = type;
@@ -13,5 +18,13 @@ public class Voucher {
 
     public Long getId() {
         return id;
+    }
+
+    public VoucherType getType() {
+        return type;
+    }
+
+    public int getValue() {
+        return value;
     }
 }
