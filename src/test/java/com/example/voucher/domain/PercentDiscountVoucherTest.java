@@ -57,8 +57,8 @@ public class PercentDiscountVoucherTest {
 		class 원가가_전달되면 {
 
 			@Test
-			@DisplayName("원래_가격에서_할인_값만큼_할인된_금액을_반환합니다")
-			void 원래_가격에서_할인_값만큼_할인된_금액을_반환합니다() {
+			@DisplayName("원가에서_할인_값만큼_할인된_금액을_반환한다")
+			void 원가에서_할인_값만큼_할인된_금액을_반환한다() {
 				int discountedPrice = voucher.discount(2000);
 				assertThat(discountedPrice).isEqualTo(1800);
 			}

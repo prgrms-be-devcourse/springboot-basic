@@ -44,8 +44,8 @@ public class FixedAmountVoucherTest {
 		class 원가가_전달되면 {
 
 			@Test
-			@DisplayName("원래_가격에서_할인_값만큼_할인된_금액을_반환한다")
-			void 원래_가격에서_할인_값만큼_할인된_금액을_반환한다() {
+			@DisplayName("원가에서_할인_값만큼_할인된_금액을_반환한다")
+			void 원가에서_할인_값만큼_할인된_금액을_반환한다() {
 				int discountedPrice = voucher.discount(2000);
 				assertThat(discountedPrice).isEqualTo(1000);
 			}
@@ -53,7 +53,7 @@ public class FixedAmountVoucherTest {
 
 		@Nested
 		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-		class 할인_금액보다_큰_원가가_전달되면 {
+		class 할인_금액보다_작은_원가가_전달되면 {
 
 			@Test
 			@DisplayName("0을 반환한다")
