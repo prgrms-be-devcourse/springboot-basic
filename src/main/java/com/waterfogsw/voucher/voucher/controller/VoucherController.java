@@ -11,7 +11,7 @@ public class VoucherController {
 
     private VoucherService voucherService;
 
-    public VoucherDto.Response voucherSave(VoucherDto.Request request) {
+    public VoucherDto.Response voucherAdd(VoucherDto.Request request) {
         try {
             validateRequest(request);
             Voucher voucher = VoucherDto.Request.toDomain(request);

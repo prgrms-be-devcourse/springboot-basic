@@ -28,7 +28,7 @@ public class VoucherControllerTests {
     private VoucherController controller;
 
     @Nested
-    @DisplayName("voucherSave 메소드는")
+    @DisplayName("voucherAdd 메소드는")
     class Describe_voucherSave {
 
         @Nested
@@ -40,7 +40,7 @@ public class VoucherControllerTests {
             void it_return_error_message() {
                 VoucherDto.Request request = new VoucherDto.Request(null, 1000);
 
-                VoucherDto.Response response = controller.voucherSave(request);
+                VoucherDto.Response response = controller.voucherAdd(request);
 
                 assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
@@ -55,7 +55,7 @@ public class VoucherControllerTests {
             void it_return_error_message() {
                 VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 0);
 
-                VoucherDto.Response response = controller.voucherSave(request);
+                VoucherDto.Response response = controller.voucherAdd(request);
 
                 assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
@@ -73,7 +73,7 @@ public class VoucherControllerTests {
                 when(voucherService.saveVoucher(any(Voucher.class)))
                         .thenReturn(new Voucher(1L, request.type(), request.value()));
 
-                VoucherDto.Response response = controller.voucherSave(request);
+                VoucherDto.Response response = controller.voucherAdd(request);
 
                 assertThat(response.status(), is(ResponseStatus.OK));
                 assertThat(response.type(), is(request.type()));
