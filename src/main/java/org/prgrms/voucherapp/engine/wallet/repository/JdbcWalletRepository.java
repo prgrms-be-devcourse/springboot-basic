@@ -48,26 +48,27 @@ public class JdbcWalletRepository implements  WalletRepository{
     private Map<String, Object> toParamMap(Wallet wallet){
         return new HashMap<String, Object>(){{
             put("customerId", wallet.getCustomerId().toString().getBytes());
-            put("voucherId", wallet.getVoucherId());
+            put("voucherId", wallet.getVoucherId().toString().getBytes());
+            put("walletId", wallet.getWalletId().toString().getBytes());
         }};
     }
 
     @Override
     public Wallet insert(Wallet wallet) {
-        int insert = jdbcTemplate.update("insert into wallets(customer_id, voucher_id) values(UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId))", toParamMap(wallet));
+        int insert = jdbcTemplate.update("insert into voucher_wallets(customer_id, voucher_id, wallet_id) values(UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId), UUID_TO_BIN(:walletId))", toParamMap(wallet));
         if (insert != 1) throw new SqlStatementFailException("정상적으로 삽입되지 않았습니다.");
         return wallet;
     }
 
     @Override
     public List<CustomerVoucherDto> findAll() {
-        return jdbcTemplate.query("select w.voucher_id, type, amount, w.customer_id, name, status from wallets w join customers c on w.customer_id=c.customer_id join vouchers v on w.voucher_id=v.voucher_id",walletRowMapper);
+        return jdbcTemplate.query("select w.voucher_id, type, amount, w.customer_id, name, status from voucher_wallets w join customers c on w.customer_id=c.customer_id join vouchers v on w.voucher_id=v.voucher_id",walletRowMapper);
     }
 
     @Override
     public Optional<CustomerVoucherDto> findById(UUID walletId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select w.voucher_id, type, amount, w.customer_id, name, status from wallets w join customers c on w.customer_id=c.customer_id join vouchers v on w.voucher_id=v.voucher_id where wallet_id = UUID_TO_BIN(:walletId)",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select w.voucher_id, type, amount, w.customer_id, name, status from voucher_wallets w join customers c on w.customer_id=c.customer_id join vouchers v on w.voucher_id=v.voucher_id where wallet_id = UUID_TO_BIN(:walletId)",
                     Collections.singletonMap("walletId", walletId.toString().getBytes()),
                     walletRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -77,21 +78,33 @@ public class JdbcWalletRepository implements  WalletRepository{
 
     @Override
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-        return jdbcTemplate.query("select v.* from wallets w join vouchers v on w.voucher_id=v.voucher_id where customer_id = UUID_TO_BIN(:customerId)",
+        return jdbcTemplate.query("select v.* from voucher_wallets w join vouchers v on w.voucher_id=v.voucher_id where customer_id = UUID_TO_BIN(:customerId)",
                 Collections.singletonMap("customerId", customerId.toString().getBytes()),
                 JdbcVoucherRepository.getVoucherRowMapper());
     }
 
     @Override
     public List<Customer> findCustomersByVoucherId(UUID voucherId) {
-        return jdbcTemplate.query("select c.* from wallets w join customers c on w.customer_id=c.customer_id where voucher_id = UUID_TO_BIN(:voucherId)",
+        return jdbcTemplate.query("select c.* from voucher_wallets w join customers c on w.customer_id=c.customer_id where voucher_id = UUID_TO_BIN(:voucherId)",
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                 JdbcCustomerRepository.getCustomerRowMapper());
     }
 
     @Override
     public void deleteByCustomerId(UUID customerId) {
-        int delete = jdbcTemplate.update("delete from wallets where customer_id = UUID_TO_BIN(:customerId)",Collections.singletonMap("customerId", customerId.toString().getBytes()));
+        int delete = jdbcTemplate.update("delete from voucher_wallets where customer_id = UUID_TO_BIN(:customerId)",Collections.singletonMap("customerId", customerId.toString().getBytes()));
         if (delete <= 0) throw new SqlStatementFailException("정상적으로 삭제되지 않았습니다.");
+    }
+
+    @Override
+    public void deleteByVoucherId(UUID voucherId) {
+        int delete = jdbcTemplate.update("delete from voucher_wallets where voucher_id = UUID_TO_BIN(:voucherId)",Collections.singletonMap("customerId", voucherId.toString().getBytes()));
+        if (delete <= 0) throw new SqlStatementFailException("정상적으로 삭제되지 않았습니다.");
+    }
+
+    @Override
+    public void deleteByWalletId(UUID walletId) {
+        int delete = jdbcTemplate.update("delete from voucher_wallets where wallet_id = UUID_TO_BIN(:walletId)",Collections.singletonMap("walletId", walletId.toString().getBytes()));
+        if (delete != 1) throw new SqlStatementFailException("정상적으로 삭제되지 않았습니다.");
     }
 }

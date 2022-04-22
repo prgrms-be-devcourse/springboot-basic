@@ -2,6 +2,7 @@ package org.prgrms.voucherapp;
 
 import org.prgrms.voucherapp.engine.customer.service.CustomerService;
 import org.prgrms.voucherapp.engine.voucher.service.VoucherService;
+import org.prgrms.voucherapp.engine.wallet.service.WalletService;
 import org.prgrms.voucherapp.global.enums.*;
 import org.prgrms.voucherapp.io.Input;
 import org.prgrms.voucherapp.io.Output;
@@ -17,13 +18,15 @@ public class Navigator implements Runnable {
     private final Output output;
     private final VoucherService voucherService;
     private final CustomerService customerService;
+    private final WalletService walletService;
     private final Logger logger = LoggerFactory.getLogger(Navigator.class);
 
-    public Navigator(Input input, Output output, VoucherService voucherService, CustomerService customerService) {
+    public Navigator(Input input, Output output, VoucherService voucherService, CustomerService customerService, WalletService walletService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
         this.customerService = customerService;
+        this.walletService = walletService;
     }
 
     //    TODO : 지금은 모든 exception에 대해서 프로그램 초기부터 시작함. create에서 예외 발생시, create부터 다시 시작할 수 있도록 변경해보자.
@@ -125,7 +128,7 @@ public class Navigator implements Runnable {
                     case DELETE -> {
                         logger.info("User chose delete command.");
                         UUID customerId = input.UUIDInput("Type a customer ID : ");
-                        customerService.removeCustomer(customerId);
+                        customerService.removeCustomer(customerService.getCustomer(customerId));
                         output.completeMessage("삭제");
                     }
                     case UPDATE -> {
@@ -134,7 +137,7 @@ public class Navigator implements Runnable {
                         output.informCustomerStatus();
                         Optional<CustomerStatus> status = input.customerStatusInput("Type a customer status's number(press enter to skip) : ");
                         String name = input.customerNameInput("Type a customer's name : ");
-                        customerService.updateCustomer(customerId, name, status);
+                        customerService.updateCustomer(customerService.getCustomer(customerId), name, status);
                         output.completeMessage("수정");
                     }
                 }
@@ -158,19 +161,29 @@ public class Navigator implements Runnable {
                     }
                     case LIST -> {
                         logger.info("User chose list command.");
-
+                        output.infoMessage(walletService.getWalletListByStr());
                     }
                     case ASSIGN_VOUCHER -> {
-                        logger.info("User chose list command.");
+                        logger.info("User chose assign_voucher command.");
+                        UUID customerId = input.UUIDInput("Type a customer ID : ");
+                        UUID voucherId = input.UUIDInput("Type a voucher ID : ");
+                        walletService.assignVoucherToCustomer(UUID.randomUUID(), customerId, voucherId);
+                        output.completeMessage("할당");
                     }
                     case GET_VOUCHER -> {
-                        logger.info("User chose delete command.");
+                        logger.info("User chose get_voucher command.");
+                        UUID customerId = input.UUIDInput("Type a customer ID : ");
+                        output.infoMessage(walletService.getVouchersOfCustomerByStr(customerService.getCustomer(customerId)));
                     }
                     case DELETE_VOUCHER -> {
-                        logger.info("User chose update command.");
+                        logger.info("User chose delete_voucher command.");
+                        UUID walletId = input.UUIDInput("Type a wallet ID : ");
+                        walletService.removeByWalletId(walletId);
+                        output.completeMessage("삭제");
                     }
                     case GET_CUSTOMER -> {
-
+                        UUID voucherId = input.UUIDInput("Type a voucher ID : ");
+                        output.infoMessage(walletService.getCustomersOfVoucherByStr(voucherService.getVoucher(voucherId)));
                     }
                 }
             } catch (Exception e) {

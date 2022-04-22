@@ -10,6 +10,7 @@ import org.prgrms.voucherapp.global.enums.CustomerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.Optional;
@@ -18,12 +19,12 @@ import java.util.UUID;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
-    private final WalletService walletService;
+    private final WalletRepository walletRepository;
     private final static Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
-    public CustomerService(CustomerRepository customerRepository, WalletRepository walletRepository, WalletService walletService) {
+    public CustomerService(CustomerRepository customerRepository, WalletRepository walletRepository, WalletRepository walletRepository1) {
         this.customerRepository = customerRepository;
-        this.walletService = walletService;
+        this.walletRepository = walletRepository;
     }
 
     public Customer getCustomer(UUID customerId) {
@@ -50,18 +51,17 @@ public class CustomerService {
         return sb.toString();
     }
 
-    public void removeCustomer(UUID customerId) {
-        Customer oldCustomer = this.getCustomer(customerId);
-        customerRepository.deleteById(customerId);
-        walletService.removeVouchersOfCustomer(customerId);
-        logger.info("--- 삭제된 고객 정보 --- \n%s".formatted(oldCustomer));
+    @Transactional
+    public void removeCustomer(Customer customer) {
+        customerRepository.deleteById(customer.getCustomerId());
+        walletRepository.deleteByCustomerId(customer.getCustomerId());
+        logger.info("--- 삭제된 고객 정보 --- \n%s".formatted(customer));
     }
 
     // TODO : 수정이 많은 구조에서는 다음과 같이 old와 new를 생성하는 식으로 수정하면 비효율적일 듯.
-    public void updateCustomer(UUID customerId, String name, Optional<CustomerStatus> status){
-        Customer oldCustomer =  this.getCustomer(customerId);
-        Customer newCustomer = status.map(s -> new Customer(customerId, name, oldCustomer.getEmail(), s.toString()))
-                .orElseGet(() -> new Customer(customerId, name, oldCustomer.getEmail()));
+    public void updateCustomer(Customer oldCustomer, String name, Optional<CustomerStatus> status){
+        Customer newCustomer = status.map(s -> new Customer(oldCustomer.getCustomerId(), name, oldCustomer.getEmail(), s.toString()))
+                .orElseGet(() -> new Customer(oldCustomer.getCustomerId(), name, oldCustomer.getEmail()));
         logger.info("--- 수정된 고객 정보 ---\n변경 전 : %s\n변경 후 : %s".formatted(oldCustomer, newCustomer));
     }
 }

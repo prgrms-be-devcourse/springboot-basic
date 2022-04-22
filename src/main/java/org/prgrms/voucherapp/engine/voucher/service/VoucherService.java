@@ -2,11 +2,13 @@ package org.prgrms.voucherapp.engine.voucher.service;
 
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.engine.voucher.repository.VoucherRepository;
+import org.prgrms.voucherapp.engine.wallet.repository.WalletRepository;
 import org.prgrms.voucherapp.exception.NullVoucherException;
 import org.prgrms.voucherapp.global.enums.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.UUID;
@@ -24,10 +26,12 @@ import java.util.UUID;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final WalletRepository walletRepository;
     private final static Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository, WalletRepository walletRepository) {
         this.voucherRepository = voucherRepository;
+        this.walletRepository = walletRepository;
     }
 
     public Voucher getVoucher(UUID voucherId){
@@ -57,9 +61,11 @@ public class VoucherService {
         return sb.toString();
     }
 
+    @Transactional
     public void removeVoucher(UUID voucherId) {
         Voucher oldVoucher = this.getVoucher(voucherId);
         voucherRepository.deleteById(voucherId);
+        walletRepository.deleteByVoucherId(voucherId);
         logger.info("--- 삭제된 바우처 정보 --- \n%s".formatted(oldVoucher));
     }
 
