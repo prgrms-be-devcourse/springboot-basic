@@ -1,10 +1,14 @@
-package org.prgrms.kdtspringdemo.voucher.voucherdetail;
+package org.prgrms.kdtspringdemo.domain.voucher.data;
+
+import org.prgrms.kdtspringdemo.domain.voucher.type.VoucherType;
 
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long amount;
+    private long amount;
+    private UUID customerId;
+    private final String type = "FIXED";
     private static final int MIN_DISCOUNT_AMOUNT = 0;
     private static final int MAX_DISCOUNT_AMOUNT = 1_000_000;
 
@@ -12,11 +16,28 @@ public class FixedAmountVoucher implements Voucher {
         validateDiscountAmount(amount);
         this.voucherId = voucherId;
         this.amount = amount;
+        this.customerId = UUID.nameUUIDFromBytes("null".getBytes());
+    }
+
+    public FixedAmountVoucher(UUID voucherId, long amount, UUID customerId) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+        this.customerId = customerId;
     }
 
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     @Override
@@ -30,10 +51,20 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public Voucher changeTypeAndAmount(VoucherType voucherType, int amount) {
+        if(voucherType==VoucherType.FIXED){
+            return new FixedAmountVoucher(this.getVoucherId(), amount, this.getCustomerId());
+        }
+        return new PercentDiscountVoucher(this.getVoucherId(), amount,this.getCustomerId());
+    }
+
+    @Override
     public String toString() {
         return "FixedAmountVoucher{" +
                 "voucherId=" + voucherId +
                 ", amount=" + amount +
+                ", customerId=" + customerId +
+                ", type='" + type + '\'' +
                 '}';
     }
 
