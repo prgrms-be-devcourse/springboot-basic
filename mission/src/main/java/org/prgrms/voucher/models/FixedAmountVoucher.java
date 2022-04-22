@@ -1,8 +1,10 @@
 package org.prgrms.voucher.models;
 
-public class FixedAmountVoucher extends Voucher{
+import java.util.concurrent.atomic.AtomicLong;
 
-    public FixedAmountVoucher(Long voucherId, long amount, VoucherType voucherType) {
+public class FixedAmountVoucher extends Voucher {
+
+    public FixedAmountVoucher(AtomicLong voucherId, long amount, VoucherType voucherType) {
 
         this.voucherId = voucherId;
         this.discountValue = amount;
