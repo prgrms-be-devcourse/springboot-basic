@@ -3,6 +3,7 @@ package kdt.vouchermanagement;
 import kdt.vouchermanagement.domain.voucher.controller.VoucherConsoleController;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 import kdt.vouchermanagement.domain.voucher.dto.VoucherRequest;
+import kdt.vouchermanagement.domain.voucher.service.VoucherService;
 import kdt.vouchermanagement.global.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
