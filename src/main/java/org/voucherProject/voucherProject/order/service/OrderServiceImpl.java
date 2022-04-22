@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.voucherProject.voucherProject.order.entity.Order;
 import org.voucherProject.voucherProject.order.entity.OrderItem;
-import org.voucherProject.voucherProject.voucher.entity.Discountable;
 import org.voucherProject.voucherProject.order.repository.OrderRepository;
+import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
 
 import java.util.List;

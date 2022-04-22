@@ -12,11 +12,12 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/v1/voucher")
 public class JsonVoucherController {
 
     private final VoucherService voucherService;
 
-    @PostMapping("/v1/voucher/new")
+    @PostMapping("/new")
     public void createVoucher(@RequestBody VoucherDto voucherDto) {
         Voucher voucher = voucherDto.getVoucherType().createVoucher(
                 voucherDto.getAmount(),
@@ -24,19 +25,19 @@ public class JsonVoucherController {
         voucherService.save(voucher);
     }
 
-    @GetMapping("/v1/voucher/{id}")
+    @GetMapping("/{id}")
     public VoucherDto findById(@PathVariable("id") UUID voucherId) {
         return VoucherDto.of(voucherService.findById(voucherId));
     }
 
-    @GetMapping("/v1/vouchers")
+    @GetMapping("/list-all")
     public List<VoucherDto> findAll() {
         return voucherService.findAll()
                 .stream()
                 .map(VoucherDto::of).toList();
     }
 
-    @PutMapping("/v1/voucher/order")
+    @PutMapping("/order")
     public void useVoucher(@RequestBody VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
         voucher.useVoucher();
@@ -44,27 +45,27 @@ public class JsonVoucherController {
     }
 
 
-    @PutMapping("/v1/voucher/cancel")
+    @PutMapping("/cancel")
     public void cancelVoucher(@RequestBody VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
         voucher.cancelVoucher();
         voucherService.updateVoucher(voucher);
     }
 
-    @DeleteMapping("/v1/voucher/delete")
+    @DeleteMapping("/delete")
     public void deleteVoucher(@RequestBody VoucherDto voucherDto) {
         UUID voucherId = voucherDto.getVoucherId();
         UUID customerId = voucherDto.getCustomerId();
         voucherService.deleteOneVoucherByCustomer(customerId, voucherId);
     }
 
-    @GetMapping("/v1/vouchers/type")
+    @GetMapping("/list-type")
     public List<VoucherDto> findByVoucherType(@RequestParam("type") String voucherType) {
         List<Voucher> byVoucherType = voucherService.findByVoucherType(VoucherType.valueOf(voucherType.toUpperCase()));
         return byVoucherType.stream().map(VoucherDto::of).toList();
     }
 
-    @GetMapping("/v1/voucher/created-at")
+    @GetMapping("/list-created-at")
     public List<VoucherDto> findByCreatedAtBetweenAandB(@RequestParam("date1") String date1,
                                                         @RequestParam("date2") String date2) {
         List<Voucher> byCreatedAtBetween = voucherService.findByCreatedAtBetween(date1, date2);
