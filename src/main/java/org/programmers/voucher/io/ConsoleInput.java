@@ -2,33 +2,30 @@ package org.programmers.voucher.io;
 
 import org.programmers.voucher.domain.VoucherType;
 import org.programmers.voucher.util.Command;
-import org.programmers.voucher.util.IllegalCommandException;
-import org.programmers.voucher.util.IllegalVoucherTypeException;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class ConsoleInput implements Input{
     private final Scanner sc = new Scanner(System.in);
 
     @Override
-    public Command inputCommand() throws IllegalCommandException {
+    public Command inputCommand() throws IllegalArgumentException {
         String input = sc.nextLine().strip();
         return Arrays.stream(Command.values())
                 .filter(value -> value.toString().equals(input))
                 .findAny()
-                .orElseThrow(IllegalCommandException::new);
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     @Override
 
-    public VoucherType inputVoucherType() throws IllegalVoucherTypeException {
+    public VoucherType inputVoucherType() throws IllegalArgumentException {
         String input = sc.nextLine().strip();
         return Arrays.stream(VoucherType.values())
                 .filter(value -> value.toString().equals(input))
                 .findAny()
-                .orElseThrow(IllegalVoucherTypeException::new);
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     @Override

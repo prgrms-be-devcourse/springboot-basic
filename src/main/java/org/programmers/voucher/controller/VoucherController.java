@@ -1,19 +1,9 @@
 package org.programmers.voucher.controller;
 
-import org.programmers.voucher.domain.FixedAmountVoucher;
-import org.programmers.voucher.domain.PercentDiscountVoucher;
-import org.programmers.voucher.domain.Voucher;
-import org.programmers.voucher.domain.VoucherType;
 import org.programmers.voucher.io.Input;
 import org.programmers.voucher.io.Output;
-import org.programmers.voucher.repository.VoucherRepository;
 import org.programmers.voucher.service.VoucherService;
 import org.programmers.voucher.util.Command;
-import org.programmers.voucher.util.IllegalCommandException;
-import org.programmers.voucher.util.IllegalVoucherTypeException;
-import org.springframework.beans.factory.annotation.Value;
-
-import java.util.UUID;
 
 public class VoucherController implements Runnable {
 
@@ -35,15 +25,13 @@ public class VoucherController implements Runnable {
         do {
             try {
                 cmd = parseCommand();
-            } catch (IllegalCommandException e) {
-                System.out.println("Illegal Command");
-            } catch (IllegalVoucherTypeException e) {
-                System.out.println("Illegal Voucher Type");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Illegal Argument");
             }
         } while (Command.EXIT.equals(cmd));
     }
 
-    private Command parseCommand() throws IllegalCommandException, IllegalVoucherTypeException {
+    private Command parseCommand() throws IllegalArgumentException {
         Command command = input.inputCommand();
         switch (command) {
             case EXIT:
