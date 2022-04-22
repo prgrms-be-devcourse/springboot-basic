@@ -20,6 +20,11 @@ class MemoryVoucherRepositoryTest {
 
     private static final MemoryVoucherRepository voucherRepository = new MemoryVoucherRepository();
 
+    private static final Voucher voucher = new TestVoucher(UUID.randomUUID(), 2000, null);
+    private static final Voucher voucher2 = new TestVoucher(UUID.randomUUID(), 1000, null);
+    private static final Voucher voucher3 = new TestVoucher(UUID.randomUUID(), 1500, null);
+
+
     @AfterEach
     void clear() {
         voucherRepository.clear();
@@ -28,7 +33,6 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("저장 기능")
     void insert() {
-        Voucher voucher = new TestVoucher(UUID.randomUUID());
         Voucher insertedVoucher = voucherRepository.insert(voucher);
         assertEquals(voucher, insertedVoucher);
     }
@@ -36,7 +40,6 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("Id로 검색하기")
     void findById() {
-        Voucher voucher = new TestVoucher(UUID.randomUUID());
         voucherRepository.insert(voucher);
 
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getId());
@@ -53,15 +56,12 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("전체 검색")
     void findAll() {
-        Voucher voucher1 = new TestVoucher(UUID.randomUUID());
-        Voucher voucher2 = new TestVoucher(UUID.randomUUID());
-        Voucher voucher3 = new TestVoucher(UUID.randomUUID());
-        voucherRepository.insert(voucher1);
+        voucherRepository.insert(voucher);
         voucherRepository.insert(voucher2);
         voucherRepository.insert(voucher3);
 
         List<Voucher> expected = new ArrayList<>();
-        expected.add(voucher1);
+        expected.add(voucher);
         expected.add(voucher2);
         expected.add(voucher3);
 

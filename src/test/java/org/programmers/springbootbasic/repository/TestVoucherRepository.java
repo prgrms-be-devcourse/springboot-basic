@@ -33,5 +33,4 @@ public class TestVoucherRepository implements VoucherRepository {
     public void clear() {
         storage.clear();
     }
-
 }
