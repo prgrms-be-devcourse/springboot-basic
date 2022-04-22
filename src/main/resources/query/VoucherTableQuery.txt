@@ -1,0 +1,14 @@
+create database order_mgmt;
+
+use order_mgmt;
+
+DROP TABLE vouchers;
+
+CREATE TABLE vouchers
+(
+voucher_id BINARY(16) PRIMARY KEY,
+type varchar(20) NOT NULL,
+amount INT(11) NOT NULL,
+customer_id BINARY(16)
+);
+
