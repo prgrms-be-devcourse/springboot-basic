@@ -1,10 +1,12 @@
-package org.prgms.kdtspringvoucher;
+package org.prgms.kdtspringvoucher.commandLine;
 
 public enum CommandType {
     EXIT("exit"),
-    CREAT("create"),
+    CREATE("create"),
     LIST("list"),
-    BLACK("black");
+    CUSTOMER("customer"),
+    BLACK("black"),
+    WALLET("wallet");
 
     private String commandType;
 
