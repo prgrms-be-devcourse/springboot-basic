@@ -2,8 +2,6 @@ package com.prgrms.vouchermanagement.voucher.repository;
 
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,8 +19,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public static final String SELECT_SQL = "SELECT * FROM voucher";
     public static final String SELECT_BY_ID_SQL = "SELECT * FROM voucher WHERE voucher_id=:voucherId";
     public static final String UPDATE_SQL = "UPDATE voucher SET amount=:amount WHERE voucher_id=:voucherId";
-
-    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
