@@ -173,4 +173,18 @@ class JdbcVoucherRepositoryTest {
         assertThat(allVouchers.size()).isEqualTo(5);
         assertThat(allVouchers).usingRecursiveFieldByFieldElementComparator().contains(voucher1, voucher2, voucher3, voucher4, voucher5);
     }
+
+    @Test
+    @DisplayName("전체 Voucher를 조회하는데 저장된 Voucher가 없는 경우 빈 리스트를 반환한다.")
+    void findAllEmptyTest() {
+        // given
+        // 아무 바우처도 저장하지 않는다.
+
+        // when
+        List<Voucher> allVouchers = voucherRepository.findAll();
+
+        // then
+        assertThat(allVouchers).isNotNull();
+        assertThat(allVouchers).isEmpty();
+    }
 }
