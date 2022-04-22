@@ -5,20 +5,20 @@ public enum Command {
     CREATE("create", "create a new voucher."),
     LIST("list", "list all vouchers.");
 
-    private String command;
-    private String explanation;
+    private final String command;
+    private final String explanation;
 
-    Command(String command, String explanation){
+    Command(String command, String explanation) {
         this.command = command;
         this.explanation = explanation;
     }
 
-    @Override
-    public String toString(){
-        return command;
+    public String getExplanation() {
+        return explanation;
     }
 
-    public String getExplanation(){
-        return explanation;
+    @Override
+    public String toString() {
+        return command;
     }
 }
