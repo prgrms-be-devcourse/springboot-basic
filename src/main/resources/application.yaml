@@ -1,0 +1,18 @@
+spring:
+  config:
+    activate:
+      on-profile: local-file
+---
+
+spring.config.activate.on-profile: local-file
+filedb:
+  blacklist: "src/main/resources/filedb/blacklist.csv"
+  voucher: "src/main/resources/filedb/voucher.csv"
+
+---
+
+spring.config.activate.on-profile: local-memory
+
+---
+
+spring.config.activate.on-profile: dev
