@@ -5,34 +5,34 @@
     <title>Voucher list</title>
 </head>
 <div layout:fragment="content">
-    <form style="padding: 0.75rem 0" th:action="@{'/vouchers/' + ${voucher.id}}" th:method="put"
-          th:object="${voucher}">
+    <form class="custom-margin-top" th:action="@{'/vouchers/' + ${voucher.id}}"
+          th:method="put" th:object="${voucher}">
         <input name="_method" type="hidden" value="put">
         <div class="form-group">
-            <label for="exampleInputEmail1">Voucher Id</label>
-            <input class="form-control" id="exampleInputEmail1" readonly th:field="*{id}" type="text">
+            <label for="voucher_id">Voucher Id</label>
+            <input class="form-control" id="voucher_id" readonly th:field="*{id}" type="text">
         </div>
         <div class="form-group">
-            <label for="TYPE">Type</label>
-            <input class="form-control" id="TYPE" readonly th:field="*{type}" type="text">
+            <label for="voucher_type">Type</label>
+            <input class="form-control" id="voucher_type" readonly th:field="*{type}" type="text">
         </div>
         <div class="form-group">
-            <label for="NAME">Type</label>
-            <input class="form-control" id="NAME" readonly th:field="*{name}" type="text">
+            <label for="voucher_name">Type</label>
+            <input class="form-control" id="voucher_name" readonly th:field="*{name}" type="text">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Figure</label>
-            <input class="form-control" id="exampleInputPassword1" readonly th:field="*{figure}" type="text">
+            <label for="voucher_figure">Figure</label>
+            <input class="form-control" id="voucher_figure" readonly th:field="*{figure}" type="text">
         </div>
-        <div class="form-group" style="padding: 0 0 0.75rem 0">
-            <label for="exampleInputPassword2">createdAt</label>
-            <input class="form-control" id="exampleInputPassword2" readonly th:field="*{createdAt}" type="text">
+        <div class="form-group">
+            <label for="voucher_created_at">createdAt</label>
+            <input class="form-control" id="voucher_created_at" readonly th:field="*{createdAt}" type="text">
         </div>
-        <button class="btn btn-outline-dark btn-block" style="width: 100%" type="submit">수정하기</button>
+        <button class="btn btn-outline-dark custom-btn-max" type="submit">수정하기</button>
     </form>
-    <form id="delete-form" method="post" th:action="@{'/vouchers/' + ${voucher.id}}">
+    <form id="delete-form" th:action="@{'/vouchers/' + ${voucher.id}}" th:method="delete">
         <input name="_method" type="hidden" value="delete"/>
-        <button class="btn btn-outline-dark btn-block" style="width: 100%">삭제하기</button>
+        <button class="btn btn-outline-dark custom-btn-max">삭제하기</button>
     </form>
 </div>
 </html>
