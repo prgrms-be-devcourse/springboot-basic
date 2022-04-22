@@ -1,4 +1,4 @@
-package com.kdt.commandLineApp;
+package com.kdt.commandLineApp.voucherWallet;
 
 import com.kdt.commandLineApp.customer.Customer;
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
@@ -18,8 +18,7 @@ import static com.kdt.commandLineApp.UUIDConverter.toUUID;
 @Repository
 @Profile("db")
 public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
-    @Autowired
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i)->{
         try {
@@ -49,13 +48,18 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
         }
     };
 
+    @Autowired
+    public JdbcVoucherWalletRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
     @Override
-    public void giveVoucherToCustomer(UUID customerId, UUID voucherId) {
+    public void giveVoucherToCustomer(String customerId, String voucherId) {
         String sql = "insert into mysql.voucherWallet (cid, vid) values (UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId))";
-        Map<String, Object> paramMap = new ConcurrentHashMap<>() {{
-            put("customerId",customerId.toString().getBytes());
-            put("voucherId",voucherId.toString().getBytes());
-        }};
+        Map<String, Object> paramMap = new ConcurrentHashMap<>();
+
+        paramMap.put("customerId", customerId.getBytes());
+        paramMap.put("voucherId",voucherId.getBytes());
 
         namedParameterJdbcTemplate.update(
                 sql,
@@ -64,12 +68,12 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
     }
 
     @Override
-    public void deleteVoucherFromCustomer(UUID customerId, UUID voucherId) {
+    public void deleteVoucherFromCustomer(String customerId, String voucherId) {
         String sql = "delete from mysql.voucherWallet where cid = UUID_TO_BIN(:customerId) and vid = UUID_TO_BIN(:voucherId)";
-        Map<String, Object> paramMap = new ConcurrentHashMap<>() {{
-            put("customerId",customerId.toString().getBytes());
-            put("voucherId",voucherId.toString().getBytes());
-        }};
+        Map<String, Object> paramMap = new ConcurrentHashMap<>();
+        paramMap.put("customerId",customerId.getBytes());
+        paramMap.put("voucherId",voucherId.getBytes());
+
         namedParameterJdbcTemplate.update(
                 sql,
                 paramMap
@@ -77,23 +81,23 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
     }
 
     @Override
-    public List<Voucher> getCustomerVouchers(UUID customerId) {
+    public List<Voucher> getCustomerVouchers(String customerId) {
         String sql = "select * from mysql.voucher where vid in (select vid from mysql.voucherWallet where cid = UUID_TO_BIN(:customerId))";
 
         return namedParameterJdbcTemplate.query(
                 sql,
-                Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                Collections.singletonMap("customerId", customerId.getBytes()),
                 voucherRowMapper
         );
     }
 
     @Override
-    public List<Customer> getCustomersWithVoucherId(UUID voucherId) {
+    public List<Customer> getCustomersWithVoucherId(String voucherId) {
         String sql = "select * from mysql.customer where cid in (select cid from mysql.voucherWallet where vid = UUID_TO_BIN(:voucherId))";
 
         return namedParameterJdbcTemplate.query(
                 sql,
-                Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                Collections.singletonMap("voucherId", voucherId.getBytes()),
                 customerRowMapper
         );
     }

@@ -1,4 +1,4 @@
-package com.kdt.commandLineApp;
+package com.kdt.commandLineApp.voucherWallet;
 
 import com.kdt.commandLineApp.customer.Customer;
 import com.kdt.commandLineApp.voucher.Voucher;
@@ -6,26 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VoucherWalletService {
+    private VoucherWalletRepository voucherWalletRepository;
+
     @Autowired
-    VoucherWalletRepository voucherWalletRepository;
+    public VoucherWalletService(VoucherWalletRepository voucherWalletRepository) {
+        this.voucherWalletRepository = voucherWalletRepository;
+    }
 
     public void giveVoucherToCustomer(String customerId, String voucherId) {
-        voucherWalletRepository.giveVoucherToCustomer(UUID.fromString(customerId), UUID.fromString(voucherId));
+        voucherWalletRepository.giveVoucherToCustomer(customerId, voucherId);
     }
 
     public void deleteVoucherFromCustomer(String customerId, String voucherId) {
-        voucherWalletRepository.deleteVoucherFromCustomer(UUID.fromString(customerId), UUID.fromString(voucherId));
+        voucherWalletRepository.deleteVoucherFromCustomer(customerId, voucherId);
     }
 
     public List<Voucher> getCustomerVouchers(String customerId) {
-        return voucherWalletRepository.getCustomerVouchers(UUID.fromString(customerId));
+        return voucherWalletRepository.getCustomerVouchers(customerId);
     }
 
     public List<Customer> getCustomersWithVoucherId(String voucherId) {
-        return voucherWalletRepository.getCustomersWithVoucherId(UUID.fromString(voucherId));
+        return voucherWalletRepository.getCustomersWithVoucherId(voucherId);
     }
 }

@@ -11,6 +11,7 @@ import java.util.UUID;
 @Service
 public class VoucherService {
     private VoucherRepository voucherRepository;
+
     @Autowired
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -26,7 +27,7 @@ public class VoucherService {
     }
 
     public Optional<Voucher> getVoucher(String id) {
-        return voucherRepository.get(UUID.fromString(id));
+        return voucherRepository.get(id);
     }
 
     public List<Voucher> getVouchers() {

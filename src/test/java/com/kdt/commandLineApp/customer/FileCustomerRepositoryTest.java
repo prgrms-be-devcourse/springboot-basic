@@ -19,11 +19,11 @@ class FileCustomerRepositoryTest {
     @Test
     void testGetAll() {
         try {
-            var customer1 = new Customer("moon","25","man");
-            var customer2 = new Customer("moon","26","woman");
+            Customer customer1 = new Customer("moon","25","man");
+            Customer customer2 = new Customer("moon","26","woman");
 
-            var result1 = customerRepository.getAllBlacklist().get(0);
-            var result2 = customerRepository.getAllBlacklist().get(1);
+            Customer result1 = customerRepository.getAllBlacklist().get(0);
+            Customer result2 = customerRepository.getAllBlacklist().get(1);
 
             assertThat(result1, isA(Customer.class));
             assertThat(result2, isA(Customer.class));

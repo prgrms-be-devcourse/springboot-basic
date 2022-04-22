@@ -21,7 +21,7 @@ class FileVoucherRepositoryTest {
             Voucher voucher = new Voucher("fixed",1000);
             voucherRepository.add(voucher);
 
-            var result = voucherRepository.getAll().size();
+            int result = voucherRepository.getAll().size();
 
             assertThat(result, is(1));
         } catch (Exception e) {

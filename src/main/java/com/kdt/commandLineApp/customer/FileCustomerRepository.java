@@ -14,7 +14,6 @@ import static java.util.stream.Collectors.toCollection;
 @Repository
 @Profile("dev")
 public class FileCustomerRepository implements CustomerRepository {
-    private final int COLUMN_COUNT = 3;
     private Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
     private List<Customer> customerBlackList = new ArrayList<>();
 
@@ -60,8 +59,8 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> get(UUID customerId) {
-        return Optional.ofNullable(customerMap.get(customerId));
+    public Optional<Customer> get(String id) {
+        return Optional.ofNullable(customerMap.get(UUID.fromString(id)));
     }
 
     @Override

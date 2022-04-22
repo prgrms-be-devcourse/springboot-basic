@@ -9,11 +9,11 @@ import java.util.UUID;
 public interface VoucherRepository extends DisposableBean {
     public void add(Voucher voucher);
 
-    public Optional<Voucher> get(UUID id);
+    public Optional<Voucher> get(String id);
 
     public List<Voucher> getAll();
 
-    public void remove(UUID vid);
+    public void remove(String id);
 
     public void deleteAll();
 }

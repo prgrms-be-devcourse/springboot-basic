@@ -3,6 +3,7 @@ package com.kdt.commandLineApp;
 import com.kdt.commandLineApp.customer.CustomerService;
 import com.kdt.commandLineApp.io.IO;
 import com.kdt.commandLineApp.voucher.VoucherService;
+import com.kdt.commandLineApp.voucherWallet.VoucherWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

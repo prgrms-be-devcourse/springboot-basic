@@ -17,6 +17,8 @@ import static org.hamcrest.Matchers.isA;
 @SpringJUnitConfig(classes = {AppContext.class})
 @ActiveProfiles("db")
 class JdbcVoucherRepositoryTest {
+    private String voucherId = "34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698";
+
     @Autowired
     JdbcVoucherRepository jdbcVoucherRepository;
 
@@ -33,22 +35,23 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     void add() {
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
+        settingVoucher(voucherId,"fixed",1000);
 
         List<Voucher> voucherList = jdbcVoucherRepository.getAll();
         int size = voucherList.size();
+        Voucher voucher = voucherList.get(0);
 
         assertThat(size, is(1));
-        assertThat(voucherList.get(0), isA(Voucher.class));
-        assertThat(voucherList.get(0).getId().toString(), is("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
-        assertThat(voucherList.get(0).getType(), is("fixed"));
-        assertThat(voucherList.get(0).getDiscountAmount(), is(1000));
+        assertThat(voucher, isA(Voucher.class));
+        assertThat(voucher.getId().toString(), is(voucherId));
+        assertThat(voucher.getType(), is("fixed"));
+        assertThat(voucher.getDiscountAmount(), is(1000));
     }
 
     @Test
     void remove() {
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
-        jdbcVoucherRepository.remove(UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
+        settingVoucher(voucherId,"fixed",1000);
+        jdbcVoucherRepository.remove(voucherId);
         int size = jdbcVoucherRepository.getAll().size();
 
         assertThat(size, is(0));
@@ -56,31 +59,31 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     void get() {
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
-        Voucher voucher = jdbcVoucherRepository.get(UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698")).get();
+        settingVoucher(voucherId,"fixed",1000);
+        Voucher voucher = jdbcVoucherRepository.get(voucherId).get();
 
         assertThat(voucher, isA(Voucher.class));
-        assertThat(UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"), is(voucher.getId()));
-        assertThat("fixed", is(voucher.getType()));
-        assertThat(1000, is(voucher.getDiscountAmount()));
+        assertThat(voucher.getId().toString(), is(voucherId));
+        assertThat(voucher.getType(), is("fixed"));
+        assertThat(voucher.getDiscountAmount(), is(1000));
     }
 
     @Test
     void getAll() {
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698", "fixed", 1000);
+        settingVoucher(voucherId, "fixed", 1000);
 
-        var result = jdbcVoucherRepository.getAll().size();
+        int result = jdbcVoucherRepository.getAll().size();
 
         assertThat(result, is(1));
     }
 
     @Test
     void deleteAllVoucher() {
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698", "fixed", 1000);
+        settingVoucher(voucherId, "fixed", 1000);
 
-        var result1 = jdbcVoucherRepository.getAll().size();
+        int result1 = jdbcVoucherRepository.getAll().size();
         jdbcVoucherRepository.deleteAll();
-        var result2 = jdbcVoucherRepository.getAll().size();
+        int result2 = jdbcVoucherRepository.getAll().size();
 
         assertThat(result1, is(1));
         assertThat(result2, is(0));

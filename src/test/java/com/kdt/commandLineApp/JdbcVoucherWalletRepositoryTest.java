@@ -5,6 +5,7 @@ import com.kdt.commandLineApp.customer.JdbcCustomerRepository;
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
 import com.kdt.commandLineApp.voucher.JdbcVoucherRepository;
 import com.kdt.commandLineApp.voucher.Voucher;
+import com.kdt.commandLineApp.voucherWallet.JdbcVoucherWalletRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ import static org.hamcrest.Matchers.isA;
 @SpringJUnitConfig(classes = {AppContext.class})
 @ActiveProfiles("db")
 class JdbcVoucherWalletRepositoryTest {
+    private String custmerId = "90876254-1988-4f45-b296-ebbb6fedd464";
+    private String voucherId = "34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698";
+
     @Autowired
     JdbcVoucherRepository jdbcVoucherRepository;
 
@@ -53,12 +57,12 @@ class JdbcVoucherWalletRepositoryTest {
 
     @Test
     void giveVoucherToCustomer() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464","moon",20, "woman");
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
+        settingCustomer(custmerId,"moon",20, "woman");
+        settingVoucher(voucherId,"fixed",1000);
 
-        jdbcVoucherWalletRepository.giveVoucherToCustomer(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464"), UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
+        jdbcVoucherWalletRepository.giveVoucherToCustomer(custmerId, voucherId);
 
-        var result = jdbcVoucherWalletRepository.getCustomersWithVoucherId(UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698")).get(0);
+        Customer result = jdbcVoucherWalletRepository.getCustomersWithVoucherId(voucherId).get(0);
 
         assertThat(result, isA(Customer.class));
         assertThat(result.getName(), Matchers.is("moon"));
@@ -68,14 +72,14 @@ class JdbcVoucherWalletRepositoryTest {
 
     @Test
     void deleteVoucherFromCustomer() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464","moon",20, "woman");
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
+        settingCustomer(custmerId,"moon",20, "woman");
+        settingVoucher(voucherId,"fixed",1000);
 
-        jdbcVoucherWalletRepository.giveVoucherToCustomer(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464"), UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
-        var result1 = jdbcVoucherWalletRepository.getCustomerVouchers(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464")).size();
+        jdbcVoucherWalletRepository.giveVoucherToCustomer(custmerId, voucherId);
+        int result1 = jdbcVoucherWalletRepository.getCustomerVouchers(custmerId).size();
 
-        jdbcVoucherWalletRepository.deleteVoucherFromCustomer(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464"), UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
-        var result2 = jdbcVoucherWalletRepository.getCustomerVouchers(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464")).size();
+        jdbcVoucherWalletRepository.deleteVoucherFromCustomer(custmerId, voucherId);
+        int result2 = jdbcVoucherWalletRepository.getCustomerVouchers(custmerId).size();
 
         assertThat(result1, Matchers.is(1));
         assertThat(result2, Matchers.is(0));
@@ -83,27 +87,27 @@ class JdbcVoucherWalletRepositoryTest {
 
     @Test
     void getCustomerVouchers() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464","moon",20, "woman");
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
+        settingCustomer(custmerId,"moon",20, "woman");
+        settingVoucher(voucherId,"fixed",1000);
 
-        jdbcVoucherWalletRepository.giveVoucherToCustomer(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464"), UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
-        var result = jdbcVoucherWalletRepository.getCustomerVouchers(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464")).get(0);
+        jdbcVoucherWalletRepository.giveVoucherToCustomer(custmerId, voucherId);
+        Voucher result = jdbcVoucherWalletRepository.getCustomerVouchers(custmerId).get(0);
 
-        assertThat(result.getId(), Matchers.is(UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698")));
+        assertThat(result.getId(), Matchers.is(UUID.fromString(voucherId)));
         assertThat(result.getType(), Matchers.is("fixed"));
         assertThat(result.getDiscountAmount(), Matchers.is(1000));
     }
 
     @Test
     void getCustomersWithVoucherId() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464","moon",20, "woman");
-        settingVoucher("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698","fixed",1000);
+        settingCustomer(custmerId,"moon",20, "woman");
+        settingVoucher(voucherId,"fixed",1000);
 
-        jdbcVoucherWalletRepository.giveVoucherToCustomer(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464"), UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698"));
+        jdbcVoucherWalletRepository.giveVoucherToCustomer(custmerId, voucherId);
 
-        var result = jdbcVoucherWalletRepository.getCustomersWithVoucherId(UUID.fromString("34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698")).get(0);
+        Customer result = jdbcVoucherWalletRepository.getCustomersWithVoucherId(voucherId).get(0);
 
-        assertThat(result.getCustomerId(), is(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464")));
+        assertThat(result.getCustomerId(), is(UUID.fromString(custmerId)));
         assertThat(result.getName(), is("moon"));
         assertThat(result.getAge(), is(20));
         assertThat(result.getSex(), is("woman"));

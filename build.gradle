@@ -27,6 +27,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
 	compileOnly group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {

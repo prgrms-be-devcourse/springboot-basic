@@ -66,8 +66,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> get(UUID id) {
-        return Optional.ofNullable(map.get(id));
+    public Optional<Voucher> get(String id) {
+        return Optional.ofNullable(map.get(UUID.fromString(id)));
     }
 
     @Override
@@ -76,8 +76,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void remove(UUID vid) {
-        map.remove(vid);
+    public void remove(String id) {
+        map.remove(UUID.fromString(id));
     }
 
     @Override

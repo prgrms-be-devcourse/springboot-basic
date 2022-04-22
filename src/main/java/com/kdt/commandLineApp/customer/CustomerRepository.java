@@ -10,7 +10,7 @@ public interface CustomerRepository{
 
     public List<Customer> getAll();
 
-    public Optional<Customer> get(UUID customerId);
+    public Optional<Customer> get(String id);
 
     public void add(Customer customer);
 }
