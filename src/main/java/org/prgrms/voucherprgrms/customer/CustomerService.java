@@ -52,7 +52,7 @@ public class CustomerService {
         customerRepository.changeVoucher(customer);
     }
 
-    public List<Customer> findAllCustomer(){
+    public List<Customer> findAllCustomer() {
         return customerRepository.findAll();
     }
 
