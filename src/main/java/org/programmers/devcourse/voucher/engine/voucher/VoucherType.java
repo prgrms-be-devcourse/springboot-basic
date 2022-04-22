@@ -31,6 +31,7 @@ public enum VoucherType {
     this.typeId = typeId;
     this.unit = unit;
     this.factory = factory;
+    
   }
 
   public static Optional<VoucherType> from(String candidate) {

@@ -32,7 +32,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("dev")
+@Profile({"dev", "web"})
 public class JdbcCustomerRepository implements CustomerRepository, Transactional {
 
   private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);

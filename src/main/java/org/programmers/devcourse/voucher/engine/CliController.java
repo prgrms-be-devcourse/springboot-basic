@@ -13,18 +13,21 @@ import org.programmers.devcourse.voucher.engine.voucher.VoucherService;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Controller {
+@Profile("dev")
+public class CliController {
 
-  private static final Logger logger = LoggerFactory.getLogger(Controller.class);
+  private static final Logger logger = LoggerFactory.getLogger(CliController.class);
+
   private final Input input;
   private final Output output;
   private final VoucherService voucherService;
   private final BlackListService blackListService;
 
-  public Controller(Input input, Output output,
+  public CliController(Input input, Output output,
       VoucherService voucherService,
       BlackListService blackListService) {
     this.input = input;
@@ -75,6 +78,7 @@ public class Controller {
 
     output.printBlackList(list);
   }
+
 
   private void showAllVouchers() {
     output.printAllVouchers(voucherService.getAllVouchers());

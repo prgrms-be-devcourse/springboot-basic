@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Repository;
 
 
@@ -20,7 +20,8 @@ public class FileBlackListRepository implements
   private final List<BlackList> cache = new ArrayList<>();
 
 
-  public FileBlackListRepository(ApplicationContext applicationContext) {
+  public FileBlackListRepository(ConfigurableApplicationContext applicationContext) {
+
     var blackListResource = applicationContext.getResource("customer_blacklist.csv");
     BufferedReader blackListReader;
 
@@ -42,13 +43,10 @@ public class FileBlackListRepository implements
     } catch (Exception exception) {
       throw new RuntimeException("BlackListRepository 읽기 실패", exception);
     }
-
-
   }
 
   @Override
   public List<BlackList> getAll() {
     return Collections.unmodifiableList(cache);
   }
-
 }

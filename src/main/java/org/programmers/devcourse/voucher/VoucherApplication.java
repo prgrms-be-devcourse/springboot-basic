@@ -1,25 +1,22 @@
 package org.programmers.devcourse.voucher;
 
-import org.programmers.devcourse.voucher.engine.Controller;
+import java.util.Arrays;
+import org.programmers.devcourse.voucher.engine.CliController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.core.io.DefaultResourceLoader;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-
 public class VoucherApplication {
 
   public static void main(String[] args) {
+
     var app = new SpringApplication(VoucherApplication.class);
-    if (app.getAdditionalProfiles().isEmpty()) {
-      app.setAdditionalProfiles("dev");
-    }
+    app.setResourceLoader(new DefaultResourceLoader());
     var context = app.run(args);
-
-    context.getBean(Controller.class).start();
-
-
+    if (Arrays.asList(context.getEnvironment().getActiveProfiles()).contains("dev")) {
+      context.getBean(CliController.class).start();
+    }
   }
-
-
 }

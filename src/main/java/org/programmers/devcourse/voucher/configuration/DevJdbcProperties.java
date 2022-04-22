@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@Profile("dev")
+@Profile({"dev", "web"})
 @ConfigurationProperties("jdbc")
 @PropertySource(value = "/application-jdbc.yaml", factory = YamlPropertySourceFactory.class)
 @Getter

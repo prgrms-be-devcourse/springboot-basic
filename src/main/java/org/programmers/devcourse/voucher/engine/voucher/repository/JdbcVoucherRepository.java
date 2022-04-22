@@ -25,9 +25,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("dev")
+@Profile({"dev", "web"})
 public class JdbcVoucherRepository implements VoucherRepository, Transactional {
-
 
   private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -38,7 +37,6 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
     this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource));
     this.transactionManager = new DataSourceTransactionManager(dataSource);
   }
-
 
   private RowMapper<Voucher> voucherRowMapper = (resultSet, index) -> {
     UUID voucherId;
@@ -61,9 +59,7 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
     map.put("voucherId", voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
     map.put("type", VoucherType.mapToTypeId(voucher));
     map.put("discountDegree", voucher.getDiscountDegree());
-
     return map;
-
   }
 
 
@@ -94,7 +90,6 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
   @Override
   public void runTransaction(Runnable runnable) {
     var status = transactionManager.getTransaction(null);
-
     try {
       runnable.run();
       transactionManager.commit(status);

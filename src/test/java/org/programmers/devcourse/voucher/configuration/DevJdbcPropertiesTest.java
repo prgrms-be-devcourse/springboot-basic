@@ -9,13 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("dev")
-@SpringBootTest
+@SpringBootTest()
 class DevJdbcPropertiesTest {
 
   @Autowired
   private DevJdbcProperties devJdbcProperties;
-
-
+  
   @Test
   @DisplayName("세 속성은 전부 null 이 아니어야 한다.")
   void all_methods_should_not_return_null() {
@@ -24,6 +23,4 @@ class DevJdbcPropertiesTest {
     assertThat(devJdbcProperties.getPassword()).isNotBlank();
     assertThat(devJdbcProperties.getUser()).isNotBlank();
   }
-
-
 }
