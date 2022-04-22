@@ -3,6 +3,7 @@ package me.programmers.springboot.basic.springbootbasic.voucher.repository;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import static org.hamcrest.Matchers.is;
 class FileVoucherRepositoryTest {
 
     @Test
+    @DisplayName("파일에 저장된 모든 바우처 조회")
     void findAllTest() {
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository();
 
@@ -27,6 +29,7 @@ class FileVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("파일에 바우처 저장 성공")
     void saveTest() {
         FileVoucherRepository fileVoucherRepository = new FileVoucherRepository();
 

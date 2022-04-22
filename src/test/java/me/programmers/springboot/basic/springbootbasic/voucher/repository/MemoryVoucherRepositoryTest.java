@@ -3,6 +3,7 @@ package me.programmers.springboot.basic.springbootbasic.voucher.repository;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,11 +12,11 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryVoucherRepositoryTest {
 
     @Test
+    @DisplayName("메모리에 저장된 전체 바우처 조회")
     void findAllTest() {
         MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
 
@@ -30,6 +31,7 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 저장 성공")
     void saveTest() {
         MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
 
