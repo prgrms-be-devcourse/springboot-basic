@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Voucher list</title>
+</head>
+<div layout:fragment="content">
+    <form th:object="${voucher}">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Voucher Id</label>
+            <input class="form-control" id="exampleInputEmail1" readonly th:field="*{id}" type="text">
+        </div>
+        <div class="form-group">
+            <label for="TYPE">Type</label>
+            <input class="form-control" id="TYPE" readonly th:field="*{type}" type="text">
+        </div>
+        <div class="form-group">
+            <label for="NAME">Type</label>
+            <input class="form-control" id="NAME" readonly th:field="*{name}" type="text">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Figure</label>
+            <input class="form-control" id="exampleInputPassword1" readonly th:field="*{figure}" type="text">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword2">createdAt</label>
+            <input class="form-control" id="exampleInputPassword2" readonly th:field="*{createdAt}" type="text">
+        </div>
+        <button class="btn btn-outline-dark" type="button">수정하기</button>
+        <button class="btn btn-outline-dark" type="button">삭제하기</button>
+    </form>
+</div>
+</html>
