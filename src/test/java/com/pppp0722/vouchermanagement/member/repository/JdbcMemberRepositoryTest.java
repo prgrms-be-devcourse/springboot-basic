@@ -1,4 +1,4 @@
-package com.pppp0722.vouchermanagement.repository.member;
+package com.pppp0722.vouchermanagement.member.repository;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
@@ -7,10 +7,10 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-import com.pppp0722.vouchermanagement.entity.member.Member;
-
+import com.pppp0722.vouchermanagement.member.model.Member;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -21,22 +21,25 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+@SpringJUnitConfig
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DisplayName("JdbcMemberRepositoryTest 단위 테스트")
 class JdbcMemberRepositoryTest {
-
-    private static final Logger logger = LoggerFactory.getLogger(JdbcMemberRepositoryTest.class);
 
     @Configuration
     @ComponentScan
@@ -67,9 +70,7 @@ class JdbcMemberRepositoryTest {
 
     @Autowired
     JdbcMemberRepository memberRepository;
-
     EmbeddedMysql embeddedMysql;
-
     Member newMember;
 
     @BeforeAll
@@ -95,34 +96,73 @@ class JdbcMemberRepositoryTest {
 
     @Test
     @Order(1)
-    @DisplayName("Member 추가")
-    public void testInsert() {
-        try {
-            memberRepository.createMember(newMember);
-        } catch (BadSqlGrammarException e) {
-            logger.error("Got BadSqlGrammarException error code -> {}",
-                e.getSQLException().getErrorCode(), e);
+    @DisplayName("createMember() 테스트")
+    public void testCreateMember() {
+        Optional<Member> member = memberRepository.createMember(newMember);
+
+        if (member.isEmpty()) {
+            assertThat(false, is(true));
         }
 
-        Optional<Member> retrievedMember = memberRepository.readMember(
+        Optional<Member> readMember = memberRepository.readMember(
             newMember.getMemberId());
-        assertThat(retrievedMember.get(), samePropertyValuesAs(newMember));
+
+        if (readMember.isEmpty()) {
+            assertThat(false, is(true));
+        }
+
+        assertThat(readMember.get(), samePropertyValuesAs(newMember));
     }
 
     @Test
     @Order(2)
-    @DisplayName("Member 조회")
-    public void testFindAll() {
+    @DisplayName("readMembers() 테스트")
+    public void testReadMembers() {
         List<Member> members = memberRepository.readMembers();
         assertThat(members.isEmpty(), is(false));
     }
 
     @Test
     @Order(3)
-    @DisplayName("Member 삭제")
-    public void testDelete() {
-        Member deletedMember = memberRepository.deleteMember(newMember);
-        Optional<Member> retrievedMember = memberRepository.readMember(deletedMember.getMemberId());
+    @DisplayName("readMember() 테스트")
+    public void testReadMember() {
+        Optional<Member> member = memberRepository.readMember(newMember.getMemberId());
+
+        if (member.isEmpty()) {
+            assertThat(false, is(true));
+        }
+
+        assertThat(member.get(), samePropertyValuesAs(newMember));
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("updateMember() 테스트")
+    public void testUpdateMember() {
+        Member updatedMember = new Member(newMember.getMemberId(), "lee");
+
+        Optional<Member> member = memberRepository.updateMember(updatedMember);
+
+        if (member.isEmpty()) {
+            assertThat(false, is(true));
+        }
+
+        assertThat(member.get(), not(samePropertyValuesAs(newMember)));
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("deleteMember() 테스트")
+    public void testDeleteMember() {
+        Optional<Member> deletedMember = memberRepository.deleteMember(newMember);
+
+        if (deletedMember.isEmpty()) {
+            assertThat(false, is(true));
+        }
+
+        Optional<Member> retrievedMember = memberRepository.readMember(deletedMember.get()
+            .getMemberId());
+
         assertThat(retrievedMember.isEmpty(), is(true));
     }
 }
