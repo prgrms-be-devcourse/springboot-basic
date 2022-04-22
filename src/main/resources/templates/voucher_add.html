@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Voucher list</title>
+</head>
+<div layout:fragment="content">
+    <h2>New Voucher</h2>
+    <form method="post" th:action="@{/voucher}">
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Type select</label>
+            <select class="form-control" id="exampleFormControlSelect1" name="type">
+                <option value="fixed">고정 금액 바우처</option>
+                <option value="percent">할인 비율 바우처</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="NAME">Name</label>
+            <input class="form-control" id="NAME" name="name" type="text">
+        </div>
+        <div class="form-group">
+            <label for="figure">Figure</label>
+            <input class="form-control" id="figure" name="figure" type="text">
+        </div>
+        <button class="btn btn-outline-dark" type="submit">등록하기</button>
+    </form>
+</div>
+</html>
