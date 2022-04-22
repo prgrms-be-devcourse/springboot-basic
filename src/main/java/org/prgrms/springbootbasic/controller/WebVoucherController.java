@@ -50,20 +50,10 @@ public class WebVoucherController {
         logger.info("Got createVoucherRequest -> {}", createVoucherRequest);
 
         if (createVoucherRequest.getVoucherType().isFixed()) {
-            if (createVoucherRequest.getAmount() == null) {
-                bindingResult.rejectValue("amount", "required");
-            }
-            if (createVoucherRequest.getPercent() != null) {
-                bindingResult.rejectValue("percent", "notRequired");
-            }
+            validateFixedVoucherInput(createVoucherRequest, bindingResult);
         }
         if (createVoucherRequest.getVoucherType().isPercent()) {
-            if (createVoucherRequest.getPercent() == null) {
-                bindingResult.rejectValue("percent", "required");
-            }
-            if (createVoucherRequest.getAmount() != null) {
-                bindingResult.rejectValue("amount", "notRequired");
-            }
+            validatePercentVoucherInput(createVoucherRequest, bindingResult);
         }
 
         if (bindingResult.hasErrors()) {
@@ -76,5 +66,25 @@ public class WebVoucherController {
             createVoucherRequest.getAmount() == null ? 0 : createVoucherRequest.getAmount(),
             createVoucherRequest.getPercent() == null ? 0 : createVoucherRequest.getPercent());
         return "redirect:/vouchers";
+    }
+
+    private void validatePercentVoucherInput(CreateVoucherRequest createVoucherRequest,
+        BindingResult bindingResult) {
+        if (createVoucherRequest.getPercent() == null) {
+            bindingResult.rejectValue("percent", "required");
+        }
+        if (createVoucherRequest.getAmount() != null) {
+            bindingResult.rejectValue("amount", "notRequired");
+        }
+    }
+
+    private void validateFixedVoucherInput(CreateVoucherRequest createVoucherRequest,
+        BindingResult bindingResult) {
+        if (createVoucherRequest.getAmount() == null) {
+            bindingResult.rejectValue("amount", "required");
+        }
+        if (createVoucherRequest.getPercent() != null) {
+            bindingResult.rejectValue("percent", "notRequired");
+        }
     }
 }
