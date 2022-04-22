@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 @ExtendWith(MockitoExtension.class)
 public class VoucherControllerTests {
@@ -63,15 +64,14 @@ public class VoucherControllerTests {
         @Nested
         @DisplayName("바우처가 정상적으로 생성되면")
         class Context_with_all_argument_not_null {
-            @Captor
-            ArgumentCaptor<Voucher> voucherCaptor;
 
             @Test
             @DisplayName("생성된 바우처의 정보를 가진 응답을 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 1000);
+                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 100);
 
-                when(voucherService.saveVoucher(voucherCaptor.capture())).thenReturn(voucherCaptor.getValue());
+                when(voucherService.saveVoucher(any(Voucher.class)))
+                        .thenReturn(new Voucher(1L, request.type(), request.value()));
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
