@@ -2,10 +2,7 @@ package org.prgrms.voucherapp;
 
 import org.prgrms.voucherapp.engine.customer.service.CustomerService;
 import org.prgrms.voucherapp.engine.voucher.service.VoucherService;
-import org.prgrms.voucherapp.global.enums.Command;
-import org.prgrms.voucherapp.global.enums.CustomerStatus;
-import org.prgrms.voucherapp.global.enums.ModuleCommand;
-import org.prgrms.voucherapp.global.enums.VoucherType;
+import org.prgrms.voucherapp.global.enums.*;
 import org.prgrms.voucherapp.io.Input;
 import org.prgrms.voucherapp.io.Output;
 import org.slf4j.Logger;
@@ -58,8 +55,8 @@ public class Navigator implements Runnable {
     private void executeVoucherCommand() {
         while (true) {
             try {
-                output.informCommand(ModuleCommand.VOUCHER);
-                Command userCommand = input.commandInput("Type a command : ");
+                output.informCrudCommand(ModuleCommand.VOUCHER);
+                CrudCommand userCommand = input.crudCommandInput("Type a command : ");
                 switch (userCommand) {
                     case CANCEL -> {
                         logger.info("User chose cancel command.");
@@ -104,8 +101,8 @@ public class Navigator implements Runnable {
     private void executeCustomerCommand() {
         while (true) {
             try {
-                output.informCommand(ModuleCommand.CUSTOMER);
-                Command userCommand = input.commandInput("Type a command : ");
+                output.informCrudCommand(ModuleCommand.CUSTOMER);
+                CrudCommand userCommand = input.crudCommandInput("Type a command : ");
                 switch (userCommand) {
                     case CANCEL -> {
                         logger.info("User chose cancel command.");
@@ -149,6 +146,37 @@ public class Navigator implements Runnable {
     }
 
     private void executeWalletCommand() {
+        while (true) {
+            try {
+                output.informWalletCommand();
+                WalletCommand userCommand = input.walletCommandInput("Type a command : ");
+                switch (userCommand) {
+                    case CANCEL -> {
+                        logger.info("User chose cancel command.");
+                        output.cancelMessage();
+                        return;
+                    }
+                    case LIST -> {
+                        logger.info("User chose list command.");
 
+                    }
+                    case ASSIGN_VOUCHER -> {
+                        logger.info("User chose list command.");
+                    }
+                    case GET_VOUCHER -> {
+                        logger.info("User chose delete command.");
+                    }
+                    case DELETE_VOUCHER -> {
+                        logger.info("User chose update command.");
+                    }
+                    case GET_CUSTOMER -> {
+
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("Customer : Exception has occurred for the reason : %s".formatted(e.toString()));
+                output.errorMessage(e.toString());
+            }
+        }
     }
 }

@@ -35,6 +35,9 @@ public class JdbcCustomerRepository implements CustomerRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public static RowMapper<Customer> getCustomerRowMapper() {
+        return customerRowMapper;
+    }
 
     @Override
     public Customer insert(Customer customer) {

@@ -34,6 +34,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }};
     }
 
+    public static RowMapper<Voucher> getVoucherRowMapper() {
+        return voucherRowMapper;
+    }
+
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

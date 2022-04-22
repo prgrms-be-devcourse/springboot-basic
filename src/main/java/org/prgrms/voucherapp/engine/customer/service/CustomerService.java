@@ -2,6 +2,8 @@ package org.prgrms.voucherapp.engine.customer.service;
 
 import org.prgrms.voucherapp.engine.customer.entity.Customer;
 import org.prgrms.voucherapp.engine.customer.repository.CustomerRepository;
+import org.prgrms.voucherapp.engine.wallet.repository.WalletRepository;
+import org.prgrms.voucherapp.engine.wallet.service.WalletService;
 import org.prgrms.voucherapp.exception.NullCustomerException;
 
 import org.prgrms.voucherapp.global.enums.CustomerStatus;
@@ -16,10 +18,12 @@ import java.util.UUID;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final WalletService walletService;
     private final static Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, WalletRepository walletRepository, WalletService walletService) {
         this.customerRepository = customerRepository;
+        this.walletService = walletService;
     }
 
     public Customer getCustomer(UUID customerId) {
@@ -49,6 +53,7 @@ public class CustomerService {
     public void removeCustomer(UUID customerId) {
         Customer oldCustomer = this.getCustomer(customerId);
         customerRepository.deleteById(customerId);
+        walletService.removeVouchersOfCustomer(customerId);
         logger.info("--- 삭제된 고객 정보 --- \n%s".formatted(oldCustomer));
     }
 

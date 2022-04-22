@@ -9,7 +9,7 @@ import org.prgrms.voucherapp.global.enums.ModuleCommand;
 public interface Output {
     void informModuleMenu();
 
-    void informCommand(ModuleCommand moduleCommand);
+    void informCrudCommand(ModuleCommand moduleCommand);
 
     void informWalletCommand();
 

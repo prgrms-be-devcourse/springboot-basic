@@ -32,11 +32,25 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public Command commandInput(String prompt) {
+    public CrudCommand crudCommandInput(String prompt) {
         System.out.println(prompt);
-        return Command
+        return CrudCommand
                 .getMenu(scanner.nextLine())
                 .orElseThrow(() -> (new WrongInputException("존재하지 않는 명령어를 입력하였습니다.")));
+    }
+
+    @Override
+    public WalletCommand walletCommandInput(String prompt) {
+        System.out.println(prompt);
+        try{
+            return WalletCommand
+                    .getMenu(scanner.nextInt())
+                    .orElseThrow(() -> (new WrongInputException("존재하지 않는 명령어를 선택하였습니다.")));
+        }catch(InputMismatchException e){
+            throw new WrongInputException("숫자를 입력해주세요.");
+        } finally {
+            scanner.nextLine();
+        }
     }
 
     @Override
@@ -121,15 +135,15 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void informCommand(ModuleCommand moduleCommand) {
+    public void informCrudCommand(ModuleCommand moduleCommand) {
         StringBuilder sb = new StringBuilder();
         String module = moduleCommand.toString().toLowerCase();
         sb.append("--- %s ---\n".formatted(module));
-        sb.append("Type %s to %s.\n".formatted(Command.CANCEL.getCommand(), "get back to menu"));
-        sb.append("Type %s to %s %s.\n".formatted(Command.CREATE.getCommand(), "create a", module));
-        sb.append("Type %s to %s %ss.\n".formatted(Command.LIST.getCommand(), "list all", module));
-        sb.append("Type %s to %s %s.\n".formatted(Command.UPDATE.getCommand(), "update the", module));
-        sb.append("Type %s to %s %s.\n".formatted(Command.DELETE.getCommand(), "delete the", module));
+        sb.append("Type %s to %s.\n".formatted(CrudCommand.CANCEL.getCommand(), "get back to menu"));
+        sb.append("Type %s to %s %s.\n".formatted(CrudCommand.CREATE.getCommand(), "create a", module));
+        sb.append("Type %s to %s %ss.\n".formatted(CrudCommand.LIST.getCommand(), "list all", module));
+        sb.append("Type %s to %s %s.\n".formatted(CrudCommand.UPDATE.getCommand(), "update the", module));
+        sb.append("Type %s to %s %s.\n".formatted(CrudCommand.DELETE.getCommand(), "delete the", module));
         System.out.print(sb);
     }
 
@@ -139,7 +153,7 @@ public class Console implements Input, Output {
         sb.append("--- Voucher Wallet ---\n");
         sb.append("Type the number.");
         for (WalletCommand command : WalletCommand.values()) {
-            sb.append("%s. %s\n".formatted(command.ordinal() + 1, command.getDescription()));
+            sb.append("%s. %s : %s\n".formatted(command.ordinal() + 1, command.toString(), command.getDescription()));
         }
         System.out.print(sb);
     }

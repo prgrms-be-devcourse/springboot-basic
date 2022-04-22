@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum WalletCommand {
+    CANCEL("Get back to menu"),
     LIST("List all the customers' vouchers"),
     ASSIGN_VOUCHER("Assign voucher to the customer"),
     GET_VOUCHER("Get customer's vouchers"),
@@ -20,7 +21,7 @@ public enum WalletCommand {
         return description;
     }
 
-    public static Optional<WalletCommand> getWalletCommand(int option) {
+    public static Optional<WalletCommand> getMenu(int option) {
         return Arrays.stream(values())
                 .filter(w -> w.ordinal()-1 == option)
                 .findFirst();

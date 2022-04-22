@@ -1,11 +1,6 @@
 package org.prgrms.voucherapp.io;
 
-import org.prgrms.voucherapp.exception.WrongAmountException;
-import org.prgrms.voucherapp.exception.WrongInputException;
-import org.prgrms.voucherapp.global.enums.Command;
-import org.prgrms.voucherapp.global.enums.CustomerStatus;
-import org.prgrms.voucherapp.global.enums.ModuleCommand;
-import org.prgrms.voucherapp.global.enums.VoucherType;
+import org.prgrms.voucherapp.global.enums.*;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -20,7 +15,9 @@ import java.util.UUID;
 public interface Input {
     ModuleCommand moduleInput(String prompt);
 
-    Command commandInput(String prompt);
+    CrudCommand crudCommandInput(String prompt);
+
+    WalletCommand walletCommandInput(String prompt);
 
     VoucherType voucherTypeInput(String prompt);
 
