@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class App implements ApplicationRunner {
     private static final String PROGRAM_EXIT = "exit";
     private final UserInterface userInterface = new MainAppInterface();
-    private final ControllerMapper provider;
+    private final ControllerMapper controllerMapper;
 
     @Override
     public void run(ApplicationArguments args){
@@ -30,11 +30,12 @@ public class App implements ApplicationRunner {
     private void doService(String command){
         try{
             ServiceStrategy strategy = ServiceStrategy.fromString(command);
-            RunnableController controller = provider.getRunnableController(strategy);
+            RunnableController controller = controllerMapper.getRunnableController(strategy);
             controller.startService();
         }catch (NotSupportedStrategyException e){
             log.error(ExceptionStackTraceConverter.convertToString(e));
             userInterface.printMessage(e.getMessage());
         }
     }
+
 }

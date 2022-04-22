@@ -1,5 +1,6 @@
 package com.blessing333.springbasic.customer.repository;
 
+import com.blessing333.springbasic.common.util.UUIDUtil;
 import com.blessing333.springbasic.customer.domain.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -18,11 +18,11 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class JdbcTemplateCustomerRepository implements CustomerRepository {
-    private static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :cratedAt)";
-    private static final String UPDATE_SQL = "UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)";
+    private static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (:customerId, :name, :email, :cratedAt)";
+    private static final String UPDATE_SQL = "UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = :customerId";
     private static final String COUNT_SQL = "SELECT count(*) FROM customers";
     private static final String FIND_ALL_SQL = "SELECT * FROM customers";
-    private static final String FIND_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
+    private static final String FIND_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = :customerId";
     private static final String DELETE_ALL_SQL = "DELETE FROM customers";
     private static final CustomerRowMapper customerRowMapper = new CustomerRowMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -57,7 +57,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID customerId) {
         Customer customer;
-        Map<String, byte[]> param = Collections.singletonMap("customerId", customerId.toString().getBytes());
+        Map<String, byte[]> param = Collections.singletonMap("customerId", UUIDUtil.toBinary(customerId));
         try {
             customer = jdbcTemplate.queryForObject(FIND_BY_ID_SQL, param, customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
@@ -73,7 +73,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> map = new HashMap<>();
-        map.put("customerId", customer.getCustomerId().toString().getBytes());
+        map.put("customerId", UUIDUtil.toBinary(customer.getCustomerId()));
         map.put("name", customer.getName());
         map.put("email", customer.getEmail());
         map.put("cratedAt", Timestamp.valueOf(customer.getCreatedAt()));
@@ -82,16 +82,11 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     }
 
     private static class CustomerRowMapper implements RowMapper<Customer> {
-        private static UUID toUUID(byte[] bytes) {
-            var byteBuffer = ByteBuffer.wrap(bytes);
-            return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-        }
-
         @Override
         public Customer mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             var customerName = resultSet.getString("name");
             var email = resultSet.getString("email");
-            var customerId = toUUID(resultSet.getBytes("customer_id"));
+            var customerId = UUIDUtil.toUUID(resultSet.getBytes("customer_id"));
             var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                     resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
             var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();

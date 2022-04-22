@@ -15,13 +15,11 @@ public class MainAppInterface implements UserInterface {
     @Override
     public String inputMessage() {
         return scanner.nextLine();
-
     }
 
     @Override
     public void showGuideText() {
         printMessage("1. 고객 관리");
         printMessage("2. 바우처 관리");
-        printMessage("3. 바우처 지갑 관리");
     }
 }

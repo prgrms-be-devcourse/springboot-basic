@@ -13,8 +13,7 @@ import java.util.stream.Stream;
 @Getter
 public enum ServiceStrategy {
     CUSTOMER_MANAGING("1"),
-    VOUCHER_MANAGING("2"),
-    VOUCHER_WALLET_MANAGING("3");
+    VOUCHER_MANAGING("2");
 
     private static final Map<String, ServiceStrategy> availableServiceStrategy = initAvailableService();
     private final String optionNumber;
