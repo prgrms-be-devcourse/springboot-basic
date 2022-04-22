@@ -15,25 +15,20 @@ public class ConsoleInput implements Input{
     @Override
     public Command inputCommand() throws IllegalCommandException {
         String input = sc.nextLine().strip();
-        Optional<Command> inputCommand = Arrays.stream(Command.values())
+        return Arrays.stream(Command.values())
                 .filter(value -> value.toString().equals(input))
-                .findAny();
-        if (inputCommand.isEmpty()){
-            throw new IllegalCommandException();
-        }
-        return inputCommand.get();
+                .findAny()
+                .orElseThrow(IllegalCommandException::new);
     }
 
     @Override
+
     public VoucherType inputVoucherType() throws IllegalVoucherTypeException {
         String input = sc.nextLine().strip();
-        Optional<VoucherType> inputType = Arrays.stream(VoucherType.values())
+        return Arrays.stream(VoucherType.values())
                 .filter(value -> value.toString().equals(input))
-                .findAny();
-        if (inputType.isEmpty()){
-            throw new IllegalVoucherTypeException();
-        }
-        return inputType.get();
+                .findAny()
+                .orElseThrow(IllegalVoucherTypeException::new);
     }
 
     @Override
