@@ -21,10 +21,11 @@ public class VoucherService {
         this.repository = repository;
     }
 
-    public void addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException {
+    public Voucher addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException {
         Voucher newVoucher = voucherType.constructor(UUID.randomUUID(), amount, LocalDateTime.now());
         repository.save(newVoucher);
         log.info("voucher is saved - {}", newVoucher);
+        return newVoucher;
     }
 
     public List<Voucher> findAllVouchers() {
