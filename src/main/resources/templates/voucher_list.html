@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Voucher list</title>
+</head>
+<div layout:fragment="content">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Type</th>
+            <th scope="col">Figure</th>
+            <th scope="col">Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher : ${voucherList}" th:object="${voucher}">
+            <td>
+                <a th:href="@{'/vouchers/'+ *{id}}" th:text="*{id}">ID</a>
+            </td>
+            <td th:text="*{type}">Type</td>
+            <td th:text="*{figure}">Figure</td>
+            <td th:text="*{name}">Name</td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-outline-dark btn-lg btn-block" th:href="@{/voucher/new}" type="button">새로운 바우처 등록하기</a>
+</div>
+</html>
