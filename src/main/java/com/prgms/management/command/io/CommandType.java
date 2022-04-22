@@ -8,14 +8,14 @@ public enum CommandType {
     CREATE("create", "to create a new voucher.") {
         @Override
         public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
-            Voucher voucher = voucherService.saveVoucher(console.getVoucher());
+            Voucher voucher = voucherService.addVoucher(console.getVoucher());
             console.printOneVoucher(voucher);
         }
     },
     LIST("list", "to list all vouchers.") {
         @Override
         public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
-            console.printListVoucher(voucherService.getAllVouchers());
+            console.printListVoucher(voucherService.findVouchers());
         }
     },
     EXIT("exit", "to exit the program.") {

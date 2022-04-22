@@ -5,6 +5,7 @@ import com.prgms.management.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SimpleVoucherService implements VoucherService {
@@ -14,11 +15,16 @@ public class SimpleVoucherService implements VoucherService {
         this.voucherRepository = voucherRepository;
     }
     
-    public List<Voucher> getAllVouchers() {
+    public List<Voucher> findVouchers() {
         return voucherRepository.findAll();
     }
     
-    public Voucher saveVoucher(Voucher voucher) {
+    public Voucher addVoucher(Voucher voucher) {
         return voucherRepository.save(voucher);
+    }
+    
+    @Override
+    public Voucher findVoucherById(UUID id) {
+        return voucherRepository.findById(id);
     }
 }
