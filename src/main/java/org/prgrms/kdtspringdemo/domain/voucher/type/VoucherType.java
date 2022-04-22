@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.voucher.voucherdetail;
+package org.prgrms.kdtspringdemo.domain.voucher.type;
 
 import java.util.Arrays;
 
@@ -8,7 +8,6 @@ public enum VoucherType {
     None("Type wrong type");
 
     private final String stateInfo;
-    private int discountAmount;
 
     VoucherType(String stateInfo) {
         this.stateInfo = stateInfo;
