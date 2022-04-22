@@ -1,0 +1,7 @@
+dev:
+  customer_blacklist_info: src/main/resources/customer_blacklist.csv
+  voucher_info: src/main/resources/voucher_info.dat
+  db_driver_class: com.mysql.cj.jdbc.Driver
+  db_url: jdbc:mysql://localhost:3306
+  db_user: root
+  db_pwd: samho101
