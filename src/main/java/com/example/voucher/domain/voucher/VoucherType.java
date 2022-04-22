@@ -1,9 +1,9 @@
-package com.example.voucher;
+package com.example.voucher.domain.voucher;
 
 import java.util.Arrays;
 
 public enum VoucherType {
-
+	FIXED_AMOUNT_VOUCHER,
 	EMPTY;
 	public static VoucherType of(String voucherTypeStr) {
 		return Arrays.stream(values())
