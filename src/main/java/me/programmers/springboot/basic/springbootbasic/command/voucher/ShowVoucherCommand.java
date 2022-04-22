@@ -1,19 +1,19 @@
 package me.programmers.springboot.basic.springbootbasic.command.voucher;
 
 import me.programmers.springboot.basic.springbootbasic.command.CommandStrategy;
-import me.programmers.springboot.basic.springbootbasic.io.Out;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
+import me.programmers.springboot.basic.springbootbasic.io.Out;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
-import me.programmers.springboot.basic.springbootbasic.voucher.service.VoucherService;
+import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 
 import java.util.List;
 
 public class ShowVoucherCommand implements CommandStrategy {
 
     private final ConsoleOutput console = new Out();
-    private final VoucherService voucherService;
+    private final JdbcVoucherService voucherService;
 
-    public ShowVoucherCommand(VoucherService voucherService) {
+    public ShowVoucherCommand(JdbcVoucherService voucherService) {
         this.voucherService = voucherService;
     }
 

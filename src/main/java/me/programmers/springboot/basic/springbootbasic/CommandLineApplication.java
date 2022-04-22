@@ -66,10 +66,10 @@ public class CommandLineApplication {
                 commandStrategy = new ExitCommand();
                 break;
             case CREATE:
-                commandStrategy = new CreateVoucherCommand(voucherService);
+                commandStrategy = new CreateVoucherCommand(jdbcVoucherService);
                 break;
             case LIST:
-                commandStrategy = new ShowVoucherCommand(voucherService);
+                commandStrategy = new ShowVoucherCommand(jdbcVoucherService);
                 break;
             case UPDATE:
                 commandStrategy = new UpdateVoucherCommand(jdbcVoucherService);
