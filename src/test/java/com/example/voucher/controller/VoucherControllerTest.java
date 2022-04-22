@@ -7,8 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static com.example.voucher.domain.voucher.VoucherType.FIXED_AMOUNT_VOUCHER;
-import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
