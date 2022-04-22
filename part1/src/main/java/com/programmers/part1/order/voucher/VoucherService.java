@@ -1,6 +1,10 @@
 package com.programmers.part1.order.voucher;
 
-import com.programmers.part1.domain.Voucher;
+import com.programmers.part1.domain.voucher.FixedAmountVoucher;
+import com.programmers.part1.domain.voucher.PercentAmountVoucher;
+import com.programmers.part1.domain.voucher.Voucher;
+import com.programmers.part1.domain.voucher.VoucherType;
+import com.programmers.part1.exception.voucher.VoucherTypeMissingException;
 import com.programmers.part1.order.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +25,21 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void saveVoucher(Voucher voucher){
-        voucherRepository.save(voucher);
+    public Voucher createVoucher(VoucherType voucherType, int amount){
+        if (voucherType == VoucherType.FIXED)
+            return voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(),amount));
+        else if (voucherType == VoucherType.PERCENT)
+            return voucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(),amount));
+        else
+            throw new VoucherTypeMissingException("Voucher Type이 잘못 입력되었습니다.");
     }
 
     public List<Voucher> getAllVoucher(){
         return voucherRepository.findAll();
+    }
+
+
+    public List<Voucher> getVouchersWithCustomer(UUID customerId) {
+        return voucherRepository.findVoucherByCustomerId(customerId);
     }
 }
