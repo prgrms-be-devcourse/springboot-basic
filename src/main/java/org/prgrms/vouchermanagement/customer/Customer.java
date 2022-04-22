@@ -3,6 +3,7 @@ package org.prgrms.vouchermanagement.customer;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -21,6 +22,7 @@ public class Customer {
     this.name = name;
     this.email = email;
     this.createdAt = createdAt;
+    wallet = new ArrayList<>();
   }
 
   public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
@@ -29,6 +31,11 @@ public class Customer {
     this.email = email;
     this.lastLoginAt = lastLoginAt;
     this.createdAt = createdAt;
+    wallet = new ArrayList<>();
+  }
+
+  public List<Voucher> viewWallet() {
+    return wallet;
   }
 
   public void changeName(String name) {
