@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -21,5 +22,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Map getVoucherList() {
         return storage;
+    }
+
+    @Override
+    public Voucher delete(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public Optional<Voucher> getByVoucherId(UUID voucherId) {
+        return Optional.empty();
     }
 }
