@@ -4,6 +4,7 @@ import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmount
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -54,6 +56,26 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         fixvouchers.addAll(percentvouchers);
 
         return fixvouchers;
+    }
+
+    public Optional<Voucher> findById(UUID voucherId) {
+        try {
+            Optional<Voucher> fixVoucher = Optional.of(jdbcTemplate.queryForObject(
+                    "select * from fixed_voucher where voucher_id = (uuid_to_bin(?))",
+                    fixVoucherRowMapper,
+                    voucherId.toString().getBytes()));
+            return fixVoucher;
+        } catch (EmptyResultDataAccessException e) {}
+
+        try {
+            Optional<Voucher> percentVoucher = Optional.of(jdbcTemplate.queryForObject(
+                    "select * from percent_voucher where voucher_id = (uuid_to_bin(?))",
+                    percentVoucherRowMapper,
+                    voucherId.toString().getBytes()));
+            return percentVoucher;
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

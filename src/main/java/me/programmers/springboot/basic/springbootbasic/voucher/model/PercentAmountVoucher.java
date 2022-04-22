@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class PercentAmountVoucher extends Voucher {
 
-    private final long percent;
+    private long percent;
 
     public PercentAmountVoucher(UUID voucherId, long percent) {
         super(voucherId);
@@ -23,6 +23,11 @@ public class PercentAmountVoucher extends Voucher {
 
     public long getPercent() {
         return percent;
+    }
+
+    public void setPercent(long percent) {
+        validate(percent);
+        this.percent = percent;
     }
 
     @Override

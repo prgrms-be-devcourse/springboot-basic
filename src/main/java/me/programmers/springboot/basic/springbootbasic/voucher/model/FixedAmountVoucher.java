@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
-    private final long amount;
+    private long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         super(voucherId);
@@ -23,6 +23,11 @@ public class FixedAmountVoucher extends Voucher {
 
     public long getAmount() {
         return amount;
+    }
+
+    public void setAmount(long amount) {
+        validate(amount);
+        this.amount = amount;
     }
 
     @Override
