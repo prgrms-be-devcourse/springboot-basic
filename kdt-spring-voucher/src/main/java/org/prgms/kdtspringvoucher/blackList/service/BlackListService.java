@@ -19,10 +19,9 @@ public class BlackListService {
 
     public void showAllBlackList() {
         List<BlackList> blackList = blackListRepository.findAll();
-        if (blackList.isEmpty()) {
-            logger.error("Have not any blackList in list => {}", blackList);
+        if (blackList.isEmpty())
             System.out.println("No blackList.....\n");
-        } else {
+        else {
             logger.info("Succeed show all blackList in repository");
             blackList.forEach(System.out::println);
         }

@@ -17,17 +17,14 @@ import java.util.UUID;
 @Repository
 public class CsvFileBlackListRepository implements BlackListRepository {
     private static final Logger logger = LoggerFactory.getLogger(CsvFileBlackListRepository.class);
-
     private final ApplicationContext applicationContext;
+    private final String FILENAME;
+    private final Path PATH;
 
-    @Value("${black-list.csv-file-name}")
-    private String FILENAME;
-
-    @Value("${black-list.path}")
-    private Path PATH;
-
-    public CsvFileBlackListRepository (ApplicationContext applicationContext) {
+    public CsvFileBlackListRepository(ApplicationContext applicationContext,@Value("${black-list.csv-file-name}") String filename,@Value("${black-list.path}") Path path) {
         this.applicationContext = applicationContext;
+        FILENAME = filename;
+        PATH = path;
     }
 
     @Override
