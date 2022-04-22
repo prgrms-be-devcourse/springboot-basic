@@ -42,6 +42,7 @@ public class ConsoleDispatcherTest {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            assertThat(e.getCause()).isNull();
         }
     }
 
@@ -63,6 +64,7 @@ public class ConsoleDispatcherTest {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            assertThat(e.getCause()).isNull();
         }
     }
 }
