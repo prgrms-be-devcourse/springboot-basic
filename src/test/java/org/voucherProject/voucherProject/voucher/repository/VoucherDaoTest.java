@@ -91,7 +91,7 @@ public class VoucherDaoTest {
         @Test
         @DisplayName("고정할인 결과 성공")
         public void discountFixed() {
-            Voucher voucher = VoucherType.FIXED.createVoucher(1000, UUID.randomUUID());
+            Discountable voucher = VoucherType.FIXED.createVoucher(1000, UUID.randomUUID());
             long discount = voucher.discount(10000);
             assertThat(discount).isEqualTo(9000);
         }
@@ -99,14 +99,14 @@ public class VoucherDaoTest {
         @Test
         @DisplayName("퍼센트할인 결과 성공")
         public void discountPercent() {
-            Voucher voucher = VoucherType.PERCENT.createVoucher(10, UUID.randomUUID());
+            Discountable voucher = VoucherType.PERCENT.createVoucher(10, UUID.randomUUID());
             long discount = voucher.discount(10000);
             assertThat(discount).isEqualTo(9000);
         }
         @Test
         @DisplayName("고정할인 결과 결과값이 0보다 작을 때 -> 실패")
         public void FixedBigDiscount() {
-            Voucher voucher = VoucherType.FIXED.createVoucher(1001, UUID.randomUUID());
+            Discountable voucher = VoucherType.FIXED.createVoucher(1001, UUID.randomUUID());
             assertThrows(IllegalArgumentException.class, () -> voucher.discount(1000));
         }
     }
@@ -136,21 +136,21 @@ public class VoucherDaoTest {
     @Test
     @DisplayName("같은 바우처아이디 중복 저장")
     public void saveSameVoucherId() throws Exception {
-        Voucher voucherWithSameId = new FixedAmountVoucher(voucher.getVoucherId(), 41, UUID.randomUUID());
+        Discountable voucherWithSameId = new FixedAmountVoucher(voucher.getVoucherId(), 41, UUID.randomUUID());
         assertThrows(RuntimeException.class, () -> voucherDao.save(voucherWithSameId));
     }
 
     @Test
     @DisplayName("바우처 전체 조회")
     public void findAll() throws Exception {
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3, UUID.randomUUID());
-        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2, UUID.randomUUID());
-        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
+        Discountable voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3, UUID.randomUUID());
+        Discountable voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 2, UUID.randomUUID());
+        Discountable voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 1, UUID.randomUUID());
         voucherDao.save(voucher1);
         voucherDao.save(voucher2);
         voucherDao.save(voucher3);
 
-        List<Voucher> findAllVoucher = voucherDao.findAll();
+        List<Discountable> findAllVoucher = voucherDao.findAll();
 
         assertThat(findAllVoucher.size()).isEqualTo(4);
     }
@@ -161,14 +161,14 @@ public class VoucherDaoTest {
         @Test
         @DisplayName("고객이 보유한 바우처를 조회")
         public void findByCustomerId() throws Exception {
-            List<Voucher> vouchersByCustomer = voucherDao.findByCustomerId(customer.getCustomerId());
+            List<Discountable> vouchersByCustomer = voucherDao.findByCustomerId(customer.getCustomerId());
             assertThat(vouchersByCustomer.size()).isEqualTo(1);
         }
 
         @Test
         @DisplayName("고객이 보유한 바우처를 조회 -> 없을때 -> 조회수 0")
         public void findByVoidCustomerId() throws Exception {
-            List<Voucher> vouchersByCustomer = voucherDao.findByCustomerId(UUID.randomUUID());
+            List<Discountable> vouchersByCustomer = voucherDao.findByCustomerId(UUID.randomUUID());
             assertThat(vouchersByCustomer.size()).isEqualTo(0);
         }
 
@@ -182,15 +182,15 @@ public class VoucherDaoTest {
     @Test
     @DisplayName("바우처 업데이트 (바우처 상태가 valid -> expired), 그 외는 변화 없음")
     public void update() throws Exception {
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
-        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
-        Voucher voucher4 = new FixedAmountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+        Discountable voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
+        Discountable voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
+        Discountable voucher4 = new FixedAmountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
         voucherDao.save(voucher2);
         voucherDao.save(voucher3);
         voucherDao.save(voucher4);
 
         voucher.useVoucher();
-        Voucher updateVoucher = voucherDao.update(voucher);
+        Discountable updateVoucher = voucherDao.update(voucher);
 
         //voucher 만 상태 변화
         assertThat(voucherDao.findById(voucher.getVoucherId()).get().getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
@@ -209,7 +209,7 @@ public class VoucherDaoTest {
         public void deleteOneVoucherByCustomerId() throws Exception {
             voucherDao.deleteOneByCustomerId(customer.getCustomerId(),voucher.getVoucherId());
 
-            Optional<Voucher> byId = voucherDao.findById(voucher.getVoucherId());
+            Optional<Discountable> byId = voucherDao.findById(voucher.getVoucherId());
             assertThat(byId.isEmpty()).isTrue();
         }
 
@@ -258,19 +258,19 @@ public class VoucherDaoTest {
     @Test
     @DisplayName("바우처 타입으로 찾기")
     public void findByVoucherType() throws Exception {
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
-        Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
-        Voucher voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
-        Voucher voucher5 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+        Discountable voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
+        Discountable voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
+        Discountable voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+        Discountable voucher5 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
         voucherDao.save(voucher2);
         voucherDao.save(voucher3);
         voucherDao.save(voucher4);
         voucherDao.save(voucher5);
 
-        List<Voucher> byFixedVoucherType = voucherDao.findByVoucherType(VoucherType.FIXED);
+        List<Discountable> byFixedVoucherType = voucherDao.findByVoucherType(VoucherType.FIXED);
         assertThat(byFixedVoucherType.size()).isEqualTo(2);
 
-        List<Voucher> byPercentVoucherType = voucherDao.findByVoucherType(VoucherType.PERCENT);
+        List<Discountable> byPercentVoucherType = voucherDao.findByVoucherType(VoucherType.PERCENT);
         assertThat(byPercentVoucherType.size()).isEqualTo(3);
 
     }
@@ -282,10 +282,10 @@ public class VoucherDaoTest {
         @DisplayName("정확한 입력 형식(yyyy-MM-dd)을 맞춰서 -> 성공")
         public void findByCreatedAtBetween() throws Exception {
 
-            Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
-            Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
-            Voucher voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
-            Voucher voucher5 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+            Discountable voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
+            Discountable voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
+            Discountable voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+            Discountable voucher5 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
 
             voucherDao.save(voucher2);
             voucherDao.save(voucher3);
@@ -294,8 +294,8 @@ public class VoucherDaoTest {
 
             String date1 = "2022-01-31";
             String date2 = "2099-12-12";
-            List<Voucher> byCreateAtBetween = voucherDao.findByCreatedAtBetween(date1, date2);
-            List<Voucher> byCreateAtBetween2 = voucherDao.findByCreatedAtBetween(date2, date1);
+            List<Discountable> byCreateAtBetween = voucherDao.findByCreatedAtBetween(date1, date2);
+            List<Discountable> byCreateAtBetween2 = voucherDao.findByCreatedAtBetween(date2, date1);
 
             assertThat(byCreateAtBetween.size()).isEqualTo(5);
             assertThat(byCreateAtBetween2.size()).isEqualTo(5);

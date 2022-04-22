@@ -1,25 +1,64 @@
 package org.voucherProject.voucherProject.voucher.entity;
 
+import lombok.Getter;
+import org.springframework.lang.Nullable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public interface Voucher {
+@Getter
+public abstract class Voucher implements Discountable {
 
-    UUID getVoucherId();
+    private final UUID voucherId;
+    @Nullable
+    private VoucherStatus voucherStatus;
+    private final LocalDateTime createdAt;
+    private final UUID customerId;
 
-    long discount(long beforeDiscount);
+    public Voucher(UUID voucherId, UUID customerId) {
+        this.voucherId = voucherId;
+        this.voucherStatus = VoucherStatus.VALID;
+        this.createdAt = LocalDateTime.now();
+        this.customerId = customerId;
+    }
 
-    VoucherType getVoucherType();
+    public Voucher(UUID voucherId, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt, UUID customerId) {
+        this.voucherId = voucherId;
+        this.voucherStatus = voucherStatus;
+        this.createdAt = createdAt;
+        this.customerId = customerId;
+    }
 
-    VoucherStatus getVoucherStatus();
+    @Override
+    public abstract long discount(long beforeDiscount);
 
-    long getHowMuch();
+    @Override
+    public abstract VoucherType getVoucherType();
 
-    LocalDateTime getCreatedAt();
+    @Override
+    public VoucherStatus getVoucherStatus() {
+        return this.voucherStatus;
+    }
 
-    UUID getCustomerId();
+    @Override
+    public abstract long getHowMuch();
 
-    void useVoucher();
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
 
-    void cancelVoucher();
+    @Override
+    public UUID getCustomerId() {
+        return this.customerId;
+    }
+
+    @Override
+    public void useVoucher() {
+        this.voucherStatus = VoucherStatus.EXPIRED;
+    }
+
+    @Override
+    public void cancelVoucher() {
+        this.voucherStatus = VoucherStatus.VALID;
+    }
 }

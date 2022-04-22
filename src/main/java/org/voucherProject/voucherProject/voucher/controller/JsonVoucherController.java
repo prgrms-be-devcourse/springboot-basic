@@ -1,7 +1,6 @@
 package org.voucherProject.voucherProject.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
