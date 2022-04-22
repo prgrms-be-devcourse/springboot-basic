@@ -1,42 +1,55 @@
 package org.programmers.kdt.weekly.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
-import lombok.Getter;
 
-@Getter
-public final class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
+    private int amount;
+    private final LocalDateTime createdAt;
     private static final VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
-    private final int value;
 
-    public FixedAmountVoucher(UUID voucherId, int value) {
-        if (value <= 0) {
-            throw new IllegalArgumentException("잘못된 입력입니다.");
+    public FixedAmountVoucher(UUID voucherId, int amount, LocalDateTime createdAt) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException();
         }
         this.voucherId = voucherId;
-        this.value = value;
+        this.amount = amount;
+        this.createdAt = createdAt;
+    }
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - value;
+        return beforeDiscount - amount;
     }
 
     @Override
     public int getValue() {
-        return value;
+        return amount;
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return VoucherType.FIXED_AMOUNT_VOUCHER;
+    public void changeValue(int value) {
+        this.amount = value;
     }
 
     @Override
     public String toString() {
         return "Voucher Type: " + voucherType +
             ", voucherId: " + voucherId +
-            ", amount: " + value;
+            ", amount: " + amount + ", createdAt: " + createdAt;
+    }
+
+    @Override
+    public String serializeVoucher() {
+        return voucherId + "," + voucherType + "," + amount + "," + createdAt;
     }
 }
