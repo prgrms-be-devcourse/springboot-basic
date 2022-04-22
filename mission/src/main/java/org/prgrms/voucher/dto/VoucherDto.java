@@ -1,59 +1,26 @@
 package org.prgrms.voucher.dto;
 
-import org.prgrms.voucher.response.ResponseState;
+import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 public class VoucherDto {
 
-    public static class CreateVoucherRequest {
-
-        private final VoucherType voucherType;
-        private final long discountValue;
-
-        public CreateVoucherRequest(VoucherType voucherType, long discountValue) {
-
-            this.voucherType = voucherType;
-            this.discountValue = discountValue;
-        }
-
-        public VoucherType getVoucherType() {
-
-            return voucherType;
-        }
-
-        public long getDiscountValue() {
-
-            return discountValue;
-        }
+    public record CreateVoucherRequest(
+            long discountValue,
+            VoucherType voucherType) {
     }
 
-    public static class CreateVoucherResponse {
+    public record CreateVoucherResponse(
+            AtomicLong voucherId,
+            long discountValue,
+            VoucherType voucherType) {
 
-        private final Long voucherId;
-        private final long discountValue;
-        private final VoucherType voucherType;
-        private ResponseState responseState = ResponseState.SUCCESS;
-
-        public CreateVoucherResponse(Long voucherId, long discountValue, VoucherType voucherType){
-
-            this.voucherId = voucherId;
-            this.discountValue = discountValue;
-            this.voucherType = voucherType;
-        }
-        public CreateVoucherResponse(Long voucherId, long discountValue, VoucherType voucherType, ResponseState responseState) {
-
-            this.voucherId = voucherId;
-            this.discountValue = discountValue;
-            this.voucherType = voucherType;
-            this.responseState = responseState;
-        }
-
-        public Long getVoucherId() {
-            return voucherId;
-        }
-
-        public ResponseState getResponseState() {
-            return responseState;
+        public static CreateVoucherResponse of(Voucher voucher) {
+            return new CreateVoucherResponse(voucher.getVoucherId(),
+                    voucher.getDiscountValue(),
+                    voucher.getVoucherType());
         }
     }
 }
