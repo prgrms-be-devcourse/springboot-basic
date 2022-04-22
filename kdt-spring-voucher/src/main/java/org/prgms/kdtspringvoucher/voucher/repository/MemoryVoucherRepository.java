@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("default")
+@Profile("memory")
 public class MemoryVoucherRepository implements VoucherRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
@@ -19,7 +19,13 @@ public class MemoryVoucherRepository implements VoucherRepository{
     @Override
     public Voucher save(Voucher voucher) {
         logger.info("Succeed save Voucher Data => {}", voucher);
-        return store.put(voucher.getVoucherID(),voucher);
+        return store.put(voucher.getVoucherId(),voucher);
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        logger.info("Succeed update Voucher Data => {}", voucher);
+        return store.put(voucher.getVoucherId(),voucher);
     }
 
     @Override
@@ -31,11 +37,23 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         logger.info("Find All Saved vouchers");
-        return store.keySet()
-                .stream()
-                .map(key -> store.get(key))
-                .toList();
+        return store.values().stream().toList();
+    }
+
+    @Override
+    public void deleteAll() {
+        store.clear();
+    }
+
+    @Override
+    public void deleteByCustomerId(UUID customerId) {
+
     }
 }
