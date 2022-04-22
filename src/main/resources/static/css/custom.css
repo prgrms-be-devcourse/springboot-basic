@@ -3,6 +3,10 @@
     width: 100%;
 }
 
-.custom-margin-top {
+.custom-margin-top-75 {
     margin-top: 0.75rem;
+}
+
+label {
+    margin-bottom: 0.25rem;
 }

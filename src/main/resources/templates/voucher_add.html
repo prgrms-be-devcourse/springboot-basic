@@ -5,19 +5,19 @@
     <title>Voucher list</title>
 </head>
 <div layout:fragment="content">
-    <form class="custom-margin-top" method="post" th:action="@{/voucher}">
-        <div class="form-group">
+    <form method="post" th:action="@{/voucher}">
+        <div class="form-group custom-margin-top-75">
             <label for="voucher_type">Type select</label>
             <select class="form-control" id="voucher_type" name="type">
                 <option value="fixed">고정 금액 바우처</option>
                 <option value="percent">할인 비율 바우처</option>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group custom-margin-top-75">
             <label for="voucher_name">Name</label>
             <input class="form-control" id="voucher_name" name="name" type="text">
         </div>
-        <div class="form-group">
+        <div class="form-group custom-margin-top-75">
             <label for="voucher_figure">Figure</label>
             <input class="form-control" id="voucher_figure" name="figure" type="text">
         </div>
