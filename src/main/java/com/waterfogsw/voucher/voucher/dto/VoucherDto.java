@@ -8,7 +8,7 @@ public class VoucherDto {
             VoucherType type,
             int value
     ) {
-        public static Voucher to(Request request) {
+        public static Voucher toDomain(Request request) {
             if(request.type == null) throw new IllegalArgumentException();
             if(request.value == 0) throw new IllegalArgumentException();
 

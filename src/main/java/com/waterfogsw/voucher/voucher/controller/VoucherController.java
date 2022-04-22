@@ -13,7 +13,7 @@ public class VoucherController {
 
     public VoucherDto.Response voucherSave(VoucherDto.Request request) {
         try {
-            Voucher voucher = VoucherDto.Request.to(request);
+            Voucher voucher = VoucherDto.Request.toDomain(request);
             Voucher savedVoucher = voucherService.saveVoucher(voucher);
             return VoucherDto.Response.of(savedVoucher, ResponseStatus.OK);
         } catch (IllegalArgumentException e) {
