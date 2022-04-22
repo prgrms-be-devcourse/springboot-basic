@@ -1,7 +1,6 @@
-package org.prgrms.kdtspringdemo.voucher.storage;
+package org.prgrms.kdtspringdemo.domain.voucher.storage;
 
-import org.prgrms.kdtspringdemo.voucher.voucherdetail.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.prgrms.kdtspringdemo.domain.voucher.data.Voucher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
