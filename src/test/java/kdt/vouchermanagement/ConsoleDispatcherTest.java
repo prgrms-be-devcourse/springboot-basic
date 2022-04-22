@@ -35,13 +35,13 @@ public class ConsoleDispatcherTest {
 
         //when
         try {
-            method.invoke(consoleDispatcher, input);
+            Object menu = method.invoke(consoleDispatcher, input);
+            //then
+            assertThat(menu).isEqualTo(Menu.NONE);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            //then
-            assertThat(e.getCause().getClass()).isEqualTo(IllegalArgumentException.class);
-            assertThat(e.getCause().getMessage()).isEqualTo("입력한 메뉴값이 유효하지 않습니다.");
+            e.printStackTrace();
         }
     }
 
