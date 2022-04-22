@@ -9,6 +9,9 @@ public class VoucherDto {
             int value
     ) {
         public static Voucher to(Request request) {
+            if(request.type == null) throw new IllegalArgumentException();
+            if(request.value == 0) throw new IllegalArgumentException();
+
             return new Voucher(
                     request.type(),
                     request.value()
@@ -30,5 +33,10 @@ public class VoucherDto {
                     status
             );
         }
+
+        public static Response error(ResponseStatus status) {
+            return new Response(null, null, 0, status);
+        }
+
     }
 }
