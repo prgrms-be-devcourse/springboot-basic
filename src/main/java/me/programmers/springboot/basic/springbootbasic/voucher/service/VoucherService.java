@@ -19,7 +19,8 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         voucherRepository.save(voucher);
+        return voucher;
     }
 }
