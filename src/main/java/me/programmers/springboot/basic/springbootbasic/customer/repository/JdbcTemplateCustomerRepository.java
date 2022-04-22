@@ -89,7 +89,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
         try {
             return Optional.of(jdbcTemplate.queryForObject(
-                    "select * from customers where customer_id = (uuid_to_bin(?)",
+                    "select * from customers where customer_id = (uuid_to_bin(?))",
                     customerRowMapper,
                     customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
