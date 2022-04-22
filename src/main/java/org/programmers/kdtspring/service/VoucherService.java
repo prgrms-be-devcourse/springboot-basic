@@ -47,22 +47,6 @@ public class VoucherService {
         logger.info("{} saved", PercentDiscountVoucher);
     }
 
-    public List<Voucher> findAll() {
-        logger.info("[VoucherService] findAll() called");
-
-        return voucherRepository.findAll();
-    }
-
-    public void VoucherBelongToCustomer(Long voucherId, Long customerId) {
-        logger.info("[VoucherService] VoucherBelongToCustomer() called()");
-
-        var voucher = voucherRepository.findById(voucherId).orElseThrow(NoSuchElementException::new);
-        var customer = customerRepository.findById(customerId)
-                .orElseThrow(NoSuchElementException::new);
-        voucher.belongToCustomer(customer);
-        voucherRepository.updateCustomerId(voucher);
-    }
-
     public List<Voucher> findVoucherForCustomer(Long customerId) {
         logger.info("[VoucherService] findVoucherForCustomer() called");
         Customer customer = customerRepository.findById(customerId).orElseThrow(NoSuchElementException::new);

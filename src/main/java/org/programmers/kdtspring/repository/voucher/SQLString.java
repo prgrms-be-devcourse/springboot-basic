@@ -4,7 +4,7 @@ public class SQLString {
 
     public static final String SELECT_ALL = "select * from vouchers";
     public static final String SELECT_BY_CUSTOMER = "select * from vouchers where customer_id = ?";
-    public static final String SELECT_BY_ID = "select * from where voucher_id = ?";
+    public static final String SELECT_BY_ID = "select * from vouchers where voucher_id = ?";
 
     public static final String INSERT_VOUCHER = "insert into vouchers(voucher_id,customer_id, voucher_type, amount, percent) values(?, ?, ?, ?, ?)";
 

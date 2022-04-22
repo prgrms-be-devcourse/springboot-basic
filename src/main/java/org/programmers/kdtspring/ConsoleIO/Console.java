@@ -30,6 +30,7 @@ public class Console implements Input, Output {
         System.out.println("Type 'create' to create a new voucher");
         System.out.println("Type 'list' to list a new voucher");
         System.out.println("Type 'append' to append blackListUser");
+        System.out.println("Type 'listForOneCustomer' to show vouchers belonged to one customer");
         System.out.println();
 
         System.out.print("Your command => ");

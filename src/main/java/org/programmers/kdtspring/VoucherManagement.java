@@ -37,7 +37,7 @@ public class VoucherManagement implements Runnable {
         logger.info("Voucher Application run...");
         putStrategy();
         while (true) {
-            String selectedOption = input.showOption().toLowerCase();
+            String selectedOption = input.showOption();
             commandStrategy.get(selectedOption).runCommand();
         }
     }
@@ -46,5 +46,6 @@ public class VoucherManagement implements Runnable {
         commandStrategy.put("exit", new ExitCommandStrategy());
         commandStrategy.put("create", new CreateCommandStrategy(input, voucherService, customerRepository));
         commandStrategy.put("list", new ListCommandStrategy(output, voucherRepository));
+        commandStrategy.put("listForCustomer", new ListVoucherForCustomer(input, voucherService, customerRepository));
     }
 }

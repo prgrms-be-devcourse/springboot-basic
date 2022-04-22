@@ -5,5 +5,6 @@ public enum CommandType {
     EXIT,
     CREATE,
     LIST,
-    APPEND
+    APPEND,
+    LIST_FOR_CUSTOMER
 }
