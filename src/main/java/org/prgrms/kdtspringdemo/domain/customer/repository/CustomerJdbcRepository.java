@@ -3,6 +3,7 @@ package org.prgrms.kdtspringdemo.domain.customer.repository;
 import org.prgrms.kdtspringdemo.domain.customer.data.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
