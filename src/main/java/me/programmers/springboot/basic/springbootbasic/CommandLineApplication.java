@@ -11,12 +11,15 @@ import me.programmers.springboot.basic.springbootbasic.command.customer.Customer
 import me.programmers.springboot.basic.springbootbasic.command.customer.CustomerInsertCommand;
 import me.programmers.springboot.basic.springbootbasic.command.customer.CustomerUpdateCommand;
 import me.programmers.springboot.basic.springbootbasic.command.voucher.CreateVoucherCommand;
+import me.programmers.springboot.basic.springbootbasic.command.voucher.DeleteVoucherCommand;
 import me.programmers.springboot.basic.springbootbasic.command.voucher.ShowVoucherCommand;
+import me.programmers.springboot.basic.springbootbasic.command.voucher.UpdateVoucherCommand;
 import me.programmers.springboot.basic.springbootbasic.customer.service.CustomerService;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
 import me.programmers.springboot.basic.springbootbasic.io.In;
 import me.programmers.springboot.basic.springbootbasic.io.Out;
+import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +55,7 @@ public class CommandLineApplication {
             return false;
 
         VoucherService voucherService = context.getBean(VoucherService.class);
+        JdbcVoucherService jdbcVoucherService = context.getBean(JdbcVoucherService.class);
         CustomerService customerService = context.getBean(CustomerService.class);
 
         boolean isExit = false;
@@ -66,6 +70,12 @@ public class CommandLineApplication {
                 break;
             case LIST:
                 commandStrategy = new ShowVoucherCommand(voucherService);
+                break;
+            case UPDATE:
+                commandStrategy = new UpdateVoucherCommand(jdbcVoucherService);
+                break;
+            case DELETE:
+                commandStrategy = new DeleteVoucherCommand(jdbcVoucherService);
                 break;
             case CUSTOMER_INSERT:
                 commandStrategy = new CustomerInsertCommand(customerService);
@@ -107,11 +117,13 @@ public class CommandLineApplication {
                 "1. Type exit to exit the program.\n" +
                 "2. Type create to create a new voucher.\n" +
                 "3. Type list to list all vouchers.\n" +
-                "4. Type customer_insert to create a new customer\n" +
-                "5. Type customer_list to find all customers\n" +
-                "6. Type customer_update to update customer\n" +
-                "7. Type customer_delete to delete all customers\n" +
-                "8. Type customer_findby_email to delete all customers\n"
+                "4. Type update to update voucher.\n" +
+                "5. Type delete to delete all vouchers.\n" +
+                "6. Type customer_insert to create a new customer\n" +
+                "7. Type customer_list to find all customers\n" +
+                "8. Type customer_update to update customer\n" +
+                "9. Type customer_delete to delete all customers\n" +
+                "10. Type customer_findby_email to delete all customers\n"
         );
     }
 }

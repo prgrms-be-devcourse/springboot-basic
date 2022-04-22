@@ -3,7 +3,7 @@ package me.programmers.springboot.basic.springbootbasic.command;
 import java.util.Arrays;
 
 public enum CommandType {
-    EXIT, CREATE, LIST, CUSTOMER_INSERT, CUSTOMER_UPDATE,
+    EXIT, CREATE, LIST, UPDATE, DELETE, CUSTOMER_INSERT, CUSTOMER_UPDATE,
     CUSTOMER_LIST, CUSTOMER_FINDBY_ID, CUSTOMER_FINDBY_NAME,
     CUSTOMER_FINDBY_EMAIL, CUSTOMER_DELETE;
 
