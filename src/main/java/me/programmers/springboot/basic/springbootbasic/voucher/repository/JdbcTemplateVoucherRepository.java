@@ -110,7 +110,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     private void updatePercentVoucher(PercentAmountVoucher voucher) {
         var update = jdbcTemplate.update(
-                "update fixed_voucher set percent = ? " +
+                "update percent_voucher set percent = ? " +
                         "where voucher_id = (uuid_to_bin(?))",
                 voucher.getPercent(),
                 voucher.getVoucherId());
