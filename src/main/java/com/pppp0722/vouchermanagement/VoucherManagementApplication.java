@@ -13,5 +13,4 @@ public class VoucherManagementApplication {
             VoucherManagementApplication.class, args);
         applicationContext.getBean(CommandLineApplication.class).run();
     }
-
 }

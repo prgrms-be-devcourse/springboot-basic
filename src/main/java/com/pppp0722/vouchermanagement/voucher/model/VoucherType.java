@@ -1,4 +1,4 @@
-package com.pppp0722.vouchermanagement.entity.voucher;
+package com.pppp0722.vouchermanagement.voucher.model;
 
 public enum VoucherType {
 
@@ -11,11 +11,9 @@ public enum VoucherType {
         type = type.toLowerCase();
         switch (type) {
             case "fixed":
-            case "fixed_amount":
                 voucherType = VoucherType.FIXED_AMOUNT;
                 break;
             case "percent":
-            case "percent_discount":
                 voucherType = VoucherType.PERCENT_DISCOUNT;
                 break;
             default:

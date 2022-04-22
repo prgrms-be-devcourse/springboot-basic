@@ -1,7 +1,5 @@
-package com.pppp0722.vouchermanagement.entity.voucher;
+package com.pppp0722.vouchermanagement.voucher.model;
 
-import com.pppp0722.vouchermanagement.entity.voucher.Voucher;
-import com.pppp0722.vouchermanagement.entity.voucher.VoucherType;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {

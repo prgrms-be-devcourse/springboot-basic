@@ -19,11 +19,12 @@
         </encoder>
     </appender>
 
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
     <logger name="com.pppp0722.vouchermanagement" level="error">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
-    <root level="debug">
-        <appender-ref ref="STDOUT"/>
-    </root>
 </configuration>

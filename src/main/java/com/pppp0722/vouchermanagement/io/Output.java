@@ -1,8 +1,7 @@
 package com.pppp0722.vouchermanagement.io;
 
-import com.pppp0722.vouchermanagement.entity.member.Member;
-import com.pppp0722.vouchermanagement.entity.voucher.Voucher;
-
+import com.pppp0722.vouchermanagement.member.model.Member;
+import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import java.util.List;
 
 public interface Output {
@@ -11,29 +10,15 @@ public interface Output {
 
     void printMenu();
 
-    void printEmpty();
+    void printSuccess();
+
+    void printFailure();
 
     void printInputError();
 
-    void printError(String error);
-
-    void printEntityTypeInputRequest1();
-
-    void printEntityTypeInputRequest2();
-
-    void printVoucherTypeInputRequest();
-
-    void printNameInputRequest();
-
-    void printAmountInputRequest();
-
-    void printMemberIdInputRequest();
-
-    void printVoucherEmpty();
+    void printEmpty();
 
     void printVoucherList(List<Voucher> voucherList);
-
-    void printMemberListEmpty();
 
     void printMemberList(List<Member> memberList);
 }

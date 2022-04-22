@@ -1,10 +1,12 @@
 package com.pppp0722.vouchermanagement.io;
 
-import com.pppp0722.vouchermanagement.entity.member.Member;
-import com.pppp0722.vouchermanagement.entity.voucher.Voucher;
-
+import com.pppp0722.vouchermanagement.engine.command.EntityType;
+import com.pppp0722.vouchermanagement.member.model.Member;
+import com.pppp0722.vouchermanagement.voucher.model.Voucher;
+import com.pppp0722.vouchermanagement.voucher.model.VoucherType;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Console implements Input, Output {
 
@@ -29,60 +31,27 @@ public class Console implements Input, Output {
 
     @Override
     public void printMenu() {
-        System.out.println("Type create to create a new voucher.\n" +
-            "Type list to list all vouchers.\n" +
-            "Type exit to exit the program.");
+        System.out.println("create\nread\nupdate\ndelete\nexit");
+    }
+
+    @Override
+    public void printSuccess() {
+        System.out.println("Success.");
+    }
+
+    @Override
+    public void printFailure() {
+        System.out.println("Failed!");
     }
 
     @Override
     public void printEmpty() {
-        System.out.println();
+        System.out.println("Empty.");
     }
 
     @Override
     public void printInputError() {
         System.out.println("Wrong input! Try again.");
-    }
-
-    @Override
-    public void printError(String error) {
-        System.out.println(error + " error happened!");
-    }
-
-    @Override
-    public void printEntityTypeInputRequest1() {
-        System.out.println("member\nvoucher");
-    }
-
-    @Override
-    public void printEntityTypeInputRequest2() {
-        System.out.println("member\nvoucher\nwallet");
-    }
-
-    @Override
-    public void printVoucherTypeInputRequest() {
-        System.out.println("Type fixed to create a new fixed amount voucher.\n" +
-            "Type percent to create a new percent discount voucher.");
-    }
-
-    @Override
-    public void printNameInputRequest() {
-        System.out.println("Type name.");
-    }
-
-    @Override
-    public void printAmountInputRequest() {
-        System.out.println("Type discount amount.");
-    }
-
-    @Override
-    public void printMemberIdInputRequest() {
-        System.out.println("Type member id.");
-    }
-
-    @Override
-    public void printVoucherEmpty() {
-        System.out.println("Voucher list is empty.");
     }
 
     @Override
@@ -93,11 +62,6 @@ public class Console implements Input, Output {
                 ", amount : " + voucher.getAmount() +
                 ", member id : " + voucher.getMemberId());
         }
-    }
-
-    @Override
-    public void printMemberListEmpty() {
-        System.out.println("Member list is empty.");
     }
 
     @Override
@@ -112,8 +76,50 @@ public class Console implements Input, Output {
     public String getCommand(String question) {
         System.out.print(question);
         String command = scanner.nextLine().toLowerCase();
-        System.out.println();;
-
+        System.out.println();
         return command;
+    }
+
+    @Override
+    public EntityType inputEntityType(String question) {
+        System.out.println(question);
+        return EntityType.getEntityType(getCommand("Input : "));
+    }
+
+    @Override
+    public String inputCount() {
+        System.out.println("all\none");
+        return getCommand("Input : ");
+    }
+
+    @Override
+    public UUID inputMemberId() {
+        System.out.println("Type member id.");
+        return UUID.fromString(getCommand("Input : "));
+    }
+
+    @Override
+    public String inputMemberName() {
+        System.out.println("Type name.");
+        return getCommand("Input : ");
+    }
+
+    @Override
+    public UUID inputVoucherId() {
+        System.out.println("Type voucher id.");
+        return UUID.fromString(getCommand("Input : "));
+    }
+
+    @Override
+    public VoucherType inputVoucherType() {
+        System.out.println("Type fixed to create a new fixed amount voucher.\n" +
+            "Type percent to create a new percent discount voucher.");
+        return VoucherType.getVoucherType(getCommand("Input : "));
+    }
+
+    @Override
+    public long inputVoucherAmount() {
+        System.out.println("Type discount amount.");
+        return Long.parseLong(getCommand("Input : "));
     }
 }

@@ -1,6 +1,5 @@
-package com.pppp0722.vouchermanagement.entity.voucher;
+package com.pppp0722.vouchermanagement.voucher.model;
 
-import com.pppp0722.vouchermanagement.entity.voucher.VoucherType;
 import java.util.UUID;
 
 public interface Voucher {
@@ -10,6 +9,6 @@ public interface Voucher {
     VoucherType getType();
 
     long getAmount();
-    
+
     UUID getMemberId();
 }

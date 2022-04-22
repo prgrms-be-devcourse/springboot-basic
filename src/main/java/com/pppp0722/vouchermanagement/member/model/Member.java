@@ -1,4 +1,4 @@
-package com.pppp0722.vouchermanagement.entity.member;
+package com.pppp0722.vouchermanagement.member.model;
 
 import java.util.UUID;
 
