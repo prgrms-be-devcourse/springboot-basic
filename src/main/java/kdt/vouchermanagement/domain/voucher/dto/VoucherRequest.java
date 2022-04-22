@@ -19,4 +19,8 @@ public class VoucherRequest {
     public int getDiscountValue() {
         return discountValue;
     }
+
+    public Voucher toDomain() {
+        return null;
+    }
 }

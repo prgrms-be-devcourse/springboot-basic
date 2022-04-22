@@ -36,12 +36,12 @@ public class VoucherConsoleControllerTest {
 
     @Test
     @DisplayName("전달받은 DTO의 VoucherType이 유효하면_성공")
-    void invalidVoucherType() {
+    void validVoucherType() {
         //given
         VoucherRequest request = new VoucherRequest(VoucherType.FIXED_AMOUNT, 100);
 
         //when, then
-        assertDoesNotThrow(() -> () -> voucherConsoleController.create(request));
+        assertDoesNotThrow(() -> voucherConsoleController.create(request));
     }
 
     @Test
