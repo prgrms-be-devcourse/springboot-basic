@@ -1,9 +1,13 @@
 HELP.md
 .gradle
-build/
+build/**
+!build/libs/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+# Log Files
+/logs
 
 ### STS ###
 .apt_generated
@@ -35,10 +39,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-### log ###
-./logs/
-logs/
-
-### filedb ###
-src/main/resources/filedb/
