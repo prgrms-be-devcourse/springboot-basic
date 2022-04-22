@@ -61,7 +61,7 @@ class VoucherApplicationTests {
 		@DisplayName("명령어를 입력 받는다.")
 		void 명령어를_입력_받는다 () throws Exception {
 			getCommand.invoke(voucherApplication);
-			verify(input).getCommand();
+			verify(input).getString();
 		}
 	}
 
@@ -89,14 +89,14 @@ class VoucherApplicationTests {
 		@DisplayName("바우처 타입을 입력받는다")
 		void 바우처_타입을_입력받는다() throws Exception {
 			getVoucherType.invoke(voucherApplication);
-			verify(input).getVoucherType();
+			verify(input).getString();
 		}
 
 		@Test
 		@DisplayName("할인 값을 입력받는다")
 		void 할인_값을_입력받는다() throws Exception {
 			getDiscountAmount.invoke(voucherApplication);
-			verify(input).getDiscountAmount();
+			verify(input).getInt();
 		}
 
 		@Nested
@@ -105,7 +105,7 @@ class VoucherApplicationTests {
 
 			@BeforeEach
 			void 정수가_아닌_할인_값_설정() {
-				given(input.getDiscountAmount())
+				given(input.getInt())
 						.willThrow(new IllegalArgumentException(INVALID_INPUT.name()));
 			}
 

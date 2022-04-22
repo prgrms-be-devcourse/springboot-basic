@@ -39,7 +39,7 @@ public class InputTest {
 			@Test
 			@DisplayName("정수_값을_반환한다")
 			void 정수_값을_반환한다() {
-				assertThat(input.getDiscountAmount()).isEqualTo(1000);
+				assertThat(input.getInt()).isEqualTo(1000);
 			}
 		}
 
@@ -55,7 +55,7 @@ public class InputTest {
 			@Test
 			@DisplayName("예외를 던진다")
 			void 예외를_던진다() {
-				assertThatThrownBy(() -> input.getDiscountAmount())
+				assertThatThrownBy(() -> input.getInt())
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
 			}

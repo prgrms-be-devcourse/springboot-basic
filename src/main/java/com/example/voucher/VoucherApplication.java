@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 
 
+
 @SpringBootApplication
 public class VoucherApplication implements ApplicationRunner {
 
@@ -42,7 +43,6 @@ public class VoucherApplication implements ApplicationRunner {
 					try {
 						discountAmount = getDiscountAmount();
 					} catch (IllegalArgumentException e) {
-						output.printError(e.getMessage());
 						continue;
 					}
 
@@ -57,15 +57,15 @@ public class VoucherApplication implements ApplicationRunner {
 	}
 
 	private CommandType getCommand() {
-		return CommandType.of(input.getCommand());
+		return CommandType.of(input.getString());
 	}
 
 	private VoucherType getVoucherType() {
-		return VoucherType.of(input.getVoucherType());
+		return VoucherType.of(input.getString());
 	}
 
 	private int getDiscountAmount() {
-		return input.getDiscountAmount();
+		return input.getInt();
 	}
 
 	private void processCreateCommand(VoucherType voucherType, int discountAmount) {
