@@ -8,7 +8,7 @@ public class VoucherDto {
             VoucherType type,
             int value
     ) {
-        public static Voucher to(Request request) {
+        public static Voucher toDomain(Request request) {
             return new Voucher(
                     request.type(),
                     request.value()
@@ -29,6 +29,10 @@ public class VoucherDto {
                     voucher.getValue(),
                     status
             );
+        }
+
+        public static Response error(ResponseStatus status) {
+            return new Response(null, null, 0, status);
         }
     }
 }

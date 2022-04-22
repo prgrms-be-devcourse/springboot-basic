@@ -1,7 +1,7 @@
 package com.waterfogsw.voucher.voucher;
 
-import com.waterfogsw.voucher.voucher.controller.ErrorMessages;
 import com.waterfogsw.voucher.voucher.controller.VoucherController;
+import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
 import com.waterfogsw.voucher.voucher.dto.VoucherDto;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 @ExtendWith(MockitoExtension.class)
 public class VoucherControllerTests {
@@ -35,13 +36,13 @@ public class VoucherControllerTests {
         class Context_with_type_null {
 
             @Test
-            @DisplayName("에러 메시지를 리턴한다")
+            @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
             void it_return_error_message() {
                 VoucherDto.Request request = new VoucherDto.Request(null, 1000);
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
-                assertThat(response.getReturnMessage(), is(ErrorMessages.INVALID_VOUCHER_TYPE));
+                assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
         }
 
@@ -50,33 +51,33 @@ public class VoucherControllerTests {
         class Context_with_value_zero {
 
             @Test
-            @DisplayName("에러 메시지를 리턴한다")
+            @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
             void it_return_error_message() {
                 VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 0);
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
-                assertThat(response.getReturnMessage(), is(ErrorMessages.OUT_OF_RANGE));
+                assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
         }
 
         @Nested
         @DisplayName("바우처가 정상적으로 생성되면")
         class Context_with_all_argument_not_null {
-            @Captor
-            ArgumentCaptor<Voucher> voucherCaptor;
 
             @Test
-            @DisplayName("생성된 바우처의 정보를 리턴한다")
+            @DisplayName("생성된 바우처의 정보를 가진 응답을 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 1000);
+                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 100);
 
-                when(voucherService.saveVoucher(voucherCaptor.capture())).thenReturn(voucherCaptor.getValue());
+                when(voucherService.saveVoucher(any(Voucher.class)))
+                        .thenReturn(new Voucher(1L, request.type(), request.value()));
 
                 VoucherDto.Response response = controller.voucherSave(request);
 
-                assertThat(request.getType(), is(response.getInfo().getType()));
-                assertThat(request.getValue(), is(response.getInfo().getValue()));
+                assertThat(response.status(), is(ResponseStatus.OK));
+                assertThat(response.type(), is(request.type()));
+                assertThat(response.value(), is(request.value()));
             }
         }
     }
