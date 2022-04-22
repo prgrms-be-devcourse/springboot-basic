@@ -1,6 +1,7 @@
 package com.prgms.management.customer.repository;
 
-import com.prgms.management.customer.exception.CustomerException;
+import com.prgms.management.common.exception.FindFailException;
+import com.prgms.management.common.exception.InvalidParameterException;
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.customer.model.CustomerType;
 import com.wix.mysql.EmbeddedMysql;
@@ -39,157 +40,158 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("default")
 @DisplayName("JdbcCustomerRepository 유닛 테스트")
 class JdbcCustomerRepositoryTest {
-  @Autowired
-  CustomerRepository customerRepository;
-  
-  @Autowired
-  DataSource dataSource;
-  
-  EmbeddedMysql embeddedMysql;
-  List<Customer> customers = new ArrayList<>();
-  
-  @BeforeAll
-  void setUp() {
-    MysqldConfig config = aMysqldConfig(v5_7_latest)
-      .withCharset(UTF8)
-      .withPort(2215)
-      .withUser("test", "1234")
-      .withTimeZone("Asia/Seoul")
-      .withTimeout(2, TimeUnit.MINUTES)
-      .build();
+    @Autowired
+    CustomerRepository customerRepository;
     
-    embeddedMysql = anEmbeddedMysql(config)
-      .addSchema("demo", ScriptResolver.classPathScript("schema.sql"))
-      .start();
-  }
-  
-  @AfterAll
-  void cleanUp() {
-    embeddedMysql.stop();
-  }
-  
-  @Configuration
-  @ComponentScan
-  static class Config {
-    @Bean
-    public DataSource dataSource() {
-      return DataSourceBuilder.create()
-        .url("jdbc:mysql://localhost:2215/demo")
-        .username("test")
-        .password("1234")
-        .type(HikariDataSource.class)
-        .build();
+    @Autowired
+    DataSource dataSource;
+    
+    EmbeddedMysql embeddedMysql;
+    List<Customer> customers = new ArrayList<>();
+    
+    @BeforeAll
+    void setUp() {
+        MysqldConfig config = aMysqldConfig(v5_7_latest)
+            .withCharset(UTF8)
+            .withPort(2215)
+            .withUser("test", "1234")
+            .withTimeZone("Asia/Seoul")
+            .withTimeout(2, TimeUnit.MINUTES)
+            .build();
+        
+        embeddedMysql = anEmbeddedMysql(config)
+            .addSchema("demo", ScriptResolver.classPathScript("schema.sql"))
+            .start();
     }
     
-    @Bean
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
-      return new NamedParameterJdbcTemplate(dataSource);
-    }
-  }
-  
-  @DisplayName("save() : 고객 저장 테스트")
-  @Nested
-  @Order(1)
-  @TestMethodOrder(MethodOrderer.DisplayName.class)
-  class SaveTest {
-    @DisplayName("성공 : WHITE/BLACK 타입으로 고객 정보가 지정된 경우 저장에 성공합니다.")
-    @ParameterizedTest(name = "{0} 고객 정보 저장 성공")
-    @CsvSource({"kate, WHITE, kate@gmail.com", "jade, WHITE, jade@gmail.com", "sage, BLACK, sage@gmail.com", "haes, " +
-      "BLACK, haes@gmail.com"})
-    void saveSuccess(String name, String typeStr, String email) {
-      Customer newCustomer = new Customer(name, CustomerType.valueOf(typeStr), email);
-      customers.add(customerRepository.save(newCustomer));
-      
-      var retrievedCustomer = customerRepository.findById(newCustomer.getId());
-      assertThat(retrievedCustomer, not(nullValue()));
-      assertThat(retrievedCustomer, equalTo(newCustomer));
+    @AfterAll
+    void cleanUp() {
+        embeddedMysql.stop();
     }
     
-    @DisplayName("실패 : NONE 타입으로 고객 정보가 지정된 경우 CustomerException 예외가 발생합니다.")
-    @Test
-    void saveFail() {
-      assertThrows(CustomerException.class, () -> {
-        Customer newCustomer = new Customer("test", CustomerType.NONE, "test@test.co");
-        customers.add(customerRepository.save(newCustomer));
-      });
-    }
-  }
-  
-  @DisplayName("findById() : ID로 고객 조회 테스트")
-  @Nested
-  @Order(2)
-  @TestMethodOrder(MethodOrderer.DisplayName.class)
-  class FindByIdTest {
-    @DisplayName("성공 : 존재하는 ID로 조회하는 경우 알맞은 고객을 반환합니다.")
-    @Test
-    void findSuccess() {
-      for (Customer customer : customers) {
-        var resultCustomer = customerRepository.findById(customer.getId());
-        assertThat(resultCustomer, equalTo(customer));
-      }
+    @Configuration
+    @ComponentScan
+    static class Config {
+        @Bean
+        public DataSource dataSource() {
+            return DataSourceBuilder.create()
+                .url("jdbc:mysql://localhost:2215/demo")
+                .username("test")
+                .password("1234")
+                .type(HikariDataSource.class)
+                .build();
+        }
+        
+        @Bean
+        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
+            return new NamedParameterJdbcTemplate(dataSource);
+        }
     }
     
-    @DisplayName("실패 : 존재하지 않는 ID로 조회하는 경우 null이 반환됩니다.")
-    @Test
-    void findFail() {
-      assertThat(customerRepository.findById(UUID.randomUUID()), is(nullValue()));
-    }
-  }
-  
-  @DisplayName("findByEmail() : 이메일로 고객 조회 테스트")
-  @Nested
-  @Order(2)
-  @TestMethodOrder(MethodOrderer.DisplayName.class)
-  class FindByEmailTest {
-    @DisplayName("성공 : 존재하는 이메일로 조회하는 경우 알맞은 고객을 반환합니다.")
-    @Test
-    void findSuccess() {
-      for (Customer customer : customers) {
-        var resultCustomer = customerRepository.findByEmail(customer.getEmail());
-        assertThat(resultCustomer, equalTo(customer));
-      }
-    }
-    
-    @DisplayName("실패 : 존재하지 않는 이메일로 조회하는 경우 null이 반환됩니다.")
-    @Test
-    void findFail() {
-      assertThat(customerRepository.findByEmail("fake@email"), is(nullValue()));
-    }
-  }
-  
-  @DisplayName("findAll() : 전체 고객 목록 조회 테스트")
-  @Nested
-  @Order(3)
-  @TestMethodOrder(MethodOrderer.DisplayName.class)
-  class FindAllTest {
-    @DisplayName("성공 : 한 개 이상의 고객 정보가 저장되어 있는 경우 전체 고객 리스트가 반환됩니다.")
-    @Test
-    void findSuccess() {
-      var resultCustomers = customerRepository.findAll();
-      assertThat(resultCustomers.isEmpty(), is(false));
-      assertThat(resultCustomers, hasSize(customers.size()));
-    }
-  }
-  
-  @DisplayName("findByType() : 타입으로 고객 목록 조회 테스트")
-  @Nested
-  @Order(3)
-  @TestMethodOrder(MethodOrderer.DisplayName.class)
-  class FindByTypeTest {
-    @DisplayName("성공 : WHITE/BLACK 타입으로 조회하는 경우 해당 타입을 지닌 고객 리스트가 반환됩니다.")
-    @ParameterizedTest(name = "{0} 타입의 고객 목록 조회 성공")
-    @CsvSource({"WHITE, 2", "BLACK, 2"})
-    void findSuccess(String typeStr, int count) {
-      var resultCustomers = customerRepository.findByType(CustomerType.valueOf(typeStr));
-      assertThat(resultCustomers.isEmpty(), is(false));
-      assertThat(resultCustomers, hasSize(count));
+    @DisplayName("save() : 고객 저장 테스트")
+    @Nested
+    @Order(1)
+    @TestMethodOrder(MethodOrderer.DisplayName.class)
+    class SaveTest {
+        @DisplayName("성공 : WHITE/BLACK 타입으로 고객 정보가 지정된 경우 저장에 성공합니다.")
+        @ParameterizedTest(name = "{0} 고객 정보 저장 성공")
+        @CsvSource({"kate, WHITE, kate@gmail.com", "jade, WHITE, jade@gmail.com", "sage, BLACK, sage@gmail.com",
+            "haes, " +
+                "BLACK, haes@gmail.com"})
+        void saveSuccess(String name, String typeStr, String email) {
+            Customer newCustomer = new Customer(name, CustomerType.valueOf(typeStr), email);
+            customers.add(customerRepository.save(newCustomer));
+            
+            var retrievedCustomer = customerRepository.findById(newCustomer.getId());
+            assertThat(retrievedCustomer, not(nullValue()));
+            assertThat(retrievedCustomer, equalTo(newCustomer));
+        }
+        
+        @DisplayName("실패 : NONE 타입으로 고객 정보가 지정된 경우 InvalidParameterException 예외가 발생합니다.")
+        @Test
+        void saveFail() {
+            assertThrows(InvalidParameterException.class, () -> {
+                Customer newCustomer = new Customer("test", CustomerType.NONE, "test@test.co");
+                customers.add(customerRepository.save(newCustomer));
+            });
+        }
     }
     
-    @DisplayName("실패 : NONE 타입으로 조회하는 경우 빈 리스트가 반환됩니다.")
-    @Test
-    void findFail() {
-      var resultCustomers = customerRepository.findByType(CustomerType.NONE);
-      assertThat(resultCustomers.isEmpty(), is(true));
+    @DisplayName("findById() : ID로 고객 조회 테스트")
+    @Nested
+    @Order(2)
+    @TestMethodOrder(MethodOrderer.DisplayName.class)
+    class FindByIdTest {
+        @DisplayName("성공 : 존재하는 ID로 조회하는 경우 알맞은 고객을 반환합니다.")
+        @Test
+        void findSuccess() {
+            for (Customer customer : customers) {
+                var resultCustomer = customerRepository.findById(customer.getId());
+                assertThat(resultCustomer, equalTo(customer));
+            }
+        }
+        
+        @DisplayName("실패 : 존재하지 않는 ID로 조회하는 경우 null이 반환됩니다.")
+        @Test
+        void findFail() {
+            assertThrows(FindFailException.class, () -> customerRepository.findById(UUID.randomUUID()));
+        }
     }
-  }
+    
+    @DisplayName("findByEmail() : 이메일로 고객 조회 테스트")
+    @Nested
+    @Order(2)
+    @TestMethodOrder(MethodOrderer.DisplayName.class)
+    class FindByEmailTest {
+        @DisplayName("성공 : 존재하는 이메일로 조회하는 경우 알맞은 고객을 반환합니다.")
+        @Test
+        void findSuccess() {
+            for (Customer customer : customers) {
+                var resultCustomer = customerRepository.findByEmail(customer.getEmail());
+                assertThat(resultCustomer, equalTo(customer));
+            }
+        }
+        
+        @DisplayName("실패 : 존재하지 않는 이메일로 조회하는 경우 null이 반환됩니다.")
+        @Test
+        void findFail() {
+            assertThrows(FindFailException.class, () -> customerRepository.findByEmail("fake@email"));
+        }
+    }
+    
+    @DisplayName("findAll() : 전체 고객 목록 조회 테스트")
+    @Nested
+    @Order(3)
+    @TestMethodOrder(MethodOrderer.DisplayName.class)
+    class FindAllTest {
+        @DisplayName("성공 : 한 개 이상의 고객 정보가 저장되어 있는 경우 전체 고객 리스트가 반환됩니다.")
+        @Test
+        void findSuccess() {
+            var resultCustomers = customerRepository.findAll();
+            assertThat(resultCustomers.isEmpty(), is(false));
+            assertThat(resultCustomers, hasSize(customers.size()));
+        }
+    }
+    
+    @DisplayName("findByType() : 타입으로 고객 목록 조회 테스트")
+    @Nested
+    @Order(3)
+    @TestMethodOrder(MethodOrderer.DisplayName.class)
+    class FindByTypeTest {
+        @DisplayName("성공 : WHITE/BLACK 타입으로 조회하는 경우 해당 타입을 지닌 고객 리스트가 반환됩니다.")
+        @ParameterizedTest(name = "{0} 타입의 고객 목록 조회 성공")
+        @CsvSource({"WHITE, 2", "BLACK, 2"})
+        void findSuccess(String typeStr, int count) {
+            var resultCustomers = customerRepository.findByType(CustomerType.valueOf(typeStr));
+            assertThat(resultCustomers.isEmpty(), is(false));
+            assertThat(resultCustomers, hasSize(count));
+        }
+        
+        @DisplayName("실패 : NONE 타입으로 조회하는 경우 빈 리스트가 반환됩니다.")
+        @Test
+        void findFail() {
+            var resultCustomers = customerRepository.findByType(CustomerType.NONE);
+            assertThat(resultCustomers.isEmpty(), is(true));
+        }
+    }
 }
