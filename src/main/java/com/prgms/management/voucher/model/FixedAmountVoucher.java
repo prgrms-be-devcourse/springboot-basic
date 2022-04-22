@@ -12,6 +12,10 @@ public class FixedAmountVoucher extends Voucher {
         this(UUID.randomUUID(), amount);
     }
     
+    public FixedAmountVoucher(String name, Integer amount) {
+        this(UUID.randomUUID(), name, amount, Timestamp.valueOf(LocalDateTime.now()));
+    }
+    
     public FixedAmountVoucher(UUID id, Integer amount) {
         this(id, "none", amount, Timestamp.valueOf(LocalDateTime.now()));
     }

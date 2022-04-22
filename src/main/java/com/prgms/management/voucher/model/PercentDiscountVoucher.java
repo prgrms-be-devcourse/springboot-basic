@@ -12,6 +12,10 @@ public class PercentDiscountVoucher extends Voucher {
         this(UUID.randomUUID(), percent);
     }
     
+    public PercentDiscountVoucher(String name, Integer percent) {
+        this(UUID.randomUUID(), name, percent, Timestamp.valueOf(LocalDateTime.now()));
+    }
+    
     public PercentDiscountVoucher(UUID id, Integer percent) {
         this(id, "none", percent, Timestamp.valueOf(LocalDateTime.now()));
     }
