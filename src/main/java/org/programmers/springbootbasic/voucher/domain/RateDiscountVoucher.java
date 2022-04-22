@@ -1,8 +1,8 @@
-package org.programmers.springbootbasic.voucher;
+package org.programmers.springbootbasic.voucher.domain;
 
 import java.util.UUID;
 
-import static org.programmers.springbootbasic.voucher.VoucherType.RATE;
+import static org.programmers.springbootbasic.voucher.domain.VoucherType.RATE;
 
 public class RateDiscountVoucher extends AbstractVoucher {
 

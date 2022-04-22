@@ -1,6 +1,7 @@
-package org.programmers.springbootbasic.voucher;
+package org.programmers.springbootbasic.domain;
 
-import lombok.RequiredArgsConstructor;
+import org.programmers.springbootbasic.voucher.domain.AbstractVoucher;
+import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
 import java.util.UUID;
 

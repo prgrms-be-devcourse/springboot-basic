@@ -1,12 +1,11 @@
 package org.programmers.springbootbasic.repository;
 
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.voucher.TestVoucher;
-import org.programmers.springbootbasic.voucher.Voucher;
+import org.programmers.springbootbasic.domain.TestVoucher;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
+import org.programmers.springbootbasic.voucher.repository.MemoryVoucherRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ class MemoryVoucherRepositoryTest {
     private static final Voucher voucher = new TestVoucher(UUID.randomUUID(), 2000, null);
     private static final Voucher voucher2 = new TestVoucher(UUID.randomUUID(), 1000, null);
     private static final Voucher voucher3 = new TestVoucher(UUID.randomUUID(), 1500, null);
-
 
     @AfterEach
     void clear() {

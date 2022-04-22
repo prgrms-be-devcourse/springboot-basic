@@ -1,6 +1,6 @@
-package org.programmers.springbootbasic.repository;
+package org.programmers.springbootbasic.voucher.repository;
 
-import org.programmers.springbootbasic.voucher.Voucher;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,7 +30,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.remove(voucherId);
     }
 
-    void clear() {
+    public void clear() {
         storage.clear();
     }
 }

@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.voucher;
+package org.programmers.springbootbasic.voucher.domain;
 
 import lombok.AccessLevel;
 import lombok.Getter;

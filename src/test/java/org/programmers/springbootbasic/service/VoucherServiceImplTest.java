@@ -5,9 +5,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.springbootbasic.repository.TestVoucherRepository;
-import org.programmers.springbootbasic.voucher.FixedDiscountVoucher;
-import org.programmers.springbootbasic.voucher.Voucher;
-import org.programmers.springbootbasic.voucher.VoucherProperty;
+import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
+import org.programmers.springbootbasic.voucher.domain.VoucherProperty;
+import org.programmers.springbootbasic.voucher.service.VoucherServiceImpl;
 
 import java.util.UUID;
 

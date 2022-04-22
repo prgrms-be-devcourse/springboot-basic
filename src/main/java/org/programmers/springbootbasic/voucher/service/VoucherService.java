@@ -1,6 +1,6 @@
-package org.programmers.springbootbasic.service;
+package org.programmers.springbootbasic.voucher.service;
 
-import org.programmers.springbootbasic.voucher.Voucher;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.UUID;

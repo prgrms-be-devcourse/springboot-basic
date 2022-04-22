@@ -1,12 +1,13 @@
-package org.programmers.springbootbasic.voucher;
+package org.programmers.springbootbasic.voucher.domain;
 
 import java.util.UUID;
 
 public abstract class AbstractVoucher implements Voucher {
 
-    private UUID id;
-    private int amount;
-    private VoucherType type;
+    private final UUID id;
+    private final int amount;
+    private final VoucherType type;
+    private Long customerId;
 
     public AbstractVoucher(UUID id, int amount, VoucherType type) {
         this.id = id;

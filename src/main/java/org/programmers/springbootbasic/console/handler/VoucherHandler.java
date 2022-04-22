@@ -5,11 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.console.model.ModelAndView;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
-import org.programmers.springbootbasic.service.VoucherService;
-import org.programmers.springbootbasic.voucher.FixedDiscountVoucher;
-import org.programmers.springbootbasic.voucher.RateDiscountVoucher;
-import org.programmers.springbootbasic.voucher.Voucher;
-import org.programmers.springbootbasic.voucher.VoucherType;
+import org.programmers.springbootbasic.voucher.service.VoucherService;
+import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
+import org.programmers.springbootbasic.voucher.domain.RateDiscountVoucher;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
+import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +25,7 @@ import static org.programmers.springbootbasic.console.command.InputCommand.CREAT
 import static org.programmers.springbootbasic.console.command.InputCommand.LIST;
 import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_AMOUNT;
 import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_COMPLETE;
-import static org.programmers.springbootbasic.voucher.VoucherType.*;
+import static org.programmers.springbootbasic.voucher.domain.VoucherType.*;
 
 @Slf4j
 @Component

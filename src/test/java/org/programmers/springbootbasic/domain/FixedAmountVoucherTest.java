@@ -1,7 +1,9 @@
-package org.programmers.springbootbasic.voucher;
+package org.programmers.springbootbasic.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
 
 import java.util.UUID;
 

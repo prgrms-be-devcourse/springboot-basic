@@ -1,11 +1,11 @@
-package org.programmers.springbootbasic.service;
+package org.programmers.springbootbasic.voucher.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.repository.VoucherRepository;
-import org.programmers.springbootbasic.voucher.Voucher;
-import org.programmers.springbootbasic.voucher.VoucherProperty;
-import org.programmers.springbootbasic.voucher.VoucherType;
+import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
+import org.programmers.springbootbasic.voucher.domain.VoucherProperty;
+import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

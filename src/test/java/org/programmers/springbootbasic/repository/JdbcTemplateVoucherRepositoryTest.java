@@ -5,9 +5,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.programmers.springbootbasic.voucher.FixedDiscountVoucher;
-import org.programmers.springbootbasic.voucher.RateDiscountVoucher;
-import org.programmers.springbootbasic.voucher.Voucher;
+import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
+import org.programmers.springbootbasic.voucher.domain.RateDiscountVoucher;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
+import org.programmers.springbootbasic.voucher.repository.JdbcTemplateVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +36,7 @@ class JdbcTemplateVoucherRepositoryTest {
     @Autowired
     private DataSourceCleaner dataSourceCleaner;
 
+    //TODO PR 포인트: 실제 서비스에서 사용할 레포에 전체 데이터 삭제 메서드가 존재한다는 것 자체가 문제이기 때문, 혹시 더 나은 방법이 있는지 궁금
     @Component
     static class DataSourceCleaner {
 
@@ -78,6 +80,9 @@ class JdbcTemplateVoucherRepositoryTest {
         dataSourceCleaner.cleanDataBase();
     }
 
+    //TODO PR 포인트: 테스트용 바우처 객체를 만들어서 사용하려고 했는데, enum 타입 필드때문에 문제가 생겼음: UNIQUE 제약조건 위반하거나 테스트를 위한 바우처 종류를 서비스용 코드에 추가해야함
+    //TODO PR 포인트: 테스트를 위해서 insert() 리턴 값으로 영향 받은 컬럼 수 사용하는 것은 본말이 전도되었다고 느꼈음, 저장과 조회는 하나가 되어야 하지 않나?
+    //TODO 기존에 데이터를 준비해놓고 하는게 낫나? 하지만 List 수 조회 같은 경우 테스트 케이스 주입받은 것에 좌우되버림
     @Test
     @DisplayName("바우처 저장, 조회")
     void insertAndFind() {
@@ -115,5 +120,15 @@ class JdbcTemplateVoucherRepositoryTest {
         List<Voucher> vouchers = voucherRepository.findAll();
         assertThat(vouchers.size(), is(3));
         assertThat(addedVouchers.containsAll(vouchers), is(true));
+    }
+
+    @Test
+    @DisplayName("바우처 삭제하기")
+    void insertAndDelete() {
+        var fixedVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 3000);
+
+        var insertedFixedVoucher = voucherRepository.insert(fixedVoucher);
+        voucherRepository.remove(insertedFixedVoucher.getId());
+        assertThat(voucherRepository.findById(insertedFixedVoucher.getId()).isEmpty(), is(true));
     }
 }
