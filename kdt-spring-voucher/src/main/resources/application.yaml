@@ -2,16 +2,32 @@ black-list:
   csv-file-name: customer_blacklist.csv
   path: src\main\resources\customer_blacklist.csv
 
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/kdt_voucher
+    username: root
+    password: a123456789
+    type: com.zaxxer.hikari.HikariDataSource
+
 ---
 
 spring:
   config:
     activate:
       on-profile: prod
-
 voucher:
-  file-name : vouchers.csv
+  file-name: vouchers.csv
   path: src\main\resources\vouchers.csv
 
 
 ---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost/kdt_voucher
+    username: root
+    password: a123456789
+    type: com.zaxxer.hikari.HikariDataSource
