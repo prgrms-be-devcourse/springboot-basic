@@ -244,4 +244,34 @@ class VoucherServiceTest {
         assertThatThrownBy(() -> voucherService.findVoucher(voucherId))
             .isInstanceOf(InvalidVoucherIdException.class);
     }
+
+    @DisplayName("voucher 삭제 - 정상 케이스")
+    @Test
+    void deleteVoucher() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+
+        //when
+        var deletedVoucherId = voucherService.deleteVoucher(voucher.getVoucherId());
+
+        //then
+        var inOrder = inOrder(voucherRepository);
+        inOrder.verify(voucherRepository).findById(voucher.getVoucherId());
+        inOrder.verify(voucherRepository).deleteVoucher(voucher);
+        assertThat(deletedVoucherId).isEqualTo(voucher.getVoucherId());
+    }
+
+    @DisplayName("voucher 삭제 - 존재하지 않는 voucher 삭제")
+    @Test
+    void deleteVoucherException() {
+        //given
+        var invalidUUID = UUID.randomUUID();
+        when(voucherRepository.findById(invalidUUID)).thenReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(() -> voucherService.deleteVoucher(invalidUUID))
+            .isInstanceOf(InvalidVoucherIdException.class);
+    }
 }

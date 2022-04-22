@@ -21,6 +21,7 @@
         <th scope="col">amount</th>
         <th scope="col">percent</th>
         <th scope="col">customerId</th>
+        <th scope="col">delete</th>
       </tr>
     </thead>
     <tbody>
@@ -29,8 +30,23 @@
         <td th:text="*{getVoucherType().isFixed()}? *{amount} : 'X'"></td>
         <td th:text="*{getVoucherType().isPercent()}? *{percent} : 'X'"></td>
         <td th:text="*{customerId}?: ''"></td>
+        <td>
+          <a th:href="'javascript:deleteVoucher('+'\'' + *{voucherId}+'\')'"
+             class="btn btn-danger">
+            DELETE
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>
 </body>
+<script>
+  function deleteVoucher(id) {
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/vouchers/" + id + "/delete");
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>
 </html>

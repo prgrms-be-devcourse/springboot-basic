@@ -78,15 +78,26 @@ public class VoucherService {
             .collect(Collectors.toList());
     }
 
-    private void validateAssignedVoucher(Voucher voucher) {
-        if (voucher.getCustomerId().isPresent()) {
-            throw new AlreadyAssignedVoucherException();
-        }
-    }
-
     public VoucherDTO findVoucher(UUID voucherId) {
         var voucher = voucherRepository.findById(voucherId)
             .orElseThrow(InvalidVoucherIdException::new);
         return new VoucherDTO(voucher);
+    }
+
+    @Transactional
+    public UUID deleteVoucher(UUID voucherId) {
+        logger.info("deleteVoucher() called");
+
+        var voucher = voucherRepository.findById(voucherId)
+            .orElseThrow(InvalidVoucherIdException::new);
+
+        voucherRepository.deleteVoucher(voucher);
+        return voucher.getVoucherId();
+    }
+
+    private void validateAssignedVoucher(Voucher voucher) {
+        if (voucher.getCustomerId().isPresent()) {
+            throw new AlreadyAssignedVoucherException();
+        }
     }
 }

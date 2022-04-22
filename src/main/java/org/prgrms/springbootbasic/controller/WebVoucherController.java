@@ -68,6 +68,12 @@ public class WebVoucherController {
         return "redirect:/vouchers";
     }
 
+    @PostMapping("/vouchers/{voucherId}/delete")
+    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:/vouchers";
+    }
+
     private void validatePercentVoucherInput(CreateVoucherRequest createVoucherRequest,
         BindingResult bindingResult) {
         if (createVoucherRequest.getPercent() == null) {
