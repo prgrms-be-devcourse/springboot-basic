@@ -1,4 +1,3 @@
-spring.profiles.active: default
 database:
   url: jdbc:mysql://localhost/voucher_mgmt
   username: root
