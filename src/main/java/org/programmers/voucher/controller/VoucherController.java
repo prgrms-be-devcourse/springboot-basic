@@ -28,7 +28,7 @@ public class VoucherController implements Runnable {
             } catch (IllegalArgumentException e) {
                 System.out.println("Illegal Argument");
             }
-        } while (Command.EXIT.equals(cmd));
+        } while (!Command.EXIT.equals(cmd));
     }
 
     private Command parseCommand() throws IllegalArgumentException {
