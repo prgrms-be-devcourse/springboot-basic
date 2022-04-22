@@ -1,7 +1,9 @@
 package org.prgms.kdtspringvoucher.io;
 
-import org.prgms.kdtspringvoucher.CommandType;
+import org.prgms.kdtspringvoucher.commandLine.CommandType;
+import org.prgms.kdtspringvoucher.customer.domain.CustomerType;
 import org.prgms.kdtspringvoucher.voucher.domain.VoucherType;
+import org.prgms.kdtspringvoucher.wallet.WalletCommandType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -12,8 +14,7 @@ import java.util.Scanner;
 @Component
 public class Console implements Input, Output {
 
-    private StringBuffer prompt = new StringBuffer();
-    private Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
 
     @Override
@@ -37,40 +38,98 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public WalletCommandType inputWalletCommandType() {
+        String inputWalletCommandType = scanner.nextLine();
+        logger.info("Input voucher type String => {}", inputWalletCommandType);
+        return Arrays.stream(WalletCommandType.values())
+                .filter(value -> value.getCommandType().equals(inputWalletCommandType))
+                .findAny()
+                .orElse(null);
+    }
+
+    @Override
     public Long inputDiscountAmountOrPercent() {
-        prompt.append("=== Insert Discount Amount Or Percent ===\n");
-        System.out.println(prompt);
-        prompt.delete(0, prompt.length());
         return Long.valueOf(scanner.nextLine());
     }
 
     @Override
-    public void infoCommandTypeInputPrompt() {
-        prompt.append("=== Voucher Program ===\n")
-                .append("Type ** exit ** to exit the program\n")
-                .append("Type ** create ** to create a new voucher\n")
-                .append("Type ** list ** to all vouchers.\n")
-                .append("Type ** black ** to all blackList\n");
-        System.out.println(prompt);
-        prompt.delete(0, prompt.length());
+    public String inputCustomerName() {
+        System.out.println("=== Insert Customer Name ===");
+        return scanner.nextLine();
     }
 
     @Override
-    public void infoVoucherTypeInputPrompt() {
-        prompt.append("=== Choose Voucher Type ===\n")
-                .append("Type ** fixed ** to create a new FixedAmountVoucher\n")
-                .append("Type ** percent ** to create a new PercentDiscountVoucher\n");
-        System.out.println(prompt);
-        prompt.delete(0, prompt.length());
+    public String inputCustomerEmail() {
+        System.out.println("=== Insert Customer Email ===");
+        return scanner.nextLine();
     }
 
     @Override
-    public void commandTypeError() {
-        System.out.println("Wrong Command Type.....\n");
+    public CustomerType inputCustomerType() {
+        try {
+            System.out.println("=== Insert Customer Type ===");
+            System.out.println("Basic or BlackList");
+            return CustomerType.valueOf(scanner.nextLine().toUpperCase());
+        }catch (IllegalArgumentException exception) {
+            logger.error("Got wrong customer type Error");
+            return null;
+        }
     }
 
     @Override
-    public void voucherTypeError() {
-        System.out.println("Wrong Voucher Type.....\n");
+    public int inputCustomerNumber() {
+        System.out.println("=== Choose customer number ===");
+        return Integer.valueOf(scanner.nextLine());
+    }
+
+    @Override
+    public int inputVoucherNumber() {
+        System.out.println("Choose voucher number!!!");
+        return Integer.valueOf(scanner.nextLine());
+    }
+
+    @Override
+    public void printCommandTypeInputPrompt() {
+        System.out.println("=== Voucher Program ===");
+        System.out.println("Type ** exit ** to exit the program");
+        System.out.println("Type ** create ** to create a new voucher");
+        System.out.println("Type ** list ** to all vouchers.");
+        System.out.println("Type ** customer ** to create a new customer");
+        System.out.println("Type ** black ** to all blackList");
+        System.out.println("Type ** wallet ** to go to wallet program");
+    }
+
+    @Override
+    public void printWalletCommandTypeInputPrompt() {
+        System.out.println("=== Wallet Program ===");
+        System.out.println("Type ** assign ** to assign to customer");
+        System.out.println("Type ** customer ** to show vouchers by customer");
+        System.out.println("Type ** delete ** to delete voucher by customer");
+        System.out.println("Type ** voucher ** to show customer by voucher");
+    }
+
+    @Override
+    public void printVoucherTypeInputPrompt() {
+        System.out.println("=== Choose Voucher Type ===");
+        System.out.println("Type ** fixed ** to create a new FixedAmountVoucher");
+        System.out.println("Type ** percent ** to create a new PercentDiscountVoucher");
+    }
+
+    @Override
+    public void outputAmountOrPercentPrompt(VoucherType voucherType) {
+        switch (voucherType) {
+            case FIXED -> noticeFixedAmountPrompt();
+            case PERCENT -> noticePercentPrompt();
+        }
+    }
+
+    private void noticeFixedAmountPrompt() {
+        System.out.println("=== Insert Fixed Amount ===");
+        System.out.println("Amount is over 0 !!");
+    }
+
+    private void noticePercentPrompt() {
+        System.out.println("=== Insert Percent Amount ===");
+        System.out.println("Amount is over 0 and under 100 !!");
     }
 }
