@@ -10,9 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
@@ -40,8 +37,6 @@ class VoucherServiceTest {
     @Test
     @DisplayName("voucher 생성")
     void createVoucherTest() {
-
-        //TODO voucherDTO 와 voucher의 비교 방식 check
 
         //given
         VoucherDTO voucherDTO = new VoucherDTO("FixedAmountVoucher", 1000);
