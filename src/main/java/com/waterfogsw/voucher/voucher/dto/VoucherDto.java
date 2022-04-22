@@ -9,9 +9,6 @@ public class VoucherDto {
             int value
     ) {
         public static Voucher toDomain(Request request) {
-            if(request.type == null) throw new IllegalArgumentException();
-            if(request.value == 0) throw new IllegalArgumentException();
-
             return new Voucher(
                     request.type(),
                     request.value()
@@ -37,6 +34,5 @@ public class VoucherDto {
         public static Response error(ResponseStatus status) {
             return new Response(null, null, 0, status);
         }
-
     }
 }
