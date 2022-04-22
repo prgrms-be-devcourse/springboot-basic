@@ -1,15 +1,15 @@
 package kdt.vouchermanagement.global.response;
 
-public class Response {
+public class Response<T> {
     private final int statusCode;
-    private final Object data;
+    private final T data;
 
-    public Response(int statusCode, Object data) {
+    public Response(int statusCode, T data) {
         this.statusCode = statusCode;
         this.data = data;
     }
 
-    public static Response of(int statusCode, Object data) {
+    public static <T> Response<T> of(int statusCode, T data) {
         return null;
     }
 }
