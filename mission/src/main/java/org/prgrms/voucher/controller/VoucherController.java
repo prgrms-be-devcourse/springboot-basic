@@ -2,7 +2,7 @@ package org.prgrms.voucher.controller;
 
 import org.prgrms.voucher.dto.VoucherDto;
 import org.prgrms.voucher.models.Voucher;
-import org.prgrms.voucher.models.VoucherType;
+import org.prgrms.voucher.response.Response;
 import org.prgrms.voucher.response.ResponseState;
 import org.prgrms.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -20,18 +20,17 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public VoucherDto.CreateVoucherResponse create(VoucherDto.CreateVoucherRequest requestDto) {
+    public Response create(VoucherDto.CreateVoucherRequest requestDto) {
 
         try {
             Voucher voucher = voucherService.create(requestDto);
 
-            return new VoucherDto.CreateVoucherResponse(voucher.getVoucherId(),
-                    voucher.getDiscountValue(), voucher.getVoucherType());
+            return new Response(ResponseState.SUCCESS, VoucherDto.CreateVoucherResponse.of(voucher));
         } catch (NullPointerException nullPointerException) {
-            logger.info("bad Request...");
+            logger.error("bad Request...");
+            nullPointerException.printStackTrace();
 
-            return new VoucherDto.CreateVoucherResponse(-1L, -1,
-                    VoucherType.EXCEPTION, ResponseState.BAD_REQUEST);
+            return new Response(ResponseState.BAD_REQUEST, "please retry.");
         }
     }
 }
