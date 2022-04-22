@@ -6,58 +6,39 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
+    private final Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
-    public Optional<Voucher> findByVoucherId(UUID voucherId) {
-        return voucherRepository.findById(voucherId);
-    }
-
-    public void showAllVoucher() {
+    public List<Voucher> showAllVoucher() {
         List<Voucher> vouchers = voucherRepository.findAll();
-
-        if (vouchers.isEmpty()) {
-            logger.error("Have not any vouchers in list => {}", vouchers);
+        if (vouchers.isEmpty())
             System.out.println("No vouchers.....\n");
-        }
         else {
-            logger.info("Succeed show all vouchers in repository");
-            vouchers.forEach(System.out::println);
+            vouchers.forEach(voucher -> System.out.println((vouchers.indexOf(voucher) + 1) + ". " + voucher));
         }
+        return vouchers;
     }
 
 
     public Voucher createVoucher(VoucherType voucherType,Long amountOrPercent) {
-
         switch (voucherType) {
             case FIXED -> {
-                return voucherRepository.save(createFixedAmountVoucher(amountOrPercent));
+                return voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(),amountOrPercent,voucherType, LocalDateTime.now()));
             }
             case PERCENT -> {
-                return voucherRepository.save(createPercentDiscountVoucher(amountOrPercent));
+                return voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), amountOrPercent, voucherType, LocalDateTime.now()));
             }
         }
-
         return null;
-    }
-
-    private Voucher createPercentDiscountVoucher(Long percent) {
-        logger.info("Create percentDiscountVoucher");
-        return new PercentDiscountVoucher(UUID.randomUUID(), percent);
-    }
-
-    private Voucher createFixedAmountVoucher(Long amount) {
-        logger.info("Create fixedAmountVoucher");
-        return new FixedAmountVoucher(UUID.randomUUID(), amount);
     }
 }
