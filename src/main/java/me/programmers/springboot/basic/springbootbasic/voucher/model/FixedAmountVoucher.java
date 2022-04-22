@@ -8,7 +8,17 @@ public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         super(voucherId);
+        validate(amount);
         this.amount = amount;
+    }
+
+    private void validate(long amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("음수 값으로 할인 할 수 없습니다.");
+        }
+        if (amount == 0) {
+            throw new IllegalArgumentException("0원으로 할인 할 수 없습니다.");
+        }
     }
 
     public long getAmount() {
@@ -17,7 +27,8 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        var discountedAmount = beforeDiscount - amount;
+        return discountedAmount < 0 ? 0 : discountedAmount;
     }
 
     @Override
