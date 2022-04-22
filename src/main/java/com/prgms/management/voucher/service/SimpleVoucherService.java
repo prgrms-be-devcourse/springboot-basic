@@ -27,4 +27,9 @@ public class SimpleVoucherService implements VoucherService {
     public Voucher findVoucherById(UUID id) {
         return voucherRepository.findById(id);
     }
+    
+    @Override
+    public void removeVoucherById(UUID id) {
+        voucherRepository.removeById(id);
+    }
 }

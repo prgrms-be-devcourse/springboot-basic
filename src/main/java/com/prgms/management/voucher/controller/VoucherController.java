@@ -6,6 +6,7 @@ import com.prgms.management.voucher.model.Voucher;
 import com.prgms.management.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,5 +50,11 @@ public class VoucherController {
     public String voucherAdd(VoucherRequest request) {
         Voucher voucher = voucherService.addVoucher(request.toVoucher());
         return "redirect:/vouchers/" + voucher.getId().toString();
+    }
+    
+    @DeleteMapping("/vouchers/{id}")
+    public String voucherRemove(@PathVariable("id") UUID id) {
+        voucherService.removeVoucherById(id);
+        return "redirect:/vouchers";
     }
 }

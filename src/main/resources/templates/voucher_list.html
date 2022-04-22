@@ -5,6 +5,9 @@
     <title>Voucher list</title>
 </head>
 <div layout:fragment="content">
+    <div style="padding: 0.75rem 0">
+        <a class="btn btn-outline-dark" style="width: 100%" th:href="@{/voucher/new}" type="button">새로운 바우처 등록하기</a>
+    </div>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -25,6 +28,5 @@
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-outline-dark btn-lg btn-block" th:href="@{/voucher/new}" type="button">새로운 바우처 등록하기</a>
 </div>
 </html>
