@@ -13,6 +13,10 @@ public class VoucherController {
 	}
 
 	public void save(VoucherType voucherType, int discountAmount) {
-		voucherService.save(voucherType, discountAmount);
+		if (voucherType != null) {
+			voucherService.save(voucherType, discountAmount);
+			return;
+		}
+		// TODO: 로그 남기기
 	}
 }
