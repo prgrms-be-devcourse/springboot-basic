@@ -1,0 +1,6 @@
+spring.profiles.active: dev
+csv:
+  voucher:
+    file-path: csv\\voucher_list.csv
+  blacklist:
+    file-path: csv\\customer_blacklist.csv
