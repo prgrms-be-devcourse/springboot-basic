@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -24,6 +25,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    @Transactional
     public void createCustomer(CustomerDTO customerDTO) throws RuntimeException {
         if (customerRepository.findByEmail(customerDTO.getEmail()).isPresent()) {
             logger.error("Email 중복 input : {}", customerDTO.getEmail());
@@ -33,6 +35,7 @@ public class CustomerService {
         customerRepository.insert(customer);
     }
 
+    @Transactional
     public boolean allocateVoucher(Customer customer, Voucher voucher) {
         if (customer.allocateVoucher(voucher)) {
             customerRepository.changeVoucher(customer);
@@ -43,6 +46,7 @@ public class CustomerService {
         }
     }
 
+    @Transactional
     public void removeVoucher(Customer customer) {
         customer.removeVoucher();
         customerRepository.changeVoucher(customer);

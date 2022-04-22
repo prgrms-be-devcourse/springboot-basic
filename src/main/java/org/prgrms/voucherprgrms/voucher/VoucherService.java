@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class VoucherService {
     /**
      * create Voucher
      */
+    @Transactional
     public Voucher createVoucher(VoucherDTO voucherDTO) throws IllegalArgumentException, RuntimeException {
         Voucher voucher = voucherCreator.create(voucherDTO);
         logger.info("CREATE Voucher({})", voucher.getVoucherId());
