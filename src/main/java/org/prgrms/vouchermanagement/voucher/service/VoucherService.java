@@ -14,11 +14,8 @@ import java.util.UUID;
 public class VoucherService {
 
   private final VoucherRepository voucherRepository;
-
   private final CustomerRepository customerRepository;
-
   private final WalletRepository walletRepository;
-
 
   public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository, WalletRepository walletRepository) {
     this.voucherRepository = voucherRepository;
@@ -26,19 +23,12 @@ public class VoucherService {
     this.walletRepository = walletRepository;
   }
 
-//  public Voucher getVoucher(UUID voucherId) {
-//    return voucherRepository
-//      .findById(voucherId)
-//      .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
-//  }
-
   public boolean issueVoucher(UUID voucherId, UUID customerId) {
     if(voucherRepository.findById(voucherId).isPresent() &&
       customerRepository.findById(customerId).isPresent()) {
       walletRepository.insert(customerId, voucherId);
       return true;
     }
-    // cannot issue voucher
     return false;
   }
 
