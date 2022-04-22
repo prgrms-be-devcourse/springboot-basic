@@ -11,9 +11,4 @@ public class ConsoleWriter implements Output {
 				           "Type create to create a new voucher.\n" +
 				           "Type list to list all vouchers.");
 	}
-
-	@Override
-	public void printError(String message) {
-
-	}
 }
