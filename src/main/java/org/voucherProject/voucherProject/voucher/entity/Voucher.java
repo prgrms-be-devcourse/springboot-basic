@@ -14,14 +14,14 @@ public abstract class Voucher implements Discountable {
     private final LocalDateTime createdAt;
     private final UUID customerId;
 
-    public Voucher(UUID voucherId, UUID customerId) {
+    protected Voucher(UUID voucherId, UUID customerId) {
         this.voucherId = voucherId;
         this.voucherStatus = VoucherStatus.VALID;
         this.createdAt = LocalDateTime.now();
         this.customerId = customerId;
     }
 
-    public Voucher(UUID voucherId, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt, UUID customerId) {
+    protected Voucher(UUID voucherId, @Nullable VoucherStatus voucherStatus, LocalDateTime createdAt, UUID customerId) {
         this.voucherId = voucherId;
         this.voucherStatus = voucherStatus;
         this.createdAt = createdAt;

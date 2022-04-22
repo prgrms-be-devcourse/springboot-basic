@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Voucher Id</th>
+                <th>Type</th>
+                <th>Discount Amount</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Customer Id</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucherDto : ${voucherDtos}">
+                <td th:text="${voucherDto.getVoucherId()}">1</td>
+                <td th:text="${voucherDto.getVoucherType()}">2</td>
+                <td th:text="${voucherDto.getAmount()}">3</td>
+                <td th:text="${voucherDto.getVoucherStatus()}">4</td>
+                <td th:text="${voucherDto.getCreatedAt()}">5</td>
+                <td th:text="${voucherDto.getCustomerId()}">6</td>
+            </tr>
+            </tbody></table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
