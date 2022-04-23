@@ -30,13 +30,6 @@ public class Voucher {
     }
 
     private void validateVoucher(VoucherType type, int value) {
-        switch (type) {
-            case FIXED_AMOUNT -> {
-                if(value < 0) throw new IllegalArgumentException();
-            }
-            case PERCENT_DISCOUNT -> {
-                if(value < 0 || value > 100) throw new IllegalArgumentException();
-            }
-        }
+        if(!type.validate(value)) throw new IllegalArgumentException();
     }
 }
