@@ -1,13 +1,13 @@
 package com.prgrms.vouchermanagement.voucher;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import com.prgrms.vouchermanagement.commons.CodeMappable;
+import com.prgrms.vouchermanagement.commons.exception.NoMappingOneException;
 import com.prgrms.vouchermanagement.voucher.io.VoucherConsole;
 
 @Controller
@@ -25,14 +25,9 @@ public class VoucherController {
 	public void run() {
 		while (true) {
 			try {
-				Optional<MenuSelection> selectedMenu = selectMenu();
+				MenuSelection selectedMenu = selectMenu();
 
-				if (selectedMenu.isEmpty()) {
-					console.notifyNoMappingSelection();
-					continue;
-				}
-
-				switch (selectedMenu.get()) {
+				switch (selectedMenu) {
 					case EXIT:
 						return;
 					case CREATE:
@@ -42,6 +37,8 @@ public class VoucherController {
 						showAllVouchers();
 						break;
 				}
+			} catch (NoMappingOneException e) {
+				logger.info("INPUT {} --> {}", e.getInput(), e.getMessage(), e);
 			} catch (Exception e) {
 				logger.error("예기치 못한 오류 발생", e);
 
@@ -56,57 +53,50 @@ public class VoucherController {
 	}
 
 	private void createVoucher() {
-		Optional<VoucherType> voucherType = selectVoucherType();
 
-		if (voucherType.isEmpty()) {
-			console.notifyNoMappingSelection();
-
-			return;
-		}
+		VoucherType voucherType = selectVoucherType();
 
 		long voucherDiscountInfo = getVoucherInfo();
 
-		voucherService.publishVoucher(voucherType.get(), voucherDiscountInfo)
+		voucherService.publishVoucher(voucherType, voucherDiscountInfo)
 			.ifPresentOrElse(voucher ->
-				console.showVoucherInfo(voucher), () ->
-				console.failCreation()
+				console.showVoucherInfo(voucher), () -> console.failCreation()
 			);
+
 	}
 
-	private long getVoucherInfo(){
-		while(true) {
+	private long getVoucherInfo() {
+		while (true) {
 			try {
 				console.requestVoucherInfo();
 
-				long voucherDiscountInfo = console.inputVoucherInfo();
-
-				return voucherDiscountInfo;
-			} catch (IllegalArgumentException e){
-				logger.error("{}",e.getMessage(),e);
+				return console.inputVoucherInfo();
+			} catch (IllegalArgumentException e) {
+				logger.error("{}", e.getMessage(), e);
 			}
 		}
 	}
 
-	private Optional<MenuSelection> selectMenu() {
+	private MenuSelection selectMenu() {
 		console.showMenu();
 
 		String menuSelected = console.selectedMenu();
 
-		return findMappingOne(MenuSelection.class, menuSelected);
+		return MenuSelection.from(menuSelected);
 	}
 
-	private Optional<VoucherType> selectVoucherType() {
-		console.showVoucherMenu();
+	private VoucherType selectVoucherType() {
+		while (true) {
+			try {
+				console.showVoucherMenu();
 
-		String selectedVoucherType = console.selectVoucherType();
+				String selectedVoucherType = console.selectVoucherType();
 
-		return findMappingOne(VoucherType.class, selectedVoucherType);
-	}
-
-	private <T extends Enum<?> & CodeMappable> Optional<T> findMappingOne(Class<T> clazz, String target) {
-		return Arrays.stream(clazz.getEnumConstants())
-			.filter(type -> type.isMappedType(target))
-			.findAny();
+				return VoucherType.from(selectedVoucherType);
+			} catch (NoMappingOneException e) {
+				logger.info("INPUT {} --> {}", e.getInput(), e.getMessage(), e);
+			}
+		}
 	}
 
 	private enum MenuSelection implements CodeMappable {
@@ -120,9 +110,18 @@ public class VoucherController {
 			this.code = code;
 		}
 
+		public static MenuSelection from(String type) {
+			return Arrays.stream(MenuSelection.values())
+				.filter(constant ->
+					constant.getMappingCode().equalsIgnoreCase(type))
+				.findFirst()
+				.orElseThrow(() ->
+					new NoMappingOneException(type));
+		}
+
 		@Override
-		public boolean isMappedType(String menu) {
-			return code.equalsIgnoreCase(menu);
+		public String getMappingCode() {
+			return this.code;
 		}
 	}
 }
