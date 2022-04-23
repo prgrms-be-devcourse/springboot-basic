@@ -4,9 +4,9 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class FixedAmountVoucher extends Voucher {
 
-    public FixedAmountVoucher(AtomicLong voucherId, long amount, VoucherType voucherType) {
+    public FixedAmountVoucher(long amount, VoucherType voucherType) {
 
-        this.voucherId = voucherId;
+        this.voucherId = count.incrementAndGet();
         this.discountValue = amount;
         this.voucherType = voucherType;
     }

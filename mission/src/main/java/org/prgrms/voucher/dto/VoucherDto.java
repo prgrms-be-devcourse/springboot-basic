@@ -13,7 +13,7 @@ public class VoucherDto {
     }
 
     public record CreateVoucherResponse(
-            AtomicLong voucherId,
+            long voucherId,
             long discountValue,
             VoucherType voucherType) {
 

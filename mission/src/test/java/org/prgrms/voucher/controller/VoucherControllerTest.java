@@ -38,7 +38,7 @@ public class VoucherControllerTest {
 
             VoucherDto.CreateVoucherRequest requestDto = new VoucherDto.CreateVoucherRequest(100, VoucherType.FIXED_AMOUNT);
 
-            Voucher voucher = new FixedAmountVoucher(new AtomicLong(1), 100, VoucherType.FIXED_AMOUNT);
+            Voucher voucher = new FixedAmountVoucher( 100, VoucherType.FIXED_AMOUNT);
 
             @Test
             @DisplayName("Service 의 create 메서드에 파라미터를 넘겨주며 호출한다.")
