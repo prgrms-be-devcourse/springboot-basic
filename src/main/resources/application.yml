@@ -1,0 +1,12 @@
+logging:
+  config:
+    classpath: logback-spring.xml
+
+spring:
+  datasource:
+    username: root
+    password: root1234!
+    url: jdbc:mysql://localhost:3306/order_mgmt
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
