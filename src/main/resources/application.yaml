@@ -1,3 +1,12 @@
+# File Path
 path:
   blacklist: data/customer_blacklist.csv
   voucherlist: data/voucher_list.csv
+
+# DB information
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/voucher_mgmt"
+    username: "root"
+    password: "root1234!"
