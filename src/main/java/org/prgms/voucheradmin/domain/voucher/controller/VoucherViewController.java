@@ -10,10 +10,7 @@ import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class VoucherViewController {
@@ -53,5 +50,11 @@ public class VoucherViewController {
     public String viewNewVoucherPage(Model model)  {
         model.addAttribute("voucherTypes", VoucherType.values());
         return "views/voucher/new-voucher";
+    }
+
+    @GetMapping("/vouchers/delete/{voucherId}")
+    public String deleteVoucher(@PathVariable UUID voucherId)  {
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:/vouchers";
     }
 }

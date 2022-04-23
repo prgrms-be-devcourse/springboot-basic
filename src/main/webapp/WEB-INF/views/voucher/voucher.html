@@ -20,10 +20,17 @@
                 <h5 th:text="${voucher.voucherType.getTypeName()}" class="card-title"></h5>
                 <p th:if="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="${'-'+voucher.amount}" class="card-text"></p>
                 <p th:unless="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="${voucher.amount+'% DISCOUNT'}" class="card-text"></p>
-                <a th:href="@{/vouchers}" class="btn btn-secondary">이전으로</a>
-                <a href="#" class="btn btn-primary">수정하기</a>
-                <a href="#" class="btn btn-danger">삭제하기</a>
+
+                <div class="voucher-btn">
+                    <a href="#" class="voucher-btn-element btn btn-primary">수정하기</a>
+                    <form th:action="@{'/vouchers/delete/'+${voucher.voucherId}}" method="get" class="voucher-btn-element">
+                        <button type="submit" class="btn btn-danger">삭제하기</button>
+                    </form>
+                </div>
             </div>
+        </div>
+        <div class="beforeBtnArea">
+            <a th:href="@{/vouchers}" class="btn btn-secondary">이전으로</a>
         </div>
     </div>
 </body>
