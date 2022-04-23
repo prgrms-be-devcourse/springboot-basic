@@ -11,20 +11,20 @@
     <title>Voucher Admin</title>
 </head>
 <body>
-<h1 class="header">Voucher Admin</h1>
-<div class="container-fluid">
-    <h3>바우처 상세 조회</h3>
-    <div class="card">
-        <div th:text="${voucher.voucherId}" class="card-header"></div>
-        <div class="card-body">
-            <h5 th:text="${voucher.voucherType.getTypeName()}" class="card-title"></h5>
-            <p th:if="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="${'-'+voucher.amount}" class="card-text"></p>
-            <p th:unless="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="${voucher.amount+'% DISCOUNT'}" class="card-text"></p>
-            <a href="#" class="btn btn-primary">수정하기</a>
-            <a href="#" class="btn btn-danger">삭제하기</a>
+    <h1 class="header">Voucher Admin</h1>
+    <div class="container-fluid">
+        <h3>바우처 상세 조회</h3>
+        <div class="card">
+            <div th:text="${voucher.voucherId}" class="card-header"></div>
+            <div class="card-body">
+                <h5 th:text="${voucher.voucherType.getTypeName()}" class="card-title"></h5>
+                <p th:if="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="${'-'+voucher.amount}" class="card-text"></p>
+                <p th:unless="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="${voucher.amount+'% DISCOUNT'}" class="card-text"></p>
+                <a th:href="@{/vouchers}" class="btn btn-secondary">이전으로</a>
+                <a href="#" class="btn btn-primary">수정하기</a>
+                <a href="#" class="btn btn-danger">삭제하기</a>
+            </div>
         </div>
     </div>
-</div>
-</div>
 </body>
 </html>
