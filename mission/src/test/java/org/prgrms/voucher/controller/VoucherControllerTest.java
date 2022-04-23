@@ -16,8 +16,6 @@ import org.prgrms.voucher.response.Response;
 import org.prgrms.voucher.response.ResponseState;
 import org.prgrms.voucher.service.VoucherService;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,6 +42,8 @@ public class VoucherControllerTest {
             @DisplayName("Service 의 create 메서드에 파라미터를 넘겨주며 호출한다.")
             void itCallCreateService() {
 
+                voucher.setVoucherId(1L);
+
                 when(voucherServiceMock.create(requestDto)).thenReturn(voucher);
 
                 voucherController.create(requestDto);
@@ -61,7 +61,7 @@ public class VoucherControllerTest {
 
                 Response response = voucherController.create(requestDto);
 
-                Assertions.assertThat(response.responseData()).isEqualTo(VoucherDto.CreateVoucherResponse.of(voucher));
+                Assertions.assertThat(response.data()).isEqualTo(new VoucherDto.CreateVoucherResponse(voucher.getVoucherId(), voucher.getDiscountValue(), voucher.getVoucherType()));
             }
         }
 
@@ -78,8 +78,8 @@ public class VoucherControllerTest {
                 Response response = voucherController.create(requestDto);
                 String message = "please retry.";
 
-                Assertions.assertThat(response.responseState()).isEqualTo(ResponseState.BAD_REQUEST);
-                Assertions.assertThat(response.responseData()).isEqualTo(message);
+                Assertions.assertThat(response.state()).isEqualTo(ResponseState.BAD_REQUEST);
+                Assertions.assertThat(response.data()).isEqualTo(message);
             }
         }
     }
