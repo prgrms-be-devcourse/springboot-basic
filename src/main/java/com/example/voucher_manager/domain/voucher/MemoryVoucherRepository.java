@@ -29,4 +29,21 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void clear() {
         memory.clear();
     }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        if (memory.containsKey(voucherId)) {
+            return Optional.of(memory.get(voucherId));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        if (memory.containsKey(voucher.getVoucherId())) {
+            memory.put(voucher.getVoucherId(), voucher);
+        }
+        return voucher;
+    }
+
 }

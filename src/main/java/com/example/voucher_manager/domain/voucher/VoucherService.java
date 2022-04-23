@@ -19,8 +19,8 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherType voucherType, Long discountInformation) {
         Voucher voucher = switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), discountInformation);
-            case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(), discountInformation);
+            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), discountInformation, voucherType);
+            case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(), discountInformation, voucherType);
             default -> throw new IllegalStateException("Unexpected value: " + voucherType);
         };
 

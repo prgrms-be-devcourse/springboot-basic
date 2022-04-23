@@ -1,10 +1,5 @@
-package com.example.voucher_manager.voucher;
+package com.example.voucher_manager.domain.voucher;
 
-import com.example.voucher_manager.domain.voucher.MemoryVoucherRepository;
-import com.example.voucher_manager.domain.voucher.VoucherRepository;
-import com.example.voucher_manager.domain.voucher.FixedAmountVoucher;
-import com.example.voucher_manager.domain.voucher.PercentDiscountVoucher;
-import com.example.voucher_manager.domain.voucher.Voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +11,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class VoucherRepositoryTest {
+public class MemoryVoucherRepositoryTest {
 
     private static final VoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
     private static final UUID fixedAmountVoucherId = UUID.fromString("860c7e9a-24d7-4700-ae37-ac162cc86fc4");
@@ -31,7 +26,7 @@ public class VoucherRepositoryTest {
     @Test
     @DisplayName("고정 할인 값을 갖는 바우처를 저장한다")
     public void createFixedVoucherTest() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L, VoucherType.FIXED);
         Optional<Voucher> result = memoryVoucherRepository.insert(fixedAmountVoucher);
         assertThat(fixedAmountVoucher).isEqualTo(result.get());
     }
@@ -39,7 +34,7 @@ public class VoucherRepositoryTest {
     @Test
     @DisplayName("일정 할인율을 갖는 바우처를 저장한다")
     public void createPercentVoucherTest() {
-        Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20L);
+        Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20L, VoucherType.PERCENT);
         Optional<Voucher> result = memoryVoucherRepository.insert(percentAmountVoucher);
         assertThat(percentAmountVoucher).isEqualTo(result.get());
     }
@@ -47,8 +42,8 @@ public class VoucherRepositoryTest {
     @Test
     @DisplayName("Repository에 저장된 모든 데이터를 불러온다")
     public void findAll() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(fixedAmountVoucherId, 1000L);
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(percentDiscountVoucherId, 20L);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(fixedAmountVoucherId, 1000L, VoucherType.FIXED);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(percentDiscountVoucherId, 20L, VoucherType.PERCENT);
         memoryVoucherRepository.insert(fixedAmountVoucher);
         memoryVoucherRepository.insert(percentDiscountVoucher);
 

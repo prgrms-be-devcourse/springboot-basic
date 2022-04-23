@@ -35,6 +35,16 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
     public Optional<Voucher> insert(Voucher voucher) {
         return writeDataToFile(voucher);
     }
