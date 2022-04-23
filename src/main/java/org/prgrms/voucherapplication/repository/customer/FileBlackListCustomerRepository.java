@@ -1,4 +1,4 @@
-package org.prgrms.voucherapplication.repository;
+package org.prgrms.voucherapplication.repository.customer;
 
 import org.prgrms.voucherapplication.configutarion.FilePathConfiguration;
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
@@ -16,10 +16,11 @@ import java.util.List;
  * 고객 데이터를 파일로 관리하는 레포지터리
  */
 @Repository
-public class FileCustomerRepository implements CustomerRepository {
+public class FileBlackListCustomerRepository {
+
     private final FilePathConfiguration configuration;
 
-    public FileCustomerRepository(FilePathConfiguration configuration) {
+    public FileBlackListCustomerRepository(FilePathConfiguration configuration) {
         this.configuration = configuration;
     }
 
@@ -30,11 +31,10 @@ public class FileCustomerRepository implements CustomerRepository {
      * @return List 형태로 Customer
      * @throws IOException
      */
-    @Override
-    public List<Customer> findAll() throws IOException {
+    public List<BlackListCustomer> findAll() throws IOException {
         File file = new File(configuration.getBlacklist());
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        List<Customer> customerList = new ArrayList<>();
+        List<BlackListCustomer> customerList = new ArrayList<>();
 
         String line = "";
         while ((line = reader.readLine()) != null) {
@@ -52,7 +52,7 @@ public class FileCustomerRepository implements CustomerRepository {
      * @param customerName
      * @return 파라미터에 따른 Customer 객체
      */
-    private Customer restoreCustomer(String id, String customerName) {
+    private BlackListCustomer restoreCustomer(String id, String customerName) {
         return new BlackListCustomer(Long.valueOf(id), customerName);
     }
 }
