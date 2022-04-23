@@ -20,7 +20,7 @@ public class ListController {
     this.output = output;
   }
 
-  public void  processList() {
+  public void processList() {
     String listType = input.readListType().toLowerCase();
     if(listType.equals("customer")) output.printList(customerService.getCustomerList());
     else if(listType.equals("voucher")) output.printList(voucherService.getVoucherList());

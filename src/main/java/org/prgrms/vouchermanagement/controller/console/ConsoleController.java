@@ -29,15 +29,14 @@ public class ConsoleController {
       switch (input.readCommand()) {
         case "exit":
           progress = false;
-          output.printNotExistingCommand();
           break;
         case "list":
-
+          listController.processList();
           break;
         case "create":
           break;
         default:
-
+          output.printNotExistingCommand();
       }
     }
   }

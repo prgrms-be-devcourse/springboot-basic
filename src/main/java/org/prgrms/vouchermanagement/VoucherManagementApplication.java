@@ -1,4 +1,4 @@
-package org.prgrms.VoucherManagement;
+package org.prgrms.vouchermanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
