@@ -3,6 +3,7 @@ package com.prgrms.management.voucher.repository;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherType;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,6 +13,7 @@ public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
     void updateVoucherByCustomerId(UUID voucherId,UUID customerId);
     List<Voucher> findAll();
+    List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType,LocalDateTime date);
 
     void deleteById(UUID customerId);
     void deleteAll();

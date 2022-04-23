@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +64,11 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucherList;
         */
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDateTime date) {
+        return null;
     }
 
     @Override

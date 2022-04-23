@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.prgrms</groupId>
     <artifactId>management</artifactId>
-    <version>week1</version>
+    <version>week3</version>
     <name>voucherManagement</name>
     <properties>
         <java.version>11</java.version>

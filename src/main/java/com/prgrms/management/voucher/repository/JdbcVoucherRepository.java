@@ -1,7 +1,6 @@
 package com.prgrms.management.voucher.repository;
 
 import com.prgrms.management.config.ErrorMessageType;
-import com.prgrms.management.customer.repository.JdbcCustomerRepository;
 import com.prgrms.management.util.ToUUID;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherType;
@@ -13,15 +12,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
-@Profile({"jdbc","test"})
+@Profile({"jdbc", "test"})
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final JdbcTemplate jdbcTemplate;
@@ -67,7 +66,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateVoucherByCustomerId(UUID voucherId,UUID customerId) {
+    public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
         int update = jdbcTemplate.update("update vouchers set customer_id = UUID_TO_BIN(?) where voucher_id = UUID_TO_BIN(?)",
                 customerId.toString().getBytes(),
                 voucherId.toString().getBytes()
@@ -80,6 +79,30 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDateTime date) {
+        return dynamicQueryByVoucherTypeAndCreatedAt(voucherType, date);
+    }
+
+    private List<Voucher> dynamicQueryByVoucherTypeAndCreatedAt(VoucherType voucherType, LocalDateTime date) {
+        if (voucherType != null && date != null) {
+            return jdbcTemplate.query("select * from vouchers where (voucher_type = ?) AND (DATE(created_at) = DATE(?))", voucherRowMapper,
+                    voucherType.equals(VoucherType.FIXED) ? "fixed" : "percent",
+                    date
+            );
+        } else if (voucherType != null && date == null) {
+            return jdbcTemplate.query("select * from vouchers where (voucher_type = ?) ", voucherRowMapper,
+                    voucherType.equals(VoucherType.FIXED) ? "fixed" : "percent"
+            );
+        } else if (voucherType == null && date != null) {
+            return jdbcTemplate.query("select * from vouchers where DATE(created_at) = DATE(?)", voucherRowMapper,
+                    date
+            );
+        } else {
+            return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+        }
     }
 
     @Override
