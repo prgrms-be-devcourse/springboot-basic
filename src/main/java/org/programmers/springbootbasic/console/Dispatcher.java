@@ -21,9 +21,9 @@ public class Dispatcher {
         var model = request.getModel();
         try {
             var command = request.getCommand();
-            var controller = mappingData.getController(command);
+            var handler = mappingData.getHandler(command);
 
-            ModelAndView modelAndView = controller.handleRequest(request);
+            ModelAndView modelAndView = handler.handleRequest(request);
             var code = drawer.draw(modelAndView);
             request = null; //GC
             return code;

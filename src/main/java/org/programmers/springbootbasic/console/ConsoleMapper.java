@@ -23,22 +23,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConsoleMapper {
 
     public static final Map<String, Command> COMMANDS = new ConcurrentHashMap<>();
-    public static final List<Handler> CONTROLLERS = new ArrayList<>();
+    public static final List<Handler> HANDLERS = new ArrayList<>();
 
-    private final CliHandler cliController;
-    private final VoucherHandler voucherController;
-    private final ErrorHandler errorController;
+    private final CliHandler cliHandler;
+    private final VoucherHandler voucherHandler;
+    private final ErrorHandler errorHandler;
 
-    public Handler getController(Command command) {
-        for (var controller : CONTROLLERS) {
-            if (controller.supports(command)) {
-                return controller;
+    public Handler getHandler(Command command) {
+        for (var handler : HANDLERS) {
+            if (handler.supports(command)) {
+                return handler;
             }
         }
-        log.error("No controller handling command {} exist.", command);
+        log.error("No handler handling command {} exist.", command);
         throw new IllegalStateException(
-                "해당하는 컨트롤러가 없습니다. 어떤 명령어도 해당되지 않을 경우 기본적으로 HELP 명령어로 전환되기에," +
-                        "기본 컨트롤러 설정을 다시 살펴보십시오.");
+                "해당하는 핸들러 없습니다. 어떤 명령어도 해당되지 않을 경우 기본적으로 HELP 명령어로 전환되기에," +
+                        "기본 핸들러 설정을 다시 살펴보십시오.");
     }
 
     @PostConstruct
@@ -57,8 +57,8 @@ public class ConsoleMapper {
     }
 
     private void initControllerList() {
-        CONTROLLERS.add(cliController);
-        CONTROLLERS.add(voucherController);
-        CONTROLLERS.add(errorController);
+        HANDLERS.add(cliHandler);
+        HANDLERS.add(voucherHandler);
+        HANDLERS.add(errorHandler);
     }
 }

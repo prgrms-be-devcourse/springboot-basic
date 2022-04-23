@@ -1,5 +1,6 @@
 package org.programmers.springbootbasic.console.handler;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,8 +24,13 @@ import static org.programmers.springbootbasic.voucher.domain.VoucherType.FIXED;
 
 class VoucherHandlerTest {
 
-    private static final VoucherService voucherServiceMock = mock(VoucherService.class);
-    private static final VoucherHandler voucherHandler = new VoucherHandler(voucherServiceMock);
+    private static final VoucherService VOUCHER_SERVICE_MOCK = mock(VoucherService.class);
+    private static final VoucherHandler voucherHandler = new VoucherHandler(VOUCHER_SERVICE_MOCK);
+
+    @AfterEach
+    void resetMock() {
+        reset(VOUCHER_SERVICE_MOCK);
+    }
 
     @BeforeAll
     static void initializeHandler() {
@@ -73,7 +79,7 @@ class VoucherHandlerTest {
 
         var modelAndView = voucherHandler.handleRequest(requestMock);
 
-        verify(voucherServiceMock, times(1)).registerVoucher(3000, FIXED);
+        verify(VOUCHER_SERVICE_MOCK, times(1)).registerVoucher(3000, FIXED);
         verify(modelMock, times(1)).clear();
         assertThat(modelAndView.getResponseCode(), is(PROCEED));
     }
@@ -85,7 +91,7 @@ class VoucherHandlerTest {
         when(requestMock.getCommand()).thenReturn(LIST);
         var modelMock = mock(Model.class);
         when(requestMock.getModel()).thenReturn(modelMock);
-        when(voucherServiceMock.getAllVouchers()).thenReturn(new ArrayList<>());
+        when(VOUCHER_SERVICE_MOCK.getAllVouchers()).thenReturn(new ArrayList<>());
 
         var modelAndView = voucherHandler.handleRequest(requestMock);
 
@@ -103,7 +109,7 @@ class VoucherHandlerTest {
         ArrayList<Voucher> vouchers = new ArrayList<>();
         Voucher voucherMock1 = mock(Voucher.class);
         Voucher voucherMock2 = mock(Voucher.class);
-        when(voucherServiceMock.getAllVouchers()).thenReturn(vouchers);
+        when(VOUCHER_SERVICE_MOCK.getAllVouchers()).thenReturn(vouchers);
 
         var modelAndView = voucherHandler.handleRequest(requestMock);
 
