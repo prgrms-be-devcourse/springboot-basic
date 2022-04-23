@@ -24,15 +24,15 @@ public class VoucherController {
 
         try {
             if (requestDto == null){
-                throw new IllegalArgumentException("requestDto is null");
+                throw new IllegalArgumentException("please retry.");
             }
             Voucher voucher = voucherService.create(requestDto);
 
-            return new Response(ResponseState.SUCCESS, new VoucherDto.CreateVoucherResponse(voucher.getVoucherId(), voucher.getDiscountValue(), voucher.getVoucherType()));
+            return new Response(ResponseState.SUCCESS, VoucherDto.CreateVoucherResponse.from(voucher));
         } catch (IllegalArgumentException argumentException) {
-            logger.error("{} - RequestDto : {}", argumentException.getMessage(), requestDto, argumentException);
+            logger.error("RequestDto : {}", requestDto, argumentException);
 
-            return new Response(ResponseState.BAD_REQUEST, "please retry.");
+            return new Response(ResponseState.BAD_REQUEST, argumentException.getMessage());
         }
     }
 }
