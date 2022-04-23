@@ -46,6 +46,7 @@ public class CommandLineApplication implements ApplicationRunner {
 
             }
         }
+        System.exit(0);
     }
 
     private void inputVoucherMenu( ) {

@@ -1,6 +1,5 @@
 package org.prgrms.kdt.shop.domain;
 
-import org.prgrms.kdt.shop.enums.OrderStatus;
 import org.prgrms.kdt.shop.enums.VoucherType;
 
 import java.util.UUID;
