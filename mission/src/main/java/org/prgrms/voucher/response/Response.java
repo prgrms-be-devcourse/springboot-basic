@@ -1,13 +1,13 @@
 package org.prgrms.voucher.response;
 
 public record Response(
-        ResponseState responseState,
-        Object responseData) {
+        ResponseState state,
+        Object data) {
 
     private static Response of(
-            ResponseState responseState,
-            Object responseData) {
+            ResponseState state,
+            Object data) {
 
-        return new Response(responseState, responseData);
+        return new Response(state, data);
     }
 }
