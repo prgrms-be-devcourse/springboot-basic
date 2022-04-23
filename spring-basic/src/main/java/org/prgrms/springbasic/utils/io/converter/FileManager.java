@@ -1,7 +1,7 @@
 package org.prgrms.springbasic.utils.io.converter;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.springbasic.utils.exception.NotExistEnumType;
+import org.prgrms.springbasic.utils.exception.NotExistTypeException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -65,8 +65,8 @@ public class FileManager<T> {
 
         try {
             objectType = ObjectType.getObjectType(clazz)
-                    .orElseThrow(() -> new NotExistEnumType(NOT_EXIST_ENUM_TYPE.getMessage()));
-        } catch (NotExistEnumType e) {
+                    .orElseThrow(() -> new NotExistTypeException(NOT_EXIST_ENUM_TYPE.getMessage()));
+        } catch (NotExistTypeException e) {
             log.error("Got not exist enum type: {}", clazz.getName());
         }
 

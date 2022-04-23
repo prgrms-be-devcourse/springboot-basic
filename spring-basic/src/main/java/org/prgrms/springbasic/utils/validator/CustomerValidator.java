@@ -3,9 +3,8 @@ package org.prgrms.springbasic.utils.validator;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.domain.customer.CustomerType;
-import org.prgrms.springbasic.domain.voucher.VoucherType;
 import org.prgrms.springbasic.utils.exception.NonExistentCommand;
-import org.prgrms.springbasic.utils.exception.NotExistData;
+import org.prgrms.springbasic.utils.exception.NotExistDataException;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class CustomerValidator {
     public static List<Customer> validateCustomers(List<Customer> customers) {
         if (customers.size() == 0) {
             log.error("Can't find any customer.");
-            throw new NotExistData(NO_CUSTOMER.getMessage());
+            throw new NotExistDataException(NO_CUSTOMER.getMessage());
         }
 
         return customers;

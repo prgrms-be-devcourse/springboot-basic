@@ -6,7 +6,7 @@ import org.prgrms.springbasic.domain.customer.CustomerType;
 import org.prgrms.springbasic.domain.voucher.Voucher;
 import org.prgrms.springbasic.domain.voucher.VoucherType;
 import org.prgrms.springbasic.domain.wallet.Wallet;
-import org.prgrms.springbasic.utils.exception.NoDatabaseChange;
+import org.prgrms.springbasic.utils.exception.NoDatabaseChangeException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -36,7 +36,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         if(insert != 1) {
             log.error("Got not inserted result: {}", voucher);
 
-            throw new NoDatabaseChange(NOT_INSERTED.getMessage());
+            throw new NoDatabaseChangeException(NOT_INSERTED.getMessage());
         }
 
         return voucher;
@@ -92,7 +92,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         if(update != 1) {
             log.error("Got not updated result: {}", voucher);
 
-            throw new NoDatabaseChange(NOT_UPDATED.getMessage());
+            throw new NoDatabaseChangeException(NOT_UPDATED.getMessage());
         }
 
         return voucher;

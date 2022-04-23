@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.domain.customer.CustomerType;
-import org.prgrms.springbasic.utils.exception.NoDatabaseChange;
+import org.prgrms.springbasic.utils.exception.NoDatabaseChangeException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -33,7 +33,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         if(insert != 1) {
             log.error("Got not inserted result: {}", customer);
 
-            throw new NoDatabaseChange(NOT_INSERTED.getMessage());
+            throw new NoDatabaseChangeException(NOT_INSERTED.getMessage());
         }
 
         return customer;
@@ -84,7 +84,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         if(update != 1) {
             log.error("Got not updated result: {}", customer);
 
-            throw new NoDatabaseChange(NOT_UPDATED.getMessage());
+            throw new NoDatabaseChangeException(NOT_UPDATED.getMessage());
         }
 
         return customer;
