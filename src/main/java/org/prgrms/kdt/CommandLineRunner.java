@@ -2,9 +2,10 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
+import org.prgrms.kdt.model.customer.CustomerGrade;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherType;
-import org.prgrms.kdt.service.customer.BlackListCustomerService;
+import org.prgrms.kdt.service.customer.CustomerService;
 import org.prgrms.kdt.service.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class CommandLineRunner implements Runnable {
     @Override
     public void run() {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-        BlackListCustomerService blackListCustomerService = applicationContext.getBean(BlackListCustomerService.class);
+        CustomerService customerService = applicationContext.getBean(CustomerService.class);
 
         boolean isRunning = true;
 
@@ -70,7 +71,7 @@ public class CommandLineRunner implements Runnable {
                     output.printMessage(vouchers);
                     break;
                 case BLACK_LIST:
-                    String blackListCustomers = blackListCustomerService.findAll().stream()
+                    String blackListCustomers = customerService.findAllBlackList(CustomerGrade.BLACK_LIST).stream()
                         .map(Object::toString)
                         .collect(Collectors.joining(",\n"));
                     output.printMessage(blackListCustomers);
