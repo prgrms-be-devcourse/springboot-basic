@@ -1,13 +1,10 @@
 package com.example.voucher.service.voucher;
 
-import com.example.voucher.domain.voucher.FixedAmountVoucher;
-import com.example.voucher.domain.voucher.PercentDiscountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import static com.example.voucher.domain.voucher.VoucherType.FIXED_AMOUNT_VOUCHER;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
