@@ -4,7 +4,9 @@ import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.repository.CustomerRepository;
+import org.prgrms.kdt.repository.JdbcWalletRepository;
 import org.prgrms.kdt.repository.VoucherRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,9 +22,12 @@ public class VoucherService {
 
     CustomerRepository customerRepository;
 
-    public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
+    JdbcWalletRepository jdbcWalletRepository;
+
+    public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository, JdbcWalletRepository jdbcWalletRepository) {
         this.voucherRepository = voucherRepository;
         this.customerRepository = customerRepository;
+        this.jdbcWalletRepository = jdbcWalletRepository;
     }
 
     public Voucher createVoucher(UUID voucherId, int voucherTypeNumber, int discountAmount) {
@@ -35,8 +40,14 @@ public class VoucherService {
         return voucherRepository.getVoucherList();
     }
 
-    public Voucher deleteVoucher(Voucher voucher) {
-        return voucherRepository.delete(voucher);
+    public void deleteVoucher(UUID voucherId, String email) {
+        try {
+            jdbcWalletRepository.getVoucherByVoucherIdAndEmail(voucherId, email);
+            voucherRepository.delete(voucherId);
+            new OutputConsole().printMessage("voucher is deleted");
+        } catch (EmptyResultDataAccessException e) {
+            new OutputConsole().printMessage("WRONG : invalid input");
+        }
     }
 
     public Voucher getVoucherById(Voucher voucher) {

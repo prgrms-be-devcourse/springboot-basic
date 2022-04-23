@@ -22,7 +22,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher delete(Voucher voucher) {
+    public UUID delete(UUID voucherId) {
         return null;
     }
 

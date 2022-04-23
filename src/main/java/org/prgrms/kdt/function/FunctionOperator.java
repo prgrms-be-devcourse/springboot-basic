@@ -43,7 +43,10 @@ public class FunctionOperator {
             case ("blackList") -> new OutputConsole().printList(blackListService.getBlackList());
             case ("add") -> createNewCustomer();
             case ("provide") -> provideVoucherToCustomer();
-            case ("manage") -> printCustomerVoucherList();
+            case ("manage") -> {
+                String email = printCustomerVoucherList();
+                deleteCheck(email);
+            }
         }
     }
 
@@ -51,7 +54,6 @@ public class FunctionOperator {
         Output output = new OutputConsole();
         output.printVoucherType();
         Input input = new InputConsole();
-
         try {
             voucherService.createVoucher(UUID.randomUUID(),
                     Utility.toInt(input.inputString()),
@@ -96,16 +98,22 @@ public class FunctionOperator {
         voucher.ifPresent(value -> new OutputConsole().printMessage(value.getVoucherId() + " is provided"));
     }
 
-    private void printCustomerVoucherList() {
+    private String printCustomerVoucherList() {
         new OutputConsole().printMessage("input customer Email");
         String customerEmail = new InputConsole().inputString();
         Optional<Map<UUID, Voucher>> voucherList = voucherWalletService.getVoucherListByCustomerEmail(customerEmail);
         voucherList.ifPresent(uuidVoucherMap -> new ArrayList<>(uuidVoucherMap.values()));
+        return customerEmail;
     }
-//
-//    private void deleteCheck() {
-//        new OutputConsole().printMessage("Type D if you want delete ");
-//    }
 
+    private void deleteCheck(String email) {
+        new OutputConsole().printMessage("Type D/d if you want delete");
+        String inputString = new InputConsole().inputString();
+        if(inputString.equalsIgnoreCase("D")) {
+            new OutputConsole().printMessage("Type voucherId");
+            String voucherId = new InputConsole().inputString();
+            voucherService.deleteVoucher(UUID.fromString(voucherId), email);
+        }
+    }
 
 }

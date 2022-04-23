@@ -122,7 +122,7 @@ class JdbcVoucherRepositoryTest {
     @Order(3)
     @DisplayName("바우처를 삭제 할 수 있다.")
     void delete() {
-        jdbcVoucherRepository.delete(fixedAmountVoucher);
+        jdbcVoucherRepository.delete(fixedAmountVoucher.getVoucherId());
         var voucherList = jdbcVoucherRepository.getVoucherList();
         assertThat(voucherList.isEmpty(), is(true));
     }

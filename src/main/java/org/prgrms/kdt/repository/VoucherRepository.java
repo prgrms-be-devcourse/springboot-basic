@@ -13,7 +13,7 @@ public interface VoucherRepository<K, V> {
 
     Map<K, V> getVoucherList();
 
-    Voucher delete(Voucher voucher);
+    UUID delete(UUID voucherId);
 
     Voucher getByVoucherId(UUID voucherId);
 

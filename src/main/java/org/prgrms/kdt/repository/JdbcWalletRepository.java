@@ -49,6 +49,14 @@ public class JdbcWalletRepository {
         return jdbcTemplate.queryForObject("SELECT v.*, c.* FROM vouchers v, customers c WHERE c.customer_id = v.owner_id AND voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap, voucherCustomerRowMapper);
     }
+    public Voucher getVoucherByVoucherIdAndEmail(UUID voucherId, String email) {
+        var paramMap = new HashMap<String, Object>() {{
+            put("voucherId", voucherId.toString().getBytes());
+            put("email", email);
+        }};
+        return jdbcTemplate.queryForObject("SELECT v.*, c.* FROM vouchers v, customers c WHERE c.customer_id = v.owner_id AND voucher_id = UUID_TO_BIN(:voucherId) AND email = :email",
+                paramMap, voucherCustomerRowMapper);
+    }
 
     public Map<UUID, Voucher> getVoucherListByCustomerId(String customerEmail) {
         var paramMap = new HashMap<String, Object>() {{

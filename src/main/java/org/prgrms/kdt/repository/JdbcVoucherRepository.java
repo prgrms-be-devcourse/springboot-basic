@@ -61,12 +61,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher delete(Voucher voucher) {
+    public UUID delete(UUID voucherId) {
         var paramMap = new HashMap<String, Object>() {{
-            put("voucherId", voucher.getVoucherId().toString().getBytes());
+            put("voucherId", voucherId.toString().getBytes());
         }};
         jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
-        return voucher;
+        return voucherId;
     }
 
     @Override

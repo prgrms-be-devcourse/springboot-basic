@@ -14,6 +14,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -70,6 +71,9 @@ class VoucherServiceTest {
     @Autowired
     VoucherService voucherService;
 
+    @Autowired
+    JdbcWalletRepository jdbcWalletRepository;
+
     @BeforeAll
     void clean() {
         var mysqldConfig = aMysqldConfig(Version.v8_0_11)
@@ -93,9 +97,9 @@ class VoucherServiceTest {
     @Test
     void createVoucherByValidateVoucherType() {
         assertAll(
-                () -> assertThrows(Exception.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository).createVoucher(UUID.randomUUID(), 3, 100)),
-                () -> assertThat(new VoucherService(new MemoryVoucherRepository(), customerRepository).createVoucher(UUID.randomUUID(), 1, 100).getClass(), is(FixedAmountVoucher.class)),
-                () -> assertThat(new VoucherService(new MemoryVoucherRepository(), customerRepository).createVoucher(UUID.randomUUID(), 2, 100).getClass(), is(PercentDiscountVoucher.class))
+                () -> assertThrows(Exception.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository, jdbcWalletRepository).createVoucher(UUID.randomUUID(), 3, 100)),
+                () -> assertThat(new VoucherService(new MemoryVoucherRepository(), customerRepository, jdbcWalletRepository).createVoucher(UUID.randomUUID(), 1, 100).getClass(), is(FixedAmountVoucher.class)),
+                () -> assertThat(new VoucherService(new MemoryVoucherRepository(), customerRepository, jdbcWalletRepository).createVoucher(UUID.randomUUID(), 2, 100).getClass(), is(PercentDiscountVoucher.class))
         );
     }
 
@@ -103,11 +107,11 @@ class VoucherServiceTest {
     @Test
     void createVoucherByValidateDiscountAmount() {
         assertAll(
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository).createVoucher(UUID.randomUUID(), 1, -100)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(),customerRepository).createVoucher(UUID.randomUUID(), 1, 0)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository).createVoucher(UUID.randomUUID(), 2, -100)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository).createVoucher(UUID.randomUUID(), 2, 0)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository).createVoucher(UUID.randomUUID(), 2, 110))
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository, jdbcWalletRepository).createVoucher(UUID.randomUUID(), 1, -100)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(),customerRepository, jdbcWalletRepository).createVoucher(UUID.randomUUID(), 1, 0)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository, jdbcWalletRepository).createVoucher(UUID.randomUUID(), 2, -100)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository, jdbcWalletRepository).createVoucher(UUID.randomUUID(), 2, 0)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new VoucherService(new MemoryVoucherRepository(), customerRepository, jdbcWalletRepository).createVoucher(UUID.randomUUID(), 2, 110))
         );
     }
 
@@ -115,7 +119,7 @@ class VoucherServiceTest {
     @DisplayName("바우처가 생성되어야 한다.")
     @Test
     void createVoucher() {
-        VoucherService voucherService = new VoucherService(new MemoryVoucherRepository(), customerRepository);
+        VoucherService voucherService = new VoucherService(new MemoryVoucherRepository(), customerRepository, jdbcWalletRepository);
 
         Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), 1, 100);
 
@@ -141,7 +145,7 @@ class VoucherServiceTest {
     @Test
     void printVoucherList() {
         VoucherRepository voucherRepository = mock(MemoryVoucherRepository.class);
-        VoucherService voucherService = new VoucherService(voucherRepository, customerRepository);
+        VoucherService voucherService = new VoucherService(voucherRepository, customerRepository, jdbcWalletRepository);
 
         voucherService.createVoucher(UUID.randomUUID(), 1, 100);
         voucherService.getVoucherList();
@@ -153,7 +157,7 @@ class VoucherServiceTest {
     @Test
     void printEmptyVoucherList() {
         VoucherRepository voucherRepository = mock(MemoryVoucherRepository.class);
-        VoucherService voucherService = new VoucherService(voucherRepository, customerRepository);
+        VoucherService voucherService = new VoucherService(voucherRepository, customerRepository, jdbcWalletRepository);
 
         voucherService.getVoucherList();
 
@@ -205,6 +209,21 @@ class VoucherServiceTest {
 
         Optional<Voucher> returnVoucher = voucherService.provideVoucherToCustomer(voucher.getVoucherId().toString(), customer.getCustomerId().toString());
         assertThat(returnVoucher.isEmpty(), is(true));
+    }
+
+    @DisplayName("고객에게 할당된 바우처를 삭제한다.")
+    @Test
+    void deleteVoucher() {
+        //VoucherService voucherService = mock(VoucherService.class);
+        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
+        customerRepository.insert(customer);
+        jdbcVoucherRepository.insert(voucher);
+        jdbcVoucherRepository.updateVoucherOwner(voucher.getVoucherId(), customer.getCustomerId());
+
+        voucherService.deleteVoucher(voucher.getVoucherId(), customer.getEmail());
+
+        assertThrows(EmptyResultDataAccessException.class, () -> jdbcVoucherRepository.getByVoucherId(voucher.getVoucherId()));
     }
 
 }
