@@ -70,8 +70,20 @@ class customerRepositoryTest {
 
     EmbeddedMysql embeddedMysql;
 
-    Customer customer = new Customer(UUID.randomUUID(), "test1", "test1@test.com", LocalDateTime.now());
-    Customer customer2 = new Customer(UUID.randomUUID(), "tester", "tester@gmail.com", LocalDateTime.now());
+    Customer customer = Customer.builder()
+            .customerId(UUID.randomUUID())
+            .name("test1")
+            .email("test1@test.com")
+            .createdAt(LocalDateTime.now())
+            .build();
+
+    Customer customer2 = Customer.builder()
+            .customerId(UUID.randomUUID())
+            .name("tester")
+            .email("tester@gmail.com")
+            .createdAt(LocalDateTime.now())
+            .build();
+
     Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
     VoucherWallet voucherWallet1 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId());
     VoucherWallet voucherWallet2 = new VoucherWallet(UUID.randomUUID(), customer2.getCustomerId(), voucher.getVoucherId());
@@ -126,7 +138,15 @@ class customerRepositoryTest {
     @Order(4)
     @DisplayName("고객 업데이트 확인")
     void testUpdate() {
-        customerRepository.update(new Customer(customer.getCustomerId(), "test2", customer.getEmail(), customer.getCreatedAt()));
+
+        customerRepository.update(
+                Customer.builder()
+                        .customerId(customer.getCustomerId())
+                        .name("test2")
+                        .email(customer.getEmail())
+                        .createdAt(customer.getCreatedAt())
+                        .build()
+        );
         Optional<Customer> retrievedCustomer = customerRepository.findById(customer.getCustomerId());
 
         assertThat(retrievedCustomer, not(is(Optional.empty())));

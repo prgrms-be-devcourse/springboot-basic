@@ -23,6 +23,11 @@ public class CustomerCreateReqDto {
     }
 
     public Customer toEntity() {
-        return new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
+        return Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name(name)
+                .email(email)
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 }

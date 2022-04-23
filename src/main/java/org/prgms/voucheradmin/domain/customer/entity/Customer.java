@@ -16,6 +16,10 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
+    public static CustomerBuilder builder() {
+        return new CustomerBuilder();
+    }
+
     public UUID getCustomerId() {
         return customerId;
     }
@@ -44,5 +48,39 @@ public class Customer {
                 .append(email).append("\t");
 
         return customerInfoBuilder.toString();
+    }
+
+    public static class CustomerBuilder {
+        private UUID customerId;
+        private String name;
+        private String email;
+        private LocalDateTime createdAt;
+
+        public CustomerBuilder() {
+        }
+
+        public CustomerBuilder customerId(UUID customerId) {
+            this.customerId = customerId;
+            return this;
+        }
+
+        public CustomerBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CustomerBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public CustomerBuilder createdAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        public Customer build() {
+            return new Customer(customerId, name, email, createdAt);
+        }
     }
 }

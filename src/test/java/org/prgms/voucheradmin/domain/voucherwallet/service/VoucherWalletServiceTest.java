@@ -40,7 +40,12 @@ class VoucherWalletServiceTest {
     VoucherWalletRepository voucherWalletRepository;
 
     CreatVoucherWalletReqDto creatVoucherWalletReqDto = new CreatVoucherWalletReqDto(UUID.randomUUID(), UUID.randomUUID());
-    Customer customer = new Customer(creatVoucherWalletReqDto.getCustomerId(), "a", "a@test.com", LocalDateTime.now());
+    Customer customer = Customer.builder()
+            .customerId(creatVoucherWalletReqDto.getCustomerId())
+            .name("a")
+            .email("a@test.com")
+            .createdAt(LocalDateTime.now())
+            .build();
     Voucher voucher = new FixedAmountVoucher(creatVoucherWalletReqDto.getVoucherId(), 1000);
     VoucherWallet voucherWallet = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId());
 

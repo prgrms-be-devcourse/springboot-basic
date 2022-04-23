@@ -73,7 +73,12 @@ class voucherRepositoryTest {
 
     EmbeddedMysql embeddedMysql;
 
-    Customer customer = new Customer(UUID.randomUUID(), "tester", "tester@gmail.com", LocalDateTime.now());
+    Customer customer = Customer.builder()
+            .customerId(UUID.randomUUID())
+            .name("tester")
+            .email("tester@gmail.com")
+            .createdAt(LocalDateTime.now())
+            .build();
     Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
     Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
     Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 50);

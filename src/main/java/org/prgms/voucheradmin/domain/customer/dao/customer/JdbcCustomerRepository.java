@@ -117,6 +117,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
         String email = resultSet.getString("email");
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
-        return new Customer(customerId, name, email, createdAt);
+        return Customer.builder()
+                .customerId(customerId)
+                .name(name)
+                .email(email)
+                .createdAt(createdAt)
+                .build();
     };
 }

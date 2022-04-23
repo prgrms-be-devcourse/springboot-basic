@@ -44,20 +44,21 @@ class CustomerServiceTest {
     @Test
     @DisplayName("고객 업데이트 확인")
     void testUpdateCustomer(){
-        try {
-            // when
-            UUID customerId = UUID.randomUUID();
-            Customer customer = new Customer(customerId, "test", "test@gmail.com", LocalDateTime.now());
-            when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
+        // when
+        UUID customerId = UUID.randomUUID();
+        Customer customer = Customer.builder()
+                .customerId(customerId)
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .build();
+        when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
-            // given
-            customerService.updateCustomer(new CustomerUpdateReqDto(customerId, "test1"));
+        // given
+        customerService.updateCustomer(new CustomerUpdateReqDto(customerId, "test1"));
 
-            // then
-            verify(customerRepository).update(customer);
-        }catch (CustomerNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+        // then
+        verify(customerRepository).update(customer);
     }
 
     @Test
@@ -79,19 +80,21 @@ class CustomerServiceTest {
     @Test
     @DisplayName("고객 제거 확인")
     void testDeleteCustomer(){
-        try {
-            // when
-            UUID customerId = UUID.randomUUID();
-            Customer customer = new Customer(customerId, "test", "test@gmail.com", LocalDateTime.now());
-            when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
+        // when
+        UUID customerId = UUID.randomUUID();
+        Customer customer = Customer.builder()
+                .customerId(customerId)
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .build();
 
-            // given
-            customerService.deleteCustomer(customerId);
+        when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
-            // then
-            verify(customerRepository).delete(customer);
-        }catch (CustomerNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+        // given
+        customerService.deleteCustomer(customerId);
+
+        // then
+        verify(customerRepository).delete(customer);
     }
 }
