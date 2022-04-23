@@ -1,15 +1,16 @@
-package com.blessing333.springbasic.main;
+package com.blessing333.springbasic.console_app;
 
-import com.blessing333.springbasic.RunnableController;
-import com.blessing333.springbasic.common.ui.UserInterface;
 import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
+import com.blessing333.springbasic.console_app.ui.UserInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("console")
 @RequiredArgsConstructor
 @Slf4j
 public class App implements ApplicationRunner {

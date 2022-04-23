@@ -1,4 +1,4 @@
-package com.blessing333.springbasic.customer.ui;
+package com.blessing333.springbasic.console_app.customer.ui;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

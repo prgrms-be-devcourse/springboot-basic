@@ -1,6 +1,6 @@
-package com.blessing333.springbasic.voucher.ui;
+package com.blessing333.springbasic.console_app.voucher.ui;
 
-import com.blessing333.springbasic.common.ui.UserInterface;
+import com.blessing333.springbasic.console_app.ui.UserInterface;
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 

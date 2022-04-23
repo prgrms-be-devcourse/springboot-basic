@@ -1,15 +1,16 @@
-package com.blessing333.springbasic.customer;
+package com.blessing333.springbasic.console_app.customer;
 
-import com.blessing333.springbasic.RunnableController;
-import com.blessing333.springbasic.common.ui.CommandNotSupportedException;
 import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
+import com.blessing333.springbasic.console_app.RunnableController;
+import com.blessing333.springbasic.console_app.customer.ui.CustomerCommandOptionType;
+import com.blessing333.springbasic.console_app.customer.ui.CustomerManagingUserInterface;
+import com.blessing333.springbasic.console_app.ui.CommandNotSupportedException;
 import com.blessing333.springbasic.customer.converter.CustomerCreateFormConverter;
 import com.blessing333.springbasic.customer.domain.Customer;
 import com.blessing333.springbasic.customer.service.CustomerService;
-import com.blessing333.springbasic.customer.ui.CustomerCommandOptionType;
-import com.blessing333.springbasic.customer.ui.CustomerManagingUserInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +18,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
+@Profile("console")
 @RequiredArgsConstructor
 @Slf4j
-public class CustomerController implements RunnableController {
+public class ConsoleCustomerController implements RunnableController {
     private final CustomerManagingUserInterface userInterface;
     private final CustomerService customerService;
     private final CustomerCreateFormConverter customerCreateFormConverter = new CustomerCreateFormConverter();

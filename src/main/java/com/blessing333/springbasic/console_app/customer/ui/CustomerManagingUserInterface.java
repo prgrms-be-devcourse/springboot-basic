@@ -1,6 +1,6 @@
-package com.blessing333.springbasic.customer.ui;
+package com.blessing333.springbasic.console_app.customer.ui;
 
-import com.blessing333.springbasic.common.ui.UserInterface;
+import com.blessing333.springbasic.console_app.ui.UserInterface;
 import com.blessing333.springbasic.customer.domain.Customer;
 
 import java.util.List;

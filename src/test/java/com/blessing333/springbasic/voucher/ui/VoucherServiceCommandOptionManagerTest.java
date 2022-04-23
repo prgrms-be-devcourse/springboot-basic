@@ -1,7 +1,8 @@
 package com.blessing333.springbasic.voucher.ui;
 
-import com.blessing333.springbasic.common.ui.CommandOptionConfigurer;
-import com.blessing333.springbasic.common.ui.CommandOptions;
+import com.blessing333.springbasic.console_app.ui.CommandOptionConfigurer;
+import com.blessing333.springbasic.console_app.ui.CommandOptions;
+import com.blessing333.springbasic.console_app.voucher.ui.VoucherCommandOptionType;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 

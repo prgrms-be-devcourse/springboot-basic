@@ -1,16 +1,18 @@
-package com.blessing333.springbasic.voucher.ui;
+package com.blessing333.springbasic.console_app.voucher.ui;
 
-import com.blessing333.springbasic.common.ui.ApacheCommandLine;
-import com.blessing333.springbasic.common.ui.CommandOptionConfigurer;
-import com.blessing333.springbasic.common.ui.CommandOptions;
+import com.blessing333.springbasic.console_app.ui.ApacheCommandLine;
+import com.blessing333.springbasic.console_app.ui.CommandOptionConfigurer;
+import com.blessing333.springbasic.console_app.ui.CommandOptions;
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 @Component
+@Profile("console")
 @RequiredArgsConstructor
 public class ApacheCliVoucherManagerUserInterface extends ApacheCommandLine implements VoucherManagerUserInterface {
     private static final String AVAILABLE_VOUCHER_TYPE_GUIDE = initAvailableVoucherTypeGuideText();

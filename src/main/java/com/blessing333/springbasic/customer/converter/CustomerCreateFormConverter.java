@@ -1,7 +1,7 @@
 package com.blessing333.springbasic.customer.converter;
 
+import com.blessing333.springbasic.console_app.customer.ui.CustomerCreateForm;
 import com.blessing333.springbasic.customer.domain.Customer;
-import com.blessing333.springbasic.customer.ui.CustomerCreateForm;
 
 public class CustomerCreateFormConverter {
 

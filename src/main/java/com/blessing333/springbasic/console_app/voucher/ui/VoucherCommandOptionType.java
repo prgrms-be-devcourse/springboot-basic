@@ -1,7 +1,7 @@
-package com.blessing333.springbasic.voucher.ui;
+package com.blessing333.springbasic.console_app.voucher.ui;
 
-import com.blessing333.springbasic.common.ui.CommandNotSupportedException;
-import com.blessing333.springbasic.common.ui.CommandOptionType;
+import com.blessing333.springbasic.console_app.ui.CommandNotSupportedException;
+import com.blessing333.springbasic.console_app.ui.CommandOptionType;
 import lombok.AllArgsConstructor;
 
 import java.util.Collections;

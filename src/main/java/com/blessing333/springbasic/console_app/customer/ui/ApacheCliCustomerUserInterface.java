@@ -1,15 +1,17 @@
-package com.blessing333.springbasic.customer.ui;
+package com.blessing333.springbasic.console_app.customer.ui;
 
-import com.blessing333.springbasic.common.ui.ApacheCommandLine;
-import com.blessing333.springbasic.common.ui.CommandOptionConfigurer;
-import com.blessing333.springbasic.common.ui.CommandOptions;
+import com.blessing333.springbasic.console_app.ui.ApacheCommandLine;
+import com.blessing333.springbasic.console_app.ui.CommandOptionConfigurer;
+import com.blessing333.springbasic.console_app.ui.CommandOptions;
 import com.blessing333.springbasic.customer.domain.Customer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 
 @Component
+@Profile("console")
 public class ApacheCliCustomerUserInterface extends ApacheCommandLine implements CustomerManagingUserInterface {
     private final Scanner scanner = new Scanner(System.in);
 

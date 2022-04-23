@@ -1,4 +1,4 @@
-package com.blessing333.springbasic.main;
+package com.blessing333.springbasic.console_app;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
