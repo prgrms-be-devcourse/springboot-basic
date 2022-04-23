@@ -28,9 +28,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        var insert = jdbcTemplate.update(CREATE_CUSTOMER.getQuery(), toParamMap(customer));
+        var insertedCount = jdbcTemplate.update(CREATE_CUSTOMER.getQuery(), toParamMap(customer));
 
-        if(insert != 1) {
+        if(insertedCount != 1) {
             log.error("Got not inserted result: {}", customer);
 
             throw new NoDatabaseChangeException(NOT_INSERTED.getMessage());
@@ -79,9 +79,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        var update = jdbcTemplate.update(UPDATE_CUSTOMER.getQuery(), toParamMap(customer));
+        var updatedCount = jdbcTemplate.update(UPDATE_CUSTOMER.getQuery(), toParamMap(customer));
 
-        if(update != 1) {
+        if(updatedCount != 1) {
             log.error("Got not updated result: {}", customer);
 
             throw new NoDatabaseChangeException(NOT_UPDATED.getMessage());

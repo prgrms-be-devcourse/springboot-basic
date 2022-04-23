@@ -31,9 +31,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        var insert = jdbcTemplate.update(CREATE_VOUCHER.getQuery(), toParamMap(voucher));
+        var insertedCount = jdbcTemplate.update(CREATE_VOUCHER.getQuery(), toParamMap(voucher));
 
-        if(insert != 1) {
+        if(insertedCount != 1) {
             log.error("Got not inserted result: {}", voucher);
 
             throw new NoDatabaseChangeException(NOT_INSERTED.getMessage());
@@ -87,9 +87,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        var update = jdbcTemplate.update(UPDATE_VOUCHER.getQuery(), toParamMap(voucher));
+        var updatedCount = jdbcTemplate.update(UPDATE_VOUCHER.getQuery(), toParamMap(voucher));
 
-        if(update != 1) {
+        if(updatedCount != 1) {
             log.error("Got not updated result: {}", voucher);
 
             throw new NoDatabaseChangeException(NOT_UPDATED.getMessage());
