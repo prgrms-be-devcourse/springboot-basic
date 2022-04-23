@@ -10,8 +10,7 @@ target/
 *.ipr
 
 ### maven ###
-!.mvn/wrapper/maven-wrapper.jar
-/.mvn/
+/.mvn/maven-wrapper.properties
 /mvnw
 mvnw.cmd
 
