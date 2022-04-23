@@ -1,10 +1,13 @@
-20:24:33.377 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 93686 (started by dhkstn in /Users/dhkstn/management)
-20:24:33.377 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
-20:24:34.181 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 0.949 seconds (JVM running for 1.69)
-20:24:34.597 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.618 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.705 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.729 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.787 [main] INFO c.p.m.v.r.JdbcVoucherRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.839 [main] INFO c.p.m.v.r.JdbcVoucherRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.877 [main] INFO c.p.m.v.r.JdbcVoucherRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
+15:35:45.099 [main] INFO c.p.m.c.service.CustomerServiceTest - Starting CustomerServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 80062 (started by dhkstn in /Users/dhkstn/management)
+15:35:45.099 [main] INFO c.p.m.c.service.CustomerServiceTest - The following 1 profile is active: "test"
+15:35:47.028 [main] INFO c.p.m.c.service.CustomerServiceTest - Started CustomerServiceTest in 2.066 seconds (JVM running for 2.963)
+15:36:26.112 [main] INFO c.p.m.c.service.CustomerServiceTest - Starting CustomerServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 80185 (started by dhkstn in /Users/dhkstn/management)
+15:36:26.113 [main] INFO c.p.m.c.service.CustomerServiceTest - The following 1 profile is active: "test"
+15:36:27.373 [main] INFO c.p.m.c.service.CustomerServiceTest - Started CustomerServiceTest in 1.429 seconds (JVM running for 2.327)
+15:36:27.999 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.017 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.078 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.092 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.272 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.292 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.306 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
