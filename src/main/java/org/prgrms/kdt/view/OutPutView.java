@@ -1,9 +1,12 @@
 package org.prgrms.kdt.view;
 
+import static org.prgrms.kdt.error.ErrorMessage.RETRY_MENU;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.prgrms.kdt.customer.model.Customer;
+import org.prgrms.kdt.error.ErrorMessage;
 import org.prgrms.kdt.voucher.model.Voucher;
 
 public class OutPutView {
@@ -13,7 +16,7 @@ public class OutPutView {
     }
 
     public static void showsRetryMessage() {
-        System.out.println("잘못 입력하셨습니다 다시 입력해주세요.\n");
+        System.out.println(RETRY_MENU.getMessage());
     }
 
     public static void showsVoucherMenu() {
