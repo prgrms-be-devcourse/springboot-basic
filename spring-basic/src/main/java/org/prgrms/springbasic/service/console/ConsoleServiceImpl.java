@@ -7,8 +7,6 @@ import org.prgrms.springbasic.domain.voucher.VoucherType;
 import org.prgrms.springbasic.repository.customer.CustomerRepository;
 import org.prgrms.springbasic.repository.voucher.VoucherRepository;
 import org.prgrms.springbasic.utils.io.console.Console;
-import org.prgrms.springbasic.utils.validator.CustomerValidator;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import static java.util.UUID.randomUUID;
@@ -21,6 +19,7 @@ import static org.prgrms.springbasic.utils.enumm.message.CustomerConsole.INPUT_C
 import static org.prgrms.springbasic.utils.enumm.message.VoucherConsole.TYPE_DISCOUNT_INFO;
 import static org.prgrms.springbasic.utils.enumm.message.VoucherConsole.VOUCHER_COMMAND_LIST;
 import static org.prgrms.springbasic.utils.validator.CustomerValidator.validateCustomerType;
+import static org.prgrms.springbasic.utils.validator.CustomerValidator.validateCustomers;
 import static org.prgrms.springbasic.utils.validator.VoucherValidator.*;
 
 @Slf4j
@@ -35,15 +34,19 @@ public class ConsoleServiceImpl implements ConsoleService {
     @Override
     public void register() {
         console.printToConsole(CUSTOMER_COMMAND_LIST.getMessage());
+
         var customerType = validateCustomerType(console.takeInput());
+
         console.printToConsole(INPUT_CUSTOMER_NAME.getMessage());
+
         String name = console.takeInput();
+
         registerCustomer(customerType, name);
     }
 
     @Override
     public void customers() {
-        var customers = CustomerValidator.validateCustomers(customerRepository.findCustomers());
+        var customers = validateCustomers(customerRepository.findCustomers());
 
         customers.forEach(console::printToConsole);
     }
@@ -51,9 +54,13 @@ public class ConsoleServiceImpl implements ConsoleService {
     @Override
     public void create() {
         console.printToConsole(VOUCHER_COMMAND_LIST.getMessage());
+
         var voucherType = validateVoucherType(console.takeInput());
+
         console.printToConsole(TYPE_DISCOUNT_INFO.getMessage());
+
         var discountInfo = validateDiscountInfo(console.takeInput());
+
         createVoucher(voucherType, discountInfo);
     }
 

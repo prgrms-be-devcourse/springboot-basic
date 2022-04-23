@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.domain.customer.CustomerType;
 import org.prgrms.springbasic.utils.exception.NonExistentCommand;
-import org.prgrms.springbasic.utils.exception.NotExistDataException;
 
 import java.util.List;
 
+import static java.util.Collections.emptyList;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.COMMAND_ERROR;
-import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NO_CUSTOMER;
 
 @Slf4j
 public class CustomerValidator {
@@ -30,7 +29,8 @@ public class CustomerValidator {
     public static List<Customer> validateCustomers(List<Customer> customers) {
         if (customers.size() == 0) {
             log.error("Can't find any customer.");
-            throw new NotExistDataException(NO_CUSTOMER.getMessage());
+
+            return emptyList();
         }
 
         return customers;

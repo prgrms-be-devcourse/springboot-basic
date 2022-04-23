@@ -6,10 +6,6 @@ public enum ErrorMessage {
 
     COMMAND_ERROR("Please check your command."),
 
-    NO_VOUCHER("Can't find any voucher."),
-
-    NO_CUSTOMER("Can't find any customer."),
-
     DISCOUNT_INFO_ERR( "Check the discount information you entered."),
 
     NOT_EXIST_ENUM_TYPE("Can't find any enum type"),

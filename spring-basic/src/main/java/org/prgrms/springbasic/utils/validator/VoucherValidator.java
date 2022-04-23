@@ -4,12 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.voucher.Voucher;
 import org.prgrms.springbasic.domain.voucher.VoucherType;
 import org.prgrms.springbasic.utils.exception.NonExistentCommand;
-import org.prgrms.springbasic.utils.exception.NotExistDataException;
 import org.prgrms.springbasic.utils.exception.NotValidatedException;
 
 import java.util.List;
 
-import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.*;
+import static java.util.Collections.emptyList;
+import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.COMMAND_ERROR;
+import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.PARSING_ERROR;
 
 @Slf4j
 public class VoucherValidator {
@@ -43,7 +44,8 @@ public class VoucherValidator {
     public static List<Voucher> validateVouchers(List<Voucher> vouchers) {
         if(vouchers.size() == 0) {
             log.error("Can't find any voucher.");
-            throw new NotExistDataException(NO_VOUCHER.getMessage());
+
+            return emptyList();
         }
 
         return vouchers;
