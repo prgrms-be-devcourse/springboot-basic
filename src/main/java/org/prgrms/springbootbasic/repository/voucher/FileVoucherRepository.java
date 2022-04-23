@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
@@ -35,10 +36,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public void save(Voucher voucher) {
         logger.info("save() called");
 
-        var voucherDTO = new VoucherDTO(voucher);
         try (ObjectOutputStream stream = new ObjectOutputStream(
             new FileOutputStream(VoucherStorage, true))) {
-            stream.writeObject(voucherDTO);
+            stream.writeObject(mapToVoucherDTO(voucher));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,14 +65,6 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucherDTOs.stream()
             .map(this::DTOToVoucher)
             .collect(Collectors.toList());
-    }
-
-    private Voucher DTOToVoucher(VoucherDTO voucherDTO) {
-        if (voucherDTO.getVoucherType().isFixed()) {
-            return new FixedAmountVoucher(voucherDTO.getVoucherId(), voucherDTO.getAmount());
-        } else {
-            return new PercentDiscountVoucher(voucherDTO.getVoucherId(), voucherDTO.getPercent());
-        }
     }
 
     @Override
@@ -102,5 +94,31 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteVoucher(Voucher voucher) {
         throw new AssertionError("아직 개발 안함");
+    }
+
+    private Voucher DTOToVoucher(VoucherDTO voucherDTO) {
+        if (voucherDTO.getVoucherType().isFixed()) {
+            return new FixedAmountVoucher(voucherDTO.getVoucherId(), voucherDTO.getAmount());
+        } else {
+            return new PercentDiscountVoucher(voucherDTO.getVoucherId(), voucherDTO.getPercent());
+        }
+    }
+
+    private VoucherDTO mapToVoucherDTO(Voucher voucher) {
+        if (voucher.isFixed()) {
+            return new VoucherDTO(
+                voucher.getVoucherId(),
+                VoucherType.FIXED,
+                ((FixedAmountVoucher) voucher).getAmount(),
+                0
+            );
+        } else {
+            return new VoucherDTO(
+                voucher.getVoucherId(),
+                VoucherType.PERCENT,
+                0,
+                ((PercentDiscountVoucher) voucher).getPercent()
+            );
+        }
     }
 }
