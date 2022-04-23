@@ -1,14 +1,51 @@
 package com.prgrms.management.voucher.controller.api;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.prgrms.management.config.common.ListResult;
+import com.prgrms.management.config.common.SingleResult;
+import com.prgrms.management.config.common.service.ResponseService;
+import com.prgrms.management.voucher.domain.Voucher;
+import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.service.VoucherService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/voucher")
+@RequiredArgsConstructor
 public class VoucherController {
+    private final ResponseService responseService;
+    private final VoucherService voucherService;
 
     @GetMapping
-    public
+    public ResponseEntity<ListResult<Voucher>> findVouchers() {
+        return new ResponseEntity<>(responseService.getListResult(voucherService.findAll()), OK);
+    }
+
+    @GetMapping("/{voucherId}")
+    public ResponseEntity<SingleResult<Voucher>> findVoucherById(
+            @PathVariable(value = "voucherId") String voucherId
+    ) {
+        return new ResponseEntity<>(responseService.getSingleResult(voucherService.findById(UUID.fromString(voucherId))), OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<SingleResult<Voucher>> createVoucher(
+            @RequestBody VoucherRequest voucherRequest
+    ) {
+        return new ResponseEntity<>(responseService.getSingleResult(voucherService.createVoucher(voucherRequest)), OK);
+    }
+
+    @DeleteMapping("/{voucherId}")
+    public ResponseEntity<SingleResult<Voucher>> deleteById(
+            @PathVariable(value = "voucherId") String voucherId
+    ) {
+        voucherService.deleteById(UUID.fromString(voucherId));
+        return new ResponseEntity<>(responseService.getSingleResult(null), OK);
+    }
 }

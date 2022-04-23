@@ -1,6 +1,7 @@
 package com.prgrms.management.voucher.service;
 
-import com.prgrms.management.customer.domain.Customer;
+import com.prgrms.management.config.ErrorMessageType;
+import com.prgrms.management.config.exception.NotFoundException;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -31,7 +31,7 @@ public class VoucherService {
     }
 
     public void createVoucherByCustomerId(UUID voucherId, UUID customerId) {
-        voucherRepository.updateVoucherByCustomerId(voucherId,customerId);
+        voucherRepository.updateVoucherByCustomerId(voucherId, customerId);
     }
 
     public void deleteVoucherByCustomerId(UUID customerId) {
@@ -40,5 +40,13 @@ public class VoucherService {
 
     public List<UUID> findCustomersByVoucherType(VoucherType voucherType) {
         return voucherRepository.findCustomerIdByVoucherType(voucherType);
+    }
+
+    public Voucher findById(UUID voucherId) {
+        return voucherRepository.findById(voucherId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
+    }
+
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 }
