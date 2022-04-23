@@ -1,11 +1,10 @@
-package org.programmers.springbootbasic.repository;
+package org.programmers.springbootbasic.voucher.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
-import org.programmers.springbootbasic.voucher.repository.MemoryVoucherRepository;
 
 import java.util.ArrayList;
 import java.util.List;

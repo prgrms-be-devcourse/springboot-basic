@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.voucher.domain.*;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,7 @@ public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherProperty voucherProperty;
 
+    @Transactional
     @Override
     public Voucher registerVoucher(int amount, VoucherType voucherType) {
         if (isValidAmount(amount, voucherType)) {
@@ -40,6 +42,7 @@ public class VoucherServiceImpl implements VoucherService {
         return voucher.discount(beforeDiscount);
     }
 
+    @Transactional
     @Override
     public void useVoucher(UUID voucherId) {
         voucherRepository.remove(voucherId);

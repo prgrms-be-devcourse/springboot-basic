@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.repository;
+package org.programmers.springbootbasic.voucher.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -47,7 +47,7 @@ class JdbcTemplateVoucherRepositoryTest {
         }
 
         public void cleanDataBase() {
-            int truncate_table_voucher = template.update("truncate table voucher");
+            template.update("TRUNCATE TABLE voucher");
         }
     }
 

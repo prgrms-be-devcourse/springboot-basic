@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.domain;
+package org.programmers.springbootbasic.voucher.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -10,7 +10,7 @@ public abstract class AbstractVoucher implements Voucher {
     private final UUID id;
     private final int amount;
     private final VoucherType type;
-    private Long customerId;
+    private Long memberId;
 
     public AbstractVoucher(UUID id, int amount, VoucherType type) {
         this.id = id;

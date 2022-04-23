@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.service;
+package org.programmers.springbootbasic.voucher.service;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;

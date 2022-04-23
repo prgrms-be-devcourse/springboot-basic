@@ -23,11 +23,11 @@ import static org.programmers.springbootbasic.voucher.domain.VoucherType.RATE;
 @Repository
 public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
     public static final String PARAM_KEY_VOUCHER_ID = "voucherId";
     public static final String PARAM_KEY_AMOUNT = "amount";
     public static final String PARAM_KEY_TYPE = "type";
-
-    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static final String INSERT_SQL =
             "INSERT into voucher(voucher_id, amount, type) values (:"
