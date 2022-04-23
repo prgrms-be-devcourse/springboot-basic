@@ -54,7 +54,7 @@ public class CsvCustomerRepository implements CustomerRepository {
                 UUID customerId = UUID.fromString(readData.get(CSV_HEADER[0]));
                 String customerName = readData.get(CSV_HEADER[1]);
 
-                customers.add(new Customer(customerId, customerName));
+                customers.add(new Customer(customerId, customerName, grade));
             }
         } catch (IOException | SuperCsvException e) {
             logger.error("failed to get black-list in csv-file : {}", e.getMessage(), e);
