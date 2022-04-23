@@ -8,8 +8,6 @@ import org.prgms.voucher.PercentDiscountVoucher;
 import org.prgms.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -25,17 +23,25 @@ public class CommandLineApplication {
     private final List<Customer> blackList;
     private final static Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
-    @Autowired
-    private ApplicationContext context;
+    public CommandLineApplication(
+            VoucherService service,
+            InOut console,
+            FileReader fileReader
+    ) {
 
-    public CommandLineApplication(VoucherService service, InOut console, FileReader fileReader) {
         this.service = service;
         this.console = console;
         this.fileReader = fileReader;
         this.blackList = new ArrayList<>();
+
     }
 
-    public void execute() {
+    public void run() throws Exception {
+        this.readBlackList();
+        this.execute();
+    }
+
+    private void execute() {
         while (true) {
             console.optionMessage();
             String inputText = console.input();
@@ -63,7 +69,7 @@ public class CommandLineApplication {
         }
     }
 
-    public void readBlackList(String path) throws Exception {
+    private void readBlackList() throws Exception {
         blackList.addAll(fileReader.readFile());
         logger.info("고객 블랙리스트 : {}", blackList);
     }

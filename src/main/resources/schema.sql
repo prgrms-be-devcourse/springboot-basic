@@ -1,3 +1,5 @@
+use order_mgmt;
+
 CREATE TABLE customers
 (
     customer_id   BINARY(16) PRIMARY KEY,

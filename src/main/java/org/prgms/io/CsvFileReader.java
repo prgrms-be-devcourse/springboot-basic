@@ -15,14 +15,13 @@ import java.util.UUID;
 
 @Component
 public class CsvFileReader implements FileReader {
-    private final String CSV_FILE_NAME = "customer_blacklist.csv";
+    private final String CSV_FILE_NAME = "classpath:customer_blacklist.csv";
 
     @Autowired
     private ApplicationContext context;
 
     @Override
     public List<Customer> readFile() throws CsvValidationException, IOException {
-        List<Customer> users = new ArrayList<>();
         CSVReader reader = new CSVReader(new java.io.FileReader(context.getResource(CSV_FILE_NAME).getFile()));
         return readContentAndParse(reader);
     }

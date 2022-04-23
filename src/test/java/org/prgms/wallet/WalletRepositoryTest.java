@@ -2,8 +2,6 @@ package org.prgms.wallet;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
-import org.prgms.EmbeddedTestDbInitializer;
-import org.prgms.TestDbConfig;
 import org.prgms.customer.Customer;
 import org.prgms.customer.repository.CustomerRepository;
 import org.prgms.voucher.FixedAmountVoucher;
@@ -11,14 +9,14 @@ import org.prgms.voucher.PercentDiscountVoucher;
 import org.prgms.voucher.Voucher;
 import org.prgms.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.UUID;
 
 
-@SpringJUnitConfig(value = {TestDbConfig.class}, initializers = EmbeddedTestDbInitializer.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class WalletRepositoryTest {
 

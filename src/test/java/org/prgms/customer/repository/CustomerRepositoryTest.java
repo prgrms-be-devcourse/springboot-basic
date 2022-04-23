@@ -1,24 +1,23 @@
 package org.prgms.customer.repository;
 
+import lombok.val;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.EmbeddedTestDbInitializer;
-import org.prgms.TestDbConfig;
 import org.prgms.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
-@SpringJUnitConfig(value = {TestDbConfig.class}, initializers = EmbeddedTestDbInitializer.class)
+@Transactional
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class CustomerRepositoryTest {
+
     @Autowired
     private CustomerRepository jdbcCustomerRepository;
-
 
     private final Customer newCustomer = new Customer(UUID.randomUUID(), "user-test", "user-test@gmail.com");
     private final Customer newCustomer2 = new Customer(UUID.randomUUID(), "user-test2", "user-test2@gmail.com");
@@ -29,55 +28,57 @@ class CustomerRepositoryTest {
         jdbcCustomerRepository.save(newCustomer2);
     }
 
-    @AfterEach
-    void deleteAll() {
-        jdbcCustomerRepository.deleteAll();
-    }
-
     @Test
     @DisplayName("모두 조회 기능 테스트")
     void findAllTest() {
-        List<Customer> customers = jdbcCustomerRepository.findAll();
-        Assertions.assertThat(customers).hasSize(2);
+        val customers = jdbcCustomerRepository.findAll();
+
+        Assertions.assertThat(customers).containsExactlyInAnyOrder(newCustomer, newCustomer2);
     }
 
     @Test
     @DisplayName("이름으로 조회 테스트")
     void findByNameTest() {
-        List<Customer> customers = jdbcCustomerRepository.findByName("user-test");
-        Assertions.assertThat(customers).hasSize(1);
+        val customers = jdbcCustomerRepository.findByName("user-test");
+
+        Assertions.assertThat(customers).extracting(Customer::name).contains("user-test");
     }
 
     @Test
     @DisplayName("메일로 조회 테스트")
     void findByEmailTest() {
-        List<Customer> customers = jdbcCustomerRepository.findByEmail("user-test2@gmail.com");
-        Assertions.assertThat(customers).hasSize(1);
+        val maybeCustomer = jdbcCustomerRepository.findByEmail("user-test2@gmail.com");
+
+        Assertions.assertThat(maybeCustomer.orElseThrow()).extracting(Customer::email).isEqualTo("user-test2@gmail.com");
     }
 
     @Test
     @DisplayName("ID로 조회 테스트")
     void findByIdTest() {
-        List<Customer> customers = jdbcCustomerRepository.findById(newCustomer.customerId());
-        Assertions.assertThat(customers.get(0).customerId()).isEqualTo(newCustomer.customerId());
+        val maybeCustomer = jdbcCustomerRepository.findById(newCustomer.customerId());
+
+        Assertions.assertThat(maybeCustomer.orElseThrow()).isEqualTo(newCustomer);
     }
 
     @Test
     @DisplayName("고객 데이터 insert 테스트")
     void insertTest() {
-        Customer customer = new Customer(UUID.randomUUID(), "new-insert", "insert@gmail.com");
+        val customer = new Customer(UUID.randomUUID(), "new-insert", "insert@gmail.com");
+
         jdbcCustomerRepository.save(customer);
-        List<Customer> customers = jdbcCustomerRepository.findByName("new-insert");
-        Assertions.assertThat(customers).extracting("customerId").contains(customer.customerId());
+        val customers = jdbcCustomerRepository.findByName("new-insert");
+
+        Assertions.assertThat(customers).contains(customer);
     }
 
     @Test
     @DisplayName("고객 정보 업데이트 테스트")
     public void updateTest() {
-        Customer updateUser = new Customer(newCustomer.customerId(), "update-user", newCustomer.email());
+        val updateUser = new Customer(newCustomer.customerId(), "update-user", newCustomer.email());
+
         jdbcCustomerRepository.update(updateUser);
-        Assertions.assertThat(
-                jdbcCustomerRepository.findByName("update-user")
-                        .get(0).customerId()).isEqualTo(newCustomer.customerId());
+        var customers = jdbcCustomerRepository.findByName("update-user");
+
+        Assertions.assertThat(customers).contains(updateUser);
     }
 }

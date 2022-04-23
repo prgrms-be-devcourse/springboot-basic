@@ -4,17 +4,17 @@ import org.prgms.validator.DomainValidators;
 
 import java.util.UUID;
 
-public record PercentDiscountVoucher(UUID voucherId, long discountPercent) implements Voucher {
+public record PercentDiscountVoucher(UUID voucherId, long discountAmount) implements Voucher {
 
-    public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
-        this.discountPercent = discountPercent;
+    public PercentDiscountVoucher(UUID voucherId, long discountAmount) {
+        this.discountAmount = discountAmount;
         DomainValidators.notNullAndEmptyCheck(voucherId);
         this.voucherId = voucherId;
     }
 
     @Override
     public long apply(long beforeDiscount) {
-        return (long) ((1 - (discountPercent / 100.0)) * beforeDiscount);
+        return (long) ((1 - (discountAmount / 100.0)) * beforeDiscount);
     }
 
     @Override
@@ -24,6 +24,6 @@ public record PercentDiscountVoucher(UUID voucherId, long discountPercent) imple
 
     @Override
     public long getDiscountAmount() {
-        return discountPercent;
+        return discountAmount;
     }
 }
