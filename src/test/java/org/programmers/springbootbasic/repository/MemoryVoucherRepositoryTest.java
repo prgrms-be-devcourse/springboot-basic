@@ -3,7 +3,7 @@ package org.programmers.springbootbasic.repository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.domain.TestVoucher;
+import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.repository.MemoryVoucherRepository;
 
@@ -12,16 +12,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("메모리 바우처 레포지토리 테스트")
 class MemoryVoucherRepositoryTest {
 
     private static final MemoryVoucherRepository voucherRepository = new MemoryVoucherRepository();
 
-    private static final Voucher voucher = new TestVoucher(UUID.randomUUID(), 2000, null);
-    private static final Voucher voucher2 = new TestVoucher(UUID.randomUUID(), 1000, null);
-    private static final Voucher voucher3 = new TestVoucher(UUID.randomUUID(), 1500, null);
+    private static final Voucher voucher = new FixedDiscountVoucher(UUID.randomUUID(), 2000);
+    private static final Voucher voucher2 = new FixedDiscountVoucher(UUID.randomUUID(), 1000);
+    private static final Voucher voucher3 = new FixedDiscountVoucher(UUID.randomUUID(), 1500);
 
     @AfterEach
     void clear() {

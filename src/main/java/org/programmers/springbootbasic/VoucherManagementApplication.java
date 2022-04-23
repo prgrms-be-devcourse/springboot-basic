@@ -8,6 +8,7 @@ import org.programmers.springbootbasic.console.model.Model;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.programmers.springbootbasic.console.request.Input;
 import org.programmers.springbootbasic.console.request.RequestCreator;
+import org.programmers.springbootbasic.voucher.domain.VoucherProperty;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;

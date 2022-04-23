@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 import org.programmers.springbootbasic.voucher.domain.Voucher;
+import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

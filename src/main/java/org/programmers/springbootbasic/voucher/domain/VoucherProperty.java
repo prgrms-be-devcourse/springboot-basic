@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "voucher")
 @RequiredArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 public class VoucherProperty {
 
     private FixedDiscountVoucherProperty fixed;

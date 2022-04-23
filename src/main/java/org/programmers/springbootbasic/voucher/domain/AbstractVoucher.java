@@ -1,7 +1,10 @@
 package org.programmers.springbootbasic.voucher.domain;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.UUID;
 
+@Slf4j
 public abstract class AbstractVoucher implements Voucher {
 
     private final UUID id;
@@ -52,8 +55,7 @@ public abstract class AbstractVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "AbstractVoucher{" +
-                "type=" + type +
+        return "{type=" + type +
                 ", id=" + id +
                 ", amount=" + amount +
                 '}';
