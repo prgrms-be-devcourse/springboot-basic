@@ -59,10 +59,8 @@ public class VoucherWalletViewController {
 
     @GetMapping("/voucher-wallets/customers/{customerId}")
     public String viewAllocatedVouchersPage(@PathVariable UUID customerId, Model model) {
-        Customer customer = customerService.getCustomer(customerId);
-        model.addAttribute("customer", customer);
-
         List<Voucher> allocatedVouchers = voucherWalletService.getAllocatedVouchers(customerId);
+        model.addAttribute("customerId", customerId);
         model.addAttribute("allocatedVouchers", allocatedVouchers);
 
         return "views/voucher-wallet/allocated-vouchers";

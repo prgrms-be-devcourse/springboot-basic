@@ -13,9 +13,9 @@
 <body>
     <h1 class="header">Voucher Admin</h1>
     <div class="container-fluid">
-        <h4 th:text="${customer.name+'('+customer.customerId+') '+'에게 할당된 바우처 목록'}"></h4>
+        <h4 th:text="${customerId+'에게 할당된 바우처 목록'}"></h4>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a th:href="@{'/voucher-wallets/customers/'+${customer.customerId+'/new'}}" class="btn btn-primary me-md-2" type="button">바우처 할당하기</a>
+            <a th:href="@{'/voucher-wallets/customers/'+${customerId}+'/new'}" class="btn btn-primary me-md-2" type="button">바우처 할당하기</a>
         </div>
         <table class="table table-striped table-hover">
             <thead>
@@ -33,7 +33,7 @@
                 <td th:if="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="*{amount}"></td>
                 <td th:unless="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="*{amount+'%'}"></td>
                 <td>
-                    <form th:action="@{'/voucher-wallets/customers/'+${customer.customerId}+'/delete/'+*{voucherId}}" method="post" class="voucher-btn-element">
+                    <form th:action="@{'/voucher-wallets/customers/'+${customerId}+'/delete/'+*{voucherId}}" method="post" class="voucher-btn-element">
                         <button type="submit" class="btn btn-danger">삭제하기</button>
                     </form>
                 </td>
