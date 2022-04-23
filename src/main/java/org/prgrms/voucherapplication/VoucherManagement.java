@@ -9,6 +9,7 @@ import org.prgrms.voucherapplication.service.JdbcCustomerService;
 import org.prgrms.voucherapplication.service.JdbcVoucherService;
 import org.prgrms.voucherapplication.service.VoucherService;
 import org.prgrms.voucherapplication.view.Console;
+import org.prgrms.voucherapplication.view.io.CustomerInformationType;
 import org.prgrms.voucherapplication.view.io.Menu;
 import org.prgrms.voucherapplication.view.io.VoucherType;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -75,7 +77,9 @@ public class VoucherManagement implements Runnable {
                         jdbcVoucherService.saveVoucher(voucher);
                     }
                     case LIST_VOUCHER_OWNED_BY_CUSTOMER -> {    // 6
-
+                        CustomerInformationType customerInformationType = console.inputCustomerInformationForSearching();
+                        Optional<Customer> customerByInput = getCustomerByInput(customerInformationType);
+                        customerByInput.ifPresent(customer -> jdbcVoucherService.getVouchersByOwnedCustomer(customer));
                     }
                     default -> logger.error("Invalid Menu type in switch state");
                 }
@@ -84,6 +88,23 @@ public class VoucherManagement implements Runnable {
                 logger.error(e.getMessage());
             }
 
+        }
+    }
+
+    private Optional<Customer> getCustomerByInput (CustomerInformationType customerInformationType) {
+        switch (customerInformationType) {
+            case ID -> {
+                UUID customerID = console.inputCustomerID();
+                return jdbcCustomerService.getCustomerById(customerID);
+            }
+            case NAME -> {
+                String name = console.inputCustomerName();
+                return jdbcCustomerService.getCustomerByName(name);
+            }
+            case EMAIL -> {
+                String email = console.inputCustomerEmail();
+                return jdbcCustomerService.getCustomerByEmail(email);
+            }
         }
     }
 }

@@ -4,6 +4,9 @@ import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.exception.InvalidMenuException;
 import org.prgrms.voucherapplication.exception.InvalidVoucherTypeException;
 
+import java.util.Optional;
+import java.util.UUID;
+
 public interface Input {
     /**
      * 메뉴 입력 (create, list)
@@ -32,4 +35,16 @@ public interface Input {
      */
     Customer inputCustomerCreation();
 
+    /**
+     * 고객 id, 이름, 이메일 중 하나를 입력하여
+     * 해당하는 CustomerInformationType 객체 반환
+     * @return 입력된 고객 정보 타입과 일치하는 CustomerInformationType 객체
+     */
+    CustomerInformationType inputCustomerInformationForSearching();
+
+    UUID inputCustomerID();
+
+    String inputCustomerName();
+
+    String inputCustomerEmail();
 }

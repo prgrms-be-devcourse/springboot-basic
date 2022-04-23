@@ -3,19 +3,15 @@ package org.prgrms.voucherapplication.view;
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
 import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.entity.Voucher;
+import org.prgrms.voucherapplication.exception.InvalidCustomerInformationTypeException;
 import org.prgrms.voucherapplication.exception.InvalidMenuException;
 import org.prgrms.voucherapplication.exception.InvalidVoucherTypeException;
-import org.prgrms.voucherapplication.view.io.Input;
-import org.prgrms.voucherapplication.view.io.Menu;
-import org.prgrms.voucherapplication.view.io.Output;
-import org.prgrms.voucherapplication.view.io.VoucherType;
+import org.prgrms.voucherapplication.view.io.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 /**
  * 콘솔로 입출력하는 class
@@ -48,8 +44,15 @@ public class Console implements Input, Output {
     private static final String VOUCHER_DISCOUNT_AMOUNT_INPUT_TEXT = "Type discount amount."
             + "e.g., If you type \'10\', it means \'$10\'";
 
+    private static final String CUSTOMER_ID_INPUT_TEXT = "Type a customer ID: ";
     private static final String CUSTOMER_NAME_INPUT_TEXT = "Type a customer name: ";
     private static final String CUSTOMER_EMAIL_INPUT_TEXT = "Type a customer email: ";
+
+    private static final String CUSTOMER_INFORMATION_TYPE_INPUT_TEXT = "Type the ID, name, or email "
+            + "of the customer whose voucher information you want to check.\n"
+            + "Type \'ID\' to enter the ID.\n"
+            + "Type \'name\' to enter the name.\n"
+            + "Type \'email\' to enter the email.\n";
 
 
     /**
@@ -113,6 +116,35 @@ public class Console implements Input, Output {
         System.out.println(CUSTOMER_EMAIL_INPUT_TEXT);
         String email = scanner.nextLine();
         return new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
+    }
+
+    /**
+     * 고객 id, 이름, 이메일 중 하나를 입력하여
+     * 해당하는 CustomerInformationType 객체 반환
+     * @return 입력된 고객 정보 타입과 일치하는 CustomerInformationType 객체
+     */
+    @Override
+    public CustomerInformationType inputCustomerInformationForSearching() throws InvalidCustomerInformationTypeException {
+        System.out.println(CUSTOMER_INFORMATION_TYPE_INPUT_TEXT);
+        return CustomerInformationType.valueOf(scanner.nextLine().toUpperCase());
+    }
+
+    @Override
+    public UUID inputCustomerID() {
+        System.out.println(CUSTOMER_ID_INPUT_TEXT);
+        return UUID.fromString(scanner.nextLine());
+    }
+
+    @Override
+    public String inputCustomerName() {
+        System.out.println(CUSTOMER_NAME_INPUT_TEXT);
+        return scanner.nextLine();
+    }
+
+    @Override
+    public String inputCustomerEmail() {
+        System.out.println(CUSTOMER_EMAIL_INPUT_TEXT);
+        return scanner.nextLine();
     }
 
     /**

@@ -11,7 +11,8 @@ public enum ErrorType {
     INVALID_VOUCHER_TYPE("Invalid voucher type"),
     NO_SUCH_VOUCHER("No such voucher."),
     DATA_NOT_INSERTED("Data is not inserted"),
-    DATA_NOT_UPDATED("Data is not updated");
+    DATA_NOT_UPDATED("Data is not updated"),
+    INVALID_CUSTOMER_INFORMATION_TYPE("Invalid customer information type");
 
     private final String message;
 
