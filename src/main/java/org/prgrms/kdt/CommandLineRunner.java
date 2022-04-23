@@ -33,8 +33,6 @@ public class CommandLineRunner implements Runnable {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
         CustomerService customerService = applicationContext.getBean(CustomerService.class);
 
-        boolean isRunning = true;
-
         String command;
         CommandType commandType = CommandType.INVALID;
         while (commandType != CommandType.EXIT) {
