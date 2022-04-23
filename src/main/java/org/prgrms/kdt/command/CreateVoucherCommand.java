@@ -4,8 +4,9 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
-import org.prgrms.kdt.domain.VoucherType;
 import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.type.ErrorType;
+import org.prgrms.kdt.type.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -39,10 +40,10 @@ public class CreateVoucherCommand implements Command {
       voucherService.create(voucherType, input.readLong());
       return MessageFormat.format("{0} voucher created", voucherType.name().toLowerCase());
     } catch (NumberFormatException e) {
-      log.error("Invalid Input Error", e);
+      log.error("Error: Invalid Input Error", e);
       return ErrorType.INVALID_INPUT.getErrorMessage();
     } catch (IllegalArgumentException e) {
-      log.error("Invalid Discount Error", e);
+      log.error("Error: Invalid Discount Error", e);
       return ErrorType.INVALID_DISCOUNT.getErrorMessage(e.getMessage());
     }
   }

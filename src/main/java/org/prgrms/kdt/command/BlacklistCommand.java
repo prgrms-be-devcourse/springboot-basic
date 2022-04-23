@@ -20,7 +20,7 @@ public class BlacklistCommand implements Command {
   @Override
   public String execute() {
     var blacklistInfos = blacklistService.findAll();
-    String menu = messageSource.getMessage("menu.blacklist", null, Locale.ROOT);
+    var menu = messageSource.getMessage("menu.blacklist", null, Locale.ROOT);
     return blacklistInfos.stream()
         .reduce(menu, (a, b) -> a + "\n" + b, String::concat);
   }
