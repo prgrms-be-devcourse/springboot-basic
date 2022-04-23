@@ -55,10 +55,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findByEmail(String email) throws EmptyResultDataAccessException {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = :email",
+    public Customer findByEmail(String email) throws EmptyResultDataAccessException {
+        return jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = :email",
                 Collections.singletonMap("email", email),
-                customerRowMapper));
+                customerRowMapper);
 
     }
 

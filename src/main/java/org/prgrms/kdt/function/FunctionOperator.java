@@ -9,16 +9,16 @@ import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.service.BlackListService;
 import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.service.VoucherWalletService;
 import org.prgrms.kdt.util.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.expression.spel.ast.OpInc;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class FunctionOperator {
@@ -26,12 +26,14 @@ public class FunctionOperator {
     private BlackListService blackListService;
     private CustomerService customerService;
     private VoucherService voucherService;
+    private VoucherWalletService voucherWalletService;
     private final static Logger logger = LoggerFactory.getLogger(Function.class);
 
-    public FunctionOperator(BlackListService blackListService, CustomerService customerService, VoucherService voucherService) {
+    public FunctionOperator(BlackListService blackListService, CustomerService customerService, VoucherService voucherService, VoucherWalletService voucherWalletService) {
         this.blackListService = blackListService;
         this.customerService = customerService;
         this.voucherService = voucherService;
+        this.voucherWalletService = voucherWalletService;
     }
 
     public void execute(String type) {
@@ -41,6 +43,7 @@ public class FunctionOperator {
             case ("blackList") -> new OutputConsole().printList(blackListService.getBlackList());
             case ("add") -> createNewCustomer();
             case ("provide") -> provideVoucherToCustomer();
+            case ("manage") -> printCustomerVoucherList();
         }
     }
 
@@ -92,5 +95,17 @@ public class FunctionOperator {
         Optional<Voucher> voucher = voucherService.provideVoucherToCustomer(voucherId, customerId);
         voucher.ifPresent(value -> new OutputConsole().printMessage(value.getVoucherId() + " is provided"));
     }
+
+    private void printCustomerVoucherList() {
+        new OutputConsole().printMessage("input customer Email");
+        String customerEmail = new InputConsole().inputString();
+        Optional<Map<UUID, Voucher>> voucherList = voucherWalletService.getVoucherListByCustomerEmail(customerEmail);
+        voucherList.ifPresent(uuidVoucherMap -> new ArrayList<>(uuidVoucherMap.values()));
+    }
+//
+//    private void deleteCheck() {
+//        new OutputConsole().printMessage("Type D if you want delete ");
+//    }
+
 
 }

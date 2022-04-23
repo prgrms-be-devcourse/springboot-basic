@@ -44,6 +44,13 @@ public enum Function {
             functionOperator.execute(this.name());
             return !isEndProgram;
         }
+    },
+    manage(" to list/delete voucher customer has") {
+        @Override
+        public boolean execute(FunctionOperator functionOperator) {
+            functionOperator.execute(this.name());
+            return !isEndProgram;
+        }
     }
     ;
 

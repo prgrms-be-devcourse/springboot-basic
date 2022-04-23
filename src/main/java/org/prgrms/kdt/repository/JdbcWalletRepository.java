@@ -9,7 +9,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.prgrms.kdt.repository.CustomerJdbcRepository.toUUID;
 
@@ -46,5 +48,16 @@ public class JdbcWalletRepository {
         }};
         return jdbcTemplate.queryForObject("SELECT v.*, c.* FROM vouchers v, customers c WHERE c.customer_id = v.owner_id AND voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap, voucherCustomerRowMapper);
+    }
+
+    public Map<UUID, Voucher> getVoucherListByCustomerId(String customerEmail) {
+        var paramMap = new HashMap<String, Object>() {{
+            put("email", customerEmail);
+        }};
+
+        return  jdbcTemplate.query("SELECT c.*, v.* FROM customers c, vouchers v WHERE c.customer_id = v.owner_id AND c.email = :email",
+                paramMap, voucherCustomerRowMapper)
+                .stream()
+                .collect(Collectors.toMap(Voucher::getVoucherId, voucher -> voucher));
     }
 }

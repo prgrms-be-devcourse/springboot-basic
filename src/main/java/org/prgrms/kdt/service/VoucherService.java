@@ -65,6 +65,4 @@ public class VoucherService {
         }
         return voucherType.get();
     }
-
-
 }
