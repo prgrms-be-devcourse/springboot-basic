@@ -57,7 +57,6 @@ public class VoucherController {
                 break;
             case CUSTOMER:
                 List<Customer> customers = customerService.getAll();
-                customers.forEach(System.out::println);
                 OutPutView.showsBlackList(customers);
                 break;
         }
