@@ -23,4 +23,11 @@ public enum Menu {
     Menu(String input) {
         this.input = input;
     }
+
+    public static Menu getMenu(String input) throws InvalidMenuException {
+        return Arrays.stream(Menu.values())
+                .filter(menu -> menu.input.equals(input))
+                .findAny()
+                .orElseThrow(InvalidMenuException::new);
+    }
 }
