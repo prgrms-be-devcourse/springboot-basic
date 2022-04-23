@@ -36,7 +36,7 @@ public enum VoucherType {
                 "Illegal ordinal value. No corresponding voucherType found. ordinal=" + ordinal);
     }
 
-    public static String dataOfVoucher(Voucher voucher) throws IllegalStateException {
+    public static String dataOf(Voucher voucher) throws IllegalStateException {
         var stringBuilder = new StringBuilder();
         var voucherTypes = VoucherType.values();
         for (VoucherType voucherType : voucherTypes) {

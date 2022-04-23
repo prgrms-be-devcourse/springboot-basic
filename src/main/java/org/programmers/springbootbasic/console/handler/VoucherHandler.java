@@ -6,8 +6,6 @@ import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.console.model.ModelAndView;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
-import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
-import org.programmers.springbootbasic.voucher.domain.RateDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.springframework.stereotype.Component;
@@ -16,15 +14,14 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.programmers.springbootbasic.console.ConsoleResponseCode.INPUT_AND_REDIRECT;
 import static org.programmers.springbootbasic.console.ConsoleResponseCode.PROCEED;
-import static org.programmers.springbootbasic.console.command.InputCommand.CREATE;
-import static org.programmers.springbootbasic.console.command.InputCommand.LIST;
-import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_AMOUNT;
-import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_COMPLETE;
+import static org.programmers.springbootbasic.console.command.InputCommand.CREATE_VOUCHER;
+import static org.programmers.springbootbasic.console.command.InputCommand.LIST_VOUCHER;
+import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_VOUCHER_AMOUNT;
+import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_VOUCHER_COMPLETE;
 import static org.programmers.springbootbasic.voucher.domain.VoucherType.*;
 
 @Slf4j
@@ -33,16 +30,16 @@ import static org.programmers.springbootbasic.voucher.domain.VoucherType.*;
 public class VoucherHandler implements Handler {
 
     private final VoucherService voucherService;
-    private static final String VIEW_PATH = "create/";
+    private static final String VIEW_PATH = "voucher/";
     private static final Map<String, Command> COMMANDS = new ConcurrentHashMap<>();
 
     @PostConstruct
     @Override
     public void initCommandList() {
-        COMMANDS.put(CREATE.getViewName(), CREATE);
-        COMMANDS.put(CREATE_AMOUNT.getViewName(), CREATE_AMOUNT);
-        COMMANDS.put(CREATE_COMPLETE.getViewName(), CREATE_COMPLETE);
-        COMMANDS.put(LIST.getViewName(), LIST);
+        COMMANDS.put(CREATE_VOUCHER.getViewName(), CREATE_VOUCHER);
+        COMMANDS.put(CREATE_VOUCHER_AMOUNT.getViewName(), CREATE_VOUCHER_AMOUNT);
+        COMMANDS.put(CREATE_VOUCHER_COMPLETE.getViewName(), CREATE_VOUCHER_COMPLETE);
+        COMMANDS.put(LIST_VOUCHER.getViewName(), LIST_VOUCHER);
     }
 
     @Override
@@ -61,16 +58,16 @@ public class VoucherHandler implements Handler {
         var command = request.getCommand();
         log.info("processing command {} at Controller", command);
 
-        if (command == CREATE) {
+        if (command == CREATE_VOUCHER) {
             return create(request);
         }
-        if (command == CREATE_AMOUNT) {
+        if (command == CREATE_VOUCHER_AMOUNT) {
             return createAmount(request);
         }
-        if (command == CREATE_COMPLETE) {
+        if (command == CREATE_VOUCHER_COMPLETE) {
             return createComplete(request);
         }
-        if (command == LIST) {
+        if (command == LIST_VOUCHER) {
             return list(request);
         }
         log.error("No controller handling command {} exist.", command);
@@ -85,7 +82,7 @@ public class VoucherHandler implements Handler {
 
         model.addAttributes("allVoucherTypes", voucherTypesDescription);
         model.setInputSignature("type");
-        model.setRedirectLink(CREATE_AMOUNT);
+        model.setRedirectLink(CREATE_VOUCHER_AMOUNT);
 
         return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT_AND_REDIRECT);
     }
@@ -105,7 +102,7 @@ public class VoucherHandler implements Handler {
         model.addAttributes("voucherType", voucherType.getName());
 
         model.addAttributes("amountUnit", voucherType.getDiscountUnitMessage());
-        model.setRedirectLink(CREATE_COMPLETE);
+        model.setRedirectLink(CREATE_VOUCHER_COMPLETE);
         model.setInputSignature("amount");
 
         return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT_AND_REDIRECT);
@@ -146,11 +143,11 @@ public class VoucherHandler implements Handler {
         List<String> allVouchersInformation = new ArrayList<>(vouchers.size());
 
         for (Voucher voucher : vouchers) {
-            allVouchersInformation.add(dataOfVoucher(voucher));
+            allVouchersInformation.add(dataOf(voucher));
         }
 
         model.addAttributes("allVouchersInformation", allVouchersInformation);
 
-        return new ModelAndView(model, request.getCommand().getViewName(), PROCEED);
+        return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), PROCEED);
     }
 }
