@@ -1,15 +1,12 @@
 package com.dojinyou.devcourse.voucherapplication;
 
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,7 +49,7 @@ class ApplicationControllerTest {
     }
 
     @Test
-    @DisplayName("Exit 명령이 주어졌을 때, RequestHandle 함수를 호출하면 Response 객체의 ")
+    @DisplayName("Exit 명령이 주어졌을 때, RequestHandle 함수를 호출하면 Response 객체의 상태가 성공이고, 종료 메세지를 가지고 있어야 한다.")
     void requestHandleWithExitCommandTest() {
         //given
         Command userCommand = Command.EXIT;
