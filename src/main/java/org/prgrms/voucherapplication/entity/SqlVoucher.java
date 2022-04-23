@@ -64,4 +64,17 @@ public class SqlVoucher {
         this.isIssued = true;
         this.issuedAt = LocalDateTime.now();
     }
+
+    @Override
+    public String toString() {
+        return "SqlVoucher{" +
+                "voucherId=" + voucherId +
+                ", voucherType='" + voucherType + '\'' +
+                ", discountAmount=" + discountAmount +
+                ", voucherOwner=" + voucherOwner +
+                ", isIssued=" + isIssued +
+                ", createdAt=" + createdAt +
+                ", issuedAt=" + issuedAt +
+                '}';
+    }
 }

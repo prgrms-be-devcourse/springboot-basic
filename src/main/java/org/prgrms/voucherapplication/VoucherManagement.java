@@ -79,12 +79,26 @@ public class VoucherManagement implements Runnable {
                     case LIST_VOUCHER_OWNED_BY_CUSTOMER -> {    // 6
                         CustomerInformationType customerInformationType = console.inputCustomerInformationForSearching();
                         Optional<Customer> customerByInput = getCustomerByInput(customerInformationType);
-                        customerByInput.ifPresent(customer -> jdbcVoucherService.getVouchersByOwnedCustomer(customer));
+                        if (customerByInput.isPresent()) {
+                            Optional<List<SqlVoucher>> vouchersByOwnedCustomer = jdbcVoucherService.getVouchersByOwnedCustomer(customerByInput.get());
+                            if (vouchersByOwnedCustomer.isPresent()) {
+                                console.printSqlVoucherList(vouchersByOwnedCustomer.get());
+                            }
+                        }
                     }
                     case DELETE_VOUCHER_OWNED_BY_CUSTOMER -> {  // 7
                         CustomerInformationType customerInformationType = console.inputCustomerInformationForSearching();
                         Optional<Customer> customerByInput = getCustomerByInput(customerInformationType);
                         customerByInput.ifPresent(customer -> jdbcVoucherService.deleteVouchersByOwnedCustomer(customer));
+                    }
+                    case ISSUE_VOUCHER_TO_CUSTOMER -> {         // 8
+                        Optional<List<SqlVoucher>> allVoucher = jdbcVoucherService.getAllVoucher();
+                        allVoucher.ifPresent(vouchers -> console.printSqlVoucherList(vouchers));
+
+                        UUID voucherID = console.inputVoucherID();
+                        CustomerInformationType customerInformationType = console.inputCustomerInformationForSearching();
+                        Optional<Customer> customerByInput = getCustomerByInput(customerInformationType);
+                        customerByInput.ifPresent(customer -> jdbcVoucherService.issueVoucherToCustomer(voucherID, customer));
                     }
                     default -> logger.error("Invalid Menu type in switch state");
                 }
@@ -109,6 +123,9 @@ public class VoucherManagement implements Runnable {
             case EMAIL -> {
                 String email = console.inputCustomerEmail();
                 return jdbcCustomerService.getCustomerByEmail(email);
+            }
+            default -> {
+                return Optional.empty();
             }
         }
     }

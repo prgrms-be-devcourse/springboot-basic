@@ -47,4 +47,6 @@ public interface Input {
     String inputCustomerName();
 
     String inputCustomerEmail();
+
+    UUID inputVoucherID();
 }

@@ -5,9 +5,9 @@ import org.prgrms.voucherapplication.entity.SqlVoucher;
 import org.prgrms.voucherapplication.repository.voucher.jdbc.JdbcVoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class JdbcVoucherService {
@@ -30,5 +30,18 @@ public class JdbcVoucherService {
         Optional<List<SqlVoucher>> byVoucherOwner = voucherRepository.findByVoucherOwner(customer.getCustomerId());
         byVoucherOwner.ifPresent(vouchers ->
                 vouchers.forEach(voucher -> voucherRepository.deleteById(voucher.getVoucherId())));
+    }
+
+    public Optional<List<SqlVoucher>> getAllVoucher() {
+        return voucherRepository.findAll();
+    }
+
+    public void issueVoucherToCustomer(UUID voucherId, Customer customer) {
+        Optional<SqlVoucher> voucher = voucherRepository.findById(voucherId);
+        if (voucher.isPresent()) {
+            SqlVoucher sqlVoucher = voucher.get();
+            sqlVoucher.issueVoucher(customer.getCustomerId());
+            voucherRepository.update(sqlVoucher);
+        }
     }
 }
