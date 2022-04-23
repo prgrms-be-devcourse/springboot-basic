@@ -1,7 +1,7 @@
-id, name
-1ee7f773-30c2-4e84-b0d3-56213b8b306a, testUser1
-1ee7f773-30c2-4e84-b0d3-56213b8b306b, testUser2
-1ee7f773-30c2-4e84-b0d3-56213b8b306c, testUser3
-1ee7f773-30c2-4e84-b0d3-56213b8b306d, testUser4
-1ee7f773-30c2-4e84-b0d3-56213b8b306e, testUser5
-1ee7f773-30c2-4e84-b0d3-56213b8b306f, testUser6
+id, name, email
+1ee7f773-30c2-4e84-b0d3-56213b8b306a, testUser1, testEmail@gmail.com
+1ee7f773-30c2-4e84-b0d3-56213b8b306b, testUser2, testEmail2@gmail.com
+1ee7f773-30c2-4e84-b0d3-56213b8b306c, testUser3, testEmail3@gmail.com
+1ee7f773-30c2-4e84-b0d3-56213b8b306d, testUser4, testEmail4@gmail.com
+1ee7f773-30c2-4e84-b0d3-56213b8b306e, testUser5, testEmail5@gmail.com
+1ee7f773-30c2-4e84-b0d3-56213b8b306f, testUser6, testEmail6@gmail.com
