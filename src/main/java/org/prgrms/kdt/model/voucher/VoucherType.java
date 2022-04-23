@@ -1,5 +1,6 @@
 package org.prgrms.kdt.model.voucher;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -52,11 +53,10 @@ public enum VoucherType {
         return voucherClass;
     }
 
-    public static VoucherType getVoucherType(String voucherType) {
+    public static Optional<VoucherType> getVoucherType(String voucherType) {
         return Stream.of(VoucherType.values())
                 .filter(type -> type.getVoucherType().equalsIgnoreCase(voucherType))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 바우처 타입입니다."));
+                .findFirst();
     }
 
     public static VoucherType getVoucherType(Class<?> voucherClass) {

@@ -70,13 +70,17 @@ public class CommandLineRunner implements Runnable {
 
     private void createVoucher() {
         output.printMessage("바우처 타입을 선택해주세요.\n" + VoucherType.getAllVoucherManual());
+        VoucherType voucherType = VoucherType.getVoucherType(input.input())
+            .orElse(null);
+        if (voucherType == null) {
+            output.printMessage("유효하지 않은 바우처 타입입니다.");
+            return;
+        }
+
+        output.printVoucherValue(voucherType);
+        long voucherValue = input.inputLong();
 
         try {
-            VoucherType voucherType = VoucherType.getVoucherType(input.input());
-
-            output.printVoucherValue(voucherType);
-            long voucherValue = input.inputLong();
-
             Voucher voucher = voucherService.create(UUID.randomUUID(), voucherValue, voucherType);
             output.printMessage("바우처 생성에 성공하였습니다. " + voucher.toString());
         } catch (IllegalArgumentException e) {
@@ -87,13 +91,17 @@ public class CommandLineRunner implements Runnable {
 
     private void updateVoucher() {
         output.printMessage("수정할 바우처 ID를 입력해주세요.");
+        UUID voucherId = input.inputUUID()
+            .orElse(null);
+        if (voucherId == null) {
+            output.printMessage("유효하지 않은 바우처 ID입니다.");
+            return;
+        }
+
+        output.printMessage("수정할 바우처 값을 입력해주세요.");
+        long voucherValue = input.inputLong();
 
         try {
-            UUID voucherId = UUID.fromString(input.input());
-
-            output.printMessage("수정할 바우처 값을 입력해주세요.");
-            long voucherValue = input.inputLong();
-
             Voucher voucher = voucherService.update(voucherId, voucherValue);
             output.printMessage("바우처 수정에 성공하였습니다. " + voucher.toString());
         } catch (RuntimeException e) {
@@ -104,10 +112,14 @@ public class CommandLineRunner implements Runnable {
 
     private void deleteVoucher() {
         output.printMessage("삭제할 바우처 ID를 입력해주세요.");
+        UUID voucherId = input.inputUUID()
+            .orElse(null);
+        if (voucherId == null) {
+            output.printMessage("유효하지 않은 바우처 ID입니다.");
+            return;
+        }
 
         try {
-            UUID voucherId = UUID.fromString(input.input());
-
             voucherService.delete(voucherId);
             output.printMessage("바우처 삭제에 성공하였습니다. voucherId=" + voucherId);
         } catch (RuntimeException e) {
