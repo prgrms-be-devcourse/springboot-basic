@@ -126,6 +126,7 @@ public class VoucherServiceTest {
     }
 
     @Test
+    @DisplayName("바우처 타입으로 조회 테스트 -> 성공")
     public void findByVoucherType() throws Exception {
 
         List<Voucher> byFixedVoucherType = voucherRepository.findByVoucherType(VoucherType.FIXED);
