@@ -103,18 +103,11 @@ class VoucherApplicationTest {
             @ParameterizedTest
             @ValueSource(strings = {"dojin", "listz", "cret"})
             @DisplayName("에러 메세지를 출력한다")
-            void thenDisplayErrorMessage(String userWrongInput) {
+            void thenDisplayErrorMessage(String userWrongInput) throws NoSuchFieldException, IllegalAccessException {
                 InputStream inputCommandStream = generateUserInput(userWrongInput);
                 System.setIn(inputCommandStream);
                 Scanner testScanner = new Scanner(System.in);
-
-                try {
-                    Field scannerField = consoleView.getClass().getDeclaredField("scanner");
-                    scannerField.setAccessible(true);
-                    scannerField.set(consoleView, testScanner);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
+                setScanner(consoleView, testScanner);
 
                 StringBuilder sb = new StringBuilder();
                 sb.append(userWrongInput);
@@ -135,18 +128,12 @@ class VoucherApplicationTest {
             @ParameterizedTest
             @ValueSource(strings = {"create", "CREATE", "Create"})
             @DisplayName("바우처 생성을 위한 정보를 입력 받아야한다.")
-            void thenInputModeForVoucherCreate(String inputCommand) {
+            void thenInputModeForVoucherCreate(String inputCommand) throws NoSuchFieldException, IllegalAccessException {
                 VoucherApplication.main(new String[]{});
                 InputStream inputCommandStream = generateUserInput(inputCommand);
                 System.setIn(inputCommandStream);
                 Scanner testScanner = new Scanner(System.in);
-                try {
-                    Field scannerField = consoleView.getClass().getDeclaredField("scanner");
-                    scannerField.setAccessible(true);
-                    scannerField.set(consoleView, testScanner);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
+                setScanner(consoleView, testScanner);
 
                 StringBuilder sb = new StringBuilder();
                 sb.append("=== Voucher Type ===\n");
@@ -171,19 +158,12 @@ class VoucherApplicationTest {
             @ParameterizedTest
             @ValueSource(strings = {"list", "LIST", "List"})
             @DisplayName("생성된 바우처 리스트를 출력한다")
-            void thenDisplayVoucherList(String inputCommand) {
+            void thenDisplayVoucherList(String inputCommand) throws NoSuchFieldException, IllegalAccessException {
                 // Command가 입력되는 환경 설정
                 InputStream inputCommandStream = generateUserInput(inputCommand);
                 System.setIn(inputCommandStream);
                 Scanner testScanner = new Scanner(System.in);
-                try {
-                    Field scannerField = consoleView.getClass().getDeclaredField("scanner");
-                    scannerField.setAccessible(true);
-                    scannerField.set(consoleView, testScanner);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-
+                setScanner(consoleView, testScanner);
 
                 // 바우처 전체를 조회하는 함수가 호출 되었는 지 확인
 //                verify(voucherController).findAll();
@@ -198,22 +178,22 @@ class VoucherApplicationTest {
             @ParameterizedTest
             @ValueSource(strings = {"exit", "EXIT", "exiT", "Exit"})
             @DisplayName("어플리케이션을 종료한다")
-            void thenTerminateApplication(String userInput) {
+            void thenTerminateApplication(String userInput) throws NoSuchFieldException, IllegalAccessException {
                 VoucherApplication.main(new String[]{});
                 InputStream inputStream = generateUserInput(userInput);
                 System.setIn(inputStream);
                 Scanner testScanner = new Scanner(System.in);
-                try {
-                    Field scannerField = consoleView.getClass().getDeclaredField("scanner");
-                    scannerField.setAccessible(true);
-                    scannerField.set(consoleView, testScanner);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
+                setScanner(consoleView, testScanner);
 
                 // 어플리케이션 종료된 것을 어떻게 확인할 수 있는지??
                 // 함수 호출을 확인한다.
             }
         }
+    }
+
+    private void setScanner(ConsoleView consoleView, Scanner testScanner) throws NoSuchFieldException, IllegalAccessException {
+        Field scannerField = consoleView.getClass().getDeclaredField("scanner");
+        scannerField.setAccessible(true);
+        scannerField.set(consoleView, testScanner);
     }
 }
