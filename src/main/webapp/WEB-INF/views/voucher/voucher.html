@@ -22,8 +22,8 @@
                 <p th:unless="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="${voucher.amount+'% DISCOUNT'}" class="card-text"></p>
 
                 <div class="voucher-btn">
-                    <a href="#" class="voucher-btn-element btn btn-primary">수정하기</a>
-                    <form th:action="@{'/vouchers/delete/'+${voucher.voucherId}}" method="get" class="voucher-btn-element">
+                    <a th:href="@{'/vouchers/'+${voucher.voucherId}+'/update'}" class="voucher-btn-element btn btn-primary">수정하기</a>
+                    <form th:action="@{'/vouchers/delete/'+${voucher.voucherId}}" method="post" class="voucher-btn-element">
                         <button type="submit" class="btn btn-danger">삭제하기</button>
                     </form>
                 </div>

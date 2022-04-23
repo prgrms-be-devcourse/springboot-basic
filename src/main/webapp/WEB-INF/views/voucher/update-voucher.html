@@ -13,24 +13,29 @@
 <body>
     <h1 class="header">Voucher Admin</h1>
     <div class="container-fluid">
-        <h3>바우처 생성</h3>
-        <form th:action="@{/vouchers/new}" method="post">
+        <h3>바우처 수정</h3>
+        <form th:action="@{/vouchers/update}" method="post">
+            <div class="mb-3">
+                <label for="voucherId" class="form-label">바우처 ID</label>
+                <input type="text" name="voucherId" th:value="${voucher.voucherId}" class="form-control" id="voucherId" readonly>
+            </div>
             <div class="mb-3">
                 <label for="inputVoucherType" class="form-label">Voucher Type</label>
-                <select name = "voucherType" id="inputVoucherType">
+                <select name = "voucherType" th:value="${voucher.voucherType.getTypeName()}" id="inputVoucherType">
                     <option th:each="voucherType : ${voucherTypes}"
+                            th:selected="${voucherType.getTypeName().equals(voucher.voucherType.getTypeName())}"
                             th:value="${voucherType.getTypeName()}"
                             th:text="${voucherType.getTypeName()}"></option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="inputAmount" class="form-label">Amount</label>
-                <input type="number" name="amount" class="form-control" id="inputAmount">
+                <input type="number" name="amount" th:value="${voucher.amount}" class="form-control" id="inputAmount">
             </div>
-            <button type="submit" class="btn btn-primary">생성</button>
+            <button type="submit" class="btn btn-primary">수정</button>
         </form>
         <div class="beforeBtnArea">
-            <a th:href="@{/vouchers}" class="btn btn-secondary">이전으로</a>
+            <a th:href="@{'/vouchers/'+${voucher.voucherId}}" class="btn btn-secondary">이전으로</a>
         </div>
     </div>
 </body>
