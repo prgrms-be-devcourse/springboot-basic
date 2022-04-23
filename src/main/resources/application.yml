@@ -1,6 +1,17 @@
 spring:
   application:
     name: voucher-management
-
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/testdb
+    username: test
+    password: tt
+  hikari:
+    minimum-idle: 1
+    maximum-pool-size: 5
+    pool-name: MYSQL_DB
+  sql:
+    init:
+      mode: always
 csv:
   file-path: ${java.class.path}
