@@ -28,6 +28,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String VOUCHER_DB_SER = "filedb/VoucherDB.ser";
+
     private final File VoucherStorage = new File(VOUCHER_DB_SER);
 
     @Override

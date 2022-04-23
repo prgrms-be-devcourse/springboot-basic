@@ -41,6 +41,7 @@ import org.springframework.stereotype.Repository;
 public class JdbcVoucherRepository implements VoucherRepository {
 
     public static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
         var type = resultSet.getString(COLUMN_TYPE);

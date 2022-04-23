@@ -63,6 +63,7 @@ public class TextIoView implements View {
 
     private static final String FILE_CUSTOMER_BLACKLIST_CSV = "file:customer_blacklist.csv";
     private static final String RED = "red";
+
     private final TextIO textIO = TextIoFactory.getTextIO();
     private final File customerBlackList;
 

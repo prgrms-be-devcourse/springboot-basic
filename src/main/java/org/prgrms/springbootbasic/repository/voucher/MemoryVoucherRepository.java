@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
+
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 public class VoucherController {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+
     private final VoucherService voucherService;
     private final View view;
     private final CustomerService customerService;

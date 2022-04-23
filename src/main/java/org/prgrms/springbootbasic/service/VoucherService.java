@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class VoucherService {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
+
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
 

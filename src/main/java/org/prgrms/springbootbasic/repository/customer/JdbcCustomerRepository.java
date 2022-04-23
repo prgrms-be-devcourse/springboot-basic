@@ -31,6 +31,7 @@ import org.springframework.stereotype.Repository;
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
+
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Customer> mapToCustomer = (resultSet, i) -> {
         var customerId = toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID));

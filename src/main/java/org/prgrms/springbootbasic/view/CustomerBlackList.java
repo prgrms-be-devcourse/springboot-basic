@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class CustomerBlackList {
 
     private static final String FILE_CUSTOMER_BLACKLIST_CSV = "file:customer_blacklist.csv";
+
     private final File customerBlackList;
 
     public CustomerBlackList(ApplicationContext applicationContext) throws IOException {
