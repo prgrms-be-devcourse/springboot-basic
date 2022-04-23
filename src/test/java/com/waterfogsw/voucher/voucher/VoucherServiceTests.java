@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -42,12 +43,7 @@ public class VoucherServiceTests {
             void it_throw_IllegalArgumentException() {
                 Voucher voucher = new Voucher(VoucherType.FIXED_AMOUNT, -1000);
 
-                try {
-                    voucherService.saveVoucher(voucher);
-                    fail();
-                } catch (IllegalArgumentException e) {
-                    //pass
-                }
+                assertThrows(IllegalArgumentException.class, () -> voucherService.saveVoucher(voucher));
             }
         }
 
@@ -61,12 +57,7 @@ public class VoucherServiceTests {
             void it_throw_IllegalArgumentException(int percent) {
                 Voucher voucher = new Voucher(VoucherType.PERCENT_DISCOUNT, percent);
 
-                try {
-                    voucherService.saveVoucher(voucher);
-                    fail();
-                } catch (IllegalArgumentException e) {
-                    //pass
-                }
+                assertThrows(IllegalArgumentException.class, () -> voucherService.saveVoucher(voucher));
             }
         }
 
