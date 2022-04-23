@@ -5,8 +5,8 @@ import org.prgrms.kdt.voucher.model.Voucher;
 
 public interface VoucherRepository {
 
-    Voucher insert(Voucher voucher);
+    Voucher save(Voucher voucher);
 
-    Collection<Voucher> getAll();
+    Collection<Voucher> findAll();
 
 }
