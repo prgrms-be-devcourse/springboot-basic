@@ -23,5 +23,10 @@ public abstract class Voucher {
         return voucherType;
     }
 
+    public void setVoucherId(Long voucherId) {
+
+        this.voucherId = voucherId;
+    }
+
     abstract public long discount();
 }

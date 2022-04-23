@@ -55,6 +55,8 @@ public class VoucherControllerTest {
             @DisplayName("바우처가 생성되면 생성된 정보를 리턴한다.")
             void itReturnVoucherResponse() {
 
+                voucher.setVoucherId(1L);
+
                 when(voucherServiceMock.create(requestDto)).thenReturn(voucher);
 
                 Response response = voucherController.create(requestDto);
