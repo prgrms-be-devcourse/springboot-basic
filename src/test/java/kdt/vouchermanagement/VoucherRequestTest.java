@@ -1,5 +1,6 @@
 package kdt.vouchermanagement;
 
+import kdt.vouchermanagement.domain.voucher.domain.FixedAmountVoucher;
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 import kdt.vouchermanagement.domain.voucher.dto.VoucherRequest;

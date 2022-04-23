@@ -12,13 +12,13 @@ public enum VoucherType {
     FIXED_AMOUNT(1) {
         @Override
         public Voucher create(int discountValue) {
-            return null;
+            return new FixedAmountVoucher(VoucherType.FIXED_AMOUNT, discountValue);
         }
     },
     PERCENT_DISCOUNT(2) {
         @Override
         public Voucher create(int discountValue) {
-            return null;
+            return new PercentDiscountVoucher(VoucherType.PERCENT_DISCOUNT, discountValue);
         }
     };
 
