@@ -125,14 +125,12 @@ public class VoucherServiceTest {
         assertThat(updateVoucher.getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
     }
 
-    @Test
-    @DisplayName("바우처 타입으로 조회 테스트 -> 성공")
-    public void findByVoucherType() throws Exception {
-
-        List<Voucher> byFixedVoucherType = voucherRepository.findByVoucherType(VoucherType.FIXED);
-        assertThat(byFixedVoucherType.size()).isEqualTo(1);
-        List<Voucher> byPercentVoucherType = voucherRepository.findByVoucherType(VoucherType.PERCENT);
-        assertThat(byPercentVoucherType.size()).isEqualTo(0);
-
-    }
+//    @Test
+//    public void findByVoucherType() throws Exception {
+//
+//        List<Voucher> byFixedVoucherType = voucherRepository.findByVoucherType(VoucherType.FIXED);
+//        assertThat(byFixedVoucherType.size()).isEqualTo(1);
+//        List<Voucher> byPercentVoucherType = voucherRepository.findByVoucherType(VoucherType.PERCENT);
+//        assertThat(byPercentVoucherType.size()).isEqualTo(0);
+//    }
 }
