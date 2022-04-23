@@ -13,9 +13,9 @@ import java.util.UUID;
 
 import static org.prgrms.springbasic.utils.enumm.path.FilePath.VOUCHER_FILE_PATH;
 
+@Slf4j
 @Profile("dev")
 @Repository
-@Slf4j
 public class FileVoucherRepository implements VoucherRepository {
 
     private final FileManager<Voucher> fileManager = new FileManager<>(VOUCHER_FILE_PATH.getPath());

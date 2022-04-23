@@ -23,10 +23,9 @@ import static org.prgrms.springbasic.utils.enumm.message.VoucherConsole.VOUCHER_
 import static org.prgrms.springbasic.utils.validator.CustomerValidator.validateCustomerType;
 import static org.prgrms.springbasic.utils.validator.VoucherValidator.*;
 
-@Profile({"prd", "local", "dev"})
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ConsoleServiceImpl implements ConsoleService {
 
     private final CustomerRepository customerRepository;

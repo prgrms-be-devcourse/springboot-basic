@@ -12,9 +12,9 @@ import java.util.UUID;
 
 import static org.prgrms.springbasic.utils.enumm.path.FilePath.BLACK_CUSTOMER_FILE_PATH;
 
+@Slf4j
 @Profile("dev")
 @Repository
-@Slf4j
 public class FileCustomerRepository implements CustomerRepository {
 
     private final FileManager<Customer> fileManager = new FileManager<>(BLACK_CUSTOMER_FILE_PATH.getPath());

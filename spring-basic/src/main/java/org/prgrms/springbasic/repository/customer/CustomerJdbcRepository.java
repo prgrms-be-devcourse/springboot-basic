@@ -18,9 +18,9 @@ import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_INSERT
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_UPDATED;
 import static org.prgrms.springbasic.utils.sql.CustomerSQL.*;
 
+@Slf4j
 @Profile("prd")
 @Repository
-@Slf4j
 @RequiredArgsConstructor
 public class CustomerJdbcRepository implements CustomerRepository {
 

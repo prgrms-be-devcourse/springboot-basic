@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import static org.prgrms.springbasic.utils.enumm.message.ConsoleMessage.INIT_MESSAGE;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.COMMAND_ERROR;
 
-@Component
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class Application implements Runnable {
 

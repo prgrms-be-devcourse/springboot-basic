@@ -21,9 +21,9 @@ import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_INSERT
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_UPDATED;
 import static org.prgrms.springbasic.utils.sql.VoucherSQL.*;
 
-@Repository
-@Profile("prd")
 @Slf4j
+@Profile("prd")
+@Repository
 @RequiredArgsConstructor
 public class VoucherJdbcRepository implements VoucherRepository {
 
