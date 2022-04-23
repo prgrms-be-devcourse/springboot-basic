@@ -111,7 +111,7 @@ class VoucherServiceTest {
                 new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 10000L, now, now),
                 new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 10L, now, now));
         //when
-        when(voucherRepository.findByVoucherTypeAndDate(any(), any())).thenReturn(savedVouchers);
+        when(voucherRepository.findByTypeAndDate(any(), any())).thenReturn(savedVouchers);
         List<Voucher> vouchers = voucherService.getVoucherByTypeAndDate(VoucherType.FIXED_AMOUNT, now.toLocalDate());
         //then
         assertThat(vouchers.size()).isEqualTo(2);

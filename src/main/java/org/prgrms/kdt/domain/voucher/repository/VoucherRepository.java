@@ -17,7 +17,7 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    int updateById(Voucher voucher);
+    int update(Voucher voucher);
 
     int updateCustomerId(UUID voucherId, UUID customerId);
 
@@ -27,5 +27,5 @@ public interface VoucherRepository {
 
     int deleteByCustomerId(UUID customerId);
 
-    List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date);
+    List<Voucher> findByTypeAndDate(VoucherType voucherType, LocalDate date);
 }

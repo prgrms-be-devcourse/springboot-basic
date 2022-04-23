@@ -62,8 +62,8 @@ public class Customer extends BaseEntity {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", customerType=" + customerType +
-                ", createdDate=" + getCreatedDate().toString() +
-                ", modifiedDate=" + getModifiedDate().toString() +
+                ", createdDateTime=" + getCreatedDateTime().toString() +
+                ", modifiedDateTime=" + getModifiedDateTime().toString() +
                 '}';
     }
 }

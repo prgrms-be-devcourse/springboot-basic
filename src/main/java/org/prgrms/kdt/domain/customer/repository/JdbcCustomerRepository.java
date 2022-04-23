@@ -1,6 +1,5 @@
 package org.prgrms.kdt.domain.customer.repository;
 
-import org.prgrms.kdt.domain.common.exception.ExceptionType;
 import org.prgrms.kdt.domain.customer.exception.CustomerDataException;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
@@ -17,8 +16,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_DELETED;
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.*;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository{
@@ -78,7 +76,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public List<Customer> findByCustomerType(CustomerType customerType) {
+    public List<Customer> findByType(CustomerType customerType) {
         return jdbcTemplate.query("SELECT * FROM customer WHERE customer_type = :customerType",
                 Collections.singletonMap("customerType", customerType.getType()),
                 customerRowMapper());
@@ -98,13 +96,13 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public int updateById(Customer customer) {
+    public int update(Customer customer) {
         int updatedRows = jdbcTemplate.update("UPDATE customer " +
                         "SET customer_type = :customerType, name = :name, email = :email, modified_date = :modifiedDate " +
                         "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 toParamMap(customer));
         if(updatedRows == 0) {
-            throw new CustomerDataException(ExceptionType.NOT_UPDATED);
+            throw new CustomerDataException(NOT_UPDATED);
         }
         return updatedRows;
     }
@@ -131,9 +129,9 @@ public class JdbcCustomerRepository implements CustomerRepository{
             put("customerType", customer.getCustomerType().getType());
             put("name", customer.getName());
             put("email", customer.getEmail());
-            put("createdDate", Timestamp.valueOf(customer.getCreatedDate()));
-            put("modifiedDate", customer.getModifiedDate() != null ?
-                    Timestamp.valueOf(customer.getModifiedDate()) : null);
+            put("createdDate", Timestamp.valueOf(customer.getCreatedDateTime()));
+            put("modifiedDate", customer.getModifiedDateTime() != null ?
+                    Timestamp.valueOf(customer.getModifiedDateTime()) : null);
         }};
     }
 

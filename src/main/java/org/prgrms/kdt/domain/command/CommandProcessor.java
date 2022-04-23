@@ -11,7 +11,6 @@ import org.prgrms.kdt.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,7 +64,7 @@ public class CommandProcessor {
         UUID voucherId = Input.inputUuid();
         Output.printEnterCustomerId();
         UUID customerId = Input.inputUuid();
-        voucherService.updateVoucherCustomerId(voucherId, customerId);
+        voucherService.updateCustomerId(voucherId, customerId);
     }
 
     private void removeVoucher() {
@@ -79,11 +78,7 @@ public class CommandProcessor {
         VoucherType voucherType = Input.inputVoucherType();
         Output.printEnterCreatedDate();
         LocalDate date = Input.inputDate();
-        List<Voucher> vouchers = voucherService.getVoucherByTypeAndDate(voucherType, date);
-        List<Customer> customers = new ArrayList<>();
-        vouchers.stream()
-                .map(voucher -> customerService.getCustomerByVoucherId(voucher.getVoucherId()))
-                .forEach(customer -> customer.ifPresent(customers::add));
+        List<Customer> customers = customerService.getCustomersByVoucherTypeAndDate(voucherType, date);
         Output.printAllCustomers(customers);
     }
 

@@ -3,19 +3,19 @@ package org.prgrms.kdt.domain.common.model;
 import java.time.LocalDateTime;
 
 public abstract class BaseEntity {
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    private LocalDateTime createdDateTime;
+    private LocalDateTime modifiedDateTime;
 
-    public BaseEntity(LocalDateTime createdDate, LocalDateTime modifiedDate) {
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
+    public BaseEntity(LocalDateTime createdDateTime, LocalDateTime modifiedDateTime) {
+        this.createdDateTime = createdDateTime;
+        this.modifiedDateTime = modifiedDateTime;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
 
-    public LocalDateTime getModifiedDate() {
-        return modifiedDate;
+    public LocalDateTime getModifiedDateTime() {
+        return modifiedDateTime;
     }
 }

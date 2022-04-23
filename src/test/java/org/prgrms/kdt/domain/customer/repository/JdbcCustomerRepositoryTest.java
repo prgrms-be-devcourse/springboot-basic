@@ -5,7 +5,6 @@ import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import org.junit.jupiter.api.*;
 import org.prgrms.kdt.TestConfig;
-import org.prgrms.kdt.domain.common.exception.ExceptionType;
 import org.prgrms.kdt.domain.customer.exception.CustomerDataException;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
@@ -157,7 +156,7 @@ class JdbcCustomerRepositoryTest {
                 "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
-        List<Customer> customers = customerRepository.findByCustomerType(CustomerType.BLACK_LIST);
+        List<Customer> customers = customerRepository.findByType(CustomerType.BLACK_LIST);
         //then
         assertThat(customers.size()).isEqualTo(1);
         assertThat(customers.get(0)).usingRecursiveComparison().isEqualTo(customer);
@@ -175,7 +174,7 @@ class JdbcCustomerRepositoryTest {
         Customer updateCustomer = new Customer(customerId, "kim",
                 "a@naver.com", CustomerType.NORMAL, LocalDateTime.now(), LocalDateTime.now());
         //when
-        int updatedRows = customerRepository.updateById(updateCustomer);
+        int updatedRows = customerRepository.update(updateCustomer);
         //then
         assertThat(updatedRows).isEqualTo(1);
     }
@@ -189,7 +188,7 @@ class JdbcCustomerRepositoryTest {
                 "a@naver.com", CustomerType.NORMAL, LocalDateTime.now(), LocalDateTime.now());
         //when
         //then
-        assertThatThrownBy(() -> customerRepository.updateById(updateCustomer))
+        assertThatThrownBy(() -> customerRepository.update(updateCustomer))
                 .isInstanceOf(CustomerDataException.class)
                 .hasMessage(NOT_UPDATED.getMsg());
     }

@@ -133,7 +133,7 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = new Voucher(voucherId, VoucherType.PERCENT_DISCOUNT, 10L, now, now);
         voucherRepository.save(voucher);
         //when
-        List<Voucher> findVouchers = voucherRepository.findByVoucherTypeAndDate(VoucherType.PERCENT_DISCOUNT, now.toLocalDate());
+        List<Voucher> findVouchers = voucherRepository.findByTypeAndDate(VoucherType.PERCENT_DISCOUNT, now.toLocalDate());
         //then
         assertThat(findVouchers.size()).isEqualTo(1);
         assertThat(findVouchers.get(0)).usingRecursiveComparison().isEqualTo(voucher);
@@ -149,7 +149,7 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher);
         Voucher updateVoucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, 20000L, now, now);
         //when
-        int updateCnt = voucherRepository.updateById(updateVoucher);
+        int updateCnt = voucherRepository.update(updateVoucher);
         //then
         assertThat(updateCnt).isEqualTo(1);
     }
@@ -165,7 +165,7 @@ class JdbcVoucherRepositoryTest {
         Voucher updateVoucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 20000L, now, now);
         //when
         //then
-        assertThatThrownBy(() -> voucherRepository.updateById(updateVoucher))
+        assertThatThrownBy(() -> voucherRepository.update(updateVoucher))
                 .isInstanceOf(VoucherDataException.class)
                 .hasMessage(NOT_UPDATED.getMsg());
     }

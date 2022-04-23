@@ -78,7 +78,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int updateById(Voucher voucher) {
+    public int update(Voucher voucher) {
         throw new VoucherDataException(NOT_SUPPORTED);
     }
 
@@ -98,7 +98,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date) {
+    public List<Voucher> findByTypeAndDate(VoucherType voucherType, LocalDate date) {
         throw new VoucherDataException(NOT_SUPPORTED);
     }
 

@@ -73,8 +73,8 @@ public class Voucher extends BaseEntity{
                 ", voucherType=" + voucherType +
                 ", discountValue=" + discountValue +
                 ", customerId=" + customerId +
-                ", createdDate=" + getCreatedDate().toString() +
-                ", modifiedDate=" + getModifiedDate().toString() +
+                ", createdDateTime=" + getCreatedDateTime().toString() +
+                ", modifiedDateTime=" + getModifiedDateTime().toString() +
                 '}';
     }
 }

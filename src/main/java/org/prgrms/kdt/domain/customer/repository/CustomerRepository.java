@@ -17,11 +17,11 @@ public interface CustomerRepository {
 
     Optional<Customer> findByVoucherId(UUID voucherId);
 
-    List<Customer> findByCustomerType(CustomerType customerType);
+    List<Customer> findByType(CustomerType customerType);
 
     Optional<Customer> findByEmail(String email);
 
-    int updateById(Customer customer);
+    int update(Customer customer);
 
     int deleteById(UUID customerId);
 

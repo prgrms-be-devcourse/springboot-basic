@@ -49,7 +49,7 @@ class VoucherTest {
 
     @Test
     @DisplayName("할인금액이 0원 이하일 경우 고정할인 바우처가 생성되지 않고 예외가 발생한다.")
-    public void exception_createFixedAmountVoucher(){
+    public void createFixedAmountVoucher_exception(){
         //given
         UUID voucherId = UUID.randomUUID();
         long discountPrice = 0;
@@ -63,7 +63,7 @@ class VoucherTest {
 
     @Test
     @DisplayName("할인률이 0퍼센트 이하 혹은 100퍼센트 초과일 경우 정률할인 바우처가 생성되지 않고 예외가 발생한다.")
-    public void exception_createPercentDiscountVoucher(){
+    public void createPercentDiscountVoucher_exception(){
         //given
         UUID voucherId = UUID.randomUUID();
         long underDiscountRate = 0;

@@ -69,7 +69,7 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findByCustomerType(CustomerType customerType) {
+    public List<Customer> findByType(CustomerType customerType) {
         throw new CustomerDataException(NOT_SUPPORTED);
     }
 
@@ -79,7 +79,7 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public int updateById(Customer customer) {
+    public int update(Customer customer) {
         throw new CustomerDataException(NOT_SUPPORTED);
     }
 

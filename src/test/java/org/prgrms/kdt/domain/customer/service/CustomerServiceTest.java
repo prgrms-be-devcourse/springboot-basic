@@ -36,7 +36,7 @@ class CustomerServiceTest {
         Customer customerKim = new Customer(UUID.randomUUID(),"kim" , "b@gmail.com", CustomerType.BLACK_LIST, now, now);
         List<Customer> savedBlackCustomers = Arrays.asList(customerPark, customerKim);
         //when
-        when(customerRepository.findByCustomerType(any())).thenReturn(savedBlackCustomers);
+        when(customerRepository.findByType(any())).thenReturn(savedBlackCustomers);
         List<Customer> blackListCustomers = customerService.getBlackCustomers();
         //then
         assertThat(blackListCustomers).contains(customerKim, customerPark);

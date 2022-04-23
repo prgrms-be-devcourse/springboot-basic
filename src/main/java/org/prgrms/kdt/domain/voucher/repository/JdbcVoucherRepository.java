@@ -64,7 +64,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public List<Voucher> findByVoucherTypeAndDate(VoucherType voucherType, LocalDate date) {
+    public List<Voucher> findByTypeAndDate(VoucherType voucherType, LocalDate date) {
         Map<String, Object> paramMap = new HashMap<>() {{
             put("voucherType", voucherType.getType());
             put("createdDate", date.toString());
@@ -81,7 +81,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public int updateById(Voucher voucher) {
+    public int update(Voucher voucher) {
         int updatedRows = jdbcTemplate.update("UPDATE voucher " +
                         "SET voucher_type = :voucherType, discount_value = :discountValue, customer_id = UNHEX(REPLACE(:customerId, '-', '')), modified_date = :modifiedDate " +
                         "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
@@ -143,8 +143,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
             put("discountValue", voucher.getDiscountValue());
             put("customerId", voucher.getCustomerId() == null
                     ? null : UuidUtils.UuidToByte(voucher.getCustomerId()));
-            put("createdDate", voucher.getCreatedDate());
-            put("modifiedDate", voucher.getModifiedDate());
+            put("createdDate", voucher.getCreatedDateTime());
+            put("modifiedDate", voucher.getModifiedDateTime());
         }};
     }
 
