@@ -1,10 +1,10 @@
 package org.prgms.voucheradmin.domain.voucherwallet.controller;
 
-import org.prgms.voucheradmin.domain.customer.dto.CustomerCreateReqDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
+import org.prgms.voucheradmin.domain.voucherwallet.dto.VoucherWalletReqDto;
 import org.prgms.voucheradmin.domain.voucherwallet.service.VoucherWalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +40,12 @@ public class VoucherWalletViewController {
         return "views/error";
     }
 
+    @PostMapping("/voucher-wallets/customers/{customerId}")
+    public String addNewVoucherWallet(@PathVariable UUID customerId, VoucherWalletReqDto voucherWalletReqDto) {
+         voucherWalletService.createVoucherWallet(customerId, voucherWalletReqDto.getVoucherId());
+        return "redirect:/voucher-wallets/customers/"+customerId;
+    }
+
     @GetMapping("/voucher-wallets")
     public String viewVoucherWalletMainPage(Model model) throws IOException {
         List<Customer> allCustomers = customerService.getCustomers();
@@ -51,8 +57,8 @@ public class VoucherWalletViewController {
         return "views/voucher-wallet/voucher-wallet-main";
     }
 
-    @GetMapping("/voucher-wallets/{customerId}")
-    public String viewAllocatedVouchers(@PathVariable UUID customerId, Model model) {
+    @GetMapping("/voucher-wallets/customers/{customerId}")
+    public String viewAllocatedVouchersPage(@PathVariable UUID customerId, Model model) {
         Customer customer = customerService.getCustomer(customerId);
         model.addAttribute("customer", customer);
 
@@ -62,10 +68,21 @@ public class VoucherWalletViewController {
         return "views/voucher-wallet/allocated-vouchers";
     }
 
-    @PostMapping("/voucher-wallets/{customerId}/delete/{voucherId}")
+    @GetMapping("/voucher-wallets/customers/{customerId}/new")
+    public String viewNewVoucherWalletPage(@PathVariable UUID customerId, Model model) throws IOException {
+        Customer customer = customerService.getCustomer(customerId);
+        model.addAttribute("customer", customer);
+
+        List<Voucher> allVouchers = voucherService.getVouchers();
+        model.addAttribute("vouchers", allVouchers);
+
+        return "views/voucher-wallet/new-voucher-wallet";
+    }
+
+    @PostMapping("/voucher-wallets/customers/{customerId}/delete/{voucherId}")
     public String deleteAllocatedVoucher(@PathVariable UUID customerId, @PathVariable UUID voucherId) {
         voucherWalletService.deleteVoucherWallet(customerId, voucherId);
-        return "redirect:/voucher-wallets/"+customerId;
+        return "redirect:/voucher-wallets/customers/"+customerId;
     }
 
 }

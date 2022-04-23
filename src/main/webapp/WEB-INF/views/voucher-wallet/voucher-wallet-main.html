@@ -25,7 +25,7 @@
             <tbody>
             <tr th:each="customer: ${customers}" th:object="${customer}" >
                 <td>
-                    <a th:href="@{'/voucher-wallets/'+ *{customerId}}" th:text="*{customerId}"></a>
+                    <a th:href="@{'/voucher-wallets/customers/'+ *{customerId}}" th:text="*{customerId}"></a>
                 </td>
                 <td th:text="*{name}"></td>
                 <td th:text="*{email}"></td>
