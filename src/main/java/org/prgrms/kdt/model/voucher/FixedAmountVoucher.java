@@ -1,5 +1,6 @@
 package org.prgrms.kdt.model.voucher;
 
+import org.prgrms.kdt.model.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,8 +12,8 @@ public class FixedAmountVoucher implements Voucher {
     private UUID voucherId;
     private long discountAmount;
     private final LocalDateTime createAt;
-//    private Customer customer;
-//    private LocalDateTime ownedAt;
+    private Customer customer;
+    private LocalDateTime ownedAt;
     private final int voucherType = VoucherType.FIXED_AMOUNT.getTypeNumber();
     private final static Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
@@ -22,15 +23,14 @@ public class FixedAmountVoucher implements Voucher {
         this.discountAmount = discountAmount;
         this.createAt = createAt;
     }
-//
-//    public FixedAmountVoucher(UUID voucherId, long discountAmount, Customer customer) {
-//        validateDiscountAmount(discountAmount);
-//        this.voucherId = voucherId;
-//        this.discountAmount = discountAmount;
-//        this.createAt = LocalDateTime.now();
-//        this.customer = customer;
-//        this.ownedAt = LocalDateTime.now();
-//    }
+
+    public FixedAmountVoucher(UUID voucherId, long discountAmount, Customer customer, LocalDateTime ownedAt, LocalDateTime createAt) {
+        this.voucherId = voucherId;
+        this.discountAmount = discountAmount;
+        this.createAt = createAt;
+        this.customer = customer;
+        this.ownedAt = ownedAt;
+    }
 
 
     @Override
@@ -53,10 +53,15 @@ public class FixedAmountVoucher implements Voucher {
         return createAt;
     }
 
-//    @Override
-//    public LocalDateTime getOwnedAt() {
-//        return ownedAt;
-//    }
+    @Override
+    public LocalDateTime getOwnedAt() {
+        return ownedAt;
+    }
+
+    @Override
+    public Customer getCustomer() {
+        return customer;
+    }
 
     @Override
     public String toString() {

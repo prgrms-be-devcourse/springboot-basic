@@ -16,7 +16,8 @@ class MemoryVoucherRepositoryTest {
     void insertTest() {
 
         MemoryVoucherRepository memoryVoucherRepositoryMock = mock(MemoryVoucherRepository.class);
-        VoucherService voucherService = new VoucherService(memoryVoucherRepositoryMock);
+        CustomerRepository customerRepository = mock(CustomerJdbcRepository.class);
+        VoucherService voucherService = new VoucherService(memoryVoucherRepositoryMock, customerRepository);
 
         Voucher insertedVoucher = voucherService.createVoucher(UUID.randomUUID(), 1, 100);
 

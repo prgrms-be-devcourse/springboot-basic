@@ -10,12 +10,6 @@ public class Customer {
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createAt;
 
-    public Customer(UUID customerId, String email, LocalDateTime createAt) {
-        this.customerId = customerId;
-        this.email = email;
-        this.createAt = createAt;
-    }
-
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createAt) {
         this.customerId = customerId;
         this.name = name;

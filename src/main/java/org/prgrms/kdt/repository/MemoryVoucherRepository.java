@@ -3,10 +3,7 @@ package org.prgrms.kdt.repository;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -30,7 +27,27 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> getByVoucherId(UUID voucherId) {
-        return Optional.empty();
+    public Voucher getByVoucherId(UUID voucherId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> getVoucherListOwnerIdIsEmpty() {
+        return null;
+    }
+
+    @Override
+    public Voucher updateVoucherOwner(UUID voucherId, UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public Voucher getByVoucherNotProvided(UUID voucherId) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 }

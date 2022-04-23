@@ -6,7 +6,7 @@ public enum Function {
     exit(" to exit the program") {
         @Override
         public boolean execute(FunctionOperator functionOperator) {
-            new OutputConsole().printExitMessage();
+            new OutputConsole().printMessage("exit program ! bye :)");
             return isEndProgram;
         }
     },
@@ -37,7 +37,15 @@ public enum Function {
             functionOperator.execute(this.name());
             return !isEndProgram;
         }
-    };
+    },
+    provide(" to provide voucher to customer") {
+        @Override
+        public boolean execute(FunctionOperator functionOperator) {
+            functionOperator.execute(this.name());
+            return !isEndProgram;
+        }
+    }
+    ;
 
     private final String explain;
 

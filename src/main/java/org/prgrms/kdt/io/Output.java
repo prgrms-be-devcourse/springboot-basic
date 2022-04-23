@@ -6,15 +6,9 @@ public interface Output {
 
     void printFunctions();
 
-    void printInputFunctionError();
-
     void printVoucherType();
 
-    void printVoucherListEmptyError();
+    void printList(List<?> list);
 
-    void printExitMessage();
-
-    void printExceptionMessage(String exceptionMessage);
-
-    void printList(List<String> blackList);
+    void printMessage(String message);
 }

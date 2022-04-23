@@ -62,6 +62,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     }
 
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+    }
+
+
     static UUID toUUID(byte[] bytes) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());

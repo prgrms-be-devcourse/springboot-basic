@@ -10,14 +10,6 @@ public class InputConsole implements Input{
         this.scanner = new Scanner(System.in);
     }
 
-    public String inputFunction() {
-        return scanner.nextLine();
-    }
-
-    public String inputVoucherType() {
-        return scanner.nextLine();
-    }
-
     public String inputAmount() {
         System.out.print("Type amount : ");
         return scanner.nextLine();
@@ -34,4 +26,10 @@ public class InputConsole implements Input{
         System.out.print("input customer Email : ");
         return scanner.nextLine();
     }
+
+    @Override
+    public String inputString() {
+        return scanner.nextLine();
+    }
+
 }

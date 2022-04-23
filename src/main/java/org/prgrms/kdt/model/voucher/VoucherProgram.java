@@ -29,7 +29,7 @@ public class VoucherProgram implements Runnable {
 
     private boolean execute() {
         output.printFunctions();
-        String inputFunction = input.inputFunction();
+        String inputFunction = input.inputString();
         if (!hasFunction(inputFunction)) {
             return false;
         }
@@ -40,7 +40,7 @@ public class VoucherProgram implements Runnable {
         try{
             Function.valueOf(inputFunction);
         }catch (IllegalArgumentException e) {
-            output.printInputFunctionError();
+            output.printMessage("WRONG : Type right command\n");
             return false;
         }finally {
             logger.info("input [Function] -> {}", inputFunction);

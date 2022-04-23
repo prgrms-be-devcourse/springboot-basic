@@ -13,7 +13,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -26,14 +25,14 @@ import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class JdbcVoucherRepositoryTest {
+class JdbcWalletRepositoryTest {
 
     @Configuration
     @ComponentScan(
@@ -63,6 +62,9 @@ class JdbcVoucherRepositoryTest {
     JdbcVoucherRepository jdbcVoucherRepository;
 
     @Autowired
+    JdbcWalletRepository jdbcWalletRepository;
+
+    @Autowired
     CustomerRepository customerRepository;
 
     FixedAmountVoucher fixedAmountVoucher;
@@ -85,65 +87,21 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(1)
-    @DisplayName("바우처를 넣을 수 있다.")
-    void insert() {
-        var insertVoucher = jdbcVoucherRepository.insert(fixedAmountVoucher);
-        var receiveVoucher = jdbcVoucherRepository.getByVoucherId(insertVoucher.getVoucherId());
-        assertThat(insertVoucher.getVoucherId(), equalTo(receiveVoucher.getVoucherId()));
+    @DisplayName("지갑에서는 사용자에게 할당되지 않은 바우처이면, 바우처값을 가져올 수 없다.")
+    void getVoucherUnprovided() {
+        assertThrows(EmptyResultDataAccessException.class,
+                () -> jdbcWalletRepository.selectJoinVoucherCustomer(fixedAmountVoucher.getVoucherId()));
     }
 
     @Test
-    @Order(2)
-    @DisplayName("바우처를 바우처Id로 가져 올 수 있다.")
-    void getVoucher() {
-        Voucher voucher = jdbcVoucherRepository.getByVoucherId(fixedAmountVoucher.getVoucherId());
-        assertThat(voucher.getVoucherId(), equalTo(fixedAmountVoucher.getVoucherId()));
-    }
-
-    @Test
-    @DisplayName("없는 바우처를 가져오려고하면 에러가 발생한다.")
-    void getEmptyVoucher() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 40, LocalDateTime.now());
-        assertThrows(EmptyResultDataAccessException.class, () -> jdbcVoucherRepository.getByVoucherId(voucher.getVoucherId()));
-
-    }
-
-    @Test
-    @Order(2)
-    @DisplayName("전체 바우처 리스트를 가져올 수 있다.")
-    void getVoucherList() {
-        var voucherList = jdbcVoucherRepository.getVoucherList();
-        assertThat(voucherList.isEmpty(), is(false));
-        assertThat(voucherList.size(), equalTo(1));
-    }
-
-    @Test
-    @Order(3)
-    @DisplayName("바우처를 삭제 할 수 있다.")
-    void delete() {
-        jdbcVoucherRepository.delete(fixedAmountVoucher);
-        var voucherList = jdbcVoucherRepository.getVoucherList();
-        assertThat(voucherList.isEmpty(), is(true));
-    }
-
-    @Test
-    @Order(2)
-    @DisplayName("바우처 owner 값을 update 할 수 있다.")
-    void updateVoucherOwner() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        customerRepository.insert(customer);
-        var voucher = jdbcVoucherRepository.updateVoucherOwner(fixedAmountVoucher.getVoucherId(), customer.getCustomerId());
-        assertThat(customer.getCustomerId(), is(voucher.getCustomer().getCustomerId()));
-    }
-
-    @Test
-    @Order(2)
-    @DisplayName("customers 테이블에 등록되지 않은 사용자에게 바우처 할당시 foreingkey 에러가난다.")
-    void updateForeignKeyConstrains() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        assertThrows(DataIntegrityViolationException.class,
-                () -> jdbcVoucherRepository.updateVoucherOwner(fixedAmountVoucher.getVoucherId(), customer.getCustomerId()));
-
+    @DisplayName("사용자에게 할당된 바우처면, 바우처값을 가져올 수 있다.")
+    void getVoucherProvided() {
+        Customer newCustomer = new Customer(UUID.randomUUID(),"test","test@gmail.com",LocalDateTime.now() ,LocalDateTime.now());
+        Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
+        customerRepository.insert(newCustomer);
+        jdbcVoucherRepository.insert(newVoucher);
+        jdbcVoucherRepository.updateVoucherOwner(newVoucher.getVoucherId(), newCustomer.getCustomerId());
+        Voucher voucher = jdbcWalletRepository.selectJoinVoucherCustomer(newVoucher.getVoucherId());
+        assertThat(voucher.getCustomer().getCustomerId(), equalTo(newCustomer.getCustomerId()));
     }
 }

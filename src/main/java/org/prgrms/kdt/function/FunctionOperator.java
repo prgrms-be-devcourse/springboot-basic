@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -34,41 +36,33 @@ public class FunctionOperator {
 
     public void execute(String type) {
         switch (type) {
-            case ("create"):
-                createVoucherByVoucherType();
-                break;
-            case ("voucherList"):
-                printVoucherList();
-                break;
-            case ("blackList"):
-                new OutputConsole().printList(blackListService.getBlackList());
-                break;
-            case ("add"):
-                createNewCustomer();
-                break;
+            case ("create") -> createVoucherByVoucherType();
+            case ("voucherList") -> printVoucherList();
+            case ("blackList") -> new OutputConsole().printList(blackListService.getBlackList());
+            case ("add") -> createNewCustomer();
+            case ("provide") -> provideVoucherToCustomer();
         }
     }
 
     private void createVoucherByVoucherType() {
-        //입출력
         Output output = new OutputConsole();
         output.printVoucherType();
         Input input = new InputConsole();
 
         try {
             voucherService.createVoucher(UUID.randomUUID(),
-                    Utility.toInt(input.inputVoucherType()),
+                    Utility.toInt(input.inputString()),
                     Utility.toInt(input.inputAmount()));
         } catch (IllegalArgumentException e) {
             logger.info("error -> {}", e.getMessage());
-            output.printExceptionMessage(e.getMessage());
+            output.printMessage(e.getMessage());
         }
     }
 
     private void printVoucherList() {
         Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
         if (voucherList.isEmpty()) {
-            new OutputConsole().printVoucherListEmptyError();
+            new OutputConsole().printMessage("voucher list is empty !!\n");
             return;
         }
         for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
@@ -83,6 +77,20 @@ public class FunctionOperator {
         String email = input.inputCustomerEmail();
         Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now(), LocalDateTime.now());
         customerService.join(customer);
+    }
+
+    private void provideVoucherToCustomer() {
+        List<Voucher> voucherList = voucherService.getOwnableVoucherList();
+        new OutputConsole().printList(voucherList);
+        String voucherId = new InputConsole().inputString();
+
+        List<Customer> customerList = customerService.getAllCustomers();
+        new OutputConsole().printList(customerList);
+        String customerId = new InputConsole().inputString();
+
+        //vouchers table update
+        Optional<Voucher> voucher = voucherService.provideVoucherToCustomer(voucherId, customerId);
+        voucher.ifPresent(value -> new OutputConsole().printMessage(value.getVoucherId() + " is provided"));
     }
 
 }
