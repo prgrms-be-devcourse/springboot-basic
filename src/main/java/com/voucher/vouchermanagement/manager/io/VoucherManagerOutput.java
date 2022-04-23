@@ -1,4 +1,4 @@
-package com.voucher.vouchermanagement.utils.io.manager;
+package com.voucher.vouchermanagement.manager.io;
 
 public interface VoucherManagerOutput {
     void println(String string);
