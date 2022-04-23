@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+<H1>Create Form</H1>
 <div class="container">
     <form role="form" action="/template/new" th:object="${voucherDto}" method="post">
         <div th:each="type : ${voucherTypes}" class="form-check form-check-inline">

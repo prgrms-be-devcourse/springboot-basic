@@ -60,37 +60,42 @@ public class TemplateVoucherController {
         return "list";
     }
 
-    /**
-     * GetMapping
-     */
-    @PutMapping("/order")
-    public String useVoucher(@RequestBody VoucherDto voucherDto, Model model) {
+    @GetMapping("/order")
+    public String orderForm(Model model) {
+        model.addAttribute("voucherDto", new VoucherDto());
+        return "orderForm";
+    }
+
+    @PostMapping("/order")
+    public String useVoucher(@ModelAttribute("voucherDto") VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
         voucher.useVoucher();
-        Voucher useVoucher = voucherService.updateVoucher(voucher);
-        model.addAttribute("updateVoucher", useVoucher);
+        voucherService.updateVoucher(voucher);
         return "redirect:";
     }
 
+    @GetMapping("/cancel")
+    public String cancelForm(Model model) {
+        model.addAttribute("voucherDto", new VoucherDto());
+        return "cancelForm";
+    }
 
-    /**
-     * GetMapping
-     */
-    @PutMapping("/cancel")
-    public String cancelVoucher(@RequestBody VoucherDto voucherDto, Model model) {
+    @PostMapping("/cancel")
+    public String cancelVoucher(@ModelAttribute("voucherDto") VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
         voucher.cancelVoucher();
-        Voucher cancelVoucher = voucherService.updateVoucher(voucher);
-        model.addAttribute(cancelVoucher);
+        voucherService.updateVoucher(voucher);
         return "redirect:";
     }
 
+    @GetMapping("/delete")
+    public String deleteForm(Model model) {
+        model.addAttribute("voucherDto", new VoucherDto());
+        return "deleteForm";
+    }
 
-    /**
-     * GetMapping
-     */
-    @DeleteMapping("/delete")
-    public String deleteVoucher(@RequestBody VoucherDto voucherDto) {
+    @PostMapping("/delete")
+    public String deleteVoucher(@ModelAttribute VoucherDto voucherDto) {
         UUID voucherId = voucherDto.getVoucherId();
         UUID customerId = voucherDto.getCustomerId();
         voucherService.deleteOneVoucherByCustomer(customerId, voucherId);
