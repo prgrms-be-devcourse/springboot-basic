@@ -5,21 +5,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.io.FileReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.UUID;
 
-@SpringJUnitConfig(value = CustomerTest.Config.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class CustomerTest {
-
-    @Configuration
-    @ComponentScan(basePackages = "org.prgms.io")
-    static class Config {
-
-    }
 
     @Autowired
     private FileReader fileReader;

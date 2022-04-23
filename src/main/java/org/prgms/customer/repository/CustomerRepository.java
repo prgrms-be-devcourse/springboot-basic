@@ -2,8 +2,6 @@ package org.prgms.customer.repository;
 
 import org.prgms.customer.Customer;
 import org.prgms.utils.UuidUtils;
-import org.prgms.validator.RepositoryValidator;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,6 +12,8 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 @Repository
 public class CustomerRepository {
@@ -50,11 +50,7 @@ public class CustomerRepository {
 
 
     public Optional<Customer> findByEmail(String email) {
-        return Optional.ofNullable(
-                jdbcTemplate.queryForObject(
-                        SELECT_BY_EMAIL,
-                        this::mapToCustomer,
-                        email));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL, this::mapToCustomer, email));
     }
 
 
@@ -65,24 +61,31 @@ public class CustomerRepository {
 
     public int save(Customer customer) {
         var update = jdbcTemplate.update(INSERT_QUERY, UuidUtils.uuidToBytes(customer.customerId()), customer.name(), customer.email());
-        RepositoryValidator.affectedRowMustBeOne(update);
+
+        checkArgument(update == 1, "데이터 저장 실패. 유효한 row 갯수가 1이 아님 : %s", update);
+
         return update;
     }
+
 
     public int deleteAll() {
         return jdbcTemplate.update(DELETE_QUERY);
     }
 
+
     public void deleteById(UUID customerId) {
         jdbcTemplate.update(DELETE_QUERY_BY_ID, UuidUtils.uuidToBytes(customerId));
     }
 
+
     public void update(Customer targetCustomer) {
         var update = jdbcTemplate.update(
-                UPDATE_NAME_BY_ID_QUERY, targetCustomer.name(), UuidUtils.uuidToBytes(targetCustomer.customerId()));
-        if (update != 1) {
-            throw new DataIntegrityViolationException(MessageFormat.format("데이터 업데이트 실패, 유효 row 갯수 {0}", update));
-        }
+                UPDATE_NAME_BY_ID_QUERY,
+                targetCustomer.name(),
+                UuidUtils.uuidToBytes(targetCustomer.customerId())
+        );
+
+        checkArgument(update == 1, "데이터 업데이트 실패. 유효한 row 갯수 1이 아님 : %s", update);
     }
 
     private Customer mapToCustomer(ResultSet resultSet, int rowNum) {
