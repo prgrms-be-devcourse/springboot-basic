@@ -7,14 +7,24 @@ public class VoucherDto {
 
     public record CreateVoucherRequest(
             long discountValue,
-            VoucherType voucherType) {
+            VoucherType voucherType
+            ) {
 
     }
 
     public record CreateVoucherResponse(
             Long voucherId,
             long discountValue,
-            VoucherType voucherType) {
+            VoucherType voucherType
+            ) {
 
+        public static CreateVoucherResponse from(Voucher voucher) {
+
+            return new CreateVoucherResponse(
+                    voucher.getVoucherId(),
+                    voucher.getDiscountValue(),
+                    voucher.getVoucherType()
+            );
+        }
     }
 }
