@@ -81,8 +81,10 @@ public class Administrator {
                         List<BlacklistCustomerDto> blackListedCustomers = customerService.getBlackList();
                         outputService.showBlacklist(blackListedCustomers);
                         break;
-                    default:
+                    case EXIT:
                         return;
+                    default:
+                        throw new WrongInputException();
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage());
