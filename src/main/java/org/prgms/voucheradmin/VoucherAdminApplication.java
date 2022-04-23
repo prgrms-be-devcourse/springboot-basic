@@ -9,6 +9,8 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class VoucherAdminApplication {
 	public static void main(String[] args) {
+		System.out.println((long)(10/100.0*1));
+
 		AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
 
 		ApplicationContext applicationContext = SpringApplication.run(VoucherAdminApplication.class, args);
