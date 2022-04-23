@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: dev
+
+path:
+  voucher: voucher.txt
+  blacklist: blacklist.csv

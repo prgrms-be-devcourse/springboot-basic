@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan(basePackages = {"org.prgrms.kdt.voucher",
     "org.prgrms.kdt.controller"})
 @EnableConfigurationProperties
-@PropertySource(value = "application.properties")
+@PropertySource(value = "application.properties", factory = YamlPropertiesFactory.class)
 public class VoucherConfig {
 
 }
