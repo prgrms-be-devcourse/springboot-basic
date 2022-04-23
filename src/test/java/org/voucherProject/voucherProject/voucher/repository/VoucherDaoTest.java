@@ -255,24 +255,38 @@ public class VoucherDaoTest {
         }
     }
 
-    @Test
+    @Nested
     @DisplayName("바우처 타입으로 찾기")
-    public void findByVoucherType() throws Exception {
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
-        Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
-        Voucher voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
-        Voucher voucher5 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
-        voucherDao.save(voucher2);
-        voucherDao.save(voucher3);
-        voucherDao.save(voucher4);
-        voucherDao.save(voucher5);
+    class findByVoucherType {
+        @Test
+        @DisplayName("바우처 타입으로 찾기 -> 성공")
+        public void findByVoucherType() throws Exception {
+            Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, customer.getCustomerId());
+            Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 30, customer.getCustomerId());
+            Voucher voucher4 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+            Voucher voucher5 = new PercentDiscountVoucher(UUID.randomUUID(), 25, customer.getCustomerId());
+            voucherDao.save(voucher2);
+            voucherDao.save(voucher3);
+            voucherDao.save(voucher4);
+            voucherDao.save(voucher5);
 
-        List<Voucher> byFixedVoucherType = voucherDao.findByVoucherType(VoucherType.FIXED);
-        assertThat(byFixedVoucherType.size()).isEqualTo(2);
+            List<Voucher> byFixedVoucherType = voucherDao.findByVoucherType(VoucherType.FIXED);
+            assertThat(byFixedVoucherType.size()).isEqualTo(2);
 
-        List<Voucher> byPercentVoucherType = voucherDao.findByVoucherType(VoucherType.PERCENT);
-        assertThat(byPercentVoucherType.size()).isEqualTo(3);
+            List<Voucher> byPercentVoucherType = voucherDao.findByVoucherType(VoucherType.PERCENT);
+            assertThat(byPercentVoucherType.size()).isEqualTo(3);
+        }
 
+        @Test
+        @DisplayName("바우처 타입 null 입력 -> 예외 발생(NPE)")
+        public void findByNullVoucherType() throws Exception {
+            assertThrows(NullPointerException.class, () -> voucherDao.findByVoucherType(null));
+        }
+        @Test
+        @DisplayName("이상한 바우처 타입 입력 -> 예외 발생 (IllegalArgumentException)")
+        public void findByWrongVoucherType() throws Exception {
+            assertThrows(IllegalArgumentException.class, () -> voucherDao.findByVoucherType(VoucherType.valueOf("None")));
+        }
     }
 
     @Nested

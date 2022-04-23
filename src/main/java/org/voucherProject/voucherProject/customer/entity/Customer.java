@@ -8,6 +8,8 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 @ToString
+@Builder
+@AllArgsConstructor
 public class Customer {
 
     private final UUID customerId;
@@ -35,15 +37,6 @@ public class Customer {
         this.customerEmail = customerEmail;
         this.password = password;
         this.createdAt = LocalDateTime.now();
-    }
-
-    public Customer(UUID customerId, String customerName, String customerEmail, String password, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
-        this.password = password;
-        this.createdAt = createdAt;
-        this.lastLoginAt = lastLoginAt;
     }
 
     public void updatePassword(String newPassword) {

@@ -55,6 +55,5 @@ public enum VoucherType {
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }
-
 }
 

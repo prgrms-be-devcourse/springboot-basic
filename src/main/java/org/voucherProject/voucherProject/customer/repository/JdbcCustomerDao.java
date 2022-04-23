@@ -1,9 +1,7 @@
 package org.voucherProject.voucherProject.customer.repository;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -130,7 +128,14 @@ public class JdbcCustomerDao implements CustomerDao {
             LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
             LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                     resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-            return new Customer(customerId, customerName, email, password, createdAt, lastLoginAt);
+            return Customer.builder()
+                    .customerId(customerId)
+                    .customerName(customerName)
+                    .customerEmail(email)
+                    .password(password)
+                    .createdAt(createdAt)
+                    .lastLoginAt(lastLoginAt)
+                    .build();
         };
     }
 

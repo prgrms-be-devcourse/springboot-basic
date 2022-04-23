@@ -10,19 +10,17 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class SimpleVoucherController implements VoucherController {
+public class SimpleVoucherController {
 
     private final VoucherService voucherService;
 
-    @Override
-    public Voucher createVoucher(VoucherDto voucherDto){
+    public Voucher createVoucher(VoucherDto voucherDto) {
         UUID customerId = voucherDto.getCustomerId();
         long amount = voucherDto.getAmount();
         Voucher voucher = voucherDto.getVoucherType().createVoucher(amount, customerId);
         return voucherService.save(voucher);
     }
 
-    @Override
     public List<VoucherDto> findAll() {
         List<Voucher> vouchers = voucherService.findAll();
         return vouchers.stream()
@@ -34,14 +32,12 @@ public class SimpleVoucherController implements VoucherController {
                 .toList();
     }
 
-    @Override
     public void useVoucher(VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
         voucher.useVoucher();
         voucherService.updateVoucher(voucher);
     }
 
-    @Override
     public VoucherDto findById(VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
         return VoucherDto.builder()

@@ -13,7 +13,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/voucher")
-public class JsonVoucherController {
+public class RestApiVoucherController {
 
     private final VoucherService voucherService;
 
@@ -66,8 +66,8 @@ public class JsonVoucherController {
     }
 
     @GetMapping("/list-created-at")
-    public List<VoucherDto> findByCreatedAtBetweenAandB(@RequestParam("date1") String date1,
-                                                        @RequestParam("date2") String date2) {
+    public List<VoucherDto> findByCreatedAtBetweenDateToDate(@RequestParam("date1") String date1,
+                                                             @RequestParam("date2") String date2) {
         List<Voucher> byCreatedAtBetween = voucherService.findByCreatedAtBetween(date1, date2);
         return byCreatedAtBetween.stream().map(VoucherDto::of).toList();
     }
