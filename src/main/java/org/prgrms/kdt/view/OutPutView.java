@@ -24,11 +24,11 @@ public class OutPutView {
         Arrays.stream(VoucherMenu.values()).forEach(v -> System.out.println(v.getMessage()));
     }
 
-    public static void showsVoucherHistory(Collection<Voucher> vouchers) {
+    public static void show(Collection<Voucher> vouchers) {
         vouchers.forEach(System.out::println);
     }
 
-    public static void showsBlackList(List<Customer> customers) {
+    public static void show(List<Customer> customers) {
         customers.forEach(System.out::println);
     }
 

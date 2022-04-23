@@ -53,11 +53,11 @@ public class VoucherController {
                 break;
             case LIST:
                 Collection<Voucher> vouchers = voucherService.getVouchers();
-                OutPutView.showsVoucherHistory(vouchers);
+                OutPutView.show(vouchers);
                 break;
             case CUSTOMER:
                 List<Customer> customers = customerService.getAll();
-                OutPutView.showsBlackList(customers);
+                OutPutView.show(customers);
                 break;
         }
     }
