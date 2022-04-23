@@ -1,10 +1,8 @@
 package org.prgrms.voucherapplication.service;
 
-import org.prgrms.voucherapplication.entity.FixedAmountVoucher;
-import org.prgrms.voucherapplication.entity.PercentDiscountVoucher;
 import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.exception.NoSuchVoucherException;
-import org.prgrms.voucherapplication.repository.VoucherRepository;
+import org.prgrms.voucherapplication.repository.voucher.VoucherRepository;
 import org.prgrms.voucherapplication.view.io.VoucherType;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -64,18 +62,8 @@ public class VoucherService {
      */
     public Voucher createVoucher(VoucherType voucherType, long discountValue) {
         UUID voucherId = UUID.randomUUID();
-        if (voucherType.equals(VoucherType.FixedAmount)) {
-            return createFixedAmountVoucher(voucherId, discountValue);
-        } else {
-            return createPercentDiscountVoucher(voucherId, discountValue);
-        }
+
+        return voucherType.getVoucherInstance(voucherId, discountValue);
     }
 
-    private FixedAmountVoucher createFixedAmountVoucher(UUID voucherId, long amount) {
-        return new FixedAmountVoucher(voucherId, amount);
-    }
-
-    private PercentDiscountVoucher createPercentDiscountVoucher(UUID voucherId, long percent) {
-        return new PercentDiscountVoucher(voucherId, percent);
-    }
 }
