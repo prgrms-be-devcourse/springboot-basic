@@ -69,7 +69,7 @@ public class CommandLineRunner implements Runnable {
     }
 
     private void createVoucher() {
-        output.printVoucherType();
+        output.printMessage("바우처 타입을 선택해주세요.\n" + VoucherType.getAllVoucherManual());
 
         try {
             VoucherType voucherType = VoucherType.getVoucherType(input.input());
@@ -78,7 +78,7 @@ public class CommandLineRunner implements Runnable {
             long voucherValue = input.inputLong();
 
             Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), voucherValue, voucherType);
-            output.printVoucherCreateSuccess(voucher.toString());
+            output.printMessage("바우처 생성에 성공하였습니다. " + voucher.toString());
         } catch (IllegalArgumentException e) {
             logger.warn("[Voucher] create error: {}", e.getMessage(), e);
             output.printMessage(e.getMessage());
@@ -86,16 +86,16 @@ public class CommandLineRunner implements Runnable {
     }
 
     private void updateVoucher() {
-        output.printVoucherUpdateManual();
+        output.printMessage("수정할 바우처 ID를 입력해주세요.");
 
         try {
             UUID voucherId = UUID.fromString(input.input());
 
-            output.printVoucherUpdateValue();
+            output.printMessage("수정할 바우처 값을 입력해주세요.");
             long voucherValue = input.inputLong();
 
             Voucher voucher = voucherService.updateVoucherValue(voucherId, voucherValue);
-            output.printVoucherUpdateSuccess(voucher.toString());
+            output.printMessage("바우처 수정에 성공하였습니다. " + voucher.toString());
         } catch (RuntimeException e) {
             logger.warn("[Voucher] update error: {}", e.getMessage(), e);
             output.printMessage(e.getMessage());
@@ -103,13 +103,13 @@ public class CommandLineRunner implements Runnable {
     }
 
     private void deleteVoucher() {
-        output.printVoucherDeleteManual();
+        output.printMessage("삭제할 바우처 ID를 입력해주세요.");
 
         try {
             UUID voucherId = UUID.fromString(input.input());
 
             voucherService.deleteVoucher(voucherId);
-            output.printVoucherDeleteSuccess();
+            output.printMessage("바우처 삭제에 성공하였습니다. voucherId=" + voucherId);
         } catch (RuntimeException e) {
             logger.warn("[Voucher] delete error: {}", e.getMessage(), e);
             output.printMessage(e.getMessage());
