@@ -47,7 +47,7 @@ public class Console implements Input, Output {
     public Menu inputMenu() throws InvalidMenuException {
         System.out.println(MENU_INPUT_TEXT);
         String input = scanner.nextLine();
-        return Menu.getMenu(input);
+        return Menu.valueOf(input.toUpperCase());
     }
 
     /**
@@ -75,7 +75,7 @@ public class Console implements Input, Output {
      */
     @Override
     public Long inputDiscount(VoucherType type) throws InputMismatchException {
-        if (type.equals(VoucherType.FixedAmount)) {
+        if (type.equals(VoucherType.FIXED_AMOUNT)) {
             System.out.println(VOUCHER_DISCOUNT_AMOUNT_INPUT_TEXT);
         } else {
             System.out.println(VOUCHER_DISCOUNT_PERCENT_INPUT_TEXT);
@@ -101,7 +101,7 @@ public class Console implements Input, Output {
      * @param customers
      */
     @Override
-    public void printBlackList(List<Customer> customers) {
+    public void printBlackList(List<BlackListCustomer> customers) {
         customers.stream().forEach(customer -> System.out.println(customer.toString()));
     }
 
