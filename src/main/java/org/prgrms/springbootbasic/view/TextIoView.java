@@ -58,21 +58,20 @@ import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.prgrms.springbootbasic.exception.InvalidateUUIDFormat;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ConsoleView {
+public class TextIoView implements View {
 
     private static final String FILE_CUSTOMER_BLACKLIST_CSV = "file:customer_blacklist.csv";
     private static final String RED = "red";
     private final TextIO textIO = TextIoFactory.getTextIO();
     private final File customerBlackList;
 
-    public ConsoleView(ApplicationContext applicationContext) throws IOException {
+    public TextIoView(ApplicationContext applicationContext) throws IOException {
         this.customerBlackList = applicationContext.getResource(FILE_CUSTOMER_BLACKLIST_CSV)
             .getFile();
     }
 
+    @Override
     public void printMenu() {
         TextTerminal<?> terminal = textIO.getTextTerminal();
 
@@ -91,14 +90,7 @@ public class ConsoleView {
         terminal.println();
     }
 
-    private void printLine(TextTerminal<?> terminal, String menu, String explain) {
-        terminal.print(TYPE);
-        terminal.executeWithPropertiesConfigurator(
-            props -> props.setPromptBold(true),
-            t -> t.print(menu));
-        terminal.println(explain);
-    }
-
+    @Override
     public Menu inputMenu() {
         Menu menu = textIO.newEnumInputReader(Menu.class)
             .read(SELECT_MENU);
@@ -106,6 +98,7 @@ public class ConsoleView {
         return menu;
     }
 
+    @Override
     public VoucherType selectVoucherType() {
         VoucherType voucherType = textIO.newEnumInputReader(VoucherType.class)
             .read(SELECT_VOUCHER_TYPE);
@@ -113,6 +106,7 @@ public class ConsoleView {
         return voucherType;
     }
 
+    @Override
     public int selectAmount() {
         int amount = textIO.newIntInputReader()
             .withMaxVal(FixedAmountVoucher.MIN_RANGE)
@@ -122,6 +116,7 @@ public class ConsoleView {
         return amount;
     }
 
+    @Override
     public int selectPercent() {
         int percent = textIO.newIntInputReader()
             .withMinVal(PercentDiscountVoucher.MIN_RANGE)
@@ -131,6 +126,7 @@ public class ConsoleView {
         return percent;
     }
 
+    @Override
     public void printList(List<Voucher> vouchers) {
         TextTerminal<?> terminal = textIO.getTextTerminal();
         terminal.println(VOUCHER_LIST);
@@ -140,19 +136,7 @@ public class ConsoleView {
         terminal.println();
     }
 
-    private void printVoucher(TextTerminal<?> terminal, Voucher voucher) {
-        terminal.print(VOUCHER_ID + voucher.getVoucherId());
-
-        if (voucher.getClass() == FixedAmountVoucher.class) {
-            var fixedAmountVoucher = (FixedAmountVoucher) voucher;
-            terminal.println(AMOUNT + fixedAmountVoucher.getAmount());
-        }
-        if (voucher.getClass() == PercentDiscountVoucher.class) {
-            var percentDiscountVoucher = (PercentDiscountVoucher) voucher;
-            terminal.println(PERCENT + percentDiscountVoucher.getPercent());
-        }
-    }
-
+    @Override
     public void printCustomerBlackList() {
         TextTerminal<?> terminal = textIO.getTextTerminal();
 
@@ -171,16 +155,19 @@ public class ConsoleView {
         }
     }
 
+    @Override
     public String selectName() {
         return textIO.newStringInputReader()
             .read(SELECT_CUSTOMER_NAME);
     }
 
+    @Override
     public String selectEmail() {
         return textIO.newStringInputReader()
             .read(SELECT_CUSTOMER_EMAIL);
     }
 
+    @Override
     public void printAllCustomers(List<Customer> customers) {
         TextTerminal<?> terminal = textIO.getTextTerminal();
         terminal.println(CUSTOMER_LIST);
@@ -192,6 +179,7 @@ public class ConsoleView {
         terminal.println();
     }
 
+    @Override
     public void printError(String message) {
         TextTerminal<?> terminal = textIO.getTextTerminal();
 
@@ -205,6 +193,7 @@ public class ConsoleView {
         terminal.println();
     }
 
+    @Override
     public UUID selectVoucherId() {
         var voucherId = textIO.newStringInputReader()
             .read(SELECT_VOUCHER_ID);
@@ -212,11 +201,44 @@ public class ConsoleView {
         return UUID.fromString(voucherId);
     }
 
+    @Override
     public UUID selectCustomerId() {
         var customerId = textIO.newStringInputReader()
             .read(SELECT_CUSTOMER_ID);
         validateUUIDFormat(customerId);
         return UUID.fromString(customerId);
+    }
+
+
+    @Override
+    public void printCustomerVouchers(List<Voucher> customerVoucher) {
+        TextTerminal<?> terminal = textIO.getTextTerminal();
+        terminal.println(CUSTOMER_S_VOUCHER_LIST);
+        terminal.println();
+
+        customerVoucher.forEach(voucher -> printVoucher(terminal, voucher));
+        terminal.println();
+    }
+
+    private void printLine(TextTerminal<?> terminal, String menu, String explain) {
+        terminal.print(TYPE);
+        terminal.executeWithPropertiesConfigurator(
+            props -> props.setPromptBold(true),
+            t -> t.print(menu));
+        terminal.println(explain);
+    }
+
+    private void printVoucher(TextTerminal<?> terminal, Voucher voucher) {
+        terminal.print(VOUCHER_ID + voucher.getVoucherId());
+
+        if (voucher.getClass() == FixedAmountVoucher.class) {
+            var fixedAmountVoucher = (FixedAmountVoucher) voucher;
+            terminal.println(AMOUNT + fixedAmountVoucher.getAmount());
+        }
+        if (voucher.getClass() == PercentDiscountVoucher.class) {
+            var percentDiscountVoucher = (PercentDiscountVoucher) voucher;
+            terminal.println(PERCENT + percentDiscountVoucher.getPercent());
+        }
     }
 
     private void validateUUIDFormat(String uuid) {
@@ -225,14 +247,5 @@ public class ConsoleView {
         } catch (IllegalArgumentException exception) {
             throw new InvalidateUUIDFormat();
         }
-    }
-
-    public void printCustomerVouchers(List<Voucher> customerVoucher) {
-        TextTerminal<?> terminal = textIO.getTextTerminal();
-        terminal.println(CUSTOMER_S_VOUCHER_LIST);
-        terminal.println();
-
-        customerVoucher.forEach(voucher -> printVoucher(terminal, voucher));
-        terminal.println();
     }
 }

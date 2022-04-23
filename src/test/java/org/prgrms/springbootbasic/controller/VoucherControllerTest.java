@@ -18,13 +18,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
-import org.prgrms.springbootbasic.view.ConsoleView;
+import org.prgrms.springbootbasic.view.TextIoView;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherControllerTest {
 
     @Mock
-    ConsoleView consoleView;
+    TextIoView view;
 
     @Mock
     VoucherService voucherService;
@@ -36,14 +36,14 @@ class VoucherControllerTest {
 
     @BeforeEach
     void init() {
-        voucherController = new VoucherController(voucherService, consoleView, customerService);
+        voucherController = new VoucherController(voucherService, view, customerService);
     }
 
     @DisplayName("EXIT 테스트")
     @Test
     void exit() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.EXIT);
+        when(view.inputMenu()).thenReturn(Menu.EXIT);
 
         //when
         boolean actual = voucherController.process();
@@ -56,33 +56,33 @@ class VoucherControllerTest {
     @Test
     void list() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.LIST);
+        when(view.inputMenu()).thenReturn(Menu.LIST);
 
         //when
         voucherController.process();
 
         //then
-        var inOrder = inOrder(consoleView, voucherService);
-        inOrder.verify(consoleView).inputMenu();
+        var inOrder = inOrder(view, voucherService);
+        inOrder.verify(view).inputMenu();
         inOrder.verify(voucherService).findAll();
-        inOrder.verify(consoleView).printList(anyList());
+        inOrder.verify(view).printList(anyList());
     }
 
     @DisplayName("FixedAmountVoucher 생성 테스트")
     @Test
     void createFixedAmountVoucher() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.CREATE);
-        when(consoleView.selectVoucherType()).thenReturn(VoucherType.FIXED);
+        when(view.inputMenu()).thenReturn(Menu.CREATE);
+        when(view.selectVoucherType()).thenReturn(VoucherType.FIXED);
 
         //when
         voucherController.process();
 
         //then
-        var inOrder = inOrder(consoleView, voucherService);
-        inOrder.verify(consoleView).inputMenu();
-        inOrder.verify(consoleView).selectVoucherType();
-        inOrder.verify(consoleView).selectAmount();
+        var inOrder = inOrder(view, voucherService);
+        inOrder.verify(view).inputMenu();
+        inOrder.verify(view).selectVoucherType();
+        inOrder.verify(view).selectAmount();
         inOrder.verify(voucherService).createVoucher(any(VoucherType.class), anyInt(), anyInt());
     }
 
@@ -90,17 +90,17 @@ class VoucherControllerTest {
     @Test
     void createPercentAmountVoucher() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.CREATE);
-        when(consoleView.selectVoucherType()).thenReturn(VoucherType.PERCENT);
+        when(view.inputMenu()).thenReturn(Menu.CREATE);
+        when(view.selectVoucherType()).thenReturn(VoucherType.PERCENT);
 
         //when
         voucherController.process();
 
         //then
-        var inOrder = inOrder(consoleView, voucherService);
-        inOrder.verify(consoleView).inputMenu();
-        inOrder.verify(consoleView).selectVoucherType();
-        inOrder.verify(consoleView).selectPercent();
+        var inOrder = inOrder(view, voucherService);
+        inOrder.verify(view).inputMenu();
+        inOrder.verify(view).selectVoucherType();
+        inOrder.verify(view).selectPercent();
         inOrder.verify(voucherService).createVoucher(any(VoucherType.class), anyInt(), anyInt());
     }
 
@@ -108,33 +108,33 @@ class VoucherControllerTest {
     @Test
     void blackList() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.BLACKLIST);
+        when(view.inputMenu()).thenReturn(Menu.BLACKLIST);
 
         //when
         voucherController.process();
 
         //then
-        var inOrder = inOrder(consoleView);
-        inOrder.verify(consoleView).inputMenu();
-        inOrder.verify(consoleView).printCustomerBlackList();
+        var inOrder = inOrder(view);
+        inOrder.verify(view).inputMenu();
+        inOrder.verify(view).printCustomerBlackList();
     }
 
     @DisplayName("createCustomer 테스트")
     @Test
     void createCustomer() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.CREATECUSTOMER);
-        when(consoleView.selectName()).thenReturn("");
-        when(consoleView.selectEmail()).thenReturn("");
+        when(view.inputMenu()).thenReturn(Menu.CREATECUSTOMER);
+        when(view.selectName()).thenReturn("");
+        when(view.selectEmail()).thenReturn("");
 
         //when
         voucherController.process();
 
         //then
-        var inOrder = inOrder(consoleView, customerService);
-        inOrder.verify(consoleView).inputMenu();
-        inOrder.verify(consoleView).selectName();
-        inOrder.verify(consoleView).selectEmail();
+        var inOrder = inOrder(view, customerService);
+        inOrder.verify(view).inputMenu();
+        inOrder.verify(view).selectName();
+        inOrder.verify(view).selectEmail();
         inOrder.verify(customerService).createCustomer(anyString(), anyString());
     }
 
@@ -142,17 +142,17 @@ class VoucherControllerTest {
     @Test
     void assignVoucher() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.ASSIGNVOUCHER);
-        when(consoleView.selectVoucherId()).thenReturn(UUID.randomUUID());
-        when(consoleView.selectCustomerId()).thenReturn(UUID.randomUUID());
+        when(view.inputMenu()).thenReturn(Menu.ASSIGNVOUCHER);
+        when(view.selectVoucherId()).thenReturn(UUID.randomUUID());
+        when(view.selectCustomerId()).thenReturn(UUID.randomUUID());
 
         //when
         voucherController.process();
 
         //then
-        var inOrder = inOrder(consoleView, voucherService);
-        inOrder.verify(consoleView).selectVoucherId();
-        inOrder.verify(consoleView).selectCustomerId();
+        var inOrder = inOrder(view, voucherService);
+        inOrder.verify(view).selectVoucherId();
+        inOrder.verify(view).selectCustomerId();
         inOrder.verify(voucherService).assignVoucherToCustomer(any(UUID.class), any(UUID.class));
     }
 
@@ -160,17 +160,17 @@ class VoucherControllerTest {
     @Test
     void listCustomerVoucher() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.LISTCUSTOMERVOUCHER);
+        when(view.inputMenu()).thenReturn(Menu.LISTCUSTOMERVOUCHER);
         UUID customerId = UUID.randomUUID();
-        when(consoleView.selectCustomerId()).thenReturn(customerId);
+        when(view.selectCustomerId()).thenReturn(customerId);
         when(voucherService.findCustomerVoucher(customerId)).thenReturn(Collections.emptyList());
 
         //when
         voucherController.process();
 
         //then
-        var inOrder = inOrder(consoleView, voucherService);
-        inOrder.verify(consoleView).selectCustomerId();
+        var inOrder = inOrder(view, voucherService);
+        inOrder.verify(view).selectCustomerId();
         inOrder.verify(voucherService).findCustomerVoucher(customerId);
     }
 
@@ -178,17 +178,17 @@ class VoucherControllerTest {
     @Test
     void deleteCustomerVoucher() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.DELETECUSTOMERVOUCHER);
-        when(consoleView.selectCustomerId()).thenReturn(UUID.randomUUID());
-        when(consoleView.selectVoucherId()).thenReturn(UUID.randomUUID());
+        when(view.inputMenu()).thenReturn(Menu.DELETECUSTOMERVOUCHER);
+        when(view.selectCustomerId()).thenReturn(UUID.randomUUID());
+        when(view.selectVoucherId()).thenReturn(UUID.randomUUID());
 
         //when
         voucherController.process();
 
         //then
-        var inOrder = inOrder(consoleView, customerService);
-        inOrder.verify(consoleView).selectCustomerId();
-        inOrder.verify(consoleView).selectVoucherId();
+        var inOrder = inOrder(view, customerService);
+        inOrder.verify(view).selectCustomerId();
+        inOrder.verify(view).selectVoucherId();
         inOrder.verify(customerService).deleteVoucher(any(UUID.class), any(UUID.class));
     }
 
@@ -196,8 +196,8 @@ class VoucherControllerTest {
     @Test
     void listCustomerHavingSpecificVoucherType() {
         //given
-        when(consoleView.inputMenu()).thenReturn(Menu.LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE);
-        when(consoleView.selectVoucherType()).thenReturn(VoucherType.FIXED);
+        when(view.inputMenu()).thenReturn(Menu.LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE);
+        when(view.selectVoucherType()).thenReturn(VoucherType.FIXED);
         when(customerService.findCustomerHavingSpecificVoucherType(VoucherType.FIXED))
             .thenReturn(Collections.emptyList());
 
@@ -205,9 +205,9 @@ class VoucherControllerTest {
         voucherController.process();
 
         //then
-        var inOrder = inOrder(consoleView, customerService);
-        inOrder.verify(consoleView).selectVoucherType();
+        var inOrder = inOrder(view, customerService);
+        inOrder.verify(view).selectVoucherType();
         inOrder.verify(customerService).findCustomerHavingSpecificVoucherType(VoucherType.FIXED);
-        inOrder.verify(consoleView).printAllCustomers(anyList());
+        inOrder.verify(view).printAllCustomers(anyList());
     }
 }

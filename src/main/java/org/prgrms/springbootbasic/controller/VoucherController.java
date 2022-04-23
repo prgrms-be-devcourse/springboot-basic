@@ -3,7 +3,7 @@ package org.prgrms.springbootbasic.controller;
 import org.prgrms.springbootbasic.exception.ServiceException;
 import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
-import org.prgrms.springbootbasic.view.ConsoleView;
+import org.prgrms.springbootbasic.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,13 +13,13 @@ public class VoucherController {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
-    private final ConsoleView consoleView;
+    private final View view;
     private final CustomerService customerService;
 
-    public VoucherController(VoucherService voucherService, ConsoleView consoleView,
+    public VoucherController(VoucherService voucherService, View view,
         CustomerService customerService) {
         this.voucherService = voucherService;
-        this.consoleView = consoleView;
+        this.view = view;
         this.customerService = customerService;
     }
 
@@ -33,15 +33,15 @@ public class VoucherController {
     public boolean process() {
         logger.info("process() called");
 
-        consoleView.printMenu();
-        Menu menu = consoleView.inputMenu();
+        view.printMenu();
 
         try {
+            Menu menu = view.inputMenu();
             return menu.apply(this);
         } catch (ServiceException exception) {
             logger.info("Got service exception");
 
-            consoleView.printError(exception.getMessage());
+            view.printError(exception.getMessage());
             return true;
         } catch (Exception exception) {
             logger.error("Got system exception", exception);
@@ -52,15 +52,15 @@ public class VoucherController {
     public void createVoucher() {
         logger.info("createVoucher() called");
 
-        VoucherType voucherType = consoleView.selectVoucherType();
+        VoucherType voucherType = view.selectVoucherType();
 
         if (voucherType.isFixed()) {
-            int amount = consoleView.selectAmount();
+            int amount = view.selectAmount();
             voucherService.createVoucher(voucherType, amount, 0);
         }
 
         if (voucherType.isPercent()) {
-            int percent = consoleView.selectPercent();
+            int percent = view.selectPercent();
             voucherService.createVoucher(voucherType, 0, percent);
         }
     }
@@ -68,57 +68,57 @@ public class VoucherController {
     public void printList() {
         logger.info("printList() called");
 
-        consoleView.printList(voucherService.findAll());
+        view.printList(voucherService.findAll());
     }
 
     public void printBlackList() {
         logger.info("printBlackList() called");
 
-        consoleView.printCustomerBlackList();
+        view.printCustomerBlackList();
     }
 
     public void createCustomer() {
         logger.info("createCustomer() called");
 
-        var name = consoleView.selectName();
-        var email = consoleView.selectEmail();
+        var name = view.selectName();
+        var email = view.selectEmail();
         customerService.createCustomer(name, email);
     }
 
     public void printAllCustomers() {
         logger.info("printAllCustomers() called");
 
-        consoleView.printAllCustomers(customerService.findAllCustomers());
+        view.printAllCustomers(customerService.findAllCustomers());
     }
 
     public void assignVoucher() {
         logger.info("assignVoucher() called");
 
-        var voucherId = consoleView.selectVoucherId();
-        var customerId = consoleView.selectCustomerId();
+        var voucherId = view.selectVoucherId();
+        var customerId = view.selectCustomerId();
         voucherService.assignVoucherToCustomer(voucherId, customerId);
     }
 
     public void listCustomerVoucher() {
         logger.info("listCustomerVoucher() called");
 
-        var customerId = consoleView.selectCustomerId();
-        consoleView.printCustomerVouchers(voucherService.findCustomerVoucher(customerId));
+        var customerId = view.selectCustomerId();
+        view.printCustomerVouchers(voucherService.findCustomerVoucher(customerId));
     }
 
     public void deleteCustomerVoucher() {
         logger.info("deleteCustomerVoucher() called");
 
-        var customerId = consoleView.selectCustomerId();
-        var voucherId = consoleView.selectVoucherId();
+        var customerId = view.selectCustomerId();
+        var voucherId = view.selectVoucherId();
         customerService.deleteVoucher(customerId, voucherId);
     }
 
     public void listCustomerHavingSpecificVoucherType() {
         logger.info("listCustomerHavingSpecificVoucherType() called");
 
-        var voucherType = consoleView.selectVoucherType();
-        consoleView.printAllCustomers(
+        var voucherType = view.selectVoucherType();
+        view.printAllCustomers(
             customerService.findCustomerHavingSpecificVoucherType(voucherType));
     }
 }
