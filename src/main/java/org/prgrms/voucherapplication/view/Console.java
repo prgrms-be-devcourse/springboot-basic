@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.BiConsumer;
 
 /**
  * 콘솔로 입출력하는 class

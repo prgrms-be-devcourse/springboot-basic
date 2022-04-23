@@ -4,7 +4,6 @@ import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.exception.InvalidMenuException;
 import org.prgrms.voucherapplication.exception.InvalidVoucherTypeException;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public interface Input {

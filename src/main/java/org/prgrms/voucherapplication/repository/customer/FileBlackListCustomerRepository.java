@@ -2,7 +2,6 @@ package org.prgrms.voucherapplication.repository.customer;
 
 import org.prgrms.voucherapplication.configutarion.FilePathConfiguration;
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
-import org.prgrms.voucherapplication.entity.Customer;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
