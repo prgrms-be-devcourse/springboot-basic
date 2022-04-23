@@ -37,7 +37,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public List<Voucher> getAllVouchers() {
-        return voucherRepository.readVouchers();
+        return voucherRepository.readAllVouchers();
     }
 
     @Override

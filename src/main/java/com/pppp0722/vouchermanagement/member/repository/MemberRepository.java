@@ -9,7 +9,7 @@ public interface MemberRepository {
 
     Optional<Member> createMember(Member member);
 
-    List<Member> readMembers();
+    List<Member> readAllMembers();
 
     Optional<Member> readMember(UUID memberId);
 

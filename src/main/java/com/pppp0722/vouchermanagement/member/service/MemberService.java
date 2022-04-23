@@ -11,7 +11,7 @@ public interface MemberService {
 
     List<Member> getAllMembers();
 
-    Optional<Member> getMemberById(UUID memberID);
+    Optional<Member> getMemberByMemberId(UUID memberID);
 
     Optional<Member> updateMember(UUID memberId, String name);
 

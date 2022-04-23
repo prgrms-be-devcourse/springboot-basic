@@ -29,8 +29,9 @@ public class Read {
         this.voucherService = voucherService;
     }
 
+    // member -> readMember(), voucher -> readVoucher(), wallet -> readWallet()
     public void start() {
-        EntityType type = console.inputEntityType("member\nvoucher");
+        EntityType type = console.inputEntityType("member\nvoucher\nwallet");
         if (type.equals(MEMBER)) {
             readMember();
         } else if (type.equals(VOUCHER)) {
@@ -40,9 +41,11 @@ public class Read {
         } else {
             logger.error("Invalid entity type!");
             console.printInputError();
+            start();
         }
     }
 
+    // all -> printAllMembers(), one -> printMember()
     public void readMember() {
         String count = console.inputCount();
         if (count.equals("all")) {
@@ -56,6 +59,7 @@ public class Read {
         }
     }
 
+    // MemberService.getAllMember() -> Console.printMemberList()
     public void printAllMembers() {
         List<Member> memberList = memberService.getAllMembers();
         if (memberList.isEmpty()) {
@@ -66,17 +70,18 @@ public class Read {
         }
     }
 
+    // input memberId -> MemberService.getMemberById() -> Console.printMemberList()
     public void printMember() {
         UUID memberId = null;
         try {
             memberId = UUID.fromString(console.inputMemberId());
-        } catch(IllegalArgumentException e) {
-            logger.error("Illegal argument UUID!", e);
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid UUID!", e);
             console.printInputError();
-            readWallet();
+            printMember();
         }
 
-        Optional<Member> member = memberService.getMemberById(memberId);
+        Optional<Member> member = memberService.getMemberByMemberId(memberId);
         if (member.isEmpty()) {
             logger.info("Member does not exist.");
             console.printEmpty();
@@ -87,6 +92,7 @@ public class Read {
         }
     }
 
+    // all -> printAllVouchers, one -> printVoucher
     public void readVoucher() {
         String count = console.inputCount();
         if (count.equals("all")) {
@@ -96,10 +102,11 @@ public class Read {
         } else {
             logger.error("Invalid command!");
             console.printInputError();
-            readMember();
+            readVoucher();
         }
     }
 
+    // VoucherService.getAllVouchers() -> Console.printVoucherList()
     public void printAllVouchers() {
         List<Voucher> voucherList = voucherService.getAllVouchers();
         if (voucherList.isEmpty()) {
@@ -110,12 +117,13 @@ public class Read {
         }
     }
 
+    // input voucherId -> VoucherService.getVoucherByVoucherId() -> Console.printVoucherList()
     public void printVoucher() {
         UUID voucherId = null;
         try {
             voucherId = UUID.fromString(console.inputVoucherId());
-        } catch(IllegalArgumentException e) {
-            logger.error("Illegal argument UUID!", e);
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid UUID!", e);
             console.printInputError();
             printVoucher();
         }
@@ -131,12 +139,13 @@ public class Read {
         }
     }
 
+    // input memberId -> VoucherService.getVouchersByMemberId() -> Console.printVoucherList()
     public void readWallet() {
         UUID memberId = null;
         try {
             memberId = UUID.fromString(console.inputMemberId());
-        } catch(IllegalArgumentException e) {
-            logger.error("Illegal argument UUID!", e);
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid UUID!", e);
             console.printInputError();
             readWallet();
         }

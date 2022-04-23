@@ -41,6 +41,7 @@ public class JdbcMemberRepository implements MemberRepository {
         return new Member(memberId, name);
     };
 
+    // Member 생성
     @Override
     public Optional<Member> createMember(Member member) {
         try {
@@ -60,8 +61,9 @@ public class JdbcMemberRepository implements MemberRepository {
         return Optional.of(member);
     }
 
+    // 모든 member 읽기
     @Override
-    public List<Member> readMembers() {
+    public List<Member> readAllMembers() {
         List<Member> members;
         try {
             members = jdbcTemplate.query("SELECT * FROM members", memberRowMapper);
@@ -72,6 +74,7 @@ public class JdbcMemberRepository implements MemberRepository {
         return members;
     }
 
+    // 해당 memberId 가진 member 읽기
     @Override
     public Optional<Member> readMember(UUID memberId) {
         try {
@@ -86,6 +89,7 @@ public class JdbcMemberRepository implements MemberRepository {
         }
     }
 
+    // 해당 member 로 같은 memberId 가진 member 업데이트
     @Override
     public Optional<Member> updateMember(Member member) {
         try {
@@ -105,6 +109,7 @@ public class JdbcMemberRepository implements MemberRepository {
         return Optional.of(member);
     }
 
+    // member 삭제
     @Override
     public Optional<Member> deleteMember(Member member) {
         try {

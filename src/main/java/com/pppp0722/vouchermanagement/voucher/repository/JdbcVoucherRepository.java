@@ -54,6 +54,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     };
 
+    // voucher 생성
     @Override
     public Optional<Voucher> createVoucher(Voucher voucher) {
         try {
@@ -72,8 +73,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return Optional.of(voucher);
     }
 
+    // 모든 voucher 읽기
     @Override
-    public List<Voucher> readVouchers() {
+    public List<Voucher> readAllVouchers() {
         List<Voucher> vouchers;
         try {
             vouchers = jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
@@ -84,6 +86,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
+    // voucher Id로 voucher 읽기
     @Override
     public Optional<Voucher> readVoucher(UUID voucherId) {
         try {
@@ -98,6 +101,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
+    // memberId 로 해당 memberId 가진 모든 voucher 읽기
     @Override
     public List<Voucher> readVouchersByMemberId(UUID memberId) {
         List<Voucher> vouchers = jdbcTemplate.query(
@@ -108,6 +112,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
+    // 해당 voucher 로 같은 voucherId 가진 voucher 업데이트
     @Override
     public Optional<Voucher> updateVoucher(Voucher voucher) {
         try {
@@ -126,6 +131,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return Optional.of(voucher);
     }
 
+    // voucher 삭제
     @Override
     public Optional<Voucher> deleteVoucher(Voucher voucher) {
         try {

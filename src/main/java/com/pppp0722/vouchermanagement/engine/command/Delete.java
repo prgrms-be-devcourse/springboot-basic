@@ -26,6 +26,7 @@ public class Delete {
         this.voucherService = voucherService;
     }
 
+    // member -> deleteMember(), voucher -> deleteVoucher()
     public void start() {
         EntityType type = console.inputEntityType("member\nvoucher");
         if (type.equals(MEMBER)) {
@@ -39,38 +40,42 @@ public class Delete {
         }
     }
 
+    // input memberId -> MemberService.deleteMember()
     public void deleteMember() {
         UUID memberId = null;
         try {
             memberId = UUID.fromString(console.inputMemberId());
-        } catch(IllegalArgumentException e) {
-            logger.error("Illegal argument UUID!", e);
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid UUID!", e);
+            console.printInputError();
             deleteMember();
         }
 
         Optional<Member> member = memberService.deleteMember(memberId);
-
         if (member.isPresent()) {
             console.printSuccess();
         } else {
+            logger.error("Delete member failed!");
             console.printFailure();
         }
     }
 
+    // input voucherId -> VoucherService.deleteVoucher()
     public void deleteVoucher() {
         UUID voucherId = null;
         try {
             voucherId = UUID.fromString(console.inputVoucherId());
-        } catch(IllegalArgumentException e) {
-            logger.error("Illegal argument UUID!", e);
-            deleteMember();
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid UUID!", e);
+            console.printInputError();
+            deleteVoucher();
         }
 
         Optional<Voucher> voucher = voucherService.deleteVoucher(voucherId);
-
         if (voucher.isPresent()) {
             console.printSuccess();
         } else {
+            logger.error("Create voucher failed!");
             console.printFailure();
         }
     }

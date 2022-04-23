@@ -6,7 +6,6 @@ import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import com.pppp0722.vouchermanagement.voucher.model.VoucherType;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class Console implements Input, Output {
 

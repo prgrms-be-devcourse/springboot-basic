@@ -17,8 +17,6 @@ public class CommandLineApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
     private final Console console = Console.getInstance();
-    private final VoucherServiceImpl voucherService;
-    private final MemberServiceImpl memberService;
     private final Create create;
     private final Read read;
     private final Update update;
@@ -26,8 +24,6 @@ public class CommandLineApplication {
 
     public CommandLineApplication(VoucherServiceImpl voucherService,
         MemberServiceImpl memberService) {
-        this.voucherService = voucherService;
-        this.memberService = memberService;
         create = new Create(memberService, voucherService);
         read = new Read(memberService, voucherService);
         update = new Update(memberService, voucherService);
@@ -61,7 +57,7 @@ public class CommandLineApplication {
                     break;
                 default:
                     console.printInputError();
-                    logger.error("Invalid command -> {}!", command);
+                    logger.error("Invalid command! -> {}", command);
                     break;
             }
             System.out.println();

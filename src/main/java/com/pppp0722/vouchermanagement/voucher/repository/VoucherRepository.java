@@ -9,7 +9,7 @@ public interface VoucherRepository {
 
     Optional<Voucher> createVoucher(Voucher voucher);
 
-    List<Voucher> readVouchers();
+    List<Voucher> readAllVouchers();
 
     Optional<Voucher> readVoucher(UUID voucherId);
 

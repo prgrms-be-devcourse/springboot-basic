@@ -2,7 +2,6 @@ package com.pppp0722.vouchermanagement.io;
 
 import com.pppp0722.vouchermanagement.engine.command.EntityType;
 import com.pppp0722.vouchermanagement.voucher.model.VoucherType;
-import java.util.UUID;
 
 public interface Input {
 

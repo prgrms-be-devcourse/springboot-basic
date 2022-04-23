@@ -5,6 +5,7 @@ import static com.pppp0722.vouchermanagement.engine.command.EntityType.VOUCHER;
 import static com.pppp0722.vouchermanagement.engine.command.validate.Validate.isValidAmount;
 
 import com.pppp0722.vouchermanagement.engine.CommandLineApplication;
+import com.pppp0722.vouchermanagement.engine.command.validate.Validate;
 import com.pppp0722.vouchermanagement.io.Console;
 import com.pppp0722.vouchermanagement.member.model.Member;
 import com.pppp0722.vouchermanagement.member.service.MemberService;
@@ -28,6 +29,7 @@ public class Update {
         this.voucherService = voucherService;
     }
 
+    // member -> updateMember(), voucher -> updateVoucher()
     public void start() {
         EntityType type = console.inputEntityType("member\nvoucher");
         if (type.equals(MEMBER)) {
@@ -41,32 +43,40 @@ public class Update {
         }
     }
 
+    // input memberId, name -> MemberService.updateMember()
     public void updateMember() {
         UUID memberId = null;
         try {
             memberId = UUID.fromString(console.inputMemberId());
-        } catch(IllegalArgumentException e) {
-            logger.error("Illegal argument UUID!", e);
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid UUID!", e);
             console.printInputError();
             updateMember();
         }
 
         String name = console.inputMemberName();
-        Optional<Member> member = memberService.updateMember(memberId, name);
+        if (!Validate.isValidName(name)) {
+            logger.error("Invalid name!");
+            console.printInputError();
+            updateMember();
+        }
 
+        Optional<Member> member = memberService.updateMember(memberId, name);
         if (member.isPresent()) {
             console.printSuccess();
         } else {
+            logger.error("Update member failed!");
             console.printFailure();
         }
     }
 
+    // input voucherId, type, amount -> VoucherService.updateVoucher()
     public void updateVoucher() {
         UUID voucherId = null;
         try {
             voucherId = UUID.fromString(console.inputVoucherId());
-        } catch(IllegalArgumentException e) {
-            logger.error("Illegal argument UUID!", e);
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid UUID!", e);
             console.printInputError();
             updateVoucher();
         }
@@ -85,6 +95,7 @@ public class Update {
         if (voucher.isPresent()) {
             console.printSuccess();
         } else {
+            logger.error("Update voucher failed!");
             console.printFailure();
         }
     }

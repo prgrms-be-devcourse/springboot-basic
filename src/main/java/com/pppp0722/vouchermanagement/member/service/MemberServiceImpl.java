@@ -23,11 +23,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> getAllMembers() {
-        return memberRepository.readMembers();
+        return memberRepository.readAllMembers();
     }
 
     @Override
-    public Optional<Member> getMemberById(UUID memberID) {
+    public Optional<Member> getMemberByMemberId(UUID memberID) {
         return memberRepository.readMember(memberID);
     }
 

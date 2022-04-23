@@ -5,6 +5,7 @@ import static com.pppp0722.vouchermanagement.engine.command.EntityType.VOUCHER;
 import static com.pppp0722.vouchermanagement.engine.command.validate.Validate.isValidAmount;
 
 import com.pppp0722.vouchermanagement.engine.CommandLineApplication;
+import com.pppp0722.vouchermanagement.engine.command.validate.Validate;
 import com.pppp0722.vouchermanagement.io.Console;
 import com.pppp0722.vouchermanagement.member.model.Member;
 import com.pppp0722.vouchermanagement.member.service.MemberService;
@@ -28,6 +29,7 @@ public class Create {
         this.voucherService = voucherService;
     }
 
+    // member -> createdMember(), voucher -> createVoucher()
     public void start() {
         EntityType type = console.inputEntityType("member\nvoucher");
         if (type.equals(MEMBER)) {
@@ -41,30 +43,37 @@ public class Create {
         }
     }
 
+    // input memberName -> MemberService.createMember()
     public void createMember() {
         String name = console.inputMemberName();
-        Optional<Member> member = memberService.createMember(UUID.randomUUID(), name);
+        if (!Validate.isValidName(name)) {
+            logger.error("Invalid name!");
+            console.printInputError();
+            createMember();
+        }
 
+        Optional<Member> member = memberService.createMember(UUID.randomUUID(), name);
         if (member.isPresent()) {
             console.printSuccess();
         } else {
+            logger.error("Create member failed!");
             console.printFailure();
         }
     }
 
+    // input memberId, type, amount -> VoucherService.createVoucher()
     public void createVoucher() {
         UUID memberId = null;
         try {
             memberId = UUID.fromString(console.inputMemberId());
         } catch (IllegalArgumentException e) {
-            logger.error("Illegal argument UUID!", e);
+            logger.error("Invalid UUID!", e);
             console.printInputError();
             createVoucher();
         }
 
         VoucherType type = console.inputVoucherType();
         long amount = console.inputVoucherAmount();
-
         if (!isValidAmount(type, amount)) {
             logger.error("Invalid discount amount!");
             console.printInputError();
@@ -76,6 +85,7 @@ public class Create {
         if (voucher.isPresent()) {
             console.printSuccess();
         } else {
+            logger.error("Create voucher failed!");
             console.printFailure();
         }
     }
