@@ -8,6 +8,7 @@ public class VoucherDto {
     public record CreateVoucherRequest(
             long discountValue,
             VoucherType voucherType) {
+
     }
 
     public record CreateVoucherResponse(
@@ -15,10 +16,5 @@ public class VoucherDto {
             long discountValue,
             VoucherType voucherType) {
 
-        public static CreateVoucherResponse of(Voucher voucher) {
-            return new CreateVoucherResponse(voucher.getVoucherId(),
-                    voucher.getDiscountValue(),
-                    voucher.getVoucherType());
-        }
     }
 }
