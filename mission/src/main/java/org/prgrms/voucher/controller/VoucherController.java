@@ -23,12 +23,14 @@ public class VoucherController {
     public Response create(VoucherDto.CreateVoucherRequest requestDto) {
 
         try {
+            if (requestDto == null){
+                throw new IllegalArgumentException("requestDto is null");
+            }
             Voucher voucher = voucherService.create(requestDto);
 
-            return new Response(ResponseState.SUCCESS, VoucherDto.CreateVoucherResponse.of(voucher));
-        } catch (NullPointerException nullPointerException) {
-            logger.error("bad Request...");
-            nullPointerException.printStackTrace();
+            return new Response(ResponseState.SUCCESS, new VoucherDto.CreateVoucherResponse(voucher.getVoucherId(), voucher.getDiscountValue(), voucher.getVoucherType()));
+        } catch (IllegalArgumentException argumentException) {
+            logger.error("{} - RequestDto : {}", argumentException.getMessage(), requestDto, argumentException);
 
             return new Response(ResponseState.BAD_REQUEST, "please retry.");
         }
