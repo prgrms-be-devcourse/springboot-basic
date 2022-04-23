@@ -32,7 +32,7 @@ public class OutputConsole implements Output {
     }
 
     @Override
-    public void printVoucherManual() {
+    public void printVoucherType() {
         StringBuilder stringBuilder = new StringBuilder("바우처 타입을 선택해주세요.\n");
         stringBuilder.append(VoucherType.getAllVoucherManual());
         printMessage(stringBuilder.toString());

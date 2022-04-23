@@ -7,7 +7,7 @@ public interface Output {
     void printCommandManual();
     void printInvalidCommand();
     void printShutDownSystem();
-    void printVoucherManual();
+    void printVoucherType();
     void printVoucherUpdateManual();
     void printVoucherUpdateValue();
     void printVoucherValue(VoucherType voucherType);

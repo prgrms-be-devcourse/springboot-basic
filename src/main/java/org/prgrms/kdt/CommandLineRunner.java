@@ -48,7 +48,7 @@ public class CommandLineRunner implements Runnable {
                     output.printShutDownSystem();
                     break;
                 case CREATE:
-                    output.printVoucherManual();
+                    output.printVoucherType();
 
                     try {
                         VoucherType voucherType = VoucherType.getVoucherType(input.input());
