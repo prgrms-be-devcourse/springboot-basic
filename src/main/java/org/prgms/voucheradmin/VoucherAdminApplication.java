@@ -5,12 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 public class VoucherAdminApplication {
 	public static void main(String[] args) {
-		System.out.println((long)(10/100.0*1));
-
 		AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
 
 		ApplicationContext applicationContext = SpringApplication.run(VoucherAdminApplication.class, args);
