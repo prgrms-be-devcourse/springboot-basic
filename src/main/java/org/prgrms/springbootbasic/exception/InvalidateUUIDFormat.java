@@ -2,10 +2,14 @@ package org.prgrms.springbootbasic.exception;
 
 public class InvalidateUUIDFormat extends ServiceException {
 
-    private static final String INVALID_UUID_FORMAT_EXP_MSG = "UUID 포멧이 아닙니다.";
+    private final String errorMsg;
+
+    public InvalidateUUIDFormat(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
 
     @Override
     public String getMessage() {
-        return INVALID_UUID_FORMAT_EXP_MSG;
+        return errorMsg;
     }
 }

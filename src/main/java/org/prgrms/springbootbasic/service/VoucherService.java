@@ -1,5 +1,9 @@
 package org.prgrms.springbootbasic.service;
 
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.ALREADY_ASSIGNED_VOUCHER_EXP_MSG;
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_CUSTOMER_ID_EXP_MSG;
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_VOUCHER_ID_EXP_MSG;
+
 import java.util.List;
 import java.util.UUID;
 import org.prgrms.springbootbasic.controller.VoucherType;
@@ -54,12 +58,12 @@ public class VoucherService {
         logger.info("assignVoucherToCustomer() called");
 
         var voucher = voucherRepository.findById(voucherId)
-            .orElseThrow(InvalidVoucherIdException::new);
+            .orElseThrow(() -> new InvalidVoucherIdException(INVALID_VOUCHER_ID_EXP_MSG));
 
         validateAssignedVoucher(voucher);
 
         var customer = customerRepository.findById(customerId)
-            .orElseThrow(InvalidCustomerIdException::new);
+            .orElseThrow(() -> new InvalidCustomerIdException(INVALID_CUSTOMER_ID_EXP_MSG));
 
         voucher.assignCustomer(customer);
         voucherRepository.updateCustomerId(voucher);
@@ -69,13 +73,13 @@ public class VoucherService {
         logger.info("findCustomerVoucher() called");
 
         var customer = customerRepository.findById(customerId)
-            .orElseThrow(InvalidCustomerIdException::new);
+            .orElseThrow(() -> new InvalidCustomerIdException(INVALID_CUSTOMER_ID_EXP_MSG));
         return voucherRepository.findByCustomer(customer);
     }
 
     private void validateAssignedVoucher(Voucher voucher) {
         if (voucher.getCustomerId().isPresent()) {
-            throw new AlreadyAssignedVoucherException();
+            throw new AlreadyAssignedVoucherException(ALREADY_ASSIGNED_VOUCHER_EXP_MSG);
         }
     }
 }

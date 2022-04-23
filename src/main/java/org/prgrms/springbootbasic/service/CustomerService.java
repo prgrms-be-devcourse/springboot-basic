@@ -1,5 +1,9 @@
 package org.prgrms.springbootbasic.service;
 
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.DUPLICATE_EMAIL_EXP_MSG;
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_CUSTOMER_ID_EXP_MSG;
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_VOUCHER_ID_EXP_MSG;
+
 import java.util.List;
 import java.util.UUID;
 import org.prgrms.springbootbasic.controller.VoucherType;
@@ -49,14 +53,14 @@ public class CustomerService {
         logger.info("deleteVoucher() called");
 
         var customer = customerRepository.findById(customerId)
-            .orElseThrow(InvalidCustomerIdException::new);
+            .orElseThrow(() -> new InvalidCustomerIdException(INVALID_CUSTOMER_ID_EXP_MSG));
 
         var customerVouchers = voucherRepository.findByCustomer(customer);
 
         var deletedVoucher = customerVouchers.stream()
             .filter(voucher -> voucher.getVoucherId().equals(voucherId))
             .findFirst()
-            .orElseThrow(InvalidVoucherIdException::new);
+            .orElseThrow(() -> new InvalidVoucherIdException(INVALID_VOUCHER_ID_EXP_MSG));
 
         voucherRepository.deleteVoucher(deletedVoucher);
     }
@@ -70,7 +74,7 @@ public class CustomerService {
 
         var customers = customerRepository.findByEmail(email);
         if (customers.isPresent()) {
-            throw new DuplicateCustomerEmailException();
+            throw new DuplicateCustomerEmailException(DUPLICATE_EMAIL_EXP_MSG);
         }
     }
 }

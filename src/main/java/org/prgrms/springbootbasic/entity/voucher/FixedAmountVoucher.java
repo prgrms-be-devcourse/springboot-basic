@@ -1,5 +1,8 @@
 package org.prgrms.springbootbasic.entity.voucher;
 
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.AMOUNT_MAX_RANGE_EXP_MSG;
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.AMOUNT_MIN_RANGE_EXP_MSG;
+
 import java.util.UUID;
 import org.prgrms.springbootbasic.exception.AmountRangeMaxException;
 import org.prgrms.springbootbasic.exception.AmountRangeMinException;
@@ -27,10 +30,10 @@ public class FixedAmountVoucher extends Voucher {
 
     private void validateAmountRange(int amount) {
         if (amount <= MIN_RANGE) {
-            throw new AmountRangeMinException();
+            throw new AmountRangeMinException(AMOUNT_MIN_RANGE_EXP_MSG);
         }
         if (amount >= MAX_RANGE) {
-            throw new AmountRangeMaxException();
+            throw new AmountRangeMaxException(AMOUNT_MAX_RANGE_EXP_MSG);
         }
     }
 

@@ -10,6 +10,7 @@ import static org.prgrms.springbootbasic.controller.Menu.LIST;
 import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMER;
 import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE;
 import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMERVOUCHER;
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_UUID_FORMAT_EXP_MSG;
 import static org.prgrms.springbootbasic.view.ConstantString.AMOUNT;
 import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_BLACK_LIST;
 import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_LIST;
@@ -242,7 +243,7 @@ public class TextIoView implements View {
         try {
             UUID.fromString(uuid);
         } catch (IllegalArgumentException exception) {
-            throw new InvalidateUUIDFormat();
+            throw new InvalidateUUIDFormat(INVALID_UUID_FORMAT_EXP_MSG);
         }
     }
 }

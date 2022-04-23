@@ -1,5 +1,8 @@
 package org.prgrms.springbootbasic.entity.voucher;
 
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.PERCENT_MAX_RANGE_EXP_MSG;
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.PERCENT_MIN_RANGE_EXP_MSG;
+
 import java.util.UUID;
 import org.prgrms.springbootbasic.exception.PercentRangeMaxException;
 import org.prgrms.springbootbasic.exception.PercentRangeMinException;
@@ -27,10 +30,10 @@ public class PercentDiscountVoucher extends Voucher {
 
     private void validatePercentRange(int percent) {
         if (percent <= MIN_RANGE) {
-            throw new PercentRangeMinException();
+            throw new PercentRangeMinException(PERCENT_MIN_RANGE_EXP_MSG);
         }
         if (percent > MAX_RANGE) {
-            throw new PercentRangeMaxException();
+            throw new PercentRangeMaxException(PERCENT_MAX_RANGE_EXP_MSG);
         }
     }
 
