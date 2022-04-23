@@ -4,13 +4,12 @@ import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.f
 import static org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher.findCommandAboutVoucher;
 import static org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucherWallet.findCommandAboutVoucherWallet;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
+import static org.prgms.voucheradmin.global.util.Util.isValidEmail;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.prgms.voucheradmin.domain.console.enums.Command;
 import org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer;
@@ -111,7 +110,7 @@ public class InputService {
         String email = br.readLine().trim();
         System.out.println();
 
-        if(!isValidEmail(email)) {
+        if(isValidEmail(email)) {
             throw new WrongInputException("wrong email input");
         }
 
@@ -124,13 +123,5 @@ public class InputService {
         System.out.println();
 
         return findCommandAboutVoucherWallet(selectedCommandId).orElseThrow(WrongInputException::new);
-    }
-
-    private boolean isValidEmail(String email) {
-        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(email);
-
-        return m.matches();
     }
 }

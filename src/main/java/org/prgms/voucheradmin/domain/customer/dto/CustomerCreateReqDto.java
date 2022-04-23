@@ -1,15 +1,26 @@
 package org.prgms.voucheradmin.domain.customer.dto;
 
+import static org.prgms.voucheradmin.global.util.Util.isValidEmail;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
+import org.prgms.voucheradmin.global.exception.WrongInputException;
 
 public class CustomerCreateReqDto {
     private String name;
     private String email;
 
     public CustomerCreateReqDto(String name, String email) {
+        if(name.isBlank()) {
+            throw new WrongInputException("wrong name input");
+        }
+
+        if(!isValidEmail(email)) {
+            throw new WrongInputException("wrong email input");
+        }
+
         this.name = name;
         this.email = email;
     }
