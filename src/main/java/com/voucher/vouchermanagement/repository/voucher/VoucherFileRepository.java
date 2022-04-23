@@ -24,7 +24,7 @@ public class VoucherFileRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(VoucherFileRepository.class);
     private final CsvMapper<Voucher> csvMapper = new VoucherCsvMapper();
 
-    public VoucherFileRepository(@Value("${db.path}") String dbDirectory, @Value("${db.voucher.name}") String voucherDbName, ResourceLoader resourceLoader) {
+    public VoucherFileRepository(@Value("${db.file.path}") String dbDirectory, @Value("${db.file.voucher.name}") String voucherDbName, ResourceLoader resourceLoader) {
         voucherDb = resourceLoader.getResource(dbDirectory + voucherDbName);
     }
 

@@ -1,6 +1,11 @@
 db:
-  path: "db/"
-  blacklist:
-    name: customer_blacklist.csv
-  voucher:
-    name : voucher_db.csv
+  connection:
+    url : jdbc:mysql://localhost/voucher_mgmt
+    name: root
+    password: root1234!
+  file:
+    path: "db/"
+    blacklist:
+      name: customer_blacklist.csv
+    voucher:
+      name : voucher_db.csv

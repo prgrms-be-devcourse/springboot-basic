@@ -25,7 +25,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
     private final CsvMapper<Customer> csvMapper = new CustomerCsvMapper();
     private static final Logger logger = LoggerFactory.getLogger(BlacklistFileRepository.class);
 
-    public BlacklistFileRepository(@Value("${db.path}") String dbDirectory, @Value("${db.blacklist.name}") String blacklistDbName
+    public BlacklistFileRepository(@Value("${db.file.path}") String dbDirectory, @Value("${db.file.blacklist.name}") String blacklistDbName
             , ResourceLoader resourceloader) {
         this.blacklistDb = resourceloader.getResource(dbDirectory + blacklistDbName);
     }
