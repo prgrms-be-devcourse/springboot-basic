@@ -40,7 +40,14 @@ public class Delete {
     }
 
     public void deleteMember() {
-        UUID memberId = console.inputMemberId();
+        UUID memberId = null;
+        try {
+            memberId = UUID.fromString(console.inputMemberId());
+        } catch(IllegalArgumentException e) {
+            logger.error("Illegal argument UUID!", e);
+            deleteMember();
+        }
+
         Optional<Member> member = memberService.deleteMember(memberId);
 
         if (member.isPresent()) {
@@ -51,7 +58,14 @@ public class Delete {
     }
 
     public void deleteVoucher() {
-        UUID voucherId = console.inputVoucherId();
+        UUID voucherId = null;
+        try {
+            voucherId = UUID.fromString(console.inputVoucherId());
+        } catch(IllegalArgumentException e) {
+            logger.error("Illegal argument UUID!", e);
+            deleteMember();
+        }
+
         Optional<Voucher> voucher = voucherService.deleteVoucher(voucherId);
 
         if (voucher.isPresent()) {

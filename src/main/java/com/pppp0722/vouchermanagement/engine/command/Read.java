@@ -67,7 +67,15 @@ public class Read {
     }
 
     public void printMember() {
-        UUID memberId = console.inputMemberId();
+        UUID memberId = null;
+        try {
+            memberId = UUID.fromString(console.inputMemberId());
+        } catch(IllegalArgumentException e) {
+            logger.error("Illegal argument UUID!", e);
+            console.printInputError();
+            readWallet();
+        }
+
         Optional<Member> member = memberService.getMemberById(memberId);
         if (member.isEmpty()) {
             logger.info("Member does not exist.");
@@ -103,10 +111,18 @@ public class Read {
     }
 
     public void printVoucher() {
-        UUID voucherId = console.inputVoucherId();
+        UUID voucherId = null;
+        try {
+            voucherId = UUID.fromString(console.inputVoucherId());
+        } catch(IllegalArgumentException e) {
+            logger.error("Illegal argument UUID!", e);
+            console.printInputError();
+            printVoucher();
+        }
+
         Optional<Voucher> voucher = voucherService.getVoucherByVoucherId(voucherId);
         if (voucher.isEmpty()) {
-            logger.info("Member does not exist.");
+            logger.info("Voucher does not exist.");
             console.printEmpty();
         } else {
             console.printVoucherList(new ArrayList<>() {{
@@ -116,7 +132,15 @@ public class Read {
     }
 
     public void readWallet() {
-        UUID memberId = console.inputMemberId();
+        UUID memberId = null;
+        try {
+            memberId = UUID.fromString(console.inputMemberId());
+        } catch(IllegalArgumentException e) {
+            logger.error("Illegal argument UUID!", e);
+            console.printInputError();
+            readWallet();
+        }
+
         List<Voucher> voucherList = voucherService.getVouchersByMemberId(memberId);
         if (voucherList.isEmpty()) {
             logger.info("Wallet is Empty.");

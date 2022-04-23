@@ -42,7 +42,15 @@ public class Update {
     }
 
     public void updateMember() {
-        UUID memberId = console.inputMemberId();
+        UUID memberId = null;
+        try {
+            memberId = UUID.fromString(console.inputMemberId());
+        } catch(IllegalArgumentException e) {
+            logger.error("Illegal argument UUID!", e);
+            console.printInputError();
+            updateMember();
+        }
+
         String name = console.inputMemberName();
         Optional<Member> member = memberService.updateMember(memberId, name);
 
@@ -54,7 +62,15 @@ public class Update {
     }
 
     public void updateVoucher() {
-        UUID voucherId = console.inputVoucherId();
+        UUID voucherId = null;
+        try {
+            voucherId = UUID.fromString(console.inputVoucherId());
+        } catch(IllegalArgumentException e) {
+            logger.error("Illegal argument UUID!", e);
+            console.printInputError();
+            updateVoucher();
+        }
+
         VoucherType type = console.inputVoucherType();
         long amount = console.inputVoucherAmount();
 

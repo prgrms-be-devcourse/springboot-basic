@@ -6,17 +6,17 @@ import java.util.UUID;
 
 public interface Input {
 
-    String getCommand(String question);
+    String getCommand();
 
     EntityType inputEntityType(String question);
 
     String inputCount();
 
-    UUID inputMemberId();
+    String inputMemberId();
 
     String inputMemberName();
 
-    UUID inputVoucherId();
+    String inputVoucherId();
 
     VoucherType inputVoucherType();
 

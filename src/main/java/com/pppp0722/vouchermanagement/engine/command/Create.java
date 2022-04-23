@@ -53,7 +53,15 @@ public class Create {
     }
 
     public void createVoucher() {
-        UUID memberId = console.inputMemberId();
+        UUID memberId = null;
+        try {
+            memberId = UUID.fromString(console.inputMemberId());
+        } catch (IllegalArgumentException e) {
+            logger.error("Illegal argument UUID!", e);
+            console.printInputError();
+            createVoucher();
+        }
+
         VoucherType type = console.inputVoucherType();
         long amount = console.inputVoucherAmount();
 
@@ -65,7 +73,6 @@ public class Create {
 
         Optional<Voucher> voucher = voucherService.createVoucher(UUID.randomUUID(), type, amount,
             memberId);
-
         if (voucher.isPresent()) {
             console.printSuccess();
         } else {

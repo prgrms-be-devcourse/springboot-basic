@@ -41,7 +41,7 @@ public class CommandLineApplication {
         boolean isExit = false;
         while (!isExit) {
             console.printMenu();
-            String command = console.getCommand("Input : ");
+            String command = console.getCommand();
             CommandType commandType = CommandType.getCommandType(command);
             switch (commandType) {
                 case CREATE:

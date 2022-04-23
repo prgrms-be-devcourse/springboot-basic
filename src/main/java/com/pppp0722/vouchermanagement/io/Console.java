@@ -73,8 +73,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public String getCommand(String question) {
-        System.out.print(question);
+    public String getCommand() {
+        System.out.print("Input : ");
         String command = scanner.nextLine().toLowerCase();
         System.out.println();
         return command;
@@ -83,43 +83,43 @@ public class Console implements Input, Output {
     @Override
     public EntityType inputEntityType(String question) {
         System.out.println(question);
-        return EntityType.getEntityType(getCommand("Input : "));
+        return EntityType.getEntityType(getCommand());
     }
 
     @Override
     public String inputCount() {
         System.out.println("all\none");
-        return getCommand("Input : ");
+        return getCommand();
     }
 
     @Override
-    public UUID inputMemberId() {
+    public String inputMemberId() {
         System.out.println("Type member id.");
-        return UUID.fromString(getCommand("Input : "));
+        return getCommand();
     }
 
     @Override
     public String inputMemberName() {
         System.out.println("Type name.");
-        return getCommand("Input : ");
+        return getCommand();
     }
 
     @Override
-    public UUID inputVoucherId() {
+    public String inputVoucherId() {
         System.out.println("Type voucher id.");
-        return UUID.fromString(getCommand("Input : "));
+        return getCommand();
     }
 
     @Override
     public VoucherType inputVoucherType() {
         System.out.println("Type fixed to create a new fixed amount voucher.\n" +
             "Type percent to create a new percent discount voucher.");
-        return VoucherType.getVoucherType(getCommand("Input : "));
+        return VoucherType.getVoucherType(getCommand());
     }
 
     @Override
     public long inputVoucherAmount() {
         System.out.println("Type discount amount.");
-        return Long.parseLong(getCommand("Input : "));
+        return Long.parseLong(getCommand());
     }
 }
