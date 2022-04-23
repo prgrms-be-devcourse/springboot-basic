@@ -19,8 +19,8 @@ public class PercentDiscountVoucherTest {
 		class 음수_할인_값이_넘어오면 {
 
 			@Test
-			@DisplayName("예외가 발생한다")
-			void 예외가_발생한다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> new PercentDiscountVoucher(-10))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
@@ -32,8 +32,8 @@ public class PercentDiscountVoucherTest {
 		class 백을_넘는_할인_값이_넘어오면 {
 
 			@Test
-			@DisplayName("예외가 발생한다")
-			void 예외가_발생한다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> new PercentDiscountVoucher(101))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());

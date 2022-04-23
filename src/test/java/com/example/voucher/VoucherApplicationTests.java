@@ -115,8 +115,8 @@ class VoucherApplicationTests {
 			}
 
 			@Test
-			@DisplayName("예외를 던진다")
-			void 예외를_던진다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> getDiscountAmount.invoke(voucherApplication))
 						.isInstanceOf(InvocationTargetException.class)
 						.getCause().hasMessage(INVALID_INPUT.name());
@@ -146,8 +146,8 @@ class VoucherApplicationTests {
 			}
 
 			@Test
-			@DisplayName("예외를 던진다")
-			void 예외를_던진다() throws Exception {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() throws Exception {
 				assertThatThrownBy(() -> voucherController.save(FIXED_AMOUNT_VOUCHER, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
@@ -165,8 +165,8 @@ class VoucherApplicationTests {
 			}
 
 			@Test
-			@DisplayName("예외를 던진다")
-			void 예외를_던진다() throws Exception {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() throws Exception {
 				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
@@ -184,8 +184,8 @@ class VoucherApplicationTests {
 			}
 
 			@Test
-			@DisplayName("예외를 던진다")
-			void 예외를_던진다() throws Exception {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() throws Exception {
 				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, 101))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());

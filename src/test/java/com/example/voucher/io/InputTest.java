@@ -53,8 +53,8 @@ public class InputTest {
 			}
 
 			@Test
-			@DisplayName("예외를 던진다")
-			void 예외를_던진다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> input.getInt())
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());

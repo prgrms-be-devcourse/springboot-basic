@@ -53,8 +53,8 @@ public class VoucherControllerTest {
 			}
 
 			@Test
-			@DisplayName("예외가 발생한다")
-			void 예외가_발생한다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(FIXED_AMOUNT_VOUCHER, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
@@ -72,8 +72,8 @@ public class VoucherControllerTest {
 			}
 
 			@Test
-			@DisplayName("예외가 발생한다")
-			void 예외가_발생한다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, -10))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
@@ -90,8 +90,8 @@ public class VoucherControllerTest {
 			}
 
 			@Test
-			@DisplayName("예외가 발생한다")
-			void 예외가_발생한다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, 101))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
@@ -103,8 +103,8 @@ public class VoucherControllerTest {
 		class 바우처_타입이_NULL이_넘어온다면 {
 
 			@Test
-			@DisplayName("예외를 던진다")
-			void 예외를_던진다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(null, 10000))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
