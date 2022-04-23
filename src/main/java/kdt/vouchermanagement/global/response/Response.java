@@ -10,6 +10,6 @@ public class Response<T> {
     }
 
     public static <T> Response<T> of(int statusCode, T data) {
-        return null;
+        return new Response(statusCode, data);
     }
 }

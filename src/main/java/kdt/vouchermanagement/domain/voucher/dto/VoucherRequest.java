@@ -1,5 +1,6 @@
 package kdt.vouchermanagement.domain.voucher.dto;
 
+import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 
 public class VoucherRequest {
@@ -21,6 +22,7 @@ public class VoucherRequest {
     }
 
     public Voucher toDomain() {
-        return null;
+        Voucher voucher = voucherType.create(discountValue);
+        return voucher;
     }
 }
