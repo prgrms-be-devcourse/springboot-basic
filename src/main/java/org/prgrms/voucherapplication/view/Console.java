@@ -107,7 +107,7 @@ public class Console implements Input, Output {
      * @return 입력받은 name, email로 만든 Customer 객체
      */
     @Override
-    public Customer inputCustomerInformation() {
+    public Customer inputCustomerCreation() {
         System.out.println(CUSTOMER_NAME_INPUT_TEXT);
         String name = scanner.nextLine();
         System.out.println(CUSTOMER_EMAIL_INPUT_TEXT);

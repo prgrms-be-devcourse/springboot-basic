@@ -30,5 +30,6 @@ public interface Input {
      * 고객 이름, 이메일 입력
      * @return 입력된 name, email로 Customer 객체 생성 후 반환
      */
-    Customer inputCustomerInformation();
+    Customer inputCustomerCreation();
+
 }

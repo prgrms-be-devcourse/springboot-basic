@@ -50,29 +50,32 @@ public class VoucherManagement implements Runnable {
                     break;
                 }
                 switch (selectedMenu) {
-                    case CREATE_VOUCHER_FILE -> {
+                    case CREATE_VOUCHER_FILE -> {       // 1
                         VoucherType voucherType = console.inputVoucherType();
                         long discountValue = console.inputDiscount(voucherType);
                         Voucher voucher = voucherService.createVoucher(voucherType, discountValue);
                         voucherService.saveVoucher(voucher);
                     }
-                    case LIST_VOUCHER_FILE -> {
+                    case LIST_VOUCHER_FILE -> {         // 2
                         List<Voucher> allVoucher = voucherService.getAllVoucher();
                         console.printVoucherList(allVoucher);
                     }
-                    case BLACKLIST -> {
+                    case BLACKLIST -> {                 // 3
                         List<BlackListCustomer> customerList = blackListCustomerService.getAllBlackListCustomer();
                         console.printBlackList(customerList);
                     }
-                    case CREATE_CUSTOMER -> {
-                        Customer customer = console.inputCustomerInformation();
+                    case CREATE_CUSTOMER -> {           // 4
+                        Customer customer = console.inputCustomerCreation();
                         jdbcCustomerService.saveCustomer(customer);
                     }
-                    case CREATE_VOUCHER -> {
+                    case CREATE_VOUCHER -> {            // 5
                         VoucherType voucherType = console.inputVoucherType();
                         long discountValue = console.inputDiscount(voucherType);
                         SqlVoucher voucher = new SqlVoucher(UUID.randomUUID(), voucherType.name(), discountValue, LocalDateTime.now());
                         jdbcVoucherService.saveVoucher(voucher);
+                    }
+                    case LIST_VOUCHER_OWNED_BY_CUSTOMER -> {    // 6
+
                     }
                     default -> logger.error("Invalid Menu type in switch state");
                 }
