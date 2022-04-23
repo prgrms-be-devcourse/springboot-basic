@@ -110,8 +110,6 @@ public class TextIoView implements View {
     @Override
     public int selectAmount() {
         int amount = textIO.newIntInputReader()
-            .withMaxVal(FixedAmountVoucher.MIN_RANGE)
-            .withMaxVal(FixedAmountVoucher.MAX_RANGE)
             .read(SELECT_AMOUNT);
         textIO.getTextTerminal().println();
         return amount;
@@ -120,8 +118,6 @@ public class TextIoView implements View {
     @Override
     public int selectPercent() {
         int percent = textIO.newIntInputReader()
-            .withMinVal(PercentDiscountVoucher.MIN_RANGE)
-            .withMaxVal(PercentDiscountVoucher.MAX_RANGE)
             .read(SELECT_PERCENT);
         textIO.getTextTerminal().println();
         return percent;

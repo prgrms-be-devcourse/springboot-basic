@@ -6,8 +6,8 @@ import org.prgrms.springbootbasic.exception.AmountRangeMinException;
 
 public class FixedAmountVoucher extends Voucher {
 
-    public static final int MIN_RANGE = 0;
-    public static final int MAX_RANGE = 100000;
+    private static final int MIN_RANGE = 0;
+    private static final int MAX_RANGE = 100000;
 
     private final int amount;
 

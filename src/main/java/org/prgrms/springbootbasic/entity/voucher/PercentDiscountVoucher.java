@@ -6,8 +6,8 @@ import org.prgrms.springbootbasic.exception.PercentRangeMinException;
 
 public class PercentDiscountVoucher extends Voucher {
 
-    public static final int MIN_RANGE = 0;
-    public static final int MAX_RANGE = 100;
+    private static final int MIN_RANGE = 0;
+    private static final int MAX_RANGE = 100;
 
     private final int percent;
 
