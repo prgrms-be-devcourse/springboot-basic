@@ -24,10 +24,6 @@ public class VoucherServiceImpl implements VoucherService {
 	}
 
 	private Voucher createVoucher(VoucherType voucherType, int discountAmount) {
-
-		if (voucherType == FIXED_AMOUNT_VOUCHER) {
-			return new FixedAmountVoucher(discountAmount);
-		}
-		return new PercentDiscountVoucher(discountAmount);
+		return voucherType.create(discountAmount);
 	}
 }
