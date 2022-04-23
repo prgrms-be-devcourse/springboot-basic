@@ -41,7 +41,7 @@ public class CommandLineRunner implements Runnable {
 
         String command;
         commandType = CommandType.INVALID;
-        while (commandType != CommandType.EXIT) {
+        while (commandType.isRunnable()) {
             String commandManuals = commandType.getCommandManuals();
             output.printCommandManual(commandManuals);
 

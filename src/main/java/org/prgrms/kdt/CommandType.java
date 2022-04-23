@@ -32,6 +32,10 @@ public enum CommandType {
         return commandManual;
     }
 
+    public boolean isRunnable() {
+        return this != EXIT;
+    }
+
     public static CommandType getCommandType(String commandType) {
         return Stream.of(CommandType.values())
             .filter(type -> type.getCommandType().equalsIgnoreCase(commandType))
