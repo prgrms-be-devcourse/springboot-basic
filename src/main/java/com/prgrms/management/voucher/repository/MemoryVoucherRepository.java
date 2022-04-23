@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,7 +31,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateVoucherByCustomerId(UUID voucherId,UUID customerId) {
+    public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
         //미구현
     }
 

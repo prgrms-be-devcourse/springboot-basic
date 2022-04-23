@@ -1,10 +1,12 @@
 package com.prgrms.management.voucher.domain;
 
 import com.prgrms.management.config.ErrorMessageType;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Builder
 public class Voucher {
     private static final Long MAX_FIXED_DISCOUNT = 10000L;
     private static final Long MAX_PERCENT_DISCOUNT = 100L;
@@ -21,17 +23,6 @@ public class Voucher {
         this.createdAt = createdAt;
         this.voucherType = voucherType;
         this.customerId = customerId;
-    }
-
-    public Voucher(VoucherRequest voucherRequest) {
-        if (voucherRequest.getVoucherType().equals(VoucherType.FIXED))
-            validateFixedAmount(voucherRequest.getAmount());
-        else
-            validatePercentAmount(voucherRequest.getAmount());
-        this.voucherId = UUID.randomUUID();
-        this.amount = voucherRequest.getAmount();
-        this.voucherType = voucherRequest.getVoucherType();
-        this.createdAt = LocalDateTime.now();
     }
 
     private void validateFixedAmount(long amount) {

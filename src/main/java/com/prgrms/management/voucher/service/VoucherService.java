@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +23,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
-        Voucher voucher = new Voucher(voucherRequest);
+        Voucher voucher = VoucherRequest.of(voucherRequest);
         return voucherRepository.save(voucher);
     }
 
@@ -49,7 +48,7 @@ public class VoucherService {
     }
 
     public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDate date) {
-        return voucherRepository.findAllByVoucherTypeOrCreatedAt(voucherType,date);
+        return voucherRepository.findAllByVoucherTypeOrCreatedAt(voucherType, date);
     }
 
     public void deleteById(UUID voucherId) {

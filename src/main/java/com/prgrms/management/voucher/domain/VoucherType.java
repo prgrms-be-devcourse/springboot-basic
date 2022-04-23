@@ -4,7 +4,6 @@ import com.prgrms.management.config.ErrorMessageType;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-import java.util.function.Function;
 
 public enum VoucherType {
     FIXED,
