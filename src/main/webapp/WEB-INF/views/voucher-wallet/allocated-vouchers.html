@@ -33,7 +33,7 @@
                 <td th:if="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="*{amount}"></td>
                 <td th:unless="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="*{amount+'%'}"></td>
                 <td>
-                    <form th:action="@{'/customers/delete/'+${customer.customerId}}" method="post" class="voucher-btn-element">
+                    <form th:action="@{'/voucher-wallets/'+${customer.customerId}+'/delete/'+*{voucherId}}" method="post" class="voucher-btn-element">
                         <button type="submit" class="btn btn-danger">삭제하기</button>
                     </form>
                 </td>

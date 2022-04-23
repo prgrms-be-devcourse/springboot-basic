@@ -167,7 +167,7 @@ public class Administrator {
                 UUID customerId = inputService.inputCustomerId();
                 UUID voucherId = inputService.inputVoucherId();
 
-                VoucherWallet createdVoucherWallet = voucherWalletService.createVoucherWallet(new VoucherWalletReqDto(customerId, voucherId));
+                VoucherWallet createdVoucherWallet = voucherWalletService.createVoucherWallet(customerId, voucherId);
                 outputService.showVoucherWallet(createdVoucherWallet);
                 break;
             case FIND_ALLOCATED_VOUCHER:

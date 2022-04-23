@@ -38,9 +38,9 @@ class VoucherWalletServiceTest {
     @Mock
     VoucherWalletRepository voucherWalletRepository;
 
-    VoucherWalletReqDto voucherWalletReqDto = new VoucherWalletReqDto(UUID.randomUUID(), UUID.randomUUID());
+    VoucherWalletReqDto voucherWalletReqDto = new VoucherWalletReqDto(UUID.randomUUID());
     Customer customer = Customer.builder()
-            .customerId(voucherWalletReqDto.getCustomerId())
+            .customerId(UUID.randomUUID())
             .name("a")
             .email("a@test.com")
             .createdAt(LocalDateTime.now())
@@ -52,9 +52,9 @@ class VoucherWalletServiceTest {
     @DisplayName("바우처 지갑 생성 고객 예외 톄스트")
     void testCreateVoucherWalletCustomerException() {
         try {
-            when(customerRepository.findById(voucherWalletReqDto.getCustomerId())).thenThrow(new CustomerNotFoundException(voucherWalletReqDto.getCustomerId()));
+            when(customerRepository.findById(customer.getCustomerId())).thenThrow(new CustomerNotFoundException(customer.getCustomerId()));
 
-            voucherWalletService.createVoucherWallet(voucherWalletReqDto);
+            voucherWalletService.createVoucherWallet(customer.getCustomerId(), voucherWalletReqDto.getVoucherId());
         }catch(CustomerNotFoundException e) {
             verify(voucherRepository, never()).findById(voucherWalletReqDto.getVoucherId());
         }
@@ -64,10 +64,10 @@ class VoucherWalletServiceTest {
     @DisplayName("바우처 지갑 생성 바우처 예외 톄스트")
     void testCreateVoucherWalletVoucherException() {
         try {
-            when(customerRepository.findById(voucherWalletReqDto.getCustomerId())).thenReturn(Optional.of(customer));
+            when(customerRepository.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
             when(voucherRepository.findById(voucherWalletReqDto.getVoucherId())).thenThrow(new VoucherNotFoundException(voucherWalletReqDto.getVoucherId()));
 
-            voucherWalletService.createVoucherWallet(voucherWalletReqDto);
+            voucherWalletService.createVoucherWallet(customer.getCustomerId(), voucherWalletReqDto.getVoucherId());
         }catch(VoucherNotFoundException e) {
             verify(voucherWalletRepository, never()).create(any());
         }
@@ -76,10 +76,10 @@ class VoucherWalletServiceTest {
     @Test
     @DisplayName("바우처 지갑 생성 톄스트")
     void testCreateVoucherWallet() {
-        when(customerRepository.findById(voucherWalletReqDto.getCustomerId())).thenReturn(Optional.of(customer));
+        when(customerRepository.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
         when(voucherRepository.findById(voucherWalletReqDto.getVoucherId())).thenReturn(Optional.of(voucher));
 
-        voucherWalletService.createVoucherWallet(voucherWalletReqDto);
+        voucherWalletService.createVoucherWallet(customer.getCustomerId(), voucherWalletReqDto.getVoucherId());
 
         verify(voucherWalletRepository).create(any());
     }

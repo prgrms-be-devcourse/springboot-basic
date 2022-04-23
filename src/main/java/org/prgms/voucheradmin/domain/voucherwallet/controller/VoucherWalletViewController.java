@@ -62,6 +62,10 @@ public class VoucherWalletViewController {
         return "views/voucher-wallet/allocated-vouchers";
     }
 
-    // @PostMapping("/voucher-wallets/{customerId}")
+    @PostMapping("/voucher-wallets/{customerId}/delete/{voucherId}")
+    public String deleteAllocatedVoucher(@PathVariable UUID customerId, @PathVariable UUID voucherId) {
+        voucherWalletService.deleteVoucherWallet(customerId, voucherId);
+        return "redirect:/voucher-wallets/"+customerId;
+    }
 
 }

@@ -35,12 +35,12 @@ public class VoucherWalletService {
      * 고객에게 바우처를 할당하는 메서드 입니다.
      */
     @Transactional
-    public VoucherWallet createVoucherWallet(VoucherWalletReqDto voucherWalletReqDto) {
-        Customer customer = customerRepository.findById(voucherWalletReqDto.getCustomerId())
-                .orElseThrow(() -> new CustomerNotFoundException(voucherWalletReqDto.getCustomerId()));
+    public VoucherWallet createVoucherWallet(UUID customerId, UUID voucherId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException(customerId));
 
-        Voucher voucher = voucherRepository.findById(voucherWalletReqDto.getVoucherId())
-                .orElseThrow(() -> new VoucherNotFoundException(voucherWalletReqDto.getVoucherId()));
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
         return voucherWalletRepository.create(new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
     }
