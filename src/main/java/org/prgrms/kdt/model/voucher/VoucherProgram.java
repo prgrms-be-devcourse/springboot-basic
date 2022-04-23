@@ -1,6 +1,6 @@
 package org.prgrms.kdt.model.voucher;
 
-import org.prgrms.kdt.io.Input;
+import org.prgrms.kdt.io.InputConsole;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.function.Function;
 import org.prgrms.kdt.function.FunctionOperator;
@@ -9,13 +9,11 @@ import org.slf4j.LoggerFactory;
 
 public class VoucherProgram implements Runnable {
 
-    private Input input;
     private Output output;
     private FunctionOperator functionOperator;
     private final static Logger logger = LoggerFactory.getLogger(VoucherProgram.class);
 
-    public VoucherProgram(Input input, Output output, FunctionOperator functionOperator) {
-        this.input = input;
+    public VoucherProgram(Output output, FunctionOperator functionOperator) {
         this.output = output;
         this.functionOperator = functionOperator;
     }
@@ -29,7 +27,7 @@ public class VoucherProgram implements Runnable {
 
     private boolean execute() {
         output.printFunctions();
-        String inputFunction = input.inputString();
+        String inputFunction = new InputConsole().inputString();
         if (!hasFunction(inputFunction)) {
             return false;
         }

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.expression.spel.ast.OpInc;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,6 +29,9 @@ public class FunctionOperator {
     private VoucherService voucherService;
     private VoucherWalletService voucherWalletService;
     private final static Logger logger = LoggerFactory.getLogger(Function.class);
+    private final static Input input = new InputConsole();
+    private final static Output output = new OutputConsole();
+    private final static String DELETE_CHARACTER = "D";
 
     public FunctionOperator(BlackListService blackListService, CustomerService customerService, VoucherService voucherService, VoucherWalletService voucherWalletService) {
         this.blackListService = blackListService;
@@ -40,7 +44,7 @@ public class FunctionOperator {
         switch (type) {
             case ("create") -> createVoucherByVoucherType();
             case ("voucherList") -> printVoucherList();
-            case ("blackList") -> new OutputConsole().printList(blackListService.getBlackList());
+            case ("blackList") -> output.printList(blackListService.getBlackList());
             case ("add") -> createNewCustomer();
             case ("provide") -> provideVoucherToCustomer();
             case ("manage") -> {
@@ -53,11 +57,10 @@ public class FunctionOperator {
     private void createVoucherByVoucherType() {
         Output output = new OutputConsole();
         output.printVoucherType();
-        Input input = new InputConsole();
         try {
             voucherService.createVoucher(UUID.randomUUID(),
                     Utility.toInt(input.inputString()),
-                    Utility.toInt(input.inputAmount()));
+                    Utility.toInt(input.inputStringWithPrintMessage("Type amount : ")));
         } catch (IllegalArgumentException e) {
             logger.info("error -> {}", e.getMessage());
             output.printMessage(e.getMessage());
@@ -67,7 +70,7 @@ public class FunctionOperator {
     private void printVoucherList() {
         Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
         if (voucherList.isEmpty()) {
-            new OutputConsole().printMessage("voucher list is empty !!\n");
+            output.printMessage("voucher list is empty !!\n");
             return;
         }
         for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
@@ -77,43 +80,46 @@ public class FunctionOperator {
     }
 
     private void createNewCustomer() {
-        Input input = new InputConsole();
-        String name = input.inputCustomerName();
-        String email = input.inputCustomerEmail();
+        String name = input.inputStringWithPrintMessage("input customer name : ");
+        String email = input.inputStringWithPrintMessage("input customer Email : ");
         Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now(), LocalDateTime.now());
         customerService.join(customer);
     }
 
     private void provideVoucherToCustomer() {
         List<Voucher> voucherList = voucherService.getOwnableVoucherList();
-        new OutputConsole().printList(voucherList);
-        String voucherId = new InputConsole().inputString();
+        String voucherId = outputListInputString(voucherList);
 
         List<Customer> customerList = customerService.getAllCustomers();
-        new OutputConsole().printList(customerList);
-        String customerId = new InputConsole().inputString();
+        String customerId = outputListInputString(customerList);
 
         //vouchers table update
         Optional<Voucher> voucher = voucherService.provideVoucherToCustomer(voucherId, customerId);
-        voucher.ifPresent(value -> new OutputConsole().printMessage(value.getVoucherId() + " is provided"));
+        voucher.ifPresent(value -> output.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
     }
 
     private String printCustomerVoucherList() {
-        new OutputConsole().printMessage("input customer Email");
-        String customerEmail = new InputConsole().inputString();
+        String customerEmail = OutputMessageInputString("input customer Email");
         Optional<Map<UUID, Voucher>> voucherList = voucherWalletService.getVoucherListByCustomerEmail(customerEmail);
         voucherList.ifPresent(uuidVoucherMap -> new ArrayList<>(uuidVoucherMap.values()));
         return customerEmail;
     }
 
     private void deleteCheck(String email) {
-        new OutputConsole().printMessage("Type D/d if you want delete");
-        String inputString = new InputConsole().inputString();
-        if(inputString.equalsIgnoreCase("D")) {
-            new OutputConsole().printMessage("Type voucherId");
-            String voucherId = new InputConsole().inputString();
+        String inputString = OutputMessageInputString("Type D/d if you want delete");
+        if(inputString.equalsIgnoreCase(DELETE_CHARACTER)) {
+            String voucherId = OutputMessageInputString("Type voucherId");
             voucherService.deleteVoucher(UUID.fromString(voucherId), email);
         }
     }
 
+    private String outputListInputString(List<?> list) {
+        output.printList(list);
+        return input.inputString();
+    }
+
+    private String OutputMessageInputString(String message) {
+        output.printMessage(message);
+        return input.inputString();
+    }
 }

@@ -10,25 +10,14 @@ public class InputConsole implements Input{
         this.scanner = new Scanner(System.in);
     }
 
-    public String inputAmount() {
-        System.out.print("Type amount : ");
-        return scanner.nextLine();
-    }
-
-    @Override
-    public String inputCustomerName() {
-        System.out.print("input customer name : ");
-        return scanner.nextLine();
-    }
-
-    @Override
-    public String inputCustomerEmail() {
-        System.out.print("input customer Email : ");
-        return scanner.nextLine();
-    }
-
     @Override
     public String inputString() {
+        return scanner.nextLine();
+    }
+
+    @Override
+    public String inputStringWithPrintMessage(String printMessage) {
+        System.out.print(printMessage);
         return scanner.nextLine();
     }
 
