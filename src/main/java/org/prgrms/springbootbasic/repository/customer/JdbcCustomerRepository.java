@@ -85,7 +85,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public UUID changeName(Customer customer) {
+    public UUID updateName(Customer customer) {
         logger.info("changeName() called");
 
         var update = jdbcTemplate.update(UPDATE_BY_ID_SQL,

@@ -159,7 +159,7 @@ class JdbcCustomerRepositoryTest {
         customer.changeName(newName);
 
         //when
-        var updatedCustomerId = jdbcCustomerRepository.changeName(customer);
+        var updatedCustomerId = jdbcCustomerRepository.updateName(customer);
 
         //then
         var customers = jdbcCustomerRepository.findById(customer.getCustomerId());

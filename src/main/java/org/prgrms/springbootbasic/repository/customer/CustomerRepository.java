@@ -14,7 +14,7 @@ public interface CustomerRepository {
 
     void removeAll();
 
-    UUID changeName(Customer customer);
+    UUID updateName(Customer customer);
 
     Optional<Customer> findById(UUID customerId);
 
