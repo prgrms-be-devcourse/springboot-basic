@@ -44,7 +44,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int countData() {
+    public int countVouchers() {
         return storage.size();
     }
 

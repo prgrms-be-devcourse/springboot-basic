@@ -43,7 +43,7 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public int countData() {
+    public int countCustomers() {
         return fileManager.countLines();
     }
 

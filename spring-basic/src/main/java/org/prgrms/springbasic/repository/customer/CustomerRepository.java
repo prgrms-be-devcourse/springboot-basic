@@ -16,7 +16,7 @@ public interface CustomerRepository {
 
     List<Customer> findCustomers();
 
-    int countData();
+    int countCustomers();
 
     Customer update(Customer customer);
 

@@ -19,7 +19,7 @@ public interface VoucherRepository {
 
     List<Wallet> findWallets();
 
-    int countData();
+    int countVouchers();
 
     Voucher update(Voucher voucher);
 

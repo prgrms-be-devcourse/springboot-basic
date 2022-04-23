@@ -117,7 +117,7 @@ class VoucherJdbcRepositoryTest {
 
         assertThat(newVoucher, notNullValue());
         assertThat(newVoucher, samePropertyValuesAs(voucher));
-        assertThat(voucherRepository.countData(), is(1));
+        assertThat(voucherRepository.countVouchers(), is(1));
     }
 
     @Test
@@ -181,7 +181,7 @@ class VoucherJdbcRepositoryTest {
 
         var vouchers = voucherRepository.findVouchers();
 
-        assertThat(vouchers.size(), is(voucherRepository.countData()));
+        assertThat(vouchers.size(), is(voucherRepository.countVouchers()));
         assertThat(vouchers.get(0), samePropertyValuesAs(voucher));
         assertThat(vouchers, containsInRelativeOrder(samePropertyValuesAs(voucher), samePropertyValuesAs(newVoucher1), samePropertyValuesAs(newVoucher2), samePropertyValuesAs(newVoucher3), samePropertyValuesAs(newVoucher4), samePropertyValuesAs(newVoucher5)));
     }
@@ -272,12 +272,12 @@ class VoucherJdbcRepositoryTest {
         voucherRepository.save(fixedVoucher(randomUUID(), 10, null));
         voucherRepository.save(fixedVoucher(randomUUID(), 10, null));
 
-        assertThat(voucherRepository.countData(), greaterThan(0));
+        assertThat(voucherRepository.countVouchers(), greaterThan(0));
 
         voucherRepository.deleteVouchers();
 
         assertThat(voucherRepository.findVouchers().isEmpty(), is(true));
-        assertThat(voucherRepository.countData(), is(0));
+        assertThat(voucherRepository.countVouchers(), is(0));
     }
 
 }

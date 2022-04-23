@@ -26,7 +26,7 @@ class FileVoucherRepositoryTest {
     void save() {
         repository.save(voucher);
 
-        assertThat(repository.countData(), is(1));
+        assertThat(repository.countVouchers(), is(1));
     }
 
     @Test
@@ -66,9 +66,9 @@ class FileVoucherRepositoryTest {
     @DisplayName("레포지토리를 클리어하면 레포지토리 사이즈가 0이되어야 한다.")
     void clear() {
         repository.save(voucher);
-        assertThat(repository.countData(), is(1));
+        assertThat(repository.countVouchers(), is(1));
 
         repository.deleteVouchers();
-        assertThat(repository.countData(), is(0));
+        assertThat(repository.countVouchers(), is(0));
     }
 }

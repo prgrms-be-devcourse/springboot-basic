@@ -114,7 +114,7 @@ class CustomerJdbcRepositoryTest {
 
         assertThat(newCustomer, notNullValue());
         assertThat(newCustomer, samePropertyValuesAs(customer));
-        assertThat(customerRepository.countData(), is(1));
+        assertThat(customerRepository.countCustomers(), is(1));
     }
 
     @Test
@@ -180,7 +180,7 @@ class CustomerJdbcRepositoryTest {
 
         var customers = customerRepository.findCustomers();
 
-        assertThat(customers.size(), is(customerRepository.countData()));
+        assertThat(customers.size(), is(customerRepository.countCustomers()));
         assertThat(customers.get(0), samePropertyValuesAs(newCustomer1));
         assertThat(customers, containsInRelativeOrder(samePropertyValuesAs(newCustomer1), samePropertyValuesAs(newCustomer2), samePropertyValuesAs(newCustomer3), samePropertyValuesAs(newCustomer4), samePropertyValuesAs(newCustomer5)));
     }
@@ -223,12 +223,12 @@ class CustomerJdbcRepositoryTest {
     @Order(9)
     @DisplayName("모든 고객을 삭제하고 나면 레객포지토리의 사이즈는 0이 되어야한다.")
     void testDeleteAll() {
-        assertThat(customerRepository.countData(), greaterThan(0));
+        assertThat(customerRepository.countCustomers(), greaterThan(0));
 
         customerRepository.deleteCustomers();
 
         assertThat(customerRepository.findCustomers().isEmpty(), is(true));
-        assertThat(customerRepository.countData(), is(0));
+        assertThat(customerRepository.countCustomers(), is(0));
     }
 
 }

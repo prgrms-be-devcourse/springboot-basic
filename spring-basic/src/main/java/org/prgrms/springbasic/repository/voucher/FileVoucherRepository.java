@@ -53,7 +53,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int countData() {
+    public int countVouchers() {
         return fileManager.countLines();
     }
 

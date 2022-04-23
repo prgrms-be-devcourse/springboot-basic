@@ -69,7 +69,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public int countData() {
+    public int countCustomers() {
         var count = jdbcTemplate.queryForObject(SELECT_COUNT.getQuery(),
                 Collections.emptyMap(),
                 Integer.class);

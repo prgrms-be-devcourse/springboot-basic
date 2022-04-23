@@ -77,7 +77,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public int countData() {
+    public int countVouchers() {
         var count = jdbcTemplate.queryForObject(SELECT_COUNT.getQuery(),
                 Collections.emptyMap(),
                 Integer.class);
