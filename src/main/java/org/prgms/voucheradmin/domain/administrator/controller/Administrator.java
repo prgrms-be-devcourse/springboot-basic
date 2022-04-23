@@ -18,7 +18,7 @@ import org.prgms.voucheradmin.domain.customer.dto.CustomerCreateReqDto;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerUpdateReqDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
@@ -102,7 +102,7 @@ public class Administrator {
                 VoucherType voucherTypeForCreate = inputService.selectVoucherType();
                 long amountForCreate = inputService.inputAmount(voucherTypeForCreate);
 
-                Voucher createdVoucher = voucherService.createVoucher(new VoucherCreateReqDto(voucherTypeForCreate, amountForCreate));
+                Voucher createdVoucher = voucherService.createVoucher(new VoucherReqDto(voucherTypeForCreate, amountForCreate));
                 outputService.showVoucher(createdVoucher, CommandAboutVoucher.CREATE);
                 break;
             case READ:
@@ -115,7 +115,7 @@ public class Administrator {
                 VoucherType voucherTypeForUpdate = inputService.selectVoucherType();
                 long amountForUpdate = inputService.inputAmount(voucherTypeForUpdate);
 
-                Voucher updatedVoucher = voucherService.updateVoucher(new VoucherUpdateReqDto(voucherIdForUpdate, voucherTypeForUpdate, amountForUpdate));
+                Voucher updatedVoucher = voucherService.updateVoucher(voucherIdForUpdate, new VoucherReqDto(voucherTypeForUpdate, amountForUpdate));
                 outputService.showVoucher(updatedVoucher, CommandAboutVoucher.UPDATE);
                 break;
             case DELETE:

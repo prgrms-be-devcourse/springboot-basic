@@ -1,13 +1,11 @@
 package org.prgms.voucheradmin.domain.customer.controller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.customer.dto.CustomerCreateReqDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

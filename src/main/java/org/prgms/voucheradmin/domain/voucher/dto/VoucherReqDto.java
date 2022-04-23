@@ -6,7 +6,7 @@ import org.prgms.voucheradmin.global.exception.WrongInputException;
 /**
  * 바우처를 생성하기 위해 입력된 값을 전달하는 DTO 클래스 입니다.
  **/
-public class VoucherCreateReqDto {
+public class VoucherReqDto {
     /**
      * 선택된 바우처의 종류를 의미하는 필드입니다.
      **/
@@ -16,7 +16,7 @@ public class VoucherCreateReqDto {
      **/
     private long amount;
 
-    public VoucherCreateReqDto(VoucherType voucherType, long amount) {
+    public VoucherReqDto(VoucherType voucherType, long amount) {
         switch (voucherType) {
             case FIXED_AMOUNT:
                 if(amount < 0)  {

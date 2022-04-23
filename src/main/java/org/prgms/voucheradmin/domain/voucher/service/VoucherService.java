@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
@@ -34,11 +34,11 @@ public class VoucherService {
      * 바우처의 생성을 담당하는 메서드입니다.
     */
     @Transactional
-    public Voucher createVoucher(VoucherCreateReqDto voucherCreateReqDto) throws IOException {
+    public Voucher createVoucher(VoucherReqDto voucherReqDto) throws IOException {
         Voucher voucher = getVoucherInstance(
                 UUID.randomUUID(),
-                voucherCreateReqDto.getVoucherType(),
-                voucherCreateReqDto.getAmount());
+                voucherReqDto.getVoucherType(),
+                voucherReqDto.getAmount());
 
         return voucherRepository.create(voucher);
     }
@@ -60,14 +60,14 @@ public class VoucherService {
      * 바우처의 type, amount(percent)를 수정하는 메서드입니다.
      **/
     @Transactional
-    public Voucher updateVoucher(VoucherUpdateReqDto voucherUpdateReqDto) {
-        Voucher retrievedVoucher = voucherRepository.findById(voucherUpdateReqDto.getVoucherId())
-                .orElseThrow(() -> new VoucherNotFoundException(voucherUpdateReqDto.getVoucherId()));
+    public Voucher updateVoucher(UUID voucherId, VoucherReqDto voucherReqDto) {
+        Voucher retrievedVoucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
         Voucher updatedVoucher = getVoucherInstance(
                 retrievedVoucher.getVoucherId(),
-                voucherUpdateReqDto.getVoucherType(),
-                voucherUpdateReqDto.getAmount());
+                voucherReqDto.getVoucherType(),
+                voucherReqDto.getAmount());
 
         return voucherRepository.update(updatedVoucher);
     }

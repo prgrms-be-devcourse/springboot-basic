@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
@@ -32,8 +32,8 @@ public class VoucherViewController {
     }
 
     @PostMapping("/vouchers/new")
-    public String addNewVoucher(VoucherCreateReqDto voucherCreateReqDto) throws IOException{
-        voucherService.createVoucher(voucherCreateReqDto);
+    public String addNewVoucher(VoucherReqDto voucherReqDto) throws IOException{
+        voucherService.createVoucher(voucherReqDto);
         return "redirect:/vouchers";
     }
 
@@ -65,10 +65,10 @@ public class VoucherViewController {
         return "views/voucher/update-voucher";
     }
 
-    @PostMapping("/vouchers/update")
-    public String updateVoucher(VoucherUpdateReqDto voucherUpdateReqDto) {
-        voucherService.updateVoucher(voucherUpdateReqDto);
-        return "redirect:/vouchers/"+voucherUpdateReqDto.getVoucherId();
+    @PostMapping("/vouchers/update/{voucherId}")
+    public String updateVoucher(@PathVariable UUID voucherId, VoucherReqDto voucherReqDto) {
+        voucherService.updateVoucher(voucherId, voucherReqDto);
+        return "redirect:/vouchers/"+voucherId;
     }
 
     @PostMapping("/vouchers/delete/{voucherId}")

@@ -17,8 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherCreateReqDto;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
@@ -44,7 +43,7 @@ class VoucherServiceTest {
             when(voucherRepository.create(any(Voucher.class))).thenReturn(voucher);
 
             // given
-            voucherService.createVoucher(new VoucherCreateReqDto(FIXED_AMOUNT, 10L));
+            voucherService.createVoucher(new VoucherReqDto(FIXED_AMOUNT, 10L));
 
             // then
             verify(voucherRepository).create(any());
@@ -75,7 +74,7 @@ class VoucherServiceTest {
 
         when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(retrievedVoucher));
 
-        voucherService.updateVoucher(new VoucherUpdateReqDto(voucherId, PERCENTAGE_DISCOUNT, 10));
+        voucherService.updateVoucher(voucherId, new VoucherReqDto(PERCENTAGE_DISCOUNT, 10));
 
         verify(voucherRepository).update(any());
     }
@@ -88,7 +87,7 @@ class VoucherServiceTest {
             Voucher retrievedVoucher = new FixedAmountVoucher(voucherId, 10);
             when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(retrievedVoucher));
 
-            voucherService.updateVoucher(new VoucherUpdateReqDto(voucherId, PERCENTAGE_DISCOUNT, 10));
+            voucherService.updateVoucher(voucherId, new VoucherReqDto(PERCENTAGE_DISCOUNT, 10));
         }catch (VoucherNotFoundException e) {
             verify(voucherRepository, never()).update(any());
         }

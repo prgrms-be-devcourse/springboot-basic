@@ -14,19 +14,21 @@
     <h1 class="header">Voucher Admin</h1>
     <div class="container-fluid">
         <h3>바우처 수정</h3>
-        <form th:action="@{/vouchers/update}" method="post">
+        <form th:action="@{'/vouchers/update/'+${voucher.voucherId}}" method="post">
             <div class="mb-3">
-                <label for="voucherId" class="form-label">바우처 ID</label>
-                <input type="text" name="voucherId" th:value="${voucher.voucherId}" class="form-control" id="voucherId" readonly>
+                <label class="form-label">바우처 ID</label>
+                <div th:text="${voucher.voucherId}"></div>
             </div>
             <div class="mb-3">
                 <label for="inputVoucherType" class="form-label">Voucher Type</label>
-                <select name = "voucherType" th:value="${voucher.voucherType.getTypeName()}" id="inputVoucherType">
-                    <option th:each="voucherType : ${voucherTypes}"
-                            th:selected="${voucherType.getTypeName().equals(voucher.voucherType.getTypeName())}"
-                            th:value="${voucherType.getTypeName()}"
-                            th:text="${voucherType.getTypeName()}"></option>
-                </select>
+                <div>
+                    <select name = "voucherType" th:value="${voucher.voucherType.getTypeName()}" id="inputVoucherType">
+                        <option th:each="voucherType : ${voucherTypes}"
+                                th:selected="${voucherType.getTypeName().equals(voucher.voucherType.getTypeName())}"
+                                th:value="${voucherType.getTypeName()}"
+                                th:text="${voucherType.getTypeName()}"></option>
+                    </select>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="inputAmount" class="form-label">Amount</label>
