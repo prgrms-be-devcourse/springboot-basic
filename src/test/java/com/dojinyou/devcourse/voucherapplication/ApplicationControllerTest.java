@@ -55,12 +55,14 @@ class ApplicationControllerTest {
     @DisplayName("Exit 명령이 주어졌을 때, RequestHandle 함수를 호출하면 Response 객체의 ")
     void requestHandleWithExitCommandTest() {
         //given
-        Command userCommand = Command.LIST;
+        Command userCommand = Command.EXIT;
 
         //when
         Response response = applicationController.requestHandle(userCommand);
 
         //then
+        assertThat(response).isNotNull();
+        assertThat(response.getState()).isEqualTo(Response.State.SUCCESS);
         assertThat(response.getData()).isEqualTo(Command.EXIT.toString());
     }
 
