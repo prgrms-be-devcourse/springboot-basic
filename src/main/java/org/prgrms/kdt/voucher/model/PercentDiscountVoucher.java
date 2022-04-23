@@ -11,13 +11,17 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
     private final VoucherType type = VoucherType.PERCENT;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    private PercentDiscountVoucher(UUID voucherId, long percent) {
         if (percent < MIN_PERCENT || percent > MAX_PERCENT) {
             throw new IllegalArgumentException("퍼센트는 1~100 사이의 값을 입력해주세요.");
         }
 
         this.voucherId = voucherId;
         this.percent = percent;
+    }
+
+    public static PercentDiscountVoucher create(long percent) {
+        return new PercentDiscountVoucher(UUID.randomUUID(), percent);
     }
 
     @Override

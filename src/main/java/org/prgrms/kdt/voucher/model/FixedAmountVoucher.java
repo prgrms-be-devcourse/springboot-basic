@@ -8,9 +8,13 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
     private final VoucherType type = VoucherType.FIXED;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    private  FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
+    }
+
+    public static FixedAmountVoucher create(long amount) {
+        return new FixedAmountVoucher(UUID.randomUUID(), amount);
     }
 
     @Override
