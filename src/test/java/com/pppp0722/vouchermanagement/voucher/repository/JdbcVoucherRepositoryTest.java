@@ -152,7 +152,8 @@ class JdbcVoucherRepositoryTest {
     @Order(5)
     @DisplayName("updateVoucher() 테스트")
     public void testUpdateVoucher() {
-        Voucher updatedVoucher = new PercentDiscountVoucher(newVoucher.getVoucherId(), 20, newVoucher.getMemberId());
+        Voucher updatedVoucher = new PercentDiscountVoucher(newVoucher.getVoucherId(), 20,
+            newVoucher.getMemberId());
 
         Optional<Voucher> member = voucherRepository.updateVoucher(updatedVoucher);
 
@@ -165,8 +166,8 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @Order(6)
-    @DisplayName("Voucher 삭제")
-    public void testDelete() {
+    @DisplayName("deleteVoucher() 테스트")
+    public void testDeleteVoucher() {
         Optional<Voucher> deletedVoucher = voucherRepository.deleteVoucher(newVoucher);
 
         if (deletedVoucher.isEmpty()) {
@@ -177,5 +178,39 @@ class JdbcVoucherRepositoryTest {
             .getVoucherId());
 
         assertThat(retrievedVoucher.isEmpty(), is(true));
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("readVoucher() voucher 존재 X 예외 테스트")
+    public void testReadVoucherException() {
+        Optional<Voucher> voucher = voucherRepository.readVoucher(newVoucher.getVoucherId());
+        assertThat(voucher.isEmpty(), is(true));
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("readVouchersByMemberId() voucher 존재 X 예외 테스트")
+    public void testReadVouchersByMemberIdException() {
+        List<Voucher> vouchers = voucherRepository.readVouchersByMemberId(newVoucher.getMemberId());
+        assertThat(vouchers.isEmpty(), is(true));
+    }
+
+    @Test
+    @Order(9)
+    @DisplayName("updateVoucher() voucher 존재 X 예외 테스트")
+    public void testUpdateVoucherException() {
+        Voucher updatedVoucher = new PercentDiscountVoucher(newVoucher.getVoucherId(), 20,
+            newVoucher.getMemberId());
+        Optional<Voucher> member = voucherRepository.updateVoucher(updatedVoucher);
+        assertThat(member.isEmpty(), is(true));
+    }
+
+    @Test
+    @Order(10)
+    @DisplayName("deleteVoucher() voucher 존재 X 예외 테스트")
+    public void testDeleteVoucherException() {
+        Optional<Voucher> voucher = voucherRepository.deleteVoucher(newVoucher);
+        assertThat(voucher.isEmpty(), is(true));
     }
 }

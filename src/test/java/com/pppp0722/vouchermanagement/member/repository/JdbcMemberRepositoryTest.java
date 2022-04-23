@@ -165,4 +165,29 @@ class JdbcMemberRepositoryTest {
 
         assertThat(retrievedMember.isEmpty(), is(true));
     }
+
+    @Test
+    @Order(6)
+    @DisplayName("readMember() member 존재 X 예외 테스트")
+    public void testReadMemberException() {
+        Optional<Member> member = memberRepository.readMember(newMember.getMemberId());
+        assertThat(member.isEmpty(), is(true));
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("updateMember() member 존재 X 예외 테스트")
+    public void testUpdateMemberException() {
+        Member updatedMember = new Member(newMember.getMemberId(), "lee");
+        Optional<Member> member = memberRepository.updateMember(updatedMember);
+        assertThat(member.isEmpty(), is(true));
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("deleteMember() member 존재 X 예외 테스트")
+    public void testDeleteMemberException() {
+        Optional<Member> member = memberRepository.deleteMember(newMember);
+        assertThat(member.isEmpty(), is(true));
+    }
 }
