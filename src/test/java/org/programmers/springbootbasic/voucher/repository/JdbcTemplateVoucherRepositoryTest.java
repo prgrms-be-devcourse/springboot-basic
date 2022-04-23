@@ -5,10 +5,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.programmers.springbootbasic.member.domain.SignedMember;
+import org.programmers.springbootbasic.member.repository.JdbcTemplateMemberRepository;
 import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.RateDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
-import org.programmers.springbootbasic.voucher.repository.JdbcTemplateVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,8 @@ class JdbcTemplateVoucherRepositoryTest {
     @Autowired
     private JdbcTemplateVoucherRepository voucherRepository;
     @Autowired
+    private JdbcTemplateMemberRepository memberRepository;
+    @Autowired
     private DataSourceCleaner dataSourceCleaner;
 
     //TODO PR 포인트: 실제 서비스에서 사용할 레포에 전체 데이터 삭제 메서드가 존재한다는 것 자체가 문제이기 때문, 혹시 더 나은 방법이 있는지 궁금
@@ -48,6 +51,7 @@ class JdbcTemplateVoucherRepositoryTest {
 
         public void cleanDataBase() {
             template.update("TRUNCATE TABLE voucher");
+            template.update("DELETE FROM member");
         }
     }
 
@@ -73,6 +77,12 @@ class JdbcTemplateVoucherRepositoryTest {
         JdbcTemplateVoucherRepository voucherRepository() {
             return new JdbcTemplateVoucherRepository(dataSource());
         }
+
+        @Bean
+        JdbcTemplateMemberRepository memberRepository() {
+            return new JdbcTemplateMemberRepository(dataSource());
+        }
+
     }
 
     @AfterEach
@@ -130,5 +140,21 @@ class JdbcTemplateVoucherRepositoryTest {
         var insertedFixedVoucher = voucherRepository.insert(fixedVoucher);
         voucherRepository.remove(insertedFixedVoucher.getId());
         assertThat(voucherRepository.findById(insertedFixedVoucher.getId()).isEmpty(), is(true));
+    }
+    
+    @Test
+    @DisplayName("바우처가 특정 멤버의 소유가 됨")
+    void updateVoucherOwner() {
+        var member = new SignedMember("tester", "email@mail.com");
+        memberRepository.insert(member);
+        var voucher = new FixedDiscountVoucher(UUID.randomUUID(), 3000);
+        voucherRepository.insert(voucher);
+
+        voucherRepository.updateVoucherOwner(voucher.getId(), member.getMemberId());
+        var foundVoucher = voucherRepository.findById(voucher.getId()).get();
+
+        System.out.println("foundVoucher = " + foundVoucher);
+
+        assertThat(foundVoucher.getMemberId(), is(member.getMemberId()));
     }
 }

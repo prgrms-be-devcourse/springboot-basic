@@ -114,7 +114,7 @@ public class VoucherHandler implements Handler {
         int amount = getDiscountAmountFromModel(model.getAttributes("amount"));
         var voucherType = getVoucherTypeFromModel(model.getAttributes("type"));
 
-        voucherService.registerVoucher(amount, voucherType);
+        voucherService.createVoucher(amount, voucherType);
 
         model.clear();
 

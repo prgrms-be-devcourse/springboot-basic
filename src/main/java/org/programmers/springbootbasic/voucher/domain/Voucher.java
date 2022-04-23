@@ -15,6 +15,8 @@ public interface Voucher {
 
     VoucherType getType();
 
+    Long getMemberId();
+
     static Voucher create(int amount, VoucherType voucherType) {
         if (voucherType == FIXED) {
             return new FixedDiscountVoucher(UUID.randomUUID(), amount);

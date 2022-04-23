@@ -8,7 +8,6 @@ import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherProperty;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
-import org.programmers.springbootbasic.voucher.service.VoucherServiceImpl;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -46,13 +45,13 @@ class VoucherServiceImplTest {
     @Test
     @DisplayName("바우처 등록하기 - 비정상적인 값")
     void validateVoucher() {
-        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.registerVoucher(5000000, FIXED));
-        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.registerVoucher(-2000, FIXED));
-        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.registerVoucher(0, FIXED));
+        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.createVoucher(5000000, FIXED));
+        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.createVoucher(-2000, FIXED));
+        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.createVoucher(0, FIXED));
 
-        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.registerVoucher(100, RATE));
-        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.registerVoucher(-5, RATE));
-        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.registerVoucher(0, RATE));
+        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.createVoucher(100, RATE));
+        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.createVoucher(-5, RATE));
+        assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.createVoucher(0, RATE));
     }
 
 

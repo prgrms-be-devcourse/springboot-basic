@@ -79,7 +79,7 @@ class VoucherHandlerTest {
 
         var modelAndView = VOUCHER_HANDLER.handleRequest(requestMock);
 
-        verify(VOUCHER_SERVICE_MOCK, times(1)).registerVoucher(3000, FIXED);
+        verify(VOUCHER_SERVICE_MOCK, times(1)).createVoucher(3000, FIXED);
         verify(modelMock, times(1)).clear();
         assertThat(modelAndView.getResponseCode(), is(PROCEED));
     }

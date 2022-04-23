@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Slf4j
 @Repository
-public class JdbcTemplateCustomerRepository implements CustomerRepository {
+public class JdbcTemplateMemberRepository implements MemberRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -35,7 +35,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     private static final String FIND_ALL_SQL = "SELECT * from member";
     private static final String REMOVE_SQL = "DELETE from member WHERE member_id = :" + PARAM_KEY_MEMBER_ID;
 
-    public JdbcTemplateCustomerRepository(DataSource dataSource) {
+    public JdbcTemplateMemberRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

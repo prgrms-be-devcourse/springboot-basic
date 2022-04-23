@@ -28,10 +28,13 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     public static final String PARAM_KEY_VOUCHER_ID = "voucherId";
     public static final String PARAM_KEY_AMOUNT = "amount";
     public static final String PARAM_KEY_TYPE = "type";
+    public static final String PARAM_KEY_MEMBER_ID = "memberId";
 
     private static final String INSERT_SQL =
             "INSERT into voucher(voucher_id, amount, type) values (:"
                     + PARAM_KEY_VOUCHER_ID + ", :" + PARAM_KEY_AMOUNT + ", :" + PARAM_KEY_TYPE + ")";
+    private static final String UPDATE_MEMBER_FK_SQL =
+            "UPDATE voucher SET member_id = :" + PARAM_KEY_MEMBER_ID + " WHERE voucher_id = :" + PARAM_KEY_VOUCHER_ID;
     private static final String FIND_BY_ID_SQL =
             "SELECT * from voucher WHERE voucher_id = :" + PARAM_KEY_VOUCHER_ID;
     private static final String FIND_ALL_SQL = "SELECT * from voucher";
@@ -52,9 +55,6 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         return voucher;
     }
 
-
-    //TODO: Customer 완성 후, Voucher 할당하는 update 메서드 작성하기
-
     private SqlParameterSource toParamMap(Voucher voucher) {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue(PARAM_KEY_VOUCHER_ID, uuidToBytes(voucher.getId()));
@@ -62,6 +62,19 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         paramSource.addValue(PARAM_KEY_TYPE, voucher.getType().toString());
 
         return paramSource;
+    }
+
+    public void updateVoucherOwner(UUID voucherId, Long memberId) {
+        var paramSource = new MapSqlParameterSource();
+        paramSource.addValue(PARAM_KEY_VOUCHER_ID, uuidToBytes(voucherId));
+        paramSource.addValue(PARAM_KEY_MEMBER_ID, memberId);
+
+        int updatedRow = jdbcTemplate.update(UPDATE_MEMBER_FK_SQL, paramSource);
+
+        if (1 != updatedRow) {
+            log.error("Voucher 테이블에 member_id 외래키가 정상적으로 저장되지 않았습니다. updatedRow={}", updatedRow);
+            throw new IncorrectResultSizeDataAccessException(updatedRow);
+        }
     }
 
     //TODO: PR 포인트: 왜 queryForObject 사용하지 않았는지: 예외는 정상 요청 흐름에서는 발생해서는 안 된다!
@@ -87,11 +100,12 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             UUID voucherId = bytesToUuid(rs.getBytes("voucher_id"));
             int amount = rs.getInt("amount");
             String type = rs.getString("type");
+            Long memberId = (Long) rs.getObject("member_id");
 
             if (FIXED.toString().equals(type)) {
-                return new FixedDiscountVoucher(voucherId, amount);
+                return new FixedDiscountVoucher(voucherId, amount, memberId);
             } else if (RATE.toString().equals(type)) {
-                return new RateDiscountVoucher(voucherId, amount);
+                return new RateDiscountVoucher(voucherId, amount, memberId);
             }
             log.error("잘못된 바우처 타입입니다. type={}", type);
             throw new IllegalVoucherTypeException("잘못된 바우처 타입입니다.");

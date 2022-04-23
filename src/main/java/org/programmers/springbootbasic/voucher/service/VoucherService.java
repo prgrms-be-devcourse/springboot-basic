@@ -8,7 +8,9 @@ import java.util.UUID;
 
 public interface VoucherService {
 
-    Voucher registerVoucher(int amount, VoucherType voucherType);
+    Voucher createVoucher(int amount, VoucherType voucherType);
+
+    void registerVouchersOwner(UUID voucherId, Long MemberId);
 
     Voucher getVoucher(UUID voucherId);
 

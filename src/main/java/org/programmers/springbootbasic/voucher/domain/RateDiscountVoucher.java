@@ -10,6 +10,10 @@ public class RateDiscountVoucher extends AbstractVoucher {
         super(id, amount, RATE);
     }
 
+    public RateDiscountVoucher(UUID id, int amount, Long memberId) {
+        super(id, amount, RATE, memberId);
+    }
+
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (100 - this.getAmount()) / 100;

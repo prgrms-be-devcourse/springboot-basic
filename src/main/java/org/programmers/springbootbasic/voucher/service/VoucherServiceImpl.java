@@ -22,12 +22,17 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Transactional
     @Override
-    public Voucher registerVoucher(int amount, VoucherType voucherType) {
+    public Voucher createVoucher(int amount, VoucherType voucherType) {
         if (isValidAmount(amount, voucherType)) {
             return voucherRepository.insert(Voucher.create(amount, voucherType));
         }
         log.error("바우처의 할인 수치가 잘못되었습니다.={}", amount);
         throw new IllegalArgumentException("바우처의 할인 수치가 잘못되었습니다." + amount);
+    }
+
+    @Override
+    public void registerVouchersOwner(UUID voucherId, Long MemberId) {
+
     }
 
     @Override

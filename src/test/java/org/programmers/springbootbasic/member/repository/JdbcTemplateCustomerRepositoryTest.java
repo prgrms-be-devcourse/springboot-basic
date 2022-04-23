@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 class JdbcTemplateCustomerRepositoryTest {
 
     @Autowired
-    private JdbcTemplateCustomerRepository memberRepository;
+    private JdbcTemplateMemberRepository memberRepository;
     @Autowired
     private DataSourceCleaner dataSourceCleaner;
 
@@ -67,8 +66,8 @@ class JdbcTemplateCustomerRepositoryTest {
         }
 
         @Bean
-        JdbcTemplateCustomerRepository customerRepository() {
-            return new JdbcTemplateCustomerRepository(dataSource());
+        JdbcTemplateMemberRepository customerRepository() {
+            return new JdbcTemplateMemberRepository(dataSource());
         }
     }
 
