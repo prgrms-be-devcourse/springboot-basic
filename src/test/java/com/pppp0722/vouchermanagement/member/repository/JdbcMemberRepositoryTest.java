@@ -118,7 +118,7 @@ class JdbcMemberRepositoryTest {
     @Order(2)
     @DisplayName("readMembers() 테스트")
     public void testReadMembers() {
-        List<Member> members = memberRepository.readMembers();
+        List<Member> members = memberRepository.readAllMembers();
         assertThat(members.isEmpty(), is(false));
     }
 

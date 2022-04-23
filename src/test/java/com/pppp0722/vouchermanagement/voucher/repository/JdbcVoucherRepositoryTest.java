@@ -123,7 +123,7 @@ class JdbcVoucherRepositoryTest {
     @Order(2)
     @DisplayName("readVouchers() 테스트")
     public void testReadVouchers() {
-        List<Voucher> vouchers = voucherRepository.readVouchers();
+        List<Voucher> vouchers = voucherRepository.readAllVouchers();
         assertThat(vouchers.isEmpty(), is(false));
     }
 
