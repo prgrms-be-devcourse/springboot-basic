@@ -2,10 +2,10 @@ package com.example.voucher.domain.voucher;
 
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 
-public class PercentDiscountVoucher extends Voucher{
+public class PercentDiscountVoucher extends Voucher {
 
 	public PercentDiscountVoucher(int discountAmount) {
-		if (discountAmount < 0 || discountAmount > 100){
+		if (discountAmount < 0 || discountAmount > 100) {
 			// TODO: 로그 남기기
 			throw new IllegalArgumentException(INVALID_INPUT.name());
 		}
@@ -14,9 +14,7 @@ public class PercentDiscountVoucher extends Voucher{
 
 	@Override
 	public int discount(int beforeDiscount) {
-		int discountedPrice  = (int)(beforeDiscount - beforeDiscount * (discountAmount / 100.0));
-		if (discountedPrice < 0)
-			discountedPrice = 0;
-		return discountedPrice;
+		double percentDiscountValue = beforeDiscount * (discountAmount / 100.0);
+		return (int)(beforeDiscount - percentDiscountValue);
 	}
 }
