@@ -1,6 +1,5 @@
 package org.prgms.voucheradmin;
 
-import org.prgms.voucheradmin.domain.administrator.Administrator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +11,7 @@ public class VoucherAdminApplication {
 		AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
 
 		ApplicationContext applicationContext = SpringApplication.run(VoucherAdminApplication.class, args);
-		Administrator administrator = applicationContext.getBean(Administrator.class);
-		administrator.run();
+		// Administrator administrator = applicationContext.getBean(Administrator.class);
+		// administrator.run();
 	}
 }

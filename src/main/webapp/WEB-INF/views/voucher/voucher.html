@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link th:href="@{/static/style.css}" rel="stylesheet" />
+    <title>Voucher Admin</title>
+</head>
+<body>
+<h1 class="header">Voucher Admin</h1>
+<div class="container-fluid">
+    <h3>바우처 상세 조회</h3>
+    <div class="card">
+        <div th:text="${voucher.voucherId}" class="card-header"></div>
+        <div class="card-body">
+            <h5 th:text="${voucher.voucherType.getTypeName()}" class="card-title"></h5>
+            <p th:if="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="${'-'+voucher.amount}" class="card-text"></p>
+            <p th:unless="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="${voucher.amount+'% DISCOUNT'}" class="card-text"></p>
+            <a href="#" class="btn btn-primary">수정하기</a>
+            <a href="#" class="btn btn-danger">삭제하기</a>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

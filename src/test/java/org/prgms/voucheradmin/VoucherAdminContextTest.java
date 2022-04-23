@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.voucheradmin.domain.administrator.Administrator;
+import org.prgms.voucheradmin.domain.administrator.controller.Administrator;
 import org.prgms.voucheradmin.domain.customer.dao.blacklist.BlackListRepository;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;

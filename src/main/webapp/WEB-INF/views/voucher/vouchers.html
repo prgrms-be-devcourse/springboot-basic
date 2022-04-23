@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link th:href="@{/static/style.css}" rel="stylesheet" />
+    <title>Voucher Admin</title>
+</head>
+<body>
+<h1 class="header">Voucher Admin</h1>
+<div class="container-fluid">
+    <h3>바우처 목록</h3>
+
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Voucher Type</th>
+            <th scope="col">Amount Or Percent</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher: ${vouchers}" th:object="${voucher}" >
+<!--            <td th:text="*{voucherId}"></td>-->
+            <td>
+                <a th:href="@{'/vouchers/'+ *{voucherId}}" th:text="*{voucherId}"></a>
+            </td>
+            <td th:text="*{voucherType.getTypeName()}"></td>
+            <td th:if="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="*{amount}"></td>
+            <td th:unless="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="*{amount+'%'}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link th:href="@{/static/style.css}" rel="stylesheet" />
+    <title>Voucher Admin</title>
+</head>
+<body>
+<h1 class="header">Voucher Admin</h1>
+
+<div class="container-fluid">
+    <div class="card text-center service-description">
+        <div class="card-header">
+            바우처 관리
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">바우처를 관리하세요</h5>
+            <p class="card-text">바우처를 생성, 죄회, 수정, 삭제할 수 있습니다.</p>
+            <a th:href="@{/vouchers}" class="btn btn-primary">바우처 관리하기</a>
+        </div>
+    </div>
+    <div class="card text-center">
+        <div class="card-header">
+            고객 관리
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">고객을 관리하세요</h5>
+            <p class="card-text">고객을 생성, 죄회, 수정, 삭제할 수 있습니다.</p>
+            <a th:href="@{/vouchers}" class="btn btn-primary">고객 관리하기</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

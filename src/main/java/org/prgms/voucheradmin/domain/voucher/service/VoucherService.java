@@ -42,6 +42,11 @@ public class VoucherService {
         return voucherRepository.create(voucher);
     }
 
+    @Transactional(readOnly = true)
+    public Voucher getVoucher(UUID voucherId) {
+        return voucherRepository.findById(voucherId).orElseThrow(() -> new VoucherNotFoundException(voucherId));
+    }
+
     /**
      * 바우처 목록을 조회하는 메서드 입니다.
      **/

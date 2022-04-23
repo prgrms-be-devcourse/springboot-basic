@@ -1,4 +1,4 @@
-package org.prgms.voucheradmin.domain.administrator;
+package org.prgms.voucheradmin.domain.administrator.controller;
 
 import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.CREATE;
 import static org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer.UPDATE;

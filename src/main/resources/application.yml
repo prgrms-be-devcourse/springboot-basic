@@ -1,9 +1,11 @@
-voucher-admin:
-  voucher-file-path: "src/main/java/org/prgms/voucheradmin/global/filedata/voucher.txt"
-  blacklist-file-path: "classpath:customer_blacklist.csv"
-
 spring:
+  thymeleaf:
+    view-names: "views/*"
+    prefix: "/WEB-INF/"
   profiles:
     include:
       - db
+voucher-admin:
+  voucher-file-path: "src/main/java/org/prgms/voucheradmin/global/filedata/voucher.txt"
+  blacklist-file-path: "classpath:customer_blacklist.csv"
 
