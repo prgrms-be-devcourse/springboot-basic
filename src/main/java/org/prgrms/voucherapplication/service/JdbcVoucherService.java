@@ -2,6 +2,7 @@ package org.prgrms.voucherapplication.service;
 
 import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.entity.SqlVoucher;
+import org.prgrms.voucherapplication.repository.customer.jdbc.JdbcCustomerRepository;
 import org.prgrms.voucherapplication.repository.voucher.jdbc.JdbcVoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ import java.util.UUID;
 @Service
 public class JdbcVoucherService {
 
+    private JdbcCustomerRepository customerRepository;
     private JdbcVoucherRepository voucherRepository;
 
-    public JdbcVoucherService(JdbcVoucherRepository voucherRepository) {
+    public JdbcVoucherService(JdbcCustomerRepository customerRepository, JdbcVoucherRepository voucherRepository) {
+        this.customerRepository = customerRepository;
         this.voucherRepository = voucherRepository;
     }
 
@@ -43,5 +46,13 @@ public class JdbcVoucherService {
             sqlVoucher.issueVoucher(customer.getCustomerId());
             voucherRepository.update(sqlVoucher);
         }
+    }
+
+    public Optional<Customer> getCustomerByVoucherId(UUID voucherId) {
+        Optional<SqlVoucher> voucher = voucherRepository.findById(voucherId);
+        if (voucher.isPresent()) {
+            return customerRepository.findById(voucher.get().getVoucherOwner());
+        }
+        return Optional.empty();
     }
 }

@@ -100,6 +100,16 @@ public class VoucherManagement implements Runnable {
                         Optional<Customer> customerByInput = getCustomerByInput(customerInformationType);
                         customerByInput.ifPresent(customer -> jdbcVoucherService.issueVoucherToCustomer(voucherID, customer));
                     }
+                    case CUSTOMER_WITH_SPECIFIC_VOUCHER -> {    // 9
+                        Optional<List<SqlVoucher>> allVoucher = jdbcVoucherService.getAllVoucher();
+                        allVoucher.ifPresent(vouchers -> console.printSqlVoucherList(vouchers));
+
+                        UUID voucherID = console.inputVoucherID();
+                        jdbcVoucherService.getCustomerByVoucherId(voucherID)
+                                .ifPresent(customer ->
+                                        System.out.println(customer.toString())
+                                );
+                    }
                     default -> logger.error("Invalid Menu type in switch state");
                 }
 

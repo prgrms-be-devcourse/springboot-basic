@@ -2,6 +2,7 @@ package org.prgrms.voucherapplication.view;
 
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
 import org.prgrms.voucherapplication.entity.Customer;
+import org.prgrms.voucherapplication.entity.SqlVoucher;
 import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.exception.InvalidCustomerInformationTypeException;
 import org.prgrms.voucherapplication.exception.InvalidMenuException;
@@ -53,6 +54,8 @@ public class Console implements Input, Output {
             + "Type \'ID\' to enter the ID.\n"
             + "Type \'name\' to enter the name.\n"
             + "Type \'email\' to enter the email.\n";
+
+    private static final String VOUCHER_ID_INPUT_TEXT = "Type a voucher ID: ";
 
 
     /**
@@ -147,6 +150,12 @@ public class Console implements Input, Output {
         return scanner.nextLine();
     }
 
+    @Override
+    public UUID inputVoucherID() {
+        System.out.println(VOUCHER_ID_INPUT_TEXT);
+        return UUID.fromString(scanner.nextLine());
+    }
+
     /**
      * 모든 바우처 정보를 출력
      *
@@ -165,6 +174,16 @@ public class Console implements Input, Output {
     @Override
     public void printBlackList(List<BlackListCustomer> customers) {
         customers.stream().forEach(customer -> System.out.println(customer.toString()));
+    }
+
+    /**
+     * DB에 있는 바우처 리스트 출력
+     *
+     * @param vouchers: SqlVoucher 타입의 List
+     */
+    @Override
+    public void printSqlVoucherList(List<SqlVoucher> vouchers) {
+        vouchers.stream().forEach(voucher -> System.out.println(voucher.toString()));
     }
 
 }
