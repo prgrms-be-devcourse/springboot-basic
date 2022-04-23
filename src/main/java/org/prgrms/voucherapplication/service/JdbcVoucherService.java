@@ -25,4 +25,10 @@ public class JdbcVoucherService {
     public Optional<List<SqlVoucher>> getVouchersByOwnedCustomer(Customer customer) {
         return voucherRepository.findByVoucherOwner(customer.getCustomerId());
     }
+
+    public void deleteVouchersByOwnedCustomer(Customer customer) {
+        Optional<List<SqlVoucher>> byVoucherOwner = voucherRepository.findByVoucherOwner(customer.getCustomerId());
+        byVoucherOwner.ifPresent(vouchers ->
+                vouchers.forEach(voucher -> voucherRepository.deleteById(voucher.getVoucherId())));
+    }
 }

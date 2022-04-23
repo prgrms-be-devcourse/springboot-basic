@@ -81,6 +81,11 @@ public class VoucherManagement implements Runnable {
                         Optional<Customer> customerByInput = getCustomerByInput(customerInformationType);
                         customerByInput.ifPresent(customer -> jdbcVoucherService.getVouchersByOwnedCustomer(customer));
                     }
+                    case DELETE_VOUCHER_OWNED_BY_CUSTOMER -> {  // 7
+                        CustomerInformationType customerInformationType = console.inputCustomerInformationForSearching();
+                        Optional<Customer> customerByInput = getCustomerByInput(customerInformationType);
+                        customerByInput.ifPresent(customer -> jdbcVoucherService.deleteVouchersByOwnedCustomer(customer));
+                    }
                     default -> logger.error("Invalid Menu type in switch state");
                 }
 
