@@ -77,7 +77,7 @@ public class CommandLineRunner implements Runnable {
             output.printVoucherValue(voucherType);
             long voucherValue = input.inputLong();
 
-            Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), voucherValue, voucherType);
+            Voucher voucher = voucherService.create(UUID.randomUUID(), voucherValue, voucherType);
             output.printMessage("바우처 생성에 성공하였습니다. " + voucher.toString());
         } catch (IllegalArgumentException e) {
             logger.warn("[Voucher] create error: {}", e.getMessage(), e);
@@ -94,7 +94,7 @@ public class CommandLineRunner implements Runnable {
             output.printMessage("수정할 바우처 값을 입력해주세요.");
             long voucherValue = input.inputLong();
 
-            Voucher voucher = voucherService.updateVoucherValue(voucherId, voucherValue);
+            Voucher voucher = voucherService.update(voucherId, voucherValue);
             output.printMessage("바우처 수정에 성공하였습니다. " + voucher.toString());
         } catch (RuntimeException e) {
             logger.warn("[Voucher] update error: {}", e.getMessage(), e);
@@ -108,7 +108,7 @@ public class CommandLineRunner implements Runnable {
         try {
             UUID voucherId = UUID.fromString(input.input());
 
-            voucherService.deleteVoucher(voucherId);
+            voucherService.delete(voucherId);
             output.printMessage("바우처 삭제에 성공하였습니다. voucherId=" + voucherId);
         } catch (RuntimeException e) {
             logger.warn("[Voucher] delete error: {}", e.getMessage(), e);

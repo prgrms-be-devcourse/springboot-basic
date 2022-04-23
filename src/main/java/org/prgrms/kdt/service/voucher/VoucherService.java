@@ -17,20 +17,20 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(UUID voucherId, long voucherValue, VoucherType voucherType) {
+    public Voucher create(UUID voucherId, long voucherValue, VoucherType voucherType) {
         Voucher voucher = voucherType.createVoucher(voucherId, voucherValue);
         return voucherRepository.insert(voucher);
     }
 
-    public List<Voucher> findAll() {
-        return voucherRepository.findAll();
-    }
-
-    public Voucher updateVoucherValue(UUID voucherId, long voucherValue) {
+    public Voucher update(UUID voucherId, long voucherValue) {
         return null;
     }
 
-    public void deleteVoucher(UUID voucherId) {
+    public void delete(UUID voucherId) {
 
+    }
+
+    public List<Voucher> findAll() {
+        return voucherRepository.findAll();
     }
 }
