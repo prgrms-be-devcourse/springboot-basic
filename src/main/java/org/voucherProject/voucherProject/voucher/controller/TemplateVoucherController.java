@@ -44,7 +44,7 @@ public class TemplateVoucherController {
         return "redirect:";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/list/{id}")
     public String findById(@PathVariable("id") UUID voucherId, Model model) {
         VoucherDto voucherDto = VoucherDto.of(voucherService.findById(voucherId));
         model.addAttribute("voucherDto", voucherDto);
