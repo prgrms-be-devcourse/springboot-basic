@@ -20,8 +20,8 @@ public class FixedAmountVoucherTest {
 		class 음수_할인_값이_넘어오면 {
 
 			@Test
-			@DisplayName("예외가 발생한다")
-			void 예외가_발생한다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> new FixedAmountVoucher(-1000))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
