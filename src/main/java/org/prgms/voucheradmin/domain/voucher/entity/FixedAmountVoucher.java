@@ -42,8 +42,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        StringBuilder voucherInfoBuilder = new StringBuilder();
-        voucherInfoBuilder.append(voucherId).append("\t").append(voucherType.getTypeName()).append("\t").append(amount);
-        return voucherInfoBuilder.toString();
+        return String.format("%s\t%s\t%d", voucherId.toString(), voucherType.getTypeName(), amount);
     }
 }

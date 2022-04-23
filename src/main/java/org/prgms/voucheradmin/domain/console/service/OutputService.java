@@ -56,7 +56,7 @@ public class OutputService {
     public void showVoucher(Voucher voucher, CommandAboutVoucher commandAboutVoucher) {
         switch (commandAboutVoucher) {
             case CREATE -> System.out.println(voucher + " created");
-            case UPDATE -> System.out.println(voucher+" updated");
+            case UPDATE -> System.out.println(voucher + " updated");
             default -> System.out.println(voucher);
         }
     }
@@ -102,6 +102,6 @@ public class OutputService {
     }
 
     public void showVoucherWallet(VoucherWallet voucherWallet) {
-        System.out.println("voucher "+voucherWallet.getVoucherId()+" is allocated to customer "+voucherWallet.getCustomerId());
+        System.out.println(String.format("voucher %s is allocated to customer %s", voucherWallet.getVoucherId().toString(), voucherWallet.getCustomerId().toString()));
     }
 }

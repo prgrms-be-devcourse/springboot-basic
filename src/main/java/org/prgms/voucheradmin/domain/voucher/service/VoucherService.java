@@ -13,6 +13,7 @@ import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
 import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
+import org.prgms.voucheradmin.global.exception.WrongInputException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,8 +88,10 @@ public class VoucherService {
         switch (voucherType) {
             case FIXED_AMOUNT:
                 return new FixedAmountVoucher(voucherId, amount);
+            case PERCENTAGE_DISCOUNT:
+                return new PercentageDiscountVoucher(voucherId, (int)amount);
             default:
-                return new PercentageDiscountVoucher(voucherId, amount);
+                throw new WrongInputException();
         }
     }
 }

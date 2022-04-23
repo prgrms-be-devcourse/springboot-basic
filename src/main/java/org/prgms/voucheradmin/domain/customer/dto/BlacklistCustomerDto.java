@@ -26,7 +26,7 @@ public class BlacklistCustomerDto {
 
     @Override
     public String toString() {
-        return id+"\t"+name;
+        return String.format("%s\t%s", id, name);
     }
 
 }

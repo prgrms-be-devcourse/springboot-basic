@@ -109,7 +109,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
                 long amount = resultSet.getLong("voucher_amount");
                 return new FixedAmountVoucher(voucherId, amount);
             default:
-                long percent = resultSet.getLong("voucher_amount");
+                int percent = resultSet.getInt("voucher_amount");
                 return new PercentageDiscountVoucher(voucherId, percent);
         }
     };

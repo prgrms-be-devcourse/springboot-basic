@@ -42,12 +42,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        StringBuilder customerInfoBuilder = new StringBuilder();
-        customerInfoBuilder.append(customerId).append("\t")
-                .append(name).append("\t")
-                .append(email).append("\t");
-
-        return customerInfoBuilder.toString();
+        return String.format("%s\t%s\t%s\t", customerId.toString(), name, email);
     }
 
     public static class CustomerBuilder {

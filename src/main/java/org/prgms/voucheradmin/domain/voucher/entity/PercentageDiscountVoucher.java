@@ -12,9 +12,9 @@ import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 public class PercentageDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final VoucherType voucherType;
-    private final long percent;
+    private final int percent;
 
-    public PercentageDiscountVoucher(UUID voucherId, long percent) {
+    public PercentageDiscountVoucher(UUID voucherId, int percent) {
         this.voucherId = voucherId;
         this.voucherType = PERCENTAGE_DISCOUNT;
         this.percent = percent;
@@ -42,8 +42,6 @@ public class PercentageDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        StringBuilder voucherInfoBuilder = new StringBuilder();
-        voucherInfoBuilder.append(voucherId).append("\t").append(voucherType.getTypeName()).append("\t").append(percent);
-        return voucherInfoBuilder.toString();
+        return String.format("%s\t%s\t%d", voucherId, voucherType.getTypeName(), percent);
     }
 }

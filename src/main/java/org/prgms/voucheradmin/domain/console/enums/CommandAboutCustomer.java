@@ -26,7 +26,7 @@ public enum CommandAboutCustomer {
 
     @Override
     public String toString() {
-        return commandId+". "+commandName;
+        return String.format("%s. %s", commandId, commandName);
     }
 
     public static Optional<CommandAboutCustomer> findCommandAboutCustomer(String selectedCommandId) {

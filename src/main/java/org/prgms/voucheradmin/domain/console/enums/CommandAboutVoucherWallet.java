@@ -26,7 +26,7 @@ public enum CommandAboutVoucherWallet {
 
     @Override
     public String toString() {
-        return commandId+". "+commandName;
+        return String.format("%s. %s", commandId, commandName);
     }
 
     public static Optional<CommandAboutVoucherWallet> findCommandAboutVoucherWallet(String selectedCommandId) {

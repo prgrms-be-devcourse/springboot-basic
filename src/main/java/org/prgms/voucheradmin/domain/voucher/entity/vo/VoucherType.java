@@ -28,9 +28,7 @@ public enum VoucherType {
 
     @Override
     public String toString() {
-        StringBuilder voucherTypeStrBuilder = new StringBuilder();
-        voucherTypeStrBuilder.append(voucherTypeId).append(". ").append(typeName);
-        return voucherTypeStrBuilder.toString();
+        return String.format("%s. %s", voucherTypeId, typeName);
     }
 
     public static Optional<VoucherType> findVoucherType(String selectedVoucherTypeId) {

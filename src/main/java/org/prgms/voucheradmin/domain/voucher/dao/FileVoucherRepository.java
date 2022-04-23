@@ -51,14 +51,15 @@ public class FileVoucherRepository implements VoucherRepository{
 
             UUID voucherId = UUID.fromString(st.nextToken());
             VoucherType voucherType = VoucherType.valueOf(st.nextToken());
-            long amount = Long.parseLong(st.nextToken());
 
             switch (voucherType) {
                 case FIXED_AMOUNT:
+                    long amount = Long.parseLong(st.nextToken());
                     vouchers.add(new FixedAmountVoucher(voucherId, amount));
                     break;
                 default:
-                    vouchers.add(new PercentageDiscountVoucher(voucherId, amount));
+                    int percent = Integer.parseInt(st.nextToken());
+                    vouchers.add(new PercentageDiscountVoucher(voucherId, percent));
                     break;
             }
         }

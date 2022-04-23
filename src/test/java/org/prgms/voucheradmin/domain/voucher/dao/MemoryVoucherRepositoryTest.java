@@ -18,7 +18,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("메모리 저장 조회 테스트")
     void testSaveAndGetAll() {
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10L);
-        Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 10L);
+        Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 10);
 
         memoryVoucherRepository.create(voucher1);
         memoryVoucherRepository.create(voucher2);

@@ -31,7 +31,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("파일 저장 조회 테스트")
     void testSaveAndGetAll() {
         UUID voucherId = UUID.randomUUID();
-        Voucher newVoucher = new PercentageDiscountVoucher(voucherId, 10L);
+        Voucher newVoucher = new PercentageDiscountVoucher(voucherId, 10);
         when(voucherAdminProperties.getVoucherFilePath()).thenReturn("src/main/java/org/prgms/voucheradmin/global/filedata/voucher.txt");
 
         try {
