@@ -44,6 +44,11 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Customer getCustomer(UUID customerId) {
+        return customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
+    }
+
     /**
      * id를 이용하여 고객의 이름을 수정하는 메서드입니다.
      */

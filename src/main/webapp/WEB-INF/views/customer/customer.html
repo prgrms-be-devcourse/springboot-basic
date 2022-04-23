@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link th:href="@{/static/style.css}" rel="stylesheet" />
+    <title>Voucher Admin</title>
+</head>
+<body>
+    <h1 class="header">Voucher Admin</h1>
+    <div class="container-fluid">
+        <h3>고객 상세 조회</h3>
+        <div class="card">
+            <div th:text="${customer.customerId}" class="card-header"></div>
+            <div class="card-body">
+                <h5 th:text="${customer.name}" class="card-title"></h5>
+                <p th:text="${customer.email}" class="card-text"></p>
+                <p th:text="${customer.createdAt}" class="card-text"></p>
+                <div class="voucher-btn">
+<!--                    <a th:href="@{'/vouchers/'+${voucher.voucherId}+'/update'}" class="voucher-btn-element btn btn-primary">수정하기</a>-->
+<!--                    <form th:action="@{'/vouchers/delete/'+${voucher.voucherId}}" method="post" class="voucher-btn-element">-->
+<!--                        <button type="submit" class="btn btn-danger">삭제하기</button>-->
+<!--                    </form>-->
+                </div>
+            </div>
+        </div>
+        <div class="beforeBtnArea">
+            <a th:href="@{/customers}" class="btn btn-secondary">이전으로</a>
+        </div>
+    </div>
+</body>
+</html>
