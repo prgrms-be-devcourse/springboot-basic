@@ -117,10 +117,11 @@ public class TestVoucherService {
     }
 
     @Test
-    @DisplayName("바우처 업데이트")
+//    @DisplayName("바우처 업데이트")
     public void updateVoucher() throws Exception {
         voucher.useVoucher();
         Voucher updateVoucher = voucherService.updateVoucher(this.voucher);
         assertThat(updateVoucher.getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
     }
+
 }
