@@ -3,16 +3,6 @@ package org.prgrms.springbootbasic.repository.customer;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.GOT_EMPTY_RESULT_MSG;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_INSERTED_EXP_MSG;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.COLUMN_CUSTOMER_ID;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.COLUMN_EMAIL;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.COLUMN_NAME;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.DELETE_ALL_SQL;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.INSERT_SQL;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_ALL_SQL;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_BY_EMAIL;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_BY_ID;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.SELECT_BY_VOUCHER_TYPE_SQL;
-import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.UPDATE_BY_ID_SQL;
 
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -31,6 +21,23 @@ import org.springframework.stereotype.Repository;
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
+
+    //SQL
+    private static final String SELECT_BY_ID = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)";
+    private static final String SELECT_ALL_SQL = "SELECT * FROM customers";
+    private static final String SELECT_BY_EMAIL = "SELECT * FROM customers WHERE email = ?";
+    private static final String SELECT_BY_VOUCHER_TYPE_SQL =
+        "SELECT DISTINCT c.customer_id as customer_id, c.name as name, c.email as email"
+            + " FROM vouchers v JOIN customers c on v.customer_id = c.customer_id"
+            + " WHERE v.type = ?";
+    private static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email) VALUES (UUID_TO_BIN(?), ?, ?)";
+    private static final String DELETE_ALL_SQL = "DELETE FROM customers";
+    private static final String UPDATE_BY_ID_SQL = "UPDATE customers SET name = ? WHERE customer_id = UUID_TO_BIN(?)";
+
+    //Column
+    private static final String COLUMN_CUSTOMER_ID = "customer_id";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_EMAIL = "email";
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Customer> mapToCustomer = (resultSet, i) -> {

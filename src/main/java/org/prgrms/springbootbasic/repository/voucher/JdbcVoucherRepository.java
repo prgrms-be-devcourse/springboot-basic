@@ -7,18 +7,6 @@ import static org.prgrms.springbootbasic.repository.DBErrorMsg.GOT_EMPTY_RESULT_
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_DELETED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_INSERTED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTING_WAS_UPDATED_EXP_MSG;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_AMOUNT;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_CUSTOMER_ID;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_PERCENT;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_TYPE;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.COLUMN_VOUCHER_ID;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.DELETE_ALL_SQL;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.DELETE_BY_VOUCHER_ID_SQL;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.INSERT_SQL;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_ALL_SQL;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_BY_CUSTOMER_SQL;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.SELECT_BY_ID_SQL;
-import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.UPDATE_CUSTOMER_ID_SQL;
 
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -41,6 +29,22 @@ import org.springframework.stereotype.Repository;
 public class JdbcVoucherRepository implements VoucherRepository {
 
     public static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+
+    //SQL
+    private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
+    private static final String SELECT_BY_CUSTOMER_SQL = "SELECT * FROM vouchers WHERE customer_id = uuid_to_bin(?)";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = uuid_to_bin(?)";
+    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, type, amount, percent) VALUES (uuid_to_bin(?), ?, ?, ?)";
+    private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
+    private static final String DELETE_BY_VOUCHER_ID_SQL = "DELETE FROM vouchers WHERE voucher_id = uuid_to_bin(?)";
+    private static final String UPDATE_CUSTOMER_ID_SQL = "UPDATE vouchers SET customer_id = uuid_to_bin(?) WHERE voucher_id = uuid_to_bin(?)";
+
+    //Column
+    private static final String COLUMN_TYPE = "type";
+    private static final String COLUMN_VOUCHER_ID = "voucher_id";
+    private static final String COLUMN_AMOUNT = "amount";
+    private static final String COLUMN_PERCENT = "percent";
+    private static final String COLUMN_CUSTOMER_ID = "customer_id";
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
