@@ -45,7 +45,7 @@
             <tbody>
             <tr th:each="voucher: ${vouchers}" th:object="${voucher}" >
                 <td>
-                    <a th:href="@{'/vouchers/'+ *{voucherId}}" th:text="*{voucherId}"></a>
+                    <a th:href="@{'/voucher-wallets/vouchers/'+ *{voucherId}}" th:text="*{voucherId}"></a>
                 </td>
                 <td th:text="*{voucherType.getTypeName()}"></td>
                 <td th:if="${voucher.voucherType == T(org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType).FIXED_AMOUNT}" th:text="*{amount}"></td>

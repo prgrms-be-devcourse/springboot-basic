@@ -79,6 +79,15 @@ public class VoucherWalletViewController {
         return "views/voucher-wallet/new-voucher-wallet";
     }
 
+    @GetMapping("/voucher-wallets/vouchers/{voucherId}")
+    public String viewVoucherOwnerPage(@PathVariable UUID voucherId, Model model) {
+        List<Customer> owners = voucherWalletService.getVoucherOwners(voucherId);
+        model.addAttribute("voucherId", voucherId);
+        model.addAttribute("customers", owners);
+
+        return "views/voucher-wallet/voucher-owner";
+    }
+
     @PostMapping("/voucher-wallets/customers/{customerId}/delete/{voucherId}")
     public String deleteAllocatedVoucher(@PathVariable UUID customerId, @PathVariable UUID voucherId) {
         voucherWalletService.deleteVoucherWallet(customerId, voucherId);
