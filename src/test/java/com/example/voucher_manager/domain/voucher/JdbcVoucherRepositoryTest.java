@@ -1,6 +1,7 @@
 package com.example.voucher_manager.domain.voucher;
 
 import com.example.voucher_manager.MySqlContainerInitializer;
+import com.example.voucher_manager.domain.customer.Customer;
 import com.example.voucher_manager.domain.customer.CustomerRepository;
 import com.example.voucher_manager.domain.customer.JdbcCustomerRepository;
 import com.zaxxer.hikari.HikariDataSource;
@@ -38,7 +39,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringJUnitConfig
-//@ContextConfiguration(initializers = {MySqlContainerInitializer.class})
 @ActiveProfiles("deploy")
 class JdbcVoucherRepositoryTest {
 
@@ -124,7 +124,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처의 정보를 갱신할 수 있다.")
+    @DisplayName("특정 고객에게 바우처를 할당할 수 있다.")
     void update() {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
         voucherRepository.insert(voucher);
@@ -135,5 +135,50 @@ class JdbcVoucherRepositoryTest {
         var find = voucherRepository.findById(voucher.getVoucherId()).get();
 
         assertThat(find.getOwnerId(), not(voucher.getOwnerId())); // 주인이 변경되었어야함
+    }
+
+    @Test
+    @DisplayName("고객이 보유한 바우처 리스트를 조회할 수 있다.")
+    void findVoucherListByCustomer() {
+        Customer customer = new Customer(UUID.randomUUID(), "yoonoh", "yoonoh@naver.com");
+
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 200L, VoucherType.FIXED);
+        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 300L, VoucherType.FIXED);
+
+        // 2개만 유저에게 할당
+        voucher.provideToCustomer(customer.getCustomerId());
+        voucher2.provideToCustomer(customer.getCustomerId());
+
+        voucherRepository.insert(voucher);
+        voucherRepository.insert(voucher2);
+        voucherRepository.insert(voucher3);
+
+        var voucherList = voucherRepository.findVoucherListByCustomer(customer);
+
+        assertThat(voucherList, containsInAnyOrder(
+                samePropertyValuesAs(voucher),
+                samePropertyValuesAs(voucher2)
+        ));
+    }
+
+    @Test
+    @DisplayName("고객이 보유한 특정 바우처를 제거할 수 있다.")
+    void deleteVoucherCustomerHas() {
+        Customer customer = new Customer(UUID.randomUUID(), "yoonoh", "yoonoh@naver.com");
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
+
+        voucher.provideToCustomer(customer.getCustomerId());
+        voucher2.provideToCustomer(customer.getCustomerId());
+
+        voucherRepository.insert(voucher);
+        voucherRepository.insert(voucher2);
+
+        voucherRepository.deleteVoucherByCustomer(voucher2, customer);
+
+        var voucherList = voucherRepository.findVoucherListByCustomer(customer);
+        assertThat(voucherList, hasSize(1)); // 1개만 남고
+        assertThat(voucherList.get(0), samePropertyValuesAs(voucher)); // 2번이 제거 되었을 것
     }
 }
