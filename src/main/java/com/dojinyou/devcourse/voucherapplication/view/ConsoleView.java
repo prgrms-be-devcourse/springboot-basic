@@ -8,11 +8,7 @@ import java.util.Scanner;
 public class ConsoleView implements InputView<String>, OutputView<String> {
     private static final String EMPTY_INPUT_ERROR_MESSAGE = "ERROR: 입력이 없습니다";
     private static final String EMPTY_OUTPUT_ERROR_MESSAGE = "ERROR: 출력이 없습니다";
-    private Scanner scanner;
-
-    public ConsoleView() {
-        this.scanner = new Scanner(System.in);
-    }
+    private static final Scanner scanner = new Scanner(System.in);
 
     @Override
     public String getUserInput() {
@@ -28,7 +24,7 @@ public class ConsoleView implements InputView<String>, OutputView<String> {
     }
 
     @Override
-    public void disPlay(String output) {
+    public void display(String output) {
         output = output.trim();
         validateEmptyOutput(output);
         System.out.print(output+"\n");
