@@ -27,7 +27,8 @@
         </encoder>
     </appender>
 
-    <root level="error">
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="ERROR_FILE"/>
     </root>
 
