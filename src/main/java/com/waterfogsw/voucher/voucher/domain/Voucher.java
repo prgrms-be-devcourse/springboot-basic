@@ -6,6 +6,7 @@ public class Voucher {
     int value;
 
     public Voucher(VoucherType type, int value) {
+        validateVoucher(type, value);
         this.type = type;
         this.value = value;
     }
@@ -26,5 +27,16 @@ public class Voucher {
 
     public int getValue() {
         return value;
+    }
+
+    private void validateVoucher(VoucherType type, int value) {
+        switch (type) {
+            case FIXED_AMOUNT -> {
+                if(value < 0) throw new IllegalArgumentException();
+            }
+            case PERCENT_DISCOUNT -> {
+                if(value < 0 || value > 100) throw new IllegalArgumentException();
+            }
+        }
     }
 }
