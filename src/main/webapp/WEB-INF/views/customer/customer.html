@@ -22,9 +22,9 @@
                 <p th:text="${customer.createdAt}" class="card-text"></p>
                 <div class="voucher-btn">
                     <a th:href="@{'/customers/'+${customer.customerId}+'/update'}" class="voucher-btn-element btn btn-primary">수정하기</a>
-<!--                    <form th:action="@{'/vouchers/delete/'+${voucher.voucherId}}" method="post" class="voucher-btn-element">-->
-<!--                        <button type="submit" class="btn btn-danger">삭제하기</button>-->
-<!--                    </form>-->
+                    <form th:action="@{'/customers/delete/'+${customer.customerId}}" method="post" class="voucher-btn-element">
+                        <button type="submit" class="btn btn-danger">삭제하기</button>
+                    </form>
                 </div>
             </div>
         </div>

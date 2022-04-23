@@ -8,7 +8,7 @@ import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucherwallet.dao.VoucherWalletRepository;
-import org.prgms.voucheradmin.domain.voucherwallet.dto.CreatVoucherWalletReqDto;
+import org.prgms.voucheradmin.domain.voucherwallet.dto.VoucherWalletReqDto;
 import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
 import org.prgms.voucheradmin.global.exception.CustomerNotFoundException;
 import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
@@ -35,12 +35,12 @@ public class VoucherWalletService {
      * 고객에게 바우처를 할당하는 메서드 입니다.
      */
     @Transactional
-    public VoucherWallet createVoucherWallet(CreatVoucherWalletReqDto creatVoucherWalletReqDto) {
-        Customer customer = customerRepository.findById(creatVoucherWalletReqDto.getCustomerId())
-                .orElseThrow(() -> new CustomerNotFoundException(creatVoucherWalletReqDto.getCustomerId()));
+    public VoucherWallet createVoucherWallet(VoucherWalletReqDto voucherWalletReqDto) {
+        Customer customer = customerRepository.findById(voucherWalletReqDto.getCustomerId())
+                .orElseThrow(() -> new CustomerNotFoundException(voucherWalletReqDto.getCustomerId()));
 
-        Voucher voucher = voucherRepository.findById(creatVoucherWalletReqDto.getVoucherId())
-                .orElseThrow(() -> new VoucherNotFoundException(creatVoucherWalletReqDto.getVoucherId()));
+        Voucher voucher = voucherRepository.findById(voucherWalletReqDto.getVoucherId())
+                .orElseThrow(() -> new VoucherNotFoundException(voucherWalletReqDto.getVoucherId()));
 
         return voucherWalletRepository.create(new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
     }

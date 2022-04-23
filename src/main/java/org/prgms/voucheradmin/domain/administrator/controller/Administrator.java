@@ -19,11 +19,10 @@ import org.prgms.voucheradmin.domain.customer.dto.CustomerUpdateReqDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
-import org.prgms.voucheradmin.domain.voucherwallet.dto.CreatVoucherWalletReqDto;
+import org.prgms.voucheradmin.domain.voucherwallet.dto.VoucherWalletReqDto;
 import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
 import org.prgms.voucheradmin.domain.voucherwallet.service.VoucherWalletService;
 import org.prgms.voucheradmin.global.exception.WrongInputException;
@@ -168,7 +167,7 @@ public class Administrator {
                 UUID customerId = inputService.inputCustomerId();
                 UUID voucherId = inputService.inputVoucherId();
 
-                VoucherWallet createdVoucherWallet = voucherWalletService.createVoucherWallet(new CreatVoucherWalletReqDto(customerId, voucherId));
+                VoucherWallet createdVoucherWallet = voucherWalletService.createVoucherWallet(new VoucherWalletReqDto(customerId, voucherId));
                 outputService.showVoucherWallet(createdVoucherWallet);
                 break;
             case FIND_ALLOCATED_VOUCHER:
