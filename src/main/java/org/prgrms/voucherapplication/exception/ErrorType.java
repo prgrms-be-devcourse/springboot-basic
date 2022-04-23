@@ -9,7 +9,9 @@ package org.prgrms.voucherapplication.exception;
 public enum ErrorType {
     INVALID_MENU("Invalid menu"),
     INVALID_VOUCHER_TYPE("Invalid voucher type"),
-    NO_SUCH_VOUCHER("No such voucher.");
+    NO_SUCH_VOUCHER("No such voucher."),
+    DATA_NOT_INSERTED("Data is not inserted"),
+    DATA_NOT_UPDATED("Data is not updated");
 
     private final String message;
 
