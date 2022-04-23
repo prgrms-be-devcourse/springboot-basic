@@ -34,7 +34,7 @@ class CustomerServiceTest {
             when(customerRepository.findById(customerId)).thenThrow(new CustomerNotFoundException(customerId));
 
             // given
-            customerService.updateCustomer(new CustomerUpdateReqDto(customerId, "test1"));
+            customerService.updateCustomer(customerId, new CustomerUpdateReqDto( "test1"));
         }catch (CustomerNotFoundException e) {
             // then
             verify(customerRepository, never()).update(any());
@@ -55,7 +55,7 @@ class CustomerServiceTest {
         when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
         // given
-        customerService.updateCustomer(new CustomerUpdateReqDto(customerId, "test1"));
+        customerService.updateCustomer(customerId, new CustomerUpdateReqDto("test1"));
 
         // then
         verify(customerRepository).update(customer);

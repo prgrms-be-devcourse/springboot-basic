@@ -53,8 +53,7 @@ public class CustomerService {
      * id를 이용하여 고객의 이름을 수정하는 메서드입니다.
      */
     @Transactional
-    public Customer updateCustomer(CustomerUpdateReqDto customerUpdateReqDto) {
-        UUID customerId = customerUpdateReqDto.getCustomerId();
+    public Customer updateCustomer(UUID customerId, CustomerUpdateReqDto customerUpdateReqDto) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
 
         customer.changeName(customerUpdateReqDto.getName());

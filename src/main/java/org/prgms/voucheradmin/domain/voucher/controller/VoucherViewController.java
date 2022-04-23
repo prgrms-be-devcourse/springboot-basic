@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;

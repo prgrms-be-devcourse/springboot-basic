@@ -147,7 +147,7 @@ public class Administrator {
                 UUID customerIdForUpdate = inputService.inputCustomerId();
                 String nameForUpdate = inputService.inputName();
 
-                Customer updatedCustomer = customerService.updateCustomer(new CustomerUpdateReqDto(customerIdForUpdate, nameForUpdate));
+                Customer updatedCustomer = customerService.updateCustomer(customerIdForUpdate, new CustomerUpdateReqDto(nameForUpdate));
                 outputService.showCustomer(updatedCustomer, UPDATE);
                 break;
             case DELETE:

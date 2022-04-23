@@ -6,16 +6,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class CustomerUpdateReqDto {
-    private UUID customerId;
     private String name;
 
-    public CustomerUpdateReqDto(UUID customerId, String name) {
-        this.customerId = customerId;
+    public CustomerUpdateReqDto(String name) {
         this.name = name;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
     }
 
     public String getName() {

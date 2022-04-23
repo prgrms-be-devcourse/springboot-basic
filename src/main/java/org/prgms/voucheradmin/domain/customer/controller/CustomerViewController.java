@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.customer.dto.CustomerCreateReqDto;
+import org.prgms.voucheradmin.domain.customer.dto.CustomerUpdateReqDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
 import org.prgms.voucheradmin.domain.customer.service.CustomerService;
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ public class CustomerViewController {
     }
 
     @PostMapping("/customers/new")
-    public String addNewVoucher(CustomerCreateReqDto customerCreateReqDto) {
+    public String addNewCustomer(CustomerCreateReqDto customerCreateReqDto) {
         customerService.createCustomer(customerCreateReqDto);
         return "redirect:/customers";
     }
@@ -57,4 +58,22 @@ public class CustomerViewController {
         return "views/customer/customer";
     }
 
+    @GetMapping("/customers/{customerId}/update")
+    public String viewCustomerUpdatePage(@PathVariable UUID customerId, Model model) {
+        Customer customer = customerService.getCustomer(customerId);
+        model.addAttribute("customer", customer);
+        return "views/customer/update-customer";
+    }
+
+    @PostMapping("/customers/update/{customerId}")
+    public String updateCustomer(@PathVariable UUID customerId, CustomerUpdateReqDto customerUpdateReqDto) {
+        customerService.updateCustomer(customerId, customerUpdateReqDto);
+        return "redirect:/customers/"+customerId;
+    }
+
+    @PostMapping("/customers/delete/{customerId}")
+    public String deleteCustomer(@PathVariable UUID customerId)  {
+        customerService.deleteCustomer(customerId);
+        return "redirect:/customers";
+    }
 }
