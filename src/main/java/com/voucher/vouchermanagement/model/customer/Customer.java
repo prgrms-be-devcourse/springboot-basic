@@ -7,7 +7,7 @@ import java.util.UUID;
 public class Customer implements Serializable {
 
     private final UUID id;
-    private String name;
+    private final String name;
     private final String email;
     private final LocalDateTime createdAt;
 
