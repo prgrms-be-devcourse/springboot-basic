@@ -81,6 +81,20 @@ public class CommandLineRunner implements Runnable {
                     }
 
                     break;
+                case DELETE:
+                    output.printVoucherDeleteManual();
+
+                    try {
+                        UUID voucherId = UUID.fromString(input.input());
+
+                        voucherService.deleteVoucher(voucherId);
+                        output.printVoucherDeleteSuccess();
+                    } catch (RuntimeException e) {
+                        logger.warn("[Voucher] delete error: {}", e.getMessage(), e);
+                        output.printMessage(e.getMessage());
+                    }
+
+                    break;
                 case LIST:
                     String vouchers = voucherService.findAll().stream()
                         .map(Object::toString)

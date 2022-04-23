@@ -29,4 +29,8 @@ public class VoucherService {
     public Voucher updateVoucherValue(UUID voucherId, long voucherValue) {
         return null;
     }
+
+    public void deleteVoucher(UUID voucherId) {
+
+    }
 }

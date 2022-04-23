@@ -6,6 +6,7 @@ public enum CommandType {
     EXIT("exit"),
     CREATE("create"),
     UPDATE("update"),
+    DELETE("delete"),
     LIST("list"),
     BLACK_LIST("black-list"),
     INVALID("invalid");

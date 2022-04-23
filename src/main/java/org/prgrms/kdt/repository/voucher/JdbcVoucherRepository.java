@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Qualifier("jdbc")
 @Repository
@@ -17,6 +18,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         return null;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+
     }
 
     @Override

@@ -30,6 +30,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void delete(UUID voucherId) {
+
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
     }

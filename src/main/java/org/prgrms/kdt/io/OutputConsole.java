@@ -16,6 +16,7 @@ public class OutputConsole implements Output {
                 "Type exit to exit the program.\n" +
                 "Type create to create a new voucher.\n" +
                 "Type update to update a voucher.\n" +
+                "Type delete to delete a voucher.\n" +
                 "Type list to list all vouchers.\n" +
                 "Type black-list to list all customer in black-list."
         );
@@ -49,6 +50,11 @@ public class OutputConsole implements Output {
     }
 
     @Override
+    public void printVoucherDeleteManual() {
+        printMessage("삭제할 바우처 값을 입력해주세요.");
+    }
+
+    @Override
     public void printVoucherValue(VoucherType voucherType) {
         StringBuilder stringBuilder = new StringBuilder("바우처 값을 입력해주세요.\n");
         stringBuilder.append(voucherType.getVoucherValidationMessage());
@@ -63,6 +69,11 @@ public class OutputConsole implements Output {
     @Override
     public void printVoucherUpdateSuccess(String voucherInfo) {
         printMessage("바우처 수정에 성공하였습니다. Voucher: " + voucherInfo);
+    }
+
+    @Override
+    public void printVoucherDeleteSuccess() {
+        printMessage("바우처 삭제에 성공하였습니다.");
     }
 
 }
