@@ -1,6 +1,7 @@
 package org.prgrms.voucherapplication.view;
 
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
+import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.exception.InvalidMenuException;
 import org.prgrms.voucherapplication.exception.InvalidVoucherTypeException;
@@ -10,9 +11,11 @@ import org.prgrms.voucherapplication.view.io.Output;
 import org.prgrms.voucherapplication.view.io.VoucherType;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 /**
  * 콘솔로 입출력하는 class
@@ -24,11 +27,6 @@ public class Console implements Input, Output {
     /**
      * 화면에 출력할 문자열
      */
-//    private static final String MENU_INPUT_TEXT = "=== Voucher Program ===\n"
-//            + "Type exit to exit the program.\n"
-//            + "Type create to create a new voucher.\n"
-//            + "Type list to list all vouchers.\n"
-//            + "Type blacklist to list blacklist.\n";
     private static final String MENU_INPUT_TEXT = "=== Voucher Program ===\n"
             + "Type \'exit\' to exit the program.\n"
             + "--------------------------------------------------------------------\n"
@@ -37,7 +35,7 @@ public class Console implements Input, Output {
             + "Type \'3\' to list blacklist.\n"
             + "--------------------------------------------------------------------\n"
             + "Type \'4\' to create a new customer in DB.\n"
-            + "Type \'5\' to create a voucher in DB."
+            + "Type \'5\' to create a voucher in DB.\n"
             + "Type \'6\' to show a voucher list owned by a customer.\n"
             + "Type \'7\' to delete all vouchers owned by a specific customer.\n"
             + "Type \'8\' to issue a voucher to a customer.\n"
@@ -50,6 +48,8 @@ public class Console implements Input, Output {
     private static final String VOUCHER_DISCOUNT_AMOUNT_INPUT_TEXT = "Type discount amount."
             + "e.g., If you type \'10\', it means \'$10\'";
 
+    private static final String CUSTOMER_NAME_INPUT_TEXT = "Type a customer name: ";
+    private static final String CUSTOMER_EMAIL_INPUT_TEXT = "Type a customer email: ";
 
 
     /**
@@ -63,7 +63,7 @@ public class Console implements Input, Output {
     public Menu inputMenu() throws InvalidMenuException {
         System.out.println(MENU_INPUT_TEXT);
         String input = scanner.nextLine();
-        return Menu.valueOf(input.toUpperCase());
+        return Menu.getMenu(input);
     }
 
     /**
@@ -99,6 +99,20 @@ public class Console implements Input, Output {
 
         String input = scanner.nextLine();
         return Long.valueOf(input);
+    }
+
+    /**
+     * 고객 이름, 이메일 요청에 대한 문자열을 출력하고
+     * 입력받은 고객 이름, 이메일에 따라서 Customer 객체 생성
+     * @return 입력받은 name, email로 만든 Customer 객체
+     */
+    @Override
+    public Customer inputCustomerInformation() {
+        System.out.println(CUSTOMER_NAME_INPUT_TEXT);
+        String name = scanner.nextLine();
+        System.out.println(CUSTOMER_EMAIL_INPUT_TEXT);
+        String email = scanner.nextLine();
+        return new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
     }
 
     /**

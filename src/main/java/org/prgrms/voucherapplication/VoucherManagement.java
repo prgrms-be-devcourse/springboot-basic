@@ -1,8 +1,11 @@
 package org.prgrms.voucherapplication;
 
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
+import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.service.BlackListCustomerService;
+import org.prgrms.voucherapplication.service.JdbcCustomerService;
+import org.prgrms.voucherapplication.service.JdbcVoucherService;
 import org.prgrms.voucherapplication.service.VoucherService;
 import org.prgrms.voucherapplication.view.Console;
 import org.prgrms.voucherapplication.view.io.Menu;
@@ -24,11 +27,15 @@ public class VoucherManagement implements Runnable {
     private final Console console;
     private final VoucherService voucherService;
     private final BlackListCustomerService blackListCustomerService;
+    private final JdbcCustomerService jdbcCustomerService;
+    private final JdbcVoucherService jdbcVoucherService;
 
-    public VoucherManagement(Console console, VoucherService voucherService, BlackListCustomerService blackListCustomerService) {
+    public VoucherManagement(Console console, VoucherService voucherService, BlackListCustomerService blackListCustomerService, JdbcCustomerService jdbcCustomerService, JdbcVoucherService jdbcVoucherService) {
         this.console = console;
         this.voucherService = voucherService;
         this.blackListCustomerService = blackListCustomerService;
+        this.jdbcCustomerService = jdbcCustomerService;
+        this.jdbcVoucherService = jdbcVoucherService;
     }
 
     @Override
@@ -53,6 +60,10 @@ public class VoucherManagement implements Runnable {
                     case BLACKLIST -> {
                         List<BlackListCustomer> customerList = blackListCustomerService.getAllBlackListCustomer();
                         console.printBlackList(customerList);
+                    }
+                    case CREATE_CUSTOMER -> {
+                        Customer customer = console.inputCustomerInformation();
+                        jdbcCustomerService.saveCustomer(customer);
                     }
                     default -> logger.error("Invalid Menu type in switch state");
                 }
