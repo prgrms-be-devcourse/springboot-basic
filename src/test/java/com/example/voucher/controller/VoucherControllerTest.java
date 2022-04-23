@@ -6,7 +6,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import static com.example.voucher.domain.voucher.VoucherType.FIXED_AMOUNT_VOUCHER;
+import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -42,10 +45,11 @@ public class VoucherControllerTest {
 		class 바우처_타입이_NULL이_넘어온다면 {
 
 			@Test
-			@DisplayName("처리하지 않고 리턴한다")
-			void 처리하지_않고_리턴한다() {
-				voucherController.save(null, 10000);
-				verify(voucherService, never()).save(any(VoucherType.class), anyInt());
+			@DisplayName("예외를 던진다")
+			void 예외를_던진다() {
+				assertThatThrownBy(() -> voucherController.save(null, 10000))
+						.isInstanceOf(IllegalArgumentException.class)
+						.hasMessage(INVALID_INPUT.name());
 			}
 		}
 	}

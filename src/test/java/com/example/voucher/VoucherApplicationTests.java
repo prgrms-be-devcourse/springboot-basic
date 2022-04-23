@@ -55,7 +55,7 @@ class VoucherApplicationTests {
 		@DisplayName("사용 가능한 명령어를 출력한다.")
 		void 사용_가능한_명령어를_출력한다 () throws Exception {
 			printCommandPrompt.invoke(voucherApplication);
-			verify(output).printCommandPrompt();
+			verify(output).printMessage(anyString());
 		}
 
 		@Test
