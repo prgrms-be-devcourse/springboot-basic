@@ -1,7 +1,7 @@
 spring:
-  profiles:
-    active: dev
-
+  config:
+    activate:
+      on-profile: dev
 ---
 
 spring:
@@ -10,6 +10,11 @@ spring:
       dev:
         - console-logging
         - file-logging
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/order_mgmt
+    username: root
+    password: root1234!
 
 path:
   voucher: voucher.txt
