@@ -31,7 +31,6 @@ public class Console {
             case CREATE -> inputVoucherType();
             case LIST -> printVoucherList();
             case EXIT -> shutdownConsole();
-            case BLACKLIST -> printBlackList();
             case CUSTOMER -> customerService();
             case ERROR -> output.printError();
         }
@@ -93,6 +92,7 @@ public class Console {
         switch (command) {
             case SIGNUP -> signUp();
             case LIST -> printCustomerList();
+            case BLACKLIST -> printBlackList();
             default -> output.printError();
         }
     }
@@ -122,7 +122,6 @@ public class Console {
                Type **exit** to exit the program.
                Type **create** to create a new voucher.
                Type **list** to list all vouchers.
-               Type **blacklist** to list all blacklist Customers.
                Type **customer** to proceed with customer service.
                 """);
     }
@@ -154,6 +153,7 @@ public class Console {
                 === Select Menu ===
                 Type **signup** to proceed signup process.
                 Type **list** to list all customers.
+                Type **blacklist** to list all blacklist Customers.
                 """);
     }
 
