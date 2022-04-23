@@ -2,15 +2,15 @@ package org.programmers.springbootbasic.voucher.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.voucher.domain.*;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
+import org.programmers.springbootbasic.voucher.domain.VoucherProperty;
+import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-
-import static org.programmers.springbootbasic.voucher.domain.VoucherType.*;
 
 @Slf4j
 @Service
@@ -31,8 +31,8 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public void registerVouchersOwner(UUID voucherId, Long MemberId) {
-
+    public void registerVouchersOwner(UUID voucherId, Long memberId) {
+        voucherRepository.updateVoucherOwner(voucherId, memberId);
     }
 
     @Override
@@ -63,17 +63,18 @@ public class VoucherServiceImpl implements VoucherService {
         int maximum;
 
         switch (voucherType) {
-            case FIXED:
+            case FIXED -> {
                 minimum = voucherProperty.getFixed().minimumAmount();
                 maximum = voucherProperty.getFixed().maximumAmount();
-                break;
-            case RATE:
+            }
+            case RATE -> {
                 minimum = voucherProperty.getRate().minimumAmount();
                 maximum = voucherProperty.getRate().maximumAmount();
-                break;
-            default:
+            }
+            default -> {
                 log.error("Invalid voucherType={}", voucherType);
                 throw new IllegalArgumentException("Invalid voucherType=" + voucherType);
+            }
         }
         return (amount >= minimum && amount <= maximum);
     }

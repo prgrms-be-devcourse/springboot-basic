@@ -39,8 +39,6 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    
-    //TODO: 생성 시점을 어떻게 설정할지
     @Override
     public Member insert(Member member) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -49,8 +47,9 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
             log.error("소비자가 정상적으로 저장되지 않았습니다. updatedRow={}", updatedRow);
             throw new IncorrectResultSizeDataAccessException(updatedRow);
         }
-        member.setMemberId(keyHolder.getKey().longValue());
-        return member;
+        Long memberId = keyHolder.getKey().longValue();
+
+        return new SignedMember(memberId, member.getName(), member.getEmail(), member.getLastLoginAt(), member.getSignedUpAt());
     }
 
     private SqlParameterSource toParamMap(Member member) {
@@ -82,9 +81,8 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
             long memberId = rs.getLong("member_id");
             String name = rs.getString("name");
             String email = rs.getString("email");
-            //TODO: TimeStamp null 경우 변환 생각
-            var lastLoginAt = rs.getTimestamp("LAST_LOGIN_AT")!=null ?
-                    rs.getTimestamp("LAST_LOGIN_AT").toLocalDateTime(): null;
+            var lastLoginAt = rs.getTimestamp("LAST_LOGIN_AT") != null ?
+                    rs.getTimestamp("LAST_LOGIN_AT").toLocalDateTime() : null;
             var signedUpAt = rs.getTimestamp("SIGNED_UP_AT").toLocalDateTime();
 
             return new SignedMember(memberId, name, email, lastLoginAt, signedUpAt);

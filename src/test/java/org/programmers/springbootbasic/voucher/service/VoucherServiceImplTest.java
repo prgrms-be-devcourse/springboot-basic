@@ -25,6 +25,7 @@ class VoucherServiceImplTest {
 
     private static final VoucherProperty VOUCHER_PROPERTY_MOCK = mock(VoucherProperty.class);
     private static final VoucherRepository VOUCHER_REPOSITORY_MOCK = mock(VoucherRepository.class);
+
     private static final VoucherServiceImpl VOUCHER_SERVICE = new VoucherServiceImpl(VOUCHER_REPOSITORY_MOCK, VOUCHER_PROPERTY_MOCK);
 
     private static final Voucher TEST_VOUCHER = Voucher.create(1000, FIXED);

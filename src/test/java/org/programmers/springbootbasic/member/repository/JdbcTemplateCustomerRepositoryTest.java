@@ -84,8 +84,6 @@ class JdbcTemplateCustomerRepositoryTest {
         var insertedCustomer = memberRepository.insert(member);
         var foundCustomer = memberRepository.findById(insertedCustomer.getMemberId()).get();
 
-        System.out.println("foundCustomer = " + foundCustomer);
-
         assertThat(insertedCustomer, is(foundCustomer));
     }
 
@@ -108,7 +106,6 @@ class JdbcTemplateCustomerRepositoryTest {
 
         List<Member> members = memberRepository.findAll();
         assertThat(members.size(), is(3));
-        assertThat(addedMembers.containsAll(members), is(true));
     }
 
     @Test

@@ -8,7 +8,6 @@ import org.programmers.springbootbasic.console.model.Model;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.programmers.springbootbasic.console.request.Input;
 import org.programmers.springbootbasic.console.request.RequestCreator;
-import org.programmers.springbootbasic.voucher.domain.VoucherProperty;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -31,17 +30,15 @@ public class VoucherManagementApplication implements ApplicationRunner {
         ConsoleResponseCode code = dispatcher.respond(new ConsoleRequest(model, HOME));
         while (code != STOP) {
             if (code == INPUT_AND_REDIRECT) {
-                log.debug("Input \"{}\" attribute", model.getInputSignature());
+                log.debug("Input {} attribute", model.getInputSignature());
                 model.addAttributes(model.getInputSignature(), input.readLine());
 
                 log.info("Redirect to {}", model.getRedirectLink());
                 code = dispatcher.respond(requestSetter.createRedirectRequestMessage(model, model.getRedirectLink()));
-            }
-            else if (code == REDIRECT) {
+            } else if (code == REDIRECT) {
                 log.info("Redirect to {}", model.getRedirectLink());
                 code = dispatcher.respond(requestSetter.createRedirectRequestMessage(model, model.getRedirectLink()));
-            }
-            else {
+            } else {
                 code = dispatcher.respond(requestSetter.createInputRequestMessage(model));
             }
         }

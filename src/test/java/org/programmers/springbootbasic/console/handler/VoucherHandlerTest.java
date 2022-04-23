@@ -25,11 +25,15 @@ import static org.programmers.springbootbasic.voucher.domain.VoucherType.FIXED;
 class VoucherHandlerTest {
 
     private static final VoucherService VOUCHER_SERVICE_MOCK = mock(VoucherService.class);
+    private static final ConsoleRequest CONSOLE_REQUEST_MOCK = mock(ConsoleRequest.class);
+    private static final Model MODEL_MOCK = mock(Model.class);
+
     private static final VoucherHandler VOUCHER_HANDLER = new VoucherHandler(VOUCHER_SERVICE_MOCK);
 
+    //TODO: PR 포인트1
     @AfterEach
     void resetMock() {
-        reset(VOUCHER_SERVICE_MOCK);
+        reset(VOUCHER_SERVICE_MOCK, CONSOLE_REQUEST_MOCK, MODEL_MOCK);
     }
 
     @BeforeAll
@@ -40,14 +44,11 @@ class VoucherHandlerTest {
     @Test
     @DisplayName("명령어: CREATE")
     void handleCreateRequest() {
-        //TODO: 테스트 가독성
-        ConsoleRequest requestMock = mock(ConsoleRequest.class);
-        when(requestMock.getCommand()).thenReturn(CREATE_VOUCHER);
-        var modelMock = mock(Model.class);
-        when(requestMock.getModel()).thenReturn(modelMock);
+        when(CONSOLE_REQUEST_MOCK.getCommand()).thenReturn(CREATE_VOUCHER);
+        when(CONSOLE_REQUEST_MOCK.getModel()).thenReturn(MODEL_MOCK);
 
-        var modelAndView = VOUCHER_HANDLER.handleRequest(requestMock);
-        verify(modelMock, times(1)).setRedirectLink(CREATE_VOUCHER_AMOUNT);
+        var modelAndView = VOUCHER_HANDLER.handleRequest(CONSOLE_REQUEST_MOCK);
+        verify(MODEL_MOCK, times(1)).setRedirectLink(CREATE_VOUCHER_AMOUNT);
 
         assertThat(modelAndView.getResponseCode(), is(INPUT_AND_REDIRECT));
     }
@@ -55,45 +56,39 @@ class VoucherHandlerTest {
     @Test
     @DisplayName("명령어: CREATE_AMOUNT")
     void handleCreateAmountRequest() {
-        ConsoleRequest requestMock = mock(ConsoleRequest.class);
-        when(requestMock.getCommand()).thenReturn(CREATE_VOUCHER_AMOUNT);
-        var modelMock = mock(Model.class);
-        when(requestMock.getModel()).thenReturn(modelMock);
-        when(modelMock.getAttributes("type")).thenReturn("2");
+        when(CONSOLE_REQUEST_MOCK.getCommand()).thenReturn(CREATE_VOUCHER_AMOUNT);
+        when(CONSOLE_REQUEST_MOCK.getModel()).thenReturn(MODEL_MOCK);
+        when(MODEL_MOCK.getAttributes("type")).thenReturn("2");
 
-        var modelAndView = VOUCHER_HANDLER.handleRequest(requestMock);
+        var modelAndView = VOUCHER_HANDLER.handleRequest(CONSOLE_REQUEST_MOCK);
 
-        verify(modelMock, times(1)).setRedirectLink(CREATE_VOUCHER_COMPLETE);
+        verify(MODEL_MOCK, times(1)).setRedirectLink(CREATE_VOUCHER_COMPLETE);
         assertThat(modelAndView.getResponseCode(), is(INPUT_AND_REDIRECT));
     }
 
     @Test
     @DisplayName("명령어: CREATE_COMPLETE")
     void handleCreateCompleteRequest() {
-        ConsoleRequest requestMock = mock(ConsoleRequest.class);
-        when(requestMock.getCommand()).thenReturn(CREATE_VOUCHER_COMPLETE);
-        var modelMock = mock(Model.class);
-        when(requestMock.getModel()).thenReturn(modelMock);
-        when(modelMock.getAttributes("type")).thenReturn("1");
-        when(modelMock.getAttributes("amount")).thenReturn("3000");
+        when(CONSOLE_REQUEST_MOCK.getCommand()).thenReturn(CREATE_VOUCHER_COMPLETE);
+        when(CONSOLE_REQUEST_MOCK.getModel()).thenReturn(MODEL_MOCK);
+        when(MODEL_MOCK.getAttributes("type")).thenReturn("1");
+        when(MODEL_MOCK.getAttributes("amount")).thenReturn("3000");
 
-        var modelAndView = VOUCHER_HANDLER.handleRequest(requestMock);
+        var modelAndView = VOUCHER_HANDLER.handleRequest(CONSOLE_REQUEST_MOCK);
 
         verify(VOUCHER_SERVICE_MOCK, times(1)).createVoucher(3000, FIXED);
-        verify(modelMock, times(1)).clear();
+        verify(MODEL_MOCK, times(1)).clear();
         assertThat(modelAndView.getResponseCode(), is(PROCEED));
     }
 
     @Test
     @DisplayName("명령어: LIST - 저장된 바우처가 없을 때")
     void handleListWithNoVoucher() {
-        ConsoleRequest requestMock = mock(ConsoleRequest.class);
-        when(requestMock.getCommand()).thenReturn(LIST_VOUCHER);
-        var modelMock = mock(Model.class);
-        when(requestMock.getModel()).thenReturn(modelMock);
+        when(CONSOLE_REQUEST_MOCK.getCommand()).thenReturn(LIST_VOUCHER);
+        when(CONSOLE_REQUEST_MOCK.getModel()).thenReturn(MODEL_MOCK);
         when(VOUCHER_SERVICE_MOCK.getAllVouchers()).thenReturn(new ArrayList<>());
 
-        var modelAndView = VOUCHER_HANDLER.handleRequest(requestMock);
+        var modelAndView = VOUCHER_HANDLER.handleRequest(CONSOLE_REQUEST_MOCK);
 
         assertThat(modelAndView.getResponseCode(), is(PROCEED));
     }
@@ -101,10 +96,8 @@ class VoucherHandlerTest {
     @Test
     @DisplayName("명령어: LIST - 저장된 바우처가 있을 때")
     void handleListWithSomeVoucher() {
-        ConsoleRequest requestMock = mock(ConsoleRequest.class);
-        when(requestMock.getCommand()).thenReturn(LIST_VOUCHER);
-        var modelMock = mock(Model.class);
-        when(requestMock.getModel()).thenReturn(modelMock);
+        when(CONSOLE_REQUEST_MOCK.getCommand()).thenReturn(LIST_VOUCHER);
+        when(CONSOLE_REQUEST_MOCK.getModel()).thenReturn(MODEL_MOCK);
 
         ArrayList<Voucher> vouchers = new ArrayList<>();
         vouchers.add(mock(Voucher.class));
@@ -112,7 +105,7 @@ class VoucherHandlerTest {
 
         when(VOUCHER_SERVICE_MOCK.getAllVouchers()).thenReturn(vouchers);
 
-        var modelAndView = VOUCHER_HANDLER.handleRequest(requestMock);
+        var modelAndView = VOUCHER_HANDLER.handleRequest(CONSOLE_REQUEST_MOCK);
 
         assertThat(modelAndView.getResponseCode(), is(PROCEED));
     }

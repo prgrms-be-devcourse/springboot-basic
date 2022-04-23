@@ -1,14 +1,11 @@
-package org.programmers.springbootbasic.console;
+package org.programmers.springbootbasic.console.request;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.console.command.InputCommand;
 import org.programmers.springbootbasic.console.command.RedirectCommand;
-import org.programmers.springbootbasic.console.handler.CliHandler;
-import org.programmers.springbootbasic.console.handler.ErrorHandler;
-import org.programmers.springbootbasic.console.handler.Handler;
-import org.programmers.springbootbasic.console.handler.VoucherHandler;
+import org.programmers.springbootbasic.console.handler.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -22,12 +19,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class ConsoleMapper {
 
-    public static final Map<String, Command> COMMANDS = new ConcurrentHashMap<>();
-    public static final List<Handler> HANDLERS = new ArrayList<>();
+    static final Map<String, Command> COMMANDS = new ConcurrentHashMap<>();
+    static final List<Handler> HANDLERS = new ArrayList<>();
 
     private final CliHandler cliHandler;
     private final VoucherHandler voucherHandler;
     private final ErrorHandler errorHandler;
+    private final MemberHandler memberHandler;
 
     public Handler getHandler(Command command) {
         for (var handler : HANDLERS) {
@@ -43,11 +41,11 @@ public class ConsoleMapper {
 
     @PostConstruct
     void init() {
-        initCommandList();
-        initControllerList();
+        initializeCommandList();
+        initializeHandlerList();
     }
 
-    private void initCommandList() {
+    private void initializeCommandList() {
         for (var command : InputCommand.values()) {
             COMMANDS.put(command.getViewName(), command);
         }
@@ -56,9 +54,10 @@ public class ConsoleMapper {
         }
     }
 
-    private void initControllerList() {
+    private void initializeHandlerList() {
         HANDLERS.add(cliHandler);
         HANDLERS.add(voucherHandler);
         HANDLERS.add(errorHandler);
+        HANDLERS.add(memberHandler);
     }
 }

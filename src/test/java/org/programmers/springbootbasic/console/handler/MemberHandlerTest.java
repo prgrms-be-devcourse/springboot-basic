@@ -16,16 +16,18 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 import static org.programmers.springbootbasic.console.ConsoleResponseCode.INPUT_AND_REDIRECT;
 import static org.programmers.springbootbasic.console.ConsoleResponseCode.PROCEED;
-import static org.programmers.springbootbasic.console.command.InputCommand.*;
+import static org.programmers.springbootbasic.console.command.InputCommand.CREATE_MEMBER;
+import static org.programmers.springbootbasic.console.command.InputCommand.LIST_MEMBER;
 import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_MEMBER_COMPLETE;
 import static org.programmers.springbootbasic.console.command.RedirectCommand.CREATE_MEMBER_EMAIL;
 
 class MemberHandlerTest {
 
     private static final MemberService MEMBER_SERVICE_MOCK = mock(MemberService.class);
-    private static final MemberHandler MEMBER_HANDLER = new MemberHandler(MEMBER_SERVICE_MOCK);
     private static final ConsoleRequest REQUEST_MOCK = mock(ConsoleRequest.class);
     private static final Model MODEL_MOCK = mock(Model.class);
+
+    private static final MemberHandler MEMBER_HANDLER = new MemberHandler(MEMBER_SERVICE_MOCK);
 
     @AfterEach
     void resetMock() {

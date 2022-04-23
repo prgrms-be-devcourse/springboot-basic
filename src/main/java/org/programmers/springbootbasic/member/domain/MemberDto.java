@@ -26,8 +26,8 @@ public record MemberDto(Long memberId,
         return stringBuilder.toString();
     }
 
-    //TODO: PR 포인트: 제네릭 이렇게 써도 되나요?
-    private <T, dataType> String getString(String dataName, T data, Class<T> dataType) {
+    //TODO: PR 포인트3
+    private <T> String getString(String dataName, T data, Class<T> dataType) {
         if (memberId == null) {
             return "";
         }

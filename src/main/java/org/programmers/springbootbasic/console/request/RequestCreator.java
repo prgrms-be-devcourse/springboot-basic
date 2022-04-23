@@ -1,10 +1,9 @@
 package org.programmers.springbootbasic.console.request;
 
 import lombok.RequiredArgsConstructor;
-import org.programmers.springbootbasic.console.ConsoleMapper;
-import org.programmers.springbootbasic.console.model.Model;
 import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.console.command.RedirectCommand;
+import org.programmers.springbootbasic.console.model.Model;
 import org.springframework.stereotype.Component;
 
 import static org.programmers.springbootbasic.console.command.InputCommand.HELP;
@@ -23,6 +22,7 @@ public class RequestCreator {
     public ConsoleRequest createRedirectRequestMessage(Model model, RedirectCommand command) {
         return new ConsoleRequest(model, command);
     }
+
     private Command setCommand() {
         return ConsoleMapper.COMMANDS.getOrDefault(input.readLine(), HELP);
     }

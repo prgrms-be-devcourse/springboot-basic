@@ -7,18 +7,15 @@ import java.util.List;
 
 public interface Member {
 
-    public Long getMemberId();
+    Long getMemberId();
 
-    public String getName();
+    String getName();
 
-    public String getEmail();
+    String getEmail();
 
-    public LocalDateTime getLastLoginAt();
+    LocalDateTime getLastLoginAt();
 
-    public LocalDateTime getSignedUpAt();
+    LocalDateTime getSignedUpAt();
 
-    public List<Voucher> getVouchers();
-
-    //TODO: setter 지우자
-    public void setMemberId(Long memberId);
+    List<Voucher> getVouchers();
 }

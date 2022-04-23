@@ -1,7 +1,10 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.voucher.domain.*;
+import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
+import org.programmers.springbootbasic.voucher.domain.IllegalVoucherTypeException;
+import org.programmers.springbootbasic.voucher.domain.RateDiscountVoucher;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -44,7 +47,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    //TODO PR 포인트: 해당 예외 사용이 적절한지?
+    //TODO PR 포인트4
     @Override
     public Voucher insert(Voucher voucher) {
         int updatedRow = jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
@@ -64,6 +67,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         return paramSource;
     }
 
+    @Override
     public void updateVoucherOwner(UUID voucherId, Long memberId) {
         var paramSource = new MapSqlParameterSource();
         paramSource.addValue(PARAM_KEY_VOUCHER_ID, uuidToBytes(voucherId));
@@ -77,9 +81,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         }
     }
 
-    //TODO: PR 포인트: 왜 queryForObject 사용하지 않았는지: 예외는 정상 요청 흐름에서는 발생해서는 안 된다!
-    //TODO: PR 포인트: 결과 값이 음수일 경우 다른 예외가 나올 것이기에
-    //TODO: PK 기반 조회니까 터지는 게 맞지 않을까 싶다.
+    //TODO: PR 포인트5
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         var paramSource = new MapSqlParameterSource(PARAM_KEY_VOUCHER_ID, uuidToBytes(voucherId));

@@ -16,13 +16,13 @@ public abstract class AbstractVoucher implements Voucher {
     private final VoucherType type;
     private Long memberId;
 
-    public AbstractVoucher(UUID id, int amount, VoucherType type) {
+    protected AbstractVoucher(UUID id, int amount, VoucherType type) {
         this.id = id;
         this.amount = amount;
         this.type = type;
     }
 
-    public AbstractVoucher(UUID id, int amount, VoucherType type, Long memberId) {
+    protected AbstractVoucher(UUID id, int amount, VoucherType type, Long memberId) {
         this.id = id;
         this.amount = amount;
         this.type = type;

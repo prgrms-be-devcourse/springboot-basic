@@ -3,6 +3,7 @@ package org.programmers.springbootbasic.console;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.model.ModelAndView;
+import org.programmers.springbootbasic.console.request.ConsoleMapper;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ public class Dispatcher {
 
             ModelAndView modelAndView = handler.handleRequest(request);
             var code = drawer.draw(modelAndView);
-            request = null; //GC
+            request = null; //TODO: PR 포인트2
             return code;
         } catch (Exception e) {
             log.error("Exception stack trace: ", e);

@@ -11,8 +11,8 @@ import java.util.List;
 
 @ToString
 @Getter
-@EqualsAndHashCode(exclude = "signedUpAt")
-//TODO: PR 포인트: guest 주문 등을 Customer 자식 클래스로 삼을 지 고민, 개인적으로는 CUSTOMER 정보가 null 인 ORDER 기반 조회가 낫지 않나 싶었음, 요구사항에 대해 고민됨
+@EqualsAndHashCode(exclude = {"signedUpAt", "lastLoginAt"})
+//TODO: Guest 어떻게 구현할 것인지 고민해보자.
 public class SignedMember implements Member {
 
     public SignedMember(String name, String email) {
@@ -34,39 +34,5 @@ public class SignedMember implements Member {
         this.email = email;
         this.lastLoginAt = lastLoginAt;
         this.signedUpAt = signedUpAt;
-    }
-
-    @Override
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
-
-    @Override
-    public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
-    @Override
-    public LocalDateTime getSignedUpAt() {
-        return signedUpAt;
-    }
-
-    @Override
-    public List<Voucher> getVouchers() {
-        return vouchers;
     }
 }

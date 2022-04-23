@@ -1,7 +1,6 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 import org.programmers.springbootbasic.voucher.domain.Voucher;
-import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,6 +13,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getId(), voucher);
         return voucher;
+    }
+
+    @Override
+    public void updateVoucherOwner(UUID voucherId, Long memberId) {
+        //TODO: DB 말고 java 코드 내에서도 업데이트 이뤄지게 해야 함
     }
 
     @Override

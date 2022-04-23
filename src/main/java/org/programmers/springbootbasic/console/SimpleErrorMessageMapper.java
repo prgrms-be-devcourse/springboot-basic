@@ -20,7 +20,7 @@ public class SimpleErrorMessageMapper {
                 new ErrorData("잘못된 입력값", "올바른 입력값으로 다시 시도해 주세요."));
     }
 
-    public ErrorData toErrorData(Exception e){
+    public ErrorData toErrorData(Exception e) {
         return simpleErrorMessage.getOrDefault(e.getClass(), COMMON_ERROR_MESSAGE);
     }
 

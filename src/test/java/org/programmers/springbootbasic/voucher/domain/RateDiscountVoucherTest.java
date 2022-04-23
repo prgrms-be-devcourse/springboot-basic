@@ -3,9 +3,6 @@ package org.programmers.springbootbasic.voucher.domain;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.voucher.domain.RateDiscountVoucher;
-import org.programmers.springbootbasic.voucher.domain.Voucher;
-import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
 import java.util.UUID;
 

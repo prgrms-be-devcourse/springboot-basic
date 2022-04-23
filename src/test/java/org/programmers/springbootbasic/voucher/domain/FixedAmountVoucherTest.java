@@ -2,8 +2,6 @@ package org.programmers.springbootbasic.voucher.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
-import org.programmers.springbootbasic.voucher.domain.Voucher;
 
 import java.util.UUID;
 
@@ -19,5 +17,4 @@ public class FixedAmountVoucherTest {
         long discountedValue = voucher.discount(10000);
         assertEquals(9000, discountedValue);
     }
-
 }
