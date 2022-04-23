@@ -25,4 +25,8 @@ public class VoucherService {
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
+
+    public Voucher updateVoucherValue(UUID voucherId, long voucherValue) {
+        return null;
+    }
 }

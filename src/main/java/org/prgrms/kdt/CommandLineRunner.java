@@ -64,6 +64,23 @@ public class CommandLineRunner implements Runnable {
                     }
 
                     break;
+                case UPDATE:
+                    output.printVoucherUpdateManual();
+
+                    try {
+                        UUID voucherId = UUID.fromString(input.input());
+
+                        output.printVoucherUpdateValue();
+                        long voucherValue = input.inputLong();
+
+                        Voucher voucher = voucherService.updateVoucherValue(voucherId, voucherValue);
+                        output.printVoucherUpdateSuccess(voucher.toString());
+                    } catch (RuntimeException e) {
+                        logger.warn("[Voucher] update error: {}", e.getMessage(), e);
+                        output.printMessage(e.getMessage());
+                    }
+
+                    break;
                 case LIST:
                     String vouchers = voucherService.findAll().stream()
                         .map(Object::toString)

@@ -58,6 +58,11 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
         try (ICsvMapReader beanReader = new CsvMapReader(new FileReader(getPathCsvFile()), CsvPreference.STANDARD_PREFERENCE)) {

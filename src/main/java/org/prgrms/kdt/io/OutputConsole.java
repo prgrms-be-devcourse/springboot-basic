@@ -2,9 +2,6 @@ package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.model.voucher.VoucherType;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public class OutputConsole implements Output {
 
     @Override
@@ -16,10 +13,11 @@ public class OutputConsole implements Output {
     public void printCommandManual() {
         printMessage(
             "=== Voucher Program ===\n" +
-            "Type exit to exit the program.\n" +
-            "Type create to create a new voucher.\n" +
-            "Type list to list all vouchers.\n" +
-            "Type black-list to list all customer in black-list."
+                "Type exit to exit the program.\n" +
+                "Type create to create a new voucher.\n" +
+                "Type update to update a voucher.\n" +
+                "Type list to list all vouchers.\n" +
+                "Type black-list to list all customer in black-list."
         );
     }
 
@@ -41,6 +39,16 @@ public class OutputConsole implements Output {
     }
 
     @Override
+    public void printVoucherUpdateManual() {
+        printMessage("수정할 바우처 ID를 입력해주세요.");
+    }
+
+    @Override
+    public void printVoucherUpdateValue() {
+        printMessage("수정할 바우처 값을 입력해주세요.");
+    }
+
+    @Override
     public void printVoucherValue(VoucherType voucherType) {
         StringBuilder stringBuilder = new StringBuilder("바우처 값을 입력해주세요.\n");
         stringBuilder.append(voucherType.getVoucherValidationMessage());
@@ -50,6 +58,11 @@ public class OutputConsole implements Output {
     @Override
     public void printVoucherCreateSuccess(String voucherInfo) {
         printMessage("바우처 생성에 성공하였습니다. Voucher: " + voucherInfo);
+    }
+
+    @Override
+    public void printVoucherUpdateSuccess(String voucherInfo) {
+        printMessage("바우처 수정에 성공하였습니다. Voucher: " + voucherInfo);
     }
 
 }

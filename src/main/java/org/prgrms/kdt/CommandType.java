@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 public enum CommandType {
     EXIT("exit"),
     CREATE("create"),
+    UPDATE("update"),
     LIST("list"),
     BLACK_LIST("black-list"),
     INVALID("invalid");
@@ -21,8 +22,8 @@ public enum CommandType {
 
     public static CommandType getCommandType(String commandType) {
         return Stream.of(CommandType.values())
-                .filter(type -> type.getCommandType().equalsIgnoreCase(commandType))
-                .findFirst()
-                .orElse(CommandType.INVALID);
+            .filter(type -> type.getCommandType().equalsIgnoreCase(commandType))
+            .findFirst()
+            .orElse(CommandType.INVALID);
     }
 }

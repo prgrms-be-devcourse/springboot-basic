@@ -8,6 +8,9 @@ public interface Output {
     void printInvalidCommand();
     void printShutDownSystem();
     void printVoucherManual();
+    void printVoucherUpdateManual();
+    void printVoucherUpdateValue();
     void printVoucherValue(VoucherType voucherType);
     void printVoucherCreateSuccess(String voucherInfo);
+    void printVoucherUpdateSuccess(String voucherInfo);
 }

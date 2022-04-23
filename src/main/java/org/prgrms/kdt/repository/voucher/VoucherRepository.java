@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface VoucherRepository {
     Voucher insert(Voucher voucher);
+    Voucher update(Voucher voucher);
     List<Voucher> findAll();
 }
