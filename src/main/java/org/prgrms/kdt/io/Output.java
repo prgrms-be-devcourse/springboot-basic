@@ -4,7 +4,7 @@ import org.prgrms.kdt.model.voucher.VoucherType;
 
 public interface Output {
     void printMessage(String message);
-    void printCommandManual();
+    void printCommandManual(String manuals);
     void printInvalidCommand();
     void printShutDownSystem();
     void printVoucherType();
