@@ -34,7 +34,4 @@ public class FixedAmountVoucher implements Voucher {
         return type;
     }
 
-    public VoucherType getType( ) {
-        return type;
-    }
 }

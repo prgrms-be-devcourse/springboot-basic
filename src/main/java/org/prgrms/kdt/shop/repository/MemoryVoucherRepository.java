@@ -1,17 +1,15 @@
 package org.prgrms.kdt.shop.repository;
 
 import org.prgrms.kdt.shop.domain.Voucher;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public List<Voucher> findByAll( ) {
+    public List<Voucher> findAll( ) {
         Iterator<UUID> keys = storage.keySet().iterator();
         List<Voucher> voucherList = new ArrayList<>();
         while (keys.hasNext()) {
@@ -30,4 +28,21 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
+
+    @Override
+    public void deleteAll( ) {
+        storage.clear();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+        storage.remove(voucherId);
+    }
+
 }
