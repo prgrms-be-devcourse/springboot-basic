@@ -1,8 +1,8 @@
 package org.prgrms.voucherapplication;
 
-import org.prgrms.voucherapplication.entity.Customer;
+import org.prgrms.voucherapplication.entity.BlackListCustomer;
 import org.prgrms.voucherapplication.entity.Voucher;
-import org.prgrms.voucherapplication.service.CustomerService;
+import org.prgrms.voucherapplication.service.BlackListCustomerService;
 import org.prgrms.voucherapplication.service.VoucherService;
 import org.prgrms.voucherapplication.view.Console;
 import org.prgrms.voucherapplication.view.io.Menu;
@@ -23,12 +23,12 @@ public class VoucherManagement implements Runnable {
 
     private final Console console;
     private final VoucherService voucherService;
-    private final CustomerService customerService;
+    private final BlackListCustomerService blackListCustomerService;
 
-    public VoucherManagement(Console console, VoucherService voucherService, CustomerService customerService) {
+    public VoucherManagement(Console console, VoucherService voucherService, BlackListCustomerService blackListCustomerService) {
         this.console = console;
         this.voucherService = voucherService;
-        this.customerService = customerService;
+        this.blackListCustomerService = blackListCustomerService;
     }
 
     @Override
@@ -36,8 +36,10 @@ public class VoucherManagement implements Runnable {
         while (true) {
             try {
                 Menu selectedMenu = console.inputMenu();
+                if(selectedMenu.equals(Menu.EXIT)) {
+                    break;
+                }
                 switch (selectedMenu) {
-                    case EXIT -> System.exit(0);
                     case CREATE -> {
                         VoucherType voucherType = console.inputVoucherType();
                         long discountValue = console.inputDiscount(voucherType);
@@ -49,7 +51,7 @@ public class VoucherManagement implements Runnable {
                         console.printVoucherList(allVoucher);
                     }
                     case BLACKLIST -> {
-                        List<Customer> customerList = customerService.getAllCustomer();
+                        List<BlackListCustomer> customerList = blackListCustomerService.getAllBlackListCustomer();
                         console.printBlackList(customerList);
                     }
                     default -> logger.error("Invalid Menu type in switch state");
