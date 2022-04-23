@@ -18,7 +18,6 @@ public class LoggingAspect {
     public void allVoucherApplicationMethodPointcut() {
     }
 
-
     @Around("org.prgrms.springbootbasic.aop.LoggingAspect.allVoucherApplicationMethodPointcut()")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         logger.info("Before method called. {}", joinPoint.getSignature().toString());
