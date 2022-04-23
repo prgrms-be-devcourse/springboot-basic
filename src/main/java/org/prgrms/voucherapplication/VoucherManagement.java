@@ -40,13 +40,13 @@ public class VoucherManagement implements Runnable {
                     break;
                 }
                 switch (selectedMenu) {
-                    case CREATE -> {
+                    case CREATE_VOUCHER_FILE -> {
                         VoucherType voucherType = console.inputVoucherType();
                         long discountValue = console.inputDiscount(voucherType);
                         Voucher voucher = voucherService.createVoucher(voucherType, discountValue);
                         voucherService.saveVoucher(voucher);
                     }
-                    case LIST -> {
+                    case LIST_VOUCHER_FILE -> {
                         List<Voucher> allVoucher = voucherService.getAllVoucher();
                         console.printVoucherList(allVoucher);
                     }
