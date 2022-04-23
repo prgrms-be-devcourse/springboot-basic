@@ -62,5 +62,5 @@
   ```
 
 ### Class Diagram
+![](https://velog.velcdn.com/images/y005/post/9d28ed41-df2a-45e9-a757-1c020da138d0/image.png)
 
-![Untitled-2022-03-29-1415](https://user-images.githubusercontent.com/37391733/163552243-7c7b42fb-3fb1-49b1-b612-9cce565bef8b.png)
