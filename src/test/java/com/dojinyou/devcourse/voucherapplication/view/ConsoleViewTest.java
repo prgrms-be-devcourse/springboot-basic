@@ -86,7 +86,7 @@ class ConsoleViewTest {
             errorMessageField.setAccessible(true);
             String errorMessage = (String) errorMessageField.get(consoleView);
 
-            Throwable thrown = catchThrowable(()->consoleView.disPlay(emptyOutput));
+            Throwable thrown = catchThrowable(()->consoleView.display(emptyOutput));
 
             assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
             assertThat(thrown.getMessage()).isEqualTo(errorMessage);
@@ -102,7 +102,7 @@ class ConsoleViewTest {
             System.setOut(new PrintStream(outputStream));
 
             // 테스트 메소드 호출 및 반환 타입 저장
-            consoleView.disPlay(normalOutput);
+            consoleView.display(normalOutput);
 
             // 반환에 대한 검증
             assertThat(outputStream.toString()).isEqualTo(normalOutput+"\n");
