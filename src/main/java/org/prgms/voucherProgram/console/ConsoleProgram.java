@@ -1,11 +1,11 @@
-package org.prgms.voucherProgram.domain;
+package org.prgms.voucherProgram.console;
 
-import org.prgms.voucherProgram.domain.menu.ConsoleMenuType;
-import org.prgms.voucherProgram.domain.program.CustomerProgram;
-import org.prgms.voucherProgram.domain.program.VoucherProgram;
-import org.prgms.voucherProgram.view.Console;
-import org.prgms.voucherProgram.view.InputView;
-import org.prgms.voucherProgram.view.OutputView;
+import org.prgms.voucherProgram.console.menu.ConsoleMenuType;
+import org.prgms.voucherProgram.console.program.CustomerProgram;
+import org.prgms.voucherProgram.console.program.VoucherProgram;
+import org.prgms.voucherProgram.console.view.Console;
+import org.prgms.voucherProgram.console.view.InputView;
+import org.prgms.voucherProgram.console.view.OutputView;
 import org.springframework.stereotype.Component;
 
 @Component

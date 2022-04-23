@@ -1,4 +1,4 @@
-package org.prgms.voucherProgram.view;
+package org.prgms.voucherProgram.console.view;
 
 import java.util.List;
 import java.util.Scanner;

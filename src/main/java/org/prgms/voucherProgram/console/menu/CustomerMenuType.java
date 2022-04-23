@@ -1,4 +1,4 @@
-package org.prgms.voucherProgram.domain.menu;
+package org.prgms.voucherProgram.console.menu;
 
 import java.util.stream.Stream;
 

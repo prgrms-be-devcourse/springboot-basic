@@ -1,7 +1,10 @@
-package org.prgms.voucherProgram.domain.program;
+package org.prgms.voucherProgram.console.program;
 
+import org.prgms.voucherProgram.console.menu.CustomerMenuType;
+import org.prgms.voucherProgram.console.view.Console;
+import org.prgms.voucherProgram.console.view.InputView;
+import org.prgms.voucherProgram.console.view.OutputView;
 import org.prgms.voucherProgram.domain.customer.Email;
-import org.prgms.voucherProgram.domain.menu.CustomerMenuType;
 import org.prgms.voucherProgram.dto.CustomerRequest;
 import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.exception.DuplicateEmailException;
@@ -9,9 +12,6 @@ import org.prgms.voucherProgram.exception.WrongEmailException;
 import org.prgms.voucherProgram.exception.WrongFileException;
 import org.prgms.voucherProgram.exception.WrongNameException;
 import org.prgms.voucherProgram.service.CustomerService;
-import org.prgms.voucherProgram.view.Console;
-import org.prgms.voucherProgram.view.InputView;
-import org.prgms.voucherProgram.view.OutputView;
 import org.springframework.stereotype.Component;
 
 @Component
