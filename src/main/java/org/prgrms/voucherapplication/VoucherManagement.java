@@ -2,6 +2,7 @@ package org.prgrms.voucherapplication;
 
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
 import org.prgrms.voucherapplication.entity.Customer;
+import org.prgrms.voucherapplication.entity.SqlVoucher;
 import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.service.BlackListCustomerService;
 import org.prgrms.voucherapplication.service.JdbcCustomerService;
@@ -14,7 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 바우처 애플리케이션을 실행할 수 있는 class
@@ -64,6 +67,12 @@ public class VoucherManagement implements Runnable {
                     case CREATE_CUSTOMER -> {
                         Customer customer = console.inputCustomerInformation();
                         jdbcCustomerService.saveCustomer(customer);
+                    }
+                    case CREATE_VOUCHER -> {
+                        VoucherType voucherType = console.inputVoucherType();
+                        long discountValue = console.inputDiscount(voucherType);
+                        SqlVoucher voucher = new SqlVoucher(UUID.randomUUID(), voucherType.name(), discountValue, LocalDateTime.now());
+                        jdbcVoucherService.saveVoucher(voucher);
                     }
                     default -> logger.error("Invalid Menu type in switch state");
                 }
