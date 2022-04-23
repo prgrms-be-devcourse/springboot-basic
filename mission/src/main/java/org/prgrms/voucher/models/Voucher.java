@@ -4,8 +4,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class Voucher {
 
-    protected static final AtomicLong count = new AtomicLong(0L);
-    protected long voucherId;
+    protected Long voucherId;
     protected long discountValue;
     protected VoucherType voucherType;
 

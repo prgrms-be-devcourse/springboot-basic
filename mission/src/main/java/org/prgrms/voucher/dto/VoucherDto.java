@@ -3,8 +3,6 @@ package org.prgrms.voucher.dto;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 public class VoucherDto {
 
     public record CreateVoucherRequest(
@@ -13,7 +11,7 @@ public class VoucherDto {
     }
 
     public record CreateVoucherResponse(
-            long voucherId,
+            Long voucherId,
             long discountValue,
             VoucherType voucherType) {
 
