@@ -114,20 +114,10 @@ public class VoucherHandler implements Handler {
     private ModelAndView createComplete(ConsoleRequest request) {
         var model = request.getModel();
 
-        Voucher voucher;
-
-        var voucherType = getVoucherTypeFromModel(model.getAttributes("type"));
         int amount = getDiscountAmountFromModel(model.getAttributes("amount"));
+        var voucherType = getVoucherTypeFromModel(model.getAttributes("type"));
 
-        if (voucherType == FIXED) {
-            voucher = new FixedDiscountVoucher(UUID.randomUUID(), amount);
-        } else if (voucherType == RATE) {
-            voucher = new RateDiscountVoucher(UUID.randomUUID(), amount);
-        } else {
-            log.info("Illegal type of voucher. No corresponding voucher type exist.");
-            throw new IllegalArgumentException("유효하지 않은 바우처 종류를 만들려고 시도했습니다.");
-        }
-        voucherService.registerVoucher(voucher);
+        voucherService.registerVoucher(amount, voucherType);
 
         model.clear();
 
