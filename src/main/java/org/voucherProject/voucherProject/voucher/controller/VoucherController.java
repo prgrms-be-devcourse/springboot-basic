@@ -1,7 +1,7 @@
 package org.voucherProject.voucherProject.voucher.controller;
 
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
-import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
+import org.voucherProject.voucherProject.voucher.controller.dto.VoucherDto;
 import java.util.List;
 
 public interface VoucherController {

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
-import org.voucherProject.voucherProject.voucher.entity.VoucherDto;
+import org.voucherProject.voucherProject.voucher.controller.dto.VoucherDto;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
 import org.voucherProject.voucherProject.voucher.service.VoucherService;
 
@@ -106,16 +106,6 @@ public class TemplateVoucherController {
     public String findByVoucherType(@RequestParam("type") String voucherType, Model model) {
         List<Voucher> byVoucherType = voucherService.findByVoucherType(VoucherType.valueOf(voucherType.toUpperCase()));
         List<VoucherDto> voucherDtos = byVoucherType.stream().map(VoucherDto::of).toList();
-        model.addAttribute("voucherDtos", voucherDtos);
-        return "list";
-    }
-
-    @GetMapping("/list-created-at")
-    public String findByCreatedAtBetweenAandB(@RequestParam("date1") String date1,
-                                              @RequestParam("date2") String date2,
-                                              Model model) {
-        List<Voucher> byCreatedAtBetween = voucherService.findByCreatedAtBetween(date1, date2);
-        List<VoucherDto> voucherDtos = byCreatedAtBetween.stream().map(VoucherDto::of).toList();
         model.addAttribute("voucherDtos", voucherDtos);
         return "list";
     }
