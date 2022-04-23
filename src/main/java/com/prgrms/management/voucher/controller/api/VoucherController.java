@@ -13,6 +13,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -33,12 +35,13 @@ public class VoucherController {
     @GetMapping("/filtering")
     public ResponseEntity<ListResult<Voucher>> findVouchersByVoucherTypeOrCreatedAt(
             @RequestParam(value = "voucherType", required = false) VoucherType voucherType,
-            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-            @RequestParam(value = "createdAt", required = false) LocalDateTime createdAt
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            @RequestParam(value = "createdAt", required = false) LocalDate createdAt
     ) {
         return new ResponseEntity<>(
                 responseService.getListResult(
-                        voucherService.findAllByVoucherTypeOrCreatedAt(voucherType, createdAt)), OK);
+                        voucherService.findAllByVoucherTypeOrCreatedAt(
+                                voucherType, createdAt)), OK);
     }
 
     @GetMapping("/{voucherId}")

@@ -73,3 +73,18 @@
 18:23:04.519 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 92137 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
 18:23:04.520 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
 18:23:05.486 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.138 seconds (JVM running for 1.565)
+18:31:06.585 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 92842 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:31:06.586 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:31:07.636 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.279 seconds (JVM running for 1.749)
+18:32:35.460 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 92970 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:32:35.462 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:32:36.360 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.065 seconds (JVM running for 1.454)
+18:32:54.389 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 93002 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:32:54.390 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:32:55.796 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.586 seconds (JVM running for 2.001)
+18:35:29.980 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 93203 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:35:29.980 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:35:30.953 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.161 seconds (JVM running for 1.574)
+18:37:20.980 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 93338 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:37:20.982 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:37:21.871 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.059 seconds (JVM running for 1.494)

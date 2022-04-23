@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -82,13 +83,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDateTime date) {
+    public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDate date) {
         return dynamicQueryByVoucherTypeAndCreatedAt(voucherType, date);
     }
 
-    private List<Voucher> dynamicQueryByVoucherTypeAndCreatedAt(VoucherType voucherType, LocalDateTime date) {
+    private List<Voucher> dynamicQueryByVoucherTypeAndCreatedAt(VoucherType voucherType, LocalDate date) {
         if (voucherType != null && date != null) {
-            return jdbcTemplate.query("select * from vouchers where (voucher_type = ?) AND (DATE(created_at) = DATE(?))", voucherRowMapper,
+            return jdbcTemplate.query("select * from vouchers where (voucher_type = ?) AND (DATE(created_at) = ?)", voucherRowMapper,
                     voucherType.equals(VoucherType.FIXED) ? "fixed" : "percent",
                     date
             );
@@ -97,7 +98,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     voucherType.equals(VoucherType.FIXED) ? "fixed" : "percent"
             );
         } else if (voucherType == null && date != null) {
-            return jdbcTemplate.query("select * from vouchers where DATE(created_at) = DATE(?)", voucherRowMapper,
+            return jdbcTemplate.query("select * from vouchers where DATE(created_at) = ?", voucherRowMapper,
                     date
             );
         } else {

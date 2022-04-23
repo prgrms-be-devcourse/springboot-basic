@@ -9,6 +9,7 @@ import com.prgrms.management.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -47,9 +48,7 @@ public class VoucherService {
         return voucherRepository.findById(voucherId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
     }
 
-    public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDateTime date) {
-        System.out.println("voucherType = " + voucherType);
-        System.out.println("date = " + date);
+    public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDate date) {
         return voucherRepository.findAllByVoucherTypeOrCreatedAt(voucherType,date);
     }
 
