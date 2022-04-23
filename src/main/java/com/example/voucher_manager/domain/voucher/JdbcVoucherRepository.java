@@ -93,7 +93,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public void clear() {
-        jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
+        jdbcTemplate.update("DELETE FROM vouchers", Map.of());
     }
 
     static UUID toUUID(byte[] bytes) {
