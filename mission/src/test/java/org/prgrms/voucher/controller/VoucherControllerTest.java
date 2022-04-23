@@ -36,13 +36,11 @@ public class VoucherControllerTest {
 
             VoucherDto.CreateVoucherRequest requestDto = new VoucherDto.CreateVoucherRequest(100, VoucherType.FIXED_AMOUNT);
 
-            Voucher voucher = new FixedAmountVoucher( 100, VoucherType.FIXED_AMOUNT);
+            Voucher voucher = new FixedAmountVoucher(1L,100, VoucherType.FIXED_AMOUNT);
 
             @Test
             @DisplayName("Service 의 create 메서드에 파라미터를 넘겨주며 호출한다.")
             void itCallCreateService() {
-
-                voucher.setVoucherId(1L);
 
                 when(voucherServiceMock.create(requestDto)).thenReturn(voucher);
 
@@ -55,13 +53,13 @@ public class VoucherControllerTest {
             @DisplayName("바우처가 생성되면 생성된 정보를 리턴한다.")
             void itReturnVoucherResponse() {
 
-                voucher.setVoucherId(1L);
-
                 when(voucherServiceMock.create(requestDto)).thenReturn(voucher);
 
                 Response response = voucherController.create(requestDto);
 
-                Assertions.assertThat(response.data()).isEqualTo(new VoucherDto.CreateVoucherResponse(voucher.getVoucherId(), voucher.getDiscountValue(), voucher.getVoucherType()));
+                VoucherDto.CreateVoucherResponse responseCheck = VoucherDto.CreateVoucherResponse.from(voucher);
+
+                Assertions.assertThat(response.data()).isEqualTo(responseCheck);
             }
         }
 
