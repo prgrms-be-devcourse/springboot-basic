@@ -34,14 +34,16 @@ public class CommandLineRunner implements Runnable {
 
         boolean isRunning = true;
 
-        while (isRunning) {
+        String command;
+        CommandType commandType = CommandType.INVALID;
+        while (commandType != CommandType.EXIT) {
             output.printCommandManual();
 
-            String command = input.input();
-            CommandType commandType = CommandType.getCommandType(command);
+            command = input.input();
+            commandType = CommandType.getCommandType(command);
             switch (commandType) {
                 case EXIT:
-                    isRunning = false;
+                    commandType = CommandType.EXIT;
                     output.printShutDownSystem();
                     break;
                 case CREATE:
