@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import org.prgrms.springbootbasic.controller.Menu;
 import org.prgrms.springbootbasic.controller.VoucherType;
-import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 
 public interface View {

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.prgrms.springbootbasic.controller.VoucherType;
-import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.repository.voucher.JdbcVoucherRepository;
@@ -163,7 +163,7 @@ class JdbcCustomerRepositoryTest {
 
         //then
         var customers = jdbcCustomerRepository.findById(customer.getCustomerId());
-        assertThat(customers.get().getName())
+        assertThat(customers.get().getName().showName())
             .isEqualTo(newName);
     }
 

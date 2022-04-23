@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

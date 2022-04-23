@@ -3,7 +3,7 @@ package org.prgrms.springbootbasic.service;
 import java.util.List;
 import java.util.UUID;
 import org.prgrms.springbootbasic.controller.VoucherType;
-import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.prgrms.springbootbasic.exception.DuplicateCustomerEmailException;
 import org.prgrms.springbootbasic.exception.InvalidCustomerIdException;
 import org.prgrms.springbootbasic.exception.InvalidVoucherIdException;

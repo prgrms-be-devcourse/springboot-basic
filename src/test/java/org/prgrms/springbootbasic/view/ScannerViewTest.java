@@ -7,16 +7,20 @@ import static org.mockito.Mockito.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.prgrms.springbootbasic.controller.Menu;
 import org.prgrms.springbootbasic.controller.VoucherType;
-import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.exception.InvalidMenuInput;
@@ -24,6 +28,8 @@ import org.prgrms.springbootbasic.exception.InvalidVoucherTypeInput;
 import org.prgrms.springbootbasic.exception.InvalidateUUIDFormat;
 
 class ScannerViewTest {
+
+    private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
     public static InputStream generateUserInput(String input) {
         return new ByteArrayInputStream(input.getBytes());
@@ -35,6 +41,17 @@ class ScannerViewTest {
         return new ScannerView(new Scanner(System.in), mock(CustomerBlackList.class));
     }
 
+    @BeforeEach
+    void setUpStreams() {
+        System.setOut(new PrintStream(output));
+    }
+
+    @AfterEach
+    void restoreStreams() {
+        System.setOut(System.out);
+        output.reset();
+    }
+
     @DisplayName("메뉴 출력 테스트")
     @Test
     void printMenu() {
@@ -43,8 +60,21 @@ class ScannerViewTest {
             mock(CustomerBlackList.class));
 
         //when
-        //then
         scannerView.printMenu();
+
+        //then
+        String format = "=== Voucher Program ===\n"
+            + "Type EXIT to exit the program.\n"
+            + "Type CREATE to create a new voucher.\n"
+            + "Type LIST to list all vouchers.\n"
+            + "Type BLACKLIST to list all customer black list.\n"
+            + "Type CREATECUSTOMER to create a new customer.\n"
+            + "Type LISTCUSTOMER to list all customers.\n"
+            + "Type ASSIGNVOUCHER to assign voucher to customer.\n"
+            + "Type LISTCUSTOMERVOUCHER to list customer's voucher.\n"
+            + "Type DELETECUSTOMERVOUCHER to delete customer's voucher.\n"
+            + "Type LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE to list customers having specific voucher type.\n\n";
+        assertThat(output.toString()).isEqualTo(format);
     }
 
     @DisplayName("메뉴 입력 테스트 - 정상")
@@ -135,8 +165,6 @@ class ScannerViewTest {
 
         //when
         new ScannerView(new Scanner(System.in), mock(CustomerBlackList.class)).printList(vouchers);
-
-        //then
     }
 
     @DisplayName("블랙리스트 출력 테스트")

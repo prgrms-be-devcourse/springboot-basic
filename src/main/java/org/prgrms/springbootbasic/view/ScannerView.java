@@ -44,7 +44,7 @@ import java.util.Scanner;
 import java.util.UUID;
 import org.prgrms.springbootbasic.controller.Menu;
 import org.prgrms.springbootbasic.controller.VoucherType;
-import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
@@ -142,7 +142,9 @@ public class ScannerView implements View {
 
         customers.forEach(customer -> System.out.println(
             MessageFormat.format(CUSTOMER_LIST_PATTERN,
-                customer.getCustomerId(), customer.getName(), customer.getEmail())));
+                customer.getCustomerId(),
+                customer.getName().showName(),
+                customer.getEmail().showEmail())));
         System.out.println();
     }
 

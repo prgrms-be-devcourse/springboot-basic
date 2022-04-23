@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.entity;
+package org.prgrms.springbootbasic.entity.customer;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -6,29 +6,29 @@ import java.util.UUID;
 public class Customer {
 
     private final UUID customerId;
-    private final String email;
-    private String name;
+    private final Email email;
+    private Name name;
 
     public Customer(UUID customerId, String name, String email) {
         this.customerId = customerId;
-        this.name = name;
-        this.email = email;
+        this.name = new Name(name);
+        this.email = new Email(email);
     }
 
     public UUID getCustomerId() {
         return customerId;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 
     public void changeName(String newName) {
-        name = newName;
+        name.changeName(newName);
     }
 
     @Override

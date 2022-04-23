@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.springbootbasic.controller.VoucherType;
-import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -62,8 +62,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         var insert = jdbcTemplate.update(INSERT_SQL,
             customer.getCustomerId().toString().getBytes(UTF_8),
-            customer.getName(),
-            customer.getEmail());
+            customer.getName().showName(),
+            customer.getEmail().showEmail());
         if (insert != 1) {
             throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG);
         }
@@ -82,7 +82,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         logger.info("changeName() called");
 
         var update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
-            customer.getName(),
+            customer.getName().showName(),
             customer.getCustomerId().toString().getBytes(UTF_8));
         if (update != 1) {
             throw new RuntimeException(GOT_EMPTY_RESULT_MSG);

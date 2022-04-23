@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.dto.VoucherDTO;
-import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
