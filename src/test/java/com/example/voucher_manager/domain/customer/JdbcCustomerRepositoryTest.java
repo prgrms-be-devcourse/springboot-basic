@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +13,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.sql.DataSource;
 
@@ -24,13 +28,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringJUnitConfig
+@ActiveProfiles("deploy")
 class JdbcCustomerRepositoryTest {
 
     @Container
     protected static final MySQLContainer mysqlContainer = new MySQLContainer("mysql:8.0.19");
 
     @Configuration
-    @ComponentScan(basePackages = "com.example.voucher_manager.domain.customer")
+    @ComponentScan(basePackages = "com.example.voucher_manager.domain")
     static class Config {
 
         @Bean
@@ -52,7 +60,12 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Bean
-        public VoucherRepository voucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        public CustomerRepository jdbcCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+            return new JdbcCustomerRepository(namedParameterJdbcTemplate);
+        }
+
+        @Bean
+        public VoucherRepository jdbcVoucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
             return new JdbcVoucherRepository(namedParameterJdbcTemplate);
         }
 
@@ -60,6 +73,9 @@ class JdbcCustomerRepositoryTest {
 
     @Autowired
     JdbcCustomerRepository customerRepository;
+
+    @Autowired
+    JdbcVoucherRepository voucherRepository;
 
     @AfterEach
     void clear() {
@@ -137,6 +153,20 @@ class JdbcCustomerRepositoryTest {
 
         var find = customerRepository.findById(customer.getCustomerId()).get();
 
-        assertThat(find.getName(), not(customer.getName())); // 이전 이름과 달라졌어야함
+        assertThat(find.getName(), is(customer.getName())); // 이전 이름과 달라졌어야함
+    }
+
+    @Test
+    @DisplayName("특정 바우처를 보유한 고객을 조회할 수 있다.")
+    void findCustomerHasVoucher() {
+        Customer customer = new Customer(UUID.randomUUID(), "yoonoh", "yoonoh@naver.com");
+        customerRepository.insert(customer);
+
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 5000L, VoucherType.FIXED);
+        voucher.provideToCustomer(customer.getCustomerId());
+        voucherRepository.insert(voucher);
+
+        var findCustomer = customerRepository.findCustomerHasVoucher(voucher.getVoucherId()).get();
+        assertThat(findCustomer, samePropertyValuesAs(customer));
     }
 }

@@ -54,6 +54,18 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
+    public Optional<Customer> findCustomerHasVoucher(UUID voucherId) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select c.customer_id, c.name, c.email from customers as c join vouchers as v ON c.customer_id = v.owner_id where v.voucher_id = UUID_TO_BIN(:voucherId)",
+                    Map.of("voucherId", voucherId.toString().getBytes()),
+                    customerRowMapper));
+        } catch (EmptyResultDataAccessException e){
+            logger.error("Got Empty Result", e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public Optional<Customer> findByEmail(String email) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where email = :email",
@@ -67,7 +79,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public Customer update(Customer customer) {
-        var update = jdbcTemplate.update("\"UPDATE customers SET name = :name WHERE customer_id = UUID_TO_BIN(:customerId)",
+        var update = jdbcTemplate.update("UPDATE customers SET name = :name WHERE customer_id = UUID_TO_BIN(:customerId)",
                 toParamMap(customer));
         if (update != 1){
             logger.error("Noting was updated");
