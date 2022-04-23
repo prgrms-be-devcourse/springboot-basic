@@ -2,9 +2,23 @@ package org.prgrms.voucher.models;
 
 public abstract class Voucher {
 
-    protected Long voucherId;
-    protected long discountValue;
-    protected VoucherType voucherType;
+    private final Long voucherId;
+    private final long discountValue;
+    private final VoucherType voucherType;
+
+    protected Voucher(long discountValue, VoucherType voucherType) {
+
+        this.voucherId = null;
+        this.discountValue = discountValue;
+        this.voucherType = voucherType;
+    }
+
+    protected Voucher(Long voucherId, long discountValue, VoucherType voucherType) {
+
+        this.voucherId = voucherId;
+        this.discountValue = discountValue;
+        this.voucherType = voucherType;
+    }
 
     public long getVoucherId() {
 
@@ -19,11 +33,6 @@ public abstract class Voucher {
     public VoucherType getVoucherType() {
 
         return voucherType;
-    }
-
-    public void setVoucherId(Long voucherId) {
-
-        this.voucherId = voucherId;
     }
 
     abstract public long discount();
