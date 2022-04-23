@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,45 +25,33 @@ public class ConsoleDispatcherTest {
 
     @Test
     @DisplayName("입력된 메뉴가 유효하지 않은 메뉴이면_실패")
-    void getInvalidMenu() throws NoSuchMethodException {
+    void getInvalidMenu() throws Exception {
         //given
         String input = "hello";
 
-        Method method = consoleDispatcher.getClass().getDeclaredMethod("findMenu", String.class);
-        method.setAccessible(true);
+        Method findMenu = consoleDispatcher.getClass().getDeclaredMethod("findMenu", String.class);
+        findMenu.setAccessible(true);
 
-        //when
-        try {
-            Object menu = method.invoke(consoleDispatcher, input);
-            //then
-            assertThat(menu).isEqualTo(Menu.NONE);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            assertThat(e.getCause()).isNull();
-        }
+        //then
+        Object menu = findMenu.invoke(consoleDispatcher, input);
+
+        //then
+        assertThat(menu).isEqualTo(Menu.NONE);
     }
 
     @Test
     @DisplayName("입력된 메뉴가 유효한 메뉴이면_성공")
-    void getValidMenu() throws NoSuchMethodException {
+    void getValidMenu() throws Exception {
         //given
         String input = "create";
 
-        Method method = consoleDispatcher.getClass().getDeclaredMethod("findMenu", String.class);
-        method.setAccessible(true);
+        Method findMenu = consoleDispatcher.getClass().getDeclaredMethod("findMenu", String.class);
+        findMenu.setAccessible(true);
 
         //when
-        try {
-            Object menu = method.invoke(consoleDispatcher, input);
-            //then
-            assertThat(menu).isEqualTo(Menu.CREATE_VOUCHER);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            assertThat(e.getCause()).isNull();
-        }
+        Object menu = findMenu.invoke(consoleDispatcher, input);
+
+        //then
+        assertThat(menu).isEqualTo(Menu.CREATE_VOUCHER);
     }
 }
