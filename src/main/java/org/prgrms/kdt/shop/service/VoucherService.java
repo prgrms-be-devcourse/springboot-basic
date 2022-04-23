@@ -5,12 +5,14 @@ import org.prgrms.kdt.shop.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -19,18 +21,28 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Optional<Voucher> getVoucher(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(voucherRepository.findById(voucherId).orElseThrow(( ) -> new RuntimeException("Can not find a voucher for%s".formatted(voucherId))));
     }
 
     public Voucher insert(Voucher voucher) {
-        voucherRepository.insert(voucher);
-        logger.info("바우처 생성 -> {}", voucher);
-        return voucher;
+        return voucherRepository.insert(voucher);
+    }
+
+    public void delete(UUID uuid) {
+        voucherRepository.delete(uuid);
+    }
+
+    public Voucher update(Voucher voucher) {
+        return voucherRepository.update(voucher);
+    }
+
+    public void deleteAll( ) {
+        voucherRepository.deleteAll();
     }
 
     public void printAll( ) {
-        List<Voucher> voucherList = voucherRepository.findByAll();
+        List<Voucher> voucherList = voucherRepository.findAll();
         if (voucherList.isEmpty()) {
             System.out.println("바우처가 없습니다.");
         } else {
