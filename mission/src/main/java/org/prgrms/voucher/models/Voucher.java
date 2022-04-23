@@ -1,7 +1,5 @@
 package org.prgrms.voucher.models;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 public abstract class Voucher {
 
     protected Long voucherId;
