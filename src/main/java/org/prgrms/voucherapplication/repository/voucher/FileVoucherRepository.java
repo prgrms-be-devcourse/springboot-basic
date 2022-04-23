@@ -1,4 +1,4 @@
-package org.prgrms.voucherapplication.repository;
+package org.prgrms.voucherapplication.repository.voucher;
 
 import org.prgrms.voucherapplication.configutarion.FilePathConfiguration;
 import org.prgrms.voucherapplication.entity.FixedAmountVoucher;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * 바우처 데이터를 파일로 관리하는 레포지터체
+ * 바우처 데이터를 파일로 관리하는 레포지터리
  */
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
@@ -55,9 +55,9 @@ public class FileVoucherRepository implements VoucherRepository {
         BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
         String voucherType;
         if (voucher instanceof FixedAmountVoucher) {
-            voucherType = VoucherType.FixedAmount.name();
+            voucherType = VoucherType.FIXED_AMOUNT.name();
         } else {
-            voucherType = VoucherType.PercentDiscount.name();
+            voucherType = VoucherType.PERCENT_DISCOUNT.name();
         }
 
         writer.write(MessageFormat.format("{0},{1},{2}", voucherType, voucher.getVoucherId(), voucher.getDiscountValue()));
@@ -99,7 +99,7 @@ public class FileVoucherRepository implements VoucherRepository {
      * @return
      */
     private Voucher restoreVoucher(String type, String id, String discountAmount) {
-        if (type.equals(VoucherType.FixedAmount.name())) {
+        if (type.equals(VoucherType.FIXED_AMOUNT.name())) {
             return new FixedAmountVoucher(UUID.fromString(id), Long.valueOf(discountAmount));
         } else {
             return new PercentDiscountVoucher(UUID.fromString(id), Long.valueOf(discountAmount));
