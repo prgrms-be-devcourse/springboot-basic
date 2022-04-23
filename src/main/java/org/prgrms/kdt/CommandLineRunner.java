@@ -9,7 +9,6 @@ import org.prgrms.kdt.service.customer.CustomerService;
 import org.prgrms.kdt.service.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,98 +17,115 @@ public class CommandLineRunner implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineRunner.class);
 
-    private final ApplicationContext applicationContext;
     private final Input input;
     private final Output output;
+    private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public CommandLineRunner(ApplicationContext applicationContext, Input input, Output output) {
-        this.applicationContext = applicationContext;
+    private CommandType commandType;
+
+    public CommandLineRunner(
+        Input input,
+        Output output,
+        VoucherService voucherService,
+        CustomerService customerService
+    ) {
         this.input = input;
         this.output = output;
+        this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @Override
     public void run() {
-        VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-        CustomerService customerService = applicationContext.getBean(CustomerService.class);
 
         String command;
-        CommandType commandType = CommandType.INVALID;
+        commandType = CommandType.INVALID;
         while (commandType != CommandType.EXIT) {
             output.printCommandManual();
 
             command = input.input();
             commandType = CommandType.getCommandType(command);
             switch (commandType) {
-                case EXIT:
-                    commandType = CommandType.EXIT;
-                    output.printShutDownSystem();
-                    break;
-                case CREATE:
-                    output.printVoucherType();
-
-                    try {
-                        VoucherType voucherType = VoucherType.getVoucherType(input.input());
-
-                        output.printVoucherValue(voucherType);
-                        long voucherValue = input.inputLong();
-
-                        Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), voucherValue, voucherType);
-                        output.printVoucherCreateSuccess(voucher.toString());
-                    } catch (IllegalArgumentException e) {
-                        logger.warn("[Voucher] create error: {}", e.getMessage(), e);
-                        output.printMessage(e.getMessage());
-                    }
-
-                    break;
-                case UPDATE:
-                    output.printVoucherUpdateManual();
-
-                    try {
-                        UUID voucherId = UUID.fromString(input.input());
-
-                        output.printVoucherUpdateValue();
-                        long voucherValue = input.inputLong();
-
-                        Voucher voucher = voucherService.updateVoucherValue(voucherId, voucherValue);
-                        output.printVoucherUpdateSuccess(voucher.toString());
-                    } catch (RuntimeException e) {
-                        logger.warn("[Voucher] update error: {}", e.getMessage(), e);
-                        output.printMessage(e.getMessage());
-                    }
-
-                    break;
-                case DELETE:
-                    output.printVoucherDeleteManual();
-
-                    try {
-                        UUID voucherId = UUID.fromString(input.input());
-
-                        voucherService.deleteVoucher(voucherId);
-                        output.printVoucherDeleteSuccess();
-                    } catch (RuntimeException e) {
-                        logger.warn("[Voucher] delete error: {}", e.getMessage(), e);
-                        output.printMessage(e.getMessage());
-                    }
-
-                    break;
-                case LIST:
-                    String vouchers = voucherService.findAll().stream()
-                        .map(Object::toString)
-                        .collect(Collectors.joining(",\n"));
-                    output.printMessage(vouchers);
-                    break;
-                case BLACK_LIST:
-                    String blackListCustomers = customerService.findAllBlackList(CustomerGrade.BLACK_LIST).stream()
-                        .map(Object::toString)
-                        .collect(Collectors.joining(",\n"));
-                    output.printMessage(blackListCustomers);
-                    break;
-                default:
-                    output.printInvalidCommand();
-                    break;
+                case EXIT -> exitCommandRunner();
+                case CREATE -> createVoucher();
+                case UPDATE -> updateVoucher();
+                case DELETE -> deleteVoucher();
+                case LIST -> findVoucherList();
+                case BLACK_LIST -> findBlackList();
+                default -> handleInValidCommand();
             }
         }
+    }
 
+    private void exitCommandRunner() {
+        commandType = CommandType.EXIT;
+        output.printShutDownSystem();
+    }
+
+    private void handleInValidCommand() {
+        output.printInvalidCommand();
+    }
+
+    private void createVoucher() {
+        output.printVoucherType();
+
+        try {
+            VoucherType voucherType = VoucherType.getVoucherType(input.input());
+
+            output.printVoucherValue(voucherType);
+            long voucherValue = input.inputLong();
+
+            Voucher voucher = voucherService.createVoucher(UUID.randomUUID(), voucherValue, voucherType);
+            output.printVoucherCreateSuccess(voucher.toString());
+        } catch (IllegalArgumentException e) {
+            logger.warn("[Voucher] create error: {}", e.getMessage(), e);
+            output.printMessage(e.getMessage());
+        }
+    }
+
+    private void updateVoucher() {
+        output.printVoucherUpdateManual();
+
+        try {
+            UUID voucherId = UUID.fromString(input.input());
+
+            output.printVoucherUpdateValue();
+            long voucherValue = input.inputLong();
+
+            Voucher voucher = voucherService.updateVoucherValue(voucherId, voucherValue);
+            output.printVoucherUpdateSuccess(voucher.toString());
+        } catch (RuntimeException e) {
+            logger.warn("[Voucher] update error: {}", e.getMessage(), e);
+            output.printMessage(e.getMessage());
+        }
+    }
+
+    private void deleteVoucher() {
+        output.printVoucherDeleteManual();
+
+        try {
+            UUID voucherId = UUID.fromString(input.input());
+
+            voucherService.deleteVoucher(voucherId);
+            output.printVoucherDeleteSuccess();
+        } catch (RuntimeException e) {
+            logger.warn("[Voucher] delete error: {}", e.getMessage(), e);
+            output.printMessage(e.getMessage());
+        }
+    }
+
+    private void findVoucherList() {
+        String vouchers = voucherService.findAll().stream()
+            .map(Object::toString)
+            .collect(Collectors.joining(",\n"));
+        output.printMessage(vouchers);
+    }
+
+    private void findBlackList() {
+        String blackListCustomers = customerService.findAllBlackList(CustomerGrade.BLACK_LIST).stream()
+            .map(Object::toString)
+            .collect(Collectors.joining(",\n"));
+        output.printMessage(blackListCustomers);
     }
 }
