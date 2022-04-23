@@ -1,5 +1,6 @@
 package com.example.voucher_manager.domain.voucher;
 
+import com.example.voucher_manager.domain.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,13 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findVoucherListByCustomer(Customer customer) {
+        return jdbcTemplate.query("select * from vouchers where owner_id = UUID_TO_BIN(:ownerId)",
+                Collections.singletonMap("ownerId", customer.getCustomerId().toString().getBytes()),
+                voucherRowMapper);
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
@@ -94,6 +102,18 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public void clear() {
         jdbcTemplate.update("DELETE FROM vouchers", Map.of());
+    }
+
+    @Override
+    public void deleteVoucherByCustomer(Voucher voucher, Customer customer) {
+        var delete = jdbcTemplate.update("DELETE FROM vouchers where voucher_id = UUID_TO_BIN(:voucherId) and owner_id = UUID_TO_BIN(:ownerId)",
+                Map.of(
+                        "voucherId", voucher.getVoucherId().toString().getBytes(),
+                        "ownerId", customer.getCustomerId().toString().getBytes()
+                ));
+        if (delete != 1){
+            logger.error("Noting was deleted");
+        }
     }
 
     static UUID toUUID(byte[] bytes) {

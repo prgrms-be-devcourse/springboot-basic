@@ -1,5 +1,6 @@
 package com.example.voucher_manager.domain.voucher;
 
+import com.example.voucher_manager.domain.customer.Customer;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findVoucherListByCustomer(Customer customer) {
+        return null;
+    }
+
+    @Override
     public Optional<Voucher> insert(Voucher voucher) {
         try {
             memory.put(voucher.getVoucherId(), voucher);
@@ -28,6 +34,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     public void clear() {
         memory.clear();
+    }
+
+    @Override
+    public void deleteVoucherByCustomer(Voucher voucher, Customer customer) {
+
     }
 
     @Override

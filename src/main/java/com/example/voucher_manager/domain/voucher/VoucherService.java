@@ -1,5 +1,6 @@
 package com.example.voucher_manager.domain.voucher;
 
+import com.example.voucher_manager.domain.customer.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,5 +27,18 @@ public class VoucherService {
 
         voucherRepository.insert(voucher);
         return voucher;
+    }
+
+    public Voucher provideVoucherToCustomer(Voucher voucher, Customer customer){
+        voucher.provideToCustomer(customer.getCustomerId());
+        return voucherRepository.update(voucher);
+    }
+
+    public List<Voucher> voucherListByCustomer(Customer customer) {
+        return voucherRepository.findVoucherListByCustomer(customer);
+    }
+
+    public void deleteVoucherByCustomer(Voucher voucher, Customer customer) {
+        voucherRepository.findVoucherListByCustomer(customer);
     }
 }
