@@ -20,7 +20,7 @@ public abstract class Voucher {
         this.voucherType = voucherType;
     }
 
-    public long getVoucherId() {
+    public Long getVoucherId() {
 
         return voucherId;
     }
