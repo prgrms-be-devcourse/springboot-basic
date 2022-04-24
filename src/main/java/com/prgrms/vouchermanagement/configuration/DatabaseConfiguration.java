@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanagement;
+package com.prgrms.vouchermanagement.configuration;
 
 import com.prgrms.vouchermanagement.util.DatabaseProperties;
 import com.zaxxer.hikari.HikariDataSource;

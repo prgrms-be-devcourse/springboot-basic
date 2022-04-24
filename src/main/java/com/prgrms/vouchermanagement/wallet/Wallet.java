@@ -7,10 +7,14 @@ public class Wallet {
     private UUID customerId;
     private UUID voucherId;
 
-    public Wallet(UUID walletId, UUID customerId, UUID voucherId) {
+    private Wallet(UUID walletId, UUID customerId, UUID voucherId) {
         this.walletId = walletId;
         this.customerId = customerId;
         this.voucherId = voucherId;
+    }
+
+    public static Wallet of(UUID walletId, UUID customerId, UUID voucherId) {
+        return new Wallet(walletId, customerId, voucherId);
     }
 
     public UUID getWalletId() {

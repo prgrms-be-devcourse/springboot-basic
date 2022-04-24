@@ -7,5 +7,7 @@ public interface Output {
 
     void printMessage(String errorMessage);
 
+    void printWalletMenu();
+
     <T> void printList(List<T> list);
 }
