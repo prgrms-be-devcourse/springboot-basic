@@ -18,6 +18,10 @@ public record FixedAmountVoucher(
         checkArgument(voucherId != null, "바우처 아이디는 null 일 수 없습니다.");
     }
 
+    public FixedAmountVoucher(long discountAmount) {
+        this(UUID.randomUUID(), discountAmount);
+    }
+
     @Override
     public long apply(long beforeDiscount) {
         return beforeDiscount - discountAmount;

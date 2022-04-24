@@ -26,4 +26,8 @@ public record Customer(
         checkArgument(email != null, "이메일은 null 일 수 없습니다.");
         checkArgument(!email.isBlank(), "이메일은 비어 있을 수 없습니다.");
     }
+    
+    public Customer(String name, String email) {
+        this(UUID.randomUUID(), name, email);
+    }
 }
