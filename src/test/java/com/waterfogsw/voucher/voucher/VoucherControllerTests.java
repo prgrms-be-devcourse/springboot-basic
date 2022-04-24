@@ -1,6 +1,7 @@
 package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.voucher.controller.VoucherController;
+import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
@@ -13,6 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -75,7 +79,19 @@ public class VoucherControllerTests {
             @Test
             @DisplayName("바우처 DTO 리스트를 가진 응답을 리턴한다")
             void it_return_dto_list() {
+                List<Voucher> voucherList = new ArrayList<>();
+                Voucher voucher1 = new FixedAmountVoucher(100);
+                Voucher voucher2 = new FixedAmountVoucher(100);
 
+                voucherList.add(voucher1);
+                voucherList.add(voucher2);
+
+                when(voucherService.findAllVoucher()).thenReturn(voucherList);
+
+                var response = controller.voucherList();
+
+                assertThat(response.status(), is(ResponseStatus.OK));
+                assertThat(response.body().size(), is(2));
             }
         }
     }
