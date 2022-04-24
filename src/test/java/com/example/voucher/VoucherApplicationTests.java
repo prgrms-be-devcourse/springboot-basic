@@ -47,25 +47,48 @@ class VoucherApplicationTests {
 		private Method getCommand;
 
 		@BeforeEach
-		void private_메서드_테스트를_위한_설정() throws Exception {
-			printCommandPrompt = voucherApplication.getClass().getDeclaredMethod("printCommandPrompt");
-			printCommandPrompt.setAccessible(true);
+		void private_메서드_테스트를_위한_설정() {
+			try {
+				printCommandPrompt = voucherApplication.getClass().getDeclaredMethod("printCommandPrompt");
+				printCommandPrompt.setAccessible(true);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e.getMessage());
+			}
 
-			getCommand = voucherApplication.getClass().getDeclaredMethod("getCommand");
-			getCommand.setAccessible(true);
+			try {
+				getCommand = voucherApplication.getClass().getDeclaredMethod("getCommand");
+				getCommand.setAccessible(true);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e.getMessage());
+			}
 		}
 
 		@Test
 		@DisplayName("사용 가능한 명령어를 출력한다.")
-		void 사용_가능한_명령어를_출력한다 () throws Exception {
-			printCommandPrompt.invoke(voucherApplication);
+		void 사용_가능한_명령어를_출력한다 () {
+			try {
+				printCommandPrompt.invoke(voucherApplication);
+			}
+			catch (InvocationTargetException e) {
+				throw new RuntimeException(e.getCause());
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+
 			verify(output).printMessage(anyString());
 		}
 
 		@Test
 		@DisplayName("명령어를 입력 받는다.")
-		void 명령어를_입력_받는다 () throws Exception {
-			getCommand.invoke(voucherApplication);
+		void 명령어를_입력_받는다 () {
+			try {
+				getCommand.invoke(voucherApplication);
+			} catch (InvocationTargetException e) {
+				throw new RuntimeException(e.getMessage());
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+
 			verify(input).getString();
 		}
 	}
@@ -79,28 +102,53 @@ class VoucherApplicationTests {
 		private Method getDiscountAmount;
 
 		@BeforeEach
-		void private_메서드_테스트를_위한_설정() throws Exception {
-			processCreateCommand = voucherApplication.getClass().getDeclaredMethod("processCreateCommand", VoucherType.class, int.class);
-			processCreateCommand.setAccessible(true);
+		void private_메서드_테스트를_위한_설정() {
+			try {
+				processCreateCommand = voucherApplication.getClass().getDeclaredMethod("processCreateCommand", VoucherType.class, int.class);
+				processCreateCommand.setAccessible(true);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e.getMessage());
+			}
 
-			getDiscountAmount = voucherApplication.getClass().getDeclaredMethod("getDiscountAmount");
-			getDiscountAmount.setAccessible(true);
-
-			getVoucherType = voucherApplication.getClass().getDeclaredMethod("getVoucherType");
-			getVoucherType.setAccessible(true);
+			try {
+				getDiscountAmount = voucherApplication.getClass().getDeclaredMethod("getDiscountAmount");
+				getDiscountAmount.setAccessible(true);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+			try {
+				getVoucherType = voucherApplication.getClass().getDeclaredMethod("getVoucherType");
+				getVoucherType.setAccessible(true);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e.getMessage());
+			}
 		}
 
 		@Test
 		@DisplayName("바우처 타입을 입력받는다")
-		void 바우처_타입을_입력받는다() throws Exception {
-			getVoucherType.invoke(voucherApplication);
+		void 바우처_타입을_입력받는다() {
+			try {
+				getVoucherType.invoke(voucherApplication);
+			} catch (InvocationTargetException e) {
+				throw new RuntimeException(e.getMessage());
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+
 			verify(input).getString();
 		}
 
 		@Test
 		@DisplayName("할인 값을 입력받는다")
-		void 할인_값을_입력받는다() throws Exception {
-			getDiscountAmount.invoke(voucherApplication);
+		void 할인_값을_입력받는다() {
+			try {
+				getDiscountAmount.invoke(voucherApplication);
+			} catch (InvocationTargetException e) {
+				throw new RuntimeException(e.getMessage());
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+
 			verify(input).getInt();
 		}
 
@@ -129,8 +177,15 @@ class VoucherApplicationTests {
 
 			@Test
 			@DisplayName("바우처를 생성한다")
-			void 바우처를_생성한다() throws Exception {
-				processCreateCommand.invoke(voucherApplication, any(), anyInt());
+			void 바우처를_생성한다() {
+				try {
+					processCreateCommand.invoke(voucherApplication, any(), anyInt());
+				} catch (InvocationTargetException e) {
+					throw new RuntimeException(e.getMessage());
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException(e.getMessage());
+				}
+
 				verify(voucherController).save(any(), anyInt());
 			}
 		}
@@ -147,7 +202,7 @@ class VoucherApplicationTests {
 
 			@Test
 			@DisplayName("IllegalArgumentException 예외를 던진다")
-			void IllegalArgumentException_예외를_던진다() throws Exception {
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(FIXED_AMOUNT_VOUCHER, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
@@ -166,7 +221,7 @@ class VoucherApplicationTests {
 
 			@Test
 			@DisplayName("IllegalArgumentException 예외를 던진다")
-			void IllegalArgumentException_예외를_던진다() throws Exception {
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
@@ -185,7 +240,7 @@ class VoucherApplicationTests {
 
 			@Test
 			@DisplayName("IllegalArgumentException 예외를 던진다")
-			void IllegalArgumentException_예외를_던진다() throws Exception {
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, 101))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());

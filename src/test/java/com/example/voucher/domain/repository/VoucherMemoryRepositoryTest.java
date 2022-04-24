@@ -28,18 +28,26 @@ public class VoucherMemoryRepositoryTest {
 		class 바우처가_넘어온다면 {
 
 			@BeforeEach
-			void 테스트_위한_설정() throws Exception {
-				store = voucherRepository.getClass().getDeclaredField("store");
-				store.setAccessible(true);
+			void 테스트_위한_설정() {
+				try {
+					store = voucherRepository.getClass().getDeclaredField("store");
+					store.setAccessible(true);
+				} catch (NoSuchFieldException e) {
+					throw new RuntimeException(e.getMessage());
+				}
 			}
 
 			@Test
 			@DisplayName("바우처를 저장하고 저장된 바우처를 반환한다")
-			void 바우처를_저장하고_저장된_바우처를_반환한다() throws Exception {
+			void 바우처를_저장하고_저장된_바우처를_반환한다() {
 				Voucher savedVoucher = voucherRepository.save(new FixedAmountVoucher(1000));
 
-				Map<Long, Voucher> map = (Map<Long, Voucher>)store.get(voucherRepository);
-				Assertions.assertThat(map.get(savedVoucher.getVoucherId())).isEqualTo(savedVoucher);
+				try {
+					Map<Long, Voucher> map = (Map<Long, Voucher>) store.get(voucherRepository);
+					Assertions.assertThat(map.get(savedVoucher.getVoucherId())).isEqualTo(savedVoucher);
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException(e.getMessage());
+				}
 			}
 		}
 	}
