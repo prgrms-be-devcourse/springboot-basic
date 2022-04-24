@@ -30,7 +30,6 @@ class VoucherHandlerTest {
 
     private static final VoucherHandler VOUCHER_HANDLER = new VoucherHandler(VOUCHER_SERVICE_MOCK);
 
-    //TODO: PR 포인트1
     @AfterEach
     void resetMock() {
         reset(VOUCHER_SERVICE_MOCK, CONSOLE_REQUEST_MOCK, MODEL_MOCK);

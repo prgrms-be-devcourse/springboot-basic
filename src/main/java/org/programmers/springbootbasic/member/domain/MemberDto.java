@@ -15,7 +15,8 @@ public record MemberDto(Long memberId,
                         LocalDateTime singedUpAt,
                         List<Voucher> vouchers) {
 
-    public String dataOfThis() {
+    @Override
+    public String toString() {
         var stringBuilder = new StringBuilder();
         stringBuilder.append(getString("회원 등록 번호", this.memberId, Long.class));
         stringBuilder.append(getString("이름", this.name, String.class));
@@ -26,7 +27,6 @@ public record MemberDto(Long memberId,
         return stringBuilder.toString();
     }
 
-    //TODO: PR 포인트3
     private <T> String getString(String dataName, T data, Class<T> dataType) {
         if (memberId == null) {
             return "";

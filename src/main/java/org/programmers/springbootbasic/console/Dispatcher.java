@@ -19,17 +19,16 @@ public class Dispatcher {
     private final Drawer drawer;
 
     public ConsoleResponseCode respond(ConsoleRequest request) {
-        var model = request.getModel();
         try {
             var command = request.getCommand();
             var handler = mappingData.getHandler(command);
 
             ModelAndView modelAndView = handler.handleRequest(request);
             var code = drawer.draw(modelAndView);
-            request = null; //TODO: PR 포인트2
             return code;
         } catch (Exception e) {
             log.error("Exception stack trace: ", e);
+            var model = request.getModel();
             model.addAttributes("errorData", e);
             model.setRedirectLink(ERROR);
             return REDIRECT;

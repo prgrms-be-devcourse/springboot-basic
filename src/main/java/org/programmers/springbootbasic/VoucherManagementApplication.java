@@ -39,7 +39,7 @@ public class VoucherManagementApplication implements ApplicationRunner {
                 log.info("Redirect to {}", model.getRedirectLink());
                 code = dispatcher.respond(requestSetter.createRedirectRequestMessage(model, model.getRedirectLink()));
             } else {
-                code = dispatcher.respond(requestSetter.createInputRequestMessage(model));
+                code = dispatcher.respond(requestSetter.createInputRequestMessage(model, input.readLine()));
             }
         }
     }

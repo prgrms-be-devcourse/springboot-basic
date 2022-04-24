@@ -89,7 +89,6 @@ class JdbcTemplateVoucherRepositoryTest {
         dataSourceCleaner.cleanDataBase();
     }
 
-    //TODO PR 포인트6
     @Test
     @DisplayName("바우처 저장, 조회")
     void insertAndFind() {
