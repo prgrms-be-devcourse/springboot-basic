@@ -70,7 +70,7 @@ public class VoucherControllerTests {
                 var voucherDto = new VoucherDto(VoucherType.FIXED_AMOUNT, 100);
 
                 when(voucherService.saveVoucher(any(Voucher.class)))
-                        .thenReturn(VoucherDto.toDomain(voucherDto));
+                        .thenReturn(voucherDto.toDomain());
 
                 var response = controller.voucherAdd(voucherDto);
 

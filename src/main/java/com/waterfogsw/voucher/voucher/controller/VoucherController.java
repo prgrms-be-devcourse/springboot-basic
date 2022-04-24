@@ -19,8 +19,7 @@ public class VoucherController {
     public Response<VoucherDto> voucherAdd(VoucherDto request) {
         try {
             validateVoucherRequest(request);
-            Voucher voucher = VoucherDto.toDomain(request);
-            Voucher savedVoucher = voucherService.saveVoucher(voucher);
+            Voucher savedVoucher = voucherService.saveVoucher(request.toDomain());
             return Response.ok(VoucherDto.of(savedVoucher));
         } catch (IllegalArgumentException e) {
             return Response.error(ResponseStatus.BAD_REQUEST);

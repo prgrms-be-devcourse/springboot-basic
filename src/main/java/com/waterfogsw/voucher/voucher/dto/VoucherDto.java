@@ -7,11 +7,18 @@ public record VoucherDto(
         VoucherType type,
         int value
 ) {
-    public static Voucher toDomain(VoucherDto dto) {
-        return Voucher.of(dto.type(), dto.value());
+
+    public Voucher toDomain() {
+        return Voucher.of(type(), value());
     }
 
     public static VoucherDto of(Voucher voucher) {
         return new VoucherDto(voucher.getType(), voucher.getValue());
+    }
+
+    private static void validate(VoucherType type, int value) {
+        if (type == null || value == 0) {
+            throw new IllegalArgumentException();
+        }
     }
 }
