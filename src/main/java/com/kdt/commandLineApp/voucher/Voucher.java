@@ -40,7 +40,7 @@ public class Voucher implements Serializable {
         return type.discount(currentPrice, discountAmount);
     }
 
-    //Fixed voucher always apply only if you purchase more than the discount amount.
+    //Fixed voucher.html always apply only if you purchase more than the discount amount.
     public boolean checkFixedVoucherValidationError(int currentPrice) {
         return (this.type == VoucherType.FiXED) && (currentPrice < this.discountAmount);
     }

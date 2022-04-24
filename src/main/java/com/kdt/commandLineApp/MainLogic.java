@@ -24,14 +24,14 @@ public class MainLogic {
     public void printMainMenu() {
         io.print("=== Voucher Program ===\n" +
                 "Type exit to exit the program.\n" +
-                "Type create to create a new voucher.\n" +
+                "Type create to create a new voucher.html.\n" +
                 "Type list to list all vouchers.\n" +
                 "Type blacklist to list all blacklist custom info.\n"+
                 "========================\n"+
-                "Type give voucher to give voucher to custmer.\n"+
-                "Type take voucher to take a voucher from customer.\n"+
-                "Type customer list to see customer list with same voucher.\n"+
-                "Type voucher list to see voucher list of customer.\n"
+                "Type give voucher.html to give voucher.html to custmer.\n"+
+                "Type take voucher.html to take a voucher.html from customer.\n"+
+                "Type customer list to see customer list with same voucher.html.\n"+
+                "Type voucher.html list to see voucher.html list of customer.\n"
         );
     }
 
@@ -40,7 +40,7 @@ public class MainLogic {
     }
 
     public void createVoucher() throws Exception {
-        io.print("Type voucher type(fixed or percent) and amount");
+        io.print("Type voucher.html type(fixed or percent) and amount");
         String voucherType = io.get();
         int amount = Integer.parseInt(io.get());
         voucherService.addVoucher(voucherType, amount);
@@ -55,29 +55,29 @@ public class MainLogic {
     }
 
     public void giveVoucher() throws Exception {
-        io.print("Type custmer id you want to give voucher to.");
+        io.print("Type custmer id you want to give voucher.html to.");
         String customerId = io.get();
-        io.print("Type voucher id you want to give to customer.");
+        io.print("Type voucher.html id you want to give to customer.");
         String voucherId = io.get();
         voucherWalletService.giveVoucherToCustomer(customerId, voucherId);
     }
 
     public void takeVoucher() throws Exception {
-        io.print("Type custmer id you want to take voucher from.");
+        io.print("Type custmer id you want to take voucher.html from.");
         String customerId = io.get();
-        io.print("Type voucher id you want to take from customer.");
+        io.print("Type voucher.html id you want to take from customer.");
         String voucherId = io.get();
         voucherWalletService.deleteVoucherFromCustomer(customerId, voucherId);
     }
 
     public void getCustomerListWithSameVoucher() throws Exception {
-        io.print("Type voucher id you want see customer list.");
+        io.print("Type voucher.html id you want see customer list.");
         String voucherId = io.get();
         io.print(voucherWalletService.getCustomersWithVoucherId(voucherId));
     }
 
     public void getVoucherListOfCustomer() throws Exception {
-        io.print("Type customer id you want see voucher list.");
+        io.print("Type customer id you want see voucher.html list.");
         String customerId = io.get();
         io.print(voucherWalletService.getCustomerVouchers(customerId));
     }

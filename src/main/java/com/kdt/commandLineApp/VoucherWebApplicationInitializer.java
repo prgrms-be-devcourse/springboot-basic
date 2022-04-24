@@ -15,7 +15,7 @@ public class VoucherWebApplicationInitializer implements WebApplicationInitializ
         webApplicationContext.register(WebAppContext.class);
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(webApplicationContext);
-        ServletRegistration.Dynamic servletRegistration = servletContext.addServlet("voucher", dispatcherServlet);
+        ServletRegistration.Dynamic servletRegistration = servletContext.addServlet("voucher.html", dispatcherServlet);
         servletRegistration.addMapping("/");
         servletRegistration.setLoadOnStartup(1);
     }

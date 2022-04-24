@@ -32,4 +32,12 @@ public class VoucherService {
     public List<Voucher> getVouchers() {
         return voucherRepository.getAll();
     }
+
+    public void removeVoucher(String id) {
+        voucherRepository.remove(UUID.fromString(id));
+    }
+
+    public void removeAllVouchers() {
+        voucherRepository.deleteAll();
+    }
 }
