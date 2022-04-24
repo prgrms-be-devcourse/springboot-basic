@@ -23,11 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    private final CustomerRepository customerRepository;
 
-    public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.customerRepository = customerRepository;
     }
 
     /**
@@ -64,11 +62,7 @@ public class VoucherService {
         Voucher retrievedVoucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
-        Voucher updatedVoucher = getVoucherInstance(
-                retrievedVoucher.getVoucherId(),
-                voucherReqDto.getVoucherType(),
-                voucherReqDto.getAmount());
-
+        Voucher updatedVoucher = getVoucherInstance(retrievedVoucher.getVoucherId(), voucherReqDto.getVoucherType(), voucherReqDto.getAmount());
         return voucherRepository.update(updatedVoucher);
     }
 

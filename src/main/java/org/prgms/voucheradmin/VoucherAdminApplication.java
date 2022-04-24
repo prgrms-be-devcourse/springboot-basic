@@ -11,9 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 public class VoucherAdminApplication {
 	public static void main(String[] args) {
 		AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
-
 		ApplicationContext applicationContext = SpringApplication.run(VoucherAdminApplication.class, args);
-		 Administrator administrator = applicationContext.getBean(Administrator.class);
-		 administrator.run();
+		// Administrator administrator = applicationContext.getBean(Administrator.class);
+		// administrator.run();
 	}
 }
