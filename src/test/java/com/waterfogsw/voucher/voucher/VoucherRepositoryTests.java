@@ -85,13 +85,13 @@ public class VoucherRepositoryTests {
                 try {
                     Map<Long, Voucher> map = (Map<Long, Voucher>) voucherStore.get(repository);
 
-                    Voucher voucher1 = new FixedAmountVoucher(1L, 1000);
-                    Voucher voucher2 = new FixedAmountVoucher(2L, 1000);
+                    final Voucher voucher1 = new FixedAmountVoucher(1L, 1000);
+                    final Voucher voucher2 = new FixedAmountVoucher(2L, 1000);
 
                     map.put(voucher1.getId(), voucher1);
                     map.put(voucher2.getId(), voucher2);
 
-                    List<Voucher> voucherList = repository.findAll();
+                    final List<Voucher> voucherList = repository.findAll();
 
                     assertThat(voucherList.size(), is(2));
 
