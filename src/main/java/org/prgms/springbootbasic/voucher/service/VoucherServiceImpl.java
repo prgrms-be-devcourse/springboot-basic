@@ -21,7 +21,6 @@ public class VoucherServiceImpl implements VoucherService {
 	private static final Logger log = LoggerFactory.getLogger(VoucherServiceImpl.class);
 
 	private final VoucherRepository voucherRepository;
-	private final VoucherTypeRepository voucherTypeRepository;
 
 	@Override
 	public void createVoucher(String type, int value) {

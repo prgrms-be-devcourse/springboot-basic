@@ -2,6 +2,8 @@ package org.prgms.springbootbasic.customer.entity;
 
 import java.util.UUID;
 
+import com.google.common.base.Preconditions;
+
 import lombok.Getter;
 
 /**
@@ -18,8 +20,12 @@ public class Customer {
 	/* 고객 상태 */
 	private CustomerStatus status;
 
-	public Customer(UUID customerId, String name, String email,
-		CustomerStatus status) {
+	public Customer(UUID customerId, String name, String email, CustomerStatus status) {
+		Preconditions.checkArgument(customerId != null, "customerId는 Null이면 안됩니다!");
+		Preconditions.checkArgument(name != null, "name은 Null이면 안됩니다!");
+		Preconditions.checkArgument(email != null, "email은 Null이면 안됩니다!");
+		Preconditions.checkArgument(status != null, "status는 Null이면 안됩니다!");
+
 		this.customerId = customerId;
 		this.name = name;
 		this.email = email;
