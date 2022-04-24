@@ -6,9 +6,6 @@ import org.prgms.kdtspringvoucher.voucher.domain.Voucher;
 import org.prgms.kdtspringvoucher.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class WalletService {
 
@@ -25,24 +22,15 @@ public class WalletService {
         return voucherRepository.update(voucher);
     }
 
-    public List<Voucher> showVouchersAssignedToCustomer(Customer customer){
-        List<Voucher> vouchers = voucherRepository.findByCustomerId(customer.getCustomerId());
-        vouchers.forEach(System.out::println);
-        return vouchers;
+    public void showVouchersAssignedToCustomer(Customer customer){
+        voucherRepository.findByCustomerId(customer.getCustomerId()).forEach(System.out::println);
     }
 
     public void deleteVoucherAssignedToCustomer(Customer customer) {
         voucherRepository.deleteByCustomerId(customer.getCustomerId());
     }
 
-    public Customer showCustomerByVoucherId(Voucher voucher){
-        Optional<Customer> customer = customerRepository.findById(voucher.getCustomerId());
-        if (customer.isPresent()) {
-            System.out.println(customer.get());
-            return customer.get();
-        }
-
-        System.out.println("The voucher didn't assign to customer");
-        return null;
+    public void showCustomerByVoucherId(Voucher voucher){
+        System.out.println(customerRepository.findById(voucher.getCustomerId()).orElse(null));
     }
 }
