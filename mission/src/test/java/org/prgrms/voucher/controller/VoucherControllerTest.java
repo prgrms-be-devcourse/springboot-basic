@@ -16,6 +16,8 @@ import org.prgrms.voucher.response.Response;
 import org.prgrms.voucher.response.ResponseState;
 import org.prgrms.voucher.service.VoucherService;
 
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -86,6 +88,12 @@ public class VoucherControllerTest {
     @DisplayName("Controller list 메서드는")
     class DescribeList {
 
+        @Mock
+        VoucherService voucherServiceMock;
+
+        @InjectMocks
+        VoucherController voucherController;
+
         @Nested
         @DisplayName("호출이 되면")
         class ContextCallThis {
@@ -94,12 +102,26 @@ public class VoucherControllerTest {
             @DisplayName("Service의 list 메서드를 호출한다.")
             void itCallServiceList() {
 
+                voucherController.list();
+
+                verify(voucherServiceMock).list();
             }
 
             @Test
             @DisplayName("바우처 리스트 정보를응답 객체에 담아 반환한다.")
             void itReturnVoucherList() {
 
+                Voucher voucher1 = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT);
+                Voucher voucher2 = new FixedAmountVoucher(2L, 101, VoucherType.FIXED_AMOUNT);
+
+                List<Voucher> list = List.of(voucher1, voucher2);
+
+                when(voucherServiceMock.list()).thenReturn(list);
+
+                Response response = voucherController.list();
+
+                Assertions.assertThat(response.state()).isEqualTo(ResponseState.SUCCESS);
+                Assertions.assertThat(response.data()).isEqualTo(list);
             }
         }
     }

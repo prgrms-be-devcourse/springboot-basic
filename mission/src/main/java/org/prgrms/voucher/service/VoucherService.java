@@ -5,6 +5,8 @@ import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VoucherService {
 
@@ -24,5 +26,10 @@ public class VoucherService {
         Voucher voucher = requestDto.toDomain();
 
         return voucherRepository.save(voucher);
+    }
+
+    public List<Voucher> list() {
+
+        return null;
     }
 }
