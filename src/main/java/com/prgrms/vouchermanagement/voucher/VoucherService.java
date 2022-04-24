@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 
@@ -34,8 +35,8 @@ public class VoucherService {
 			logger.info("Publish new Voucher : {}", voucher);
 
 			voucherRepository.save(voucher);
-		} catch (IllegalArgumentException e){
-			logger.error("{}",e.getMessage(),e);
+		} catch (CreationFailException e) {
+			logger.error("{}", e.getMessage(), e);
 		}
 
 		return Optional.ofNullable(voucher);

@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.function.BiFunction;
 
 import com.prgrms.vouchermanagement.commons.CodeMappable;
+import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
 import com.prgrms.vouchermanagement.commons.exception.NoMappingOneException;
 import com.prgrms.vouchermanagement.voucher.domain.FixedAmountVoucher;
 import com.prgrms.vouchermanagement.voucher.domain.PercentDiscountVoucher;
@@ -24,7 +25,11 @@ public enum VoucherType implements CodeMappable {
 	}
 
 	public Voucher getVoucher(UUID id, long voucherDetailsInfo) {
-		return factory.apply(id, voucherDetailsInfo);
+		try {
+			return factory.apply(id, voucherDetailsInfo);
+		} catch (IllegalArgumentException e) {
+			throw new CreationFailException(e);
+		}
 	}
 
 	public static VoucherType from(String type) {
