@@ -23,19 +23,11 @@ public class JdbcVoucherTypeRepository implements VoucherTypeRepository {
 	@Override
 	public VoucherType save(VoucherType voucherType) {
 		final String SAVE_TYPE_SQL = "insert into voucher_type (voucher_type_id, name) values (?, ?)";
-		final UUID uuid = UUID.randomUUID();
-		System.out.println(uuid);
-		jdbcTemplate.update(SAVE_TYPE_SQL, UUIDConverter.uuidToBytes(uuid), voucherType.name());
+		jdbcTemplate.update(SAVE_TYPE_SQL, UUIDConverter.uuidToBytes(UUID.randomUUID()), voucherType.name());
 		return voucherType;
 	}
 
-	/**
-	 * Voucher 이름을 입력받으면 해당 Voucher_type_id를 반환
-	 * Voucher의 외래키로 Voucher_type_id를 넣어주는 데 사용하기 위한 용도로 정의
-	 *
-	 * @param voucherTypeName
-	 * @return UUID : voucher_type_id
-	 */
+
 	@Override
 	public UUID findUUIDByName(String voucherTypeName) {
 		final String FIND_UUID_NY_NAME_SQL = "select voucher_type_id from voucher_type where name = ?";
@@ -48,16 +40,10 @@ public class JdbcVoucherTypeRepository implements VoucherTypeRepository {
 		};
 	}
 
-	/**
-	 * voucher_type_id를 입력받으면 VoucherType을 반환해주는 메서드
-	 *
-	 * @param voucherId
-	 * @return VoucherType
-	 */
+
 	@Override
 	public VoucherType findById(UUID voucherId) {
 		final String FIND_UUID_NY_NAME_SQL = "select * from voucher_type where voucher_type_id = ?";
-		System.out.println(voucherId);
 		return jdbcTemplate.queryForObject(FIND_UUID_NY_NAME_SQL, voucherTypeRowMapper(),
 			UUIDConverter.uuidToBytes(voucherId));
 	}

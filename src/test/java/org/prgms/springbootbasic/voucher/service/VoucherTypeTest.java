@@ -17,12 +17,12 @@ class VoucherTypeTest {
 		//when
 		Voucher voucher = type.createVoucher(1000);
 		//then
-		assertEquals(VoucherType.FIXEDAMOUNTVOUCHER, voucher.getVoucherType());
+		assertEquals(VoucherType.FIXEDAMOUNTVOUCHER, voucher.getType());
 
 		VoucherType type2 = VoucherType.of(VoucherType.PERCENTDISCOUNTVOUCHER.name());
 		Voucher voucher2 = type2.createVoucher(50);
 
-		assertEquals(VoucherType.PERCENTDISCOUNTVOUCHER, voucher2.getVoucherType());
+		assertEquals(VoucherType.PERCENTDISCOUNTVOUCHER, voucher2.getType());
 	}
 
 	@DisplayName("정해진 Button(1,2) 값이 아닌 다른 값을 입력했을 때 IllegalArgumentException 발생")

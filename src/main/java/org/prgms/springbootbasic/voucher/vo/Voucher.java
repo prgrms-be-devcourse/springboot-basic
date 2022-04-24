@@ -1,30 +1,38 @@
 package org.prgms.springbootbasic.voucher.vo;
 
+import static com.google.common.base.Preconditions.*;
+
+import java.util.Arrays;
 import java.util.UUID;
 
-public interface Voucher {
-	/**
-	 * Voucher의 아이디를 조회하는 메서드
-	 *
-	 * @return voucherId
-	 */
-	UUID getVoucherId();
+import lombok.Getter;
+
+@Getter
+public abstract class Voucher {
+	private final UUID voucherId;
+	private final VoucherType type;
+	private final int value;
+
+	public Voucher(UUID voucherId, VoucherType type, int value) {
+		this.voucherId = voucherId;
+		this.type = type;
+		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return "Voucher{" +
+			"voucherId=" + voucherId +
+			", type=" + type +
+			", value=" + value +
+			'}';
+	}
 
 	/**
-	 * Voucher의 종류(FixAmountVoucher, PercentDiscountVoucher)을 반환하는 메서드
-	 * @return VoucherType
-	 */
-	VoucherType getVoucherType();
-
-	long getValue();
-
-	/**
-	 * 기존 가격에서 할인한 후의 가격을 반환하는 메서드
+	 * 기존 가격에서 할인율을 곱한 가격을 제외한 나머지 가격을 반환한다.
 	 *
 	 * @param beforeDiscount
-	 * @return 할인 후 가격
+	 * @return discount 후의 값
 	 */
-	long discount(long beforeDiscount);
-
-
+	abstract long discount(long beforeDiscount);
 }

@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
 import com.google.common.base.Preconditions;
 
 @Repository
-@Primary
 public class MemoryVoucherRepository implements VoucherRepository {
 	private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
@@ -46,12 +45,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	@Override
 	public Map<VoucherType, List<Voucher>> getVoucherListByType() {
 		return memory.values().stream()
-			.collect(Collectors.groupingBy(Voucher::getVoucherType));
+			.collect(Collectors.groupingBy((voucher) -> voucher.getType()));
 	}
 
 	@Override
 	public int getTotalVoucherCount() {
 		return memory.size();
+	}
+
+	@Override
+	public void deleteVouchers() {
+		memory.clear();
 	}
 
 	@Override

@@ -6,7 +6,9 @@ import java.util.UUID;
 
 import org.prgms.springbootbasic.voucher.vo.VoucherType;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface VoucherRepository {
 
 	/**
@@ -15,6 +17,14 @@ public interface VoucherRepository {
 	 * @return 저장한 Voucher
 	 */
 	UUID save(Voucher voucher);
+
+	/**
+	 * Id에 맞는 Voucher를 반환하는 메서드
+	 *
+	 * @param voucherId
+	 * @return
+	 */
+	Voucher findById(UUID voucherId);
 
 	/**
 	 * Voucher 리스트를 Voucher의 종류에 따 조회하는 메서드
@@ -31,10 +41,8 @@ public interface VoucherRepository {
 	int getTotalVoucherCount();
 
 	/**
-	 * Id에 맞는 Voucher를 반환하는 메서드
-	 *
-	 * @param percentStoredId
-	 * @return
+	 * Voucher를 삭제하는 메서드
 	 */
-	Voucher findById(UUID percentStoredId);
+	void deleteVouchers();
+
 }

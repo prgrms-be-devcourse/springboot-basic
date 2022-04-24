@@ -2,6 +2,7 @@ package org.prgms.springbootbasic.voucher.vo;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * VoucherType -> Voucher의 종류
@@ -10,15 +11,25 @@ public enum VoucherType {
 	/* 고정 금액 Voucher*/
 	FIXEDAMOUNTVOUCHER {
 		@Override
-		public Voucher createVoucher(int param) {
-			return new FixedAmountVoucher(param);
+		public Voucher createVoucher(int value) {
+			return new FixedAmountVoucher(value);
+		}
+
+		@Override
+		public Voucher createVoucher(UUID voucherId, VoucherType voucherType, int value) {
+			return new FixedAmountVoucher(voucherId, voucherType, value);
 		}
 	},
 	/* 할인율 적용 Voucher*/
 	PERCENTDISCOUNTVOUCHER {
 		@Override
-		public Voucher createVoucher(int param) {
-			return new PercentDiscountVoucher((int)param);
+		public Voucher createVoucher(int value) {
+			return new PercentDiscountVoucher((int)value);
+		}
+
+		@Override
+		public Voucher createVoucher(UUID voucherId, VoucherType voucherType, int value) {
+			return new PercentDiscountVoucher(voucherId, voucherType, value);
 		}
 	};
 
@@ -40,9 +51,11 @@ public enum VoucherType {
 	/**
 	 * VoucherType에 해당하는 Voucher를 생성하는 메서드
 	 *
-	 * @param param
+	 * @param value
 	 * @return Voucher
 	 */
-	public abstract Voucher createVoucher(int param);
+	public abstract Voucher createVoucher(int value);
+
+	public abstract Voucher createVoucher(UUID voucherId, VoucherType voucherType, int value);
 
 }
