@@ -20,7 +20,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Response create(VoucherDto.CreateVoucherRequest requestDto) {
+    public Response create(VoucherDto.VoucherRequest requestDto) {
 
         try {
             if (requestDto == null){
@@ -28,7 +28,7 @@ public class VoucherController {
             }
             Voucher voucher = voucherService.create(requestDto);
 
-            return new Response(ResponseState.SUCCESS, VoucherDto.CreateVoucherResponse.from(voucher));
+            return new Response(ResponseState.SUCCESS, VoucherDto.VoucherResponse.from(voucher));
         } catch (IllegalArgumentException argumentException) {
             logger.error("RequestDto : {}", requestDto, argumentException);
 
