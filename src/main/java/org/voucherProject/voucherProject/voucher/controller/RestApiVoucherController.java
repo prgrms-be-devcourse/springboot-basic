@@ -40,16 +40,14 @@ public class RestApiVoucherController {
     @PutMapping("/order")
     public void useVoucher(@RequestBody VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
-        voucher.useVoucher();
-        voucherService.updateVoucher(voucher);
+        voucherService.useVoucher(voucher);
     }
 
 
     @PutMapping("/cancel")
     public void cancelVoucher(@RequestBody VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
-        voucher.cancelVoucher();
-        voucherService.updateVoucher(voucher);
+        voucherService.cancelVoucher(voucher);
     }
 
     @DeleteMapping("/delete")

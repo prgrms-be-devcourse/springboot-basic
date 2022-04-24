@@ -18,12 +18,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer findById(UUID customerId) {
-        try {
-            return customerRepository.findById(customerId).get();
-        } catch (RuntimeException e) {
-            log.info("해당 id를 가지는 고객이 존재하지 않습니다.");
-            throw new RuntimeException();
-        }
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new IllegalArgumentException());
     }
 
     @Override

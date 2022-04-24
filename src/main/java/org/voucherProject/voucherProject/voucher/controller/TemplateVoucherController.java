@@ -69,8 +69,7 @@ public class TemplateVoucherController {
     @PostMapping("/order")
     public String useVoucher(@ModelAttribute("voucherDto") VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
-        voucher.useVoucher();
-        voucherService.updateVoucher(voucher);
+        voucherService.useVoucher(voucher);
         return "redirect:";
     }
 
@@ -83,8 +82,7 @@ public class TemplateVoucherController {
     @PostMapping("/cancel")
     public String cancelVoucher(@ModelAttribute("voucherDto") VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
-        voucher.cancelVoucher();
-        voucherService.updateVoucher(voucher);
+        voucherService.cancelVoucher(voucher);
         return "redirect:";
     }
 

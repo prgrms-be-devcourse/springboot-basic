@@ -290,7 +290,7 @@ public class VoucherDaoTest {
     }
 
     @Nested
-    @DisplayName("A~B 사이에 생성된 바우처 조회")
+    @DisplayName("시점 A~B 사이에 생성된 바우처 조회")
     class findByCreatedAtBetween {
         @Test
         @DisplayName("정확한 입력 형식(yyyy-MM-dd)을 맞춰서 -> 성공")
@@ -348,7 +348,7 @@ public class VoucherDaoTest {
     }
 
     @Nested
-    @DisplayName("바우처 타입으로 찾기")
+    @DisplayName("바우처 사용, 취소 검증 로직 테스트")
     class useVoucher {
         @Test
         @DisplayName("유효한 바우처를 사용 -> 바우처 상태는 Expired")

@@ -2,6 +2,7 @@ package org.voucherProject.voucherProject.voucher.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.voucher.entity.Voucher;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class VoucherServiceImpl implements VoucherService {
 
     private final VoucherDao voucherRepository;
@@ -52,6 +54,18 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public void deleteOneVoucherByCustomer(UUID customerId, UUID voucherId) {
         voucherRepository.deleteOneByCustomerId(customerId, voucherId);
+    }
+
+    @Override
+    public void useVoucher(Voucher voucher) {
+        voucher.useVoucher();
+        voucherRepository.update(voucher);
+    }
+
+    @Override
+    public void cancelVoucher(Voucher voucher) {
+        voucher.cancelVoucher();
+        voucherRepository.update(voucher);
     }
 
     @Override
