@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class VoucherController {
-
     private final VoucherService voucherService;
 
     public VoucherController(VoucherService voucherService) {
@@ -17,18 +16,13 @@ public class VoucherController {
     }
 
     public Response<VoucherDto> voucherAdd(VoucherDto request) {
+        if (request == null) return Response.error(ResponseStatus.BAD_REQUEST);
+
         try {
-            validateVoucherRequest(request);
             Voucher savedVoucher = voucherService.saveVoucher(request.toDomain());
             return Response.ok(VoucherDto.of(savedVoucher));
         } catch (IllegalArgumentException e) {
             return Response.error(ResponseStatus.BAD_REQUEST);
-        }
-    }
-
-    private void validateVoucherRequest(VoucherDto request) {
-        if (request.type() == null || request.value() == 0) {
-            throw new IllegalArgumentException();
         }
     }
 }

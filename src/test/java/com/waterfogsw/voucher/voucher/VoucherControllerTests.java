@@ -33,28 +33,13 @@ public class VoucherControllerTests {
     class Describe_voucherSave {
 
         @Nested
-        @DisplayName("바우처 타입이 null 들어오면")
+        @DisplayName("null 인 dto 가 들어오면")
         class Context_with_type_null {
 
             @Test
             @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
             void it_return_error_message() {
-                var voucherDto = new VoucherDto(null, 1000);
-                var response = controller.voucherAdd(voucherDto);
-
-                assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
-            }
-        }
-
-        @Nested
-        @DisplayName("value 값이 0 이 들어오면")
-        class Context_with_value_zero {
-
-            @Test
-            @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
-            void it_return_error_message() {
-                var voucherDto = new VoucherDto(VoucherType.FIXED_AMOUNT, 0);
-                var response = controller.voucherAdd(voucherDto);
+                var response = controller.voucherAdd(null);
 
                 assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
