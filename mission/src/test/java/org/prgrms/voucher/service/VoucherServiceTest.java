@@ -9,9 +9,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.voucher.dto.VoucherDto;
+import org.prgrms.voucher.models.FixedAmountVoucher;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
 import org.prgrms.voucher.repository.VoucherRepository;
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -97,6 +100,12 @@ public class VoucherServiceTest {
     @DisplayName("Service list 메서드는")
     class DescribeList {
 
+        @Mock
+        VoucherRepository voucherRepositoryMock;
+
+        @InjectMocks
+        VoucherService voucherService;
+
         @Nested
         @DisplayName("호출이 되면")
         class ContextCallThis {
@@ -105,12 +114,25 @@ public class VoucherServiceTest {
             @DisplayName("Repository의 findAll 메서드를 호출한다.")
             void itCallRepositoryFindAll() {
 
+                voucherService.list();
+
+                verify(voucherRepositoryMock).findAll();
             }
 
             @Test
             @DisplayName("바우처를 담은 리스트를 반환한다.")
             void itReturnVoucherList() {
 
+                Voucher voucher1 = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT);
+                Voucher voucher2 = new FixedAmountVoucher(2L, 101, VoucherType.FIXED_AMOUNT);
+
+                List<Voucher> list = List.of(voucher1, voucher2);
+
+                when(voucherRepositoryMock.findAll()).thenReturn(list);
+
+                List<Voucher> listCheck = voucherService.list();
+
+                Assertions.assertThat(list).isEqualTo(listCheck);
             }
         }
     }
