@@ -52,7 +52,7 @@ public class CsvVoucherRepository implements VoucherRepository {
 
             beanWriter.write(map, CSV_HEADER);
         } catch (IOException | SuperCsvException e) {
-            logger.error("failed to save voucher : {}", e.getMessage(), e);
+            throw new RuntimeException("failed to get black-list in csv-file : " + e.getMessage());
         }
         return voucher;
     }
@@ -82,7 +82,7 @@ public class CsvVoucherRepository implements VoucherRepository {
                 vouchers.add(voucher);
             }
         } catch (IOException e) {
-            logger.error("failed to get vouchers in csv-file : {}", e.getMessage(), e);
+            throw new RuntimeException("failed to get black-list in csv-file : " + e.getMessage());
         }
         return vouchers;
     }

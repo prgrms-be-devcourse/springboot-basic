@@ -57,7 +57,7 @@ public class CsvCustomerRepository implements CustomerRepository {
                 customers.add(new Customer(customerId, customerName, grade));
             }
         } catch (IOException | SuperCsvException e) {
-            logger.error("failed to get black-list in csv-file : {}", e.getMessage(), e);
+            throw new RuntimeException("failed to get black-list in csv-file : " + e.getMessage());
         }
         return customers;
     }
