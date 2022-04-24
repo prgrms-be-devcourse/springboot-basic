@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -55,6 +58,33 @@ public class VoucherServiceTests {
                 var savedVoucher = voucherService.saveVoucher(voucher);
                 assertThat(savedVoucher.getType(), is(savedVoucher.getType()));
                 assertThat(savedVoucher.getValue(), is(savedVoucher.getValue()));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findAllVoucher 메소드는")
+    class Describe_findAllVoucher {
+
+        @Nested
+        @DisplayName("호출되면")
+        class Context_with_negative_fixedAmount {
+
+            @Test
+            @DisplayName("저장한 Voucher 리스트를 반환 한다")
+            void it_throw_IllegalArgumentException() {
+                List<Voucher> voucherList = new ArrayList<>();
+                Voucher voucher1 = new FixedAmountVoucher(100);
+                Voucher voucher2 = new FixedAmountVoucher(100);
+
+                voucherList.add(voucher1);
+                voucherList.add(voucher2);
+
+                when(voucherRepository.findAll()).thenReturn(voucherList);
+
+                var voucherLists = voucherService.findAllVoucher();
+
+                assertThat(voucherLists.size(), is(2));
             }
         }
     }

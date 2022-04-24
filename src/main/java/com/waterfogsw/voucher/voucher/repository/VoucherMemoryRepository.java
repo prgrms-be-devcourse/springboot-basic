@@ -3,6 +3,8 @@ package com.waterfogsw.voucher.voucher.repository;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,6 +27,11 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
         voucherStore.put(voucher.getId(), voucher);
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return new ArrayList<>();
     }
 
     private Voucher createVoucherEntity(Voucher voucher) {
