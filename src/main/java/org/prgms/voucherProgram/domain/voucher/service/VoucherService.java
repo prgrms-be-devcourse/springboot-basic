@@ -1,5 +1,6 @@
 package org.prgms.voucherProgram.domain.voucher.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +38,7 @@ public class VoucherService {
 
     private Voucher toEntity(UUID voucherId, VoucherRequest voucherRequest) {
         return VoucherType.findByNumber(voucherRequest.getType())
-            .constructor(voucherId, null, voucherRequest.getDiscountValue());
+            .constructor(voucherId, null, voucherRequest.getDiscountValue(), LocalDateTime.now());
     }
 
     public Voucher modify(UUID voucherId, VoucherRequest voucherRequest) {

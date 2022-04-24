@@ -81,12 +81,12 @@ class JdbcVoucherRepositoryTest {
     }
 
     private Voucher voucher() {
-        return new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L);
+        return new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L, LocalDateTime.now());
     }
 
     private List<Voucher> vouchers() {
-        return List.of(new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L),
-            new PercentDiscountVoucher(UUID.randomUUID(), 30L));
+        return List.of(new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L, LocalDateTime.now()),
+            new PercentDiscountVoucher(UUID.randomUUID(), 30L, LocalDateTime.now()));
     }
 
     private Customer customer() {
@@ -125,10 +125,12 @@ class JdbcVoucherRepositoryTest {
         class Context_with_voucher {
             private static Stream<Arguments> provideVoucher() {
                 return Stream.of(
-                    Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L)),
-                    Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), 10L)),
-                    Arguments.of(new PercentDiscountVoucher(UUID.randomUUID(), 30L)),
-                    Arguments.of(new PercentDiscountVoucher(UUID.randomUUID(), UUID.randomUUID(), 30L))
+                    Arguments.of(
+                        new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L, LocalDateTime.now())),
+                    Arguments.of(new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now())),
+                    Arguments.of(new PercentDiscountVoucher(UUID.randomUUID(), 30L, LocalDateTime.now())),
+                    Arguments.of(
+                        new PercentDiscountVoucher(UUID.randomUUID(), UUID.randomUUID(), 30L, LocalDateTime.now()))
                 );
             }
 
@@ -227,7 +229,8 @@ class JdbcVoucherRepositoryTest {
         @DisplayName("수정할 바우처가 주어지면")
         class Context_with_update_voucher {
             final Voucher voucher = voucher();
-            final Voucher update = new FixedAmountVoucher(voucher.getVoucherId(), voucher.getCustomerId(), 50L);
+            final Voucher update = new FixedAmountVoucher(voucher.getVoucherId(), voucher.getCustomerId(), 50L,
+                voucher.getCreatedTime());
 
             @BeforeEach
             void prepare() {
@@ -319,7 +322,7 @@ class JdbcVoucherRepositoryTest {
             final Voucher voucher = voucher();
             UUID customerId = UUID.randomUUID();
             Voucher assignVoucher = new FixedAmountVoucher(voucher.getVoucherId(), customerId,
-                voucher.getDiscountValue());
+                voucher.getDiscountValue(), voucher.getCreatedTime());
 
             @BeforeEach
             void prepare() {
@@ -348,8 +351,9 @@ class JdbcVoucherRepositoryTest {
         @DisplayName("만약 고객에게 할당된 바우처들이 있다면")
         class Context_with_customer_has_vouchers {
             Customer customer = customer();
-            List<Voucher> vouchers = List.of(new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 20L),
-                new PercentDiscountVoucher(UUID.randomUUID(), customer.getCustomerId(), 30L));
+            List<Voucher> vouchers = List.of(
+                new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 20L, LocalDateTime.now()),
+                new PercentDiscountVoucher(UUID.randomUUID(), customer.getCustomerId(), 30L, LocalDateTime.now()));
 
             @BeforeEach
             void prepare() {

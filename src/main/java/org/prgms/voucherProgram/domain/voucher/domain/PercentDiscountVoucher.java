@@ -1,18 +1,19 @@
 package org.prgms.voucherProgram.domain.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
     private final DiscountPercent discountPercent;
 
-    public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
-        super(voucherId);
+    public PercentDiscountVoucher(UUID voucherId, long discountPercent, LocalDateTime createdTime) {
+        super(voucherId, createdTime);
         this.discountPercent = new DiscountPercent(discountPercent);
     }
 
-    public PercentDiscountVoucher(UUID voucherId, UUID customerId, long discountPercent) {
-        super(voucherId, customerId);
+    public PercentDiscountVoucher(UUID voucherId, UUID customerId, long discountPercent, LocalDateTime createdTime) {
+        super(voucherId, customerId, createdTime);
         this.discountPercent = new DiscountPercent(discountPercent);
     }
 

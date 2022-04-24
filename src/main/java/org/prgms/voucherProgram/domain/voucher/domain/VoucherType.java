@@ -1,5 +1,6 @@
 package org.prgms.voucherProgram.domain.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -12,9 +13,9 @@ public enum VoucherType {
     private static final String ERROR_WRONG_VOUCHER_COMMAND_MESSAGE = "[ERROR] 올바른 바우처 타입이 아닙니다.";
 
     private final int number;
-    private final TriFunction<UUID, UUID, Long, Voucher> constructor;
+    private final TriFunction<UUID, UUID, Long, LocalDateTime, Voucher> constructor;
 
-    VoucherType(int number, TriFunction<UUID, UUID, Long, Voucher> constructor) {
+    VoucherType(int number, TriFunction<UUID, UUID, Long, LocalDateTime, Voucher> constructor) {
         this.number = number;
         this.constructor = constructor;
     }
@@ -30,8 +31,8 @@ public enum VoucherType {
         System.out.println(Arrays.toString(VoucherType.values()));
     }
 
-    public Voucher constructor(UUID voucherId, UUID customerId, long discountValue) {
-        return constructor.apply(voucherId, customerId, discountValue);
+    public Voucher constructor(UUID voucherId, UUID customerId, long discountValue, LocalDateTime createdTime) {
+        return constructor.apply(voucherId, customerId, discountValue, createdTime);
     }
 
     public int getNumber() {

@@ -2,6 +2,7 @@ package org.prgms.voucherProgram.domain.voucher.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +19,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     void save_Voucher() {
         // given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10, LocalDateTime.now());
         // when
         Voucher saveVoucher = voucherRepository.save(voucher);
         // then
@@ -31,8 +32,8 @@ class MemoryVoucherRepositoryTest {
     @Test
     void findAll_ReturnAllVoucher() {
         // given
-        Voucher voucherOne = new FixedAmountVoucher(UUID.randomUUID(), 20);
-        Voucher voucherTwo = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+        Voucher voucherOne = new FixedAmountVoucher(UUID.randomUUID(), 20, LocalDateTime.now());
+        Voucher voucherTwo = new PercentDiscountVoucher(UUID.randomUUID(), 20, LocalDateTime.now());
         // when
         voucherRepository.save(voucherOne);
         voucherRepository.save(voucherTwo);

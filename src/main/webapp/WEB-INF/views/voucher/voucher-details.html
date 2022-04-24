@@ -30,6 +30,12 @@
         <input class="form-control" id="discountValue" name="discountValue" th:field="${voucher.discountValue}"
                type="number">
     </div>
+    <div class="mb-3">
+        <label class="form-label" for="createdTime">Created At</label>
+        <input class="form-control" id="createdTime" name="createdTime" th:field="${voucher.createdTime}"
+               th:readonly="true"
+               type="text">
+    </div>
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>
 </body>

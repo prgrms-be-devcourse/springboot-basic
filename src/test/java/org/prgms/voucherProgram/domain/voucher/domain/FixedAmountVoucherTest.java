@@ -2,6 +2,7 @@ package org.prgms.voucherProgram.domain.voucher.domain;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @CsvSource(value = {"1000,100,900", "500,300,200", "10000,5000,5000"})
     void discount_Amount_ReturnDiscountAmount(long beforeDiscount, long discountAmount, long result) {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), discountAmount, LocalDateTime.now());
         long discountPrice = voucher.discount(beforeDiscount);
         assertThat(discountPrice).isEqualTo(result);
     }
@@ -24,7 +25,7 @@ class FixedAmountVoucherTest {
     @CsvSource(value = {"1000,1000", "300,5000", "1000,5000"})
     void discount_BeforeDiscountIsUnderDiscountAmount_ReturnZero(long beforeDiscount, long discountAmount) {
         // given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), discountAmount, LocalDateTime.now());
         // when
         long discountPrice = voucher.discount(beforeDiscount);
         // then

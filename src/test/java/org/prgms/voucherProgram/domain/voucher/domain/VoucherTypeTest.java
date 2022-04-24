@@ -2,6 +2,7 @@ package org.prgms.voucherProgram.domain.voucher.domain;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -30,14 +31,16 @@ class VoucherTypeTest {
     @DisplayName("FIXED_AMOUNT일때 FixedAmountVoucher를 생성한다.")
     @Test
     void should_CreateFixedAmountVoucher_When_FIXED_AMOUNT() {
-        assertThat(VoucherType.FIXED_AMOUNT.constructor(UUID.randomUUID(), UUID.randomUUID(), 10L)).isInstanceOf(
+        assertThat(VoucherType.FIXED_AMOUNT.constructor(UUID.randomUUID(), UUID.randomUUID(), 10L,
+            LocalDateTime.now())).isInstanceOf(
             FixedAmountVoucher.class);
     }
 
     @DisplayName("PERCENT_DISCOUNT일때 PercentDiscountVoucher를 생성한다.")
     @Test
     void should_CreatePercentDiscountVoucher_When_PERCENT_DISCOUNT() {
-        assertThat(VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), UUID.randomUUID(), 10L)).isInstanceOf(
+        assertThat(VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), UUID.randomUUID(), 10L,
+            LocalDateTime.now())).isInstanceOf(
             PercentDiscountVoucher.class);
     }
 }

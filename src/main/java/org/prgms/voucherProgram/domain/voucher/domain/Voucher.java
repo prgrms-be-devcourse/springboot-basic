@@ -1,22 +1,24 @@
 package org.prgms.voucherProgram.domain.voucher.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Voucher implements Serializable {
 
     protected final UUID voucherId;
+    protected final LocalDateTime createdTime;
     protected UUID customerId;
 
-    protected Voucher(UUID voucherId, UUID customerId) {
-        this.voucherId = voucherId;
-        this.customerId = customerId;
+    protected Voucher(UUID voucherId, LocalDateTime createdTime) {
+        this(voucherId, null, createdTime);
     }
 
-    protected Voucher(UUID voucherId) {
+    protected Voucher(UUID voucherId, UUID customerId, LocalDateTime createdTime) {
         this.voucherId = voucherId;
-        this.customerId = null;
+        this.customerId = customerId;
+        this.createdTime = createdTime;
     }
 
     public void assignCustomer(UUID customerId) {
@@ -41,6 +43,10 @@ public abstract class Voucher implements Serializable {
 
     public UUID getCustomerId() {
         return customerId;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
     }
 
     public abstract long discount(long beforeDiscount);

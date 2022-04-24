@@ -52,12 +52,12 @@ class VoucherServiceTest {
     }
 
     private FixedAmountVoucher voucher() {
-        return new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        return new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
     }
 
     private List<Voucher> vouchers() {
-        return List.of(new FixedAmountVoucher(UUID.randomUUID(), 10L),
-            new PercentDiscountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L));
+        return List.of(new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now()),
+            new PercentDiscountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L, LocalDateTime.now()));
     }
 
     private Customer customer() {
@@ -127,7 +127,8 @@ class VoucherServiceTest {
             final VoucherRequest voucherRequest = voucherRequest();
             final Voucher voucher = voucher();
             final UUID voucherId = voucher.getVoucherId();
-            final Voucher updateVoucher = new FixedAmountVoucher(voucherId, voucherRequest.getDiscountValue());
+            final Voucher updateVoucher = new FixedAmountVoucher(voucherId, voucherRequest.getDiscountValue(),
+                LocalDateTime.now());
 
             @BeforeEach
             void prepare() {
@@ -178,7 +179,7 @@ class VoucherServiceTest {
         @DisplayName("해당 아이디를 가진 바우처가 있다면")
         class Context_with_saved_voucher_id {
             final UUID voucherId = UUID.randomUUID();
-            final Voucher voucher = new FixedAmountVoucher(voucherId, 10L);
+            final Voucher voucher = new FixedAmountVoucher(voucherId, 10L, LocalDateTime.now());
 
             @BeforeEach
             void prepare() {
@@ -233,7 +234,7 @@ class VoucherServiceTest {
                 given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
                 given(voucherRepository.assignCustomer(any(Voucher.class))).willReturn(
                     new FixedAmountVoucher(voucher.getVoucherId(), customer.getCustomerId(),
-                        voucher.getDiscountValue()));
+                        voucher.getDiscountValue(), LocalDateTime.now()));
             }
 
             @Test
@@ -292,7 +293,7 @@ class VoucherServiceTest {
         @Nested
         @DisplayName("이미 할당된 바우처라면")
         class Context_with_already_assign_voucher {
-            Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 10L);
+            Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 10L, LocalDateTime.now());
             WalletRequest walletRequest = walletRequest();
 
             @BeforeEach
@@ -365,7 +366,8 @@ class VoucherServiceTest {
         @DisplayName("특정 바우처를 가진 고객이 있다면")
         class Context_with_customer_has_voucher {
             final Customer customer = customer();
-            final Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 10L);
+            final Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 10L,
+                LocalDateTime.now());
 
             @BeforeEach
             void prepare() {

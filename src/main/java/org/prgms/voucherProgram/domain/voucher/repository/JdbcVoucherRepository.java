@@ -1,5 +1,6 @@
 package org.prgms.voucherProgram.domain.voucher.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,11 +25,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         int result = jdbcTemplate.update(
-            "INSERT INTO voucher(voucher_id, customer_id, type ,discount) VALUES(UUID_TO_BIN(?), UUID_TO_BIN(?), ?, ?)",
+            "INSERT INTO voucher(voucher_id, customer_id, type ,discount, created_at) VALUES(UUID_TO_BIN(?), UUID_TO_BIN(?), ?, ?, ?)",
             DatabaseUtils.toBytes(voucher.getVoucherId()),
             DatabaseUtils.toBytes(voucher.getCustomerId()),
             voucher.getType(),
-            voucher.getDiscountValue());
+            voucher.getDiscountValue(),
+            Timestamp.valueOf(voucher.getCreatedTime()));
 
         DatabaseUtils.validateExecute(result);
         return voucher;

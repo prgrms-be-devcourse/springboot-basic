@@ -3,6 +3,7 @@ package org.prgms.voucherProgram.domain.voucher.repository;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ class FileVoucherRepositoryTest {
     void save_Voucher_File() {
         // given
         voucherRepository = new FileVoucherRepository("./voucherData.txt");
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
         // when
         Voucher saveVoucher = voucherRepository.save(voucher);
         // then
@@ -44,8 +45,8 @@ class FileVoucherRepositoryTest {
     void findAll_ReturnAllVoucher() {
         // given
         voucherRepository = new FileVoucherRepository("./voucherData.txt");
-        Voucher voucherOne = new FixedAmountVoucher(UUID.randomUUID(), 20L);
-        Voucher voucherTwo = new PercentDiscountVoucher(UUID.randomUUID(), 20L);
+        Voucher voucherOne = new FixedAmountVoucher(UUID.randomUUID(), 20L, LocalDateTime.now());
+        Voucher voucherTwo = new PercentDiscountVoucher(UUID.randomUUID(), 20L, LocalDateTime.now());
         // when
         voucherRepository.save(voucherOne);
         voucherRepository.save(voucherTwo);
@@ -58,7 +59,8 @@ class FileVoucherRepositoryTest {
     @Test
     void saveVoucher_WrongFilePath_ThrowException() {
         voucherRepository = new FileVoucherRepository("./");
-        assertThatThrownBy(() -> voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 10L)))
+        assertThatThrownBy(
+            () -> voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now())))
             .isInstanceOf(WrongFileException.class)
             .hasMessage("[ERROR] 올바른 파일이 아닙니다.");
     }

@@ -13,6 +13,7 @@ CREATE TABLE voucher
 (
     voucher_id  BINARY(16) PRIMARY KEY,
     customer_id BINARY(16),
-    type        TINYINT UNSIGNED NOT NULL,
-    discount    INT UNSIGNED     NOT NULL
+    type        TINYINT UNSIGNED                         NOT NULL,
+    discount    INT UNSIGNED                             NOT NULL,
+    created_at  datetime(6) default CURRENT_TIMESTAMP(6) not null
 );

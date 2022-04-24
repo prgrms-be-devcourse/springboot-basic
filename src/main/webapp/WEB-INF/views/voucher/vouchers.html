@@ -21,6 +21,7 @@
         <th scope="col">ID</th>
         <th scope="col">Type</th>
         <th scope="col">DiscountValue</th>
+        <th scope="col">CreatedAt</th>
         <th scope="col">DELETE</th>
     </tr>
     </thead>
@@ -29,6 +30,7 @@
         <td><a href="#" th:href="@{/vouchers/{id}(id=${voucher.voucherId})}" th:text="${voucher.voucherId}"></a></td>
         <td th:text="*{type}"></td>
         <td th:text="*{discountValue}"></td>
+        <td th:text="*{createdTime}"></td>
         <td><div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a th:href="@{/vouchers/delete/{id}(id=${voucher.voucherId})}" class="btn btn-primary me-md-2" type="button">DELETE</a>
         </div></td>
