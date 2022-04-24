@@ -1,20 +1,21 @@
 package com.voucher.vouchermanagement.model.customer;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Customer implements Serializable {
+public class Customer {
 
     private final UUID id;
     private final String name;
     private final String email;
+    private final LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
-    public Customer(UUID id, String name, String email, LocalDateTime createdAt) {
+    public Customer(UUID id, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
     }
 
@@ -28,6 +29,14 @@ public class Customer implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override

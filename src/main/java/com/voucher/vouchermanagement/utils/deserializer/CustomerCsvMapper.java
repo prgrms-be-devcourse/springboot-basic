@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
+import org.springframework.cglib.core.Local;
+
 public class CustomerCsvMapper implements CsvMapper<Customer> {
     @Override
     public Customer deserialize(String csvLine) {
@@ -13,9 +15,10 @@ public class CustomerCsvMapper implements CsvMapper<Customer> {
         String id = stringTokenizer.nextToken().trim();
         String name = stringTokenizer.nextToken().trim();
         String email = stringTokenizer.nextToken().trim();
+        LocalDateTime lastLoginAt = LocalDateTime.parse(stringTokenizer.nextToken());
         LocalDateTime createdAt = LocalDateTime.parse(stringTokenizer.nextToken());
 
-        return new Customer(UUID.fromString(id), name, email, createdAt);
+        return new Customer(UUID.fromString(id), name, email,lastLoginAt, createdAt);
     }
 
     @Override
