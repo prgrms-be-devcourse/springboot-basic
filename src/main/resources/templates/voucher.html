@@ -1,37 +1,46 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<body>
-<div class="container">
-    <div>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Voucher Id</th>
-                <th>Type</th>
-                <th>Discount Amount</th>
-                <th>Status</th>
-                <th>Created At</th>
-                <th>Customer Id</th>
-                <th>사용 취소</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td th:text="${voucherDto.getVoucherId()}">1</td>
-                <td th:text="${voucherDto.getVoucherType()}">2</td>
-                <td th:text="${voucherDto.getAmount()}">3</td>
-                <td th:text="${voucherDto.getVoucherStatus()}">4</td>
-                <td th:text="${voucherDto.getCreatedAt()}">5</td>
-                <td th:text="${voucherDto.getCustomerId()}">6</td>
-                <td>
-                    <form role="form" action="/template/cancel" th:object="${voucherDto}" method="post">
-                        <input type="hidden" th:name="voucherId" th:value="${voucherDto.getVoucherId()}">
-                        <button type="submit" class="btn btn-primary">Cancel</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody></table>
-    </div>
-</div> <!-- /container -->
-</body>
+    <head>
+        <meta charset="utf-8">
+        <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            .container {
+                max-width: 560px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <H1>Detail</H1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Voucher Id</th>
+                        <th>Type</th>
+                        <th>Discount Amount</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Customer Id</th>
+                        <th>사용 취소</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td th:text="${voucherDto.getVoucherId()}">1</td>
+                        <td th:text="${voucherDto.getVoucherType()}">2</td>
+                        <td th:text="${voucherDto.getAmount()}">3</td>
+                        <td th:text="${voucherDto.getVoucherStatus()}">4</td>
+                        <td th:text="${voucherDto.getCreatedAt()}">5</td>
+                        <td th:text="${voucherDto.getCustomerId()}">6</td>
+                        <td>
+                            <form role="form" action="/template/cancel" th:object="${voucherDto}" method="post">
+                                <input type="hidden" th:name="voucherId" th:value="${voucherDto.getVoucherId()}">
+                                <button type="submit" class="btn btn-primary">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> <!-- /container -->
+    </body>
 </html>
