@@ -88,11 +88,7 @@ public class VoucherControllerTest {
 
         @Nested
         @DisplayName("호출이 되면")
-        class ContextCallThis {//findAll의 실패케이스가 어떤게 있을지 계속 생각을 해봤습니다. 받는 인자도 없고
-            //반환을 계속 반환하는거라 그 과정에서 어떻게 실패하는지 생각이 안났습니다.
-            //첫 번째 든 생각은 만약 DB에 연결했을때 커넥션이 끊기면 실패하는것인데 이 외엔 생각이 나지 않습니다.
-            //제가 놓친 부분이 있을까요??
-            //제가 코멘트 달기전에 보실까봐 주석으로 미리 달아놓겠습니다.
+        class ContextCallThis {
 
             @Test
             @DisplayName("Service의 list 메서드를 호출한다.")
