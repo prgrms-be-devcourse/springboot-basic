@@ -3,8 +3,10 @@ package kdt.vouchermanagement;
 import kdt.vouchermanagement.domain.voucher.domain.FixedAmountVoucher;
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
+import kdt.vouchermanagement.domain.voucher.exception.DuplicateVoucherException;
 import kdt.vouchermanagement.domain.voucher.repository.VoucherRepository;
 import kdt.vouchermanagement.domain.voucher.service.VoucherService;
+import kdt.vouchermanagement.domain.voucher.service.VoucherServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,7 +82,7 @@ public class VoucherServiceTest {
 
         //when, then
         verify(voucherRepository, times(0)).save(any());
-        assertThrows(NullPointerException.class, () -> voucherService.createVoucher(voucher));
+        assertThrows(IllegalArgumentException.class, () -> voucherService.createVoucher(voucher));
     }
 
     @Test

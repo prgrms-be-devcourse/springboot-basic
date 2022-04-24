@@ -4,6 +4,7 @@ import kdt.vouchermanagement.domain.voucher.controller.VoucherConsoleController;
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 import kdt.vouchermanagement.domain.voucher.dto.VoucherRequest;
+import kdt.vouchermanagement.domain.voucher.exception.DuplicateVoucherException;
 import kdt.vouchermanagement.domain.voucher.service.VoucherService;
 import kdt.vouchermanagement.global.response.Response;
 import org.junit.jupiter.api.DisplayName;
