@@ -321,6 +321,7 @@ class VoucherServiceTest {
         class Context_with_customer_has_vouchers {
             final Customer customer = customer();
             final List<Voucher> vouchers = vouchers();
+            final Email email = new Email(customer.getEmail());
 
             @BeforeEach
             void prepare() {
@@ -331,7 +332,7 @@ class VoucherServiceTest {
             @Test
             @DisplayName("고객에게 할당된 바우처들을 반환한다.")
             void it_returns_assigned_vouchers() {
-                List<Voucher> vouchers = voucherService.findAssignVouchers(customer.getEmail());
+                List<Voucher> vouchers = voucherService.findAssignVouchers(email);
 
                 assertThat(vouchers).hasSize(2);
                 then(customerService).should(times(1)).findByEmail(any(Email.class));
@@ -342,7 +343,7 @@ class VoucherServiceTest {
         @Nested
         @DisplayName("해당 이메일로 저장된 고객이 없다면")
         class Context_with_not_saved_email_customer {
-            String email = "hwan@gmail.com";
+            Email email = new Email("hwan@gmail.com");
 
             @BeforeEach
             void prepare() {

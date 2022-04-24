@@ -74,8 +74,8 @@ public class VoucherService {
         return voucherRepository.assignCustomer(voucher);
     }
 
-    public List<Voucher> findAssignVouchers(String customerEmail) {
-        Customer customer = findCustomer(customerEmail);
+    public List<Voucher> findAssignVouchers(Email email) {
+        Customer customer = customerService.findByEmail(email);
         return voucherRepository.findByCustomerEmail(customer.getEmail());
     }
 
