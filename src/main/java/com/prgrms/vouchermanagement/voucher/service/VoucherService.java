@@ -5,6 +5,7 @@ import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,16 +22,29 @@ public class VoucherService {
         this.repository = repository;
     }
 
-    public Voucher addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException {
+    /**
+     * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
+     */
+    public UUID addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException, DataAccessException {
         Voucher newVoucher = voucherType.constructor(UUID.randomUUID(), amount, LocalDateTime.now());
         repository.save(newVoucher);
         log.info("voucher is saved - {}", newVoucher);
-        return newVoucher;
+        return newVoucher.getVoucherId();
     }
 
-    public List<Voucher> findAllVouchers() {
+    /**
+     * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
+     */
+    public List<Voucher> findAllVouchers() throws DataAccessException {
         List<Voucher> allVouchers = repository.findAll();
         log.info("find all vouchers. size={}", allVouchers.size());
         return allVouchers;
+    }
+
+    /**
+     * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
+     */
+    public boolean isRegisteredVoucher(UUID voucherId) throws DataAccessException {
+        return repository.findById(voucherId).isPresent();
     }
 }

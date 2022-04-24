@@ -4,15 +4,18 @@ import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherWalletRepository {
 
     void save(Wallet wallet);
 
-    List<Voucher> findVoucherByCustomer(Customer customer);
+    List<Voucher> findVoucherByCustomer(UUID customerId);
 
-    void remove(UUID walletId);
+    void removeWallet(UUID walletId);
 
-    List<Customer> findCustomerByVoucher(Voucher voucher);
+    List<Customer> findCustomerByVoucher(UUID voucherId);
+
+    Optional<Wallet> findWallet(UUID walletId);
 }

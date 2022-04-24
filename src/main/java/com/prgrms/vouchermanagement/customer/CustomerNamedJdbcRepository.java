@@ -24,67 +24,69 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public void save(Customer customer) {
+    public void save(Customer customer)  throws DataAccessException {
         Map<String, Object> paramMap = customerToMap(customer);
         try {
             jdbcTemplate.update(INSERT_SQL, paramMap);
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
+            throw e;
         }
     }
 
     @Override
-    public void update(Customer customer) {
+    public void update(Customer customer) throws DataAccessException {
         Map<String, Object> paramMap = customerToMap(customer);
         try {
             jdbcTemplate.update(UPDATE_SQL, paramMap);
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
+            throw e;
         }
     }
 
     @Override
-    public List<Customer> findAll() {
+    public List<Customer> findAll() throws DataAccessException {
         try {
             return jdbcTemplate.query(SELECT_SQL, customerRowMapper);
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
-            return Collections.emptyList();
+            throw e;
         }
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerID) {
+    public Optional<Customer> findById(UUID customerID) throws DataAccessException {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID,
-                    Collections.singletonMap("customerId", customerID), customerRowMapper));
+                    Collections.singletonMap("customerId", customerID.toString()), customerRowMapper));
         } catch (EmptyResultDataAccessException e) { //조회 결과가 0개인 경우
             return Optional.empty();
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
-            return Optional.empty();
+            throw e;
         }
     }
 
     @Override
-    public List<Customer> findByName(String name) {
+    public List<Customer> findByName(String name) throws DataAccessException {
         try {
             return jdbcTemplate.query(SELECT_BY_NAME_SQL, Collections.singletonMap("name", name), customerRowMapper);
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
-            return Collections.emptyList();
+            throw e;
         }
     }
 
     @Override
-    public Optional<Customer> findByEmail(String email) {
+    public Optional<Customer> findByEmail(String email) throws DataAccessException {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL_SQL, Collections.singletonMap("email", email), customerRowMapper));
         } catch (EmptyResultDataAccessException e) { //조회 결과가 0개인 경우
             return Optional.empty();
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
-            return Optional.empty();
+            throw e;
         }
     }
 
@@ -103,7 +105,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private Map<String, Object> customerToMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId());
+        paramMap.put("customerId", customer.getCustomerId().toString());
         paramMap.put("name", customer.getName());
         paramMap.put("email", customer.getEmail());
         paramMap.put("lastLoginAt", customer.getLastLoginAt());

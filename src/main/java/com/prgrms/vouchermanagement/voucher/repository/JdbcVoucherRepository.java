@@ -3,6 +3,7 @@ package com.prgrms.vouchermanagement.voucher.repository;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -27,34 +28,37 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public void save(Voucher voucher) throws DataAccessException {
         jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<Voucher> findAll() throws DataAccessException {
         return jdbcTemplate.query(SELECT_SQL, voucherRowMapper);
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) throws DataAccessException {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL, Collections.singletonMap("voucherId", voucherId), voucherRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL, Collections.singletonMap("voucherId", voucherId.toString()), voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public void update(Voucher voucher) {
+    public void update(Voucher voucher) throws DataAccessException {
         jdbcTemplate.update(UPDATE_SQL, toParamMap(voucher));
     }
 
     @Override
-    public void remove(Voucher voucher) {
+    public void remove(Voucher voucher) throws DataAccessException {
         jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id=:voucherId", Collections.singletonMap("voucherId", voucher.getVoucherId()));
     }
 
+    /**
+     * 테스트에서 사용
+     */
     public void clear() {
         jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
     }
