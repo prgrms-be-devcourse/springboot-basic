@@ -20,4 +20,10 @@ public abstract class Voucher {
     public VoucherType getVoucherType() {
         return voucherType;
     }
+
+    public int getDiscountValue() {
+        return discountValue;
+    }
+
+    public abstract void validateValueRange();
 }
