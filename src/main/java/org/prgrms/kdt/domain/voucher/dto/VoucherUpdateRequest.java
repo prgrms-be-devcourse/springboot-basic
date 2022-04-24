@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class VoucherUpdateRequest {
+    @NotNull
     private UUID voucherId;
     @NotNull
     private VoucherType voucherType;
