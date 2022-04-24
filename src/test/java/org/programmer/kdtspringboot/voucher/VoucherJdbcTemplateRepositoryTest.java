@@ -111,6 +111,9 @@ class VoucherJdbcTemplateRepositoryTest {
     @DisplayName("모든 Voucher 조회할 수 있음")
     void findAllVoucherTest() /*throws InterruptedException*/ {
         var vouchers = voucherJdbcTemplateRepository.findAll();
+        for(Voucher v : vouchers){
+            System.out.println(v.getInfo());
+        }
         assertThat(vouchers).isNotEmpty();
     }
 
@@ -125,6 +128,20 @@ class VoucherJdbcTemplateRepositoryTest {
         assertThat(getVoucher1).isNotEmpty();
 
         var getVoucher2 = voucherJdbcTemplateRepository.findById(UUID.randomUUID());
+        assertThat(getVoucher2).isEmpty();
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("VoucherId 로 삭제할 수 있음")
+    void deleteVoucherIdTest() {
+        voucher = new PercentDiscountVoucher(UUID.randomUUID(), 30L);
+        voucherJdbcTemplateRepository.insert(voucher);
+        var getVoucher1 = voucherJdbcTemplateRepository.findById(voucher.getVoucherId());
+        assertThat(getVoucher1).isNotEmpty();
+
+        voucherJdbcTemplateRepository.deleteById(voucher.getVoucherId());
+        var getVoucher2 = voucherJdbcTemplateRepository.findById(voucher.getVoucherId());
         assertThat(getVoucher2).isEmpty();
     }
 }
