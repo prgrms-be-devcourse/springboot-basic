@@ -19,13 +19,13 @@ public enum VoucherType {
         @Override
         public Voucher createVoucher(long discountValue, VoucherType voucherType) {
 
-            return null;
+            return new PercentDiscountVoucher(discountValue, voucherType);
         }
 
         @Override
         public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType) {
 
-            return null;
+            return new PercentDiscountVoucher(voucherId, discountValue, voucherType);
         }
     };
 
