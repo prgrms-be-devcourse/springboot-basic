@@ -10,6 +10,10 @@ public class VoucherDto {
             VoucherType voucherType
             ) {
 
+        public Voucher toDomain() {
+
+            return this.voucherType.createVoucher(this.discountValue, this.voucherType);
+        }
     }
 
     public record VoucherResponse(
