@@ -70,6 +70,12 @@ public class CustomerService {
         return findCustomer(email);
     }
 
+    public Customer findById(UUID customerId) {
+        return customerRepository.findById(customerId).orElseThrow(() -> {
+            throw new CustomerIsNotExistsException();
+        });
+    }
+
     public List<Customer> findCustomers() {
         return customerRepository.findAll();
     }
