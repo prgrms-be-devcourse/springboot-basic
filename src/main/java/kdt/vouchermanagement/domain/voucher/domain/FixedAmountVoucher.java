@@ -7,6 +7,10 @@ public class FixedAmountVoucher extends Voucher {
         super(voucherType, discountValue);
     }
 
+    public FixedAmountVoucher(Long voucherId, VoucherType voucherType, int discountValue) {
+        super(voucherId, voucherType, discountValue);
+    }
+
     @Override
     public void validateValueRange() {
         if (this.getDiscountValue() <= MIN_VALUE) {
