@@ -4,7 +4,15 @@ import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public record FixedAmountVoucher(UUID voucherId, long discountAmount) implements Voucher {
+public record FixedAmountVoucher(
+
+        /* 바우처 아이디 */
+        UUID voucherId,
+
+        /* 할인 양 */
+        long discountAmount
+
+) implements Voucher {
 
     public FixedAmountVoucher {
         checkArgument(voucherId != null, "바우처 아이디는 null 일 수 없습니다.");

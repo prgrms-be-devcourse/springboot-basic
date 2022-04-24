@@ -1,7 +1,9 @@
 package org.prgms.wallet;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.prgms.customer.Customer;
 import org.prgms.customer.repository.CustomerRepository;
 import org.prgms.voucher.domain.FixedAmountVoucher;
@@ -10,20 +12,17 @@ import org.prgms.voucher.domain.Voucher;
 import org.prgms.voucher.domain.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Transactional
 class WalletRepositoryTest {
-
-    @Configuration
-    @ComponentScan(basePackages = "org.prgms.wallet")
-    static class Config {
-    }
 
     @Autowired
     private WalletRepository walletRepository;
@@ -45,6 +44,7 @@ class WalletRepositoryTest {
 
     @BeforeAll
     void setup() {
+        // Foreign Key 조건의 만족을 위해 미리 insert 해줌
         customerRepository.save(newCustomer);
         customerRepository.save(newCustomer2);
 
@@ -52,17 +52,13 @@ class WalletRepositoryTest {
         voucherRepository.save(voucher2);
     }
 
-    @BeforeEach
-    void beforeEach() {
-        walletRepository.deleteAll();
-    }
-
     @Test
     @DisplayName("모든 지갑을 조회 & 지갑 저장 테스트")
     void findAllTest() {
         walletRepository.save(wallet1);
         walletRepository.save(wallet3);
-        Assertions.assertThat(walletRepository.findAll()).hasSize(2);
+
+        assertThat(walletRepository.findAll()).containsExactlyInAnyOrder(wallet1, wallet3);
     }
 
     @Test
@@ -72,8 +68,8 @@ class WalletRepositoryTest {
         walletRepository.save(wallet2);
         walletRepository.save(wallet3);
 
-        Assertions.assertThat(walletRepository.findByCustomerId(newCustomer.customerId())).hasSize(2);
-        Assertions.assertThat(walletRepository.findByCustomerId(newCustomer2.customerId())).hasSize(1);
+        assertThat(walletRepository.findByCustomerId(newCustomer.customerId())).containsExactlyInAnyOrder(wallet1, wallet3);
+        assertThat(walletRepository.findByCustomerId(newCustomer2.customerId())).containsExactly(wallet2);
     }
 
     @Test
@@ -83,7 +79,7 @@ class WalletRepositoryTest {
         walletRepository.save(wallet2);
         walletRepository.save(wallet3);
 
-        Assertions.assertThat(walletRepository.findByVoucherId(voucher.getVoucherId())).hasSize(2);
-        Assertions.assertThat(walletRepository.findByVoucherId(voucher2.getVoucherId())).hasSize(1);
+        assertThat(walletRepository.findByVoucherId(voucher.getVoucherId())).containsExactlyInAnyOrder(wallet1, wallet2);
+        assertThat(walletRepository.findByVoucherId(voucher2.getVoucherId())).containsExactly(wallet3);
     }
 }

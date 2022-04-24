@@ -1,13 +1,21 @@
 package org.prgms.voucher.domain;
 
-import com.google.common.base.Preconditions;
-
 import java.util.UUID;
 
-public record PercentDiscountVoucher(UUID voucherId, long discountAmount) implements Voucher {
+import static com.google.common.base.Preconditions.checkArgument;
+
+public record PercentDiscountVoucher(
+
+        /* 바우처 아이디 */
+        UUID voucherId,
+
+        /* 할인 퍼센트 */
+        long discountAmount
+
+) implements Voucher {
 
     public PercentDiscountVoucher {
-        Preconditions.checkArgument(voucherId != null, "바우처 아이디는 null 일 수 없습니다.");
+        checkArgument(voucherId != null, "바우처 아이디는 null 일 수 없습니다.");
     }
 
     @Override
