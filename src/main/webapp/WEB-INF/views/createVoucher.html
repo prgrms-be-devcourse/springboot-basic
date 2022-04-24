@@ -79,17 +79,17 @@
                 <h1 class="h2">Create Voucher</h1>
             </div>
             <div class="table-responsive">
-                <form th:action="@{/create}" method="post">
+                <form id="myform" th:action="@{/create}" method="post">
                         <div class="mb-3">
                             <label for="type" class="form-label">Choose Voucher Type</label>
-                            <select id="type" class="form-select">
+                            <select name="type" id="type" class="form-select" form="myform">
                                 <option>fixed</option>
                                 <option>percent</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="amount" class="form-label">Input Discount Amount</label>
-                            <input type="number" id="amount" class="form-control" placeholder="For a percent voucher, only values from 0 to 100 are possible">
+                            <input name="amount" type="number" form="myform" id="amount" class="form-control" placeholder="For a percent voucher, only values from 0 to 100 are possible">
                         </div>
                         <button type="submit" class="btn btn-primary">Create</button>
                 </form>

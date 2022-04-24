@@ -94,7 +94,7 @@
                         <td th:text="${voucher.type}"/>
                         <td th:text="${voucher.type}"/>
                         <td>
-                            <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/delete/${#strings.toString(${voucher.id})}}'|">Delete</button>
+                            <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/delete/${voucher.id}}'|">Delete</button>
                         </td>
                     </tr>
                     </tbody>

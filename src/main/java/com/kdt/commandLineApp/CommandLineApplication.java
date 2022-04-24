@@ -10,7 +10,6 @@ public class CommandLineApplication {
 	private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
 	public static void main(String[] args) {
-		CommandLineApplication commandLineApplication = new CommandLineApplication();
 		ApplicationContext appContext = new AnnotationConfigApplicationContext(AppContext.class);
 		MainLogic mainLogic = appContext.getBean("mainLogic", MainLogic.class);
 
