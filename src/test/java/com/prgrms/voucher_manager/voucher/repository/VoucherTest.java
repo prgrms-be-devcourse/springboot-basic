@@ -17,19 +17,26 @@ class VoucherTest {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherTest.class);
 
+    long itemValue;
+    FixedAmountVoucher fix;
+    PercentDiscountVoucher percent;
+
+
     @BeforeEach
     void setup(){
+        itemValue = 10000;
+        fix = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        percent = new PercentDiscountVoucher(UUID.randomUUID(), 30);
+
     }
 
     @Test
     @DisplayName("기본적인 voucher 생성 테스트")
     void saveVoucher() {
-        FixedAmountVoucher fix = new FixedAmountVoucher(UUID.randomUUID(), 10);
-        PercentDiscountVoucher percent = new PercentDiscountVoucher(UUID.randomUUID(), 30);
-
         assertThat(true, is(fix.getValue() == 10));
         assertThat(true, is(percent.getValue() == 20));
     }
+
 
 
     @Test
@@ -48,7 +55,16 @@ class VoucherTest {
         logger.info("할인 금액으로 최대값을 넘은 수가 들어온 경우 안됨");
     }
 
+    @Test
+    @DisplayName("할인이 제대로 적용되는지 확인")
+    void applyDiscount() {
+        long discountByFixedAmount = fix.discount(itemValue);
+        long discountByPercentAmount = percent.discount(itemValue);
 
+        logger.info("discount By FixedAmount : {}", discountByFixedAmount);
+        logger.info("discount By PercentAmount : {}", discountByPercentAmount);
+        assertThat(discountByFixedAmount == 9990, is(true));
+        assertThat(discountByPercentAmount == 7000, is(true));
 
-
+    }
 }

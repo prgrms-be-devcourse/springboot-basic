@@ -16,7 +16,7 @@ CREATE TABLE vouchers
     CONSTRAINT      unq_voucher_type   UNIQUE (type, value)
 );
 
-CREATE TABLE wallet
+CREATE TABLE wallets
 (
     voucher_id     BINARY(16),
     customer_id    BINARY(16),

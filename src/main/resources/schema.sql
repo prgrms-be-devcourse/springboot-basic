@@ -21,7 +21,7 @@ CREATE TABLE vouchers
 );
 
 
-CREATE TABLE wallet
+CREATE TABLE wallets
 (
     voucher_id     BINARY(16),
     customer_id    BINARY(16),
