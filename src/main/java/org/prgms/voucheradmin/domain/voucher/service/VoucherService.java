@@ -2,6 +2,7 @@ package org.prgms.voucheradmin.domain.voucher.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
@@ -50,8 +51,12 @@ public class VoucherService {
      * 바우처 목록을 조회하는 메서드 입니다.
      **/
     @Transactional(readOnly = true)
-    public List<Voucher> getVouchers() throws IOException{
-        return voucherRepository.findAll();
+    public List<Voucher> getVouchers(VoucherType...voucherTypes) throws IOException{
+        if(Optional.ofNullable(voucherTypes[0]).isPresent()) {
+            return voucherRepository.findAllWithCondition(voucherTypes[0]);
+        }else{
+            return voucherRepository.findAll();
+        }
     }
 
     /**

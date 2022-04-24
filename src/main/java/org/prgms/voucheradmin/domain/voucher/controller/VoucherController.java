@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
 import org.prgms.voucheradmin.domain.voucher.dto.VouchersResDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
 import org.prgms.voucheradmin.global.common.ResponseDto;
 import org.springframework.http.HttpStatus;
@@ -33,10 +34,10 @@ public class VoucherController {
                 .body(responseDto);
     }
 
-    // 조건에 의한 조회
     @GetMapping
-    public ResponseEntity<ResponseDto> getVouchers() throws IOException {
-        List<Voucher> allVouchers = voucherService.getVouchers();
+    public ResponseEntity<ResponseDto> getVouchers(@RequestParam(required = false) VoucherType voucherType) throws IOException {
+        List<Voucher> allVouchers = voucherService.getVouchers(voucherType);
+
         VouchersResDto vouchersResDto = new VouchersResDto(allVouchers.size(), allVouchers);
 
         ResponseDto<VouchersResDto> responseDto = new ResponseDto(HttpStatus.OK.value(), "get vouchers successfully", vouchersResDto);
@@ -57,8 +58,6 @@ public class VoucherController {
                 .body(responseDto);
     }
 
-
-    // 삭제
     @DeleteMapping("/{voucherId}")
     public ResponseEntity<ResponseDto> deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucher(voucherId);

@@ -54,6 +54,14 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     /**
+     * 조건(voucherType)에 의한 바우처 조회 메서드
+     **/
+    @Override
+    public List<Voucher> findAllWithCondition(VoucherType voucherType) {
+        return jdbcTemplate.query("select * from vouchers where voucher_type = ?", voucherRowMapper, voucherType.getTypeName());
+    }
+
+    /**
      * voucherId에 의한 바우처 조회 메서드
      **/
     @Override
@@ -65,6 +73,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
         }
     }
 
+    /**
+     * 특정 고객에게 할당된 바우처 조회
+     **/
     @Override
     public List<Voucher> findAllocatedVouchers(UUID customerId) {
         return jdbcTemplate.query("select v.voucher_id, v.voucher_type, v.voucher_amount from voucher_wallets as vw join vouchers as v on vw.voucher_id = v.voucher_id where customer_id = UUID_TO_BIN(?)", voucherRowMapper,

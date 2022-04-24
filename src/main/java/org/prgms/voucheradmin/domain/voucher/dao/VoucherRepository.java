@@ -6,11 +6,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
+import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 
 public interface VoucherRepository {
     Voucher create(Voucher voucher) throws IOException;
 
     List<Voucher> findAll() throws IOException;
+
+    default List<Voucher> findAllWithCondition(VoucherType voucherType) {
+        return null;
+    }
 
     default Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
