@@ -36,7 +36,7 @@ public class VoucherControllerTest {
 
             VoucherDto.VoucherRequest requestDto = new VoucherDto.VoucherRequest(100, VoucherType.FIXED_AMOUNT);
 
-            Voucher voucher = new FixedAmountVoucher(1L,100, VoucherType.FIXED_AMOUNT);
+            Voucher voucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT);
 
             @Test
             @DisplayName("Service 의 create 메서드에 파라미터를 넘겨주며 호출한다.")
@@ -78,6 +78,28 @@ public class VoucherControllerTest {
 
                 Assertions.assertThat(response.state()).isEqualTo(ResponseState.BAD_REQUEST);
                 Assertions.assertThat(response.data()).isEqualTo(message);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Controller list 메서드는")
+    class DescribeList {
+
+        @Nested
+        @DisplayName("호출이 되면")
+        class ContextCallThis {
+
+            @Test
+            @DisplayName("Service의 list 메서드를 호출한다.")
+            void itCallServiceList() {
+
+            }
+
+            @Test
+            @DisplayName("바우처 리스트 정보를응답 객체에 담아 반환한다.")
+            void itReturnVoucherList() {
+
             }
         }
     }
