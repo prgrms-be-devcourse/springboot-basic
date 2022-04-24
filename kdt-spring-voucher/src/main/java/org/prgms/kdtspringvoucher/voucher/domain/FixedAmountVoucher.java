@@ -16,10 +16,7 @@ public class FixedAmountVoucher implements Voucher{
     private final LocalDateTime createdAt;
 
     public FixedAmountVoucher(UUID voucherId, Long amount, VoucherType voucherType, LocalDateTime createdAt) {
-        if (amount > MAX_VOUCHER_AMOUNT)
-            throw new IllegalArgumentException("Amount should be under %d".formatted(MAX_VOUCHER_AMOUNT));
-        if (amount < MIN_VOUCHER_AMOUNT)
-            throw new IllegalArgumentException("Amount should be over %d".formatted(MIN_VOUCHER_AMOUNT));
+        validateCreateVoucher(amount);
 
         this.voucherId = voucherId;
         this.amount = amount;
@@ -28,6 +25,7 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     public FixedAmountVoucher(UUID voucherId, UUID customerId, Long amount, VoucherType voucherType, LocalDateTime createdAt) {
+        validateCreateVoucher(amount);
         this.voucherId = voucherId;
         this.customerId = customerId;
         this.amount = amount;
@@ -78,5 +76,17 @@ public class FixedAmountVoucher implements Voucher{
                 ", amount=" + amount +
                 ", voucherType=" + voucherType +
                 ", createdAt=" + createdAt;
+    }
+
+    private void validateCreateVoucher(Long amount) {
+        try {
+            if (amount > MAX_VOUCHER_AMOUNT)
+                throw new IllegalArgumentException("Amount should be under %d".formatted(MAX_VOUCHER_AMOUNT));
+            if (amount < MIN_VOUCHER_AMOUNT)
+                throw new IllegalArgumentException("Amount should be over %d".formatted(MIN_VOUCHER_AMOUNT));
+
+        } catch (IllegalArgumentException exception) {
+            System.out.println("정확하지 않은 amount를 입력했습니다.");
+        }
     }
 }

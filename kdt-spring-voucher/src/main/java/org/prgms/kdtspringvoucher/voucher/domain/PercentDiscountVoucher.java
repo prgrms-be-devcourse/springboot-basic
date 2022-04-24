@@ -16,11 +16,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final LocalDateTime createdAt;
 
     public PercentDiscountVoucher(UUID voucherId, Long percent, VoucherType voucherType, LocalDateTime createdAt) {
-        if (percent <= ZERO)
-            throw new IllegalArgumentException("Percent should be over zero");
-        if (percent > MAX_VOUCHER_PERCENT)
-            throw new IllegalArgumentException("Percent should not be over %d".formatted(MAX_VOUCHER_PERCENT));
-
+        validateCreateVoucher(percent);
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherType = voucherType;
@@ -28,6 +24,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     public PercentDiscountVoucher(UUID voucherId, UUID customerId, Long percent, VoucherType voucherType, LocalDateTime createdAt) {
+        validateCreateVoucher(percent);
         this.voucherId = voucherId;
         this.customerId = customerId;
         this.percent = percent;
@@ -78,5 +75,16 @@ public class PercentDiscountVoucher implements Voucher {
                 ", percent=" + percent +
                 ", voucherType=" + voucherType +
                 ", createdAt=" + createdAt;
+    }
+
+    private void validateCreateVoucher(Long percent) {
+        try {
+            if (percent <= ZERO)
+                throw new IllegalArgumentException("Percent should be over zero");
+            if (percent > MAX_VOUCHER_PERCENT)
+                throw new IllegalArgumentException("Percent should not be over %d".formatted(MAX_VOUCHER_PERCENT));
+        } catch (IllegalArgumentException exception) {
+            System.out.println("정확하지 않은 percent를 입력했습니다.");
+        }
     }
 }
