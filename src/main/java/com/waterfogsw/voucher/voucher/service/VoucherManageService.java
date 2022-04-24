@@ -15,7 +15,7 @@ public class VoucherManageService implements VoucherService {
 
     @Override
     public Voucher addVoucher(Voucher voucher) throws IllegalArgumentException {
-        if(voucher == null) throw new IllegalArgumentException();
+        if (voucher == null) throw new IllegalArgumentException();
         return voucherRepository.save(voucher);
     }
 }
