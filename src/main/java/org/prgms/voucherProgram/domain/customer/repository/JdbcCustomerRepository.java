@@ -76,10 +76,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByVoucherId(UUID voucherId) {
         try {
-            return Optional.ofNullable(
-                jdbcTemplate.queryForObject(
-                    "SELECT * FROM customer c JOIN voucher v on c.customer_id = v.customer_id WHERE voucher_id = UUID_TO_BIN(?)",
-                    DatabaseUtils.customerRowMapper, voucherId));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                "SELECT * FROM customer c JOIN voucher v on c.customer_id = v.customer_id WHERE v.voucher_id = UUID_TO_BIN(?)",
+                DatabaseUtils.customerRowMapper, DatabaseUtils.toBytes(voucherId)));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
