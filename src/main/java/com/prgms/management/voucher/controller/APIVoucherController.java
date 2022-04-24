@@ -1,6 +1,7 @@
 package com.prgms.management.voucher.controller;
 
 import com.prgms.management.common.dto.Response;
+import com.prgms.management.common.exception.WrongRequestParamException;
 import com.prgms.management.voucher.dto.VoucherRequest;
 import com.prgms.management.voucher.dto.VoucherResponse;
 import com.prgms.management.voucher.model.Voucher;
@@ -26,23 +27,30 @@ public class APIVoucherController {
     
     @GetMapping
     public ResponseEntity<Response> voucherList(@RequestParam HashMap<String, String> param) {
-        VoucherType type = null;
-        Timestamp start = null;
-        Timestamp end = null;
+        VoucherType type;
+        Timestamp start, end;
         
         try {
             type = VoucherType.valueOf(param.get("type").toUpperCase());
-        } catch (NullPointerException ignored) {}
+        } catch (IllegalArgumentException e) {
+            throw new WrongRequestParamException("type은 fixed와 percent만 지원합니다.");
+        } catch (NullPointerException e) {
+            type = null;
+        }
         
         try {
             start = Timestamp.valueOf(param.get("start"));
             end = Timestamp.valueOf(param.get("end"));
-        } catch (NullPointerException | IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException e) {
+            throw new WrongRequestParamException("start와 end의 포맷은 'yyyy-mm-dd hh:mm:ss[.fffffffff]' 형식이어야 합니다.");
+        } catch (NullPointerException e) {
+            start = null;
+            end = null;
+        }
         
         List<Voucher> voucherList = voucherService.findVouchers(type, start, end);
         List<VoucherResponse> resultList = voucherList.stream().map(VoucherResponse::of).toList();
         Response response = new Response(HttpStatus.OK, "바우처 조회 성공", resultList);
-        
         return ResponseEntity.ok(response);
     }
     
@@ -65,5 +73,11 @@ public class APIVoucherController {
         voucherService.removeVoucherById(id);
         Response response = new Response(HttpStatus.OK, "바우처 삭제 성공", null);
         return ResponseEntity.ok(response);
+    }
+    
+    @ExceptionHandler(WrongRequestParamException.class)
+    public ResponseEntity<Response> controlWrongRequestParamException(WrongRequestParamException e) {
+        Response response = new Response(HttpStatus.BAD_REQUEST, e.getMessage(), null);
+        return ResponseEntity.badRequest().body(response);
     }
 }
