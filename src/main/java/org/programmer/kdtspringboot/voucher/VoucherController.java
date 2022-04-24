@@ -24,6 +24,29 @@ public class VoucherController {
         return "views/home";
     }
 
+    //Voucher 목록
+    @GetMapping(value = "/vouchers")
+    public String viewVouchersPage(Model model) {
+        var allCustomers = voucherService.findAllVouchers();
+        model.addAttribute("serverTime", LocalDateTime.now());
+        model.addAttribute("vouchers",allCustomers);
+        return "views/vouchers";
+    }
 
+    //새로 생성
+    @GetMapping("/vouchers/new")
+    public String viewNewVoucherPage(){
+        return "views/new-vouchers";
+    }
+
+    @GetMapping("vouchers/search")
+    public String searchVoucherPage(){
+        return "views/search-voucher";
+    }
+
+    @GetMapping("vouchers/delete")
+    public String deleteVoucherPage(){
+        return "views/delete-voucher";
+    }
 
 }
