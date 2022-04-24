@@ -1,15 +1,13 @@
 package org.prgms.voucher;
 
-import org.prgms.validator.DomainValidators;
+import com.google.common.base.Preconditions;
 
 import java.util.UUID;
 
 public record PercentDiscountVoucher(UUID voucherId, long discountAmount) implements Voucher {
 
-    public PercentDiscountVoucher(UUID voucherId, long discountAmount) {
-        this.discountAmount = discountAmount;
-        DomainValidators.notNullAndEmptyCheck(voucherId);
-        this.voucherId = voucherId;
+    public PercentDiscountVoucher {
+        Preconditions.checkArgument(voucherId != null, "바우처 아이디는 null 일 수 없습니다.");
     }
 
     @Override

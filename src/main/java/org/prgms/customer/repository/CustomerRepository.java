@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 @Repository
 public class CustomerRepository {
@@ -62,7 +62,7 @@ public class CustomerRepository {
     public int save(Customer customer) {
         var update = jdbcTemplate.update(INSERT_QUERY, UuidUtils.uuidToBytes(customer.customerId()), customer.name(), customer.email());
 
-        checkArgument(update == 1, "데이터 저장 실패. 유효한 row 갯수가 1이 아님 : %s", update);
+        checkState(update == 1, "데이터 저장 실패. 유효한 row 갯수가 1이 아님 : %s", update);
 
         return update;
     }
@@ -85,7 +85,7 @@ public class CustomerRepository {
                 UuidUtils.uuidToBytes(targetCustomer.customerId())
         );
 
-        checkArgument(update == 1, "데이터 업데이트 실패. 유효한 row 갯수 1이 아님 : %s", update);
+        checkState(update == 1, "데이터 업데이트 실패. 유효한 row 갯수 1이 아님 : %s", update);
     }
 
     private Customer mapToCustomer(ResultSet resultSet, int rowNum) {

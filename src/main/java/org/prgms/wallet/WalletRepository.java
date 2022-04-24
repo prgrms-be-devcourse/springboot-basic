@@ -1,7 +1,6 @@
 package org.prgms.wallet;
 
 import org.prgms.utils.UuidUtils;
-import org.prgms.validator.RepositoryValidator;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,6 +10,8 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
+
+import static com.google.common.base.Preconditions.checkState;
 
 @Repository
 public class WalletRepository {
@@ -22,7 +23,9 @@ public class WalletRepository {
 
     public int save(Wallet wallet) {
         int update = jdbcTemplate.update("INSERT INTO wallet(wallet_id, customer_id, voucher_id) values (?, ?, ?)", UuidUtils.uuidToBytes(wallet.walletId()), UuidUtils.uuidToBytes(wallet.customerId()), UuidUtils.uuidToBytes(wallet.voucherId()));
-        RepositoryValidator.affectedRowMustBeOne(update);
+
+        checkState(update == 1, "데이터 저장 실패. 유효한 row 갯수가 1이 아님 : %s", update);
+
         return update;
     }
 
