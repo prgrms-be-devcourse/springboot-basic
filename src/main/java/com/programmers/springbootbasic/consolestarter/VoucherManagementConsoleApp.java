@@ -234,6 +234,7 @@ public class VoucherManagementConsoleApp implements ConsoleApp {
             default -> System.out.println(INVALID_CONSOLE_PROMPT_INPUT_VALUE_MESSAGE);
         }
     }
+
     private String getValidCustomerId() {
         String customerId = promptConsoleInput("고객 아이디를 입력하세요.");
 
