@@ -15,10 +15,9 @@
 
 <form th:action="@{/vouchers/new}" method="post">
   VoucherType
-  <select class="form-select" aria-label="Default select example">
-    <option selected>Open this select menu</option>
-    <option value="1">FIX</option>
-    <option value="2">PERCENT</option>
+  <select class="form-select" name="type" aria-label="Default select example">
+    <option selected th:value="FIX">FIX</option>
+    <option th:value="PERCENT">PERCENT</option>
   </select>
 
   <div class="mb-3">
