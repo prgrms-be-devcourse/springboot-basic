@@ -18,7 +18,9 @@ public class VoucherController {
     }
 
     public Response<VoucherDto> voucherAdd(VoucherDto request) {
-        if (request == null) return Response.error(ResponseStatus.BAD_REQUEST);
+        if (request == null) {
+            return Response.error(ResponseStatus.BAD_REQUEST);
+        }
 
         try {
             Voucher savedVoucher = voucherService.saveVoucher(request.toDomain());
@@ -29,7 +31,7 @@ public class VoucherController {
     }
 
     public Response<List<VoucherDto>> voucherList() {
-        var voucherList = voucherService.findAllVoucher();
+        final var voucherList = voucherService.findAllVoucher();
 
         List<VoucherDto> voucherDtoList = voucherList
                 .stream()
