@@ -1,10 +1,11 @@
-package org.prgrms.kdtspringvoucher.voucher.service;
+package org.prgrms.kdtspringvoucher.voucher.entity;
 
 import java.util.UUID;
 
 public interface Voucher {
     UUID getVoucherId();
-    void resetVoucherId();
     long discount(long beforeDiscount);
+    long getAmount();
+    int getVoucherTypeNum();
     String getStringForCSV();
 }

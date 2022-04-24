@@ -2,7 +2,8 @@ spring:
   config:
     activate:
       on-profile: default
-database:
-  file:
-    voucher: "voucher_simple_db.csv"
-    black-list: "customer_blacklist.csv"
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_mgmt
+    username: will
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver

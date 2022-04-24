@@ -1,16 +1,18 @@
 package org.prgrms.kdtspringvoucher.voucher.repository;
 
-import org.prgrms.kdtspringvoucher.voucher.service.Voucher;
+import org.prgrms.kdtspringvoucher.voucher.entity.Voucher;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
-    Voucher findById(UUID voucherId);
-
+    Optional<Voucher> findById(UUID voucherId);
     List<Voucher> findAll();
-
-    Voucher save(Voucher voucher) throws IOException;
-
+    List<Voucher> findVouchersByCustomer(UUID customerId);
+    Optional<Voucher> save(Voucher voucher);
+    void allocateVoucherToCustomer(UUID customerId, UUID voucherId);
+    void deleteVoucher(UUID voucherId);
+    void deleteVoucherFromCustomer(UUID customerId, UUID voucherId);
+    boolean validateVoucher(UUID voucherId);
 }

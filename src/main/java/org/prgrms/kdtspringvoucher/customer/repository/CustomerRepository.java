@@ -1,18 +1,18 @@
 package org.prgrms.kdtspringvoucher.customer.repository;
 
-import org.prgrms.kdtspringvoucher.customer.entity.JDBCCustomer;
+import org.prgrms.kdtspringvoucher.customer.entity.Customer;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
-    JDBCCustomer insert(JDBCCustomer customer);
-    JDBCCustomer update(JDBCCustomer customer);
-    List<JDBCCustomer> findAll();
-    Optional<JDBCCustomer> findById(UUID customerId);
-    Optional<JDBCCustomer> findByName(String name);
-    Optional<JDBCCustomer> findByEmail(String email);
-    void deleteAll();
-    int count();
+    Customer insert(Customer customer);
+    Customer update(Customer customer);
+    List<Customer> findAll();
+    List<Customer> findBlackCustomers();
+    List<Customer> findCustomerByVoucher(UUID voucherId);
+    Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findByName(String name);
+    Optional<Customer> findByEmail(String email);
 }
