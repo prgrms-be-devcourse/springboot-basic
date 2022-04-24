@@ -1,7 +1,8 @@
 package com.dojinyou.devcourse.voucherapplication;
 
-import com.dojinyou.devcourse.voucherapplication.voucher.Entity.Voucher;
+import com.dojinyou.devcourse.voucherapplication.voucher.entity.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
+import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherList;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -127,7 +128,7 @@ class ApplicationControllerTest {
                 //given
                 String userInput = "LIST";
                 Command command = Command.of(userInput);
-                Response<List<Voucher>> expectedReturnObject = new Response<>(Response.State.SUCCESS, Arrays.asList(new Voucher[]{}));
+                Response<VoucherList> expectedReturnObject = new Response<>(Response.State.SUCCESS, new VoucherList(Arrays.asList(new Voucher[]{})));
                 when(voucherController.findAll()).thenReturn(expectedReturnObject);
 
                 //when
