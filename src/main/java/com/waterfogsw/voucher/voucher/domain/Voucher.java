@@ -1,19 +1,13 @@
 package com.waterfogsw.voucher.voucher.domain;
 
-public class Voucher {
-    Long id;
-    VoucherType type;
-    int value;
+public abstract class Voucher {
 
-    public Voucher(VoucherType type, int value) {
-        this.type = type;
-        this.value = value;
-    }
+    private final Long id;
+    private final VoucherType type;
 
-    public Voucher(Long id, VoucherType type, int value) {
+    protected Voucher(Long id, VoucherType type) {
         this.id = id;
         this.type = type;
-        this.value = value;
     }
 
     public Long getId() {
@@ -24,7 +18,23 @@ public class Voucher {
         return type;
     }
 
-    public int getValue() {
-        return value;
+    public abstract int getValue();
+
+    public abstract int discount(int before);
+
+    protected abstract void validate(int value);
+
+    public static Voucher of(VoucherType type, int value) {
+        return switch (type) {
+            case FIXED_AMOUNT -> new FixedAmountVoucher(value);
+            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(value);
+        };
+    }
+
+    public static Voucher toEntity(Long id, Voucher domain) {
+        return switch (domain.getType()) {
+            case FIXED_AMOUNT -> new FixedAmountVoucher(id, domain.getValue());
+            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(id, domain.getValue());
+        };
     }
 }
