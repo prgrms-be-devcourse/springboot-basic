@@ -1,11 +1,8 @@
 package kdt.vouchermanagement.domain.voucher.service;
 
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
-import kdt.vouchermanagement.domain.voucher.exception.DuplicateVoucherException;
 import kdt.vouchermanagement.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
@@ -23,14 +20,6 @@ public class VoucherServiceImpl implements VoucherService {
         }
 
         voucher.validateValueRange();
-        validateDuplicateVoucher(voucher);
         return voucherRepository.save(voucher);
-    }
-
-    private void validateDuplicateVoucher(Voucher voucher) {
-        Optional<Voucher> foundVoucher = voucherRepository.findByVoucherTypeAndDiscountValue(voucher.getVoucherType(), voucher.getDiscountValue());
-        foundVoucher.ifPresent(v -> {
-            throw new DuplicateVoucherException("입력한 VoucherType과 Discount 값이 중복되었습니다.");
-        });
     }
 }

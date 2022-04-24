@@ -4,7 +4,6 @@ import kdt.vouchermanagement.domain.voucher.controller.VoucherConsoleController;
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 import kdt.vouchermanagement.domain.voucher.dto.VoucherRequest;
-import kdt.vouchermanagement.domain.voucher.exception.DuplicateVoucherException;
 import kdt.vouchermanagement.domain.voucher.service.VoucherService;
 import kdt.vouchermanagement.global.response.Response;
 import org.junit.jupiter.api.DisplayName;
@@ -87,21 +86,6 @@ public class VoucherConsoleControllerTest {
         VoucherRequest request = new VoucherRequest(VoucherType.FIXED_AMOUNT, 100);
         Response response = Response.of(400, "입력한 DiscountValue 값이 유효하지 않습니다.");
         when(voucherService.createVoucher(any(Voucher.class))).thenThrow(new IllegalArgumentException("입력한 DiscountValue 값이 유효하지 않습니다."));
-
-        //when
-        Response createdResponse = voucherConsoleController.create(request);
-
-        //then
-        assertThat(createdResponse).usingRecursiveComparison().isEqualTo(response);
-    }
-
-    @Test
-    @DisplayName("중복된 바우처가 존재한다는 DuplicateVoucherException이 발생한다._성공")
-    void responseDuplicateVoucherException() {
-        //given
-        VoucherRequest request = new VoucherRequest(VoucherType.FIXED_AMOUNT, 100);
-        Response response = Response.of(400, "입력한 VoucherType과 Discount 값이 중복되었습니다.");
-        when(voucherService.createVoucher(any(Voucher.class))).thenThrow(new DuplicateVoucherException("입력한 VoucherType과 Discount 값이 중복되었습니다."));
 
         //when
         Response createdResponse = voucherConsoleController.create(request);
