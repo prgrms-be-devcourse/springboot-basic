@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -50,15 +51,15 @@ public class APIVoucherController {
         
         List<Voucher> voucherList = voucherService.findVouchers(type, start, end);
         List<VoucherResponse> resultList = voucherList.stream().map(VoucherResponse::of).toList();
-        Response response = new Response(HttpStatus.OK.value(), "바우처 조회 성공", resultList);
+        Response response = new Response(HttpStatus.OK.value(), "바우처 목록 조회 성공", resultList);
         return ResponseEntity.ok(response);
     }
     
     @PostMapping
     public ResponseEntity<Response> voucherAdd(@RequestBody VoucherRequest request) {
         Voucher voucher = voucherService.addVoucher(request.toVoucher());
-        Response response = new Response(HttpStatus.OK.value(), "바우처 등록 성공", VoucherResponse.of(voucher));
-        return ResponseEntity.ok(response);
+        Response response = new Response(HttpStatus.CREATED.value(), "바우처 등록 성공", VoucherResponse.of(voucher));
+        return ResponseEntity.created(URI.create("/api/v1/vouchers/" + voucher.getId().toString())).body(response);
     }
     
     @GetMapping("{id}")
@@ -71,13 +72,6 @@ public class APIVoucherController {
     @DeleteMapping("{id}")
     public ResponseEntity<Response> voucherRemove(@PathVariable("id") UUID id) {
         voucherService.removeVoucherById(id);
-        Response response = new Response(HttpStatus.OK.value(), "바우처 삭제 성공", null);
-        return ResponseEntity.ok(response);
-    }
-    
-    @ExceptionHandler(WrongRequestParamException.class)
-    public ResponseEntity<Response> controlWrongRequestParamException(WrongRequestParamException e) {
-        Response response = new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null);
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.noContent().build();
     }
 }
