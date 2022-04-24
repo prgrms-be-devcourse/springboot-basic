@@ -1,7 +1,7 @@
 package org.prgrms.kdtspringvoucher.cmdapp;
 
 import org.prgrms.kdtspringvoucher.cmdapp.console.Console;
-import org.prgrms.kdtspringvoucher.customer.CustomerService;
+import org.prgrms.kdtspringvoucher.customer.entity.CustomerService;
 import org.prgrms.kdtspringvoucher.customer.entity.Customer;
 import org.prgrms.kdtspringvoucher.voucher.entity.Voucher;
 import org.prgrms.kdtspringvoucher.voucher.entity.VoucherService;

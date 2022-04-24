@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringvoucher.customer;
+package org.prgrms.kdtspringvoucher.customer.entity;
 
 import org.prgrms.kdtspringvoucher.customer.entity.Customer;
 import org.prgrms.kdtspringvoucher.customer.repository.CustomerJDBCRepository;
