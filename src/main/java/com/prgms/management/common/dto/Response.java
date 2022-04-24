@@ -1,7 +1,9 @@
 package com.prgms.management.common.dto;
 
+import org.springframework.http.HttpStatus;
+
 public record Response(
-    Integer code,
+    HttpStatus statusCode,
     String message,
     Object data
 ) {

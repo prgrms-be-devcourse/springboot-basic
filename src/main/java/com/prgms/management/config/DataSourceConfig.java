@@ -1,4 +1,4 @@
-package com.prgms.management.infra;
+package com.prgms.management.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,23 +13,23 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
     @Value("${database.url}")
     private String url;
-
+    
     @Value("${database.username}")
     private String username;
-
+    
     @Value("${database.password}")
     private String password;
-
+    
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url(url)
-                .username(username)
-                .password(password)
-                .type(HikariDataSource.class)
-                .build();
+            .url(url)
+            .username(username)
+            .password(password)
+            .type(HikariDataSource.class)
+            .build();
     }
-
+    
     @Bean
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
         return new NamedParameterJdbcTemplate(dataSource);
