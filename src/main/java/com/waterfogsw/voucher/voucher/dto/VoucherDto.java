@@ -8,8 +8,13 @@ public record VoucherDto(
         int value
 ) {
 
+    public VoucherDto(VoucherType type, int value) {
+        validate(type, value);
+        this.type = type;
+        this.value = value;
+    }
+
     public Voucher toDomain() {
-        validate(type(), value());
         return Voucher.of(type(), value());
     }
 
