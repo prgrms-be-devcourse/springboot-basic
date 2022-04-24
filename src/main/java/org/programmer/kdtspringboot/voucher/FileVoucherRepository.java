@@ -73,4 +73,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         //구현 보류
     }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        //구현보류
+    }
 }

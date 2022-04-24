@@ -77,6 +77,15 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
         jdbcTemplate.update("delete from vouchers");
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update("delete from vouchers where voucher_id = UNHEX(REPLACE(?, '-', ''))",
+                voucherId.toString().getBytes()
+                );
+    }
+
+
+
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("value");

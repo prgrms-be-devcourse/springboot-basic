@@ -24,8 +24,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        //구현 보류
-        return null;
+        storage.put(voucher.getVoucherId(),voucher);
+        return voucher;
     }
 
     @Override
@@ -35,12 +35,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        //구현 보류
-        return Optional.empty();
+        Optional<Voucher> voucher = Optional.ofNullable(storage.get(voucherId));
+        return voucher;
     }
 
     @Override
     public void deleteAll() {
-        //구현 보류
+        storage.clear();
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        storage.remove(voucherId);
     }
 }
