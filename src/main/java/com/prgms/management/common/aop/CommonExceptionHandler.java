@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CommonExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Response> controlRuntimeExceptions(RuntimeException e) {
-        Response response = new Response(HttpStatus.BAD_REQUEST, e.getMessage(), null);
+        Response response = new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null);
         return ResponseEntity.badRequest().body(response);
     }
 }

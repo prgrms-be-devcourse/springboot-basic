@@ -51,17 +51,20 @@ public class FileVoucherRepository implements VoucherRepository {
     
     @Override
     public List<Voucher> findByType(VoucherType type) {
-        return null;
+        // TODO Type에 따른 바우처 목록을 CSV 파일에서 찾아서 반환
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public List<Voucher> findByDate(Timestamp start, Timestamp end) {
-        return null;
+        // TODO 생성일에 따른 바우처 목록을 CSV 파일에서 찾아서 반환
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public List<Voucher> findByTypeAndDate(VoucherType type, Timestamp start, Timestamp end) {
-        return null;
+        // TODO 생성일과 Type에 따른 바우처 목록을 CSV 파일에서 찾아서 반환
+        throw new UnsupportedOperationException();
     }
     
     @Override
@@ -98,6 +101,7 @@ public class FileVoucherRepository implements VoucherRepository {
     
     @Override
     public void removeById(UUID voucherId) {
-        // 구현 보류
+        // TODO ID에 따른 바우처 정보를 CSV 파일에서 삭제
+        throw new UnsupportedOperationException();
     }
 }

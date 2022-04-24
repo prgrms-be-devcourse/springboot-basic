@@ -28,44 +28,32 @@ public class FileCustomerRepository implements CustomerRepository {
     
     @Override
     public Customer save(Customer customer) {
-        // 구현 보류
-        return null;
+        // TODO 고객 정보를 CSV 파일에 저장
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public Customer update(Customer customer) {
-        // 구현 보류
-        return null;
+        // TODO 고객 정보를 CSV 파일에서 수정
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public Customer findById(UUID id) {
-        // 구현 보류
-        return null;
+        // TODO ID에 따른 고객 정보를 CSV 파일에서 찾아서 반환
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public Customer findByEmail(String email) {
-        // 구현 보류
-        return null;
+        // TODO Email에 따른 고객 정보를 CSV 파일에서 찾아서 반환
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public List<Customer> findByType(CustomerType type) {
-        // 구현 보류
-        List<Customer> customers = new ArrayList<>();
-        
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] array = line.split(",");
-                customers.add(new Customer(CustomerType.BLACK, UUID.fromString(array[0]), array[1]));
-            }
-        } catch (IOException e) {
-            throw new EmptyListException(e.getMessage());
-        }
-        
-        return customers;
+        // TODO Type에 따른 고객 목록을 CSV 파일에서 찾아서 반환
+        throw new UnsupportedOperationException();
     }
     
     @Override
@@ -87,11 +75,13 @@ public class FileCustomerRepository implements CustomerRepository {
     
     @Override
     public void removeById(UUID id) {
-        // 구현 보류
+        // TODO ID에 따른 고객 정보를 CSV 파일에서 삭제
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public void removeAll() {
-        // 구현 보류
+        // TODO 전체 고객 정보를 CSV 파일에서 삭제
+        throw new UnsupportedOperationException();
     }
 }

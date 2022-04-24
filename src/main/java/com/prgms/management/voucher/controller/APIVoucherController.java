@@ -50,34 +50,34 @@ public class APIVoucherController {
         
         List<Voucher> voucherList = voucherService.findVouchers(type, start, end);
         List<VoucherResponse> resultList = voucherList.stream().map(VoucherResponse::of).toList();
-        Response response = new Response(HttpStatus.OK, "바우처 조회 성공", resultList);
+        Response response = new Response(HttpStatus.OK.value(), "바우처 조회 성공", resultList);
         return ResponseEntity.ok(response);
     }
     
     @PostMapping
     public ResponseEntity<Response> voucherAdd(@RequestBody VoucherRequest request) {
         Voucher voucher = voucherService.addVoucher(request.toVoucher());
-        Response response = new Response(HttpStatus.OK, "바우처 등록 성공", VoucherResponse.of(voucher));
+        Response response = new Response(HttpStatus.OK.value(), "바우처 등록 성공", VoucherResponse.of(voucher));
         return ResponseEntity.ok(response);
     }
     
     @GetMapping("{id}")
     public ResponseEntity<Response> voucherDetail(@PathVariable("id") UUID id) {
         Voucher voucher = voucherService.findVoucherById(id);
-        Response response = new Response(HttpStatus.OK, "바우처 조회 성공", VoucherResponse.of(voucher));
+        Response response = new Response(HttpStatus.OK.value(), "바우처 조회 성공", VoucherResponse.of(voucher));
         return ResponseEntity.ok(response);
     }
     
     @DeleteMapping("{id}")
     public ResponseEntity<Response> voucherRemove(@PathVariable("id") UUID id) {
         voucherService.removeVoucherById(id);
-        Response response = new Response(HttpStatus.OK, "바우처 삭제 성공", null);
+        Response response = new Response(HttpStatus.OK.value(), "바우처 삭제 성공", null);
         return ResponseEntity.ok(response);
     }
     
     @ExceptionHandler(WrongRequestParamException.class)
     public ResponseEntity<Response> controlWrongRequestParamException(WrongRequestParamException e) {
-        Response response = new Response(HttpStatus.BAD_REQUEST, e.getMessage(), null);
+        Response response = new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null);
         return ResponseEntity.badRequest().body(response);
     }
 }
