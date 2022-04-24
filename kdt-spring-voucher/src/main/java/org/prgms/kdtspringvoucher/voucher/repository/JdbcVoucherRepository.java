@@ -38,7 +38,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         if (save != 1) {
             throw new RuntimeException("Nothing was saved");
         }
-        return findById(voucher.getVoucherId()).orElse(null);
+        return voucher;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         if (update != 1){
             throw new RuntimeException("Nothing was updated");
         }
-        return findById(voucher.getVoucherId()).orElse(null);
+        return voucher;
     }
 
     @Override
@@ -68,10 +68,15 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findByCustomerId(UUID customerId) {
-        return namedParameterJdbcTemplate.query(
-                "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)",
-                Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                getVoucherRowMapper());
+        try {
+            return namedParameterJdbcTemplate.query(
+                    "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)",
+                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                    getVoucherRowMapper());
+        } catch (EmptyResultDataAccessException exception) {
+            logger.error("Got empty result", exception);
+            return null;
+        }
     }
 
     @Override
@@ -110,11 +115,11 @@ public class JdbcVoucherRepository implements VoucherRepository{
             Long amount = resultSet.getLong("amount");
             VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
             LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-            return createVoucher(voucherId,customerId, amount, voucherType, createdAt);
+            return createVoucherFromDB(voucherId,customerId, amount, voucherType, createdAt);
         };
     }
 
-    private Voucher createVoucher(UUID voucherId, UUID customerId, Long amount, VoucherType voucherType, LocalDateTime createdAt) {
+    private Voucher createVoucherFromDB(UUID voucherId, UUID customerId, Long amount, VoucherType voucherType, LocalDateTime createdAt) {
         if (voucherType == VoucherType.FIXED) {
             return new FixedAmountVoucher(voucherId,customerId, amount, voucherType, createdAt);
         }
@@ -127,9 +132,5 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private UUID toUUID(byte[] voucherId) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(voucherId);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
-    private boolean haveDuplicateVoucherId(Voucher voucher) {
-        return findById(voucher.getVoucherId()).isPresent();
     }
 }
