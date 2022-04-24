@@ -50,6 +50,28 @@ public class VoucherServiceTest {
         }
 
         @Nested
+        @DisplayName("create 기능을 테스트 할 때 바우처 타입 Percent, 할인값 101 을 인자로 받으면")
+        class ContextReceivePercentVoucherTypeAndWrongValue {
+
+            @Test
+            @DisplayName("잘못된 할인값 메시지와 예외를 던진다.")
+            void itIllegalArgumentExceptionThrow() {
+
+            }
+        }
+
+        @Nested
+        @DisplayName("create 기능을 테스트 할 때 바우처 타입 Percent, 할인값 -1 을 인자로 받으면")
+        class ContextReceivePercentVoucherTypeAndNegativeValue {
+
+            @Test
+            @DisplayName("잘못된 할인값 메시지와 예외를 던진다.")
+            void itIllegalArgumentExceptionThrow() {
+
+            }
+        }
+
+        @Nested
         @DisplayName("create 기능을 테스트 할 때 바우처 타입이 null이면")
         class ContextReceiveNullVoucherType {
 
@@ -92,6 +114,17 @@ public class VoucherServiceTest {
 
                 Assertions.assertThat(voucher.getVoucherType()).isEqualTo(checkVoucher.getVoucherType());
                 Assertions.assertThat(voucher.getDiscountValue()).isEqualTo(checkVoucher.getDiscountValue());
+            }
+        }
+
+        @Nested
+        @DisplayName("create 기능을 테스트 할 때 바우처 타입 Percent, 할인값 50 을 인자로 받으면")
+        class ContextReceivePercentVoucherTypeAndValue {
+
+            @Test
+            @DisplayName("생성된 바우처를 반환한다.")
+            void itCreateVoucherAndReturn() {
+
             }
         }
     }
