@@ -3,7 +3,6 @@ package com.prgms.management.voucher.repository;
 import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.PercentDiscountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
-import com.prgms.management.voucher.exception.VoucherException;
 import com.prgms.management.voucher.exception.VoucherListEmptyException;
 import com.prgms.management.voucher.exception.VoucherNotFoundException;
 import com.prgms.management.voucher.exception.VoucherNotSaveException;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-@Profile({"local", "default"})
+@Profile({"dev"})
 public class FileVoucherRepository implements VoucherRepository {
     private final Resource resource;
 
@@ -29,7 +28,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(UUID voucherId) throws VoucherException {
+    public Voucher findById(UUID voucherId) {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -49,7 +48,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() throws VoucherException {
+    public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
             String line;
@@ -70,7 +69,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) throws VoucherException {
+    public Voucher save(Voucher voucher) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(resource.getFile(), true))) {
             bufferedWriter.write(voucher.getStringForCSV());
             bufferedWriter.newLine();
@@ -78,5 +77,10 @@ public class FileVoucherRepository implements VoucherRepository {
             throw new VoucherNotSaveException();
         }
         return voucher;
+    }
+
+    @Override
+    public void removeById(UUID voucherId) {
+        // 구현 보류
     }
 }

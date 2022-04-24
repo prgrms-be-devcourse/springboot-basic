@@ -20,13 +20,6 @@ public class SimpleVoucherService implements VoucherService {
     }
 
     public Voucher saveVoucher(Voucher voucher) throws VoucherException {
-        while (true) {
-            try {
-                voucherRepository.findById(voucher.getVoucherId());
-            } catch (VoucherException e) {
-                return voucherRepository.save(voucher);
-            }
-            voucher.resetVoucherId();
-        }
+        return voucherRepository.save(voucher);
     }
 }

@@ -1,8 +1,6 @@
 package com.prgms.management.command.io;
 
-import com.prgms.management.command.exception.CommandLineException;
 import com.prgms.management.customer.model.Customer;
-import com.prgms.management.voucher.entity.FixedAmountVoucher;
 import com.prgms.management.voucher.entity.Voucher;
 import com.prgms.management.voucher.entity.VoucherType;
 import org.beryx.textio.TextIO;
@@ -19,8 +17,11 @@ public class Console implements Input, Output<Voucher> {
     @Override
     public String getCommand() {
         printString("=========== Voucher Program ===========");
-        Arrays.stream(CommandType.values()).forEach(value -> printString(value.getScript()));
+        Arrays.stream(CommandType.values())
+                .filter(c -> c != CommandType.ERROR)
+                .forEach(value -> printString(value.getConsoleScript()));
         printString("");
+
         return textIO.newStringInputReader()
                 .withDefaultValue("list")
                 .read("Command");
@@ -29,7 +30,9 @@ public class Console implements Input, Output<Voucher> {
     @Override
     public Voucher getVoucher() {
         printString("=================== Create Voucher ===================");
-        Arrays.stream(VoucherType.values()).forEach(value -> printString(value.getScript()));
+        Arrays.stream(VoucherType.values())
+                .filter(v -> v != VoucherType.ERROR)
+                .forEach(value -> printString(value.getConsoleScript()));
         printString("");
 
         String command = textIO.newStringInputReader()
@@ -37,17 +40,7 @@ public class Console implements Input, Output<Voucher> {
                 .read("Voucher type").toLowerCase();
 
         VoucherType voucherType = VoucherType.of(command);
-
-        if (voucherType == null) {
-            throw new CommandLineException();
-        }
-
-        Integer paramNum = textIO.newIntInputReader()
-                .withMinVal(FixedAmountVoucher.MIN_AMOUNT)
-                .withMaxVal(FixedAmountVoucher.MAX_AMOUNT)
-                .read(voucherType.getNextCommand());
-
-        return voucherType.createVoucher(paramNum);
+        return voucherType.createVoucherFromConsole(textIO);
     }
 
     @Override

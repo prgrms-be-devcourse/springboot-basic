@@ -1,16 +1,29 @@
 package com.prgms.management.voucher.entity;
 
+import com.prgms.management.command.exception.WrongCommandException;
+import org.beryx.textio.TextIO;
+
 public enum VoucherType {
     PERCENT("percent", "to create a percent discount voucher.", "Percent") {
         @Override
-        public Voucher createVoucher(Integer num) {
-            return new PercentDiscountVoucher(num);
+        public Voucher createVoucherFromConsole(TextIO textIO) {
+            Integer paramNum = textIO.newIntInputReader()
+                    .read(getNextCommand());
+            return new PercentDiscountVoucher(paramNum);
         }
     },
     FIXED("fixed", "to create a fixed amount voucher.", "Amount") {
         @Override
-        public Voucher createVoucher(Integer num) {
-            return new FixedAmountVoucher(num);
+        public Voucher createVoucherFromConsole(TextIO textIO) {
+            Integer paramNum = textIO.newIntInputReader()
+                    .read(getNextCommand());
+            return new FixedAmountVoucher(paramNum);
+        }
+    },
+    ERROR("error", "this is error command", "none") {
+        @Override
+        public Voucher createVoucherFromConsole(TextIO textIO) {
+            throw new WrongCommandException();
         }
     };
 
@@ -25,17 +38,17 @@ public enum VoucherType {
     }
 
     public static VoucherType of(String command) {
-        switch (command.toLowerCase()) {
-            case "fixed":
+        switch (command.toUpperCase()) {
+            case "FIXED":
                 return FIXED;
-            case "percent":
+            case "PERCENT":
                 return PERCENT;
             default:
-                return null;
+                return ERROR;
         }
     }
 
-    public String getScript() {
+    public String getConsoleScript() {
         return "Type **" + command + "** " + description;
     }
 
@@ -43,5 +56,5 @@ public enum VoucherType {
         return nextCommand;
     }
 
-    public abstract Voucher createVoucher(Integer num);
+    public abstract Voucher createVoucherFromConsole(TextIO textIO);
 }
