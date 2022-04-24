@@ -94,9 +94,7 @@ public class TemplateVoucherController {
 
     @PostMapping("/delete")
     public String deleteVoucher(@ModelAttribute VoucherDto voucherDto) {
-        UUID voucherId = voucherDto.getVoucherId();
-        UUID customerId = voucherDto.getCustomerId();
-        voucherService.deleteOneVoucherByCustomer(customerId, voucherId);
+        voucherService.deleteOneVoucherByCustomer(voucherDto.getCustomerId(), voucherDto.getVoucherId());
         return "redirect:";
     }
 

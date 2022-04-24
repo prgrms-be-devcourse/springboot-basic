@@ -34,8 +34,7 @@ public class SimpleVoucherController {
 
     public void useVoucher(VoucherDto voucherDto) {
         Voucher voucher = voucherService.findById(voucherDto.getVoucherId());
-        voucher.useVoucher();
-        voucherService.updateVoucher(voucher);
+        voucherService.useVoucher(voucher);
     }
 
     public VoucherDto findById(VoucherDto voucherDto) {
