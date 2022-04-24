@@ -53,10 +53,7 @@ class WalletServiceTest {
     void showVouchersAssignedToCustomerTest() {
         when(voucherRepository.findByCustomerId(customer.getCustomerId())).thenReturn(List.of(voucher));
 
-        List<Voucher> vouchers = walletService.showVouchersAssignedToCustomer(customer);
-
-        assertThat(vouchers.isEmpty(), is(false));
-        assertThat(vouchers.size(), is(1));
+        walletService.showVouchersAssignedToCustomer(customer);
     }
 
     @Test
@@ -64,8 +61,6 @@ class WalletServiceTest {
     void showCustomerByVoucherIdTest() {
         when(customerRepository.findById(voucher.getCustomerId())).thenReturn(Optional.of(customer));
 
-        Customer findCustomer = walletService.showCustomerByVoucherId(voucher);
-
-        assertThat(findCustomer, is(customer));
+        walletService.showCustomerByVoucherId(voucher);
     }
 }
