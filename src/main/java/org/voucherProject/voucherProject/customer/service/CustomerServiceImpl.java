@@ -3,6 +3,7 @@ package org.voucherProject.voucherProject.customer.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.voucherProject.voucherProject.customer.entity.Customer;
 import org.voucherProject.voucherProject.customer.repository.CustomerDao;
 import org.voucherProject.voucherProject.voucher.entity.VoucherType;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerDao customerRepository;

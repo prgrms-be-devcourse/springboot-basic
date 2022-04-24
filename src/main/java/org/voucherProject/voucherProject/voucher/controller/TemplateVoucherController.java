@@ -102,8 +102,8 @@ public class TemplateVoucherController {
 
     @GetMapping("/list-type")
     public String findByVoucherType(@RequestParam("type") String voucherType, Model model) {
-        List<Voucher> byVoucherType = voucherService.findByVoucherType(VoucherType.valueOf(voucherType.toUpperCase()));
-        List<VoucherDto> voucherDtos = byVoucherType.stream().map(VoucherDto::of).toList();
+        List<Voucher> listByVoucherType = voucherService.findByVoucherType(VoucherType.valueOf(voucherType.toUpperCase()));
+        List<VoucherDto> voucherDtos = listByVoucherType.stream().map(VoucherDto::of).toList();
         model.addAttribute("voucherDtos", voucherDtos);
         return "list";
     }

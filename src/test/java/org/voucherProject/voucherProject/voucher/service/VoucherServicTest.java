@@ -152,4 +152,55 @@ public class VoucherServicTest {
     public void findByNullVoucherType() throws Exception {
         assertThrows(NullPointerException.class, () -> voucherService.findByVoucherType(null));
     }
+
+    @Nested
+    @DisplayName("바우처 사용")
+    class useVoucher {
+        @Test
+        @DisplayName("바우처 정상적인 사용 -> 성공")
+        public void useVoucher() throws Exception {
+            voucherService.useVoucher(voucher);
+            assertThat(voucherService.findById(voucher.getVoucherId()).getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
+        }
+
+        @Test
+        @DisplayName("바우처 사용에 null 입력 -> NPE")
+        public void useNull() throws Exception {
+            assertThrows(NullPointerException.class, () -> voucherService.useVoucher(null));
+        }
+
+        @Test
+        @DisplayName("바우처 사용에 만료된 바우처 입력 -> RTE")
+        public void useExpiredVoucher() throws Exception {
+            voucherService.useVoucher(voucher);
+            assertThrows(RuntimeException.class, () -> voucherService.useVoucher(voucher));
+        }
+    }
+
+    @Nested
+    @DisplayName("바우처 사용 취소")
+    class cancelVoucher {
+        @Test
+        @DisplayName("바우처 정상적인 취소")
+        public void useVoucher() throws Exception {
+            voucher.useVoucher();
+            voucherService.cancelVoucher(voucher);
+            assertThat(voucherService.findById(voucher.getVoucherId()).getVoucherStatus()).isEqualTo(VoucherStatus.VALID);
+        }
+
+        @Test
+        @DisplayName("바우처 사용취소에 null 입력 -> NPE")
+        public void useNull() throws Exception {
+            voucher.useVoucher();
+            assertThrows(NullPointerException.class, () -> voucherService.cancelVoucher(null));
+        }
+
+        @Test
+        @DisplayName("바우처 사용 취소에 유효한 바우처 입력 -> RTE")
+        public void useExpiredVoucher() throws Exception {
+            voucher.useVoucher();
+            voucherService.cancelVoucher(voucher);
+            assertThrows(RuntimeException.class, () -> voucherService.cancelVoucher(voucher));
+        }
+    }
 }
