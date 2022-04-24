@@ -30,6 +30,6 @@ public class VoucherService {
 
     public List<Voucher> list() {
 
-        return null;
+        return voucherRepository.findAll();
     }
 }

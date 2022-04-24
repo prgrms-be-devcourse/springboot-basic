@@ -3,6 +3,7 @@ package org.prgrms.voucher.repository;
 import org.prgrms.voucher.models.Voucher;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,6 +26,12 @@ public class VoucherMemoryRepository implements VoucherRepository {
         store.put(voucher.getVoucherId(), voucher);
 
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+
+        return null;
     }
 
     private Voucher newVoucher(Voucher voucher){
