@@ -1,12 +1,11 @@
 package com.prgrms.management.voucher.domain;
 
 import com.prgrms.management.config.ErrorMessageType;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-@Getter
+@Data
+@NoArgsConstructor
 public class VoucherRequest {
     private VoucherType voucherType;
     private Long amount;
@@ -16,14 +15,8 @@ public class VoucherRequest {
         this.amount = toLong(amount);
     }
 
-    public static Voucher of(VoucherRequest voucherRequest) {
-        return Voucher.builder()
-                .voucherId(UUID.randomUUID())
-                .amount(voucherRequest.getAmount())
-                .createdAt(LocalDateTime.now())
-                .voucherType(voucherRequest.getVoucherType())
-                .customerId(null)
-                .build();
+    public Voucher of() {
+        return new Voucher(this.getAmount(), this.getVoucherType());
     }
 
     private long toLong(String inputAmount) {

@@ -39,16 +39,16 @@ public class CustomerService {
     }
 
     public void updateCustomer(UUID customerId, String customerName) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
         customer.setName(customerName);
         customerRepository.updateName(customer);
     }
 
     public Customer findById(UUID customerId) {
-        return customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
+        return customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
     }
 
     public Customer findByEmail(String email) {
-        return customerRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
+        return customerRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
     }
 }

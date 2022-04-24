@@ -1,8 +1,6 @@
 package com.prgrms.management.voucher.repository;
 
 import com.prgrms.management.customer.domain.Customer;
-import com.prgrms.management.customer.domain.CustomerRequest;
-import com.prgrms.management.customer.repository.CustomerRepository;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherRequest;
 import org.junit.jupiter.api.*;
@@ -31,8 +29,8 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     void setup() {
-        voucher = VoucherRequest.of(new VoucherRequest("fixed", "1000"));
-        voucherTwo = VoucherRequest.of(new VoucherRequest("percent", "90"));
+        voucher = new VoucherRequest("fixed", "1000").of();
+        voucherTwo = new VoucherRequest("percent", "90").of();
         randomId = UUID.randomUUID();
         saveVoucher = voucherRepository.save(voucher);
         voucherRepository.save(voucherTwo);
@@ -43,6 +41,15 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.deleteAll();
     }
 
+    @Test
+    @Order(2)
+    void 성공_여러명의_Vouchers_검색() {
+        //when
+        List<Voucher> vouchers = voucherRepository.findAll();
+        //then
+        assertThat(vouchers.size()).isEqualTo(2);
+    }
+
     @Nested
     @Order(1)
     class Voucher_정보_저장 {
@@ -51,16 +58,6 @@ class JdbcVoucherRepositoryTest {
             //then
             assertThat(saveVoucher).isEqualTo(voucher);
         }
-    }
-
-
-    @Test
-    @Order(2)
-    void 성공_여러명의_Vouchers_검색() {
-        //when
-        List<Voucher> vouchers = voucherRepository.findAll();
-        //then
-        assertThat(vouchers.size()).isEqualTo(2);
     }
 
     @Nested

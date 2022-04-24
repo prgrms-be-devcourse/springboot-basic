@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 class VoucherTypeTest {
 
     @Test
-    void Fixed_Voucher_Type_입력() {
+    void 성공_Voucher_Type_입력() {
         //given
         String fixedType = "fixed";
         //when
@@ -18,17 +18,7 @@ class VoucherTypeTest {
     }
 
     @Test
-    void Percent_Voucher_Type_입력() {
-        //given
-        String percentType = "percent";
-        //when
-        VoucherType voucherType = VoucherType.of(percentType);
-        //then
-        Assertions.assertThat(voucherType).isEqualTo(VoucherType.PERCENT);
-    }
-
-    @Test
-    void 잘못된_Voucher_Type_입력() {
+    void 실패_잘못된_Voucher_Type_입력() {
         //given
         String inputVoucherType = "zero";
         //then

@@ -1,0 +1,7 @@
+15:36:27.999 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.017 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.078 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.092 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.272 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.292 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+15:36:28.306 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.

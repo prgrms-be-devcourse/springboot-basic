@@ -53,30 +53,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    "select * from vouchers where voucher_id = UUID_TO_BIN(?)",
-                    voucherRowMapper,
-                    voucherId.toString().getBytes()));
-        } catch (EmptyResultDataAccessException e) {
-            logger.info("NotFoundException:{}", ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage());
-            return Optional.empty();
-        }
-    }
-
-    @Override
-    public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
-        int update = jdbcTemplate.update("update vouchers set customer_id = UUID_TO_BIN(?) where voucher_id = UUID_TO_BIN(?)",
-                customerId.toString().getBytes(),
-                voucherId.toString().getBytes()
-        );
-        if (update != 1) {
-            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
-        }
-    }
-
-    @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
     }
@@ -106,6 +82,38 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<UUID> findCustomerIdByVoucherType(VoucherType voucherType) {
+        List<Voucher> query = jdbcTemplate.query("select * from vouchers where voucher_type = ?",
+                voucherRowMapper,
+                voucherType.equals(VoucherType.FIXED) ? "fixed" : "percent");
+        return query.stream().map(Voucher::getVoucherId).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "select * from vouchers where voucher_id = UUID_TO_BIN(?)",
+                    voucherRowMapper,
+                    voucherId.toString().getBytes()));
+        } catch (EmptyResultDataAccessException e) {
+            logger.info("NotFoundException:{}", ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
+        int update = jdbcTemplate.update("update vouchers set customer_id = UUID_TO_BIN(?) where voucher_id = UUID_TO_BIN(?)",
+                customerId.toString().getBytes(),
+                voucherId.toString().getBytes()
+        );
+        if (update != 1) {
+            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
+        }
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
         jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(?)",
                 voucherId.toString().getBytes());
@@ -114,13 +122,5 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from vouchers");
-    }
-
-    @Override
-    public List<UUID> findCustomerIdByVoucherType(VoucherType voucherType) {
-        List<Voucher> query = jdbcTemplate.query("select * from vouchers where voucher_type = ?",
-                voucherRowMapper,
-                voucherType.equals(VoucherType.FIXED) ? "fixed" : "percent");
-        return query.stream().map(Voucher::getVoucherId).collect(Collectors.toList());
     }
 }

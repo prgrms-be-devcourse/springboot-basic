@@ -1,6 +1,6 @@
 package com.prgrms.management.config.common.service;
 
-import com.prgrms.management.config.common.CommonResponse;
+import com.prgrms.management.config.ErrorMessageType;
 import com.prgrms.management.config.common.CommonResult;
 import com.prgrms.management.config.common.ListResult;
 import com.prgrms.management.config.common.SingleResult;
@@ -10,6 +10,8 @@ import java.util.List;
 
 @Service
 public class ResponseService {
+    private static final String SUCCESS = "성공";
+    private static final String FAIL = "실패";
 
     public <T> SingleResult<T> getSingleResult(T data) {
         SingleResult<T> result = new SingleResult<>();
@@ -31,21 +33,21 @@ public class ResponseService {
         return result;
     }
 
-    public CommonResult getFailResult(CommonResponse commonResponse) {
+    public CommonResult getFailResult(ErrorMessageType type) {
         CommonResult result = new CommonResult();
-        setFailResult(commonResponse, result);
+        setFailResult(result);
         return result;
     }
 
-    private void setFailResult(CommonResponse commonResponse, CommonResult result) {
+    private void setFailResult(CommonResult result) {
         result.setSuccess(false);
-        result.setCode(400);
-        result.setMsg("실패");
+        result.setCode(-1);
+        result.setMsg(FAIL);
     }
 
     private void setSuccessResult(CommonResult result) {
         result.setSuccess(true);
         result.setCode(200);
-        result.setMsg("성공");
+        result.setMsg(SUCCESS);
     }
 }

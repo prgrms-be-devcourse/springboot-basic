@@ -23,7 +23,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
-        Voucher voucher = VoucherRequest.of(voucherRequest);
+        Voucher voucher = voucherRequest.of();
         return voucherRepository.save(voucher);
     }
 
@@ -31,12 +31,8 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public void createVoucherByCustomerId(UUID voucherId, UUID customerId) {
-        voucherRepository.updateVoucherByCustomerId(voucherId, customerId);
-    }
-
-    public void deleteVoucherByCustomerId(UUID customerId) {
-        voucherRepository.deleteById(customerId);
+    public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDate date) {
+        return voucherRepository.findAllByVoucherTypeOrCreatedAt(voucherType, date);
     }
 
     public List<UUID> findCustomersByVoucherType(VoucherType voucherType) {
@@ -44,11 +40,15 @@ public class VoucherService {
     }
 
     public Voucher findById(UUID voucherId) {
-        return voucherRepository.findById(voucherId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_FOUND_EXCEPTION.getMessage()));
+        return voucherRepository.findById(voucherId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
     }
 
-    public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDate date) {
-        return voucherRepository.findAllByVoucherTypeOrCreatedAt(voucherType, date);
+    public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
+        voucherRepository.updateVoucherByCustomerId(voucherId, customerId);
+    }
+
+    public void deleteVoucherByCustomerId(UUID customerId) {
+        voucherRepository.deleteById(customerId);
     }
 
     public void deleteById(UUID voucherId) {

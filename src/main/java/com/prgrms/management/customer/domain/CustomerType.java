@@ -12,6 +12,6 @@ public enum CustomerType {
         return Arrays.stream(CustomerType.values())
                 .filter(e -> e.name().equals(input.toUpperCase()))
                 .findAny()
-                .orElseThrow(()-> new NoSuchElementException(CustomerType.class+ ErrorMessageType.NOT_CUSTOMER_TYPE.getMessage()));
+                .orElseThrow(()-> new NoSuchElementException(CustomerType.class+ ErrorMessageType.NOT_EXIST_CUSTOMER_TYPE.getMessage()));
     }
 }

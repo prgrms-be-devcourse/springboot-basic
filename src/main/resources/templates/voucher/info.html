@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>infomation</title>
+</head>
+<body>
+<table border="1" class="table table-striped">
+    <tr class="text-center">
+        <th>voucherId</th>
+        <th>amount</th>
+        <th>voucherType</th>
+        <th>createdAt</th>
+        <th>customerId</th>
+        <th></th>
+    </tr>
+    <tr class="text-center" th:each="voucher : ${vouchers}">
+        <td th:text="${voucher.voucherId}">voucherId</td>
+        <td th:text="${voucher.amount}">amount</td>
+        <td th:text="${voucher.voucherType}">voucherType</td>
+        <td th:text="${voucher.createdAt}">createdAt</td>
+        <td th:text="${voucher.customerId}">null</td>
+        <td>
+            <form id="deleteVoucher" th:action="@{'/voucher/' + ${voucher.voucherId}}" method="post">
+                <input type="hidden" name="_method" value="delete"/>
+                <button id="delete-btn">삭제</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

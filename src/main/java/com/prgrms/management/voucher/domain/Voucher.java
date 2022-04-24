@@ -1,12 +1,13 @@
 package com.prgrms.management.voucher.domain;
 
 import com.prgrms.management.config.ErrorMessageType;
-import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Builder
+@Getter
 public class Voucher {
     private static final Long MAX_FIXED_DISCOUNT = 10000L;
     private static final Long MAX_PERCENT_DISCOUNT = 100L;
@@ -17,7 +18,23 @@ public class Voucher {
     private VoucherType voucherType;
     private UUID customerId = null;
 
+    public Voucher(Long amount, VoucherType voucherType) {
+        if (voucherType.equals(VoucherType.FIXED))
+            validateFixedAmount(amount);
+        else
+            validatePercentAmount(amount);
+        this.voucherId = UUID.randomUUID();
+        this.amount = amount;
+        this.createdAt = LocalDateTime.now();
+        this.voucherType = voucherType;
+        this.customerId = null;
+    }
+
     public Voucher(UUID voucherId, Long amount, LocalDateTime createdAt, VoucherType voucherType, UUID customerId) {
+        if (voucherType.equals(VoucherType.FIXED))
+            validateFixedAmount(amount);
+        else
+            validatePercentAmount(amount);
         this.voucherId = voucherId;
         this.amount = amount;
         this.createdAt = createdAt;
@@ -39,23 +56,4 @@ public class Voucher {
         this.customerId = customerId;
     }
 
-    public UUID getCustomerId() {
-        return this.customerId;
-    }
-
-    public UUID getVoucherId() {
-        return this.voucherId;
-    }
-
-    public long getAmount() {
-        return this.amount;
-    }
-
-    public VoucherType getVoucherType() {
-        return this.voucherType;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return this.createdAt;
-    }
 }

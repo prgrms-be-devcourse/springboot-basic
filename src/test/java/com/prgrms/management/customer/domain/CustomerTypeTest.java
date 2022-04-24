@@ -10,23 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomerTypeTest {
 
     @Test
-    void NORMAL_Customer_Type_주입() {
+    void 성공_Customer_Type_주입() {
         //given
         String input = "normal";
         //when
         CustomerType customerType = CustomerType.of(input);
         //then
         Assertions.assertThat(customerType).isEqualTo(CustomerType.NORMAL);
-    }
-
-    @Test
-    void BLACKLIST_Customer_Type_주입() {
-        //given
-        String input = "blacklist";
-        //when
-        CustomerType customerType = CustomerType.of(input);
-        //then
-        Assertions.assertThat(customerType).isEqualTo(CustomerType.BLACKLIST);
     }
 
     @Test

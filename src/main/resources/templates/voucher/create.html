@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>바우처 등록</title>
+</head>
+<body>
+<div class="container">
+    <div>
+        <form th:action="@{/voucher/createVoucher}" th:object="${voucherRequest}" method="post">
+            <div class="form-group">
+                <div th:each="voucherType : ${voucherTypes}">
+                    <input type="radio" th:field="*{voucherType}" th:value="${voucherType.name()}">
+                    <label th:for="${#ids.prev('voucherType')}" th:text="${voucherType.description}">
+                        할인액
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label th:for="amount">할인</label>
+                <input type="number" th:field="*{amount}" class="form-control" placeholder="할인액 또는 할인율을 입력하세요">
+            </div>
+            <button type="submit" class="btn btn-primary">등록</button>
+        </form>
+        <br/>
+    </div>
+</div>
+</body>
+</html>

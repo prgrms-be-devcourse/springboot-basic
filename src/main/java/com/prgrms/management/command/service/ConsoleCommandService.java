@@ -50,50 +50,50 @@ public class ConsoleCommandService implements CommandService {
     public void execute(Command command) {
         UUID customerId, voucherId;
         switch (command) {
-            case CREATEVOUCHER:
+            case CREATE_VOUCHER:
                 VoucherRequest voucherRequest = input.inputVoucherTypeAndAmount();
                 voucherService.createVoucher(voucherRequest);
                 break;
-            case LISTVOUCHER:
+            case LIST_VOUCHER:
                 output.printList(voucherService.findAll());
                 break;
-            case CREATECUSTOMER:
+            case CREATE_CUSTOMER:
                 CustomerRequest customerRequest = input.inputCustomer();
                 System.out.println(customerService.createCustomer(new Customer(customerRequest)));
                 break;
-            case UPDATECUSTOMER:
+            case UPDATE_CUSTOMER:
                 customerId = input.inputCustomerId();
                 String customerName = input.inputCustomerName();
                 customerService.updateCustomer(customerId,customerName);
                 break;
-            case DELETECUSTOMER:
+            case DELETE_CUSTOMER:
                 customerId = input.inputCustomerId();
                 customerService.deleteCustomer(customerId);
                 break;
-            case DELETEALLCUSTOMER:
+            case DELETE_ALL_CUSTOMER:
                 customerService.deleteAllCustomer();
                 break;
-            case FINDCUSTOMERBYID:
+            case FIND_CUSTOMER_BY_ID:
                 customerId = input.inputCustomerId();
                 System.out.println(customerService.findById(customerId));
                 break;
-            case FINDCUSTOMERBYEMAIL:
+            case FIND_CUSTOMER_BY_EMAIL:
                 String email = input.inputCustomerEmail();
                 System.out.println(customerService.findByEmail(email));
                 break;
-            case LISTCUSTOMER:
+            case LIST_CUSTOMER:
                 output.printList(customerService.findAll());
                 break;
-            case ASSIGNVOUCHER:
+            case ASSIGN_VOUCHER:
                 voucherId = input.inputVoucherId();
                 customerId = input.inputCustomerId();
-                voucherService.createVoucherByCustomerId(voucherId,customerId);
+                voucherService.updateVoucherByCustomerId(voucherId,customerId);
                 break;
-            case DELETEVOUCHER:
+            case DELETE_VOUCHER:
                 customerId = input.inputCustomerId();
                 voucherService.deleteVoucherByCustomerId(customerId);
                 break;
-            case LISTVOUCHERWITHTYPE:
+            case LIST_VOUCHER_WITH_TYPE:
                 VoucherType voucherType = input.inputVoucherType();
                 output.printList(voucherService.findCustomersByVoucherType(voucherType));
                 break;

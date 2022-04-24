@@ -13,15 +13,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/voucher")
+@RequestMapping("api/voucher")
 @RequiredArgsConstructor
 public class VoucherController {
     private final ResponseService responseService;
