@@ -113,11 +113,11 @@ public class VoucherConsoleControllerTest {
         //given
         Voucher voucher1 = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100);
         Voucher voucher2 = new FixedAmountVoucher(2L, VoucherType.FIXED_AMOUNT, 200);
-        List<Voucher> list = List.of(voucher1, voucher2);
-        Response response = Response.of(200, list);
+        List<Voucher> vouchers = List.of(voucher1, voucher2);
+        Response response = Response.of(200, vouchers);
 
         //when
-        doReturn(list).when(voucherService).findVouchers();
+        doReturn(vouchers).when(voucherService).findVouchers();
         Response createdResponse = voucherConsoleController.listVouchers();
 
         //then
