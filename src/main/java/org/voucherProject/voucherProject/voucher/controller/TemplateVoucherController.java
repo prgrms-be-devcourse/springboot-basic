@@ -93,7 +93,7 @@ public class TemplateVoucherController {
     }
 
     @PostMapping("/delete")
-    public String deleteVoucher(@ModelAttribute VoucherDto voucherDto) {
+    public String deleteVoucher(@ModelAttribute("voucherDto") VoucherDto voucherDto) {
         voucherService.deleteOneVoucherByCustomer(voucherDto.getCustomerId(), voucherDto.getVoucherId());
         return "redirect:";
     }
