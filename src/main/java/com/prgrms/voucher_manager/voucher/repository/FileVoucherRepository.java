@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("file")
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -105,6 +106,12 @@ public class FileVoucherRepository implements VoucherRepository {
             logger.error("Not Found File {}",file);
         }
         return br;
+    }
+
+    @PreDestroy
+    private void preDestroy() throws IOException {
+        br.close();
+        bw.close();
     }
 
 }

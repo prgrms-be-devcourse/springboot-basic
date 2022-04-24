@@ -1,9 +1,11 @@
 package com.prgrms.voucher_manager.customer.repository;
 
-import com.prgrms.voucher_manager.customer.BlackCustomer;
+//import com.prgrms.voucher_manager.customer.BlackCustomer;
 import com.prgrms.voucher_manager.customer.Customer;
+import com.prgrms.voucher_manager.customer.SimpleCustomer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PreDestroy;
@@ -72,7 +74,7 @@ public class BlackCustomerRepository{
             lineString = br.readLine();
             while((lineString = br.readLine()) != null){
                 String[] arr = lineString.split(",");
-                BlackCustomer blackCustomer = BlackCustomer.builder()
+                Customer blackCustomer = SimpleCustomer.builder()
                         .customerId(UUID.fromString((arr[0])))
                         .name(arr[1])
                         .email(arr[2])
@@ -109,6 +111,12 @@ public class BlackCustomerRepository{
         } catch (IOException e) {
         }
         return bw;
+    }
+
+    @PreDestroy
+    private void preDestroy() throws IOException {
+        br.close();
+        bw.close();
     }
 
 }
