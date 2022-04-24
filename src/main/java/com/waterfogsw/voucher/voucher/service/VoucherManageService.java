@@ -4,6 +4,8 @@ import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VoucherManageService implements VoucherService {
 
@@ -19,5 +21,10 @@ public class VoucherManageService implements VoucherService {
             throw new IllegalArgumentException();
         }
         return voucherRepository.save(voucher);
+    }
+
+    @Override
+    public List<Voucher> findAllVoucher() {
+        return null;
     }
 }
