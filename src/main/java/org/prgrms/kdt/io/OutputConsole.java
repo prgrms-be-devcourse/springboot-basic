@@ -6,8 +6,7 @@ import org.prgrms.kdt.model.voucher.VoucherType;
 import java.text.MessageFormat;
 import java.util.List;
 
-public class OutputConsole implements Output {
-    @Override
+public class OutputConsole {
     public void printFunctions() {
         System.out.println("=== Voucher Program ===");
         for (VoucherProgramFunctions function : VoucherProgramFunctions.values()) {
@@ -15,7 +14,6 @@ public class OutputConsole implements Output {
         }
     }
 
-    @Override
     public void printVoucherType() {
         System.out.println("=== Type number of voucher you make ===");
         for (VoucherType voucherType : VoucherType.values()) {
@@ -23,12 +21,10 @@ public class OutputConsole implements Output {
         }
     }
 
-    @Override
     public void printList(List<?> printList) {
         printList.forEach(System.out::println);
     }
 
-    @Override
     public void printMessage(String message) {
         System.out.println(message);
     }

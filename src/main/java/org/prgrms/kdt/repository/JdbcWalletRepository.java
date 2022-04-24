@@ -4,6 +4,7 @@ import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.util.IntUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,8 +14,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.prgrms.kdt.repository.CustomerJdbcRepository.toUUID;
-
 @Repository
 public class JdbcWalletRepository {
 
@@ -23,9 +22,9 @@ public class JdbcWalletRepository {
     private static final RowMapper<Voucher> voucherCustomerRowMapper = (resultSet, rowNum) -> {
         var discountAmount = resultSet.getInt("discount_amount");
         var voucherType = resultSet.getInt("voucher_type");
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var voucherId = IntUtils.toUUID(resultSet.getBytes("voucher_id"));
         var voucherCreatedAt = resultSet.getTimestamp("v.created_at").toLocalDateTime();
-        var customerId = toUUID(resultSet.getBytes("owner_id"));
+        var customerId = IntUtils.toUUID(resultSet.getBytes("owner_id"));
         var email = resultSet.getString("email");
         var ownedAt = resultSet.getTimestamp("owned_time").toLocalDateTime();
         var customerCreatedAt = resultSet.getTimestamp("c.created_at").toLocalDateTime();

@@ -7,6 +7,7 @@ import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.repository.voucher.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -35,7 +36,7 @@ class JdbcVoucherRepositoryTest {
     JdbcVoucherRepository jdbcVoucherRepository;
 
     @Autowired
-    CustomerRepository customerRepository;
+    CustomerJdbcRepository customerRepository;
 
     FixedAmountVoucher fixedAmountVoucher;
 

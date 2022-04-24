@@ -6,8 +6,8 @@ import org.junit.jupiter.api.*;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.repository.CustomerRepository;
-import org.prgrms.kdt.repository.JdbcVoucherRepository;
+import org.prgrms.kdt.repository.CustomerJdbcRepository;
+import org.prgrms.kdt.repository.voucher.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -37,7 +37,7 @@ class VoucherWalletServiceTest {
     JdbcVoucherRepository jdbcVoucherRepository;
 
     @Autowired
-    CustomerRepository customerRepository;
+    CustomerJdbcRepository customerRepository;
 
     @BeforeAll
     void clean() {

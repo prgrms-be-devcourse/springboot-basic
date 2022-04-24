@@ -2,7 +2,6 @@ package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.repository.CustomerJdbcRepository;
-import org.prgrms.kdt.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -14,11 +13,11 @@ import java.util.List;
 
 @Service
 public class CustomerService {
-    private final CustomerRepository customerRepository;
+    private final CustomerJdbcRepository customerRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerJdbcRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 

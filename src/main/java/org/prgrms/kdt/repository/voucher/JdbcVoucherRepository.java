@@ -1,17 +1,20 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.repository.JdbcWalletRepository;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
+import org.prgrms.kdt.util.IntUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.prgrms.kdt.repository.CustomerJdbcRepository.toUUID;
 
 @Repository
 @Primary
@@ -24,7 +27,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
         var discountAmount = resultSet.getInt("discount_amount");
         var voucherType = resultSet.getInt("voucher_type");
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var voucherId = IntUtils.toUUID(resultSet.getBytes("voucher_id"));
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         if (voucherType == 1) {
             return new FixedAmountVoucher(voucherId, discountAmount, createdAt);

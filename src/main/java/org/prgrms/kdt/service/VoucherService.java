@@ -3,9 +3,9 @@ package org.prgrms.kdt.service;
 import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherType;
-import org.prgrms.kdt.repository.CustomerRepository;
+import org.prgrms.kdt.repository.CustomerJdbcRepository;
 import org.prgrms.kdt.repository.JdbcWalletRepository;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +20,11 @@ public class VoucherService {
 
     VoucherRepository voucherRepository;
 
-    CustomerRepository customerRepository;
+    CustomerJdbcRepository customerRepository;
 
     JdbcWalletRepository jdbcWalletRepository;
 
-    public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository, JdbcWalletRepository jdbcWalletRepository) {
+    public VoucherService(VoucherRepository voucherRepository, CustomerJdbcRepository customerRepository, JdbcWalletRepository jdbcWalletRepository) {
         this.voucherRepository = voucherRepository;
         this.customerRepository = customerRepository;
         this.jdbcWalletRepository = jdbcWalletRepository;
@@ -48,10 +48,6 @@ public class VoucherService {
         } catch (EmptyResultDataAccessException e) {
             new OutputConsole().printMessage("WRONG : invalid input");
         }
-    }
-
-    public Voucher getVoucherById(Voucher voucher) {
-        return voucherRepository.getByVoucherId(voucher.getVoucherId());
     }
 
     public List<Voucher> getOwnableVoucherList() {

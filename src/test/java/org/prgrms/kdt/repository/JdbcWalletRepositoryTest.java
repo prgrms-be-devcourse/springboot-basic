@@ -10,10 +10,10 @@ import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.repository.voucher.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -40,7 +40,7 @@ class JdbcWalletRepositoryTest {
     JdbcWalletRepository jdbcWalletRepository;
 
     @Autowired
-    CustomerRepository customerRepository;
+    CustomerJdbcRepository customerRepository;
 
     FixedAmountVoucher fixedAmountVoucher;
 

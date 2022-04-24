@@ -1,8 +1,6 @@
 package org.prgrms.kdt.function;
 
-import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.InputConsole;
-import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.Voucher;
@@ -27,8 +25,8 @@ public class FunctionOperator {
     private VoucherService voucherService;
     private VoucherWalletService voucherWalletService;
     private final static Logger logger = LoggerFactory.getLogger(VoucherProgramFunctions.class);
-    private final static Input input = new InputConsole();
-    private final static Output output = new OutputConsole();
+    private final static InputConsole inputConsole = new InputConsole();
+    private final static OutputConsole outputConsole = new OutputConsole();
     private final static String DELETE_CHARACTER = "D";
 
     public FunctionOperator(BlackListService blackListService, CustomerService customerService, VoucherService voucherService, VoucherWalletService voucherWalletService) {
@@ -42,7 +40,7 @@ public class FunctionOperator {
         switch (type) {
             case ("create") -> createVoucherByVoucherType();
             case ("voucherList") -> printVoucherList();
-            case ("blackList") -> output.printList(blackListService.getBlackList());
+            case ("blackList") -> outputConsole.printList(blackListService.getBlackList());
             case ("add") -> createNewCustomer();
             case ("provide") -> provideVoucherToCustomer();
             case ("manage") -> {
@@ -53,22 +51,21 @@ public class FunctionOperator {
     }
 
     private void createVoucherByVoucherType() {
-        Output output = new OutputConsole();
-        output.printVoucherType();
+        outputConsole.printVoucherType();
         try {
             voucherService.createVoucher(UUID.randomUUID(),
-                    IntUtils.toInt(input.inputString()),
-                    IntUtils.toInt(input.inputStringWithPrintMessage("Type amount : ")));
+                    IntUtils.toInt(inputConsole.inputString()),
+                    IntUtils.toInt(inputConsole.inputStringWithPrintMessage("Type amount : ")));
         } catch (IllegalArgumentException e) {
             logger.info("error -> {}", e.getMessage());
-            output.printMessage(e.getMessage());
+            outputConsole.printMessage(e.getMessage());
         }
     }
 
     private void printVoucherList() {
         Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
         if (voucherList.isEmpty()) {
-            output.printMessage("voucher list is empty !!\n");
+            outputConsole.printMessage("voucher list is empty !!\n");
             return;
         }
         for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
@@ -78,8 +75,8 @@ public class FunctionOperator {
     }
 
     private void createNewCustomer() {
-        String name = input.inputStringWithPrintMessage("input customer name : ");
-        String email = input.inputStringWithPrintMessage("input customer Email : ");
+        String name = inputConsole.inputStringWithPrintMessage("input customer name : ");
+        String email = inputConsole.inputStringWithPrintMessage("input customer Email : ");
         Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now(), LocalDateTime.now());
         customerService.createCustomer(customer);
     }
@@ -93,7 +90,7 @@ public class FunctionOperator {
 
         //vouchers table update
         Optional<Voucher> voucher = voucherService.provideVoucherToCustomer(voucherId, customerId);
-        voucher.ifPresent(value -> output.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
+        voucher.ifPresent(value -> outputConsole.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
     }
 
     private String printCustomerVoucherList() {
@@ -112,12 +109,12 @@ public class FunctionOperator {
     }
 
     private String outputListInputString(List<?> list) {
-        output.printList(list);
-        return input.inputString();
+        outputConsole.printList(list);
+        return inputConsole.inputString();
     }
 
     private String OutputMessageInputString(String message) {
-        output.printMessage(message);
-        return input.inputString();
+        outputConsole.printMessage(message);
+        return inputConsole.inputString();
     }
 }

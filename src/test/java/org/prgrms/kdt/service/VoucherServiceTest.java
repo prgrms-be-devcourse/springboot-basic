@@ -8,6 +8,9 @@ import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.repository.*;
+import org.prgrms.kdt.repository.voucher.JdbcVoucherRepository;
+import org.prgrms.kdt.repository.voucher.MemoryVoucherRepository;
+import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -38,7 +41,7 @@ class VoucherServiceTest {
     JdbcVoucherRepository jdbcVoucherRepository;
 
     @Autowired
-    CustomerRepository customerRepository;
+    CustomerJdbcRepository customerRepository;
 
     @Autowired
     VoucherService voucherService;
