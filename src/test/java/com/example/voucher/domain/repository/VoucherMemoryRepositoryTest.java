@@ -2,15 +2,23 @@ package com.example.voucher.domain.repository;
 
 import com.example.voucher.domain.voucher.FixedAmountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
+import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.domain.voucher.repository.VoucherMemoryRepository;
 import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+
+import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
+import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("VoucherMemoryRepository 클래스의")
@@ -47,6 +55,39 @@ public class VoucherMemoryRepositoryTest {
 					Assertions.assertThat(map.get(savedVoucher.getVoucherId())).isEqualTo(savedVoucher);
 				} catch (IllegalAccessException e) {
 					throw new RuntimeException(e.getMessage());
+				}
+			}
+		}
+
+		@Nested
+		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+		class 바우처가_null이_넘어온다면 {
+
+			@Test
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
+				assertThatThrownBy(() -> voucherRepository.save(null))
+						.isInstanceOf(IllegalArgumentException.class)
+						.hasMessage(SERVER_ERROR.name());
+
+			}
+		}
+
+		@Nested
+		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+		class 바우처_타입이_EMPTY라면 {
+
+			@Test
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
+
+				try (MockedStatic<VoucherType> voucherType = Mockito.mockStatic(VoucherType.class)) {
+					voucherType.when(() -> VoucherType.of(anyString()))
+							.thenReturn(EMPTY);
+
+					assertThatThrownBy(() -> voucherRepository.save(new FixedAmountVoucher(null, 1000)))
+							.isInstanceOf(IllegalArgumentException.class)
+							.hasMessage(SERVER_ERROR.name());
 				}
 			}
 		}

@@ -13,5 +13,9 @@ public abstract class Voucher {
 		return voucherId;
 	}
 
+	public int getDiscountAmount() {
+		return discountAmount;
+	}
+
 	public abstract int discount(int beforeDiscount);
 }
