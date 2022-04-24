@@ -48,7 +48,7 @@ public class CommandLineApplication implements Runnable{
 
                 case LIST -> voucherService.showAllVoucher();
 
-                case BLACK -> customerService.showBlackList();
+                case BLACK -> customerService.showBlackList(CustomerType.BLACKLIST);
 
                 case CREATE -> {
                     output.printVoucherTypeInputPrompt();
@@ -63,9 +63,8 @@ public class CommandLineApplication implements Runnable{
                     String name = input.inputCustomerName();
                     String email = input.inputCustomerEmail();
                     CustomerType customerType = input.inputCustomerType();
-                    customerService.createCustomer(new Customer(UUID.randomUUID(), name, email, customerType, LocalDateTime.now()));
+                    customerService.createCustomer(name, email, customerType);
                 }
-
                 case WALLET -> runWalletService();
             }
         }

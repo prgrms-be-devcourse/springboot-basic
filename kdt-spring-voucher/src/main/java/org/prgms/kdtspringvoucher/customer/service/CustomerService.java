@@ -5,6 +5,7 @@ import org.prgms.kdtspringvoucher.customer.domain.CustomerType;
 import org.prgms.kdtspringvoucher.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,8 +17,8 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public Customer createCustomer(String name, String email, CustomerType customerType) {
+        return customerRepository.save(new Customer(UUID.randomUUID(), name, email, customerType, LocalDateTime.now()));
     }
 
     public Customer changeCustomerTypeById(Customer customer, CustomerType updateCustomerType) {
@@ -32,10 +33,8 @@ public class CustomerService {
         return customers;
     }
 
-    public List<Customer> showBlackList(){
-        List<Customer> blackList = customerRepository.findBlackList();
-        blackList.forEach(System.out::println);
-        return blackList;
+    public void showBlackList(CustomerType customerType){
+        customerRepository.findByCustomerType(customerType).forEach(System.out::println);
     }
 
     public void deleteAllCustomer() {
