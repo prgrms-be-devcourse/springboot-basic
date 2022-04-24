@@ -14,18 +14,17 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        Voucher savedVoucher = null;
-
         if (voucher == null) {
             throw new IllegalArgumentException("애플리케이션이 null을 사용하려고 합니다.");
         }
 
         if (voucher.getVoucherId() == null) {
-            savedVoucher = createVoucherEntity(voucher.getVoucherType(), voucher.getDiscountValue());
+            Voucher voucherEntity = createVoucherEntity(voucher.getVoucherType(), voucher.getDiscountValue());
+            storage.put(voucherEntity.getVoucherId(), voucherEntity);
+            return voucherEntity;
         }
 
-        storage.put(savedVoucher.getVoucherId(), savedVoucher);
-        return savedVoucher;
+        return voucher;
     }
 
     private Voucher createVoucherEntity(VoucherType voucherType, int discountValue) {
