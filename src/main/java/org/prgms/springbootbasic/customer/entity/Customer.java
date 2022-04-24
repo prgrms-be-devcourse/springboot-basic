@@ -2,9 +2,12 @@ package org.prgms.springbootbasic.customer.entity;
 
 import java.util.UUID;
 
+import lombok.Getter;
+
 /**
  * 고객 엔터티
  */
+@Getter
 public class Customer {
 	/* 고객 식별번호  필수*/
 	private final UUID customerId;
@@ -23,9 +26,8 @@ public class Customer {
 		this.status = status;
 	}
 
-	public Customer(UUID customerId, String name, String email) {
-		this(customerId, name, email, CustomerStatus.AVAILABLE);
+	public Customer(String name, String email) {
+		this(UUID.randomUUID(), name, email, CustomerStatus.AVAILABLE);
 	}
-
 
 }

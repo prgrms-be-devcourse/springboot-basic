@@ -1,18 +1,23 @@
-package org.prgms.springbootbasic.voucher.repository.voucher;
+package org.prgms.springbootbasic.customer.repository.customer;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgms.springbootbasic.customer.entity.Customer;
+import org.prgms.springbootbasic.customer.entity.CustomerStatus;
 import org.prgms.springbootbasic.voucher.entity.FixedAmountVoucher;
 import org.prgms.springbootbasic.voucher.entity.PercentDiscountVoucher;
 import org.prgms.springbootbasic.voucher.entity.Voucher;
 import org.prgms.springbootbasic.voucher.entity.VoucherType;
+import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,56 +25,47 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringJUnitConfig
-class JdbcVoucherRepositoryTest {
+class JdbcCustomerRepositoryTest {
 
 	@Autowired
-	VoucherRepository voucherRepository;
+	CustomerRepository customerRepository;
 
 	@Configuration
 	@ComponentScan(basePackages = {
 		"org.prgms.springbootbasic.config",
-		"org.prgms.springbootbasic.voucher",
+		"org.prgms.springbootbasic.customer",
 	})
 	static class testConfig {
 	}
 
 	@BeforeEach
 	void setUp() {
-		voucherRepository.deleteVouchers();
+		customerRepository.deleteCustomers();
 	}
 
 	@DisplayName("repository 저장(save) 성공 테스트")
 	@Test
 	void save_pass_test() {
 		//given
-		Voucher amountVoucher = new FixedAmountVoucher(100);
-		//when,then
-		assertSaveVoucherTest(amountVoucher);
-
-		//given
-		Voucher percentVoucher = new PercentDiscountVoucher(10);
-		//when,then
-		assertSaveVoucherTest(percentVoucher);
-	}
-
-	private void assertSaveVoucherTest(Voucher voucher) {
+		Customer customer = new Customer("hani", "hani@gmail.com");
 		//when
-		UUID AmountstoredId = voucherRepository.save(voucher);
-		Voucher foundAmountVoucher = voucherRepository.findById(AmountstoredId);
-		//then
-		assertEquals(voucher.getVoucherId(), foundAmountVoucher.getVoucherId());
+		final UUID savedUUID = customerRepository.save(customer);
+		final Customer findCustomer = customerRepository.findById(savedUUID);
+		// then
+		assertThat(findCustomer).isNotNull();
+		assertThat(findCustomer.getCustomerId()).isEqualTo(customer.getCustomerId());
 	}
 
 	@DisplayName("repository save 실패 테스트")
 	@Test
 	void save_fail_test() {
 		// null을 저장할 수는 없다.
-		assertThrows(IllegalArgumentException.class, () -> voucherRepository.save(null));
+		assertThrows(IllegalArgumentException.class, () -> customerRepository.save(null));
 	}
 
 	@DisplayName("findById 실패 테스트 - 존재하지 않는 ID를 입력한 경우")
 	@Test
 	void findById_fail_test_invalid_ID() {
-		assertThrows(DataAccessException.class, () -> voucherRepository.findById(UUID.randomUUID()));
+		assertThrows(DataAccessException.class, () -> customerRepository.findById(UUID.randomUUID()));
 	}
 }
