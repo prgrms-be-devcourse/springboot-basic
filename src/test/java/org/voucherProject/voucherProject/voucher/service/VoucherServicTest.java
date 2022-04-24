@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.voucherProject.voucherProject.customer.entity.Customer;
@@ -58,10 +59,16 @@ public class VoucherServicTest {
         }
 
         @Test
-        @DisplayName("없는 바우처 찾기 -> 예외")
+        @DisplayName("없는 바우처 찾기 -> 예외 발생")
         public void failure() throws Exception {
             assertThrows(IllegalArgumentException.class,
                     () -> voucherService.findById(UUID.randomUUID()));
+        }
+
+        @Test
+        @DisplayName("바우처 id로 Null 입력 -> 예외(NPE) 발생")
+        public void inputNull() throws Exception {
+            assertThrows(NullPointerException.class, () -> voucherService.findById(null));
         }
     }
 
@@ -77,40 +84,45 @@ public class VoucherServicTest {
         assertThat(voucherService.findAll().size()).isEqualTo(1);
     }
 
-
     @Nested
     @DisplayName("고객이 가진 바우처 조회")
     class findByCustomer {
 
         @Test
-        @DisplayName("성공")
+        @DisplayName("고객 아이디를 정확히 입력할 경우 -> 성공")
         public void findByCustomer() throws Exception {
             List<Voucher> byCustomer = voucherService.findByCustomer(customer);
             assertThat(byCustomer.size()).isEqualTo(1);
         }
 
         @Test
-        @DisplayName("바우처 없는 고객이 가진 바우처 조회")
+        @DisplayName("바우처 없는 고객이 가진 바우처 조회 -> 결과 0")
         public void findByVoidCustomer() throws Exception {
             Customer newCustomer = new Customer(UUID.randomUUID(), "bbb", "bbb@naver.com", "1234");
 
             List<Voucher> byCustomer = voucherService.findByCustomer(newCustomer);
             assertThat(byCustomer.size()).isEqualTo(0);
         }
+
+        @Test
+        @DisplayName("고객에 Null 입력으로 바우처 조회 -> NPE 발생")
+        public void findByNullCustomer() throws Exception {
+            assertThrows(NullPointerException.class, () -> voucherService.findByCustomer(null));
+        }
     }
 
     @Nested
-    @DisplayName("고객이 가진 바우처 조회")
+    @DisplayName("고객이 가진 바우처 제거")
     class deleteOneVoucherByCustomer {
 
         @Test
-        @DisplayName("성공")
+        @DisplayName("고객의 아이디와 바우처의 아이디를 정확하게 입력 -> 제거 성공")
         public void deleteOneVoucherByCustomer() throws Exception {
             voucherService.deleteOneVoucherByCustomer(customer.getCustomerId(), voucher.getVoucherId());
         }
 
         @Test
-        @DisplayName("고객이 가진 바우처 한개 제거 -> 고객이 가진 바우처가 아니었을 때")
+        @DisplayName("고객이 가진 바우처 한개 제거 -> 고객이 가진 바우처가 아니었을 때 -> 예외 발생")
         public void deleteOneVoucherByWrongCustomer() throws Exception {
             Customer newCustomer = new Customer(UUID.randomUUID(), "bbb", "bbb@naver.com", "1234");
             assertThrows(RuntimeException.class, () -> voucherService.deleteOneVoucherByCustomer(newCustomer.getCustomerId(), voucher.getVoucherId()));
@@ -126,11 +138,18 @@ public class VoucherServicTest {
     }
 
     @Test
+    @DisplayName("바우처 타입으로 바우처들을 조회")
     public void findByVoucherType() throws Exception {
 
-        List<Voucher> byFixedVoucherType = voucherRepository.findByVoucherType(VoucherType.FIXED);
+        List<Voucher> byFixedVoucherType = voucherService.findByVoucherType(VoucherType.FIXED);
         assertThat(byFixedVoucherType.size()).isEqualTo(1);
-        List<Voucher> byPercentVoucherType = voucherRepository.findByVoucherType(VoucherType.PERCENT);
+        List<Voucher> byPercentVoucherType = voucherService.findByVoucherType(VoucherType.PERCENT);
         assertThat(byPercentVoucherType.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("Null 바우처 타입 입력")
+    public void findByNullVoucherType() throws Exception {
+        assertThrows(NullPointerException.class, () -> voucherService.findByVoucherType(null));
     }
 }

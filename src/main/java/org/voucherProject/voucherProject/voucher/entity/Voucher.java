@@ -54,11 +54,17 @@ public abstract class Voucher implements Discountable {
 
     @Override
     public void useVoucher() {
+        if (this.voucherStatus.equals(VoucherStatus.EXPIRED)) {
+            throw new IllegalArgumentException("이미 사용된 바우처입니다.");
+        }
         this.voucherStatus = VoucherStatus.EXPIRED;
     }
 
     @Override
     public void cancelVoucher() {
+        if (this.voucherStatus.equals(VoucherStatus.VALID)) {
+            throw new IllegalArgumentException("아직 사용되지 않은 바우처입니다.");
+        }
         this.voucherStatus = VoucherStatus.VALID;
     }
 }

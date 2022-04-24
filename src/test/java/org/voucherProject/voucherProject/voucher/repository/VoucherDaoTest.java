@@ -346,4 +346,36 @@ public class VoucherDaoTest {
             assertThrows(RuntimeException.class, () -> voucherDao.findByCreatedAtBetween(date2, date1));
         }
     }
+
+    @Nested
+    @DisplayName("바우처 타입으로 찾기")
+    class useVoucher {
+        @Test
+        @DisplayName("유효한 바우처를 사용 -> 바우처 상태는 Expired")
+        public void useVoucher() throws Exception {
+            voucher.useVoucher();
+            assertThat(voucher.getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
+        }
+
+        @Test
+        @DisplayName("바우처를 사용했다가 취소 -> 바우처 상태는 Valid")
+        public void cancelVoucher() throws Exception {
+            voucher.useVoucher();
+            voucher.cancelVoucher();
+            assertThat(voucher.getVoucherStatus()).isEqualTo(VoucherStatus.VALID);
+        }
+
+        @Test
+        @DisplayName("이미 사용된 바우처를 사용 -> 예외 발생")
+        public void useExpiredVoucher() throws Exception {
+            voucher.useVoucher();
+            assertThrows(IllegalArgumentException.class, () -> voucher.useVoucher());
+        }
+
+        @Test
+        @DisplayName("사용되지 않은 바우처를 취소 -> 예외 발생")
+        public void cancelValidVoucher() throws Exception {
+            assertThrows(IllegalArgumentException.class, () -> voucher.cancelVoucher());
+        }
+    }
 }
