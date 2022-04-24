@@ -19,7 +19,7 @@ public class VoucherController {
         if (request == null) return Response.error(ResponseStatus.BAD_REQUEST);
 
         try {
-            Voucher savedVoucher = voucherService.saveVoucher(request.toDomain());
+            Voucher savedVoucher = voucherService.addVoucher(request.toDomain());
             return Response.ok(VoucherDto.of(savedVoucher));
         } catch (IllegalArgumentException e) {
             return Response.error(ResponseStatus.BAD_REQUEST);
