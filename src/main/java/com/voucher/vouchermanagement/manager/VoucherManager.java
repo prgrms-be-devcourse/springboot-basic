@@ -1,5 +1,6 @@
 package com.voucher.vouchermanagement.manager;
 
+import com.voucher.vouchermanagement.dto.voucher.VoucherDto;
 import com.voucher.vouchermanagement.manager.command.CommandType;
 import com.voucher.vouchermanagement.manager.io.VoucherManagerInput;
 import com.voucher.vouchermanagement.manager.io.VoucherManagerOutput;
@@ -75,9 +76,9 @@ public class VoucherManager {
 
     private void printVouchers() {
         this.output.println("=== [Voucher List] ===");
-        List<Voucher> vouchers = this.voucherService.findAll();
+        List<VoucherDto> vouchers = this.voucherService.findAll();
 
-        for (Voucher voucher : vouchers) {
+        for (VoucherDto voucher : vouchers) {
             this.output.println(voucher.toString());
         }
     }

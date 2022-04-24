@@ -1,12 +1,13 @@
 package com.voucher.vouchermanagement.service.voucher;
 
-import com.voucher.vouchermanagement.model.voucher.Voucher;
+import com.voucher.vouchermanagement.dto.voucher.VoucherDto;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
 import com.voucher.vouchermanagement.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -23,13 +24,12 @@ public class VoucherService {
         return null;
     }
 
-    //@Transactional
-    public void createVouchers(List<Voucher> vouchers) {
-        //vouchers.forEach(voucherRepository::insert);
+    public VoucherDto findById(UUID id) {
+        return null;
     }
 
     //@Transactional(readOnly = true)
-    public List<Voucher> findAll() {
+    public List<VoucherDto> findAll() {
         //return this.voucherRepository.findAll();
         return Collections.emptyList();
     }
