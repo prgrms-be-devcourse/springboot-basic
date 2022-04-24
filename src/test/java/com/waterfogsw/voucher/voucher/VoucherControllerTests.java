@@ -1,23 +1,24 @@
 package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.voucher.controller.VoucherController;
-import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
-import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
-import com.waterfogsw.voucher.voucher.dto.VoucherDto;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
+import com.waterfogsw.voucher.voucher.dto.Request;
+import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
+import com.waterfogsw.voucher.voucher.dto.VoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class VoucherControllerTests {
@@ -39,9 +40,9 @@ public class VoucherControllerTests {
             @Test
             @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(null, 1000);
-
-                VoucherDto.Response response = controller.voucherAdd(request);
+                var voucherDto = new VoucherDto(null, 1000);
+                var request = new Request<>(voucherDto);
+                var response = controller.voucherAdd(request);
 
                 assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
@@ -54,9 +55,9 @@ public class VoucherControllerTests {
             @Test
             @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 0);
-
-                VoucherDto.Response response = controller.voucherAdd(request);
+                var voucherDto = new VoucherDto(VoucherType.FIXED_AMOUNT, 0);
+                var request = new Request<>(voucherDto);
+                var response = controller.voucherAdd(request);
 
                 assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
@@ -69,15 +70,17 @@ public class VoucherControllerTests {
             @Test
             @DisplayName("생성된 바우처의 정보를 가진 응답을 리턴한다")
             void it_return_error_message() {
-                VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 100);
+                var voucherDto = new VoucherDto(VoucherType.FIXED_AMOUNT, 0);
+                var request = new Request<>(voucherDto);
 
                 when(voucherService.saveVoucher(any(Voucher.class)))
-                        .thenReturn(new FixedAmountVoucher(request.value()));
+                        .thenReturn(VoucherDto.toDomain(voucherDto));
 
-                VoucherDto.Response response = controller.voucherAdd(request);
+                var response = controller.voucherAdd(request);
 
                 assertThat(response.status(), is(ResponseStatus.OK));
-                assertThat(response.value(), is(request.value()));
+                assertThat(response.body().type(), is(request.body().type()));
+                assertThat(response.body().value(), is(request.body().value()));
             }
         }
     }
