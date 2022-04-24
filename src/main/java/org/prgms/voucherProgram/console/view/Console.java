@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
-import org.prgms.voucherProgram.domain.customer.Customer;
-import org.prgms.voucherProgram.domain.voucher.Voucher;
-import org.prgms.voucherProgram.dto.CustomerRequest;
-import org.prgms.voucherProgram.dto.VoucherRequest;
-import org.prgms.voucherProgram.dto.WalletRequest;
+import org.prgms.voucherProgram.domain.customer.domain.Customer;
+import org.prgms.voucherProgram.domain.customer.dto.CustomerRequest;
+import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
+import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
+import org.prgms.voucherProgram.domain.wallet.dto.WalletRequest;
 import org.springframework.stereotype.Component;
 
 @Component

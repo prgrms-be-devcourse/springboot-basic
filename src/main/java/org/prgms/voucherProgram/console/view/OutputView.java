@@ -2,8 +2,8 @@ package org.prgms.voucherProgram.console.view;
 
 import java.util.List;
 
-import org.prgms.voucherProgram.domain.customer.Customer;
-import org.prgms.voucherProgram.domain.voucher.Voucher;
+import org.prgms.voucherProgram.domain.customer.domain.Customer;
+import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
 
 public interface OutputView {
 

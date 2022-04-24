@@ -2,7 +2,7 @@ package org.prgms.voucherProgram.console.menu;
 
 import java.util.stream.Stream;
 
-import org.prgms.voucherProgram.exception.WrongCommandException;
+import org.prgms.voucherProgram.console.exception.WrongCommandException;
 
 public enum VoucherMenuType {
     EXIT("exit"),

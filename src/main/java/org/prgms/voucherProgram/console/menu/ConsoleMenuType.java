@@ -2,7 +2,7 @@ package org.prgms.voucherProgram.console.menu;
 
 import java.util.Arrays;
 
-import org.prgms.voucherProgram.exception.WrongCommandException;
+import org.prgms.voucherProgram.console.exception.WrongCommandException;
 
 public enum ConsoleMenuType {
     EXIT("exit"),

@@ -2,18 +2,18 @@ package org.prgms.voucherProgram.console.program;
 
 import java.util.UUID;
 
+import org.prgms.voucherProgram.console.exception.WrongCommandException;
 import org.prgms.voucherProgram.console.menu.VoucherMenuType;
 import org.prgms.voucherProgram.console.view.Console;
 import org.prgms.voucherProgram.console.view.InputView;
 import org.prgms.voucherProgram.console.view.OutputView;
-import org.prgms.voucherProgram.domain.voucher.VoucherType;
-import org.prgms.voucherProgram.dto.VoucherRequest;
-import org.prgms.voucherProgram.dto.WalletRequest;
-import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
-import org.prgms.voucherProgram.exception.WrongCommandException;
-import org.prgms.voucherProgram.exception.WrongDiscountValueException;
-import org.prgms.voucherProgram.exception.WrongEmailException;
-import org.prgms.voucherProgram.service.VoucherService;
+import org.prgms.voucherProgram.domain.customer.exception.WrongEmailException;
+import org.prgms.voucherProgram.domain.voucher.domain.VoucherType;
+import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
+import org.prgms.voucherProgram.domain.voucher.exception.VoucherIsNotExistsException;
+import org.prgms.voucherProgram.domain.voucher.exception.WrongDiscountValueException;
+import org.prgms.voucherProgram.domain.voucher.service.VoucherService;
+import org.prgms.voucherProgram.domain.wallet.dto.WalletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
