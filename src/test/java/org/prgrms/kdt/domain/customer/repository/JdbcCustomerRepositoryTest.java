@@ -29,9 +29,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_DELETED;
 import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_UPDATED;
 
-@SpringJUnitConfig
+@SpringJUnitConfig(classes = TestConfig.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import({TestConfig.class})
 class JdbcCustomerRepositoryTest {
 
     @Autowired

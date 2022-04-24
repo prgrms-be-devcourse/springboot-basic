@@ -1,5 +1,8 @@
 package org.prgrms.kdt.domain.customer.service;
 
+import org.prgrms.kdt.domain.customer.dto.CustomerCreateRequest;
+import org.prgrms.kdt.domain.customer.dto.CustomerUpdateRequest;
+import org.prgrms.kdt.domain.customer.exception.CustomerDataException;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.customer.repository.CustomerRepository;
@@ -12,10 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,10 +34,24 @@ public class CustomerService {
         this.voucherService = voucherService;
     }
 
+    @Transactional
+    public UUID save(CustomerCreateRequest createRequest) {
+        Customer customer = createRequest.toEntity();
+        UUID customerId = customerRepository.save(customer);
+        logger.info("create Customer Id: {}", customer.getCustomerId());
+        return customerId;
+    }
+
     public List<Customer> getBlackCustomers() {
         List<Customer> blackCustomers = customerRepository.findByType(CustomerType.BLACK_LIST);
         logger.info("Get blackList customers size: {}", blackCustomers.size());
         return blackCustomers;
+    }
+
+    public Optional<Customer> getCustomerById(UUID customerId) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        logger.info("find Customer By Id {}", customerId);
+        return customer;
     }
 
     public List<Customer> getAllCustomers() {
@@ -51,12 +70,19 @@ public class CustomerService {
     }
 
     @Transactional
-    public UUID createCustomer(String name, String email, CustomerType customerType) {
-        LocalDateTime now = LocalDateTime.now();
-        Customer customer = new Customer(UUID.randomUUID(), name, email, customerType, now, now);
-        UUID customerId = customerRepository.save(customer);
-        logger.info("create Customer Id: {}", customer.getCustomerId());
-        return customerId;
+    public void update(CustomerUpdateRequest updateRequest, UUID customerId) {
+        customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerDataException(NOT_SAVED));
+        Customer customer = updateRequest.toEntity();
+        customerRepository.update(customer);
     }
 
+
+    @Transactional
+    public void remove(UUID customerId) {
+        customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerDataException(NOT_SAVED));
+        customerRepository.deleteById(customerId);
+        logger.info("Delete Customer id: {}", customerId);
+    }
 }
