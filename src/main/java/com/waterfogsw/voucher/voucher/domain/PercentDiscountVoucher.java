@@ -5,9 +5,7 @@ public class PercentDiscountVoucher extends Voucher {
     private final int percent;
 
     public PercentDiscountVoucher(int percent) {
-        super(null, VoucherType.PERCENT_DISCOUNT);
-        validate(percent);
-        this.percent = percent;
+        this(null, percent);
     }
 
     public PercentDiscountVoucher(Long id, int percent) {

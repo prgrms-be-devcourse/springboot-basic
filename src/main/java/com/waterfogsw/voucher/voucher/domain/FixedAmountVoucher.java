@@ -5,9 +5,7 @@ public class FixedAmountVoucher extends Voucher {
     private final int amount;
 
     public FixedAmountVoucher(int amount) {
-        super(null, VoucherType.FIXED_AMOUNT);
-        validate(amount);
-        this.amount = amount;
+        this(null, amount);
     }
 
     public FixedAmountVoucher(Long id, int amount) {
