@@ -7,16 +7,16 @@ import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
 import com.waterfogsw.voucher.voucher.service.VoucherManageService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +33,7 @@ public class VoucherServiceTests {
     class Describe_addVoucher {
 
         @Nested
+        @Order(1)
         @DisplayName("repository 에서 NPE 가 발생하면")
         class Context_with_negative_fixedAmount {
 
@@ -48,24 +49,22 @@ public class VoucherServiceTests {
         }
 
         @Nested
+        @Order(2)
         @DisplayName("Voucher 가 정상적으로 저장되면")
         class Context_with_saved_success {
 
             @Test
             @DisplayName("저장한 Voucher 를 return 한다")
-            void it_throw_IllegalArgumentException() {
+            void it_throw_IllegalArgumentException() throws RepositoryException {
                 Voucher voucher = new FixedAmountVoucher(100);
 
                 when(voucherRepository.save(any(Voucher.class))).thenReturn(voucher);
 
-                try {
-                    var savedVoucher = voucherService.addVoucher(voucher);
-                    assertThat(savedVoucher.getType(), is(savedVoucher.getType()));
-                    assertThat(savedVoucher.getValue(), is(savedVoucher.getValue()));
-                } catch (RepositoryException e) {
-                    fail();
-                }
+                var savedVoucher = voucherService.addVoucher(voucher);
+                assertThat(savedVoucher.getType(), is(savedVoucher.getType()));
+                assertThat(savedVoucher.getValue(), is(savedVoucher.getValue()));
             }
         }
     }
+}
 }
