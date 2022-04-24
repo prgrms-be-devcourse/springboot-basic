@@ -31,7 +31,9 @@ public class VoucherMemoryRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
 
-        return null;
+        return store.values()
+                .stream()
+                .toList();
     }
 
     private Voucher newVoucher(Voucher voucher){

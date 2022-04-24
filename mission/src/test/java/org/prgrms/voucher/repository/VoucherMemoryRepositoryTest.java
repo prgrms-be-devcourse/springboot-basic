@@ -8,6 +8,10 @@ import org.prgrms.voucher.models.FixedAmountVoucher;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
 
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
 public class VoucherMemoryRepositoryTest {
 
     @Nested
@@ -45,6 +49,49 @@ public class VoucherMemoryRepositoryTest {
                 Voucher voucherCheck = voucherRepository.save(voucher);
 
                 Assertions.assertThat(voucherCheck).isEqualTo(voucher);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Repository findAll 메서드는")
+    class DescribeFindAll {
+
+        private final VoucherRepository voucherRepository = new VoucherMemoryRepository();
+        private Field store;
+
+        @Nested
+        @DisplayName("호출이 되면")
+        class ContextCallThis {
+
+            @Test
+            @DisplayName("저장소의 바우처 정보를 리스트로 반환한다.")
+            void itReturnVoucherList() {
+
+                try {
+                    store = voucherRepository.getClass().getDeclaredField("store");
+                    store.setAccessible(true);
+                } catch (NoSuchFieldException testException) {
+                    throw new RuntimeException(testException.getMessage());
+                }
+
+                try {
+                    Map<Long, Voucher> map = (Map<Long, Voucher>) store.get(voucherRepository);
+
+                    Voucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT);
+                    Voucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT);
+
+                    map.put(firstVoucher.getVoucherId(), firstVoucher);
+                    map.put(secondVoucher.getVoucherId(), secondVoucher);
+
+                    List<Voucher> list = voucherRepository.findAll();
+
+                    Assertions.assertThat(list.size()).isEqualTo(2);
+                    Assertions.assertThat(firstVoucher).isEqualTo(list.get(0));
+                    Assertions.assertThat(secondVoucher).isEqualTo(list.get(1));
+                } catch (IllegalAccessException testException) {
+                    throw new RuntimeException(testException.getMessage());
+                }
             }
         }
     }
