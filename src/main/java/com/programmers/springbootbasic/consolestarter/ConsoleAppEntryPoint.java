@@ -1,7 +1,6 @@
-package com.programmers.springbootbasic;
+package com.programmers.springbootbasic.consolestarter;
 
 import com.programmers.springbootbasic.configuration.VoucherAppConfiguration;
-import com.programmers.springbootbasic.service.VoucherManagementApp;
 import com.programmers.springbootbasic.service.VoucherService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
