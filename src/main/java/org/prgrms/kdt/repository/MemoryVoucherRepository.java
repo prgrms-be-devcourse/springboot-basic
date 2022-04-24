@@ -11,7 +11,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new HashMap<>();
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Voucher insertVoucher(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
@@ -22,7 +22,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public UUID delete(UUID voucherId) {
+    public UUID deleteVoucherById(UUID voucherId) {
         return null;
     }
 
@@ -42,12 +42,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher getByVoucherNotProvided(UUID voucherId) {
+    public Voucher getVoucherNotProvided(UUID voucherId) {
         return null;
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteAllVouchers() {
 
     }
 }

@@ -9,11 +9,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository<K, V> {
-    Voucher insert(Voucher voucher);
+    Voucher insertVoucher(Voucher voucher);
 
     Map<K, V> getVoucherList();
 
-    UUID delete(UUID voucherId);
+    UUID deleteVoucherById(UUID voucherId);
 
     Voucher getByVoucherId(UUID voucherId);
 
@@ -21,7 +21,7 @@ public interface VoucherRepository<K, V> {
 
     Voucher updateVoucherOwner(UUID voucherId, UUID customerId);
 
-    Voucher getByVoucherNotProvided(UUID voucherId);
+    Voucher getVoucherNotProvided(UUID voucherId);
 
-    void deleteAll();
+    void deleteAllVouchers();
 }

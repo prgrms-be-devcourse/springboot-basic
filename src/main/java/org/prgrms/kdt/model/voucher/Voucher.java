@@ -14,7 +14,5 @@ public interface Voucher {
 
     LocalDateTime getCreateAt();
 
-    LocalDateTime getOwnedAt();
-
     Customer getCustomer();
 }

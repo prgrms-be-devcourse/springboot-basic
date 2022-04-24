@@ -38,7 +38,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Voucher insertVoucher(Voucher voucher) {
 
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
@@ -61,7 +61,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public UUID delete(UUID voucherId) {
+    public UUID deleteVoucherById(UUID voucherId) {
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucherId.toString().getBytes());
         }};
@@ -96,7 +96,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher getByVoucherNotProvided(UUID voucherId) {
+    public Voucher getVoucherNotProvided(UUID voucherId) {
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucherId.toString().getBytes());
         }};
@@ -105,9 +105,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteAllVouchers() {
         jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
     }
-
 
 }

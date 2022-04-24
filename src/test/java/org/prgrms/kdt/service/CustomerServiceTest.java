@@ -46,7 +46,7 @@ class CustomerServiceTest {
         embeddedMysql = anEmbeddedMysql(mysqldConfig)
                 .addSchema("test-order-mgmt", classPathScript("schema.sql"))
                 .start();
-        customerService.join(newCustomer);
+        customerService.createCustomer(newCustomer);
     }
 
     @Test
@@ -54,11 +54,11 @@ class CustomerServiceTest {
     void joinDuplicateCustomer() {
         //given
         Customer newCustomer2 = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        int beforeJoinSize = customerJdbcRepository.findAll().size();
-        customerService.join(newCustomer2);
+        int beforeJoinSize = customerJdbcRepository.findAllCustomer().size();
+        customerService.createCustomer(newCustomer2);
 
         //when
-        int afterJoinSize = customerJdbcRepository.findAll().size();
+        int afterJoinSize = customerJdbcRepository.findAllCustomer().size();
 
         //then
         assertThat(afterJoinSize, equalTo(beforeJoinSize));

@@ -30,7 +30,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer insert(Customer customer) throws DuplicateKeyException {
+    public Customer insertCustomer(Customer customer) throws DuplicateKeyException {
         var paramMap = new HashMap<String, Object>() {{
             put("customerId", customer.getCustomerId().toString().getBytes());
             put("name", customer.getName());
@@ -43,27 +43,19 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAll() {
+    public List<Customer> findAllCustomer() {
         return jdbcTemplate.query("SELECT * FROM customers", customerRowMapper);
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerId) {
+    public Optional<Customer> findCustomerById(UUID customerId) {
         return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
                 Collections.singletonMap("customerId", customerId.toString().getBytes()),
                 customerRowMapper));
     }
 
     @Override
-    public Customer findByEmail(String email) throws EmptyResultDataAccessException {
-        return jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = :email",
-                Collections.singletonMap("email", email),
-                customerRowMapper);
-
-    }
-
-    @Override
-    public void deleteAll() {
+    public void deleteAllCustomer() {
         jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
     }
 

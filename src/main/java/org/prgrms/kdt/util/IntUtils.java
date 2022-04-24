@@ -3,10 +3,10 @@ package org.prgrms.kdt.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Utility {
-    private final static Logger logger = LoggerFactory.getLogger(Utility.class);
+public class IntUtils {
+    private final static Logger logger = LoggerFactory.getLogger(IntUtils.class);
 
-    private Utility() {
+    private IntUtils() {
     }
 
     public static boolean isNumber(String inputString) {

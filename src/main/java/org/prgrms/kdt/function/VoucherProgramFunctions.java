@@ -2,7 +2,7 @@ package org.prgrms.kdt.function;
 
 import org.prgrms.kdt.io.OutputConsole;
 
-public enum Function {
+public enum VoucherProgramFunctions {
     exit(" to exit the program", (functionOperator, functionName) -> {
         new OutputConsole().printMessage("exit program ! bye :)");
         return true;
@@ -36,7 +36,7 @@ public enum Function {
 
     private final java.util.function.BiFunction<FunctionOperator, String,  Boolean> expression;
 
-    Function(String explain, java.util.function.BiFunction<FunctionOperator, String, Boolean> expression) {
+    VoucherProgramFunctions(String explain, java.util.function.BiFunction<FunctionOperator, String, Boolean> expression) {
         this.explain = explain;
         this.expression = expression;
     }

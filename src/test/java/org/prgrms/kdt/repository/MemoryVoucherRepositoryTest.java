@@ -22,6 +22,6 @@ class MemoryVoucherRepositoryTest {
 
         Voucher insertedVoucher = voucherService.createVoucher(UUID.randomUUID(), 1, 100);
 
-        verify(memoryVoucherRepositoryMock).insert(insertedVoucher);
+        verify(memoryVoucherRepositoryMock).insertVoucher(insertedVoucher);
     }
 }

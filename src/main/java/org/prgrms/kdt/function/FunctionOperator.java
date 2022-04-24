@@ -10,16 +10,14 @@ import org.prgrms.kdt.service.BlackListService;
 import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.service.VoucherWalletService;
-import org.prgrms.kdt.util.Utility;
+import org.prgrms.kdt.util.IntUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.expression.spel.ast.OpInc;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 public class FunctionOperator {
@@ -28,7 +26,7 @@ public class FunctionOperator {
     private CustomerService customerService;
     private VoucherService voucherService;
     private VoucherWalletService voucherWalletService;
-    private final static Logger logger = LoggerFactory.getLogger(Function.class);
+    private final static Logger logger = LoggerFactory.getLogger(VoucherProgramFunctions.class);
     private final static Input input = new InputConsole();
     private final static Output output = new OutputConsole();
     private final static String DELETE_CHARACTER = "D";
@@ -59,8 +57,8 @@ public class FunctionOperator {
         output.printVoucherType();
         try {
             voucherService.createVoucher(UUID.randomUUID(),
-                    Utility.toInt(input.inputString()),
-                    Utility.toInt(input.inputStringWithPrintMessage("Type amount : ")));
+                    IntUtils.toInt(input.inputString()),
+                    IntUtils.toInt(input.inputStringWithPrintMessage("Type amount : ")));
         } catch (IllegalArgumentException e) {
             logger.info("error -> {}", e.getMessage());
             output.printMessage(e.getMessage());
@@ -83,7 +81,7 @@ public class FunctionOperator {
         String name = input.inputStringWithPrintMessage("input customer name : ");
         String email = input.inputStringWithPrintMessage("input customer Email : ");
         Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now(), LocalDateTime.now());
-        customerService.join(customer);
+        customerService.createCustomer(customer);
     }
 
     private void provideVoucherToCustomer() {

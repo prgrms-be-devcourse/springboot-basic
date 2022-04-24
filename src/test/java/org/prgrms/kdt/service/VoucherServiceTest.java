@@ -61,8 +61,8 @@ class VoucherServiceTest {
 
     @AfterEach
     void cleanTable() {
-        jdbcVoucherRepository.deleteAll();
-        customerRepository.deleteAll();
+        jdbcVoucherRepository.deleteAllVouchers();
+        customerRepository.deleteAllCustomer();
     }
 
     @DisplayName("유효한 voucherType으로만 바우처를 생성할 수 있다.")
@@ -141,8 +141,8 @@ class VoucherServiceTest {
     void provideVoucherToCustomer() {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        customerRepository.insert(customer);
-        jdbcVoucherRepository.insert(voucher);
+        customerRepository.insertCustomer(customer);
+        jdbcVoucherRepository.insertVoucher(voucher);
 
         Optional<Voucher> returnVoucher = voucherService.provideVoucherToCustomer(voucher.getVoucherId().toString(), customer.getCustomerId().toString());
 
@@ -153,7 +153,7 @@ class VoucherServiceTest {
     @Test
     void validateVoucherIdWhenProvide() {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        customerRepository.insert(customer);
+        customerRepository.insertCustomer(customer);
         Optional<Voucher> returnVoucher = voucherService.provideVoucherToCustomer(UUID.randomUUID().toString(), customer.getCustomerId().toString());
 
         assertThat(returnVoucher.isEmpty(), is(true));
@@ -163,7 +163,7 @@ class VoucherServiceTest {
     @Test
     void validateCustomerIdWhenProvide() {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
-        jdbcVoucherRepository.insert(voucher);
+        jdbcVoucherRepository.insertVoucher(voucher);
 
         Optional<Voucher> returnVoucher = voucherService.provideVoucherToCustomer(UUID.randomUUID().toString(), UUID.randomUUID().toString());
 
@@ -175,8 +175,8 @@ class VoucherServiceTest {
     void validateReprovide() {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        customerRepository.insert(customer);
-        jdbcVoucherRepository.insert(voucher);
+        customerRepository.insertCustomer(customer);
+        jdbcVoucherRepository.insertVoucher(voucher);
         jdbcVoucherRepository.updateVoucherOwner(voucher.getVoucherId(), customer.getCustomerId());
 
         Optional<Voucher> returnVoucher = voucherService.provideVoucherToCustomer(voucher.getVoucherId().toString(), customer.getCustomerId().toString());
@@ -189,8 +189,8 @@ class VoucherServiceTest {
         //VoucherService voucherService = mock(VoucherService.class);
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
-        customerRepository.insert(customer);
-        jdbcVoucherRepository.insert(voucher);
+        customerRepository.insertCustomer(customer);
+        jdbcVoucherRepository.insertVoucher(voucher);
         jdbcVoucherRepository.updateVoucherOwner(voucher.getVoucherId(), customer.getCustomerId());
 
         voucherService.deleteVoucher(voucher.getVoucherId(), customer.getEmail());

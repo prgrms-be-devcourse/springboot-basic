@@ -22,9 +22,9 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public void join(Customer customer) {
+    public void createCustomer(Customer customer) {
         try {
-            customerRepository.insert(customer);
+            customerRepository.insertCustomer(customer);
         } catch (DuplicateKeyException e) {
             logger.info("email : {} {}", customer.getEmail(), e.getMessage());
             System.out.println(MessageFormat.format("{0} is already exist customer", customer.getEmail()));
@@ -34,6 +34,6 @@ public class CustomerService {
     }
 
     public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+        return customerRepository.findAllCustomer();
     }
 }

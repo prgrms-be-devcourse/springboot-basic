@@ -54,8 +54,8 @@ class VoucherWalletServiceTest {
 
     @AfterEach
     void cleanTable() {
-        jdbcVoucherRepository.deleteAll();
-        customerRepository.deleteAll();
+        jdbcVoucherRepository.deleteAllVouchers();
+        customerRepository.deleteAllCustomer();
     }
 
     @Test
@@ -63,8 +63,8 @@ class VoucherWalletServiceTest {
     void getVoucherListByCustomerEmail() {
         Customer customer = new Customer(UUID.randomUUID(),"test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
-        customerRepository.insert(customer);
-        jdbcVoucherRepository.insert(voucher);
+        customerRepository.insertCustomer(customer);
+        jdbcVoucherRepository.insertVoucher(voucher);
         jdbcVoucherRepository.updateVoucherOwner(voucher.getVoucherId(), customer.getCustomerId());
 
         Optional<Map<UUID, Voucher>> voucherList = voucherWalletService.getVoucherListByCustomerEmail(customer.getEmail());
@@ -78,8 +78,8 @@ class VoucherWalletServiceTest {
     void getVoucherListByCustomerEmailValidate() {
         Customer customer = new Customer(UUID.randomUUID(),"test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
-        customerRepository.insert(customer);
-        jdbcVoucherRepository.insert(voucher);
+        customerRepository.insertCustomer(customer);
+        jdbcVoucherRepository.insertVoucher(voucher);
 
         Optional<Map<UUID, Voucher>> unknownCustomerVoucherList = voucherWalletService.getVoucherListByCustomerEmail("unknown@gmail.com");
         Optional<Map<UUID, Voucher>> newCustomerVoucherList = voucherWalletService.getVoucherListByCustomerEmail(customer.getEmail());

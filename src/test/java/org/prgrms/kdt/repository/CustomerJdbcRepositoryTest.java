@@ -51,9 +51,9 @@ class CustomerJdbcRepositoryTest {
     @Order(1)
     @DisplayName("고객을 추가 할 수 있다.")
     void testInsert() {
-        customerJdbcRepository.insert(newCustomer);
+        customerJdbcRepository.insertCustomer(newCustomer);
 
-        Optional<Customer> receiveCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
+        Optional<Customer> receiveCustomer = customerJdbcRepository.findCustomerById(newCustomer.getCustomerId());
         assertThat(receiveCustomer.isEmpty(), is(false));
         assertThat(receiveCustomer.get(), samePropertyValuesAs(newCustomer));
     }
@@ -63,20 +63,20 @@ class CustomerJdbcRepositoryTest {
     void testInsertDuplicateCustomer() {
         //given
         Customer newCustomer2 = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        assertThrows(DuplicateKeyException.class, () -> customerJdbcRepository.insert(newCustomer2));
+        assertThrows(DuplicateKeyException.class, () -> customerJdbcRepository.insertCustomer(newCustomer2));
     }
 
     @Test
     @DisplayName("전체 고객을 조회 할 수 있다.")
     void testFindAll() {
-        var customers = customerJdbcRepository.findAll();
+        var customers = customerJdbcRepository.findAllCustomer();
         assertThat(customers.isEmpty(), is(false));
     }
 
     @Test
     void testFindById() {
         var customerId = newCustomer.getCustomerId();
-        Optional<Customer> receiveCustomer = customerJdbcRepository.findById(customerId);
+        Optional<Customer> receiveCustomer = customerJdbcRepository.findCustomerById(customerId);
 
         assertThat(receiveCustomer, notNullValue());
         assertThat(receiveCustomer.get().getCustomerId(), equalTo(customerId));

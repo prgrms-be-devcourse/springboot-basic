@@ -31,8 +31,8 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(UUID voucherId, int voucherTypeNumber, int discountAmount) {
-        Voucher voucher = getVoucherTypeByNumber(voucherTypeNumber).newVoucher(voucherId, discountAmount, LocalDateTime.now());
-        voucherRepository.insert(voucher);
+        Voucher voucher = getVoucherTypeByNumber(voucherTypeNumber).createNewVoucher(voucherId, discountAmount, LocalDateTime.now());
+        voucherRepository.insertVoucher(voucher);
         return voucher;
     }
 
@@ -43,7 +43,7 @@ public class VoucherService {
     public void deleteVoucher(UUID voucherId, String email) {
         try {
             jdbcWalletRepository.getVoucherByVoucherIdAndEmail(voucherId, email);
-            voucherRepository.delete(voucherId);
+            voucherRepository.deleteVoucherById(voucherId);
             new OutputConsole().printMessage("voucher is deleted");
         } catch (EmptyResultDataAccessException e) {
             new OutputConsole().printMessage("WRONG : invalid input");
@@ -60,8 +60,8 @@ public class VoucherService {
 
     public Optional<Voucher> provideVoucherToCustomer(String voucherId, String customerId) {
         try {
-            voucherRepository.getByVoucherNotProvided(UUID.fromString(voucherId));
-            customerRepository.findById(UUID.fromString(customerId));
+            voucherRepository.getVoucherNotProvided(UUID.fromString(voucherId));
+            customerRepository.findCustomerById(UUID.fromString(customerId));
         } catch (Exception e) {
             new OutputConsole().printMessage("WRONG : check voucherId and customerId again\n");
             return Optional.empty();

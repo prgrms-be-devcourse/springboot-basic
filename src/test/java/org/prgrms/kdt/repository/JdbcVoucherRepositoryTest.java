@@ -60,7 +60,7 @@ class JdbcVoucherRepositoryTest {
     @Order(1)
     @DisplayName("바우처를 넣을 수 있다.")
     void insert() {
-        var insertVoucher = jdbcVoucherRepository.insert(fixedAmountVoucher);
+        var insertVoucher = jdbcVoucherRepository.insertVoucher(fixedAmountVoucher);
         var receiveVoucher = jdbcVoucherRepository.getByVoucherId(insertVoucher.getVoucherId());
         assertThat(insertVoucher.getVoucherId(), equalTo(receiveVoucher.getVoucherId()));
     }
@@ -94,7 +94,7 @@ class JdbcVoucherRepositoryTest {
     @Order(3)
     @DisplayName("바우처를 삭제 할 수 있다.")
     void delete() {
-        jdbcVoucherRepository.delete(fixedAmountVoucher.getVoucherId());
+        jdbcVoucherRepository.deleteVoucherById(fixedAmountVoucher.getVoucherId());
         var voucherList = jdbcVoucherRepository.getVoucherList();
         assertThat(voucherList.isEmpty(), is(true));
     }
@@ -104,7 +104,7 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("바우처 owner 값을 update 할 수 있다.")
     void updateVoucherOwner() {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        customerRepository.insert(customer);
+        customerRepository.insertCustomer(customer);
         var voucher = jdbcVoucherRepository.updateVoucherOwner(fixedAmountVoucher.getVoucherId(), customer.getCustomerId());
         assertThat(customer.getCustomerId(), is(voucher.getCustomer().getCustomerId()));
     }

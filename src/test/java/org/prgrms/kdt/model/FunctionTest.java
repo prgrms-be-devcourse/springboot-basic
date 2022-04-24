@@ -1,7 +1,7 @@
 package org.prgrms.kdt.model;
 
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.function.Function;
+import org.prgrms.kdt.function.VoucherProgramFunctions;
 import org.prgrms.kdt.function.FunctionOperator;
 
 import static org.mockito.Mockito.*;
@@ -14,7 +14,7 @@ class FunctionTest {
     void doFunction() {
         FunctionOperator functionOperator = mock(FunctionOperator.class);
 
-        Boolean exit = Function.exit.execute(functionOperator);
+        Boolean exit = VoucherProgramFunctions.exit.execute(functionOperator);
 
         assertThat(exit, is(true));
     }

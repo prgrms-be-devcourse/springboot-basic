@@ -73,8 +73,8 @@ class JdbcWalletRepositoryTest {
     void getVoucherProvided() {
         Customer newCustomer = new Customer(UUID.randomUUID(),"test","test@gmail.com",LocalDateTime.now() ,LocalDateTime.now());
         Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
-        customerRepository.insert(newCustomer);
-        jdbcVoucherRepository.insert(newVoucher);
+        customerRepository.insertCustomer(newCustomer);
+        jdbcVoucherRepository.insertVoucher(newVoucher);
         jdbcVoucherRepository.updateVoucherOwner(newVoucher.getVoucherId(), newCustomer.getCustomerId());
         Voucher voucher = jdbcWalletRepository.selectJoinVoucherCustomer(newVoucher.getVoucherId());
         assertThat(voucher.getCustomer().getCustomerId(), equalTo(newCustomer.getCustomerId()));

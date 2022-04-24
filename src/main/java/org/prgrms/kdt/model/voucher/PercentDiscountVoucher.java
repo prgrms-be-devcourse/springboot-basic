@@ -55,11 +55,6 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public LocalDateTime getOwnedAt() {
-        return ownedAt;
-    }
-
-    @Override
     public Customer getCustomer() {
         return customer;
     }

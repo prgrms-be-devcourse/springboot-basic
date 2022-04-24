@@ -2,7 +2,7 @@ package org.prgrms.kdt.model.voucher;
 
 import org.prgrms.kdt.io.InputConsole;
 import org.prgrms.kdt.io.Output;
-import org.prgrms.kdt.function.Function;
+import org.prgrms.kdt.function.VoucherProgramFunctions;
 import org.prgrms.kdt.function.FunctionOperator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +20,12 @@ public class VoucherProgram implements Runnable {
 
     @Override
     public void run() {
-        while (!execute()) {
+        while (!executeProgram()) {
 
         }
     }
 
-    private boolean execute() {
+    private boolean executeProgram() {
         output.printFunctions();
         String inputFunction = new InputConsole().inputString();
         if (!hasFunction(inputFunction)) {
@@ -36,7 +36,7 @@ public class VoucherProgram implements Runnable {
 
     private boolean hasFunction(String inputFunction) {
         try{
-            Function.valueOf(inputFunction);
+            VoucherProgramFunctions.valueOf(inputFunction);
         }catch (IllegalArgumentException e) {
             output.printMessage("WRONG : Type right command\n");
             return false;
@@ -46,7 +46,7 @@ public class VoucherProgram implements Runnable {
         return true;
     }
 
-    private Function getFunctionByName(String functionName) {
-        return Function.valueOf(functionName);
+    private VoucherProgramFunctions getFunctionByName(String functionName) {
+        return VoucherProgramFunctions.valueOf(functionName);
     }
 }

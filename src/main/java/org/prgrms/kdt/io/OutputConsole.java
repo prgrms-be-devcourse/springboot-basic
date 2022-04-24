@@ -1,6 +1,6 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.function.Function;
+import org.prgrms.kdt.function.VoucherProgramFunctions;
 import org.prgrms.kdt.model.voucher.VoucherType;
 
 import java.text.MessageFormat;
@@ -10,7 +10,7 @@ public class OutputConsole implements Output {
     @Override
     public void printFunctions() {
         System.out.println("=== Voucher Program ===");
-        for (Function function : Function.values()) {
+        for (VoucherProgramFunctions function : VoucherProgramFunctions.values()) {
             System.out.println(MessageFormat.format("Type {0}{1}.", function.name(), function.getExplain()));
         }
     }
