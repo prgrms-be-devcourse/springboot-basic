@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class BlackListRepository {
 
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
     private static final Logger logger = LoggerFactory.getLogger(BlackListService.class);
 
     @Autowired

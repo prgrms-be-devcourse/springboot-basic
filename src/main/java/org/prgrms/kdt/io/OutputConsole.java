@@ -21,11 +21,11 @@ public class OutputConsole {
         }
     }
 
-    public void printList(List<?> printList) {
+    public static void printList(List<?> printList) {
         printList.forEach(System.out::println);
     }
 
-    public void printMessage(String message) {
+    public static void printMessage(String message) {
         System.out.println(message);
     }
 

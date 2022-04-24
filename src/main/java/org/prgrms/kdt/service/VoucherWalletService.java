@@ -12,7 +12,7 @@ import java.util.UUID;
 @Service
 public class VoucherWalletService {
 
-    JdbcWalletRepository jdbcWalletRepository;
+    private final JdbcWalletRepository jdbcWalletRepository;
 
     public VoucherWalletService(JdbcWalletRepository jdbcWalletRepository) {
         this.jdbcWalletRepository = jdbcWalletRepository;
@@ -21,7 +21,7 @@ public class VoucherWalletService {
     public Optional<Map<UUID, Voucher>> getVoucherListByCustomerEmail(String customerEmail) {
         Map<UUID, Voucher> voucherList = jdbcWalletRepository.getVoucherListByCustomerId(customerEmail);
         if(voucherList.size() == 0) {
-            new OutputConsole().printMessage("WRONG : invalid input");
+            OutputConsole.printMessage("WRONG : invalid input");
             return Optional.empty();
         }
         return Optional.of(voucherList);

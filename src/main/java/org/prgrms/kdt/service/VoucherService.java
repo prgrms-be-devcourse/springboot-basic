@@ -18,11 +18,11 @@ import java.util.UUID;
 @Service
 public class VoucherService {
 
-    VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
 
-    CustomerJdbcRepository customerRepository;
+    private final CustomerJdbcRepository customerRepository;
 
-    JdbcWalletRepository jdbcWalletRepository;
+    private final JdbcWalletRepository jdbcWalletRepository;
 
     public VoucherService(VoucherRepository voucherRepository, CustomerJdbcRepository customerRepository, JdbcWalletRepository jdbcWalletRepository) {
         this.voucherRepository = voucherRepository;
@@ -44,9 +44,9 @@ public class VoucherService {
         try {
             jdbcWalletRepository.getVoucherByVoucherIdAndEmail(voucherId, email);
             voucherRepository.deleteVoucherById(voucherId);
-            new OutputConsole().printMessage("voucher is deleted");
+            OutputConsole.printMessage("voucher is deleted");
         } catch (EmptyResultDataAccessException e) {
-            new OutputConsole().printMessage("WRONG : invalid input");
+            OutputConsole.printMessage("WRONG : invalid input");
         }
     }
 
@@ -59,7 +59,7 @@ public class VoucherService {
             voucherRepository.getVoucherNotProvided(UUID.fromString(voucherId));
             customerRepository.findCustomerById(UUID.fromString(customerId));
         } catch (Exception e) {
-            new OutputConsole().printMessage("WRONG : check voucherId and customerId again\n");
+            OutputConsole.printMessage("WRONG : check voucherId and customerId again\n");
             return Optional.empty();
         }
         return Optional.of(voucherRepository.updateVoucherOwner(UUID.fromString(voucherId), UUID.fromString(customerId)));

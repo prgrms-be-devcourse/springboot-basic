@@ -20,13 +20,12 @@ import java.util.*;
 @Component
 public class FunctionOperator {
 
-    private BlackListService blackListService;
-    private CustomerService customerService;
-    private VoucherService voucherService;
-    private VoucherWalletService voucherWalletService;
+    private final BlackListService blackListService;
+    private final CustomerService customerService;
+    private final VoucherService voucherService;
+    private final VoucherWalletService voucherWalletService;
     private final static Logger logger = LoggerFactory.getLogger(VoucherProgramFunctions.class);
     private final static InputConsole inputConsole = new InputConsole();
-    private final static OutputConsole outputConsole = new OutputConsole();
     private final static String DELETE_CHARACTER = "D";
 
     public FunctionOperator(BlackListService blackListService, CustomerService customerService, VoucherService voucherService, VoucherWalletService voucherWalletService) {
@@ -40,7 +39,7 @@ public class FunctionOperator {
         switch (type) {
             case ("create") -> createVoucherByVoucherType();
             case ("voucherList") -> printVoucherList();
-            case ("blackList") -> outputConsole.printList(blackListService.getBlackList());
+            case ("blackList") -> OutputConsole.printList(blackListService.getBlackList());
             case ("add") -> createNewCustomer();
             case ("provide") -> provideVoucherToCustomer();
             case ("manage") -> {
@@ -51,21 +50,21 @@ public class FunctionOperator {
     }
 
     private void createVoucherByVoucherType() {
-        outputConsole.printVoucherType();
+        new OutputConsole().printVoucherType();
         try {
             voucherService.createVoucher(UUID.randomUUID(),
                     IntUtils.toInt(inputConsole.inputString()),
                     IntUtils.toInt(inputConsole.inputStringWithPrintMessage("Type amount : ")));
         } catch (IllegalArgumentException e) {
             logger.info("error -> {}", e.getMessage());
-            outputConsole.printMessage(e.getMessage());
+            OutputConsole.printMessage(e.getMessage());
         }
     }
 
     private void printVoucherList() {
         Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
         if (voucherList.isEmpty()) {
-            outputConsole.printMessage("voucher list is empty !!\n");
+            OutputConsole.printMessage("voucher list is empty !!\n");
             return;
         }
         for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
@@ -90,7 +89,7 @@ public class FunctionOperator {
 
         //vouchers table update
         Optional<Voucher> voucher = voucherService.provideVoucherToCustomer(voucherId, customerId);
-        voucher.ifPresent(value -> outputConsole.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
+        voucher.ifPresent(value -> OutputConsole.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
     }
 
     private String printCustomerVoucherList() {
@@ -109,12 +108,12 @@ public class FunctionOperator {
     }
 
     private String outputListInputString(List<?> list) {
-        outputConsole.printList(list);
+        OutputConsole.printList(list);
         return inputConsole.inputString();
     }
 
     private String OutputMessageInputString(String message) {
-        outputConsole.printMessage(message);
+        OutputConsole.printMessage(message);
         return inputConsole.inputString();
     }
 }

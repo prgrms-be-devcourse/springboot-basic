@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public class BlackListService {
-    private BlackListRepository blackListRepository;
+    private final BlackListRepository blackListRepository;
 
     public BlackListService(BlackListRepository blackListRepository) {
         this.blackListRepository = blackListRepository;

@@ -1,10 +1,11 @@
 package org.prgrms.kdt.function;
 
 import org.prgrms.kdt.io.OutputConsole;
+import java.util.function.BiFunction;
 
 public enum VoucherProgramFunctions {
     exit(" to exit the program", (functionOperator, functionName) -> {
-        new OutputConsole().printMessage("exit program ! bye :)");
+        OutputConsole.printMessage("exit program ! bye :)");
         return true;
     }),
     create(" to create a new voucher", (functionOperator, functionName) -> {
@@ -19,7 +20,7 @@ public enum VoucherProgramFunctions {
         functionOperator.execute(functionName);
         return false;
     }),
-    add("to create new customer", (functionOperator, functionName) -> {
+    add(" to create new customer", (functionOperator, functionName) -> {
         functionOperator.execute(functionName);
         return false;
     }),
@@ -34,9 +35,9 @@ public enum VoucherProgramFunctions {
 
     private final String explain;
 
-    private final java.util.function.BiFunction<FunctionOperator, String,  Boolean> expression;
+    private final BiFunction<FunctionOperator, String,  Boolean> expression;
 
-    VoucherProgramFunctions(String explain, java.util.function.BiFunction<FunctionOperator, String, Boolean> expression) {
+    VoucherProgramFunctions(String explain, BiFunction<FunctionOperator, String, Boolean> expression) {
         this.explain = explain;
         this.expression = expression;
     }

@@ -9,12 +9,10 @@ import org.slf4j.LoggerFactory;
 
 public class VoucherProgram implements Runnable {
 
-    private OutputConsole outputConsole;
-    private FunctionOperator functionOperator;
+    private final FunctionOperator functionOperator;
     private final static Logger logger = LoggerFactory.getLogger(VoucherProgram.class);
 
-    public VoucherProgram(OutputConsole outputConsole, FunctionOperator functionOperator) {
-        this.outputConsole = outputConsole;
+    public VoucherProgram(FunctionOperator functionOperator) {
         this.functionOperator = functionOperator;
     }
 
@@ -26,7 +24,7 @@ public class VoucherProgram implements Runnable {
     }
 
     private boolean executeProgram() {
-        outputConsole.printFunctions();
+        new OutputConsole().printFunctions();
         String inputFunction = new InputConsole().inputString();
         if (!hasFunction(inputFunction)) {
             return false;
@@ -38,7 +36,7 @@ public class VoucherProgram implements Runnable {
         try{
             VoucherProgramFunctions.valueOf(inputFunction);
         }catch (IllegalArgumentException e) {
-            outputConsole.printMessage("WRONG : Type right command\n");
+            OutputConsole.printMessage("WRONG : Type right command\n");
             return false;
         }finally {
             logger.info("input [Function] -> {}", inputFunction);

@@ -4,8 +4,6 @@ import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.repository.CustomerJdbcRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -24,11 +22,9 @@ public class CustomerService {
     public void createCustomer(Customer customer) {
         try {
             customerRepository.insertCustomer(customer);
-        } catch (DuplicateKeyException e) {
+        } catch (Exception e) {
             logger.info("email : {} {}", customer.getEmail(), e.getMessage());
             System.out.println(MessageFormat.format("{0} is already exist customer", customer.getEmail()));
-        } catch (EmptyResultDataAccessException e) {
-            logger.info(e.getMessage());
         }
     }
 

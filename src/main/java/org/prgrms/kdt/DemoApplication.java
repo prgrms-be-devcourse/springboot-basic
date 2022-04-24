@@ -11,9 +11,8 @@ public class DemoApplication {
 
     public static void main(String[] args) {
         var applicationContext = SpringApplication.run(DemoApplication.class, args);
-        OutputConsole outputConsole = new OutputConsole();
         FunctionOperator functionOperator = applicationContext.getBean(FunctionOperator.class);
 
-        new VoucherProgram(outputConsole, functionOperator).run();
+        new VoucherProgram(functionOperator).run();
     }
 }
