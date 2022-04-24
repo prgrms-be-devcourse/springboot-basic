@@ -2,12 +2,10 @@ package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
-import com.waterfogsw.voucher.voucher.exception.RepositoryException;
 import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
 import com.waterfogsw.voucher.voucher.service.VoucherManageService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,29 +31,24 @@ public class VoucherServiceTests {
     class Describe_addVoucher {
 
         @Nested
-        @Order(1)
-        @DisplayName("repository 에서 NPE 가 발생하면")
+        @DisplayName("인자로 전달받은 Voucher 가 null 이면")
         class Context_with_negative_fixedAmount {
 
             @Test
-            @DisplayName("RepositoryException 예외를 발생시킨다")
+            @DisplayName("IllegalArgumentException 예외를 발생시킨다")
             void it_throw_RepositoryException() {
-                Voucher voucher = new FixedAmountVoucher(100);
 
-                when(voucherRepository.save(any(Voucher.class))).thenThrow(NullPointerException.class);
-
-                assertThrows(RepositoryException.class, () -> voucherService.addVoucher(voucher));
+                assertThrows(IllegalArgumentException.class, () -> voucherService.addVoucher(null));
             }
         }
 
         @Nested
-        @Order(2)
         @DisplayName("Voucher 가 정상적으로 저장되면")
         class Context_with_saved_success {
 
             @Test
             @DisplayName("저장한 Voucher 를 return 한다")
-            void it_throw_IllegalArgumentException() throws RepositoryException {
+            void it_throw_IllegalArgumentException() {
                 Voucher voucher = new FixedAmountVoucher(100);
 
                 when(voucherRepository.save(any(Voucher.class))).thenReturn(voucher);
@@ -66,5 +59,4 @@ public class VoucherServiceTests {
             }
         }
     }
-}
 }
