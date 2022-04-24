@@ -37,7 +37,7 @@ public class VoucherServiceTests {
             @Test
             @DisplayName("IllegalArgumentException 예외를 발생시킨다")
             void it_throw_RepositoryException() {
-                assertThrows(IllegalArgumentException.class, () -> voucherService.addVoucher(null));
+                assertThrows(IllegalArgumentException.class, () -> voucherService.saveVoucher(null));
             }
         }
 
@@ -52,7 +52,7 @@ public class VoucherServiceTests {
 
                 when(voucherRepository.save(any(Voucher.class))).thenReturn(voucher);
 
-                var savedVoucher = voucherService.addVoucher(voucher);
+                var savedVoucher = voucherService.saveVoucher(voucher);
                 assertThat(savedVoucher.getType(), is(savedVoucher.getType()));
                 assertThat(savedVoucher.getValue(), is(savedVoucher.getValue()));
             }
