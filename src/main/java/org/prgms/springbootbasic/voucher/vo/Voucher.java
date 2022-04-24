@@ -2,8 +2,6 @@ package org.prgms.springbootbasic.voucher.vo;
 
 import java.util.UUID;
 
-import org.prgms.springbootbasic.voucher.service.VoucherType;
-
 public interface Voucher {
 	/**
 	 * Voucher의 아이디를 조회하는 메서드

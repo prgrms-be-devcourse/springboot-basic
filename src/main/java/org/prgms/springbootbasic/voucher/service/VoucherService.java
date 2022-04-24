@@ -3,11 +3,9 @@ package org.prgms.springbootbasic.voucher.service;
 import java.util.List;
 import java.util.Map;
 
-import org.prgms.springbootbasic.voucher.io.Console;
-import org.prgms.springbootbasic.voucher.io.Input;
-import org.prgms.springbootbasic.voucher.io.Output;
-import org.prgms.springbootbasic.voucher.repository.VoucherRepository;
+import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
+import org.prgms.springbootbasic.voucher.vo.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,7 +26,7 @@ public class VoucherService {
 	 * @param button
 	 * @param VoucherParam
 	 */
-	public void create(String button, long VoucherParam) {
+	public void create(String button, int VoucherParam) {
 		VoucherType voucherType = VoucherType.getVoucherType(button);
 		Voucher voucher = voucherType.createVoucher(VoucherParam);
 		voucherRepository.save(voucher);

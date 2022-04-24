@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.voucher.repository;
+package org.prgms.springbootbasic.voucher.repository.voucher;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import org.prgms.springbootbasic.voucher.service.VoucherType;
+import org.prgms.springbootbasic.voucher.vo.VoucherType;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

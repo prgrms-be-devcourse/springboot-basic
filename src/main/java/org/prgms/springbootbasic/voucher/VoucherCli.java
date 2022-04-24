@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.prgms.springbootbasic.voucher.service.VoucherService;
-import org.prgms.springbootbasic.voucher.service.VoucherType;
+import org.prgms.springbootbasic.voucher.vo.VoucherType;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -32,7 +32,7 @@ public class VoucherCli {
 	}
 
 	@ShellMethod(value = "create Voucher")
-	public void create(String button, long voucherParam) {
+	public void create(String button, int voucherParam) {
 		voucherService.create(button, voucherParam);
 	}
 

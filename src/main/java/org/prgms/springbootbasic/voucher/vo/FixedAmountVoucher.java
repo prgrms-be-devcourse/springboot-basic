@@ -5,10 +5,6 @@ import static com.google.common.base.Preconditions.*;
 import java.text.MessageFormat;
 import java.util.UUID;
 
-import org.prgms.springbootbasic.voucher.service.VoucherType;
-
-import com.google.common.base.Preconditions;
-
 public class FixedAmountVoucher implements Voucher {
 	private final UUID voucherId;
 	private final VoucherType voucherType;
@@ -21,13 +17,13 @@ public class FixedAmountVoucher implements Voucher {
 			MessageFormat.format("discountAmount의 최소 단위는 100원 이어야 합니다. discountAmount = {0}", discountAmount));
 
 		this.voucherId = UUID.randomUUID();
-		this.voucherType = VoucherType.FIXAMOUNTVOUCHER;
+		this.voucherType = VoucherType.FIXEDAMOUNTVOUCHER;
 		this.discountAmount = discountAmount;
 	}
 
 	public FixedAmountVoucher(UUID voucherId, long discountAmount) {
 		this.voucherId = voucherId;
-		this.voucherType = VoucherType.FIXAMOUNTVOUCHER;
+		this.voucherType = VoucherType.FIXEDAMOUNTVOUCHER;
 		this.discountAmount = discountAmount;
 	}
 

@@ -9,6 +9,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgms.springbootbasic.voucher.repository.voucher.MemoryVoucherRepository;
+import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
+import org.prgms.springbootbasic.voucher.vo.VoucherType;
 import org.prgms.springbootbasic.voucher.vo.FixedAmountVoucher;
 import org.prgms.springbootbasic.voucher.vo.PercentDiscountVoucher;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
@@ -26,7 +29,7 @@ class MemoryVoucherRepositoryTest {
 	@Test
 	void save_pass_test() {
 		//given
-		Voucher amountVoucher = new FixedAmountVoucher(100L);
+		Voucher amountVoucher = new FixedAmountVoucher(100);
 		//when,then
 		assertSaveVoucherTest(amountVoucher);
 
@@ -58,22 +61,22 @@ class MemoryVoucherRepositoryTest {
 		assertEquals(0, voucherRepository.getVoucherListByType().size());
 		// Voucher의 종류 test
 		//given
-		voucherRepository.save(new FixedAmountVoucher(100L));
+		voucherRepository.save(new FixedAmountVoucher(100));
 		voucherRepository.save(new PercentDiscountVoucher(20));
 
 		//when
-		Map<String, List<Voucher>> voucherList = voucherRepository.getVoucherListByType();
+		Map<VoucherType, List<Voucher>> voucherList = voucherRepository.getVoucherListByType();
 		//then
 		assertEquals(2, voucherList.size());
 
 		//given
-		voucherRepository.save(new FixedAmountVoucher(300L));
+		voucherRepository.save(new FixedAmountVoucher(300));
 		//when
 
-		Map<String, List<Voucher>> voucherList1 = voucherRepository.getVoucherListByType();
+		Map<VoucherType, List<Voucher>> voucherList1 = voucherRepository.getVoucherListByType();
 		//then
-		assertEquals(2, voucherList1.get(FixedAmountVoucher.class.getSimpleName()).size());
-		assertEquals(1, voucherList1.get(PercentDiscountVoucher.class.getSimpleName()).size());
+		assertEquals(2, voucherList1.get(VoucherType.FIXEDAMOUNTVOUCHER).size());
+		assertEquals(1, voucherList1.get(VoucherType.PERCENTDISCOUNTVOUCHER).size());
 
 	}
 

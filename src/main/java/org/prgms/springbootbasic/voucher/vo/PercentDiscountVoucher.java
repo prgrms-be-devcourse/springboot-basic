@@ -4,8 +4,6 @@ import static com.google.common.base.Preconditions.*;
 
 import java.util.UUID;
 
-import org.prgms.springbootbasic.voucher.service.VoucherType;
-
 public class PercentDiscountVoucher implements Voucher {
 	private final UUID voucherId;
 	private final VoucherType voucherType;

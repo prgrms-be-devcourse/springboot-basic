@@ -1,10 +1,10 @@
-package org.prgms.springbootbasic.voucher.repository;
+package org.prgms.springbootbasic.voucher.repository.voucher;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.prgms.springbootbasic.voucher.service.VoucherType;
+import org.prgms.springbootbasic.voucher.vo.VoucherType;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
 
 public interface VoucherRepository {

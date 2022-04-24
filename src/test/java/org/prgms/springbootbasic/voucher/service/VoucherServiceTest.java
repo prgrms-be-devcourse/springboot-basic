@@ -1,15 +1,13 @@
 package org.prgms.springbootbasic.voucher.service;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.springbootbasic.voucher.repository.MemoryVoucherRepository;
-import org.prgms.springbootbasic.voucher.repository.VoucherRepository;
+import org.prgms.springbootbasic.voucher.repository.voucher.MemoryVoucherRepository;
+import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
+import org.prgms.springbootbasic.voucher.vo.VoucherType;
 
 class VoucherServiceTest {
 
@@ -25,9 +23,9 @@ class VoucherServiceTest {
 	@DisplayName("createVoucher 성공 Test")
 	@Test
 	void create_Voucher_pass_test() {
-		voucherService.create("1", 20000L);
-		voucherService.create("2", 30);
-		voucherService.create("2", 40);
+		voucherService.create(VoucherType.FIXEDAMOUNTVOUCHER.name(), 20000);
+		voucherService.create(VoucherType.PERCENTDISCOUNTVOUCHER.name(), 30);
+		voucherService.create(VoucherType.PERCENTDISCOUNTVOUCHER.name(), 40);
 
 		assertEquals(3, voucherRepository.getTotalVoucherCount());
 	}

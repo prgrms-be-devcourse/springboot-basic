@@ -29,8 +29,8 @@ class PercentDiscountVoucherTest {
 	@Test
 	void discount_pass_test() {
 		Voucher voucher = new PercentDiscountVoucher(10);
-		assertEquals(90L, voucher.discount(100L));
-		assertEquals(180L, voucher.discount(200L));
+		assertEquals(90L, voucher.discount(100));
+		assertEquals(180L, voucher.discount(200));
 	}
 
 	@DisplayName("discount 실패 테스트")
@@ -39,7 +39,7 @@ class PercentDiscountVoucherTest {
 		Voucher voucher = new PercentDiscountVoucher(20);
 
 		// beforeAmount는 음수이면 안된다.
-		assertThrows(IllegalArgumentException.class, () -> voucher.discount(-20L));
-		assertThrows(IllegalArgumentException.class, () -> voucher.discount(-1L));
+		assertThrows(IllegalArgumentException.class, () -> voucher.discount(-20));
+		assertThrows(IllegalArgumentException.class, () -> voucher.discount(-1));
 	}
 }
