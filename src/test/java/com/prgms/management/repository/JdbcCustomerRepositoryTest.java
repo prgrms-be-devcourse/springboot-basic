@@ -1,9 +1,10 @@
-package com.prgms.management.customer.repository;
+package com.prgms.management.repository;
 
 import com.prgms.management.common.exception.FindFailException;
 import com.prgms.management.common.exception.InvalidParameterException;
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.customer.model.CustomerType;
+import com.prgms.management.customer.repository.CustomerRepository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.MysqldConfig;
@@ -70,7 +71,7 @@ class JdbcCustomerRepositoryTest {
     }
     
     @Configuration
-    @ComponentScan
+    @ComponentScan(basePackages = {"com.prgms.management.customer"})
     static class Config {
         @Bean
         public DataSource dataSource() {

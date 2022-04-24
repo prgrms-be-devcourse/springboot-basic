@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class CommonExceptionHandler {
     @ExceptionHandler(FindFailException.class)
-    public ResponseEntity<ErrorResponse> handleFindFailException(FindFailException e) {
+    public ResponseEntity<ErrorResponse> handleFindFailException() {
         return ResponseEntity.notFound().build();
     }
     
     @ExceptionHandler(EmptyListException.class)
-    public ResponseEntity<ErrorResponse> handleRuntimeExceptions(EmptyListException e) {
+    public ResponseEntity<ErrorResponse> handleRuntimeExceptions() {
         return ResponseEntity.noContent().build();
     }
     

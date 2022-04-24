@@ -1,4 +1,4 @@
-package com.prgms.management.voucher.repository;
+package com.prgms.management.repository;
 
 import com.prgms.management.common.exception.DeleteFailException;
 import com.prgms.management.common.exception.FindFailException;
@@ -6,6 +6,7 @@ import com.prgms.management.common.exception.InvalidParameterException;
 import com.prgms.management.voucher.model.FixedAmountVoucher;
 import com.prgms.management.voucher.model.PercentDiscountVoucher;
 import com.prgms.management.voucher.model.Voucher;
+import com.prgms.management.voucher.repository.VoucherRepository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.MysqldConfig;
@@ -74,7 +75,7 @@ class JdbcVoucherRepositoryTest {
     }
     
     @Configuration
-    @ComponentScan
+    @ComponentScan(basePackages = {"com.prgms.management.voucher"})
     static class Config {
         @Bean
         public DataSource dataSource() {
