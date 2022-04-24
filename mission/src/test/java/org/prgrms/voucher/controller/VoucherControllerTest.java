@@ -34,7 +34,7 @@ public class VoucherControllerTest {
         @DisplayName("create 기능을 테스트 할 때 바우처 타입 1, 할인값 100을 인자로 받으면")
         class ContextReceiveVoucherTypeAndValue {
 
-            VoucherDto.CreateVoucherRequest requestDto = new VoucherDto.CreateVoucherRequest(100, VoucherType.FIXED_AMOUNT);
+            VoucherDto.VoucherRequest requestDto = new VoucherDto.VoucherRequest(100, VoucherType.FIXED_AMOUNT);
 
             Voucher voucher = new FixedAmountVoucher(1L,100, VoucherType.FIXED_AMOUNT);
 
@@ -57,7 +57,7 @@ public class VoucherControllerTest {
 
                 Response response = voucherController.create(requestDto);
 
-                VoucherDto.CreateVoucherResponse responseCheck = VoucherDto.CreateVoucherResponse.from(voucher);
+                VoucherDto.VoucherResponse responseCheck = VoucherDto.VoucherResponse.from(voucher);
 
                 Assertions.assertThat(response.data()).isEqualTo(responseCheck);
             }
@@ -67,7 +67,7 @@ public class VoucherControllerTest {
         @DisplayName("create 기능을 테스트 할 때 전달받은 바우처타입 인자가 null이면")
         class ContextReceiveNull {
 
-            VoucherDto.CreateVoucherRequest requestDto = null;
+            VoucherDto.VoucherRequest requestDto = null;
 
             @Test
             @DisplayName("실패 상태와 재입력 메시지를 반환한다.")
