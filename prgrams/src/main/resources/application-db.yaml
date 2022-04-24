@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    jdbc-url: jdbc:mysql://localhost:3307/order_mgmt
+    username: root
+    password: gusdnd12
+    driver-class-name: com.mysql.jdbc.Driver
