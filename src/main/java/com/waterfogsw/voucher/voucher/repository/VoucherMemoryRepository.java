@@ -18,11 +18,12 @@ public class VoucherMemoryRepository implements VoucherRepository {
         }
 
         if (voucher.getId() == null) {
-            voucher = createVoucherEntity(voucher);
+            Voucher newVoucher = createVoucherEntity(voucher);
+            voucherStore.put(newVoucher.getId(), newVoucher);
+            return newVoucher;
         }
 
         voucherStore.put(voucher.getId(), voucher);
-
         return voucher;
     }
 
