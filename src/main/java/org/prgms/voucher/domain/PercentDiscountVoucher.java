@@ -1,4 +1,4 @@
-package org.prgms.voucher;
+package org.prgms.voucher.domain;
 
 import com.google.common.base.Preconditions;
 

@@ -1,7 +1,7 @@
 package org.prgms;
 
-import org.prgms.voucher.Voucher;
-import org.prgms.voucher.repository.VoucherRepository;
+import org.prgms.voucher.domain.Voucher;
+import org.prgms.voucher.domain.VoucherRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

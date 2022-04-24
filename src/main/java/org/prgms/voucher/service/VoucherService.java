@@ -1,7 +1,7 @@
 package org.prgms.voucher.service;
 
-import org.prgms.voucher.Voucher;
-import org.prgms.voucher.repository.VoucherRepository;
+import org.prgms.voucher.domain.Voucher;
+import org.prgms.voucher.domain.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

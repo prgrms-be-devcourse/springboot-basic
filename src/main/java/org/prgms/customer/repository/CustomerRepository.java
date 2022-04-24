@@ -3,6 +3,7 @@ package org.prgms.customer.repository;
 import org.prgms.customer.Customer;
 import org.prgms.utils.UuidUtils;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -50,12 +51,28 @@ public class CustomerRepository {
 
 
     public Optional<Customer> findByEmail(String email) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL, this::mapToCustomer, email));
+        try {
+
+            return Optional.of(jdbcTemplate.queryForObject(SELECT_BY_EMAIL, this::mapToCustomer, email));
+
+        } catch (EmptyResultDataAccessException e) {
+            // jdbcTemplate.queryForObject 안에서 반환되는 결과가 0일 시 throw 하는 에러
+
+            return Optional.empty();
+        }
     }
 
 
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID, this::mapToCustomer, UuidUtils.uuidToBytes(customerId)));
+        try {
+
+            return Optional.of(jdbcTemplate.queryForObject(SELECT_BY_ID, this::mapToCustomer, UuidUtils.uuidToBytes(customerId)));
+
+        } catch (EmptyResultDataAccessException e) {
+            // jdbcTemplate.queryForObject 안에서 반환되는 결과가 0일 시 throw 하는 에러
+
+            return Optional.empty();
+        }
     }
 
 
