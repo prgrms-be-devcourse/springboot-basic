@@ -1,5 +1,8 @@
 package org.prgrms.kdt.domain.voucher.service;
 
+import org.prgrms.kdt.domain.voucher.dto.VoucherCreateRequest;
+import org.prgrms.kdt.domain.voucher.dto.VoucherUpdateRequest;
+import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
@@ -14,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
+
 @Service
 @Transactional(readOnly = true)
 public class VoucherService {
@@ -25,10 +30,12 @@ public class VoucherService {
     }
 
     @Transactional
-    public UUID saveVoucher(VoucherType voucherType, long discount) {
+    public UUID saveVoucher(VoucherCreateRequest createRequest) {
         UUID voucherId = UUID.randomUUID();
+        VoucherType voucherType = createRequest.getVoucherType();
+        long discountValue = createRequest.getDiscountValue();
         LocalDateTime now = LocalDateTime.now();
-        Voucher voucher = new Voucher(voucherId, voucherType, discount, now, now);
+        Voucher voucher = new Voucher(voucherId, voucherType, discountValue, now, now);
         UUID savedId = voucherRepository.save(voucher);
         logger.info("save Voucher id: {}", voucher.getVoucherId());
         return savedId;
@@ -46,18 +53,6 @@ public class VoucherService {
         return vouchers;
     }
 
-    @Transactional
-    public void removeVoucher(UUID voucherId) {
-        voucherRepository.deleteById(voucherId);
-        logger.info("Delete Voucher id: {}", voucherId);
-    }
-
-    @Transactional
-    public void updateCustomerId(UUID voucherId, UUID customerId) {
-        int update = voucherRepository.updateCustomerId(voucherId, customerId);
-        logger.info("Update Voucher's customerId count: {}", update);
-    }
-
     public List<Voucher> getVouchersByCustomerId(UUID customerId) {
         List<Voucher> vouchers = voucherRepository.findByCustomerId(customerId);
         logger.info("Get voucher by customerId size: {}", vouchers.size());
@@ -68,5 +63,29 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findByTypeAndDate(voucherType, date);
         logger.info("Get voucher by type and date size: {}", vouchers.size());
         return vouchers;
+    }
+
+    @Transactional
+    public void updateCustomerId(UUID voucherId, UUID customerId) {
+        voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
+        int update = voucherRepository.updateCustomerId(voucherId, customerId);
+        logger.info("Update Voucher's customerId count: {}", update);
+    }
+
+    @Transactional
+    public void update(VoucherUpdateRequest updateRequest, UUID voucherId) {
+        voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
+        Voucher voucher = updateRequest.toEntity();
+        voucherRepository.update(voucher);
+    }
+
+    @Transactional
+    public void removeVoucher(UUID voucherId) {
+        voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
+        voucherRepository.deleteById(voucherId);
+        logger.info("Delete Voucher id: {}", voucherId);
     }
 }

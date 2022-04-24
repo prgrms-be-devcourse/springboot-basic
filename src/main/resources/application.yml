@@ -4,6 +4,10 @@ spring:
     url: jdbc:mysql://localhost:3306/voucher?serverTimezone=Asia/Seoul
     username:
     password:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
   profiles:
     active: local
