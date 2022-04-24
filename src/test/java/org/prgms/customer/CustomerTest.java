@@ -25,12 +25,11 @@ class CustomerTest {
     void customerTest() throws Exception {
         List<Customer> customers = fileReader.readFile();
 
-        assertThat(customers).extracting(Customer::name, Customer::email)
-                .containsExactlyInAnyOrder(
-                        tuple("홍길동", "hongil@gmail.com"),
-                        tuple("박철수", "cheolsu@naver.com"),
-                        tuple("김지영", "jeeyoung@yahoo.co.kr")
-                );
+        assertThat(customers).extracting(Customer::name, Customer::email).containsExactlyInAnyOrder(
+                tuple("홍길동", "hongil@gmail.com"),
+                tuple("박철수", "cheolsu@naver.com"),
+                tuple("김지영", "jeeyoung@yahoo.co.kr")
+        );
     }
 
     @ParameterizedTest
