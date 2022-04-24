@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.mountain.voucherApp.shared.constants.Message.CREATE_NEW_VOUCHER;
+import static com.mountain.voucherApp.shared.constants.ProgramMessage.CREATE_NEW_VOUCHER;
 
 @UseCase
 public class VoucherAppService implements VoucherAppUseCase {

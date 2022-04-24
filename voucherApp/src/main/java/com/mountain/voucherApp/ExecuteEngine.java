@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
-import static com.mountain.voucherApp.shared.constants.Message.WRONG_INPUT;
+import static com.mountain.voucherApp.shared.constants.ProgramMessage.WRONG_INPUT;
 import static com.mountain.voucherApp.shared.utils.MenuUtil.getMenuMap;
 import static com.mountain.voucherApp.shared.utils.MenuUtil.isExit;
 

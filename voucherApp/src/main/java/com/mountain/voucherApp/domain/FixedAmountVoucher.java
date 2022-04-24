@@ -1,7 +1,6 @@
 package com.mountain.voucherApp.domain;
 
-import static com.mountain.voucherApp.shared.constants.Message.MAX_MORE_ERROR;
-import static com.mountain.voucherApp.shared.constants.Message.NEGATIVE_AMOUNT_ERROR;
+import static com.mountain.voucherApp.shared.constants.ErrorMessage.*;
 import static com.mountain.voucherApp.shared.constants.Number.ZERO;
 
 public class FixedAmountVoucher extends Voucher {

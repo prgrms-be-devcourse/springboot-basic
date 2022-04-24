@@ -2,6 +2,7 @@ package com.mountain.voucherApp.shared.utils;
 
 import com.mountain.voucherApp.shared.enums.Menu;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -14,6 +15,7 @@ import static com.mountain.voucherApp.shared.utils.MenuUtil.*;
 class MenuUtilTest {
 
     @Test
+    @DisplayName("Enum 기준으로 올바른 Map이 만들어지는져야 한다.")
     public void Menu_Map_조회_테스트() throws Exception {
         //given
         Map<Integer, Menu> menuMap = getMenuMap();
@@ -26,16 +28,15 @@ class MenuUtilTest {
                 });
     }
 
-    @ParameterizedTest
-    @CsvSource({ // given
-            "0, true",
-            "1, false",
-            "2, false"
-    })
-    public void 타입_확인함수_테스트(int ordinal, boolean expected1)
+
+    @DisplayName("Exit는 0번째 Ordinal의 값을 가져야 한다.")
+    @Test
+    public void 타입_확인함수_테스트()
             throws Exception {
         getMenuMap();
-        Assertions.assertEquals(expected1, isExit(ordinal));
+        Assertions.assertEquals(true, isExit(0));
+        Assertions.assertEquals(false, isExit(1));
+        Assertions.assertEquals(false, isExit(2));
     }
 
 }

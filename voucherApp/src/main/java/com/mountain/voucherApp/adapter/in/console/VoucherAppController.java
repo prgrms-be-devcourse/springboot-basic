@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
-import static com.mountain.voucherApp.shared.constants.Message.*;
+import static com.mountain.voucherApp.shared.constants.ProgramMessage.*;
 import static com.mountain.voucherApp.shared.constants.Number.NOT_EXIST_DATA_NUMBER;
 
 @Controller
@@ -69,21 +69,21 @@ public class VoucherAppController {
     }
 
     public void addVoucher() {
-        outputConsole.printMessage("고객 ID를 입력해 주세요.");
+        outputConsole.printMessage(PLEASE_INPUT_CUSTOMER_ID);
         UUID customerId = UUID.fromString(inputConsole.input());
-        outputConsole.printMessage("바우처 ID를 입력해 주세요.");
+        outputConsole.printMessage(PLEASE_INPUT_VOUCHER_ID);
         UUID voucherId = UUID.fromString(inputConsole.input());
         voucherAppUseCase.addVoucher(new VoucherIdUpdateDto(customerId, voucherId));
     }
 
     public void removeVoucher() {
-        outputConsole.printMessage("고객 ID를 입력해 주세요.");
+        outputConsole.printMessage(PLEASE_INPUT_CUSTOMER_ID);
         UUID customerId = UUID.fromString(inputConsole.input());
         voucherAppUseCase.removeVoucher(customerId);
     }
 
     public void showByVoucher() {
-        outputConsole.printMessage("바우처 ID를 입력해 주세요.");
+        outputConsole.printMessage(PLEASE_INPUT_VOUCHER_ID);
         UUID voucherId = UUID.fromString(inputConsole.input());
         outputConsole.printCustomerVoucherInfo(voucherAppUseCase.showByVoucher(voucherId));
     }

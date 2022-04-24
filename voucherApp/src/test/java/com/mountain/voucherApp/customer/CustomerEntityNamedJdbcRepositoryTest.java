@@ -39,6 +39,7 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -145,8 +146,10 @@ class CustomerEntityNamedJdbcRepositoryTest {
             log.info("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode(), e);
         }
         Optional<CustomerDto> savedCustomer = customerNamedJdbcRepository.findById(customer.getCustomerId());
-        assertThat(savedCustomer.isEmpty(), is(false));
-        assertThat(savedCustomer.get(), samePropertyValuesAs(customer));
+        assertAll(
+                () -> assertThat(savedCustomer.isEmpty(), is(false)),
+                () -> assertThat(savedCustomer.get(), samePropertyValuesAs(customer))
+        );
     }
 
     @Test
@@ -162,10 +165,11 @@ class CustomerEntityNamedJdbcRepositoryTest {
     @Order(4)
     public void testFindByName() {
         Optional<CustomerDto> getCustomer = customerNamedJdbcRepository.findByName(customer.getCustomerName());
-        assertThat(getCustomer.isEmpty(), is(false));
-
         Optional<CustomerDto> unknown = customerNamedJdbcRepository.findByName("unknown-user");
-        assertThat(unknown.isEmpty(), is(true));
+        assertAll(
+                () -> assertThat(getCustomer.isEmpty(), is(false)),
+                () -> assertThat(unknown.isEmpty(), is(true))
+        );
     }
 
     @Test
@@ -173,10 +177,12 @@ class CustomerEntityNamedJdbcRepositoryTest {
     @Order(5)
     public void testFindByEmail() throws Exception {
         Optional<CustomerDto> getCustomer = customerNamedJdbcRepository.findByEmail(customer.getEmail());
-        assertThat(getCustomer.isEmpty(), is(false));
-
         Optional<CustomerDto> unknown = customerNamedJdbcRepository.findByEmail("unknown-user");
-        assertThat(unknown.isEmpty(), is(true));
+
+        assertAll(
+                () -> assertThat(getCustomer.isEmpty(), is(false)),
+                () -> assertThat(unknown.isEmpty(), is(true))
+        );
     }
 
     @Test
@@ -195,10 +201,12 @@ class CustomerEntityNamedJdbcRepositoryTest {
         customerNamedJdbcRepository.update(updateCustomer);
 
         List<CustomerDto> customerEntities = customerNamedJdbcRepository.findAll();
-
-        assertThat(customerEntities, hasSize(1));
         Optional<CustomerDto> savedCustomer = customerNamedJdbcRepository.findById(customer.getCustomerId());
-        assertThat(savedCustomer.isEmpty(), is(false));
+
+        assertAll(
+                () -> assertThat(customerEntities, hasSize(1)),
+                () -> assertThat(savedCustomer.isEmpty(), is(false))
+        );
     }
 
     @Test
@@ -206,10 +214,12 @@ class CustomerEntityNamedJdbcRepositoryTest {
     @Order(7)
     public void testFindByVoucherId() throws Exception {
         List<CustomerDto> customerEntities = customerNamedJdbcRepository.findByVoucherId(voucherEntity.getVoucherId());
-        assertThat(customerEntities.isEmpty(), is(false));
-        assertThat(customerEntities.get(0).getVoucherId(), is(voucherEntity.getVoucherId()));
         List<CustomerDto> unknown = customerNamedJdbcRepository.findByVoucherId(UUID.randomUUID());
-        assertThat(unknown.isEmpty(), is(true));
+        assertAll(
+                () -> assertThat(customerEntities.isEmpty(), is(false)),
+                () -> assertThat(customerEntities.get(0).getVoucherId(), is(voucherEntity.getVoucherId())),
+                () -> assertThat(unknown.isEmpty(), is(true))
+        );
     }
 
     @Test
@@ -224,8 +234,10 @@ class CustomerEntityNamedJdbcRepositoryTest {
                 LocalDateTime.now());
         customerNamedJdbcRepository.insert(customer2);
         List<CustomerDto> customerEntities = customerNamedJdbcRepository.findByVoucherId(voucherEntity.getVoucherId());
-        assertThat(customerEntities.isEmpty(), is(false));
-        assertThat(customerEntities.size(), is(2));
+        assertAll(
+                () -> assertThat(customerEntities.isEmpty(), is(false)),
+                () -> assertThat(customerEntities.size(), is(2))
+        );
     }
 
     @Test
@@ -234,8 +246,10 @@ class CustomerEntityNamedJdbcRepositoryTest {
     public void testVoucherIdNotNullList() throws Exception {
         customerNamedJdbcRepository.updateVoucherId(customer.getCustomerId(), null);
         List<CustomerDto> customerEntities = customerNamedJdbcRepository.findByVoucherIdNotNull();
-        assertThat(customerEntities.isEmpty(), is(false));
-        assertThat(customerEntities.size(), is(1));
+        assertAll(
+                () -> assertThat(customerEntities.isEmpty(), is(false)),
+                () -> assertThat(customerEntities.size(), is(1))
+        );
     }
 
     @Test
@@ -247,11 +261,17 @@ class CustomerEntityNamedJdbcRepositoryTest {
 
         customerNamedJdbcRepository.updateVoucherId(customer.getCustomerId(), null);
         customerNamedJdbcRepository.updateVoucherId(customer2.getCustomerId(), voucherEntity.getVoucherId());
-        Optional<CustomerDto> getCustomer = customerNamedJdbcRepository.findById(customer.getCustomerId());
+        Optional<CustomerDto> getCustomer = customerNamedJdbcRepository.findById(customer.getCustomerId());;
 
-        assertThat(getCustomer.isEmpty(), is(false));
-        assertThat(getCustomer.get().getVoucherId(), nullValue());
-        assertThat(customer2.getVoucherId(), is(voucherEntity.getVoucherId()));
+//        assertThat(getCustomer.isEmpty(), is(true));
+//        assertThat(getCustomer.get().getVoucherId(), nullValue());
+//        assertThat(customer2.getVoucherId(), is(voucherEntity.getVoucherId()));
+
+        assertAll(
+                () -> assertThat(getCustomer.isEmpty(), is(false)),
+                () -> assertThat(getCustomer.get().getVoucherId(), nullValue()),
+                () -> assertThat(customer2.getVoucherId(), is(voucherEntity.getVoucherId()))
+        );
     }
 
     @Test
@@ -261,9 +281,11 @@ class CustomerEntityNamedJdbcRepositoryTest {
         UUID customerId = customer.getCustomerId();
         customerNamedJdbcRepository.removeByCustomerId(customerId);
         Optional<CustomerDto> selectedCustomer = customerNamedJdbcRepository.findById(customerId);
-        assertThat(selectedCustomer.isEmpty(), is(true));
         int allSize = customerNamedJdbcRepository.findAll().size();
-        assertThat(allSize, is(1));
+        assertAll(
+                () -> assertThat(selectedCustomer.isEmpty(), is(true)),
+                () -> assertThat(allSize, is(1))
+        );
     }
 
 }

@@ -19,8 +19,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.mountain.voucherApp.shared.constants.Field.*;
-import static com.mountain.voucherApp.shared.constants.Message.*;
-import static com.mountain.voucherApp.shared.constants.Query.*;
+import static com.mountain.voucherApp.shared.constants.ErrorMessage.*;
+import static com.mountain.voucherApp.shared.constants.Number.EXECUTE_SUCCESS;
 import static com.mountain.voucherApp.shared.utils.CommonUtil.toUUID;
 
 @Repository
@@ -39,12 +39,12 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
 
     private Map<String, Object> toParamMap(CustomerDto customerDto) {
         Map<String, Object> paramMap = new HashMap<>() {{
-            put(CUSTOMER_ID_CAMEL, customerDto.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
-            put(VOUCHER_ID_CAMEL, customerDto.getVoucherId() != null ? customerDto.getVoucherId().toString().getBytes(StandardCharsets.UTF_8) : null);
-            put(NAME, customerDto.getCustomerName());
-            put(EMAIL, customerDto.getEmail());
-            put(CREATED_AT_CAMEL, Timestamp.valueOf(customerDto.getCreatedAt()));
-            put(LAST_LOGIN_AT_CAMEL, customerDto.getLastLoginAt() != null ? Timestamp.valueOf(customerDto.getLastLoginAt()) : null);
+            put(CUSTOMER_ID_CAMEL.getValue(), customerDto.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
+            put(VOUCHER_ID_CAMEL.getValue(), customerDto.getVoucherId() != null ? customerDto.getVoucherId().toString().getBytes(StandardCharsets.UTF_8) : null);
+            put(NAME.getValue(), customerDto.getCustomerName());
+            put(EMAIL.getValue(), customerDto.getEmail());
+            put(CREATED_AT_CAMEL.getValue(), Timestamp.valueOf(customerDto.getCreatedAt()));
+            put(LAST_LOGIN_AT_CAMEL.getValue(), customerDto.getLastLoginAt() != null ? Timestamp.valueOf(customerDto.getLastLoginAt()) : null);
         }};
         return paramMap;
     }
@@ -53,7 +53,7 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
     public CustomerDto insert(CustomerDto customerDto) {
         Map paramMap = toParamMap(customerDto);
         int executeUpdate = jdbcTemplate.update(
-                INSERT_CUSTOMER,
+                "INSERT INTO customers (customer_id, voucher_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId), :name, :email, :createdAt)",
                 paramMap
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
@@ -66,7 +66,7 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
     public CustomerDto update(CustomerDto customerDto) {
         Map paramMap = toParamMap(customerDto);
         int executeUpdate = jdbcTemplate.update(
-                UPDATE_CUSTOMER,
+                "UPDATE customers SET voucher_id = UUID_TO_BIN(:voucherId), name = :name, email = :email, last_login_at = :lastLoginAt where customer_id = UUID_TO_BIN(:customerId)",
                 paramMap
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
@@ -78,12 +78,12 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
     @Override
     public void updateVoucherId(UUID customerId, UUID voucherId) {
         Map<String, Object> paramMap = new HashMap<>() {{
-            put(CUSTOMER_ID_CAMEL, customerId.toString().getBytes(StandardCharsets.UTF_8));
-            put(VOUCHER_ID_CAMEL, voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
+            put(CUSTOMER_ID_CAMEL.getValue(), customerId.toString().getBytes(StandardCharsets.UTF_8));
+            put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
 
         }};
         int executeUpdate = jdbcTemplate.update(
-                UPDATE_VOUCHER_ID,
+                "UPDATE customers SET voucher_id = UUID_TO_BIN(:voucherId) where customer_id = UUID_TO_BIN(:customerId)",
                 paramMap
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
@@ -94,7 +94,7 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
     @Override
     public int count() {
         return jdbcTemplate.queryForObject(
-                COUNT_CUSTOMER,
+                "select count(*) from customers",
                 Collections.emptyMap(),
                 Integer.class
         );
@@ -102,7 +102,7 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
 
     @Override
     public List<CustomerDto> findAll() {
-        return jdbcTemplate.query(SELECT_ALL_CUSTOMER, customerRowMapper)
+        return jdbcTemplate.query("select * from customers", customerRowMapper)
                 .stream()
                 .map((customerEntity) -> customerMapper.mapToDomainEntity(customerEntity))
                 .collect(Collectors.toList());
@@ -114,8 +114,8 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
             return Optional.ofNullable(
                     customerMapper.mapToDomainEntity(
                             jdbcTemplate.queryForObject(
-                                    SELECT_CUSTOMER_BY_ID,
-                                    Collections.singletonMap(CUSTOMER_ID_CAMEL, customerId.toString().getBytes()),
+                                    "select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                                    Collections.singletonMap(CUSTOMER_ID_CAMEL.getValue(), customerId.toString().getBytes()),
                                     customerRowMapper
                             )
                     ));
@@ -128,10 +128,10 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
     @Override
     public List<CustomerDto> findByVoucherId(UUID voucherId) {
         Map<String, Object> paramMap = new HashMap<>() {{
-            put(VOUCHER_ID_CAMEL, voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
+            put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
         }};
         return jdbcTemplate.query(
-                SELECT_CUSTOMER_BY_VOUCHER_ID,
+                "select * from customers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap,
                 customerRowMapper
         ).stream()
@@ -143,8 +143,8 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
     public Optional<CustomerDto> findByName(String name) {
         try {
             return Optional.ofNullable(customerMapper.mapToDomainEntity(jdbcTemplate.queryForObject(
-                    SELECT_CUSTOMER_BY_NAME,
-                    Collections.singletonMap(NAME, name),
+                    "select * from customers WHERE name = :name",
+                    Collections.singletonMap(NAME.getValue(), name),
                     customerRowMapper
             )));
         } catch (EmptyResultDataAccessException e) {
@@ -157,8 +157,8 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
     public Optional<CustomerDto> findByEmail(String email) {
         try {
             return Optional.ofNullable(customerMapper.mapToDomainEntity(jdbcTemplate.queryForObject(
-                    SELECT_CUSTOMER_BY_EMAIL,
-                    Collections.singletonMap(EMAIL, email),
+                    "select * from customers WHERE email = :email",
+                    Collections.singletonMap(EMAIL.getValue(), email),
                     customerRowMapper
             )));
         } catch (EmptyResultDataAccessException e) {
@@ -169,12 +169,12 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(DELETE_ALL_CUSTOMER, Collections.emptyMap());
+        jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
     }
 
     @Override
     public List<CustomerDto> findByVoucherIdNotNull() {
-        return jdbcTemplate.query(SELECT_ALL_VOUCHER_ID_NOT_NULL, customerRowMapper)
+        return jdbcTemplate.query("select * from customers where voucher_id is not null", customerRowMapper)
                 .stream()
                 .map(customerEntity -> customerMapper.mapToDomainEntity(customerEntity))
                 .collect(Collectors.toList());
@@ -182,20 +182,20 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
 
     @Override
     public void removeByCustomerId(UUID customerId) {
-        jdbcTemplate.update(DELETE_BY_CUSTOMER_ID, Collections.singletonMap(CUSTOMER_ID_CAMEL,
+        jdbcTemplate.update("DELETE FROM customers where customer_id = UUID_TO_BIN(:customerId)", Collections.singletonMap(CUSTOMER_ID_CAMEL.getValue(),
                 customerId.toString().getBytes(StandardCharsets.UTF_8)));
     }
 
     private static RowMapper<CustomerEntity> customerRowMapper = new RowMapper<CustomerEntity>() {
         @Override
         public CustomerEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-            String customerName = rs.getString(NAME);
-            byte[] voucherId = rs.getBytes(VOUCHER_ID);
-            String email = rs.getString(EMAIL);
-            byte[] customerId = rs.getBytes(CUSTOMER_ID);
-            LocalDateTime lastLoginAt = rs.getTimestamp(LAST_LOGIN_AT) != null ?
-                    rs.getTimestamp(LAST_LOGIN_AT).toLocalDateTime() : null;
-            LocalDateTime createdAt = rs.getTimestamp(CREATED_AT).toLocalDateTime();
+            String customerName = rs.getString(NAME.getValue());
+            byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
+            String email = rs.getString(EMAIL.getValue());
+            byte[] customerId = rs.getBytes(CUSTOMER_ID.getValue());
+            LocalDateTime lastLoginAt = rs.getTimestamp(LAST_LOGIN_AT.getValue()) != null ?
+                    rs.getTimestamp(LAST_LOGIN_AT.getValue()).toLocalDateTime() : null;
+            LocalDateTime createdAt = rs.getTimestamp(CREATED_AT.getValue()).toLocalDateTime();
             UUID customerUUID = toUUID(customerId);
             UUID voucherUUID = voucherId != null ? toUUID(voucherId) : null;
             lastLoginAt = (lastLoginAt != null) ? lastLoginAt : null;

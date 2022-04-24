@@ -16,8 +16,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 import static com.mountain.voucherApp.shared.constants.Field.*;
-import static com.mountain.voucherApp.shared.constants.Message.*;
-import static com.mountain.voucherApp.shared.constants.Query.*;
+import static com.mountain.voucherApp.shared.constants.ErrorMessage.*;
 import static com.mountain.voucherApp.shared.utils.CommonUtil.toUUID;
 
 @Repository
@@ -34,17 +33,17 @@ public class JdbcVoucherRepository implements VoucherPort {
 
     private Map<String, Object> toParamMap(VoucherEntity voucherEntity) {
         return new HashMap<>() {{
-            put(VOUCHER_ID_CAMEL, voucherEntity.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
-            put(DISCOUNT_POLICY_ID_CAMEL, voucherEntity.getDiscountPolicyId());
-            put(DISCOUNT_AMOUNT_CAMEL, voucherEntity.getDiscountAmount());
+            put(VOUCHER_ID_CAMEL.getValue(), voucherEntity.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
+            put(DISCOUNT_POLICY_ID_CAMEL.getValue(), voucherEntity.getDiscountPolicyId());
+            put(DISCOUNT_AMOUNT_CAMEL.getValue(), voucherEntity.getDiscountAmount());
         }};
     }
 
     public Optional<VoucherEntity> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    SELECT_VOUCHER_BY_ID,
-                    Collections.singletonMap(VOUCHER_ID_CAMEL, voucherId.toString().getBytes()),
+                    "select * from vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                    Collections.singletonMap(VOUCHER_ID_CAMEL.getValue(), voucherId.toString().getBytes()),
                     voucherEntityRowMapper
             ));
         } catch (EmptyResultDataAccessException e) {
@@ -55,14 +54,14 @@ public class JdbcVoucherRepository implements VoucherPort {
 
     @Override
     public List<VoucherEntity> findAll() {
-        return jdbcTemplate.query(SELECT_ALL_VOUCHER, voucherEntityRowMapper);
+        return jdbcTemplate.query("select * from vouchers", voucherEntityRowMapper);
     }
 
     @Override
     public VoucherEntity insert(VoucherEntity voucherEntity) {
         Map paramMap = toParamMap(voucherEntity);
         int executeUpdate = jdbcTemplate.update(
-                INSERT_VOUCHER,
+                "INSERT INTO vouchers (voucher_id, discount_policy_id, discount_amount) VALUES (UUID_TO_BIN(:voucherId), :discountPolicyId, :discountAmount)",
                 paramMap
         );
         if (executeUpdate != 1) {
@@ -74,7 +73,7 @@ public class JdbcVoucherRepository implements VoucherPort {
     public VoucherEntity update(VoucherEntity voucherEntity) {
         Map paramMap = toParamMap(voucherEntity);
         int executeUpdate = jdbcTemplate.update(
-                UPDATE_VOUCHER,
+                "UPDATE vouchers SET discount_policy_id = :discountPolicyId, discount_amount = :discountAmount where voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap
         );
         if (executeUpdate != 1) {
@@ -86,12 +85,12 @@ public class JdbcVoucherRepository implements VoucherPort {
     @Override
     public Optional<VoucherEntity> findByPolicyIdAndDiscountAmount(int discountPolicyId, long discountAmount) {
         Map<String, Object> paramMap = new HashMap<>() {{
-            put(DISCOUNT_POLICY_ID_CAMEL, discountPolicyId);
-            put(DISCOUNT_AMOUNT_CAMEL, discountAmount);
+            put(DISCOUNT_POLICY_ID_CAMEL.getValue(), discountPolicyId);
+            put(DISCOUNT_AMOUNT_CAMEL.getValue(), discountAmount);
         }};
         try {
             Optional<VoucherEntity> voucherEntity = Optional.ofNullable(jdbcTemplate.queryForObject(
-                    SELECT_VOUCHER_BY_POLICY_ID_AND_AMOUNT,
+                    "select * from vouchers WHERE discount_policy_id = :discountPolicyId and discount_amount = :discountAmount",
                     paramMap,
                     voucherEntityRowMapper
             ));
@@ -105,10 +104,10 @@ public class JdbcVoucherRepository implements VoucherPort {
     private static RowMapper<VoucherEntity> voucherEntityRowMapper = new RowMapper<VoucherEntity>() {
         @Override
         public VoucherEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-            byte[] voucherId = rs.getBytes(VOUCHER_ID);
+            byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
             UUID uuid = toUUID(voucherId);
-            long discountAmount = rs.getLong(DISCOUNT_AMOUNT);
-            int discountPolicyId = rs.getInt(DISCOUNT_POLICY_ID);
+            long discountAmount = rs.getLong(DISCOUNT_AMOUNT.getValue());
+            int discountPolicyId = rs.getInt(DISCOUNT_POLICY_ID.getValue());
             return new VoucherEntity(uuid, discountPolicyId, discountAmount);
         }
     };

@@ -1,6 +1,6 @@
 package com.mountain.voucherApp.domain;
 
-import static com.mountain.voucherApp.shared.constants.Message.*;
+import static com.mountain.voucherApp.shared.constants.ErrorMessage.*;
 import static com.mountain.voucherApp.shared.constants.Number.ZERO;
 import static com.mountain.voucherApp.shared.constants.Number.ZERO_P_ZERO_ONE;
 

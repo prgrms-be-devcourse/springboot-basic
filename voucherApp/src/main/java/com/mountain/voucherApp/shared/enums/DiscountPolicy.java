@@ -4,7 +4,7 @@ import com.mountain.voucherApp.domain.FixedAmountVoucher;
 import com.mountain.voucherApp.domain.PercentDiscountVoucher;
 import com.mountain.voucherApp.domain.Voucher;
 
-import static com.mountain.voucherApp.shared.constants.Message.*;
+import static com.mountain.voucherApp.shared.constants.ProgramMessage.*;
 
 public enum DiscountPolicy {
     FIXED(1, FIXED_DISCOUNT, FIXED_UINT, new FixedAmountVoucher()),

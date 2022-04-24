@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.mountain.voucherApp.shared.constants.Message.MANUAL_TITLE;
+import static com.mountain.voucherApp.shared.constants.ProgramMessage.MANUAL_TITLE;
 import static com.mountain.voucherApp.shared.utils.DiscountPolicyUtil.getDiscountPolicyMap;
 import static com.mountain.voucherApp.shared.utils.MenuUtil.getMenuMap;
 

@@ -17,7 +17,8 @@ import java.util.UUID;
 
 import static com.mountain.voucherApp.shared.constants.CommonCharacter.COMMA;
 import static com.mountain.voucherApp.shared.constants.CommonCharacter.SLASH;
-import static com.mountain.voucherApp.shared.constants.Message.*;
+import static com.mountain.voucherApp.shared.constants.ProgramMessage.*;
+import static com.mountain.voucherApp.shared.constants.ErrorMessage.*;
 
 @Repository
 @Profile("local")
@@ -97,7 +98,9 @@ public class FileVoucherRepository implements VoucherPort {
     @Override
     public Optional<VoucherEntity> findByPolicyIdAndDiscountAmount(int discountPolicyId, long discountAmount) {
         return storage.stream()
-                .filter((e) -> (e.getDiscountPolicyId() == discountPolicyId) && (e.getDiscountAmount() == discountAmount))
+                .filter((voucherEntity) -> (
+                        voucherEntity.getDiscountPolicyId() == discountPolicyId) &&
+                        (voucherEntity.getDiscountAmount() == discountAmount))
                 .findFirst();
     }
 
