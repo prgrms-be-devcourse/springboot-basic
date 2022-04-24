@@ -7,6 +7,7 @@ import org.prgms.voucherProgram.console.menu.VoucherMenuType;
 import org.prgms.voucherProgram.console.view.Console;
 import org.prgms.voucherProgram.console.view.InputView;
 import org.prgms.voucherProgram.console.view.OutputView;
+import org.prgms.voucherProgram.domain.customer.domain.Email;
 import org.prgms.voucherProgram.domain.customer.exception.WrongEmailException;
 import org.prgms.voucherProgram.domain.voucher.domain.VoucherType;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
@@ -163,7 +164,7 @@ public class VoucherProgram {
         String email = inputView.inputCustomerEmail();
         while (true) {
             try {
-                outputView.printVouchers(voucherService.findAssignVouchers(email));
+                outputView.printVouchers(voucherService.findAssignVouchers(new Email(email)));
                 return;
             } catch (WrongEmailException e) {
                 outputView.printError(e.getMessage());

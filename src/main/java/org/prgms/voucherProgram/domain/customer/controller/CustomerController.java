@@ -3,8 +3,8 @@ package org.prgms.voucherProgram.domain.customer.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.prgms.voucherProgram.domain.customer.domain.Customer;
 import org.prgms.voucherProgram.domain.customer.domain.Email;
+import org.prgms.voucherProgram.domain.customer.dto.CustomerDto;
 import org.prgms.voucherProgram.domain.customer.dto.CustomerRequest;
 import org.prgms.voucherProgram.domain.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,9 @@ public class CustomerController {
 
     @GetMapping("/customers")
     public String viewCustomersPage(Model model) {
-        List<Customer> customers = customerService.findCustomers();
+        List<CustomerDto> customers = customerService.findCustomers().stream()
+            .map(CustomerDto::from)
+            .toList();
         model.addAttribute("customers", customers);
         return "views/customer/customers";
     }
@@ -42,8 +44,8 @@ public class CustomerController {
 
     @GetMapping("/customers/{customerId}")
     public String findCustomer(@PathVariable("customerId") UUID customerId, Model model) {
-        Customer customer = customerService.findById(customerId);
-        model.addAttribute("customer", customer);
+        CustomerDto customerDto = CustomerDto.from(customerService.findById(customerId));
+        model.addAttribute("customer", customerDto);
         return "views/customer/customer-details";
     }
 
