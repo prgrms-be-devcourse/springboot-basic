@@ -3,7 +3,7 @@ package com.prgrms.voucher_manager.customer.repository;
 import com.prgrms.voucher_manager.customer.Customer;
 //import com.prgrms.voucher_manager.customer.JdbcCustomer;
 import com.prgrms.voucher_manager.customer.SimpleCustomer;
-import com.prgrms.voucher_manager.infra.Common;
+import com.prgrms.voucher_manager.infra.ToUuid;
 import com.prgrms.voucher_manager.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String SELECT_COUNT_ALL_SQL = "SELECT COUNT(*) FROM customers";
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        UUID customerId = Common.toUUID(resultSet.getBytes("customer_id"));
+        UUID customerId = ToUuid.toUUID(resultSet.getBytes("customer_id"));
         String customerName = resultSet.getString("name");
         String email = resultSet.getString("email");
         LocalDateTime lastLoginAt =

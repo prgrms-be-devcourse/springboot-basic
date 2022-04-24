@@ -1,5 +1,6 @@
 package com.prgrms.voucher_manager.voucher.repository;
 
+import com.prgrms.voucher_manager.infra.ToUuid;
 import com.prgrms.voucher_manager.voucher.FixedAmountVoucher;
 import com.prgrms.voucher_manager.voucher.PercentDiscountVoucher;
 import com.prgrms.voucher_manager.voucher.Voucher;
@@ -17,7 +18,7 @@ import java.nio.ByteBuffer;
 import java.util.*;
 
 @Repository
-@Profile("dev")
+@Profile("default")
 public class JdbcVoucherRepository implements VoucherRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
@@ -33,7 +34,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        UUID voucherId = ToUuid.toUUID(resultSet.getBytes("voucher_id"));
         String type = resultSet.getString("type");
         long value = resultSet.getLong("value");
         if(type.equals("fix")) {
@@ -123,9 +124,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
         return hashMap;
 
     }
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(),byteBuffer.getLong());
-
-    }
+//    private static UUID toUUID(byte[] bytes) {
+//        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+//        return new UUID(byteBuffer.getLong(),byteBuffer.getLong());
+//    }
 }
