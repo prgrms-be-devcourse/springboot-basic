@@ -1,6 +1,6 @@
 package com.voucher.vouchermanagement.service.customer;
 
-import com.voucher.vouchermanagement.model.customer.Customer;
+import com.voucher.vouchermanagement.dto.customer.CustomerDto;
 import com.voucher.vouchermanagement.repository.customer.CustomerRepository;
 
 import java.util.List;
@@ -18,11 +18,11 @@ public class CustomerService {
 
     }
 
-    public List<Customer> findAll() {
+    public List<CustomerDto> findAll() {
         return null;
     }
 
-    public Customer findById(UUID id) {
+    public CustomerDto findById(UUID id) {
         return null;
     }
 }
