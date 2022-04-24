@@ -1,7 +1,7 @@
 package org.prgrms.kdt.service.customer;
 
 import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.model.customer.CustomerGrade;
+import org.prgrms.kdt.model.customer.CustomerType;
 import org.prgrms.kdt.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public List<Customer> findAllBlackList(CustomerGrade customerGrade) {
-        return customerRepository.findAllByCustomerGrade(customerGrade);
+    public List<Customer> findAllBlackList(CustomerType customerType) {
+        return customerRepository.findAllByCustomerType(customerType);
     }
 }

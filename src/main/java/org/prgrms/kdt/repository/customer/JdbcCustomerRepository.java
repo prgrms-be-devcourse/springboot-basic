@@ -1,7 +1,7 @@
 package org.prgrms.kdt.repository.customer;
 
 import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.model.customer.CustomerGrade;
+import org.prgrms.kdt.model.customer.CustomerType;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +16,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAllByCustomerGrade(CustomerGrade customerGrade) {
+    public List<Customer> findAllByCustomerType(CustomerType customerType) {
         return null;
     }
 }

@@ -8,20 +8,20 @@ import java.util.UUID;
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.prgrms.kdt.model.customer.CustomerGrade.NORMAL;
+import static org.prgrms.kdt.model.customer.CustomerType.NORMAL;
 
 public class Customer {
     private UUID customerId;
     private String name;
-    private CustomerGrade customerGrade;
+    private CustomerType customerType;
 
-    public Customer(UUID customerId, String name, CustomerGrade customerGrade) {
+    public Customer(UUID customerId, String name, CustomerType customerType) {
         checkArgument(customerId != null, "customerId must be provided.");
         checkArgument(isNotEmpty(name), "customerName must be provided.");
 
         this.customerId = customerId;
         this.name = name;
-        this.customerGrade = defaultIfNull(customerGrade, NORMAL);
+        this.customerType = defaultIfNull(customerType, NORMAL);
     }
 
     public UUID getCustomerId() {
@@ -32,8 +32,8 @@ public class Customer {
         return name;
     }
 
-    public CustomerGrade getCustomerGrade() {
-        return customerGrade;
+    public CustomerType getCustomerType() {
+        return customerType;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Customer {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
             .append("customerId", customerId)
             .append("name", name)
-            .append("customerGrade", customerGrade)
+            .append("customerType", customerType)
             .toString();
     }
 }

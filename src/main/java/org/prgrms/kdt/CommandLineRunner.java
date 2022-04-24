@@ -3,13 +3,11 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.error.InputException;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
-import org.prgrms.kdt.model.customer.CustomerGrade;
+import org.prgrms.kdt.model.customer.CustomerType;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.service.customer.CustomerService;
 import org.prgrms.kdt.service.voucher.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -111,7 +109,7 @@ public class CommandLineRunner implements Runnable {
     }
 
     private void findBlackList() {
-        String blackListCustomers = customerService.findAllBlackList(CustomerGrade.BLACK_LIST).stream()
+        String blackListCustomers = customerService.findAllBlackList(CustomerType.BLACK_LIST).stream()
             .map(Object::toString)
             .collect(Collectors.joining(",\n"));
         output.printMessage(blackListCustomers);
