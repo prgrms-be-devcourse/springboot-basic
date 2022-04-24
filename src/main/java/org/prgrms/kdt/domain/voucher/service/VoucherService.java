@@ -31,11 +31,7 @@ public class VoucherService {
 
     @Transactional
     public UUID saveVoucher(VoucherCreateRequest createRequest) {
-        UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = createRequest.getVoucherType();
-        long discountValue = createRequest.getDiscountValue();
-        LocalDateTime now = LocalDateTime.now();
-        Voucher voucher = new Voucher(voucherId, voucherType, discountValue, now, now);
+        Voucher voucher = createRequest.toEntity();
         UUID savedId = voucherRepository.save(voucher);
         logger.info("save Voucher id: {}", voucher.getVoucherId());
         return savedId;

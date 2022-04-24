@@ -1,9 +1,12 @@
 package org.prgrms.kdt.domain.voucher.dto;
 
+import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class VoucherCreateRequest {
     @NotNull
@@ -23,5 +26,13 @@ public class VoucherCreateRequest {
 
     public long getDiscountValue() {
         return discountValue;
+    }
+
+    public Voucher toEntity() {
+        return new Voucher(UUID.randomUUID(),
+                voucherType,
+                discountValue,
+                LocalDateTime.now(),
+                LocalDateTime.now());
     }
 }
