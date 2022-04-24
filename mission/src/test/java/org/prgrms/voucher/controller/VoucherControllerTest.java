@@ -9,8 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.voucher.dto.VoucherDto;
+import org.prgrms.voucher.models.FixedAmountVoucher;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
+import org.prgrms.voucher.response.Response;
+import org.prgrms.voucher.response.ResponseState;
 import org.prgrms.voucher.service.VoucherService;
 
 import static org.mockito.Mockito.*;
@@ -31,11 +34,9 @@ public class VoucherControllerTest {
         @DisplayName("create 기능을 테스트 할 때 바우처 타입 1, 할인값 100을 인자로 받으면")
         class ContextReceiveVoucherTypeAndValue {
 
-            VoucherDto.CreateVoucherRequest requestDto = new VoucherDto.CreateVoucherRequest(VoucherType.FIXED_AMOUNT, 100);
+            VoucherDto.CreateVoucherRequest requestDto = new VoucherDto.CreateVoucherRequest(100, VoucherType.FIXED_AMOUNT);
 
-            Voucher voucher = new Voucher(1L) {
-
-            };
+            Voucher voucher = new FixedAmountVoucher(1L,100, VoucherType.FIXED_AMOUNT);
 
             @Test
             @DisplayName("Service 의 create 메서드에 파라미터를 넘겨주며 호출한다.")
@@ -54,9 +55,11 @@ public class VoucherControllerTest {
 
                 when(voucherServiceMock.create(requestDto)).thenReturn(voucher);
 
-                VoucherDto.CreateVoucherResponse response = voucherController.create(requestDto);
+                Response response = voucherController.create(requestDto);
 
-                Assertions.assertThat(response.getVoucherId()).isEqualTo(voucher.getVoucherId());
+                VoucherDto.CreateVoucherResponse responseCheck = VoucherDto.CreateVoucherResponse.from(voucher);
+
+                Assertions.assertThat(response.data()).isEqualTo(responseCheck);
             }
         }
 
@@ -64,15 +67,17 @@ public class VoucherControllerTest {
         @DisplayName("create 기능을 테스트 할 때 전달받은 바우처타입 인자가 null이면")
         class ContextReceiveNull {
 
-            VoucherDto.CreateVoucherRequest voucherRequestDto = null;
+            VoucherDto.CreateVoucherRequest requestDto = null;
 
             @Test
-            @DisplayName("null 에러메시지를 출력한다.")
+            @DisplayName("실패 상태와 재입력 메시지를 반환한다.")
             void itPrintNullError() {
 
-                Assertions.assertThatThrownBy(() -> voucherController.create(voucherRequestDto))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("bad request...");
+                Response response = voucherController.create(requestDto);
+                String message = "please retry.";
+
+                Assertions.assertThat(response.state()).isEqualTo(ResponseState.BAD_REQUEST);
+                Assertions.assertThat(response.data()).isEqualTo(message);
             }
         }
     }
