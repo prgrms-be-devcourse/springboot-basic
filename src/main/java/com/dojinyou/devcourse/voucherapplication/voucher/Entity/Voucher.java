@@ -1,7 +1,7 @@
 package com.dojinyou.devcourse.voucherapplication.voucher.Entity;
 
 
-public class Voucher {
+public abstract class Voucher {
     public static class Request {
         private final VoucherType voucherType;
         private final VoucherAmount voucherAmount;
