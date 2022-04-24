@@ -4,6 +4,8 @@ import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VoucherServiceImpl implements VoucherService {
 
@@ -21,5 +23,10 @@ public class VoucherServiceImpl implements VoucherService {
 
         voucher.validateValueRange();
         return voucherRepository.save(voucher);
+    }
+
+    @Override
+    public List<Voucher> findVouchers() {
+        return null;
     }
 }

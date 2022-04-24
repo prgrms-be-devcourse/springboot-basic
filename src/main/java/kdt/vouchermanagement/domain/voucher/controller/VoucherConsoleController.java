@@ -27,4 +27,8 @@ public class VoucherConsoleController {
             return Response.of(400, exception.getMessage());
         }
     }
+
+    public Response list() {
+        return null;
+    }
 }
