@@ -11,7 +11,9 @@
     </head>
     <body>
     <div class="container">
-        <H1>Create Form</H1>
+        <div class="py-5 text-center">
+            <H2>Create Form</H2>
+        </div>
         <div class="container">
             <form role="form" action="/template/new" th:object="${voucherDto}" method="post">
                 <div th:each="type : ${voucherTypes}" class="form-check form-check-inline">
