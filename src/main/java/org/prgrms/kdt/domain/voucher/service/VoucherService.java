@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +29,7 @@ public class VoucherService {
     }
 
     @Transactional
-    public UUID saveVoucher(VoucherCreateRequest createRequest) {
+    public UUID save(VoucherCreateRequest createRequest) {
         Voucher voucher = createRequest.toEntity();
         UUID savedId = voucherRepository.save(voucher);
         logger.info("save Voucher id: {}", voucher.getVoucherId());
@@ -78,7 +77,7 @@ public class VoucherService {
     }
 
     @Transactional
-    public void removeVoucher(UUID voucherId) {
+    public void remove(UUID voucherId) {
         voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
         voucherRepository.deleteById(voucherId);

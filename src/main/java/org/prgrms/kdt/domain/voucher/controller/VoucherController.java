@@ -47,7 +47,7 @@ public class VoucherController {
 
     @PostMapping("/new")
     public String voucherCreate(@Valid VoucherCreateRequest createRequest) {
-        voucherService.saveVoucher(createRequest);
+        voucherService.save(createRequest);
         return "redirect:/vouchers";
     }
 
@@ -60,7 +60,7 @@ public class VoucherController {
 
     @DeleteMapping("/{voucherId}")
     public String voucherRemove(@PathVariable("voucherId") UUID voucherId) {
-        voucherService.removeVoucher(voucherId);
+        voucherService.remove(voucherId);
         return "redirect:/vouchers";
     }
 }
