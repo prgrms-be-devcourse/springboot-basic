@@ -4,7 +4,6 @@ import com.prgrms.vouchermanagement.customer.BlackListRepository;
 import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.io.Console;
 import com.prgrms.vouchermanagement.voucher.Voucher;
-import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +18,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.prgrms.vouchermanagement.util.Messages.*;
+import static com.prgrms.vouchermanagement.voucher.VoucherType.FIXED_DISCOUNT;
+import static com.prgrms.vouchermanagement.voucher.VoucherType.PERCENT_DISCOUNT;
 import static org.mockito.Mockito.*;
 
 
@@ -97,7 +98,7 @@ class VoucherManagementTest {
 
         // then
         verify(console, times(0)).printMessage(SAVE_VOUCHER);
-        verify(console).printMessage(INPUT_ERROR);
+        verify(console, times(1)).printMessage(INPUT_ERROR);
     }
 
     @Test
@@ -105,9 +106,9 @@ class VoucherManagementTest {
     void voucherListTest() {
         // given
         when(console.inputCommand()).thenReturn("list", "exit");
-        Voucher voucher1 = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 2000, LocalDateTime.now());
-        Voucher voucher2 = VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        Voucher voucher3 = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 20000, LocalDateTime.now());
+        Voucher voucher1 = FIXED_DISCOUNT.constructor(UUID.randomUUID(), 2000, LocalDateTime.now());
+        Voucher voucher2 = PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
+        Voucher voucher3 = FIXED_DISCOUNT.constructor(UUID.randomUUID(), 20000, LocalDateTime.now());
         List<Voucher> vouchers = List.of(voucher1, voucher2, voucher3);
         when(voucherService.findAllVouchers()).thenReturn(vouchers);
 
@@ -140,9 +141,9 @@ class VoucherManagementTest {
     void blackListTest() {
         // given
         when(console.inputCommand()).thenReturn("blacklist", "exit");
-        Customer customer1 = new Customer(UUID.randomUUID(), "aaa", "aaa@gamil.com", LocalDateTime.now());
-        Customer customer2 = new Customer(UUID.randomUUID(), "bbb", "bbb@gamil.com", LocalDateTime.now());
-        Customer customer3 = new Customer(UUID.randomUUID(), "ccc", "ccc@gamil.com", LocalDateTime.now());
+        Customer customer1 = Customer.of(UUID.randomUUID(), "aaa", "aaa@gamil.com", LocalDateTime.now());
+        Customer customer2 = Customer.of(UUID.randomUUID(), "bbb", "bbb@gamil.com", LocalDateTime.now());
+        Customer customer3 = Customer.of(UUID.randomUUID(), "ccc", "ccc@gamil.com", LocalDateTime.now());
         List<Customer> blackList = List.of(customer1, customer2, customer3);
         when(blackListRepository.findAll()).thenReturn(blackList);
 

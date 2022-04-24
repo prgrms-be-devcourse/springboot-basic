@@ -100,7 +100,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         String email = rs.getString("email");
         LocalDateTime lastLoginAt = rs.getTimestamp("last_login_at") != null ? rs.getTimestamp("last_login_at").toLocalDateTime() : null;
         LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, name, email, lastLoginAt, createdAt);
+        return Customer.of(customerId, name, email, lastLoginAt, createdAt);
     };
 
     private Map<String, Object> customerToMap(Customer customer) {

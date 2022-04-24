@@ -58,7 +58,7 @@ class CustomerNamedJdbcRepositoryTest {
     @DisplayName("Customer 를 저장한다.")
     void customerSaveTest() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "aaa", "aaa@gamil.com", LocalDateTime.now());
+        Customer customer = Customer.of(UUID.randomUUID(), "aaa", "aaa@gamil.com", LocalDateTime.now());
 
         //when
         customerRepository.save(customer);
@@ -77,7 +77,7 @@ class CustomerNamedJdbcRepositoryTest {
     @DisplayName("customerId로 Customer를 조회한다.")
     void findByIdTest() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
+        Customer customer = Customer.of(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
         customerRepository.save(customer);
 
         // when
@@ -95,7 +95,7 @@ class CustomerNamedJdbcRepositoryTest {
     @DisplayName("존재하지 않는 customerId로 조회하면 Optional.empty()가 반환된다.")
     void findByNotExistsIdTest() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
+        Customer customer = Customer.of(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
         customerRepository.save(customer);
 
         // when
@@ -110,11 +110,11 @@ class CustomerNamedJdbcRepositoryTest {
     void findByNameTest() {
         // given
         String targetName = "aaa";
-        Customer customer1 = new Customer(UUID.randomUUID(), targetName, "aa@gmail.com", LocalDateTime.now());
-        Customer customer2 = new Customer(UUID.randomUUID(), targetName, "bb@gmail.com", LocalDateTime.now());
-        Customer customer3 = new Customer(UUID.randomUUID(), targetName, "cc@gmail.com", LocalDateTime.now());
-        Customer customer4 = new Customer(UUID.randomUUID(), "ccc", "dd@gmail.com", LocalDateTime.now());
-        Customer customer5 = new Customer(UUID.randomUUID(), "ddd", "ee@gmail.com", LocalDateTime.now());
+        Customer customer1 = Customer.of(UUID.randomUUID(), targetName, "aa@gmail.com", LocalDateTime.now());
+        Customer customer2 = Customer.of(UUID.randomUUID(), targetName, "bb@gmail.com", LocalDateTime.now());
+        Customer customer3 = Customer.of(UUID.randomUUID(), targetName, "cc@gmail.com", LocalDateTime.now());
+        Customer customer4 = Customer.of(UUID.randomUUID(), "ccc", "dd@gmail.com", LocalDateTime.now());
+        Customer customer5 = Customer.of(UUID.randomUUID(), "ddd", "ee@gmail.com", LocalDateTime.now());
 
         customerRepository.save(customer1);
         customerRepository.save(customer2);
@@ -134,9 +134,9 @@ class CustomerNamedJdbcRepositoryTest {
     @DisplayName("존재하지 않는 name으로 Customer를 조회하면 빈 리스트가 반환된다.")
     void findByNotExistsNameTest() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "aaa", "aa@gmail.com", LocalDateTime.now());
-        Customer customer2 = new Customer(UUID.randomUUID(), "bbb", "bb@gmail.com", LocalDateTime.now());
-        Customer customer3 = new Customer(UUID.randomUUID(), "ccc", "cc@gmail.com", LocalDateTime.now());
+        Customer customer1 = Customer.of(UUID.randomUUID(), "aaa", "aa@gmail.com", LocalDateTime.now());
+        Customer customer2 = Customer.of(UUID.randomUUID(), "bbb", "bb@gmail.com", LocalDateTime.now());
+        Customer customer3 = Customer.of(UUID.randomUUID(), "ccc", "cc@gmail.com", LocalDateTime.now());
 
         customerRepository.save(customer1);
         customerRepository.save(customer2);
@@ -153,7 +153,7 @@ class CustomerNamedJdbcRepositoryTest {
     @DisplayName("eamil로 Customer를 조회한다.")
     void findByEmailTest() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
+        Customer customer = Customer.of(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
         customerRepository.save(customer);
 
         // when
@@ -171,7 +171,7 @@ class CustomerNamedJdbcRepositoryTest {
     @DisplayName("등록되지 않은 이메일로 조회하면 Optional.empty()가 반환된다.")
     void findByNotExistsEmailTest() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
+        Customer customer = Customer.of(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
         customerRepository.save(customer);
 
         // when
@@ -185,11 +185,11 @@ class CustomerNamedJdbcRepositoryTest {
     @DisplayName("Customer를 update한다.")
     void updateTest() {
         // given
-        Customer customer = new Customer(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
+        Customer customer = Customer.of(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
         customerRepository.save(customer);
 
         // when
-        Customer updateCustomer = new Customer(customer.getCustomerId(), "bbb", "bbb@gmail.com", customer.getCreatedAt());
+        Customer updateCustomer = Customer.of(customer.getCustomerId(), "bbb", "bbb@gmail.com", customer.getCreatedAt());
         customerRepository.update(updateCustomer);
 
         // then
@@ -201,9 +201,9 @@ class CustomerNamedJdbcRepositoryTest {
     @DisplayName("모든 Customer를 조회한다.")
     void findAll() {
         // given
-        Customer customer1 = new Customer(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
-        Customer customer2 = new Customer(UUID.randomUUID(), "bbb", "bbb@gmail.com", LocalDateTime.now());
-        Customer customer3 = new Customer(UUID.randomUUID(), "ccc", "ccc@gmail.com", LocalDateTime.now());
+        Customer customer1 = Customer.of(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
+        Customer customer2 = Customer.of(UUID.randomUUID(), "bbb", "bbb@gmail.com", LocalDateTime.now());
+        Customer customer3 = Customer.of(UUID.randomUUID(), "ccc", "ccc@gmail.com", LocalDateTime.now());
 
         customerRepository.save(customer1);
         customerRepository.save(customer2);

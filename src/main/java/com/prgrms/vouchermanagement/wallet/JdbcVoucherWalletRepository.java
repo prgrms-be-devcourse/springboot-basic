@@ -96,7 +96,7 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
         String name = rs.getString("name");
         String email = rs.getString("email");
         LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, name, email, createdAt);
+        return Customer.of(customerId, name, email, createdAt);
     };
 
     private final RowMapper<Wallet> walletRowMapper = (rs, rowNum) -> {
