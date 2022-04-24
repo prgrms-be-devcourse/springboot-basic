@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-public class VoucherServiceTest {
+public class VoucherServicTest {
 
     @Autowired
     VoucherService voucherService;
@@ -125,12 +125,12 @@ public class VoucherServiceTest {
         assertThat(updateVoucher.getVoucherStatus()).isEqualTo(VoucherStatus.EXPIRED);
     }
 
-//    @Test
-//    public void findByVoucherType() throws Exception {
-//
-//        List<Voucher> byFixedVoucherType = voucherRepository.findByVoucherType(VoucherType.FIXED);
-//        assertThat(byFixedVoucherType.size()).isEqualTo(1);
-//        List<Voucher> byPercentVoucherType = voucherRepository.findByVoucherType(VoucherType.PERCENT);
-//        assertThat(byPercentVoucherType.size()).isEqualTo(0);
-//    }
+    @Test
+    public void findByVoucherType() throws Exception {
+
+        List<Voucher> byFixedVoucherType = voucherRepository.findByVoucherType(VoucherType.FIXED);
+        assertThat(byFixedVoucherType.size()).isEqualTo(1);
+        List<Voucher> byPercentVoucherType = voucherRepository.findByVoucherType(VoucherType.PERCENT);
+        assertThat(byPercentVoucherType.size()).isEqualTo(0);
+    }
 }
