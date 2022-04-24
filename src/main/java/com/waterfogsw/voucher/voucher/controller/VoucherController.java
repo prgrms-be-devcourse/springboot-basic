@@ -1,6 +1,8 @@
 package com.waterfogsw.voucher.voucher.controller;
 
 import com.waterfogsw.voucher.voucher.domain.Voucher;
+import com.waterfogsw.voucher.voucher.dto.Request;
+import com.waterfogsw.voucher.voucher.dto.Response;
 import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
 import com.waterfogsw.voucher.voucher.dto.VoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
@@ -9,21 +11,25 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class VoucherController {
 
-    private VoucherService voucherService;
+    private final VoucherService voucherService;
 
-    public VoucherDto.Response voucherAdd(VoucherDto.Request request) {
+    public VoucherController(VoucherService voucherService) {
+        this.voucherService = voucherService;
+    }
+
+    public Response<VoucherDto> voucherAdd(Request<VoucherDto> request) {
         try {
-            validateRequest(request);
-            Voucher voucher = VoucherDto.Request.toDomain(request);
+            validateVoucherRequest(request);
+            Voucher voucher = VoucherDto.toDomain(request.body());
             Voucher savedVoucher = voucherService.saveVoucher(voucher);
-            return VoucherDto.Response.of(savedVoucher, ResponseStatus.OK);
+            return Response.ok(VoucherDto.of(savedVoucher));
         } catch (IllegalArgumentException e) {
-            return VoucherDto.Response.error(ResponseStatus.BAD_REQUEST);
+            return Response.error(ResponseStatus.BAD_REQUEST);
         }
     }
 
-    private void validateRequest(VoucherDto.Request request) {
-        if(request.type() == null) throw new IllegalArgumentException();
-        if(request.value() == 0) throw new IllegalArgumentException();
+    private void validateVoucherRequest(Request<VoucherDto> request) {
+        if (request.body().type() == null) throw new IllegalArgumentException();
+        if (request.body().value() == 0) throw new IllegalArgumentException();
     }
 }
