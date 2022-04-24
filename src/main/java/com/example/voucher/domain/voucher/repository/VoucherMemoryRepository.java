@@ -16,9 +16,4 @@ public class VoucherMemoryRepository implements VoucherRepository {
 		store.put(voucher.getVoucherId(), voucher);
 		return voucher;
 	}
-
-	@Override
-	public void clear() {
-		store.clear();
-	}
 }

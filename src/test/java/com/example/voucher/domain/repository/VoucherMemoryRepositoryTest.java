@@ -33,11 +33,6 @@ public class VoucherMemoryRepositoryTest {
 				store.setAccessible(true);
 			}
 
-			@AfterEach
-			void 저장소_초기화() {
-				voucherRepository.clear();
-			}
-
 			@Test
 			@DisplayName("바우처를 저장하고 저장된 바우처를 반환한다")
 			void 바우처를_저장하고_저장된_바우처를_반환한다() throws Exception {
