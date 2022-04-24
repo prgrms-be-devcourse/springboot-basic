@@ -7,11 +7,10 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
+import org.prgms.springbootbasic.voucher.vo.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;

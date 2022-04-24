@@ -15,6 +15,7 @@ public interface VoucherService {
 	 * @param type
 	 * @param value
 	 */
+
 	void createVoucher(String type, int value);
 
 	/**

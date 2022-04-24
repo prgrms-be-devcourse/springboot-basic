@@ -4,6 +4,10 @@ import java.util.UUID;
 
 import org.prgms.springbootbasic.voucher.vo.VoucherType;
 
+/**
+ * 관리자가 지정해 놓은 VoucherType 예를 들어 FIXEDAMOUNTVOUCHER, PERCENTDISCOUNTVOUCHER
+ * 사용자가 추가 관리 할 수 없음. 이미 데이터베이스에 저장되어 있음
+ */
 public interface VoucherTypeRepository {
 
 	/**

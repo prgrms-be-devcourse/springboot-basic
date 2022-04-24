@@ -2,6 +2,7 @@ package org.prgms.springbootbasic.voucher.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
@@ -10,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringJUnitConfig
-@Transactional
 class VoucherServiceImplTest {
 
 	@Autowired
@@ -27,6 +26,11 @@ class VoucherServiceImplTest {
 		"org.prgms.springbootbasic.voucher",
 	})
 	static class testConfig {
+	}
+
+	@BeforeEach
+	void setUp() {
+		voucherRepository.deleteVouchers();
 	}
 
 	@DisplayName("createVoucher 성공 Test")

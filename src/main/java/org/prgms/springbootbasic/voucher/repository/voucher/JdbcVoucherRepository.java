@@ -2,7 +2,6 @@ package org.prgms.springbootbasic.voucher.repository.voucher;
 
 import static com.google.common.base.Preconditions.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,8 +17,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import com.google.common.base.Preconditions;
 
 import lombok.RequiredArgsConstructor;
 

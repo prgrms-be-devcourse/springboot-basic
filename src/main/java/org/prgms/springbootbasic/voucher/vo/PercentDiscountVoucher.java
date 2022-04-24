@@ -18,7 +18,6 @@ public class PercentDiscountVoucher extends Voucher {
 		super(voucherId, type, value);
 	}
 
-
 	public long discount(long beforeDiscount) {
 		checkArgument(beforeDiscount >= 0, "beforeDiscount는 음수이면 안됩니다. beforeDiscount = {0}", beforeDiscount);
 
