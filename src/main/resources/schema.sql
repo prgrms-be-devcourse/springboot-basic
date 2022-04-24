@@ -31,3 +31,9 @@ create table voucher (
                          CONSTRAINT unq_voucher_name UNIQUE (name),
                          FOREIGN KEY (voucher_type_id) REFERENCES voucher_type(voucher_type_id)
 );
+
+create table voucher_status (
+                                voucher_type_id BINARY(16) PRIMARY KEY,
+                                name varchar(50) NOT NULL,
+                                CONSTRAINT unq_voucher_status_name UNIQUE (name)
+);

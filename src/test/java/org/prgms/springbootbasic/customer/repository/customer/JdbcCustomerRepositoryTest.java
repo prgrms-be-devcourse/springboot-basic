@@ -3,21 +3,12 @@ package org.prgms.springbootbasic.customer.repository.customer;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.springbootbasic.customer.entity.Customer;
-import org.prgms.springbootbasic.customer.entity.CustomerStatus;
-import org.prgms.springbootbasic.voucher.entity.FixedAmountVoucher;
-import org.prgms.springbootbasic.voucher.entity.PercentDiscountVoucher;
-import org.prgms.springbootbasic.voucher.entity.Voucher;
-import org.prgms.springbootbasic.voucher.entity.VoucherType;
-import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

@@ -25,12 +25,4 @@ public class UUIDConverter {
 		return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
 	}
 
-	public static void main(String[] args) {
-		System.out.println(uuidToBytes(UUID.randomUUID()));
-		System.out.println();
-		System.out.println();
-		System.out.println(uuidToBytes(UUID.randomUUID()));
-
-	}
-
 }

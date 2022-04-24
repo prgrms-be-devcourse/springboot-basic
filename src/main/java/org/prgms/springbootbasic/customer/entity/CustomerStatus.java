@@ -15,6 +15,5 @@ public enum CustomerStatus {
 			.filter(cs -> cs.name().equals(status))
 			.findAny()
 			.orElseThrow(() -> new IllegalArgumentException("잘못된 customer_status를 입력하셨습니다."));
-
 	}
 }
