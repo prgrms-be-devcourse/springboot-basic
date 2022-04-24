@@ -80,7 +80,7 @@ public class VoucherConsoleControllerTest {
     }
 
     @Test
-    @DisplayName("discountValue 값이 유효하지 않다는 Exception을 받는다면_성공")
+    @DisplayName("discountValue 값이 유효하지 않다는 IllegalArgumentException이 발생한다._성공")
     void responseValueRangeException() {
         //given
         VoucherRequest request = new VoucherRequest(VoucherType.FIXED_AMOUNT, 100);
@@ -95,7 +95,7 @@ public class VoucherConsoleControllerTest {
     }
 
     @Test
-    @DisplayName("중복된 바우처가 존재한다는 Exception을 받는다면_성공")
+    @DisplayName("중복된 바우처가 존재한다는 DuplicateVoucherException이 발생한다._성공")
     void responseDuplicateVoucherException() {
         //given
         VoucherRequest request = new VoucherRequest(VoucherType.FIXED_AMOUNT, 100);
