@@ -1,7 +1,8 @@
 package com.mountain.voucherApp.voucher;
 
-import com.mountain.voucherApp.enums.DiscountPolicy;
-import com.mountain.voucherApp.utils.DiscountPolicyUtil;
+import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
+import com.mountain.voucherApp.shared.utils.DiscountPolicyUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Map;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherEntityTest {
 

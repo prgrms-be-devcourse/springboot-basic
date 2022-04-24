@@ -1,8 +1,9 @@
 package com.mountain.voucherApp.voucher.repository;
 
-import com.mountain.voucherApp.voucher.PercentDiscountVoucher;
-import com.mountain.voucherApp.voucher.Voucher;
-import com.mountain.voucherApp.voucher.VoucherEntity;
+import com.mountain.voucherApp.adapter.out.persistence.voucher.MemoryVoucherRepository;
+import com.mountain.voucherApp.domain.PercentDiscountVoucher;
+import com.mountain.voucherApp.domain.Voucher;
+import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

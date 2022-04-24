@@ -1,7 +1,8 @@
 package com.mountain.voucherApp.voucher.repository;
 
-import com.mountain.voucherApp.properties.FileRepositoryProperties;
-import com.mountain.voucherApp.voucher.VoucherEntity;
+import com.mountain.voucherApp.adapter.out.persistence.voucher.FileVoucherRepository;
+import com.mountain.voucherApp.shared.properties.FileRepositoryProperties;
+import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

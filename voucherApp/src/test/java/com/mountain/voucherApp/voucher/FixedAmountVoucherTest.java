@@ -1,5 +1,6 @@
 package com.mountain.voucherApp.voucher;
 
+import com.mountain.voucherApp.domain.FixedAmountVoucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

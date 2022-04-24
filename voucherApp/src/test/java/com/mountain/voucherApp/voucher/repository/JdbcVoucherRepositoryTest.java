@@ -1,7 +1,8 @@
 package com.mountain.voucherApp.voucher.repository;
 
 
-import com.mountain.voucherApp.voucher.VoucherEntity;
+import com.mountain.voucherApp.adapter.out.persistence.voucher.JdbcVoucherRepository;
+import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -46,7 +47,7 @@ class JdbcVoucherRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.mountain.voucherApp.voucher"}
+            basePackages = {"com.mountain.voucherApp.adapter.out.persistence.voucher"}
     )
     static class Config {
         @Bean
