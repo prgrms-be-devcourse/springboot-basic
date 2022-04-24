@@ -46,7 +46,7 @@ class ApplicationControllerTest {
 
                 //then
                 assertThat(thrown).isNotNull();
-                assertThat(thrown).isInstanceOf(NullPointerException.class);
+                assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
 
             }
         }
