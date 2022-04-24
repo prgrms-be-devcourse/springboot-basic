@@ -65,4 +65,28 @@ public class VoucherControllerTests {
             }
         }
     }
+
+    @Nested
+    @DisplayName("voucherList 메소드는")
+    class Describe_voucher {
+        @Nested
+        @DisplayName("조회 서비스로 부터 null 이 리턴되면")
+        class Context_with_get_null_return {
+            @Test
+            @DisplayName("EMPTY_REPOSITORY 에러를 가진 응답을 리턴되면")
+            void it_return_error_message() {
+
+            }
+        }
+
+        @Nested
+        @DisplayName("조회 서비스로 부터 모든 바우처에 대한 정보가 리턴되면")
+        class Context_with_get_voucher_list {
+            @Test
+            @DisplayName("바우처 DTO 리스트를 가진 응답을 반환한다")
+            void it_return_dto_list() {
+
+            }
+        }
+    }
 }
