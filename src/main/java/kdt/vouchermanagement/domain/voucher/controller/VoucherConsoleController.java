@@ -4,7 +4,9 @@ import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.dto.VoucherRequest;
 import kdt.vouchermanagement.domain.voucher.service.VoucherService;
 import kdt.vouchermanagement.global.response.Response;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class VoucherConsoleController {
 
     private final VoucherService voucherService;
