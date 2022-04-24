@@ -40,6 +40,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
+    @Transactional
     public Customer update(Customer customer) {
         int update = jdbcTemplate.update(
                 "update customers set name = :name, email = :email, customer_type = :customerType, last_login_at = :lastLoginAt where UUID_TO_BIN(:customerId)",
@@ -79,16 +80,8 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public List<Customer> findByName(String name) {
-        return jdbcTemplate.query(
-                "select * from customers where name = :name",
-                Collections.singletonMap("name", name),
-                getCustomerRowMapper());
-    }
-
-    @Override
-    public List<Customer> findBlackList() {
-        return jdbcTemplate.query("select * from customers where customer_type = 'BLACKLIST'",getCustomerRowMapper());
+    public List<Customer> findByCustomerType(CustomerType customerType) {
+        return jdbcTemplate.query("select * from customers where customer_type = :customerType",getCustomerRowMapper());
     }
 
     @Override

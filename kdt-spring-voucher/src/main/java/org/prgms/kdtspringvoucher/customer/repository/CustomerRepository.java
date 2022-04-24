@@ -1,6 +1,7 @@
 package org.prgms.kdtspringvoucher.customer.repository;
 
 import org.prgms.kdtspringvoucher.customer.domain.Customer;
+import org.prgms.kdtspringvoucher.customer.domain.CustomerType;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +16,7 @@ public interface CustomerRepository {
 
     Optional<Customer> findByEmail(String email);
 
-    List<Customer> findByName(String name);
-
-    List<Customer> findBlackList();
+    List<Customer> findByCustomerType(CustomerType customerType);
 
     List<Customer> findAll();
 
