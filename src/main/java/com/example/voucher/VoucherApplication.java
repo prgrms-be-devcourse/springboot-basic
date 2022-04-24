@@ -2,6 +2,7 @@ package com.example.voucher;
 
 import com.example.voucher.controller.VoucherController;
 import com.example.voucher.domain.voucher.VoucherType;
+import com.example.voucher.dto.VoucherListResponse;
 import com.example.voucher.io.Input;
 import com.example.voucher.io.Output;
 import org.springframework.boot.ApplicationArguments;
@@ -55,6 +56,11 @@ public class VoucherApplication implements ApplicationRunner {
 						output.printMessage(e.getMessage());
 					}
 				}
+
+				case LIST: {
+					VoucherListResponse voucherListResponse = processListCommand();
+					output.printMessage(voucherListResponse);
+				}
 			}
 		}
 	}
@@ -82,6 +88,9 @@ public class VoucherApplication implements ApplicationRunner {
 		voucherController.save(voucherType, discountAmount);
 	}
 
+	private VoucherListResponse processListCommand() {
+		return voucherController.findAll();
+	}
 
 
 	public static void main(String[] args) {

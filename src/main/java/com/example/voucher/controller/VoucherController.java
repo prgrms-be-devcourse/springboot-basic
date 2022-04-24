@@ -1,6 +1,7 @@
 package com.example.voucher.controller;
 
 import com.example.voucher.domain.voucher.VoucherType;
+import com.example.voucher.dto.VoucherListResponse;
 import com.example.voucher.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
 
@@ -21,5 +22,9 @@ public class VoucherController {
 			throw new IllegalArgumentException(INVALID_INPUT.name());
 		}
 		voucherService.save(voucherType, discountAmount);
+	}
+
+	public VoucherListResponse findAll() {
+		return null;
 	}
 }
