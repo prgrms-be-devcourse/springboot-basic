@@ -18,8 +18,9 @@ public class VoucherService {
     }
 
     //@Transactional
-    public void createVoucher(VoucherType voucherType, Long value) {
+    public CreateVoucherResponse createVoucher(VoucherType voucherType, Long value) {
         //this.voucherRepository.insert(voucherType.create(UUID.randomUUID(), value, LocalDateTime.now()));
+        return null;
     }
 
     //@Transactional
