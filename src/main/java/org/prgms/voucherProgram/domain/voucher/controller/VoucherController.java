@@ -1,7 +1,5 @@
 package org.prgms.voucherProgram.domain.voucher.controller;
 
-import static java.util.stream.Collectors.*;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +25,7 @@ public class VoucherController {
     public String viewVouchersPage(Model model) {
         List<VoucherDto> vouchers = voucherService.findAllVoucher().stream()
             .map(VoucherDto::from)
-            .collect(toList());
+            .toList();
 
         model.addAttribute("vouchers", vouchers);
         return "views/voucher/vouchers";

@@ -44,7 +44,7 @@ public class CustomerController {
     public String findCustomer(@PathVariable("customerId") UUID customerId, Model model) {
         Customer customer = customerService.findById(customerId);
         model.addAttribute("customer", customer);
-        return "views/customer/customer-details.html";
+        return "views/customer/customer-details";
     }
 
     @PostMapping("/customers/update/{email}")
