@@ -70,7 +70,7 @@ public class VoucherControllerTests {
             @Test
             @DisplayName("생성된 바우처의 정보를 가진 응답을 리턴한다")
             void it_return_error_message() {
-                var voucherDto = new VoucherDto(VoucherType.FIXED_AMOUNT, 0);
+                var voucherDto = new VoucherDto(VoucherType.FIXED_AMOUNT, 100);
                 var request = new Request<>(voucherDto);
 
                 when(voucherService.saveVoucher(any(Voucher.class)))
