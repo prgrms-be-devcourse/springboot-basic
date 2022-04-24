@@ -9,9 +9,9 @@ public interface VoucherAmount {
         }
         switch (voucherType) {
             case FIXED:
-                return new FixedVoucherAmount(userInput);
+                return new FixedAmount(userInput);
             case PERCENT:
-                return new PercentVoucherAmount(userInput);
+                return new PercentAmount(userInput);
             default:
                 throw new IllegalArgumentException(ERROR_MESSAGE_NOT_FOUND_VOUCHER_TYPE);
         }
