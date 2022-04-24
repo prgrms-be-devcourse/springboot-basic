@@ -17,12 +17,12 @@ import javax.sql.DataSource;
                                 "com.programmers.springbootbasic.repository",
                                 "com.programmers.springbootbasic.service"})
 @PropertySource(value = "classpath:application.yaml", factory = YamlPropertiesFactory.class)
-public class VoucherAppConfiguration {
+public class RootAppConfig {
 
     private final DataSourceProperties dataSourceProperties;
 
     @Autowired
-    public VoucherAppConfiguration(DataSourceProperties dataSourceInfoProvider) {
+    public RootAppConfig(DataSourceProperties dataSourceInfoProvider) {
         this.dataSourceProperties = dataSourceInfoProvider;
     }
 
