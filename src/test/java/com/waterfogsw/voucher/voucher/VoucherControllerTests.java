@@ -65,4 +65,18 @@ public class VoucherControllerTests {
             }
         }
     }
+
+    @Nested
+    @DisplayName("voucherList 메소드는")
+    class Describe_voucher {
+        @Nested
+        @DisplayName("조회 서비스로 부터 모든 바우처에 대한 정보가 리턴되면")
+        class Context_with_get_voucher_list {
+            @Test
+            @DisplayName("바우처 DTO 리스트를 가진 응답을 리턴한다")
+            void it_return_dto_list() {
+
+            }
+        }
+    }
 }
