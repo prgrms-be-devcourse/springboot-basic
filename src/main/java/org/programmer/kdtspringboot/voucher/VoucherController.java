@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -47,6 +48,22 @@ public class VoucherController {
     @GetMapping("vouchers/delete")
     public String deleteVoucherPage(){
         return "views/delete-voucher";
+    }
+
+    //Voucher 생성
+    @PostMapping("/vouchers/new")
+    public String addNewVoucher(CreateVoucherRequest createVoucherRequest){
+        logger.info("CreateVoucherRequest: {} and {}",createVoucherRequest.getType(),createVoucherRequest.getValue());
+        voucherService.createVoucher(createVoucherRequest.getType(),createVoucherRequest.getValue());
+        return "redirect:/";
+    }
+
+    //Voucher 삭제
+    @PostMapping("/vouchers/delete")
+    public String deleteVoucher(UUID voucherId){
+        logger.info("SDVoucherRequest: {} ",voucherId);
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:/";
     }
 
 }
