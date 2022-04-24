@@ -9,6 +9,7 @@ public record VoucherDto(
 ) {
 
     public Voucher toDomain() {
+        validate(type(), value());
         return Voucher.of(type(), value());
     }
 
