@@ -40,14 +40,14 @@ public class VoucherController {
         return "views/new-vouchers";
     }
 
-    @GetMapping("vouchers/search")
+    @GetMapping("/vouchers/search")
     public String searchVoucherPage(){
-        return "views/search-voucher";
+        return "views/search-vouchers";
     }
 
-    @GetMapping("vouchers/delete")
+    @GetMapping("/vouchers/delete")
     public String deleteVoucherPage(){
-        return "views/delete-voucher";
+        return "views/delete-vouchers";
     }
 
     //Voucher 생성
@@ -60,10 +60,19 @@ public class VoucherController {
 
     //Voucher 삭제
     @PostMapping("/vouchers/delete")
-    public String deleteVoucher(UUID voucherId){
-        logger.info("SDVoucherRequest: {} ",voucherId);
-        voucherService.deleteVoucher(voucherId);
+    public String deleteVoucher(SearchDeleteVoucherRequest searchDeleteVoucherRequest){
+        logger.info("SDVoucherRequest: {} ",searchDeleteVoucherRequest.getVoucherId());
+        voucherService.deleteVoucher(searchDeleteVoucherRequest.getVoucherId());
         return "redirect:/";
+    }
+
+    //Voucher 찾기
+    @PostMapping("/vouchers/search")
+    public String searchVoucher(Model model,SearchDeleteVoucherRequest searchDeleteVoucherRequest){
+        logger.info("SDVoucherRequest: {} ",searchDeleteVoucherRequest.getVoucherId());
+        model.addAttribute("serverTime", LocalDateTime.now());
+        model.addAttribute("vouchers",voucherService.findByIdVoucher(searchDeleteVoucherRequest.getVoucherId()));
+        return "views/vouchers";
     }
 
 }
