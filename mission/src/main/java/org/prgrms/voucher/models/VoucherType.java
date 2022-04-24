@@ -6,13 +6,13 @@ public enum VoucherType {
         @Override
         public Voucher createVoucher(long discountValue, VoucherType voucherType) {
 
-            return null;
+            return new FixedAmountVoucher(discountValue, voucherType);
         }
 
         @Override
         public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType) {
 
-            return null;
+            return new FixedAmountVoucher(voucherId, discountValue, voucherType);
         }
     },
     PERCENT_DISCOUNT {

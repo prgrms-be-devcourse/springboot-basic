@@ -17,6 +17,12 @@ public class VoucherService {
 
     public Voucher create(VoucherDto.VoucherRequest requestDto) {
 
-        return null;
+        if (requestDto.voucherType() == null) {
+            throw new IllegalArgumentException("VoucherType is null");
+        }
+
+        Voucher voucher = requestDto.toDomain();
+
+        return voucherRepository.save(voucher);
     }
 }
