@@ -1,4 +1,4 @@
-package org.prgms.voucheradmin.global.exception;
+package org.prgms.voucheradmin.global.exception.customexception;
 
 public class CreationFailException extends RuntimeException{
     private static final String CREATION_FAIL_EXCEPTION = "create fail";

@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
-import org.prgms.voucheradmin.global.exception.CreationFailException;
-import org.prgms.voucheradmin.global.exception.UpdateFailException;
+import org.prgms.voucheradmin.global.exception.customexception.CreationFailException;
+import org.prgms.voucheradmin.global.exception.customexception.UpdateFailException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

@@ -3,7 +3,7 @@ package org.prgms.voucheradmin.domain.voucher.dto;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
-import org.prgms.voucheradmin.global.exception.WrongInputException;
+import org.prgms.voucheradmin.global.exception.customexception.WrongInputException;
 
 public class VoucherUpdateReqDto {
     private UUID voucherId;

@@ -1,7 +1,7 @@
 package org.prgms.voucheradmin.domain.voucher.dto;
 
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
-import org.prgms.voucheradmin.global.exception.WrongInputException;
+import org.prgms.voucheradmin.global.exception.customexception.WrongInputException;
 
 /**
  * 바우처를 생성하기 위해 입력된 값을 전달하는 DTO 클래스 입니다.
@@ -19,13 +19,13 @@ public class VoucherReqDto {
     public VoucherReqDto(VoucherType voucherType, long amount) {
         switch (voucherType) {
             case FIXED_AMOUNT:
-                if(amount < 0)  {
-                    throw new WrongInputException("0 <= amount");
+                if(amount < 1)  {
+                    throw new WrongInputException("1 <= amount");
                 }
                 break;
             case PERCENTAGE_DISCOUNT:
-                if(amount < 0 || amount > 100)  {
-                    throw new WrongInputException("0 <= amount <= 100");
+                if(amount < 1 || amount > 100)  {
+                    throw new WrongInputException("1 <= amount <= 100");
                 }
                 break;
             default:

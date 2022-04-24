@@ -14,9 +14,9 @@ import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucherwallet.dao.VoucherWalletRepository;
 import org.prgms.voucheradmin.domain.voucherwallet.dto.VoucherWalletReqDto;
 import org.prgms.voucheradmin.domain.voucherwallet.entity.VoucherWallet;
-import org.prgms.voucheradmin.global.exception.CustomerNotFoundException;
-import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
-import org.prgms.voucheradmin.global.exception.VoucherWalletNotFoundException;
+import org.prgms.voucheradmin.global.exception.customexception.CustomerNotFoundException;
+import org.prgms.voucheradmin.global.exception.customexception.VoucherNotFoundException;
+import org.prgms.voucheradmin.global.exception.customexception.VoucherWalletNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

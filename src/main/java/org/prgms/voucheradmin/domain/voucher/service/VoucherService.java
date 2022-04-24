@@ -5,16 +5,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
-import org.prgms.voucheradmin.domain.voucher.dto.VoucherUpdateReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
-import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
-import org.prgms.voucheradmin.global.exception.WrongInputException;
+import org.prgms.voucheradmin.global.exception.customexception.VoucherNotFoundException;
+import org.prgms.voucheradmin.global.exception.customexception.WrongInputException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +50,7 @@ public class VoucherService {
      **/
     @Transactional(readOnly = true)
     public List<Voucher> getVouchers(VoucherType...voucherTypes) throws IOException{
-        if(Optional.ofNullable(voucherTypes[0]).isPresent()) {
+        if(voucherTypes.length != 0 && Optional.ofNullable(voucherTypes[0]).isPresent()) {
             return voucherRepository.findAllWithCondition(voucherTypes[0]);
         }else{
             return voucherRepository.findAll();

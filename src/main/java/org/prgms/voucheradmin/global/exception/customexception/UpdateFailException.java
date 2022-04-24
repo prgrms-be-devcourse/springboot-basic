@@ -1,4 +1,4 @@
-package org.prgms.voucheradmin.global.exception;
+package org.prgms.voucheradmin.global.exception.customexception;
 
 public class UpdateFailException extends RuntimeException{
     private static final String UPDATE_FAIL_EXCEPTION = "update fail";

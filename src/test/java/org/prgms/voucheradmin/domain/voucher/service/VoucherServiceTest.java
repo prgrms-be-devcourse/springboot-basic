@@ -21,7 +21,7 @@ import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
-import org.prgms.voucheradmin.global.exception.VoucherNotFoundException;
+import org.prgms.voucheradmin.global.exception.customexception.VoucherNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {

@@ -11,7 +11,7 @@ import org.prgms.voucheradmin.domain.customer.dto.BlacklistCustomerDto;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerCreateReqDto;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerUpdateReqDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
-import org.prgms.voucheradmin.global.exception.CustomerNotFoundException;
+import org.prgms.voucheradmin.global.exception.customexception.CustomerNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

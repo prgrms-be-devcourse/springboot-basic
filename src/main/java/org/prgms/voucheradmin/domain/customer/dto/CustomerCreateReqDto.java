@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
-import org.prgms.voucheradmin.global.exception.WrongInputException;
+import org.prgms.voucheradmin.global.exception.customexception.WrongInputException;
 
 public class CustomerCreateReqDto {
     private String name;

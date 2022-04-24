@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.voucheradmin.domain.customer.dao.customer.CustomerRepository;
 import org.prgms.voucheradmin.domain.customer.dto.CustomerUpdateReqDto;
 import org.prgms.voucheradmin.domain.customer.entity.Customer;
-import org.prgms.voucheradmin.global.exception.CustomerNotFoundException;
+import org.prgms.voucheradmin.global.exception.customexception.CustomerNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {

@@ -1,4 +1,4 @@
-package org.prgms.voucheradmin.global.exception;
+package org.prgms.voucheradmin.global.exception.customexception;
 
 import java.util.UUID;
 

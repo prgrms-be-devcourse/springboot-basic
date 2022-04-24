@@ -16,7 +16,7 @@ import org.prgms.voucheradmin.domain.console.enums.CommandAboutCustomer;
 import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucher;
 import org.prgms.voucheradmin.domain.console.enums.CommandAboutVoucherWallet;
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
-import org.prgms.voucheradmin.global.exception.WrongInputException;
+import org.prgms.voucheradmin.global.exception.customexception.WrongInputException;
 import org.springframework.stereotype.Service;
 
 /**
