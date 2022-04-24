@@ -17,6 +17,10 @@ public abstract class Voucher {
         this.discountValue = discountValue;
     }
 
+    public Long getVoucherId() {
+        return voucherId;
+    }
+
     public VoucherType getVoucherType() {
         return voucherType;
     }

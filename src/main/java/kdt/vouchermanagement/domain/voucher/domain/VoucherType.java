@@ -8,17 +8,32 @@ public enum VoucherType {
         public Voucher create(int discountValue) {
             return null;
         }
+
+        @Override
+        public Voucher createEntity(Long voucherId, int discountValue) {
+            return null;
+        }
     },
     FIXED_AMOUNT(1) {
         @Override
         public Voucher create(int discountValue) {
             return new FixedAmountVoucher(VoucherType.FIXED_AMOUNT, discountValue);
         }
+
+        @Override
+        public Voucher createEntity(Long voucherId, int discountValue) {
+            return new FixedAmountVoucher(voucherId, VoucherType.FIXED_AMOUNT, discountValue);
+        }
     },
     PERCENT_DISCOUNT(2) {
         @Override
         public Voucher create(int discountValue) {
             return new PercentDiscountVoucher(VoucherType.PERCENT_DISCOUNT, discountValue);
+        }
+
+        @Override
+        public Voucher createEntity(Long voucherId, int discountValue) {
+            return null;
         }
     };
 
@@ -37,4 +52,6 @@ public enum VoucherType {
     }
 
     public abstract Voucher create(int discountValue);
+
+    public abstract Voucher createEntity(Long voucherId, int discountValue);
 }
