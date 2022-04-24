@@ -1,6 +1,7 @@
 package kdt.vouchermanagement;
 
 import kdt.vouchermanagement.domain.voucher.controller.VoucherConsoleController;
+import kdt.vouchermanagement.domain.voucher.domain.FixedAmountVoucher;
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 import kdt.vouchermanagement.domain.voucher.dto.VoucherRequest;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -89,6 +92,33 @@ public class VoucherConsoleControllerTest {
 
         //when
         Response createdResponse = voucherConsoleController.create(request);
+
+        //then
+        assertThat(createdResponse).usingRecursiveComparison().isEqualTo(response);
+    }
+
+    @Test
+    @DisplayName("바우처 목록 조회 요청_성공")
+    void requestFindVouchers() {
+        //given, then
+        voucherConsoleController.list();
+
+        //when
+        verify(voucherService, times(1)).findVouchers();
+    }
+
+    @Test
+    @DisplayName("바우처 목록 조회 요청에 대한 반환값인 바우처 리스트를 response 객체에 담아 반환_성공")
+    void responseFindVouchers() {
+        //given
+        Voucher voucher1 = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100);
+        Voucher voucher2 = new FixedAmountVoucher(2L, VoucherType.FIXED_AMOUNT, 200);
+        List<Voucher> list = List.of(voucher1, voucher2);
+        Response response = Response.of(200, list);
+
+        //when
+        doReturn(list).when(voucherService).findVouchers();
+        Response createdResponse = voucherConsoleController.list();
 
         //then
         assertThat(createdResponse).usingRecursiveComparison().isEqualTo(response);
