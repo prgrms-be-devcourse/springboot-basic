@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.springbasic.domain.voucher.Voucher;
 
+import java.util.Optional;
+
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -34,7 +36,7 @@ class MemoryVoucherRepositoryTest {
         repository.save(voucher);
         var voucherId = voucher.getVoucherId();
 
-        var foundVoucher = repository.findByVoucherId(voucherId);
+        Optional<Voucher> foundVoucher = repository.findByVoucherId(voucherId);
 
         assertThat(foundVoucher.isEmpty(), is(false));
         assertThat(foundVoucher.get(), is(voucher));

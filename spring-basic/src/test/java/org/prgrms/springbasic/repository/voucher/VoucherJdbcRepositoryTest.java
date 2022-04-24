@@ -18,7 +18,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
@@ -131,7 +133,7 @@ class VoucherJdbcRepositoryTest {
     @Order(3)
     @DisplayName("바우처 아이디로 바우처를 조회할 수 있다.")
     void testFindByVoucherId() {
-        var retrievedVoucher = voucherRepository.findByVoucherId(voucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherRepository.findByVoucherId(voucher.getVoucherId());
 
         assertThat(retrievedVoucher.isEmpty(), is(false));
         assertThat(retrievedVoucher.get(), samePropertyValuesAs(voucher));
@@ -147,17 +149,17 @@ class VoucherJdbcRepositoryTest {
 
         voucherRepository.save(percentVoucher);
 
-        var retrievedVoucher = voucherRepository.findByCustomerId(customer.getCustomerId());
+        List<Voucher> retrievedVoucher = voucherRepository.findByCustomerId(customer.getCustomerId());
 
         assertThat(retrievedVoucher.isEmpty(), is(false));
-        assertThat(retrievedVoucher.get(), samePropertyValuesAs(percentVoucher));
+        assertThat(retrievedVoucher.get(0), samePropertyValuesAs(percentVoucher));
     }
 
     @Test
     @Order(5)
     @DisplayName("바우처 아이디로 바우처를 찾지 못하는 경우 빈 객체가 반환되어야 한다.")
     void testFindByIdException() {
-        var retrievedVoucher = voucherRepository.findByVoucherId(randomUUID());
+        Optional<Voucher> retrievedVoucher = voucherRepository.findByVoucherId(randomUUID());
 
         assertThat(retrievedVoucher.isEmpty(), is(true));
         assertThrows(NoSuchElementException.class, retrievedVoucher::get);
@@ -239,13 +241,13 @@ class VoucherJdbcRepositoryTest {
         var newVoucher = fixedVoucher(randomUUID(), 10L);
         var savedVoucher = voucherRepository.save(newVoucher);
 
-        var retrievedVoucher = voucherRepository.findByVoucherId(savedVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherRepository.findByVoucherId(savedVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isEmpty(), is(false));
 
         voucherRepository.deleteByVoucherId(savedVoucher.getVoucherId());
 
-        var deletedVoucher = voucherRepository.findByVoucherId(newVoucher.getVoucherId());
+        Optional<Voucher> deletedVoucher = voucherRepository.findByVoucherId(newVoucher.getVoucherId());
 
         assertThat(deletedVoucher.isEmpty(), is(true));
     }
@@ -259,7 +261,7 @@ class VoucherJdbcRepositoryTest {
 
         voucherRepository.deleteByCustomerId(customer.getCustomerId());
 
-        var retrievedVoucher = voucherRepository.findByVoucherId(voucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherRepository.findByVoucherId(voucher.getVoucherId());
 
         assertThat(retrievedVoucher.isEmpty(), is(true));
     }
