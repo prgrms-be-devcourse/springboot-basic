@@ -2,10 +2,9 @@ package org.prgms.springbootbasic.voucher.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import org.prgms.springbootbasic.voucher.vo.Voucher;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.Voucher;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
 
 public interface VoucherService {
 

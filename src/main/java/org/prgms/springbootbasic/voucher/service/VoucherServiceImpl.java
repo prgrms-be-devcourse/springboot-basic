@@ -2,12 +2,11 @@ package org.prgms.springbootbasic.voucher.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
 import org.prgms.springbootbasic.voucher.repository.vouchertype.VoucherTypeRepository;
-import org.prgms.springbootbasic.voucher.vo.Voucher;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.Voucher;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -9,16 +9,15 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.springbootbasic.voucher.vo.FixedAmountVoucher;
-import org.prgms.springbootbasic.voucher.vo.PercentDiscountVoucher;
-import org.prgms.springbootbasic.voucher.vo.Voucher;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.FixedAmountVoucher;
+import org.prgms.springbootbasic.voucher.entity.PercentDiscountVoucher;
+import org.prgms.springbootbasic.voucher.entity.Voucher;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringJUnitConfig
 class JdbcVoucherRepositoryTest {

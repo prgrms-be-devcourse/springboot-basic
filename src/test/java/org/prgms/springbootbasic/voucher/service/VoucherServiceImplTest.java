@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

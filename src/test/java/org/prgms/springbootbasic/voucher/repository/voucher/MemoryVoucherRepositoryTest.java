@@ -9,12 +9,10 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.springbootbasic.voucher.repository.voucher.MemoryVoucherRepository;
-import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
-import org.prgms.springbootbasic.voucher.vo.FixedAmountVoucher;
-import org.prgms.springbootbasic.voucher.vo.PercentDiscountVoucher;
-import org.prgms.springbootbasic.voucher.vo.Voucher;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.FixedAmountVoucher;
+import org.prgms.springbootbasic.voucher.entity.PercentDiscountVoucher;
+import org.prgms.springbootbasic.voucher.entity.Voucher;
 
 class MemoryVoucherRepositoryTest {
 

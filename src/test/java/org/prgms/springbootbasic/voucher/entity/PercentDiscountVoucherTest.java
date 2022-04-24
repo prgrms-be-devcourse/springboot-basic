@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.voucher.vo;
+package org.prgms.springbootbasic.voucher.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 

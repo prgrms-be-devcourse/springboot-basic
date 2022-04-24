@@ -2,7 +2,7 @@ package org.prgms.springbootbasic.voucher.repository.vouchertype;
 
 import java.util.UUID;
 
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
 
 /**
  * 관리자가 지정해 놓은 VoucherType 예를 들어 FIXEDAMOUNTVOUCHER, PERCENTDISCOUNTVOUCHER

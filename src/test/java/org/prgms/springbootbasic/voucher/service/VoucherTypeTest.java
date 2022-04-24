@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.springbootbasic.voucher.vo.Voucher;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.Voucher;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
 
 class VoucherTypeTest {
 

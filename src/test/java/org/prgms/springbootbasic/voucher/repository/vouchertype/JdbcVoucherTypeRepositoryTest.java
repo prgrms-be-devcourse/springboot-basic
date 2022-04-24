@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ class JdbcVoucherTypeRepositoryTest {
 	}
 
 	@Autowired
-	JdbcVoucherTypeRepository voucherTypeRepository;
+	VoucherTypeRepository voucherTypeRepository;
 
 	@DisplayName("voucherTypeRepository 생성 테스트 - autowired 되어야 한다.")
 	@Test
@@ -93,12 +93,12 @@ class JdbcVoucherTypeRepositoryTest {
 		assertThat(fixVoucherType).isEqualTo(VoucherType.FIXEDAMOUNTVOUCHER);
 
 		// // given
-		// final UUID percentUUID = voucherTypeRepository.findUUIDByName(VoucherType.PERCENTDISCOUNTVOUCHER.name());
+		final UUID percentUUID = voucherTypeRepository.findUUIDByName(VoucherType.PERCENTDISCOUNTVOUCHER.name());
 		// // when
-		// final VoucherType percentVoucherType = voucherTypeRepository.findById(percentUUID);
+		final VoucherType percentVoucherType = voucherTypeRepository.findById(percentUUID);
 		// // then
-		// assertThat(percentVoucherType).isNotNull();
-		// assertThat(percentVoucherType).isEqualTo(VoucherType.PERCENTDISCOUNTVOUCHER);
+		assertThat(percentVoucherType).isNotNull();
+		assertThat(percentVoucherType).isEqualTo(VoucherType.PERCENTDISCOUNTVOUCHER);
 	}
 
 	@DisplayName("잘못된 voucherTypeId 입력하면 DataAccessException이 발생한다")

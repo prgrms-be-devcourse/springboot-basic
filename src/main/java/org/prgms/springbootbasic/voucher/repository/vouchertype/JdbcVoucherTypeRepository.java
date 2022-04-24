@@ -3,7 +3,7 @@ package org.prgms.springbootbasic.voucher.repository.vouchertype;
 import java.util.UUID;
 
 import org.prgms.springbootbasic.util.UUIDConverter;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

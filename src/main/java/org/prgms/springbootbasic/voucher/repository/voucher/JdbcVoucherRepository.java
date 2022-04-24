@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 import org.prgms.springbootbasic.util.UUIDConverter;
 import org.prgms.springbootbasic.voucher.repository.vouchertype.VoucherTypeRepository;
-import org.prgms.springbootbasic.voucher.vo.Voucher;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.Voucher;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;

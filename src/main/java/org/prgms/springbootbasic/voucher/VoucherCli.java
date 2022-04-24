@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.prgms.springbootbasic.voucher.service.VoucherServiceImpl;
-import org.prgms.springbootbasic.voucher.vo.VoucherType;
-import org.prgms.springbootbasic.voucher.vo.Voucher;
+import org.prgms.springbootbasic.voucher.entity.VoucherType;
+import org.prgms.springbootbasic.voucher.entity.Voucher;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
