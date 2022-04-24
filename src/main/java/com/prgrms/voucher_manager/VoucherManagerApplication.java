@@ -4,6 +4,7 @@ import com.prgrms.voucher_manager.io.VoucherManagerConsole;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -12,13 +13,12 @@ import java.io.IOException;
 public class VoucherManagerApplication {
 
     public static void main(String[] args) throws IOException {
-        SpringApplication springApplication = new SpringApplication(VoucherManagerApplication.class);
-        springApplication.setWebApplicationType(WebApplicationType.NONE);
-        var applicationContext = springApplication.run(args);
-        //var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        ApplicationContext applicationContext = SpringApplication.run(VoucherManagerApplication.class, args);
         var console = applicationContext.getBean(VoucherManagerConsole.class);
-
         console.run();
+
+        //var applicationContext = springApplication.run(args);
+        //var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
     }
 
 }

@@ -4,13 +4,13 @@
 
 #---
 #
-spring:
-  profiles:
-    active: dev
-
 #spring:
 #  profiles:
-#    active: file
+#    active: dev
+
+spring:
+  profiles:
+    active: default
 
 
 datasource:
