@@ -1,15 +1,22 @@
 package com.dojinyou.devcourse.voucherapplication;
 
+import com.dojinyou.devcourse.voucherapplication.voucher.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
@@ -22,45 +29,118 @@ class ApplicationControllerTest {
     @MockBean
     VoucherController voucherController;
 
-    @Test
-    @DisplayName("Create 명령이 주어졌을 때, RequestHandle 함수를 호출하면 VoucherController의 RequestHandle 함수가 호출된다")
-    void requestHandleWithCreateCommandTest() {
-        //given
-        Command userCommand = Command.CREATE;
+    @Nested
+    @DisplayName("command Handle 함수에 관하여")
+    class Describe_commandHandleMethod {
+        @Nested
+        @DisplayName("잘못된 명렁이 들어올 경우")
+        class Context_Enter_Illegal_Command {
+            @Test
+            @DisplayName("예외를 발생시킨다.")
+            void it_Throws_Exception() {
+                //given
+                Command command = null;
 
-        //when
-        applicationController.requestHandle(userCommand);
+                //when
+                Throwable thrown = catchThrowable(()->applicationController.commandHandle(command));
 
-        //then
-        verify(voucherController, atLeastOnce()).requestHandle(userCommand);
+                //then
+                assertThat(thrown).isNotNull();
+                assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+
+            }
+        }
+        @Nested
+        @DisplayName("사용자가 프로그램 종료 명령 입력 시,")
+        class Context_Enter_Exit_Command {
+            @Test
+            @DisplayName("응답 데이터는 Command.Exit")
+            void it_Return_Data_is_Command_Exit() {
+                //given
+                String userInput = "EXIT";
+                Command command = Command.of(userInput);
+
+                //when
+                Response response = applicationController.commandHandle(command);
+
+                //then
+                assertThat(response).isNotNull();
+                assertThat(response.getData()).isEqualTo(Command.EXIT);
+            }
+        }
+        @Nested
+        @DisplayName("사용자가 바우처 생성 명령 입력 시,")
+        class Context_Enter_Create_Command {
+            @MockBean
+            VoucherController voucherController;
+
+            @Test
+            @DisplayName("바우처 컨트롤러의 create 메소드가 호출된다.")
+            void it_Call_create_method_of_VoucherController() {
+                //given
+                String userInput = "CREATE";
+                Command command = Command.of(userInput);
+
+                //when
+                applicationController.commandHandle(command);
+
+                //then
+                verify(voucherController, atLeastOnce()).create(any());
+            }
+
+            @Test
+            @DisplayName("Voucher Type data를 가진 응답 객체를 반환한다.")
+            void it_Return_Voucher_Data() {
+                //given
+                String userInput = "CREATE";
+                Command command = Command.of(userInput);
+
+                //when
+                Response response = applicationController.commandHandle(command);
+
+                //then
+                assertThat(response).isNotNull();
+                assertThat(response.getState()).isEqualTo(Response.State.SUCCESS);
+                assertThat(response.getData()).isNotNull();
+                assertThat(response.getData()).isInstanceOf(Voucher.class);
+            }
+        }
+        @Nested
+        @DisplayName("사용자가 바우처 조회 명령 입력 시,")
+        class Context_Enter_List_Command {
+            @MockBean
+            VoucherController voucherController;
+
+            @Test
+            @DisplayName("바우처 컨트롤러의 findAll 메소드가 호출된다.")
+            void it_Call_findAll_method_of_VoucherController() {
+                //given
+                String userInput = "LIST";
+                Command command = Command.of(userInput);
+
+                //when
+                applicationController.commandHandle(command);
+
+                //then
+                verify(voucherController, atLeastOnce()).findAll();
+            }
+
+            @Test
+            @DisplayName("List<Voucher> Type data를 가진 응답 객체를 반환한다.")
+            void it_Return_Voucher_Data() {
+                //given
+                String userInput = "CREATE";
+                Command command = Command.of(userInput);
+
+                //when
+                Response response = applicationController.commandHandle(command);
+
+                //then
+                assertThat(response).isNotNull();
+                assertThat(response.getState()).isEqualTo(Response.State.SUCCESS);
+                assertThat(response.getData()).isNotNull();
+                assertThat(response.getData()).isInstanceOf(List.class);
+            }
+        }
     }
-
-    @Test
-    @DisplayName("List 명령이 주어졌을 때, RequestHandle 함수를 호출하면 VoucherController의 RequestHandle 함수가 호출된다")
-    void requestHandleWithListCommandTest() {
-        //given
-        Command userCommand = Command.LIST;
-
-        //when
-        applicationController.requestHandle(userCommand);
-
-        //then
-        verify(voucherController, atLeastOnce()).requestHandle(userCommand);
-    }
-
-    @Test
-    @DisplayName("Exit 명령이 주어졌을 때, RequestHandle 함수를 호출하면 Response 객체의 상태가 성공이고, 종료 메세지를 가지고 있어야 한다.")
-    void requestHandleWithExitCommandTest() {
-        //given
-        Command userCommand = Command.EXIT;
-
-        //when
-        Response response = applicationController.requestHandle(userCommand);
-
-        //then
-        assertThat(response).isNotNull();
-        assertThat(response.getState()).isEqualTo(Response.State.SUCCESS);
-        assertThat(response.getData()).isEqualTo(Command.EXIT.toString());
-    }
-
 }
