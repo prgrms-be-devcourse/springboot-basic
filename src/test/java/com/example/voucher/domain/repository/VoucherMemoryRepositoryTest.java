@@ -40,7 +40,7 @@ public class VoucherMemoryRepositoryTest {
 			@Test
 			@DisplayName("바우처를 저장하고 저장된 바우처를 반환한다")
 			void 바우처를_저장하고_저장된_바우처를_반환한다() {
-				Voucher savedVoucher = voucherRepository.save(new FixedAmountVoucher(1000));
+				Voucher savedVoucher = voucherRepository.save(new FixedAmountVoucher(null, 1000));
 
 				try {
 					Map<Long, Voucher> map = (Map<Long, Voucher>) store.get(voucherRepository);

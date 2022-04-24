@@ -21,6 +21,6 @@ public class VoucherServiceImpl implements VoucherService {
 	}
 
 	private Voucher createVoucher(VoucherType voucherType, int discountAmount) {
-		return voucherType.create(discountAmount);
+		return voucherType.create(null, discountAmount);
 	}
 }

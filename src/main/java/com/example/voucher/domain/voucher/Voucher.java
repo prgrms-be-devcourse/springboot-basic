@@ -1,11 +1,12 @@
 package com.example.voucher.domain.voucher;
 
 public abstract class Voucher {
-	Long voucherId;
-	int discountAmount;
+	final Long voucherId;
+	final int discountAmount;
 
-	public void setVoucherId(Long voucherId) {
+	public Voucher(Long voucherId, int discountAmount) {
 		this.voucherId = voucherId;
+		this.discountAmount = discountAmount;
 	}
 
 	public Long getVoucherId() {

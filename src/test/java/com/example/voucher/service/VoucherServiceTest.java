@@ -40,7 +40,7 @@ public class VoucherServiceTest {
 
 			@BeforeEach
 			void VoucherRepository_save메서드_반환_값_설정() {
-				createdVoucher = new FixedAmountVoucher(1000);
+				createdVoucher = new FixedAmountVoucher(null, 1000);
 				given(voucherRepository.save(any(Voucher.class)))
 						.willReturn(createdVoucher);
 			}

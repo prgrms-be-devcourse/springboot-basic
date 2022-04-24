@@ -1,21 +1,21 @@
 package com.example.voucher.domain.voucher;
 
 import java.util.Arrays;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public enum VoucherType {
-	FIXED_AMOUNT_VOUCHER(discountAmount -> new FixedAmountVoucher(discountAmount)),
-	PERCENT_DISCOUNT_VOUCHER(discountAmount -> new PercentDiscountVoucher(discountAmount)),
+	FIXED_AMOUNT_VOUCHER((voucherId, discountAmount) -> new FixedAmountVoucher(voucherId, discountAmount)),
+	PERCENT_DISCOUNT_VOUCHER((voucherId, discountAmount) -> new PercentDiscountVoucher(voucherId, discountAmount)),
 	EMPTY(null);
 
-	private Function<Integer, Voucher> expression;
+	private BiFunction<Long, Integer, Voucher> expression;
 
-	VoucherType(Function<Integer, Voucher> expression) {
+	VoucherType(BiFunction<Long, Integer, Voucher> expression) {
 		this.expression = expression;
 	}
 
-	public Voucher create(int discountAmount) {
-		return expression.apply(discountAmount);
+	public Voucher create(Long voucherId, int discountAmount) {
+		return expression.apply(voucherId, discountAmount);
 	}
 
 	public static VoucherType of(String voucherTypeStr) {
