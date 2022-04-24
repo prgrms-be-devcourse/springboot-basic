@@ -18,8 +18,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.voucherProgram.domain.customer.domain.Customer;
+import org.prgms.voucherProgram.domain.customer.domain.Email;
 import org.prgms.voucherProgram.domain.customer.exception.CustomerIsNotExistsException;
-import org.prgms.voucherProgram.domain.customer.repository.CustomerRepository;
+import org.prgms.voucherProgram.domain.customer.service.CustomerService;
 import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
 import org.prgms.voucherProgram.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
@@ -37,7 +38,7 @@ class VoucherServiceTest {
     VoucherRepository voucherRepository;
 
     @Mock
-    CustomerRepository customerRepository;
+    CustomerService customerService;
 
     @InjectMocks
     VoucherService voucherService;
@@ -228,7 +229,7 @@ class VoucherServiceTest {
 
             @BeforeEach
             void prepare() {
-                given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+                given(customerService.findByEmail(any(Email.class))).willReturn(customer);
                 given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
                 given(voucherRepository.assignCustomer(any(Voucher.class))).willReturn(
                     new FixedAmountVoucher(voucher.getVoucherId(), customer.getCustomerId(),
@@ -242,7 +243,7 @@ class VoucherServiceTest {
 
                 assertThat(assignVoucher).extracting("customerId")
                     .isEqualTo(customer.getCustomerId());
-                then(customerRepository).should(times(1)).findByEmail(any(String.class));
+                then(customerService).should(times(1)).findByEmail(any(Email.class));
                 then(voucherRepository).should(times(1)).findById(any(UUID.class));
                 then(voucherRepository).should(times(1)).assignCustomer(any(Voucher.class));
             }
@@ -257,7 +258,7 @@ class VoucherServiceTest {
             @BeforeEach
             void prepare() {
                 given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
-                given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
+                given(customerService.findByEmail(any(Email.class))).willThrow(new CustomerIsNotExistsException());
             }
 
             @Test
@@ -322,7 +323,7 @@ class VoucherServiceTest {
 
             @BeforeEach
             void prepare() {
-                given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+                given(customerService.findByEmail(any(Email.class))).willReturn(customer);
                 given(voucherRepository.findByCustomerEmail(any(String.class))).willReturn(vouchers);
             }
 
@@ -332,7 +333,7 @@ class VoucherServiceTest {
                 List<Voucher> vouchers = voucherService.findAssignVouchers(customer.getEmail());
 
                 assertThat(vouchers).hasSize(2);
-                then(customerRepository).should(times(1)).findByEmail(any(String.class));
+                then(customerService).should(times(1)).findByEmail(any(Email.class));
                 then(voucherRepository).should(times(1)).findByCustomerEmail(any(String.class));
             }
         }
@@ -344,7 +345,7 @@ class VoucherServiceTest {
 
             @BeforeEach
             void prepare() {
-                given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
+                given(customerService.findByEmail(any(Email.class))).willThrow(new CustomerIsNotExistsException());
             }
 
             @Test
@@ -369,7 +370,7 @@ class VoucherServiceTest {
             @BeforeEach
             void prepare() {
                 given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
-                given(customerRepository.findByVoucherId(any(UUID.class))).willReturn(Optional.of(customer));
+                given(customerService.findByVoucherId(any(UUID.class))).willReturn(customer);
             }
 
             @Test
@@ -379,7 +380,7 @@ class VoucherServiceTest {
 
                 assertThat(findCustomer).extracting("customerId").isEqualTo(customer.getCustomerId());
                 then(voucherRepository).should(times(1)).findById(any(UUID.class));
-                then(customerRepository).should(times(1)).findByVoucherId(any(UUID.class));
+                then(customerService).should(times(1)).findByVoucherId(any(UUID.class));
             }
         }
 
@@ -434,7 +435,7 @@ class VoucherServiceTest {
 
             @BeforeEach
             void prepare() {
-                given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+                given(customerService.findByEmail(any(Email.class))).willReturn(customer);
                 given(voucherRepository.findByCustomerId(any(UUID.class))).willReturn(List.of(voucher));
             }
 
@@ -443,7 +444,7 @@ class VoucherServiceTest {
             void it_delete_assign_voucher() {
                 voucherService.deleteAssignVoucher(walletRequest);
 
-                then(customerRepository).should(times(1)).findByEmail(any(String.class));
+                then(customerService).should(times(1)).findByEmail(any(Email.class));
                 then(voucherRepository).should(times(1)).findByCustomerId(any(UUID.class));
                 then(voucherRepository).should(times(1)).deleteById(any(UUID.class));
             }
@@ -456,7 +457,7 @@ class VoucherServiceTest {
 
             @BeforeEach
             void prepare() {
-                given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.empty());
+                given(customerService.findByEmail(any(Email.class))).willThrow(new CustomerIsNotExistsException());
             }
 
             @Test
@@ -476,7 +477,7 @@ class VoucherServiceTest {
 
             @BeforeEach
             void prepare() {
-                given(customerRepository.findByEmail(any(String.class))).willReturn(Optional.of(customer));
+                given(customerService.findByEmail(any(Email.class))).willReturn(customer);
                 given(voucherRepository.findByCustomerId(any(UUID.class))).willReturn(Collections.emptyList());
             }
 

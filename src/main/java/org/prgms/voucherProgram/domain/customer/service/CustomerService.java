@@ -47,16 +47,29 @@ public class CustomerService {
         return customerRepository.update(customer);
     }
 
+    private void validateDuplicateEmail(Customer customer, Customer findCustomer) {
+        if (customer.isNotSameCustomer(findCustomer)) {
+            throw new DuplicateEmailException();
+        }
+    }
+
     private Customer findCustomer(Email email) {
         return customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
             throw new CustomerIsNotExistsException();
         });
     }
 
-    private void validateDuplicateEmail(Customer customer, Customer findCustomer) {
-        if (customer.isNotSameCustomer(findCustomer)) {
-            throw new DuplicateEmailException();
-        }
+    public Customer findByVoucherId(UUID voucherId) {
+        return customerRepository.findByVoucherId(voucherId)
+            .orElseThrow(CustomerIsNotExistsException::new);
+    }
+
+    public List<Customer> findCustomers() {
+        return customerRepository.findAll();
+    }
+
+    public List<Customer> findBlackList() {
+        return blackListRepository.findBlackCustomers();
     }
 
     public void delete(Email email) {
@@ -74,13 +87,5 @@ public class CustomerService {
         return customerRepository.findById(customerId).orElseThrow(() -> {
             throw new CustomerIsNotExistsException();
         });
-    }
-
-    public List<Customer> findCustomers() {
-        return customerRepository.findAll();
-    }
-
-    public List<Customer> findBlackList() {
-        return blackListRepository.findBlackCustomers();
     }
 }

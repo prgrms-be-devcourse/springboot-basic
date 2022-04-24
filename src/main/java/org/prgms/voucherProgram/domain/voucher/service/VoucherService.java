@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.prgms.voucherProgram.domain.customer.domain.Customer;
 import org.prgms.voucherProgram.domain.customer.domain.Email;
 import org.prgms.voucherProgram.domain.customer.exception.CustomerIsNotExistsException;
-import org.prgms.voucherProgram.domain.customer.repository.CustomerRepository;
+import org.prgms.voucherProgram.domain.customer.service.CustomerService;
 import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
 import org.prgms.voucherProgram.domain.voucher.domain.VoucherType;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
@@ -23,11 +23,11 @@ public class VoucherService {
     public static final String ERROR_VOUCHER_IS_NOT_ASSIGN = "[ERROR] 해당 바우처는 아직 할당전 입니다.";
 
     private final VoucherRepository voucherRepository;
-    private final CustomerRepository customerRepository;
+    private final CustomerService customerService;
 
-    public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
+    public VoucherService(VoucherRepository voucherRepository, CustomerService customerService) {
         this.voucherRepository = voucherRepository;
-        this.customerRepository = customerRepository;
+        this.customerService = customerService;
     }
 
     public Voucher create(VoucherRequest voucherRequest) {
@@ -92,9 +92,7 @@ public class VoucherService {
     public Customer findCustomer(UUID voucherId) {
         Voucher voucher = findVoucher(voucherId);
         validateNotAssign(voucher);
-
-        return customerRepository.findByVoucherId(voucherId)
-            .orElseThrow(CustomerIsNotExistsException::new);
+        return customerService.findByVoucherId(voucherId);
     }
 
     private void validateNotAssign(Voucher voucher) {
@@ -111,8 +109,6 @@ public class VoucherService {
 
     private Customer findCustomer(String requestEmail) {
         Email email = new Email(requestEmail);
-        return customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
-            throw new CustomerIsNotExistsException();
-        });
+        return customerService.findByEmail(email);
     }
 }
