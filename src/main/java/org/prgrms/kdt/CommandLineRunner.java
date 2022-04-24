@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 
 public class CommandLineRunner implements Runnable {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommandLineRunner.class);
-
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
@@ -59,11 +57,9 @@ public class CommandLineRunner implements Runnable {
                     default -> handleInValidCommand();
                 }
             } catch (IllegalArgumentException | InputException e) {
-                logger.warn(e.getMessage(), e);
-                output.printMessage(e.getMessage());
+                output.printWarnMessage(e);
             } catch (RuntimeException e) {
-                logger.error(e.getMessage(), e);
-                output.printMessage(e.getMessage());
+                output.printErrorMessage(e);
             }
         }
     }

@@ -8,4 +8,6 @@ public interface Output {
     void printInvalidCommand();
     void printShutDownSystem();
     void printVoucherValue(VoucherType voucherType);
+    void printWarnMessage(Exception e);
+    void printErrorMessage(Exception e);
 }
