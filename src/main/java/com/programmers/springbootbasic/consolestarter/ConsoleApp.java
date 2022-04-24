@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic;
+package com.programmers.springbootbasic.consolestarter;
 
 public interface ConsoleApp {
 
