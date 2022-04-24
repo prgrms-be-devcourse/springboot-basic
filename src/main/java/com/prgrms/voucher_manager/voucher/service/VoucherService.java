@@ -32,7 +32,7 @@ public class VoucherService {
             vouchers = voucherRepository.findAll();
             AtomicInteger i = new AtomicInteger();
             vouchers.forEach(v -> {
-                System.out.println(i.getAndIncrement() + " : " + v.toString());
+                logger.info(i.getAndIncrement() + " : " + v.toString());
             });
         } catch (RuntimeException e) {
             logger.info("JDBC voucher 가 비어있습니다. ");
