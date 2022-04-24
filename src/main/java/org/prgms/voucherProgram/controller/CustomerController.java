@@ -26,12 +26,12 @@ public class CustomerController {
     public String viewCustomersPage(Model model) {
         List<Customer> customers = customerService.findCustomers();
         model.addAttribute("customers", customers);
-        return "views/customers";
+        return "views/customer/customers";
     }
 
     @GetMapping("customers/new")
     public String viewNewCustomer() {
-        return "views/new-customers";
+        return "views/customer/new-customers";
     }
 
     @PostMapping("/customers/new")
@@ -44,7 +44,7 @@ public class CustomerController {
     public String findCustomer(@PathVariable("customerId") UUID customerId, Model model) {
         Customer customer = customerService.findById(customerId);
         model.addAttribute("customer", customer);
-        return "views/customer-details.html";
+        return "views/customer/customer-details.html";
     }
 
     @PostMapping("/customers/update/{email}")
