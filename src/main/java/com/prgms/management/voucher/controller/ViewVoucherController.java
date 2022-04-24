@@ -23,7 +23,7 @@ public class ViewVoucherController {
     
     @GetMapping
     public String voucherList(Model model) {
-        List<Voucher> voucherList = voucherService.findVouchers();
+        List<Voucher> voucherList = voucherService.findVouchers(null, null, null);
         List<VoucherResponse> list = voucherList.stream().map(VoucherResponse::of).toList();
         model.addAttribute("voucherList", list);
         model.addAttribute("menuType", MENU_TYPE);

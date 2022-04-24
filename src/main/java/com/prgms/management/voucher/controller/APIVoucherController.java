@@ -4,11 +4,14 @@ import com.prgms.management.common.dto.Response;
 import com.prgms.management.voucher.dto.VoucherRequest;
 import com.prgms.management.voucher.dto.VoucherResponse;
 import com.prgms.management.voucher.model.Voucher;
+import com.prgms.management.voucher.model.VoucherType;
 import com.prgms.management.voucher.service.VoucherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,10 +25,24 @@ public class APIVoucherController {
     }
     
     @GetMapping
-    public ResponseEntity<Response> voucherList() {
-        List<Voucher> voucherList = voucherService.findVouchers();
+    public ResponseEntity<Response> voucherList(@RequestParam HashMap<String, String> param) {
+        VoucherType type = null;
+        Timestamp start = null;
+        Timestamp end = null;
+        
+        try {
+            type = VoucherType.valueOf(param.get("type").toUpperCase());
+        } catch (NullPointerException ignored) {}
+        
+        try {
+            start = Timestamp.valueOf(param.get("start"));
+            end = Timestamp.valueOf(param.get("end"));
+        } catch (NullPointerException | IllegalArgumentException ignored) {}
+        
+        List<Voucher> voucherList = voucherService.findVouchers(type, start, end);
         List<VoucherResponse> resultList = voucherList.stream().map(VoucherResponse::of).toList();
-        var response = new Response(HttpStatus.OK, "바우처 조회 성공", resultList);
+        Response response = new Response(HttpStatus.OK, "바우처 조회 성공", resultList);
+        
         return ResponseEntity.ok(response);
     }
     

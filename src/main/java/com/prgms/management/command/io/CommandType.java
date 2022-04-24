@@ -15,7 +15,7 @@ public enum CommandType {
     LIST("list", "to list all vouchers.") {
         @Override
         public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
-            console.printListVoucher(voucherService.findVouchers());
+            console.printListVoucher(voucherService.findVouchers(null, null, null));
         }
     },
     EXIT("exit", "to exit the program.") {

@@ -6,6 +6,7 @@ import com.prgms.management.common.exception.SaveFailException;
 import com.prgms.management.voucher.model.FixedAmountVoucher;
 import com.prgms.management.voucher.model.PercentDiscountVoucher;
 import com.prgms.management.voucher.model.Voucher;
+import com.prgms.management.voucher.model.VoucherType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -13,6 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +47,21 @@ public class FileVoucherRepository implements VoucherRepository {
             throw new FindFailException();
         }
         throw new FindFailException();
+    }
+    
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return null;
+    }
+    
+    @Override
+    public List<Voucher> findByDate(Timestamp start, Timestamp end) {
+        return null;
+    }
+    
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherType type, Timestamp start, Timestamp end) {
+        return null;
     }
     
     @Override

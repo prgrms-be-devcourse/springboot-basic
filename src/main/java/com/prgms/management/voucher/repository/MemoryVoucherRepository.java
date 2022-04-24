@@ -1,9 +1,11 @@
 package com.prgms.management.voucher.repository;
 
 import com.prgms.management.voucher.model.Voucher;
+import com.prgms.management.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,6 +21,21 @@ public class MemoryVoucherRepository implements VoucherRepository {
             return null;
         }
         return voucher.get();
+    }
+    
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return null;
+    }
+    
+    @Override
+    public List<Voucher> findByDate(Timestamp start, Timestamp end) {
+        return null;
+    }
+    
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherType type, Timestamp start, Timestamp end) {
+        return null;
     }
     
     @Override

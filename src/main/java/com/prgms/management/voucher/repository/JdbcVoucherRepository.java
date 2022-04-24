@@ -39,8 +39,40 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
     
     @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return jdbcTemplate.query("SELECT * from voucher WHERE type = :type ORDER BY created_at DESC",
+            Collections.singletonMap("type", type.toString()),
+            (rs, rowNum) -> mapToVoucher(rs));
+    }
+    
+    @Override
+    public List<Voucher> findByDate(Timestamp start, Timestamp end) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put("start", start);
+            put("end", end);
+        }};
+        return jdbcTemplate.query("SELECT * from voucher WHERE created_at BETWEEN :start AND :end " +
+                "ORDER BY created_at DESC",
+            paramMap,
+            (rs, rowNum) -> mapToVoucher(rs));
+    }
+    
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherType type, Timestamp start, Timestamp end) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put("type", type.toString());
+            put("start", start);
+            put("end", end);
+        }};
+        return jdbcTemplate.query("SELECT * from voucher WHERE type = :type AND created_at BETWEEN :start AND :end " +
+                "ORDER BY created_at DESC",
+            paramMap,
+            (rs, rowNum) -> mapToVoucher(rs));
+    }
+    
+    @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("SELECT * from voucher", (rs, rowNum) -> mapToVoucher(rs));
+        return jdbcTemplate.query("SELECT * from voucher ORDER BY created_at DESC", (rs, rowNum) -> mapToVoucher(rs));
     }
     
     @Override
