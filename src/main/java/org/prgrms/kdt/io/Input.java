@@ -9,5 +9,5 @@ public interface Input {
 
     long inputLong();
 
-    Optional<UUID> inputUUID();
+    UUID inputUUID();
 }

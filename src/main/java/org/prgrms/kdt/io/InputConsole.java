@@ -1,6 +1,7 @@
 package org.prgrms.kdt.io;
 
-import java.util.Optional;
+import org.prgrms.kdt.error.InputException;
+
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -20,11 +21,11 @@ public class InputConsole implements Input {
     }
 
     @Override
-    public Optional<UUID> inputUUID() {
+    public UUID inputUUID() {
         try {
-            return Optional.of(UUID.fromString(scanner.nextLine()));
+            return UUID.fromString(scanner.nextLine());
         } catch (IllegalArgumentException e) {
-            return Optional.empty();
+            throw new InputException("Invalid UUID Input value.");
         }
     }
 }

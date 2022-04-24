@@ -1,5 +1,6 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.error.InputException;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.model.customer.CustomerGrade;
@@ -45,16 +46,24 @@ public class CommandLineRunner implements Runnable {
             String commandManuals = commandType.getCommandManuals();
             output.printCommandManual(commandManuals);
 
-            command = input.input();
-            commandType = CommandType.getCommandType(command);
-            switch (commandType) {
-                case EXIT -> exitCommandRunner();
-                case CREATE -> createVoucher();
-                case UPDATE -> updateVoucher();
-                case DELETE -> deleteVoucher();
-                case LIST -> findVoucherList();
-                case BLACK_LIST -> findBlackList();
-                default -> handleInValidCommand();
+            try {
+                command = input.input();
+                commandType = CommandType.getCommandType(command);
+                switch (commandType) {
+                    case EXIT -> exitCommandRunner();
+                    case CREATE -> createVoucher();
+                    case UPDATE -> updateVoucher();
+                    case DELETE -> deleteVoucher();
+                    case LIST -> findVoucherList();
+                    case BLACK_LIST -> findBlackList();
+                    default -> handleInValidCommand();
+                }
+            } catch (IllegalArgumentException | InputException e) {
+                logger.warn(e.getMessage(), e);
+                output.printMessage(e.getMessage());
+            } catch (RuntimeException e) {
+                logger.error(e.getMessage(), e);
+                output.printMessage(e.getMessage());
             }
         }
     }
@@ -70,62 +79,32 @@ public class CommandLineRunner implements Runnable {
 
     private void createVoucher() {
         output.printMessage("바우처 타입을 선택해주세요.\n" + VoucherType.getAllVoucherManual());
-        VoucherType voucherType = VoucherType.getVoucherType(input.input())
-            .orElse(null);
-        if (voucherType == null) {
-            output.printMessage("유효하지 않은 바우처 타입입니다.");
-            return;
-        }
+        VoucherType voucherType = VoucherType.getVoucherType(input.input());
 
         output.printVoucherValue(voucherType);
         long voucherValue = input.inputLong();
 
-        try {
-            Voucher voucher = voucherService.create(UUID.randomUUID(), voucherValue, voucherType);
-            output.printMessage("바우처 생성에 성공하였습니다. " + voucher.toString());
-        } catch (IllegalArgumentException e) {
-            logger.warn("[Voucher] create error: {}", e.getMessage(), e);
-            output.printMessage(e.getMessage());
-        }
+        Voucher voucher = voucherService.create(UUID.randomUUID(), voucherValue, voucherType);
+        output.printMessage("바우처 생성에 성공하였습니다. " + voucher.toString());
     }
 
     private void updateVoucher() {
         output.printMessage("수정할 바우처 ID를 입력해주세요.");
-        UUID voucherId = input.inputUUID()
-            .orElse(null);
-        if (voucherId == null) {
-            output.printMessage("유효하지 않은 바우처 ID입니다.");
-            return;
-        }
+        UUID voucherId = input.inputUUID();
 
         output.printMessage("수정할 바우처 값을 입력해주세요.");
         long voucherValue = input.inputLong();
 
-        try {
-            Voucher voucher = voucherService.update(voucherId, voucherValue);
-            output.printMessage("바우처 수정에 성공하였습니다. " + voucher.toString());
-        } catch (RuntimeException e) {
-            logger.warn("[Voucher] update error: {}", e.getMessage(), e);
-            output.printMessage(e.getMessage());
-        }
+        Voucher voucher = voucherService.update(voucherId, voucherValue);
+        output.printMessage("바우처 수정에 성공하였습니다. " + voucher.toString());
     }
 
     private void deleteVoucher() {
         output.printMessage("삭제할 바우처 ID를 입력해주세요.");
-        UUID voucherId = input.inputUUID()
-            .orElse(null);
-        if (voucherId == null) {
-            output.printMessage("유효하지 않은 바우처 ID입니다.");
-            return;
-        }
+        UUID voucherId = input.inputUUID();
 
-        try {
-            voucherService.delete(voucherId);
-            output.printMessage("바우처 삭제에 성공하였습니다. voucherId=" + voucherId);
-        } catch (RuntimeException e) {
-            logger.warn("[Voucher] delete error: {}", e.getMessage(), e);
-            output.printMessage(e.getMessage());
-        }
+        voucherService.delete(voucherId);
+        output.printMessage("바우처 삭제에 성공하였습니다. voucherId=" + voucherId);
     }
 
     private void findVoucherList() {
