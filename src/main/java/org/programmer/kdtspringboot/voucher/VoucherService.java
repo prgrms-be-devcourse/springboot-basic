@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,5 +35,9 @@ public class VoucherService {
 
     public void deleteVoucher(UUID voucherId){
         voucherRepository.deleteById(voucherId);
+    }
+
+    public Voucher findByIdVoucher(UUID voucherId){
+        return voucherRepository.findById(voucherId).orElse(null);
     }
 }
