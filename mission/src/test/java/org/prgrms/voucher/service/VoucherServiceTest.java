@@ -53,10 +53,15 @@ public class VoucherServiceTest {
         @DisplayName("create 기능을 테스트 할 때 바우처 타입 Percent, 할인값 101 을 인자로 받으면")
         class ContextReceivePercentVoucherTypeAndWrongValue {
 
+            VoucherDto.VoucherRequest request = new VoucherDto.VoucherRequest(101, VoucherType.PERCENT_DISCOUNT);
+
             @Test
             @DisplayName("잘못된 할인값 메시지와 예외를 던진다.")
             void itIllegalArgumentExceptionThrow() {
 
+                Assertions.assertThatThrownBy(() -> voucherService.create(request))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("bad discountValue");
             }
         }
 
@@ -64,10 +69,15 @@ public class VoucherServiceTest {
         @DisplayName("create 기능을 테스트 할 때 바우처 타입 Percent, 할인값 -1 을 인자로 받으면")
         class ContextReceivePercentVoucherTypeAndNegativeValue {
 
+            VoucherDto.VoucherRequest request = new VoucherDto.VoucherRequest(-1, VoucherType.PERCENT_DISCOUNT);
+
             @Test
             @DisplayName("잘못된 할인값 메시지와 예외를 던진다.")
             void itIllegalArgumentExceptionThrow() {
 
+                Assertions.assertThatThrownBy(() -> voucherService.create(request))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("bad discountValue");
             }
         }
 
@@ -121,10 +131,20 @@ public class VoucherServiceTest {
         @DisplayName("create 기능을 테스트 할 때 바우처 타입 Percent, 할인값 50 을 인자로 받으면")
         class ContextReceivePercentVoucherTypeAndValue {
 
+            VoucherDto.VoucherRequest requestDto = new VoucherDto.VoucherRequest(50, VoucherType.PERCENT_DISCOUNT);
+
             @Test
             @DisplayName("생성된 바우처를 반환한다.")
             void itCreateVoucherAndReturn() {
 
+                Voucher voucher = VoucherType.PERCENT_DISCOUNT.createVoucher(50, VoucherType.PERCENT_DISCOUNT);
+
+                when(voucherRepositoryMock.save(any(Voucher.class))).thenReturn(voucher);
+
+                Voucher checkVoucher = voucherService.create(requestDto);
+
+                Assertions.assertThat(voucher.getVoucherType()).isEqualTo(checkVoucher.getVoucherType());
+                Assertions.assertThat(voucher.getDiscountValue()).isEqualTo(checkVoucher.getDiscountValue());
             }
         }
     }
