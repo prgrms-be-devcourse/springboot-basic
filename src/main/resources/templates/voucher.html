@@ -12,6 +12,7 @@
                 <th>Status</th>
                 <th>Created At</th>
                 <th>Customer Id</th>
+                <th>사용 취소</th>
             </tr>
             </thead>
             <tbody>
@@ -22,6 +23,12 @@
                 <td th:text="${voucherDto.getVoucherStatus()}">4</td>
                 <td th:text="${voucherDto.getCreatedAt()}">5</td>
                 <td th:text="${voucherDto.getCustomerId()}">6</td>
+                <td>
+                    <form role="form" action="/template/cancel" th:object="${voucherDto}" method="post">
+                        <input type="hidden" th:name="voucherId" th:value="${voucherDto.getVoucherId()}">
+                        <button type="submit" class="btn btn-primary">Cancel</button>
+                    </form>
+                </td>
             </tr>
             </tbody></table>
     </div>
