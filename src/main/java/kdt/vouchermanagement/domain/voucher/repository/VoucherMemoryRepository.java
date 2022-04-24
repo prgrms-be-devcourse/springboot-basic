@@ -24,6 +24,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
             return voucherEntity;
         }
 
+        storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
