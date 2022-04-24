@@ -35,4 +35,9 @@ public class VoucherController {
             return new Response(ResponseState.BAD_REQUEST, argumentException.getMessage());
         }
     }
+
+    public Response list() {
+
+        return new Response(ResponseState.SUCCESS, voucherService.list());
+    }
 }
