@@ -84,7 +84,7 @@ public class VoucherProgram {
         VoucherRequest voucherRequest = inputView.inputVoucherInformation(voucherType.getNumber());
         while (true) {
             try {
-                outputView.printVoucher(voucherService.update(voucherId, voucherRequest));
+                outputView.printVoucher(voucherService.modify(voucherId, voucherRequest));
                 return;
             } catch (WrongDiscountValueException e) {
                 outputView.printError(e.getMessage());

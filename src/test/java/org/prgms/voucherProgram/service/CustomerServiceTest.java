@@ -52,8 +52,8 @@ class CustomerServiceTest {
     }
 
     @Nested
-    @DisplayName("save 메서드는")
-    class Describe_save {
+    @DisplayName("join 메서드는")
+    class Describe_join {
 
         @Nested
         @DisplayName("중복되지 않는 이메일을 가진 고객이라면")
@@ -72,7 +72,7 @@ class CustomerServiceTest {
             @Test
             @DisplayName("고객을 저장하고 저장된 고객을 리턴한다.")
             void it_saves_customer_and_returns_saved_customer() {
-                Customer saveCustomer = customerService.save(customerRequest);
+                Customer saveCustomer = customerService.join(customerRequest);
 
                 assertThat(saveCustomer).usingRecursiveComparison().isEqualTo(customer);
                 then(customerRepository).should(times(1)).save(any(Customer.class));
@@ -96,7 +96,7 @@ class CustomerServiceTest {
             @Test
             @DisplayName("예외를 발생한다.")
             void it_throws_exception() {
-                assertThatThrownBy(() -> customerService.save(customerRequest))
+                assertThatThrownBy(() -> customerService.join(customerRequest))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 이미 해당 이메일로 저장된 고객이 있습니다.");
                 then(customerRepository).should(times(1)).findByEmail(anyString());
@@ -180,8 +180,8 @@ class CustomerServiceTest {
     }
 
     @Nested
-    @DisplayName("updateCustomer 메서드는")
-    class Describe_updateCustomer {
+    @DisplayName("modify 메서드는")
+    class Describe_modify {
 
         @Nested
         @DisplayName("해당 이메일로 저장된 고객이 있고 수정할 이메일이 중복되지 않는다면")
@@ -200,7 +200,7 @@ class CustomerServiceTest {
             @Test
             @DisplayName("전달받은 정보대로 고객을 수정한다.")
             void it_update_customer_with_request() {
-                Customer updateCustomer = customerService.update(email, customerRequest);
+                Customer updateCustomer = customerService.modify(email, customerRequest);
 
                 assertThat(updateCustomer).usingRecursiveComparison()
                     .isEqualTo(customer);
@@ -228,7 +228,7 @@ class CustomerServiceTest {
             @Test
             @DisplayName("예외를 발생한다.")
             void it_throws_exception() {
-                assertThatThrownBy(() -> customerService.update(email, customerRequest))
+                assertThatThrownBy(() -> customerService.modify(email, customerRequest))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 이미 해당 이메일로 저장된 고객이 있습니다.");
                 then(customerRepository).should(times(2)).findByEmail(any(String.class));
@@ -250,7 +250,7 @@ class CustomerServiceTest {
             @Test
             @DisplayName("예외를 발생한다.")
             void it_throws_exception() {
-                assertThatThrownBy(() -> customerService.update(email, customerRequest))
+                assertThatThrownBy(() -> customerService.modify(email, customerRequest))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
                 then(customerRepository).should(times(1)).findByEmail(any(String.class));

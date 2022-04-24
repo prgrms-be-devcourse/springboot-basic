@@ -24,7 +24,7 @@ public class CustomerService {
         this.blackListRepository = fileCustomerRepository;
     }
 
-    public Customer save(CustomerRequest customerRequest) {
+    public Customer join(CustomerRequest customerRequest) {
         Customer customer = new Customer(UUID.randomUUID(), customerRequest.getName(), customerRequest.getEmail(),
             LocalDateTime.now());
         validateDuplicateCustomer(customer);
@@ -37,7 +37,7 @@ public class CustomerService {
         });
     }
 
-    public Customer update(Email email, CustomerRequest customerRequest) {
+    public Customer modify(Email email, CustomerRequest customerRequest) {
         Customer customer = findCustomer(email);
         customer.changeInformation(customerRequest.getName(), customerRequest.getEmail(), LocalDateTime.now());
 

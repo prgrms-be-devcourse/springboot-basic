@@ -55,7 +55,7 @@ public class CustomerProgram {
         CustomerRequest customerRequest = inputView.inputCustomerInformation();
         while (true) {
             try {
-                outputView.printCustomer(customerService.save(customerRequest));
+                outputView.printCustomer(customerService.join(customerRequest));
                 return;
             } catch (WrongNameException e) {
                 outputView.printError(e.getMessage());
@@ -106,7 +106,7 @@ public class CustomerProgram {
         CustomerRequest customerRequest = inputView.inputCustomerInformation();
         while (true) {
             try {
-                outputView.printCustomer(customerService.update(email, customerRequest));
+                outputView.printCustomer(customerService.modify(email, customerRequest));
                 return;
             } catch (WrongNameException e) {
                 outputView.printError(e.getMessage());

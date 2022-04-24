@@ -36,7 +36,7 @@ public class CustomerController {
 
     @PostMapping("/customers/new")
     public String addNewCustomer(CustomerRequest customerRequest) {
-        customerService.save(customerRequest);
+        customerService.join(customerRequest);
         return "redirect:/customers";
     }
 
@@ -49,7 +49,7 @@ public class CustomerController {
 
     @PostMapping("/customers/update/{email}")
     public String updateCustomer(@PathVariable("email") Email email, CustomerRequest customerRequest) {
-        customerService.update(email, customerRequest);
+        customerService.modify(email, customerRequest);
         return "redirect:/customers";
     }
 

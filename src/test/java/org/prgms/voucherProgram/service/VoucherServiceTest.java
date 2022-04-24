@@ -117,8 +117,8 @@ class VoucherServiceTest {
     }
 
     @Nested
-    @DisplayName("update 메서드는")
-    class Describe_update {
+    @DisplayName("modify 메서드는")
+    class Describe_modify {
 
         @Nested
         @DisplayName("해당 아이디를 가진 바우처가 있다면")
@@ -137,7 +137,7 @@ class VoucherServiceTest {
             @Test
             @DisplayName("바우처를 수정한다.")
             void it_update_voucher() {
-                Voucher updated = voucherService.update(voucherId, voucherRequest);
+                Voucher updated = voucherService.modify(voucherId, voucherRequest);
 
                 assertThat(updateVoucher).usingRecursiveComparison()
                     .isEqualTo(updated);
@@ -160,7 +160,7 @@ class VoucherServiceTest {
             @Test
             @DisplayName("예외를 발생한다.")
             void it_returns_exception() {
-                assertThatThrownBy(() -> voucherService.update(voucherId, voucherRequest))
+                assertThatThrownBy(() -> voucherService.modify(voucherId, voucherRequest))
                     .isInstanceOf(VoucherIsNotExistsException.class)
                     .hasMessage("[ERROR] 해당 아이디로 저장된 바우처가 없습니다.");
                 then(voucherRepository).should(times(1)).findById(any(UUID.class));
