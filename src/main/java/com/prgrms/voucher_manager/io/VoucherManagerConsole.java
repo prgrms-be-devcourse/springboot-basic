@@ -2,10 +2,9 @@ package com.prgrms.voucher_manager.io;
 
 import com.prgrms.voucher_manager.customer.Customer;
 import com.prgrms.voucher_manager.customer.service.CustomerService;
-import com.prgrms.voucher_manager.exception.EmptyRepositoryException;
+import com.prgrms.voucher_manager.infra.VoucherServiceFacade;
 import com.prgrms.voucher_manager.voucher.Voucher;
 import com.prgrms.voucher_manager.voucher.service.VoucherService;
-import com.prgrms.voucher_manager.wallet.Wallet;
 import com.prgrms.voucher_manager.wallet.service.WalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class VoucherManagerConsole {
@@ -23,14 +21,16 @@ public class VoucherManagerConsole {
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private final WalletService walletService;
+    private final VoucherServiceFacade voucherServiceFacade;
     private static final Logger logger = LoggerFactory.getLogger(VoucherManagerConsole.class);
 
-    public VoucherManagerConsole(Input input, Output output, VoucherService voucherService, CustomerService customerService, WalletService walletService) {
+    public VoucherManagerConsole(Input input, Output output, VoucherService voucherService, CustomerService customerService, WalletService walletService, VoucherServiceFacade voucherServiceFacade) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
         this.customerService = customerService;
         this.walletService = walletService;
+        this.voucherServiceFacade = voucherServiceFacade;
     }
 
     public void run() throws IOException {
@@ -80,7 +80,7 @@ public class VoucherManagerConsole {
                     case CUSTOMER:
                         output.ListCustomerByVoucherType();
                         String voucherType = input.selectOption();
-                        walletService.findCustomerByVoucherType(voucherType);
+                        voucherServiceFacade.findCustomerByVoucherType(voucherType);
                         break;
                     case RETURN:
                         return;
@@ -146,10 +146,10 @@ public class VoucherManagerConsole {
                         walletService.createWallet(customerId, voucherId);
                         break;
                     case LIST:
-                        walletService.findVoucherByCustomerId(customerId);
+                        voucherServiceFacade.findVoucherByCustomerId(customerId);
                         break;
                     case DELETE:
-                        walletService.findVoucherByCustomerId(customerId);
+                        voucherServiceFacade.findVoucherByCustomerId(customerId);
                         int walletIndex = Integer.parseInt(input.input("지갑에서 삭제할 바우처를 골라주세요 (번호 입력) : "));
                         walletService.deleteWallet(customerId, walletIndex);
                         break;
