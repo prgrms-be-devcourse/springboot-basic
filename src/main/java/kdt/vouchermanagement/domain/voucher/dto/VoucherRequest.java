@@ -22,11 +22,12 @@ public class VoucherRequest {
     }
 
     public Voucher toDomain() {
+        validateVoucherType();
         Voucher voucher = voucherType.create(discountValue);
         return voucher;
     }
 
-    public void validateVoucherType() {
+    private void validateVoucherType() {
         if (this.voucherType.equals(VoucherType.NONE)) {
             throw new IllegalArgumentException("입력한 VoucherType 값이 유효하지 않습니다.");
         }

@@ -15,7 +15,6 @@ public class VoucherConsoleController {
 
     public Response create(VoucherRequest request) {
         try {
-            request.validateVoucherType();
             Voucher savedVoucher = voucherService.createVoucher(request.toDomain());
             return Response.of(200, savedVoucher);
         } catch (IllegalArgumentException exception) {
