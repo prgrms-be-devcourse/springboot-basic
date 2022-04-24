@@ -28,7 +28,7 @@ public class VoucherConsoleController {
         }
     }
 
-    public Response list() {
+    public Response listVouchers() {
         return null;
     }
 }

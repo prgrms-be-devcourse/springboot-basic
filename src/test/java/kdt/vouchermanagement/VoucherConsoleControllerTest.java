@@ -101,7 +101,7 @@ public class VoucherConsoleControllerTest {
     @DisplayName("바우처 목록 조회 요청_성공")
     void requestFindVouchers() {
         //given, then
-        voucherConsoleController.list();
+        voucherConsoleController.listVouchers();
 
         //when
         verify(voucherService, times(1)).findVouchers();
@@ -118,7 +118,7 @@ public class VoucherConsoleControllerTest {
 
         //when
         doReturn(list).when(voucherService).findVouchers();
-        Response createdResponse = voucherConsoleController.list();
+        Response createdResponse = voucherConsoleController.listVouchers();
 
         //then
         assertThat(createdResponse).usingRecursiveComparison().isEqualTo(response);
