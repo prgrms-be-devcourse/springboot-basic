@@ -29,7 +29,7 @@ public enum VoucherType {
 	 * @return VoucherType : 입력한 VoucherType에 맞는
 	 * @throws IllegalArgumentException 잘못된 type을 입력했다면 에러 발
 	 */
-	public static VoucherType getVoucherType(String voucherType) {
+	public static VoucherType of(String voucherType) {
 		return Arrays.stream(VoucherType.values())
 			.filter(type -> type.name().equals(voucherType))
 			.findAny()

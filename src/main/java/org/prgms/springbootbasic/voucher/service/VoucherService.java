@@ -2,6 +2,7 @@ package org.prgms.springbootbasic.voucher.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.prgms.springbootbasic.voucher.repository.voucher.VoucherRepository;
 import org.prgms.springbootbasic.voucher.vo.Voucher;
@@ -27,7 +28,7 @@ public class VoucherService {
 	 * @param VoucherParam
 	 */
 	public void create(String button, int VoucherParam) {
-		VoucherType voucherType = VoucherType.getVoucherType(button);
+		VoucherType voucherType = VoucherType.of(button);
 		Voucher voucher = voucherType.createVoucher(VoucherParam);
 		voucherRepository.save(voucher);
 	}
@@ -39,4 +40,10 @@ public class VoucherService {
 		return voucherRepository.getVoucherListByType();
 	}
 
+	public static void main(String[] args) {
+		System.out.println(UUID.randomUUID().toString().getBytes());
+		System.out.println();
+		System.out.println();
+		System.out.println(UUID.randomUUID().toString().getBytes());
+	}
 }
