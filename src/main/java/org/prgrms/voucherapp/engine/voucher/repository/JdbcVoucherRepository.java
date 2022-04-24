@@ -18,16 +18,16 @@ import java.util.*;
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private static RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
-        var voucherId = Util.toUUID(resultSet.getBytes("voucher_id"));
-        var amount = resultSet.getInt("amount");
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
+        UUID voucherId = Util.toUUID(resultSet.getBytes("voucher_id"));
+        int amount = resultSet.getInt("amount");
         VoucherType voucherType = VoucherType.getType(resultSet.getString("type"))
                 .orElseThrow(() -> (new WrongSqlValueException("알 수 없는 voucher 타입입니다.")));
         return voucherType.createVoucher(voucherId, amount);
     };
 
     private Map<String, Object> toParamMap(Voucher voucher) {
-        return new HashMap<String, Object>() {{
+        return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("amount", voucher.getAmount());
             put("type", voucher.getTypeName());

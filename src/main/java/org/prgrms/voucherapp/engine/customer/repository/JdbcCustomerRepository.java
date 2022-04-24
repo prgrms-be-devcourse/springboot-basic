@@ -14,16 +14,16 @@ import java.util.*;
 public class JdbcCustomerRepository implements CustomerRepository{
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private static RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        var customerId = Util.toUUID(resultSet.getBytes("customer_id"));
-        var name = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        var status = resultSet.getString("status");
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
+        UUID customerId = Util.toUUID(resultSet.getBytes("customer_id"));
+        String name = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        String status = resultSet.getString("status");
         return new Customer(customerId, name, email, status);
     };
 
     private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<String, Object>() {{
+        return new HashMap<>() {{
             put("customerId", customer.getCustomerId().toString().getBytes());
             put("name", customer.getName());
             put("email", customer.getEmail());

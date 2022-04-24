@@ -148,7 +148,7 @@ public class Navigator implements Runnable {
         while (true) {
             try {
                 output.informWalletCommand();
-                WalletCommand userCommand = input.walletCommandInput("Type a command : ");
+                WalletCommand userCommand = input.walletCommandInput("Type a number of the command : ");
                 switch (userCommand) {
                     case CANCEL -> {
                         logger.info("User chose cancel command.");

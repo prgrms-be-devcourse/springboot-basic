@@ -1,6 +1,5 @@
 package org.prgrms.voucherapp.engine.customer.service;
 
-import lombok.EqualsAndHashCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +14,6 @@ import org.prgrms.voucherapp.global.enums.CustomerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.UUID;
 

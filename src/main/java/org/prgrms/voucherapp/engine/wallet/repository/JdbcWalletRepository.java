@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
+// Q. findVouchersByCustomerId, findCustomersByVoucherId에서 다른 repository의 rowMapper를 사용했는데 이렇게 사용해도 문제가 없을까요?
+// 가지고 오는 테이블 행이 vouchers와 customers와 똑같아서 같은 rowMapper를 불필요하게 정의하는 것을 막기 위해 사용했습니다.
 public class JdbcWalletRepository implements  WalletRepository{
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -23,19 +25,19 @@ public class JdbcWalletRepository implements  WalletRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static RowMapper<CustomerVoucherDto> walletRowMapper = (resultSet, rowNum) -> {
-        var customerId = Util.toUUID(resultSet.getBytes("customer_id"));
-        var name = resultSet.getString("name");
-        var status = resultSet.getString("status");
-        var type = resultSet.getString("type");
-        var amount = resultSet.getInt("amount");
-        var voucherId = Util.toUUID(resultSet.getBytes("voucher_id"));
+    private static final RowMapper<CustomerVoucherDto> walletRowMapper = (resultSet, rowNum) -> {
+        UUID customerId = Util.toUUID(resultSet.getBytes("customer_id"));
+        String name = resultSet.getString("name");
+        String status = resultSet.getString("status");
+        String type = resultSet.getString("type");
+        int amount = resultSet.getInt("amount");
+        UUID voucherId = Util.toUUID(resultSet.getBytes("voucher_id"));
         return new CustomerVoucherDto(customerId, voucherId, name, status, type, amount);
     };
 
 
     private Map<String, Object> toParamMap(CustomerVoucherDto walletDto){
-        return new HashMap<String, Object>(){{
+        return new HashMap<>() {{
             put("customerId", walletDto.getCustomerId().toString().getBytes());
             put("name", walletDto.getName());
             put("status", walletDto.getStatus());
@@ -46,7 +48,7 @@ public class JdbcWalletRepository implements  WalletRepository{
     }
 
     private Map<String, Object> toParamMap(Wallet wallet){
-        return new HashMap<String, Object>(){{
+        return new HashMap<>() {{
             put("customerId", wallet.getCustomerId().toString().getBytes());
             put("voucherId", wallet.getVoucherId().toString().getBytes());
             put("walletId", wallet.getWalletId().toString().getBytes());

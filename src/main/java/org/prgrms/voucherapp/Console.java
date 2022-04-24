@@ -151,7 +151,6 @@ public class Console implements Input, Output {
     public void informWalletCommand() {
         StringBuilder sb = new StringBuilder();
         sb.append("--- Voucher Wallet ---\n");
-        sb.append("Type the number.");
         for (WalletCommand command : WalletCommand.values()) {
             sb.append("%s. %s : %s\n".formatted(command.ordinal() + 1, command.toString(), command.getDescription()));
         }
