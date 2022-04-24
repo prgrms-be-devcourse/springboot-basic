@@ -1,11 +1,13 @@
 package com.prgrms.vouchermanagement.commons.exception;
 
+import com.prgrms.vouchermanagement.commons.ErrorMessage;
+
 public class NoMappingOneException extends RuntimeException {
 
 	private final String input;
 
 	public NoMappingOneException(String input) {
-		super("매핑 되는 것이 존재하지 않습니다");
+		super(ErrorMessage.NO_MAPPING.getInfoMessage());
 
 		this.input = input;
 	}

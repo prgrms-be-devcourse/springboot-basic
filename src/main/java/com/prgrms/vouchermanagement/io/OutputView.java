@@ -1,21 +1,20 @@
-package com.prgrms.vouchermanagement.voucher.io;
+package com.prgrms.vouchermanagement.io;
 
 import java.util.List;
 
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
-public interface VoucherOutput {
+public interface OutputView {
 	void showMenu();
 
-	void notifyNoMappingSelection();
-
-	void showVoucherInfo(Voucher voucher);
+	void printVoucher(Voucher target);
 
 	void showVoucherMenu();
-
-	void failCreation();
 
 	void requestVoucherInfo();
 
 	<T> void showAll(List<T> list);
+
+	void printErrorMessage(String message);
+
 }
