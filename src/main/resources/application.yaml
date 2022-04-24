@@ -2,6 +2,14 @@ spring:
   config:
     activate:
       on-profile: default
+  devtools:
+    livereload:
+      enabled: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
 database:
   url: jdbc:mysql://localhost/demo
   username: root
@@ -16,6 +24,13 @@ spring:
   config:
     activate:
       on-profile: dev
+  devtools:
+    livereload:
+      enabled: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 database:
   url: jdbc:mysql://localhost/demo
   username: root
@@ -29,6 +44,13 @@ spring:
   config:
     activate:
       on-profile: prod
+  devtools:
+    livereload:
+      enabled: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 database:
   url: jdbc:mysql://localhost/demo
   username: root
@@ -42,6 +64,13 @@ spring:
   config:
     activate:
       on-profile: test
+  devtools:
+    livereload:
+      enabled: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 database:
   url: jdbc:mysql://localhost/demo
   username: root

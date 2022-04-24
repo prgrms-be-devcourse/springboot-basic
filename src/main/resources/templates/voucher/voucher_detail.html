@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Voucher list</title>
+</head>
+<div layout:fragment="content">
+    <form th:action="@{'/vouchers/' + ${voucher.id}}"
+          th:method="put" th:object="${voucher}">
+        <input name="_method" type="hidden" value="put">
+        <div class="form-group custom-margin-top-75">
+            <label for="voucher_id">Voucher Id</label>
+            <input class="form-control" id="voucher_id" readonly th:field="*{id}" type="text">
+        </div>
+        <div class="form-group custom-margin-top-75">
+            <label for="voucher_type">Voucher Type</label>
+            <input class="form-control" id="voucher_type" readonly th:field="*{type}" type="text">
+        </div>
+        <div class="form-group custom-margin-top-75">
+            <label for="voucher_name">Voucher Name</label>
+            <input class="form-control" id="voucher_name" readonly th:field="*{name}" type="text">
+        </div>
+        <div class="form-group custom-margin-top-75">
+            <label for="voucher_figure">Voucher Figure</label>
+            <input class="form-control" id="voucher_figure" readonly th:field="*{figure}" type="text">
+        </div>
+        <div class="form-group custom-margin-top-75">
+            <label for="voucher_created_at">Voucher created Date</label>
+            <input class="form-control" id="voucher_created_at" readonly th:field="*{createdAt}" type="text">
+        </div>
+        <button class="btn btn-outline-dark custom-btn-max disabled" type="submit">수정하기</button>
+    </form>
+    <form id="delete-form" th:action="@{'/vouchers/' + ${voucher.id}}" th:method="delete">
+        <input name="_method" type="hidden" value="delete"/>
+        <button class="btn btn-outline-dark custom-btn-max">삭제하기</button>
+    </form>
+</div>
+</html>
