@@ -3,7 +3,6 @@ package com.waterfogsw.voucher.voucher;
 import com.waterfogsw.voucher.voucher.controller.VoucherController;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
-import com.waterfogsw.voucher.voucher.dto.Request;
 import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
 import com.waterfogsw.voucher.voucher.dto.VoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
@@ -41,8 +40,7 @@ public class VoucherControllerTests {
             @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
             void it_return_error_message() {
                 var voucherDto = new VoucherDto(null, 1000);
-                var request = new Request<>(voucherDto);
-                var response = controller.voucherAdd(request);
+                var response = controller.voucherAdd(voucherDto);
 
                 assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
@@ -56,8 +54,7 @@ public class VoucherControllerTests {
             @DisplayName("BadRequest Status 를 가진 응답을 리턴한다")
             void it_return_error_message() {
                 var voucherDto = new VoucherDto(VoucherType.FIXED_AMOUNT, 0);
-                var request = new Request<>(voucherDto);
-                var response = controller.voucherAdd(request);
+                var response = controller.voucherAdd(voucherDto);
 
                 assertThat(response.status(), is(ResponseStatus.BAD_REQUEST));
             }
@@ -71,16 +68,15 @@ public class VoucherControllerTests {
             @DisplayName("생성된 바우처의 정보를 가진 응답을 리턴한다")
             void it_return_error_message() {
                 var voucherDto = new VoucherDto(VoucherType.FIXED_AMOUNT, 100);
-                var request = new Request<>(voucherDto);
 
                 when(voucherService.saveVoucher(any(Voucher.class)))
                         .thenReturn(VoucherDto.toDomain(voucherDto));
 
-                var response = controller.voucherAdd(request);
+                var response = controller.voucherAdd(voucherDto);
 
                 assertThat(response.status(), is(ResponseStatus.OK));
-                assertThat(response.body().type(), is(request.body().type()));
-                assertThat(response.body().value(), is(request.body().value()));
+                assertThat(response.body().type(), is(voucherDto.type()));
+                assertThat(response.body().value(), is(voucherDto.value()));
             }
         }
     }

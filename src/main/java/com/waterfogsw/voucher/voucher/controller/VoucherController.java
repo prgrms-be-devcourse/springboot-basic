@@ -1,7 +1,6 @@
 package com.waterfogsw.voucher.voucher.controller;
 
 import com.waterfogsw.voucher.voucher.domain.Voucher;
-import com.waterfogsw.voucher.voucher.dto.Request;
 import com.waterfogsw.voucher.voucher.dto.Response;
 import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
 import com.waterfogsw.voucher.voucher.dto.VoucherDto;
@@ -17,10 +16,10 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Response<VoucherDto> voucherAdd(Request<VoucherDto> request) {
+    public Response<VoucherDto> voucherAdd(VoucherDto request) {
         try {
             validateVoucherRequest(request);
-            Voucher voucher = VoucherDto.toDomain(request.body());
+            Voucher voucher = VoucherDto.toDomain(request);
             Voucher savedVoucher = voucherService.saveVoucher(voucher);
             return Response.ok(VoucherDto.of(savedVoucher));
         } catch (IllegalArgumentException e) {
@@ -28,8 +27,9 @@ public class VoucherController {
         }
     }
 
-    private void validateVoucherRequest(Request<VoucherDto> request) {
-        if (request.body().type() == null) throw new IllegalArgumentException();
-        if (request.body().value() == 0) throw new IllegalArgumentException();
+    private void validateVoucherRequest(VoucherDto request) {
+        if (request.type() == null || request.value() == 0) {
+            throw new IllegalArgumentException();
+        }
     }
 }
