@@ -17,7 +17,7 @@ public class VoucherService {
 
     public Voucher create(VoucherDto.VoucherRequest requestDto) {
 
-        if (requestDto.voucherType() == null){
+        if (requestDto.voucherType() == null) {
             throw new IllegalArgumentException("VoucherType is null");
         }
 
