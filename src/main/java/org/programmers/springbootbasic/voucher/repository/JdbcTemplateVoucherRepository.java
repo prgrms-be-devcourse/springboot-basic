@@ -47,7 +47,6 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    //TODO PR 포인트4
     @Override
     public Voucher insert(Voucher voucher) {
         int updatedRow = jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
@@ -81,7 +80,6 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         }
     }
 
-    //TODO: PR 포인트5
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         var paramSource = new MapSqlParameterSource(PARAM_KEY_VOUCHER_ID, uuidToBytes(voucherId));

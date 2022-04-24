@@ -115,7 +115,7 @@ public class MemberHandler implements Handler {
         List<String> allMembersInformation = new ArrayList<>(members.size());
 
         for (MemberDto member : members) {
-            allMembersInformation.add(member.dataOfThis());
+            allMembersInformation.add(member.toString());
         }
 
         model.addAttributes("allMembers", allMembersInformation);

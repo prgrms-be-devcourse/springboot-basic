@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.ConsoleResponseCode;
 import org.programmers.springbootbasic.console.Dispatcher;
 import org.programmers.springbootbasic.console.model.Model;
-import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.programmers.springbootbasic.console.request.Input;
 import org.programmers.springbootbasic.console.request.RequestCreator;
 import org.springframework.boot.ApplicationArguments;
@@ -27,19 +26,19 @@ public class VoucherManagementApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        ConsoleResponseCode code = dispatcher.respond(new ConsoleRequest(model, HOME));
+        ConsoleResponseCode code = dispatcher.respond(requestSetter.createInputRequestMessage(model, HOME.getViewName()));
         while (code != STOP) {
             if (code == INPUT_AND_REDIRECT) {
                 log.debug("Input {} attribute", model.getInputSignature());
                 model.addAttributes(model.getInputSignature(), input.readLine());
 
                 log.info("Redirect to {}", model.getRedirectLink());
-                code = dispatcher.respond(requestSetter.createRedirectRequestMessage(model, model.getRedirectLink()));
+                code = dispatcher.respond(requestSetter.createRedirectRequestMessage(model));
             } else if (code == REDIRECT) {
                 log.info("Redirect to {}", model.getRedirectLink());
-                code = dispatcher.respond(requestSetter.createRedirectRequestMessage(model, model.getRedirectLink()));
+                code = dispatcher.respond(requestSetter.createRedirectRequestMessage(model));
             } else {
-                code = dispatcher.respond(requestSetter.createInputRequestMessage(model));
+                code = dispatcher.respond(requestSetter.createInputRequestMessage(model, input.readLine()));
             }
         }
     }
