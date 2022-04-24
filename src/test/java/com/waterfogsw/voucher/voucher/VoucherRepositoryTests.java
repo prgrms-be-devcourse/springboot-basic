@@ -9,6 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
@@ -53,6 +58,46 @@ public class VoucherRepositoryTests {
                 final Voucher savedVoucher2 = repository.save(voucher2);
 
                 assertThat(savedVoucher2, samePropertyValuesAs(voucher2));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findAll 메서드는")
+    class Describe_findAll {
+
+        @Nested
+        @DisplayName("호출되면")
+        class Context_with_call {
+
+            @Test
+            @DisplayName("저장된 모든 바우처에 대한 리스트를 반환한다")
+            void it_return_list() {
+                Field voucherStore;
+
+                try {
+                    voucherStore = repository.getClass().getDeclaredField("voucherStore");
+                    voucherStore.setAccessible(true);
+                } catch (NoSuchFieldException testException) {
+                    throw new RuntimeException(testException.getMessage());
+                }
+
+                try {
+                    Map<Long, Voucher> map = (Map<Long, Voucher>) voucherStore.get(repository);
+
+                    final Voucher voucher1 = new FixedAmountVoucher(1L, 1000);
+                    final Voucher voucher2 = new FixedAmountVoucher(2L, 1000);
+
+                    map.put(voucher1.getId(), voucher1);
+                    map.put(voucher2.getId(), voucher2);
+
+                    final List<Voucher> voucherList = repository.findAll();
+
+                    assertThat(voucherList.size(), is(2));
+
+                } catch (IllegalAccessException testException) {
+                    throw new RuntimeException(testException.getMessage());
+                }
             }
         }
     }
