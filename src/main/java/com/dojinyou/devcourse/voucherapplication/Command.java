@@ -1,5 +1,7 @@
 package com.dojinyou.devcourse.voucherapplication;
 
+import com.dojinyou.devcourse.voucherapplication.voucher.Voucher;
+
 public enum Command {
     CREATE("to create a new voucher."),
     LIST("to list all vouchers."),
@@ -23,7 +25,7 @@ public enum Command {
     public static String getCommandList() {
         StringBuilder sb = new StringBuilder();
         for (Command command:Command.values()) {
-            sb.append("Type "+command.toString()+"to"+command.getDescription());
+            sb.append("Type "+command.toString()+" "+command.getDescription()+"\n");
         }
         return sb.toString();
     }
