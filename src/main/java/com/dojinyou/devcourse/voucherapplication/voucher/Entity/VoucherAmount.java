@@ -3,7 +3,7 @@ package com.dojinyou.devcourse.voucherapplication.voucher.Entity;
 public interface VoucherAmount {
     String ERROR_MESSAGE_NOT_FOUND_VOUCHER_TYPE = "잘못된 바우처 타입입니다.";
 
-    static VoucherAmount from(VoucherType voucherType, int userInput) {
+    static VoucherAmount of(VoucherType voucherType, int userInput) {
         if (voucherType == null) {
             throw new IllegalArgumentException(ERROR_MESSAGE_NOT_FOUND_VOUCHER_TYPE);
         }

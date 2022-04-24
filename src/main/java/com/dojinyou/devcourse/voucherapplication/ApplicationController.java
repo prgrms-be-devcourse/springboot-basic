@@ -37,8 +37,9 @@ public class ApplicationController {
                 Command userCommand = Command.of(userCommandString.toUpperCase());
                 Response response = commandHandle(userCommand);
 
-                if (response.getData().equals(Command.EXIT))
+                if (response.getData().equals(Command.EXIT)) {
                     return;
+                }
 
                 outputView.display(response.toString());
 
@@ -75,7 +76,7 @@ public class ApplicationController {
     private VoucherType getVoucherType() {
         outputView.display(REQUEST_MESSAGE_VOUCHER_TYPE);
         String userInput = inputView.getUserInput();
-        return VoucherType.of(userInput.toUpperCase());
+        return VoucherType.from(userInput.toUpperCase());
     }
 
     private VoucherAmount getVoucherAmount(VoucherType voucherType) {
@@ -94,6 +95,6 @@ public class ApplicationController {
 
         }
         int userInput = Integer.parseInt(inputView.getUserInput());
-        return VoucherAmount.from(voucherType, userInput);
+        return VoucherAmount.of(voucherType, userInput);
     }
 }
