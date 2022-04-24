@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanagement.voucher.repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
-	private final ConcurrentHashMap<UUID, Voucher> storage = new ConcurrentHashMap<>();
+	private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 	private final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
 	@Override

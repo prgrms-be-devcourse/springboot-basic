@@ -30,10 +30,10 @@ public class Output implements OutputView {
 
 	@Override
 	public <T> void showAll(List<T> list) {
-		if (list.isEmpty())
+		if (list.isEmpty()) {
 			System.out.println(ConsoleCommand.EMPTY);
-
-		list.stream().forEach(System.out::println);
+		}
+		list.forEach(System.out::println);
 	}
 
 	@Override

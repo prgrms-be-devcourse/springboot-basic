@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.*;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,11 +41,10 @@ public class VoucherServiceTest {
 	public void Given_fixedAmount_When_createFixedAmountVoucher_thenCreationSuccess() {
 		// given
 		long amount = 1000L;
-		// when, then
-		assertThat(voucherService
-				.publishVoucher(fixedType, amount)
-				.isPresent(),
-			is(true));
+		// when
+		Optional<Voucher> voucherOptional = voucherService.publishVoucher(fixedType, amount);
+		// then
+		assertThat(voucherOptional.isPresent(), is(true));
 	}
 
 	@Test
@@ -51,10 +52,10 @@ public class VoucherServiceTest {
 	public void Given_percentAmount_When_createPercentVoucher_thenCreationFail() {
 		// given
 		long amount = -1000L;
-		// when, then
-		Assertions.assertThrows(NoSuchElementException.class, () ->
-			voucherService.publishVoucher(percentType, amount)
-				.get());
+		// when
+		Optional<Voucher> voucherOptional = voucherService.publishVoucher(percentType, amount);
+		// then
+		Assertions.assertThrows(NoSuchElementException.class, () -> voucherOptional.get());
 	}
 
 	@Test
@@ -62,10 +63,10 @@ public class VoucherServiceTest {
 	public void Given_percentAmountZero_When_createPercentVoucher_thenCreationFail() {
 		// given
 		long amount = 0L;
-		// when, then
-		Assertions.assertThrows(NoSuchElementException.class, () ->
-			voucherService.publishVoucher(percentType, amount)
-				.get());
+		// when
+		Optional<Voucher> voucherOptional = voucherService.publishVoucher(percentType, amount);
+		// then
+		Assertions.assertThrows(NoSuchElementException.class, () -> voucherOptional.get());
 	}
 
 	@Test
@@ -73,11 +74,10 @@ public class VoucherServiceTest {
 	public void Given_percentAmount_When_createPercentVoucher_thenCreationSuccess() {
 		// given
 		long amount = 10L;
-		// when, then
-		assertThat(voucherService
-				.publishVoucher(percentType, amount)
-				.isPresent(),
-			is(true));
+		// when
+		Optional<Voucher> voucherOptional = voucherService.publishVoucher(percentType, amount);
+		// then
+		assertThat(voucherOptional.isPresent(), is(true));
 	}
 
 	@Test
@@ -85,10 +85,10 @@ public class VoucherServiceTest {
 	public void Given_fixedAmount_When_createFixedAmountVoucher_thenCreationFail() {
 		// given
 		long amount = -1000L;
-		// when, then
-		Assertions.assertThrows(NoSuchElementException.class, () ->
-			voucherService.publishVoucher(fixedType, amount)
-				.get());
+		// when
+		Optional<Voucher> voucherOptional = voucherService.publishVoucher(fixedType, amount);
+		// then
+		Assertions.assertThrows(NoSuchElementException.class, () -> voucherOptional.get());
 	}
 
 	@Test
@@ -96,10 +96,10 @@ public class VoucherServiceTest {
 	public void Given_fixedAmountZero_When_createFixedAmountVoucher_thenCreationFail() {
 		// given
 		long amount = 0L;
-		// when, then
-		Assertions.assertThrows(NoSuchElementException.class, () ->
-			voucherService.publishVoucher(fixedType, amount)
-				.get());
+		// when
+		Optional<Voucher> voucherOptional = voucherService.publishVoucher(fixedType, amount);
+		// then
+		Assertions.assertThrows(NoSuchElementException.class, () -> voucherOptional.get());
 	}
 
 }
