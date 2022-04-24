@@ -25,6 +25,6 @@ public class VoucherManageService implements VoucherService {
 
     @Override
     public List<Voucher> findAllVoucher() {
-        return null;
+        return voucherRepository.findAll();
     }
 }
