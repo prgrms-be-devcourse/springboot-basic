@@ -9,30 +9,25 @@ public class VoucherDto {
             int value
     ) {
         public static Voucher toDomain(Request request) {
-            return new Voucher(
-                    request.type(),
-                    request.value()
-            );
+            return Voucher.of(request.type(), request.value());
         }
     }
 
     public static record Response(
             Long id,
-            VoucherType type,
             int value,
             ResponseStatus status
     ) {
         public static Response of(Voucher voucher, ResponseStatus status) {
             return new Response(
                     voucher.getId(),
-                    voucher.getType(),
                     voucher.getValue(),
                     status
             );
         }
 
         public static Response error(ResponseStatus status) {
-            return new Response(null, null, 0, status);
+            return new Response(null, 0, status);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.voucher.controller.VoucherController;
+import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
 import com.waterfogsw.voucher.voucher.dto.VoucherDto;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
@@ -71,12 +72,11 @@ public class VoucherControllerTests {
                 VoucherDto.Request request = new VoucherDto.Request(VoucherType.FIXED_AMOUNT, 100);
 
                 when(voucherService.saveVoucher(any(Voucher.class)))
-                        .thenReturn(new Voucher(1L, request.type(), request.value()));
+                        .thenReturn(new FixedAmountVoucher(request.value()));
 
                 VoucherDto.Response response = controller.voucherAdd(request);
 
                 assertThat(response.status(), is(ResponseStatus.OK));
-                assertThat(response.type(), is(request.type()));
                 assertThat(response.value(), is(request.value()));
             }
         }
