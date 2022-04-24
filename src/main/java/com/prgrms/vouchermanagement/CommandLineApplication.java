@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import com.prgrms.vouchermanagement.commons.CodeMappable;
 import com.prgrms.vouchermanagement.commons.ErrorMessage;
 import com.prgrms.vouchermanagement.commons.exception.NoMappingOneException;
-import com.prgrms.vouchermanagement.voucher.VoucherService;
-import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.io.InputView;
 import com.prgrms.vouchermanagement.io.OutputView;
+import com.prgrms.vouchermanagement.voucher.VoucherService;
+import com.prgrms.vouchermanagement.voucher.VoucherType;
 
 @Component
 public class CommandLineApplication {
@@ -30,7 +30,9 @@ public class CommandLineApplication {
 	}
 
 	public void run() {
-		while (true) {
+		boolean onRunning = true;
+
+		while (onRunning) {
 			try {
 				outputView.showMenu();
 
@@ -40,7 +42,8 @@ public class CommandLineApplication {
 
 				switch (selectedMenu) {
 					case EXIT:
-						return;
+						onRunning = false;
+						break;
 					case CREATE:
 						createVoucher();
 						break;
@@ -56,6 +59,8 @@ public class CommandLineApplication {
 				return;
 			}
 		}
+
+		logger.info("EXIT PROGRAM");
 	}
 
 	private void showAllVouchers() {
