@@ -41,12 +41,16 @@ public class VoucherService {
     }
 
     public Voucher modify(UUID voucherId, VoucherRequest voucherRequest) {
-        voucherRepository.findById(voucherId).orElseThrow(() -> {
-            throw new VoucherIsNotExistsException();
-        });
+        findVoucher(voucherId);
 
         Voucher voucher = toEntity(voucherId, voucherRequest);
         return voucherRepository.update(voucher);
+    }
+
+    public Voucher findVoucher(UUID voucherId) {
+        return voucherRepository.findById(voucherId).orElseThrow(() -> {
+            throw new VoucherIsNotExistsException();
+        });
     }
 
     public List<Voucher> findAllVoucher() {
@@ -109,12 +113,6 @@ public class VoucherService {
         Email email = new Email(requestEmail);
         return customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
             throw new CustomerIsNotExistsException();
-        });
-    }
-
-    private Voucher findVoucher(UUID voucherId) {
-        return voucherRepository.findById(voucherId).orElseThrow(() -> {
-            throw new VoucherIsNotExistsException();
         });
     }
 }

@@ -35,7 +35,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/new")
-    public String addNewCustomer(CustomerRequest customerRequest) {
+    public String joinCustomer(CustomerRequest customerRequest) {
         customerService.join(customerRequest);
         return "redirect:/customers";
     }
