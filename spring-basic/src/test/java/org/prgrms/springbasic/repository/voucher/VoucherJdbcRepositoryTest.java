@@ -86,7 +86,7 @@ class VoucherJdbcRepositoryTest {
     EmbeddedMysql embeddedMysql;
 
     Customer customer = normalCustomer(randomUUID(), "new-user");
-    Voucher voucher = fixedVoucher(randomUUID(), 10, null);
+    Voucher voucher = fixedVoucher(randomUUID(), 10);
 
     @BeforeAll
     void setUp() {
@@ -143,7 +143,7 @@ class VoucherJdbcRepositoryTest {
     void testFindByCustomerId() {
         customerRepository.save(customer);
 
-        var percentVoucher = Voucher.percentVoucher(randomUUID(), 10, customer.getCustomerId());
+        var percentVoucher = Voucher.percentVoucher(randomUUID(), 10);
 
         voucherRepository.save(percentVoucher);
 
@@ -167,11 +167,11 @@ class VoucherJdbcRepositoryTest {
     @Order(6)
     @DisplayName("모든 바우처을 조회했을 때 저장한 바우처 객체를 가지고 있어야 하며 사이즈가 같아야 한다.")
     void testFindAll() {
-        Voucher newVoucher1 = fixedVoucher(randomUUID(), 10, null);
-        Voucher newVoucher2 = Voucher.percentVoucher(randomUUID(), 10, null);
-        Voucher newVoucher3 = fixedVoucher(randomUUID(), 10, null);
-        Voucher newVoucher4 = Voucher.percentVoucher(randomUUID(), 10, null);
-        Voucher newVoucher5 = fixedVoucher(randomUUID(), 10, null);
+        Voucher newVoucher1 = fixedVoucher(randomUUID(), 10);
+        Voucher newVoucher2 = Voucher.percentVoucher(randomUUID(), 10);
+        Voucher newVoucher3 = fixedVoucher(randomUUID(), 10);
+        Voucher newVoucher4 = Voucher.percentVoucher(randomUUID(), 10);
+        Voucher newVoucher5 = fixedVoucher(randomUUID(), 10);
 
         voucherRepository.save(newVoucher1);
         voucherRepository.save(newVoucher2);
@@ -194,10 +194,10 @@ class VoucherJdbcRepositoryTest {
         customerRepository.deleteCustomers();
 
         var customer1 = normalCustomer(randomUUID(), "voucher-user");
-        var voucher1 = fixedVoucher(randomUUID(), 10, customer1.getCustomerId());
+        var voucher1 = fixedVoucher(randomUUID(), 10);
 
         var customer2 = normalCustomer(randomUUID(), "no-voucher-user");
-        var voucher2 = fixedVoucher(randomUUID(), 10, null);
+        var voucher2 = fixedVoucher(randomUUID(), 10);
 
         customerRepository.save(customer1);
         customerRepository.save(customer2);
@@ -217,7 +217,7 @@ class VoucherJdbcRepositoryTest {
     @Order(8)
     @DisplayName("입력된 바우처 정보대로 업데이트가 잘 되어야 한다.")
     void testUpdateVoucher() throws InterruptedException {
-        var newVoucher = fixedVoucher(randomUUID(), 10L, null);
+        var newVoucher = fixedVoucher(randomUUID(), 10L);
         voucherRepository.save(newVoucher);
 
         Thread.sleep(1000);
@@ -236,7 +236,7 @@ class VoucherJdbcRepositoryTest {
     @Order(9)
     @DisplayName("바우처 아이디로 바우처를 삭제할 수 있다.")
     void testDeleteByVoucherId() {
-        var newVoucher = fixedVoucher(randomUUID(), 10L, null);
+        var newVoucher = fixedVoucher(randomUUID(), 10L);
         var savedVoucher = voucherRepository.save(newVoucher);
 
         var retrievedVoucher = voucherRepository.findByVoucherId(savedVoucher.getVoucherId());
@@ -255,7 +255,7 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("특정 회원의 바우처를 삭제할 수 있다.")
     void testDeleteByCustomerId() {
         var customer = normalCustomer(randomUUID(), "voucher-user");
-        var voucher = fixedVoucher(randomUUID(), 10, customer.getCustomerId());
+        var voucher = fixedVoucher(randomUUID(), 10);
 
         voucherRepository.deleteByCustomerId(customer.getCustomerId());
 
@@ -268,9 +268,9 @@ class VoucherJdbcRepositoryTest {
     @Order(11)
     @DisplayName("모든 바우처을 삭제하고 나면 레객포지토리의 사이즈는 0이 되어야한다.")
     void testDeleteAll() {
-        voucherRepository.save(fixedVoucher(randomUUID(), 10, null));
-        voucherRepository.save(fixedVoucher(randomUUID(), 10, null));
-        voucherRepository.save(fixedVoucher(randomUUID(), 10, null));
+        voucherRepository.save(fixedVoucher(randomUUID(), 10));
+        voucherRepository.save(fixedVoucher(randomUUID(), 10));
+        voucherRepository.save(fixedVoucher(randomUUID(), 10));
 
         assertThat(voucherRepository.countVouchers(), greaterThan(0));
 

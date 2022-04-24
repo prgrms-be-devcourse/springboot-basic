@@ -141,7 +141,7 @@ class CustomerJdbcRepositoryTest {
     @Order(4)
     @DisplayName("특정 바우처를 보유한 고객을 조회할 수 있다.")
     void testFindByVoucherId() {
-        var voucher = Voucher.fixedVoucher(randomUUID(), 10, customer.getCustomerId());
+        var voucher = Voucher.fixedVoucher(randomUUID(), 10);
         voucherRepository.save(voucher);
 
         var retrievedCustomer = customerRepository.findByVoucherId(voucher.getVoucherId());

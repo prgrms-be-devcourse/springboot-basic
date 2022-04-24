@@ -14,7 +14,7 @@ import static org.prgrms.springbasic.domain.voucher.Voucher.fixedVoucher;
 class FileVoucherRepositoryTest {
 
     FileVoucherRepository repository = new FileVoucherRepository();
-    Voucher voucher = fixedVoucher(randomUUID(), 10, randomUUID());
+    Voucher voucher = fixedVoucher(randomUUID(), 10);
 
     @BeforeEach
     void init() {
@@ -44,11 +44,11 @@ class FileVoucherRepositoryTest {
     @Test
     @DisplayName("바우처를 저장 후 모두 조회를 하면 저장한 개수와 리스트의 사이즈가 같아야 하고 리스트는 저장한 바우처를 모두 포함해야한다.")
     void findAll() {
-        Voucher newVoucher1 = fixedVoucher(randomUUID(), 10, randomUUID());
-        Voucher newVoucher2 = fixedVoucher(randomUUID(), 20, randomUUID());
-        Voucher newVoucher3 = fixedVoucher(randomUUID(), 30, randomUUID());
-        Voucher newVoucher4 = fixedVoucher(randomUUID(), 40, randomUUID());
-        Voucher newVoucher5 = fixedVoucher(randomUUID(), 50, randomUUID());
+        Voucher newVoucher1 = fixedVoucher(randomUUID(), 10);
+        Voucher newVoucher2 = fixedVoucher(randomUUID(), 20);
+        Voucher newVoucher3 = fixedVoucher(randomUUID(), 30);
+        Voucher newVoucher4 = fixedVoucher(randomUUID(), 40);
+        Voucher newVoucher5 = fixedVoucher(randomUUID(), 50);
 
         repository.save(newVoucher1);
         repository.save(newVoucher2);

@@ -95,10 +95,10 @@ public class ConsoleServiceImpl implements ConsoleService {
     private void createVoucher(VoucherType voucherType, long discountInfo) {
         switch(voucherType) {
             case FIXED:
-                voucherRepository.save(fixedVoucher(randomUUID(), discountInfo, null));
+                voucherRepository.save(fixedVoucher(randomUUID(), discountInfo));
                 break;
             case PERCENT:
-                voucherRepository.save(percentVoucher(randomUUID(), discountInfo, null));
+                voucherRepository.save(percentVoucher(randomUUID(), discountInfo));
                 break;
             default:
                 break;

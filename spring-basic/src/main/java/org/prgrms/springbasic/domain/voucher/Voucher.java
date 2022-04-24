@@ -27,26 +27,31 @@ public class Voucher {
         this.customerId = customerId;
     }
 
-    private Voucher(UUID voucherId, VoucherType voucherType, long discountInfo, LocalDateTime createdAt, UUID customerId) {
+    private Voucher(UUID voucherId, VoucherType voucherType, long discountInfo, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.discountInfo = discountInfo;
         this.createdAt = createdAt;
-        this.customerId = customerId;
     }
 
-    public static Voucher fixedVoucher(UUID voucherId, long discountInfo, UUID customerId) {
-        return new Voucher(voucherId, FIXED, discountInfo, now(), customerId);
+    public static Voucher fixedVoucher(UUID voucherId, long discountInfo) {
+        return new Voucher(voucherId, FIXED, discountInfo, now());
     }
 
-    public static Voucher percentVoucher(UUID voucherId, long discountInfo, UUID customerId) {
-        return new Voucher(voucherId, PERCENT, discountInfo, now(), customerId);
+    public static Voucher percentVoucher(UUID voucherId, long discountInfo) {
+        return new Voucher(voucherId, PERCENT, discountInfo, now());
     }
 
     public Voucher update(VoucherType voucherType, long discountInfo, UUID customerId) {
         this.voucherType = voucherType;
         this.discountInfo = discountInfo;
         this.modifiedAt = now();
+        this.customerId = customerId;
+
+        return this;
+    }
+
+    public Voucher assignToCustomer(UUID customerId) {
         this.customerId = customerId;
 
         return this;
