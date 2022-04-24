@@ -37,7 +37,6 @@ public class VoucherServiceTests {
             @Test
             @DisplayName("IllegalArgumentException 예외를 발생시킨다")
             void it_throw_RepositoryException() {
-
                 assertThrows(IllegalArgumentException.class, () -> voucherService.addVoucher(null));
             }
         }
