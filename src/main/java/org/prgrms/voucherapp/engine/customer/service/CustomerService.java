@@ -22,7 +22,7 @@ public class CustomerService {
     private final WalletRepository walletRepository;
     private final static Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
-    public CustomerService(CustomerRepository customerRepository, WalletRepository walletRepository, WalletRepository walletRepository1) {
+    public CustomerService(CustomerRepository customerRepository, WalletRepository walletRepository) {
         this.customerRepository = customerRepository;
         this.walletRepository = walletRepository;
     }
@@ -33,6 +33,7 @@ public class CustomerService {
                 .orElseThrow(() -> new NullCustomerException(MessageFormat.format("{0}는 존재하지 않는 고객 id입니다.", customerId)));
     }
 
+    @Transactional
     public Customer createCustomer(UUID uuid, String name, String email, Optional<CustomerStatus> status) {
         while (customerRepository.findById(uuid).isPresent()) {
             uuid = UUID.randomUUID();
@@ -52,16 +53,20 @@ public class CustomerService {
     }
 
     @Transactional
+    //Q. Service Layer에서 단위테스트를 지정할 때 서비스 단계에서 예외처리를 하지 않았기 때문에 예외테스트를 진행하기 어려웠다.
+    // Controller에서 예외처리를 한 경우 Service Layer에서도 단위테스트를 만족하기 위해 예외처리를 해야하는가?
     public void removeCustomer(Customer customer) {
         customerRepository.deleteById(customer.getCustomerId());
         walletRepository.deleteByCustomerId(customer.getCustomerId());
         logger.info("--- 삭제된 고객 정보 --- \n%s".formatted(customer));
     }
 
-    // TODO : 수정이 많은 구조에서는 다음과 같이 old와 new를 생성하는 식으로 수정하면 비효율적일 듯.
-    public void updateCustomer(Customer oldCustomer, String name, Optional<CustomerStatus> status){
-        Customer newCustomer = status.map(s -> new Customer(oldCustomer.getCustomerId(), name, oldCustomer.getEmail(), s.toString()))
-                .orElseGet(() -> new Customer(oldCustomer.getCustomerId(), name, oldCustomer.getEmail()));
-        logger.info("--- 수정된 고객 정보 ---\n변경 전 : %s\n변경 후 : %s".formatted(oldCustomer, newCustomer));
+    @Transactional
+    public void updateCustomer(Customer customer, String name, Optional<CustomerStatus> status){
+        Customer oldCustomer = new Customer(customer.getCustomerId(), customer.getName(), customer.getEmail(), customer.getStatus());
+        customer.changeName(name);
+        customer.changeStatus(status.isEmpty() ? null : status.get().toString());
+        customerRepository.update(customer);
+        logger.info("--- 수정된 고객 정보 ---\n변경 전 : %s\n변경 후 : %s".formatted(oldCustomer, customer));
     }
 }

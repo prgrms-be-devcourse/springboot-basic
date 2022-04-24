@@ -29,10 +29,6 @@ public class Navigator implements Runnable {
         this.walletService = walletService;
     }
 
-    //    TODO : 지금은 모든 exception에 대해서 프로그램 초기부터 시작함. create에서 예외 발생시, create부터 다시 시작할 수 있도록 변경해보자.
-    //    TODO : 테스트 코드 작성
-    //    TODO : 고객리스트 심화 과제
-    //    TODO : properties yaml 외부 설정 주입
     @Override
     public void run() {
         while (true) {
@@ -187,7 +183,7 @@ public class Navigator implements Runnable {
                     }
                 }
             } catch (Exception e) {
-                logger.error("Customer : Exception has occurred for the reason : %s".formatted(e.toString()));
+                logger.error("Wallet : Exception has occurred for the reason : %s".formatted(e.toString()));
                 output.errorMessage(e.toString());
             }
         }

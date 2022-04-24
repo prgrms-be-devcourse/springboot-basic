@@ -24,8 +24,11 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+    testImplementation 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'mysql:mysql-connector-java'
+    testImplementation group: 'com.wix', name: 'wix-embedded-mysql', version: '4.6.1'
 }
 
 tasks.named('test') {

@@ -17,7 +17,7 @@ public class CustomerVoucherDto {
 
     @Override
     public String toString() {
-        return String.format("customer_id : %36s, customer_name : %-10s, customer_status : %-7s, | voucher_id : %36s, type : %7s, amount : %7s",
+        return String.format("id : %36s, %-10s님(%-7s) - voucher_id : %36s, type : %7s, amount : %7s",
                 customerId, name, status, voucherId, voucherType, discountAmount);
     }
 }

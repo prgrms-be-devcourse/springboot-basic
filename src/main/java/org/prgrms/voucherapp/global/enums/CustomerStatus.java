@@ -15,4 +15,13 @@ public enum CustomerStatus {
                 .filter(o -> o.ordinal() == option-1)
                 .findFirst();
     }
+
+    public static Optional<CustomerStatus> getStatus(String command) {
+        try{
+            if(command == null) return Optional.empty();
+            return Optional.of(CustomerStatus.valueOf(command.toUpperCase()));
+        } catch(IllegalArgumentException e){
+            return Optional.empty();
+        }
+    }
 }

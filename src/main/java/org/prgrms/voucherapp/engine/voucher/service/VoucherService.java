@@ -13,15 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.MessageFormat;
 import java.util.UUID;
 
-
-/*
- * VoucherService
- * Q. service layer에 정의해야하는 함수에 대한 개념이 모호합니다.
- * 'Navigator에서 사용하기 편하도록 service는 repository의 데이터를 가지고 가공한다.'라고 이해해도 될까요?
- * 예를 들어 getVoucherListByStr 같은 경우, 그냥 getVoucherList로 정의하고,Repository에서 반환된 ArrayList<Voucher>를 그대로 반환한뒤,
- * output에서 ArrayList<Voucher>를 가공하는 선택지도 있었습니다. 하지만 service는 말그대로 service니까 편하게 가공해서 주자라고 결정했습니다.
- * 만약에 개발을 하다 repository에서 가져온 데이터가 가공할 필요가 없다면 service에서 아무 역할 없이 그냥 반환하는 경우도 많나요?
- * */
 @Service
 public class VoucherService {
 
@@ -40,6 +31,7 @@ public class VoucherService {
                 .orElseThrow(() -> new NullVoucherException(MessageFormat.format("{0}는 존재하지 않는 바우처 id입니다.", voucherId)));
     }
 
+    @Transactional
     public Voucher createVoucher(VoucherType type, UUID uuid, long amount) {
         while (voucherRepository.findById(uuid).isPresent()) {
             uuid = UUID.randomUUID();
@@ -62,6 +54,7 @@ public class VoucherService {
     }
 
     @Transactional
+    //TODO : Service Layer에서 remove 메소드의 매개변수 일관성 깨짐 어떤거는 Id, 어떤거는 entity
     public void removeVoucher(UUID voucherId) {
         Voucher oldVoucher = this.getVoucher(voucherId);
         voucherRepository.deleteById(voucherId);
@@ -69,7 +62,8 @@ public class VoucherService {
         logger.info("--- 삭제된 바우처 정보 --- \n%s".formatted(oldVoucher));
     }
 
-    // TODO : 지금은 무조건 create 하지만 type에 따라서 entity 속성을 바꿔줄 수도 있음.
+    @Transactional
+    // TODO : 타입이 기존 바우처와 같은 경우 change 메소드로 속성 변경, 타입이 다른 경우에만 바우처 생성.
     public void updateVoucher(UUID voucherId, VoucherType newVoucherType, long newDiscountAmount){
         Voucher oldVoucher =  this.getVoucher(voucherId);
         Voucher newVoucher = voucherRepository.update(newVoucherType.createVoucher(voucherId, newDiscountAmount));
