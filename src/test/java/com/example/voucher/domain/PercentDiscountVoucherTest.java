@@ -21,7 +21,7 @@ public class PercentDiscountVoucherTest {
 			@Test
 			@DisplayName("IllegalArgumentException 예외를 던진다")
 			void IllegalArgumentException_예외를_던진다() {
-				assertThatThrownBy(() -> new PercentDiscountVoucher(-10))
+				assertThatThrownBy(() -> new PercentDiscountVoucher(null, -10))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
 			}
@@ -34,7 +34,7 @@ public class PercentDiscountVoucherTest {
 			@Test
 			@DisplayName("IllegalArgumentException 예외를 던진다")
 			void IllegalArgumentException_예외를_던진다() {
-				assertThatThrownBy(() -> new PercentDiscountVoucher(101))
+				assertThatThrownBy(() -> new PercentDiscountVoucher(null, 101))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
 			}
@@ -49,7 +49,7 @@ public class PercentDiscountVoucherTest {
 
 		@BeforeEach
 		void 테스트를_위한_바우처_생성_설정() {
-			voucher = new PercentDiscountVoucher(10);
+			voucher = new PercentDiscountVoucher(null, 10);
 		}
 
 		@Nested

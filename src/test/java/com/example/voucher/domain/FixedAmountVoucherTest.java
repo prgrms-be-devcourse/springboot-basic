@@ -22,7 +22,7 @@ public class FixedAmountVoucherTest {
 			@Test
 			@DisplayName("IllegalArgumentException 예외를 던진다")
 			void IllegalArgumentException_예외를_던진다() {
-				assertThatThrownBy(() -> new FixedAmountVoucher(-1000))
+				assertThatThrownBy(() -> new FixedAmountVoucher(null, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
 			}
@@ -36,7 +36,7 @@ public class FixedAmountVoucherTest {
 		
 		@BeforeEach
 		void 테스트를_위한_바우처_생성_설정() {
-			voucher = new FixedAmountVoucher(1000);
+			voucher = new FixedAmountVoucher(null, 1000);
 		}
 
 		@Nested
