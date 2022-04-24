@@ -92,4 +92,26 @@ public class VoucherServiceTest {
             }
         }
     }
+
+    @Nested
+    @DisplayName("Service list 메서드는")
+    class DescribeList {
+
+        @Nested
+        @DisplayName("호출이 되면")
+        class ContextCallThis {
+
+            @Test
+            @DisplayName("Repository의 findAll 메서드를 호출한다.")
+            void itCallRepositoryFindAll() {
+
+            }
+
+            @Test
+            @DisplayName("바우처를 담은 리스트를 반환한다.")
+            void itReturnVoucherList() {
+
+            }
+        }
+    }
 }
