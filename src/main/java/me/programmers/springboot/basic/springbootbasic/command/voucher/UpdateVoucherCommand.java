@@ -2,7 +2,6 @@ package me.programmers.springboot.basic.springbootbasic.command.voucher;
 
 import me.programmers.springboot.basic.springbootbasic.command.CommandStrategy;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
-import me.programmers.springboot.basic.springbootbasic.io.In;
 import me.programmers.springboot.basic.springbootbasic.voucher.VoucherType;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
@@ -10,14 +9,19 @@ import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class UpdateVoucherCommand implements CommandStrategy {
     private static final Logger logger = LoggerFactory.getLogger(UpdateVoucherCommand.class);
 
     private final JdbcVoucherService voucherService;
-    private final ConsoleInput consoleInput = new In();
+
+    @Autowired
+    private ConsoleInput consoleInput;
 
     public UpdateVoucherCommand(JdbcVoucherService voucherService) {
         this.voucherService = voucherService;

@@ -3,12 +3,9 @@ package me.programmers.springboot.basic.springbootbasic;
 import me.programmers.springboot.basic.springbootbasic.command.Command;
 import me.programmers.springboot.basic.springbootbasic.command.CommandStrategy;
 import me.programmers.springboot.basic.springbootbasic.command.CommandType;
-import me.programmers.springboot.basic.springbootbasic.customer.service.CustomerService;
+import me.programmers.springboot.basic.springbootbasic.config.AppConfig;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
-import me.programmers.springboot.basic.springbootbasic.io.In;
-import me.programmers.springboot.basic.springbootbasic.io.Out;
-import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -18,16 +15,14 @@ import org.springframework.stereotype.Component;
 public class CommandLineApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
-    private final AnnotationConfigApplicationContext context;
-
-    public CommandLineApplication(AnnotationConfigApplicationContext context) {
-        this.context = context;
-    }
+    private AnnotationConfigApplicationContext context;
 
     public void run() {
         logger.info("CommandLineApplication Start");
-        ConsoleOutput outputConsole = new Out();
-        ConsoleInput inputConsole = new In();
+        context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        ConsoleOutput outputConsole = context.getBean(ConsoleOutput.class);
+        ConsoleInput inputConsole = context.getBean(ConsoleInput.class);
 
         boolean isExit = false;
         while (!isExit) {
@@ -44,10 +39,7 @@ public class CommandLineApplication {
         if (commandType == CommandType.EXIT)
             return true;
 
-        JdbcVoucherService jdbcVoucherService = context.getBean(JdbcVoucherService.class);
-        CustomerService customerService = context.getBean(CustomerService.class);
-
-        CommandStrategy commandStrategy = commandType.getCommandStrategy(jdbcVoucherService, customerService);
+        CommandStrategy commandStrategy = commandType.getCommandStrategy(context);
 
         Command command = new Command(commandStrategy);
         command.operateCommand();
