@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
@@ -41,6 +42,8 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> findAll() {
-		return new ArrayList<>();
+		return store.values()
+				.stream()
+				.collect(Collectors.toList());
 	}
 }
