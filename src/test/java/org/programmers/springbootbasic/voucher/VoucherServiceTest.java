@@ -1,92 +1,172 @@
 package org.programmers.springbootbasic.voucher;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
-import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
+import com.wix.mysql.EmbeddedMysql;
+import org.junit.jupiter.api.*;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.programmers.springbootbasic.voucher.DBConfig.dbSetup;
 
+@SpringJUnitConfig
+@ContextConfiguration(classes = {DBConfig.class})
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DisplayName("VoucherService 클래스")
 class VoucherServiceTest {
 
-    @Mock
-    VoucherRepository voucherRepository = mock(VoucherRepository.class);
+    private static EmbeddedMysql embeddedMysql;
 
-    @InjectMocks
-    VoucherService voucherService = new VoucherService(voucherRepository);
-
-    @Test
-    @DisplayName("유효하지 않은 바우처 넘버로 바우처를 생성할 수 없다.")
-    void createVoucherByInvalidVoucherTypeTest(){
-        assertThatThrownBy(() -> VoucherType.findByNumber(3))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("잘못된 바우처 넘버입니다.");
+    @BeforeAll
+    static void setup() {
+        embeddedMysql = dbSetup();
     }
 
-    @Test
-    @DisplayName("바우처를 생성할 수 있다.")
-    void createVoucherTest() {
-        VoucherType voucherType = VoucherType.FIXED;
-        long value = 100L;
-        var voucherCreatedByType = voucherType.create(value);
-
-        when(voucherRepository.insert(any())).thenReturn(voucherCreatedByType);
-
-        Voucher voucher = voucherService.createVoucher(voucherType, value);
-
-        assertThat(voucher.getVoucherId()).isEqualTo(voucherCreatedByType.getVoucherId());
+    @AfterAll
+    static void cleanup() {
+        embeddedMysql.stop();
     }
 
-    @Test
-    @DisplayName("바우처 아이디로 원하는 바우처를 조회할 수 있다.")
-    void getVoucherByIdTest() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L);
-        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+    @Autowired
+    VoucherService voucherService;
 
-        Voucher retrievedVoucher = voucherService.getVoucher(voucher.getVoucherId());
+    @Autowired
+    VoucherRepository voucherRepository;
 
-        assertThat(retrievedVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
-        verify(voucherRepository).findById(voucher.getVoucherId());
-    }
+    @Nested
+    @DisplayName("VoucherType은")
+    class VoucherType_Of {
 
-    @DisplayName("존재하지 않는 아이디로는 바우처를 조회할 수 없다.")
-    @Test
-    void getVoucherByNoIdTest() {
-        assertThatThrownBy(() -> voucherService.getVoucher(UUID.randomUUID()))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("바우처를 찾을 수 없습니다");
-    }
+        @Nested
+        @DisplayName("바우처 넘버가 유효하지 않은 값 일 때")
+        class Context_with_unValid_voucherNumber {
 
-    @Test
-    @DisplayName("바우처 리스트를 조회할 수 있다.")
-    void listVoucherTest() {
-        doReturn(voucherList()).when(voucherRepository).findAll();
-
-        final List<Voucher> voucherList = voucherService.getVoucherList();
-
-        assertThat(voucherList).hasSize(6);
-        verify(voucherRepository).findAll();
-    }
-
-    private List<Voucher> voucherList() {
-        final List<Voucher> voucherList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), 1000L * (i + 1)));
-            voucherList.add(new PercentDiscountVoucher(UUID.randomUUID(), 10L * (i + 1)));
+            @Test
+            @DisplayName("예외를 던집니다.")
+            void it_returns_a_throw() {
+                assertThatThrownBy(() -> VoucherType.findByNumber(3))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("잘못된 바우처 넘버입니다.");
+            }
         }
-        return voucherList;
+
+        @Nested
+        @DisplayName("바우처 넘버가 유효한 값 일 때")
+        class Context_with_valid_voucherNumber {
+            VoucherType voucherType = VoucherType.findByNumber(2);
+
+            @Test
+            @DisplayName("바우처 타입을 반환합니다.")
+            void it_has_a_voucherType() {
+                assertThat(voucherType).isEqualTo(VoucherType.PERCENT);
+            }
+
+            @Test
+            @DisplayName("바우처를 생성 할 수 있습니다.")
+            void it_returns_a_voucher() {
+                Voucher voucher = voucherService.createVoucher(voucherType, UUID.randomUUID(), 50, LocalDateTime.now());
+
+                assertThat(voucher.getVoucherType()).isEqualTo(voucherType);
+            }
+        }
+
+        @Nested
+        @DisplayName("바우처 타입이 유효하지 않은 값 일 때")
+        class Context_with_unValid_voucherType {
+
+            @Test
+            @DisplayName("예외를 던집니다.")
+            void it_returns_a_throw() {
+                assertThatThrownBy(() -> VoucherType.findByType("unknown"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("잘못된 바우처 타입입니다.");
+            }
+        }
+
+        @Nested
+        @DisplayName("바우처 타입이 유효한 값 일 때")
+        class Context_with_valid_voucherType {
+            VoucherType voucherType = VoucherType.findByType("FIXED");
+
+            @Test
+            @DisplayName("바우처 타입을 반환합니다.")
+            void it_has_a_voucherType() {
+                assertThat(voucherType).isEqualTo(VoucherType.FIXED);
+            }
+
+            @Test
+            @DisplayName("바우처를 생성 할 수 있습니다.")
+            void it_returns_a_voucher() {
+                Voucher voucher = voucherService.createVoucher(voucherType, UUID.randomUUID(), 50, LocalDateTime.now());
+
+                assertThat(voucher.getVoucherType()).isEqualTo(voucherType);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("getVoucher 메소드는")
+    class GetVoucher_of {
+
+        @Nested
+        @DisplayName("바우처 아이디가 존재 할 때")
+        class Context_with_valid_voucherId {
+
+            @Test
+            @DisplayName("바우처를 반환합니다.")
+            void it_returns_a_voucher() {
+                Voucher voucher = voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 3000L, LocalDateTime.now());
+
+                Optional<Voucher> retrievedVoucher = voucherService.getVoucher(voucher.getVoucherId());
+
+                assertThat(retrievedVoucher).isPresent();
+            }
+        }
+
+        @Nested
+        @DisplayName("바우처 아이디가 존재 하지 않을 때")
+        class Context_with_unValid_voucherId {
+
+            @Test
+            @DisplayName("Optional.isEmpty를 반환합니다.")
+            void it_returns_a_throw() {
+                Optional<Voucher> emptyVoucher = voucherService.getVoucher(UUID.randomUUID());
+
+                assertThat(emptyVoucher).isEmpty();
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("getVoucherList 메소드는")
+    class Get_voucherList_of {
+
+        @Nested
+        @DisplayName("바우처가 존재할 때")
+        class Context_with_exist_voucher {
+
+            @Test
+            @DisplayName("바우처 List를 반환합니다.")
+            void it_returns_a_list() {
+                //given
+                voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), 10, LocalDateTime.now());
+
+                //when
+                final List<Voucher> voucherList = voucherService.getVoucherList();
+
+                //then
+                assertThat(voucherList).hasSize(1);
+            }
+        }
     }
 }

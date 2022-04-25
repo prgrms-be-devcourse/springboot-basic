@@ -1,8 +1,8 @@
 package org.programmers.springbootbasic.voucher.service;
 
+import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
-import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

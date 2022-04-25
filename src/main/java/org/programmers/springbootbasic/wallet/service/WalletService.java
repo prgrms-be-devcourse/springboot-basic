@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.wallet;
+package org.programmers.springbootbasic.wallet.service;
 
 import org.programmers.springbootbasic.customer.model.Customer;
 import org.programmers.springbootbasic.voucher.model.Voucher;
