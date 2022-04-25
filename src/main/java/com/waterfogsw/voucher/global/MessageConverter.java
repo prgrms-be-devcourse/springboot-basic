@@ -11,13 +11,13 @@ public class MessageConverter {
         this.voucherTypeConverter = voucherTypeConverter;
     }
 
-    public VoucherDto convert(RequestMessage requestMessage) {
+    public VoucherDto convert(RequestVoucherMessage requestMessage) {
         if (requestMessage == null) {
             throw new IllegalArgumentException();
         }
 
-        var type = voucherTypeConverter.convert(requestMessage.type());
-        var value = Integer.parseInt(requestMessage.value());
+        final var type = voucherTypeConverter.convert(requestMessage.type());
+        final var value = Integer.parseInt(requestMessage.value());
         return new VoucherDto(type, value);
     }
 }

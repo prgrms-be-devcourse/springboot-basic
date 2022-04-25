@@ -2,7 +2,7 @@ package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.console.Command;
 import com.waterfogsw.voucher.global.MessageConverter;
-import com.waterfogsw.voucher.global.RequestMessage;
+import com.waterfogsw.voucher.global.RequestVoucherMessage;
 import com.waterfogsw.voucher.global.VoucherTypeConverter;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +52,7 @@ public class MessageConverterTests {
             @EnumSource(Command.class)
             @DisplayName("DTO 를 생성한다")
             void it_return_enum(Command command) {
-                var requestMessage = new RequestMessage(command, "FIXED_AMOUNT", "1000");
+                var requestMessage = new RequestVoucherMessage(command, "FIXED_AMOUNT", "1000");
 
                 when(voucherTypeConverter.convert(any())).thenReturn(VoucherType.FIXED_AMOUNT);
 
