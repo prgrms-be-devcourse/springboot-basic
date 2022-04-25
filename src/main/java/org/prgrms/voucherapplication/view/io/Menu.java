@@ -2,7 +2,12 @@ package org.prgrms.voucherapplication.view.io;
 
 import org.prgrms.voucherapplication.exception.InvalidMenuException;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 메뉴 옵션을 정의한 enum class
@@ -25,10 +30,11 @@ public enum Menu {
         this.input = input;
     }
 
+    private static final Map<String, Menu> inputs =
+            Collections.unmodifiableMap(Stream.of(values())
+                    .collect((Collectors.toMap(menu -> menu.input, Function.identity()))));
+
     public static Menu getMenu(String input) throws InvalidMenuException {
-        return Arrays.stream(Menu.values())
-                .filter(menu -> menu.input.equals(input))
-                .findAny()
-                .orElseThrow(InvalidMenuException::new);
+        return Optional.ofNullable(inputs.get(input)).orElseThrow(InvalidMenuException::new);
     }
 }

@@ -5,9 +5,11 @@ import org.prgrms.voucherapplication.entity.PercentDiscountVoucher;
 import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.exception.InvalidVoucherTypeException;
 
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 바우처 옵션을 정의한 enum class
@@ -24,19 +26,19 @@ public enum VoucherType {
         this.biFunction = biFunction;
     }
 
+    private static final Map<String, VoucherType> inputs =
+            Collections.unmodifiableMap(Stream.of(values())
+                    .collect((Collectors.toMap(type -> type.input, Function.identity()))));
+
     /**
      * input이 "1"이면 FIXED_AMOUNT 바우처 타입
      * input이 "2"면 PERCENT_DISCOUNT 바우처 타입
-     * input이 그 이외의 문자이면 null
      *
      * @param input: 사용자의 입력
      * @return 선택된 바우처 타입
      */
     public static VoucherType getVoucherType(String input) throws InvalidVoucherTypeException {
-        return Arrays.stream(VoucherType.values())
-                .filter(type -> type.input.equals(input))
-                .findAny()
-                .orElseThrow(InvalidVoucherTypeException::new);
+        return Optional.ofNullable(inputs.get(input)).orElseThrow(InvalidVoucherTypeException::new);
     }
 
     /**
