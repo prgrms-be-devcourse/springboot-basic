@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.Scanner;
 
 @Component
-public class Console {
+public class Console implements Input, Output {
     private final Scanner scanner = new Scanner(System.in);
 
     public String input(String prompt) {
