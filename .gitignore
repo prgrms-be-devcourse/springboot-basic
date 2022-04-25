@@ -17,4 +17,4 @@ mvnw.cmd
 logs/
 
 ### yaml ###
-.yaml
+*.yaml
