@@ -1,11 +1,17 @@
 package com.example.voucher.controller;
+import com.example.voucher.domain.voucher.FixedAmountVoucher;
+import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
+import com.example.voucher.dto.VoucherResponse;
 import com.example.voucher.service.voucher.VoucherService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.util.Arrays;
+import java.util.List;
 import static com.example.voucher.domain.voucher.VoucherType.FIXED_AMOUNT_VOUCHER;
 import static com.example.voucher.domain.voucher.VoucherType.PERCENT_DISCOUNT_VOUCHER;
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
@@ -79,6 +85,7 @@ public class VoucherControllerTest {
 						.hasMessage(INVALID_INPUT.name());
 			}
 		}
+
 		@Nested
 		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 		class PERCENT_DISCOUNT_VOUCHER_바우처_타입과_백이_넘는_할인_값이_넘어온다면 {
@@ -109,6 +116,33 @@ public class VoucherControllerTest {
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
 			}
+		}
+	}
+
+	@Nested
+	@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+	class findAll메서드는 {
+
+		private Voucher createdVoucher1;
+		private Voucher createdVoucher2;
+
+		@BeforeEach
+		void 테스트를_위한_설정() {
+			createdVoucher1 = new FixedAmountVoucher(null, 1000);
+			createdVoucher2 = new FixedAmountVoucher(null, 2000);
+
+			given(voucherService.findAll())
+					.willReturn(Arrays.asList(createdVoucher1, createdVoucher2));
+		}
+		
+		@Test
+		@DisplayName("바우처를 전체 조회하고 반환한다")
+		void 바우처를_전체_조회하고_반환한다() {
+			List<VoucherResponse> voucherListResponse = voucherController.findAll();
+
+			verify(voucherService).findAll();
+			Assertions.assertThat(voucherListResponse.get(0)).isEqualTo(VoucherResponse.from(createdVoucher1));
+			Assertions.assertThat(voucherListResponse.get(1)).isEqualTo(VoucherResponse.from(createdVoucher2));
 		}
 	}
 }
