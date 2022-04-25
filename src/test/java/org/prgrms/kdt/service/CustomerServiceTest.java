@@ -33,7 +33,8 @@ class CustomerServiceTest {
     @BeforeAll
     void clean() {
         TestConfiguration.clean(embeddedMysql);
-        newCustomer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
+        newCustomer = new Customer(UUID.randomUUID(), "test", "test@gmail.com",
+                LocalDateTime.now(), LocalDateTime.now());
         customerService.createCustomer(newCustomer);
     }
 
@@ -41,7 +42,8 @@ class CustomerServiceTest {
     @DisplayName("이메일이 중복된 고객은 추가 할 수 없다.")
     void joinDuplicateCustomer() {
         //given
-        Customer newCustomer2 = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
+        Customer newCustomer2 = new Customer(UUID.randomUUID(), "test", "test@gmail.com",
+                LocalDateTime.now(), LocalDateTime.now());
         int beforeJoinSize = customerJdbcRepository.findAllCustomer().size();
         customerService.createCustomer(newCustomer2);
 
