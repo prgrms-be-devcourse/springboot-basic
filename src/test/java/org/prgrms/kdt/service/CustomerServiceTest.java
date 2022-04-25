@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.times;
 import static org.mockito.BDDMockito.verify;
 
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -57,8 +58,8 @@ class CustomerServiceTest {
       void it_register_customer() {
         var newEmail = "new-email@gmail.com";
         given(customerRepository.existsByEmail(newEmail)).willReturn(false);
-        given(customerRepository.save(any(Customer.class))).willReturn(
-            new Customer("abc", newEmail));
+        given(customerRepository.save(any(Customer.class))).willReturn(Optional.of(
+            new Customer("abc", newEmail)));
 
         var sut = customerService.register(new CustomerDto("abc", newEmail));
 

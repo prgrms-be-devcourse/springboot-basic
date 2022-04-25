@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.domain.Customer;
 import org.prgrms.kdt.dto.VoucherDto;
+import org.prgrms.kdt.exception.EntityNotFoundException;
 import org.prgrms.kdt.type.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,8 +43,8 @@ class JdbcCustomerRepositoryTest extends DatabaseIntegrationTest {
     var customer = new Customer("John", "jonh@gmail.com");
     var savedCustomer = customerRepository.save(customer);
 
-    assertThat(savedCustomer).isNotNull();
-    assertThat(savedCustomer).usingRecursiveComparison().isEqualTo(customer);
+    assertThat(savedCustomer).isNotEmpty();
+    assertThat(savedCustomer.get()).usingRecursiveComparison().isEqualTo(customer);
   }
 
   @Test
@@ -64,7 +65,7 @@ class JdbcCustomerRepositoryTest extends DatabaseIntegrationTest {
   @DisplayName("바우처 아이디에 해당하는 고객을 반환한다.")
   public void find_customer_by_voucherId() {
     var customer = new Customer("John", "john@gmail.com");
-    customer = customerRepository.save(customer);
+    customer = customerRepository.save(customer).orElseThrow(EntityNotFoundException::new);
     var voucherDto = new VoucherDto(UUID.randomUUID(), customer.getCustomerId(), 20L);
     var voucher = VoucherType.FIXED.create(voucherDto);
     voucherRepository.save(voucher);

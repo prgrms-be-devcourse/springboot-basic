@@ -9,7 +9,6 @@ import org.prgrms.kdt.dto.CustomerDto;
 import org.prgrms.kdt.exception.DuplicatedEmailException;
 import org.prgrms.kdt.exception.EntityNotFoundException;
 import org.prgrms.kdt.repository.CustomerRepository;
-import org.prgrms.kdt.type.ErrorType;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -34,12 +33,13 @@ public class CustomerService {
   public Customer register(@Valid CustomerDto customerDto) {
     validateDuplicated(customerDto.email());
     var customer = new Customer(customerDto);
-    return customerRepository.save(customer);
+    return customerRepository.save(customer)
+        .orElseThrow(EntityNotFoundException::new);
   }
 
   public Customer findCustomerByVoucherId(UUID voucherId) {
     return customerRepository.findCustomerByVoucherId(voucherId)
-        .orElseThrow(() -> new EntityNotFoundException(ErrorType.ENTITY_NOT_FOUND));
+        .orElseThrow(EntityNotFoundException::new);
   }
 
   private void validateDuplicated(String email) {

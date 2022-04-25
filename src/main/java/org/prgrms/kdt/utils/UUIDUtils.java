@@ -3,9 +3,9 @@ package org.prgrms.kdt.utils;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-public class ByteUtils {
+public class UUIDUtils {
 
-  private ByteUtils() {
+  private UUIDUtils() {
   }
 
   public static UUID toUUID(byte[] bytes) {

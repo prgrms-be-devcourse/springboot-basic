@@ -15,7 +15,8 @@ public enum ErrorType {
   INVALID_CUSTOMER_LENGTH("Error: Customer name cannot be longer than 20 characters"),
   EMPTY_CUSTOMER_NAME("Error: Customer name cannot be blank"),
 
-  DUPLICATED_EMAIL("Error: Email already exists");
+  DUPLICATED_EMAIL("Error: Email already exists"),
+  ENTITY_NOT_FOUND("Error: Can't find entity");
 
   private final String errorMessage;
 

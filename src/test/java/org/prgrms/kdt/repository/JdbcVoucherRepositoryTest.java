@@ -10,6 +10,7 @@ import org.prgrms.kdt.domain.Customer;
 import org.prgrms.kdt.domain.FixedAmountVoucher;
 import org.prgrms.kdt.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.Voucher;
+import org.prgrms.kdt.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 class JdbcVoucherRepositoryTest extends DatabaseIntegrationTest {
@@ -46,7 +47,7 @@ class JdbcVoucherRepositoryTest extends DatabaseIntegrationTest {
   @DisplayName("바우처 정보를 수정한다.")
   public void update_voucher() {
     var customer = new Customer("John", "john@gmail.com");
-    customer = customerRepository.save(customer);
+    customer = customerRepository.save(customer).orElseThrow(EntityNotFoundException::new);
 
     Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 100L);
     voucherRepository.save(voucher);

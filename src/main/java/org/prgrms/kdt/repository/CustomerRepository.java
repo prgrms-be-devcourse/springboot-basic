@@ -13,7 +13,7 @@ public interface CustomerRepository {
 
   boolean existsByEmail(String email);
 
-  Customer save(Customer customer);
+  Optional<Customer> save(Customer customer);
 
   void deleteAll();
 

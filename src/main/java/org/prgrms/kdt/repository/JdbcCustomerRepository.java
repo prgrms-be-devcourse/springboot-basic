@@ -1,6 +1,6 @@
 package org.prgrms.kdt.repository;
 
-import static org.prgrms.kdt.utils.ByteUtils.toUUID;
+import static org.prgrms.kdt.utils.UUIDUtils.toUUID;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -23,16 +23,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     var customerName = resultSet.getString("name");
     var email = resultSet.getString("email");
     var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-    var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp(
-        "last_login_at").toLocalDateTime() : null;
+    var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
+        resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
     return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
   };
-  private static final String SELECT_ALL_CUSTOMERS = "SELECT * FROM customer";
-  private static final String SELECT_CUSTOMER_BY_VOUCHER_ID = "SELECT c.customer_id, c.name, c.email, c.last_login_at, c.created_at FROM customer c JOIN voucher v ON c.customer_id = v.customer_id WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
-  private static final String SELECT_CUSTOMER_BY_CUSTOMER_ID = "SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(?)";
-  private static final String EXISTS_CUSTOMER_BY_CUSTOMER_ID = "SELECT EXISTS(SELECT 1 FROM customer WHERE email = :email)";
-  private static final String INSERT_CUSTOMER = "INSERT INTO customer (customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)";
-  private static final String DELETE_ALL_CUSTOMERS = "DELETE FROM customer";
 
   private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -42,13 +36,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
   @Override
   public List<Customer> findAll() {
-    return jdbcTemplate.query(SELECT_ALL_CUSTOMERS, customerRowMapper);
+    return jdbcTemplate.query("SELECT * FROM customer", customerRowMapper);
   }
 
   @Override
   public Optional<Customer> findById(UUID customerId) {
 
-    return jdbcTemplate.query(SELECT_CUSTOMER_BY_CUSTOMER_ID,
+    return jdbcTemplate.query("SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(?)",
             Collections.singletonMap("customerId", customerId), customerRowMapper)
         .stream().findFirst();
   }
@@ -56,30 +50,29 @@ public class JdbcCustomerRepository implements CustomerRepository {
   @Override
   public boolean existsByEmail(String email) {
     return Boolean.TRUE.equals(
-        jdbcTemplate.queryForObject(EXISTS_CUSTOMER_BY_CUSTOMER_ID,
+        jdbcTemplate.queryForObject("SELECT EXISTS(SELECT 1 FROM customer WHERE email = :email)",
             Collections.singletonMap("email", email), Boolean.class));
   }
 
   @Override
-  public Customer save(Customer customer) {
-    var updateCount = jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
+  public Optional<Customer> save(Customer customer) {
+    var updateCount = jdbcTemplate.update(
+        "INSERT INTO customer (customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
+        toParamMap(customer));
 
-    if (updateCount != 1) {
-      throw new RuntimeException("Failed to insert customer");
-    }
-
-    return customer;
+    return updateCount == 1 ? Optional.of(customer) : Optional.empty();
   }
 
   @Override
   public void deleteAll() {
-    jdbcTemplate.update(DELETE_ALL_CUSTOMERS, Collections.emptyMap());
+    jdbcTemplate.update("DELETE FROM customer", Collections.emptyMap());
   }
 
   @Override
   public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
     try {
-      var customer = jdbcTemplate.queryForObject(SELECT_CUSTOMER_BY_VOUCHER_ID,
+      var customer = jdbcTemplate.queryForObject(
+          "SELECT c.customer_id, c.name, c.email, c.last_login_at, c.created_at FROM customer c JOIN voucher v ON c.customer_id = v.customer_id WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
           new HashMap<>() {{
             put("voucher_id", voucherId.toString().getBytes());
           }}, customerRowMapper);
