@@ -97,8 +97,7 @@ class JdbcCustomerRepositoryTest {
         @DisplayName("성공 : WHITE/BLACK 타입으로 고객 정보가 지정된 경우 저장에 성공합니다.")
         @ParameterizedTest(name = "{0} 고객 정보 저장 성공")
         @CsvSource({"kate, WHITE, kate@gmail.com", "jade, WHITE, jade@gmail.com", "sage, BLACK, sage@gmail.com",
-            "haes, " +
-                "BLACK, haes@gmail.com"})
+            "haes, BLACK, haes@gmail.com"})
         void saveSuccess(String name, String typeStr, String email) {
             Customer newCustomer = new Customer(name, CustomerType.valueOf(typeStr), email);
             customers.add(customerRepository.save(newCustomer));

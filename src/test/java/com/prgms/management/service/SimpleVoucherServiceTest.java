@@ -1,4 +1,4 @@
-package com.prgms.management.voucher.service;
+package com.prgms.management.service;
 
 import com.prgms.management.common.exception.DeleteFailException;
 import com.prgms.management.common.exception.FindFailException;
@@ -7,6 +7,7 @@ import com.prgms.management.voucher.model.PercentDiscountVoucher;
 import com.prgms.management.voucher.model.Voucher;
 import com.prgms.management.voucher.model.VoucherType;
 import com.prgms.management.voucher.repository.VoucherRepository;
+import com.prgms.management.voucher.service.SimpleVoucherService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
