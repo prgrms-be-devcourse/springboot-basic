@@ -34,7 +34,7 @@
         <td th:text="*{createdTime}"></td>
         <td th:text="*{lastLoginTime}"></td>
         <td><div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a th:href="@{/customers/delete/{email}(email=${customer.email})}" class="btn btn-primary me-md-2" type="button">DELETE</a>
+            <a th:href="@{/customers/delete/{email}(email=${customer.email})}" class="btn btn-primary" type="button">DELETE</a>
         </div></td>
     </tr>
     </tbody>

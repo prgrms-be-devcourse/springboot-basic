@@ -24,11 +24,6 @@ public class WalletController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("")
-    public String homePage() {
-        return "/home";
-    }
-
     @GetMapping("/wallet")
     public String walletPage() {
         return "wallet/wallet";
@@ -47,11 +42,11 @@ public class WalletController {
 
     @GetMapping("/wallet/show")
     public String walletVouchersPage() {
-        return "wallet/customerEmailForm";
+        return "wallet/vouchers";
     }
 
-    @PostMapping("/wallet/vouchers")
-    public String assignVouchers(@RequestParam Email customerEmail, Model model) {
+    @GetMapping("/wallet/vouchers")
+    public String assignVouchers(@RequestParam("customerEmail") Email customerEmail, Model model) {
         List<VoucherDto> vouchers = voucherService.findAssignVouchers(customerEmail).stream()
             .map(VoucherDto::from)
             .toList();
@@ -68,7 +63,7 @@ public class WalletController {
 
     @GetMapping("wallet/customer")
     public String voucherIdForm() {
-        return "wallet/voucherIdForm";
+        return "wallet/customer";
     }
 
     @PostMapping("wallet/customer")
