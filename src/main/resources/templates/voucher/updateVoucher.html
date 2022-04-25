@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        } </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>바우처 정보 수정</h2> </div>
+    <form action="voucher.html" th:action method="post">
+        <div>
+            <label for="voucherID">바우처 ID</label>
+            <input type="text" id="voucherID" name="voucherID" class="form-control" value="1" th:value="${voucher.voucherId}" readonly>
+        </div>
+        <div>
+            <label for="type">type</label>
+            <input type="text" id="type" name="type" class="form-control" value="FixedAmount" th:value="${voucher.type}">
+        </div> <div>
+        <label for="value">할인양</label>
+        <input type="text" id="value" name="value" class="form-control" value="10" th:value="${voucher.value}">
+    </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">저장
+                </button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='voucher.html'"
+                        th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
