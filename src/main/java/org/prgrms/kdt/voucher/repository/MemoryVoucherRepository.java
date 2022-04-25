@@ -24,4 +24,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return storage.values();
     }
 
+    @Override
+    public Voucher update(UUID voucherId, long value) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
 }
