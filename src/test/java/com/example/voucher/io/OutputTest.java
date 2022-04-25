@@ -1,6 +1,5 @@
 package com.example.voucher.io;
 
-import com.example.voucher.exception.ErrorMessage;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
