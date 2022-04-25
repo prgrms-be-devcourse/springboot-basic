@@ -1,8 +1,8 @@
 package org.prgrms.kdt.service;
 
 import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.distribution.Version;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.TestConfiguration;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
@@ -16,10 +16,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.Charset.UTF8;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -41,15 +37,7 @@ class VoucherWalletServiceTest {
 
     @BeforeAll
     void clean() {
-        var mysqldConfig = aMysqldConfig(Version.v8_0_11)
-                .withCharset(UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqldConfig)
-                .addSchema("test-order-mgmt", classPathScript("schema.sql"))
-                .start();
+        TestConfiguration.clean(embeddedMysql);
     }
 
     @AfterEach
