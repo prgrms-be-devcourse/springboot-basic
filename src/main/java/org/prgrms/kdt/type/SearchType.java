@@ -1,21 +1,22 @@
 package org.prgrms.kdt.type;
 
 import java.util.Arrays;
+import org.prgrms.kdt.exception.InvalidInputException;
 
 public enum SearchType {
-  SEARCH_VOUCHER(1),
-  SEARCH_CUSTOMER(2);
+  SEARCH_VOUCHER("voucher"),
+  SEARCH_CUSTOMER("customer");
 
-  private final int code;
+  private final String type;
 
-  SearchType(int code) {
-    this.code = code;
+  SearchType(String type) {
+    this.type = type;
   }
 
-  public static SearchType of(int code) {
-    var type = Arrays.stream(SearchType.values())
-        .filter(searchType -> searchType.code == code)
+  public static SearchType of(String type) {
+    var matchedType = Arrays.stream(SearchType.values())
+        .filter(searchType -> searchType.type.equals(type))
         .findFirst();
-    return type.orElseThrow(() -> new RuntimeException("ad"));
+    return matchedType.orElseThrow(InvalidInputException::new);
   }
 }
