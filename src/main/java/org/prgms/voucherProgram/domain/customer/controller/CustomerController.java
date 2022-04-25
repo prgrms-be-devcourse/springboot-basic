@@ -28,12 +28,12 @@ public class CustomerController {
             .map(CustomerDto::from)
             .toList();
         model.addAttribute("customers", customers);
-        return "views/customer/customers";
+        return "/customer/customers";
     }
 
     @GetMapping("customers/new")
     public String viewNewCustomer() {
-        return "views/customer/new-customers";
+        return "customer/new-customers";
     }
 
     @PostMapping("/customers/new")
@@ -46,7 +46,7 @@ public class CustomerController {
     public String findCustomer(@PathVariable("customerId") UUID customerId, Model model) {
         CustomerDto customerDto = CustomerDto.from(customerService.findById(customerId));
         model.addAttribute("customer", customerDto);
-        return "views/customer/customer-details";
+        return "/customer/customer-details";
     }
 
     @PostMapping("/customers/update/{email}")
@@ -56,7 +56,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/delete/{email}")
-    public String updateCustomer(@PathVariable("email") Email email) {
+    public String deleteCustomer(@PathVariable("email") Email email) {
         customerService.delete(email);
         return "redirect:/customers";
     }

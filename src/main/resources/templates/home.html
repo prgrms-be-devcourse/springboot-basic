@@ -10,9 +10,11 @@
     <title>Home</title>
 </head>
 <body class="container-fluid">
-<h1>KDT Spring App</h1>
-<a class="btn btn-primary me-md-2" th:href="@{customers}" type="button">Customer Menu</a>
-<a class="btn btn-primary me-md-2" th:href="@{vouchers}" type="button">Voucher Menu</a>
-<a class="btn btn-primary me-md-2" th:href="@{wallet}" type="button">Wallet Menu</a>
+<h1 class="text-center">KDT Spring App</h1>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{customers}" type="button">Customer Menu</a>
+    <a class="btn btn-primary" th:href="@{vouchers}" type="button">Voucher Menu</a>
+    <a class="btn btn-primary" th:href="@{wallet}" type="button">Wallet Menu</a>
+</div>
 </body>
 </html>

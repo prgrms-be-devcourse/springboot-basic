@@ -28,12 +28,12 @@ public class VoucherController {
             .toList();
 
         model.addAttribute("vouchers", vouchers);
-        return "views/voucher/vouchers";
+        return "voucher/vouchers";
     }
 
     @GetMapping("vouchers/new")
     public String viewNewVoucher() {
-        return "views/voucher/new-voucher";
+        return "voucher/new-voucher";
     }
 
     @PostMapping("vouchers/new")
@@ -46,17 +46,17 @@ public class VoucherController {
     public String findVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
         VoucherDto voucherDto = VoucherDto.from(voucherService.findVoucher(voucherId));
         model.addAttribute("voucher", voucherDto);
-        return "views/voucher/voucher-details.html";
+        return "voucher/voucher-details.html";
     }
 
     @PostMapping("vouchers/update/{voucherId}")
-    public String updateCustomer(@PathVariable("voucherId") UUID voucherId, VoucherRequest voucherRequest) {
+    public String updateVoucher(@PathVariable("voucherId") UUID voucherId, VoucherRequest voucherRequest) {
         voucherService.modify(voucherId, voucherRequest);
         return "redirect:/vouchers";
     }
 
     @GetMapping("/vouchers/delete/{voucherId}")
-    public String updateCustomer(@PathVariable("voucherId") UUID voucherId) {
+    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.delete(voucherId);
         return "redirect:/vouchers";
     }

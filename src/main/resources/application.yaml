@@ -3,12 +3,9 @@ spring:
     active: local
   datasource:
     url: jdbc:mysql://localhost/order_mgmt
-    username: root
-    password: root1234!
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
-  thymeleaf:
-    view-names: "views/*"
-    prefix: "/WEB-INF/"
 
 file:
   path:

@@ -7,12 +7,14 @@
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
-    <title>Home</title>
+    <title>KDT Spring App - Wallet</title>
 </head>
 <body class="container-fluid">
-<h1>KDT Spring App - Wallet</h1>
-<a class="btn btn-primary me-md-2" th:href="@{wallet/assign}" type="button">Assign Voucher</a>
-<a class="btn btn-primary me-md-2" th:href="@{wallet/show}" type="button">Show Assign Vouchers</a>
-<a class="btn btn-primary me-md-2" th:href="@{wallet/customer}" type="button">Show Customer</a>
+<h1 class="text-center">KDT Spring App - Wallet</h1>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{wallet/assign}" type="button">Assign Voucher</a>
+    <a class="btn btn-primary" th:href="@{wallet/show}" type="button">Show Assign Vouchers</a>
+    <a class="btn btn-primary" th:href="@{wallet/customer}" type="button">Show Customer</a>
+</div>
 </body>
 </html>

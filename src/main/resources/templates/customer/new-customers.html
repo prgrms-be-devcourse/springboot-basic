@@ -7,24 +7,21 @@
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
-    <title>KDT - New Voucher</title>
+    <title>KDT - New Customer</title>
 </head>
 <body class="container-fluid">
 <h1>KDT Spring App</h1>
-<h2>New Voucher</h2>
-<form method="POST" th:action="@{/vouchers/new}">
+<h2>New Customer</h2>
+<form method="POST" th:action="@{/customers/new}">
     <div class="mb-3">
-        <label class="form-label">Type</label>
-        <select aria-label="Type Select" class="form-select" id="type" name="type">
-            <option value="1">Fixed Amount</option>
-            <option value="2">Percent Discount</option>
-        </select>
+        <label class="form-label" for="exampleInputPassword1">Name</label>
+        <input class="form-control" id="exampleInputPassword1" name="name" type="text">
     </div>
     <div class="mb-3">
-        <label class="form-label" for="discountValue">Discount Value</label>
-        <input class="form-control" id="discountValue" name="discountValue" type="number">
+        <label class="form-label" for="exampleInputEmail1">Email address</label>
+        <input aria-describedby="emailHelp" class="form-control" id="exampleInputEmail1" name="email" type="email">
     </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">Save</button>
 </form>
 
 </body>

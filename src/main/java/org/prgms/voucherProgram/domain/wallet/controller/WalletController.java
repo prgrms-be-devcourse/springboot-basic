@@ -25,18 +25,18 @@ public class WalletController {
     }
 
     @GetMapping("")
-    public String viewHomePage() {
-        return "views/home";
+    public String homePage() {
+        return "/home";
     }
 
     @GetMapping("/wallet")
-    public String viewWalletPage() {
-        return "views/wallet/wallet";
+    public String walletPage() {
+        return "wallet/wallet";
     }
 
     @GetMapping("/wallet/assign")
-    public String viewWalletAssignPage() {
-        return "views/wallet/assign";
+    public String walletAssignPage() {
+        return "wallet/assign";
     }
 
     @PostMapping("/wallet/assign")
@@ -46,18 +46,18 @@ public class WalletController {
     }
 
     @GetMapping("/wallet/show")
-    public String viewWalletVouchersPage() {
-        return "views/wallet/customerEmailForm";
+    public String walletVouchersPage() {
+        return "wallet/customerEmailForm";
     }
 
     @PostMapping("/wallet/vouchers")
-    public String showAssignVouchers(@RequestParam Email customerEmail, Model model) {
+    public String assignVouchers(@RequestParam Email customerEmail, Model model) {
         List<VoucherDto> vouchers = voucherService.findAssignVouchers(customerEmail).stream()
             .map(VoucherDto::from)
             .toList();
         model.addAttribute("vouchers", vouchers);
         model.addAttribute("email", customerEmail);
-        return "views/wallet/vouchers";
+        return "wallet/vouchers";
     }
 
     @GetMapping("/wallet/vouchers/delete/{voucherId}")
@@ -67,14 +67,14 @@ public class WalletController {
     }
 
     @GetMapping("wallet/customer")
-    public String showVoucherIdForm() {
-        return "views/wallet/voucherIdForm";
+    public String voucherIdForm() {
+        return "wallet/voucherIdForm";
     }
 
     @PostMapping("wallet/customer")
-    public String showCustomer(@RequestParam("voucherId") UUID voucherId, Model model) {
+    public String findCustomer(@RequestParam("voucherId") UUID voucherId, Model model) {
         Customer customer = voucherService.findCustomer(voucherId);
         model.addAttribute("customer", customer);
-        return "views/wallet/customer";
+        return "wallet/customer";
     }
 }
