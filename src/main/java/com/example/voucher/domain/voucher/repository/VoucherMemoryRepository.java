@@ -4,6 +4,7 @@ import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,5 +36,10 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
 		store.put(voucher.getVoucherId(), voucher);
 		return voucher;
+	}
+
+	@Override
+	public List<Voucher> findAll() {
+		return null;
 	}
 }
