@@ -1,5 +1,7 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.domain;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -7,6 +9,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * 정액 할인 바우처
  */
+@Getter
 public class FixedAmountDiscountVoucher extends Voucher {
 
     private final long amount;
@@ -20,10 +23,6 @@ public class FixedAmountDiscountVoucher extends Voucher {
         checkArgument(amount > 0, "amount must be positive.");
 
         this.amount = amount;
-    }
-
-    public long getAmount() {
-        return amount;
     }
 
     @Override

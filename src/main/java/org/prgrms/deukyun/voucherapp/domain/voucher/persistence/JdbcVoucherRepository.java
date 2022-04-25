@@ -1,6 +1,8 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 
+import lombok.RequiredArgsConstructor;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.*;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -8,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Primary
 @Repository
+@RequiredArgsConstructor
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -17,10 +21,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String findAllQuery = "SELECT * FROM voucher";
     private static final String findByIdQuery = "SELECT * FROM voucher WHERE voucher_id = :id";
     private static final String clearQuery = "DELETE FROM voucher";
-
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public Voucher insert(Voucher voucher) {

@@ -1,5 +1,7 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.domain;
 
+import lombok.Getter;
+
 import java.text.MessageFormat;
 import java.util.UUID;
 
@@ -8,6 +10,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * 정률 할인 바우처
  */
+@Getter
 public class PercentDiscountVoucher extends Voucher {
 
     private final long percent;
@@ -25,10 +28,6 @@ public class PercentDiscountVoucher extends Voucher {
                 MessageFormat.format("percent must be between {1} and {2} inclusive.", MIN_DISCOUNT_PERCENT, MAX_DISCOUNT_PERCENT));
 
         this.percent = percent;
-    }
-
-    public long getPercent() {
-        return percent;
     }
 
     @Override

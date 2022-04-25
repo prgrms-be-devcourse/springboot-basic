@@ -1,5 +1,6 @@
 package org.prgrms.deukyun.voucherapp.domain.customer.domain;
 
+import lombok.Getter;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * 고객
  */
+@Getter
 public class Customer {
 
     private final UUID id;
@@ -30,21 +32,5 @@ public class Customer {
         this.name = name;
         this.blackList = blackList;
         this.vouchers = vouchers;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean isBlackList() {
-        return blackList;
-    }
-
-    public List<Voucher> getVouchers() {
-        return vouchers;
     }
 }

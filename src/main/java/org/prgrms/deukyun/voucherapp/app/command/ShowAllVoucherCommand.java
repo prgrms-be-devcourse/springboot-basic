@@ -1,5 +1,6 @@
 package org.prgrms.deukyun.voucherapp.app.command;
 
+import lombok.RequiredArgsConstructor;
 import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
@@ -12,15 +13,11 @@ import java.util.stream.Collectors;
  * 바우처 전체 출력 커맨드
  */
 @ShellComponent
+@RequiredArgsConstructor
 public class ShowAllVoucherCommand {
 
     private final VoucherService voucherService;
     private final ConsoleService console;
-
-    public ShowAllVoucherCommand(VoucherService voucherService, ConsoleService console) {
-        this.voucherService = voucherService;
-        this.console = console;
-    }
 
     @ShellMethod(value = "show all voucher", key = "list")
     public void showAllVoucher() {

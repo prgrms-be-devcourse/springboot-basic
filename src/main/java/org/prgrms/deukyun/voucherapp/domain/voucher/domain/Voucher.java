@@ -1,5 +1,7 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.domain;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -7,6 +9,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * 바우처
  */
+@Getter
 public abstract class Voucher {
 
     private final UUID id;
@@ -15,10 +18,6 @@ public abstract class Voucher {
         checkArgument(id != null, "id must be provided.");
 
         this.id = id;
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     /**

@@ -1,29 +1,22 @@
 package org.prgrms.deukyun.voucherapp.app.command;
 
+import lombok.RequiredArgsConstructor;
 import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.VoucherFactory;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
-import java.text.MessageFormat;
-
 /**
  * 바우처 생성 커맨드
  */
 @ShellComponent
+@RequiredArgsConstructor
 public class CreateVoucherCommand {
 
     private final VoucherService voucherService;
     private final ConsoleService console;
-
-    public CreateVoucherCommand(VoucherService voucherService, ConsoleService console) {
-        this.voucherService = voucherService;
-        this.console = console;
-    }
 
     @ShellMethod(value = "create a voucher", key = "create")
     public void createVoucher() {

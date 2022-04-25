@@ -1,5 +1,6 @@
 package org.prgrms.deukyun.voucherapp.domain.customer.persistence;
 
+import lombok.RequiredArgsConstructor;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.CustomerRepository;
 import org.springframework.context.annotation.Primary;
@@ -15,6 +16,7 @@ import java.util.*;
  */
 @Primary
 @Repository
+@RequiredArgsConstructor
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -24,9 +26,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String findByIdQuery = "SELECT * FROM customer WHERE customer_id = :id";
     private static final String clearQuery = "DELETE FROM customer";
 
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public Customer insert(Customer customer) {
