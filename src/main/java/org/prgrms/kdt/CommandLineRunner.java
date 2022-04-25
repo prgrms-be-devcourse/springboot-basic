@@ -45,14 +45,16 @@ public class CommandLineRunner implements Runnable {
                 commandType = CommandType.getCommandType(command);
                 switch (commandType) {
                     case EXIT -> {
-                        commandType = exitCommandRunner();
+                        output.printMessage("시스템이 종료되었습니다.");
                     }
                     case CREATE -> createVoucher();
                     case UPDATE -> updateVoucher();
                     case DELETE -> deleteVoucher();
                     case LIST -> findVoucherList();
                     case BLACK_LIST -> findBlackList();
-                    default -> handleInValidCommand();
+                    default -> {
+                        output.printMessage("유효하지 않은 명령입니다.");
+                    }
                 }
             } catch (IllegalArgumentException | InputException e) {
                 output.printWarnMessage(e);
@@ -60,15 +62,6 @@ public class CommandLineRunner implements Runnable {
                 output.printErrorMessage(e);
             }
         }
-    }
-
-    private CommandType exitCommandRunner() {
-        output.printMessage("시스템이 종료되었습니다.");
-        return CommandType.EXIT;
-    }
-
-    private void handleInValidCommand() {
-        output.printMessage("유효하지 않은 명령입니다.");
     }
 
     private void createVoucher() {
