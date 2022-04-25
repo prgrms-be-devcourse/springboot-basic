@@ -9,6 +9,7 @@ import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -50,17 +51,25 @@ public class CustomerController {
         Optional<Customer> customer = customerService.getCustomerById(customerId);
         customer.ifPresent(value -> model.addAttribute("customer", value));
         model.addAttribute("customerType", CustomerType.values());
+        model.addAttribute("updateForm", new CustomerUpdateRequest());
         return "customers/detail";
     }
 
     @GetMapping("/new")
     public String customerCreateShow(Model model) {
         model.addAttribute("customerType", CustomerType.values());
+        model.addAttribute("createForm", new CustomerCreateRequest());
         return "customers/create";
     }
 
     @PostMapping("/new")
-    public String customerCreate(@Valid CustomerCreateRequest createRequest) {
+    public String customerCreate(
+            @ModelAttribute("createForm") @Valid CustomerCreateRequest createRequest,
+            BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()){
+            model.addAttribute("customerType", CustomerType.values());
+            return "/customers/create";
+        }
         customerService.save(createRequest);
         return "redirect:/customers";
     }
