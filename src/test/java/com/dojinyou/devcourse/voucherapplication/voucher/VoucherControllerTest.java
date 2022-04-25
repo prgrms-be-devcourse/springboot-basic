@@ -2,7 +2,9 @@ package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.Response;
 import com.dojinyou.devcourse.voucherapplication.VoucherApplication;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.*;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequestDto;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponseDto;
 import org.junit.jupiter.api.DisplayName;
@@ -10,11 +12,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.*;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +29,7 @@ class VoucherControllerTest {
     @Autowired
     VoucherController voucherController;
 
-    @SpyBean
+    @MockBean
     VoucherService voucherService;
 
     @Nested
@@ -44,7 +46,7 @@ class VoucherControllerTest {
                 // given
 
                 // when
-                Throwable thrown = catchThrowable(()->voucherController.create(voucherRequestDto));
+                Throwable thrown = catchThrowable(() -> voucherController.create(voucherRequestDto));
 
                 // then
                 assertThat(thrown).isNotNull();
@@ -58,7 +60,7 @@ class VoucherControllerTest {
                 VoucherRequestDto voucherRequestDto = new VoucherRequestDto(null, null);
 
                 // when
-                Throwable thrown = catchThrowable(()->voucherController.create(voucherRequestDto));
+                Throwable thrown = catchThrowable(() -> voucherController.create(voucherRequestDto));
 
                 // then
                 assertThat(thrown).isNotNull();
@@ -66,6 +68,7 @@ class VoucherControllerTest {
             }
 
         }
+
         @Nested
         @DisplayName("정상적인 DTO가 들어온다면,")
         class Context_Correct_VoucherCreateDTo {
@@ -82,7 +85,7 @@ class VoucherControllerTest {
                 voucherController.create(voucherRequestDto);
 
                 // then
-                verify(voucherService,atLeastOnce()).create(voucherRequestDto);
+                verify(voucherService, atLeastOnce()).create(any());
 
             }
 
@@ -96,9 +99,10 @@ class VoucherControllerTest {
                 long id = 9999L;
                 VoucherResponseDto voucherResponseDto = new VoucherResponseDto(id, voucherRequestDto.getVoucherType(), voucherRequestDto.getVoucherAmount());
                 Response<VoucherResponseDto> expectedResponse = new Response<>(Response.State.SUCCESS, voucherResponseDto);
-                when(voucherService.create(voucherRequestDto)).thenReturn(expectedResponse);
+                when(voucherService.create(any(Voucher.class))).thenReturn(expectedResponse);
 
                 // when
+                System.out.println(voucherRequestDto == null);
                 Response<VoucherResponseDto> response = voucherController.create(voucherRequestDto);
 
                 // then
