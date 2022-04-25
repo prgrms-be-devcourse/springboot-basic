@@ -52,31 +52,16 @@ class VoucherServiceTest {
             @ParameterizedTest
             @NullSource
             @DisplayName("예외를 발생시킨다.")
-            void it_throws_Exception(VoucherRequestDto voucherRequestDto) {
+            void it_throws_Exception(Voucher voucher) {
                 // given
 
                 // when
-                Throwable thrown = catchThrowable(()->voucherService.create(voucherRequestDto));
+                Throwable thrown = catchThrowable(()->voucherService.create(voucher));
 
                 // then
                 assertThat(thrown).isNotNull();
                 assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
             }
-
-            @Test
-            @DisplayName("예외를 발생시킨다.")
-            void it_throws_Exception() {
-                // given
-                VoucherRequestDto voucherRequestDto = new VoucherRequestDto(null, null);
-
-                // when
-                Throwable thrown = catchThrowable(()->voucherService.create(voucherRequestDto));
-
-                // then
-                assertThat(thrown).isNotNull();
-                assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
-            }
-
         }
         @Nested
         @DisplayName("정상적인 DTO가 들어온다면,")
@@ -100,7 +85,7 @@ class VoucherServiceTest {
                 when(voucherRepository.create(any())).thenReturn(voucherWithId);
 
                 // when
-                voucherService.create(voucherRequestDto);
+                voucherService.create(voucherWithNull);
 
                 // then
                 verify(voucherRepository,atLeastOnce()).create(any());
@@ -125,7 +110,7 @@ class VoucherServiceTest {
                 when(voucherRepository.create(any())).thenReturn(voucherWithId);
 
                 // when
-                Response<VoucherResponseDto> response = voucherService.create(voucherRequestDto);
+                Response<VoucherResponseDto> response = voucherService.create(voucherWithNull);
 
                 // then
                 assertThat(response).isNotNull();
