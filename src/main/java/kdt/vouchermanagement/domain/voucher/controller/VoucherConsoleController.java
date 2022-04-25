@@ -28,7 +28,7 @@ public class VoucherConsoleController {
         }
     }
 
-    public Response listVouchers() {
-        return null;
+    public Response getVouchers() {
+        return Response.of(200, voucherService.findVouchers());
     }
 }
