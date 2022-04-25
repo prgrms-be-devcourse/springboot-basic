@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public abstract class Voucher implements VoucherPolicy {
+public abstract class Voucher implements VoucherPolicy, CSVPolicy {
     private final UUID id;
     private final Timestamp createdAt;
     private final Integer figure;
