@@ -17,7 +17,8 @@ public class CreateRequest extends RequestStrategy {
 
     @Override
     public String request(Request request) {
-        final var voucherDto = messageConverter.convert((PostRequest) request);
+        final var postRequest = (PostRequest) request;
+        final var voucherDto = messageConverter.convert(postRequest);
         final var response = controller.voucherAdd(voucherDto);
 
         if (response.status() == ResponseStatus.BAD_REQUEST) {

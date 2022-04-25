@@ -17,25 +17,25 @@ public class FrontController {
         this.controller = controller;
     }
 
-    public String request(PostRequest postRequest) {
-        if (postRequest == null) {
+    public String request(Request request) {
+        if (request == null) {
             throw new IllegalArgumentException();
         }
 
         RequestStrategy requestStrategy;
 
-        switch (postRequest.command()) {
+        switch (request.command()) {
             case CREATE -> {
                 requestStrategy = new CreateRequest(converter, controller);
             }
             case LIST -> {
-                requestStrategy = new ListRequest(converter, controller);
+                requestStrategy = new ListRequest(controller);
             }
             default -> {
                 throw new IllegalArgumentException();
             }
         }
 
-        return requestStrategy.request(postRequest);
+        return requestStrategy.request(request);
     }
 }

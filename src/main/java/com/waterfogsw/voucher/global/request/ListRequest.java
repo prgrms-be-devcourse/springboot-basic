@@ -1,6 +1,5 @@
 package com.waterfogsw.voucher.global.request;
 
-import com.waterfogsw.voucher.global.MessageConverter;
 import com.waterfogsw.voucher.global.Request;
 import com.waterfogsw.voucher.voucher.controller.VoucherController;
 import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
@@ -10,11 +9,8 @@ import java.util.stream.Collectors;
 
 public class ListRequest extends RequestStrategy {
 
-    private final MessageConverter messageConverter;
-
-    public ListRequest(MessageConverter messageConverter, VoucherController controller) {
+    public ListRequest(VoucherController controller) {
         super(controller);
-        this.messageConverter = messageConverter;
     }
 
     @Override
