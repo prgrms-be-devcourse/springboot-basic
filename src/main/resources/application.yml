@@ -1,4 +1,6 @@
 spring:
+  messages:
+    basename: messages
   datasource:
     url: jdbc:h2:mem:kdt
     username: sa

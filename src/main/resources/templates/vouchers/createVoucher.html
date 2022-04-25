@@ -3,19 +3,20 @@
 <body>
 <form action="item.html" th:action th:object="${voucher}" method="post">
     <div>
-        <div>바우처 종류</div>
+        <div th:text="#{label.voucher.type}">바우처 종류</div>
         <div th:each="voucherType : ${voucherTypes}">
             <label th:for="type" th:text="${voucherType.getName}"/>
             <input type="radio" th:field="*{type}" th:value="${voucherType}">
             <span th:text="${voucherType.getDescription}"/>
         </div>
-        <div>할인 양</div>
+        <div th:text="#{label.voucher.amount}">할인 양</div>
         <div>
             <input type="text" th:field="*{amount}" placeholder="할인 양을 입력하세요">
         </div>
     </div>
-    <div class="col">
-        <button type="submit">바우처 등록</button>
+    <div>
+        <button type="submit" th:text="#{button.save}">바우처 등록</button>
+        <button type="button" th:text="#{button.home}" th:onclick="|location.href='@{/}'|">메인 메뉴</button>
     </div>
 </form>
 </body>
