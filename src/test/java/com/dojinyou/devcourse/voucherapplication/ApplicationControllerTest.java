@@ -1,24 +1,25 @@
 package com.dojinyou.devcourse.voucherapplication;
 
-import com.dojinyou.devcourse.voucherapplication.voucher.Voucher;
+import com.dojinyou.devcourse.voucherapplication.voucher.entity.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
+import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherList;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = VoucherApplication.class)
@@ -71,9 +72,6 @@ class ApplicationControllerTest {
         @Nested
         @DisplayName("사용자가 바우처 생성 명령 입력 시,")
         class Context_Enter_Create_Command {
-            @MockBean
-            VoucherController voucherController;
-
             @Test
             @DisplayName("바우처 컨트롤러의 create 메소드가 호출된다.")
             void it_Call_create_method_of_VoucherController() {
@@ -89,6 +87,7 @@ class ApplicationControllerTest {
             }
 
             @Test
+            @Disabled //TODO: Console Test Case 별로 추후 추가
             @DisplayName("Voucher Type data를 가진 응답 객체를 반환한다.")
             void it_Return_Voucher_Data() {
                 //given
@@ -108,8 +107,6 @@ class ApplicationControllerTest {
         @Nested
         @DisplayName("사용자가 바우처 조회 명령 입력 시,")
         class Context_Enter_List_Command {
-            @MockBean
-            VoucherController voucherController;
 
             @Test
             @DisplayName("바우처 컨트롤러의 findAll 메소드가 호출된다.")
@@ -129,8 +126,10 @@ class ApplicationControllerTest {
             @DisplayName("List<Voucher> Type data를 가진 응답 객체를 반환한다.")
             void it_Return_Voucher_Data() {
                 //given
-                String userInput = "CREATE";
+                String userInput = "LIST";
                 Command command = Command.of(userInput);
+                Response<VoucherList> expectedReturnObject = new Response<>(Response.State.SUCCESS, new VoucherList(Arrays.asList(new Voucher[]{})));
+                when(voucherController.findAll()).thenReturn(expectedReturnObject);
 
                 //when
                 Response response = applicationController.commandHandle(command);
