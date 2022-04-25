@@ -2,11 +2,11 @@ package org.prgrms.springbootbasic.dto;
 
 import java.util.List;
 
-public class FindAllVoucherResponse {
+public class VoucherListResponse {
 
     private final List<VoucherDTO> voucherDtoList;
 
-    public FindAllVoucherResponse(
+    public VoucherListResponse(
         List<VoucherDTO> voucherDtoList) {
         this.voucherDtoList = voucherDtoList;
     }

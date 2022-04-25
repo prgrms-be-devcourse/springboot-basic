@@ -100,4 +100,8 @@ public class VoucherService {
             throw new AlreadyAssignedVoucherException();
         }
     }
+
+    public List<Voucher> findVoucherUsingType(VoucherType voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
 }

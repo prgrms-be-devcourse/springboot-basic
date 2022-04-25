@@ -20,6 +20,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
@@ -210,6 +211,43 @@ class JdbcVoucherRepositoryTest {
             .isInstanceOf(RuntimeException.class)
             .hasMessageContaining(NOTHING_WAS_DELETED_EXP_MSG);
     }
+
+    @DisplayName("바우처 fixed 타입으로 바우처 조회")
+    @Test
+    void findByFixType() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        var voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 2000);
+
+        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.save(voucher2);
+
+        //when
+        var vouchers = jdbcVoucherRepository.findByType(VoucherType.FIXED);
+
+        //then
+        assertThat(vouchers)
+            .containsExactlyInAnyOrder(voucher, voucher2);
+    }
+
+    @DisplayName("바우처 percnet 타입으로 바우처 조회")
+    @Test
+    void findByPercentPercent() {
+        //given
+        var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+        var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+
+        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.save(voucher2);
+
+        //when
+        var vouchers = jdbcVoucherRepository.findByType(VoucherType.PERCENT);
+
+        //then
+        assertThat(vouchers)
+            .containsExactlyInAnyOrder(voucher, voucher2);
+    }
+
 
     @Configuration
     @ComponentScan

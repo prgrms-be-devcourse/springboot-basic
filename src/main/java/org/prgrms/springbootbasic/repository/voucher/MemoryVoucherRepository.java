@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.slf4j.Logger;
@@ -56,6 +57,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteVoucher(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
         throw new AssertionError("아직 개발 안함");
     }
 }

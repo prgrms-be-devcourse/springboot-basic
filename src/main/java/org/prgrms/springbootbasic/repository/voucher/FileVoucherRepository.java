@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
@@ -100,6 +101,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteVoucher(Voucher voucher) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
         throw new AssertionError("아직 개발 안함");
     }
 }

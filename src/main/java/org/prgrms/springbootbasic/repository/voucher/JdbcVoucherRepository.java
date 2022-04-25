@@ -24,6 +24,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
@@ -41,20 +42,10 @@ import org.springframework.stereotype.Repository;
 public class JdbcVoucherRepository implements VoucherRepository {
 
     public static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+
+    public static final String SELECT_BY_TYPE = "SELECT * FROM vouchers WHERE type = ?";
+
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
-        var type = resultSet.getString(COLUMN_TYPE);
-        var voucherId = toUUID(resultSet.getBytes(COLUMN_VOUCHER_ID));
-        var customerId = resultSet.getBytes(COLUMN_CUSTOMER_ID) != null ?
-            toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID)) : null;
-        if (type.equals(FIXED.toString())) {
-            var amount = resultSet.getInt(COLUMN_AMOUNT);
-            return new FixedAmountVoucher(voucherId, customerId, amount);
-        } else {
-            var percent = resultSet.getInt(COLUMN_PERCENT);
-            return new PercentDiscountVoucher(voucherId, customerId, percent);
-        }
-    };
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -155,4 +146,27 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new RuntimeException(NOTHING_WAS_DELETED_EXP_MSG);
         }
     }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        logger.info("findByType() called");
+
+        return jdbcTemplate.query(SELECT_BY_TYPE,
+            mapToVoucher,
+            voucherType.toString());
+    }
+
+    private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
+        var type = resultSet.getString(COLUMN_TYPE);
+        var voucherId = toUUID(resultSet.getBytes(COLUMN_VOUCHER_ID));
+        var customerId = resultSet.getBytes(COLUMN_CUSTOMER_ID) != null ?
+            toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID)) : null;
+        if (type.equals(FIXED.toString())) {
+            var amount = resultSet.getInt(COLUMN_AMOUNT);
+            return new FixedAmountVoucher(voucherId, customerId, amount);
+        } else {
+            var percent = resultSet.getInt(COLUMN_PERCENT);
+            return new PercentDiscountVoucher(voucherId, customerId, percent);
+        }
+    };
 }
