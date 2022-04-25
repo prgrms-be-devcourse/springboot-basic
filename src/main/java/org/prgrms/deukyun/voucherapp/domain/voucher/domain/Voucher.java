@@ -12,6 +12,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Getter
 public abstract class Voucher {
 
+    /**
+     * 아이디
+     */
     private final UUID id;
 
     protected Voucher(UUID id) {

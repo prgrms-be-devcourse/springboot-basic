@@ -7,7 +7,6 @@ import org.mockito.InOrder;
 import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.VoucherFactory;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -17,7 +16,6 @@ class CreateVoucherCommandTest {
 
     CreateVoucherCommand command;
     VoucherService mockVoucherService;
-    VoucherFactory voucherFactory;
     ConsoleService mockConsole;
 
     @BeforeEach

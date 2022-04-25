@@ -1,6 +1,9 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.prgrms.deukyun.voucherapp.domain.testutil.JdbcTestConfig;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
@@ -22,7 +25,8 @@ import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.voucher;
 @ContextConfiguration(classes = JdbcTestConfig.class)
 class JdbcVoucherRepositoryTest {
 
-    @Autowired NamedParameterJdbcTemplate jdbcTemplate;
+    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
     JdbcVoucherRepository jdbcVoucherRepository;
     Voucher voucher;
 
@@ -107,10 +111,10 @@ class JdbcVoucherRepositoryTest {
 
     @Nested
     @DisplayName("전체 삭제")
-    class deleteAllTest{
+    class deleteAllTest {
 
         @Test
-        void 성공(){
+        void 성공() {
             //setup
             jdbcVoucherRepository.insert(voucher());
             jdbcVoucherRepository.insert(voucher());
@@ -122,8 +126,7 @@ class JdbcVoucherRepositoryTest {
             assertThat(jdbcVoucherRepository.findAll()).isEmpty();
         }
     }
-
-
+    
     private void assertVoucher(Voucher actualVoucher) {
         assertThat(actualVoucher).isNotNull();
         assertThat(actualVoucher.getId()).isNotNull();

@@ -13,6 +13,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Getter
 public class PercentDiscountVoucher extends Voucher {
 
+    /**
+     * 할인율
+     */
     private final long percent;
 
     private static final int MIN_DISCOUNT_PERCENT = 0;

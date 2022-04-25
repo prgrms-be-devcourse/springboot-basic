@@ -12,6 +12,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Getter
 public class FixedAmountDiscountVoucher extends Voucher {
 
+    /**
+     * 할인액
+     */
     private final long amount;
 
     public FixedAmountDiscountVoucher(long amount) {

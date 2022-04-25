@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerTest {
 
@@ -21,7 +20,7 @@ class CustomerTest {
         assertThat(customer.getId()).isNotNull();
         assertThat(customer.getName()).isEqualTo("ndy");
         assertThat(customer.getVouchers()).isEmpty();
-        assertThat(customer.isBlackList()).isTrue();
+        assertThat(customer.isBlocked()).isTrue();
     }
 
     @Test
@@ -33,7 +32,7 @@ class CustomerTest {
         assertThat(customer.getId()).isEqualTo(id);
         assertThat(customer.getName()).isEqualTo("ndy");
         assertThat(customer.getVouchers()).isEmpty();
-        assertThat(customer.isBlackList()).isTrue();
+        assertThat(customer.isBlocked()).isTrue();
     }
 
     @Test

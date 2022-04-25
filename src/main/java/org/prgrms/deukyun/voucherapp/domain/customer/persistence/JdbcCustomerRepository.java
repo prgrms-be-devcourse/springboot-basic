@@ -38,7 +38,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private Map<String, Object> resolveParamMap(Customer customer) {
         return Map.of("id", customer.getId(),
                 "name", customer.getName(),
-                "blacklist", customer.isBlackList());
+                "blacklist", customer.isBlocked());
     }
 
     @Override
