@@ -38,7 +38,7 @@ public class CommandLineRunner implements Runnable {
         CommandType commandType = CommandType.INVALID;
         while (commandType.isRunnable()) {
             String commandManuals = commandType.getCommandManuals();
-            output.printCommandManual(commandManuals);
+            output.printMessage("=== Voucher Program ===\n" + commandManuals);
 
             try {
                 command = input.input();
@@ -68,7 +68,7 @@ public class CommandLineRunner implements Runnable {
         output.printMessage("바우처 타입을 선택해주세요.\n" + VoucherType.getAllVoucherManual());
         VoucherType voucherType = VoucherType.getVoucherType(input.input());
 
-        output.printVoucherValue(voucherType);
+        output.printMessage("바우처 값을 입력해주세요.\n" + voucherType.getVoucherValidationMessage());
         long voucherValue = input.inputLong();
 
         Voucher voucher = voucherService.create(UUID.randomUUID(), voucherValue, voucherType);
