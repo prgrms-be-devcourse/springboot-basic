@@ -1,20 +1,29 @@
 package org.programmers.springbootbasic.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.function.Function;
+import java.util.UUID;
 
 public enum VoucherType {
-    FIXED(1, "FixedAmountVoucher", FixedAmountVoucher::createVoucher),
-    PERCENT(2, "PercentDiscountVoucher", PercentDiscountVoucher::createVoucher);
+    FIXED(1, "FIXED"){
+        @Override
+        public Voucher create(UUID voucherId, long value, LocalDateTime createdAt) {
+            return new FixedAmountVoucher(voucherId, value, createdAt);
+        }
+    },
+    PERCENT(2, "PERCENT") {
+        @Override
+        public Voucher create(UUID voucherId, long value, LocalDateTime createdAt) {
+            return new PercentDiscountVoucher(voucherId, value, createdAt);
+        }
+    };
 
     private final int number;
     private final String type;
-    private final Function<VoucherDto, Voucher> voucherFunction;
 
-    VoucherType(int number, String type, Function<VoucherDto, Voucher> voucherFunction) {
+    VoucherType(int number, String type) {
         this.number = number;
         this.type = type;
-        this.voucherFunction = voucherFunction;
     }
 
     public static VoucherType findByNumber(int number) {
@@ -31,9 +40,7 @@ public enum VoucherType {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입입니다."));
     }
 
-    public Voucher create(VoucherDto voucherDTO) {
-        return voucherFunction.apply(voucherDTO);
-    }
+    public abstract Voucher create(UUID voucherId, long value, LocalDateTime createdAt);
 
     public boolean equalsNumber(int findNumber) {
         return (this.number == findNumber);
