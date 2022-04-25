@@ -20,7 +20,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public List<Customer> findAllBlackList(CustomerType customerType) {
+    public List<Customer> findAllByCustomerType(CustomerType customerType) {
         return customerRepository.findAllByCustomerType(customerType);
     }
 }

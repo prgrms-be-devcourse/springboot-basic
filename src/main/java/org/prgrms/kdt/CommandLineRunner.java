@@ -109,7 +109,7 @@ public class CommandLineRunner implements Runnable {
     }
 
     private void findBlackList() {
-        String blackListCustomers = customerService.findAllBlackList(CustomerType.BLACK_LIST).stream()
+        String blackListCustomers = customerService.findAllByCustomerType(CustomerType.BLACK_LIST).stream()
             .map(Object::toString)
             .collect(Collectors.joining(",\n"));
         output.printMessage(blackListCustomers);
