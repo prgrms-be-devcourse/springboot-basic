@@ -1,7 +1,6 @@
-package org.programmers.springbootbasic.customer.repository;
+package org.programmers.springbootbasic.blacklist;
 
-import org.programmers.springbootbasic.customer.model.BlackListCustomer;
-import org.programmers.springbootbasic.customer.model.Customer;
+import org.programmers.springbootbasic.blacklist.model.Blacklist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,15 +12,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class BlackCustomerRepository implements CustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(BlackCustomerRepository.class);
+public class FileBlacklistRepository implements BlacklistRepository {
+    private static final Logger logger = LoggerFactory.getLogger(FileBlacklistRepository.class);
 
     @Value("${path.blacklist}")
     private String file;
 
     public File createFile(File file) {
         try (
-                FileOutputStream fileOutputStream = new FileOutputStream(file, true);
+                FileOutputStream ignored = new FileOutputStream(file, true);
         ) {
         } catch (IOException e) {
             logger.error("IOException 에러입니다. {0}", e);
@@ -30,8 +29,8 @@ public class BlackCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAll() {
-        List<Customer> blackCustomerList = new ArrayList<>();
+    public List<Blacklist> findAll() {
+        List<Blacklist> blackList = new ArrayList<>();
 
         String line;
         try (
@@ -41,9 +40,9 @@ public class BlackCustomerRepository implements CustomerRepository {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] blackListCustomerInfo = line.split(" ");
                 if (blackListCustomerInfo[0].equals("BlackListCustomer")) {
-                    BlackListCustomer blackListCustomer =
-                            new BlackListCustomer(UUID.fromString(blackListCustomerInfo[2]), blackListCustomerInfo[4]);
-                    blackCustomerList.add(blackListCustomer);
+                    Blacklist blacklistMember =
+                            new Blacklist(UUID.fromString(blackListCustomerInfo[2]), blackListCustomerInfo[4]);
+                    blackList.add(blacklistMember);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -51,7 +50,7 @@ public class BlackCustomerRepository implements CustomerRepository {
         } catch (IOException e) {
             logger.error("find IO exception error");
         }
-        return blackCustomerList;
+        return blackList;
     }
 }
 
