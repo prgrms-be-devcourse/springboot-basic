@@ -18,12 +18,10 @@ import java.text.MessageFormat;
 public class CreateVoucherCommand {
 
     private final VoucherService voucherService;
-    private final VoucherFactory voucherFactory;
     private final ConsoleService console;
 
-    public CreateVoucherCommand(VoucherService voucherService, VoucherFactory voucherFactory, ConsoleService console) {
+    public CreateVoucherCommand(VoucherService voucherService, ConsoleService console) {
         this.voucherService = voucherService;
-        this.voucherFactory = voucherFactory;
         this.console = console;
     }
 
@@ -35,7 +33,7 @@ public class CreateVoucherCommand {
         console.write("enter the amount/percent");
         long argument = console.readLong();
 
-        Voucher voucher = voucherFactory.createVoucher(type, argument);
+        Voucher voucher = VoucherFactory.createVoucher(type, argument);
         voucherService.insert(voucher);
     }
 }

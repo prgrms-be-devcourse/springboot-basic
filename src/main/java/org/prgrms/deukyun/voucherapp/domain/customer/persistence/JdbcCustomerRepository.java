@@ -2,16 +2,19 @@ package org.prgrms.deukyun.voucherapp.domain.customer.persistence;
 
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.CustomerRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 /**
  * Jdbc 고객 리포지토리
  */
-//@Repository
+@Primary
+@Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;

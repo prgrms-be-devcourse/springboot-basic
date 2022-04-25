@@ -24,8 +24,7 @@ class CreateVoucherCommandTest {
     void setup() {
         mockVoucherService = mock(VoucherService.class);
         mockConsole = mock(ConsoleService.class);
-        voucherFactory = new VoucherFactory();
-        command = new CreateVoucherCommand(mockVoucherService, voucherFactory, mockConsole);
+        command = new CreateVoucherCommand(mockVoucherService, mockConsole);
     }
 
     @Test

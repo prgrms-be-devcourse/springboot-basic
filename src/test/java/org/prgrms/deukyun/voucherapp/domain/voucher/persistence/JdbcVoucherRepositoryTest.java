@@ -3,6 +3,7 @@ package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 import org.junit.jupiter.api.*;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.VoucherFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 

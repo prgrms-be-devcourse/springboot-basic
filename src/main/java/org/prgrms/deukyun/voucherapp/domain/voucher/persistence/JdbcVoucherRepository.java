@@ -1,16 +1,14 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.VoucherRepository;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-//@Repository
+@Repository
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -75,15 +73,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return paramMap;
     }
 
-    private static final RowMapper<Voucher> voucherRowMapper = (rs, i) -> {
+    private final RowMapper<Voucher> voucherRowMapper = (rs, i) -> {
         String type = rs.getString("voucher_type");
         UUID id = UUID.fromString(rs.getString("voucher_id"));
-        if (type.equals("fixed")) {
-            return new FixedAmountDiscountVoucher(id, rs.getLong("amount"));
-        } else if (type.equals("percent")) {
-            return new PercentDiscountVoucher(id, rs.getLong("percent"));
-        } else {
-            throw new IllegalStateException("Invalid voucher type stored");
-        }
+
+        long amount = rs.getLong("amount");
+        long percent = rs.getLong("percent");
+
+        return VoucherFactory.createVoucher(type, id, amount, percent);
     };
 }
