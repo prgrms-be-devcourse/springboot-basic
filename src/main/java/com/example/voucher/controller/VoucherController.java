@@ -1,9 +1,12 @@
 package com.example.voucher.controller;
 
+import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.dto.VoucherListResponse;
 import com.example.voucher.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 
@@ -25,6 +28,7 @@ public class VoucherController {
 	}
 
 	public VoucherListResponse findAll() {
-		return null;
+		List<Voucher> vouchers = voucherService.findAll();
+		return VoucherListResponse.from(vouchers);
 	}
 }

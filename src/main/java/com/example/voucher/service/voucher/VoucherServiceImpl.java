@@ -5,6 +5,8 @@ import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
@@ -18,6 +20,11 @@ public class VoucherServiceImpl implements VoucherService {
 	public Voucher save(VoucherType voucherType, int discountAmount) {
 		Voucher voucher = createVoucher(voucherType, discountAmount);
 		return voucherRepository.save(voucher);
+	}
+
+	@Override
+	public List<Voucher> findAll() {
+		return null;
 	}
 
 	private Voucher createVoucher(VoucherType voucherType, int discountAmount) {
