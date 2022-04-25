@@ -1,7 +1,10 @@
 package org.prgrms.voucher;
 
+import org.prgrms.voucher.controller.VoucherController;
+import org.prgrms.voucher.dto.VoucherDto;
 import org.prgrms.voucher.io.Input;
 import org.prgrms.voucher.io.Output;
+import org.prgrms.voucher.models.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -16,13 +19,13 @@ public class CommandLineApplication implements ApplicationRunner {
 
     private final Input input;
     private final Output output;
-    private final Converter converter;
+    private final VoucherController voucherController;
 
-    public CommandLineApplication(Input input, Output output, Converter converter) {
+    public CommandLineApplication(Input input, Output output, VoucherController voucherController) {
 
         this.input = input;
         this.output = output;
-        this.converter = converter;
+        this.voucherController = voucherController;
     }
 
     @Override
@@ -42,30 +45,25 @@ public class CommandLineApplication implements ApplicationRunner {
             }
 
             switch (commandType) {
-                case CREATE -> creatVoucher();
-                case LIST -> showVoucherList();
+                case CREATE -> {
+                    output.printVoucherType();
+                    String typeSelect = input.getString();
+                    output.printVoucherDiscountType();
+                    String discountValueInput = input.getString();
+
+                    try {
+                        VoucherType voucherType = VoucherType.findByUserInput(typeSelect);
+                        long discountValue = Long.parseLong(discountValueInput);
+                        voucherController.create(new VoucherDto.VoucherRequest(discountValue, voucherType));
+                    } catch (IllegalArgumentException illegalArgumentException) {
+                        output.printInvalidInputError();
+                    }
+
+                }
+                case LIST -> output.printVoucherList(voucherController.list().data());
+
                 case EXIT -> System.exit(0);
             }
         }
-    }
-
-    private void creatVoucher() {
-
-        String response;
-
-        output.printVoucherType();
-        String typeSelect = input.getString();
-        output.printVoucherDiscountType();
-        String discountValue = input.getString();
-        response = converter.createVoucherRequest(typeSelect, discountValue);
-        output.printMessage(response);
-    }
-
-    private void showVoucherList() {
-
-        String response;
-
-        response = converter.showVoucherListRequest();
-        output.printMessage(response);
     }
 }
