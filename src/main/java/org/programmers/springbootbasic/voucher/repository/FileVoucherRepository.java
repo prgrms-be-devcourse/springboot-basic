@@ -1,12 +1,12 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 import org.programmers.springbootbasic.voucher.model.Voucher;
-import org.programmers.springbootbasic.voucher.model.VoucherDto;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -21,22 +21,20 @@ import java.util.UUID;
 public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
+    private VoucherType voucherType;
+
     @Value("${path.voucher}")
     private String file;
 
-    private VoucherType voucherType;
-
-
     public File createFile(File file) {
         try (
-                FileOutputStream fileOutputStream = new FileOutputStream(file, true);
+                FileOutputStream ignored = new FileOutputStream(file, true);
         ) {
         } catch (IOException e) {
             logger.error("IOException 에러입니다. {0}", e);
         }
         return file;
     }
-
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -49,9 +47,11 @@ public class FileVoucherRepository implements VoucherRepository {
                 String[] voucherInfo = line.split(" ");
                 if (voucherInfo[2].equals(voucherId.toString())) {
                     voucherType = VoucherType.findByType(voucherInfo[0]);
-                    return Optional.of(voucherType.create(new VoucherDto(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6]))));
+                    return Optional.of(voucherType.create(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6])));
                 }
             }
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
         } catch (IOException e) {
             logger.error("IOException 에러입니다. {0}", e);
         }
@@ -85,7 +85,7 @@ public class FileVoucherRepository implements VoucherRepository {
             while ((line = bufferedReader.readLine())!=null) {
                 String[] voucherInfo = line.split(" ");
                 voucherType = VoucherType.findByType(voucherInfo[0]);
-                voucherList.add(voucherType.create(new VoucherDto(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6]))));
+                voucherList.add(voucherType.create(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6])));
             }
         } catch (FileNotFoundException e) {
             logger.warn("FileNotFoundException 입니다.", e);
@@ -94,6 +94,17 @@ public class FileVoucherRepository implements VoucherRepository {
             logger.error("모두 찾기 IOException 에러입니다. {0}", e);
         }
         return voucherList;
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        // TODO update
+        return voucher;
+    }
+
+    @Override
+    public void deleteById(UUID vouhcerId) {
+        // TODO delete
     }
 }
 
