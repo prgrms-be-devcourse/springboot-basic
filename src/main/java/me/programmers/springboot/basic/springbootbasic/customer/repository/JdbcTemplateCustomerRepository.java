@@ -1,6 +1,7 @@
 package me.programmers.springboot.basic.springbootbasic.customer.repository;
 
 import me.programmers.springboot.basic.springbootbasic.customer.model.Customer;
+import me.programmers.springboot.basic.springbootbasic.customer.model.CustomerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -37,7 +38,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
+        return new Customer(customerId, new CustomerInfo(customerName, email), lastLoginAt, createdAt);
     };
 
     @Override
@@ -46,8 +47,8 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
                 "insert into customers(customer_id, name, email, last_login_at, created_at) " +
                         "values (uuid_to_bin(?), ?, ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
-                customer.getName(),
-                customer.getEmail(),
+                customer.getCustomerInfo().getName(),
+                customer.getCustomerInfo().getEmail(),
                 Timestamp.valueOf(customer.getCreatedAt()),
                 Timestamp.valueOf(customer.getCreatedAt()));
         if (update != 1) {
@@ -61,8 +62,8 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
         var update = jdbcTemplate.update(
                 "update customers set name = ?, email = ?, last_login_at = ? " +
                         "where customer_id = (uuid_to_bin(?))",
-                customer.getName(),
-                customer.getEmail(),
+                customer.getCustomerInfo().getName(),
+                customer.getCustomerInfo().getEmail(),
                 Timestamp.valueOf(customer.getCreatedAt()),
                 customer.getCustomerId().toString().getBytes());
         if (update != 1) {
@@ -137,7 +138,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
 
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        allCustomers.add(new Customer(customerId, customerName, email, lastLoginAt, createdAt));
+        allCustomers.add(new Customer(customerId, new CustomerInfo(customerName, email), lastLoginAt, createdAt));
     }
 
     static UUID toUUID(byte[] bytes) {

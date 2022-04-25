@@ -2,6 +2,7 @@ package me.programmers.springboot.basic.springbootbasic.customer.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 import me.programmers.springboot.basic.springbootbasic.customer.model.Customer;
+import me.programmers.springboot.basic.springbootbasic.customer.model.CustomerInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -67,7 +68,7 @@ class JdbcTemplateCustomerRepositoryTest {
 
     @BeforeAll
     void setup() {
-        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user4@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        newCustomer = new Customer(UUID.randomUUID(), new CustomerInfo("test-user", "test-user4@gmail.com"), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
     }
 
     @Test
@@ -85,7 +86,7 @@ class JdbcTemplateCustomerRepositoryTest {
     @Test
     @DisplayName("이름으로 고객을 조회할 수 있다.")
     public void testFindByName() {
-        var customer = jdbcRepository.findByName(newCustomer.getName());
+        var customer = jdbcRepository.findByName(newCustomer.getCustomerInfo().getName());
         assertThat(customer.isEmpty(), is(false));
 
         var unknown = jdbcRepository.findByName("unknown-user");
@@ -109,7 +110,7 @@ class JdbcTemplateCustomerRepositoryTest {
     @Test
     @DisplayName("이메일로 고객을 조회할 수 있다.")
     public void testFindByEmail() {
-        var customer = jdbcRepository.findByEmail(newCustomer.getEmail());
+        var customer = jdbcRepository.findByEmail(newCustomer.getCustomerInfo().getEmail());
         assertThat(customer.isEmpty(), is(false));
 
         var unknown = jdbcRepository.findByEmail("unknown-user@gmail.com");

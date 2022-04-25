@@ -6,16 +6,13 @@ import java.util.UUID;
 public class Customer {
 
     private final UUID customerId;
-    private String name;
-    private final String email;
+    private CustomerInfo customerInfo;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
-        validateName(name);
+    public Customer(UUID customerId, CustomerInfo customerInfo, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
-        this.name = name;
-        this.email = email;
+        this.customerInfo = customerInfo;
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
     }
@@ -28,12 +25,8 @@ public class Customer {
         return customerId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
+    public CustomerInfo getCustomerInfo() {
+        return customerInfo;
     }
 
     public LocalDateTime getLastLoginAt() {
@@ -44,14 +37,8 @@ public class Customer {
         return createdAt;
     }
 
-    public void validateName(String name) {
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("Name should not be blank");
-        }
-    }
-
     public void changeName(String name) {
-        validateName(name);
-        this.name = name;
+        customerInfo.changeName(name);
     }
 }
+

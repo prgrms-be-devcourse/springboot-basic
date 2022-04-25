@@ -1,6 +1,7 @@
 package me.programmers.springboot.basic.springbootbasic.customer.service;
 
 import me.programmers.springboot.basic.springbootbasic.customer.model.Customer;
+import me.programmers.springboot.basic.springbootbasic.customer.model.CustomerInfo;
 import me.programmers.springboot.basic.springbootbasic.customer.repository.JdbcTemplateCustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class CustomerService {
     }
 
     public Customer update(UUID uuid, String name, String email) {
-        Customer customer = new Customer(uuid, name, email, LocalDateTime.now(), LocalDateTime.now());
+        Customer customer = new Customer(uuid, new CustomerInfo(name, email), LocalDateTime.now(), LocalDateTime.now());
         return jdbcTemplateCustomerRepository.update(customer);
     }
 

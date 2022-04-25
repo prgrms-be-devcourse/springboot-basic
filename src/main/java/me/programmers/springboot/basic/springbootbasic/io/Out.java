@@ -15,8 +15,8 @@ public class Out implements ConsoleOutput {
     public void output(List<Customer> list) {
         list.forEach(customer -> {
             System.out.println("Customer Id: " + customer.getCustomerId());
-            System.out.println("Customer name: " + customer.getName());
-            System.out.println("Customer email: " + customer.getEmail());
+            System.out.println("Customer name: " + customer.getCustomerInfo().getName());
+            System.out.println("Customer email: " + customer.getCustomerInfo().getEmail());
             System.out.println();
         });
     }
