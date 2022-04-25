@@ -19,8 +19,6 @@ public class CommandLineRunner implements Runnable {
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    private CommandType commandType;
-
     public CommandLineRunner(
         Input input,
         Output output,
@@ -37,7 +35,7 @@ public class CommandLineRunner implements Runnable {
     public void run() {
 
         String command;
-        commandType = CommandType.INVALID;
+        CommandType commandType = CommandType.INVALID;
         while (commandType.isRunnable()) {
             String commandManuals = commandType.getCommandManuals();
             output.printCommandManual(commandManuals);
@@ -46,7 +44,9 @@ public class CommandLineRunner implements Runnable {
                 command = input.input();
                 commandType = CommandType.getCommandType(command);
                 switch (commandType) {
-                    case EXIT -> exitCommandRunner();
+                    case EXIT -> {
+                        commandType = exitCommandRunner();
+                    }
                     case CREATE -> createVoucher();
                     case UPDATE -> updateVoucher();
                     case DELETE -> deleteVoucher();
@@ -62,9 +62,9 @@ public class CommandLineRunner implements Runnable {
         }
     }
 
-    private void exitCommandRunner() {
-        commandType = CommandType.EXIT;
+    private CommandType exitCommandRunner() {
         output.printShutDownSystem();
+        return CommandType.EXIT;
     }
 
     private void handleInValidCommand() {
