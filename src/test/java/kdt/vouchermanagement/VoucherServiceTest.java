@@ -1,6 +1,7 @@
 package kdt.vouchermanagement;
 
 import kdt.vouchermanagement.domain.voucher.domain.FixedAmountVoucher;
+import kdt.vouchermanagement.domain.voucher.domain.PercentDiscountVoucher;
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 import kdt.vouchermanagement.domain.voucher.repository.VoucherRepository;
@@ -102,5 +103,59 @@ public class VoucherServiceTest {
 
         //then
         assertThat(foundVouchers).containsOnly(firstVoucher, secondVoucher);
+    }
+
+    @Test
+    @DisplayName("PercentAmountVoucher 타입의 할인값이 음수면 IllegalArgumentException이 발생한다_실패")
+    void negativeDiscountValueWhenPercentAmountVoucher() {
+        //given
+        VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
+        int discountValue = -1;
+        Voucher voucher = new PercentDiscountVoucher(voucherType, discountValue);
+
+        //when, then
+        assertThrows(IllegalArgumentException.class, () -> voucherService.createVoucher(voucher));
+    }
+
+    @Test
+    @DisplayName("PercentAmountVoucher 타입의 할인값 0이면 IllegalArgumentException이 발생한다_실패")
+    void zeroDiscountValueWhenPercentAmountVoucher() {
+        //given
+        VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
+        int discountValue = 0;
+        Voucher voucher = new PercentDiscountVoucher(voucherType, discountValue);
+
+        //when, then
+        assertThrows(IllegalArgumentException.class, () -> voucherService.createVoucher(voucher));
+    }
+
+    @Test
+    @DisplayName("PercentAmountVoucher 타입의 할인값 100 이상이면 IllegalArgumentException이 발생한다_실패")
+    void over100DiscountValueWhenPercentAmountVoucher() {
+        //given
+        VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
+        int discountValue = 1000;
+        Voucher voucher = new PercentDiscountVoucher(voucherType, discountValue);
+
+        //when, then
+        assertThrows(IllegalArgumentException.class, () -> voucherService.createVoucher(voucher));
+    }
+
+    @Test
+    @DisplayName("PercentAmountVoucher 생성_성공")
+    void createPercentAmountVoucher() {
+        //given
+        VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
+        int discountValue = 100;
+        Voucher voucher = new PercentDiscountVoucher(voucherType, discountValue);
+
+        doReturn(voucher).when(voucherRepository).save(any(Voucher.class));
+
+        //when
+        Voucher createdVoucher = voucherService.createVoucher(voucher);
+
+        //then
+        verify(voucherRepository, times(1)).save(any());
+        assertThat(createdVoucher).usingRecursiveComparison().isEqualTo(voucher);
     }
 }
