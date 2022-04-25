@@ -4,6 +4,7 @@ import com.voucher.vouchermanagement.model.customer.Customer;
 import com.voucher.vouchermanagement.utils.deserializer.CsvMapper;
 import com.voucher.vouchermanagement.utils.deserializer.CustomerCsvMapper;
 import com.voucher.vouchermanagement.utils.file.FileIOUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,16 +13,17 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Repository
 @Profile({"prod", "dev"})
 public class BlacklistFileRepository implements BlacklistRepository {
 
     private final Resource blacklistDb;
+
     private final CsvMapper<Customer> csvMapper = new CustomerCsvMapper();
     private static final Logger logger = LoggerFactory.getLogger(BlacklistFileRepository.class);
 
@@ -33,6 +35,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
     @Override
     public List<Customer> findAll() {
         try {
+
             return FileIOUtils.readAllLine(blacklistDb.getFile())
                     .stream()
                     .map(csvMapper::deserialize)
