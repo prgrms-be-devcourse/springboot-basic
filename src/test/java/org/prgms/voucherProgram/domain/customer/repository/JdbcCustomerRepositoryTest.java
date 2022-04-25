@@ -21,6 +21,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.prgms.voucherProgram.domain.customer.domain.Customer;
+import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
+import org.prgms.voucherProgram.domain.voucher.repository.JdbcVoucherRepository;
+import org.prgms.voucherProgram.domain.voucher.repository.VoucherRepository;
 import org.prgms.voucherProgram.global.exception.NothingChangeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -42,7 +46,10 @@ class JdbcCustomerRepositoryTest {
     private static EmbeddedMysql embeddedMysql;
 
     @Autowired
-    private JdbcCustomerRepository jdbcCustomerRepository;
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private VoucherRepository voucherRepository;
 
     @BeforeAll
     static void setup() {
@@ -65,7 +72,7 @@ class JdbcCustomerRepositoryTest {
 
     @AfterEach
     void clear() {
-        jdbcCustomerRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 
     private Customer customer() {
@@ -79,10 +86,11 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Configuration
-    @ComponentScan(basePackages = "org.prgms.voucherProgram.domain.customer.repository",
-        excludeFilters = @ComponentScan.Filter(
+    @ComponentScan(basePackages = {"org.prgms.voucherProgram.domain.voucher.repository",
+        "org.prgms.voucherProgram.domain.customer.repository"},
+        includeFilters = @ComponentScan.Filter(
             type = FilterType.ASSIGNABLE_TYPE,
-            value = BlackListRepository.class))
+            value = {JdbcCustomerRepository.class, JdbcVoucherRepository.class}), useDefaultFilters = false)
     static class Config {
         @Bean
         public DataSource dataSource() {
@@ -112,10 +120,10 @@ class JdbcCustomerRepositoryTest {
             @Test
             @DisplayName("주어진 고객을 저장하고 저장된 고객을 리턴한다.")
             void it_saves_customer_and_returns_saved_customer() {
-                Customer savedCustomer = jdbcCustomerRepository.save(customer);
+                Customer savedCustomer = customerRepository.save(customer);
 
                 assertThat(savedCustomer).isEqualTo(customer);
-                assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isNotEmpty()
+                assertThat(customerRepository.findByEmail(customer.getEmail())).isNotEmpty()
                     .get()
                     .usingRecursiveComparison()
                     .isEqualTo(customer);
@@ -133,13 +141,13 @@ class JdbcCustomerRepositoryTest {
 
             @BeforeEach
             void prepare() {
-                customers.forEach(customer -> jdbcCustomerRepository.save(customer));
+                customers.forEach(customer -> customerRepository.save(customer));
             }
 
             @Test
             @DisplayName("모든 고객들을 리턴한다.")
             void it_returns_all_customer() {
-                List<Customer> findCustomer = jdbcCustomerRepository.findAll();
+                List<Customer> findCustomer = customerRepository.findAll();
 
                 assertThat(findCustomer).hasSize(2)
                     .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
@@ -155,7 +163,7 @@ class JdbcCustomerRepositoryTest {
 
         @BeforeEach
         void prepare() {
-            jdbcCustomerRepository.save(customer);
+            customerRepository.save(customer);
         }
 
         @Nested
@@ -164,7 +172,7 @@ class JdbcCustomerRepositoryTest {
             @Test
             @DisplayName("이메일로 고객을 찾고 리턴한다.")
             void it_find_customer_by_email_and_returns_customer() {
-                Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(customer.getEmail());
+                Optional<Customer> findCustomer = customerRepository.findByEmail(customer.getEmail());
 
                 assertThat(findCustomer).isNotEmpty()
                     .get()
@@ -181,7 +189,7 @@ class JdbcCustomerRepositoryTest {
             @Test
             @DisplayName("Optional Empty 를 리턴한다.")
             void it_returns_Optional_empty() {
-                Optional<Customer> findCustomer = jdbcCustomerRepository.findByEmail(notSaveEmail);
+                Optional<Customer> findCustomer = customerRepository.findByEmail(notSaveEmail);
 
                 assertThat(findCustomer).isEmpty();
             }
@@ -200,13 +208,13 @@ class JdbcCustomerRepositoryTest {
 
             @BeforeEach
             void prepare() {
-                jdbcCustomerRepository.save(customer);
+                customerRepository.save(customer);
             }
 
             @Test
             @DisplayName("고객ID로 찾은 뒤 해당 고객을 리턴한다.")
             void it_find_customer_and_returns_customer() {
-                Optional<Customer> findCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
+                Optional<Customer> findCustomer = customerRepository.findById(customer.getCustomerId());
 
                 assertThat(findCustomer).isNotEmpty()
                     .get()
@@ -223,7 +231,51 @@ class JdbcCustomerRepositoryTest {
             @Test
             @DisplayName("Optional Empty 를 리턴한다.")
             void it_return_optional_empty() {
-                Optional<Customer> findCustomer = jdbcCustomerRepository.findById(notSavedId);
+                Optional<Customer> findCustomer = customerRepository.findById(notSavedId);
+
+                assertThat(findCustomer).isEmpty();
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findByVoucherId 메서드는")
+    class Describe_findByVoucherId {
+
+        @Nested
+        @DisplayName("고객이 해당 바우처를 가지고 있다면")
+        class Context_with_customer_has_voucher {
+            final Customer customer = customer();
+            final Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 100L,
+                LocalDateTime.now());
+
+            @BeforeEach
+            void prepare() {
+                customerRepository.save(customer);
+                voucherRepository.save(voucher);
+            }
+
+            @Test
+            @DisplayName("바우처ID로 고객을 찾은 뒤 해당 고객을 리턴한다.")
+            void it_find_customer_and_returns_customer() {
+                Optional<Customer> findCustomer = customerRepository.findByVoucherId(voucher.getVoucherId());
+
+                assertThat(findCustomer).isNotEmpty()
+                    .get()
+                    .usingRecursiveComparison()
+                    .isEqualTo(customer);
+            }
+        }
+
+        @Nested
+        @DisplayName("해당 바우처를 가진 고객이 없다면")
+        class Context_with_customer_has_not_voucher {
+            final UUID notSavedId = UUID.randomUUID();
+
+            @Test
+            @DisplayName("Optional Empty 를 리턴한다.")
+            void it_return_optional_empty() {
+                Optional<Customer> findCustomer = customerRepository.findByVoucherId(notSavedId);
 
                 assertThat(findCustomer).isEmpty();
             }
@@ -243,16 +295,16 @@ class JdbcCustomerRepositoryTest {
 
             @BeforeEach
             void prepare() {
-                jdbcCustomerRepository.save(customer);
+                customerRepository.save(customer);
             }
 
             @Test
             @DisplayName("고객을 수정하고 수정된 고객을 리턴한다.")
             void it_updates_customer_and_returns_updated_customer() {
-                Customer updatedCustomer = jdbcCustomerRepository.update(update);
+                Customer updatedCustomer = customerRepository.update(update);
 
                 assertThat(updatedCustomer).isEqualTo(update);
-                assertThat(jdbcCustomerRepository.findById(updatedCustomer.getCustomerId())).isNotEmpty()
+                assertThat(customerRepository.findById(updatedCustomer.getCustomerId())).isNotEmpty()
                     .get()
                     .usingRecursiveComparison()
                     .isEqualTo(update);
@@ -271,15 +323,15 @@ class JdbcCustomerRepositoryTest {
 
             @BeforeEach
             void prepare() {
-                jdbcCustomerRepository.save(customer);
+                customerRepository.save(customer);
             }
 
             @Test
             @DisplayName("해당 고객을 삭제한다.")
             void it_delete_voucher() {
-                jdbcCustomerRepository.deleteByEmail(customer.getEmail());
+                customerRepository.deleteByEmail(customer.getEmail());
 
-                assertThat(jdbcCustomerRepository.findByEmail(customer.getEmail())).isEmpty();
+                assertThat(customerRepository.findByEmail(customer.getEmail())).isEmpty();
             }
         }
 
@@ -291,7 +343,7 @@ class JdbcCustomerRepositoryTest {
             @Test
             @DisplayName("예외를 발생한다.")
             void it_throws_Exception() {
-                assertThatThrownBy(() -> jdbcCustomerRepository.deleteByEmail(notSavedEmail))
+                assertThatThrownBy(() -> customerRepository.deleteByEmail(notSavedEmail))
                     .isInstanceOf(NothingChangeException.class)
                     .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
             }
@@ -309,15 +361,15 @@ class JdbcCustomerRepositoryTest {
 
             @BeforeEach
             void prepare() {
-                jdbcCustomerRepository.save(customer);
+                customerRepository.save(customer);
             }
 
             @Test
             @DisplayName("해당 고객을 삭제한다.")
             void it_delete_customer() {
-                jdbcCustomerRepository.deleteById(customer.getCustomerId());
+                customerRepository.deleteById(customer.getCustomerId());
 
-                assertThat(jdbcCustomerRepository.findById(customer.getCustomerId())).isEmpty();
+                assertThat(customerRepository.findById(customer.getCustomerId())).isEmpty();
             }
         }
 
@@ -329,7 +381,7 @@ class JdbcCustomerRepositoryTest {
             @Test
             @DisplayName("예외를 발생한다.")
             void it_throws_Exception() {
-                assertThatThrownBy(() -> jdbcCustomerRepository.deleteById(notSavedId))
+                assertThatThrownBy(() -> customerRepository.deleteById(notSavedId))
                     .isInstanceOf(NothingChangeException.class)
                     .hasMessage("[ERROR] 해당 요청이 정상적으로 처리되지 않았습니다.");
             }
@@ -347,15 +399,15 @@ class JdbcCustomerRepositoryTest {
 
             @BeforeEach
             void prepare() {
-                customers.forEach(customer -> jdbcCustomerRepository.save(customer));
+                customers.forEach(customer -> customerRepository.save(customer));
             }
 
             @Test
             @DisplayName("모든 삭제한다.")
             void it_delete_all_customer() {
-                jdbcCustomerRepository.deleteAll();
+                customerRepository.deleteAll();
 
-                assertThat(jdbcCustomerRepository.findAll()).isEmpty();
+                assertThat(customerRepository.findAll()).isEmpty();
             }
         }
     }

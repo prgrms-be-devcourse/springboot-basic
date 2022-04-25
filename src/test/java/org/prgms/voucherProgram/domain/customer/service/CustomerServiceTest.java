@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.voucherProgram.domain.customer.domain.Customer;
 import org.prgms.voucherProgram.domain.customer.domain.Email;
 import org.prgms.voucherProgram.domain.customer.dto.CustomerRequest;
+import org.prgms.voucherProgram.domain.customer.exception.CustomerIsNotExistsException;
 import org.prgms.voucherProgram.domain.customer.repository.BlackListRepository;
 import org.prgms.voucherProgram.domain.customer.repository.CustomerRepository;
 
@@ -175,6 +176,53 @@ class CustomerServiceTest {
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
                 then(customerRepository).should(times(1)).findByEmail(any(String.class));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findByVoucherId 메서드는")
+    class Describe_findByVoucherId {
+
+        @Nested
+        @DisplayName("해당 바우처를 가진 고객이 있다면")
+        class Context_with_customer_has_voucher {
+            final Customer customer = customer();
+            final UUID voucherId = UUID.randomUUID();
+
+            @BeforeEach
+            void prepare() {
+                given(customerRepository.findByVoucherId(any(UUID.class))).willReturn(Optional.of(customer));
+            }
+
+            @Test
+            @DisplayName("고객을 찾고 찾은 고객을 리턴한다.")
+            void it_find_customer_and_returns_customer() {
+                Customer findCustomer = customerService.findByVoucherId(voucherId);
+
+                //then
+                assertThat(findCustomer).usingRecursiveComparison().isEqualTo(customer);
+                then(customerRepository).should(times(1)).findByVoucherId(any(UUID.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("해당 바우처를 가진 고객이 없다면")
+        class Context_with_customer_has_not_voucher {
+            final UUID voucherId = UUID.randomUUID();
+
+            @BeforeEach
+            void prepare() {
+                given(customerRepository.findByVoucherId(any(UUID.class))).willReturn(Optional.empty());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_exception() {
+                assertThatThrownBy(() -> customerService.findByVoucherId(voucherId))
+                    .isInstanceOf(CustomerIsNotExistsException.class)
+                    .hasMessage("해당 바우처를 가진 고객이 없습니다.");
+                then(customerRepository).should(times(1)).findByVoucherId(any(UUID.class));
             }
         }
     }

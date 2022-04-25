@@ -216,6 +216,35 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Nested
+    @DisplayName("findByCustomerId 메서드는")
+    class Describe_findByCustomerId {
+
+        @Nested
+        @DisplayName("만약 해당 고객에게 할당된 바우처가 있다면")
+        class Context_with_assign_voucher {
+            final UUID customerId = UUID.randomUUID();
+            final List<Voucher> vouchers = List.of(
+                new FixedAmountVoucher(UUID.randomUUID(), customerId, 100L, LocalDateTime.now()),
+                new PercentDiscountVoucher(UUID.randomUUID(), customerId, 50L, LocalDateTime.now()));
+
+            @BeforeEach
+            void prepare() {
+                vouchers.forEach((jdbcVoucherRepository::save));
+            }
+
+            @Test
+            @DisplayName("해당 바우처를 리턴한다.")
+            void it_return_voucher() {
+                List<Voucher> findVouchers = jdbcVoucherRepository.findByCustomerId(customerId);
+
+                assertThat(findVouchers).hasSize(2)
+                    .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+                    .isEqualTo(vouchers);
+            }
+        }
+    }
+
+    @Nested
     @DisplayName("update 메서드는")
     class Describe_update {
         final Voucher voucher = voucher();

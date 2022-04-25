@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService {
 
+    private static final String ERROR_VOUCHER_NOT_ASSIGN_MESSAGE = "해당 바우처를 가진 고객이 없습니다.";
+
     private final BlackListRepository blackListRepository;
     private final CustomerRepository customerRepository;
 
@@ -61,7 +63,9 @@ public class CustomerService {
 
     public Customer findByVoucherId(UUID voucherId) {
         return customerRepository.findByVoucherId(voucherId)
-            .orElseThrow(CustomerIsNotExistsException::new);
+            .orElseThrow(() -> {
+                throw new CustomerIsNotExistsException(ERROR_VOUCHER_NOT_ASSIGN_MESSAGE);
+            });
     }
 
     public List<Customer> findCustomers() {
