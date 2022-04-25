@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--Spring Boot의 Logback을 상속받아서 Custom 설정을 할수 있다!>-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <timestamp key="bySecond" datePattern = "yyyyMMdd'T'HHmmss"/>
+    <property name = "FILE_LOG_PATTERN" value = "%d{HH:mm:ss.SSS} [%thread] %clr(%-5level) %logger{36} - %msg%n"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/basicAppError.log</file>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <logger name="org.prgms.springbootbasic" level="ERROR">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="org.prgms.springbootbasic" level="DEBUG"/>
+</configuration>
