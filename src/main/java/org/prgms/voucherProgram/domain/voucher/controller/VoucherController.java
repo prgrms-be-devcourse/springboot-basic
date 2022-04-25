@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/vouchers")
 public class VoucherController {
 
     private final VoucherService voucherService;
@@ -21,7 +23,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("vouchers")
+    @GetMapping
     public String viewVouchersPage(Model model) {
         List<VoucherDto> vouchers = voucherService.findAllVoucher().stream()
             .map(VoucherDto::from)
@@ -31,31 +33,31 @@ public class VoucherController {
         return "voucher/vouchers";
     }
 
-    @GetMapping("vouchers/new")
+    @GetMapping("/new")
     public String viewNewVoucher() {
         return "voucher/new-voucher";
     }
 
-    @PostMapping("vouchers/new")
+    @PostMapping("/new")
     public String createVoucher(VoucherRequest voucherRequest) {
         voucherService.create(voucherRequest);
         return "redirect:/vouchers";
     }
 
-    @GetMapping("vouchers/{voucherId}")
+    @GetMapping("/{voucherId}")
     public String findVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
         VoucherDto voucherDto = VoucherDto.from(voucherService.findVoucher(voucherId));
         model.addAttribute("voucher", voucherDto);
         return "voucher/voucher-details.html";
     }
 
-    @PostMapping("vouchers/update/{voucherId}")
+    @PostMapping("/update/{voucherId}")
     public String updateVoucher(@PathVariable("voucherId") UUID voucherId, VoucherRequest voucherRequest) {
         voucherService.modify(voucherId, voucherRequest);
         return "redirect:/vouchers";
     }
 
-    @GetMapping("/vouchers/delete/{voucherId}")
+    @GetMapping("/delete/{voucherId}")
     public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.delete(voucherId);
         return "redirect:/vouchers";

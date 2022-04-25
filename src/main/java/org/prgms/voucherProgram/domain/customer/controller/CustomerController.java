@@ -12,8 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -22,7 +24,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/customers")
+    @GetMapping
     public String viewCustomersPage(Model model) {
         List<CustomerDto> customers = customerService.findCustomers().stream()
             .map(CustomerDto::from)
@@ -31,31 +33,31 @@ public class CustomerController {
         return "/customer/customers";
     }
 
-    @GetMapping("customers/new")
+    @GetMapping("/new")
     public String viewNewCustomer() {
         return "customer/new-customers";
     }
 
-    @PostMapping("/customers/new")
+    @PostMapping("/new")
     public String joinCustomer(CustomerRequest customerRequest) {
         customerService.join(customerRequest);
         return "redirect:/customers";
     }
 
-    @GetMapping("/customers/{customerId}")
+    @GetMapping("/{customerId}")
     public String findCustomer(@PathVariable("customerId") UUID customerId, Model model) {
         CustomerDto customerDto = CustomerDto.from(customerService.findById(customerId));
         model.addAttribute("customer", customerDto);
         return "/customer/customer-details";
     }
 
-    @PostMapping("/customers/update/{email}")
+    @PostMapping("/update/{email}")
     public String updateCustomer(@PathVariable("email") Email email, CustomerRequest customerRequest) {
         customerService.modify(email, customerRequest);
         return "redirect:/customers";
     }
 
-    @GetMapping("/customers/delete/{email}")
+    @GetMapping("/delete/{email}")
     public String deleteCustomer(@PathVariable("email") Email email) {
         customerService.delete(email);
         return "redirect:/customers";

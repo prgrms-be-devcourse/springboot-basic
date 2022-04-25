@@ -12,7 +12,7 @@
 <body class="container-fluid">
 <h1>KDT Spring App - Wallet</h1>
 <h2>Show Assign Vouchers</h2>
-<form method="GET" th:action="@{/wallet/vouchers}">
+<form method="POST" th:action="@{/wallet/vouchers}">
     <div class="mb-3">
         <label class="form-label" for="customerEmail">Customer Email</label>
         <input aria-describedby="emailHelp" class="form-control" id="customerEmail" name="customerEmail" type="email">
