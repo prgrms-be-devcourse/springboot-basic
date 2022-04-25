@@ -33,7 +33,7 @@ public enum VoucherType {
 
         @Override
         public Voucher createEntity(Long voucherId, int discountValue) {
-            return null;
+            return new PercentDiscountVoucher(voucherId, VoucherType.PERCENT_DISCOUNT, discountValue);
         }
     };
 
