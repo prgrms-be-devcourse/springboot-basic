@@ -2,6 +2,7 @@ package org.programmers.springbootbasic.voucher;
 
 import com.wix.mysql.EmbeddedMysql;
 import org.junit.jupiter.api.*;
+import org.programmers.springbootbasic.config.DBConfig;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
@@ -17,7 +18,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.programmers.springbootbasic.voucher.DBConfig.dbSetup;
 
 @SpringJUnitConfig
 @ContextConfiguration(classes = {DBConfig.class})
@@ -29,7 +29,7 @@ class VoucherServiceTest {
 
     @BeforeAll
     static void setup() {
-        embeddedMysql = dbSetup();
+        embeddedMysql = DBConfig.dbSetup();
     }
 
     @AfterAll
