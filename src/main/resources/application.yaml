@@ -1,10 +1,31 @@
-logging:
-  level:
-    root: error
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
 
 spring:
   profiles:
-    active: local
+    group:
+      dev:
+        - console-logging
+        - file-logging
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/order_mgmt
+    username: root
+    password: root1234!
+
+---
+
+spring:
+  profiles:
+    group:
+      prod:
+        - file-logging
+
+---
 
 path:
   voucher: voucher_file_database.csv
