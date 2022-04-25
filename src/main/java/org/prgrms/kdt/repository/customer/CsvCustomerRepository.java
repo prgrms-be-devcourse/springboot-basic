@@ -27,13 +27,15 @@ import java.util.UUID;
 @Repository
 public class CsvCustomerRepository implements CustomerRepository {
 
-    private static final String CSV_FILENAME = "customer_blacklist.csv";
     private static final String[] CSV_HEADER = {"customerId", "customerName", "customerType"};
 
     private static final Logger logger = LoggerFactory.getLogger(CsvCustomerRepository.class);
 
     @Value("${csv.file-path}")
     private String csvFilePath;
+
+    @Value("${csv.file-name.customer}")
+    private String csvFileName;
 
     public List<Customer> findAll() {
         return null;
@@ -65,6 +67,6 @@ public class CsvCustomerRepository implements CustomerRepository {
     public String getPathCsvFile() {
         File file = new File(csvFilePath);
         String path = file.getParentFile().getPath();
-        return Path.of(path, CSV_FILENAME).toString();
+        return Path.of(path, csvFileName).toString();
     }
 }

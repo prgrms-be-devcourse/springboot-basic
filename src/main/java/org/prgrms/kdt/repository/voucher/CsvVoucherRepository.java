@@ -33,13 +33,15 @@ import static org.apache.commons.lang3.math.NumberUtils.toLong;
 @Repository
 public class CsvVoucherRepository implements VoucherRepository {
 
-    private static final String CSV_FILENAME = "voucher.csv";
     private static final String[] CSV_HEADER = {"voucherId", "voucherValue", "voucherClassSimpleName"};
 
     private static final Logger logger = LoggerFactory.getLogger(CsvVoucherRepository.class);
 
     @Value("${csv.file-path}")
     private String csvFilePath;
+
+    @Value("${csv.file-name.voucher}")
+    private String csvFileName;
 
     @Override
     public Voucher insert(Voucher voucher) {
@@ -90,6 +92,6 @@ public class CsvVoucherRepository implements VoucherRepository {
     public String getPathCsvFile() {
         File file = new File(csvFilePath);
         String path = file.getParentFile().getPath();
-        return Path.of(path, CSV_FILENAME).toString();
+        return Path.of(path, csvFileName).toString();
     }
 }

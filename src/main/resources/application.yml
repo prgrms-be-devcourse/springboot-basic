@@ -15,3 +15,6 @@ spring:
       mode: always
 csv:
   file-path: ${java.class.path}
+  file-name:
+    customer: customer.csv
+    voucher: voucher.csv
