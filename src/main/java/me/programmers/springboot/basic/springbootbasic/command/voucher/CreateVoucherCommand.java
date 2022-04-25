@@ -29,7 +29,7 @@ public class CreateVoucherCommand implements CommandStrategy {
         String voucherTypeCommand = console.inputCommand("Type fixed or percent: ");
         try {
             VoucherType voucherType = VoucherType.getVoucherStatus(voucherTypeCommand);
-            Voucher voucher = VoucherType.getSpecificVoucher(voucherType);
+            Voucher voucher = VoucherType.getSpecificVoucher(voucherType, console);
             voucherService.save(voucher);
         } catch (IllegalArgumentException e) {
             logger.error("잘못된 바우처 타입 입력 {}", voucherTypeCommand);
