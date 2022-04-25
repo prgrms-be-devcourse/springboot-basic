@@ -28,6 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@TestClassOrder(ClassOrderer.DisplayName.class)
 class SimpleVoucherServiceTest {
 
     @Mock
@@ -204,7 +205,7 @@ class SimpleVoucherServiceTest {
     @Nested
     @TestMethodOrder(MethodOrderer.DisplayName.class)
     class RemoveVoucherByIdTest {
-        @DisplayName("성공 : 레포지토리 단에서 아이디 삭제에 성공한 경우 반환값이 없습니다.")
+        @DisplayName("성공 : 레포지토리 단에서 아이디에 따른 바우처 삭제에 성공한 경우 반환값이 없습니다.")
         @Test
         void removeSuccess() {
             // given
@@ -216,7 +217,7 @@ class SimpleVoucherServiceTest {
             verify(voucherRepository, only()).removeById(voucher.getId());
         }
 
-        @DisplayName("실패 : 레포지토리 단에서 아이디 삭제에 실패한 경우 DeleteFailException 예외가 발생합니다.")
+        @DisplayName("실패 : 레포지토리 단에서 아이디에 따른 바우처 삭제에 실패한 경우 DeleteFailException 예외가 발생합니다.")
         @Test
         void removeFail() {
             // given
