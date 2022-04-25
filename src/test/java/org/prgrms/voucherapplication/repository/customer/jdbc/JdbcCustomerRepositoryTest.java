@@ -34,6 +34,7 @@ import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -136,6 +137,7 @@ class JdbcCustomerRepositoryTest {
         assertThat(customerById.isEmpty(), is(false));
     }
 
+
     @Test
     @DisplayName("고객 정보 변경: 고객 이름 변경")
     void updateName() {
@@ -179,6 +181,8 @@ class JdbcCustomerRepositoryTest {
             jdbcCustomerRepository.update(customer1);
         });
 
+        assertThatThrownBy(() -> jdbcCustomerRepository.update(customer1))
+                .hasMessage("Data is not updated");
     }
 
     @Test
