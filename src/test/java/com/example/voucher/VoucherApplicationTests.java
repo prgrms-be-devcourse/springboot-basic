@@ -98,7 +98,9 @@ class VoucherApplicationTests {
 	class CREATE_입력이_주어질때 {
 
 		private Method processCreateCommand;
+		private Method printVoucherTypePrompt;
 		private Method getVoucherType;
+		private Method printDiscountAmountPrompt;
 		private Method getDiscountAmount;
 
 		@BeforeEach
@@ -122,6 +124,32 @@ class VoucherApplicationTests {
 			} catch (NoSuchMethodException e) {
 				throw new RuntimeException(e.getMessage());
 			}
+			try {
+				printVoucherTypePrompt = voucherApplication.getClass().getDeclaredMethod("printVoucherTypePrompt");
+				printVoucherTypePrompt.setAccessible(true);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+			try {
+				printDiscountAmountPrompt = voucherApplication.getClass().getDeclaredMethod("printDiscountAmountPrompt");
+				printDiscountAmountPrompt.setAccessible(true);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+		}
+
+		@Test
+		@DisplayName("바우처 타입 입력 프롬프트를 출력한다")
+		void 바우처_타입_입력_프롬프트를_출력한다() {
+			try {
+				printVoucherTypePrompt.invoke(voucherApplication);
+			} catch (InvocationTargetException e) {
+				throw new RuntimeException(e.getMessage());
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+
+			verify(output).printMessage(anyString());
 		}
 
 		@Test
@@ -136,6 +164,20 @@ class VoucherApplicationTests {
 			}
 
 			verify(input).getString();
+		}
+
+		@Test
+		@DisplayName("바우처 할인 값 입력 프롬프트를 출력한다")
+		void 바우처_할인_값_입력_프롬프트를_출력한다() {
+			try {
+				printDiscountAmountPrompt.invoke(voucherApplication);
+			} catch (InvocationTargetException e) {
+				throw new RuntimeException(e.getMessage());
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+
+			verify(output).printMessage(anyString());
 		}
 
 		@Test
@@ -285,6 +327,7 @@ class VoucherApplicationTests {
 		@Test
 		@DisplayName("애플리케이션을 종료한다")
 		void 애플리케이션을_종료한다 () {
+
 		}
 	}
 
