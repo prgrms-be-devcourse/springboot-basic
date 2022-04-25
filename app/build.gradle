@@ -39,6 +39,12 @@ dependencies {
     // jackson jsr : LocalDateTime type converting
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
+    // spring jdbc template
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // mysql-connector
+    implementation 'mysql:mysql-connector-java:8.0.22'
+
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 
