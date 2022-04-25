@@ -20,7 +20,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        storage.put(voucher.getVoucherID(), voucher);
+        storage.put(voucher.getVoucherId(), voucher);
         logger.info("MemoryVoucherRepository - save ");
         return voucher;
     }
@@ -50,6 +50,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         return null;
+    }
+
+    @Override
+    public Voucher delete(Voucher voucher) {
+        storage.remove(voucher.getVoucherId());
+        return voucher;
     }
 
     @Override

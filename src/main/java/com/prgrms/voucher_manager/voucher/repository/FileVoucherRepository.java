@@ -85,6 +85,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher delete(Voucher voucher) {
+        return null;
+    }
+
+    @Override
     public int count() {
         return 0;
     }

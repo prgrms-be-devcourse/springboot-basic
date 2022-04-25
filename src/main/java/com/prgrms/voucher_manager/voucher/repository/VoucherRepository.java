@@ -19,6 +19,8 @@ public interface VoucherRepository {
 
     Voucher update(Voucher voucher);
 
+    Voucher delete(Voucher voucher);
+
     int count();
 
 }

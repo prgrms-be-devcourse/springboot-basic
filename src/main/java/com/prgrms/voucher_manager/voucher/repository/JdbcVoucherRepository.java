@@ -1,20 +1,17 @@
 package com.prgrms.voucher_manager.voucher.repository;
 
-import com.prgrms.voucher_manager.infra.ToUuid;
+import com.prgrms.voucher_manager.infra.Utils;
 import com.prgrms.voucher_manager.voucher.FixedAmountVoucher;
 import com.prgrms.voucher_manager.voucher.PercentDiscountVoucher;
 import com.prgrms.voucher_manager.voucher.Voucher;
-import com.prgrms.voucher_manager.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.*;
 
 @Repository
@@ -24,7 +21,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, type, value) VALUES (UUID_TO_BIN(:voucherId), :type, :value)";
-    private static final String UPDATE_VALUE_BY_ID_SQL = "UPDATE vouchers SET value = :value WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String UPDATE_VALUE_BY_ID_SQL = "UPDATE vouchers SET value = :value, type = :type WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
@@ -34,7 +31,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = ToUuid.toUUID(resultSet.getBytes("voucher_id"));
+        UUID voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
         String type = resultSet.getString("type");
         long value = resultSet.getLong("value");
         if(type.equals("fix")) {
@@ -71,8 +68,11 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Voucher update(Voucher voucher) {
 
-        jdbcTemplate.update(UPDATE_VALUE_BY_ID_SQL,toParamMap(voucher));
-        return null;
+        int update = jdbcTemplate.update(UPDATE_VALUE_BY_ID_SQL, toParamMap(voucher));
+        if(update != 1) {
+            throw new RuntimeException("Nothing was updated");
+        }
+        return voucher;
     }
 
     @Override
@@ -100,8 +100,10 @@ public class JdbcVoucherRepository implements VoucherRepository{
         }
     }
 
-    public void deleteAll() {
-        jdbcTemplate.update(DELETE_BY_ID_SQL,Collections.emptyMap());
+    @Override
+    public Voucher delete(Voucher voucher) {
+        jdbcTemplate.update(DELETE_BY_ID_SQL, toParamMap(voucher));
+        return voucher;
     }
 
 
@@ -117,15 +119,13 @@ public class JdbcVoucherRepository implements VoucherRepository{
         }
 
         HashMap<String, Object> hashMap = new HashMap<>() {{
-            put("voucherId", voucher.getVoucherID().toString().getBytes());
+            put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("type", type);
             put("value", voucher.getValue());
         }};
+        System.out.println(hashMap.get("value"));
         return hashMap;
 
     }
-//    private static UUID toUUID(byte[] bytes) {
-//        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-//        return new UUID(byteBuffer.getLong(),byteBuffer.getLong());
-//    }
+
 }
