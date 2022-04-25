@@ -7,7 +7,7 @@ import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class VoucherController{
+public class VoucherController {
     public static final String ERROR_MESSAGE_FOR_NULL = "잘못된 입력입니다.";
     private VoucherService voucherService;
 
@@ -22,6 +22,7 @@ public class VoucherController{
         }
         return this.voucherService.create(voucherRequestDto);
     }
+
     public Response<VoucherList> findAll() {
         return null;
     }

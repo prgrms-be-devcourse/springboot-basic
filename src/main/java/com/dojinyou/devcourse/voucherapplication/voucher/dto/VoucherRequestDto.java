@@ -15,6 +15,7 @@ public class VoucherRequestDto {
     public VoucherType getVoucherType() {
         return this.type;
     }
+
     public VoucherAmount getVoucherAmount() {
         return this.amount;
     }

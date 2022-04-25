@@ -2,11 +2,10 @@ package com.dojinyou.devcourse.voucherapplication;
 
 import com.dojinyou.devcourse.voucherapplication.view.InputView;
 import com.dojinyou.devcourse.voucherapplication.view.OutputView;
-import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequestDto;
-import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherAmount;
-import com.dojinyou.devcourse.voucherapplication.voucher.entity.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
-import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherType;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
+import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequestDto;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -59,7 +58,7 @@ public class ApplicationController {
         switch (command) {
             case EXIT:
                 outputView.display(Command.EXIT.toString());
-                return new Response(Response.State.SUCCESS, Command.EXIT);
+                return new Response<>(Response.State.SUCCESS, Command.EXIT);
             case CREATE:
                 VoucherType voucherType = getVoucherType();
                 VoucherAmount amount = getVoucherAmount(voucherType);
