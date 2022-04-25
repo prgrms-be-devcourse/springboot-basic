@@ -29,16 +29,14 @@ public class WalletService {
     public List<UUID> getWalletIdByVoucherType(List<Voucher> vouchers) {
         List<UUID> walletIds = new ArrayList<>();
         vouchers.forEach(v -> {
-            List<Wallet> wallets = walletRepository.findByVoucherId(v.getVoucherID());
+            List<Wallet> wallets = walletRepository.findByVoucherId(v.getVoucherId());
             wallets.forEach(w -> walletIds.add(w.getCustomerId()));
         });
         return walletIds;
     }
 
-    public void deleteWallet(UUID customerId, int index) {
-        List<Wallet> wallets = findAllWallet(customerId);
-        UUID deleteVoucherId = wallets.get(index).getVoucherId();
-        deleteVoucher(customerId, deleteVoucherId);
+    public void deleteWallet(UUID customerId, UUID voucherId) {
+        deleteVoucher(customerId, voucherId);
     }
 
 

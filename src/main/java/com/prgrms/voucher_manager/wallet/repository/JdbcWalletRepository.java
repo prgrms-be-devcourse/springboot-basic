@@ -1,6 +1,6 @@
 package com.prgrms.voucher_manager.wallet.repository;
 
-import com.prgrms.voucher_manager.infra.ToUuid;
+import com.prgrms.voucher_manager.infra.Utils;
 import com.prgrms.voucher_manager.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.*;
 
 @Repository
@@ -30,8 +29,8 @@ public class JdbcWalletRepository implements WalletRepository{
 
 
     private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
-        UUID voucherId = ToUuid.toUUID(resultSet.getBytes("voucher_id"));
-        UUID customerId = ToUuid.toUUID(resultSet.getBytes("customer_id"));
+        UUID voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
+        UUID customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
         return Wallet.builder()
                 .voucherId(voucherId)
                 .customerId(customerId)
@@ -109,8 +108,5 @@ public class JdbcWalletRepository implements WalletRepository{
 
         return hashMap;
     }
-//    private static UUID toUUID(byte[] bytes) {
-//        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-//        return new UUID(byteBuffer.getLong(),byteBuffer.getLong());
-//    }
+
 }
