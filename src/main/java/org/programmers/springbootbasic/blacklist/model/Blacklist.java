@@ -1,30 +1,13 @@
-package org.programmers.springbootbasic.customer.model;
+package org.programmers.springbootbasic.blacklist.model;
 
 import java.util.UUID;
 
-public class BlackListCustomer implements Customer{
-    private final UUID customerId;
-    private final String customerName;
-
-    public BlackListCustomer(UUID customerId, String customerName) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-    }
+public record Blacklist(UUID customerId, String customerName) {
 
     @Override
     public String toString() {
         return "BlackListCustomer" +
                 " customerId= " + customerId +
                 " customerName= " + customerName;
-    }
-
-    @Override
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    @Override
-    public String getCustomerName() {
-        return customerName;
     }
 }
