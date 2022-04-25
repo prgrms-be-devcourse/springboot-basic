@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.voucher.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher{
@@ -23,7 +24,7 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public String toString() {
-        return "FixedAmountVoucher" +
+        return "FIXED" +
                 " voucherId: " + voucherId +
                 " amount: " + amount +
                 " createdAt: " + createdAt;
@@ -41,21 +42,33 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED;
+    }
+
     public long getValue() {
         return amount;
     }
 
-    @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return VoucherType.FIXED;
+    public void changeValue(long value) {
+        this.amount = value;
     }
 
-    public static Voucher createVoucher(VoucherDto voucherDTO) {
-        return new FixedAmountVoucher(voucherDTO.getVoucherId(), voucherDTO.getValue(), voucherDTO.getCreatedAt());
+    @Override
+    public boolean equals(Object o) {
+        if (this==o) return true;
+        if (o==null || getClass()!=o.getClass()) return false;
+        FixedAmountVoucher that = (FixedAmountVoucher) o;
+        return voucherId.equals(that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId);
     }
 }

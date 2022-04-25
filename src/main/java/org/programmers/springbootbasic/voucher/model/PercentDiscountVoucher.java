@@ -23,7 +23,7 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public String toString() {
-        return "PercentDiscountVoucher" +
+        return "PERCENT" +
                 " voucherId: " + voucherId +
                 " percent: " + percent +
                 " createdAt: " + createdAt;
@@ -38,12 +38,10 @@ public class PercentDiscountVoucher implements Voucher{
         return voucherId;
     }
 
-    @Override
     public long getValue() {
         return percent;
     }
 
-    @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -53,7 +51,8 @@ public class PercentDiscountVoucher implements Voucher{
         return VoucherType.PERCENT;
     }
 
-    public static Voucher createVoucher(VoucherDto voucherDTO) {
-        return new PercentDiscountVoucher(voucherDTO.getVoucherId(), voucherDTO.getValue(), voucherDTO.getCreatedAt());
+    @Override
+    public void changeValue(long value) {
+        this.percent = value;
     }
 }
