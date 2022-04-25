@@ -122,7 +122,7 @@ public class VoucherMemoryRepositoryTest {
 			void 빈_리스트를_반환한다() {
 				List<Voucher> vouchers = voucherRepository.findAll();
 
-				assertThat(vouchers).isNotNull();
+				assertThat(vouchers.size()).isEqualTo(0);
 			}
 		}
 	}
