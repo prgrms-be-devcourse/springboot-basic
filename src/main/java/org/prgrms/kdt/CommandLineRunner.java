@@ -63,12 +63,12 @@ public class CommandLineRunner implements Runnable {
     }
 
     private CommandType exitCommandRunner() {
-        output.printShutDownSystem();
+        output.printMessage("시스템이 종료되었습니다.");
         return CommandType.EXIT;
     }
 
     private void handleInValidCommand() {
-        output.printInvalidCommand();
+        output.printMessage("유효하지 않은 명령입니다.");
     }
 
     private void createVoucher() {
