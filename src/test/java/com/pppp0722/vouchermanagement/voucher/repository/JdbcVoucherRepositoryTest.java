@@ -15,11 +15,10 @@ import com.pppp0722.vouchermanagement.voucher.model.PercentDiscountVoucher;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -30,59 +29,23 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringJUnitConfig
-@TestInstance(Lifecycle.PER_CLASS)
+@SpringBootTest
+@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(Lifecycle.PER_CLASS)
 @DisplayName("JdbcVoucherRepository 단위 테스트")
 class JdbcVoucherRepositoryTest {
 
-    @Configuration
-    @ComponentScan
-    static class config {
-
-        @Bean
-        public DataSource dataSource() {
-            HikariDataSource dataSource = DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:2216/test-voucher_mgmt")
-                .username("test")
-                .password("test1234!")
-                .type(HikariDataSource.class)
-                .build();
-
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-    }
-
-    @Autowired
-    JdbcVoucherRepository voucherRepository;
-
-    EmbeddedMysql embeddedMysql;
-
-    Voucher newVoucher;
+    static EmbeddedMysql embeddedMysql;
 
     @BeforeAll
     void setup() {
         MysqldConfig mysqldConfig = aMysqldConfig(v5_7_latest)
             .withCharset(UTF8)
-            .withPort(2216)
+            .withPort(2215)
             .withUser("test", "test1234!")
             .withTimeZone("Asia/Seoul")
             .build();
@@ -90,14 +53,17 @@ class JdbcVoucherRepositoryTest {
         embeddedMysql = anEmbeddedMysql(mysqldConfig)
             .addSchema("test-voucher_mgmt", classPathScript("schema.sql"))
             .start();
-
-        newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10, UUID.randomUUID());
     }
 
     @AfterAll
     void cleanup() {
         embeddedMysql.stop();
     }
+
+    @Autowired
+    JdbcVoucherRepository voucherRepository;
+
+    private final Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), UUID.randomUUID());
 
     @Test
     @Order(1)

@@ -13,11 +13,9 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 import com.pppp0722.vouchermanagement.member.model.Member;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -25,74 +23,44 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringJUnitConfig
+@SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("test")
+@TestInstance(Lifecycle.PER_CLASS)
 @DisplayName("JdbcMemberRepositoryTest 단위 테스트")
 class JdbcMemberRepositoryTest {
 
-    @Configuration
-    @ComponentScan
-    static class config {
-
-        @Bean
-        public DataSource dataSource() {
-            HikariDataSource dataSource = DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:2216/test-voucher_mgmt")
-                .username("test")
-                .password("test1234!")
-                .type(HikariDataSource.class)
-                .build();
-
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-    }
-
-    @Autowired
-    JdbcMemberRepository memberRepository;
-    EmbeddedMysql embeddedMysql;
-    Member newMember;
+    static EmbeddedMysql embeddedMysql;
 
     @BeforeAll
-    void setup() {
-        MysqldConfig mysqldConfig = aMysqldConfig(v5_7_latest)
+    static void setup() {
+        MysqldConfig config = aMysqldConfig(v5_7_latest)
             .withCharset(UTF8)
-            .withPort(2216)
+            .withPort(2215)
             .withUser("test", "test1234!")
             .withTimeZone("Asia/Seoul")
             .build();
 
-        embeddedMysql = anEmbeddedMysql(mysqldConfig)
+        embeddedMysql = anEmbeddedMysql(config)
             .addSchema("test-voucher_mgmt", classPathScript("schema.sql"))
             .start();
-
-        newMember = new Member(UUID.randomUUID(), "kim");
     }
 
     @AfterAll
-    void cleanup() {
+    static void cleanup() {
         embeddedMysql.stop();
     }
+
+    @Autowired
+    JdbcMemberRepository memberRepository;
+
+    private final Member newMember = new Member(UUID.randomUUID(), "kim");
 
     @Test
     @Order(1)
