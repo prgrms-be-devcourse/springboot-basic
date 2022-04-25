@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.blacklist;
+package org.programmers.springbootbasic.blacklist.repository;
 
 import org.programmers.springbootbasic.blacklist.model.Blacklist;
 import org.slf4j.Logger;
