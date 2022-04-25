@@ -1,4 +1,4 @@
-package com.prgms.management.customer.service;
+package com.prgms.management.service;
 
 import com.prgms.management.common.exception.DeleteFailException;
 import com.prgms.management.common.exception.EmptyListException;
@@ -7,6 +7,7 @@ import com.prgms.management.common.exception.SaveFailException;
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.customer.model.CustomerType;
 import com.prgms.management.customer.repository.CustomerRepository;
+import com.prgms.management.customer.service.SimpleCustomerService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
