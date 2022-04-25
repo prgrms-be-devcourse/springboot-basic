@@ -7,22 +7,15 @@ public enum VoucherType {
     NONE;
 
     public static VoucherType getVoucherType(String type) {
-        VoucherType voucherType;
-        type = type.toLowerCase();
-        switch (type) {
+        switch (type.toLowerCase()) {
             case "fixed":
             case "fixed_amount":
-                voucherType = VoucherType.FIXED_AMOUNT;
-                break;
+                return VoucherType.FIXED_AMOUNT;
             case "percent":
             case "percent_amount":
-                voucherType = VoucherType.PERCENT_DISCOUNT;
-                break;
+                return VoucherType.PERCENT_DISCOUNT;
             default:
-                voucherType = VoucherType.NONE;
-                break;
+                return VoucherType.NONE;
         }
-
-        return voucherType;
     }
 }

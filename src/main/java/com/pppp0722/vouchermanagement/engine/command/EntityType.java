@@ -7,21 +7,15 @@ public enum EntityType {
     NONE;
 
     public static EntityType getEntityType(String input) {
-        EntityType type;
         switch (input) {
             case "member":
-                type = EntityType.MEMBER;
-                break;
+                return EntityType.MEMBER;
             case "voucher":
-                type = EntityType.VOUCHER;
-                break;
+                return EntityType.VOUCHER;
             case "wallet":
-                type = EntityType.WALLET;
-                break;
+                return EntityType.WALLET;
             default:
-                type = EntityType.NONE;
-                break;
+                return EntityType.NONE;
         }
-        return type;
     }
 }

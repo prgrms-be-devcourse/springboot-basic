@@ -9,27 +9,19 @@ public enum CommandType {
     NONE;
 
     public static CommandType getCommandType(String input) {
-        CommandType type;
         switch (input) {
             case "create":
-                type = CommandType.CREATE;
-                break;
+                return CommandType.CREATE;
             case "read":
-                type = CommandType.READ;
-                break;
+                return CommandType.READ;
             case "update":
-                type = CommandType.UPDATE;
-                break;
+                return CommandType.UPDATE;
             case "delete":
-                type = CommandType.DELETE;
-                break;
+                return CommandType.DELETE;
             case "exit":
-                type = CommandType.EXIT;
-                break;
+                return CommandType.EXIT;
             default:
-                type = CommandType.NONE;
-                break;
+                return CommandType.NONE;
         }
-        return type;
     }
 }
