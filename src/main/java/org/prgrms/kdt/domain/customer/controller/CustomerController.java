@@ -5,11 +5,14 @@ import org.prgrms.kdt.domain.customer.dto.CustomerUpdateRequest;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.customer.service.CustomerService;
+import org.prgrms.kdt.domain.voucher.model.VoucherType;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,6 +31,17 @@ public class CustomerController {
     public String customerList(Model model) {
         List<Customer> customers = customerService.getAllCustomers();
         model.addAttribute("customers", customers);
+        model.addAttribute("voucherType", VoucherType.values());
+        return "customers/list";
+    }
+
+    @GetMapping("/search")
+    public String CustomerListOwnSpecificVoucher(Model model,
+            @RequestParam("voucherType") VoucherType voucherType,
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        List<Customer> customers = customerService.getCustomersByVoucherTypeAndDate(voucherType, date);
+        model.addAttribute("customers", customers);
+        model.addAttribute("voucherType", VoucherType.values());
         return "customers/list";
     }
 

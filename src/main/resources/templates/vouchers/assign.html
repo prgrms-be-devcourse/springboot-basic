@@ -1,0 +1,24 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head th:replace="fragments/header :: header"></head>
+<body class="container-fluid">
+<h2>바우처 할당</h2>
+<form th:action="@{/wallets/assign}" method="post">
+    <div class="mb-3">
+        <label for="email" class="form-label">고객 이메일</label>
+        <input type="text" id="email" name="email" class="form-control" placeholder="바우처를 할당 받을 고객의 이메일을 입력해주세요."/>
+    </div>
+    <div class="mb-3">
+        <label for="voucherId" class="form-label">할당할 바우처</label>
+        <select id="voucherId" name="voucherId" class="form-select">
+            <option th:each="voucher: ${vouchers}"
+                    th:text="|타입: ${voucher.voucherType}, 할인값: ${voucher.discountValue}|"
+                    th:value="${voucher.voucherId}"></option>
+        </select>
+    </div>
+    <input th:value="할당하기" type="submit" class="btn btn-success"/>
+</form>
+
+</body>
+</html>

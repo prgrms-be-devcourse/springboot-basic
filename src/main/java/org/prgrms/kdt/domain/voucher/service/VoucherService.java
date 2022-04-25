@@ -83,4 +83,14 @@ public class VoucherService {
         voucherRepository.deleteById(voucherId);
         logger.info("Delete Voucher id: {}", voucherId);
     }
+
+    @Transactional
+    public void removeByCustomerId(UUID customerId){
+        List<Voucher> vouchers = voucherRepository.findByCustomerId(customerId);
+        if(vouchers.isEmpty()){
+            throw new VoucherDataException(NOT_SAVED);
+        }
+        voucherRepository.deleteByCustomerId(customerId);
+        logger.info("Delete Voucher by customer id: {}", customerId);
+    }
 }

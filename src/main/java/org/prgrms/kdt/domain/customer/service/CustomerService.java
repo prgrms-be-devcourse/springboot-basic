@@ -54,6 +54,12 @@ public class CustomerService {
         return customer;
     }
 
+    public Optional<Customer> getCustomerByEmail(String email) {
+        Optional<Customer> customer = customerRepository.findByEmail(email);
+        logger.info("find Customer By email {}", email);
+        return customer;
+    }
+
     public List<Customer> getAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
         logger.info("Get all stored customers size: {}", customers.size());

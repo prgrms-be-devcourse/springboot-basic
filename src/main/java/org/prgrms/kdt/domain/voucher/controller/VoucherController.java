@@ -1,5 +1,8 @@
 package org.prgrms.kdt.domain.voucher.controller;
 
+import org.prgrms.kdt.domain.customer.model.Customer;
+import org.prgrms.kdt.domain.customer.service.CustomerService;
+import org.prgrms.kdt.domain.voucher.dto.VoucherAssignRequest;
 import org.prgrms.kdt.domain.voucher.dto.VoucherCreateRequest;
 import org.prgrms.kdt.domain.voucher.dto.VoucherUpdateRequest;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
@@ -19,15 +22,28 @@ import java.util.UUID;
 public class VoucherController {
 
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @GetMapping
     public String voucherList(Model model) {
         List<Voucher> vouchers = voucherService.getAllVouchers();
         model.addAttribute("vouchers", vouchers);
+        return "vouchers/list";
+    }
+
+    @GetMapping("/search")
+    public String VoucherListOwnCustomer(Model model, @RequestParam String email) {
+        Optional<Customer> customer = customerService.getCustomerByEmail(email);
+        customer.ifPresent(value -> {
+            List<Voucher> vouchers = voucherService
+                    .getVouchersByCustomerId(value.getCustomerId());
+            model.addAttribute("vouchers", vouchers);
+        });
         return "vouchers/list";
     }
 
@@ -62,5 +78,20 @@ public class VoucherController {
     public String voucherRemove(@PathVariable("voucherId") UUID voucherId) {
         voucherService.remove(voucherId);
         return "redirect:/vouchers";
+    }
+
+    @GetMapping("/assign")
+    public String voucherAssignShow(Model model) {
+        List<Voucher> vouchers = voucherService.getAllVouchers();
+        model.addAttribute("vouchers", vouchers);
+        return "vouchers/assign";
+    }
+
+    @PostMapping("/assign")
+    public String voucherAssign(VoucherAssignRequest assignRequest) {
+        Optional<Customer> customer = customerService.getCustomerByEmail(assignRequest.getEmail());
+        customer.ifPresent(value ->
+                voucherService.updateCustomerId(assignRequest.getVoucherId(), value.getCustomerId()));
+        return "redirect:/";
     }
 }
