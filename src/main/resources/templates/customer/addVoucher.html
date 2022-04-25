@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>현재 생성되어 있는 바우처 목록</h2> </div>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>바우처 타입</th>
+                <th>할인 양</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <form action="addVoucher.html" th:action method="post">
+                    <td><input id="voucherId" name="voucherId" type="text" th:placeholder="${voucher.voucherId}" th:value="${voucher.voucherId}" readonly/></td>
+                <td th:text="${voucher.type}">type</td>
+                <td th:text="${voucher.value}">value</td>
+                <td>
+                    <button class="w-100 btn btn-secondary btn-lg"
+                    th:onclick="|'@{/customers/{customerId}/vouchers/add/(customerId=${customerId})}'|"
+                    type="submit">선택</button>
+                </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+
+                    th:onclick="|location.href='@{/customers/{customerId}(customerId=${customerId})}'|"
+                    onclick="location.href='customer.html'" type="button">돌아가기</button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

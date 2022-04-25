@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>고객 목록</h2> </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    th:onclick="|location.href='@{/customers/add}'|"
+                    onclick="location.href='addCustomer.html'"
+                    type="button">고객 등록</button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>고객명</th>
+                <th>이메일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+                <td><a href="customer.html" th:href="@{customers/{customerId}(customerId=${customer.customerId})}" th:text="${customer.customerId}">고객 Id</a></td>
+                <td><a href="customer.html" th:href="@{|customers/${customer.customerId}|}" th:text="${customer.name}">고객명</a></td>
+                <td th:text="${customer.email}">email</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='index.html'" type="button">돌아가기</button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
