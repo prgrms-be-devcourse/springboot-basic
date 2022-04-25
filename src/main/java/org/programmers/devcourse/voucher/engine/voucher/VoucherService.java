@@ -34,4 +34,12 @@ public class VoucherService {
   public Optional<VoucherType> mapTypeToMapper(String type) {
     return VoucherType.from(type);
   }
+
+  public void remove(UUID voucherId) {
+    voucherRepository.delete(voucherId);
+  }
+
+  public Voucher getVoucherById(UUID voucherId) {
+    return voucherRepository.getVoucherById(voucherId).orElseThrow(() -> new VoucherException("No Voucher Available"));
+  }
 }

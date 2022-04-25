@@ -17,15 +17,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile("dev")
-public class CliController {
+public class CliVoucherApplication {
 
-  private static final Logger logger = LoggerFactory.getLogger(CliController.class);
+  private static final Logger logger = LoggerFactory.getLogger(CliVoucherApplication.class);
   private final Input input;
   private final Output output;
   private final VoucherService voucherService;
   private final BlackListService blackListService;
 
-  public CliController(Input input, Output output, VoucherService voucherService, BlackListService blackListService) {
+  public CliVoucherApplication(Input input, Output output, VoucherService voucherService, BlackListService blackListService) {
     this.input = input;
     this.output = output;
     this.voucherService = voucherService;

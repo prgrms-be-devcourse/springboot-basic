@@ -14,7 +14,6 @@ import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 class FixedAmountVoucherTest {
 
-
   @DisplayName("등록되어 있는 금액 만큼 가격을 할인해야 한다.")
   @ParameterizedTest
   @CsvSource(value = {
@@ -34,9 +33,9 @@ class FixedAmountVoucherTest {
       "-40000"
   })
   void throw_exception_when_discount_degree_is_negative(long discountDegree) {
-    assertThatThrownBy(() -> {
-      FixedAmountVoucher.factory.create(UUID.randomUUID(), discountDegree);
-    }).isInstanceOf(VoucherDiscountDegreeOutOfRangeException.class);
+    var voucherId = UUID.randomUUID();
+    assertThatThrownBy(() -> FixedAmountVoucher.factory.create(voucherId, discountDegree))
+        .isInstanceOf(VoucherDiscountDegreeOutOfRangeException.class);
   }
 
   @DisplayName("할인 대상 가격보다 할인액이 더 클 경우 0을 반환해야 한다.")

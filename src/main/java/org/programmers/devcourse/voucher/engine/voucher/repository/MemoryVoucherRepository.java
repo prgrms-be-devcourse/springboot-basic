@@ -44,5 +44,10 @@ public class MemoryVoucherRepository implements
     return count.intValue();
   }
 
+  @Override
+  public void delete(UUID voucherId) {
+    // TODO : 시간 남을 때 구현하기
+  }
+
 
 }

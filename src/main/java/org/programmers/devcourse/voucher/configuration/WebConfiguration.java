@@ -31,8 +31,6 @@ public class WebConfiguration implements WebMvcConfigurer {
     messageConverter.setMarshaller(xStreamMarshaller);
     messageConverter.setUnmarshaller(xStreamMarshaller);
     converters.add(messageConverter);
-
-
   }
 
 }

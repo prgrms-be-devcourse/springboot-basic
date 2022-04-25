@@ -1,7 +1,7 @@
 package org.programmers.devcourse.voucher;
 
 import java.util.Arrays;
-import org.programmers.devcourse.voucher.engine.CliController;
+import org.programmers.devcourse.voucher.engine.CliVoucherApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -15,7 +15,7 @@ public class VoucherApplication {
     var context = app.run(args);
 
     if (Arrays.asList(context.getEnvironment().getActiveProfiles()).contains("dev")) {
-      context.getBean(CliController.class).start();
+      context.getBean(CliVoucherApplication.class).start();
     }
   }
 }

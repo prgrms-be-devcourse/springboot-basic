@@ -16,6 +16,7 @@ import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.programmers.devcourse.voucher.util.UUIDMapper;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -34,7 +35,14 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
     this.transactionManager = new DataSourceTransactionManager(dataSource);
   }
 
-  private RowMapper<Voucher> voucherRowMapper = (resultSet, index) -> {
+  private static class SqlMapperKeys {
+
+    static final String VOUCHER_ID = "voucherId";
+    static final String TYPE = "type";
+    static final String DISCOUNT_DEGREE = "discountDegree";
+  }
+
+  private final RowMapper<Voucher> voucherRowMapper = (resultSet, index) -> {
     UUID voucherId;
     try {
       voucherId = UUIDMapper.fromBytes(resultSet.getBinaryStream("voucher_id").readAllBytes());
@@ -47,17 +55,15 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
 
     return VoucherType.from(type).orElseThrow(SQLException::new).getFactory()
         .create(voucherId, discountDegree);
-
   };
 
   private Map<String, Object> mapToParam(Voucher voucher) {
     var map = new ConcurrentHashMap<String, Object>();
-    map.put("voucherId", voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
-    map.put("type", VoucherType.mapToTypeId(voucher));
-    map.put("discountDegree", voucher.getDiscountDegree());
+    map.put(SqlMapperKeys.VOUCHER_ID, voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
+    map.put(SqlMapperKeys.TYPE, VoucherType.mapToTypeId(voucher));
+    map.put(SqlMapperKeys.DISCOUNT_DEGREE, voucher.getDiscountDegree());
     return map;
   }
-
 
   @Override
   public UUID save(Voucher voucher) throws VoucherException {
@@ -69,25 +75,35 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
 
   @Override
   public Optional<Voucher> getVoucherById(UUID voucherId) {
-    var voucher = namedParameterJdbcTemplate.queryForObject(
-        "SELECT voucher_id , type, discount_degree FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-        Map.of("voucherId", UUIDMapper.toBytes(voucherId)),
-        voucherRowMapper);
-    return Optional.ofNullable(voucher);
+    try {
+      var voucher = namedParameterJdbcTemplate.queryForObject(
+          "SELECT voucher_id , type, discount_degree FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+          Map.of(SqlMapperKeys.VOUCHER_ID, UUIDMapper.toBytes(voucherId)),
+          voucherRowMapper);
+      return Optional.ofNullable(voucher);
+    } catch (EmptyResultDataAccessException exception) {
+      return Optional.empty();
+    }
   }
 
   @Override
   public List<Voucher> getAllVouchers() {
     return namedParameterJdbcTemplate.query(
-        "SELECT voucher_id, type, discount_degree FROM vouchers",
-        voucherRowMapper);
+        "SELECT voucher_id, type, discount_degree FROM vouchers", voucherRowMapper);
   }
 
   @Override
   public int deleteAll() {
-    return namedParameterJdbcTemplate.update(
-        "DELETE FROM vouchers", Map.of()
-    );
+    return namedParameterJdbcTemplate.update("DELETE FROM vouchers", Map.of());
+  }
+
+  @Override
+  public void delete(UUID voucherId) {
+    int result = namedParameterJdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+        Map.of(SqlMapperKeys.VOUCHER_ID, UUIDMapper.toBytes(voucherId)));
+    if (result != 1) {
+      throw new EmptyResultDataAccessException(1);
+    }
   }
 
   @Override

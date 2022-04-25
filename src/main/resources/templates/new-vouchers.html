@@ -11,16 +11,18 @@
 </head>
 <body class="container-fluid">
 <h1>KDT Spring App</h1>
-<img th:src="@{/resources/bg.png}" class="img-fluid">
+<img th:src="@{/bg.png}" class="img-fluid">
 <h2>New Customer</h2>
-<form th:action="@{/customers/new}" method="post">
+<form th:action="@{/voucher/register}" method="post">
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <label for="voucherType1" class="form-label">FixedAmountVoucher</label>
+    <input type="radio" id="voucherType1" name="voucherType" value="1"/>
+    <label for="voucherType2" class="form-label">DiscountPercentVoucher</label>
+    <input type="radio" id="voucherType2" name="voucherType" value="2"/>
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Name</label>
-    <input type="text" name="name" class="form-control" id="exampleInputPassword1">
+    <label for="discountDegree" class="form-label">Discount-Degree</label>
+    <input type="text" name="discountDegree" class="form-control" id="discountDegree">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

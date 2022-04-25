@@ -18,7 +18,8 @@ import org.springframework.dao.DataAccessException;
 
 class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
 
-  final static List<Voucher> vouchersToTest = List.of(
+  private static JdbcVoucherRepository repository;
+  private final static List<Voucher> vouchersToTest = List.of(
       FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L),
       PercentDiscountVoucher.factory.create(UUID.randomUUID(), 50),
       PercentDiscountVoucher.factory.create(UUID.randomUUID(), 75),
@@ -42,32 +43,40 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
   @DisplayName("저장한 바우처가 없을 경우 비어 있는 컬렉션을 반환해야 한다.")
   void return_empty_collection_when_no_voucher_is_saved() {
     assertThat(repository.getAllVouchers()).isEmpty();
-
   }
 
-  private static JdbcVoucherRepository repository;
 
   @Test
   @DisplayName("save를 호출하면 voucher가 정확히 저장되어야 한다.")
   void save_proper_voucher() throws VoucherException {
-    vouchersToTest.forEach(voucher -> {
-      repository.save(voucher);
-    });
+    loadVouchersToTestDatabase();
     assertThat(repository.getAllVouchers()).containsAll(vouchersToTest);
   }
 
   @Test
   @DisplayName("voucherId로 원하는 voucher를 가져올 수 있어야 한다.")
   void get_proper_voucher_by_voucher_id() throws VoucherException {
-    vouchersToTest.forEach(voucher -> {
-      repository.save(voucher);
-    });
+    loadVouchersToTestDatabase();
     assertThat(repository.getAllVouchers()).containsAll(vouchersToTest);
     vouchersToTest.forEach(voucher -> {
       assertThat(repository.getVoucherById(voucher.getVoucherId())).isNotEmpty().get().isEqualTo(voucher);
     });
   }
 
+  @Test
+  @DisplayName("voucherId로 원하는 voucher를 삭제할 수 있어야 한다.")
+  void delete_voucher_by_Id() throws VoucherException {
+    loadVouchersToTestDatabase();
+    var voucherToRemove = vouchersToTest.get(0);
+    repository.delete(voucherToRemove.getVoucherId());
+
+    assertThat(repository.getVoucherById(voucherToRemove.getVoucherId())).isEmpty();
+    assertThat(repository.getAllVouchers()).hasSize(vouchersToTest.size() - 1);
+  }
+
+  private static void loadVouchersToTestDatabase() {
+    vouchersToTest.forEach(voucher -> repository.save(voucher));
+  }
 
   @Test
   @DisplayName("transaction이 중간에 실패할 경우 rollback 되어야 한다.")
