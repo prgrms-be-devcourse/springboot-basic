@@ -35,14 +35,14 @@ public class FunctionOperator {
         this.voucherWalletService = voucherWalletService;
     }
 
-    public void execute(String type) {
+    public void execute(VoucherProgramFunctions type) {
         switch (type) {
-            case ("create") -> createVoucherByVoucherType();
-            case ("voucherList") -> printVoucherList();
-            case ("blackList") -> OutputConsole.printList(blackListService.getBlackList());
-            case ("add") -> createNewCustomer();
-            case ("provide") -> provideVoucherToCustomer();
-            case ("manage") -> {
+            case create -> createVoucherByVoucherType();
+            case voucherList -> printVoucherList();
+            case blackList -> OutputConsole.printList(blackListService.getBlackList());
+            case add -> createNewCustomer();
+            case provide -> provideVoucherToCustomer();
+            case manage -> {
                 String email = printCustomerVoucherList();
                 deleteCheck(email);
             }
@@ -101,7 +101,7 @@ public class FunctionOperator {
 
     private void deleteCheck(String email) {
         String inputString = OutputMessageInputString("Type D/d if you want delete");
-        if(inputString.equalsIgnoreCase(DELETE_CHARACTER)) {
+        if (inputString.equalsIgnoreCase(DELETE_CHARACTER)) {
             String voucherId = OutputMessageInputString("Type voucherId");
             voucherService.deleteVoucher(UUID.fromString(voucherId), email);
         }
