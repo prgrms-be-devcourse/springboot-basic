@@ -5,7 +5,7 @@ import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
-import com.waterfogsw.voucher.voucher.dto.VoucherDto;
+import com.waterfogsw.voucher.voucher.dto.RequestVoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -56,7 +56,7 @@ public class VoucherControllerTests {
             @Test
             @DisplayName("생성된 바우처의 정보를 가진 응답을 리턴한다")
             void it_return_error_message() {
-                var voucherDto = new VoucherDto(VoucherType.FIXED_AMOUNT, 100);
+                var voucherDto = new RequestVoucherDto(VoucherType.FIXED_AMOUNT, 100);
 
                 when(voucherService.saveVoucher(any(Voucher.class)))
                         .thenReturn(voucherDto.toDomain());

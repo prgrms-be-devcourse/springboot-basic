@@ -1,6 +1,6 @@
 package com.waterfogsw.voucher.global;
 
-import com.waterfogsw.voucher.voucher.dto.VoucherDto;
+import com.waterfogsw.voucher.voucher.dto.RequestVoucherDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,13 +11,13 @@ public class MessageConverter {
         this.voucherTypeConverter = voucherTypeConverter;
     }
 
-    public VoucherDto convert(RequestVoucherMessage requestMessage) {
-        if (requestMessage == null) {
+    public RequestVoucherDto convert(PostRequest postRequest) {
+        if (postRequest == null) {
             throw new IllegalArgumentException();
         }
 
-        final var type = voucherTypeConverter.convert(requestMessage.type());
-        final var value = Integer.parseInt(requestMessage.value());
-        return new VoucherDto(type, value);
+        final var type = voucherTypeConverter.convert(postRequest.type());
+        final var value = Integer.parseInt(postRequest.value());
+        return new RequestVoucherDto(type, value);
     }
 }
