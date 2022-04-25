@@ -8,7 +8,6 @@ public class SpringBootBasicApplication {
 
 	public static void main(String[] args) {
 		ApplicationController controller = new ApplicationController(new SpringApplication(SpringBootBasicApplication.class), args);
-		controller.showBlackList();
 		controller.runCommandLineApp();
 	}
 }
