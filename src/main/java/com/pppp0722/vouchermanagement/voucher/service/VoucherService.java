@@ -13,7 +13,7 @@ public interface VoucherService {
 
     List<Voucher> getAllVouchers();
 
-    Optional<Voucher> getVoucherByVoucherId(UUID voucherId);
+    Optional<Voucher> getVoucherById(UUID voucherId);
 
     List<Voucher> getVouchersByMemberId(UUID memberId);
 

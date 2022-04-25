@@ -41,7 +41,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Optional<Voucher> getVoucherByVoucherId(UUID voucherId) {
+    public Optional<Voucher> getVoucherById(UUID voucherId) {
         return voucherRepository.findById(voucherId);
     }
 

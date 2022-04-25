@@ -128,7 +128,7 @@ public class Read {
             printVoucher();
         }
 
-        Optional<Voucher> voucher = voucherService.getVoucherByVoucherId(voucherId);
+        Optional<Voucher> voucher = voucherService.getVoucherById(voucherId);
         if (voucher.isEmpty()) {
             logger.info("Voucher does not exist.");
             console.printEmpty();

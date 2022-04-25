@@ -133,7 +133,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         VoucherType type = getVoucherType(resultSet.getString("type"));
         long amount = resultSet.getLong("amount");
-        LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("createdAt"));
+        LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
         UUID memberId = toUUID(resultSet.getBytes("member_id"));
 
         if (type.equals(FIXED_AMOUNT)) {
