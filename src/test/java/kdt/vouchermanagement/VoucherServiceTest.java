@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -84,5 +86,21 @@ public class VoucherServiceTest {
         //then
         verify(voucherRepository, times(1)).save(any());
         assertThat(createdVoucher).usingRecursiveComparison().isEqualTo(voucher);
+    }
+
+    @Test
+    @DisplayName("바우처 목록 조회 요청에 대한 반환값인 바우처 리스트 반환_성공")
+    void responseFindVouchers() {
+        //given
+        Voucher firstVoucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100);
+        Voucher secondVoucher = new FixedAmountVoucher(2L, VoucherType.FIXED_AMOUNT, 200);
+        List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
+
+        //when
+        doReturn(vouchers).when(voucherRepository).findAll();
+        List<Voucher> foundVouchers = voucherService.findVouchers();
+
+        //then
+        assertThat(foundVouchers).containsOnly(firstVoucher, secondVoucher);
     }
 }
