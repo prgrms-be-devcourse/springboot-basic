@@ -1,7 +1,7 @@
 package org.prgrms.kdt.command;
 
 import java.util.Locale;
-import org.prgrms.kdt.exception.TypedException;
+import org.prgrms.kdt.dto.CustomerDto;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.service.CustomerService;
@@ -30,16 +30,12 @@ public class RegisterCustomerCommand implements Command {
   @Override
   public String execute() {
     output.printLine(messageSource.getMessage("menu.register", null, Locale.getDefault()));
-    try {
-      output.printLine("Type name");
-      var name = input.read();
-      output.printLine("Type email");
-      var email = input.read();
-      customerService.register(name, email);
-      return "Customer created";
-    } catch (TypedException e) {
-      log.error("Invalid input Error", e);
-      return e.getMessage();
-    }
+    output.printLine("Type name");
+    var name = input.read();
+    output.printLine("Type email");
+    var email = input.read();
+    var customerDto = new CustomerDto(name, email);
+    customerService.register(customerDto);
+    return "Customer created";
   }
 }

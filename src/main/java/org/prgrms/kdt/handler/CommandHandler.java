@@ -1,6 +1,8 @@
 package org.prgrms.kdt.handler;
 
+import javax.validation.ConstraintViolationException;
 import org.prgrms.kdt.command.CommandFactory;
+import org.prgrms.kdt.exception.TypedException;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.type.CommandType;
@@ -47,6 +49,10 @@ public class CommandHandler {
 
   private String executeCommand(CommandType commandType) {
     var command = commandFactory.getCommand(commandType);
-    return command.execute();
+    try {
+      return command.execute();
+    } catch (IllegalArgumentException | ConstraintViolationException | TypedException e) {
+      return e.getMessage();
+    }
   }
 }
