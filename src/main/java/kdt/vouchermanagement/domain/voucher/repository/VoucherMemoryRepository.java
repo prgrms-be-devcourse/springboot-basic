@@ -4,8 +4,10 @@ import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class VoucherMemoryRepository implements VoucherRepository {
@@ -26,6 +28,13 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return storage.values()
+                .stream()
+                .collect(Collectors.toList());
     }
 
     private Voucher createVoucherEntity(VoucherType voucherType, int discountValue) {
