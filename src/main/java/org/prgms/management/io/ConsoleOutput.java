@@ -30,7 +30,7 @@ public class ConsoleOutput implements Output {
 
     @Override
     public void voucherCreateFail() {
-        System.out.println("\n바우처 생성이 실패했습니다.\n");
+        System.out.println("\n바우처 생성에 실패했습니다.\n");
     }
 
     @Override

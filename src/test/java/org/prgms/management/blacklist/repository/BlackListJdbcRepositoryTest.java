@@ -50,23 +50,8 @@ class BlackListJdbcRepositoryTest {
         }
 
         @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-
-        @Bean
-        public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-            return new DataSourceTransactionManager(dataSource);
-        }
-
-        @Bean
-        public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
-            return new TransactionTemplate(platformTransactionManager);
+        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
+            return new NamedParameterJdbcTemplate(dataSource);
         }
     }
 

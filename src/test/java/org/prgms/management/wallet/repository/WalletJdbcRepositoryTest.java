@@ -51,13 +51,8 @@ class WalletJdbcRepositoryTest {
         }
 
         @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
+        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
+            return new NamedParameterJdbcTemplate(dataSource);
         }
     }
 

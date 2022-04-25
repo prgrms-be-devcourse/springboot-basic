@@ -30,13 +30,19 @@ public class CreateCommand implements Command {
         Optional<Voucher> voucher = VoucherCreator.createVoucher(
                 UUID.randomUUID(), discountNum, voucherName, voucherType, LocalDateTime.now());
 
-        if (voucher.isPresent() &&
-                voucherService.insert(voucher.get()).isPresent()) {
-            output.voucherCreateSuccess();
+        if (voucher.isEmpty()) {
+            output.voucherCreateFail();
             return true;
         }
 
-        output.voucherCreateFail();
+        var createdVoucher = voucherService.insert(voucher.get());
+
+        if (createdVoucher.isEmpty()) {
+            output.voucherCreateFail();
+            return true;
+        }
+
+        output.voucherCreateSuccess();
         return true;
     }
 }
