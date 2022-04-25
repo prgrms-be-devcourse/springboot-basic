@@ -1,5 +1,9 @@
 package org.prgrms.springbasic.repository.voucher;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.customer.CustomerType;
@@ -13,21 +17,24 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
-import java.sql.Timestamp;
 import java.util.*;
 
+import static org.prgrms.springbasic.utils.UUIDConverter.toUUID;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_INSERTED;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_UPDATED;
 import static org.prgrms.springbasic.utils.sql.VoucherSQL.*;
 
 @Slf4j
-@Profile("prd")
+@Profile({"prd", "test"})
 @Repository
 @RequiredArgsConstructor
 public class VoucherJdbcRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .registerModule(new JavaTimeModule());
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -46,8 +53,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_VOUCHER_ID.getQuery(),
-                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-                    voucherRowMapper));
+                    Collections.singletonMap("voucherId",
+                            voucherId.toString().getBytes()),
+                                    voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             log.error("Got empty result: {}", e.getMessage());
             return Optional.empty();
@@ -58,8 +66,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public Optional<Voucher> findByCustomerId(UUID customerId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_CUSTOMER_ID.getQuery(),
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                    voucherRowMapper));
+                    Collections.singletonMap("customerId",
+                            customerId.toString().getBytes()),
+                                    voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             log.error("Got empty result: {}", e.getMessage());
             return Optional.empty();
@@ -114,16 +123,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
-        return new HashMap<>(){
-            {
-                put("voucherId", voucher.getVoucherId().toString().getBytes());
-                put("voucherType", voucher.getVoucherType().toString());
-                put("discountInfo", voucher.getDiscountInfo());
-                put("createdAt", voucher.getCreatedAt());
-                put("modifiedAt", voucher.getModifiedAt() == null ? null : Timestamp.valueOf(voucher.getModifiedAt()));
-                put("customerId", voucher.getCustomerId() == null ? null : voucher.getCustomerId().toString().getBytes());
-            }
-        };
+        return objectMapper.convertValue(voucher, new TypeReference<HashMap<String, Object>>() {});
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
@@ -151,9 +151,4 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 .name(name).voucherId(voucherId).voucherType(voucherType)
                 .discountInfo(discountInfo).createdAt(createdAt).build();
     };
-
-    private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 }

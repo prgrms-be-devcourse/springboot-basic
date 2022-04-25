@@ -1,5 +1,9 @@
 package org.prgrms.springbasic.repository.customer;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.customer.Customer;
@@ -11,20 +15,24 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.*;
 
+import static org.prgrms.springbasic.utils.UUIDConverter.toUUID;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_INSERTED;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_UPDATED;
 import static org.prgrms.springbasic.utils.sql.CustomerSQL.*;
 
 @Slf4j
-@Profile("prd")
+@Profile({"prd", "test"})
 @Repository
 @RequiredArgsConstructor
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .registerModule(new JavaTimeModule());
 
     @Override
     public Customer save(Customer customer) {
@@ -43,8 +51,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findByCustomerId(UUID customerId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_CUSTOMER_ID.getQuery(),
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                    customerRowMapper));
+                    Collections.singletonMap("customerId",
+                            customerId.toString().getBytes()),
+                                    customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             log.error("Got empty result: {}", e.getMessage());
             return Optional.empty();
@@ -55,8 +64,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findByVoucherId(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_VOUCHER_ID.getQuery(),
-                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-                    customerRowMapper));
+                    Collections.singletonMap("voucherId",
+                            voucherId.toString().getBytes()),
+                                    customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             log.error("Got empty result: {}", e.getMessage());
             return Optional.empty();
@@ -92,7 +102,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public void deleteByCustomerId(UUID customerId) {
-        jdbcTemplate.update(DELETE_BY_CUSTOMER_ID.getQuery(), Collections.singletonMap("customerId", customerId.toString().getBytes()));
+        jdbcTemplate.update(DELETE_BY_CUSTOMER_ID.getQuery(),
+                Collections.singletonMap("customerId",
+                        customerId.toString().getBytes()));
     }
 
     @Override
@@ -101,15 +113,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>(){
-            {
-                put("customerId", customer.getCustomerId().toString().getBytes());
-                put("customerType", customer.getCustomerType().toString());
-                put("name", customer.getName());
-                put("createdAt", customer.getCreatedAt());
-                put("modifiedAt", customer.getModifiedAt());
-            }
-        };
+        return objectMapper.convertValue(customer, new TypeReference<HashMap<String, Object>>() {});
     }
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
@@ -122,8 +126,4 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return new Customer(customerId, customerType, name, createdAt, modifiedAt);
     };
 
-    private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 }
