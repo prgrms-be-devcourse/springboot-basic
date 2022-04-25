@@ -3,3 +3,6 @@
 
 주차별 과제는 노션에서 확인하세요!
 [노션에서 미션 확인가기](https://www.notion.so/backend-devcourse/Part1-3-38f57acca0dd490db11393701417943a)
+
+# Class Diagram
+![ex_screenshot](./images/spring-part1.drawio.png)
