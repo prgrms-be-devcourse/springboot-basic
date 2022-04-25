@@ -5,7 +5,6 @@ import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.domain.voucher.repository.VoucherMemoryRepository;
 import com.example.voucher.domain.voucher.repository.VoucherRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
@@ -13,10 +12,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -52,7 +53,7 @@ public class VoucherMemoryRepositoryTest {
 
 				try {
 					Map<Long, Voucher> map = (Map<Long, Voucher>) store.get(voucherRepository);
-					Assertions.assertThat(map.get(savedVoucher.getVoucherId())).isEqualTo(savedVoucher);
+					assertThat(map.get(savedVoucher.getVoucherId())).isEqualTo(savedVoucher);
 				} catch (IllegalAccessException e) {
 					throw new RuntimeException(e.getMessage());
 				}
@@ -93,4 +94,36 @@ public class VoucherMemoryRepositoryTest {
 		}
 	}
 
+	@Nested
+	@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+	class findAll메서드는 {
+		private Voucher createdVoucher;
+
+		@BeforeEach
+		void 테스트_위한_설정() {
+			createdVoucher = voucherRepository.save(new FixedAmountVoucher(null, 1000));
+		}
+
+		@Test
+		@DisplayName("바우처를 전체 조회하고 반환한다")
+		void 바우처를_전체_조회하고_반환한다() {
+			List<Voucher> vouchers = voucherRepository.findAll();
+
+			assertThat(vouchers.size()).isEqualTo(1);
+			assertThat(vouchers.get(0)).isEqualTo(createdVoucher);
+		}
+
+		@Nested
+		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+		class 저장된_바우처가_하나도_없다면 {
+
+			@Test
+			@DisplayName("빈 리스트를 반환한다")
+			void 빈_리스트를_반환한다() {
+				List<Voucher> vouchers = voucherRepository.findAll();
+
+				assertThat(vouchers).isNotNull();
+			}
+		}
+	}
 }
