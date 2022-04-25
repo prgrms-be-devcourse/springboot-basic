@@ -118,7 +118,7 @@ class JdbcVoucherRepositoryTest {
 
         var vouchers = jdbcVoucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
-        assertThat(vouchers.get(), hasSize(2));
+        assertThat(vouchers, hasSize(2));
     }
 
     @Test
@@ -139,7 +139,7 @@ class JdbcVoucherRepositoryTest {
 
         var vouchers = jdbcVoucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
-        assertThat(vouchers.get(), hasSize(4));
+        assertThat(vouchers, hasSize(4));
     }
 
     @Test
@@ -285,6 +285,6 @@ class JdbcVoucherRepositoryTest {
         jdbcVoucherRepository.deleteAll();
 
         var all = jdbcVoucherRepository.findAll();
-        assertThat(all.get(), hasSize(0));
+        assertThat(all, hasSize(0));
     }
 }

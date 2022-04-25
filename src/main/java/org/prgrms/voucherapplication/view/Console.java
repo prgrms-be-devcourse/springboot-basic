@@ -56,6 +56,8 @@ public class Console implements Input, Output {
 
     private static final String VOUCHER_ID_INPUT_TEXT = "Type a voucher ID: ";
 
+    private static final String NO_RESULT_TEXT = "There are no results.\n";
+
 
     /**
      * 메뉴 설명 문자열을 출력하고
@@ -182,7 +184,18 @@ public class Console implements Input, Output {
      */
     @Override
     public void printSqlVoucherList(List<SqlVoucher> vouchers) {
-        vouchers.stream().forEach(voucher -> System.out.println(voucher.toString()));
+        if (vouchers.isEmpty()) {
+            System.out.println(NO_RESULT_TEXT);
+        } else {
+            vouchers.stream().forEach(voucher -> System.out.println(voucher.toString()));
+        }
+    }
+
+    @Override
+    public void printCustomer(Optional<Customer> customer) {
+        customer.ifPresentOrElse(
+                value -> value.toString(),
+                () -> System.out.println(NO_RESULT_TEXT));
     }
 
 }

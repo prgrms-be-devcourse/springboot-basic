@@ -70,8 +70,8 @@ public class JdbcVoucherRepository {
         return voucher;
     }
 
-    public Optional<List<SqlVoucher>> findAll() {
-        return Optional.ofNullable(jdbcTemplate.query(SELECT_ALL_SQL, sqlVoucherRowMapper));
+    public List<SqlVoucher> findAll() {
+        return jdbcTemplate.query(SELECT_ALL_SQL, sqlVoucherRowMapper);
     }
 
     public Optional<SqlVoucher> findById(UUID voucherId) {

@@ -56,8 +56,8 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public Optional<List<Customer>> findAll() {
-        return Optional.ofNullable(jdbcTemplate.query(SELECT_ALL_SQL, customerRowMapper));
+    public List<Customer> findAll() {
+        return jdbcTemplate.query(SELECT_ALL_SQL, customerRowMapper);
     }
 
     @Override

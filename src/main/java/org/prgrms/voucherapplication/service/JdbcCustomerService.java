@@ -29,7 +29,7 @@ public class JdbcCustomerService {
      * 모든 고객 리스트 반환
      * @return
      */
-    public Optional<List<Customer>> getAllCustomer() {
+    public List<Customer> getAllCustomer() {
         return customerRepository.findAll();
     }
 

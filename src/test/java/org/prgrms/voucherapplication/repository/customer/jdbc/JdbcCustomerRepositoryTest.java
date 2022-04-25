@@ -121,7 +121,7 @@ class JdbcCustomerRepositoryTest {
         var customers = jdbcCustomerRepository.findAll();
 
         assertThat(customers.isEmpty(), is(false));
-        assertThat(customers.get(), hasSize(3));
+        assertThat(customers, hasSize(3));
     }
 
     @Test
@@ -231,8 +231,8 @@ class JdbcCustomerRepositoryTest {
 
         jdbcCustomerRepository.deleteAll();
 
-        Optional<List<Customer>> customers = jdbcCustomerRepository.findAll();
-        assertThat(customers.get(), hasSize(0));
+        List<Customer> customers = jdbcCustomerRepository.findAll();
+        assertThat(customers, hasSize(0));
         Optional<SqlVoucher> byId = jdbcVoucherRepository.findById(issuedFixedAmountVoucher.getVoucherId());
         assertThat(byId.isEmpty(), is(true));
     }

@@ -1,10 +1,12 @@
 package org.prgrms.voucherapplication.view.io;
 
 import org.prgrms.voucherapplication.entity.BlackListCustomer;
+import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.entity.SqlVoucher;
 import org.prgrms.voucherapplication.entity.Voucher;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface Output {
     /**
@@ -27,4 +29,10 @@ public interface Output {
      * @param vouchers: SqlVoucher 타입의 List
      */
     void printSqlVoucherList(List<SqlVoucher> vouchers);
+
+    /**
+     * customer 정보 출력
+     * @param customer
+     */
+    void printCustomer(Optional<Customer> customer);
 }

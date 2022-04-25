@@ -52,7 +52,7 @@ public class JdbcVoucherService {
      * 모든 바우처 리스트 반환
      * @return
      */
-    public Optional<List<SqlVoucher>> getAllVoucher() {
+    public List<SqlVoucher> getAllVoucher() {
         return voucherRepository.findAll();
     }
 
@@ -77,7 +77,7 @@ public class JdbcVoucherService {
      */
     public Optional<Customer> getCustomerByVoucherId(UUID voucherId) {
         Optional<SqlVoucher> voucher = voucherRepository.findById(voucherId);
-        if (voucher.isPresent()) {
+        if (voucher.isPresent() && voucher.get().getVoucherOwner() != null) {
             return customerRepository.findById(voucher.get().getVoucherOwner());
         }
         return Optional.empty();

@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public interface CustomerRepository {
 
-    Optional<List<Customer>> findAll();
+    List<Customer> findAll();
 
     Customer insert(Customer customer);
 

@@ -92,8 +92,9 @@ public class VoucherManagement implements Runnable {
                         customerByInput.ifPresent(customer -> jdbcVoucherService.deleteVouchersByOwnedCustomer(customer));
                     }
                     case ISSUE_VOUCHER_TO_CUSTOMER -> {         // 8
-                        Optional<List<SqlVoucher>> allVoucher = jdbcVoucherService.getAllVoucher();
-                        allVoucher.ifPresent(vouchers -> console.printSqlVoucherList(vouchers));
+                        List<SqlVoucher> allVoucher = jdbcVoucherService.getAllVoucher();
+                        console.printSqlVoucherList(allVoucher);
+                        if (allVoucher.isEmpty()) break;
 
                         UUID voucherID = console.inputVoucherID();
                         CustomerInformationType customerInformationType = console.inputCustomerInformationForSearching();
@@ -101,14 +102,13 @@ public class VoucherManagement implements Runnable {
                         customerByInput.ifPresent(customer -> jdbcVoucherService.issueVoucherToCustomer(voucherID, customer));
                     }
                     case CUSTOMER_WITH_SPECIFIC_VOUCHER -> {    // 9
-                        Optional<List<SqlVoucher>> allVoucher = jdbcVoucherService.getAllVoucher();
-                        allVoucher.ifPresent(vouchers -> console.printSqlVoucherList(vouchers));
+                        List<SqlVoucher> allVoucher = jdbcVoucherService.getAllVoucher();
+                        console.printSqlVoucherList(allVoucher);
+                        if (allVoucher.isEmpty()) break;
 
                         UUID voucherID = console.inputVoucherID();
-                        jdbcVoucherService.getCustomerByVoucherId(voucherID)
-                                .ifPresent(customer ->
-                                        System.out.println(customer.toString())
-                                );
+                        Optional<Customer> customer = jdbcVoucherService.getCustomerByVoucherId(voucherID);
+                        console.printCustomer(customer);
                     }
                     default -> logger.error("Invalid Menu type in switch state");
                 }
