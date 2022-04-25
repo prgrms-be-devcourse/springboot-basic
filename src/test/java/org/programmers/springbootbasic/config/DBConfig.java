@@ -25,7 +25,6 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 )
 @EnableConfigurationProperties
 public class DBConfig {
-    private static EmbeddedMysql embeddedMysql;
 
     private static final String URL = "jdbc:mysql://localhost:2215/test-order_mgmt";
     private static final String USERNAME = "test";
@@ -60,7 +59,7 @@ public class DBConfig {
                 .withTimeZone("Asia/Seoul")
                 .build();
 
-        return embeddedMysql = anEmbeddedMysql(mysqldConfig)
+        return anEmbeddedMysql(mysqldConfig)
                 .addSchema(SCHEMA, classPathScript("schema.sql"))
                 .start();
     }
