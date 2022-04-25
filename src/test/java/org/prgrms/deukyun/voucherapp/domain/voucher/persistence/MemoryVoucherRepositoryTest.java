@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.voucher;
 
 class MemoryVoucherRepositoryTest {
 
@@ -21,7 +22,7 @@ class MemoryVoucherRepositoryTest {
     @BeforeEach
     void setup() {
         memoryRepository = new MemoryVoucherRepository();
-        voucher = dummyVoucher();
+        voucher = voucher();
     }
 
     @Nested
@@ -46,8 +47,8 @@ class MemoryVoucherRepositoryTest {
         @Test
         void 성공() {
             //setup
-            Voucher voucher1 = dummyVoucher();
-            Voucher voucher2 = dummyVoucher();
+            Voucher voucher1 = voucher();
+            Voucher voucher2 = voucher();
             memoryRepository.insert(voucher1);
             memoryRepository.insert(voucher2);
 
@@ -104,8 +105,8 @@ class MemoryVoucherRepositoryTest {
         @Test
         void 성공(){
             //setup
-            memoryRepository.insert(dummyVoucher());
-            memoryRepository.insert(dummyVoucher());
+            memoryRepository.insert(voucher());
+            memoryRepository.insert(voucher());
 
             //action
             memoryRepository.deleteAll();
@@ -113,10 +114,6 @@ class MemoryVoucherRepositoryTest {
             //assert
             assertThat(memoryRepository.findAll()).isEmpty();
         }
-    }
-
-    private Voucher dummyVoucher() {
-        return new FixedAmountDiscountVoucher(2000L);
     }
 
     private void assertVoucher(Voucher actualVoucher) {

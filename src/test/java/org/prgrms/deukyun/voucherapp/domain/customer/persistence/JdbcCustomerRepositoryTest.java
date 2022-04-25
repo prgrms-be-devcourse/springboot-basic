@@ -2,7 +2,7 @@ package org.prgrms.deukyun.voucherapp.domain.customer.persistence;
 
 import org.junit.jupiter.api.*;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
-import org.prgrms.deukyun.voucherapp.domain.testconfig.JdbcTestConfig;
+import org.prgrms.deukyun.voucherapp.domain.testutil.JdbcTestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.customer;
 
 @Transactional
 @SpringJUnitConfig
@@ -28,7 +29,7 @@ class JdbcCustomerRepositoryTest {
     @BeforeEach
     void setUp() {
         jdbcCustomerRepository = new JdbcCustomerRepository(jdbcTemplate);
-        customer = dummyCustomer();
+        customer = customer();
     }
 
     @Nested
@@ -52,8 +53,8 @@ class JdbcCustomerRepositoryTest {
         @Test
         void 성공() {
             //setup
-            Customer customer1 = dummyCustomer();
-            Customer customer2 = dummyCustomer();
+            Customer customer1 = customer();
+            Customer customer2 = customer();
             jdbcCustomerRepository.insert(customer1);
             jdbcCustomerRepository.insert(customer2);
 
@@ -109,8 +110,8 @@ class JdbcCustomerRepositoryTest {
         @Test
         void 성공(){
             //setup
-            jdbcCustomerRepository.insert(dummyCustomer());
-            jdbcCustomerRepository.insert(dummyCustomer());
+            jdbcCustomerRepository.insert(customer());
+            jdbcCustomerRepository.insert(customer());
 
             //action
             jdbcCustomerRepository.clear();
@@ -127,8 +128,5 @@ class JdbcCustomerRepositoryTest {
         assertThat(actualCustomer.getVouchers()).hasSameElementsAs(expectedCustomer.getVouchers());
     }
 
-    private static Customer dummyCustomer() {
-        return new Customer("ndy", true, Collections.emptyList());
-    }
 
 }

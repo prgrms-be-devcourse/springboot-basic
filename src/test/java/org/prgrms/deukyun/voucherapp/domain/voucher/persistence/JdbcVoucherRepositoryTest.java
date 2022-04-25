@@ -1,7 +1,7 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 
 import org.junit.jupiter.api.*;
-import org.prgrms.deukyun.voucherapp.domain.testconfig.JdbcTestConfig;
+import org.prgrms.deukyun.voucherapp.domain.testutil.JdbcTestConfig;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.voucher;
 
 @Transactional
 @SpringJUnitConfig
@@ -28,7 +29,7 @@ class JdbcVoucherRepositoryTest {
     @BeforeEach
     void setUp() {
         jdbcVoucherRepository = new JdbcVoucherRepository(jdbcTemplate);
-        voucher = dummyVoucher();
+        voucher = voucher();
     }
 
     @Nested
@@ -53,8 +54,8 @@ class JdbcVoucherRepositoryTest {
         @Test
         void 성공() {
             //setup
-            Voucher voucher1 = dummyVoucher();
-            Voucher voucher2 = dummyVoucher();
+            Voucher voucher1 = voucher();
+            Voucher voucher2 = voucher();
             jdbcVoucherRepository.insert(voucher1);
             jdbcVoucherRepository.insert(voucher2);
 
@@ -111,8 +112,8 @@ class JdbcVoucherRepositoryTest {
         @Test
         void 성공(){
             //setup
-            jdbcVoucherRepository.insert(dummyVoucher());
-            jdbcVoucherRepository.insert(dummyVoucher());
+            jdbcVoucherRepository.insert(voucher());
+            jdbcVoucherRepository.insert(voucher());
 
             //action
             jdbcVoucherRepository.deleteAll();
@@ -122,9 +123,6 @@ class JdbcVoucherRepositoryTest {
         }
     }
 
-    private static Voucher dummyVoucher() {
-        return new FixedAmountDiscountVoucher(2000L);
-    }
 
     private void assertVoucher(Voucher actualVoucher) {
         assertThat(actualVoucher).isNotNull();
@@ -136,6 +134,4 @@ class JdbcVoucherRepositoryTest {
         FixedAmountDiscountVoucher expectedFADV = (FixedAmountDiscountVoucher) expectedVoucher;
         assertThat(actualFADV.getAmount()).isEqualTo(expectedFADV.getAmount());
     }
-
-
 }

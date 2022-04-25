@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.percentDiscountVoucher;
 
 /**
  * PDV - abbreviation of PercentDiscountVoucher
@@ -16,20 +17,22 @@ class PercentDiscountVoucherTest {
         long percent = 20L;
 
         //when
-        Voucher voucher = percentDiscountVoucherWithPercent(percent);
+        PercentDiscountVoucher voucher = new PercentDiscountVoucher(20L);
 
         //assert
         assertThat(voucher).isNotNull();
+        assertThat(voucher.getId()).isNotNull();
+        assertThat(voucher.getPercent()).isEqualTo(percent);
     }
 
     @Test
-    void 실패_생성_음수_amount() {
+    void 실패_생성_범위_밖의_퍼센트() {
         //setup
-        long amount = -1000L;
+        long percent = 101L;
 
         //assert throws
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new PercentDiscountVoucher(amount));
+                .isThrownBy(() -> new PercentDiscountVoucher(percent));
 
     }
 
@@ -37,7 +40,7 @@ class PercentDiscountVoucherTest {
     void 성공_할인() {
         //setup
         long percent = 20L;
-        Voucher voucher = percentDiscountVoucherWithPercent(percent);
+        Voucher voucher = percentDiscountVoucher();
         long beforeDiscountPrice = 1000L;
 
         //when
@@ -45,9 +48,5 @@ class PercentDiscountVoucherTest {
 
         //assert
         assertThat(discountedPrice).isEqualTo(beforeDiscountPrice * (100 - percent) / 100);
-    }
-
-    private PercentDiscountVoucher percentDiscountVoucherWithPercent(long percent) {
-        return new PercentDiscountVoucher(percent);
     }
 }

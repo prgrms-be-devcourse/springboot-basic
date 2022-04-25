@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.domain.testconfig;
+package org.prgrms.deukyun.voucherapp.domain.testutil;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
