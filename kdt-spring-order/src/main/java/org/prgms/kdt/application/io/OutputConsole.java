@@ -1,6 +1,6 @@
 package org.prgms.kdt.application.io;
 
-import org.prgms.kdt.application.Member.domain.Member;
+import org.prgms.kdt.application.customer.domain.Customer;
 import org.prgms.kdt.application.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +41,7 @@ public class OutputConsole implements Output{
     }
 
     @Override
-    public void printBlackList(List<Member> blacklist) {
+    public void printBlackList(List<Customer> blacklist) {
         System.out.print("\n");
         if (blacklist.isEmpty()) {
             System.out.println("blacklist is Empty");
@@ -52,7 +52,7 @@ public class OutputConsole implements Output{
     }
 
     @Override
-    public void printError(Exception e) {
-        System.out.println("\n\u001B[31m"+e.toString()+"\u001B[0m\n");
+    public void printError(String errorMessage) {
+        System.out.println(errorMessage);
     }
 }

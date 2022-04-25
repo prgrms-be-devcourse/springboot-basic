@@ -1,12 +1,13 @@
-package org.prgms.kdt.application;
+package org.prgms.kdt.application.command;
 
 import java.util.Arrays;
 
 public enum CommandType {
     EXIT("exit"),
-    CREATE("create"),
-    LIST("list"),
-    BLACKLIST("blacklist");
+    CREATE_CUSTOMER("createVoucher"),
+    GET_CUSTOMER_LIST("getCustomerList"),
+    CREATE_VOUCHER("createVoucher"),
+    GET_VOUCHER_LIST("getVoucherList");
 
     private final String type;
 
@@ -18,6 +19,6 @@ public enum CommandType {
         return Arrays.stream(values())
                 .filter(i -> i.type.equals(type))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("This command type is not supported."));
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어 입니다."));
     }
 }
