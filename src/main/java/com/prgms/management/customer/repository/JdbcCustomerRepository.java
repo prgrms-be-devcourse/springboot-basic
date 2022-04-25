@@ -77,14 +77,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findByType(CustomerType type) {
-        return jdbcTemplate.query("SELECT * from customer WHERE type = :type",
+        return jdbcTemplate.query("SELECT * from customer WHERE type = :type ORDER BY created_at DESC",
             Collections.singletonMap("type", type.toString()),
             (rs, rowNum) -> mapToCustomer(rs));
     }
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("SELECT * from customer",
+        return jdbcTemplate.query("SELECT * from customer ORDER BY created_at DESC",
             (rs, rowNum) -> mapToCustomer(rs));
     }
 

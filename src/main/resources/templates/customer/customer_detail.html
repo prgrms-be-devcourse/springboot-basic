@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title th:text="${customer.name}">Customer</title>
+</head>
+<div class="row" layout:fragment="content">
+    <div class="col">
+        <form th:action="@{'/customers/' + ${customer.id}}"
+              th:method="put" th:object="${customer}">
+            <input name="_method" type="hidden" value="put">
+            <div class="form-group custom-margin-top-75">
+                <label for="customer_id">Customer Id</label>
+                <input class="form-control" id="customer_id" readonly th:field="*{id}" type="text">
+            </div>
+            <div class="form-group custom-margin-top-75">
+                <label for="customer_type">Customer Type</label>
+                <input class="form-control" id="customer_type" readonly th:field="*{type}" type="text">
+            </div>
+            <div class="form-group custom-margin-top-75">
+                <label for="customer_name">Customer Name</label>
+                <input class="form-control" id="customer_name" readonly th:field="*{name}" type="text">
+            </div>
+            <div class="form-group custom-margin-top-75">
+                <label for="customer_email">Customer Email</label>
+                <input class="form-control" id="customer_email" readonly th:field="*{email}" type="text">
+            </div>
+            <div class="form-group custom-margin-top-75">
+                <label for="customer_created_at">Customer created Date</label>
+                <input class="form-control" id="customer_created_at" readonly th:field="*{createdAt}" type="text">
+            </div>
+            <button class="btn btn-outline-dark custom-btn-max disabled" type="submit">수정하기</button>
+        </form>
+        <form id="delete-form" th:action="@{'/customers/' + ${customer.id}}" th:method="delete">
+            <input name="_method" type="hidden" value="delete"/>
+            <button class="btn btn-outline-dark custom-btn-max">삭제하기</button>
+        </form>
+    </div>
+    <div class="col">
+        <a class="btn btn-outline-dark custom-btn-max disabled" th:href="@{'/customers/'+${customer.id}+'voucher'}"
+           type="button">고객에게 바우처 할당하기</a>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Type</th>
+                <th scope="col">Figure</th>
+                <th scope="col">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${voucherList}" th:object="${voucher}">
+                <td>
+                    <a th:href="@{'/vouchers/'+ *{id}}" th:text="*{id}">ID</a>
+                </td>
+                <td th:text="*{type}">Type</td>
+                <td th:text="*{figure}">Figure</td>
+                <td th:text="*{name}">Name</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>
