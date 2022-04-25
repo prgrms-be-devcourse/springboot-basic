@@ -2,7 +2,7 @@ package com.prgrms.voucher_manager.io;
 
 import com.prgrms.voucher_manager.customer.Customer;
 import com.prgrms.voucher_manager.customer.service.CustomerService;
-import com.prgrms.voucher_manager.infra.VoucherServiceFacade;
+import com.prgrms.voucher_manager.infra.facade.VoucherServiceFacade;
 import com.prgrms.voucher_manager.voucher.Voucher;
 import com.prgrms.voucher_manager.voucher.service.VoucherService;
 import com.prgrms.voucher_manager.wallet.service.WalletService;
@@ -111,7 +111,7 @@ public class VoucherManagerConsole {
                         List<Customer> customers = customerService.findAllCustomer();
                         int customerIndex = Integer.parseInt(input.input("바우처를 관리할 고객을 골라주세요."));
                         Customer customer = customers.get(customerIndex);
-                        customerService.updateLastLoginDate(customer);
+                        customerService.updateCustomer(customer);
                         walletMenu(customer.getCustomerId());
                         break;
                     case LIST:
@@ -142,16 +142,16 @@ public class VoucherManagerConsole {
                     case INSERT:
                         List<Voucher> findAllVoucher = voucherService.getFindAllVoucher();
                         int voucherIndex = Integer.parseInt(input.input("할당할 바우처를 골라주세요 (번호 입력) : "));
-                        UUID voucherId = findAllVoucher.get(voucherIndex).getVoucherID();
+                        UUID voucherId = findAllVoucher.get(voucherIndex).getVoucherId();
                         walletService.createWallet(customerId, voucherId);
                         break;
                     case LIST:
                         voucherServiceFacade.findVoucherByCustomerId(customerId);
                         break;
                     case DELETE:
-                        voucherServiceFacade.findVoucherByCustomerId(customerId);
-                        int walletIndex = Integer.parseInt(input.input("지갑에서 삭제할 바우처를 골라주세요 (번호 입력) : "));
-                        walletService.deleteWallet(customerId, walletIndex);
+                        List<Voucher> vouchers = voucherServiceFacade.findVoucherByCustomerId(customerId);
+                        int index = Integer.parseInt(input.input("지갑에서 삭제할 바우처를 골라주세요 (번호 입력) : "));
+                        walletService.deleteWallet(customerId, vouchers.get(index).getVoucherId());
                         break;
                     case RETURN:
                         return;

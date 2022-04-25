@@ -20,9 +20,6 @@ public interface WalletRepository {
 
     List<Wallet> findByVoucherId(UUID voucherId);
 
-
-//    void deleteAll();
-
     void deleteByVoucherId(Wallet wallet);
 
 

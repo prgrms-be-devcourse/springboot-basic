@@ -61,6 +61,7 @@ public class SimpleCustomer implements Customer {
     }
 
 
+    @Override
     public void changeName(String name) {
         validateName(name);
         this.name = name;

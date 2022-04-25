@@ -1,8 +1,9 @@
 package com.prgrms.voucher_manager.wallet;
 
 
-import com.prgrms.voucher_manager.customer.JdbcCustomer;
+import com.prgrms.voucher_manager.customer.SimpleCustomer;
 import com.prgrms.voucher_manager.customer.repository.JdbcCustomerRepository;
+import com.prgrms.voucher_manager.infra.facade.VoucherServiceFacade;
 import com.prgrms.voucher_manager.voucher.FixedAmountVoucher;
 import com.prgrms.voucher_manager.voucher.PercentDiscountVoucher;
 import com.prgrms.voucher_manager.voucher.repository.JdbcVoucherRepository;
@@ -17,8 +18,10 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
@@ -34,6 +37,7 @@ import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@ActiveProfiles("test")
 @SpringJUnitConfig()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -42,15 +46,15 @@ class WalletRepositoryTest {
     private static final Logger logger = LoggerFactory.getLogger(WalletRepositoryTest.class);
 
     @Configuration
-    @ComponentScan(basePackages = {"com.prgrms.voucher_manager.wallet",
-            "com.prgrms.voucher_manager.voucher",
-            "com.prgrms.voucher_manager.customer"
+    @ComponentScan(basePackages = {"com.prgrms.voucher_manager.wallet.repository",
+            "com.prgrms.voucher_manager.voucher.repository",
+            "com.prgrms.voucher_manager.customer.repository"
     })
     static class Config {
         @Bean
         public DataSource dataSource() {
             var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test-jdbc-wallet-mgmt")
+                    .url("jdbc:mysql://localhost:2215/test-jdbc-voucher-mgmt")
                     .username("test")
                     .password("test1234!")
                     .type(HikariDataSource.class)
@@ -68,15 +72,18 @@ class WalletRepositoryTest {
     WalletRepository walletRepository;
 
     @Autowired
-    JdbcVoucherRepository jdbcVoucherRepository;
+    JdbcVoucherRepository voucherRepository;
 
     @Autowired
-    JdbcCustomerRepository jdbcCustomerRepository;
+    JdbcCustomerRepository customerRepository;
+
+//    @Autowired
+//    VoucherServiceFacade voucherServiceFacade;
 
     @Autowired
     DataSource dataSource;
 
-    Wallet newWallet, copyWallet , sameCustomerWallet, sameVoucherWallet;
+    Wallet newWallet, copyWallet , sameCustomerIdWallet, sameVoucherIdWallet;
 
     EmbeddedMysql embeddedMysql;
 
@@ -85,8 +92,8 @@ class WalletRepositoryTest {
 
         newWallet = new Wallet(UUID.randomUUID(), UUID.randomUUID());
         copyWallet = new Wallet(newWallet.getCustomerId(), newWallet.getVoucherId());
-        sameCustomerWallet = new Wallet(newWallet.getCustomerId(), UUID.randomUUID());
-        sameVoucherWallet = new Wallet(UUID.randomUUID(), newWallet.getVoucherId());
+        sameCustomerIdWallet = new Wallet(newWallet.getCustomerId(), UUID.randomUUID());
+        sameVoucherIdWallet = new Wallet(UUID.randomUUID(), newWallet.getVoucherId());
 
         var mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
@@ -96,15 +103,13 @@ class WalletRepositoryTest {
                 .build();
 
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-jdbc-wallet-mgmt", classPathScript("walletSchemaTest.sql"))
+                .addSchema("test-jdbc-voucher-mgmt", classPathScript("walletSchemaTest.sql"))
                 .start();
+        voucherRepository.insert(new FixedAmountVoucher(newWallet.getVoucherId(), 10));
+        voucherRepository.insert(new PercentDiscountVoucher(sameCustomerIdWallet.getVoucherId(), 20));
 
-        jdbcVoucherRepository.insert(new FixedAmountVoucher(newWallet.getVoucherId(), 10));
-        jdbcVoucherRepository.insert(new PercentDiscountVoucher(sameCustomerWallet.getVoucherId(), 20));
-
-        jdbcCustomerRepository.insert(new JdbcCustomer(newWallet.getCustomerId(), "beomsic", "test@gmail.com", LocalDateTime.now()));
-        jdbcCustomerRepository.insert(new JdbcCustomer(sameVoucherWallet.getCustomerId(), "beomsic2", "test2@gmail.com", LocalDateTime.now()));
-
+        customerRepository.insert(new SimpleCustomer(newWallet.getCustomerId(), "beomsic", "test@gmail.com", LocalDateTime.now()));
+        customerRepository.insert(new SimpleCustomer(sameVoucherIdWallet.getCustomerId(), "beomsic2", "test2@gmail.com", LocalDateTime.now()));
 
     }
 
@@ -125,18 +130,12 @@ class WalletRepositoryTest {
     @DisplayName("wallet insert 테스트")
     void testInsert() {
         try {
-
             walletRepository.insert(newWallet);
-            walletRepository.insert(sameCustomerWallet);
-            walletRepository.insert(sameVoucherWallet);
+            walletRepository.insert(sameCustomerIdWallet);
+            walletRepository.insert(sameVoucherIdWallet);
         } catch (BadSqlGrammarException e) {
             logger.error("testInsert - BadSqlGrammarException -> {}",e.getSQLException().getErrorCode());
         }
-
-        System.out.println("new Wallet : => " + newWallet.toString());
-        System.out.println("같은 customer 다른 voucher 추가 : => " + sameCustomerWallet.toString());
-        System.out.println("다른 customer 같은 voucher 추가 : => " + sameVoucherWallet.toString());
-        System.out.println(walletRepository.count());
 
         assertThat(walletRepository.count() == 3, is(true));
     }
@@ -151,7 +150,6 @@ class WalletRepositoryTest {
         } catch (BadSqlGrammarException e) {
             logger.error("testInsert - BadSqlGrammarException -> {}",e.getSQLException().getErrorCode());
         }
-
         List<Wallet> wallets = walletRepository.findAll();
         assertThat(wallets, hasSize(3));
     }
@@ -160,6 +158,7 @@ class WalletRepositoryTest {
     @Order(4)
     @DisplayName("walletRepository 에 들어있는 customer 수 조회 테스트")
     void testCountWalletRepository() {
+        assertThat(walletRepository.count() == 3, is(true));
         System.out.println(walletRepository.count());
     }
 
@@ -189,7 +188,7 @@ class WalletRepositoryTest {
             System.out.println(e.toString());
             assertThat(e, anyOf(
                     samePropertyValuesAs(newWallet),
-                    samePropertyValuesAs(sameVoucherWallet)
+                    samePropertyValuesAs(sameVoucherIdWallet)
             ));
         });
     }
@@ -205,7 +204,7 @@ class WalletRepositoryTest {
         wallets.forEach(e -> {
             assertThat(e, anyOf(
                     samePropertyValuesAs(newWallet),
-                    samePropertyValuesAs(sameCustomerWallet)
+                    samePropertyValuesAs(sameCustomerIdWallet)
             ));
         });
     }
@@ -216,7 +215,7 @@ class WalletRepositoryTest {
     void testUpdateCustomer() {
 
         FixedAmountVoucher otherVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1500);
-        jdbcVoucherRepository.insert(otherVoucher);
+        voucherRepository.insert(otherVoucher);
 
         UUID voucherId = newWallet.getVoucherId();
         newWallet.changeVoucher(otherVoucher);
@@ -227,7 +226,7 @@ class WalletRepositoryTest {
         assertThat(wallets, hasSize(3));
 
         List<Wallet> updateWallets = walletRepository.findByCustomerId(newWallet.getCustomerId());
-        System.out.println(sameCustomerWallet.getVoucherId());
+        System.out.println(sameCustomerIdWallet.getVoucherId());
         for (Wallet updateWallet : updateWallets) {
             System.out.println(updateWallet.getVoucherId());
         }
@@ -250,13 +249,8 @@ class WalletRepositoryTest {
         walletRepository.deleteByVoucherId(deleteWallet);
 
         wallets = walletRepository.findAll();
-        assertThat(wallets, hasSize(2));
-//        wallets.forEach(e -> {
-//            assertThat(e, anyOf(
-//                    samePropertyValuesAs(sameVoucherWallet),
-//                    samePropertyValuesAs(sameCustomerWallet)
-//            ));
-//        });
+        assertThat(wallets, hasSize(1));
+
     }
 
 }

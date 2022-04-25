@@ -13,19 +13,19 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Profile("default")
+@Profile({"default","test"})
 public class JdbcWalletRepository implements WalletRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcWalletRepository.class);
 
-    private static final String INSERT_SQL = "INSERT INTO wallet(voucher_id, customer_id) VALUES (UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId))";
-    private static final String UPDATE_BY_ID_SQL = "UPDATE wallet SET voucher_id = UUID_TO_BIN(:voucherId) WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:beforeVoucherId)";
+    private static final String INSERT_SQL = "INSERT INTO wallets(voucher_id, customer_id) VALUES (UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId))";
+    private static final String UPDATE_BY_ID_SQL = "UPDATE wallets SET voucher_id = UUID_TO_BIN(:voucherId) WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:beforeVoucherId)";
     private static final String DELETE_ALL_SQL = "DELETE FROM wallet";
-    private static final String DELETE_BY_ID_SQL = "DELETE FROM wallet WHERE customer_id = UUID_TO_BIN(:customerId) AND customer_id = UUID_TO_BIN(:customerId)";
-    private static final String SELECT_ALL_SQL = "SELECT * FROM wallet";
-    private static final String SELECT_BY_CUSTOMER_ID_SQL = "SELECT * FROM wallet WHERE customer_id = UUID_TO_BIN(:customerId)";
-    private static final String SELECT_BY_VOUCHER_ID_SQL = "SELECT * FROM wallet WHERE voucher_id = UUID_TO_BIN(:voucherId)";
-    private static final String SELECT_COUNT_ALL_SQL = "SELECT COUNT(*) FROM wallet";
+    private static final String DELETE_BY_ID_SQL = "DELETE FROM wallets WHERE customer_id = UUID_TO_BIN(:customerId) AND customer_id = UUID_TO_BIN(:customerId)";
+    private static final String SELECT_ALL_SQL = "SELECT * FROM wallets";
+    private static final String SELECT_BY_CUSTOMER_ID_SQL = "SELECT * FROM wallets WHERE customer_id = UUID_TO_BIN(:customerId)";
+    private static final String SELECT_BY_VOUCHER_ID_SQL = "SELECT * FROM wallets WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String SELECT_COUNT_ALL_SQL = "SELECT COUNT(*) FROM wallets";
 
 
     private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {

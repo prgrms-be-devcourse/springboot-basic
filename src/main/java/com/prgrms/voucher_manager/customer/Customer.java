@@ -17,4 +17,6 @@ public interface Customer {
 
     void loginInNow();
 
+    void changeName(String name);
+
 }

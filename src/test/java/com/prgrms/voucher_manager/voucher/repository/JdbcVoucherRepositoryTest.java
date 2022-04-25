@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
@@ -30,6 +31,7 @@ import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@ActiveProfiles("test")
 @SpringJUnitConfig()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -58,8 +60,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Autowired
-    JdbcVoucherRepository jdbcVoucherRepository;
-
+    JdbcVoucherRepository voucherRepository;
 
     @Autowired
     DataSource dataSource;
@@ -106,8 +107,8 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("voucher insert 테스트")
     void testInsert() {
         try {
-            jdbcVoucherRepository.insert(newFixedVoucher);
-            jdbcVoucherRepository.insert(newPercentVoucher);
+            voucherRepository.insert(newFixedVoucher);
+            voucherRepository.insert(newPercentVoucher);
         } catch (BadSqlGrammarException e) {
             logger.error("testInsert - BadSqlGrammarException -> {}",e.getSQLException().getErrorCode());
         }
@@ -115,11 +116,11 @@ class JdbcVoucherRepositoryTest {
         System.out.println("new Fix voucher : => " + newFixedVoucher.toString());
         System.out.println("new Percent voucher : => " + newPercentVoucher.toString());
 
-        Optional<Voucher> retrieveFixVoucher = jdbcVoucherRepository.findById(newFixedVoucher.getVoucherID());
+        Optional<Voucher> retrieveFixVoucher = voucherRepository.findById(newFixedVoucher.getVoucherId());
         assertThat(retrieveFixVoucher.isEmpty(), is(false));
         assertThat(retrieveFixVoucher.get(), samePropertyValuesAs(newFixedVoucher));
 
-        Optional<Voucher> retrievePercentVoucher = jdbcVoucherRepository.findById(newPercentVoucher.getVoucherID());
+        Optional<Voucher> retrievePercentVoucher = voucherRepository.findById(newPercentVoucher.getVoucherId());
         assertThat(retrievePercentVoucher.isEmpty(), is(false));
         assertThat(retrievePercentVoucher.get(), samePropertyValuesAs(newPercentVoucher));
     }
@@ -130,13 +131,13 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("value와 type이 같은 voucher insert 테스트")
     void testInsertDuplicateByEmail() {
         try {
-            jdbcVoucherRepository.insert(copyFixedVoucher);
+            voucherRepository.insert(copyFixedVoucher);
 //            jdbcVoucherRepository.insert(copyPercentVoucher);
         } catch (BadSqlGrammarException e) {
             logger.error("testInsert - BadSqlGrammarException -> {}",e.getSQLException().getErrorCode());
         }
 
-        Optional<Voucher> retrieveCustomer = jdbcVoucherRepository.findById(copyFixedVoucher.getVoucherID());
+        Optional<Voucher> retrieveCustomer = voucherRepository.findById(copyFixedVoucher.getVoucherId());
         assertThat(retrieveCustomer.isEmpty(), is(false));
         assertThat(retrieveCustomer.get(), samePropertyValuesAs(copyFixedVoucher));
 
@@ -146,7 +147,8 @@ class JdbcVoucherRepositoryTest {
     @Order(4)
     @DisplayName("JdbcVoucherRepository 에 들어있는 customer 수 조회 테스트")
     void testCountJdbcCustomerRepository() {
-        System.out.println(jdbcVoucherRepository.count());
+        assertThat(voucherRepository.count() == 2, is(true));
+        System.out.println(voucherRepository.count());
     }
 
 
@@ -154,7 +156,7 @@ class JdbcVoucherRepositoryTest {
     @Order(4)
     @DisplayName("voucher 전체 조회 테스트")
     void testFindAll() {
-        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
         vouchers.forEach(e -> {
             System.out.println(e.toString());
         });
@@ -166,11 +168,11 @@ class JdbcVoucherRepositoryTest {
     @Order(4)
     @DisplayName("voucher Id 를 이용해 조회 테스트")
     void testFindById() {
-        UUID fixVoucherId = newFixedVoucher.getVoucherID();
-        UUID percentVoucherId = newPercentVoucher.getVoucherID();
-        Optional<Voucher> voucher = jdbcVoucherRepository.findById(fixVoucherId);
+        UUID fixVoucherId = newFixedVoucher.getVoucherId();
+        UUID percentVoucherId = newPercentVoucher.getVoucherId();
+        Optional<Voucher> voucher = voucherRepository.findById(fixVoucherId);
         assertThat(voucher.get(), samePropertyValuesAs(newFixedVoucher));
-        voucher = jdbcVoucherRepository.findById(percentVoucherId);
+        voucher = voucherRepository.findById(percentVoucherId);
         assertThat(voucher.get(), samePropertyValuesAs(newPercentVoucher));
 
     }
@@ -180,14 +182,28 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("저장되어 있는 voucher 정보 수정 테스트")
     void testUpdateCustomer() {
         newFixedVoucher.changeValue(200L);
-        jdbcVoucherRepository.update(newFixedVoucher);
+        voucherRepository.update(newFixedVoucher);
 
-        List<Voucher> customers = jdbcVoucherRepository.findAll();
-        assertThat(customers, hasSize(3));
+        List<Voucher> customers = voucherRepository.findAll();
+        assertThat(customers, hasSize(2));
 
-        Optional<Voucher> retrievedCustomer = jdbcVoucherRepository.findById(newFixedVoucher.getVoucherID());
+        Optional<Voucher> retrievedCustomer = voucherRepository.findById(newFixedVoucher.getVoucherId());
+
         assertThat(retrievedCustomer.isEmpty(),is(false));
         assertThat(retrievedCustomer.get(),samePropertyValuesAs(newFixedVoucher));
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("voucher 삭제 테스트")
+    void testDeleteCustomer() {
+        voucherRepository.delete(newFixedVoucher);
+
+        List<Voucher> customers = voucherRepository.findAll();
+        assertThat(customers, hasSize(1));
+
+        Optional<Voucher> retrievedCustomer = voucherRepository.findById(newFixedVoucher.getVoucherId());
+        assertThat(retrievedCustomer.equals(Optional.empty()), is(true));
     }
 
 }

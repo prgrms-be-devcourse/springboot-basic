@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Profile("default")
+@Profile({"default","test"})
 public class JdbcVoucherRepository implements VoucherRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
