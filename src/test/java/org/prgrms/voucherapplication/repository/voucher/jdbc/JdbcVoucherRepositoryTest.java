@@ -1,6 +1,7 @@
 package org.prgrms.voucherapplication.repository.voucher.jdbc;
 
 import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.voucherapplication.entity.Customer;
@@ -43,7 +44,7 @@ class JdbcVoucherRepositoryTest {
 
         @Bean
         public DataSource dataSource() {
-            var dataSource = DataSourceBuilder.create()
+            HikariDataSource dataSource = DataSourceBuilder.create()
                     .url("jdbc:mysql://localhost:2215/test-voucher_mgmt")
                     .username("test")
                     .password("test1234!")
@@ -84,7 +85,7 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        var mysqldConfig = aMysqldConfig(v8_0_11)
+        MysqldConfig mysqldConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
                 .withUser("test", "test1234!")
@@ -110,13 +111,13 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("새 바우처 추가")
     void insert() {
-        var fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
-        var percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
+        SqlVoucher fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
+        SqlVoucher percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
 
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         jdbcVoucherRepository.insert(percentDiscountVoucher);
 
-        var vouchers = jdbcVoucherRepository.findAll();
+        List<SqlVoucher> vouchers = jdbcVoucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
         assertThat(vouchers, hasSize(2));
     }
@@ -124,20 +125,20 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("모든 바우처 조회")
     void findAll() {
-        var customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
-        var customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
+        Customer customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
 
-        var fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
-        var percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
-        var issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
-        var issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer2.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
+        SqlVoucher percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
+        SqlVoucher issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer2.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
 
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         jdbcVoucherRepository.insert(percentDiscountVoucher);
         jdbcVoucherRepository.insert(issuedFixedAmountVoucher);
         jdbcVoucherRepository.insert(issuedPercentDiscountVoucher);
 
-        var vouchers = jdbcVoucherRepository.findAll();
+        List<SqlVoucher> vouchers = jdbcVoucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
         assertThat(vouchers, hasSize(4));
     }
@@ -145,13 +146,13 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("id로 바우처 조회")
     void findById() {
-        var fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
-        var percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
+        SqlVoucher fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
+        SqlVoucher percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         jdbcVoucherRepository.insert(percentDiscountVoucher);
 
-        var fixedAmountVoucherById = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
-        var percentDiscountVoucherById = jdbcVoucherRepository.findById(percentDiscountVoucher.getVoucherId());
+        Optional<SqlVoucher> fixedAmountVoucherById = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
+        Optional<SqlVoucher> percentDiscountVoucherById = jdbcVoucherRepository.findById(percentDiscountVoucher.getVoucherId());
 
         assertThat(fixedAmountVoucherById.get(), samePropertyValuesAs(fixedAmountVoucher));
         assertThat(percentDiscountVoucherById.get(), samePropertyValuesAs(percentDiscountVoucher));
@@ -160,21 +161,21 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("isIssued(바우처 발행 여부)로 바우처 조회: 발행된 바우처 조회")
     void findIssuedVoucherByIsIssued() {
-        var customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
-        var customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
+        Customer customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer1);
         jdbcCustomerRepository.insert(customer2);
 
-        var fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
-        var percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
-        var issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
-        var issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer2.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
+        SqlVoucher percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
+        SqlVoucher issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer2.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         jdbcVoucherRepository.insert(percentDiscountVoucher);
         jdbcVoucherRepository.insert(issuedFixedAmountVoucher);
         jdbcVoucherRepository.insert(issuedPercentDiscountVoucher);
 
-        var byIsIssued = jdbcVoucherRepository.findByIsIssued(true);
+        Optional<List<SqlVoucher>> byIsIssued = jdbcVoucherRepository.findByIsIssued(true);
 
         assertThat(byIsIssued.isEmpty(), is(false));
         assertThat(byIsIssued.get(), hasSize(2));
@@ -183,21 +184,21 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("isIssued(바우처 발행 여부)로 바우처 조회: 발행되지 않은 바우처 조회")
     void findUnissuedVoucherByIsIssued() {
-        var customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
-        var customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
+        Customer customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer1);
         jdbcCustomerRepository.insert(customer2);
 
-        var fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
-        var percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
-        var issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
-        var issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer2.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
+        SqlVoucher percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
+        SqlVoucher issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer2.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         jdbcVoucherRepository.insert(percentDiscountVoucher);
         jdbcVoucherRepository.insert(issuedFixedAmountVoucher);
         jdbcVoucherRepository.insert(issuedPercentDiscountVoucher);
 
-        var byIsIssued = jdbcVoucherRepository.findByIsIssued(false);
+        Optional<List<SqlVoucher>> byIsIssued = jdbcVoucherRepository.findByIsIssued(false);
 
         assertThat(byIsIssued.isEmpty(), is(false));
         assertThat(byIsIssued.get(), hasSize(2));
@@ -206,19 +207,19 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("voucherOwner(바우처 소유자)로 바우처 조회")
     void findByVoucherOwner() {
-        var customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer);
 
-        var fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
-        var percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
-        var issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
-        var issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
+        SqlVoucher percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
+        SqlVoucher issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         jdbcVoucherRepository.insert(percentDiscountVoucher);
         jdbcVoucherRepository.insert(issuedFixedAmountVoucher);
         jdbcVoucherRepository.insert(issuedPercentDiscountVoucher);
 
-        var byVoucherOwner = jdbcVoucherRepository.findByVoucherOwner(customer.getCustomerId());
+        Optional<List<SqlVoucher>> byVoucherOwner = jdbcVoucherRepository.findByVoucherOwner(customer.getCustomerId());
 
         assertThat(byVoucherOwner.isEmpty(), is(false));
         assertThat(byVoucherOwner.get(), hasSize(2));
@@ -227,18 +228,18 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("바우처 정보 변경: 고객에게 바우처 발행")
     void update() {
-        var customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer);
 
-        var fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
-        var percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
+        SqlVoucher fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
+        SqlVoucher percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         jdbcVoucherRepository.insert(percentDiscountVoucher);
 
         fixedAmountVoucher.issueVoucher(customer.getCustomerId());
         jdbcVoucherRepository.update(fixedAmountVoucher);
 
-        var byVoucherOwner = jdbcVoucherRepository.findByVoucherOwner(customer.getCustomerId());
+        Optional<List<SqlVoucher>> byVoucherOwner = jdbcVoucherRepository.findByVoucherOwner(customer.getCustomerId());
         assertThat(byVoucherOwner.isEmpty(), is(false));
         assertThat(byVoucherOwner.get(), hasSize(1));
     }
@@ -246,11 +247,11 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("바우처 삭제: 특정 고객이 가진 바우처 삭제")
     void deleteById() {
-        var customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer);
 
-        var fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
-        var percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
+        SqlVoucher fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
+        SqlVoucher percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         jdbcVoucherRepository.insert(percentDiscountVoucher);
 
@@ -259,8 +260,8 @@ class JdbcVoucherRepositoryTest {
 
         jdbcVoucherRepository.deleteById(fixedAmountVoucher.getVoucherId());
 
-        var byVoucherOwner = jdbcVoucherRepository.findByVoucherOwner(customer.getCustomerId());
-        var byId = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
+        Optional<List<SqlVoucher>> byVoucherOwner = jdbcVoucherRepository.findByVoucherOwner(customer.getCustomerId());
+        Optional<SqlVoucher> byId = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
         assertThat(byVoucherOwner.get(), hasSize(0));
         assertThat(byId.isEmpty(), is(true));
     }
@@ -268,15 +269,15 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("바우처 삭제: 모든 바우처 삭제")
     void deleteAll() {
-        var customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
-        var customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
+        Customer customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer1);
         jdbcCustomerRepository.insert(customer2);
 
-        var fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
-        var percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
-        var issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
-        var issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer2.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher fixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 100, LocalDateTime.now());
+        SqlVoucher percentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 20, LocalDateTime.now());
+        SqlVoucher issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher issuedPercentDiscountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT.name(), 30, customer2.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         jdbcVoucherRepository.insert(percentDiscountVoucher);
         jdbcVoucherRepository.insert(issuedFixedAmountVoucher);
@@ -284,7 +285,7 @@ class JdbcVoucherRepositoryTest {
 
         jdbcVoucherRepository.deleteAll();
 
-        var all = jdbcVoucherRepository.findAll();
+        List<SqlVoucher> all = jdbcVoucherRepository.findAll();
         assertThat(all, hasSize(0));
     }
 }

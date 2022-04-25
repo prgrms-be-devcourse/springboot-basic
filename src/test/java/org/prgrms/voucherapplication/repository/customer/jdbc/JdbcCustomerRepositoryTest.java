@@ -1,6 +1,7 @@
 package org.prgrms.voucherapplication.repository.customer.jdbc;
 
 import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.voucherapplication.entity.Customer;
@@ -44,7 +45,7 @@ class JdbcCustomerRepositoryTest {
 
         @Bean
         public DataSource dataSource() {
-            var dataSource = DataSourceBuilder.create()
+            HikariDataSource dataSource = DataSourceBuilder.create()
                     .url("jdbc:mysql://localhost:2215/test-voucher_mgmt")
                     .username("test")
                     .password("test1234!")
@@ -85,7 +86,7 @@ class JdbcCustomerRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        var mysqldConfig = aMysqldConfig(v8_0_11)
+        MysqldConfig mysqldConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
                 .withUser("test", "test1234!")
@@ -110,15 +111,15 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("전체 고객 조회")
     void findAll() {
-        var customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
-        var customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
-        var customer3 = new Customer(UUID.randomUUID(), "test-user3", "test-user3@gmail.com", LocalDateTime.now());
+        Customer customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
+        Customer customer3 = new Customer(UUID.randomUUID(), "test-user3", "test-user3@gmail.com", LocalDateTime.now());
 
         jdbcCustomerRepository.insert(customer1);
         jdbcCustomerRepository.insert(customer2);
         jdbcCustomerRepository.insert(customer3);
 
-        var customers = jdbcCustomerRepository.findAll();
+        List<Customer> customers = jdbcCustomerRepository.findAll();
 
         assertThat(customers.isEmpty(), is(false));
         assertThat(customers, hasSize(3));
@@ -127,7 +128,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("새 고객 추가")
     void insert() {
-        var customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
 
         jdbcCustomerRepository.insert(customer);
 
@@ -138,7 +139,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("고객 정보 변경: 고객 이름 변경")
     void updateName() {
-        var customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer);
         customer.changeName("test-user1-changed");
 
@@ -152,8 +153,8 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("고객 정보 변경: 고객 이메일 변경 (중복X)")
     void updateNonDuplicateEmail() {
-        var customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
-        var customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
+        Customer customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer1);
         jdbcCustomerRepository.insert(customer2);
         customer1.changeEmail("test-user1-changed@gmail.com");
@@ -168,8 +169,8 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("고객 정보 변경: 고객 이메일 변경 (중복 O)")
     void updateDuplicateEmail() {
-        var customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
-        var customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
+        Customer customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer1);
         jdbcCustomerRepository.insert(customer2);
         customer1.changeEmail("test-user2@gmail.com");
@@ -183,7 +184,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("고객 id로 고객 조회")
     void findById() {
-        var customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
 
         jdbcCustomerRepository.insert(customer);
 
@@ -195,7 +196,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("고객 이름으로 고객 조회")
     void findByName() {
-        var customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer);
 
         Optional<Customer> customerByName = jdbcCustomerRepository.findByName(customer.getName());
@@ -206,7 +207,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("고객 이메일로 고객 조회")
     void findByEmail() {
-        var customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
 
         jdbcCustomerRepository.insert(customer);
 
@@ -218,14 +219,14 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("전체 고객 삭제")
     void deleteAll() {
-        var customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
-        var customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
-        var customer3 = new Customer(UUID.randomUUID(), "test-user3", "test-user3@gmail.com", LocalDateTime.now());
+        Customer customer1 = new Customer(UUID.randomUUID(), "test-user1", "test-user1@gmail.com", LocalDateTime.now());
+        Customer customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-user2@gmail.com", LocalDateTime.now());
+        Customer customer3 = new Customer(UUID.randomUUID(), "test-user3", "test-user3@gmail.com", LocalDateTime.now());
         jdbcCustomerRepository.insert(customer1);
         jdbcCustomerRepository.insert(customer2);
         jdbcCustomerRepository.insert(customer3);
 
-        var issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
+        SqlVoucher issuedFixedAmountVoucher = new SqlVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT.name(), 50, customer1.getCustomerId(), true, LocalDateTime.now(), LocalDateTime.now());
         jdbcVoucherRepository.insert(issuedFixedAmountVoucher);
 
 

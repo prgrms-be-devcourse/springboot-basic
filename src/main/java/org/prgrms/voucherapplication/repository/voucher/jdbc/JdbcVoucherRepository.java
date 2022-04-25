@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -31,14 +32,14 @@ public class JdbcVoucherRepository {
     private final String DELETE_ALL_SQL = "DELETE FROM vouchers";
 
     private static final RowMapper<SqlVoucher> sqlVoucherRowMapper = (resultSet, rowNum) -> {
-        var voucherId = Util.toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = resultSet.getString("voucher_type");
-        var discountAmount = resultSet.getLong("discount_amount");
-        var voucherOwner = resultSet.getBytes("voucher_owner") != null ?
+        UUID voucherId = Util.toUUID(resultSet.getBytes("voucher_id"));
+        String voucherType = resultSet.getString("voucher_type");
+        long discountAmount = resultSet.getLong("discount_amount");
+        UUID voucherOwner = resultSet.getBytes("voucher_owner") != null ?
                 Util.toUUID(resultSet.getBytes("voucher_owner")) : null;
-        var isIssued = resultSet.getBoolean("is_issued");
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var issuedAt = resultSet.getTimestamp("issued_at") != null ?
+        boolean isIssued = resultSet.getBoolean("is_issued");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime issuedAt = resultSet.getTimestamp("issued_at") != null ?
                 resultSet.getTimestamp("issued_at").toLocalDateTime() : null;
 
         return new SqlVoucher(voucherId, voucherType, discountAmount, voucherOwner, isIssued, createdAt, issuedAt);
@@ -62,7 +63,7 @@ public class JdbcVoucherRepository {
 
 
     public SqlVoucher insert(SqlVoucher voucher) {
-        var update = jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
+        int update = jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
         if (update != 1) {
             throw new DataNotInsertedException();
         }
@@ -112,7 +113,7 @@ public class JdbcVoucherRepository {
     }
 
     public SqlVoucher update(SqlVoucher voucher) {
-        var update = jdbcTemplate.update(UPDATE_SQL, toParamMap(voucher));
+        int update = jdbcTemplate.update(UPDATE_SQL, toParamMap(voucher));
         if (update != 1) {
             throw new DataNotUpdatedException();
         }

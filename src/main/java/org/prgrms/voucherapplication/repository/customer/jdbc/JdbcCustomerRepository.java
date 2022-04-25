@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -31,12 +32,12 @@ public class JdbcCustomerRepository implements CustomerRepository{
     private final String DELETE_ISSUED_VOUCHER_SQL = "DELETE FROM vouchers WHERE is_issued = true";
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        var customerName = resultSet.getString("name");// "name"이라는 컬럼의 값을 가져옴
-        var customerId = Util.toUUID(resultSet.getBytes("customer_id"));    // byte를 UUID 바꿔야 함
-        var email = resultSet.getString("email");
-        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
+        String customerName = resultSet.getString("name");// "name"이라는 컬럼의 값을 가져옴
+        UUID customerId = Util.toUUID(resultSet.getBytes("customer_id"));    // byte를 UUID 바꿔야 함
+        String email = resultSet.getString("email");
+        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     };
@@ -62,7 +63,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public Customer insert(Customer customer) {
-        var update = jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
+        int update = jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
         if (update != 1) {
             throw new DataNotInsertedException();
         }
