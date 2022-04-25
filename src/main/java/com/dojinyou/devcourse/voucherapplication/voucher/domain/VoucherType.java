@@ -1,4 +1,4 @@
-package com.dojinyou.devcourse.voucherapplication.voucher.Entity;
+package com.dojinyou.devcourse.voucherapplication.voucher.domain;
 
 public enum VoucherType {
     FIXED, PERCENT;
