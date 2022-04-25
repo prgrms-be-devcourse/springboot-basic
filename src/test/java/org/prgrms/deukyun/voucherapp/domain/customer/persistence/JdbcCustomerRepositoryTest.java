@@ -39,7 +39,7 @@ class JdbcCustomerRepositoryTest {
             //when
             Customer insertedCustomer = jdbcCustomerRepository.insert(customer);
 
-            //assert
+            //then
             assertCustomer(insertedCustomer, customer);
         }
     }
@@ -96,6 +96,23 @@ class JdbcCustomerRepositoryTest {
 
             //assert
             assertThat(foundCustomer).isNotPresent();
+        }
+    }
+
+    @Nested
+    class deleteAllTest{
+
+        @Test
+        void givenTwoInsertion_whenCallDeleteAll_thenFindAllReturnsEmptyList(){
+            //setup
+            jdbcCustomerRepository.insert(dummyCustomer());
+            jdbcCustomerRepository.insert(dummyCustomer());
+
+            //action
+            jdbcCustomerRepository.clear();
+
+            //assert
+            assertThat(jdbcCustomerRepository.findAll()).isEmpty();
         }
     }
 

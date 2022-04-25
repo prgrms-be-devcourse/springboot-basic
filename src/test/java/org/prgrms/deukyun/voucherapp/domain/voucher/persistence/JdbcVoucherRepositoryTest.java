@@ -101,6 +101,23 @@ class JdbcVoucherRepositoryTest {
         }
     }
 
+    @Nested
+    class deleteAllTest{
+
+        @Test
+        void givenTwoInsertion_whenCallDeleteAll_thenFindAllReturnsEmptyList(){
+            //setup
+            jdbcVoucherRepository.insert(dummyVoucher());
+            jdbcVoucherRepository.insert(dummyVoucher());
+
+            //action
+            jdbcVoucherRepository.deleteAll();
+
+            //assert
+            assertThat(jdbcVoucherRepository.findAll()).isEmpty();
+        }
+    }
+
     private static Voucher dummyVoucher() {
         return new FixedAmountDiscountVoucher(2000L);
     }

@@ -15,5 +15,5 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    void clear();
+    void deleteAll();
 }

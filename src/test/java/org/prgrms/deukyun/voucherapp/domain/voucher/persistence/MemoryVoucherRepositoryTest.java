@@ -94,16 +94,16 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Nested
-    class clearTest{
+    class deleteAllTest{
 
         @Test
-        void givenTwoInsertion_whenCallClear_thenFindAllReturnsEmptyList(){
+        void givenTwoInsertion_whenCallDeleteAll_thenFindAllReturnsEmptyList(){
             //setup
             memoryRepository.insert(dummyVoucher());
             memoryRepository.insert(dummyVoucher());
 
             //action
-            memoryRepository.clear();
+            memoryRepository.deleteAll();
 
             //assert
             assertThat(memoryRepository.findAll()).isEmpty();

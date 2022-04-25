@@ -20,7 +20,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String insertQuery = "INSERT INTO voucher(voucher_id, voucher_type, amount, percent) VALUES (:id, :type, :amount, :percent)";
     private static final String findAllQuery = "SELECT * FROM voucher";
     private static final String findByIdQuery = "SELECT * FROM voucher WHERE voucher_id = :id";
-    private static final String clearQuery = "DELETE FROM voucher";
+    private static final String deleteAllQuery = "DELETE FROM voucher";
 
     @Override
     public Voucher insert(Voucher voucher) {
@@ -29,7 +29,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(insertQuery, paramMap);
         return voucher;
     }
-
 
     @Override
     public Optional<Voucher> findById(UUID id) {
@@ -47,10 +46,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void clear() {
-        jdbcTemplate.update(clearQuery, Collections.emptyMap());
+    public void deleteAll() {
+        jdbcTemplate.update(deleteAllQuery, Collections.emptyMap());
     }
-
 
     private Map<String, Object> resolveParamMap(Voucher voucher) {
 
