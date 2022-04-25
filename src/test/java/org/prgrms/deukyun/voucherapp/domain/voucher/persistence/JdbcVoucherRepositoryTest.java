@@ -1,40 +1,34 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 
 import org.junit.jupiter.api.*;
+import org.prgrms.deukyun.voucherapp.domain.testconfig.JdbcTestConfig;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.VoucherFactory;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
+@SpringJUnitConfig
+@ContextConfiguration(classes = JdbcTestConfig.class)
 class JdbcVoucherRepositoryTest {
 
-    static JdbcVoucherRepository jdbcVoucherRepository;
-    static Voucher voucher;
+    @Autowired NamedParameterJdbcTemplate jdbcTemplate;
+    JdbcVoucherRepository jdbcVoucherRepository;
+    Voucher voucher;
 
-    static DataSource dataSource;
-
-    @BeforeAll
-    static void setup() {
-        dataSource = DataSourceBuilder
-                .create()
-                .url("jdbc:h2:mem:testdb;INIT=RUNSCRIPT FROM 'classpath:/schema.sql';DB_CLOSE_DELAY=-1")
-                .driverClassName("org.h2.Driver")
-                .build();
-        jdbcVoucherRepository = new JdbcVoucherRepository(new NamedParameterJdbcTemplate(dataSource));
+    @BeforeEach
+    void setUp() {
+        jdbcVoucherRepository = new JdbcVoucherRepository(jdbcTemplate);
         voucher = dummyVoucher();
-    }
-
-    @AfterEach
-    void cleanup() {
-        jdbcVoucherRepository.clear();
     }
 
     @Nested
@@ -107,23 +101,6 @@ class JdbcVoucherRepositoryTest {
         }
     }
 
-    @Nested
-    class clearTest{
-
-        @Test
-        void givenTwoInsertion_whenCallClear_thenFindAllReturnsEmptyList(){
-            //setup
-            jdbcVoucherRepository.insert(dummyVoucher());
-            jdbcVoucherRepository.insert(dummyVoucher());
-
-            //action
-            jdbcVoucherRepository.clear();
-
-            //assert
-            assertThat(jdbcVoucherRepository.findAll()).isEmpty();
-        }
-    }
-
     private static Voucher dummyVoucher() {
         return new FixedAmountDiscountVoucher(2000L);
     }
@@ -138,4 +115,6 @@ class JdbcVoucherRepositoryTest {
         FixedAmountDiscountVoucher expectedFADV = (FixedAmountDiscountVoucher) expectedVoucher;
         assertThat(actualFADV.getAmount()).isEqualTo(expectedFADV.getAmount());
     }
+
+
 }

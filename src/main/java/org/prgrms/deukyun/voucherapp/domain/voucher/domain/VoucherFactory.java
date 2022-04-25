@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.UUID;
 
 public class VoucherFactory {
+
     public static Voucher createVoucher(String type, long argument) {
         if ("fixed".equals(type)) {
             return new FixedAmountDiscountVoucher(argument);

@@ -2,10 +2,13 @@ package org.prgrms.deukyun.voucherapp.domain.customer.persistence;
 
 import org.junit.jupiter.api.*;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.prgrms.deukyun.voucherapp.domain.testconfig.JdbcTestConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -13,24 +16,20 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
+@SpringJUnitConfig
+@ContextConfiguration(classes = JdbcTestConfig.class)
 class JdbcCustomerRepositoryTest {
 
-    static JdbcCustomerRepository jdbcCustomerRepository;
-    static Customer customer;
+    @Autowired NamedParameterJdbcTemplate jdbcTemplate;
+    JdbcCustomerRepository jdbcCustomerRepository;
+    Customer customer;
 
-    static DataSource dataSource;
-
-    @BeforeAll
-    static void setup() {
-        dataSource = DataSourceBuilder
-                .create()
-                .url("jdbc:h2:mem:testdb;INIT=RUNSCRIPT FROM 'classpath:/schema.sql';DB_CLOSE_DELAY=-1")
-                .driverClassName("org.h2.Driver")
-                .build();
-        jdbcCustomerRepository = new JdbcCustomerRepository(new NamedParameterJdbcTemplate(dataSource));
+    @BeforeEach
+    void setUp() {
+        jdbcCustomerRepository = new JdbcCustomerRepository(jdbcTemplate);
         customer = dummyCustomer();
     }
-
 
     @Nested
     class insertTest {
@@ -107,30 +106,8 @@ class JdbcCustomerRepositoryTest {
         assertThat(actualCustomer.getVouchers()).hasSameElementsAs(expectedCustomer.getVouchers());
     }
 
-    @Nested
-    class clearTest{
-
-        @Test
-        void givenTwoInsertion_whenCallClear_thenFindAllReturnsEmptyList(){
-            //setup
-            jdbcCustomerRepository.insert(dummyCustomer());
-            jdbcCustomerRepository.insert(dummyCustomer());
-
-            //action
-            jdbcCustomerRepository.clear();
-
-            //assert
-            assertThat(jdbcCustomerRepository.findAll()).isEmpty();
-        }
-    }
-
     private static Customer dummyCustomer() {
         return new Customer("ndy", true, Collections.emptyList());
     }
 
-
-    @AfterEach
-    void cleanup() {
-        jdbcCustomerRepository.clear();
-    }
 }
