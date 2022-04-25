@@ -21,6 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -131,9 +132,9 @@ class JdbcVoucherRepositoryTest {
     @Order(4)
     @DisplayName("타입 별 바우처를 조회할 수 있다.")
     public void testFindByType() {
-        var fixedAmountVouchers = voucherRepository.findByType(VoucherType.FixedAmount);
+        List<Voucher> fixedAmountVouchers = voucherRepository.findByType(VoucherType.FixedAmount);
         assertThat(fixedAmountVouchers.size(), is(1));
-        var percentDiscountVouchers = voucherRepository.findByType(VoucherType.PercentDiscount);
+        List<Voucher> percentDiscountVouchers = voucherRepository.findByType(VoucherType.PercentDiscount);
         assertThat(percentDiscountVouchers.size(), is(1));
     }
 
@@ -143,13 +144,13 @@ class JdbcVoucherRepositoryTest {
     public void testUpdate() {
         newFixedAmountVoucher.changeValue(8000);
         voucherRepository.update(newFixedAmountVoucher);
-        var changedFixedAmountVoucher = voucherRepository.findById(newFixedAmountVoucher.getVoucherId());
+        Optional<Voucher> changedFixedAmountVoucher = voucherRepository.findById(newFixedAmountVoucher.getVoucherId());
         assertThat(changedFixedAmountVoucher.isEmpty(), is(false));
         assertThat(changedFixedAmountVoucher.get().getValue(), is(newFixedAmountVoucher.getValue()));
 
         newPercentDiscountVoucher.changeValue(80);
         voucherRepository.update(newPercentDiscountVoucher);
-        var changedPercentDiscountVoucher = voucherRepository.findById(newPercentDiscountVoucher.getVoucherId());
+        Optional<Voucher> changedPercentDiscountVoucher = voucherRepository.findById(newPercentDiscountVoucher.getVoucherId());
         assertThat(changedPercentDiscountVoucher.isEmpty(), is(false));
         assertThat(changedPercentDiscountVoucher.get().getValue(), is(newPercentDiscountVoucher.getValue()));
     }
@@ -161,7 +162,7 @@ class JdbcVoucherRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@mail.com", LocalDateTime.now().withNano(0));
         newFixedAmountVoucher.changeOwner(customer);
         voucherRepository.update(newFixedAmountVoucher);
-        var changedFixedAmountVoucher = voucherRepository.findById(newFixedAmountVoucher.getVoucherId());
+        Optional<Voucher> changedFixedAmountVoucher = voucherRepository.findById(newFixedAmountVoucher.getVoucherId());
         assertThat(changedFixedAmountVoucher.isEmpty(), is(false));
         assertThat(changedFixedAmountVoucher.get(), samePropertyValuesAs(newFixedAmountVoucher));
 

@@ -19,6 +19,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -120,7 +121,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("전체 고객을 조회할 수 있다.")
     @Order(3)
     public void testFindAll() {
-        var customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
         assertThat(customers.isEmpty(), is(false));
     }
 
@@ -128,10 +129,10 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("이름으로 고객을 조회할 수 있다.")
     @Order(4)
     public void testFindByName() {
-        var customer = customerRepository.findByName(newCustomer.getName());
+        Optional<Customer> customer = customerRepository.findByName(newCustomer.getName());
         assertThat(customer.isEmpty(), is(false));
 
-        var unknown = customerRepository.findByName("unknown-user");
+        Optional<Customer> unknown = customerRepository.findByName("unknown-user");
         assertThat(unknown.isEmpty(), is(true));
     }
 
@@ -139,10 +140,10 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("이메일으로 고객을 조회할 수 있다.")
     @Order(5)
     public void testFindByEmail() {
-        var customer = customerRepository.findByEmail(newCustomer.getEmail());
+        Optional<Customer> customer = customerRepository.findByEmail(newCustomer.getEmail());
         assertThat(customer.isEmpty(), is(false));
 
-        var unknown = customerRepository.findByEmail("unknown-user@gmail.com");
+        Optional<Customer> unknown = customerRepository.findByEmail("unknown-user@gmail.com");
         assertThat(unknown.isEmpty(), is(true));
     }
 
@@ -153,10 +154,10 @@ class JdbcCustomerRepositoryTest {
         newCustomer.changeName("updated-user");
         customerRepository.update(newCustomer);
 
-        var all = customerRepository.findAll();
+        List<Customer> all = customerRepository.findAll();
         assertThat(all, hasSize(1));
         assertThat(all, everyItem(samePropertyValuesAs(newCustomer)));
-        var retrievedCustomer = customerRepository.findById(newCustomer.getCustomerId());
+        Optional<Customer> retrievedCustomer = customerRepository.findById(newCustomer.getCustomerId());
         assertThat(retrievedCustomer.isEmpty(), is(false));
         assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
     }
@@ -168,8 +169,8 @@ class JdbcCustomerRepositoryTest {
         newCustomer.toBlack();
         customerRepository.update(newCustomer);
 
-        var blackList = customerRepository.findBlackStatus(true);
-        var whiteList = customerRepository.findBlackStatus(false);
+        List<Customer> blackList = customerRepository.findBlackStatus(true);
+        List<Customer> whiteList = customerRepository.findBlackStatus(false);
         assertThat(blackList, hasSize(1));
         assertThat(whiteList, hasSize(0));
 

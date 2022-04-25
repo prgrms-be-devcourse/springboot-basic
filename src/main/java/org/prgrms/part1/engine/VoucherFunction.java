@@ -35,7 +35,7 @@ public class VoucherFunction {
 
     public void showListMenu() {
         while (true) {
-            var num = selectDomain();
+            String num = selectDomain();
             Optional<DomainType> domainType = DomainType.findMatchingCode(num);
             if (domainType.isEmpty()) {
                 logger.debug("User select back to previous page");
@@ -67,7 +67,7 @@ public class VoucherFunction {
 
     public void showCreateMenu() {
         while (true) {
-            var num = selectDomain();
+            String num = selectDomain();
             Optional<DomainType> domainType = DomainType.findMatchingCode(num);
             if (domainType.isEmpty()) {
                 logger.debug("User select back to previous page");
@@ -79,13 +79,13 @@ public class VoucherFunction {
 
     public void showVoucherCreateMenu() {
         while (true) {
-            var num = selectVoucherType();
+            String num = selectVoucherType();
             Optional<VoucherType> voucherType = VoucherType.findMatchingCode(num);
             if (voucherType.isEmpty()) {
                 logger.debug("User select back to main menu");
                 return;
             }
-            var inputValue = input.inputQuestion("Type discount amount(percent) of Voucher : ");
+            String inputValue = input.inputQuestion("Type discount amount(percent) of Voucher : ");
             Integer value = parseValue(inputValue);
             Voucher voucher = voucherService.insertVoucher(voucherType.get().createVoucher(UUID.randomUUID(), value, LocalDateTime.now().withNano(0)));
             logger.info(MessageFormat.format("Create Voucher.\n{0}", voucher.toString()));
@@ -117,7 +117,7 @@ public class VoucherFunction {
 
     public void showSearchMenu() {
         while (true) {
-            var num = selectDomain();
+            String num = selectDomain();
             Optional<DomainType> domainType = DomainType.findMatchingCode(num);
             if (domainType.isEmpty()) {
                 logger.debug("User select back to previous page");

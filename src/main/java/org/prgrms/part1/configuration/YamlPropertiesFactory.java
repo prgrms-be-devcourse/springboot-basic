@@ -6,15 +6,15 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
 
-import java.io.IOException;
+import java.util.Properties;
 
 public class YamlPropertiesFactory implements PropertySourceFactory {
     @Override
     public PropertySource<?> createPropertySource(String name, EncodedResource encodedResource) {
-        var yamlPropertiesFactoryBean = new YamlPropertiesFactoryBean();
+        YamlPropertiesFactoryBean yamlPropertiesFactoryBean = new YamlPropertiesFactoryBean();
         yamlPropertiesFactoryBean.setResources(encodedResource.getResource());
 
-        var properties = yamlPropertiesFactoryBean.getObject();
+        Properties properties = yamlPropertiesFactoryBean.getObject();
         return new PropertiesPropertySource(encodedResource.getResource().getFilename(), properties);
     }
 }

@@ -22,12 +22,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
     public void deleteAll() {
-
+        storage.clear();
     }
 
     @Override
@@ -37,21 +38,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public int count() {
-        return 0;
+        return storage.size();
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public List<Voucher> findByType(VoucherType voucherType) {
-        return null;
-    }
-
-    @Override
-    public List<Voucher> findByCustomer(Customer customer) {
-        return null;
+        return Optional.ofNullable(storage.get(voucherId));
     }
 }

@@ -7,8 +7,6 @@ import org.junit.jupiter.api.*;
 import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.engine.repository.CustomerRepository;
 import org.prgrms.part1.engine.repository.JdbcCustomerRepository;
-import org.prgrms.part1.engine.repository.JdbcVoucherRepository;
-import org.prgrms.part1.engine.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +28,8 @@ import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

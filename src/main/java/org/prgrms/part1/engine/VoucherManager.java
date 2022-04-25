@@ -31,14 +31,13 @@ public class VoucherManager implements Runnable{
         logger.debug("Voucher program On");
         while (true) {
             try {
-                var selection = selectMainMenu();
+                String selection = selectMainMenu();
                 Optional<VoucherMenu> menu = VoucherMenu.findMatchingMenu(selection);
                 if (menu.isEmpty()) {
                     logger.debug("User type invalid command.");
                     throw new VoucherException("Please type valid command");
                 }
-                Boolean termination = menu.get().runMethod(voucherFunction);
-                if (termination) {
+                if (menu.get().runMethod(voucherFunction)) {
                     logger.debug("User select exit.");
                     logger.debug("Voucher Program Off");
                     break;

@@ -2,25 +2,42 @@ package org.prgrms.part1.engine.repository;
 
 import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.engine.domain.Voucher;
+import org.prgrms.part1.exception.VoucherException;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
-    List<Customer> findAll();
+    default List<Customer> findAll() {
+        throw new VoucherException("미완성 기능입니다.");
+    }
 
-    List<Customer> findBlackStatus(Boolean isBlack);
+    default List<Customer> findBlackStatus(Boolean isBlack) {
+        throw new VoucherException("미완성 기능입니다.");
+    }
 
-    Optional<Customer> findById(UUID customerId);
+    default Optional<Customer> findById(UUID customerId) {
+        throw new VoucherException("미완성 기능입니다.");
+    }
 
-    Optional<Customer> findByName(String name);
+    default Optional<Customer> findByName(String name) {
+        throw new VoucherException("미완성 기능입니다.");
+    }
 
-    Optional<Customer> findByEmail(String email);
+    default Optional<Customer> findByEmail(String email) {
+        throw new VoucherException("미완성 기능입니다.");
+    }
 
-    Customer insert(Customer customer);
+    default Customer insert(Customer customer) {
+        throw new VoucherException("미완성 기능입니다.");
+    }
 
-    Customer update(Customer customer);
+    default Customer update(Customer customer) {
+        throw new VoucherException("미완성 기능입니다.");
+    }
 
-    void deleteAll();
+    default void deleteAll() {
+        throw new VoucherException("미완성 기능입니다.");
+    }
 }

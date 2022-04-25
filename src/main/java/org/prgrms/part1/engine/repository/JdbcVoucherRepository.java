@@ -10,9 +10,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.prgrms.part1.engine.util.JdbcUtil.toUUID;
 
 @Repository
 @Profile({"test", "default"})
@@ -21,11 +23,11 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var value = resultSet.getInt(voucherType.getValueColumnName());
-        var customerId = resultSet.getBytes("customer_id") != null ? toUUID(resultSet.getBytes("customer_id")) : null;
+        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        Integer value = resultSet.getInt(voucherType.getValueColumnName());
+        UUID customerId = resultSet.getBytes("customer_id") != null ? toUUID(resultSet.getBytes("customer_id")) : null;
         return voucherType.createVoucher(voucherId, customerId, value, createdAt);
     };
 
@@ -78,7 +80,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher insert(Voucher voucher) {
-        var paramMap = toParamMap(voucher);
+        Map<String, Object> paramMap = toParamMap(voucher);
         int insertCount = jdbcTemplate.update("insert into vouchers (voucher_id, voucher_type, " + voucher.getVoucherType().getValueColumnName() + ", created_at) values (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :value, :createdAt);",paramMap);
         if (insertCount != 1) {
             throw new VoucherException("Voucher cant be inserted!");
@@ -88,7 +90,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher update(Voucher voucher) {
-        var paramMap = toParamMap(voucher);
+        Map<String, Object> paramMap = toParamMap(voucher);
         int updateCount = jdbcTemplate.update("update vouchers set "+ voucher.getVoucherType().getValueColumnName() + "= :value, customer_id = UNHEX(REPLACE(:customerId, '-', '')) where voucher_id = UNHEX(REPLACE(:voucherId, '-', ''));",paramMap);
         if (updateCount < 1) {
             throw new VoucherException("Nothing was updated!");
@@ -99,10 +101,5 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

@@ -1,8 +1,6 @@
 package org.prgrms.part1.engine.repository;
 
 import org.prgrms.part1.engine.domain.Customer;
-import org.prgrms.part1.engine.domain.Voucher;
-import org.prgrms.part1.engine.enumtype.VoucherType;
 import org.prgrms.part1.exception.VoucherException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,9 +8,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.prgrms.part1.engine.util.JdbcUtil.toUUID;
 
 @Repository
 @Profile({"test", "default"})
@@ -21,12 +21,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var customerName = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        var isBlack = resultSet.getBoolean("is_black");
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        String customerName = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        Boolean isBlack = resultSet.getBoolean("is_black");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     };
 
@@ -84,7 +84,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        var paramMap = toParamMap(customer);
+        Map<String, Object> paramMap = toParamMap(customer);
         int update = jdbcTemplate.update("insert into customers(customer_id, name, is_black, email, created_at) values (UNHEX(REPLACE(:customerId, '-', '')), :name, :isBlack, :email, :createdAt);", paramMap);
         if (update != 1) {
             throw new VoucherException("Customer cant be inserted");
@@ -94,7 +94,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        var paramMap = toParamMap(customer);
+        Map<String, Object> paramMap = toParamMap(customer);
         int update = jdbcTemplate.update("update customers set name = :name, is_black = :isBlack, last_login_at = :lastLoginAt where customer_id = UNHEX(REPLACE(:customerId, '-', ''));", paramMap);
         if (update < 1) {
             throw new VoucherException("Noting was updated");
@@ -105,10 +105,5 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from customers;", Collections.emptyMap());
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

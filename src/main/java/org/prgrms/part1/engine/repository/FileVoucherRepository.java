@@ -1,6 +1,5 @@
 package org.prgrms.part1.engine.repository;
 
-import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.engine.domain.Voucher;
 import org.prgrms.part1.engine.enumtype.VoucherType;
 import org.prgrms.part1.exception.VoucherException;
@@ -31,16 +30,6 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
-        return null;
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
         try {
@@ -48,9 +37,9 @@ public class FileVoucherRepository implements VoucherRepository {
             if(!dir.exists()) {
                 return vouchers;
             }
-            File[] files = dir.listFiles();
-            if(files != null) {
-                for (File file:files) {
+            Optional<File[]> files = Optional.ofNullable(dir.listFiles());
+            if(files.isPresent()) {
+                for (File file:files.get()) {
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     UUID voucherId = UUID.fromString(br.readLine());
                     VoucherType type = VoucherType.valueOf(br.readLine());
@@ -69,21 +58,16 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public int count() {
-        return 0;
-    }
-
-    @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public List<Voucher> findByType(VoucherType voucherType) {
-        return null;
-    }
-
-    @Override
-    public List<Voucher> findByCustomer(Customer customer) {
-        return null;
+        List<Voucher> vouchers = new ArrayList<>();
+        try {
+            File dir = new File(path);
+            if(!dir.exists()) {
+                return 0;
+            }
+            Optional<File[]> files = Optional.ofNullable(dir.listFiles());
+            return files.isEmpty() ? 0 : files.get().length;
+        } catch(Exception ex) {
+            throw new VoucherException("Broken voucher file problem. Please call developer");
+        }
     }
 }

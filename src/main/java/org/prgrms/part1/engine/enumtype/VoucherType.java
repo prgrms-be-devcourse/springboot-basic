@@ -5,9 +5,10 @@ import org.prgrms.part1.engine.domain.PercentDiscountVoucher;
 import org.prgrms.part1.engine.domain.Voucher;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public enum VoucherType {
     FixedAmount("1", "amount") {
@@ -53,7 +54,9 @@ public enum VoucherType {
 
     public abstract Voucher createVoucher(UUID voucherId, UUID customerID, Integer value, LocalDateTime createdAt);
 
+    private static final Map<String, VoucherType> map = Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(VoucherType::getCode, Function.identity())));
+
     public static Optional<VoucherType> findMatchingCode(String input) {
-        return Optional.ofNullable(Arrays.stream(values()).filter(vt -> vt.code.equals(input)).findFirst().orElse(null));
+        return Optional.ofNullable(map.get(input));
     }
 }

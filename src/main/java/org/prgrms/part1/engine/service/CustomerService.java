@@ -25,10 +25,7 @@ public class CustomerService {
 
     public Customer getCustomerById(UUID customerId) {
         Optional<Customer> customer = customerRepository.findById(customerId);
-        if (customer.isEmpty()) {
-            throw new VoucherException("Invalid customer id.");
-        }
-        return customer.get();
+        return customer.orElseThrow(() -> new VoucherException("Invalid customer id."));
     }
 
     public Customer createCustomer(String name, String email) {
