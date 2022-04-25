@@ -14,8 +14,8 @@ public class VoucherManagerApplication {
 
     public static void main(String[] args) throws IOException {
         ApplicationContext applicationContext = SpringApplication.run(VoucherManagerApplication.class, args);
-        var console = applicationContext.getBean(VoucherManagerConsole.class);
-        console.run();
+//        var console = applicationContext.getBean(VoucherManagerConsole.class);
+//        console.run();
 
         //var applicationContext = springApplication.run(args);
         //var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
