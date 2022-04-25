@@ -1,11 +1,15 @@
 package com.blessing333.springbasic.voucher.service;
 
 import com.blessing333.springbasic.voucher.domain.Voucher;
-import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
+import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface VoucherService {
-    Voucher createNewVoucher(ConvertedVoucherCreateForm form);
+    Voucher registerVoucher(VoucherCreateForm form);
     List<Voucher> loadAllVoucher();
+    List<Voucher> loadVouchersByType(Voucher.VoucherType type);
+    Voucher loadVoucherInformationById(UUID voucherId);
+    void deleteVoucher(UUID voucherId);
 }

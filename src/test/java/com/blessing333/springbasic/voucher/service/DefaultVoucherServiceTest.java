@@ -2,7 +2,7 @@ package com.blessing333.springbasic.voucher.service;
 
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.domain.Voucher.VoucherType;
-import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
+import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import com.blessing333.springbasic.voucher.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,9 +27,9 @@ class DefaultVoucherServiceTest {
     @Test
     void createFixedVoucherTest() {
         long discountAmount = 5000;
-        ConvertedVoucherCreateForm form = new ConvertedVoucherCreateForm(VoucherType.FIXED, discountAmount);
+        VoucherCreateForm form = new VoucherCreateForm(VoucherType.FIXED, discountAmount);
 
-        Voucher newVoucher = service.createNewVoucher(form);
+        Voucher newVoucher = service.registerVoucher(form);
 
         UUID id = newVoucher.getVoucherId();
         assertTrue(repository.findById(id).isPresent());
@@ -40,9 +40,9 @@ class DefaultVoucherServiceTest {
     @Test
     void createVoucherTestWithIncorrectForm() {
         long discountPercent = 50;
-        ConvertedVoucherCreateForm form = new ConvertedVoucherCreateForm(VoucherType.PERCENT, discountPercent);
+        VoucherCreateForm form = new VoucherCreateForm(VoucherType.PERCENT, discountPercent);
 
-        Voucher newVoucher = service.createNewVoucher(form);
+        Voucher newVoucher = service.registerVoucher(form);
 
         UUID id = newVoucher.getVoucherId();
         assertTrue(repository.findById(id).isPresent());
@@ -51,12 +51,12 @@ class DefaultVoucherServiceTest {
     @DisplayName(" 모든 바우처 조회 - 성공")
     @Test
     void loadAllVoucherTest() {
-        ConvertedVoucherCreateForm form1 = new ConvertedVoucherCreateForm(VoucherType.PERCENT, 50);
-        ConvertedVoucherCreateForm form2 = new ConvertedVoucherCreateForm(VoucherType.FIXED, 5000);
-        ConvertedVoucherCreateForm form3 = new ConvertedVoucherCreateForm(VoucherType.FIXED, 20000);
-        Voucher newVoucher1 = service.createNewVoucher(form1);
-        Voucher newVoucher2 = service.createNewVoucher(form2);
-        Voucher newVoucher3 = service.createNewVoucher(form3);
+        VoucherCreateForm form1 = new VoucherCreateForm(VoucherType.PERCENT, 50);
+        VoucherCreateForm form2 = new VoucherCreateForm(VoucherType.FIXED, 5000);
+        VoucherCreateForm form3 = new VoucherCreateForm(VoucherType.FIXED, 20000);
+        Voucher newVoucher1 = service.registerVoucher(form1);
+        Voucher newVoucher2 = service.registerVoucher(form2);
+        Voucher newVoucher3 = service.registerVoucher(form3);
 
         List<Voucher> candi = List.of(newVoucher1, newVoucher2, newVoucher3);
         List<Voucher> vouchers = service.loadAllVoucher();

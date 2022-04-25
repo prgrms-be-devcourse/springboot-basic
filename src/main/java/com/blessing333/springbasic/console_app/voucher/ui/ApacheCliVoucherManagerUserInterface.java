@@ -4,7 +4,7 @@ import com.blessing333.springbasic.console_app.ui.ApacheCommandLine;
 import com.blessing333.springbasic.console_app.ui.CommandOptionConfigurer;
 import com.blessing333.springbasic.console_app.ui.CommandOptions;
 import com.blessing333.springbasic.voucher.domain.Voucher;
-import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
+import com.blessing333.springbasic.voucher.dto.VoucherCreateFormPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -60,12 +60,12 @@ public class ApacheCliVoucherManagerUserInterface extends ApacheCommandLine impl
     }
 
     @Override
-    public VoucherCreateForm requestVoucherInformation() {
+    public VoucherCreateFormPayload requestVoucherInformation() {
         showVoucherTypeSelectText();
         String voucherType = inputMessage();
         printMessage("할인 금액 혹은 비율을 입력하세요");
         String discountAmount = inputMessage();
-        return new VoucherCreateForm(voucherType, discountAmount);
+        return new VoucherCreateFormPayload(voucherType, discountAmount);
     }
 
     @Override

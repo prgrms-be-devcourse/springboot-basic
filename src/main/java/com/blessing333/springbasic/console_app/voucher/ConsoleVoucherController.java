@@ -5,10 +5,10 @@ import com.blessing333.springbasic.console_app.RunnableController;
 import com.blessing333.springbasic.console_app.ui.CommandNotSupportedException;
 import com.blessing333.springbasic.console_app.voucher.ui.VoucherCommandOptionType;
 import com.blessing333.springbasic.console_app.voucher.ui.VoucherManagerUserInterface;
-import com.blessing333.springbasic.voucher.converter.Converter;
+import com.blessing333.springbasic.voucher.converter.VoucherConverter;
 import com.blessing333.springbasic.voucher.domain.Voucher;
-import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
+import com.blessing333.springbasic.voucher.dto.VoucherCreateFormPayload;
 import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import com.blessing333.springbasic.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import java.util.List;
 public class ConsoleVoucherController implements RunnableController {
     private final VoucherService voucherService;
     private final VoucherManagerUserInterface userInterface;
-    private final Converter converter;
+    private final VoucherConverter voucherConverter;
 
     @Override
     public void startService() {
@@ -50,9 +50,9 @@ public class ConsoleVoucherController implements RunnableController {
 
     private void startCreateNewVoucher(){
         try {
-            VoucherCreateForm form = userInterface.requestVoucherInformation();
-            ConvertedVoucherCreateForm convertedForm = converter.convert(form);
-            Voucher newVoucher = voucherService.createNewVoucher(convertedForm);
+            VoucherCreateFormPayload form = userInterface.requestVoucherInformation();
+            VoucherCreateForm convertedForm = voucherConverter.convert(form);
+            Voucher newVoucher = voucherService.registerVoucher(convertedForm);
             userInterface.printVoucherCreateSuccessMessage(newVoucher);
         } catch (VoucherCreateFailException e){
             log.error(ExceptionStackTraceConverter.convertToString(e));

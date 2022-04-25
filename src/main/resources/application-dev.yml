@@ -4,3 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3306/kdt
     username: blessing333
     password: 12345678
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true

@@ -19,7 +19,6 @@ public class Voucher {
     private final UUID voucherId;
     private final VoucherType voucherType;
     private long discountAmount;
-
     public Voucher(UUID id, VoucherType voucherType, long discountAmount){
         validateDiscountAmount(voucherType,discountAmount);
         this.discountAmount = discountAmount;

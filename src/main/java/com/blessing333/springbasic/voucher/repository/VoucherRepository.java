@@ -11,9 +11,13 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
+    List<Voucher> findByVoucherType(Voucher.VoucherType type);
+
     void insert(Voucher voucher);
 
     void update(Voucher voucher);
 
     void deleteAll();
+
+    void deleteById(UUID id);
 }

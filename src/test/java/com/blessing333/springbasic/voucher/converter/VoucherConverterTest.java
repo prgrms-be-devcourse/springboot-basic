@@ -1,28 +1,28 @@
 package com.blessing333.springbasic.voucher.converter;
 
 import com.blessing333.springbasic.voucher.domain.Voucher;
-import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
+import com.blessing333.springbasic.voucher.dto.VoucherCreateFormPayload;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ConverterTest {
-    private final Converter converter = new Converter();
+class VoucherConverterTest {
+    private final VoucherConverter voucherConverter = new VoucherConverter();
 
     @DisplayName("VoucherCreateForm 정상 변환")
     @Test
     void convertValidVoucherCreateForm() {
         String voucherTypeNumber = Voucher.VoucherType.FIXED.getOptionNumber();
         String discountAmount = "5000";
-        VoucherCreateForm voucherCreateForm = new VoucherCreateForm(voucherTypeNumber, discountAmount);
+        VoucherCreateFormPayload voucherCreateFormPayload = new VoucherCreateFormPayload(voucherTypeNumber, discountAmount);
 
-        ConvertedVoucherCreateForm convertedVoucherCreateForm = converter.convert(voucherCreateForm);
+        VoucherCreateForm voucherCreateForm = voucherConverter.convert(voucherCreateFormPayload);
 
-        assertThat(convertedVoucherCreateForm.getVoucherType()).isEqualTo(Voucher.VoucherType.FIXED);
-        assertThat(convertedVoucherCreateForm.getDiscountAmount()).isEqualTo(Integer.parseInt(discountAmount));
+        assertThat(voucherCreateForm.getVoucherType()).isEqualTo(Voucher.VoucherType.FIXED);
+        assertThat(voucherCreateForm.getDiscountAmount()).isEqualTo(Integer.parseInt(discountAmount));
     }
 
     @DisplayName("VoucherCreateForm 변환 실패 - 비정상적인 voucherType")
@@ -30,9 +30,9 @@ class ConverterTest {
     void convertWithInValidVoucherType() {
         String invalidVoucherTypeNumber = "-1";
         String discountAmount = "5000";
-        VoucherCreateForm voucherCreateForm = new VoucherCreateForm(invalidVoucherTypeNumber, discountAmount);
+        VoucherCreateFormPayload voucherCreateFormPayload = new VoucherCreateFormPayload(invalidVoucherTypeNumber, discountAmount);
 
-        assertThrows(ConvertFailException.class, () -> converter.convert(voucherCreateForm));
+        assertThrows(ConvertFailException.class, () -> voucherConverter.convert(voucherCreateFormPayload));
     }
 
     @DisplayName("VoucherCreateForm 변환 실패 - 비정상적인 discountAmount")
@@ -40,9 +40,9 @@ class ConverterTest {
     void convertWithInValidDiscountAmount() {
         String voucherTypeNumber = Voucher.VoucherType.PERCENT.getOptionNumber();
         String discountAmount = "-1000";
-        VoucherCreateForm voucherCreateForm = new VoucherCreateForm(voucherTypeNumber, discountAmount);
+        VoucherCreateFormPayload voucherCreateFormPayload = new VoucherCreateFormPayload(voucherTypeNumber, discountAmount);
 
-        assertThrows(ConvertFailException.class, () -> converter.convert(voucherCreateForm));
+        assertThrows(ConvertFailException.class, () -> voucherConverter.convert(voucherCreateFormPayload));
     }
 
 }

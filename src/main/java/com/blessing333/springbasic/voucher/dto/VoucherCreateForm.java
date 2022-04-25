@@ -1,11 +1,14 @@
 package com.blessing333.springbasic.voucher.dto;
 
+import com.blessing333.springbasic.voucher.domain.Voucher;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
 @AllArgsConstructor
-public class VoucherCreateForm{
-    String voucherType;
-    String discountAmount;
+@Getter
+@Setter
+public class VoucherCreateForm {
+    Voucher.VoucherType voucherType;
+    long discountAmount;
 }

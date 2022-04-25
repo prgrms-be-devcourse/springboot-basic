@@ -1,9 +1,10 @@
 package com.blessing333.springbasic.voucher.service;
 
 import com.blessing333.springbasic.voucher.domain.Voucher;
-import com.blessing333.springbasic.voucher.dto.ConvertedVoucherCreateForm;
+import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import com.blessing333.springbasic.voucher.repository.VoucherRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,13 +13,14 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class DefaultVoucherService implements VoucherService {
     private final VoucherRepository repository;
 
     @Transactional
     @Override
-    public Voucher createNewVoucher(ConvertedVoucherCreateForm form) {
+    public Voucher registerVoucher(VoucherCreateForm form) {
         UUID id = UUID.randomUUID();
         Voucher newVoucher = new Voucher(id,form.getVoucherType(), form.getDiscountAmount());
         repository.insert(newVoucher);
@@ -28,5 +30,20 @@ public class DefaultVoucherService implements VoucherService {
     @Override
     public List<Voucher> loadAllVoucher() {
         return repository.findAll();
+    }
+
+    @Override
+    public Voucher loadVoucherInformationById(UUID voucherId) {
+        return repository.findById(voucherId).orElseThrow(IllegalArgumentException::new);
+    }
+
+    @Override
+    public List<Voucher> loadVouchersByType(Voucher.VoucherType type) {
+        return repository.findByVoucherType(type);
+    }
+
+    @Override
+    public void deleteVoucher(UUID voucherId) {
+        repository.deleteById(voucherId);
     }
 }

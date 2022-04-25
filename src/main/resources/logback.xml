@@ -22,7 +22,7 @@
     <root>
         <level value="info" />
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="LOGFILE"/>
+<!--        <appender-ref ref="LOGFILE"/>-->
     </root>
 
 </configuration>
