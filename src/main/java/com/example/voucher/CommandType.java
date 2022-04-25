@@ -8,7 +8,7 @@ public enum CommandType {
 	EMPTY;
 	public static CommandType of(String commandTypeStr) {
 		return Arrays.stream(values())
-				.filter(voucherType -> voucherType.equals(commandTypeStr))
+				.filter(voucherType -> voucherType.name().equals(commandTypeStr))
 				.findAny()
 				.orElse(EMPTY);
 	}
