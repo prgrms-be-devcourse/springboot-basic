@@ -15,7 +15,7 @@ public class VoucherWallet {
     private UUID id;
     private Customer customer;
     private Voucher voucher;
-    
+
     public VoucherWallet(Customer customer, Voucher voucher) {
         this(UUID.randomUUID(), customer, voucher);
     }

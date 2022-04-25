@@ -13,43 +13,35 @@ import java.util.List;
 @Component
 public class Console implements Input, Output<Voucher> {
     private final TextIO textIO = TextIoFactory.getTextIO();
-    
+
     @Override
     public String getCommand() {
         printString("=========== Voucher Program ===========");
-        Arrays.stream(CommandType.values())
-            .filter(c -> c != CommandType.ERROR)
-            .forEach(value -> printString(value.getConsoleScript()));
+        Arrays.stream(CommandType.values()).filter(c -> c != CommandType.ERROR).forEach(value -> printString(value.getConsoleScript()));
         printString("");
-        
-        return textIO.newStringInputReader()
-            .withDefaultValue("list")
-            .read("Command");
+
+        return textIO.newStringInputReader().withDefaultValue("list").read("Command");
     }
-    
+
     @Override
     public Voucher getVoucher() {
         printString("=================== Create Voucher ===================");
-        Arrays.stream(VoucherType.values())
-            .filter(v -> v != VoucherType.ERROR)
-            .forEach(value -> printString(value.getConsoleScript()));
+        Arrays.stream(VoucherType.values()).filter(v -> v != VoucherType.ERROR).forEach(value -> printString(value.getConsoleScript()));
         printString("");
-        
-        String command = textIO.newStringInputReader()
-            .withDefaultValue("fixed")
-            .read("Voucher type").toLowerCase();
-        
+
+        String command = textIO.newStringInputReader().withDefaultValue("fixed").read("Voucher type").toLowerCase();
+
         VoucherType voucherType = VoucherType.of(command);
         return voucherType.createVoucherFromConsole(textIO);
     }
-    
+
     @Override
     public void printListCustomer(List<Customer> list) {
         for (Customer customer : list) {
             printString(customer.toString());
         }
     }
-    
+
     @Override
     public void printListVoucher(List<Voucher> list) {
         if (list.isEmpty()) {
@@ -60,17 +52,17 @@ public class Console implements Input, Output<Voucher> {
             }
         }
     }
-    
+
     @Override
     public void printOneVoucher(Voucher voucher) {
         printString("CREATE >> " + voucher.toString());
     }
-    
+
     @Override
     public void printString(String str) {
         textIO.getTextTerminal().println(str);
     }
-    
+
     public void close() {
         textIO.dispose();
     }

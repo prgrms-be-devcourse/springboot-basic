@@ -23,12 +23,12 @@ import java.util.UUID;
 @Profile({"dev"})
 public class FileVoucherRepository implements VoucherRepository {
     private final Resource resource;
-    
+
     public FileVoucherRepository(@Value("${database.file.voucher}") String filename) {
         DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
         this.resource = defaultResourceLoader.getResource(filename);
     }
-    
+
     @Override
     public Voucher findById(UUID voucherId) {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
@@ -48,25 +48,25 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         throw new FindFailException();
     }
-    
+
     @Override
     public List<Voucher> findByType(VoucherType type) {
         // TODO Type에 따른 바우처 목록을 CSV 파일에서 찾아서 반환
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public List<Voucher> findByDate(Timestamp start, Timestamp end) {
         // TODO 생성일에 따른 바우처 목록을 CSV 파일에서 찾아서 반환
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public List<Voucher> findByTypeAndDate(VoucherType type, Timestamp start, Timestamp end) {
         // TODO 생성일과 Type에 따른 바우처 목록을 CSV 파일에서 찾아서 반환
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
@@ -87,7 +87,7 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         return vouchers;
     }
-    
+
     @Override
     public Voucher save(Voucher voucher) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(resource.getFile(), true))) {
@@ -98,7 +98,7 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         return voucher;
     }
-    
+
     @Override
     public void removeById(UUID voucherId) {
         // TODO ID에 따른 바우처 정보를 CSV 파일에서 삭제

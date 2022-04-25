@@ -18,7 +18,7 @@ public abstract class Voucher implements VoucherPolicy {
     private final Integer figure;
     private final VoucherType type;
     private String name;
-    
+
     protected Voucher(UUID id, String name, Integer figure, Timestamp createdAt, VoucherType type, Integer MAX,
                       Integer MIN) {
         if (figure < MIN || figure > MAX) {
@@ -30,7 +30,7 @@ public abstract class Voucher implements VoucherPolicy {
         this.type = type;
         this.name = name;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,7 +38,7 @@ public abstract class Voucher implements VoucherPolicy {
         Voucher voucher = (Voucher) o;
         return Objects.equals(id, voucher.id) && Objects.equals(figure, voucher.figure) && type == voucher.type && Objects.equals(name, voucher.name);
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(id, figure, type, name);

@@ -29,13 +29,13 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SimpleVoucherServiceTest {
-    
+
     @Mock
     private VoucherRepository voucherRepository;
-    
+
     @InjectMocks
     private SimpleVoucherService voucherService;
-    
+
     @DisplayName("addVoucher() : 바우처 저장 테스트")
     @Nested
     @TestMethodOrder(MethodOrderer.DisplayName.class)
@@ -52,7 +52,7 @@ class SimpleVoucherServiceTest {
             assertThat(result.getFigure(), is(voucher.getFigure()));
             verify(voucherRepository, only()).save(voucher);
         }
-        
+
         @DisplayName("실패 : 레포지토리 단에서 저장에 실패한 경우 SaveFailException 예외가 발생합니다.")
         @Test
         void addFail() {
@@ -64,7 +64,7 @@ class SimpleVoucherServiceTest {
             verify(voucherRepository, only()).save(voucher);
         }
     }
-    
+
     @DisplayName("findVouchers() : 바우처 목록 조회 테스트")
     @Nested
     class FindVouchersTest {
@@ -80,7 +80,7 @@ class SimpleVoucherServiceTest {
             assertThat(resultList, equalTo(expectedList));
             verify(voucherRepository, only()).findAll();
         }
-        
+
         @DisplayName("성공 : start, end 만 주어진 경우 날짜에 따른 고객 리스트가 반환됩니다.")
         @Test
         void findByDateSuccess() {
@@ -95,7 +95,7 @@ class SimpleVoucherServiceTest {
             assertThat(resultList, equalTo(expectedList));
             verify(voucherRepository, only()).findByDate(start, end);
         }
-        
+
         @DisplayName("성공 : type만 주어진 경우 타입에 따른 고객 리스트가 반환됩니다.")
         @Test
         void findByTypeSuccess() {
@@ -108,7 +108,7 @@ class SimpleVoucherServiceTest {
             assertThat(resultList, equalTo(expectedList));
             verify(voucherRepository, only()).findByType(VoucherType.FIXED);
         }
-        
+
         @DisplayName("성공 : type, start, end이 모두 주어진 경우 전체 고객 리스트가 반환됩니다.")
         @Test
         void findByTypeAndDateSuccess() {
@@ -124,7 +124,7 @@ class SimpleVoucherServiceTest {
             assertThat(resultList, equalTo(expectedList));
             verify(voucherRepository, times(1)).findByTypeAndDate(VoucherType.FIXED, start, end);
         }
-        
+
         @DisplayName("실패 : type, start, end가 null이지만 조회에 실패한 경우 FindFailException 예외가 발생합니다.")
         @Test
         void findAllFail() {
@@ -134,7 +134,7 @@ class SimpleVoucherServiceTest {
             assertThrows(FindFailException.class, () -> voucherService.findVouchers(null, null, null));
             verify(voucherRepository, only()).findAll();
         }
-        
+
         @DisplayName("실패 : start, end만 주어졌지만 조회에 실패한 경우 FindFailException 예외가 발생합니다.")
         @Test
         void findByDateFail() {
@@ -146,7 +146,7 @@ class SimpleVoucherServiceTest {
             assertThrows(FindFailException.class, () -> voucherService.findVouchers(null, start, end));
             verify(voucherRepository, only()).findByDate(start, end);
         }
-        
+
         @DisplayName("실패 : type만 주어졌지만 조회에 실패한 경우 FindFailException 예외가 발생합니다.")
         @Test
         void findByTypeFail() {
@@ -156,7 +156,7 @@ class SimpleVoucherServiceTest {
             assertThrows(FindFailException.class, () -> voucherService.findVouchers(VoucherType.FIXED, null, null));
             verify(voucherRepository, only()).findByType(VoucherType.FIXED);
         }
-        
+
         @DisplayName("실패 : type, start, end이 모두 주어졌지만 조회에 실패한 경우 FindFailException 예외가 발생합니다.")
         @Test
         void findByTypeAndDateFail() {
@@ -170,7 +170,7 @@ class SimpleVoucherServiceTest {
             verify(voucherRepository, times(1)).findByTypeAndDate(VoucherType.FIXED, start, end);
         }
     }
-    
+
     @DisplayName("findVoucherById() : ID로 바우처 조회 테스트")
     @Nested
     @TestMethodOrder(MethodOrderer.DisplayName.class)
@@ -187,7 +187,7 @@ class SimpleVoucherServiceTest {
             assertThat(result.getId(), is(voucher.getId()));
             verify(voucherRepository, only()).findById(voucher.getId());
         }
-        
+
         @DisplayName("실패 : 레포지토리 단에서 아이디 조회에 실패한 경우 FindFailException 예외가 발생합니다.")
         @Test
         void findFail() {
@@ -199,7 +199,7 @@ class SimpleVoucherServiceTest {
             verify(voucherRepository, only()).findById(undefinedId);
         }
     }
-    
+
     @DisplayName("removeVoucherById() : ID로 바우처 삭제 테스트")
     @Nested
     @TestMethodOrder(MethodOrderer.DisplayName.class)
@@ -215,7 +215,7 @@ class SimpleVoucherServiceTest {
             // then
             verify(voucherRepository, only()).removeById(voucher.getId());
         }
-        
+
         @DisplayName("실패 : 레포지토리 단에서 아이디 삭제에 실패한 경우 DeleteFailException 예외가 발생합니다.")
         @Test
         void removeFail() {

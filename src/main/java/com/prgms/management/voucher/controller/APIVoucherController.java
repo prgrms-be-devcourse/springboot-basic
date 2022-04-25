@@ -21,16 +21,16 @@ import java.util.UUID;
 @RequestMapping("api/v1/vouchers")
 public class APIVoucherController {
     private final VoucherService voucherService;
-    
+
     public APIVoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
-    
+
     @GetMapping
     public ResponseEntity<Response> voucherList(@RequestParam HashMap<String, String> param) {
         VoucherType type;
         Timestamp start, end;
-        
+
         try {
             type = VoucherType.valueOf(param.get("type").toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -38,7 +38,7 @@ public class APIVoucherController {
         } catch (NullPointerException e) {
             type = null;
         }
-        
+
         try {
             start = Timestamp.valueOf(param.get("start"));
             end = Timestamp.valueOf(param.get("end"));
@@ -48,27 +48,27 @@ public class APIVoucherController {
             start = null;
             end = null;
         }
-        
+
         List<Voucher> voucherList = voucherService.findVouchers(type, start, end);
         List<VoucherResponse> resultList = voucherList.stream().map(VoucherResponse::of).toList();
         Response response = new Response(HttpStatus.OK.value(), "바우처 목록 조회 성공", resultList);
         return ResponseEntity.ok(response);
     }
-    
+
     @PostMapping
     public ResponseEntity<Response> voucherAdd(@RequestBody VoucherRequest request) {
         Voucher voucher = voucherService.addVoucher(request.toVoucher());
         Response response = new Response(HttpStatus.CREATED.value(), "바우처 등록 성공", VoucherResponse.of(voucher));
         return ResponseEntity.created(URI.create("/api/v1/vouchers/" + voucher.getId().toString())).body(response);
     }
-    
+
     @GetMapping("{id}")
     public ResponseEntity<Response> voucherDetail(@PathVariable("id") UUID id) {
         Voucher voucher = voucherService.findVoucherById(id);
         Response response = new Response(HttpStatus.OK.value(), "바우처 조회 성공", VoucherResponse.of(voucher));
         return ResponseEntity.ok(response);
     }
-    
+
     @DeleteMapping("{id}")
     public ResponseEntity<Response> voucherRemove(@PathVariable("id") UUID id) {
         voucherService.removeVoucherById(id);

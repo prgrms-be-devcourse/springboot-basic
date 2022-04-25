@@ -43,13 +43,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class JdbcCustomerRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
-    
+
     @Autowired
     DataSource dataSource;
-    
+
     EmbeddedMysql embeddedMysql;
     List<Customer> customers = new ArrayList<>();
-    
+
     @BeforeAll
     void setUp() {
         MysqldConfig config = aMysqldConfig(v5_7_latest)
@@ -59,17 +59,17 @@ class JdbcCustomerRepositoryTest {
             .withTimeZone("Asia/Seoul")
             .withTimeout(2, TimeUnit.MINUTES)
             .build();
-        
+
         embeddedMysql = anEmbeddedMysql(config)
             .addSchema("demo", ScriptResolver.classPathScript("schema.sql"))
             .start();
     }
-    
+
     @AfterAll
     void cleanUp() {
         embeddedMysql.stop();
     }
-    
+
     @Configuration
     @ComponentScan(basePackages = {"com.prgms.management.customer"})
     static class Config {
@@ -82,13 +82,13 @@ class JdbcCustomerRepositoryTest {
                 .type(HikariDataSource.class)
                 .build();
         }
-        
+
         @Bean
         public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
             return new NamedParameterJdbcTemplate(dataSource);
         }
     }
-    
+
     @DisplayName("save() : 고객 저장 테스트")
     @Nested
     @Order(1)
@@ -101,12 +101,12 @@ class JdbcCustomerRepositoryTest {
         void saveSuccess(String name, String typeStr, String email) {
             Customer newCustomer = new Customer(name, CustomerType.valueOf(typeStr), email);
             customers.add(customerRepository.save(newCustomer));
-            
+
             var retrievedCustomer = customerRepository.findById(newCustomer.getId());
             assertThat(retrievedCustomer, not(nullValue()));
             assertThat(retrievedCustomer, equalTo(newCustomer));
         }
-        
+
         @DisplayName("실패 : NONE 타입으로 고객 정보가 지정된 경우 InvalidParameterException 예외가 발생합니다.")
         @Test
         void saveFail() {
@@ -116,7 +116,7 @@ class JdbcCustomerRepositoryTest {
             });
         }
     }
-    
+
     @DisplayName("findById() : ID로 고객 조회 테스트")
     @Nested
     @Order(2)
@@ -130,14 +130,14 @@ class JdbcCustomerRepositoryTest {
                 assertThat(resultCustomer, equalTo(customer));
             }
         }
-        
+
         @DisplayName("실패 : 존재하지 않는 ID로 조회하는 경우 null이 반환됩니다.")
         @Test
         void findFail() {
             assertThrows(FindFailException.class, () -> customerRepository.findById(UUID.randomUUID()));
         }
     }
-    
+
     @DisplayName("findByEmail() : 이메일로 고객 조회 테스트")
     @Nested
     @Order(2)
@@ -151,14 +151,14 @@ class JdbcCustomerRepositoryTest {
                 assertThat(resultCustomer, equalTo(customer));
             }
         }
-        
+
         @DisplayName("실패 : 존재하지 않는 이메일로 조회하는 경우 null이 반환됩니다.")
         @Test
         void findFail() {
             assertThrows(FindFailException.class, () -> customerRepository.findByEmail("fake@email"));
         }
     }
-    
+
     @DisplayName("findAll() : 전체 고객 목록 조회 테스트")
     @Nested
     @Order(3)
@@ -172,7 +172,7 @@ class JdbcCustomerRepositoryTest {
             assertThat(resultCustomers, hasSize(customers.size()));
         }
     }
-    
+
     @DisplayName("findByType() : 타입으로 고객 목록 조회 테스트")
     @Nested
     @Order(3)
@@ -186,7 +186,7 @@ class JdbcCustomerRepositoryTest {
             assertThat(resultCustomers.isEmpty(), is(false));
             assertThat(resultCustomers, hasSize(count));
         }
-        
+
         @DisplayName("실패 : NONE 타입으로 조회하는 경우 빈 리스트가 반환됩니다.")
         @Test
         void findFail() {
