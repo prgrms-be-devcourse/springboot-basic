@@ -60,7 +60,8 @@ public class SimpleCustomer implements Customer {
         this.lastLoginAt = LocalDateTime.now();
     }
 
-    public void changeData(String name) {
+
+    public void changeName(String name) {
         validateName(name);
         this.name = name;
     }
