@@ -4,4 +4,4 @@ spring:
   application:
     name: order_v1.0.0;
   profiles:
-    active: memory
+    active: jdbc

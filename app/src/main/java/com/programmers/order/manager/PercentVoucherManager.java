@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.order.domain.PercentDiscountVoucher;
 import com.programmers.order.domain.Voucher;
+import com.programmers.order.domain.constraint.VoucherConstraint;
+import com.programmers.order.dto.VocuherDto;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.message.BasicMessage;
@@ -21,8 +23,6 @@ public class PercentVoucherManager implements VoucherManager {
 	private static final Logger log = LoggerFactory.getLogger(PercentVoucherManager.class);
 
 	private static final Pattern LIMIT_NUMERIC_PATTERN = Pattern.compile("^[0-9]{1,3}");
-	private static final int LIMIT_PERCENT = 100;
-	private static final int MINIMUM_PERCENT = 1;
 	private static final String NOT_DECISION = "";
 
 	private final Input input;
@@ -50,7 +50,7 @@ public class PercentVoucherManager implements VoucherManager {
 			isReEnter = false;
 		}
 
-		return new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(percent));
+		return PercentDiscountVoucher.create(Long.parseLong(percent));
 	}
 
 	@Override
@@ -58,8 +58,13 @@ public class PercentVoucherManager implements VoucherManager {
 		return VoucherType.PERCENT_VOUCHER;
 	}
 
+	@Override
+	public Voucher resolve(VocuherDto.Resolver resolver) {
+		return PercentDiscountVoucher.build(resolver);
+	}
+
 	private boolean isValidPercent(String percent) {
-		return LIMIT_NUMERIC_PATTERN.matcher(percent).matches() && Integer.parseInt(percent) <= LIMIT_PERCENT
-				&& Integer.parseInt(percent) >= MINIMUM_PERCENT;
+		return LIMIT_NUMERIC_PATTERN.matcher(percent).matches() &&
+				!VoucherConstraint.PERCENT_VOUCHER.isViolate(Long.parseLong(percent));
 	}
 }

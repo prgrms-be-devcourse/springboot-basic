@@ -9,7 +9,7 @@ public enum MenuType {
 		return Arrays.stream(MenuType.values())
 				.filter((menu) -> menu.name().equalsIgnoreCase(input))
 				.findAny()
-				.orElse(NONE);
+				.orElseGet(() -> NONE);
 	}
 
 	public boolean isReEnter() {

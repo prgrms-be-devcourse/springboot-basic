@@ -1,4 +1,4 @@
-package com.programmers.order.repository;
+package com.programmers.order.repository.voucher;
 
 import java.util.List;
 import java.util.UUID;

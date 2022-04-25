@@ -24,6 +24,13 @@ public enum VoucherType {
 				.orElse(NONE);
 	}
 
+	public static VoucherType MatchTheType(String input) {
+		return Arrays.stream(VoucherType.values())
+				.filter(voucherType -> voucherType.name().equalsIgnoreCase(input))
+				.findAny()
+				.orElseThrow(() -> new IllegalArgumentException());
+	}
+
 	public boolean isReEnter() {
 		return this == NONE;
 	}

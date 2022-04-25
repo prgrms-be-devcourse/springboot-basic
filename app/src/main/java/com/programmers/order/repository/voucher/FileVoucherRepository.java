@@ -1,4 +1,4 @@
-package com.programmers.order.repository;
+package com.programmers.order.repository.voucher;
 
 import java.io.File;
 import java.io.FileNotFoundException;

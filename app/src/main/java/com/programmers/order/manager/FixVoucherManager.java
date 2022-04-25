@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.order.domain.FixedAmountVoucher;
 import com.programmers.order.domain.Voucher;
+import com.programmers.order.domain.constraint.VoucherConstraint;
+import com.programmers.order.dto.VocuherDto;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.message.BasicMessage;
@@ -21,8 +23,6 @@ public class FixVoucherManager implements VoucherManager {
 	private static final Logger log = LoggerFactory.getLogger(FixVoucherManager.class);
 
 	private static final Pattern LIMIT_NUMERIC_PATTERN = Pattern.compile("^[0-9]{1,9}");
-	private static final int MAXIMUM_FIX = 100_000_000;
-	private static final int MINIMUM_FIX = 1;
 	private static final String NOT_DECISION = "";
 
 	private final Input input;
@@ -50,7 +50,7 @@ public class FixVoucherManager implements VoucherManager {
 			isReEnter = false;
 		}
 
-		return new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(fixPrice));
+		return FixedAmountVoucher.create(Long.parseLong(fixPrice));
 	}
 
 	@Override
@@ -58,8 +58,13 @@ public class FixVoucherManager implements VoucherManager {
 		return VoucherType.FIX_VOUCHER;
 	}
 
+	@Override
+	public Voucher resolve(VocuherDto.Resolver resolver) {
+		return FixedAmountVoucher.build(resolver);
+	}
+
 	private boolean isValidPrice(String fixPrice) {
-		return LIMIT_NUMERIC_PATTERN.matcher(fixPrice).matches() && Integer.parseInt(fixPrice) <= MAXIMUM_FIX
-				&& Integer.parseInt(fixPrice) >= MINIMUM_FIX;
+		return LIMIT_NUMERIC_PATTERN.matcher(fixPrice).matches() &&
+				!VoucherConstraint.FIX_VOUCHER.isViolate(Long.parseLong(fixPrice));
 	}
 }
