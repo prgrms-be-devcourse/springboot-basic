@@ -2,8 +2,8 @@ package org.programmers.springbootbasic.console;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.console.model.Model;
-import org.programmers.springbootbasic.console.model.ModelAndView;
+import org.programmers.springbootbasic.console.model.ConsoleModel;
+import org.programmers.springbootbasic.console.model.ConsoleModelAndView;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -29,26 +29,26 @@ public class Drawer {
     private static final String START_SYMBOL_OF_ARGUMENT = "${";
     private static final String END_SYMBOL_OF_ARGUMENT = "}";
 
-    ConsoleResponseCode draw(ModelAndView modelAndView) {
-        String view = modelAndView.getView();
+    ConsoleResponseCode draw(ConsoleModelAndView consoleModelAndView) {
+        String view = consoleModelAndView.getView();
         try {
             var viewTemplate = readTemplateFile(view);
             viewAssembler.append(viewTemplate);
         } catch (IOException e) {
-            Model model = modelAndView.getModel();
-            model.addAttributes("errorData",
+            ConsoleModel consoleModel = consoleModelAndView.getConsoleModel();
+            consoleModel.addAttributes("errorData",
                     (consoleProperties.isDetailErrorMessage()) ? e : new SimpleErrorMessageMapper.ErrorData("파일 읽기 오류", ""));
-            model.setRedirectLink(ERROR);
+            consoleModel.setRedirectLink(ERROR);
             return PROCEED;
         }
 
-        var model = modelAndView.getModel();
+        var model = consoleModelAndView.getConsoleModel();
         applyArgument(model);
 
         System.out.println(viewAssembler);
 
         viewAssembler.delete(0, viewAssembler.length());
-        var responseCode = modelAndView.getResponseCode();
+        var responseCode = consoleModelAndView.getResponseCode();
 
         if (responseCode != INPUT_AND_REDIRECT) {
             log.info("Clear model's attributes because attributes are used.");
@@ -72,13 +72,13 @@ public class Drawer {
         return fileToString;
     }
 
-    private void applyArgument(Model model) {
+    private void applyArgument(ConsoleModel consoleModel) {
         while (viewAssembler.indexOf(START_SYMBOL_OF_ARGUMENT) != -1) {
             int startOfArgument = viewAssembler.indexOf(START_SYMBOL_OF_ARGUMENT);
             int endOfArgument = viewAssembler.indexOf(END_SYMBOL_OF_ARGUMENT);
 
             String modelAttributeToStringView = convertModelAttributeToStringView(
-                    model.getAttributes(viewAssembler.substring(
+                    consoleModel.getAttributes(viewAssembler.substring(
                             startOfArgument + START_SYMBOL_OF_ARGUMENT.length(), endOfArgument)));
 
             viewAssembler.replace(startOfArgument, endOfArgument + 1, modelAttributeToStringView);

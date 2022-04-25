@@ -2,7 +2,7 @@ package org.programmers.springbootbasic.console;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.console.model.ModelAndView;
+import org.programmers.springbootbasic.console.model.ConsoleModelAndView;
 import org.programmers.springbootbasic.console.request.ConsoleMapper;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.springframework.stereotype.Component;
@@ -23,12 +23,12 @@ public class Dispatcher {
             var command = request.getCommand();
             var handler = mappingData.getHandler(command);
 
-            ModelAndView modelAndView = handler.handleRequest(request);
-            var code = drawer.draw(modelAndView);
+            ConsoleModelAndView consoleModelAndView = handler.handleRequest(request);
+            var code = drawer.draw(consoleModelAndView);
             return code;
         } catch (Exception e) {
             log.error("Exception stack trace: ", e);
-            var model = request.getModel();
+            var model = request.getConsoleModel();
             model.addAttributes("errorData", e);
             model.setRedirectLink(ERROR);
             return REDIRECT;

@@ -2,7 +2,7 @@ package org.programmers.springbootbasic.console.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.console.model.ModelAndView;
+import org.programmers.springbootbasic.console.model.ConsoleModelAndView;
 import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.console.command.InputCommand;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
@@ -45,7 +45,7 @@ public class CliHandler implements Handler {
     }
 
     @Override
-    public ModelAndView handleRequest(ConsoleRequest request) {
+    public ConsoleModelAndView handleRequest(ConsoleRequest request) {
         var command = request.getCommand();
         log.info("processing command {} at Controller", command);
 
@@ -58,8 +58,8 @@ public class CliHandler implements Handler {
         return processStaticPage(request, PROCEED);
     }
 
-    private ModelAndView help(ConsoleRequest request) {
-        var model = request.getModel();
+    private ConsoleModelAndView help(ConsoleRequest request) {
+        var model = request.getConsoleModel();
 
         var commands = InputCommand.values();
         List<String> allCommandsInformation = new ArrayList<>();
@@ -70,6 +70,6 @@ public class CliHandler implements Handler {
 
         model.addAttributes("allCommandsInformation", allCommandsInformation);
 
-        return new ModelAndView(model, request.getCommand().getViewName(), PROCEED);
+        return new ConsoleModelAndView(model, request.getCommand().getViewName(), PROCEED);
     }
 }

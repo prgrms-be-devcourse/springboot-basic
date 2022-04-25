@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.ConsoleProperties;
 import org.programmers.springbootbasic.console.SimpleErrorMessageMapper;
 import org.programmers.springbootbasic.console.command.Command;
-import org.programmers.springbootbasic.console.model.ModelAndView;
+import org.programmers.springbootbasic.console.model.ConsoleModelAndView;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.springframework.stereotype.Component;
 
@@ -44,9 +44,9 @@ public class ErrorHandler implements Handler {
     }
 
     @Override
-    public ModelAndView handleRequest(ConsoleRequest request) {
+    public ConsoleModelAndView handleRequest(ConsoleRequest request) {
         log.info("processing command {} at Controller", request.getCommand());
-        var model = request.getModel();
+        var model = request.getConsoleModel();
         var errorData = (Exception) model.getAttributes("errorData");
 
         if (consoleProperties.isDetailErrorMessage()) {
@@ -58,6 +58,6 @@ public class ErrorHandler implements Handler {
             model.addAttributes("errorName", simpleErrorData.name());
         }
 
-        return new ModelAndView(model, request.getCommand().getViewName(), PROCEED);
+        return new ConsoleModelAndView(model, request.getCommand().getViewName(), PROCEED);
     }
 }

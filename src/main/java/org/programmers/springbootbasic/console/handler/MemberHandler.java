@@ -3,7 +3,7 @@ package org.programmers.springbootbasic.console.handler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.command.Command;
-import org.programmers.springbootbasic.console.model.ModelAndView;
+import org.programmers.springbootbasic.console.model.ConsoleModelAndView;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.programmers.springbootbasic.member.domain.MemberDto;
 import org.programmers.springbootbasic.member.service.MemberService;
@@ -52,7 +52,7 @@ public class MemberHandler implements Handler {
     }
 
     @Override
-    public ModelAndView handleRequest(ConsoleRequest request) {
+    public ConsoleModelAndView handleRequest(ConsoleRequest request) {
         var command = request.getCommand();
         log.info("processing command {} at Controller", command);
 
@@ -73,26 +73,26 @@ public class MemberHandler implements Handler {
                 "컨트롤러가 해당 커맨드를 처리하지 못 합니다. 컨트롤러 매핑이 잘못되었는지 확인해주세요.");
     }
 
-    private ModelAndView create(ConsoleRequest request) {
-        var model = request.getModel();
+    private ConsoleModelAndView create(ConsoleRequest request) {
+        var model = request.getConsoleModel();
 
         model.setInputSignature("name");
         model.setRedirectLink(CREATE_MEMBER_EMAIL);
 
-        return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT_AND_REDIRECT);
+        return new ConsoleModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT_AND_REDIRECT);
     }
 
-    private ModelAndView createEmail(ConsoleRequest request) {
-        var model = request.getModel();
+    private ConsoleModelAndView createEmail(ConsoleRequest request) {
+        var model = request.getConsoleModel();
 
         model.setInputSignature("email");
         model.setRedirectLink(CREATE_MEMBER_COMPLETE);
 
-        return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT_AND_REDIRECT);
+        return new ConsoleModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), INPUT_AND_REDIRECT);
     }
 
-    private ModelAndView createComplete(ConsoleRequest request) {
-        var model = request.getModel();
+    private ConsoleModelAndView createComplete(ConsoleRequest request) {
+        var model = request.getConsoleModel();
 
         String name = (String) model.getAttributes("name");
         String email = (String) model.getAttributes("email");
@@ -101,16 +101,16 @@ public class MemberHandler implements Handler {
 
         model.clear();
 
-        return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), PROCEED);
+        return new ConsoleModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), PROCEED);
     }
 
-    private ModelAndView list(ConsoleRequest request) {
-        var model = request.getModel();
+    private ConsoleModelAndView list(ConsoleRequest request) {
+        var model = request.getConsoleModel();
 
         List<MemberDto> members = memberService.getAllMembers();
         if (members.isEmpty()) {
             model.addAttributes("allMembers", "가입된 회원이 없습니다.");
-            return new ModelAndView(model, request.getCommand().getViewName(), PROCEED);
+            return new ConsoleModelAndView(model, request.getCommand().getViewName(), PROCEED);
         }
         List<String> allMembersInformation = new ArrayList<>(members.size());
 
@@ -120,6 +120,6 @@ public class MemberHandler implements Handler {
 
         model.addAttributes("allMembers", allMembersInformation);
 
-        return new ModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), PROCEED);
+        return new ConsoleModelAndView(model, VIEW_PATH + request.getCommand().getViewName(), PROCEED);
     }
 }

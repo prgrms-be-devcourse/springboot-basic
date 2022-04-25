@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class Model {
+public class ConsoleModel {
     private final Map<String, Object> attributes = new ConcurrentHashMap<>();
     @Getter @Setter
     private String inputSignature;

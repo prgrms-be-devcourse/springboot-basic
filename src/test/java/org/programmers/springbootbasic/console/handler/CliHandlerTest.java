@@ -4,8 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.console.model.Model;
-import org.programmers.springbootbasic.console.model.ModelAndView;
+import org.programmers.springbootbasic.console.model.ConsoleModel;
+import org.programmers.springbootbasic.console.model.ConsoleModelAndView;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 
 import java.util.List;
@@ -38,19 +38,19 @@ class CliHandlerTest {
     void handleStaticPageRequest() {
         when(REQUEST_MOCK.getCommand()).thenReturn(HOME);
 
-        ModelAndView modelAndView = CLI_HANDLER.handleRequest(REQUEST_MOCK);
-        assertThat(modelAndView.getResponseCode(), is(PROCEED));
+        ConsoleModelAndView consoleModelAndView = CLI_HANDLER.handleRequest(REQUEST_MOCK);
+        assertThat(consoleModelAndView.getResponseCode(), is(PROCEED));
     }
 
     @Test
     @DisplayName("명령어: HELP")
     void handleHelpRequest() {
         when(REQUEST_MOCK.getCommand()).thenReturn(HELP);
-        var model = new Model();
-        when(REQUEST_MOCK.getModel()).thenReturn(model);
+        var model = new ConsoleModel();
+        when(REQUEST_MOCK.getConsoleModel()).thenReturn(model);
 
-        ModelAndView modelAndView = CLI_HANDLER.handleRequest(REQUEST_MOCK);
-        assertThat(modelAndView.getResponseCode(), is(PROCEED));
+        ConsoleModelAndView consoleModelAndView = CLI_HANDLER.handleRequest(REQUEST_MOCK);
+        assertThat(consoleModelAndView.getResponseCode(), is(PROCEED));
 
         assertThat(((List<String>) model.getAttributes("allCommandsInformation")).size(),
                 is(values().length));
@@ -61,7 +61,7 @@ class CliHandlerTest {
     void handleExitRequest() {
         when(REQUEST_MOCK.getCommand()).thenReturn(EXIT);
 
-        ModelAndView modelAndView = CLI_HANDLER.handleRequest(REQUEST_MOCK);
-        assertThat(modelAndView.getResponseCode(), is(STOP));
+        ConsoleModelAndView consoleModelAndView = CLI_HANDLER.handleRequest(REQUEST_MOCK);
+        assertThat(consoleModelAndView.getResponseCode(), is(STOP));
     }
 }

@@ -4,13 +4,13 @@ import lombok.Getter;
 import org.programmers.springbootbasic.console.ConsoleResponseCode;
 
 @Getter
-public class ModelAndView {
+public class ConsoleModelAndView {
     private final ConsoleResponseCode responseCode;
     private final String view;
-    private final Model model;
+    private final ConsoleModel consoleModel;
 
-    public ModelAndView(Model model, String view, ConsoleResponseCode responseCode) {
-        this.model = model;
+    public ConsoleModelAndView(ConsoleModel consoleModel, String view, ConsoleResponseCode responseCode) {
+        this.consoleModel = consoleModel;
         this.view = view;
         this.responseCode = responseCode;
     }

@@ -2,7 +2,7 @@ package org.programmers.springbootbasic.console.handler;
 
 import org.programmers.springbootbasic.console.ConsoleResponseCode;
 import org.programmers.springbootbasic.console.command.Command;
-import org.programmers.springbootbasic.console.model.ModelAndView;
+import org.programmers.springbootbasic.console.model.ConsoleModelAndView;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +12,9 @@ public interface Handler {
 
     boolean supports(Command command);
 
-    ModelAndView handleRequest(ConsoleRequest request);
+    ConsoleModelAndView handleRequest(ConsoleRequest request);
 
-    default ModelAndView processStaticPage(ConsoleRequest request, ConsoleResponseCode responseCode) {
-        return new ModelAndView(request.getModel(), request.getCommand().getViewName(), responseCode);
+    default ConsoleModelAndView processStaticPage(ConsoleRequest request, ConsoleResponseCode responseCode) {
+        return new ConsoleModelAndView(request.getConsoleModel(), request.getCommand().getViewName(), responseCode);
     }
 }
