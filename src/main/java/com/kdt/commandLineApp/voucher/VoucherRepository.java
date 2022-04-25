@@ -11,6 +11,8 @@ public interface VoucherRepository extends DisposableBean {
 
     public Optional<Voucher> get(UUID id);
 
+    public List<Voucher> getType(String type);
+
     public List<Voucher> getAll();
 
     public void remove(UUID vid);

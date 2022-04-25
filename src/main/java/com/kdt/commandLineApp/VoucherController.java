@@ -1,19 +1,20 @@
 package com.kdt.commandLineApp;
 
-import com.kdt.commandLineApp.voucher.Voucher;
+import com.kdt.commandLineApp.voucher.VoucherCreateDTO;
+import com.kdt.commandLineApp.voucher.VoucherDTO;
+import com.kdt.commandLineApp.voucher.VoucherMapper;
 import com.kdt.commandLineApp.voucher.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 public class VoucherController {
@@ -31,45 +32,48 @@ public class VoucherController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView showVouchers() {
-        List<Voucher> allVouchers = voucherService.getVouchers();
+        List<VoucherDTO> allVouchers = voucherService.getVouchers().stream().map(VoucherMapper::toVoucherDTO).toList();
         Map<String, Object> model =  Map.of("vouchers", allVouchers);
 
         return new ModelAndView("views/voucher", model);
     }
 
-    @RequestMapping(value = "/voucher/{voucherId}", method = RequestMethod.GET)
-    public ModelAndView showVoucher(@PathVariable String voucherId) {
-        Optional<Voucher> voucher = voucherService.getVoucher(voucherId);
-        Map<String, Object> model =  Map.of("vouchers", List.of(voucher.get()));
-
-        return new ModelAndView("views/voucher", model);
+    @RequestMapping(value = "/voucher", method = RequestMethod.GET)
+    public ModelAndView showVoucher(@RequestParam String voucherId) {
+        try {
+            List<VoucherDTO> voucher = List.of(VoucherMapper.toVoucherDTO(voucherService.getVoucher(voucherId).get()));
+            Map<String, Object> model =  Map.of("vouchers", voucher);
+            return new ModelAndView("views/voucher", model);
+        }
+        catch (Exception e) {
+            Map<String, Object> model =  Map.of("vouchers", List.of());
+            return new ModelAndView("views/voucher", model);
+        }
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public ModelAndView deleteVoucher() {
-        List<Voucher> allVouchers = voucherService.getVouchers();
+        List<VoucherDTO> allVouchers = voucherService.getVouchers().stream().map(VoucherMapper::toVoucherDTO).toList();
         Map<String, Object> model =  Map.of("vouchers", allVouchers);
 
         return new ModelAndView("views/deleteVoucher", model);
     }
 
-    @RequestMapping(value = "/delete/{voucherId}", method = RequestMethod.GET)
-    public String deleteVoucher(@PathVariable String voucherId) {
+    @PostMapping(value = "/delete", consumes={MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public String deleteVoucher(@RequestParam String voucherId) {
         voucherService.removeVoucher(voucherId);
         return "redirect:/delete";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method=RequestMethod.GET)
     public String createVoucher() {
         return "views/createVoucher";
     }
 
-    @PostMapping(value = "/create")
-    public String createVoucher(HttpServletRequest request) {
-        String type = request.getParameter("type");
-        int amount = Integer.parseInt(request.getParameter("amount"));
+    @PostMapping(value = "/create", consumes={MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public String createVoucher(VoucherCreateDTO voucherCreateDTO) {
         try {
-            voucherService.addVoucher(type, amount);
+            voucherService.addVoucher(voucherCreateDTO.getType(), voucherCreateDTO.getAmount());
         }
         catch (Exception e) {
             e.printStackTrace();

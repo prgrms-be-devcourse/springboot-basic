@@ -70,6 +70,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> getType(String type) {
+        return namedParameterJdbcTemplate.query(
+                "select * from mysql.voucher where type = :type",
+                Collections.singletonMap("type", type),
+                voucherRowMapper
+        );
+    }
+
+    @Override
     public List<Voucher> getAll() {
         return namedParameterJdbcTemplate.query(
                 "select * from mysql.voucher",

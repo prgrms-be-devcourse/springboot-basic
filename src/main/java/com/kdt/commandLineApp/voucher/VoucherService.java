@@ -33,6 +33,10 @@ public class VoucherService {
         return voucherRepository.getAll();
     }
 
+    public List<Voucher> getVouchersWithType(String type) {
+        return voucherRepository.getType(type);
+    }
+
     public void removeVoucher(String id) {
         voucherRepository.remove(UUID.fromString(id));
     }

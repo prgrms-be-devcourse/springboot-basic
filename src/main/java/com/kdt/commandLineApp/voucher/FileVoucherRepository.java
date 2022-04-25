@@ -71,6 +71,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> getType(String type) {
+        return map.values().stream().filter((e)-> e.getType().equals(type)).toList();
+    }
+
+    @Override
     public List<Voucher> getAll() {
         return map.values().stream().collect(toCollection(ArrayList::new));
     }
