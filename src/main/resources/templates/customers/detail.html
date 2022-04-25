@@ -3,8 +3,8 @@
 <html lang="en">
 <head th:replace="fragments/header :: header"></head>
 <body class="container-fluid">
-<h2>고객 상세정보</h2>
-<form th:action="@{/customers/{customerId}(customerId=*{customerId})}" method="post">
+<h2 style="text-align: center">고객 상세정보</h2>
+<form th:action="@{/customers/{customerId}(customerId=*{customerId})}" method="post" style="width: 800px; margin: 0 auto;">
     <input name="_method" type="hidden" value="PUT" />
     <div class="mb-3">
         <label for="customerId" class="form-label">고객 아이디</label>
@@ -13,16 +13,17 @@
     <div class="mb-3">
         <label for="customerType" class="form-label">고객 타입</label>
         <select id="customerType" name="customerType" class="form-select">
-            <option th:each="type: ${customerType}" th:text="${type.getType()}" th:value="${type.getType()}" th:selected="${type.getType()}==${customer.customerType.getType()}"></option>
+            <option th:each="type: ${customerType}" th:text="${type.getType()}" th:value="${type.getType()}"
+                    th:selected="${type.getType()}==${customer.customerType.getType()}"></option>
         </select>
     </div>
     <div class="mb-3">
         <label for="name" class="form-label">이름</label>
-        <input th:value="${customer.name}" type="text" name="name" id="name" class="form-control"/>
+        <input th:field="${customer.name}" type="text" name="name" id="name" class="form-control" required/>
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">이메일</label>
-        <input th:value="${customer.email}" type="text" name="email" id="email" class="form-control"/>
+        <input th:field="${customer.email}" type="text" name="email" id="email" class="form-control" required/>
     </div>
     <div class="mb-3">
         <label for="createdDateTime" class="form-label">생성 날짜</label>
@@ -31,8 +32,9 @@
     <div class="mb-3">
         <label for="modifiedDateTime" class="form-label">수정 날짜</label>
         <input th:value="${#temporals.format(customer.modifiedDateTime, 'yyyy-MM-dd HH:mm')}" th:disabled="disabled" type="text" name="modifiedDateTime" id="modifiedDateTime" class="form-control"/>
+        <input th:value="수정" type="submit" class="btn btn-success" style="margin-top: 10px"/>
     </div>
-    <input th:value="수정" type="submit" class="btn btn-success"/>
+
 </form>
 
 </body>

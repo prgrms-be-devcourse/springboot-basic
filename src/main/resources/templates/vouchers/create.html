@@ -3,8 +3,8 @@
 <html lang="en">
 <head th:replace="fragments/header :: header"></head>
 <body class="container-fluid">
-<h2>바우처 생성</h2>
-<form th:action="@{/vouchers/new}" method="post">
+<h2 style="text-align: center">바우처 생성</h2>
+<form th:action="@{/vouchers/new}" method="post" style="width: 800px; margin: 0 auto">
     <div class="mb-3">
         <label for="voucherType" class="form-label">바우처 타입</label>
         <select id="voucherType" name="voucherType" class="form-select">
@@ -14,8 +14,8 @@
     <div class="mb-3">
         <label for="discountValue" class="form-label">할인 값</label>
         <input type="text" name="discountValue" id="discountValue" class="form-control" placeholder="할인 값을 입력해주세요"/>
+        <input th:value="생성" type="submit" class="btn btn-success" style="margin-top: 10px"/>
     </div>
-    <input th:value="생성" type="submit" class="btn btn-success"/>
 </form>
 
 </body>

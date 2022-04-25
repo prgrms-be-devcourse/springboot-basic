@@ -3,8 +3,8 @@
 <html lang="en">
 <head th:replace="fragments/header :: header"></head>
 <body class="container-fluid">
-<h2>바우처 상세정보</h2>
-<form th:action="@{/vouchers/{voucherId}(voucherId=*{voucherId})}" method="post">
+<h2 style="text-align: center">바우처 상세정보</h2>
+<form th:action="@{/vouchers/{voucherId}(voucherId=*{voucherId})}" method="post" style="width: 800px; margin: 0 auto">
     <input name="_method" type="hidden" value="PUT" />
     <div class="mb-3">
         <label for="voucherId" class="form-label">바우처 아이디</label>
@@ -31,8 +31,8 @@
     <div class="mb-3">
         <label for="modifiedDateTime" class="form-label">수정 날짜</label>
         <input th:value="${#temporals.format(voucher.modifiedDateTime, 'yyyy-MM-dd HH:mm')}" th:disabled="disabled" type="text" name="modifiedDateTime" id="modifiedDateTime" class="form-control"/>
+        <input th:value="수정" type="submit" class="btn btn-success" style="margin-top: 10px"/>
     </div>
-    <input th:value="수정" type="submit" class="btn btn-success"/>
 </form>
 
 </body>

@@ -3,8 +3,9 @@
 <html lang="en">
 <head th:replace="fragments/header :: header"></head>
 <body class="container-fluid">
-<h3>특정바우처를 보유한 고객 조회</h3>
+<h5><b>특정바우처를 보유한 고객 조회</b></h5>
 <form th:action="@{/customers/search}" method="get" style="margin-bottom: 25px; width: 900px">
+
     <div class="input-group mb-3">
         <label for="voucherType" class="form-label">바우처 타입</label>
         <select id="voucherType" name="voucherType" class="form-select">
@@ -13,10 +14,9 @@
         <label for="date" class="form-label" style="margin-left: 30px">바우처 생성 날짜</label>
         <input type="date" id="date" name="date" class="form-control" required/>
         <button class="btn btn-outline-secondary"
-                type="submit" id="button-addon2">조회하기</button>
+                type="submit" id="button-addon2" style="margin-left: 10px">조회하기</button>
     </div>
 </form>
-<h3>고객 목록</h3>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -50,6 +50,7 @@
     </tbody>
 </table>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/customers}" class="btn btn-primary m2-md-2" type="button">전체 조회</a>
     <a th:href="@{/customers/new}" class="btn btn-primary" type="button">고객 생성</a>
 </div>
 </body>

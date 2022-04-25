@@ -3,23 +3,25 @@
 <html lang="en">
 <head th:replace="fragments/header :: header"></head>
 <body class="container-fluid">
-<h2>고객 생성</h2>
-<form th:action="@{/customers/new}" method="post">
+<h2 style="text-align: center">고객 생성</h2>
+<form th:action="@{/customers/new}" th:object="${createForm}" method="post" style="width: 800px; margin: 0 auto">
     <div class="mb-3">
-        <label for="customerType" class="form-label">바우처 타입</label>
+        <label for="customerType" class="form-label">고객 타입</label>
         <select id="customerType" name="customerType" class="form-select">
             <option th:each="type: ${customerType}" th:text="${type.getType()}" th:value="${type.getType()}"></option>
         </select>
     </div>
     <div class="mb-3">
         <label for="name" class="form-label">이름</label>
-        <input type="text" name="name" id="name" class="form-control" placeholder="이름을 입력해주세요"/>
+        <input type="text" th:field="*{name}" name="name" id="name" class="form-control" placeholder="이름을 입력해주세요" required/>
+        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</p>
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">이메일</label>
-        <input type="text" name="email" id="email" class="form-control" placeholder="이메일을 입력해주세요"/>
+        <input type="text" th:field="*{email}" name="email" id="email" class="form-control" placeholder="이메일을 입력해주세요" required/>
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</p>
+        <input th:value="생성" type="submit" class="btn btn-success" style="margin-top: 10px"/>
     </div>
-    <input th:value="생성" type="submit" class="btn btn-success"/>
 </form>
 
 </body>

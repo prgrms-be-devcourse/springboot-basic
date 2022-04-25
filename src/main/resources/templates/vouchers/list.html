@@ -3,7 +3,7 @@
 <html lang="en">
 <head th:replace="fragments/header :: header"></head>
 <body class="container-fluid">
-<h3>고객이 보유한 바우처 조회</h3>
+<h5><b>고객이 보유한 바우처 조회</b></h5>
 <form th:action="@{/vouchers/search}" method="get" style="width: 800px; margin-bottom: 25px">
     <div class="input-group mb-3">
         <input type="text" id="email" name="email" class="form-control" placeholder="조회하고 싶은 고객의 이메일을 입력해주세요"
@@ -12,7 +12,6 @@
            type="submit" id="button-addon2">조회하기</button>
     </div>
 </form>
-<h3>바우처 목록</h3>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -46,6 +45,7 @@
     </tbody>
 </table>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/vouchers}" class="btn btn-primary m2-md-2" type="button">전체 조회</a>
     <a th:href="@{/vouchers/new}" class="btn btn-primary" type="button">바우처 생성</a>
 </div>
 </body>

@@ -3,21 +3,22 @@
 <html lang="en">
 <head th:replace="fragments/header :: header"></head>
 <body class="container-fluid">
-<h2>바우처 할당</h2>
-<form th:action="@{/wallets/assign}" method="post">
+<h2 style="text-align: center">바우처 할당</h2>
+<form th:action="@{/vouchers/assign}" th:object="${assignForm}" method="post" style="width: 800px; margin: 0 auto;">
     <div class="mb-3">
         <label for="email" class="form-label">고객 이메일</label>
-        <input type="text" id="email" name="email" class="form-control" placeholder="바우처를 할당 받을 고객의 이메일을 입력해주세요."/>
+        <input type="text" th:field="*{email}" id="email" name="email" class="form-control" placeholder="바우처를 할당 받을 고객의 이메일을 입력해주세요." required/>
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</p>
     </div>
     <div class="mb-3">
-        <label for="voucherId" class="form-label">할당할 바우처</label>
+        <label for="voucherId" class="form-label">할당되지 않은 바우처 목록</label>
         <select id="voucherId" name="voucherId" class="form-select">
             <option th:each="voucher: ${vouchers}"
                     th:text="|타입: ${voucher.voucherType}, 할인값: ${voucher.discountValue}|"
                     th:value="${voucher.voucherId}"></option>
         </select>
+        <input th:value="할당하기" type="submit" class="btn btn-success" style="margin-top: 10px"/>
     </div>
-    <input th:value="할당하기" type="submit" class="btn btn-success"/>
 </form>
 
 </body>
