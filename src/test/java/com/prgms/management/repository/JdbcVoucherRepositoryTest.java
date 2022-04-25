@@ -47,13 +47,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class JdbcVoucherRepositoryTest {
     @Autowired
     VoucherRepository voucherRepository;
-    
+
     @Autowired
     DataSource dataSource;
-    
+
     EmbeddedMysql embeddedMysql;
     List<Voucher> vouchers = new ArrayList<>();
-    
+
     @BeforeAll
     void setUp() {
         MysqldConfig config = aMysqldConfig(v5_7_latest)
@@ -63,17 +63,17 @@ class JdbcVoucherRepositoryTest {
             .withTimeZone("Asia/Seoul")
             .withTimeout(2, TimeUnit.MINUTES)
             .build();
-        
+
         embeddedMysql = anEmbeddedMysql(config)
             .addSchema("demo", ScriptResolver.classPathScript("schema.sql"))
             .start();
     }
-    
+
     @AfterAll
     void cleanUp() {
         embeddedMysql.stop();
     }
-    
+
     @Configuration
     @ComponentScan(basePackages = {"com.prgms.management.voucher"})
     static class Config {
@@ -86,13 +86,13 @@ class JdbcVoucherRepositoryTest {
                 .type(HikariDataSource.class)
                 .build();
         }
-        
+
         @Bean
         public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
             return new NamedParameterJdbcTemplate(dataSource);
         }
     }
-    
+
     @DisplayName("save() : 바우처 저장 테스트")
     @Nested
     @Order(1)
@@ -105,12 +105,12 @@ class JdbcVoucherRepositoryTest {
             Voucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), name, percent,
                 Timestamp.valueOf(LocalDateTime.now()));
             vouchers.add(voucherRepository.save(newVoucher));
-            
+
             var retrievedVoucher = voucherRepository.findById(newVoucher.getId());
             assertThat(retrievedVoucher, not(nullValue()));
             assertThat(retrievedVoucher, equalTo(newVoucher));
         }
-        
+
         @DisplayName("실패 : 0미만 100초과의 할인률이 지정된 경우 InvalidParameterException 예외가 발생합니다.")
         @ParameterizedTest(name = "{0} 할인 바우처 저장 실패")
         @CsvSource({"-1%, -1", "101%, 101"})
@@ -121,7 +121,7 @@ class JdbcVoucherRepositoryTest {
                 vouchers.add(voucherRepository.save(newVoucher));
             });
         }
-        
+
         @DisplayName("성공 : 0과 10000 사이의 금액이 지정된 경우 저장에 성공합니다.")
         @ParameterizedTest(name = "{0} 금액 바우처 저장 성공")
         @CsvSource({"10000원, 10000", "1원, 1"})
@@ -129,12 +129,12 @@ class JdbcVoucherRepositoryTest {
             Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), name, percent,
                 Timestamp.valueOf(LocalDateTime.now()));
             vouchers.add(voucherRepository.save(newVoucher));
-            
+
             var retrievedVoucher = voucherRepository.findById(newVoucher.getId());
             assertThat(retrievedVoucher, not(nullValue()));
             assertThat(retrievedVoucher, equalTo(newVoucher));
         }
-        
+
         @DisplayName("실패 : 0미만 10000초과의 금액이 지정된 경우 InvalidParameterException 예외가 발생합니다.")
         @ParameterizedTest(name = "{0} 금액 바우처 저장 실패")
         @CsvSource({"-1원, -1", "10001원, 10001"})
@@ -146,7 +146,7 @@ class JdbcVoucherRepositoryTest {
             });
         }
     }
-    
+
     @DisplayName("findById() : ID로 바우처 조회 테스트")
     @Nested
     @Order(2)
@@ -160,7 +160,7 @@ class JdbcVoucherRepositoryTest {
                 assertThat(voucher, equalTo(resultVoucher));
             }
         }
-        
+
         @DisplayName("실패 : 존재하지 않는 ID로 조회하는 경우 nFindFailException 예외가 발생합니다.")
         @Test
         void findFail() {
@@ -169,7 +169,7 @@ class JdbcVoucherRepositoryTest {
             });
         }
     }
-    
+
     @DisplayName("findAll() : 전체 바우처 목록 조회 테스트")
     @Nested
     @Order(3)
@@ -183,29 +183,29 @@ class JdbcVoucherRepositoryTest {
             assertThat(retVoucher, hasSize(vouchers.size()));
         }
     }
-    
+
     @DisplayName("removeById() : ID로 바우처 삭제 테스트")
     @Nested
     @Order(4)
     @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
     class RemoveByIdTest {
         List<UUID> oldVouchers = new ArrayList<>();
-        
+
         @DisplayName("성공 : 존재하는 ID로 삭제하는 경우 삭제에 성공합니다.")
         @Test
         @Order(1)
         void removeSuccess() {
             int count = vouchers.size();
-            
+
             for (Voucher voucher : vouchers) {
                 oldVouchers.add(voucher.getId());
                 voucherRepository.removeById(voucher.getId());
-                
+
                 var result = voucherRepository.findAll();
                 assertThat(result, hasSize(--count));
             }
         }
-        
+
         @DisplayName("실패 : 존재하지 않는 ID로 삭제하는 경우 DeleteFailException 예외가 발생합니다.")
         @Test
         @Order(2)

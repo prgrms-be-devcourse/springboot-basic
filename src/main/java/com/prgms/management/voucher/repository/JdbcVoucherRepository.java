@@ -22,11 +22,11 @@ import java.util.*;
 @Profile({"default"})
 public class JdbcVoucherRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    
+
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    
+
     @Override
     public Voucher findById(UUID voucherId) {
         try {
@@ -37,14 +37,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new FindFailException("찾는 ID에 대한 바우처가 없습니다.");
         }
     }
-    
+
     @Override
     public List<Voucher> findByType(VoucherType type) {
         return jdbcTemplate.query("SELECT * from voucher WHERE type = :type ORDER BY created_at DESC",
             Collections.singletonMap("type", type.toString()),
             (rs, rowNum) -> mapToVoucher(rs));
     }
-    
+
     @Override
     public List<Voucher> findByDate(Timestamp start, Timestamp end) {
         Map<String, Object> paramMap = new HashMap<>() {{
@@ -56,7 +56,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             paramMap,
             (rs, rowNum) -> mapToVoucher(rs));
     }
-    
+
     @Override
     public List<Voucher> findByTypeAndDate(VoucherType type, Timestamp start, Timestamp end) {
         Map<String, Object> paramMap = new HashMap<>() {{
@@ -69,12 +69,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
             paramMap,
             (rs, rowNum) -> mapToVoucher(rs));
     }
-    
+
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * from voucher ORDER BY created_at DESC", (rs, rowNum) -> mapToVoucher(rs));
     }
-    
+
     @Override
     public Voucher save(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>() {{
@@ -92,7 +92,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
         throw new SaveFailException();
     }
-    
+
     @Override
     public void removeById(UUID voucherId) {
         int result = jdbcTemplate.update("DELETE FROM voucher WHERE id = (UNHEX(REPLACE(:id, '-', '')))",
@@ -101,19 +101,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new DeleteFailException();
         }
     }
-    
+
     private UUID toUUID(byte[] bytes) {
         var buffer = ByteBuffer.wrap(bytes);
         return new UUID(buffer.getLong(), buffer.getLong());
     }
-    
+
     private Voucher mapToVoucher(ResultSet set) throws SQLException {
         UUID id = toUUID(set.getBytes("id"));
         String type = set.getString("type");
         String name = set.getString("name");
         int figure = set.getInt("figure");
         Timestamp createdAt = set.getTimestamp("created_at");
-        
+
         if (type.equals(VoucherType.FIXED.toString())) {
             return new FixedAmountVoucher(id, name, figure, createdAt);
         } else {

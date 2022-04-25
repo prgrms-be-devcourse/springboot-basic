@@ -9,10 +9,10 @@ import java.util.UUID;
 
 public interface VoucherService {
     List<Voucher> findVouchers(VoucherType type, Timestamp start, Timestamp end);
-    
+
     Voucher addVoucher(Voucher voucher);
-    
+
     Voucher findVoucherById(UUID id);
-    
+
     void removeVoucherById(UUID id);
 }

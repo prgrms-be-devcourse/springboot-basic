@@ -12,11 +12,11 @@ import java.util.UUID;
 @Service
 public class SimpleVoucherService implements VoucherService {
     private final VoucherRepository voucherRepository;
-    
+
     public SimpleVoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
-    
+
     @Override
     public List<Voucher> findVouchers(VoucherType type, Timestamp start, Timestamp end) {
         if (type != null && start == null && end == null) {
@@ -29,17 +29,17 @@ public class SimpleVoucherService implements VoucherService {
             return voucherRepository.findAll();
         }
     }
-    
+
     @Override
     public Voucher addVoucher(Voucher voucher) {
         return voucherRepository.save(voucher);
     }
-    
+
     @Override
     public Voucher findVoucherById(UUID id) {
         return voucherRepository.findById(id);
     }
-    
+
     @Override
     public void removeVoucherById(UUID id) {
         voucherRepository.removeById(id);

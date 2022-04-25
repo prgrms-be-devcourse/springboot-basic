@@ -4,5 +4,5 @@ public record ErrorResponse(
     Integer statusCode,
     String message
 ) {
-    
+
 }

@@ -26,17 +26,17 @@ public enum VoucherType {
             throw new WrongCommandException();
         }
     };
-    
+
     private final String command;
     private final String description;
     private final String nextCommand;
-    
+
     VoucherType(String command, String description, String nextCommand) {
         this.command = command;
         this.description = description;
         this.nextCommand = nextCommand;
     }
-    
+
     public static VoucherType of(String command) {
         switch (command.toUpperCase()) {
             case "FIXED":
@@ -47,14 +47,14 @@ public enum VoucherType {
                 return ERROR;
         }
     }
-    
+
     public String getConsoleScript() {
         return "Type **" + command + "** " + description;
     }
-    
+
     public String getNextCommand() {
         return nextCommand;
     }
-    
+
     public abstract Voucher createVoucherFromConsole(TextIO textIO);
 }

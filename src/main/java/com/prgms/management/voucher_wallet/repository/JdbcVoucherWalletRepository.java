@@ -20,14 +20,14 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
-    
+
     public JdbcVoucherWalletRepository(NamedParameterJdbcTemplate jdbcTemplate, VoucherRepository voucherRepository,
                                        CustomerRepository customerRepository) {
         this.jdbcTemplate = jdbcTemplate;
         this.voucherRepository = voucherRepository;
         this.customerRepository = customerRepository;
     }
-    
+
     @Override
     public VoucherWallet giveVoucherToCustomer(VoucherWallet voucherWallet) {
         Map<String, Object> paramMap = new HashMap<>() {{
@@ -44,7 +44,7 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
         }
         throw new SaveFailException("바우처 지갑 저장에 실패하였습니다.");
     }
-    
+
     @Override
     public List<VoucherWallet> findByCustomer(Customer customer) {
         return jdbcTemplate.query("SELECT * from voucher_wallet where customer_id = UNHEX(REPLACE(:customerId, '-', " +
@@ -52,7 +52,7 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
             Collections.singletonMap("customerId", customer.getId().toString()),
             (rs, rowNum) -> mapToVoucherWallet(rs));
     }
-    
+
     @Override
     public Customer findCustomerByVoucherId(UUID voucherId) {
         VoucherWallet result = jdbcTemplate.queryForObject("SELECT * from voucher_wallet where voucher_id = UNHEX" +
@@ -64,12 +64,12 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
         }
         throw new FindFailException("존재하지 않은 ID로 정보 조회에 실패했습니다.");
     }
-    
+
     private UUID toUUID(byte[] bytes) {
         var buffer = ByteBuffer.wrap(bytes);
         return new UUID(buffer.getLong(), buffer.getLong());
     }
-    
+
     private VoucherWallet mapToVoucherWallet(ResultSet set) throws SQLException {
         UUID id = toUUID(set.getBytes("id"));
         UUID customerId = toUUID(set.getBytes("customer_id"));
