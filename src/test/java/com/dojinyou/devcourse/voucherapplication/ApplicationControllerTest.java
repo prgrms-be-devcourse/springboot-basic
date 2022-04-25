@@ -1,8 +1,8 @@
 package com.dojinyou.devcourse.voucherapplication;
 
-import com.dojinyou.devcourse.voucherapplication.voucher.entity.Voucher;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
-import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherList;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -48,7 +48,6 @@ class ApplicationControllerTest {
                 //then
                 assertThat(thrown).isNotNull();
                 assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
-
             }
         }
         @Nested
