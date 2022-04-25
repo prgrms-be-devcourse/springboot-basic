@@ -42,10 +42,6 @@ public class CustomerService {
         customerRepository.delete(customerId);
     }
 
-    public List<Customer> findBlacklist () {
-        return customerRepository.getBlacklist();
-    }
-
     private void validateDuplicateCustomer(Customer customer) {
         Optional<Customer> findCustomer = customerRepository.findByName(customer.getName());
         if (findCustomer.isPresent()) {

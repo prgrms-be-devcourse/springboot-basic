@@ -7,7 +7,6 @@ import org.prgms.kdt.application.customer.domain.Customer;
 import java.util.List;
 
 public interface CustomerRepository {
-    List<Customer> getBlacklist();
 
     Customer insert(Customer customer);
 

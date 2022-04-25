@@ -52,16 +52,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> getBlacklist() {
-        return null;
-    }
-
-    @Override
     public Customer insert(Customer customer) {
         String sql = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email, :createdAt)";
-        int update = jdbcTemplate.update(sql, toParamMap(customer));
-        if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+        int updateRow = jdbcTemplate.update(sql, toParamMap(customer));
+        if (updateRow != 1) {
+            throw new IllegalStateException("Customer가 정상적으로 생성 되지 않았습니다.");
         }
         return customer;
     }
@@ -69,9 +64,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Customer update(Customer customer) {
         String sql = "UPDATE customers SET name = :name, email = :email WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))";
-        int update = jdbcTemplate.update(sql, toParamMap(customer));
-        if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+        int updateRow = jdbcTemplate.update(sql, toParamMap(customer));
+        if (updateRow != 1) {
+            throw new IllegalStateException("Customer가 정상적으로 업데이트 되지 않았습니다.");
         }
         return customer;
     }
@@ -90,7 +85,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 Collections.singletonMap("customerId", customerId.toString().getBytes()),
                 customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            log.error("Got empty result", e);
+            log.error("Customer가 조회되지 않았습니다.", e);
             return Optional.empty();
         }
     }

@@ -26,6 +26,7 @@ public class Customer {
         if (name.isBlank()) {
             throw new RuntimeException("Name should not be blank");
         }
+        this.name = name;
     }
 
 }
