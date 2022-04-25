@@ -37,6 +37,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCustomerIdIsNull() {
+        throw new VoucherDataException(NOT_SUPPORTED);
+    }
+
+    @Override
     public int update(Voucher voucher) {
         throw new VoucherDataException(NOT_SUPPORTED);
     }

@@ -82,7 +82,7 @@ public class VoucherController {
 
     @GetMapping("/assign")
     public String voucherAssignShow(Model model) {
-        List<Voucher> vouchers = voucherService.getAllVouchers();
+        List<Voucher> vouchers = voucherService.getVouchersNotAssignedToCustomer();
         model.addAttribute("vouchers", vouchers);
         return "vouchers/assign";
     }

@@ -64,6 +64,14 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByCustomerIdIsNull() {
+        return jdbcTemplate.query("SELECT * FROM voucher " +
+                        "WHERE customer_id IS NULL",
+                Collections.emptyMap(),
+                voucherRowMapper());
+    }
+
+    @Override
     public List<Voucher> findByTypeAndDate(VoucherType voucherType, LocalDate date) {
         Map<String, Object> paramMap = new HashMap<>() {{
             put("voucherType", voucherType.getType());

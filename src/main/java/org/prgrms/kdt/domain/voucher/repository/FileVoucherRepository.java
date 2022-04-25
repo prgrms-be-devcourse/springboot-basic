@@ -66,6 +66,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCustomerIdIsNull() {
+        throw new VoucherDataException(NOT_SUPPORTED);
+    }
+
+    @Override
     public List<Voucher> findAll() {
         List<List<String>> csvData;
         try {

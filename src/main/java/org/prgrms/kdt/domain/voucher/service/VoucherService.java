@@ -54,6 +54,12 @@ public class VoucherService {
         return vouchers;
     }
 
+    public List<Voucher> getVouchersNotAssignedToCustomer() {
+        List<Voucher> vouchers = voucherRepository.findByCustomerIdIsNull();
+        logger.info("Get voucher by customerId size: {}", vouchers.size());
+        return vouchers;
+    }
+
     public List<Voucher> getVoucherByTypeAndDate(VoucherType voucherType, LocalDate date) {
         List<Voucher> vouchers = voucherRepository.findByTypeAndDate(voucherType, date);
         logger.info("Get voucher by type and date size: {}", vouchers.size());
