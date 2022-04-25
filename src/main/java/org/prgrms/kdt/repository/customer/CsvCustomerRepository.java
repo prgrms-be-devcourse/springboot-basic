@@ -48,15 +48,16 @@ public class CsvCustomerRepository implements CustomerRepository {
 
             Map<String, String> readData;
             while ((readData = beanReader.read(CSV_HEADER)) != null) {
-                CustomerType type = CustomerType.valueOf(readData.get(CSV_HEADER[2]));
-                if (type != customerType) {
+                String readCustomerType = readData.get(CSV_HEADER[2]);
+                CustomerType compareType = CustomerType.valueOf(readCustomerType);
+                if (compareType != customerType) {
                     continue;
                 }
 
                 UUID customerId = UUID.fromString(readData.get(CSV_HEADER[0]));
                 String customerName = readData.get(CSV_HEADER[1]);
 
-                customers.add(new Customer(customerId, customerName, type));
+                customers.add(new Customer(customerId, customerName, customerType));
             }
         } catch (IOException | SuperCsvException e) {
             throw new RuntimeException("failed to get black-list in csv-file : " + e.getMessage());
