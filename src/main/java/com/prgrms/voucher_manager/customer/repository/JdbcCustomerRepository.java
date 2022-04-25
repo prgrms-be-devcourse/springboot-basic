@@ -1,10 +1,8 @@
 package com.prgrms.voucher_manager.customer.repository;
 
 import com.prgrms.voucher_manager.customer.Customer;
-//import com.prgrms.voucher_manager.customer.JdbcCustomer;
 import com.prgrms.voucher_manager.customer.SimpleCustomer;
-import com.prgrms.voucher_manager.infra.ToUuid;
-import com.prgrms.voucher_manager.wallet.Wallet;
+import com.prgrms.voucher_manager.infra.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -13,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -24,14 +21,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)";
-    private static final String UPDATE_BY_ID_SQL = "UPDATE customers SET last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)";
-    private static final String DELETE_ALL_SQL = "DELETE FROM customers";
+    private static final String UPDATE_BY_ID_SQL = "UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)";
+    private static final String DELETE_BY_ID_SQL = "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
     private static final String SELECT_ALL_SQL = "SELECT * FROM customers";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
     private static final String SELECT_COUNT_ALL_SQL = "SELECT COUNT(*) FROM customers";
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        UUID customerId = ToUuid.toUUID(resultSet.getBytes("customer_id"));
+        UUID customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
         String customerName = resultSet.getString("name");
         String email = resultSet.getString("email");
         LocalDateTime lastLoginAt =
@@ -87,10 +84,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return customer;
     }
 
-//    @Override
-//    public void deleteAll() {
-//        jdbcTemplate.update(DELETE_ALL_SQL,Collections.emptyMap());
-//    }
+    @Override
+    public Customer delete(Customer customer) {
+        jdbcTemplate.update(DELETE_BY_ID_SQL, toParamMap(customer));
+        return customer;
+    }
 
     private Map<String, Object> toParamMap(Customer customer) {
         HashMap<String, Object> hashMap = new HashMap<>() {{
@@ -102,11 +100,5 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }};
         return hashMap;
     }
-
-//    private static UUID toUUID(byte[] bytes) {
-//        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-//        return new UUID(byteBuffer.getLong(),byteBuffer.getLong());
-//
-//    }
 
 }

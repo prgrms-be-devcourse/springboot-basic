@@ -43,10 +43,15 @@ public class CustomerService {
         return customers;
     }
 
-    public void createCustomer(String name, String email) {
-        Customer newCustomer = new SimpleCustomer(UUID.randomUUID(), name, email, LocalDateTime.now()) {
-        };
+    public Customer createCustomer(String name, String email) {
+        Customer newCustomer = new SimpleCustomer(UUID.randomUUID(), name, email, LocalDateTime.now());
         customerRepository.insert(newCustomer);
+        return newCustomer;
+    }
+
+    public Optional<Customer> findCustomerById(UUID customerId) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        return customer;
     }
 
     public List<Customer> findCustomerByWallet(List<UUID> ids) {
@@ -61,9 +66,15 @@ public class CustomerService {
         return customers;
     }
 
-    public void updateLastLoginDate(Customer customer) {
+    public Customer updateCustomer(Customer customer) {
         customer.loginInNow();
         customerRepository.update(customer);
+        return customer;
     }
+
+    public void deleteCustomer(Customer customer) {
+        customerRepository.delete(customer);
+    }
+
 
 }
