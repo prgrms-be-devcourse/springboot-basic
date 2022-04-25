@@ -1,6 +1,6 @@
-package org.prgrms.deukyun.voucherapp.domain.customer.entity;
+package org.prgrms.deukyun.voucherapp.domain.customer.domain;
 
-import org.prgrms.deukyun.voucherapp.domain.voucher.entity.Voucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.UUID;

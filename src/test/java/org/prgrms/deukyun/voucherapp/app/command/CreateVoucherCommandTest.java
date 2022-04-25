@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
-import org.prgrms.deukyun.voucherapp.domain.voucher.entity.FixedAmountDiscountVoucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.entity.PercentDiscountVoucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;

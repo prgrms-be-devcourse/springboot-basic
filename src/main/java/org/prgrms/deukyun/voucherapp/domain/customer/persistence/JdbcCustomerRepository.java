@@ -1,6 +1,7 @@
-package org.prgrms.deukyun.voucherapp.domain.customer.repository;
+package org.prgrms.deukyun.voucherapp.domain.customer.persistence;
 
-import org.prgrms.deukyun.voucherapp.domain.customer.entity.Customer;
+import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
+import org.prgrms.deukyun.voucherapp.domain.customer.domain.CustomerRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

@@ -1,7 +1,7 @@
 package org.prgrms.deukyun.voucherapp.app.command;
 
 import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
-import org.prgrms.deukyun.voucherapp.domain.voucher.entity.Voucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;

@@ -1,6 +1,4 @@
-package org.prgrms.deukyun.voucherapp.domain.voucher.repository;
-
-import org.prgrms.deukyun.voucherapp.domain.voucher.entity.Voucher;
+package org.prgrms.deukyun.voucherapp.domain.voucher.domain;
 
 import java.util.List;
 import java.util.Optional;

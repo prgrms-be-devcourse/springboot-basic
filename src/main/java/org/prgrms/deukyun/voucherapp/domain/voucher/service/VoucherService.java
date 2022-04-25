@@ -1,7 +1,7 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.service;
 
-import org.prgrms.deukyun.voucherapp.domain.voucher.entity.Voucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.repository.VoucherRepository;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;

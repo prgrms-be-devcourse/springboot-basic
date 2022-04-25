@@ -1,7 +1,7 @@
-package org.prgrms.deukyun.voucherapp.domain.customer.repository;
+package org.prgrms.deukyun.voucherapp.domain.customer.persistence;
 
 import org.junit.jupiter.api.*;
-import org.prgrms.deukyun.voucherapp.domain.customer.entity.Customer;
+import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 

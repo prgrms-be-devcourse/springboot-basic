@@ -1,6 +1,7 @@
-package org.prgrms.deukyun.voucherapp.domain.voucher.repository;
+package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 
-import org.prgrms.deukyun.voucherapp.domain.voucher.entity.Voucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.VoucherRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
