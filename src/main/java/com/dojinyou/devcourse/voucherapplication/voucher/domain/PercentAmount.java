@@ -1,14 +1,13 @@
-package com.dojinyou.devcourse.voucherapplication.voucher.Entity;
+package com.dojinyou.devcourse.voucherapplication.voucher.domain;
 
-public class FixedAmount implements VoucherAmount {
+public class PercentAmount extends VoucherAmount {
     private static final int MIN_AMOUNT = 0;
-    private static final int MAX_AMOUNT = 1_000_000_000;
+    private static final int MAX_AMOUNT = 100;
     public static final String ERROR_MESSAGE_OUT_OT_RANGE = "voucher amount 범위를 벗어났습니다.";
-    private final int amount;
 
-    public FixedAmount(int amount) {
+    public PercentAmount(int amount) {
+        super(amount);
         validate(amount);
-        this.amount = amount;
     }
 
     @Override
@@ -18,7 +17,11 @@ public class FixedAmount implements VoucherAmount {
         }
     }
 
-    public int getAmount() {
-        return amount;
+    public double getRemainRate() {
+        return 1 - getDiscountRate();
+    }
+
+    private double getDiscountRate() {
+        return getAmount() / 100.0;
     }
 }

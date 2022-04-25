@@ -4,14 +4,14 @@ public class Response<T> {
     private final State state;
     private final T data;
 
-    Response(State state, T data) {
+    public Response(State state, T data) {
         this.state = state;
         this.data = data;
     }
 
     @Override
     public String toString() {
-        return "응답 결과("+this.state+"): "+data.toString();
+        return "응답 결과(" + this.state + "): " + data.toString();
     }
 
     public State getState() {

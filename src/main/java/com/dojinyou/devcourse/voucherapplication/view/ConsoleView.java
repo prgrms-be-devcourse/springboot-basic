@@ -1,10 +1,9 @@
 package com.dojinyou.devcourse.voucherapplication.view;
 
-import com.dojinyou.devcourse.voucherapplication.voucher.Entity.VoucherAmount;
-import com.dojinyou.devcourse.voucherapplication.voucher.Entity.VoucherType;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 import org.springframework.stereotype.Component;
 
-import java.util.Locale;
 import java.util.Scanner;
 
 @Component
@@ -23,13 +22,13 @@ public class ConsoleView implements InputView<String>, OutputView<String> {
     @Override
     public VoucherType getVoucherType() {
         String userInputVoucherType = getUserInput().toUpperCase();
-        return VoucherType.of(userInputVoucherType);
+        return VoucherType.from(userInputVoucherType);
     }
 
     @Override
     public VoucherAmount getVoucherAmount(VoucherType voucherType) {
         int userInputAmount = Integer.parseInt(getUserInput());
-        return VoucherAmount.from(voucherType, userInputAmount);
+        return VoucherAmount.of(voucherType, userInputAmount);
     }
 
 

@@ -1,4 +1,4 @@
-package com.dojinyou.devcourse.voucherapplication.voucher.Entity;
+package com.dojinyou.devcourse.voucherapplication.voucher.domain;
 
 public enum VoucherType {
     FIXED, PERCENT;
@@ -9,7 +9,7 @@ public enum VoucherType {
         try {
             return valueOf(userInput);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(ERROR_MESSAGE_NOT_FOUND) ;
+            throw new IllegalArgumentException(ERROR_MESSAGE_NOT_FOUND);
         }
     }
 }
