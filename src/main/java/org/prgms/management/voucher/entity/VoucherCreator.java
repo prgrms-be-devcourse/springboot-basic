@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
-public enum VoucherType {
+public enum VoucherCreator {
     FIXED("fixed") {
         @Override
         public Voucher create(UUID uuid, int discountNum, String voucherName,
@@ -25,21 +25,21 @@ public enum VoucherType {
 
     private final String type;
 
-    VoucherType(String type) {
+    VoucherCreator(String type) {
         this.type = type;
     }
 
     public static Optional<Voucher> createVoucher(
             UUID uuid, int discountNum, String voucherName, String inputType, LocalDateTime createdAt) {
-        Optional<VoucherType> voucherType = Arrays.stream(VoucherType.values())
+        Optional<VoucherCreator> voucherCreator = Arrays.stream(VoucherCreator.values())
                 .filter(s -> s.type.equalsIgnoreCase(inputType))
                 .findFirst();
 
-        if (voucherType.isEmpty()) return Optional.empty();
+        if (voucherCreator.isEmpty()) return Optional.empty();
 
         return Optional.ofNullable(
-                voucherType.get().create(uuid, discountNum, voucherName,
-                        voucherType.get().name(), createdAt));
+                voucherCreator.get().create(uuid, discountNum, voucherName,
+                        voucherCreator.get().name(), createdAt));
     }
 
     public abstract Voucher create(

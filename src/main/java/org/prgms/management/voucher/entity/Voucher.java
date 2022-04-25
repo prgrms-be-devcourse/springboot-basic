@@ -4,11 +4,15 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
+    void changeName(String name);
+
+    void changeDiscountNum(int discountNum);
+
     UUID getVoucherId();
 
-    String getVoucherType();
+    String getType();
 
-    String getVoucherName();
+    String getName();
 
     int getDiscountNum();
 

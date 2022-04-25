@@ -1,7 +1,11 @@
 package org.prgms.management.customer.repository;
 
 import org.prgms.management.customer.entity.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,6 +17,7 @@ import java.util.*;
 @Repository
 @Profile({"local-db", "dev"})
 public class CustomerJdbcRepository implements CustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -28,49 +33,75 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> insert(Customer customer) {
-        var executeUpdate = jdbcTemplate.update("INSERT INTO customers(customer_id, name, created_at) " +
-                "VALUES (UUID_TO_BIN(:customerId), :name, :createdAt)", toParamMap(customer));
+        try {
+            var executeUpdate = jdbcTemplate.update("INSERT INTO customers(customer_id, name, created_at) " +
+                    "VALUES (UUID_TO_BIN(:customerId), :name, :createdAt)", toParamMap(customer));
 
-        if (executeUpdate != 1) {
+            if (executeUpdate != 1) {
+                return Optional.empty();
+            }
+
+            return Optional.of(customer);
+        } catch (DuplicateKeyException e) {
+            logger.error("Failed insert", e);
             return Optional.empty();
         }
-
-        return Optional.of(customer);
     }
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("SELECT * FROM customers", rowMapper);
+        try {
+            return jdbcTemplate.query("SELECT * FROM customers", rowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return List.of();
+        }
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(
-                "SELECT * FROM customers WHERE customer_id = :customerId",
-                Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                rowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                    rowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Customer> findByName(String name) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(
-                "SELECT * FROM customers WHERE name = :name",
-                Collections.singletonMap("name", name),
-                rowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "SELECT * FROM customers WHERE name = :name",
+                    Collections.singletonMap("name", name),
+                    rowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Customer> update(Customer customer) {
-        var executeUpdate = jdbcTemplate.update(
-                "UPDATE customers SET name = :name " +
-                        "WHERE customer_id = UUID_TO_BIN(:customerId)",
-                toParamMap(customer));
+        try {
+            var executeUpdate = jdbcTemplate.update(
+                    "UPDATE customers SET name = :name " +
+                            "WHERE customer_id = UUID_TO_BIN(:customerId)",
+                    toParamMap(customer));
 
-        if (executeUpdate != 1) {
+            if (executeUpdate != 1) {
+                return Optional.empty();
+            }
+
+            return Optional.of(customer);
+        } catch (DuplicateKeyException e) {
+            logger.error("Failed update", e);
             return Optional.empty();
         }
 
-        return Optional.of(customer);
     }
 
     @Override

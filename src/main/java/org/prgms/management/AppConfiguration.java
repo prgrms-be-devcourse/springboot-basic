@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@ComponentScan(basePackages = {"org.prgms.management.blacklist", "org.prgms.management.io", "org.prgms.management.voucher"})
+@ComponentScan(basePackages = {"org.prgms.management.blacklist", "org.prgms.management.io", "org.prgms.management.voucher",
+        "org.prgms.management.customer", "org.prgms.management.wallet"})
 @PropertySource("/application.yaml")
 @EnableConfigurationProperties
 public class AppConfiguration {

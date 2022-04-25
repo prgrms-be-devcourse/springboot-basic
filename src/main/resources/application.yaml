@@ -1,12 +1,9 @@
 spring:
   config:
     activate:
-      on-profile: local
-
----
-
-spring.config.activate.on-profile: local
-
----
-
-spring.config.activate.on-profile: dev
+      on-profile: local-db
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/voucher_mgmt?serverTimezone=Asia/Seoul
+    username: root
+    password: 1234

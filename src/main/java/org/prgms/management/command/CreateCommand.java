@@ -4,9 +4,10 @@ import org.prgms.management.blacklist.service.BlacklistService;
 import org.prgms.management.io.Input;
 import org.prgms.management.io.Output;
 import org.prgms.management.voucher.entity.Voucher;
-import org.prgms.management.voucher.entity.VoucherType;
+import org.prgms.management.voucher.entity.VoucherCreator;
 import org.prgms.management.voucher.service.VoucherService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,10 +23,12 @@ public class CreateCommand implements Command {
 
         int discountNum = input.getInputInteger("할인액(율): ");
 
-        if (discountNum == 0) return true;
+        if (discountNum == 0) {
+            return true;
+        }
 
-        Optional<Voucher> voucher = VoucherType.createVoucher(
-                UUID.randomUUID(), discountNum, voucherName, voucherType);
+        Optional<Voucher> voucher = VoucherCreator.createVoucher(
+                UUID.randomUUID(), discountNum, voucherName, voucherType, LocalDateTime.now());
 
         if (voucher.isPresent() &&
                 voucherService.insert(voucher.get()).isPresent()) {

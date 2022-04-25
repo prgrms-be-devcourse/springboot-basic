@@ -1,11 +1,10 @@
 package org.prgms.management.blacklist.service;
 
-import org.prgms.management.blacklist.entity.Blacklist;
+import org.prgms.management.blacklist.vo.Blacklist;
 import org.prgms.management.blacklist.repository.BlackListRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,10 +30,6 @@ public class BlacklistService {
 
     public Optional<Blacklist> getByCustomerId(UUID customerId) {
         return blackListRepository.findByCustomerId(customerId);
-    }
-
-    public Optional<Blacklist> update(Blacklist blacklist) {
-        return blackListRepository.update(blacklist);
     }
 
     public Optional<Blacklist> delete(Blacklist blacklist) {

@@ -1,6 +1,6 @@
 package org.prgms.management.wallet.service;
 
-import org.prgms.management.wallet.entity.Wallet;
+import org.prgms.management.wallet.vo.Wallet;
 import org.prgms.management.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +24,11 @@ public class WalletService {
         return walletRepository.findAll();
     }
 
-    public Optional<Wallet> getById(UUID walletId) {
+    public List<Wallet> getById(UUID walletId) {
         return walletRepository.findById(walletId);
     }
 
-    public Optional<Wallet> getByCustomerId(UUID customerId) {
+    public List<Wallet> getByCustomerId(UUID customerId) {
         return walletRepository.findByCustomerId(customerId);
     }
 

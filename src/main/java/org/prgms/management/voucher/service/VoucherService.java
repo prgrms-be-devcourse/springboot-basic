@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,12 +29,16 @@ public class VoucherService {
         return voucherRepository.findById(voucherId);
     }
 
-    public Optional<Voucher> getByCreatedAt(LocalDateTime createdAt) {
+    public List<Voucher> getByCreatedAt(LocalDateTime createdAt) {
         return voucherRepository.findByCreatedAt(createdAt);
     }
 
-    public Optional<Voucher> getByType(String type) {
+    public List<Voucher> getByType(String type) {
         return voucherRepository.findByType(type);
+    }
+
+    public Optional<Voucher> getByName(String name) {
+        return voucherRepository.findByName(name);
     }
 
     public Optional<Voucher> update(Voucher voucher) {

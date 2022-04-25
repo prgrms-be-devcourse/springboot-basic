@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public enum CommandType {
+public enum CommandExecutor {
     EXIT("exit", ExitCommand::new),
     CREATE("create", CreateCommand::new),
     LIST("list", ListCommand::new),
@@ -19,22 +19,24 @@ public enum CommandType {
 
     private final String command;
     private final Supplier<Command> supplier;
-    private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommandExecutor.class);
 
-    CommandType(String command, Supplier<Command> supplier) {
+    CommandExecutor(String command, Supplier<Command> supplier) {
         this.command = command;
         this.supplier = supplier;
     }
 
     public static boolean execute(String inputCommandType, Input input, Output output,
                                   BlacklistService blacklistService, VoucherService voucherService) {
-        Optional<CommandType> commandType = Arrays.stream(CommandType.values())
+        Optional<CommandExecutor> commandExecutor = Arrays.stream(CommandExecutor.values())
                 .filter(cmt -> cmt.command.equalsIgnoreCase(inputCommandType))
                 .findFirst();
-        if (commandType.isEmpty()) {
-            logger.error("잘못된 명령어를 입력했습니다. 입력한 명령어 -> {}\n", inputCommandType);
+
+        if (commandExecutor.isEmpty()) {
+            logger.error("잘못된 명령어를 입력했습니다. 입력한 명령어 -> {}", inputCommandType);
             return true;
         }
-        return commandType.get().supplier.get().execute(input, output, voucherService, blacklistService);
+
+        return commandExecutor.get().supplier.get().execute(input, output, voucherService, blacklistService);
     }
 }

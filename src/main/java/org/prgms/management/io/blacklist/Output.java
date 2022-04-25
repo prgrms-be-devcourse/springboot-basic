@@ -1,4 +1,4 @@
-package org.prgms.management.io;
+package org.prgms.management.io.blacklist;
 
 import org.prgms.management.blacklist.vo.Blacklist;
 import org.prgms.management.voucher.entity.Voucher;
@@ -9,16 +9,6 @@ import java.util.List;
 @Component
 public interface Output {
     void init();
-
-    void chooseVoucherType();
-
-    void voucherCreateSuccess();
-
-    void voucherCreateFail();
-
-    void voucherList(List<Voucher> voucherList);
-
-    void blackList(List<Blacklist> blackList);
-
+    void blacklists(List<Blacklist> blackList);
     void delete(String msg);
 }

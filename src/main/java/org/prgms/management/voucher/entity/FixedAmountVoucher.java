@@ -14,32 +14,34 @@ public class FixedAmountVoucher implements Voucher {
     private static final int MIN_LENGTH = 0;
 
     private final UUID voucherId;
-    private final int amount;
-    private final String voucherName;
-    private final String voucherType;
+    private int amount;
+    private String name;
+    private final String type;
 
     private final LocalDateTime createdAt;
 
-    private FixedAmountVoucher(UUID voucherId, int amount, String voucherName, String voucherType, LocalDateTime createdAt) {
+    private FixedAmountVoucher(UUID voucherId, int amount, String name, String type, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.amount = amount;
-        this.voucherName = voucherName;
-        this.voucherType = voucherType;
+        this.name = name;
+        this.type = type;
         this.createdAt = createdAt;
     }
 
     public static FixedAmountVoucher getFixedAmountVoucher(
-            UUID voucherId, int amount, String voucherName,
-            String voucherType, LocalDateTime createdAt) {
-        if (!validate(voucherName, amount)) {
+            UUID voucherId, int amount, String name,
+            String type, LocalDateTime createdAt) {
+        if (!validateName(name) || !validateAmount(amount)) {
             return null;
         }
-        return new FixedAmountVoucher(voucherId, amount, voucherName, voucherType, createdAt);
+
+        return new FixedAmountVoucher(
+                voucherId, amount, name, type, createdAt);
     }
 
-    private static boolean validate(String name, int amount) {
+    private static boolean validateName(String name) {
         if (name.length() == MIN_LENGTH) {
-            logger.error("바우처 이름은 {}글자를 넘어야 합니다.", MIN_AMOUNT);
+            logger.error("바우처 이름은 {}글자를 넘어야 합니다.", MIN_LENGTH);
             return false;
         }
 
@@ -48,7 +50,11 @@ public class FixedAmountVoucher implements Voucher {
             return false;
         }
 
-        if (amount == MIN_AMOUNT) {
+        return true;
+    }
+
+    private static boolean validateAmount(int amount) {
+        if (amount <= MIN_AMOUNT) {
             logger.error("할인액은 을{} 넘어야 합니다.", MIN_AMOUNT);
             return false;
         }
@@ -62,18 +68,32 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public void changeName(String name) {
+        if (validateName(name)) {
+            this.name = name;
+        }
+    }
+
+    @Override
+    public void changeDiscountNum(int discountNum) {
+        if (validateAmount(discountNum)) {
+            this.amount = discountNum;
+        }
+    }
+
+    @Override
     public UUID getVoucherId() {
         return this.voucherId;
     }
 
     @Override
-    public String getVoucherType() {
-        return this.voucherType;
+    public String getType() {
+        return this.type;
     }
 
     @Override
-    public String getVoucherName() {
-        return this.voucherName;
+    public String getName() {
+        return this.name;
     }
 
     @Override

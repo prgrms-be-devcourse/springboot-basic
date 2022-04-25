@@ -9,10 +9,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class customerService {
+public class CustomerService {
     private final CustomerRepository customerRepository;
 
-    public customerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 

@@ -3,7 +3,7 @@
             conversionWord="clr"
             converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
 
-    <property name="LOG_LEVEL" value="error"/>
+    <property name="LOG_LEVEL" value="INFO"/>
     <property name="LOG_PATH" value="logs"/>
     <property name="LOG_FILE_NAME" value="error_log"/>
 

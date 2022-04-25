@@ -1,12 +1,11 @@
 package org.prgms.management.io;
 
-import org.prgms.management.blacklist.entity.Blacklist;
+import org.prgms.management.blacklist.vo.Blacklist;
 import org.prgms.management.voucher.entity.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Component
 public class ConsoleOutput implements Output {
@@ -35,14 +34,14 @@ public class ConsoleOutput implements Output {
     }
 
     @Override
-    public void voucherList(Map<UUID, Voucher> voucherList) {
+    public void voucherList(List<Voucher> voucherList) {
         System.out.println("\n=== 바우처 목록 ===");
         if (voucherList != null && !voucherList.isEmpty()) {
-            voucherList.forEach((k, v) -> System.out.println(MessageFormat
+            voucherList.forEach(v -> System.out.println(MessageFormat
                     .format("{0} {1} {2} {3}",
                             v.getVoucherId(),
-                            v.getVoucherType(),
-                            v.getVoucherName(),
+                            v.getType(),
+                            v.getName(),
                             v.getDiscountNum()
                     )
             ));
@@ -51,12 +50,18 @@ public class ConsoleOutput implements Output {
     }
 
     @Override
-    public void blackList(Map<UUID, Blacklist> blackList) {
+    public void blackList(List<Blacklist> blackList) {
         System.out.println("\n=== 블랙리스트 목록 ===");
         if (!blackList.isEmpty()) {
-            blackList.forEach((k, v) -> System.out.println(MessageFormat
-                    .format("{0} {1}", k, v)));
+            blackList.forEach(v -> System.out.println(MessageFormat.format(
+                    "{0} {1} {2}", v.blacklistId(),
+                    v.customerId(), v.createdAt())));
         }
         System.out.println();
+    }
+
+    @Override
+    public void delete(String msg) {
+        System.out.println(MessageFormat.format("\n{0}\n", msg));
     }
 }

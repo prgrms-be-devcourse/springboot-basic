@@ -7,7 +7,7 @@ import java.io.IOException;
 
 @SpringBootApplication
 public class VoucherManagementApplication {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         var applicationContext = SpringApplication.run(
                 VoucherManagementApplication.class, args);
         var consoleApplication = applicationContext.getBean(ConsoleApplication.class);

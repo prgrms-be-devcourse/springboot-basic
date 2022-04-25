@@ -12,7 +12,7 @@ public class Customer {
     private static final int MIN_LENGTH = 0;
 
     private final UUID customerId;
-    private final String name;
+    private String name;
     private final LocalDateTime createdAt;
 
     private Customer(UUID customerId, String name, LocalDateTime createdAt) {
@@ -40,6 +40,10 @@ public class Customer {
         }
 
         return true;
+    }
+
+    public void changeName(String name) {
+        this.name = name;
     }
 
     public UUID getCustomerId() {
