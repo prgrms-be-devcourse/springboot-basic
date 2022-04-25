@@ -36,7 +36,6 @@ public class MessageConverterTests {
         @Nested
         @DisplayName("null Request 가 전달되면")
         class Context_with_null {
-            String source = "iron_man";
 
             @Test
             @DisplayName("IllegalArgumentException 에러가 발생한다")
