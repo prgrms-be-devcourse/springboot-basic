@@ -10,6 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static com.example.voucher.domain.voucher.VoucherType.FIXED_AMOUNT_VOUCHER;
 import static com.example.voucher.domain.voucher.VoucherType.PERCENT_DISCOUNT_VOUCHER;
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
@@ -90,6 +93,27 @@ public class VoucherServiceTest {
 				assertThatThrownBy(() -> voucherService.save(PERCENT_DISCOUNT_VOUCHER, 101))
 						.isInstanceOf(IllegalArgumentException.class)
 						.hasMessage(INVALID_INPUT.name());
+			}
+		}
+
+		@Nested
+		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+		class findAll메서드는 {
+
+			private List<Voucher> list;
+			@BeforeEach
+			void 테스트를_위한_설정() {
+				list = Arrays.asList(new FixedAmountVoucher(null, 1000));
+				given(voucherRepository.findAll())
+						.willReturn(list);
+			}
+			@Test
+			@DisplayName("바우처를 전체 조회하고 반환한다")
+			void 바우처를_전체_조회하고_반환한다() {
+				List<Voucher> vouchers = voucherService.findAll();
+
+				verify(voucherRepository).findAll();
+				assertThat(vouchers).isEqualTo(list);
 			}
 		}
 	}
