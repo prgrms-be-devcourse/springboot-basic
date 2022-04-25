@@ -2,13 +2,15 @@ package com.example.voucher;
 
 import com.example.voucher.controller.VoucherController;
 import com.example.voucher.domain.voucher.VoucherType;
-import com.example.voucher.dto.VoucherListResponse;
+import com.example.voucher.dto.VoucherResponse;
 import com.example.voucher.io.Input;
 import com.example.voucher.io.Output;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.List;
 
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
@@ -58,7 +60,7 @@ public class VoucherApplication implements ApplicationRunner {
 				}
 
 				case LIST: {
-					VoucherListResponse voucherListResponse = processListCommand();
+					List<VoucherResponse> voucherListResponse = processListCommand();
 					output.printMessage(voucherListResponse);
 				}
 			}
@@ -88,7 +90,7 @@ public class VoucherApplication implements ApplicationRunner {
 		voucherController.save(voucherType, discountAmount);
 	}
 
-	private VoucherListResponse processListCommand() {
+	private List<VoucherResponse> processListCommand() {
 		return voucherController.findAll();
 	}
 

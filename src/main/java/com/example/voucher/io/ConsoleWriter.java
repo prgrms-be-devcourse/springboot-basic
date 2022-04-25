@@ -1,23 +1,13 @@
 package com.example.voucher.io;
-import com.example.voucher.dto.VoucherListResponse;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 
 import static com.example.voucher.exception.ErrorMessage.UNSUPPORTED_MESSAGE_TYPE;
 
+
 @Component
 public class ConsoleWriter<T> implements Output<T> {
-
-	private enum MessageType {
-		STRING(String.class),
-		VOUCHER_RESPONSE(VoucherListResponse.class);
-
-		MessageType(Class<?> classType) {
-			this.classType = classType;
-		}
-
-		Class<?> classType;
-	}
 
 	@Override
 	public void printMessage(T message) {
@@ -25,14 +15,15 @@ public class ConsoleWriter<T> implements Output<T> {
 			System.out.println(convert(message, message.getClass()));
 		} catch (IllegalArgumentException e) {
 			// TODO: 로그 남기기
+			System.out.println(e.getMessage());
 		}
 	}
 
 	private String convert(T message, Class<?> classType) {
-		if (classType == MessageType.STRING.classType) {
+		if (classType == String.class) {
 			return message.toString();
 		}
-		if (classType == MessageType.VOUCHER_RESPONSE.classType) {
+		if (classType == List.class) {
 			return message.toString();
 		}
 		throw new IllegalArgumentException(UNSUPPORTED_MESSAGE_TYPE.name());
