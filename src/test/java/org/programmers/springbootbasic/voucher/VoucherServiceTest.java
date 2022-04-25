@@ -121,12 +121,11 @@ class VoucherServiceTest {
         @Nested
         @DisplayName("바우처 아이디가 존재 할 때")
         class Context_with_valid_voucherId {
+            Voucher voucher = voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 3000L, LocalDateTime.now());
 
             @Test
             @DisplayName("바우처를 반환합니다.")
             void it_returns_a_voucher() {
-                Voucher voucher = voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 3000L, LocalDateTime.now());
-
                 Optional<Voucher> retrievedVoucher = voucherService.getVoucher(voucher.getVoucherId());
 
                 assertThat(retrievedVoucher).isPresent();
@@ -136,12 +135,11 @@ class VoucherServiceTest {
         @Nested
         @DisplayName("바우처 아이디가 존재 하지 않을 때")
         class Context_with_unValid_voucherId {
+            Optional<Voucher> emptyVoucher = voucherService.getVoucher(UUID.randomUUID());
 
             @Test
             @DisplayName("Optional.isEmpty를 반환합니다.")
             void it_returns_a_throw() {
-                Optional<Voucher> emptyVoucher = voucherService.getVoucher(UUID.randomUUID());
-
                 assertThat(emptyVoucher).isEmpty();
             }
         }
@@ -154,18 +152,15 @@ class VoucherServiceTest {
         @Nested
         @DisplayName("바우처가 존재할 때")
         class Context_with_exist_voucher {
+            Voucher voucher = voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), 10, LocalDateTime.now());
 
             @Test
             @DisplayName("바우처 List를 반환합니다.")
             void it_returns_a_list() {
-                //given
-                voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), 10, LocalDateTime.now());
-
-                //when
                 final List<Voucher> voucherList = voucherService.getVoucherList();
 
                 //then
-                assertThat(voucherList).hasSize(1);
+                assertThat(voucherList.get(0).getVoucherId()).isEqualTo(voucher.getVoucherId());
             }
         }
     }
