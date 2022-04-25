@@ -32,29 +32,29 @@ public class VoucherServiceImpl implements VoucherService {
                 break;
         }
 
-        return voucherRepository.createVoucher(voucher);
+        return voucherRepository.insert(voucher);
     }
 
     @Override
     public List<Voucher> getAllVouchers() {
-        return voucherRepository.readAllVouchers();
+        return voucherRepository.findAll();
     }
 
     @Override
     public Optional<Voucher> getVoucherByVoucherId(UUID voucherId) {
-        return voucherRepository.readVoucher(voucherId);
+        return voucherRepository.findById(voucherId);
     }
 
     @Override
     public List<Voucher> getVouchersByMemberId(UUID memberId) {
-        return voucherRepository.readVouchersByMemberId(memberId);
+        return voucherRepository.findByMemberId(memberId);
     }
 
     @Override
     public Optional<Voucher> updateVoucher(UUID voucherId, VoucherType type, long amount) {
         Voucher voucher = null;
 
-        Optional<Voucher> existing = voucherRepository.readVoucher(voucherId);
+        Optional<Voucher> existing = voucherRepository.findById(voucherId);
 
         if (existing.isEmpty()) {
             return Optional.empty();
@@ -70,17 +70,17 @@ public class VoucherServiceImpl implements VoucherService {
                 break;
         }
 
-        return voucherRepository.updateVoucher(voucher);
+        return voucherRepository.update(voucher);
     }
 
     @Override
     public Optional<Voucher> deleteVoucher(UUID voucherId) {
-        Optional<Voucher> voucher = voucherRepository.readVoucher(voucherId);
+        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
 
         if (voucher.isEmpty()) {
             return Optional.empty();
         }
 
-        return voucherRepository.deleteVoucher(voucher.get());
+        return voucherRepository.delete(voucher.get());
     }
 }

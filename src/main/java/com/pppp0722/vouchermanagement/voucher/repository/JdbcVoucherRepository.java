@@ -1,6 +1,7 @@
 package com.pppp0722.vouchermanagement.voucher.repository;
 
-import static com.pppp0722.vouchermanagement.util.Util.toUUID;
+import static com.pppp0722.vouchermanagement.util.JdbcUtils.toLocalDateTime;
+import static com.pppp0722.vouchermanagement.util.JdbcUtils.toUUID;
 import static com.pppp0722.vouchermanagement.voucher.model.VoucherType.FIXED_AMOUNT;
 import static com.pppp0722.vouchermanagement.voucher.model.VoucherType.getVoucherType;
 
@@ -8,6 +9,7 @@ import com.pppp0722.vouchermanagement.voucher.model.FixedAmountVoucher;
 import com.pppp0722.vouchermanagement.voucher.model.PercentDiscountVoucher;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import com.pppp0722.vouchermanagement.voucher.model.VoucherType;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,34 +34,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    private Map<String, Object> toParamMap(Voucher voucher) {
-        return new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("type", voucher.getType().toString());
-            put("amount", voucher.getAmount());
-            put("memberId", voucher.getMemberId().toString().getBytes());
-        }};
-    }
-
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        VoucherType type = getVoucherType(resultSet.getString("type"));
-        long amount = resultSet.getLong("amount");
-        UUID memberId = toUUID(resultSet.getBytes("member_id"));
-
-        if (type.equals(FIXED_AMOUNT)) {
-            return new FixedAmountVoucher(voucherId, amount, memberId);
-        } else {
-            return new PercentDiscountVoucher(voucherId, amount, memberId);
-        }
-    };
-
-    // voucher 생성
     @Override
-    public Optional<Voucher> createVoucher(Voucher voucher) {
+    public Optional<Voucher> insert(Voucher voucher) {
         try {
             int update = jdbcTemplate.update(
-                "INSERT INTO vouchers(voucher_id, type, amount, member_id) VALUES(UNHEX(REPLACE(:voucherId, '-', '')), :type, :amount, UNHEX(REPLACE(:memberId, '-', '')))",
+                "INSERT INTO vouchers(voucher_id, type, amount, created_at, member_id) VALUES(UNHEX(REPLACE(:voucherId, '-', '')), :type, :amount, :createdAt, UNHEX(REPLACE(:memberId, '-', '')))",
                 toParamMap(voucher));
 
             if (update != 1) {
@@ -73,9 +52,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return Optional.of(voucher);
     }
 
-    // 모든 voucher 읽기
     @Override
-    public List<Voucher> readAllVouchers() {
+    public List<Voucher> findAll() {
         List<Voucher> vouchers;
         try {
             vouchers = jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
@@ -86,9 +64,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
-    // voucher Id로 voucher 읽기
     @Override
-    public Optional<Voucher> readVoucher(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(
                 jdbcTemplate.queryForObject(
@@ -101,9 +78,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
-    // memberId 로 해당 memberId 가진 모든 voucher 읽기
     @Override
-    public List<Voucher> readVouchersByMemberId(UUID memberId) {
+    public List<Voucher> findByMemberId(UUID memberId) {
         List<Voucher> vouchers = jdbcTemplate.query(
             "SELECT * FROM vouchers WHERE member_id = UNHEX(REPLACE(:memberId, '-', ''))",
             Collections.singletonMap("memberId", memberId.toString().getBytes()),
@@ -112,9 +88,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
-    // 해당 voucher 로 같은 voucherId 가진 voucher 업데이트
     @Override
-    public Optional<Voucher> updateVoucher(Voucher voucher) {
+    public Optional<Voucher> update(Voucher voucher) {
         try {
             int update = jdbcTemplate.update(
                 "UPDATE vouchers SET type = :type, amount = :amount WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
@@ -131,9 +106,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return Optional.of(voucher);
     }
 
-    // voucher 삭제
     @Override
-    public Optional<Voucher> deleteVoucher(Voucher voucher) {
+    public Optional<Voucher> delete(Voucher voucher) {
         try {
             int update = jdbcTemplate.update(
                 "DELETE FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
@@ -148,5 +122,35 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
 
         return Optional.of(voucher);
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
+    }
+
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        VoucherType type = getVoucherType(resultSet.getString("type"));
+        long amount = resultSet.getLong("amount");
+        LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("createdAt"));
+        UUID memberId = toUUID(resultSet.getBytes("member_id"));
+
+        if (type.equals(FIXED_AMOUNT)) {
+            return new FixedAmountVoucher(voucherId, amount, createdAt, memberId);
+        } else {
+            return new PercentDiscountVoucher(voucherId, amount, createdAt, memberId);
+        }
+    };
+
+    private Map<String, Object> toParamMap(Voucher voucher) {
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
+        paramMap.put("type", voucher.getType().toString());
+        paramMap.put("amount", voucher.getAmount());
+        paramMap.put("createdAt", voucher.getCreatedAt());
+        paramMap.put("memberId", voucher.getMemberId().toString().getBytes());
+
+        return paramMap;
     }
 }

@@ -1,6 +1,6 @@
 package com.pppp0722.vouchermanagement.member.repository;
 
-import static com.pppp0722.vouchermanagement.util.Util.toUUID;
+import static com.pppp0722.vouchermanagement.util.JdbcUtils.toUUID;
 
 import com.pppp0722.vouchermanagement.member.model.Member;
 import java.util.ArrayList;
@@ -27,23 +27,8 @@ public class JdbcMemberRepository implements MemberRepository {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    private Map<String, Object> toParamMap(Member member) {
-        return new HashMap<>() {{
-            put("memberId", member.getMemberId().toString().getBytes());
-            put("name", member.getName());
-        }};
-    }
-
-    private static final RowMapper<Member> memberRowMapper = (resultSet, i) -> {
-        UUID memberId = toUUID(resultSet.getBytes("member_id"));
-        String name = resultSet.getString("name");
-
-        return new Member(memberId, name);
-    };
-
-    // Member 생성
     @Override
-    public Optional<Member> createMember(Member member) {
+    public Optional<Member> insert(Member member) {
         try {
             int update = jdbcTemplate.update(
                 "INSERT INTO members(member_id, name) VALUES(UNHEX(REPLACE(:memberId, '-', '')), :name)",
@@ -61,9 +46,8 @@ public class JdbcMemberRepository implements MemberRepository {
         return Optional.of(member);
     }
 
-    // 모든 member 읽기
     @Override
-    public List<Member> readAllMembers() {
+    public List<Member> findAll() {
         List<Member> members;
         try {
             members = jdbcTemplate.query("SELECT * FROM members", memberRowMapper);
@@ -74,9 +58,8 @@ public class JdbcMemberRepository implements MemberRepository {
         return members;
     }
 
-    // 해당 memberId 가진 member 읽기
     @Override
-    public Optional<Member> readMember(UUID memberId) {
+    public Optional<Member> findById(UUID memberId) {
         try {
             return Optional.ofNullable(
                 jdbcTemplate.queryForObject(
@@ -89,9 +72,8 @@ public class JdbcMemberRepository implements MemberRepository {
         }
     }
 
-    // 해당 member 로 같은 memberId 가진 member 업데이트
     @Override
-    public Optional<Member> updateMember(Member member) {
+    public Optional<Member> update(Member member) {
         try {
             int update = jdbcTemplate.update(
                 "UPDATE members SET name = :name WHERE member_id = UNHEX(REPLACE(:memberId, '-', ''))",
@@ -109,9 +91,8 @@ public class JdbcMemberRepository implements MemberRepository {
         return Optional.of(member);
     }
 
-    // member 삭제
     @Override
-    public Optional<Member> deleteMember(Member member) {
+    public Optional<Member> delete(Member member) {
         try {
             int update = jdbcTemplate.update(
                 "DELETE FROM members WHERE member_id = UNHEX(REPLACE(:memberId, '-', ''))",
@@ -127,5 +108,20 @@ public class JdbcMemberRepository implements MemberRepository {
         }
 
         return Optional.of(member);
+    }
+
+    private static final RowMapper<Member> memberRowMapper = (resultSet, i) -> {
+        UUID memberId = toUUID(resultSet.getBytes("member_id"));
+        String name = resultSet.getString("name");
+
+        return new Member(memberId, name);
+    };
+
+    private Map<String, Object> toParamMap(Member member) {
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("memberId", member.getMemberId().toString().getBytes());
+        paramMap.put("name", member.getName());
+
+        return paramMap;
     }
 }

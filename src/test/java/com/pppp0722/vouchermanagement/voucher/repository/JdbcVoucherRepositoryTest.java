@@ -103,13 +103,13 @@ class JdbcVoucherRepositoryTest {
     @Order(1)
     @DisplayName("createVoucher() 테스트")
     public void testCreateVoucher() {
-        Optional<Voucher> voucher = voucherRepository.createVoucher(newVoucher);
+        Optional<Voucher> voucher = voucherRepository.insert(newVoucher);
 
         if (voucher.isEmpty()) {
             assertThat(false, is(true));
         }
 
-        Optional<Voucher> readVoucher = voucherRepository.readVoucher(
+        Optional<Voucher> readVoucher = voucherRepository.findById(
             newVoucher.getVoucherId());
 
         if (readVoucher.isEmpty()) {
@@ -123,7 +123,7 @@ class JdbcVoucherRepositoryTest {
     @Order(2)
     @DisplayName("readVouchers() 테스트")
     public void testReadVouchers() {
-        List<Voucher> vouchers = voucherRepository.readAllVouchers();
+        List<Voucher> vouchers = voucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
     }
 
@@ -131,7 +131,7 @@ class JdbcVoucherRepositoryTest {
     @Order(3)
     @DisplayName("readVoucher() 테스트")
     public void testReadVoucher() {
-        Optional<Voucher> voucher = voucherRepository.readVoucher(newVoucher.getVoucherId());
+        Optional<Voucher> voucher = voucherRepository.findById(newVoucher.getVoucherId());
 
         if (voucher.isEmpty()) {
             assertThat(false, is(true));
@@ -144,7 +144,7 @@ class JdbcVoucherRepositoryTest {
     @Order(4)
     @DisplayName("readVouchersByMemberId() 테스트")
     public void testReadVouchersByMemberId() {
-        List<Voucher> vouchers = voucherRepository.readVouchersByMemberId(newVoucher.getMemberId());
+        List<Voucher> vouchers = voucherRepository.findByMemberId(newVoucher.getMemberId());
         assertThat(vouchers.isEmpty(), is(false));
     }
 
@@ -155,7 +155,7 @@ class JdbcVoucherRepositoryTest {
         Voucher updatedVoucher = new PercentDiscountVoucher(newVoucher.getVoucherId(), 20,
             newVoucher.getMemberId());
 
-        Optional<Voucher> member = voucherRepository.updateVoucher(updatedVoucher);
+        Optional<Voucher> member = voucherRepository.update(updatedVoucher);
 
         if (member.isEmpty()) {
             assertThat(false, is(true));
@@ -168,13 +168,13 @@ class JdbcVoucherRepositoryTest {
     @Order(6)
     @DisplayName("deleteVoucher() 테스트")
     public void testDeleteVoucher() {
-        Optional<Voucher> deletedVoucher = voucherRepository.deleteVoucher(newVoucher);
+        Optional<Voucher> deletedVoucher = voucherRepository.delete(newVoucher);
 
         if (deletedVoucher.isEmpty()) {
             assertThat(false, is(true));
         }
 
-        Optional<Voucher> retrievedVoucher = voucherRepository.readVoucher(deletedVoucher.get()
+        Optional<Voucher> retrievedVoucher = voucherRepository.findById(deletedVoucher.get()
             .getVoucherId());
 
         assertThat(retrievedVoucher.isEmpty(), is(true));
@@ -184,7 +184,7 @@ class JdbcVoucherRepositoryTest {
     @Order(7)
     @DisplayName("readVoucher() voucher 존재 X 예외 테스트")
     public void testReadVoucherException() {
-        Optional<Voucher> voucher = voucherRepository.readVoucher(newVoucher.getVoucherId());
+        Optional<Voucher> voucher = voucherRepository.findById(newVoucher.getVoucherId());
         assertThat(voucher.isEmpty(), is(true));
     }
 
@@ -192,7 +192,7 @@ class JdbcVoucherRepositoryTest {
     @Order(8)
     @DisplayName("readVouchersByMemberId() voucher 존재 X 예외 테스트")
     public void testReadVouchersByMemberIdException() {
-        List<Voucher> vouchers = voucherRepository.readVouchersByMemberId(newVoucher.getMemberId());
+        List<Voucher> vouchers = voucherRepository.findByMemberId(newVoucher.getMemberId());
         assertThat(vouchers.isEmpty(), is(true));
     }
 
@@ -202,7 +202,7 @@ class JdbcVoucherRepositoryTest {
     public void testUpdateVoucherException() {
         Voucher updatedVoucher = new PercentDiscountVoucher(newVoucher.getVoucherId(), 20,
             newVoucher.getMemberId());
-        Optional<Voucher> member = voucherRepository.updateVoucher(updatedVoucher);
+        Optional<Voucher> member = voucherRepository.update(updatedVoucher);
         assertThat(member.isEmpty(), is(true));
     }
 
@@ -210,7 +210,7 @@ class JdbcVoucherRepositoryTest {
     @Order(10)
     @DisplayName("deleteVoucher() voucher 존재 X 예외 테스트")
     public void testDeleteVoucherException() {
-        Optional<Voucher> voucher = voucherRepository.deleteVoucher(newVoucher);
+        Optional<Voucher> voucher = voucherRepository.delete(newVoucher);
         assertThat(voucher.isEmpty(), is(true));
     }
 }

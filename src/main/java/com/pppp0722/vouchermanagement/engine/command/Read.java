@@ -81,7 +81,7 @@ public class Read {
             printMember();
         }
 
-        Optional<Member> member = memberService.getMemberByMemberId(memberId);
+        Optional<Member> member = memberService.getMemberById(memberId);
         if (member.isEmpty()) {
             logger.info("Member does not exist.");
             console.printEmpty();

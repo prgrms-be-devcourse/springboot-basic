@@ -18,33 +18,33 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Optional<Member> createMember(UUID memberId, String name) {
-        return memberRepository.createMember(new Member(memberId, name));
+        return memberRepository.insert(new Member(memberId, name));
     }
 
     @Override
     public List<Member> getAllMembers() {
-        return memberRepository.readAllMembers();
+        return memberRepository.findAll();
     }
 
     @Override
-    public Optional<Member> getMemberByMemberId(UUID memberID) {
-        return memberRepository.readMember(memberID);
+    public Optional<Member> getMemberById(UUID memberID) {
+        return memberRepository.findById(memberID);
     }
 
     @Override
     public Optional<Member> updateMember(UUID memberId, String name) {
-        return memberRepository.updateMember(new Member(memberId, name));
+        return memberRepository.update(new Member(memberId, name));
     }
 
     @Override
     public Optional<Member> deleteMember(UUID memberId) {
-        Optional<Member> member = memberRepository.readMember(memberId);
+        Optional<Member> member = memberRepository.findById(memberId);
 
         if (member.isEmpty()) {
             return Optional.empty();
         }
 
-        return memberRepository.deleteMember(member.get());
+        return memberRepository.delete(member.get());
     }
 
 

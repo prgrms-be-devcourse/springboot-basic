@@ -98,13 +98,13 @@ class JdbcMemberRepositoryTest {
     @Order(1)
     @DisplayName("createMember() 테스트")
     public void testCreateMember() {
-        Optional<Member> member = memberRepository.createMember(newMember);
+        Optional<Member> member = memberRepository.insert(newMember);
 
         if (member.isEmpty()) {
             assertThat(false, is(true));
         }
 
-        Optional<Member> readMember = memberRepository.readMember(
+        Optional<Member> readMember = memberRepository.findById(
             newMember.getMemberId());
 
         if (readMember.isEmpty()) {
@@ -118,7 +118,7 @@ class JdbcMemberRepositoryTest {
     @Order(2)
     @DisplayName("readMembers() 테스트")
     public void testReadMembers() {
-        List<Member> members = memberRepository.readAllMembers();
+        List<Member> members = memberRepository.findAll();
         assertThat(members.isEmpty(), is(false));
     }
 
@@ -126,7 +126,7 @@ class JdbcMemberRepositoryTest {
     @Order(3)
     @DisplayName("readMember() 테스트")
     public void testReadMember() {
-        Optional<Member> member = memberRepository.readMember(newMember.getMemberId());
+        Optional<Member> member = memberRepository.findById(newMember.getMemberId());
 
         if (member.isEmpty()) {
             assertThat(false, is(true));
@@ -141,7 +141,7 @@ class JdbcMemberRepositoryTest {
     public void testUpdateMember() {
         Member updatedMember = new Member(newMember.getMemberId(), "lee");
 
-        Optional<Member> member = memberRepository.updateMember(updatedMember);
+        Optional<Member> member = memberRepository.update(updatedMember);
 
         if (member.isEmpty()) {
             assertThat(false, is(true));
@@ -154,13 +154,13 @@ class JdbcMemberRepositoryTest {
     @Order(5)
     @DisplayName("deleteMember() 테스트")
     public void testDeleteMember() {
-        Optional<Member> deletedMember = memberRepository.deleteMember(newMember);
+        Optional<Member> deletedMember = memberRepository.delete(newMember);
 
         if (deletedMember.isEmpty()) {
             assertThat(false, is(true));
         }
 
-        Optional<Member> retrievedMember = memberRepository.readMember(deletedMember.get()
+        Optional<Member> retrievedMember = memberRepository.findById(deletedMember.get()
             .getMemberId());
 
         assertThat(retrievedMember.isEmpty(), is(true));
@@ -170,7 +170,7 @@ class JdbcMemberRepositoryTest {
     @Order(6)
     @DisplayName("readMember() member 존재 X 예외 테스트")
     public void testReadMemberException() {
-        Optional<Member> member = memberRepository.readMember(newMember.getMemberId());
+        Optional<Member> member = memberRepository.findById(newMember.getMemberId());
         assertThat(member.isEmpty(), is(true));
     }
 
@@ -179,7 +179,7 @@ class JdbcMemberRepositoryTest {
     @DisplayName("updateMember() member 존재 X 예외 테스트")
     public void testUpdateMemberException() {
         Member updatedMember = new Member(newMember.getMemberId(), "lee");
-        Optional<Member> member = memberRepository.updateMember(updatedMember);
+        Optional<Member> member = memberRepository.update(updatedMember);
         assertThat(member.isEmpty(), is(true));
     }
 
@@ -187,7 +187,7 @@ class JdbcMemberRepositoryTest {
     @Order(8)
     @DisplayName("deleteMember() member 존재 X 예외 테스트")
     public void testDeleteMemberException() {
-        Optional<Member> member = memberRepository.deleteMember(newMember);
+        Optional<Member> member = memberRepository.delete(newMember);
         assertThat(member.isEmpty(), is(true));
     }
 }

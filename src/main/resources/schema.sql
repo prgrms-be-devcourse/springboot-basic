@@ -8,8 +8,9 @@ CREATE TABLE members
 CREATE TABLE vouchers
 (
     voucher_id BINARY(16) PRIMARY KEY,
-    type       varchar(20) NOT NULL,
-    amount     int         NOT NULL,
+    type       varchar(20)  NOT NULL,
+    amount     int          NOT NULL,
+    created_at TIMESTAMP(6) NOT NULL,
     member_id  BINARY(16)
 --     ,FOREIGN KEY (member_id)
 --         REFERENCES members(member_id)

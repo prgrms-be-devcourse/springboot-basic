@@ -7,13 +7,13 @@ import java.util.UUID;
 
 public interface MemberRepository {
 
-    Optional<Member> createMember(Member member);
+    Optional<Member> insert(Member member);
 
-    List<Member> readAllMembers();
+    List<Member> findAll();
 
-    Optional<Member> readMember(UUID memberId);
+    Optional<Member> findById(UUID memberId);
 
-    Optional<Member> updateMember(Member member);
+    Optional<Member> update(Member member);
 
-    Optional<Member> deleteMember(Member member);
+    Optional<Member> delete(Member member);
 }
