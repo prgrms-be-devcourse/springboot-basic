@@ -17,6 +17,10 @@ public enum Command {
         return explanation;
     }
 
+    public boolean isMatches(String input) {
+        return input.equals(command);
+    }
+
     @Override
     public String toString() {
         return command;

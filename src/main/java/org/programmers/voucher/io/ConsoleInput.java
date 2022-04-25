@@ -13,17 +13,16 @@ public class ConsoleInput implements Input{
     public Command inputCommand() throws IllegalArgumentException {
         String input = sc.nextLine().strip();
         return Arrays.stream(Command.values())
-                .filter(value -> value.toString().equals(input))
+                .filter(value -> value.isMatches(input))
                 .findAny()
                 .orElseThrow(IllegalArgumentException::new);
     }
 
     @Override
-
     public VoucherType inputVoucherType() throws IllegalArgumentException {
         String input = sc.nextLine().strip();
         return Arrays.stream(VoucherType.values())
-                .filter(value -> value.toString().equals(input))
+                .filter(value -> value.isMatches(input))
                 .findAny()
                 .orElseThrow(IllegalArgumentException::new);
     }

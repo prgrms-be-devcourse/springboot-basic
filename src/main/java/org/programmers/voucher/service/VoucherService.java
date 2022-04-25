@@ -23,10 +23,9 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    //todo
     public Voucher makeVoucher(VoucherType voucherType){
-        return switch (voucherType) {
-            case FixedAmountVoucher -> new FixedAmountVoucher(UUID.randomUUID(), amount);
-            case PercentDiscountVoucher -> new PercentDiscountVoucher(UUID.randomUUID(), percent);
-        };
+
+        return null;
     }
 }
