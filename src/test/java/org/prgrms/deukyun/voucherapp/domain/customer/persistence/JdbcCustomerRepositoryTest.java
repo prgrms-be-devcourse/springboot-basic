@@ -32,10 +32,11 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Nested
+    @DisplayName("삽입")
     class insertTest {
 
         @Test
-        void givenCustomer_whenCallInsert_thenIdIsSetAndReturnsInsertedCustomer() {
+        void 성공() {
             //when
             Customer insertedCustomer = jdbcCustomerRepository.insert(customer);
 
@@ -45,10 +46,11 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Nested
+    @DisplayName("전체 조회")
     class findAllTest {
 
         @Test
-        void givenTwoCustomerInsertion_whenCallFindAll_thenGivesTwoCustomers() {
+        void 성공() {
             //setup
             Customer customer1 = dummyCustomer();
             Customer customer2 = dummyCustomer();
@@ -65,6 +67,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Nested
+    @DisplayName("단건 조회")
     class findByIdTest {
 
         UUID id;
@@ -75,7 +78,7 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Test
-        void givenIdOfInsertedCustomer_whenCallFindById_thenReturnFoundCustomerInstance() {
+        void 성공() {
             //setup
             id = customer.getId();
 
@@ -87,7 +90,7 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Test
-        void givenInvalidId_whenCallFindById_thenReturnOptionalEmpty() {
+        void 성공_아이디가_없을경우_OptionalEmpty_반환() {
             //setup
             id = UUID.randomUUID();
 
@@ -100,10 +103,11 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Nested
+    @DisplayName("전체 삭제")
     class deleteAllTest{
 
         @Test
-        void givenTwoInsertion_whenCallDeleteAll_thenFindAllReturnsEmptyList(){
+        void 성공(){
             //setup
             jdbcCustomerRepository.insert(dummyCustomer());
             jdbcCustomerRepository.insert(dummyCustomer());

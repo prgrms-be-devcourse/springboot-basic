@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 class PercentDiscountVoucherTest {
 
     @Test
-    void givenPercent20_whenConstructPDV_thenIsCreated() {
+    void 성공_생성() {
         //setup
         long percent = 20L;
 
@@ -23,7 +23,7 @@ class PercentDiscountVoucherTest {
     }
 
     @Test
-    void givenNegativePercent_whenConstructPDV_thenThrowIllegalArgumentException() {
+    void 실패_생성_음수_amount() {
         //setup
         long amount = -1000L;
 
@@ -34,7 +34,7 @@ class PercentDiscountVoucherTest {
     }
 
     @Test
-    void givenBeforeDiscountPrice_whenDiscount_thenReturnPercentDiscountedPrice() {
+    void 성공_할인() {
         //setup
         long percent = 20L;
         Voucher voucher = percentDiscountVoucherWithPercent(percent);

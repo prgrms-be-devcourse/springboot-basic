@@ -23,7 +23,7 @@ class ConsoleServiceTest {
     }
 
     @Test
-    void givenMessageWithNoArgs_whenCallWrite_thenWriteInAnsiYellow() {
+    void 성공_출력_메시지() {
         //setup
         String msg = "Write Me!";
 
@@ -36,7 +36,7 @@ class ConsoleServiceTest {
     }
 
     @Test
-    void givenMessageWithValidSizeArgs_whenCallWrite_thenWrite() {
+    void 성공_출력_메시지_와_인자() {
         //setup
         String msg = "Write Me! %s";
         String[] args = {"Me Either!"};
@@ -49,7 +49,7 @@ class ConsoleServiceTest {
     }
 
     @Test
-    void givenInputString_whenCallReadLine_thenRead() {
+    void 성공_입력_인풋스트립() {
         //setup
         String input = "Read Me!";
         InputStream in = new ByteArrayInputStream(input.getBytes());

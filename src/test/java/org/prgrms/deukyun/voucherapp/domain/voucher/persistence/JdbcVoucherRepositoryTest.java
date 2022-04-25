@@ -32,10 +32,11 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Nested
+    @DisplayName("삽입")
     class insertTest {
 
         @Test
-        void givenVoucher_whenCallInsert_thenIdIsSetAndReturnsInsertedVoucher() {
+        void 성공() {
             //when
             Voucher insertedVoucher = jdbcVoucherRepository.insert(voucher);
 
@@ -46,10 +47,11 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Nested
+    @DisplayName("전체 조회")
     class findAllTest {
 
         @Test
-        void givenTwoVoucherInsertion_whenCallFindAll_thenGivesTwoVouchers() {
+        void 성공() {
             //setup
             Voucher voucher1 = dummyVoucher();
             Voucher voucher2 = dummyVoucher();
@@ -66,6 +68,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Nested
+    @DisplayName("단건 조회")
     class findByIdTest {
 
         UUID id;
@@ -76,7 +79,7 @@ class JdbcVoucherRepositoryTest {
         }
 
         @Test
-        void givenIdOfInsertedVoucher_whenCallFindById_thenReturnFoundVoucherInstance() {
+        void 성공() {
             //setup
             id = voucher.getId();
 
@@ -89,7 +92,7 @@ class JdbcVoucherRepositoryTest {
         }
 
         @Test
-        void givenInvalidId_whenCallFindById_thenReturnOptionalEmpty() {
+        void 성공_아이디가_없을경우_OptionalEmpty_반환() {
             //setup
             id = UUID.randomUUID();
 
@@ -102,10 +105,11 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Nested
+    @DisplayName("전체 삭제")
     class deleteAllTest{
 
         @Test
-        void givenTwoInsertion_whenCallDeleteAll_thenFindAllReturnsEmptyList(){
+        void 성공(){
             //setup
             jdbcVoucherRepository.insert(dummyVoucher());
             jdbcVoucherRepository.insert(dummyVoucher());

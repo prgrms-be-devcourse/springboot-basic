@@ -11,19 +11,19 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 class FixedAmountDiscountVoucherTest {
 
     @Test
-    void givenAmount1000_whenConstructFDV_thenIsCreated() {
-        //setup
+    void 생성_성공() {
+        //given
         long amount = 1000L;
 
         //when
         Voucher voucher = fixedAmountDiscountVoucherWithAmount(amount);
 
-        //assert
+        //then
         assertThat(voucher).isNotNull();
     }
 
     @Test
-    void givenNegativeAmount_whenConstructFDV_thenThrowIllegalArgumentException() {
+    void 생성_실패_음수_amount() {
         //setup
         long amount = -1000L;
 
@@ -33,7 +33,7 @@ class FixedAmountDiscountVoucherTest {
     }
 
     @Test
-    void givenBeforeDiscountPriceGreaterThanAmountOfFDV_whenDiscount_thenThrowsIllegalArgumentException() {
+    void 생성_실패_정가_가_할인액_초과() {
         //setup
         Voucher voucher = fixedAmountDiscountVoucherWithAmount(1000L);
         long beforeDiscountPrice = 500L;
@@ -44,7 +44,7 @@ class FixedAmountDiscountVoucherTest {
     }
 
     @Test
-    void givenBeforeDiscountPriceSmallerThanAmountOfFDV_whenDiscount_thenReturnFixedAmountDiscountedPrice() {
+    void 할인_성공() {
         //setup
         long amount = 500L;
         Voucher voucher = fixedAmountDiscountVoucherWithAmount(amount);
