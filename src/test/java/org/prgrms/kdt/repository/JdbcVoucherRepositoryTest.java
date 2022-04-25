@@ -49,13 +49,13 @@ class JdbcVoucherRepositoryTest extends DatabaseIntegrationTest {
     customer = customerRepository.save(customer);
 
     Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 100L);
-    voucher = voucherRepository.save(voucher);
+    voucherRepository.save(voucher);
     voucher.assign(customer.getCustomerId());
 
     var sut = voucherRepository.update(voucher);
-    assertThat(sut).isNotNull();
-    assertThat(sut.getCustomerId()).isEqualTo(customer.getCustomerId());
-    assertThat(sut).usingRecursiveComparison().isEqualTo(voucher);
+    assertThat(sut).isNotEmpty();
+    assertThat(sut.get().getCustomerId()).isEqualTo(customer.getCustomerId());
+    assertThat(sut.get()).usingRecursiveComparison().isEqualTo(voucher);
   }
 
   @Test
@@ -65,8 +65,8 @@ class JdbcVoucherRepositoryTest extends DatabaseIntegrationTest {
 
     var sut = voucherRepository.save(voucher);
 
-    assertThat(sut).isNotNull();
-    assertThat(sut.getVoucherId()).isEqualTo(voucher.getVoucherId());
-    assertThat(sut).usingRecursiveComparison().isEqualTo(voucher);
+    assertThat(sut).isNotEmpty();
+    assertThat(sut.get().getVoucherId()).isEqualTo(voucher.getVoucherId());
+    assertThat(sut.get()).usingRecursiveComparison().isEqualTo(voucher);
   }
 }

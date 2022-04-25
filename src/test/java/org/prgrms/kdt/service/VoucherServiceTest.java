@@ -60,8 +60,8 @@ class VoucherServiceTest {
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 30L);
         var customer = new Customer("abc", "abc@gmail.com");
         given(voucherRepository.findById(any())).willReturn(Optional.of(voucher));
-        given(voucherRepository.update(any())).willReturn(new FixedAmountVoucher(
-            voucher.getVoucherId(), customer.getCustomerId(), voucher.getAmount()));
+        given(voucherRepository.update(any())).willReturn(Optional.of(new FixedAmountVoucher(
+            voucher.getVoucherId(), customer.getCustomerId(), voucher.getAmount())));
 
         var sut = voucherService.assign(voucher.getVoucherId(),
             customer.getCustomerId());

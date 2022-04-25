@@ -1,6 +1,6 @@
 package org.prgrms.kdt.repository;
 
-import static org.prgrms.kdt.utils.ByteUtils.toUUID;
+import static org.prgrms.kdt.utils.UUIDUtils.toUUID;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,13 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
 
-  public static final String SELECT_ALL_VOUCHERS = "SELECT * FROM voucher";
-  public static final String SELECT_VOUCHERS_BY_CUSTOMER_ID = "SELECT * FROM voucher WHERE customer_id = UUID_TO_BIN(:customer_id)";
-  public static final String SELECT_VOUCHER_BY_VOUCHER_ID = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
-  public static final String INSERT_VOUCHER = "INSERT INTO voucher (voucher_id, amount, customer_id, voucher_type) VALUES (UUID_TO_BIN(:voucher_id), :amount, UUID_TO_BIN(:customer_id), :voucher_type)";
-  public static final String UPDATE_VOUCHER = "UPDATE voucher SET customer_id = UUID_TO_BIN(:customer_id), amount = :amount, voucher_type = :voucher_type WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
-  public static final String DELETE_VOUCHER_BY_VOUCHER_ID_AND_CUSTOMER_ID = "DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id) AND customer_id = UUID_TO_BIN(:customer_id)";
-  public static final String DELETE_ALL_VOUCHERS = "DELETE FROM voucher";
   private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
     var voucherId = toUUID(resultSet.getBytes("voucher_id"));
     var voucherType = VoucherType.of(resultSet.getInt("voucher_type"));
@@ -41,7 +34,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
   @Override
   public Optional<Voucher> findById(UUID voucherId) {
-    var voucher = jdbcTemplate.queryForObject(SELECT_VOUCHER_BY_VOUCHER_ID,
+    var voucher = jdbcTemplate.queryForObject(
+        "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
         new HashMap<>() {{
           put("voucher_id", voucherId.toString().getBytes());
         }}, voucherRowMapper);
@@ -50,34 +44,32 @@ public class JdbcVoucherRepository implements VoucherRepository {
   }
 
   @Override
-  public Voucher save(Voucher voucher) {
+  public Optional<Voucher> save(Voucher voucher) {
     HashMap<String, Object> paramMap = toParamMap(voucher);
-    var updateCount = jdbcTemplate.update(INSERT_VOUCHER, paramMap);
-    if (updateCount != 1) {
-      throw new RuntimeException("Failed to save the voucher");
-    }
+    var updateCount = jdbcTemplate.update(
+        "INSERT INTO voucher (voucher_id, amount, customer_id, voucher_type) VALUES (UUID_TO_BIN(:voucher_id), :amount, UUID_TO_BIN(:customer_id), :voucher_type)",
+        paramMap);
 
-    return voucher;
+    return updateCount == 1 ? Optional.of(voucher) : Optional.empty();
   }
 
   @Override
-  public Voucher update(Voucher voucher) {
-    var updateCount = jdbcTemplate.update(UPDATE_VOUCHER, toParamMap(voucher));
-    if (updateCount != 1) {
-      throw new RuntimeException("Failed to update the voucher");
-    }
-
-    return voucher;
+  public Optional<Voucher> update(Voucher voucher) {
+    var updateCount = jdbcTemplate.update(
+        "UPDATE voucher SET customer_id = UUID_TO_BIN(:customer_id), amount = :amount, voucher_type = :voucher_type WHERE voucher_id = UUID_TO_BIN(:voucher_id)",
+        toParamMap(voucher));
+    return updateCount == 1 ? Optional.of(voucher) : Optional.empty();
   }
 
   @Override
   public List<Voucher> findAll() {
-    return jdbcTemplate.query(SELECT_ALL_VOUCHERS, voucherRowMapper);
+    return jdbcTemplate.query("SELECT * FROM voucher", voucherRowMapper);
   }
 
   @Override
   public void delete(UUID voucherId, UUID customerId) {
-    var update = jdbcTemplate.update(DELETE_VOUCHER_BY_VOUCHER_ID_AND_CUSTOMER_ID,
+    var update = jdbcTemplate.update(
+        "DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id) AND customer_id = UUID_TO_BIN(:customer_id)",
         new HashMap<>() {{
           put("voucher_id", voucherId.toString().getBytes());
           put("customer_id", customerId.toString().getBytes());
@@ -89,12 +81,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
   @Override
   public void deleteAll() {
-    jdbcTemplate.update(DELETE_ALL_VOUCHERS, Collections.emptyMap());
+    jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
   }
 
   @Override
   public List<Voucher> findByCustomerId(UUID customerId) {
-    return jdbcTemplate.query(SELECT_VOUCHERS_BY_CUSTOMER_ID,
+    return jdbcTemplate.query("SELECT * FROM voucher WHERE customer_id = UUID_TO_BIN(:customer_id)",
         new HashMap<>() {{
           put("customer_id", customerId.toString().getBytes());
         }}, voucherRowMapper);
