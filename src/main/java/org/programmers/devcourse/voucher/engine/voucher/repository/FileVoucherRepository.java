@@ -33,7 +33,7 @@ public class FileVoucherRepository implements
         voucher.getDiscountDegree());
   };
   // 바우처를 로드했을 때 먼저 파일 스트림을 연다.
-  private final Map<UUID, Voucher> memoryStorage = new LinkedHashMap<>();
+  private Map<UUID, Voucher> memoryStorage = new LinkedHashMap<>();
   private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
   private final FileChannel fileChannel;
 
@@ -83,6 +83,19 @@ public class FileVoucherRepository implements
   @Override
   public List<Voucher> getAllVouchers() {
     return List.copyOf(memoryStorage.values());
+  }
+
+  @Override
+  public int deleteAll() {
+    try {
+      fileChannel.removeAll();
+    } catch (IOException exception) {
+      throw new VoucherException(exception);
+    }
+    int deletedSize = memoryStorage.size();
+    memoryStorage = new LinkedHashMap<>();
+
+    return deletedSize;
   }
 
 

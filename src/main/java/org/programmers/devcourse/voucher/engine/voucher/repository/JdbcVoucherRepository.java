@@ -14,8 +14,6 @@ import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.programmers.devcourse.voucher.util.UUIDMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,9 +26,7 @@ import org.springframework.stereotype.Repository;
 @Profile({"dev", "web"})
 public class JdbcVoucherRepository implements VoucherRepository, Transactional {
 
-  private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
   private final DataSourceTransactionManager transactionManager;
 
   public JdbcVoucherRepository(DataSource dataSource) {
@@ -43,13 +39,13 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
     try {
       voucherId = UUIDMapper.fromBytes(resultSet.getBinaryStream("voucher_id").readAllBytes());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new VoucherException(e);
     }
 
     var type = resultSet.getString("type");
     var discountDegree = resultSet.getInt("discount_degree");
 
-    return VoucherType.from(type).orElseThrow(() -> new SQLException()).getFactory()
+    return VoucherType.from(type).orElseThrow(SQLException::new).getFactory()
         .create(voucherId, discountDegree);
 
   };
@@ -85,6 +81,13 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
     return namedParameterJdbcTemplate.query(
         "SELECT voucher_id, type, discount_degree FROM vouchers",
         voucherRowMapper);
+  }
+
+  @Override
+  public int deleteAll() {
+    return namedParameterJdbcTemplate.update(
+        "DELETE FROM vouchers", Map.of()
+    );
   }
 
   @Override

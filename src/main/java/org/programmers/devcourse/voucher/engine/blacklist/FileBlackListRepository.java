@@ -6,23 +6,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class FileBlackListRepository implements
-    BlackListRepository {
+public class FileBlackListRepository implements BlackListRepository {
 
-  private static final Logger logger = LoggerFactory.getLogger(FileBlackListRepository.class);
   private final List<BlackList> cache = new ArrayList<>();
-
 
   public FileBlackListRepository(ConfigurableApplicationContext applicationContext) {
 
-    var blackListResource = applicationContext.getResource("customer_blacklist.csv");
+    var blackListResource = applicationContext.getResource("classpath:customer_blacklist.csv");
     BufferedReader blackListReader;
 
     try {

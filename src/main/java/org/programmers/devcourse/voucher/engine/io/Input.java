@@ -3,7 +3,6 @@ package org.programmers.devcourse.voucher.engine.io;
 
 import java.io.IOException;
 import org.programmers.devcourse.voucher.engine.MenuSelection;
-import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 
 public interface Input extends AutoCloseable {
 
@@ -11,7 +10,7 @@ public interface Input extends AutoCloseable {
 
   String getVoucherTypeId() throws IOException;
 
-  long getVoucherDiscountData(VoucherType voucherType) throws IOException;
+  long getDiscountDegree(String voucherTypeId) throws IOException;
 
   void printInputError(String warningMessage);
 }

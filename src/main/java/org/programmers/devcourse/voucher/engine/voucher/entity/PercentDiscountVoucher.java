@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherFactory;
 
+
 public class PercentDiscountVoucher extends
     AbstractVoucher {
 
@@ -21,7 +22,6 @@ public class PercentDiscountVoucher extends
     this.discountPercent = discountPercent;
   }
 
-
   @Override
   public long getDiscountDegree() {
     return discountPercent;
@@ -32,17 +32,20 @@ public class PercentDiscountVoucher extends
     return voucherId;
   }
 
-
   @Override
   public long discount(long beforeDiscount) {
     return beforeDiscount * (100 - discountPercent) / 100;
   }
-
 
   @Override
   public String toString() {
     return MessageFormat.format("PercentDiscountVoucher : Id = {0}, DiscountPercent = {1}%",
         voucherId,
         discountPercent);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return super.equals(obj);
   }
 }

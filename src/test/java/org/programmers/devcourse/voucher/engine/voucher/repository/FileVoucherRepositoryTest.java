@@ -42,9 +42,7 @@ class FileVoucherRepositoryTest {
         .toArray(String[]::new);
 
     // when
-    when(fileChannelMock.readAllLines()).thenReturn(
-        serializedVouchers
-    );
+    when(fileChannelMock.readAllLines()).thenReturn(serializedVouchers);
     var repository = new FileVoucherRepository(fileChannelMock);
 
     // then
@@ -112,5 +110,27 @@ class FileVoucherRepositoryTest {
       assertThat(queriedVoucher).isNotEmpty();
       assertThat(queriedVoucher).contains(voucher);
     });
+  }
+
+  @DisplayName("db에 있는 모든 바우처를 지울 수 있다.")
+  @ParameterizedTest
+  @MethodSource("voucherSource")
+  void can_remove_all_vouchers(List<Voucher> incomingVouchers) throws Exception {
+
+    //given
+    var fileChannelMock = mock(FileChannel.class);
+    var serializedVouchers = incomingVouchers.stream().map(FileVoucherRepository.serializer)
+        .toArray(String[]::new);
+    when(fileChannelMock.readAllLines()).thenReturn(serializedVouchers);
+    var repository = new FileVoucherRepository(fileChannelMock);
+    var initialSize = repository.getAllVouchers().size();
+
+    //when
+    int deletedCount = repository.deleteAll();
+
+    //then
+    assertThat(deletedCount).isEqualTo(initialSize);
+    assertThat(repository.getAllVouchers()).isEmpty();
+
   }
 }

@@ -27,7 +27,6 @@ class FixedAmountVoucherTest {
     assertThat(voucher0.discount(beforeDiscount)).isEqualTo(afterDiscount);
   }
 
-
   @DisplayName("음수가 아닌 금액을 생성자 매개변수로 사용할 경우 예외를 던진다.")
   @ParameterizedTest
   @CsvSource(value = {

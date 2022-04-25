@@ -12,7 +12,6 @@ public class BlackList {
     this.reason = reason;
   }
 
-
   public String getName() {
     return name;
   }

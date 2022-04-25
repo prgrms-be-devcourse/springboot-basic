@@ -30,6 +30,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @Repository
 @Profile({"dev", "web"})
@@ -38,7 +39,7 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
   private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-  private final DataSourceTransactionManager transactionManager;
+  private final PlatformTransactionManager transactionManager;
 
   public void runTransaction(Runnable runnable) throws DataAccessException {
     var status = transactionManager.getTransaction(null);
@@ -49,9 +50,7 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
       transactionManager.rollback(status);
       throw exception;
     }
-
   }
-
 
   private final RowMapper<Customer> mapToCustomer = (resultSet, index) -> {
     UUID customerId = null;
@@ -73,7 +72,6 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
     this.transactionManager = new DataSourceTransactionManager(dataSource);
   }
 
-
   @Override
   public Optional<Customer> getById(UUID customerId) {
 
@@ -91,24 +89,17 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
 
       logger.error(exception.getMessage(), exception);
       return Optional.empty();
-
     }
-
   }
 
   private Map<String, Object> mapToParameter(Customer customer) {
     var map = new HashMap<String, Object>();
-
-    map.put(CUSTOMER_ID.toString(),
-        customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
+    map.put(CUSTOMER_ID.toString(), customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
     map.put(NAME.toString(), customer.getName());
     map.put(EMAIL.toString(), customer.getEmail());
     map.put(CREATED_AT.toString(), Timestamp.valueOf(customer.getCreatedAt()));
-    var lastLoginAt =
-        customer.getLastLoginAt().isPresent() ? Timestamp.valueOf(customer.getLastLoginAt().get())
-            : null;
-    map.put(LAST_LOGIN_AT.toString(), lastLoginAt);
-
+    var lastLoginAt = customer.getLastLoginAt().orElseGet(() -> null);
+    map.put(LAST_LOGIN_AT.toString(), lastLoginAt == null ? null : Timestamp.valueOf(lastLoginAt));
     return map;
   }
 
@@ -123,7 +114,7 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
 
       return Optional.ofNullable(customer);
     } catch (DataAccessException exception) {
-      logger.error("DataAccessException", exception);
+      logger.error(exception.getClass().getSimpleName(), exception);
       return Optional.empty();
 
     }
@@ -160,8 +151,7 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
   @Override
   public List<Customer> getAll() {
     try {
-      var customers = namedParameterJdbcTemplate.query("SELECT * FROM customers", mapToCustomer);
-      return customers;
+      return namedParameterJdbcTemplate.query("SELECT * FROM customers", mapToCustomer);
     } catch (DataAccessException exception) {
       logger.error("DB query failed", exception);
       return Collections.emptyList();
@@ -197,14 +187,13 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
           "UPDATE customers SET name=:name, email=:email, created_at=:createdAt, last_login_at=:lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
           mapToParameter(customer));
     } catch (DataAccessException exception) {
-      logger.error("DataAccessException", exception);
+      logger.error(exception.getClass().getSimpleName(), exception);
     }
     return customer;
   }
 
   enum CustomerParam {
-    CUSTOMER_ID("customerId"), NAME("name"), EMAIL("email"), LAST_LOGIN_AT(
-        "lastLoginAt"), CREATED_AT("createdAt");
+    CUSTOMER_ID("customerId"), NAME("name"), EMAIL("email"), LAST_LOGIN_AT("lastLoginAt"), CREATED_AT("createdAt");
     private final String value;
 
     CustomerParam(String value) {

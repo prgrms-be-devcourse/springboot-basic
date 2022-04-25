@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @Profile({"dev", "web"})
 @ConfigurationProperties("jdbc")
-@PropertySource(value = "/application-jdbc.yaml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:/application-jdbc.yaml", factory = YamlPropertySourceFactory.class)
 @Getter
 @Setter
 public class DevJdbcProperties implements JdbcProperties {

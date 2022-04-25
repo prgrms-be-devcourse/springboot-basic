@@ -31,12 +31,10 @@ public enum VoucherType {
     this.typeId = typeId;
     this.unit = unit;
     this.factory = factory;
-    
   }
 
-  public static Optional<VoucherType> from(String candidate) {
-
-    return Optional.ofNullable(idToMapperStorage.get(candidate));
+  public static Optional<VoucherType> from(String typeId) {
+    return Optional.ofNullable(idToMapperStorage.get(typeId));
   }
 
   public static String mapToTypeId(Voucher voucher) {
@@ -49,11 +47,20 @@ public enum VoucherType {
     throw new VoucherException("No corresponding voucher type");
   }
 
+  // 바우처의 타입을 확인하고 그것에 맞는 unit을 return한다.
+  public static String mapToUnit(Voucher voucher) {
+    // 바우처의 타입을 확인한다.
+    if (FixedAmountVoucher.class.equals(voucher.getClass())) {
+      return FIXED_AMOUNT.unit;
+    } else if (PercentDiscountVoucher.class.equals(voucher.getClass())) {
+      return PERCENT_DISCOUNT.unit;
+    }
+    throw new VoucherException("No corresponding voucher type");
+  }
 
   public String getUnit() {
     return unit;
   }
-
 
   public VoucherFactory getFactory() {
     return factory;

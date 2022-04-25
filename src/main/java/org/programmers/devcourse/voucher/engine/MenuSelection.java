@@ -10,15 +10,12 @@ public enum MenuSelection {
 
   private final String id;
 
-  private static final Map<String,MenuSelection> cache = Arrays.stream(MenuSelection.values()).collect(
+  private static final Map<String, MenuSelection> cache = Arrays.stream(MenuSelection.values()).collect(
       Collectors.toMap(selection -> selection.id, selection -> selection));
-
-
 
   MenuSelection(String id) {
     this.id = id;
   }
-
 
   public static Optional<MenuSelection> from(String candidate) {
     return Optional.ofNullable(cache.get(candidate));

@@ -13,17 +13,18 @@ public class VoucherService {
 
   private final VoucherRepository voucherRepository;
 
-  public VoucherService(
-      VoucherRepository voucherRepository) {
+  public VoucherService(VoucherRepository voucherRepository) {
     this.voucherRepository = voucherRepository;
   }
 
-  public UUID create(VoucherType voucherType, long voucherDiscountData)
-      throws VoucherException {
+  public UUID create(String voucherTypeId, long voucherDiscountData) throws VoucherException {
+
+    // validation
+    var voucherType = VoucherType.from(voucherTypeId).orElseThrow(() -> new VoucherException("Invalid Voucher Type Id"));
+
     var voucher = voucherType.getFactory().create(UUID.randomUUID(), voucherDiscountData);
     voucherRepository.save(voucher);
     return voucher.getVoucherId();
-
   }
 
   public Collection<Voucher> getAllVouchers() {

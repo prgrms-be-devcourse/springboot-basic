@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @ConfigurationProperties("db")
 @Profile("dev")
-@PropertySource(value = "/application-dev.yaml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:/application-dev.yaml", factory = YamlPropertySourceFactory.class)
 public class FileDBProperties {
 
   private String filename;

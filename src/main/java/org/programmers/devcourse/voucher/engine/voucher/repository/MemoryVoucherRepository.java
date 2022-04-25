@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -25,13 +26,22 @@ public class MemoryVoucherRepository implements
 
   @Override
   public Optional<Voucher> getVoucherById(UUID voucherId) {
-
     return Optional.ofNullable(storage.get(voucherId));
   }
 
   @Override
   public List<Voucher> getAllVouchers() {
     return List.copyOf(storage.values());
+  }
+
+  @Override
+  public int deleteAll() {
+    AtomicInteger count = new AtomicInteger(0);
+    storage.keySet().forEach(key -> {
+      storage.remove(key);
+      count.incrementAndGet();
+    });
+    return count.intValue();
   }
 
 

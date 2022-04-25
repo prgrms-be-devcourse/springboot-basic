@@ -49,11 +49,12 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public long getVoucherDiscountData(VoucherType voucherType) throws IOException {
+  public long getDiscountDegree(String voucherTypeId) throws IOException {
     long discountData = Long.MIN_VALUE;
     while (discountData == Long.MIN_VALUE) {
       System.out.print(
-          MessageFormat.format("Type amount of discount(unit: {0}) >> ", voucherType.getUnit()));
+          MessageFormat.format("Type amount of discount(unit: {0}) >> ",
+              VoucherType.from(voucherTypeId).orElseThrow(NoSuchOptionException::new).getUnit()));
       try {
         discountData = Long.parseLong(consoleReader.readLine());
       } catch (NumberFormatException ignored) {
@@ -62,6 +63,7 @@ public class Console implements Input, Output {
     }
     return discountData;
   }
+
 
   @Override
   public void printInputError(String message) {

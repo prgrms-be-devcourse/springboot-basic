@@ -25,7 +25,6 @@ class PercentDiscountVoucherTest {
     assertThat(voucher0.discount(beforeDiscount)).isEqualTo(afterDiscount);
   }
 
-
   @DisplayName("할인 비율이 1~100 범위에 들어가지 않는 경우 VoucherDataOutOfRangeException을 던진다.")
   @ParameterizedTest
   @CsvSource(value = {
@@ -35,8 +34,9 @@ class PercentDiscountVoucherTest {
       "0"
   })
   void throw_exception_when_discount_degree_is_not_in_1_to_100(long discountDegree) {
+    var tempUUID = UUID.randomUUID();
     assertThatThrownBy(() -> {
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree);
+      PercentDiscountVoucher.factory.create(tempUUID, discountDegree);
     }).isInstanceOf(VoucherDiscountDegreeOutOfRangeException.class);
   }
 

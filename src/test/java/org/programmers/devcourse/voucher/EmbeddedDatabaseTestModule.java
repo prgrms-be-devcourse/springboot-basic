@@ -37,7 +37,7 @@ public abstract class EmbeddedDatabaseTestModule {
 
   private static DataSource testDataSource = null;
 
-  protected final static DataSource getTestDataSource() {
+  protected static DataSource getTestDataSource() {
     if (testDataSource == null) {
       testDataSource = DataSourceBuilder.create().type(HikariDataSource.class)
           .username(jdbcProperties.getUser()).password(jdbcProperties.getPassword())

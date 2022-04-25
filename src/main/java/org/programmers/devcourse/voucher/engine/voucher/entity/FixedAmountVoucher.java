@@ -39,13 +39,11 @@ public class FixedAmountVoucher extends
     return voucherId;
   }
 
-
   @Override
   public long discount(long beforeDiscount) {
     return beforeDiscount > this.discountAmount ? beforeDiscount
         - this.discountAmount : 0;
   }
-
 
   @Override
   public String toString() {

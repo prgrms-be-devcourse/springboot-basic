@@ -9,9 +9,7 @@ public abstract class AbstractVoucher implements Voucher {
     }
     if (obj instanceof Voucher) {
       return this.getVoucherId().equals(((Voucher) obj).getVoucherId());
-
     }
-
     return false;
   }
 
