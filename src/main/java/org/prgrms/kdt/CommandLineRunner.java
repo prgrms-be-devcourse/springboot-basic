@@ -105,6 +105,7 @@ public class CommandLineRunner implements Runnable {
         String vouchers = voucherService.findAll().stream()
             .map(Object::toString)
             .collect(Collectors.joining(",\n"));
+
         output.printMessage(vouchers);
     }
 
@@ -112,6 +113,7 @@ public class CommandLineRunner implements Runnable {
         String blackListCustomers = customerService.findAllByCustomerType(CustomerType.BLACK_LIST).stream()
             .map(Object::toString)
             .collect(Collectors.joining(",\n"));
+
         output.printMessage(blackListCustomers);
     }
 }
