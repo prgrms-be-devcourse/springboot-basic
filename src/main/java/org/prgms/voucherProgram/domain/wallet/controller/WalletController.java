@@ -10,6 +10,7 @@ import org.prgms.voucherProgram.domain.voucher.service.VoucherService;
 import org.prgms.voucherProgram.domain.wallet.dto.WalletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,5 +74,11 @@ public class WalletController {
         Customer customer = voucherService.findCustomer(voucherId);
         model.addAttribute("customer", customer);
         return "wallet/customer";
+    }
+
+    @ExceptionHandler
+    public String handleException(Exception e, Model model) {
+        model.addAttribute("error", e.getMessage());
+        return "error";
     }
 }
