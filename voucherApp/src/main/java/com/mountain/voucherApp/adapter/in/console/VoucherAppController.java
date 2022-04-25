@@ -15,12 +15,12 @@ import org.springframework.stereotype.Controller;
 import java.util.UUID;
 
 import static com.mountain.voucherApp.shared.constants.ProgramMessage.*;
-import static com.mountain.voucherApp.shared.constants.Number.NOT_EXIST_DATA_NUMBER;
 
 @Controller
 public class VoucherAppController {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherAppController.class);
+    private static final int NOT_EXIST_DATA_NUMBER = -1;
     private final InputConsole inputConsole;
     private final OutputConsole outputConsole;
     private final VoucherAppUseCase voucherAppUseCase;

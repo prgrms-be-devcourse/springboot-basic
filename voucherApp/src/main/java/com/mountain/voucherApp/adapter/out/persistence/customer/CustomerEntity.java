@@ -1,5 +1,7 @@
 package com.mountain.voucherApp.adapter.out.persistence.customer;
 
+import com.mountain.voucherApp.domain.vo.Email;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -7,14 +9,14 @@ public class CustomerEntity {
     private final UUID customerId;
     private UUID voucherId;
     private String name;
-    private final String email;
+    private final Email email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
     public CustomerEntity(UUID customerId,
                           UUID voucherId,
                           String name,
-                          String email,
+                          Email email,
                           LocalDateTime lastLoginAt,
                           LocalDateTime createdAt) {
         this.customerId = customerId;
@@ -34,7 +36,7 @@ public class CustomerEntity {
     }
 
     public String getEmail() {
-        return email;
+        return email.getAddress();
     }
 
     public LocalDateTime getLastLoginAt() {

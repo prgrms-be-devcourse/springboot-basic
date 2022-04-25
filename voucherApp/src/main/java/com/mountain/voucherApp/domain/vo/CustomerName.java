@@ -2,13 +2,15 @@ package com.mountain.voucherApp.domain.vo;
 
 import java.util.Objects;
 
+import static com.mountain.voucherApp.shared.constants.ErrorMessage.NOT_BLANK;
+
 public class CustomerName {
 
     private final String name;
 
     public CustomerName(String name) {
         if (name.isBlank()) {
-            throw new RuntimeException("Name should not be blank");
+            throw new RuntimeException(NOT_BLANK);
         }
         this.name = name;
     }

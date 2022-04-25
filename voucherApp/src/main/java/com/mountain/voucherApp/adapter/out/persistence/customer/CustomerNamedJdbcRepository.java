@@ -2,6 +2,7 @@ package com.mountain.voucherApp.adapter.out.persistence.customer;
 
 import com.mountain.voucherApp.application.port.in.CustomerDto;
 import com.mountain.voucherApp.application.port.out.CustomerPort;
+import com.mountain.voucherApp.domain.vo.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static com.mountain.voucherApp.shared.constants.Field.*;
 import static com.mountain.voucherApp.shared.constants.ErrorMessage.*;
-import static com.mountain.voucherApp.shared.constants.Number.EXECUTE_SUCCESS;
+import static com.mountain.voucherApp.shared.constants.JdbcResult.EXECUTE_SUCCESS;
 import static com.mountain.voucherApp.shared.utils.CommonUtil.toUUID;
 
 @Repository
@@ -191,7 +192,7 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
         public CustomerEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
             String customerName = rs.getString(NAME.getValue());
             byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
-            String email = rs.getString(EMAIL.getValue());
+             String address = rs.getString(EMAIL.getValue());
             byte[] customerId = rs.getBytes(CUSTOMER_ID.getValue());
             LocalDateTime lastLoginAt = rs.getTimestamp(LAST_LOGIN_AT.getValue()) != null ?
                     rs.getTimestamp(LAST_LOGIN_AT.getValue()).toLocalDateTime() : null;
@@ -199,7 +200,7 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
             UUID customerUUID = toUUID(customerId);
             UUID voucherUUID = voucherId != null ? toUUID(voucherId) : null;
             lastLoginAt = (lastLoginAt != null) ? lastLoginAt : null;
-            return new CustomerEntity(customerUUID, voucherUUID, customerName, email, lastLoginAt, createdAt);
+            return new CustomerEntity(customerUUID, voucherUUID, customerName, new Email(address), lastLoginAt, createdAt);
         }
     };
 
