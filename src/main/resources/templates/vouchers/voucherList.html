@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>바우처 일련번호</th>
+            <th>바우처 종류</th>
+            <th>바우처 할인 수치</th>
+            <th>바우처 주인 ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher : ${vouchers}">
+            <td><a th:href="@{|/vouchers/${voucher.voucherId}|}" th:text="${voucher.voucherId}">바우처 일련번호</a></td>
+            <td><a th:href="@{|/vouchers/${voucher.voucherId}|}" th:text="${voucher.type}">바우처 종류</a>
+            </td>
+            <td th:text="${voucher.amount}">바우처 할인 수치</td>
+            <td th:text="${voucher.memberId}">바우처 주인 ID</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <form action="item.html" th:action th:object="${voucher}" method="post">
@@ -6,7 +6,7 @@
         <div>바우처 종류</div>
         <div th:each="voucherType : ${voucherTypes}">
             <label th:for="type" th:text="${voucherType.getName}"/>
-            <input type="radio" th:field="*{type}" th:value="${voucherType.getName()}">
+            <input type="radio" th:field="*{type}" th:value="${voucherType}">
             <span th:text="${voucherType.getDescription}"/>
         </div>
         <div>할인 양</div>

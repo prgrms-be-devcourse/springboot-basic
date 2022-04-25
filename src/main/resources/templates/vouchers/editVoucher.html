@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<form action="item.html" th:action th:object="${voucher}" method="post">
+    <div>
+        <div>
+            <label th:for="voucherId">바우처 id</label>
+            <input type="text" th:field="*{voucherId}" readonly>
+        </div>
+        <div>바우처 종류</div>
+        <div th:each="voucherType : ${voucherTypes}">
+            <label th:for="type" th:text="${voucherType.getName}"/>
+            <input type="radio" th:field="*{type}" th:value="${voucherType}">
+            <span th:text="${voucherType.getDescription}"/>
+        </div>
+        <div>
+            <label th:for="amount">할인 양</label>
+            <input type="text" th:field="*{amount}" placeholder="할인 양을 입력하세요">
+        </div>
+        <div th:if="${voucher.memberId() != null}">
+            <label th:for="voucherId">이 바우처를 소유한 회원 id</label>
+            <input type="text" th:field="*{memberId()}" readonly>
+            <button>해당 회원 정보 보기</button>
+            <button>해당 회원이 소유하지 않게 변경</button>>
+        </div>
+    </div>
+    <div class="col">
+        <button type="submit">바우처 편집</button>
+        <button type="button" th:onclick="|location.href='@{/vouchers}'|">바우처 목록</button>
+    </div>
+</form>
+</body>
+</html>
