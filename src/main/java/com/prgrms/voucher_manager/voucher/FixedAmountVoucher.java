@@ -32,7 +32,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getVoucherID() {
+    public UUID getVoucherId() {
         return id;
     }
 
@@ -44,9 +44,15 @@ public class FixedAmountVoucher implements Voucher {
     }
 
 
+
     @Override
     public Long getValue() {
         return amount;
+    }
+
+    @Override
+    public String getType() {
+        return "FixedAmountVoucher";
     }
 
     @Override

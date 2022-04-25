@@ -28,7 +28,7 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     @Override
-    public UUID getVoucherID() {
+    public UUID getVoucherId() {
         return id;
     }
 
@@ -42,6 +42,11 @@ public class PercentDiscountVoucher implements Voucher{
     @Override
     public Long getValue() {
         return percent;
+    }
+
+    @Override
+    public String getType() {
+        return "PercentDiscountVoucher";
     }
 
     @Override

@@ -6,11 +6,13 @@ public interface Voucher {
 
     long discount(long beforeDiscount);
 
-    UUID getVoucherID();
+    UUID getVoucherId();
 
     void validateValue(Long value);
 
     Long getValue();
+
+    String getType();
 
     void changeValue(Long value);
 
