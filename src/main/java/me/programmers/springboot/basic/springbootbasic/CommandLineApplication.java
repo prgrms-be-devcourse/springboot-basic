@@ -3,17 +3,6 @@ package me.programmers.springboot.basic.springbootbasic;
 import me.programmers.springboot.basic.springbootbasic.command.Command;
 import me.programmers.springboot.basic.springbootbasic.command.CommandStrategy;
 import me.programmers.springboot.basic.springbootbasic.command.CommandType;
-import me.programmers.springboot.basic.springbootbasic.command.ExitCommand;
-import me.programmers.springboot.basic.springbootbasic.command.WrongCommand;
-import me.programmers.springboot.basic.springbootbasic.command.customer.CustomerDeleteCommand;
-import me.programmers.springboot.basic.springbootbasic.command.customer.CustomerFindAllCommand;
-import me.programmers.springboot.basic.springbootbasic.command.customer.CustomerFindByEmailCommand;
-import me.programmers.springboot.basic.springbootbasic.command.customer.CustomerInsertCommand;
-import me.programmers.springboot.basic.springbootbasic.command.customer.CustomerUpdateCommand;
-import me.programmers.springboot.basic.springbootbasic.command.voucher.CreateVoucherCommand;
-import me.programmers.springboot.basic.springbootbasic.command.voucher.DeleteVoucherCommand;
-import me.programmers.springboot.basic.springbootbasic.command.voucher.ShowVoucherCommand;
-import me.programmers.springboot.basic.springbootbasic.command.voucher.UpdateVoucherCommand;
 import me.programmers.springboot.basic.springbootbasic.customer.service.CustomerService;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
@@ -53,59 +42,24 @@ public class CommandLineApplication {
     private boolean doCommand(CommandType commandType) {
         if (commandType == null)
             return false;
+        if (commandType == CommandType.EXIT)
+            return true;
 
         VoucherService voucherService = context.getBean(VoucherService.class);
         JdbcVoucherService jdbcVoucherService = context.getBean(JdbcVoucherService.class);
         CustomerService customerService = context.getBean(CustomerService.class);
 
-        boolean isExit = false;
-        CommandStrategy commandStrategy = null;
-        switch (commandType) {
-            case EXIT:
-                isExit = true;
-                commandStrategy = new ExitCommand();
-                break;
-            case CREATE:
-                commandStrategy = new CreateVoucherCommand(jdbcVoucherService);
-                break;
-            case LIST:
-                commandStrategy = new ShowVoucherCommand(jdbcVoucherService);
-                break;
-            case UPDATE:
-                commandStrategy = new UpdateVoucherCommand(jdbcVoucherService);
-                break;
-            case DELETE:
-                commandStrategy = new DeleteVoucherCommand(jdbcVoucherService);
-                break;
-            case CUSTOMER_INSERT:
-                commandStrategy = new CustomerInsertCommand(customerService);
-                break;
-            case CUSTOMER_UPDATE:
-                commandStrategy = new CustomerUpdateCommand(customerService);
-                break;
-            case CUSTOMER_LIST:
-                commandStrategy = new CustomerFindAllCommand(customerService);
-                break;
-            case CUSTOMER_FINDBY_EMAIL:
-                commandStrategy = new CustomerFindByEmailCommand(customerService);
-                break;
-            case CUSTOMER_DELETE:
-                commandStrategy = new CustomerDeleteCommand(customerService);
-                break;
-            default:
-                commandStrategy = new WrongCommand();
-                break;
-        }
+        CommandStrategy commandStrategy = commandType.getCommandStrategy(jdbcVoucherService, customerService);
 
         Command command = new Command(commandStrategy);
         command.operateCommand();
-        return isExit;
+        return false;
     }
 
     private CommandType getCommand(String inputMenu) {
         CommandType type = null;
         try {
-            type = CommandType.getCommand(inputMenu);
+            type = CommandType.getCommandType(inputMenu);
         } catch (IllegalArgumentException e) {
             logger.error("잘못된 메뉴 명령어 입력: {}", inputMenu);
         }
