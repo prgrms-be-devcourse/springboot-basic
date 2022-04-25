@@ -31,7 +31,7 @@ class EmailTest {
     @DisplayName("잘못된 이메일 형식이면 예외를 발생한다.")
     @Test
     void should_ThrowException_When_EmailIsWrong() {
-        assertThatThrownBy(() -> new Email("hwan123"))
+        assertThatThrownBy(() -> new Email("sdfasdas@naversadasd"))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 이메일 형식이 잘못되었습니다.");
     }
