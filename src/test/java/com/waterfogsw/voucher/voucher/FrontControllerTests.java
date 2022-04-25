@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -81,12 +82,12 @@ public class FrontControllerTests {
             @Test
             @DisplayName("모든 바우처에 대한 정보를 반환한다")
             void it_return_enum() {
-                List<ResponseVoucherDto> voucherDtoList = new ArrayList<>();
                 final ResponseVoucherDto voucherDto1 = new ResponseVoucherDto(VoucherType.FIXED_AMOUNT, 1000);
                 final ResponseVoucherDto voucherDto2 = new ResponseVoucherDto(VoucherType.FIXED_AMOUNT, 2000);
 
-                voucherDtoList.add(voucherDto1);
-                voucherDtoList.add(voucherDto2);
+                final List<ResponseVoucherDto> voucherDtoList = new ArrayList<>(
+                        Arrays.asList(voucherDto1, voucherDto2)
+                );
 
                 final var response = new Response<>(voucherDtoList, ResponseStatus.OK);
 
