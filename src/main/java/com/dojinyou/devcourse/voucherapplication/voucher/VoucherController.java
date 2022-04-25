@@ -1,7 +1,9 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.Response;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequestDto;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Controller;
@@ -20,7 +22,8 @@ public class VoucherController {
         if (voucherRequestDto == null) {
             throw new IllegalArgumentException(ERROR_MESSAGE_FOR_NULL);
         }
-        return this.voucherService.create(voucherRequestDto);
+        Voucher voucher = VoucherMapper.requestDtoToDomain(voucherRequestDto);
+        return this.voucherService.create(voucher);
     }
 
     public Response<VoucherList> findAll() {
