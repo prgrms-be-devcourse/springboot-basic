@@ -9,7 +9,6 @@ import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
 import me.programmers.springboot.basic.springbootbasic.io.In;
 import me.programmers.springboot.basic.springbootbasic.io.Out;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
-import me.programmers.springboot.basic.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -32,7 +31,7 @@ public class CommandLineApplication {
 
         boolean isExit = false;
         while (!isExit) {
-            showMenu(outputConsole);
+            outputConsole.showMenu();
             String inputMenu = inputConsole.inputCommand("명령어 입력: ");
             CommandType commandType = getCommand(inputMenu);
             isExit = doCommand(commandType);
@@ -45,7 +44,6 @@ public class CommandLineApplication {
         if (commandType == CommandType.EXIT)
             return true;
 
-        VoucherService voucherService = context.getBean(VoucherService.class);
         JdbcVoucherService jdbcVoucherService = context.getBean(JdbcVoucherService.class);
         CustomerService customerService = context.getBean(CustomerService.class);
 
@@ -64,20 +62,5 @@ public class CommandLineApplication {
             logger.error("잘못된 메뉴 명령어 입력: {}", inputMenu);
         }
         return type;
-    }
-
-    private void showMenu(ConsoleOutput out) {
-        out.output("=== Voucher Program ===\n" +
-                "1. Type exit to exit the program.\n" +
-                "2. Type create to create a new voucher.\n" +
-                "3. Type list to list all vouchers.\n" +
-                "4. Type update to update voucher.\n" +
-                "5. Type delete to delete all vouchers.\n" +
-                "6. Type customer_insert to create a new customer\n" +
-                "7. Type customer_list to find all customers\n" +
-                "8. Type customer_update to update customer\n" +
-                "9. Type customer_delete to delete all customers\n" +
-                "10. Type customer_findby_email to delete all customers\n"
-        );
     }
 }

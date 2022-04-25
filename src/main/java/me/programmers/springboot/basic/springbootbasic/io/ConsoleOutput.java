@@ -8,5 +8,6 @@ public interface ConsoleOutput {
 
     void output(String s);
     void output(List<Customer> list);
+    void showMenu();
 
 }
