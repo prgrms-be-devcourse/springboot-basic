@@ -35,7 +35,7 @@ public class SearchCommand implements Command {
   public String execute() {
     output.printLine(messageSource.getMessage("menu.search", null, Locale.getDefault()));
 
-    var searchType = SearchType.of(input.readInt());
+    var searchType = SearchType.of(input.read());
     switch (searchType) {
       case SEARCH_VOUCHER -> {
         output.printLine("Enter customer id");
@@ -47,12 +47,11 @@ public class SearchCommand implements Command {
       case SEARCH_CUSTOMER -> {
         output.printLine("Enter voucher id");
         var voucherId = UUID.fromString(input.read());
-        var customerOptional = customerService.findCustomerByVoucherId(voucherId);
-        return customerOptional.isPresent() ? customerOptional.get().toString()
-            : "Voucher wasn't assigned";
+        var customer = customerService.findCustomerByVoucherId(voucherId);
+        return customer.toString();
       }
       default -> {
-        return "Type 1 or 2";
+        return "Type customer or voucher";
       }
     }
   }

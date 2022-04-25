@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdt.domain.Customer;
+import org.prgrms.kdt.dto.CustomerDto;
 import org.prgrms.kdt.exception.TypedException;
 import org.prgrms.kdt.repository.CustomerRepository;
 
@@ -41,7 +42,7 @@ class CustomerServiceTest {
         var existEmail = "exist@email.com";
         given(customerRepository.existsByEmail(existEmail)).willReturn(true);
 
-        assertThatThrownBy(() -> customerService.register("new", existEmail))
+        assertThatThrownBy(() -> customerService.register(new CustomerDto("new", existEmail)))
             .isInstanceOf(TypedException.class)
             .hasMessage("Error: Email already exists");
       }
@@ -59,7 +60,7 @@ class CustomerServiceTest {
         given(customerRepository.save(any(Customer.class))).willReturn(
             new Customer("abc", newEmail));
 
-        var sut = customerService.register("abc", newEmail);
+        var sut = customerService.register(new CustomerDto("abc", newEmail));
 
         assertThat(sut).isNotNull();
         assertThat(sut.getEmail()).isEqualTo(newEmail);
