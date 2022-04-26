@@ -22,9 +22,13 @@ public class InputTest {
 	class getDiscountAmount메서드는 {
 
 		@BeforeEach
-		void 메서드_테스트를_위한_Scanner_설정() throws Exception {
-			scanner = input.getClass().getDeclaredField("sc");
-			scanner.setAccessible(true);
+		void 메서드_테스트를_위한_Scanner_설정() {
+			try {
+				scanner = input.getClass().getDeclaredField("sc");
+				scanner.setAccessible(true);
+			} catch (NoSuchFieldException e) {
+				throw new RuntimeException(e.getMessage());
+			}
 		}
 
 		@Nested
@@ -32,8 +36,12 @@ public class InputTest {
 		class 정수로_변환_가능한_값이_주어진다면 {
 
 			@BeforeEach
-			public void 정수로_변환_가능한_값_설정() throws Exception {
-				scanner.set(input, setMockInputStream("1000"));
+			public void 정수로_변환_가능한_값_설정() {
+				try {
+					scanner.set(input, setMockInputStream("1000"));
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException(e.getMessage());
+				}
 			}
 
 			@Test
@@ -48,8 +56,12 @@ public class InputTest {
 		class 정수로_변환_가능하지_않은_값이_주어진다면 {
 
 			@BeforeEach
-			void 정수로_변환_가능하지_않은_값_설정() throws Exception {
-				scanner.set(input, setMockInputStream("isNotIntType"));
+			void 정수로_변환_가능하지_않은_값_설정() {
+				try {
+					scanner.set(input, setMockInputStream("isNotIntType"));
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException(e.getMessage());
+				}
 			}
 
 			@Test
